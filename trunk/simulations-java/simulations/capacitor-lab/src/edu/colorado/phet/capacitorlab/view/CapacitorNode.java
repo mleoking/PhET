@@ -30,8 +30,8 @@ public class CapacitorNode extends PhetPNode {
     private final EFieldNode eFieldNode;
 
     public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt, boolean dielectricVisible,
-                          final Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible,
-                          Property<DielectricChargeView> dielectricChargeView,
+                          final Property<Boolean> plateChargeVisibleProperty, final Property<Boolean> eFieldVisibleProperty,
+                          Property<DielectricChargeView> dielectricChargeViewProperty,
                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
@@ -40,7 +40,7 @@ public class CapacitorNode extends PhetPNode {
         // child nodes
         topPlateNode = new TopPlateNode( capacitor, mvt, maxPlateCharge );
         bottomPlateNode = new BottomPlateNode( capacitor, mvt, maxPlateCharge );
-        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeView, maxExcessDielectricPlateCharge, maxDielectricEField );
+        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeViewProperty, maxExcessDielectricPlateCharge, maxDielectricEField );
         eFieldNode = new EFieldNode( capacitor, mvt, maxEffectiveEField );
 
         // rendering order
@@ -68,16 +68,16 @@ public class CapacitorNode extends PhetPNode {
             capacitor.addPlateSeparationObserver( o );
             capacitor.addDielectricOffsetObserver( o );
 
-            plateChargeVisible.addObserver( new SimpleObserver() {
+            plateChargeVisibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    topPlateNode.setChargeVisible( plateChargeVisible.get() );
-                    bottomPlateNode.setChargeVisible( plateChargeVisible.get() );
+                    topPlateNode.setChargeVisible( plateChargeVisibleProperty.get() );
+                    bottomPlateNode.setChargeVisible( plateChargeVisibleProperty.get() );
                 }
             } );
 
-            eFieldVisible.addObserver( new SimpleObserver() {
+            eFieldVisibleProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    eFieldNode.setVisible( eFieldVisible.get() );
+                    eFieldNode.setVisible( eFieldVisibleProperty.get() );
                 }
             } );
         }
