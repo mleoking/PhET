@@ -10,7 +10,6 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorToCapacitorWireSegment;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSegment;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
@@ -29,39 +28,33 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
 
     private final Capacitor topCapacitor;
 
-    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final Capacitor... bottomCapacitors ) {
+    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, Capacitor... bottomCapacitors ) {
         this( mvt, thickness, topCapacitor, new ArrayList<Capacitor>( Arrays.asList( bottomCapacitors ) ) );
     }
 
-    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, final double thickness, final Capacitor topCapacitor, final ArrayList<Capacitor> bottomCapacitors ) {
-        super( mvt, thickness, new Function0<ArrayList<WireSegment>>() {
-            public ArrayList<WireSegment> apply() {
-
-                ArrayList<WireSegment> segments = new ArrayList<WireSegment>();
-
-                // connect top capacitor to leftmost bottom capacitor
-                segments.add( new CapacitorToCapacitorWireSegment( topCapacitor, bottomCapacitors.get( 0 ) ) );
-
-                if ( bottomCapacitors.size() > 1 ) {
-                    // horizontal wire above leftmost to rightmost capacitor
-                    final double t = ( thickness / 2 ); // for proper connection at corners with CAP_BUTT wire stroke
-                    final double xStart = topCapacitor.getX() - t;
-                    final double xEnd = bottomCapacitors.get( bottomCapacitors.size() - 1 ).getX() + t;
-                    final double y = topCapacitor.getY() + ( ( bottomCapacitors.get( 0 ).getY() - topCapacitor.getY() ) / 2 );
-                    segments.add( new WireSegment( xStart, y, xEnd, y ) );
-
-                    // vertical wires from horizontal wire down to each bottom capacitor
-                    for ( int i = 1; i < bottomCapacitors.size(); i++ ) {
-                        double x = bottomCapacitors.get( i ).getX();
-                        segments.add( new CapacitorTopWireSegment( new Point2D.Double( x, y ), bottomCapacitors.get( i ) ) );
-                    }
-                }
-
-                return segments;
-            }
-        } );
+    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, ArrayList<Capacitor> bottomCapacitors ) {
+        super( mvt, thickness );
 
         this.topCapacitor = topCapacitor;
+
+        // connect top capacitor to leftmost bottom capacitor
+        addSegment( new CapacitorToCapacitorWireSegment( topCapacitor, bottomCapacitors.get( 0 ) ) );
+
+        if ( bottomCapacitors.size() > 1 ) {
+            // horizontal wire above leftmost to rightmost capacitor
+            final double t = getCornerOffset(); // for proper connection at corners with wire stroke end style
+            final double xStart = topCapacitor.getX() - t;
+            final double xEnd = bottomCapacitors.get( bottomCapacitors.size() - 1 ).getX() + t;
+            final double y = topCapacitor.getY() + ( ( bottomCapacitors.get( 0 ).getY() - topCapacitor.getY() ) / 2 );
+            addSegment( new WireSegment( xStart, y, xEnd, y ) );
+
+            // vertical wires from horizontal wire down to each bottom capacitor
+            for ( int i = 1; i < bottomCapacitors.size(); i++ ) {
+                double x = bottomCapacitors.get( i ).getX();
+                addSegment( new CapacitorTopWireSegment( bottomCapacitors.get( i ), new Point2D.Double( x, y ) ) );
+            }
+        }
+
         setShape( createShape() );
     }
 

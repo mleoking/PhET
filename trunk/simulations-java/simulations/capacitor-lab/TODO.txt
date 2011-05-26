@@ -32,7 +32,6 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - delete empty packages
-- round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
 - add circuit construction to Multiple Capacitors tab? (3.00)

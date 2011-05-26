@@ -1,3 +1,4 @@
+5/26/11 use rounded ends and corners for wires, serious fiddling required
 5/26/11 factor out duplicate code in WireSegment subclasses
 5/26/11 remove unnecessary observers in Wire subclasses
 5/26/11 add cleanup to Wire and WireSegment
