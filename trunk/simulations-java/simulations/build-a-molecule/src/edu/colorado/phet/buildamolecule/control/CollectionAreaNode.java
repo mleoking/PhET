@@ -4,6 +4,7 @@ package edu.colorado.phet.buildamolecule.control;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,8 +12,8 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
-import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
@@ -27,11 +28,11 @@ public class CollectionAreaNode extends PNode {
     /**
      * Creates a collection area (with collection boxes)
      *
-     * @param canvas               The main canvas (the boxes need references to hook view => model coordinates)
      * @param collection           Our model
      * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
+     * @param toModelBounds        Function to convert piccolo node bounds to model bounds
      */
-    public CollectionAreaNode( BuildAMoleculeCanvas canvas, final KitCollection collection, boolean singleCollectionMode ) {
+    public CollectionAreaNode( final KitCollection collection, boolean singleCollectionMode, Function1<PNode, Rectangle2D> toModelBounds ) {
         SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
@@ -42,8 +43,8 @@ public class CollectionAreaNode extends PNode {
         // add nodes for all of our collection boxes.
         for ( CollectionBox collectionBox : collection.getCollectionBoxes() ) {
             CollectionBoxNode collectionBoxNode = singleCollectionMode
-                                                  ? new SingleCollectionBoxNode( canvas, collectionBox )
-                                                  : new MultipleCollectionBoxNode( canvas, collectionBox );
+                                                  ? new SingleCollectionBoxNode( collectionBox, toModelBounds )
+                                                  : new MultipleCollectionBoxNode( collectionBox, toModelBounds );
             layoutNode.addChild( collectionBoxNode, c );
             collectionBoxNodes.add( collectionBoxNode );
             c.gridy += 1;

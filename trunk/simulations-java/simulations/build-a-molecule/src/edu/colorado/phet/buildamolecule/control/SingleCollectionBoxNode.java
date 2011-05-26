@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.control;
 
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
-import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -14,8 +15,8 @@ import edu.umd.cs.piccolo.PNode;
  * Allows the collection of a single molecule
  */
 public class SingleCollectionBoxNode extends CollectionBoxNode {
-    public SingleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
-        super( canvas, box, 1 );
+    public SingleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
+        super( box, 1, toModelBounds );
         assert ( box.getCapacity() == 1 );
 
         addHeaderNode( new PNode() {{

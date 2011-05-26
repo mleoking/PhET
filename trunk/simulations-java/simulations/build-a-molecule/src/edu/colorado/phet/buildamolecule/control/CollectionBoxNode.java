@@ -1,7 +1,6 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 import java.util.List;
@@ -10,15 +9,14 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.CollectionBox.Adapter;
 import edu.colorado.phet.buildamolecule.model.Molecule;
-import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
 import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
@@ -52,7 +50,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
         insets = new Insets( 0, 0, -3, 0 );
     }};
 
-    public CollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box, final int headerQuantity ) {
+    public CollectionBoxNode( final CollectionBox box, final int headerQuantity, final Function1<PNode, Rectangle2D> toModelBounds ) {
         super( new GridBagLayout() );
         this.box = box;
 
@@ -65,27 +63,11 @@ public class CollectionBoxNode extends SwingLayoutNode {
         c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
         blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
+            final PhetPPath reference = this;
             locationUpdateObserver = new SimpleObserver() {
                 public void update() {
                     // we need to pass the collection box model coordinates, but here we have relative piccolo coordinates
-                    // this requires getting local => global => view => model coordinates
-
-                    // our bounds relative to the root Piccolo canvas
-                    Rectangle2D globalBounds = getParent().localToGlobal( getFullBounds() );
-
-                    // pull out the upper-left corner and dimension so we can transform them
-                    Point2D upperLeftCorner = new Point2D.Double( globalBounds.getX(), globalBounds.getY() );
-                    PDimension dimensions = new PDimension( globalBounds.getWidth(), globalBounds.getHeight() );
-
-                    // transform the point and dimensions to world coordinates
-                    canvas.getPhetRootNode().globalToWorld( upperLeftCorner );
-                    canvas.getPhetRootNode().globalToWorld( dimensions );
-
-                    // our bounds relative to our simulation (BAM) canvas. Will be filled in
-                    Rectangle2D viewBounds = new Rectangle2D.Double( upperLeftCorner.getX(), upperLeftCorner.getY(), dimensions.getWidth(), dimensions.getHeight() );
-
-                    // pass it the model bounds
-                    box.setDropBounds( canvas.getModelViewTransform().viewToModel( viewBounds ).getBounds2D() );
+                    box.setDropBounds( toModelBounds.apply( reference ) );
                 }
             };
 

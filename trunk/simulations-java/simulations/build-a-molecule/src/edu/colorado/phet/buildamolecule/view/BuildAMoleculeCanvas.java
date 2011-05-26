@@ -5,15 +5,18 @@ package edu.colorado.phet.buildamolecule.view;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
@@ -151,4 +154,30 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         //XXX lay out nodes
     }
+
+    /**
+     * Returns model bounds from a piccolo node
+     */
+    public final Function1<PNode, Rectangle2D> toModelBounds = new Function1<PNode, Rectangle2D>() {
+        public Rectangle2D apply( PNode node ) {
+            // this requires getting local => global => view => model coordinates
+
+            // our bounds relative to the root Piccolo canvas
+            Rectangle2D globalBounds = node.getParent().localToGlobal( node.getFullBounds() );
+
+            // pull out the upper-left corner and dimension so we can transform them
+            Point2D upperLeftCorner = new Point2D.Double( globalBounds.getX(), globalBounds.getY() );
+            PDimension dimensions = new PDimension( globalBounds.getWidth(), globalBounds.getHeight() );
+
+            // transform the point and dimensions to world coordinates
+            BuildAMoleculeCanvas.this.getPhetRootNode().globalToWorld( upperLeftCorner );
+            BuildAMoleculeCanvas.this.getPhetRootNode().globalToWorld( dimensions );
+
+            // our bounds relative to our simulation (BAM) canvas. Will be filled in
+            Rectangle2D viewBounds = new Rectangle2D.Double( upperLeftCorner.getX(), upperLeftCorner.getY(), dimensions.getWidth(), dimensions.getHeight() );
+
+            // return the model bounds
+            return BuildAMoleculeCanvas.this.getModelViewTransform().viewToModel( viewBounds ).getBounds2D();
+        }
+    };
 }

@@ -126,7 +126,7 @@ public class CollectionPanel extends PNode {
         // anonymous function here, so we don't create a bunch of fields
         final VoidFunction1<KitCollection> createCollectionNode = new VoidFunction1<KitCollection>() {
             public void apply( KitCollection collection ) {
-                collectionAreaMap.put( collection, new CollectionAreaNode( canvas, collection, singleCollectionMode ) );
+                collectionAreaMap.put( collection, new CollectionAreaNode( collection, singleCollectionMode, canvas.toModelBounds ) );
             }
         };
 
