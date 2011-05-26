@@ -25,6 +25,7 @@ public class Plank extends ModelObject {
     }
 
     private static Shape generateShape( final double centerHeight, double tiltAngle ) {
+        // Create the outline shape of the plank.
         GeneralPath path = new GeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( LENGTH / 2, 0 );
@@ -34,13 +35,18 @@ public class Plank extends ModelObject {
         path.lineTo( -LENGTH / 2, 0 );
         path.lineTo( 0, 0 );
         // Add the "snap to" markers to the plank.
-        path.lineTo( 0, THICKNESS );
-        path.moveTo( LENGTH / 4, 0 );
-        path.lineTo( LENGTH / 4, THICKNESS );
+        double interMarkerDistance = LENGTH / (double) ( NUM_SNAP_TO_MARKERS + 1 );
+        double markerXPos = -LENGTH / 2 + interMarkerDistance;
+        for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
+            path.moveTo( markerXPos, 0 );
+            path.lineTo( markerXPos, THICKNESS );
+            markerXPos += interMarkerDistance;
+        }
         // Rotate the appropriate amount.
         Shape shape = AffineTransform.getRotateInstance( tiltAngle ).createTransformedShape( path );
         // Translate to the appropriate height.
         shape = AffineTransform.getTranslateInstance( 0, centerHeight ).createTransformedShape( shape );
+
         return shape;
     }
 }
