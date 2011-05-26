@@ -7,12 +7,16 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.torque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.torque.teetertotter.model.Weight;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -23,7 +27,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
 
-    public TeeterTotterTorqueCanvas( TeeterTotterTorqueModel model ) {
+    public TeeterTotterTorqueCanvas( final TeeterTotterTorqueModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
@@ -69,5 +73,26 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.getSupportColumnsActiveProperty() ) );
         }
+
+        // Add the button that will restore the columns if they have been
+        // previously removed.
+        // TODO: i18n
+        final TextButtonNode button2 = new TextButtonNode( "Restore Columns", new PhetFont( 14 ) ) {{
+            setBackground( Color.YELLOW );
+            setOffset( mvt.modelToViewX( 2.5 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
+            addInputEventListener( new ButtonEventHandler() {
+                @Override public void mouseReleased( PInputEvent event ) {
+                    model.getSupportColumnsActiveProperty().set( true );
+                }
+            } );
+        }};
+        rootNode.addChild( button2 );
+
+        // Only show the Restore Columns button when the columns are not active.
+        model.getSupportColumnsActiveProperty().addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean supportColumnsActive ) {
+                button2.setVisible( !supportColumnsActive );
+            }
+        } );
     }
 }
