@@ -49,11 +49,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         return clock;
     }
 
-    // Returns a list of the weights in the model
-    public List<Weight> getWeights() {
-        return new ArrayList<Weight>( weights );
-    }
-
     public void addWeightAddedListener( VoidFunction1<Weight> listener ) {
         weightAddedListeners.add( listener );
     }
@@ -105,6 +100,8 @@ public class TeeterTotterTorqueModel implements Resettable {
     }
 
     public void reset() {
+        getClock().resetSimulationTime();
+
         // Remove any existing weights.
         for ( Weight weight : new ArrayList<Weight>( weights ) ) {
             removeWeight( weight );
