@@ -48,7 +48,6 @@ public class Wire {
         this.shapeFactory = new WireShapeFactory( this, mvt );
 
         this.shapeProperty = new Property<Shape>( createShape() );
-//        this.voltageProperty = new Property<Double>( 0.0 );
 
         // when any segment changes, update the shape property
         {
