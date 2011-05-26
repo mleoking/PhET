@@ -36,7 +36,7 @@ public class TeeterTotterTorqueModel {
     }};
 
     // Property that controls whether the columns are supporting the plank.
-    private final BooleanProperty supportColumnsActive = new BooleanProperty( false );
+    private final BooleanProperty supportColumnsActive = new BooleanProperty( true );
 
     public ConstantDtClock getClock() {
         return clock;
