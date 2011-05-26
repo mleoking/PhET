@@ -20,9 +20,18 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a circuit with a battery connected to a single capacitor.
+ * Model of a circuit with a battery (B) connected to a single capacitor (C1).
+ * </p>
+ * <code>
+ * |-----|
+ * |     |
+ * B    C1
+ * |     |
+ * |-----|
+ * </code>
+ * </p>
  * This circuit is used in all 3 modules.
- * <p/>
+ * </p>
  * Variable names used in this implementation where chosen to match the specification
  * in the design document, and therefore violate Java naming conventions.
  *
