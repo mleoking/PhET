@@ -98,8 +98,9 @@ public class Combination1Circuit extends AbstractCircuit {
 
     private void updatePlateVoltages() {
         // series
-        c1.setPlatesVoltage( getTotalVoltage() * c1.getTotalCapacitance() / ( c1.getTotalCapacitance() + c2.getTotalCapacitance() ) );
-        c2.setPlatesVoltage( getTotalVoltage() * c2.getTotalCapacitance() / ( c1.getTotalCapacitance() + c2.getTotalCapacitance() ) );
+        final double seriesCapacitance = c1.getTotalCapacitance() + c2.getTotalCapacitance();
+        c1.setPlatesVoltage( getTotalVoltage() * c1.getTotalCapacitance() / seriesCapacitance );
+        c2.setPlatesVoltage( getTotalVoltage() * c2.getTotalCapacitance() / seriesCapacitance );
         // parallel
         c3.setPlatesVoltage( getTotalVoltage() );
     }
@@ -137,16 +138,31 @@ public class Combination1Circuit extends AbstractCircuit {
 
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( getBattery().intersectsTopTerminal( shape ) || c1.intersectsTopPlateShape( shape ) || c3.intersectsTopPlateShape( shape ) || getTopWire().intersects( shape ) ) {
+        if ( connectedToBatteryTop( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( shape ) || c2.intersectsBottomPlateShape( shape ) || c3.intersectsBottomPlateShape( shape ) || getBottomWire().intersects( shape ) ) {
+        else if ( connectedToBatteryBottom( shape ) ) {
             voltage = 0;
         }
-        else if ( c1.intersectsBottomPlateShape( shape ) || c2.intersectsTopPlateShape( shape ) || getMiddleWire().intersects( shape ) ) {
+        else if ( connectedToC2TopPlate( shape ) ) {
             voltage = c2.getPlatesVoltage();
         }
         return voltage;
+    }
+
+    // True if shape is touching part of the circuit that is connected to the battery's top terminal.
+    private boolean connectedToBatteryTop( Shape shape ) {
+        return getBattery().intersectsTopTerminal( shape ) || getTopWire().intersects( shape ) || c1.intersectsTopPlateShape( shape ) || c3.intersectsTopPlateShape( shape );
+    }
+
+    // True if shape is touching part of the circuit that is connected to the battery's bottom terminal.
+    private boolean connectedToBatteryBottom( Shape shape ) {
+        return getBattery().intersectsBottomTerminal( shape ) || getBottomWire().intersects( shape ) || c2.intersectsBottomPlateShape( shape ) || c3.intersectsBottomPlateShape( shape );
+    }
+
+    // True if shape is touching part of the circuit that is connected to C2's top plate.
+    private boolean connectedToC2TopPlate( Shape shape ) {
+        return c1.intersectsBottomPlateShape( shape ) || c2.intersectsTopPlateShape( shape ) || getMiddleWire().intersects( shape );
     }
 
     public void reset() {
