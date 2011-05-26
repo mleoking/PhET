@@ -28,12 +28,6 @@ MEDIUM PRIORITY
 - hack in createShape of some wire subclasses
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
 - cleanup methods needed where anonymous observers/listeners are added in constructors
-- convert DielectricMaterialControl to use PropertyRadioButton and Property<DielectricMaterial> dielectricMaterial
-- convert DielectricConstantControl to use Property<Double> dielectricConstant
-- convert VoltageSliderNode to use Property<Double> voltage
-- convert PlateChargeControlNode to use Property<Double> disconnectedPlateCharge
-- convert BatteryConnectionButtonNode to use Property<Boolean> batteryConnected
-- convert CurrentIndicatorNode to observer of Property<Double> currentAmplitude
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
 
 LOW PRIORITY
