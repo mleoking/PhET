@@ -19,10 +19,10 @@ import edu.colorado.phet.rotation.view.RotationLookAndFeel;
  * @author Sam Reid
  */
 
-public class RotationApplication extends PiccoloPhetApplication {
+public class LadybugRevolutionApplication extends PiccoloPhetApplication {
     private RotationModule rotationModule;
 
-    public RotationApplication( PhetApplicationConfig config ) {
+    public LadybugRevolutionApplication( PhetApplicationConfig config ) {
         super( config );
 
         RotationIntroModule introRotationModule = new RotationIntroModule( getPhetFrame() );
@@ -64,7 +64,7 @@ public class RotationApplication extends PiccoloPhetApplication {
                 RepaintManager.setCurrentManager( synchronizedPSwingRepaintManager );
 
                 new RotationLookAndFeel().initLookAndFeel();
-                return new RotationApplication( config );
+                return new LadybugRevolutionApplication( config );
             }
         } );
     }
