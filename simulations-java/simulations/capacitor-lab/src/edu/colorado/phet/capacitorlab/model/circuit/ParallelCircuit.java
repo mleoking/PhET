@@ -56,7 +56,7 @@ public class ParallelCircuit extends AbstractCircuit {
             }
         } );
 
-        // observe capacitor
+        // observe capacitors
         CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
             public void capacitorChanged() {
                 updatePlateVoltages();
@@ -129,13 +129,23 @@ public class ParallelCircuit extends AbstractCircuit {
 
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( getBattery().intersectsTopTerminal( shape ) || intersectsSomeTopPlate( shape ) || getTopWire().intersects( shape ) ) {
+        if ( connectedToBatteryTop( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( getBattery().intersectsBottomTerminal( shape ) || intersectsSomeBottomPlate( shape ) || getBottomWire().intersects( shape ) ) {
+        else if ( connectedToBatteryBottom( shape ) ) {
             voltage = 0;
         }
         return voltage;
+    }
+
+    // True if shape is touching part of the circuit that is connected to the battery's top terminal.
+    private boolean connectedToBatteryTop( Shape shape ) {
+        return getBattery().intersectsTopTerminal( shape ) || getTopWire().intersects( shape ) || intersectsSomeTopPlate( shape );
+    }
+
+    // True if shape is touching part of the circuit that is connected to the battery's bottom terminal.
+    private boolean connectedToBatteryBottom( Shape shape ) {
+        return getBattery().intersectsBottomTerminal( shape ) || getBottomWire().intersects( shape ) || intersectsSomeBottomPlate( shape );
     }
 
     // True if the shape intersects any capacitor's top plate.
