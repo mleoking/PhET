@@ -22,13 +22,15 @@ HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
 - add editable mantissa text field to capacitance control?
+- cleanup model and view constants (some in CLConstants, some in MultipleCapacitorsModel)
+- cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
 
 MEDIUM PRIORITY
-- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
-- add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
-- merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
+- factor duplicate code into canvas base class (CLCanvas?)
+- factor duplicate code into model base class (CLModel?)
 
 LOW PRIORITY
+- move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - delete empty packages
 - round corners of wires?
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
