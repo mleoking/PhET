@@ -12,9 +12,12 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This subclass of ButtonNode just uses a PText to draw the text-only label.  This class is provided to help avoid problems centering the label that occur sometimes when using HTMLNode, see #2780 and #2902
+ * This subclass of ButtonNode just uses a PText to draw the text-only label.
+ * This class is provided to help avoid problems centering the label that
+ * occur sometimes when using HTMLNode, see #2780 and #2902
  *
  * @author Sam Reid
+ * @author John Blanco
  */
 public class TextButtonNode extends ButtonNode {
     private String text;
@@ -41,8 +44,7 @@ public class TextButtonNode extends ButtonNode {
         super( text, new ContentNode( text, font, Color.black ), new ContentNode( text, font, Color.gray ) );
         this.text = text;
         this.font = font;
-        setContentNode( new ContentNode( this.text, this.font, enabledTextColor ) );
-        setDisabledContentNode( new ContentNode( text, font, disabledTextColor ) );
+        updateContentNodes();
     }
 
     //Inner class used for creating the text content to show in the button
@@ -57,13 +59,13 @@ public class TextButtonNode extends ButtonNode {
     //Sets the text color to be used when the button is enabled
     public void setEnabledTextColor( Color enabledTextColor ) {
         this.enabledTextColor = enabledTextColor;
-        setContentNode( new ContentNode( text, font, enabledTextColor ) );
+        updateContentNodes();
     }
 
     //Sets the text color to be used when the button is disabled
     public void setDisabledTextColor( Color disabledTextColor ) {
         this.disabledTextColor = disabledTextColor;
-        setDisabledContentNode( new ContentNode( text, font, disabledTextColor ) );
+        updateContentNodes();
     }
 
     public String getText() {
@@ -76,8 +78,12 @@ public class TextButtonNode extends ButtonNode {
 
     public void setFont( final Font font ) {
         this.font = font;
-        setContentNode( new ContentNode( text, font, Color.black ) );
-        setDisabledContentNode( new ContentNode( text, font, Color.gray ) );
+        updateContentNodes();
+    }
+
+    private void updateContentNodes() {
+        setContentNode( new ContentNode( text, font, enabledTextColor ) );
+        setDisabledContentNode( new ContentNode( text, font, disabledTextColor ) );
     }
 
     public static void main( String[] args ) {
@@ -87,27 +93,31 @@ public class TextButtonNode extends ButtonNode {
             }
         };
 
-        TextButtonNode button2 = new TextButtonNode( "2. Test <br> Me Too" ) {{
+        TextButtonNode button1 = new TextButtonNode( "1. Test Me!" );
+        button1.setOffset( 10, 10 );
+        button1.addActionListener( listener );
+
+        TextButtonNode button2 = new TextButtonNode( "2. Test Me Too" ) {{
             setFont( new PhetFont( 24 ) );
             setBackground( new Color( 0x99cccc ) );
         }};
         button2.setOffset( 200, 5 );
         button2.addActionListener( listener );
 
-        TextButtonNode button3 = new TextButtonNode( "<html><center>3. Default Color<br>and Font<center></html>" );
-        button3.setOffset( 5, 200 );
+        TextButtonNode button3 = new TextButtonNode( "3. Default Color, Small Font", new PhetFont( Font.BOLD, 10 ) );
+        button3.setOffset( 25, 70 );
         button3.addActionListener( listener );
 
         TextButtonNode button4 = new TextButtonNode( "4. Default Font Size" ) {{
             setBackground( new Color( 0xcc3366 ) );
         }};
-        button4.setOffset( 200, 200 );
+        button4.setOffset( 100, 125 );
         button4.addActionListener( listener );
 
         TextButtonNode button5 = new TextButtonNode( "5. Transparent" ) {{
             setBackground( new Color( 255, 0, 0, 100 ) );
         }};
-        button5.setOffset( 200, 125 );
+        button5.setOffset( 200, 225 );
         button5.addActionListener( listener );
 
         final TextButtonNode button6 = new TextButtonNode( "6. Test Enabled" ) {{
@@ -120,7 +130,7 @@ public class TextButtonNode extends ButtonNode {
             setFont( new PhetFont( Font.ITALIC, 16 ) );
             setForeground( Color.RED );
             setBackground( new Color( 200, 200, 0 ) );
-            setToolTipText( "<html>click me to<br>disabled button 6</html>" );
+            setToolTipText( "Click me to disabled button 6" );
         }};
         button7.setOffset( 10, 300 );
         button7.addActionListener( new ActionListener() {
@@ -131,6 +141,7 @@ public class TextButtonNode extends ButtonNode {
         } );
 
         PCanvas canvas = new PCanvas();
+        canvas.getLayer().addChild( button1 );
         canvas.getLayer().addChild( button2 );
         canvas.getLayer().addChild( button3 );
         canvas.getLayer().addChild( button4 );
