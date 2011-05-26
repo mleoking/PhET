@@ -1,3 +1,5 @@
+# 0.00.11 (52431) May 26, 2011
+5/26/11 Control Panel updated with all Dubson Components
 # 0.00.10 (52407) May 25, 2011
 5/25/11 ComboBox now coordinated with slider action
 # 0.00.09 (52356) May 24, 2011
