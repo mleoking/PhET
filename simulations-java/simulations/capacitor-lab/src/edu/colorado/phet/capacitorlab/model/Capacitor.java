@@ -235,6 +235,10 @@ public class Capacitor {
         plateSeparationProperty.addObserver( o );
     }
 
+    public void removePlateSeparationObserver( SimpleObserver o ) {
+        plateSeparationProperty.removeObserver( o );
+    }
+
     /**
      * Convenience method for determining the outside center of the top plate.
      * This is a wire attachment point.

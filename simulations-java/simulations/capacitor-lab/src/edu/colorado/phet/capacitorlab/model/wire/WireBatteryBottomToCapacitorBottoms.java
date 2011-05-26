@@ -12,7 +12,6 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.BatteryBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorBottomWireSegment;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
@@ -69,17 +68,7 @@ public class WireBatteryBottomToCapacitorBottoms extends Wire {
 
         this.battery = battery;
         this.capacitors = capacitors;
-
-        // adjust when dimensions of capacitor change
-        SimpleObserver o = new SimpleObserver() {
-            public void update() {
-                setShape( createShape() );
-            }
-        };
-        for ( Capacitor capacitor : capacitors ) {
-            capacitor.addPlateSizeObserver( o );
-            capacitor.addPlateSeparationObserver( o );
-        }
+        setShape( createShape() );
     }
 
     // Subtract any part of the wire that is occluded by the battery or one of the bottom plates.
