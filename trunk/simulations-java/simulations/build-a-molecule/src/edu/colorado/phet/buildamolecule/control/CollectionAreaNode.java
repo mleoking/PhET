@@ -15,6 +15,7 @@ import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
@@ -32,7 +33,7 @@ public class CollectionAreaNode extends PNode {
      * @param singleCollectionMode Whether we should use single or multiple molecule collection boxes
      * @param toModelBounds        Function to convert piccolo node bounds to model bounds
      */
-    public CollectionAreaNode( final KitCollection collection, boolean singleCollectionMode, Function1<PNode, Rectangle2D> toModelBounds ) {
+    public CollectionAreaNode( final KitCollection collection, final boolean singleCollectionMode, Function1<PNode, Rectangle2D> toModelBounds ) {
         SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
 
         GridBagConstraints c = new GridBagConstraints();
@@ -40,13 +41,31 @@ public class CollectionAreaNode extends PNode {
         c.gridy = 0;
         c.insets = new Insets( 0, 0, 15, 0 );
 
+        final double maximumBoxWidth = singleCollectionMode ? SingleCollectionBoxNode.getMaxWidth() : MultipleCollectionBoxNode.getMaxWidth();
+        final double maximumBoxHeight = singleCollectionMode ? SingleCollectionBoxNode.getMaxHeight() : MultipleCollectionBoxNode.getMaxHeight();
+
         // add nodes for all of our collection boxes.
         for ( CollectionBox collectionBox : collection.getCollectionBoxes() ) {
-            CollectionBoxNode collectionBoxNode = singleCollectionMode
-                                                  ? new SingleCollectionBoxNode( collectionBox, toModelBounds )
-                                                  : new MultipleCollectionBoxNode( collectionBox, toModelBounds );
-            layoutNode.addChild( collectionBoxNode, c );
+            final CollectionBoxNode collectionBoxNode = singleCollectionMode
+                                                        ? new SingleCollectionBoxNode( collectionBox, toModelBounds )
+                                                        : new MultipleCollectionBoxNode( collectionBox, toModelBounds );
             collectionBoxNodes.add( collectionBoxNode );
+
+            // center box horizontally and put at bottom vertically in our holder
+            collectionBoxNode.setOffset( ( maximumBoxWidth - collectionBoxNode.getFullBounds().getWidth() ) / 2,
+                                         maximumBoxHeight - collectionBoxNode.getFullBounds().getHeight() );
+
+            // enforce consistent bounds of the maximum size
+            PNode collectionBoxHolder = new PNode() {{
+                // invisible background. enforces SwingLayoutNode's correct positioning
+                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maximumBoxWidth, maximumBoxHeight ) ) {{
+                    setStroke( null ); // don't add any sort of border to mess up the bounds
+                    setVisible( false );
+                }} );
+
+                addChild( collectionBoxNode );
+            }};
+            layoutNode.addChild( collectionBoxHolder, c );
             c.gridy += 1;
         }
 
