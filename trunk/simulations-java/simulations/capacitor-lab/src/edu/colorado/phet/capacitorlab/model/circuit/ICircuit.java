@@ -14,121 +14,83 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Interface implemented by all circuits.
+ * Units are meters, Farad, Coulombs, Volts and Joules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public interface ICircuit {
 
+    // Circuits have a single battery.
     Battery getBattery();
 
+    // The battery may or may not be connected to the circuit.
     boolean isBatteryConnected();
 
-    /**
+    /*
      * Gets an ordered list of capacitors in the circuit.
      * The capacitors are ordered starting at the battery's top terminal, and proceeding clockwise.
-     *
-     * @return
      */
     ArrayList<Capacitor> getCapacitors();
 
-    /**
+    /*
      * Gets an ordered list of wires in the circuit.
      * The wires are ordered starting at the battery's top terminal, and proceeding clockwise.
-     *
-     * @return
      */
     ArrayList<Wire> getWires();
 
-    /**
-     * Gets the name of the circuit that is visible to the user.
-     * This string should be localized.
-     *
-     * @return
-     */
+    // Gets the localized name of the circuit that is visible to the user.
     String getDisplayName();
 
-    /**
-     * Gets the total capacitance of the circuit.
-     * (design doc symbol: C_total)
-     *
-     * @return capacitance, in Farads
-     */
+    // Gets the total capacitance of the circuit. (design doc symbol: C_total)
     double getTotalCapacitance();
 
-    /**
-     * Gets the total charge in the circuit.
-     * (design doc symbol: Q_total)
-     *
-     * @return charge, in Coulombs
-     */
+    // Gets the total charge in the circuit.(design doc symbol: Q_total)
     double getTotalCharge();
 
-    /**
-     * Gets the energy stored in the circuit.
-     * (design doc symbol: U)
-     *
-     * @return energy, in Joules (J)
-     */
+    // Gets the energy stored in the circuit. (design doc symbol: U)
     double getStoredEnergy();
 
-
+    // Gets the total voltage seen by the capacitors.
     double getTotalVoltage();
 
-    /**
+    /*
      * Gets the voltage between 2 Shapes. The shapes are in world coordinates.
-     *
-     * @param positiveShape
-     * @param negativeShape
-     * @return voltage, Double.NaN if the 2 Shape are not both connected to the circuit
+     * Returns Double.NaN if the 2 Shape are not both connected to the circuit
      */
     double getVoltageBetween( Shape positiveShape, Shape negativeShape );
 
-    /**
+    /*
      * Gets the voltage at a shape, with respect to ground.
-     *
-     * @param shape
-     * @return voltage, Double.NaN if the Shape is not connected to the circuit
+     * Returns Double.NaN if the Shape is not connected to the circuit
      */
     double getVoltageAt( Shape shape );
 
-    /**
+    /*
      * Gets the effective E-field at a specified location.
      * Inside the plates, this is E_effective.
      * Outside the plates, it is zero.
-     *
-     * @param location
-     * @return E-Field, in Volts/meter
      */
     double getEffectiveEFieldAt( Point3D location );
 
-    /**
+    /*
      * Field due to the plate, at a specific location.
      * Between the plates, the field is either E_plate_dielectric or E_plate_air, depending on whether the probe intersects the dielectric.
      * Outside the plates, the field is zero.
-     *
-     * @param location
-     * @return E-Field, in Volts/meter
      */
     double getPlatesDielectricEFieldAt( Point3D location );
 
-    /**
+    /*
      * Gets the field due to dielectric polarization, at a specific location.
      * Between the plates, the field is either E_dielectric or E_air, depending on whether the probe intersects the dielectric.
      * Outside the plates, the field is zero.
-     *
-     * @param location
-     * @return E-Field, in Volts/meter
      */
     double getDielectricEFieldAt( Point3D location );
 
-    void addCurrentAmplitudeObserver( SimpleObserver o );
-
-    /**
-     * Gets the current amplitude, a number that is proportional to dQ/dt, the change in total charge over time.
-     *
-     * @return
-     */
+    // Gets the current amplitude, a number that is proportional to dQ/dt, the change in total charge over time.
     double getCurrentAmplitude();
+
+    // Adds an observer of current amplitude, notified when it changes.
+    void addCurrentAmplitudeObserver( SimpleObserver o );
 
     /**
      * Listener for circuit change notifications.
@@ -147,5 +109,6 @@ public interface ICircuit {
 
     void removeCircuitChangeListener( CircuitChangeListener listener );
 
+    // Resets the circuit to its initial state.
     void reset();
 }
