@@ -14,7 +14,6 @@ public class TeeterTotterTorqueModule extends Module {
 
     public TeeterTotterTorqueModule() {
         this( new TeeterTotterTorqueModel() );
-
         setClockControlPanel( null );
     }
 

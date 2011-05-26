@@ -1,12 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.torque.teetertotter.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.torque.teetertotter.model.weights.Brick;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -14,7 +17,7 @@ import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
  *
  * @author John Blanco
  */
-public class TeeterTotterTorqueModel {
+public class TeeterTotterTorqueModel implements Resettable {
 
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
@@ -23,6 +26,9 @@ public class TeeterTotterTorqueModel {
 
     // Listeners that are notified when a weight is added to the model
     private final ArrayList<VoidFunction1<Weight>> weightAddedListeners = new ArrayList<VoidFunction1<Weight>>();
+
+    // Listeners that are notified when a weight is removed from the model
+    private final ArrayList<VoidFunction1<Weight>> weightRemovedListeners = new ArrayList<VoidFunction1<Weight>>();
 
     // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
@@ -48,9 +54,20 @@ public class TeeterTotterTorqueModel {
         return new ArrayList<Weight>( weights );
     }
 
-    // Adds a listener that is notified when a weight is added
     public void addWeightAddedListener( VoidFunction1<Weight> listener ) {
         weightAddedListeners.add( listener );
+    }
+
+    public void removeWeightAddedListener( VoidFunction1<Weight> listener ) {
+        weightAddedListeners.remove( listener );
+    }
+
+    public void addWeightRemovedListener( VoidFunction1<Weight> listener ) {
+        weightRemovedListeners.add( listener );
+    }
+
+    public void removeWeightRemovedListener( VoidFunction1<Weight> listener ) {
+        weightRemovedListeners.remove( listener );
     }
 
     // Adds a weight to the model and notifies registered listeners
@@ -58,6 +75,16 @@ public class TeeterTotterTorqueModel {
         weights.add( weight );
         for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
             weightAddedListener.apply( weight );
+        }
+    }
+
+    // Removes a weight from the model and notifies listeners.
+    public void removeWeight( Weight weight ) {
+        if ( weights.contains( weight ) ) {
+            weights.remove( weight );
+            for ( VoidFunction1<Weight> weightRemovedListener : weightRemovedListeners ) {
+                weightRemovedListener.apply( weight );
+            }
         }
     }
 
@@ -75,5 +102,15 @@ public class TeeterTotterTorqueModel {
 
     public BooleanProperty getSupportColumnsActiveProperty() {
         return supportColumnsActive;
+    }
+
+    public void reset() {
+        // Remove any existing weights.
+        for ( Weight weight : new ArrayList<Weight>( weights ) ) {
+            removeWeight( weight );
+        }
+        // Add initial weights.
+        addWeight( new Brick( new Point2D.Double( 3, 0 ) ) );
+        addWeight( new Brick( new Point2D.Double( 3.3, 0 ) ) );
     }
 }
