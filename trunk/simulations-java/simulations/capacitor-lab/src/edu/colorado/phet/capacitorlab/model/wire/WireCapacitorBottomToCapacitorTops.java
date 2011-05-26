@@ -81,7 +81,7 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
     // Subtract any part of the wire that is occluded by the top capacitor's bottom plate.
     @Override protected Shape createShape() {
         Shape wireShape = super.createShape();
-        // HACK: null check required because createShape is called in the superclass constructor.
+        // Null check required because createShape is called in the superclass constructor.
         if ( topCapacitor != null ) {
             wireShape = ShapeUtils.subtract( wireShape, topCapacitor.getShapeFactory().createBottomPlateShape() );
         }
