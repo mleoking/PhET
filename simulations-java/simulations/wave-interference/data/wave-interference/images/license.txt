@@ -4,12 +4,12 @@
 ###################################
 
 detector-thumb.gif author=PhET 
-faucet1.gif source=microsoft notes=j0356883.wmf 
-faucet2.gif source=microsoft notes=j0356883.wmf 
+faucet1.gif source=microsoft notes=This image is not used in the sim "j0356883.wmf "
+faucet2.gif source=Public Domain Clip Art notes="Faucet", 'http://www.clker.com/search/faucet/1'
 particle-blue.gif author=PhET
 particle-pink.gif author=PhET 
 raindrop1.png author=PhET 
-ruler-thumb.png source=microsoft notes=j0290924.wmf 
+ruler-thumb.png source= Open Clip Art notes="Ruller", 'http://www.openclipart.org/detail/13549'
 silverwire.png author=PhET 
 soundMax.png source=mac control panel author=PhET 
 soundMin.png source=mac control panel author=PhET 
@@ -21,7 +21,7 @@ speaker-front.png notes=http://willem.engen.nl/art/blender/ license=same as spea
 speaker.gif notes=http://willem.engen.nl/art/blender/ 
 spotlight.png author=PhET notes=ron 
 spotlight_3d.png author=PhET 
-stopwatch-thumb.png source=microsoft clip art notes=j0404115.wmf 
+stopwatch-thumb.png source=Open Clip Art Library notes="stop watch icon", http://www.openclipart.org/detail/120385
 wire.png author=PhET 
 wood.jpg 
 x-20.png author=PhET 
