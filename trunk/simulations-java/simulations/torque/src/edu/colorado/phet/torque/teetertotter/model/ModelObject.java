@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author Sam Reid
  */
-public class ModelObject {
+public abstract class ModelObject {
     public final Property<Shape> shape;
 
     public ModelObject( Shape shape ) {

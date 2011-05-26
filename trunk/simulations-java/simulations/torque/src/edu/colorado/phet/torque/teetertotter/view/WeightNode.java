@@ -2,7 +2,7 @@
 package edu.colorado.phet.torque.teetertotter.view;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.torque.teetertotter.model.Weight;
+import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 import edu.umd.cs.piccolo.PNode;
 
 /**
