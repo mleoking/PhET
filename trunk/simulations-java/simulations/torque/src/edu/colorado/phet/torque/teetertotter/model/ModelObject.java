@@ -16,4 +16,8 @@ public class ModelObject {
     public ModelObject( Shape shape ) {
         this.shape = new Property<Shape>( shape );
     }
+
+    public Shape getShape() {
+        return shape.get();
+    }
 }

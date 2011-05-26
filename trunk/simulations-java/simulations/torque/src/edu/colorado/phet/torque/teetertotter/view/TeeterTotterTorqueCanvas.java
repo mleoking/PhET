@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
+import edu.colorado.phet.torque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.torque.teetertotter.model.Weight;
 import edu.umd.cs.piccolo.PNode;
@@ -62,8 +63,11 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Whenever a weight is added to the model, create a graphic for it
         model.addWeightAddedListener( addWeightNode );
 
-        //Add graphics for the fulcrum and plank
+        // Add graphics for the plank, fulcrum, and columns.
         rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
         rootNode.addChild( new PlankNode( mvt, model.getPlank() ) );
+        for ( SupportColumn supportColumn : model.getSupportColumns() ) {
+            rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.getSupportColumnsActiveProperty() ) );
+        }
     }
 }

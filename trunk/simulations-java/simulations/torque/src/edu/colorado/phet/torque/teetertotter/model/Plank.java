@@ -16,4 +16,8 @@ public class Plank extends ModelObject {
     public Plank( double y ) {
         super( new Rectangle2D.Double( -length / 2, y, length, height ) );
     }
+
+    public double getWidth() {
+        return length;
+    }
 }
