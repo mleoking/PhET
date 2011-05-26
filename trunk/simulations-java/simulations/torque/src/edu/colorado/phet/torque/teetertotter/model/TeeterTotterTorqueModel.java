@@ -31,8 +31,8 @@ public class TeeterTotterTorqueModel {
 
     // Support columns
     private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
-        add( new SupportColumn( Fulcrum.getHeight(), -plank.getWidth() * 0.4 ) );
-        add( new SupportColumn( Fulcrum.getHeight(), plank.getWidth() * 0.4 ) );
+        add( new SupportColumn( Fulcrum.getHeight(), -plank.getLength() * 0.4 ) );
+        add( new SupportColumn( Fulcrum.getHeight(), plank.getLength() * 0.4 ) );
     }};
 
     // Property that controls whether the columns are supporting the plank.
