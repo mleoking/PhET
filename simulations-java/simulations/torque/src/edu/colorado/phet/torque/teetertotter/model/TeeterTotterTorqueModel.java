@@ -7,6 +7,7 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
  * Primary model class for the tab that depicts torque on a plank, a.k.a. a teeter totter.

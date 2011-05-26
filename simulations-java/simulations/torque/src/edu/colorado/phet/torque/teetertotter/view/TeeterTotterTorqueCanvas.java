@@ -14,7 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.torque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
-import edu.colorado.phet.torque.teetertotter.model.Weight;
+import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
