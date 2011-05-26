@@ -25,7 +25,6 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
-- hack in createShape of some wire subclasses
 - add base class for Model? all models have the same set of meters, 1 or more circuits, etc.
 - cleanup methods needed where anonymous observers/listeners are added in constructors
 - merge MultipleCapacitorsModule/Model/Canvas/ControlPanel into DielectricModule/Model/Canvas/ControlPanel?
