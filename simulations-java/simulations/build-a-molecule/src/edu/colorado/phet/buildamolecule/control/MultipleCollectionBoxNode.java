@@ -1,11 +1,12 @@
 package edu.colorado.phet.buildamolecule.control;
 
+import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
-import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
@@ -15,8 +16,8 @@ import edu.umd.cs.piccolo.PNode;
  * quantity present in the box.
  */
 public class MultipleCollectionBoxNode extends CollectionBoxNode {
-    public MultipleCollectionBoxNode( final BuildAMoleculeCanvas canvas, final CollectionBox box ) {
-        super( canvas, box, 2 );
+    public MultipleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
+        super( box, 2, toModelBounds );
 
         addHeaderNode( new PNode() {{
             HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getGeneralFormulaFragment() ) ) {{
