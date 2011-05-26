@@ -7,6 +7,8 @@
  */
 package edu.colorado.phet.resonance {
 
+import edu.colorado.phet.flexcommon.FlexSimStrings;
+
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;
@@ -98,15 +100,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }  //end of constructor
 
     public function initializeStrings(): void {
-        //this.playSlashPause_str = "play/pause";
-        this.timeRate_str = "Time Rate";
-        this.slow_str = "slow";
-        this.normal_str = "normal";
-        this.play_str = "play";
-        this.pause_str = "pause";
-        this.paused_str = "PAUSED";
-        this.sloMo_str = "SLO-MO";
-        this.singleStep_str = "step";
+        this.timeRate_str = FlexSimStrings.get("timeRate", "Time Rate");
+        this.slow_str = FlexSimStrings.get("slow", "slow");
+        this.normal_str = FlexSimStrings.get("normal", "normal");
+        this.play_str = FlexSimStrings.get("play", "play");
+        this.pause_str = FlexSimStrings.get("pause", "pause");
+        this.paused_str = FlexSimStrings.get("paused", "PAUSED");
+        this.sloMo_str = FlexSimStrings.get("sloMo", "SLO-MO");
+        this.singleStep_str = FlexSimStrings.get("step", "step");
     }
 
     private function drawGraphics(): void {

@@ -1,5 +1,6 @@
 package edu.colorado.phet.resonance {
 
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.resonance.HorizontalSlider;
 
@@ -33,7 +34,11 @@ public class ControlPanel extends Canvas {
     private var nbrResonatorsSlider: HorizontalSlider;
     private var presets_cbx:ComboBox;
     private var gravityOnOff_rbg: RadioButtonGroup;
+    private var rbOn: RadioButton;
+    private var rbOff: RadioButton;
     private var gravityLabel: NiceLabel;
+    private var onLabel: NiceLabel;
+    private var offLabel: NiceLabel;
     private var rulerLabel: NiceLabel;
     private var resonatorNbrLabel: NiceLabel;
     private var mSlider: HorizontalSlider;
@@ -73,6 +78,8 @@ public class ControlPanel extends Canvas {
         this.myMainView = myMainView;
         this.shakerModel = model;
         this.init();
+
+        trace("ControlPanel.rbOff.x = "+this.rbOff.x );
     }//end of constructor
 
     public function addSprite( s: Sprite ): void {
@@ -130,27 +137,30 @@ public class ControlPanel extends Canvas {
         this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
 
         this.radioButtonBox = new HBox();
+        this.radioButtonBox.setStyle( "horizontalGap", 0);
         this.rulerCheckBoxBox = new HBox();
 
         this.gravityLabel = new NiceLabel();
         this.gravityLabel.setFontSize( 14 );
         this.gravityLabel.setText(this.gravity_str);
 
+        this.onLabel = new NiceLabel();
+        this.onLabel.setText( this.on_str );
+        this.offLabel = new NiceLabel();
+        this.offLabel.setText( this.off_str );
+
         this.gravityOnOff_rbg = new RadioButtonGroup();
-        var rb1: RadioButton = new RadioButton();
-        var rb2: RadioButton = new RadioButton();
-        rb1.group = gravityOnOff_rbg;
-        rb2.group = gravityOnOff_rbg;
-        rb1.label = this.on_str;
-        rb2.label = this.off_str;
-        rb1.value = 1;
-        rb2.value = 0;
-        rb1.selected = false;
-        rb2.selected = true;
-        rb1.setStyle( "fontSize", 14 );
-        rb2.setStyle( "fontSize", 14 );
-        rb1.setStyle( "horizontalGap", 0 );
-        rb2.setStyle( "horizontalGap", 0 );
+        this.rbOn = new RadioButton();
+        this.rbOff = new RadioButton();
+        this.rbOff.setStyle("paddingLeft", 5 );
+        this.rbOn.group = gravityOnOff_rbg;
+        this.rbOff.group = gravityOnOff_rbg;
+        //rb1.label = this.on_str;
+        //rb2.label = this.off_str;
+        rbOn.value = 1;
+        rbOff.value = 0;
+        rbOn.selected = false;
+        rbOff.selected = true;
 
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
@@ -169,7 +179,9 @@ public class ControlPanel extends Canvas {
 
         this.freqLabel = new NiceLabel();
         this.freqLabel.setFontSize(12);
-        this.freqLabel.setText(this.frequencyEquals_str + "     " + " " + hz_str + "    ");    //don't know why the extra space right end needed to force layout
+        //this.freqLabel.setText(this.frequencyEquals_str + "     " + " " + hz_str + "    ");    //don't know why the extra space right end needed to force layout
+        var resFreq_str:String = "1.000";
+        this.freqLabel.setText(FlexSimStrings.get("frequencyEqualsXHz", "frequency = {0} Hz", [resFreq_str]));  //used to set correct width of string for proper layout
 
         this.showRulerCheckBox = new CheckBox();
         this.showRulerCheckBox.addEventListener( Event.CHANGE, clickRuler );
@@ -195,10 +207,15 @@ public class ControlPanel extends Canvas {
         this.background.addChild( radioButtonBox );
 
         this.radioButtonBox.addChild( new SpriteUIComponent(this.gravityLabel,true ));
-        this.radioButtonBox.addChild( rb1 );
-        this.radioButtonBox.addChild( rb2 );
-        this.gravityLabel.y = 3;   //tweek position of label relative to radio buttons.
-        this.gravityLabel.x = 5;
+        this.radioButtonBox.addChild( this.rbOn );
+        //trace( "ControlPanel.rbOn.width = "+ this.rbOn.width);
+        this.radioButtonBox.addChild( new SpriteUIComponent(this.onLabel,true ));
+        this.radioButtonBox.addChild( this.rbOff );
+        this.radioButtonBox.addChild( new SpriteUIComponent(this.offLabel,true ));
+        var yOffset:int = -2;           //tweek positions of labels relative to radio buttons.
+        this.gravityLabel.y = yOffset;
+        this.onLabel.y = yOffset;
+        this.offLabel.y = yOffset;
 
         this.background.addChild( rulerCheckBoxBox );
         this.rulerCheckBoxBox.addChild( this.showRulerCheckBox );
@@ -211,26 +228,27 @@ public class ControlPanel extends Canvas {
     } //end of init()
 
     private function initializeStrings(): void {
-        numberOfResonators_str = "Number of Resonators";
-        damping_str = "damping constant";
-        dampingUnits_str = "N/(m/s)";
-        gravity_str = "Gravity:";
-        on_str = "on";
-        off_str = "off";
-        resonator_str = "Resonator";
-        mass_str = "mass";
-        massUnits_str = "kg";
-        springConstant_str = "spring constant";
-        springConstantUnits_str = "N/m ";
+        numberOfResonators_str = FlexSimStrings.get("numberOfResonators", "Number of Resonators");
+        damping_str = FlexSimStrings.get("dampingConstant", "damping constant");
+        dampingUnits_str = FlexSimStrings.get("NperMperS", "N/(m/s)");
+        gravity_str = FlexSimStrings.get("gravityColon", "Gravity:");
+        on_str = FlexSimStrings.get("on", "on");
+        off_str = FlexSimStrings.get("off", "off");
+        resonator_str = FlexSimStrings.get("resonator", "Resonator");
+        mass_str = FlexSimStrings.get("mass", "mass");
+        massUnits_str = FlexSimStrings.get("kg", "kg");
+        springConstant_str = FlexSimStrings.get("springConstant", "spring constant");
+        springConstantUnits_str = FlexSimStrings.get("NperM", "N/m");
+        //See function setFreq() for frequencyEqualsXHz string
         frequencyEquals_str = "frequency = ";
-        hz_str = "Hz";
-        ruler_str = "Ruler";
-        resetAll_str = "Reset All";
-        choose_str = "Choose..";
-        sameMass_str = "same mass";
-        sameSpring_str = "same spring";
-        mixedMAndK_str = "mixed m and k";
-        sameF_str = "same frequency";
+        hz_str = "hz";
+        ruler_str = FlexSimStrings.get("ruler", "Ruler");
+        resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
+        choose_str = FlexSimStrings.get("choose", "Choose..");
+        sameMass_str = FlexSimStrings.get("sameMass", "same mass");
+        sameSpring_str = FlexSimStrings.get("sameSpring", "same spring");
+        mixedMAndK_str = FlexSimStrings.get("mixedMAndK", "mixed m and k");
+        sameF_str = FlexSimStrings.get("sameFrequency", "same frequency");
     }
 
     private function setDamping():void{
@@ -263,7 +281,8 @@ public class ControlPanel extends Canvas {
         var rNbr: int = this.selectedResonatorNbr;
         var resFreq: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getF0();
         var resFreq_str: String = resFreq.toFixed( 3 );
-        this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);;
+        //this.freqLabel.setText(this.frequencyEquals_str + resFreq_str + " " + hz_str);
+        this.freqLabel.setText(FlexSimStrings.get("frequencyEqualsXHz", "frequency = {0} Hz", [resFreq_str]));
     }
 
 
@@ -304,11 +323,12 @@ public class ControlPanel extends Canvas {
     public function setGravityExternally(onOrOff:Boolean):void{
         if(onOrOff){
             this.shakerModel.setG( 5 );
-            this.gravityOnOff_rbg.selectedValue = 1;
+            this.rbOn.selected = true;     //0 is gravity On value
         } else{
             this.shakerModel.setG( 0 );
-            this.gravityOnOff_rbg.selectedValue = 0;
+            this.rbOff.selected = true;     //1 is gravity Off value
         }
+        trace("ControlPanel.rbOff.x = "+this.rbOff.x );
     }
 
     public function setRulerCheckBoxExternally( tOrF:Boolean):void{

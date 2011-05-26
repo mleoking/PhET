@@ -1,4 +1,6 @@
 package edu.colorado.phet.resonance {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
+
 import flash.display.*;
 import flash.events.*;
 import flash.filters.*;
@@ -108,12 +110,12 @@ public class ShakerView extends Sprite {
     }//end of initialize()
 
     private function initializeStrings(): void {
-        driver_str = "DRIVER";
-        onSlashOff_str = "on/off";
-        frequency_str = "frequency";
-        hz_str = "Hz";
-        cm_str = "cm";
-        amplitude_str = "amplitude";
+        driver_str = FlexSimStrings.get("driver", "DRIVER"); //"DRIVER";
+        onSlashOff_str = FlexSimStrings.get("onOrOff","on/off");
+        frequency_str = FlexSimStrings.get("frequency","frequency");
+        hz_str = FlexSimStrings.get("hz","Hz");
+        cm_str = FlexSimStrings.get("cm","cm");
+        amplitude_str = FlexSimStrings.get("amplitude","amplitude");
     }
 
     private function createLabel(): void {
