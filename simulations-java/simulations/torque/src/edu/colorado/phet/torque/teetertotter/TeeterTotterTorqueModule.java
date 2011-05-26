@@ -12,6 +12,8 @@ import edu.colorado.phet.torque.teetertotter.view.TeeterTotterTorqueCanvas;
  */
 public class TeeterTotterTorqueModule extends Module {
 
+    TeeterTotterTorqueModel model;
+
     public TeeterTotterTorqueModule() {
         this( new TeeterTotterTorqueModel() );
         setClockControlPanel( null );
@@ -20,6 +22,12 @@ public class TeeterTotterTorqueModule extends Module {
     private TeeterTotterTorqueModule( TeeterTotterTorqueModel model ) {
         // TODO: i18n
         super( "Teeter Totter Torque", model.getClock() );
+        this.model = model;
         setSimulationPanel( new TeeterTotterTorqueCanvas( model ) );
+        reset();
+    }
+
+    @Override public void reset() {
+        model.reset();
     }
 }

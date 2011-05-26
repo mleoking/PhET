@@ -59,11 +59,6 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             }
         };
 
-        // Add WeightNodes for any weights already in the model on startup
-        for ( Weight weight : model.getWeights() ) {
-            addWeightNode.apply( weight );
-        }
-
         // Whenever a weight is added to the model, create a graphic for it
         model.addWeightAddedListener( addWeightNode );
 
@@ -77,7 +72,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the button that will restore the columns if they have been
         // previously removed.
         // TODO: i18n
-        final TextButtonNode button2 = new TextButtonNode( "Restore Columns", new PhetFont( 14 ) ) {{
+        final TextButtonNode restoreColumnsButton = new TextButtonNode( "Restore Columns", new PhetFont( 14 ) ) {{
             setBackground( Color.YELLOW );
             setOffset( mvt.modelToViewX( 2.5 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
             addInputEventListener( new ButtonEventHandler() {
@@ -86,12 +81,12 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 }
             } );
         }};
-        rootNode.addChild( button2 );
+        rootNode.addChild( restoreColumnsButton );
 
         // Only show the Restore Columns button when the columns are not active.
         model.getSupportColumnsActiveProperty().addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean supportColumnsActive ) {
-                button2.setVisible( !supportColumnsActive );
+                restoreColumnsButton.setVisible( !supportColumnsActive );
             }
         } );
     }
