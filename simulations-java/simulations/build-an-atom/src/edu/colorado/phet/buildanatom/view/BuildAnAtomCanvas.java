@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -11,7 +10,7 @@ import java.awt.geom.Point2D;
 import java.util.Arrays;
 import java.util.Collections;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
@@ -103,7 +102,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         indicatorLayer.addChild( elementNameIndicator );
 
         // Show whether the nucleus is stable.
-        final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable ){{
+        final StabilityIndicator stabilityIndicator = new StabilityIndicator( model.getAtom(), showStableUnstable ) {{
             // Position the stability indicator under the nucleus
             setOffset( mvt.modelToViewX( 0 ), mvt.modelToViewY( -Atom.ELECTRON_SHELL_1_RADIUS * 0.67 ) );
         }};
@@ -137,7 +136,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
         indicatorLayer.addChild( symbolWindow );
 
         // Mass indicator
-        massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS_NUMBER, windowSize, new MassIndicatorNode( model.getAtom(), orbitalViewProperty){{
+        massWindow = new MaximizeControlNode( BuildAnAtomStrings.INDICATOR_MASS_NUMBER, windowSize, new MassIndicatorNode( model.getAtom(), orbitalViewProperty ) {{
             setOffset( insetX, windowSize.height / 2 - getFullBounds().getHeight() / 2 );
         }}, true );
         massWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBounds().getMaxY() + verticalSpacingBetweenWindows );
@@ -171,18 +170,18 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
 
         double maxCheckboxX = Collections.max( Arrays.asList( showNameCheckBox.getFullBoundsReference().getMaxX(),
                                                               showNeutralIonCheckBox.getFullBoundsReference().getMaxX(),
-                                                              showStableUnstableCheckBox.getFullBoundsReference().getMaxX()));
+                                                              showStableUnstableCheckBox.getFullBoundsReference().getMaxX() ) );
         resetButtonNode.setOffset(
-                (maxCheckboxX + (chargeWindow.getFullBounds().getMaxX() - maxCheckboxX) / 2) - resetButtonNode.getFullBoundsReference().width / 2,
+                ( maxCheckboxX + ( chargeWindow.getFullBounds().getMaxX() - maxCheckboxX ) / 2 ) - resetButtonNode.getFullBoundsReference().width / 2,
                 showNeutralIonCheckBox.getFullBoundsReference().getCenterY() - resetButtonNode.getFullBoundsReference().height / 2 );
 
         // Add the Selection control for how to view the orbitals
         final OrbitalViewControl orbitalViewControl = new OrbitalViewControl( orbitalViewProperty );
-        orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX()-orbitalViewControl.getFullBounds().getWidth()-20, chargeWindow.getFullBounds().getY()-verticalSpacingBetweenWindows );
+        orbitalViewControl.setOffset( chargeWindow.getFullBounds().getMinX() - orbitalViewControl.getFullBounds().getWidth() - 20, chargeWindow.getFullBounds().getY() - verticalSpacingBetweenWindows );
         indicatorLayer.addChild( orbitalViewControl );
 
         // Add the indicator for whether the atom is neutral or an ion.
-        final IonIndicatorNode ionIndicatorNode = new IonIndicatorNode( model.getAtom(), showNeutralIon, 175);
+        final IonIndicatorNode ionIndicatorNode = new IonIndicatorNode( model.getAtom(), showNeutralIon, 175 );
         ionIndicatorNode.setOffset( elementIndicatorWindow.getFullBounds().getMinX() - ionIndicatorNode.getFullBounds().getWidth() - 10, elementIndicatorWindow.getFullBounds().getCenterY() - ionIndicatorNode.getFullBounds().getHeight() / 2 );
         indicatorLayer.addChild( ionIndicatorNode );
 
@@ -197,8 +196,8 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
 
     private static PSwing createCheckBox( String label, final BooleanProperty value ) {
         //"Show Labels" button.
-        PSwing showLabelsButton = new PSwing(new JCheckBox( label,value.get() ){{
-            setFont( new PhetFont(16,true) );
+        PSwing showLabelsButton = new PSwing( new JCheckBox( label, value.get() ) {{
+            setFont( new PhetFont( 16, false ) );
             setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -210,7 +209,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
                     setSelected( value.get() );
                 }
             } );
-        }});
+        }} );
         return showLabelsButton;
     }
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -13,35 +14,45 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author John Blanco
  */
 public class TeeterTotterTorqueModel {
+
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    //A list of all the weights in the model
+    // A list of all the weights in the model
     private final List<Weight> weights = new ArrayList<Weight>();
 
-    //Listeners that are notified when a weight is added to the model
+    // Listeners that are notified when a weight is added to the model
     private final ArrayList<VoidFunction1<Weight>> weightAddedListeners = new ArrayList<VoidFunction1<Weight>>();
 
-    //Fulcrum that the plank pivots on
+    // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
 
-    //Plank that objects can be placed on that is (optionally) supported by pillars
-    private final Plank plank = new Plank( Fulcrum.HEIGHT );
+    // Plank that objects can be placed on that is (optionally) supported by pillars
+    private final Plank plank = new Plank( Fulcrum.getHeight() );
+
+    // Support columns
+    private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
+        add( new SupportColumn( Fulcrum.getHeight(), -plank.getWidth() * 0.4 ) );
+        add( new SupportColumn( Fulcrum.getHeight(), plank.getWidth() * 0.4 ) );
+    }};
+
+    // Property that controls whether the columns are supporting the plank.
+    private final BooleanProperty supportColumnsActive = new BooleanProperty( false );
 
     public ConstantDtClock getClock() {
         return clock;
     }
 
-    //Returns a list of the weights in the model
+    // Returns a list of the weights in the model
     public List<Weight> getWeights() {
         return new ArrayList<Weight>( weights );
     }
 
-    //Adds a listener that is notified when a weight is added
+    // Adds a listener that is notified when a weight is added
     public void addWeightAddedListener( VoidFunction1<Weight> listener ) {
         weightAddedListeners.add( listener );
     }
 
-    //Adds a weight to the model and notifies registered listeners
+    // Adds a weight to the model and notifies registered listeners
     public void addWeight( Weight weight ) {
         weights.add( weight );
         for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
@@ -55,5 +66,13 @@ public class TeeterTotterTorqueModel {
 
     public Plank getPlank() {
         return plank;
+    }
+
+    public List<SupportColumn> getSupportColumns() {
+        return supportColumns;
+    }
+
+    public BooleanProperty getSupportColumnsActiveProperty() {
+        return supportColumnsActive;
     }
 }
