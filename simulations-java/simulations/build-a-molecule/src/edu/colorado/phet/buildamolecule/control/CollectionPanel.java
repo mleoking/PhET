@@ -36,7 +36,7 @@ public class CollectionPanel extends PNode {
     private final Map<KitCollection, CollectionAreaNode> collectionAreaMap = new HashMap<KitCollection, CollectionAreaNode>();
     private MoleculeCollectingCanvas canvas;
 
-    public CollectionPanel( final Frame parentFrame, final MoleculeCollectingCanvas canvas, final CollectionList collectionList, final boolean singleCollectionMode ) {
+    public CollectionPanel( final MoleculeCollectingCanvas canvas, final CollectionList collectionList, final boolean singleCollectionMode ) {
         this.canvas = canvas;
 
         // move it over so the background will have padding
@@ -49,12 +49,9 @@ public class CollectionPanel extends PNode {
                              new GridBagConstraints() {{
                                  gridx = 0;
                                  gridy = 0;
-                                 insets = new Insets( 0, 0, 15, 0 );
+                                 insets = new Insets( 0, 0, 5, 0 );
                              }}
         );
-
-        ;
-
 
         // "Collection X" with arrows
         layoutNode.addChild( new NextPreviousNavigationNode( new PText() {{
@@ -111,7 +108,7 @@ public class CollectionPanel extends PNode {
                              new GridBagConstraints() {{
                                  gridx = 0;
                                  gridy = GridBagConstraints.RELATIVE;
-                                 insets = new Insets( 0, 0, 15, 0 );
+                                 insets = new Insets( 0, 0, 5, 0 );
                              }} );
 
         // sound on/off
@@ -129,7 +126,7 @@ public class CollectionPanel extends PNode {
         // anonymous function here, so we don't create a bunch of fields
         final VoidFunction1<KitCollection> createCollectionNode = new VoidFunction1<KitCollection>() {
             public void apply( KitCollection collection ) {
-                collectionAreaMap.put( collection, new CollectionAreaNode( parentFrame, canvas, collection, singleCollectionMode ) );
+                collectionAreaMap.put( collection, new CollectionAreaNode( canvas, collection, singleCollectionMode ) );
             }
         };
 

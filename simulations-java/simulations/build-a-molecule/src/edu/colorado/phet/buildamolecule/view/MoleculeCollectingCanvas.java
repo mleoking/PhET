@@ -1,7 +1,5 @@
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.*;
-
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.control.AllFilledDialogNode;
 import edu.colorado.phet.buildamolecule.control.CollectionPanel;
@@ -17,8 +15,8 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
 
     private VoidFunction0 regenerateCallback;
 
-    public MoleculeCollectingCanvas( Frame parentFrame, CollectionList collectionList, final boolean singleCollectionMode, final VoidFunction0 regenerateCallback ) {
-        super( parentFrame, collectionList, singleCollectionMode );
+    public MoleculeCollectingCanvas( CollectionList collectionList, final boolean singleCollectionMode, final VoidFunction0 regenerateCallback ) {
+        super( collectionList, singleCollectionMode );
 
         this.regenerateCallback = regenerateCallback;
 
@@ -55,8 +53,8 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
         return kitCollectionNode;
     }
 
-    @Override protected void addChildren( Frame parentFrame ) {
-        CollectionPanel collectionAreaNode = new CollectionPanel( parentFrame, this, collectionList, singleCollectionMode ) {{
+    @Override protected void addChildren() {
+        CollectionPanel collectionAreaNode = new CollectionPanel( this, collectionList, singleCollectionMode ) {{
             double collectionAreaPadding = 20;
             setOffset( BuildAMoleculeConstants.STAGE_SIZE.width - getFullBounds().getWidth() - collectionAreaPadding, collectionAreaPadding );
         }};

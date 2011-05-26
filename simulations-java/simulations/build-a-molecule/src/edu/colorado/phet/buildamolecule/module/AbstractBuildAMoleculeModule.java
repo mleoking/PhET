@@ -18,14 +18,12 @@ import edu.umd.cs.piccolo.util.PDimension;
 public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
     protected final LayoutBounds bounds;
     protected BuildAMoleculeCanvas canvas;
-    protected Frame parentFrame;
     private CollectionList collectionList;
 
     private static Random random = new Random( System.currentTimeMillis() );
 
     public AbstractBuildAMoleculeModule( Frame parentFrame, String name, boolean wide ) {
         super( name, new ConstantDtClock( 30 ) );
-        this.parentFrame = parentFrame;
         setClockControlPanel( null );
         bounds = new LayoutBounds( wide );
     }

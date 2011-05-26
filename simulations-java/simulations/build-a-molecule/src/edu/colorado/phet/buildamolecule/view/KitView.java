@@ -39,7 +39,7 @@ public class KitView {
     // store the node-atom relationships
     private Map<Atom, AtomNode> atomNodeMap = new HashMap<Atom, AtomNode>();
 
-    public KitView( final Frame parentFrame, final Kit kit, final ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
+    public KitView( final Kit kit, final ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
         this.kit = kit;
         this.mvt = mvt;
         this.canvas = canvas;
@@ -95,7 +95,7 @@ public class KitView {
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
             public void addedMolecule( Molecule molecule ) {
-                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( parentFrame, kit, molecule, mvt );
+                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( kit, molecule, mvt );
                 metadataLayer.addChild( moleculeMetadataNode );
                 metadataMap.put( molecule, moleculeMetadataNode );
 

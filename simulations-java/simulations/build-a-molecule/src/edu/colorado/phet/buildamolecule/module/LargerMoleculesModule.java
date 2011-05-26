@@ -100,6 +100,6 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
 
     @Override
     protected BuildAMoleculeCanvas buildCanvas( CollectionList collectionList ) {
-        return new BuildAMoleculeCanvas( parentFrame, collectionList );
+        return new BuildAMoleculeCanvas( collectionList );
     }
 }
