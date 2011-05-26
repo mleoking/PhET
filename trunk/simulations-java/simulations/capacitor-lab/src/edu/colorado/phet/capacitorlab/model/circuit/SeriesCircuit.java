@@ -62,7 +62,7 @@ public class SeriesCircuit extends AbstractCircuit {
             }
         } );
 
-        // observe capacitor
+        // observe capacitors
         CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
             public void capacitorChanged() {
                 updatePlateVoltages();
