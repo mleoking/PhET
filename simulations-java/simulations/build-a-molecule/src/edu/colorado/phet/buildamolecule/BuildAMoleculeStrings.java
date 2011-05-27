@@ -21,6 +21,8 @@ public class BuildAMoleculeStrings {
     public static final String TITLE_COLLECT_MULTIPLE = BuildAMoleculeResources.getString( "title.collectMultiple" );
     public static final String TITLE_LARGER_MOLECULES = BuildAMoleculeResources.getString( "title.largerMolecules" );
 
+    public static final String RESET_CURRENT_TAB = BuildAMoleculeResources.getString( "resetCurrentTab" );
+
     public static final String ATOM_HYDROGEN = BuildAMoleculeResources.getString( "atom.hydrogen" );
     public static final String ATOM_OXYGEN = BuildAMoleculeResources.getString( "atom.oxygen" );
     public static final String ATOM_CARBON = BuildAMoleculeResources.getString( "atom.carbon" );
@@ -48,7 +50,7 @@ public class BuildAMoleculeStrings {
     public static final String COLLECTION_MULTIPLE_GOAL_FORMAT = BuildAMoleculeResources.getString( "collection.multiple.goalFormat" );
     public static final String COLLECTION_MULTIPLE_QUANTITY_FORMAT = BuildAMoleculeResources.getString( "collection.multiple.quantityFormat" );
     public static final String COLLECTION_MULTIPLE_QUANTITY_EMPTY = BuildAMoleculeResources.getString( "collection.multiple.quantityEmpty" );
-
+    public static final String RESET_COLLECTION = BuildAMoleculeResources.getString( "collection.reset" );
     public static final String COLLECTION_HINT = BuildAMoleculeResources.getString( "collection.hint" );
 
     private static final Map<String, String> elementStringMap = new HashMap<String, String>();

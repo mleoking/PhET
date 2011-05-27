@@ -90,8 +90,7 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
         OptionsMenu optionsMenu = new OptionsMenu();
         // add menu items here, or in a subclass on OptionsMenu
 
-        // TODO: i18n
-        optionsMenu.add( new JMenuItem( "Reset current tab" ) {{
+        optionsMenu.add( new JMenuItem( BuildAMoleculeStrings.RESET_CURRENT_TAB ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     getActiveModule().reset();

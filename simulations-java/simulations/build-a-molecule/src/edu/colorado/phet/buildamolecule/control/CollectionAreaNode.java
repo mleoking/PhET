@@ -9,6 +9,7 @@ import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
@@ -69,8 +70,7 @@ public class CollectionAreaNode extends PNode {
             c.gridy += 1;
         }
 
-        // TODO: i18n
-        layoutNode.addChild( new HTMLImageButtonNode( "Reset Collection", Color.ORANGE ) {
+        layoutNode.addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
                                  {
                                      // when clicked, empty collection boxes
                                      addActionListener( new ActionListener() {
