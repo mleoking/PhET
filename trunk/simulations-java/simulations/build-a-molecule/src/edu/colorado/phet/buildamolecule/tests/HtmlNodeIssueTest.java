@@ -12,7 +12,10 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * Resizing of HTMLNodes is jittery, very much like Flex text
+ * See #2780.
+ * Resizing of HTMLNodes is jittery, very much like Flex text.
+ * Probably because HTMLNode does rendering using JLabel, which renders HTML using BasicHTML,
+ * which probably uses integer font sizes.
  */
 public class HtmlNodeIssueTest {
     public static void main( String[] args ) {
