@@ -235,7 +235,6 @@ public class MoleculeList {
     };
 
     static {
-        // TODO: i18n
         for ( CompleteMolecule m : COLLECTION_BOX_MOLECULES ) {
             assert ( m != null );
         }

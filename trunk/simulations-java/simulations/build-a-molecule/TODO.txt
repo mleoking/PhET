@@ -1,12 +1,7 @@
 Resize bug on AllFilledDialogNode
-I18n and other TODOs
 Jmol loading speed is slow - speed up
-Experiment with true 2d structure and loops!
 Image cleanup
-Note about dragging?
-Naming
-Text issues - buttonnode in panel
-Potential collection area in 3rd tab?
+Other TODOs
 
 TARGET - END OF JUNE
 
@@ -16,7 +11,8 @@ detection of molecules with those weird things like in 6432310, and check if it 
     4.0420    0.2131    0.0000 H   0  0  0  0  0  0  0  0  0  0  0  0
 
 PENDING:
-Emailed Sandor about translating names. Developer recommendation: translate a subset
+Potential collection area in 3rd tab?
+Experiment with true 2d structure and loops!
 
 TESTING:
 I18n
