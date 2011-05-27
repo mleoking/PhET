@@ -1,3 +1,5 @@
+# 0.00.12 (52485) May 27, 2011
+5/27/11 Resonantor number in control panel now user-editable.
 # 0.00.11 (52431) May 26, 2011
 5/26/11 Control Panel updated with all Dubson Components
 # 0.00.10 (52407) May 25, 2011
