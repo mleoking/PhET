@@ -1,0 +1,51 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: May 19-26, 2011
+
+ACCOMPLISHMENTS:
+
+Capacitor Lab
+- completed all requested 2.00 features
+- implemented voltage model for wires
+- fixed voltage model in Combination1 circuit
+- changed labels on meters
+- internal refactoring and cleanup
+- #2903, discuss E-Field Detector "autoscale on first use" (waiting for requirements)
+- published 1.00.06 (waiting for feedback)
+
+Lasers
+- consolidate serveral tickets related to i18n problems
+
+Microwaves
+- #2885, various fixes, published 1.04.02 for review
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Common
+- #2864, ConductivityTesterNode cleanup
+- #2860, reported artifacts caused by ApparatusPanel3 fix for Netbooks
+
+Unfuddle
+- reassigned all tickets that were assigned to Marj or Wendy
+
+WHAT'S NEXT:
+
+- Capacitor Lab: finish 2.00
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- lack of feedback from Capacitor Lab team is frustrating
+
+DATES UNAVAILABLE:
+
+- June 13-24
+- August 22 - September 2
+- October 19-29
+
+--
