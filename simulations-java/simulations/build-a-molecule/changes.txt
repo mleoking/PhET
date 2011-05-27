@@ -1,3 +1,4 @@
+Cleaned up unused images
 Fixed bug: molecule separation by dragging a molecule part during molecule bonding
 Set constant position/size of molecules in collection boxes based on capacity. (Shows "open" spots for more molecules if needed)
 Improved layout of kit / collection area / collection boxes for consistency and interaction with changing collections
