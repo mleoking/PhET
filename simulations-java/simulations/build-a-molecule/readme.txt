@@ -4,7 +4,8 @@ Units for distance: picometers in general, however the molecules pulled from pub
 
 Model at a glance:
 
-KitCollectionModel: represents everything in a tab. holds collection boxes and kits
+TODO: update with latest (CollectionList, etc)
+KitCollection: represents everything in a tab. holds collection boxes and kits
     CollectionBox: stores box state and allowed molecules
     Kit: handles everything in buckets and in play for a particular kit, and remembers which of its atoms are in collection boxes
         Bucket: handles the atoms it contains, and positions them
