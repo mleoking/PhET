@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--equation-grapher-strings_in.xml created Fri May 27 09:30:37 ICT 2011 using: equation-grapher 2.02.00 (52283), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="showYEq" value="Tampilkan y ="/>
+<string key="erase" value="Hapus"/>
+<string key="save" value="Simpan"/>
+<string key="zero" value="NOL"/>
+<string key="simTitle" value="Menggambar Persamaan Kuadrat"/>
+<string key="translation.credits" value="&lt;html&gt;&#10;Josef B. Dwiyono &lt;br&gt;&#10;Mail : jbdwiyono@gmail.com&lt;br&gt;&#10;Blog : oomyon.blogspot.com&lt;br&gt;&#10;Face : facebook.com/jb.dwiyono&#10;&lt;/html&gt;&#10;"/>
+</SimStrings>
