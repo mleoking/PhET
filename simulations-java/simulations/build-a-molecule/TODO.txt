@@ -1,4 +1,6 @@
 Jmol loading speed is slow - speed up
+3D button make translatable - resizing of collection boxes
+JMol 2 windows
 Other TODOs
 
 TARGET - END OF JUNE
