@@ -188,7 +188,7 @@ public class Kit {
      */
     public void atomDragged( Atom2D atom, ImmutableVector2D delta ) {
         // move our atom
-        atom.setPositionAndDestination( atom.getPosition().getAddedInstance( delta ) );
+        atom.translatePositionAndDestination( delta );
 
         // move all other atoms in the molecule
         if ( isAtomInPlay( atom ) ) {
@@ -196,7 +196,7 @@ public class Kit {
                 if ( atom == atomInMolecule ) {
                     continue;
                 }
-                atomInMolecule.setPositionAndDestination( atomInMolecule.getPosition().getAddedInstance( delta ) );
+                atomInMolecule.translatePositionAndDestination( delta );
             }
         }
     }
