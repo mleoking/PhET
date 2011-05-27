@@ -1,6 +1,5 @@
 Resize bug on AllFilledDialogNode
 I18n and other TODOs
-What about if you re-drag a molecule part just after combining?
 Jmol loading speed is slow - speed up
 Experiment with true 2d structure and loops!
 Image cleanup

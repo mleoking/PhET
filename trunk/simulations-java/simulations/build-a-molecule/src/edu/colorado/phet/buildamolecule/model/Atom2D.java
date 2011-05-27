@@ -145,6 +145,11 @@ public class Atom2D extends Atom implements IBucketSphere<Atom2D> {
         destination = point;
     }
 
+    public void translatePositionAndDestination( ImmutableVector2D delta ) {
+        setPosition( getPosition().plus( delta ) );
+        setDestination( getDestination().plus( delta ) );
+    }
+
     public void setPositionAndDestination( ImmutableVector2D point ) {
         setPosition( point );
         setDestination( point );
