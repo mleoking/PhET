@@ -125,6 +125,22 @@ public class CollectionBoxNode extends SwingLayoutNode {
                 updateBoxGraphics();
             }
         } );
+
+        // TODO: this is somewhat of an ugly way of getting the fixed layout (where the molecules don't resize). consider changing
+        // kept for now since it is much easier to revert back to the old behavior
+        {
+            // add invisible molecules to the molecule layer so that its size won't change later (fixes molecule positions)
+            List<PNode> nodes = new LinkedList<PNode>();
+            for ( int i = 0; i < box.getCapacity(); i++ ) {
+                PNode node = box.getMoleculeType().createPseudo3DNode();
+                node.setVisible( false );
+                nodes.add( node );
+                moleculeLayer.addChild( node );
+            }
+
+            // position them like we would with the others
+            layOutMoleculeList( nodes );
+        }
     }
 
     protected void addHeaderNode( PNode headerNode ) {
@@ -137,14 +153,11 @@ public class CollectionBoxNode extends SwingLayoutNode {
         updateBoxGraphics();
 
         PNode pseudo3DNode = molecule.getMatchingCompleteMolecule().createPseudo3DNode();
-        //pseudo3DNode.setOffset( moleculeNodes.size() * ( pseudo3DNode.getFullBounds().getWidth() + MOLECULE_PADDING ) - pseudo3DNode.getFullBounds().getX(), 0 ); // add it to the right
         moleculeLayer.addChild( pseudo3DNode );
         moleculeNodes.add( pseudo3DNode );
         moleculeNodeMap.put( molecule, pseudo3DNode );
 
         updateMoleculeLayout();
-
-        centerMoleculesInBlackBox();
     }
 
     private void removeMolecule( Molecule molecule ) {
@@ -157,7 +170,13 @@ public class CollectionBoxNode extends SwingLayoutNode {
         moleculeNodeMap.remove( molecule );
 
         updateMoleculeLayout();
+    }
 
+    private void updateMoleculeLayout() {
+        // position molecule nodes
+        layOutMoleculeList( moleculeNodes );
+
+        // center in the black box
         if ( box.quantity.get() > 0 ) {
             centerMoleculesInBlackBox();
         }
@@ -165,8 +184,10 @@ public class CollectionBoxNode extends SwingLayoutNode {
 
     /**
      * Layout of molecules. Spaced horizontally with MOLECULE_PADDING, and vertically centered
+     *
+     * @param moleculeNodes List of molecules to lay out
      */
-    private void updateMoleculeLayout() {
+    private void layOutMoleculeList( List<PNode> moleculeNodes ) {
         double maxHeight = 0;
         for ( PNode moleculeNode : moleculeNodes ) {
             maxHeight = Math.max( maxHeight, moleculeNode.getFullBounds().getHeight() );
