@@ -11,9 +11,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -50,7 +49,8 @@ public class AllFilledDialogNode extends PNode {
             );
 
             // button to generate a new kit/collection
-            addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, new PhetFont( 18, true ), Color.ORANGE ) {{
+            addChild( new TextButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, new PhetFont( 18, true ) ) {{
+                          setBackground( Color.ORANGE );
                           addActionListener( new ActionListener() {
                               public void actionPerformed( ActionEvent e ) {
                                   regenerateCallback.apply();

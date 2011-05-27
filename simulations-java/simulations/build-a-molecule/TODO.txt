@@ -1,4 +1,3 @@
-Resize bug on AllFilledDialogNode
 Jmol loading speed is slow - speed up
 Other TODOs
 
