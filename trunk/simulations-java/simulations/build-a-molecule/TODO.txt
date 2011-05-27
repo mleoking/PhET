@@ -1,6 +1,5 @@
 Resize bug on AllFilledDialogNode
 Jmol loading speed is slow - speed up
-Image cleanup
 Other TODOs
 
 TARGET - END OF JUNE
