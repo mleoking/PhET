@@ -35,7 +35,8 @@ public class PhetApplicationConfig implements ISimInfo {
     // Class data
     //----------------------------------------------------------------------------
 
-    public static final FrameSetup DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
+    //This frame setup should be used for all phet applications, to ensure a consistent window size
+    public static final FrameSetup.CenteredWithSize DEFAULT_FRAME_SETUP = new FrameSetup.CenteredWithSize( 1024, 768 );
 
     //----------------------------------------------------------------------------
     // Instance data
