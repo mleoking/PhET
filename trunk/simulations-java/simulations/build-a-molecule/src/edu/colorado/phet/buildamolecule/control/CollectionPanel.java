@@ -203,7 +203,7 @@ public class CollectionPanel extends PNode {
         // construct a dummy collection panel and check its width
         CollectionPanel collectionPanel = new CollectionPanel( new CollectionList( new KitCollection() {{
             addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) ); // collection box so it gets the width correctly
-        }}, new LayoutBounds( false, 0 ) ), singleCollectionMode, new VoidFunction1<SimpleObserver>() {  // TODO: why do we need the bounds here? simplify.
+        }}, new LayoutBounds( false, 0 ) ), singleCollectionMode, new VoidFunction1<SimpleObserver>() {
             public void apply( SimpleObserver simpleObserver ) {
             }
         }, new Function1<PNode, Rectangle2D>() {
