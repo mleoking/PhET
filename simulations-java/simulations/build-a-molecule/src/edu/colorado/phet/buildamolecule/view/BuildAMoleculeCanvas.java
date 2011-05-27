@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.buildamolecule.view;
 
-import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -31,7 +30,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     private final PNode _rootNode;
 
     // Model-View transform.
-    private final ModelViewTransform mvt;
+    private final ModelViewTransform mvt = BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM; // TODO: refactor out?
 
     private CollectionBoxHintNode collectionBoxHintNode = null;
 
@@ -55,16 +54,6 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, BuildAMoleculeConstants.STAGE_SIZE ) );
-
-        // Set up the model-canvas transform.  IMPORTANT NOTES: The multiplier
-        // factors for the point in the view can be adjusted to shift the
-        // center right or left, and the scale factor can be adjusted to zoom
-        // in or out (smaller numbers zoom out, larger ones zoom in).
-        mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
-                new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.width * 0.5 ),
-                           (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.height * 0.5 ) ),
-                0.3 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         setBackground( BuildAMoleculeConstants.CANVAS_BACKGROUND_COLOR );
 
@@ -156,7 +145,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     }
 
     /**
-     * Returns model bounds from a piccolo node
+     * Returns model bounds from a piccolo node TODO: try to make this unnecessary
      */
     public final Function1<PNode, Rectangle2D> toModelBounds = new Function1<PNode, Rectangle2D>() {
         public Rectangle2D apply( PNode node ) {

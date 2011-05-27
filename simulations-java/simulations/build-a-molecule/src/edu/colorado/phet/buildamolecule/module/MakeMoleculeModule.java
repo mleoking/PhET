@@ -5,6 +5,7 @@ package edu.colorado.phet.buildamolecule.module;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
+import edu.colorado.phet.buildamolecule.control.CollectionPanel;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
@@ -19,7 +20,7 @@ import static edu.colorado.phet.chemistry.model.Element.*;
 public class MakeMoleculeModule extends AbstractBuildAMoleculeModule {
 
     public MakeMoleculeModule( Frame parentFrame ) {
-        super( parentFrame, BuildAMoleculeStrings.TITLE_MAKE_MOLECULE, false );
+        super( parentFrame, BuildAMoleculeStrings.TITLE_MAKE_MOLECULE, new LayoutBounds( false, CollectionPanel.getCollectionPanelModelWidth( true ) ) );
 
         /*---------------------------------------------------------------------------*
         * initial model

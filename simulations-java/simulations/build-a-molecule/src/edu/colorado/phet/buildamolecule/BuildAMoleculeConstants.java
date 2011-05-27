@@ -3,9 +3,11 @@
 package edu.colorado.phet.buildamolecule;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -20,7 +22,25 @@ public class BuildAMoleculeConstants {
 
     public static final String PROJECT_NAME = "build-a-molecule";
 
-    public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 ); // the size of our "view" coordinate area
+    /*---------------------------------------------------------------------------*
+    * layout
+    *----------------------------------------------------------------------------*/
+
+    public static final PDimension STAGE_SIZE = new PDimension( 1008, 679 ); // the size of our "view" coordinate area.
+
+    public static final ModelViewTransform MODEL_VIEW_TRANSFORM = ModelViewTransform.createSinglePointScaleInvertedYMapping(
+            new Point2D.Double( 0, 0 ),
+            new Point( (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.width * 0.5 ),
+                       (int) Math.round( BuildAMoleculeConstants.STAGE_SIZE.height * 0.5 ) ),
+            0.3 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+
+    // size of our model area. model centered around 0 (and there are a few dependencies on this)
+    public static final PDimension MODEL_SIZE = new PDimension( MODEL_VIEW_TRANSFORM.viewToModelDeltaX( STAGE_SIZE.getWidth() ), // don't simplify. working around MVT bug
+                                                                Math.abs( MODEL_VIEW_TRANSFORM.viewToModelDeltaY( STAGE_SIZE.getHeight() ) ) );
+
+    // padding between simulation edges and kit/collection areas
+    public static final double VIEW_PADDING = 18;
+    public static final double MODEL_PADDING = BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
 
     /*---------------------------------------------------------------------------*
     * colors
