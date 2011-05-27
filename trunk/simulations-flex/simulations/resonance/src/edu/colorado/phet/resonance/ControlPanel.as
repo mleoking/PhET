@@ -7,6 +7,7 @@ import edu.colorado.phet.resonance.HorizontalSlider;
 import flash.display.*;
 import flash.display.DisplayObject;
 import flash.events.Event;
+import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 
 import mx.containers.Canvas;
@@ -30,6 +31,7 @@ public class ControlPanel extends Canvas {
     private var radioButtonBox: HBox;
     private var rulerCheckBoxBox: HBox;
     private var innerBckgrnd: VBox;
+    private var resonatorNbrBox: HBox;
     private var dampingSlider: HorizontalSlider;
     private var nbrResonatorsSlider: HorizontalSlider;
     private var presets_cbx:ComboBox;
@@ -40,6 +42,7 @@ public class ControlPanel extends Canvas {
     private var onLabel: NiceLabel;
     private var offLabel: NiceLabel;
     private var rulerLabel: NiceLabel;
+    private var resonatorLabel: NiceLabel;
     private var resonatorNbrLabel: NiceLabel;
     private var mSlider: HorizontalSlider;
     private var kSlider: HorizontalSlider;
@@ -119,9 +122,19 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 8 );
             setStyle( "paddingLeft", 8 );
             setStyle( "verticalGap", 10 );
-            setStyle("horizontalAlign" , "center");
+            setStyle( "horizontalAlign" , "center" );
         }
 
+        this.resonatorNbrBox = new HBox();
+        this.resonatorNbrBox.setStyle( "horizontalGap", 3 );
+        this.resonatorLabel = new NiceLabel();
+        this.resonatorNbrLabel = new NiceLabel();
+        this.resonatorLabel.setText(  this.resonator_str );  //need text immediately to set size of Label, so flex framework properly positions label
+        this.resonatorNbrLabel.setText( "1" );
+        this.resonatorNbrLabel.makeEditable( "0-9" );
+        this.resonatorNbrLabel.label_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
+        this.resonatorLabel.setBold(true);
+        this.resonatorNbrLabel.setBold(true);
 
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0, readoutShown:Boolean = true)
         this.nbrResonatorsSlider = new HorizontalSlider( setNbrResonators, 150, 1, 10, false, true, 10, false );
@@ -164,9 +177,7 @@ public class ControlPanel extends Canvas {
 
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
-        this.resonatorNbrLabel = new NiceLabel();
-        this.resonatorNbrLabel.setText(  this.resonator_str + " 1"  );  //need text immediately to set size of Label, so flex framework properly positions label
-        this.resonatorNbrLabel.setBold(true);
+
 
         this.mSlider = new HorizontalSlider( setMassWithSlider, 120, 0.1, 5.0, true );
         this.mSlider.setLabelText( mass_str );
@@ -199,7 +210,10 @@ public class ControlPanel extends Canvas {
         this.background.addChild( new SpriteUIComponent( nbrResonatorsSlider, true ));
         this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
 
-        this.innerBckgrnd.addChild( new SpriteUIComponent( this.resonatorNbrLabel, true ));//resonatorNbr_lbl );
+        this.innerBckgrnd.addChild( this.resonatorNbrBox );
+        this.resonatorNbrBox.addChild( new SpriteUIComponent( this.resonatorLabel, true) ) ;
+        this.resonatorNbrBox.addChild( new SpriteUIComponent( this.resonatorNbrLabel, true ) );
+
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.mSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
@@ -240,8 +254,8 @@ public class ControlPanel extends Canvas {
         springConstant_str = FlexSimStrings.get("springConstant", "spring constant");
         springConstantUnits_str = FlexSimStrings.get("NperM", "N/m");
         //See function setFreq() for frequencyEqualsXHz string
-        frequencyEquals_str = "frequency = ";
-        hz_str = "hz";
+        frequencyEquals_str = "frequency = ";     //needed for initial sizing of label in layout
+        hz_str = "hz";                            //needed for initial sizing of label in layout
         ruler_str = FlexSimStrings.get("ruler", "Ruler");
         resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
         choose_str = FlexSimStrings.get("choose", "Choose..");
@@ -266,7 +280,8 @@ public class ControlPanel extends Canvas {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toFixed( 0 );
         //this.resonatorNbr_lbl.text = this.resonator_str + " " + rNbr_str;
-        this.resonatorNbrLabel.setText( this.resonator_str + " " + rNbr_str ) ;
+        //this.resonatorNbrLabel.setText( this.resonator_str + " " + rNbr_str ) ;
+        this.resonatorNbrLabel.setText(  rNbr_str ) ;
         var m: Number = this.shakerModel.resonatorModel_arr[rNbr - 1].getM();
         //trace("ControlPanel.setResonatorIndex. m = "+m);
         this.mSlider.setSliderWithoutAction( m );
@@ -275,6 +290,23 @@ public class ControlPanel extends Canvas {
         this.kSlider.setSliderWithoutAction( k );
         this.setFreqLabel();
         this.shakerModel.view.setResonatorLabelColor( rNbr, 0xffff00 );
+    }
+
+
+    private function onHitEnter( keyEvt: KeyboardEvent ):void{
+        //this.manualUpdating = true;
+        if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
+           var inputText:String  = this.resonatorNbrLabel.label_txt.text;
+           var inputNumber:Number = Number(inputText);
+           if(inputNumber < 1){
+               inputNumber = 1;
+           }else if (inputNumber > 10){
+               inputNumber = 9;
+           }
+           this.setResonatorIndex( inputNumber )
+           //this.setVal( inputNumber / this.scale );
+        }
+        //this.manualUpdating = false;
     }
 
     private function setFreqLabel(): void {
@@ -306,11 +338,9 @@ public class ControlPanel extends Canvas {
         var val: Object = this.gravityOnOff_rbg.selectedValue;
         if ( val == 1 ) {
             this.shakerModel.setG( 5 );
-            //trace( "1" );
         }
         else {
             this.shakerModel.setG( 0 );
-            //trace( "2" );
         }
     }
 
@@ -344,7 +374,7 @@ public class ControlPanel extends Canvas {
     }
 
     private function setMassWithSlider():void{
-        trace("ControlPanel.setMassWithSlider() called.");
+        //trace("ControlPanel.setMassWithSlider() called.");
         this.setMass();
         this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Choose.." whenever mass changed
     }

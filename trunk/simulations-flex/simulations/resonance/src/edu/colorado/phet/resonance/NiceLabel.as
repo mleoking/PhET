@@ -7,16 +7,19 @@
 package edu.colorado.phet.resonance {
 import flash.display.Graphics;
 import flash.display.Sprite;
+import flash.events.KeyboardEvent;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
 public class NiceLabel extends Sprite {
-    private var label_txt: TextField;
+    public var label_txt: TextField;
     private var tFormat: TextFormat;
     private var fontSize: int;
     private var fontColor:Number;
+    private var action:Function;    //action to be performed if label is editable
 
     public function NiceLabel( fontSize:int = 15, labelText_str:String = "Label") {
         this.fontSize = fontSize;
@@ -24,22 +27,17 @@ public class NiceLabel extends Sprite {
         this.label_txt = new TextField();
         this.label_txt.text = labelText_str;
         this.tFormat = new TextFormat();
-        this.setTextFormat();
+        this.setDefaultTextFormat();
         this.setLabel();
         this.addChild(this.label_txt)
     } //end of constructor
 
 
-    public function setTextFormat(): void {
+    private function setDefaultTextFormat(): void {
         this.tFormat.align = TextFormatAlign.LEFT;
         this.tFormat.font = "Arial";
         this.tFormat.color = this.fontColor;
         this.tFormat.size = this.fontSize;
-    }
-
-    public function setBold( tOrF:Boolean ):void{
-        this.tFormat.bold = tOrF;
-        this.label_txt.setTextFormat( this.tFormat );
     }
 
     private function setLabel(): void {
@@ -49,6 +47,27 @@ public class NiceLabel extends Sprite {
         this.label_txt.y = 0;
         //this.label_txt.border = true;      //for testing only
     }//end setLabel()
+
+    public function setBold( tOrF:Boolean ):void{
+        this.tFormat.bold = tOrF;
+        this.label_txt.setTextFormat( this.tFormat );
+    }
+
+    public function makeEditable( allowedInput:String = "0-9.\\-" ):void{
+        this.action = action;
+        this.label_txt.restrict = allowedInput;
+        this.label_txt.type = TextFieldType.INPUT;
+        this.label_txt.selectable = true;
+        this.label_txt.border = true;
+        this.label_txt.background = true;
+        this.label_txt.backgroundColor = 0xffffff ;
+    }
+
+
+    public function setTextFormat (tFormat:TextFormat):void{
+        this.tFormat = tFormat;
+        this.label_txt.setTextFormat( this.tFormat );
+    }
 
     public function setText(labelText_str:String):void{
         this.label_txt.text = labelText_str;
@@ -73,7 +92,7 @@ public class NiceLabel extends Sprite {
     }
 
     //used to tweek position of label is flex layout
-    //This does not work.  I tried it.
+    //This does not seem to work.  I tried it.
     public function setYOffset( yPix:int ):void{
         this.label_txt.y = yPix;
     }
