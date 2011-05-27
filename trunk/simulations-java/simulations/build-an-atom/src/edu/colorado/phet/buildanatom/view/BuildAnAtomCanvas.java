@@ -197,7 +197,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
     private static PSwing createCheckBox( String label, final BooleanProperty value ) {
         //"Show Labels" button.
         PSwing showLabelsButton = new PSwing( new JCheckBox( label, value.get() ) {{
-            setFont( new PhetFont( 16, false ) );
+            setFont( new PhetFont( 16, true ) );
             setBackground( BuildAnAtomConstants.CANVAS_BACKGROUND );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
