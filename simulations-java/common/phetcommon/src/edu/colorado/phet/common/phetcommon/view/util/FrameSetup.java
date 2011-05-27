@@ -20,6 +20,9 @@ public interface FrameSetup {
         private int frameWidth;
         private int frameHeight;
 
+        //Flag to indicate whether the requested frame size would fit on the screen, accounting for toolbars, etc.
+        private boolean shrunken;
+
         /**
          * Creates a new CenteredWithSize strategy that will center the window with the specified size (or the available window size, whichever is smaller).
          * This prevents the window from being initialized to be larger (in width or height) than the available screen size, accounting for insets of toolbars, etc.
@@ -28,6 +31,8 @@ public interface FrameSetup {
          * @param frameHeight the desired frame height
          */
         public CenteredWithSize( int frameWidth, int frameHeight ) {
+            this.shrunken = getAvailableWidth() < frameWidth ||
+                            getAvailableHeight() < frameHeight;
             this.frameWidth = Math.min( getAvailableWidth(), frameWidth );
             this.frameHeight = Math.min( getAvailableHeight(), frameHeight );
         }
@@ -56,6 +61,12 @@ public interface FrameSetup {
             frame.setLocation( (int) getAvailableRectangle().getCenterX() - frameWidth / 2,
                                (int) getAvailableRectangle().getCenterY() - frameHeight / 2 );
             frame.setSize( frameWidth, frameHeight );
+        }
+
+        //Returns true if the requested window size would not fit on the actual main screen, accounting for the size of toolbars and other insets.
+        //This is used in ApparatusPanel3 to determine when to apply a different scaling algorithm--always scaling ApparatusPanel2 can lead to rendering artifacts, so we use this flag to determine when that step can be avoided.
+        public boolean isShrunken() {
+            return shrunken;
         }
     }
 }

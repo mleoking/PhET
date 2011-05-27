@@ -3,13 +3,11 @@
 /*  */
 package edu.colorado.phet.travoltage;
 
-import javax.swing.JFrame;
-
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
+import edu.colorado.phet.common.phetcommon.view.util.FrameSetup.CenteredWithSize;
 
 /**
  * User: Sam Reid
@@ -18,28 +16,22 @@ import edu.colorado.phet.common.phetcommon.view.util.FrameSetup;
  */
 
 public class TravoltageApplication extends PhetApplication {
-    
+
     public TravoltageApplication( PhetApplicationConfig config ) {
         super( config );
         addModule( new TravoltageModule() );
     }
 
-    public static class TravoltageFrameSetup implements FrameSetup {
-        public void initialize( JFrame frame ) {
-            new FrameSetup.CenteredWithSize( 800, 600 ).initialize( frame );
-        }
-    }
-
     public static void main( final String[] args ) {
-        
+
         ApplicationConstructor appConstructor = new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
                 return new TravoltageApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, TravoltageConstants.PROJECT_NAME );
-        appConfig.setFrameSetup( new TravoltageFrameSetup() );
+        appConfig.setFrameSetup( new CenteredWithSize( 800, 600 ) );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }
 }
