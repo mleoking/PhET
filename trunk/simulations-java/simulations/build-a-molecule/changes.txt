@@ -1,3 +1,4 @@
+Improved layout of kit / collection area / collection boxes for consistency and interaction with changing collections
 # 0.00.25 (52322) May 23, 2011
 Added Reset current tab menu option
 Added Collection number and arrows to go between collections

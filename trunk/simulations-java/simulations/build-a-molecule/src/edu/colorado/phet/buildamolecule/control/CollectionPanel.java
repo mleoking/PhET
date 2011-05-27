@@ -2,19 +2,19 @@
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.model.CollectionList;
+import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
-import edu.colorado.phet.buildamolecule.model.KitCollection;
-import edu.colorado.phet.buildamolecule.view.MoleculeCollectingCanvas;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -22,6 +22,9 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.STAGE_SIZE;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.VIEW_PADDING;
 
 /**
  * A panel that shows collection areas for different collections, and allows switching between those collections
@@ -34,10 +37,19 @@ public class CollectionPanel extends PNode {
     private final PNode backgroundHolder = new PNode();
 
     private final Map<KitCollection, CollectionAreaNode> collectionAreaMap = new HashMap<KitCollection, CollectionAreaNode>();
-    private MoleculeCollectingCanvas canvas;
+    private VoidFunction1<SimpleObserver> addCollectionAttachmentListener;
 
-    public CollectionPanel( final MoleculeCollectingCanvas canvas, final CollectionList collectionList, final boolean singleCollectionMode ) {
-        this.canvas = canvas;
+    /**
+     * Constructs a collection area panel
+     *
+     * @param collectionList       List of collections to handle (mutable)
+     * @param singleCollectionMode Whether we use single or multiple style collection boxes
+     * @param addCollectionAttachmentListener
+     *                             Function to add an attachment listener
+     * @param toModelBounds        Function to compute model coordinates from a PNode in the view
+     */
+    public CollectionPanel( final CollectionList collectionList, final boolean singleCollectionMode, VoidFunction1<SimpleObserver> addCollectionAttachmentListener, final Function1<PNode, Rectangle2D> toModelBounds ) {
+        this.addCollectionAttachmentListener = addCollectionAttachmentListener;
 
         // move it over so the background will have padding
         layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
@@ -126,7 +138,7 @@ public class CollectionPanel extends PNode {
         // anonymous function here, so we don't create a bunch of fields
         final VoidFunction1<KitCollection> createCollectionNode = new VoidFunction1<KitCollection>() {
             public void apply( KitCollection collection ) {
-                collectionAreaMap.put( collection, new CollectionAreaNode( collection, singleCollectionMode, canvas.toModelBounds ) );
+                collectionAreaMap.put( collection, new CollectionAreaNode( collection, singleCollectionMode, toModelBounds ) );
             }
         };
 
@@ -164,7 +176,7 @@ public class CollectionPanel extends PNode {
         }
         else {
             // we need to listen for this because the update needs to use canvas' global/local/view coordinate transformations
-            canvas.addCollectionAttachmentListener( new SimpleObserver() {
+            addCollectionAttachmentListener.apply( new SimpleObserver() {
                 public void update() {
                     collectionAreaNode.updateCollectionBoxLocations();
                 }
@@ -181,11 +193,43 @@ public class CollectionPanel extends PNode {
         backgroundHolder.addChild( background );
     }
 
+    /**
+     * Used to get the panel width so that we can construct the model (and thus kit) beforehand
+     *
+     * @param singleCollectionMode Whether we are on single (1st tab) or multiple (2nd tab) mode
+     * @return Width of the entire collection panel
+     */
+    public static double getCollectionPanelModelWidth( boolean singleCollectionMode ) {
+        // construct a dummy collection panel and check its width
+        CollectionPanel collectionPanel = new CollectionPanel( new CollectionList( new KitCollection() {{
+            addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) ); // collection box so it gets the width correctly
+        }}, new LayoutBounds( false, 0 ) ), singleCollectionMode, new VoidFunction1<SimpleObserver>() {  // TODO: why do we need the bounds here? simplify.
+            public void apply( SimpleObserver simpleObserver ) {
+            }
+        }, new Function1<PNode, Rectangle2D>() {
+            public Rectangle2D apply( PNode pNode ) {
+                return null;
+            }
+        }
+        );
+        return BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
+    }
+
     private double getPlacementWidth() {
         return layoutNode.getContainer().getPreferredSize().getWidth() + CONTAINER_PADDING * 2;
     }
 
     private double getPlacementHeight() {
-        return layoutNode.getContainer().getPreferredSize().getHeight() + CONTAINER_PADDING * 2;
+        // how much height we need with proper padding
+        double requiredHeight = layoutNode.getContainer().getPreferredSize().getHeight() + CONTAINER_PADDING * 2;
+
+        // how much height we will take up to fit our vertical size perfectly
+        double fixedHeight = STAGE_SIZE.getHeight() - VIEW_PADDING * 2; // we will have padding above and below
+
+        if ( requiredHeight > fixedHeight ) {
+            System.out.println( "Warning: collection panel is too tall. required: " + requiredHeight + ", but has: " + fixedHeight );
+        }
+
+        return fixedHeight;
     }
 }

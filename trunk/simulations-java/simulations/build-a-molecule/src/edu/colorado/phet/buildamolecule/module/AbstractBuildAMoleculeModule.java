@@ -22,10 +22,10 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
     private static Random random = new Random( System.currentTimeMillis() );
 
-    public AbstractBuildAMoleculeModule( Frame parentFrame, String name, boolean wide ) {
+    public AbstractBuildAMoleculeModule( Frame parentFrame, String name, LayoutBounds bounds ) {
         super( name, new ConstantDtClock( 30 ) );
+        this.bounds = bounds;
         setClockControlPanel( null );
-        bounds = new LayoutBounds( wide );
     }
 
     protected abstract BuildAMoleculeCanvas buildCanvas( CollectionList collectionList );

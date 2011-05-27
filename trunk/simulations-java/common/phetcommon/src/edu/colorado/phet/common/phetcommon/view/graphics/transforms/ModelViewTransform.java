@@ -206,6 +206,7 @@ public class ModelViewTransform {
     }
 
     public Dimension2DDouble viewToModel( Dimension2D delta ) {
+        // BEWARE: here be bugs. this actually does a point transformation - JO. Use viewToModelDeltaX/Y for this
         final Point2D point2D = viewToModel( delta.getWidth(), delta.getHeight() );
         return new Dimension2DDouble( point2D.getX(), point2D.getY() );
     }

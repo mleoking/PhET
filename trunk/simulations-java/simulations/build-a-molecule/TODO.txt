@@ -1,5 +1,4 @@
 Resize bug on AllFilledDialogNode
-Make collection area not look so bad on switching
 Collection boxes with >1 capacity should have a "fixed" position of where molecules go. Don't resize them on adding!
 I18n and other TODOs
 What about if you re-drag a molecule part just after combining?

@@ -5,10 +5,7 @@ package edu.colorado.phet.buildamolecule.module;
 import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.model.Bucket;
-import edu.colorado.phet.buildamolecule.model.CollectionList;
-import edu.colorado.phet.buildamolecule.model.Kit;
-import edu.colorado.phet.buildamolecule.model.KitCollection;
+import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.view.BuildAMoleculeCanvas;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -20,7 +17,7 @@ import static edu.colorado.phet.chemistry.model.Element.*;
 public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
 
     public LargerMoleculesModule( Frame parentFrame ) {
-        super( parentFrame, BuildAMoleculeStrings.TITLE_LARGER_MOLECULES, true );
+        super( parentFrame, BuildAMoleculeStrings.TITLE_LARGER_MOLECULES, new LayoutBounds( true, 0 ) );
 
         /*---------------------------------------------------------------------------*
         * initial model
