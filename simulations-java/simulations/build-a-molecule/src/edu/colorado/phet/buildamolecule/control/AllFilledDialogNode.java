@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
@@ -38,7 +39,7 @@ public class AllFilledDialogNode extends PNode {
             );
 
             // text explaining all collection boxes are filled
-            addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_ALL_FILLED ) {{
+            addChild( new PText( BuildAMoleculeStrings.COLLECTION_ALL_FILLED ) {{
                           setFont( new PhetFont( 20, true ) );
                       }},
                       new GridBagConstraints() {{
@@ -49,7 +50,7 @@ public class AllFilledDialogNode extends PNode {
             );
 
             // button to generate a new kit/collection
-            addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, new PhetFont( Font.BOLD, 18 ), Color.ORANGE ) {{
+            addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.COLLECTION_TRY_WITH_DIFFERENT_MOLECULES, new PhetFont( 18, true ), Color.ORANGE ) {{
                           addActionListener( new ActionListener() {
                               public void actionPerformed( ActionEvent e ) {
                                   regenerateCallback.apply();
