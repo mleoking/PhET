@@ -1,3 +1,4 @@
+# 0.00.26 (52482) May 27, 2011
 Fixed resize bug on the "All Filled" dialog. see #2902
 Cleaned up unused images
 Fixed bug: molecule separation by dragging a molecule part during molecule bonding
