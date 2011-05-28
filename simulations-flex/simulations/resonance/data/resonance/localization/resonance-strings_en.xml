@@ -7,7 +7,7 @@
     <string key="hz" value = "Hz"/>
     <string key="cm" value = "cm" />
     <string key= "amplitude" value = "amplitude" />
-    <string key= "timeRate" value = "Time Rate" />
+    <string key= "simSpeed" value = "Sim Speed" />
     <string key= "slow" value = "slow" />
     <string key= "normal" value = "normal" />
     <string key= "play" value = "play" />
@@ -29,9 +29,9 @@
     <string key= "frequencyEqualsXHz" value = "frequency = {0} Hz" />
     <string key= "ruler" value = "Ruler" />
     <string key= "resetAll" value = "Reset All" />
-    <string key= "choose" value = "Choose.." />
-    <string key= "sameMass" value = "same mass" />
-    <string key= "sameSpring" value = "same spring" />
+    <string key= "custom" value = "Custom" />
+    <string key= "sameMass" value = "same mass m" />
+    <string key= "sameSpring" value = "same spring k" />
     <string key= "mixedMAndK" value = "mixed m and k" />
     <string key= "sameFrequency" value = "same frequency" />
 

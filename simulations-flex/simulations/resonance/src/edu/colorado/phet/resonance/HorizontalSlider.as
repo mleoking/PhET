@@ -140,13 +140,15 @@ public class HorizontalSlider extends Sprite {
         //draw knob
         var gK: Graphics = this.knob.graphics;
         gK.clear();
-        var kW: Number = 8; //knob width
-        var kH: Number = 15; //knob height
+        var kW: Number = 15; //knob width
+        var kH: Number = 10; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
             lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
+            moveTo( 0, -0.5*kH);
+            lineTo(0, 0.5*kH );
 //            moveTo(-0.5*kW, -0.5*kH);
 //            lineTo(0.5*kW, -0.5*kH);
 //            lineTo(0.5*kW, 0.3*kH);
@@ -224,6 +226,7 @@ public class HorizontalSlider extends Sprite {
         }
         //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
         this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
+        this.readout_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut)
     }//end createReadoutfield()
 
     //update readout when user hits Enter
@@ -235,6 +238,13 @@ public class HorizontalSlider extends Sprite {
            this.setVal( inputNumber / this.scale );
         }
         this.manualUpdating = false;
+    }
+
+    private function onFocusOut( focusEvt: FocusEvent ):void{
+        //trace( "ControlPanel.onFocuOut called.");
+        var inputText:String  = this.readout_txt.text;
+        var inputNumber:Number = Number(inputText);
+        this.setVal( inputNumber / this.scale );
     }
 
 

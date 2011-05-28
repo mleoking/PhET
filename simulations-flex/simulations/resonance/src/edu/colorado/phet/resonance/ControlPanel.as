@@ -7,6 +7,7 @@ import edu.colorado.phet.resonance.HorizontalSlider;
 import flash.display.*;
 import flash.display.DisplayObject;
 import flash.events.Event;
+import flash.events.FocusEvent;
 import flash.events.KeyboardEvent;
 import flash.events.MouseEvent;
 
@@ -35,6 +36,7 @@ public class ControlPanel extends Canvas {
     private var dampingSlider: HorizontalSlider;
     private var nbrResonatorsSlider: HorizontalSlider;
     private var presets_cbx:ComboBox;
+    private var displayIndxOfPresetsBox:int;
     private var gravityOnOff_rbg: RadioButtonGroup;
     private var rbOn: RadioButton;
     private var rbOff: RadioButton;
@@ -69,7 +71,7 @@ public class ControlPanel extends Canvas {
     public var hz_str: String;
     public var ruler_str:String;
     public var resetAll_str: String;
-    public var choose_str:String;
+    public var custom_str:String;
     public var sameMass_str:String;
     public var sameSpring_str:String;
     public var mixedMAndK_str:String;
@@ -129,10 +131,11 @@ public class ControlPanel extends Canvas {
         this.resonatorNbrBox.setStyle( "horizontalGap", 3 );
         this.resonatorLabel = new NiceLabel();
         this.resonatorNbrLabel = new NiceLabel();
-        this.resonatorLabel.setText(  this.resonator_str );  //need text immediately to set size of Label, so flex framework properly positions label
+        this.resonatorLabel.setText( this.resonator_str );  //need text immediately to set size of Label, so flex framework properly positions label
         this.resonatorNbrLabel.setText( "1" );
         this.resonatorNbrLabel.makeEditable( "0-9" );
         this.resonatorNbrLabel.label_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
+        this.resonatorNbrLabel.label_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut )
         this.resonatorLabel.setBold(true);
         this.resonatorNbrLabel.setBold(true);
 
@@ -146,7 +149,7 @@ public class ControlPanel extends Canvas {
         this.dampingSlider.setUnitsText( dampingUnits_str );
 
         this.presets_cbx = new ComboBox();
-        this.presets_cbx.dataProvider = [choose_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
+        this.presets_cbx.dataProvider = [custom_str , sameSpring_str , sameMass_str , mixedMAndK_str , sameF_str];
         this.presets_cbx.addEventListener( ListEvent.CHANGE, selectPreset );
 
         this.radioButtonBox = new HBox();
@@ -177,8 +180,6 @@ public class ControlPanel extends Canvas {
 
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
-
-
         this.mSlider = new HorizontalSlider( setMassWithSlider, 120, 0.1, 5.0, true );
         this.mSlider.setLabelText( mass_str );
         this.mSlider.setUnitsText( massUnits_str );
@@ -205,10 +206,9 @@ public class ControlPanel extends Canvas {
         this.resetAllButton.setLabel( this.resetAll_str );
 
         this.addChild( this.background );
-
-        this.background.addChild(presets_cbx);
         this.background.addChild( new SpriteUIComponent( nbrResonatorsSlider, true ));
-        this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
+        this.background.addChild(presets_cbx);
+        this.displayIndxOfPresetsBox = this.background.getChildIndex( this.presets_cbx );
 
         this.innerBckgrnd.addChild( this.resonatorNbrBox );
         this.resonatorNbrBox.addChild( new SpriteUIComponent( this.resonatorLabel, true) ) ;
@@ -218,6 +218,8 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.kSlider, true) );
         this.innerBckgrnd.addChild( new SpriteUIComponent(this.freqLabel, true) );
         this.background.addChild( innerBckgrnd );
+
+        this.background.addChild( new SpriteUIComponent(dampingSlider, true) );
         this.background.addChild( radioButtonBox );
 
         this.radioButtonBox.addChild( new SpriteUIComponent(this.gravityLabel,true ));
@@ -238,7 +240,6 @@ public class ControlPanel extends Canvas {
         this.rulerLabel.x = -4;
 
         this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
-
     } //end of init()
 
     private function initializeStrings(): void {
@@ -258,9 +259,9 @@ public class ControlPanel extends Canvas {
         hz_str = "hz";                            //needed for initial sizing of label in layout
         ruler_str = FlexSimStrings.get("ruler", "Ruler");
         resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
-        choose_str = FlexSimStrings.get("choose", "Choose..");
-        sameMass_str = FlexSimStrings.get("sameMass", "same mass");
-        sameSpring_str = FlexSimStrings.get("sameSpring", "same spring");
+        custom_str = FlexSimStrings.get("custom", "Custom");
+        sameMass_str = FlexSimStrings.get("sameMass", "same mass m");
+        sameSpring_str = FlexSimStrings.get("sameSpring", "same spring k");
         mixedMAndK_str = FlexSimStrings.get("mixedMAndK", "mixed m and k");
         sameF_str = FlexSimStrings.get("sameFrequency", "same frequency");
     }
@@ -276,6 +277,7 @@ public class ControlPanel extends Canvas {
         this.dampingSlider.setVal( b );
     }
 
+    //set index of selected resonator displayed in control panel
     public function setResonatorIndex( rNbr: int ): void {
         this.selectedResonatorNbr = rNbr;
         var rNbr_str: String = rNbr.toFixed( 0 );
@@ -292,22 +294,34 @@ public class ControlPanel extends Canvas {
         this.shakerModel.view.setResonatorLabelColor( rNbr, 0xffff00 );
     }
 
+    public function getSelectedResonatorIndx():int{
+        return this.selectedResonatorNbr;
+    }
+
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
-        //this.manualUpdating = true;
-        if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
-           var inputText:String  = this.resonatorNbrLabel.label_txt.text;
-           var inputNumber:Number = Number(inputText);
-           if(inputNumber < 1){
-               inputNumber = 1;
-           }else if (inputNumber > 10){
-               inputNumber = 9;
-           }
-           this.setResonatorIndex( inputNumber )
-           //this.setVal( inputNumber / this.scale );
-        }
-        //this.manualUpdating = false;
+        this.setSelectedResonatorNbr();
     }
+
+    private function onFocusOut( focusEvt: FocusEvent ):void{
+        //trace( "ControlPanel.onFocuOut called.");
+        this.setSelectedResonatorNbr();
+    }
+
+    private function setSelectedResonatorNbr():void{
+       var maxNbrR:Number = this.nbrResonatorsSlider.getVal();  //number of resonators shown
+       var inputText:String  = this.resonatorNbrLabel.label_txt.text;
+       var inputNumber:Number = Number(inputText);
+       if(inputNumber < 1){
+               inputNumber = 1;
+       }else if (inputNumber > 10){
+               inputNumber = 9;
+      }else if (inputNumber >  maxNbrR){  //user cannot choose resonator unless it is shown
+               inputNumber = maxNbrR;
+      }
+      this.setResonatorIndex( inputNumber )
+
+    } //end setSelectedResonatorNbr()
 
     private function setFreqLabel(): void {
         var rNbr: int = this.selectedResonatorNbr;
@@ -320,19 +334,18 @@ public class ControlPanel extends Canvas {
 
     public function setPresetComboBoxExternally( idx: int):void{
          this.presets_cbx.selectedIndex = idx;   //1st choice is idx = 0, 2nd choice is idx = 1, etc.
+        this.setResonatorIndex(this.selectedResonatorNbr);
     }
 
 
     private function selectPreset(evt: Event ){
          var itemNbr: int = evt.target.selectedIndex;
         this.shakerModel.setResonatorArray(itemNbr);
+        //update selected resonator view on control panel
+        this.setResonatorIndex(this.selectedResonatorNbr);
         //this.setResonatorIndex(this.selectedResonatorNbr);
     }
 
-    public function setNbrResonatorsExternally( nbrR: int ): void {
-        this.nbrResonatorsSlider.setVal( nbrR );
-        this.myMainView.setNbrResonators( nbrR );
-    }
 
     private function clickGravity( evt: Event ): void {
         var val: Object = this.gravityOnOff_rbg.selectedValue;
@@ -371,12 +384,34 @@ public class ControlPanel extends Canvas {
     public function setNbrResonators( ): void {
         var nbrR:Number = this.nbrResonatorsSlider.getVal();
         this.myMainView.setNbrResonators( nbrR );
+        //hide presets comboBox if only one resonator is shown
+        if(nbrR == 1){
+            if( this.presets_cbx.parent == this.background ) {
+               this.background.removeChild(this.presets_cbx);
+            }
+        } else{
+            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
+        }
+    }
+
+
+    public function setNbrResonatorsExternally( nbrR: int ): void {
+        this.nbrResonatorsSlider.setVal( nbrR );
+        this.myMainView.setNbrResonators( nbrR );
+        //hide presets comboBox if only one resonator is shown
+        if(nbrR == 1){
+            if( this.presets_cbx.parent == this.background ) {
+               this.background.removeChild(this.presets_cbx);
+            }
+        } else{
+            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
+        }
     }
 
     private function setMassWithSlider():void{
         //trace("ControlPanel.setMassWithSlider() called.");
         this.setMass();
-        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Choose.." whenever mass changed
+        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Custom" whenever mass changed
     }
 
     public function setMass(): void {
@@ -390,7 +425,7 @@ public class ControlPanel extends Canvas {
 
     private function setKWithSlider():void{
         this.setK();
-        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Choose.." whenever spring constant changed
+        this.setPresetComboBoxExternally(0);  //Set to ComboBox to "Custom" whenever spring constant changed
     }
 
     public function setK(): void {

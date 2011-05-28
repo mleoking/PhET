@@ -75,7 +75,7 @@ public class HorizontalReferenceLine extends Sprite{
         }
 
         function dragTarget( evt: MouseEvent ): void {
-            target.x = mouseX - clickOffset.x;
+            //target.x = mouseX - clickOffset.x;   //only vertical motion is allowed
             target.y = mouseY - clickOffset.y;
             evt.updateAfterEvent();
         }//end of dragTarget()

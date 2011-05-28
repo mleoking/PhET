@@ -79,17 +79,17 @@ public class ShakerModel {
             var m:Number;
             switch( indx ) {
                 case 1:   //  same k
-                    trace( "case 1 called" );
+                    //trace( "case 1 called" );
                         k =  200;
                         m =  k/((2*Math.PI*f)*(2*Math.PI*f));
                     break;
                 case 2:  // same m
                        m = 1;
                        k =  m*(2*Math.PI*f)*(2*Math.PI*f);
-                    trace( "case 2 called" );
+                    //trace( "case 2 called" );
                     break;
                 case 3:  //mixed m & k
-                    trace( "case 3 called" );
+                    //trace( "case 3 called" );
                     var k1:Number = 100;
                     var m1:Number = k1/((2*Math.PI*f1)*(2*Math.PI*f1));
                     var n:Number = f/f1;
@@ -97,7 +97,7 @@ public class ShakerModel {
                     m = m1 / n;
                     break;
                 case 4:  //same f
-                    trace( "case 4 called" );
+                    //trace( "case 4 called" );
                     var k1:Number = 200;
                     var m1:Number = k1/((2*Math.PI*f1*3)*(2*Math.PI*f1*3));
                     k = k1;
@@ -115,7 +115,6 @@ public class ShakerModel {
 
             //var f: Number = 1.0 + 0.25 * i;
             // var k: Number = m * (2 * Math.PI * f) * (2 * Math.PI * f);
-
         }//end for
     } //end setResonatorArray()
 
