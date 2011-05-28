@@ -31,7 +31,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var playIcon: Sprite;                //overlayed on playPauseButton
     private var pauseIcon: Sprite;              //overlayed on playPauseButton
     //private var stepIcon:Sprite;                //overlayed on stepButton
-    private var timeRate_txt:TextField;
+    private var simSpeed_txt:TextField;
     private var slow_txt:TextField;
     private var normal_txt:TextField;
     private var playPause_txt: TextField;
@@ -44,7 +44,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var paused: Boolean;
 
     //public var playSlashPause_str: String;
-    public var timeRate_str:String;
+    public var simSpeed_str:String;
     public var slow_str:String;
     public var normal_str:String;
     public var play_str: String;
@@ -65,7 +65,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
         this.pauseIcon = new Sprite();
-        this.timeRate_txt = new TextField();
+        this.simSpeed_txt = new TextField();
         this.slow_txt = new TextField();
         this.normal_txt = new TextField();
         this.playPause_txt = new TextField();
@@ -86,7 +86,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.addChild(this.canvas);
         this.playPauseButton.addChild( this.playIcon );
         this.playPauseButton.addChild( this.pauseIcon );
-        this.addChild(this.timeRate_txt);
+        this.addChild(this.simSpeed_txt);
         this.addChild(this.slow_txt);
         this.addChild(this.normal_txt);
         this.addChild(this.timeRateSlider);
@@ -100,7 +100,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }  //end of constructor
 
     public function initializeStrings(): void {
-        this.timeRate_str = FlexSimStrings.get("timeRate", "Time Rate");
+        this.simSpeed_str = FlexSimStrings.get("simSpeed", "Sim Speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
         this.play_str = FlexSimStrings.get("play", "play");
@@ -265,14 +265,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }
 
     private function initializeTextFields(): void {
-        this.setTextField( this.timeRate_txt);
+        this.setTextField( this.simSpeed_txt);
         this.setTextField(this.slow_txt);
         this.setTextField(this.normal_txt);
         this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
         this.setTextField( this.sloMo_txt );
-        this.timeRate_txt.text = this.timeRate_str;
+        this.simSpeed_txt.text = this.simSpeed_str;
         this.slow_txt.text = this.slow_str;
         this.normal_txt.text = this.normal_str;
         this.playPause_txt.text = this.pause_str;
@@ -295,7 +295,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
         this.tFormat2.size = 95;
-        this.timeRate_txt.setTextFormat( this.tFormat0 );
+        this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.slow_txt.setTextFormat( this.tFormat0 );
         this.normal_txt.setTextFormat( this.tFormat0 );
         this.playPause_txt.setTextFormat( this.tFormat1 );
@@ -334,12 +334,12 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
         this.timeRateSlider.x = -1.5*this.timeRateSlider.width;
         this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
-        this.timeRate_txt.x = -this.timeRateSlider.width - 0.5*this.timeRate_txt.width;
+        this.simSpeed_txt.x = -this.timeRateSlider.width - 0.5*this.simSpeed_txt.width;
         this.slow_txt.x =  this.timeRateSlider.x;
         this.slow_txt.y = 3;
         this.normal_txt.x = 0.5*this.timeRateSlider.x;
         this.normal_txt.y = 3;
-        this.timeRate_txt.y = this.timeRateSlider.y - 0.5*this.timeRate_txt.height;
+        this.simSpeed_txt.y = this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;

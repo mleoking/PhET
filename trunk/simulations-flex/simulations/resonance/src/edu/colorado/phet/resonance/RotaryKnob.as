@@ -166,6 +166,7 @@ public class RotaryKnob extends Sprite {
         this.readout_txt.restrict = "0-9.";
         //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
         this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
+        this.readout_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut ) ;
 
         this.units_txt = new TextField();   //units displayed next to readout field
         this.addChild( this.units_txt );
@@ -199,6 +200,15 @@ public class RotaryKnob extends Sprite {
            var inputNumber:Number = Number(inputText);
            this.setVal( inputNumber / this.scale );
         }
+        this.manualUpdating = false;
+    }
+
+    private function onFocusOut( focusEvt: FocusEvent ):void{
+        //trace( "ControlPanel.onFocuOut called.");
+        this.manualUpdating = true;
+        var inputText:String  = this.readout_txt.text;
+        var inputNumber:Number = Number(inputText);
+        this.setVal( inputNumber / this.scale );
         this.manualUpdating = false;
     }
 

@@ -206,7 +206,7 @@ public class MassSpringView extends Sprite {
         function startTargetDrag( evt: MouseEvent ): void {
             //set selected resonator's label color
             //thisObject.setLabelColor(0xffff00);
-            var indx: int = thisObject.model.getRNbr().toString();
+            var indx: int = thisObject.model.getRNbr();
             //Geezz! There has gotta be a better way for next line.
             thisObject.model.shakerModel.view.myMainView.myControlPanel.setResonatorIndex( indx );
             //mass not grabbable if sim paused or if shaker is on
@@ -262,7 +262,8 @@ public class MassSpringView extends Sprite {
             this.spring.rotation = 180;     //Problem: highlights on spring on wrong side now
         }
         this.spring.scaleX = Math.min( 1.5, 1 / this.spring.scaleY );
-    }
+
+    }//end update()
 
 }///end of class
 
