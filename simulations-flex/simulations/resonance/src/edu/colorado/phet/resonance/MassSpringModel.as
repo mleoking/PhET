@@ -164,9 +164,18 @@ public class MassSpringModel {
 
         var a: Number = -g - (k / m) * (y - y0 - L0) - (b / m) * v;
         y = y + v * dtr + (1 / 2) * a * dtr * dtr;
-        var vp: Number = v + a * dtr;		//post velocity
+
+        var vp:Number = v + a * dtr;		//post velocity
         var ap: Number = -g - (k / m) * (y - y0 - L0) - (b / m) * vp;		//post-acceleration
         v = v + 0.5 * (a + ap) * dtr;
+        //following code used if block collides inelastically with platform
+//        if( y < y0 ){
+//            y = y0;
+//            v = 0.2*Math.abs(v); //reverse velocity inelastically if block hits shaker platform
+//        } else{
+//            v = v + 0.5 * (a + ap) * dtr;
+//        }
+
 
         //this.oldT = this.t;
         //test code
