@@ -48,8 +48,6 @@ public class JmolDialog extends JDialog {
                                   }} );
                               }}, BorderLayout.SOUTH );
 
-        setVisible( true );
-
         container.paintImmediately( 0, 0, container.getWidth(), container.getHeight() );
 
         setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
@@ -57,7 +55,8 @@ public class JmolDialog extends JDialog {
 
     public static JmolDialog displayMolecule3D( Frame frame, CompleteMolecule completeMolecule ) {
         JmolDialog jmolDialog = new JmolDialog( frame, completeMolecule );
-        SwingUtils.centerDialogInParent( jmolDialog );
+        SwingUtils.centerInParent( jmolDialog );
+        jmolDialog.setVisible( true );
         return jmolDialog;
     }
 }

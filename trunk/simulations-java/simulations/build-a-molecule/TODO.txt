@@ -1,5 +1,4 @@
 3D button make translatable - resizing of collection boxes
-JMol 2 windows
 Other TODOs
 
 TARGET - END OF JUNE
