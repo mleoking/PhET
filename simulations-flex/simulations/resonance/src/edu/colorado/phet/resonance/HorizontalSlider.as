@@ -51,6 +51,7 @@ public class HorizontalSlider extends Sprite {
         this.createLabel();
         this.createReadoutFields()
         this.makeKnobGrabbable();
+        //this.switchLabelAndReadoutPositions();
         //this.drawBorder();  //for testing only
     }//end of constructor
 
@@ -107,9 +108,9 @@ public class HorizontalSlider extends Sprite {
        //this.label_txt.y = 0.4 * this.knob.height;
        //this.readout_txt.y = -1.5 * this.readout_txt.height;
        //this.units_txt.y = -1.5 * this.units_txt.height;
-       this.label_txt.y = -0.4 * this.knob.height - this.label_txt.height;
-       this.readout_txt.y = 1.5 * this.readout_txt.height;
-       this.units_txt.y = 1.5 * this.units_txt.height;
+       this.label_txt.y = 0.4 * this.knob.height ;
+       this.readout_txt.y = -this.label_txt.height - 1.0*this.readout_txt.height;
+       this.units_txt.y = -this.label_txt.height - 1.0*this.units_txt.height;
     }
 
 
@@ -188,7 +189,7 @@ public class HorizontalSlider extends Sprite {
         this.tFormat1.size = 14;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = 0;// -0.5*this.label_txt.width;
-        this.label_txt.y = 0.4 * this.knob.height;
+        this.label_txt.y = -0.5 * this.knob.height - this.label_txt.height;
         this.addChild( this.label_txt );
         //this.label_txt.border = true;      //for testing only
     }//end createLabel()
@@ -211,15 +212,18 @@ public class HorizontalSlider extends Sprite {
         this.tFormat2.font = "Arial";
         this.tFormat2.color = 0x000000;
         this.tFormat2.size = 14;
+        this.tFormat2.leading = 0;
         this.readout_txt.defaultTextFormat = this.tFormat2;
         this.units_txt.defaultTextFormat = this.tFormat2;
         this.readout_txt.text = " 1.6";
         this.units_txt.text = "cm";
         this.readout_txt.width = 60;
+        //this.readout_txt.height = 12;
+        //this.units_txt.height = 12;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width;
-        this.readout_txt.y = -1.5 * this.readout_txt.height;
+        this.readout_txt.y = 0.7*knob.height;//-1.5 * this.readout_txt.height;
         this.units_txt.x = this.rail.width / 2 ;
-        this.units_txt.y = -1.5 * this.units_txt.height;
+        this.units_txt.y = 0.7*knob.height; //-1.5 * this.units_txt.height;
         if(this.readoutShown){
             this.addChild( this.readout_txt );
             this.addChild( this.units_txt );
