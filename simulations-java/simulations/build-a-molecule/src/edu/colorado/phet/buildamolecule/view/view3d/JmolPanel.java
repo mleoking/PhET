@@ -6,6 +6,7 @@ import javax.swing.*;
 
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
+import org.jmol.util.Logger;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
@@ -25,8 +26,13 @@ public class JmolPanel extends JPanel {
         // create the 3D view after we have shown the "loading" text and dialog
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
+                // don't dump everything out into the console
+                Logger.setLogLevel( Logger.LEVEL_WARN );
+
                 // create the 3D view
                 JmolViewer viewer = JmolViewer.allocateViewer( JmolPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
+                viewer.setBooleanProperty( "antialiasDisplay", true );
+                viewer.setBooleanProperty( "autoBond", false );
 
                 String errorString = viewer.openStringInline( molecule.getCmlData() );
                 if ( errorString != null ) {
