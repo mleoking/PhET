@@ -113,7 +113,7 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
             setStyle( "backgroundColor", 0xdddd00 );
-            //percentWidth = 100;
+            percentWidth = 100;
             //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
@@ -121,8 +121,8 @@ public class ControlPanel extends Canvas {
             setStyle( "borderThickness", 3 );
             setStyle( "paddingTop", 5 );
             setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 8 );
-            setStyle( "paddingLeft", 8 );
+            setStyle( "paddingRight", 5 );
+            setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign" , "center" );
         }
@@ -142,7 +142,7 @@ public class ControlPanel extends Canvas {
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0, readoutShown:Boolean = true)
         this.nbrResonatorsSlider = new HorizontalSlider( setNbrResonators, 150, 1, 10, false, true, 10, false );
         this.nbrResonatorsSlider.setLabelText( this.numberOfResonators_str );
-        this.nbrResonatorsSlider.switchLabelAndReadoutPositions();
+        //this.nbrResonatorsSlider.switchLabelAndReadoutPositions();
 
         this.dampingSlider = new HorizontalSlider( setDamping, 150, 0.05, 5, true ); //new HSlider();
         this.dampingSlider.setLabelText( damping_str );
