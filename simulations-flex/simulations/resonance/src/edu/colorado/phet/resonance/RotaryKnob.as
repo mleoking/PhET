@@ -139,7 +139,7 @@ public class RotaryKnob extends Sprite {
         this.tFormat1.size = 15;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = -0.5 * this.label_txt.width;
-        this.label_txt.y = 1.2 * this.knobRadius;
+        this.label_txt.y =  -this.label_txt.height - 1.35 * this.knobRadius;
     }//end createLabel()
 
     public function setLabelText( label_str: String ): void {
@@ -189,8 +189,8 @@ public class RotaryKnob extends Sprite {
         this.units_txt.height = 22;
         this.readout_txt.x = -this.readout_txt.width / 2;
         this.units_txt.x = this.readout_txt.width / 2;
-        this.readout_txt.y = -1.5 * this.knobRadius - this.readout_txt.height;
-        this.units_txt.y = -1.5 * this.knobRadius - this.units_txt.height;
+        this.readout_txt.y = 1.4 * this.knobRadius;// - this.readout_txt.height;
+        this.units_txt.y = 1.4 * this.knobRadius;// - this.units_txt.height;
     }//end createReadoutfield()
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
