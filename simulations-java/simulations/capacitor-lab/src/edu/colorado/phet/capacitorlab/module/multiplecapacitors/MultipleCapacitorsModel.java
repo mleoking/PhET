@@ -45,6 +45,7 @@ public class MultipleCapacitorsModel {
 
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
+    private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
 
     // directly observable properties
     public final Property<ICircuit> currentCircuitProperty;
@@ -68,8 +69,9 @@ public class MultipleCapacitorsModel {
             add( new Combination1Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
             add( new Combination2Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
         }};
-
         currentCircuitProperty = new Property<ICircuit>( circuits.get( 0 ) );
+
+        batteryVoltageProperty = new Property<Double>( currentCircuitProperty.get().getBattery().getVoltage() );
 
         worldBounds = new WorldBounds();
 
@@ -96,6 +98,24 @@ public class MultipleCapacitorsModel {
                 voltmeter.setCircuit( circuit );
             }
         } );
+
+        // synchronize battery voltages in all circuits, so that it looks like circuits share one battery
+        {
+            batteryVoltageProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    for ( ICircuit circuit : circuits ) {
+                        circuit.getBattery().setVoltage( batteryVoltageProperty.get() );
+                    }
+                }
+            } );
+            for ( final ICircuit circuit : circuits ) {
+                circuit.getBattery().addVoltageObserver( new SimpleObserver() {
+                    public void update() {
+                        batteryVoltageProperty.set( circuit.getBattery().getVoltage() );
+                    }
+                } );
+            }
+        }
     }
 
     public void reset() {
