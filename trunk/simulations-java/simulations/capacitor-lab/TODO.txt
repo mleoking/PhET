@@ -23,7 +23,6 @@ HIGH PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses
 - cleanup model and view constants (some in CLConstants, some in MultipleCapacitorsModel)
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
-- keep battery voltages synchronized, so that it looks like we have 1 battery
 - "Total Capacitance" for capacitance meter?
 - "Stored Charge" for charge meter?
 - add labels on capacitors (C1,C2,...)
