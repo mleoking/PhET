@@ -21,13 +21,17 @@ MULTIPLE CAPACITORS REQUIREMENTS
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
-- add editable mantissa text field to capacitance control?
 - cleanup model and view constants (some in CLConstants, some in MultipleCapacitorsModel)
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
+- keep battery voltages synchronized, so that it looks like we have 1 battery
+- "Total Capacitance" for capacitance meter?
+- "Stored Charge" for charge meter?
+- add labels on capacitors (C1,C2,...)
 
 MEDIUM PRIORITY
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
+- account for capacitance slider i18n when computing horizontal spacing of capacitors
 
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
