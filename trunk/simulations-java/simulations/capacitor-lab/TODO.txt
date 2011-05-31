@@ -25,7 +25,6 @@ HIGH PRIORITY
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
 - "Total Capacitance" for capacitance meter?
 - "Stored Charge" for charge meter?
-- add labels on capacitors (C1,C2,...)
 
 MEDIUM PRIORITY
 - factor duplicate code into canvas base class (CLCanvas?)

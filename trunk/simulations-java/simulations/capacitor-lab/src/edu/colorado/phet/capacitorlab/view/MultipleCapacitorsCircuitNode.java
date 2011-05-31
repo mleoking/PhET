@@ -1,9 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.capacitorlab.view;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.control.CapacitanceControlNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -13,8 +17,11 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Circuit node used in the "Multiple Capacitors" module.
@@ -34,15 +41,30 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
         batteryNode.setOffset( mvt.modelToView( battery.getLocationReference() ) );
 
         // capacitors
+        int subscript = 1; // capacitor numbering visible to user starts at 1
         for ( Capacitor capacitor : circuit.getCapacitors() ) {
 
             // capacitor
-            CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, dielectricVisible,
-                                                             plateChargeVisible, eFieldVisible, dielectricChargeView,
-                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+            final CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, dielectricVisible,
+                                                                   plateChargeVisible, eFieldVisible, dielectricChargeView,
+                                                                   maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             capacitorNode.getDielectricNode().setVisible( false );
             addChild( capacitorNode );
             capacitorNode.setOffset( mvt.modelToView( capacitor.getLocation() ) );
+
+            // label, above left of capacitor
+            String html = MessageFormat.format( CLStrings.PATTERN_CAPACITOR_NUMBER, subscript );
+            final HTMLNode labelNode = new HTMLNode( html );
+            labelNode.setFont( new PhetFont( 24 ) );
+            subscript++;
+            addChild( labelNode );
+            capacitorNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                // When capacitor bounds change (due to plate separation change), move the label.
+                public void propertyChange( PropertyChangeEvent event ) {
+                    updateLabelOffset( labelNode, capacitorNode );
+                }
+            } );
+            updateLabelOffset( labelNode, capacitorNode );
 
             // capacitance control, to the left of the capacitor
             CapacitanceControlNode capacitanceControlNode = new CapacitanceControlNode( capacitor,
@@ -92,5 +114,11 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
             double y = bottomWireNode.getFullBoundsReference().getMaxY() - ( bottomWireThickness / 2 );
             bottomCurrentIndicatorNode.setOffset( x, y );
         }
+    }
+
+    private static void updateLabelOffset( PNode labelNode, CapacitorNode capacitorNode ) {
+        double x = capacitorNode.getFullBoundsReference().getMinX();
+        double y = capacitorNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() + 3;
+        labelNode.setOffset( x, y );
     }
 }

@@ -78,6 +78,7 @@ public class CLStrings {
     public static final String PATTERN_VALUE_UNITS = getString( "pattern.0value.1units" );
     public static final String PATTERN_LABEL_VALUE_UNITS = getString( "pattern.0label.1value.2units" );
     public static final String PATTERN_MATERIAL_CONSTANT = getString( "pattern.0material.1constant" );
+    public static final String PATTERN_CAPACITOR_NUMBER = getString( "pattern.capacitor.0subscript" );
 
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";
