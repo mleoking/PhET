@@ -2,7 +2,10 @@
 package edu.colorado.phet.torque.teetertotter.model;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -13,9 +16,27 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public abstract class ModelObject {
     private final Property<Shape> shapeProperty;
+    public final BooleanProperty userControlled = new BooleanProperty( false );
 
+    // The position handle is the point that is used as a reference when
+    // setting the position of this object.  For the purposes this simulation,
+    // we always assume that the position handle is the center bottom of the
+    // shape.  TODO: This could be generalized by having a constructor where
+    // the position handle is explicitly specified, but this was not deemed
+    // necessary at initial design time.  Decide at some point whether it is
+    // worthwhile.
+    public final Point2D positionHandle = new Point2D.Double();
+
+    /**
+     * Constructor.
+     *
+     * @param shape The shape of the model object.
+     */
     public ModelObject( Shape shape ) {
         this.shapeProperty = new Property<Shape>( shape );
+        // Set the position handle, which in this sim is always the center
+        // bottom of the shape.
+        positionHandle.setLocation( shape.getBounds2D().getCenterX(), shape.getBounds2D().getMinY() );
     }
 
     public Shape getShape() {
@@ -29,4 +50,18 @@ public abstract class ModelObject {
     protected void setShapeProperty( Shape newShape ) {
         shapeProperty.set( newShape );
     }
+
+    // TODO: Probably need to make this abstract, but it has a default implementation for now.
+    public void translate( ImmutableVector2D modelDelta ) {
+        // Does nothing by default.
+    }
+
+    ;
+
+    // TODO: Probably need to make this abstract, but it has a default implementation for now.
+    public void setPosition( Point2D newPosition ) {
+        // Does nothing by default.
+    }
+
+    ;
 }

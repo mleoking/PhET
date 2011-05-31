@@ -3,7 +3,6 @@ package edu.colorado.phet.torque.teetertotter.model.weights;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.torque.teetertotter.model.ModelObject;
 
 /**
@@ -19,5 +18,4 @@ public abstract class Weight extends ModelObject {
         this.mass = mass;
     }
 
-    public abstract void translate( ImmutableVector2D modelDelta );
 }

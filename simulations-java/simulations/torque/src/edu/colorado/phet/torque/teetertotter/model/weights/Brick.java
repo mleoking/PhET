@@ -33,6 +33,15 @@ public class Brick extends Weight {
 
     @Override public void translate( ImmutableVector2D modelDelta ) {
         centerBottomPos.setLocation( modelDelta.getAddedInstance( centerBottomPos.getX(), centerBottomPos.getY() ).toPoint2D() );
+        updateShape();
+    }
+
+    @Override public void setPosition( Point2D newPosition ) {
+        centerBottomPos.setLocation( newPosition );
+        updateShape();
+    }
+
+    private void updateShape() {
         setShapeProperty( generateShape( centerBottomPos ) );
     }
 }
