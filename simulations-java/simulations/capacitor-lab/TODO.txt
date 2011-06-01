@@ -21,7 +21,6 @@ HIGH PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses
 - cleanup model and view constants (some in CLConstants, some in MultipleCapacitorsModel)
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
-- calibrate default E-field Detector scale for 150V/m in Dielectric tab (initial sim settings, with max battery voltage)
 - "Total Capacitance" for capacitance meter?
 - "Stored Charge" for charge meter?
 

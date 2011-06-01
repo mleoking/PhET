@@ -170,6 +170,6 @@ public class MultipleCapacitorsModel {
                                              0,
                                              new CLModelViewTransform3D() );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        return capacitor.getPlatesDielectricEField();
+        return capacitor.getEffectiveEField();
     }
 }
