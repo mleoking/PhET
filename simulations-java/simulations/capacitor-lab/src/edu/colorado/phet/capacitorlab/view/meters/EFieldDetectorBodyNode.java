@@ -64,7 +64,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final PDimension SIMPLIFIED_VIEWPORT_SIZE = new PDimension( 85, VIEWPORT_SIZE.getHeight() );
     private static final Color VIEWPORT_BACKGROUND = Color.WHITE;
 
-    private static final double VECTOR_REFERENCE_LENGTH = 3 * VIEWPORT_SIZE.getHeight();
     private static final Dimension VECTOR_ARROW_HEAD_SIZE = new Dimension( 30, 20 );
     private static final int VECTOR_ARROW_TAIL_WIDTH = 10;
 
@@ -509,7 +508,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static class FieldVectorNode extends Vector2DNode {
 
         public FieldVectorNode( Color color, double vectorReferenceMagnitude ) {
-            super( 0, 0, vectorReferenceMagnitude, VECTOR_REFERENCE_LENGTH );
+            super( 0, 0, vectorReferenceMagnitude, 1 );
             setArrowFillPaint( color );
             setHeadSize( VECTOR_ARROW_HEAD_SIZE );
             setTailWidth( VECTOR_ARROW_TAIL_WIDTH );

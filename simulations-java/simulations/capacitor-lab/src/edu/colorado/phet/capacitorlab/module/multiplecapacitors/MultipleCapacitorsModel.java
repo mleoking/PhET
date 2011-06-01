@@ -157,4 +157,19 @@ public class MultipleCapacitorsModel {
     public Voltmeter getVoltmeter() {
         return voltmeter;
     }
+
+    /*
+     * Gets the E-field reference magnitude, used to determine the initial scale of the E-Field Detector.
+     * This is based on the default capacitor configuration, with maximum battery voltage.
+     */
+    public static double getEFieldReferenceMagnitude() {
+        Capacitor capacitor = new Capacitor( new Point3D.Double(),
+                                             PLATE_WIDTH,
+                                             PLATE_SEPARATION,
+                                             new Air(),
+                                             0,
+                                             new CLModelViewTransform3D() );
+        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
+        return capacitor.getPlatesDielectricEField();
+    }
 }

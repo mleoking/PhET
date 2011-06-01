@@ -65,7 +65,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
-        final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
+        final double eFieldReferenceMagnitude = MultipleCapacitorsModel.getEFieldReferenceMagnitude();
 
         circuitParentNode = new PNode();
 
@@ -74,7 +74,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.PLATE_CHARGE_TOTAL );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -137,8 +137,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
     }
 
-    @Override
-    protected void updateLayout() {
+    @Override protected void updateLayout() {
         super.updateLayout();
 
         Dimension2D worldSize = getWorldSize();
