@@ -16,7 +16,6 @@ HIGH PRIORITY
 MEDIUM PRIORITY
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
-- account for capacitance slider i18n when computing horizontal spacing of capacitors
 - add "circuit selection" screenshots to design doc, with verbage
 
 LOW PRIORITY

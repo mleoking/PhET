@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.control.CapacitanceControlNode;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.capacitorlab.model.circuit.*;
@@ -29,7 +31,6 @@ public class MultipleCapacitorsModel {
 
     // Circuits
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
-    private static final double CAPACITOR_X_SPACING = 0.018; // meters
     private static final double CAPACITOR_Y_SPACING = 0.015; // meters
     private static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
     private static final double DIELECTRIC_OFFSET = 0;
@@ -65,7 +66,6 @@ public class MultipleCapacitorsModel {
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
     public static final boolean VOLTMETER_VISIBLE = false;
 
-
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
     private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
 
@@ -81,15 +81,21 @@ public class MultipleCapacitorsModel {
 
     public MultipleCapacitorsModel( final IClock clock, final CLModelViewTransform3D mvt ) {
 
+        // Compute x-spacing of capacitors, to handle i18n of capacitance controls.
+        double capacitanceControlWidth = CapacitanceControlNode.getTypicalWidth();
+        double capacitorXSpacing = mvt.viewToModelDelta( new Point2D.Double( capacitanceControlWidth, 0 ) ).getX() + PLATE_WIDTH + 0.004;
+
         final CircuitConfig circuitConfig = new CircuitConfig( clock,
                                                                mvt,
                                                                BATTERY_LOCATION,
-                                                               CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, PLATE_WIDTH,
+                                                               capacitorXSpacing,
+                                                               CAPACITOR_Y_SPACING,
+                                                               PLATE_WIDTH,
                                                                PLATE_SEPARATION,
                                                                DIELECTRIC_MATERIAL,
                                                                DIELECTRIC_OFFSET,
-                                                               WIRE_THICKNESS, WIRE_EXTENT
-        );
+                                                               WIRE_THICKNESS,
+                                                               WIRE_EXTENT );
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{

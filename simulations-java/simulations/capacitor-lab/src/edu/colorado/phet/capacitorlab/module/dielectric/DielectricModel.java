@@ -76,12 +76,14 @@ public class DielectricModel {
         final CircuitConfig circuitConfig = new CircuitConfig( clock,
                                                                mvt,
                                                                BATTERY_LOCATION,
-                                                               CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, PLATE_WIDTH,
+                                                               CAPACITOR_X_SPACING,
+                                                               CAPACITOR_Y_SPACING,
+                                                               PLATE_WIDTH,
                                                                PLATE_SEPARATION,
                                                                dielectricMaterials[0],
                                                                dielectricOffset,
-                                                               WIRE_THICKNESS, WIRE_EXTENT
-        );
+                                                               WIRE_THICKNESS,
+                                                               WIRE_EXTENT );
 
         circuit = new SingleCircuit( circuitConfig, BATTERY_CONNECTED );
 
