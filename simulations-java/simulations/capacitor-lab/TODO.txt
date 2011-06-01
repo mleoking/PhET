@@ -9,7 +9,6 @@ DESIGN ISSUES
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
-- cleanup model and view constants (some in CLConstants, some in MultipleCapacitorsModel)
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
 - "Total Capacitance" for capacitance meter?
 - "Stored Charge" for charge meter?

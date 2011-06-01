@@ -21,7 +21,42 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  */
 public class DielectricModel {
 
+    // Circuit
+    private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
+    private static final boolean BATTERY_CONNECTED = true;
+    private static final double CAPACITOR_X_SPACING = 0.025; // meters
+    private static final double CAPACITOR_Y_SPACING = 0; // meters
+    private static final double PLATE_WIDTH = CLConstants.PLATE_WIDTH_RANGE.getDefault();
+    private static final double PLATE_SEPARATION = CLConstants.PLATE_SEPARATION_RANGE.getDefault();
+    private static final double WIRE_THICKNESS = CLConstants.WIRE_THICKNESS;
     private static final double WIRE_EXTENT = 0.016; // how far the wire extends above or below the capacitor (meters)
+
+    // Capacitance meter
+    public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.038, 0.0017, 0 );
+    public static final boolean CAPACITANCE_METER_VISIBLE = false;
+
+    // Plate Charge meter
+    public static final Point3D PLATE_CHARGE_METER_LOCATION = new Point3D.Double( 0.049, 0.0017, 0 );
+    public static final boolean PLATE_CHARGE_METER_VISIBLE = false;
+
+    // Stored Energy meter
+    public static final Point3D STORED_ENERGY_METER_LOCATION = new Point3D.Double( 0.06, 0.0017, 0 );
+    public static final boolean STORED_ENERGY_METER_VISIBLE = false;
+
+    // E-Field Detector
+    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
+    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = BATTERY_LOCATION;
+    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
+    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_VALUES_VISIBLE = true;
+
+    // Voltmeter
+    public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
+    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
+    public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
+    public static final boolean VOLTMETER_VISIBLE = false;
 
     private final WorldBounds worldBounds;
     private final DielectricMaterial[] dielectricMaterials;
@@ -38,21 +73,29 @@ public class DielectricModel {
 
         this.dielectricMaterials = dielectricMaterials;
 
-        circuit = new SingleCircuit( clock, mvt, CLConstants.BATTERY_LOCATION, CLConstants.CAPACITOR_LOCATION,
-                                     CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
-                                     dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED, WIRE_EXTENT );
+        final CircuitConfig circuitConfig = new CircuitConfig( clock,
+                                                               mvt,
+                                                               BATTERY_LOCATION,
+                                                               CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, PLATE_WIDTH,
+                                                               PLATE_SEPARATION,
+                                                               dielectricMaterials[0],
+                                                               dielectricOffset,
+                                                               WIRE_THICKNESS, WIRE_EXTENT
+        );
 
-        capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( circuit, worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        circuit = new SingleCircuit( circuitConfig, BATTERY_CONNECTED );
 
-        eFieldDetector = new EFieldDetector( circuit, worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
-                                             CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
-                                             CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( circuit, worldBounds, STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
+
+        eFieldDetector = new EFieldDetector( circuit, worldBounds, EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
+                                             EFIELD_DETECTOR_VISIBLE, EFIELD_PLATE_VECTOR_VISIBLE, EFIELD_DIELECTRIC_VECTOR_VISIBLE,
+                                             EFIELD_SUM_VECTOR_VISIBLE, EFIELD_VALUES_VISIBLE );
 
         voltmeter = new Voltmeter( circuit, worldBounds, mvt,
-                                   CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
-                                   CLConstants.VOLTMETER_VISIBLE );
+                                   VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
+                                   VOLTMETER_VISIBLE );
     }
 
     public WorldBounds getWorldBounds() {
@@ -139,17 +182,16 @@ public class DielectricModel {
      * And in this situation, plate separation is irrelevant.
      */
     public static double getMaxEffectiveEField() {
-        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() );
-        SingleCircuit circuit = new SingleCircuit( new CLClock(),
-                                                   mvt,
-                                                   CLConstants.BATTERY_LOCATION,
-                                                   CLConstants.CAPACITOR_LOCATION,
-                                                   CLConstants.PLATE_WIDTH_RANGE.getMin(),
-                                                   CLConstants.PLATE_SEPARATION_RANGE.getMin(),
-                                                   material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                                   false /* batteryConnected */,
-                                                   0 );
+        CircuitConfig circuitConfig = new CircuitConfig( new CLClock(),
+                                                         new CLModelViewTransform3D(),
+                                                         new Point3D.Double(),
+                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                         CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                                         new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() ),
+                                                         CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
+                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT
+        );
+        SingleCircuit circuit = new SingleCircuit( circuitConfig, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getEffectiveEField();
     }
@@ -158,18 +200,16 @@ public class DielectricModel {
      * Gets the maximum field due to dielectric polarization (E_dielectric).
      */
     public static double getMaxDielectricEField() {
-        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        SingleCircuit circuit = new SingleCircuit( new CLClock(),
-                                                   mvt,
-                                                   CLConstants.BATTERY_LOCATION,
-                                                   CLConstants.CAPACITOR_LOCATION,
-                                                   CLConstants.PLATE_WIDTH_RANGE.getMin(),
-                                                   CLConstants.PLATE_SEPARATION_RANGE.getMin(),
-                                                   material,
-                                                   CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(),
-                                                   false /* batteryConnected */,
-                                                   0 );
+        CircuitConfig circuitConfig = new CircuitConfig( new CLClock(),
+                                                         new CLModelViewTransform3D(),
+                                                         new Point3D.Double(),
+                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                         CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                                         new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() ),
+                                                         CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
+                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT
+        );
+        SingleCircuit circuit = new SingleCircuit( circuitConfig, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getDielectricEField();
     }
