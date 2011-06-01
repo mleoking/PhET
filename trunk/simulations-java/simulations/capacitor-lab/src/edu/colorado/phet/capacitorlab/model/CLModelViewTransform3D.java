@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -13,14 +13,14 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * ModelViewTransform provides the transforms between model and view coordinate systems.
  * In both coordinate systems, +x is to the right, +y is down, +z is away from the viewer.
  * Sign of rotation angles is specified using the right-hand rule.
- * <p>
+ * <p/>
  * <code>
- *   +y
- *    ^    +z
- *    |   /
- *    |  /
- *    | /
- *    +-------> +x
+ * +y
+ * ^    +z
+ * |   /
+ * |  /
+ * | /
+ * +-------> +x
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -47,9 +47,8 @@ public class CLModelViewTransform3D {
      * Constructor.
      *
      * @param scale scale for mapping from model to view (x and y scale are identical)
-     * @param offset translation for mapping from model to view, in model coordinates
      * @param pitch rotation about the horizontal (x) axis, sign determined using the right-hand rule (radians)
-     * @param yaw rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
+     * @param yaw   rotation about the vertical (y) axis, sign determined using the right-hand rule (radians)
      */
     public CLModelViewTransform3D( double scale, double pitch, double yaw ) {
 
@@ -75,7 +74,6 @@ public class CLModelViewTransform3D {
      * Maps a point from 3D model coordinates to 2D view coordinates.
      *
      * @param pModel
-     * @param pView
      * @return
      */
     public Point2D modelToView( Point3D pModel ) {
@@ -122,6 +120,7 @@ public class CLModelViewTransform3D {
 
     /**
      * Model shapes are all in the 2D xy plane, and have no depth.
+     *
      * @param modelShape
      * @return
      */
@@ -176,7 +175,6 @@ public class CLModelViewTransform3D {
      *
      * @param xDelta
      * @param yDelta
-     * @param zDelta
      * @return
      */
     public Point3D viewToModelDelta( double xDelta, double yDelta ) {
