@@ -21,6 +21,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  */
 public class DielectricModel {
 
+    private static final double WIRE_EXTENT = 0.016; // how far the wire extends above or below the capacitor (meters)
+
     private final WorldBounds worldBounds;
     private final DielectricMaterial[] dielectricMaterials;
     private final SingleCircuit circuit;
@@ -38,7 +40,7 @@ public class DielectricModel {
 
         circuit = new SingleCircuit( clock, mvt, CLConstants.BATTERY_LOCATION, CLConstants.CAPACITOR_LOCATION,
                                      CLConstants.PLATE_WIDTH_RANGE.getDefault(), CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
-                                     dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED );
+                                     dielectricMaterials[0], dielectricOffset, CLConstants.BATTERY_CONNECTED, WIRE_EXTENT );
 
         capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
         plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
@@ -146,8 +148,8 @@ public class DielectricModel {
                                                    CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                    CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                    material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                                   false /* batteryConnected */
-        );
+                                                   false /* batteryConnected */,
+                                                   0 );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getEffectiveEField();
     }
@@ -166,8 +168,8 @@ public class DielectricModel {
                                                    CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                    material,
                                                    CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(),
-                                                   false /* batteryConnected */
-        );
+                                                   false /* batteryConnected */,
+                                                   0 );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getDielectricEField();
     }

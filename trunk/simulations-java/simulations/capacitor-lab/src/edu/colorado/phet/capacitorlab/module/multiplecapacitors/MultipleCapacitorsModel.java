@@ -43,6 +43,7 @@ public class MultipleCapacitorsModel {
     public static final double PLATE_WIDTH = 0.0075; // meters
     public static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
 
+    private static final double WIRE_EXTENT = 0.01; // how far a wire extends above or below topmost capacitor's origin, in meters
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
     private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
@@ -61,13 +62,13 @@ public class MultipleCapacitorsModel {
 
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new SeriesCircuit( CLStrings.TWO_IN_SERIES, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new ParallelCircuit( CLStrings.TWO_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new ParallelCircuit( CLStrings.THREE_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new Combination1Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
-            add( new Combination2Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET ) );
+            add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new SeriesCircuit( CLStrings.TWO_IN_SERIES, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new ParallelCircuit( CLStrings.TWO_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new ParallelCircuit( CLStrings.THREE_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new Combination1Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new Combination2Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
         }};
         currentCircuitProperty = new Property<ICircuit>( circuits.get( 0 ) );
 

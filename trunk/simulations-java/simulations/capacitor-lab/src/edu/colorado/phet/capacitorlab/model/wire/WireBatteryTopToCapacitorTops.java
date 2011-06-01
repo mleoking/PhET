@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -24,17 +23,17 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSeg
  */
 public class WireBatteryTopToCapacitorTops extends Wire {
 
-    public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Battery battery, Capacitor... capacitors ) {
-        this( mvt, thickness, battery, new ArrayList<Capacitor>( Arrays.asList( capacitors ) ) );
+    public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, double wireExtent, Battery battery, Capacitor... capacitors ) {
+        this( mvt, thickness, wireExtent, battery, new ArrayList<Capacitor>( Arrays.asList( capacitors ) ) );
     }
 
-    public WireBatteryTopToCapacitorTops( final CLModelViewTransform3D mvt, double thickness, Battery battery, ArrayList<Capacitor> capacitors ) {
+    public WireBatteryTopToCapacitorTops( final CLModelViewTransform3D mvt, double thickness, double wireExtent, Battery battery, ArrayList<Capacitor> capacitors ) {
         super( mvt, thickness );
 
-        // find min Y
-        double minY = battery.getY() - CLConstants.WIRE_EXTENT;
+        // determine min Y
+        double minY = capacitors.get( 0 ).getY();
         for ( Capacitor capacitor : capacitors ) {
-            minY = Math.min( minY, capacitor.getLocation().getY() - 0.01 ); //TODO clean this up
+            minY = Math.min( minY, capacitor.getLocation().getY() - wireExtent );
         }
 
         // horizontal segment connecting battery to the rightmost capacitor

@@ -46,7 +46,7 @@ public class Combination1Circuit extends AbstractCircuit {
     private final ArrayList<Wire> wires;
 
     public Combination1Circuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation,
-                                double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+                                double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, double wireExtent ) {
         super( CLStrings.COMBINATION_1, clock, mvt, batteryLocation );
 
         // capacitors
@@ -72,9 +72,9 @@ public class Combination1Circuit extends AbstractCircuit {
         // wires
         {
             wires = new ArrayList<Wire>();
-            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), c1, c3 ) );
+            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), c1, c3 ) );
             wires.add( new WireCapacitorBottomToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
-            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), c2, c3 ) );
+            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), c2, c3 ) );
         }
 
         // observe battery
