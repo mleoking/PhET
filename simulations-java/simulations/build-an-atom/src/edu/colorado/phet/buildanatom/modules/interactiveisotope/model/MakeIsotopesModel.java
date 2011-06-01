@@ -2,23 +2,15 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomClock;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.IAtom;
-import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.common.phetcommon.model.SphereBucket;
-import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SphericalParticle;
+import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -27,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * constituent model elements.  It watches all neutrons and, based on where
  * they are placed by the user, moves them between the neutron bucket and the
  * atom.
- *
+ * <p/>
  * In this model, units are picometers (1E-12).
  */
 public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
@@ -72,14 +64,14 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
 
     // The buckets that holds the neutrons that are not in the atom.
     private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
+                                                                                                       BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     // Listener support
     private final ArrayList<Listener> listeners = new ArrayList<Listener>();
 
     // An event listener that watches for when the user releases a neutron and
     // decides whether it should go in the bucket or the atom's nucleus.
-    private final SphericalParticle.Adapter neutronDropListener =  new SphericalParticle.Adapter() {
+    private final SphericalParticle.Adapter neutronDropListener = new SphericalParticle.Adapter() {
         @Override
         public void droppedByUser( SphericalParticle particle ) {
             assert particle instanceof Neutron; // Should always be a neutron.
@@ -133,11 +125,11 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
     // Methods
     //----------------------------------------------------------------------------
 
-    public void addListener( Listener listener ){
+    public void addListener( Listener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener( Listener listener ){
+    public void removeListener( Listener listener ) {
         listeners.remove( listener );
     }
 
@@ -149,25 +141,29 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
         return atom;
     }
 
-    public void setAtomConfiguration( IAtom atomConfig ){
-        if ( !atom.configurationEquals( atomConfig ) ){
+    //REVIEW: doc
+    //  Why isn't this setter method part of IAtom? Then the
+    //  model could react to the atom change to add electrons, protons, etc.
+    //  Or maybe describe what's going on here and why it's done here.
+    public void setAtomConfiguration( IAtom atomConfig ) {
+        if ( !atom.configurationEquals( atomConfig ) ) {
             // Clear the atom.
             clearAtom();
 
             // Add the particles.
-            for ( int i = 0; i < atomConfig.getNumElectrons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumElectrons(); i++ ) {
                 Electron electron = new Electron( clock );
                 atom.addElectron( electron, true );
                 electrons.add( electron );
                 notifyParticleAdded( electron );
             }
-            for ( int i = 0; i < atomConfig.getNumProtons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumProtons(); i++ ) {
                 Proton proton = new Proton( clock );
                 atom.addProton( proton, true );
                 protons.add( proton );
                 notifyParticleAdded( proton );
             }
-            for ( int i = 0; i < atomConfig.getNumNeutrons(); i++ ){
+            for ( int i = 0; i < atomConfig.getNumNeutrons(); i++ ) {
                 Neutron neutron = new Neutron( clock );
                 neutron.setMotionVelocity( NEUTRON_MOTION_VELOCITY );
                 neutron.addListener( neutronDropListener );
@@ -209,11 +205,12 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      * particles left in the model after doing this, since they could be in
      * the bucket.
      */
-    private void clearAtom(){
+    private void clearAtom() {
         // Remove all particles associated with the atom from the model.
+        //REVIEW why not iterate on atom.getProtons? Ditto for neutrons and electrons.
         ArrayList<Proton> copyOfProtons = new ArrayList<Proton>( protons );
         for ( Proton proton : copyOfProtons ) {
-            if ( atom.containsProton( proton )){
+            if ( atom.containsProton( proton ) ) {
                 atom.removeProton( proton );
                 protons.remove( proton );
                 proton.removedFromModel();
@@ -221,7 +218,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
         }
         ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
         for ( Neutron neutron : copyOfNeutrons ) {
-            if ( atom.containsNeutron( neutron )){
+            if ( atom.containsNeutron( neutron ) ) {
                 atom.removeNeutron( neutron );
                 neutrons.remove( neutron );
                 neutron.removedFromModel();
@@ -229,7 +226,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
         }
         ArrayList<Electron> copyOfElectrons = new ArrayList<Electron>( electrons );
         for ( Electron electron : copyOfElectrons ) {
-            if ( atom.containsElectron( electron )){
+            if ( atom.containsElectron( electron ) ) {
                 atom.removeElectron( electron );
                 electrons.remove( electron );
                 electron.removedFromModel();
@@ -245,24 +242,25 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      * both the bucket and from the model.  Note that this does NOT remove
      * the particles from the atom.
      */
-    private void clearBucket(){
+    private void clearBucket() {
         // Remove neutrons from this model.
+        //REVIEW why not iterate on neutronBucket.getParticleList?
         ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
         for ( Neutron neutron : copyOfNeutrons ) {
-            if ( neutronBucket.containsParticle( neutron )){
+            if ( neutronBucket.containsParticle( neutron ) ) {
                 neutrons.remove( neutron );
                 neutron.removedFromModel();
             }
         }
         // Remove neutrons from bucket.
-        neutronBucket.reset();
+        neutronBucket.reset(); //REVIEW why not remove them individually above, as you did in clearAtom?
     }
 
     /**
      * Reset the model.  The sets the atom and the neutron bucket into their
      * default initial states.
      */
-    public void reset(){
+    public void reset() {
         // Reset the atom.  This also resets the neutron bucket.
         setAtomConfiguration( DEFAULT_ATOM_CONFIG );
     }
@@ -274,8 +272,8 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
         return neutronBucket;
     }
 
-    private void notifyParticleAdded( SphericalParticle particle ){
-        for ( Listener listener : listeners ){
+    private void notifyParticleAdded( SphericalParticle particle ) {
+        for ( Listener listener : listeners ) {
             listener.particleAdded( particle );
         }
     }
@@ -296,6 +294,7 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
     }
 
     public static class Adapter implements Listener {
-        public void particleAdded( SphericalParticle subatomicParticle ) { }
+        public void particleAdded( SphericalParticle subatomicParticle ) {
+        }
     }
 }

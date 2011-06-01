@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
@@ -20,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * This class defines a node that represents a periodic table of the elements.
  * It is not interactive by default, but provides infrastructure that can be
  * used to add interactivity in subclasses.
- *
+ * <p/>
  * This makes some assumptions about which portions of the table to display,
  * and may not work for all situations where a periodic table is needed.
  *
@@ -81,7 +78,7 @@ public class PeriodicTableNode extends PNode {
      * Create a cell for an individual element.  Override this to create cells
      * that look different or implement some unique behavior.
      */
-    protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ){
+    protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
         return new BasicElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
     }
 
@@ -93,6 +90,9 @@ public class PeriodicTableNode extends PNode {
         elementCell.setOffset( x, y );
         table.addChild( elementCell );
     }
+
+    //REVIEW doc looks like sentence is incomplete, a 1-index what? And I don't understand what's going on here.
+    //  This looks error prone. And there are 2 "if ( i >= 19 && i <= 36 )" cases.
 
     /**
      * Reports (row,column) on the grid, with a 1-index
@@ -169,7 +169,7 @@ public class PeriodicTableNode extends PNode {
     /**
      * Abstract base class for cells that comprise the periodic table.
      */
-    public static abstract class ElementCell extends PNode{
+    public static abstract class ElementCell extends PNode {
         private final int atomicNumber;
         private final IDynamicAtom atom;
 
@@ -199,15 +199,15 @@ public class PeriodicTableNode extends PNode {
             super( atom, atomicNumber );
 
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
-                    backgroundColor, new BasicStroke( 1 ), Color.black );
+                                 backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( box );
 
             String abbreviation = AtomIdentifier.getSymbol( atomicNumber );
-            text = new PText( abbreviation ){{
+            text = new PText( abbreviation ) {{
                 setFont( LABEL_FONT );
             }};
             text.setOffset( box.getFullBounds().getCenterX() - text.getFullBounds().getWidth() / 2,
-                    box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
+                            box.getFullBounds().getCenterY() - text.getFullBounds().getHeight() / 2 );
             addChild( text );
         }
 
@@ -219,6 +219,8 @@ public class PeriodicTableNode extends PNode {
             return box;
         }
     }
+
+    //REVIEW typo in class name, should be HighlightingElementCell ?
 
     /**
      * Cell that watches the atom and highlights the cell if the atomic number
