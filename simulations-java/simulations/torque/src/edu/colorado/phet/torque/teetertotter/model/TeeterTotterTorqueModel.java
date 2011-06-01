@@ -18,7 +18,16 @@ import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
  * @author John Blanco
  */
 public class TeeterTotterTorqueModel implements Resettable {
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
 
+
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
+    // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
     // A list of all the weights in the model
@@ -34,7 +43,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final Fulcrum fulcrum = new Fulcrum();
 
     // Plank that objects can be placed on that is (optionally) supported by pillars
-    private final Plank plank = new Plank( Fulcrum.getHeight() );
+    private final Plank plank = new Plank( clock, Fulcrum.getHeight() );
 
     // Support columns
     private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
@@ -44,6 +53,14 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     // Property that controls whether the columns are supporting the plank.
     private final BooleanProperty supportColumnsActive = new BooleanProperty( true );
+
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
 
     public ConstantDtClock getClock() {
         return clock;
@@ -77,6 +94,18 @@ public class TeeterTotterTorqueModel implements Resettable {
                         // The weight was dropped above the plank, move it to a
                         // valid location on the plank.
                         weight.setPosition( plank.getClosestOpenLocation( weight.getPosition() ) );
+                        // Update the torque on the plank due to the weights.
+                        double netTorqueFromWeights = 0;
+                        for ( Weight weight : weights ) {
+                            // TODO: Need a better way to determine whether a weight is on the plank.  Weights under the plank will affect torque using this clause.
+                            if ( weight.getPosition().getX() > plank.getShape().getBounds2D().getMinX() &&
+                                 weight.getPosition().getX() < plank.getShape().getBounds2D().getMaxX() ) {
+                                // Note: According to M. Dubson, the convention is that torque that causes a counter-
+                                // clockwise motion is considered positive.
+                                netTorqueFromWeights += -weight.getPosition().getX() * weight.getMass();
+                            }
+                        }
+                        plank.setTorqueFromWeights( netTorqueFromWeights );
                     }
                     else {
                         // Put the weight on the ground.
@@ -130,4 +159,8 @@ public class TeeterTotterTorqueModel implements Resettable {
         addWeight( new Brick( new Point2D.Double( 3, 0 ) ) );
         addWeight( new Brick( new Point2D.Double( 3.3, 0 ) ) );
     }
+
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
 }

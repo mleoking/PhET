@@ -6,20 +6,56 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+
 /**
- * This is the pivot point where the teeter-totter is balanced.
+ * This is the plank upon which weights can be placed.
  *
- * @author Sam Reid
+ * @author John Blanco
  */
 public class Plank extends ModelObject {
+
+    //------------------------------------------------------------------------
+    // Class Data
+    //------------------------------------------------------------------------
 
     public static final double LENGTH = 4;// meters
     public static final double THICKNESS = 0.05; // meters
     public static final int NUM_SNAP_TO_MARKERS = 19;
+    public static final double MASS = 20; // kg
 
-    public Plank( double centerHeight ) {
+    // Moment of inertia.
+    // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
+    public static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
+
+    //------------------------------------------------------------------------
+    // Instance Data
+    //------------------------------------------------------------------------
+
+    public double torqueFromWeights = 0;
+    public double tiltAngle = 0;
+    public double angularVelocity = 0; // radians/sec
+    public final double maxTiltAngle;
+
+    //------------------------------------------------------------------------
+    // Constructor(s)
+    //------------------------------------------------------------------------
+
+    public Plank( final ConstantDtClock clock, double centerHeight ) {
         super( generateShape( centerHeight, 0 ) );
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+        maxTiltAngle = Math.asin( centerHeight / ( LENGTH / 2 ) );
     }
+
+    //------------------------------------------------------------------------
+    // Methods
+    //------------------------------------------------------------------------
 
     public double getLength() {
         return LENGTH;
@@ -70,4 +106,25 @@ public class Plank extends ModelObject {
         }
         return new Point2D.Double( xPos, getShape().getBounds2D().getMaxY() );
     }
+
+    public void setTorqueFromWeights( double torque ) {
+        torqueFromWeights = torque;
+    }
+
+    public void stepInTime( double dt ) {
+        // Update the angular velocity based on the current torque.
+        angularVelocity += torqueFromWeights / MOMENT_OF_INERTIA;
+        if ( angularVelocity != 0 ) {
+            tiltAngle += angularVelocity * dt;
+            if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
+                tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
+                angularVelocity = 0;
+            }
+            setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
+        }
+    }
+
+    //------------------------------------------------------------------------
+    // Inner Classes and Interfaces
+    //------------------------------------------------------------------------
 }
