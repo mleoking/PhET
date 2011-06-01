@@ -4,6 +4,7 @@ package edu.colorado.phet.torque.teetertotter.model;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 
 /**
  * This is the pivot point where the teeter-totter is balanced.
@@ -48,5 +49,25 @@ public class Plank extends ModelObject {
         shape = AffineTransform.getTranslateInstance( 0, centerHeight ).createTransformedShape( shape );
 
         return shape;
+    }
+
+    public Point2D getClosestOpenLocation( Point2D p ) {
+        // TODO: Doesn't actually give open locations yet, just valid snap-to ones.
+        // TODO: Doesn't handle rotation yet.
+        double minX = getShape().getBounds2D().getMinX();
+        double maxX = getShape().getBounds2D().getMaxX();
+        double increment = getShape().getBounds2D().getWidth() / ( NUM_SNAP_TO_MARKERS + 1 );
+        double xPos = 0;
+        if ( p.getX() > maxX - increment ) {
+            xPos = maxX - increment;
+        }
+        else if ( xPos < minX + increment ) {
+            xPos = minX + increment;
+        }
+        else {
+            int numLengths = (int) Math.round( ( p.getX() - minX ) / increment );
+            xPos = minX + numLengths * increment;
+        }
+        return new Point2D.Double( xPos, getShape().getBounds2D().getMaxY() );
     }
 }
