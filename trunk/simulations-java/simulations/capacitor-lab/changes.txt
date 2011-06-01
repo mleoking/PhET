@@ -1,3 +1,4 @@
+5/31/11 doc view.meters package
 5/31/11 when E-Field Detector is first made visible, put probe between plates of C1
 5/31/11 moved Multiple Capacitors requirements summary from TODO.txt to MultipleCapacitorsModule
 5/31/11 #2869, deleted VisibleBoundsNode, unused

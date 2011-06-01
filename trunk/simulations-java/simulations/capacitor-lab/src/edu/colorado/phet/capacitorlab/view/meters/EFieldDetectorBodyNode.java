@@ -79,6 +79,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
     private final ZoomPanel zoomPanel;
 
+    /**
+     * Constructor
+     *
+     * @param detector                 model of the detector
+     * @param mvt                      model-view transform
+     * @param vectorReferenceMagnitude used for calibrating the initial scale of the vector display
+     * @param simplified               if true, disabled some feature of the detector
+     */
     public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean simplified ) {
 
         // title that appears at the top
@@ -182,6 +190,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         } );
     }
 
+    // Gets the offset for connecting wire that attached to probe.
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
     }

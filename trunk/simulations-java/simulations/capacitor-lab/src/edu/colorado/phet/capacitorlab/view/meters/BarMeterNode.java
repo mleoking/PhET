@@ -126,8 +126,9 @@ public abstract class BarMeterNode extends PhetPNode {
      * Constructor.
      *
      * @param meter                model element for the meter
-     * @param title                title displayed below the meter
+     * @param mvt                  model-view transform
      * @param barColor             color used to fill the bar
+     * @param title                title displayed below the meter
      * @param valueMantissaPattern pattern used to format the mantissa of the value displayed below the meter
      * @param exponent             exponent of the value display and max label
      * @param units                units
@@ -304,6 +305,12 @@ public abstract class BarMeterNode extends PhetPNode {
         zoomOutButtonPSwing.setOffset( x, y );
     }
 
+    /*
+     * At most one of the zoom buttons is enabled.
+     * If the bar is empty, neither button is enabled.
+     * If the bar is less than 10% full, the zoom in button is enabled.
+     * If the bar is overflowing, the zoom out button is enabled.
+     */
     private void updateZoomButtons() {
         double mantissa = value / Math.pow( 10, exponentProperty.get() );
         boolean plusEnabled = ( value != 0 ) && ( mantissa < 0.1 );
@@ -312,10 +319,10 @@ public abstract class BarMeterNode extends PhetPNode {
         zoomOutButton.setEnabled( minusEnabled );
     }
 
+    // Sets the exponent to a value that makes the mantissa >= 0.1
     private void updateExponent() {
         if ( value != 0 ) {
             int exponent = 0;
-            // look for an exponent that make the mantissa >= 0.1
             while ( ( value / Math.pow( 10, exponent ) ) < 0.1 ) {
                 exponent--;
             }
@@ -347,9 +354,7 @@ public abstract class BarMeterNode extends PhetPNode {
         }
     }
 
-    /*
-     * Sets the exponent used for the value and max label.
-     */
+    // Sets the exponent used for the value and max label.
     private void handleExponentChanged() {
 
         int exponent = exponentProperty.get();
@@ -497,7 +502,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
     /*
      * Overload indicator, visible when the value is greater than what the bar
-     * is capable of displaying.  The indicator is an arrow that point upward.
+     * is capable of displaying.  The indicator is an arrow that points upward.
      */
     private static class OverloadIndicatorNode extends PComposite {
 

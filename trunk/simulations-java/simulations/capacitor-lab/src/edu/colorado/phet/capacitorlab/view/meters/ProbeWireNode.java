@@ -61,6 +61,7 @@ public class ProbeWireNode extends PPath {
         }
     }
 
+    // updates the wire's path
     private void update() {
 
         Point2D pBody = getConnectionPoint( bodyNode, bodyConnectionOffset );

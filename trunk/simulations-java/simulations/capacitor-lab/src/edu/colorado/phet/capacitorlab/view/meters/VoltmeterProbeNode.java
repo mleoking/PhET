@@ -38,6 +38,13 @@ import edu.umd.cs.piccolo.nodes.PImage;
 
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
 
+    /**
+     * Constructor
+     *
+     * @param image            image of the probe
+     * @param locationProperty property to observer for the probe's location
+     * @param mvt              model-view transform
+     */
     public VoltmeterProbeNode( Image image, final WorldLocationProperty locationProperty, final CLModelViewTransform3D mvt ) {
 
         PImage imageNode = new PImage( image );
