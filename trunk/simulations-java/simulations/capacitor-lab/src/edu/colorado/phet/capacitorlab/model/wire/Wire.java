@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * A wire is a collection of connected wire segments.
  * <p/>
  * NOTE: It's the client's responsibility to ensure that all segments are connected. No checking is done here.
+ * And in fact, the segments may not share endpoints, if that makes it more convenient for the view to make
+ * them appear as if they are connected.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

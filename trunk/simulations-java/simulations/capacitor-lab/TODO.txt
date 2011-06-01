@@ -15,6 +15,7 @@ HIGH PRIORITY
 - "Stored Charge" for charge meter?
 
 MEDIUM PRIORITY
+- fudging of wire segment endpoints should be handled in view based on stroke, not in model
 - use shorter vertical wires in parallel circuits, to make more space for meters
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
