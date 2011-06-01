@@ -25,7 +25,7 @@ public abstract class ModelObject {
     // the position handle is explicitly specified, but this was not deemed
     // necessary at initial design time.  Decide at some point whether it is
     // worthwhile.
-    public final Point2D positionHandle = new Point2D.Double();
+    protected final Point2D positionHandle = new Point2D.Double();
 
     /**
      * Constructor.
@@ -57,7 +57,14 @@ public abstract class ModelObject {
     }
 
     // TODO: Probably need to make this abstract, but it has a default implementation for now.
-    public void setPosition( Point2D newPosition ) {
+    public void setPosition( double x, double y ) {
         // Does nothing by default.
+    }
+
+    /**
+     * Get the current position, which is defined by the 'position handle'.
+     */
+    public Point2D getPosition() {
+        return new Point2D.Double( positionHandle.getX(), positionHandle.getY() );
     }
 }
