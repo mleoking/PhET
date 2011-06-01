@@ -13,10 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * A wire is a collection of connected wire segments.
- * It has an associated voltage.
  * <p/>
- * NOTE: It's the client's responsibility to ensure
- * that all segments are connected.  No checking is done here.
+ * NOTE: It's the client's responsibility to ensure that all segments are connected. No checking is done here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
