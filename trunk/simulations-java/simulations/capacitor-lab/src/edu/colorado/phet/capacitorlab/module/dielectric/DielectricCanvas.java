@@ -62,7 +62,7 @@ public class DielectricCanvas extends CLCanvas {
         final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
-        final double eFieldVectorReferenceMagnitude = DielectricModel.getMaxPlatesDielectricEFieldWithBattery();
+        final double eFieldReferenceMagnitude = DielectricModel.getEFieldReferenceMagnitude();
 
         // circuit
         circuitNode = new DielectricCircuitNode( model.getCircuit(), mvt, dielectricVisible,
@@ -74,7 +74,7 @@ public class DielectricCanvas extends CLCanvas {
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.PLATE_CHARGE_TOP );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt );
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldVectorReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
+        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
         voltageShapesDebugNode = new VoltageShapesDebugNode( model.getCircuit(), model.getVoltmeter() );
         voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );

@@ -1,3 +1,4 @@
+5/31/11 calibrate default E-field Detector scale for 300V/m in Multiple Capacitors (initial sim settings, with max battery voltage)
 5/31/11 add labels on capacitors (C1,C2,C3) to facilitate referring to them in class, in assignments, in teaching materials, etc.
 5/31/11 change request: synchronize battery voltages in all circuits, so that it looks like circuits share one battery
 5/31/11 design: decided not to have editable mantissa text field on capacitance control

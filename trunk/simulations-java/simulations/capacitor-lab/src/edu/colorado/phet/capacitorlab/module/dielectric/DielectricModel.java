@@ -114,11 +114,9 @@ public class DielectricModel {
         circuit.reset();
     }
 
-    /**
+    /*
      * Gets the maximum charge on the top plate (Q_total).
      * We compute this with the battery connected because this is used to determine the range of the Plate Charge slider.
-     *
-     * @return charge, in Coulombs
      */
     public static double getMaxPlateCharge() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
@@ -129,10 +127,8 @@ public class DielectricModel {
         return capacitor.getTotalPlateCharge();
     }
 
-    /**
+    /*
      * Gets the maximum excess charge for the dielectric area (Q_exess_dielectric).
-     *
-     * @return
      */
     public static double getMaxExcessDielectricPlateCharge() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
@@ -143,13 +139,11 @@ public class DielectricModel {
         return capacitor.getExcessDielectricPlateCharge();
     }
 
-    /**
+    /*
      * Gets the maximum effective E-field between the plates (E_effective).
      * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
      * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted.
      * And in this situation, plate separation is irrelevant.
-     *
-     * @return
      */
     public static double getMaxEffectiveEField() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
@@ -167,10 +161,8 @@ public class DielectricModel {
         return circuit.getCapacitor().getEffectiveEField();
     }
 
-    /**
+    /*
      * Gets the maximum field due to dielectric polarization (E_dielectric).
-     *
-     * @return
      */
     public static double getMaxDielectricEField() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
@@ -189,17 +181,17 @@ public class DielectricModel {
         return circuit.getCapacitor().getDielectricEField();
     }
 
-    /**
-     * Gets the maximum E-field due to the plates in the capacitor volume that
-     * contains the dielectric (E_plates_dielectric), with the battery connected.
-     *
-     * @return
+    /*
+     * Gets the E-field reference magnitude, used to determine the initial scale of the E-Field Detector.
+     * This is based on the default capacitor configuration, with maximum battery voltage.
      */
-    public static double getMaxPlatesDielectricEFieldWithBattery() {
-        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMin(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMax(), mvt );
+    public static double getEFieldReferenceMagnitude() {
+        Capacitor capacitor = new Capacitor( new Point3D.Double(),
+                                             CLConstants.PLATE_WIDTH_RANGE.getDefault(),
+                                             CLConstants.PLATE_SEPARATION_RANGE.getDefault(),
+                                             new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() ),
+                                             CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault(),
+                                             new CLModelViewTransform3D() );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
         return capacitor.getPlatesDielectricEField();
     }
