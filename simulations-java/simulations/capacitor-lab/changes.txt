@@ -1,3 +1,4 @@
+6/1/11 fix: reset EFieldDetector.hasBeenVisible on Reset All
 6/1/11 cleanup model and view constants, move stuff out of CLConstants to reduce globals
 6/1/11 use shorter vertical wires in multiple capacitor circuits, to make more space for meters
 6/1/11 cleanup and parameterize wire "extents", which determine height of vertical wires with connectivity to battery
