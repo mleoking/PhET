@@ -49,13 +49,13 @@ public class SingleCircuit extends AbstractCircuit {
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
 
     public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
-                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
-        this( clock, mvt, batteryLocation, capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */ );
+                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, double wireExtent ) {
+        this( clock, mvt, batteryLocation, capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */, wireExtent );
     }
 
     public SingleCircuit( IClock clock, final CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
                           double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset,
-                          boolean batteryConnected ) {
+                          boolean batteryConnected, final double wireExtent ) {
         super( CLStrings.SINGLE, clock, mvt, batteryLocation );
 
         this.clock = clock;
@@ -65,8 +65,8 @@ public class SingleCircuit extends AbstractCircuit {
 
         // Create the wires
         wires = new ArrayList<Wire>() {{
-            add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor ) );
-            add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitor ) );
+            add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), capacitor ) );
+            add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), capacitor ) );
         }};
 
         // observe battery

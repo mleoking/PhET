@@ -15,10 +15,10 @@ HIGH PRIORITY
 - "Stored Charge" for charge meter?
 
 MEDIUM PRIORITY
-- use shorter vertical wires in parallel circuits, to make more space for meters
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
 - account for capacitance slider i18n when computing horizontal spacing of capacitors
+- add "circuit selection" screenshots to design doc, with verbage
 
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere

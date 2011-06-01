@@ -39,7 +39,7 @@ public class ParallelCircuit extends AbstractCircuit {
     private final ArrayList<Wire> wires;
 
     public ParallelCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, int numberOfCapacitors,
-                            double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset ) {
+                            double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, double wireExtent ) {
         super( displayName, clock, mvt, batteryLocation );
 
         assert ( numberOfCapacitors > 0 );
@@ -47,7 +47,7 @@ public class ParallelCircuit extends AbstractCircuit {
         capacitors = createCapacitors( mvt, batteryLocation, numberOfCapacitors,
                                        plateWidth, plateSeparation, dielectricMaterial, dielectricOffset );
 
-        wires = createWires( mvt, CLConstants.WIRE_THICKNESS, getBattery(), capacitors );
+        wires = createWires( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), capacitors );
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
@@ -87,10 +87,10 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     // Creates the wires, starting at the battery's top terminal and working clockwise.
-    private ArrayList<Wire> createWires( CLModelViewTransform3D mvt, double thickness, Battery battery, ArrayList<Capacitor> capacitors ) {
+    private ArrayList<Wire> createWires( CLModelViewTransform3D mvt, double thickness, double wireExtent, Battery battery, ArrayList<Capacitor> capacitors ) {
         ArrayList<Wire> wires = new ArrayList<Wire>();
-        wires.add( new WireBatteryTopToCapacitorTops( mvt, thickness, battery, capacitors ) );
-        wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, thickness, battery, capacitors ) );
+        wires.add( new WireBatteryTopToCapacitorTops( mvt, thickness, wireExtent, battery, capacitors ) );
+        wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, thickness, wireExtent, battery, capacitors ) );
         return wires;
     }
 
