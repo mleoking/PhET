@@ -107,6 +107,15 @@ public class Plank extends ModelObject {
         return new Point2D.Double( xPos, getShape().getBounds2D().getMaxY() );
     }
 
+    /**
+     * Force the plank back to the level position.  This is generally done when some sort of support column has been
+     * put into place.
+     */
+    public void forceToLevel() {
+        tiltAngle = 0;
+        updateShape();
+    }
+
     public void setTorqueFromWeights( double torque ) {
         torqueFromWeights = torque;
     }
@@ -120,8 +129,12 @@ public class Plank extends ModelObject {
                 tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
                 angularVelocity = 0;
             }
-            setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
+            updateShape();
         }
+    }
+
+    private void updateShape() {
+        setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
     }
 
     //------------------------------------------------------------------------
