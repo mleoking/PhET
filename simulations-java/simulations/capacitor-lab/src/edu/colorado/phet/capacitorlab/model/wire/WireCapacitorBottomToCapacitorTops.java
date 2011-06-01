@@ -13,13 +13,13 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSeg
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
- * Wire that connects the bottom plate of one capacitor (c) to the top plates of N other capacitor (c1,c2,...,cn).
+ * Wire that connects the bottom plate of one capacitor (C1) to the top plates of N other capacitor (C2,C3,...,Cn).
  * <code>
- * c
+ * C1
  * |
  * |-----|--...--|
  * |     |       |
- * c1   c2      cn
+ * C2   C3      Cn
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

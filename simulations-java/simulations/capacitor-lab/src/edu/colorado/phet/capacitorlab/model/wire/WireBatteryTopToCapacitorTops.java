@@ -13,11 +13,11 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.BatteryTopWireSegme
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSegment;
 
 /**
- * Wire that connects the top of a battery (B) to the tops of N parallel capacitors (c1,c2,...,cn).
+ * Wire that connects the top of a battery (B) to the tops of N parallel capacitors (C1,C2,...,Cn).
  * <code>
  * |-----|------|--...--|
  * |     |      |       |
- * B     c1    c2       cn
+ * B     C1    C2       Cn
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

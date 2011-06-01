@@ -15,9 +15,9 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorBottomWire
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
- * Wire that connects the bottom of a battery (B) to the bottoms of N parallel capacitors (c1,c2,...,cn).
+ * Wire that connects the bottom of a battery (B) to the bottoms of N parallel capacitors (C1,C2,...,Cn).
  * <code>
- * B     c1    c2       cn
+ * B     C1    C2       Cn
  * |     |      |       |
  * |-----|------|--...--|
  * </code>
