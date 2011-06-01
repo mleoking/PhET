@@ -29,6 +29,12 @@ public class VoltmeterView {
     private final VoltmeterProbeNode positiveProbeNode, negativeProbeNode;
     private final ProbeWireNode positiveWireNode, negativeWireNode;
 
+    /**
+     * Constructor
+     *
+     * @param voltmeter the voltmeter model
+     * @param mvt       model-view transform
+     */
     public VoltmeterView( final Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
         bodyNode = new VoltmeterBodyNode( voltmeter, mvt );
         positiveProbeNode = new PositiveVoltmeterProbeNode( voltmeter, mvt );

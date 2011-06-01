@@ -29,6 +29,13 @@ import edu.umd.cs.piccolo.nodes.PPath;
 
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
 
+    /**
+     * Constructor
+     *
+     * @param detector the detector model
+     * @param mvt      model-view transform
+     * @param dev      if true, enabled developer features
+     */
     public EFieldDetectorProbeNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, boolean dev ) {
         super();
 

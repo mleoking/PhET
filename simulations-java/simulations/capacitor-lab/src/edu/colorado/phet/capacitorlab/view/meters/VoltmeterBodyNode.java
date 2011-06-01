@@ -49,6 +49,12 @@ import edu.umd.cs.piccolo.util.PBounds;
     private final PPath displayBackgroundNode;
     private final Point2D positiveConnectionOffset, negativeConnectionOffset; // offsets for connection points of wires that attach probes to body
 
+    /**
+     * Constructor
+     *
+     * @param voltmeter the voltmeter model
+     * @param mvt       model-view transform
+     */
     public VoltmeterBodyNode( final Voltmeter voltmeter, final CLModelViewTransform3D mvt ) {
 
         // body of the meter
@@ -113,14 +119,17 @@ import edu.umd.cs.piccolo.util.PBounds;
         }
     }
 
+    // offsets for connecting positive probe's wire to body
     public Point2D getPositiveConnectionOffset() {
         return new Point2D.Double( positiveConnectionOffset.getX(), positiveConnectionOffset.getY() );
     }
 
+    // offsets for connecting negative probe's wire to body
     public Point2D getNegativeConnectionOffset() {
         return new Point2D.Double( negativeConnectionOffset.getX(), negativeConnectionOffset.getY() );
     }
 
+    // right justifies the value in the display area
     private void updateLayout() {
         double x = displayBackgroundNode.getFullBoundsReference().getMaxX() - displayNode.getFullBoundsReference().getWidth() - 4;
         double y = displayBackgroundNode.getFullBoundsReference().getMaxY() - displayNode.getFullBoundsReference().getHeight() - 1;

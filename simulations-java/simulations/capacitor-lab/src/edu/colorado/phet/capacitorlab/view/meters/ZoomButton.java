@@ -16,6 +16,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * "Zoom" button, used for changing the scale on meters.
+ * </p>
+ * This evolved from a single button that dynamically changed its icon,
+ * to specific buttons for zooming in and out. The concrete classes were
+ * a convenient way of using the original implementation with minimal changes.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -53,6 +57,11 @@ public abstract class ZoomButton extends JButton {
         private static final double PLUS_MINUS_WIDTH = 0.6 * GLASS_DIAMETER;
         private static final double PLUS_MINUS_HEIGHT = 0.1 * GLASS_DIAMETER;
 
+        /**
+         * Constructor
+         *
+         * @param zoomIn true if this is a "zoom in" button, false if it's a "zoom out" button
+         */
         public ZoomImageNode( boolean zoomIn ) {
 
             PPath glassNode = new PPath( new Ellipse2D.Double( 0, 0, GLASS_DIAMETER, GLASS_DIAMETER ) );

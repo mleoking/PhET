@@ -27,6 +27,15 @@ public class EFieldDetectorView {
     private final EFieldDetectorProbeNode probeNode;
     private final ProbeWireNode wireNode;
 
+    /**
+     * Constructor
+     *
+     * @param detector                 model of the detector
+     * @param mvt                      model-view transform
+     * @param vectorReferenceMagnitude used for calibrating the initial scale of the vector display
+     * @param dev                      if true, enabled developer features
+     * @param simplified               if true, disabled some feature of the detector
+     */
     public EFieldDetectorView( final EFieldDetector detector, CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean dev, boolean simplified ) {
         bodyNode = new EFieldDetectorBodyNode( detector, mvt, vectorReferenceMagnitude, simplified );
         probeNode = new EFieldDetectorProbeNode( detector, mvt, dev );
