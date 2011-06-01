@@ -37,7 +37,7 @@ public class WireBatteryTopToCapacitorTops extends Wire {
             minY = Math.min( minY, capacitor.getLocation().getY() - 0.01 ); //TODO clean this up
         }
 
-        // connect battery to the rightmost capacitor
+        // horizontal segment connecting battery to the rightmost capacitor
         final Capacitor rightmostCapacitor = capacitors.get( capacitors.size() - 1 );
         final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), minY );
         final Point2D.Double rightCorner = new Point2D.Double( rightmostCapacitor.getX(), leftCorner.getY() );
@@ -46,7 +46,7 @@ public class WireBatteryTopToCapacitorTops extends Wire {
         addSegment( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
         addSegment( new CapacitorTopWireSegment( rightmostCapacitor, rightCorner ) );
 
-        // add segments for all capacitors in between the battery and rightmost capacitor
+        // vertical segments for all capacitors in between the battery and rightmost capacitor
         for ( int i = 0; i < capacitors.size() - 1; i++ ) {
             Capacitor capacitor = capacitors.get( i );
             Point2D.Double startPoint = new Point2D.Double( capacitor.getX(), minY );

@@ -37,18 +37,18 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
 
         this.topCapacitor = topCapacitor;
 
-        // connect top capacitor to leftmost bottom capacitor
+        // vertical segment connecting top capacitor to leftmost bottom capacitor
         addSegment( new CapacitorToCapacitorWireSegment( topCapacitor, bottomCapacitors.get( 0 ) ) );
 
         if ( bottomCapacitors.size() > 1 ) {
-            // horizontal wire above leftmost to rightmost capacitor
+            // horizontal segment above leftmost to rightmost bottom capacitors
             final double t = getCornerOffset(); // for proper connection at corners with wire stroke end style
             final double xStart = topCapacitor.getX() - t;
             final double xEnd = bottomCapacitors.get( bottomCapacitors.size() - 1 ).getX() + t;
             final double y = topCapacitor.getY() + ( ( bottomCapacitors.get( 0 ).getY() - topCapacitor.getY() ) / 2 );
             addSegment( new WireSegment( xStart, y, xEnd, y ) );
 
-            // vertical wires from horizontal wire down to each bottom capacitor
+            // vertical segments from horizontal segment down to each bottom capacitor
             for ( int i = 1; i < bottomCapacitors.size(); i++ ) {
                 double x = bottomCapacitors.get( i ).getX();
                 addSegment( new CapacitorTopWireSegment( bottomCapacitors.get( i ), new Point2D.Double( x, y ) ) );
