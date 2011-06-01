@@ -34,16 +34,16 @@ public class MultipleCapacitorsModel {
     //TODO decide whether these should live here
     public static final double CAPACITOR_X_SPACING = 0.018; // meters
     public static final double CAPACITOR_Y_SPACING = 0.015; // meters
-    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
-    public static final Point3D SINGLE_CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + CAPACITOR_X_SPACING, BATTERY_LOCATION.getY(), 0 ); // meters
     public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 3E-13 ); // Farads
     public static final int CAPACITANCE_DISPLAY_EXPONENT = -13;
-    public static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
-    public static final double DIELECTRIC_OFFSET = 0;
-    public static final double PLATE_WIDTH = 0.0075; // meters
-    public static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
 
+    private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
+    private static final Point3D SINGLE_CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + CAPACITOR_X_SPACING, BATTERY_LOCATION.getY(), 0 ); // meters
     private static final double WIRE_EXTENT = 0.01; // how far a wire extends above or below topmost capacitor's origin, in meters
+    private static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
+    private static final double DIELECTRIC_OFFSET = 0;
+    private static final double PLATE_WIDTH = 0.0075; // meters
+    private static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
     private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
