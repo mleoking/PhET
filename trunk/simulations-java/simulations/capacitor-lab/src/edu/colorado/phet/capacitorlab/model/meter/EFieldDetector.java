@@ -83,6 +83,7 @@ public class EFieldDetector {
 
     public void reset() {
         visibleProperty.reset();
+        hasBeenVisible = visibleProperty.get();
         bodyLocationProperty.reset();
         probeLocationProperty.reset();
         plateVisibleProperty.reset();
