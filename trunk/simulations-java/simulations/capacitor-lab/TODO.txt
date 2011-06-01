@@ -6,16 +6,6 @@ DESIGN ISSUES
 - do interviews with mockups of circuit construction feature, due to cost and potential issues
 - what happens when meters are in the way in Multiple Capacitors tab?
 
-MULTIPLE CAPACITORS REQUIREMENTS
-- simplified capacitors with fixed area and variable capacitance, separation changes with capacitance
-- min/max of capacitance slider varies capacitance by 3x (choose min/max to look good)
-- capacitance meter shows total capacitance for the circuit (label "Capacitance (total)")
-- charge meter shows total plate charge for the circuit (label "Plate Charge (total)")
-- no dielectric (air)
-- show charge on plates
-- show E-field lines
-- current indicators near battery poles (like in other tabs)
-
 HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
@@ -38,10 +28,6 @@ LOW PRIORITY
 - Win: need some space between dielectric material combo box and separator below it
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - remove unused code
-
-GENERAL BUGS
-- #2521, dragging HTMLNode leaves artifacts
-- #2557, dragging is broken for PSwing nodes on Mac
 
 MIGRATE TO PHETCOMMON
 
