@@ -23,6 +23,7 @@ HIGH PRIORITY
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
 - "Total Capacitance" for capacitance meter?
 - "Stored Charge" for charge meter?
+- when E-Field Detector is first made visible, put probe in center of C1
 
 MEDIUM PRIORITY
 - use shorter vertical wires in parallel circuits, to make more space for meters
@@ -43,6 +44,5 @@ GENERAL BUGS
 - #2557, dragging is broken for PSwing nodes on Mac
 
 MIGRATE TO PHETCOMMON
-- VisibleBoundsNode (used anywhere?)
 
 --
