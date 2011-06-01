@@ -37,7 +37,7 @@ public class BatteryNode extends PhetPNode {
             public void stateChanged( ChangeEvent e ) {
                 battery.setVoltage( sliderNode.getVoltage() );
             }
-        });
+        } );
 
         // layout
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
@@ -47,12 +47,14 @@ public class BatteryNode extends PhetPNode {
         y = imageNode.getYOffset() + 53; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
 
-        // observe model
+        // when battery voltage changes, update the slider
         battery.addVoltageObserver( new SimpleObserver() {
             public void update() {
                 sliderNode.setVoltage( battery.getVoltage() );
             }
         } );
+
+        // when battery polarity changes, change the battery image
         battery.addPolarityObserver( new SimpleObserver() {
             public void update() {
                 if ( battery.getPolarity() == Polarity.POSITIVE ) {

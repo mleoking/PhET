@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
@@ -26,10 +24,17 @@ public abstract class BoxNode extends PhetPNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final BoxShapeFactory shapeFactory;
-    private final PPath topNode, frontNode, sideNode;
+    private final BoxShapeFactory shapeFactory; // creates shapes for the visible faces
+    private final PPath topNode, frontNode, sideNode; // the visible faces
     private Dimension3D size;
 
+    /**
+     * Constructor
+     *
+     * @param mvt   model-view transform
+     * @param color
+     * @param size
+     */
     public BoxNode( CLModelViewTransform3D mvt, Color color, Dimension3D size ) {
 
         this.shapeFactory = new BoxShapeFactory( mvt );
@@ -63,21 +68,24 @@ public abstract class BoxNode extends PhetPNode {
         sideNode.setPathTo( shapeFactory.createSideFace( size ) );
     }
 
+    // top color is the base color
     private Color getTopColor( Color baseColor ) {
         return baseColor;
     }
 
+    // front color is one shade darker
     private Color getFrontColor( Color baseColor ) {
         return getDarkerColor( getTopColor( baseColor ) );
     }
 
+    // side color is two shades darker
     private Color getSideColor( Color baseColor ) {
-        return getDarkerColor( getFrontColor( baseColor ) );
+        return getDarkerColor( getDarkerColor( baseColor ) );
     }
 
     /*
      * Color.darker doesn't preserve alpha, so we need our own method.
-     * Notes that this results in the allocation of 2 Colors,
+     * Note that this results in the allocation of 2 Colors,
      * but that's not an issue for this sim.
      */
     private Color getDarkerColor( Color color ) {
