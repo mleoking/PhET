@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.model.meter;
 
+import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.WorldBounds;
 import edu.colorado.phet.capacitorlab.model.WorldLocationProperty;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
@@ -29,6 +30,7 @@ public class EFieldDetector {
 
     private ICircuit circuit;
     private final CircuitChangeListener circuitChangeListener;
+    private boolean hasBeenVisible; // true if the detector has ever been visible
 
     public EFieldDetector( ICircuit circuit, final WorldBounds worldBounds, Point3D bodyLocation, Point3D probeLocation,
                            boolean visible, boolean plateVisible, boolean dielectricVisible, boolean sumVisible, boolean valuesVisible ) {
@@ -64,6 +66,18 @@ public class EFieldDetector {
                     updateVectors();
                 }
             } );
+
+            // When the E-field detector becomes visible for the first time, put the probe between the plates of the first capacitor.
+            hasBeenVisible = visible;
+            visibleProperty.addObserver( new SimpleObserver() {
+                public void update() {
+                    if ( !hasBeenVisible ) {
+                        hasBeenVisible = true;
+                        Capacitor capacitor = EFieldDetector.this.circuit.getCapacitors().get( 0 );
+                        probeLocationProperty.set( capacitor.getLocation() );
+                    }
+                }
+            }, false /* notifyOnAdd */ );
         }
     }
 
