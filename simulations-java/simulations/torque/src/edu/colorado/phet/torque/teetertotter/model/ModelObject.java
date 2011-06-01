@@ -56,12 +56,8 @@ public abstract class ModelObject {
         // Does nothing by default.
     }
 
-    ;
-
     // TODO: Probably need to make this abstract, but it has a default implementation for now.
     public void setPosition( Point2D newPosition ) {
         // Does nothing by default.
     }
-
-    ;
 }
