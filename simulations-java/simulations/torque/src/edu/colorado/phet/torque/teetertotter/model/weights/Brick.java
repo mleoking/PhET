@@ -15,14 +15,8 @@ public class Brick extends Weight {
     private static final double HEIGHT = WIDTH / 3;
     private static final double MASS = 20; // In kg.  Yeah, it's one heavy brick.
 
-    // Position of this brick.  The position is defined as the center in the
-    // X direction and the bottom in the Y direction.  This makes it easy to
-    // set it on top of things.
-    private final Point2D centerBottomPos = new Point2D.Double();
-
     public Brick( Point2D initialCenterBottom ) {
         super( generateShape( initialCenterBottom ), MASS );
-        this.centerBottomPos.setLocation( initialCenterBottom );
     }
 
     // Generate the shape for this object.  This is static so that it can be
@@ -32,16 +26,16 @@ public class Brick extends Weight {
     }
 
     @Override public void translate( ImmutableVector2D modelDelta ) {
-        centerBottomPos.setLocation( modelDelta.getAddedInstance( centerBottomPos.getX(), centerBottomPos.getY() ).toPoint2D() );
+        positionHandle.setLocation( modelDelta.getAddedInstance( positionHandle.getX(), positionHandle.getY() ).toPoint2D() );
         updateShape();
     }
 
-    @Override public void setPosition( Point2D newPosition ) {
-        centerBottomPos.setLocation( newPosition );
+    @Override public void setPosition( double x, double y ) {
+        positionHandle.setLocation( x, y );
         updateShape();
     }
 
     private void updateShape() {
-        setShapeProperty( generateShape( centerBottomPos ) );
+        setShapeProperty( generateShape( positionHandle ) );
     }
 }

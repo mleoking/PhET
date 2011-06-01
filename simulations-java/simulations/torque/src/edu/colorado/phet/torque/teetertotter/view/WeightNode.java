@@ -23,6 +23,7 @@ public class WeightNode extends ModelObjectNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
             @Override protected void startDrag( PInputEvent event ) {
+                super.startDrag( event );
                 // The user is moving this, so they have control.
                 weight.userControlled.set( true );
             }
@@ -35,8 +36,10 @@ public class WeightNode extends ModelObjectNode {
             }
 
             @Override protected void endDrag( PInputEvent event ) {
+                super.endDrag( event );
                 // The user is no longer moving this, so they have relinquished control.
                 weight.userControlled.set( false );
+                System.out.println( "endDrag" );
             }
         } );
     }

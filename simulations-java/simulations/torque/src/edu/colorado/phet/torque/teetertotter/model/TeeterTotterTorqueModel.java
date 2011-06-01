@@ -66,8 +66,30 @@ public class TeeterTotterTorqueModel implements Resettable {
     }
 
     // Adds a weight to the model and notifies registered listeners
-    public void addWeight( Weight weight ) {
+    public void addWeight( final Weight weight ) {
+        weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean userControlled ) {
+                if ( !userControlled ) {
+                    System.out.println( "plank bounds = " + plank.getShape().getBounds2D() );
+                    System.out.println( "brick pos = " + weight.getPosition() );
+                    // The user has dropped this weight.
+                    if ( weight.getPosition().getX() > plank.getShape().getBounds2D().getMinX() &&
+                         weight.getPosition().getX() < plank.getShape().getBounds2D().getMaxX() &&
+                         weight.getPosition().getY() > plank.getShape().getBounds2D().getMaxY() ) {
+                        // The weight was dropped above the plank, move it to a
+                        // valid location on the plank.
+                        System.out.println( "Dropped above the plank." );
+                    }
+                    else {
+                        // Put the weight on the ground.
+                        // TODO: Once tool box nodes exist, this will cause the weight to return to the tool box.
+                        weight.setPosition( weight.getPosition().getX(), 0 );
+                    }
+                }
+            }
+        } );
         weights.add( weight );
+        // Notify listeners that a new weight has been added.
         for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
             weightAddedListener.apply( weight );
         }
