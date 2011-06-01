@@ -184,6 +184,6 @@ public class DielectricModel {
                                              CLConstants.DIELECTRIC_OFFSET_RANGE.getDefault(),
                                              new CLModelViewTransform3D() );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        return capacitor.getPlatesDielectricEField();
+        return capacitor.getEffectiveEField();
     }
 }
