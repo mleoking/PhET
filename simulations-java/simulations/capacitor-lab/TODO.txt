@@ -15,7 +15,6 @@ HIGH PRIORITY
 - "Stored Charge" for charge meter?
 
 MEDIUM PRIORITY
-- fudging of wire segment endpoints should be handled in view based on stroke, not in model
 - use shorter vertical wires in parallel circuits, to make more space for meters
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
@@ -23,6 +22,7 @@ MEDIUM PRIORITY
 
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
+- fudging of wire segment endpoints should be handled in view based on stroke, not in model
 - delete empty packages
 - would it be OK to have the dielectric fully inserted (offset=0) in the Intro tab?
 - Win: need some space between dielectric material combo box and separator below it
