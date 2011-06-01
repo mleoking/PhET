@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -131,7 +132,7 @@ public class DielectricCircuitNode extends PhetPNode {
             batteryConnectionButtonNode.setOffset( x, y );
 
             // Plate Charge control
-            plateChargeControlNode.setOffset( mvt.modelToView( CLConstants.PLATE_CHARGE_CONTROL_LOCATION ) );
+            plateChargeControlNode.setOffset( mvt.modelToView( new Point3D.Double( circuit.getCapacitor().getX() - 0.004, 0.001, 0 ) ) );
         }
 
         // observers

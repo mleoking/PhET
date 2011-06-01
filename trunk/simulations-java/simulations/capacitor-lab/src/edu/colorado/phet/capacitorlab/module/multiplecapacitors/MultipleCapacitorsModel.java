@@ -6,11 +6,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
-import edu.colorado.phet.capacitorlab.model.WorldBounds;
 import edu.colorado.phet.capacitorlab.model.circuit.*;
 import edu.colorado.phet.capacitorlab.model.meter.BarMeter.CapacitanceMeter;
 import edu.colorado.phet.capacitorlab.model.meter.BarMeter.PlateChargeMeter;
@@ -20,7 +17,6 @@ import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 
@@ -31,19 +27,44 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class MultipleCapacitorsModel {
 
-    //TODO decide whether these should live here
-    public static final double CAPACITOR_X_SPACING = 0.018; // meters
-    public static final double CAPACITOR_Y_SPACING = 0.015; // meters
-    public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 3E-13 ); // Farads
-    public static final int CAPACITANCE_DISPLAY_EXPONENT = -13;
-
+    // Circuits
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
-    private static final Point3D SINGLE_CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + CAPACITOR_X_SPACING, BATTERY_LOCATION.getY(), 0 ); // meters
-    private static final double WIRE_EXTENT = 0.01; // how far a wire extends above or below topmost capacitor's origin, in meters
+    private static final double CAPACITOR_X_SPACING = 0.018; // meters
+    private static final double CAPACITOR_Y_SPACING = 0.015; // meters
     private static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
     private static final double DIELECTRIC_OFFSET = 0;
     private static final double PLATE_WIDTH = 0.0075; // meters
-    private static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CAPACITANCE_RANGE.getMin() );
+    private static final double PLATE_SEPARATION = Capacitor.getPlateSeparation( DIELECTRIC_MATERIAL.getDielectricConstant(), PLATE_WIDTH, CLConstants.CAPACITANCE_RANGE.getMin() );
+    private static final double WIRE_THICKNESS = CLConstants.WIRE_THICKNESS;
+    private static final double WIRE_EXTENT = 0.01; // how far a wire extends above or below topmost capacitor's origin, in meters
+
+    // Capacitance meter
+    public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.038, 0.0017, 0 );
+    public static final boolean CAPACITANCE_METER_VISIBLE = false;
+
+    // Plate Charge meter
+    public static final Point3D PLATE_CHARGE_METER_LOCATION = new Point3D.Double( 0.049, 0.0017, 0 );
+    public static final boolean PLATE_CHARGE_METER_VISIBLE = false;
+
+    // Stored Energy meter
+    public static final Point3D STORED_ENERGY_METER_LOCATION = new Point3D.Double( 0.06, 0.0017, 0 );
+    public static final boolean STORED_ENERGY_METER_VISIBLE = false;
+
+    // E-Field Detector
+    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
+    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = BATTERY_LOCATION;
+    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
+    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
+    public static final boolean EFIELD_VALUES_VISIBLE = true;
+
+    // Voltmeter
+    public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
+    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
+    public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
+    public static final boolean VOLTMETER_VISIBLE = false;
+
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
     private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
@@ -60,15 +81,25 @@ public class MultipleCapacitorsModel {
 
     public MultipleCapacitorsModel( final IClock clock, final CLModelViewTransform3D mvt ) {
 
+        final CircuitConfig circuitConfig = new CircuitConfig( clock,
+                                                               mvt,
+                                                               BATTERY_LOCATION,
+                                                               CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, PLATE_WIDTH,
+                                                               PLATE_SEPARATION,
+                                                               DIELECTRIC_MATERIAL,
+                                                               DIELECTRIC_OFFSET,
+                                                               WIRE_THICKNESS, WIRE_EXTENT
+        );
+
         // create circuits
         circuits = new ArrayList<ICircuit>() {{
-            add( new SingleCircuit( clock, mvt, BATTERY_LOCATION, SINGLE_CAPACITOR_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new SeriesCircuit( CLStrings.TWO_IN_SERIES, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new SeriesCircuit( CLStrings.THREE_IN_SERIES, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new ParallelCircuit( CLStrings.TWO_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 2, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new ParallelCircuit( CLStrings.THREE_IN_PARALLEL, clock, mvt, BATTERY_LOCATION, 3, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new Combination1Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
-            add( new Combination2Circuit( clock, mvt, BATTERY_LOCATION, PLATE_WIDTH, PLATE_SEPARATION, DIELECTRIC_MATERIAL, DIELECTRIC_OFFSET, WIRE_EXTENT ) );
+            add( new SingleCircuit( circuitConfig ) );
+            add( new SeriesCircuit( circuitConfig, CLStrings.TWO_IN_SERIES, 2 ) );
+            add( new SeriesCircuit( circuitConfig, CLStrings.THREE_IN_SERIES, 3 ) );
+            add( new ParallelCircuit( circuitConfig, CLStrings.TWO_IN_PARALLEL, 2 ) );
+            add( new ParallelCircuit( circuitConfig, CLStrings.THREE_IN_PARALLEL, 3 ) );
+            add( new Combination1Circuit( circuitConfig ) );
+            add( new Combination2Circuit( circuitConfig ) );
         }};
         currentCircuitProperty = new Property<ICircuit>( circuits.get( 0 ) );
 
@@ -76,17 +107,17 @@ public class MultipleCapacitorsModel {
 
         worldBounds = new WorldBounds();
 
-        capacitanceMeter = new CapacitanceMeter( currentCircuitProperty.get(), worldBounds, CLConstants.CAPACITANCE_METER_LOCATION, CLConstants.CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( currentCircuitProperty.get(), worldBounds, CLConstants.PLATE_CHARGE_METER_LOCATION, CLConstants.PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( currentCircuitProperty.get(), worldBounds, CLConstants.STORED_ENERGY_METER_LOCATION, CLConstants.STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( currentCircuitProperty.get(), worldBounds, CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuitProperty.get(), worldBounds, PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuitProperty.get(), worldBounds, STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
 
-        eFieldDetector = new EFieldDetector( currentCircuitProperty.get(), worldBounds, CLConstants.EFIELD_DETECTOR_BODY_LOCATION, CLConstants.EFIELD_DETECTOR_PROBE_LOCATION,
-                                             CLConstants.EFIELD_DETECTOR_VISIBLE, CLConstants.EFIELD_PLATE_VECTOR_VISIBLE, CLConstants.EFIELD_DIELECTRIC_VECTOR_VISIBLE,
-                                             CLConstants.EFIELD_SUM_VECTOR_VISIBLE, CLConstants.EFIELD_VALUES_VISIBLE );
+        eFieldDetector = new EFieldDetector( currentCircuitProperty.get(), worldBounds, EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
+                                             EFIELD_DETECTOR_VISIBLE, EFIELD_PLATE_VECTOR_VISIBLE, EFIELD_DIELECTRIC_VECTOR_VISIBLE,
+                                             EFIELD_SUM_VECTOR_VISIBLE, EFIELD_VALUES_VISIBLE );
 
         voltmeter = new Voltmeter( currentCircuitProperty.get(), worldBounds, mvt,
-                                   CLConstants.VOLTMETER_BODY_LOCATION, CLConstants.VOLTMETER_POSITIVE_PROBE_LOCATION, CLConstants.VOLTMETER_NEGATIVE_PROBE_LOCATION,
-                                   CLConstants.VOLTMETER_VISIBLE );
+                                   VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
+                                   VOLTMETER_VISIBLE );
 
         // when the circuit changes...
         currentCircuitProperty.addObserver( new SimpleObserver() {

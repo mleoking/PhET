@@ -5,17 +5,14 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
@@ -40,7 +37,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class SingleCircuit extends AbstractCircuit {
 
     // immutable instance data
-    private final IClock clock;
     private final Capacitor capacitor;
     private final ArrayList<Wire> wires;
 
@@ -48,25 +44,25 @@ public class SingleCircuit extends AbstractCircuit {
     private Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
 
-    public SingleCircuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
-                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, double wireExtent ) {
-        this( clock, mvt, batteryLocation, capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, true /* batteryConnected */, wireExtent );
+    public SingleCircuit( CircuitConfig config ) {
+        this( config, true /* batteryConnected */ );
     }
 
-    public SingleCircuit( IClock clock, final CLModelViewTransform3D mvt, Point3D batteryLocation, Point3D capacitorLocation,
-                          double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset,
-                          boolean batteryConnected, final double wireExtent ) {
-        super( CLStrings.SINGLE, clock, mvt, batteryLocation );
+    public SingleCircuit( final CircuitConfig config, boolean batteryConnected ) {
+        super( CLStrings.SINGLE, config.clock, config.mvt, config.batteryLocation );
 
-        this.clock = clock;
-        this.capacitor = new Capacitor( capacitorLocation, plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
+        double x = config.batteryLocation.getX() + config.capacitorXSpacing;
+        final double y = config.batteryLocation.getY();
+        final double z = config.batteryLocation.getZ();
+        this.capacitor = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
 
         // Create the wires
         wires = new ArrayList<Wire>() {{
-            add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), capacitor ) );
-            add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), capacitor ) );
+            add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, getBattery(), capacitor ) );
+            add( new WireBatteryBottomToCapacitorBottoms( config.mvt, config.wireThickness, config.wireExtent, getBattery(), capacitor ) );
         }};
 
         // observe battery

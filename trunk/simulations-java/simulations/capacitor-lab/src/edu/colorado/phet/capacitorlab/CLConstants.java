@@ -5,7 +5,6 @@ package edu.colorado.phet.capacitorlab;
 import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
@@ -38,24 +37,20 @@ public class CLConstants {
     // Model
     //----------------------------------------------------------------------------
 
-    //TODO many of these are specific to Dielectric module, move them elsewhere
-
     public static final double EPSILON_0 = 8.854E-12; // vacuum permittivity, aka electric constant (Farads/meter)
 
     // world
     public static final double WORLD_DRAG_MARGIN = 0.001; // meters
 
     // battery
-    public static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
     public static final DoubleRange BATTERY_VOLTAGE_RANGE = new DoubleRange( -1.5, 1.5, 0 ); // Volts
     public static final double BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD = 0.1; // Volts
-    public static final boolean BATTERY_CONNECTED = true;
 
     // capacitor
-    public static final Point3D CAPACITOR_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.025, BATTERY_LOCATION.getY(), 0 ); // meters
     public static final DoubleRange PLATE_WIDTH_RANGE = new DoubleRange( 0.01, 0.02, 0.01 ); // meters
     public static final double PLATE_HEIGHT = 0.0005; // meters
     public static final DoubleRange PLATE_SEPARATION_RANGE = new DoubleRange( 0.005, 0.01, 0.01 ); // meters
+    public static final DoubleRange CAPACITANCE_RANGE = new DoubleRange( 1E-13, 3E-13 ); // Farads
 
     // dielectric
     public static final DoubleRange DIELECTRIC_CONSTANT_RANGE = new DoubleRange( 1, 5, 5 ); // dimensionless
@@ -83,39 +78,11 @@ public class CLConstants {
      */
     public static final double EPSILON_AIR = 1.0;
 
-    // wire
+    // Wire
     public static final double WIRE_THICKNESS = 0.0005; // meters
 
     // Plate Charge control
-    public static final Point3D PLATE_CHARGE_CONTROL_LOCATION = new Point3D.Double( CAPACITOR_LOCATION.getX() - 0.004, 0.001, 0 );
     public static final double PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD = 1.5E-13;
-
-    // Capacitance meter
-    public static final Point3D CAPACITANCE_METER_LOCATION = new Point3D.Double( 0.038, 0.0017, 0 );
-    public static final boolean CAPACITANCE_METER_VISIBLE = false;
-
-    // Plate Charge meter
-    public static final Point3D PLATE_CHARGE_METER_LOCATION = new Point3D.Double( 0.049, 0.0017, 0 );
-    public static final boolean PLATE_CHARGE_METER_VISIBLE = false;
-
-    // Stored Energy meter
-    public static final Point3D STORED_ENERGY_METER_LOCATION = new Point3D.Double( 0.06, 0.0017, 0 );
-    public static final boolean STORED_ENERGY_METER_VISIBLE = false;
-
-    // E-Field detector
-    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
-    public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = CAPACITOR_LOCATION;
-    public static final boolean EFIELD_DETECTOR_VISIBLE = false;
-    public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_DIELECTRIC_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_SUM_VECTOR_VISIBLE = true;
-    public static final boolean EFIELD_VALUES_VISIBLE = true;
-
-    // Voltmeter
-    public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
-    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
-    public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
-    public static final boolean VOLTMETER_VISIBLE = false;
 
     //----------------------------------------------------------------------------
     // View
@@ -149,4 +116,7 @@ public class CLConstants {
     // E-field
     public static final IntegerRange NUMBER_OF_EFIELD_LINES = new IntegerRange( 4, 900 ); // number of lines on smallest plate
     public static final boolean EFIELD_VISIBLE = false;
+
+    // capacitance control
+    public static final int CAPACITANCE_CONTROL_EXPONENT = -13;
 }

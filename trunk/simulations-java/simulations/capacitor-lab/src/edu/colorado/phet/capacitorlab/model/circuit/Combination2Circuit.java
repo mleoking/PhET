@@ -6,17 +6,14 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
-import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
+import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
-import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacitorsModel;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
@@ -38,30 +35,26 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Combination2Circuit extends AbstractCircuit {
 
-    private static final double X_SPACING = MultipleCapacitorsModel.CAPACITOR_X_SPACING;
-    private static final double Y_SPACING = MultipleCapacitorsModel.CAPACITOR_Y_SPACING;
-
     private final ArrayList<Capacitor> capacitors;
     private final Capacitor c1, c2, c3;
     private final ArrayList<Wire> wires;
 
-    public Combination2Circuit( IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation,
-                                double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, double wireExtent ) {
-        super( CLStrings.COMBINATION_2, clock, mvt, batteryLocation );
+    public Combination2Circuit( CircuitConfig config ) {
+        super( CLStrings.COMBINATION_2, config.clock, config.mvt, config.batteryLocation );
 
         // create capacitors
         {
             // Series
-            double x = batteryLocation.getX() + X_SPACING;
-            double y = batteryLocation.getY() - ( 0.5 * Y_SPACING );
-            final double z = batteryLocation.getZ();
-            c1 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
+            double x = getBattery().getX() + config.capacitorXSpacing;
+            double y = getBattery().getY() - ( 0.5 * config.capacitorYSpacing );
+            final double z = getBattery().getZ();
+            c1 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
 
             // Parallel
-            y += Y_SPACING;
-            c2 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
-            x += X_SPACING;
-            c3 = new Capacitor( new Point3D.Double( x, y, z ), plateWidth, plateSeparation, dielectricMaterial, dielectricOffset, mvt );
+            y += config.capacitorYSpacing;
+            c2 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+            x += config.capacitorXSpacing;
+            c3 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
 
             capacitors = new ArrayList<Capacitor>();
             capacitors.add( c1 );
@@ -72,9 +65,9 @@ public class Combination2Circuit extends AbstractCircuit {
         // wires
         {
             wires = new ArrayList<Wire>();
-            wires.add( new WireBatteryTopToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), c1 ) );
-            wires.add( new WireCapacitorBottomToCapacitorTops( mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
-            wires.add( new WireBatteryBottomToCapacitorBottoms( mvt, CLConstants.WIRE_THICKNESS, wireExtent, getBattery(), c2, c3 ) );
+            wires.add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c1 ) );
+            wires.add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
+            wires.add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c2, c3 ) );
         }
 
         // observe battery
