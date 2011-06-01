@@ -141,8 +141,7 @@ public class DielectricCanvas extends CLCanvas {
         storedEnergyMeterNode.reset();
     }
 
-    @Override
-    protected void updateLayout() {
+    @Override protected void updateLayout() {
         super.updateLayout();
 
         Dimension2D worldSize = getWorldSize();
