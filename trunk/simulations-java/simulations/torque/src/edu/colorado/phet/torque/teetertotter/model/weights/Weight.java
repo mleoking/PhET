@@ -18,4 +18,7 @@ public abstract class Weight extends ModelObject {
         this.mass = mass;
     }
 
+    public double getMass() {
+        return mass;
+    }
 }
