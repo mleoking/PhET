@@ -5,8 +5,6 @@ DEADLINES
 DESIGN ISSUES
 - do interviews with mockups of circuit construction feature, due to cost and potential issues
 - what happens when meters are in the way in Multiple Capacitors tab?
-- should voltage of all batteries be synchronized in Multiple Capacitors tab? would make comparison easier...
-- Should capacitors be labeled (C1, C2,...) so that teachers can refer to them in class, homework assignments, etc?
 
 MULTIPLE CAPACITORS REQUIREMENTS
 - simplified capacitors with fixed area and variable capacitance, separation changes with capacitance
@@ -28,6 +26,7 @@ HIGH PRIORITY
 - "Stored Charge" for charge meter?
 
 MEDIUM PRIORITY
+- use shorter vertical wires in parallel circuits, to make more space for meters
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
 - account for capacitance slider i18n when computing horizontal spacing of capacitors
