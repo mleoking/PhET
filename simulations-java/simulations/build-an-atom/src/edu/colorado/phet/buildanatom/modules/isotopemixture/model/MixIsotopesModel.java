@@ -594,6 +594,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
         // reported by the test chamber, since we generally can't add enough
         // atoms to the test chamber to make the proportions exactly match
         // those that occur in nature.
+        //REVIEW bug? naturesMixIsotopeProportions is populated, but never used
         Map<ImmutableAtom, Double> naturesMixIsotopeProportions = new HashMap<ImmutableAtom, Double>();
         for ( ImmutableAtom isotope : possibleIsotopesCopy ) {
             naturesMixIsotopeProportions.put( isotope, AtomIdentifier.getNaturalAbundance( isotope ) );

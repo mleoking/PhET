@@ -78,7 +78,7 @@ public class Atom implements IDynamicAtom {
     };
 
     // Collection of registered listeners.
-    private final HashSet<AtomListener> listeners =new HashSet<AtomListener>( );
+    private final HashSet<AtomListener> listeners = new HashSet<AtomListener>();
 
     // ------------------------------------------------------------------------
     // Constructor(s)
@@ -96,7 +96,7 @@ public class Atom implements IDynamicAtom {
                 checkAndReconfigureShells();
                 notifyConfigurationChanged();
             }
-        });
+        } );
 
         electronShell2.addObserver( new SimpleObserver() {
             public void update() {
@@ -171,6 +171,7 @@ public class Atom implements IDynamicAtom {
         else if ( particle instanceof Neutron && neutrons.contains( particle ) ) {
             removeNeutron( (Neutron) particle );
         }
+        //REVIEW bug? particleFound is always false, so this will always return null
         return particleFound ? particle : null;
     }
 
@@ -190,13 +191,13 @@ public class Atom implements IDynamicAtom {
      */
     public SphericalParticle removeProton() {
         assert protons.size() > 0;
-        return removeProton( protons.get( 0  ) );
+        return removeProton( protons.get( 0 ) );
     }
 
     /**
      * Remove a specific neutron.
      */
-    public SphericalParticle removeNeutron( Neutron neutron ){
+    public SphericalParticle removeNeutron( Neutron neutron ) {
         boolean found = neutrons.remove( neutron );
         neutron.removeListener( nucleonGrabbedListener );
         reconfigureNucleus( false );
@@ -218,12 +219,12 @@ public class Atom implements IDynamicAtom {
      * @param electron
      * @return
      */
-    public Electron removeElectron( Electron electron ){
+    public Electron removeElectron( Electron electron ) {
         Electron removedElectron = null;
-        if ( electronShell1.containsElectron( electron )){
+        if ( electronShell1.containsElectron( electron ) ) {
             removedElectron = electronShell1.removeElectron( electron );
         }
-        else if ( electronShell2.containsElectron( electron )){
+        else if ( electronShell2.containsElectron( electron ) ) {
             removedElectron = electronShell2.removeElectron( electron );
         }
         return removedElectron;
@@ -302,7 +303,7 @@ public class Atom implements IDynamicAtom {
         return new Point2D.Double( position.getX(), position.getY() );
     }
 
-    public void setPosition(double x, double y){
+    public void setPosition( double x, double y ) {
         position.setLocation( x, y );
         electronShell1.setCenterLocation( x, y );
         electronShell2.setCenterLocation( x, y );
@@ -310,7 +311,7 @@ public class Atom implements IDynamicAtom {
         notifyPositionChanged();
     }
 
-    public void setPosition( Point2D position ){
+    public void setPosition( Point2D position ) {
         setPosition( position.getX(), position.getY() );
     }
 
@@ -323,7 +324,7 @@ public class Atom implements IDynamicAtom {
      * @param atom
      * @return
      */
-    public boolean configurationEquals( IAtom atom ){
+    public boolean configurationEquals( IAtom atom ) {
         return protons.size() == atom.getNumProtons() &&
                neutrons.size() == atom.getNumNeutrons() &&
                electronShell1.getNumElectrons() + electronShell2.getNumElectrons() == atom.getNumElectrons();
@@ -522,23 +523,23 @@ public class Atom implements IDynamicAtom {
         return neutrons;
     }
 
-    public int getNumProtons(){
+    public int getNumProtons() {
         return protons.size();
     }
 
-    public int getNumNeutrons(){
+    public int getNumNeutrons() {
         return neutrons.size();
     }
 
-    public int getNumElectrons(){
+    public int getNumElectrons() {
         return electronShell1.getNumElectrons() + electronShell2.getNumElectrons();
     }
 
-    public int getMassNumber(){
+    public int getMassNumber() {
         return getNumProtons() + getNumNeutrons();
     }
 
-    public double getAtomicMass(){
+    public double getAtomicMass() {
         return AtomIdentifier.getAtomicMass( this );
     }
 
@@ -593,15 +594,15 @@ public class Atom implements IDynamicAtom {
         return AtomIdentifier.getSymbol( this );
     }
 
-    public boolean isStable(){
+    public boolean isStable() {
         return AtomIdentifier.isStable( this );
     }
 
     public String getFormattedCharge() {
-        if (getCharge() <= 0){
+        if ( getCharge() <= 0 ) {
             return "" + getCharge();
         }
-        else{
+        else {
             return "+" + getCharge();
         }
     }
@@ -610,23 +611,23 @@ public class Atom implements IDynamicAtom {
         return AtomIdentifier.getNaturalAbundance( this );
     }
 
-    public void addAtomListener(AtomListener listener) {
+    public void addAtomListener( AtomListener listener ) {
         listeners.add( listener );
     }
 
-    public void removeListener(AtomListener listener){
+    public void removeListener( AtomListener listener ) {
         listeners.remove( listener );
     }
 
-    private void notifyConfigurationChanged(){
-        for (AtomListener listener : listeners ){
+    private void notifyConfigurationChanged() {
+        for ( AtomListener listener : listeners ) {
             listener.configurationChanged();
         }
         return;
     }
 
-    private void notifyPositionChanged(){
-        for (AtomListener listener : listeners ){
+    private void notifyPositionChanged() {
+        for ( AtomListener listener : listeners ) {
             listener.postitionChanged();
         }
     }
