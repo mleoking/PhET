@@ -1,5 +1,4 @@
-Prevent moving anything else when "All-Filled" dialog is present. Make it a modal dialog maybe?
-3D button make translatable - resizing of collection boxes? Set square size minimum, use that for English
+3D button make translatable - resizing of collection boxes? Set square size minimum, use that for English. If over a threshold, turn it into eye icon.
 Other TODOs
 
 TARGET - END OF JUNE
