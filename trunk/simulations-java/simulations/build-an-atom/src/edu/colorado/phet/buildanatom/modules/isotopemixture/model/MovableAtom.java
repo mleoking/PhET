@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
  * This class represents an atom that can move around but is otherwise
  * immutable.  It was created due to a need to represent atoms as single
  * entities rather than as a collection of particles.
- *
+ * <p/>
  * At the time of this writing, this class is used only in the Isotopes flavor
  * of this simulation.
  *
@@ -28,19 +28,15 @@ public class MovableAtom extends SphericalParticle {
     private final double radius;
 
     // ------------------------------------------------------------------------
-    // Instance Data
-    // ------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition ){
+    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition ) {
         this( numProtons, numNeutrons, radius, initialPosition, null );
     }
 
-    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ){
-        super(radius, initialPosition.getX(), initialPosition.getY(), clock);
+    public MovableAtom( int numProtons, int numNeutrons, double radius, Point2D initialPosition, ConstantDtClock clock ) {
+        super( radius, initialPosition.getX(), initialPosition.getY(), clock );
         atomConfiguration = new ImmutableAtom( numProtons, numNeutrons, numProtons );
         this.radius = radius;
     }
@@ -56,20 +52,17 @@ public class MovableAtom extends SphericalParticle {
      *
      * @return
      */
-    public ImmutableAtom getAtomConfiguration(){
+    public ImmutableAtom getAtomConfiguration() {
         return atomConfiguration;
     }
 
     /**
      * Get the radius of this atom.
+     *
      * @return
      */
     @Override
-    public double getRadius(){
+    public double getRadius() {
         return radius;
     }
-
-    // ------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 }

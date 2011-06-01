@@ -37,11 +37,6 @@ public class MakeIsotopesModule extends PiccoloModule {
         canvas = new MakeIsotopesCanvas( model );
         setSimulationPanel( canvas );
 
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
-
         // Set initial state
         reset();
     }

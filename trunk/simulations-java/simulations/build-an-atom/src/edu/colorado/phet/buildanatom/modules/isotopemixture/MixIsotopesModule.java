@@ -37,11 +37,6 @@ public class MixIsotopesModule extends PiccoloModule {
         canvas = new MixIsotopesCanvas( model );
         setSimulationPanel( canvas );
 
-        // Help
-        if ( hasHelp() ) {
-            //XXX add help items
-        }
-
         // Set initial state
         reset();
     }

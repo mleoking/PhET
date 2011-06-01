@@ -2,19 +2,13 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GradientPaint;
-import java.awt.GridLayout;
-import java.awt.Paint;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.text.DecimalFormat;
 
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
@@ -45,11 +39,13 @@ public class AtomScaleNode extends PNode {
     // Class Data
     // ------------------------------------------------------------------------
 
-    private enum DisplayMode { MASS_NUMBER, ATOMIC_MASS };
+    private enum DisplayMode {MASS_NUMBER, ATOMIC_MASS}
+
+    ;
 
     private static final Color COLOR = new Color( 228, 194, 167 );
     private static final Dimension2D SIZE = new PDimension( 320, 125 );
-    private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
+    private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70; //REVIEW name typo
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
@@ -78,22 +74,22 @@ public class AtomScaleNode extends PNode {
         addChild( frontOfBaseNode );
 
         // Add the readout to the scale base.
-        final PNode scaleReadoutNode = new ScaleReadoutNode( atom, displayModeProperty ){{
+        final PNode scaleReadoutNode = new ScaleReadoutNode( atom, displayModeProperty ) {{
             setOffset( SIZE.getWidth() * 0.05, frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
         }};
         addChild( scaleReadoutNode );
 
         // Add the display mode selector to the scale base.
-        addChild( new DisplayModeSelectionNode( displayModeProperty ){{
+        addChild( new DisplayModeSelectionNode( displayModeProperty ) {{
             // Scale the selector if necessary.  This is here primarily in
             // support of translation.
             double maxAllowableWidth = frontOfBaseNode.getFullBoundsReference().getMaxX() - scaleReadoutNode.getFullBoundsReference().getMaxX() - 10;
-            if ( getFullBoundsReference().getWidth() > maxAllowableWidth ){
+            if ( getFullBoundsReference().getWidth() > maxAllowableWidth ) {
                 setScale( maxAllowableWidth / getFullBoundsReference().width );
             }
             // Position the selector next to the readout.
             setOffset( scaleReadoutNode.getFullBoundsReference().getMaxX() + 5,
-                    frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
+                       frontOfBaseNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
         }} );
 
         // Add the top portion of the scale base.  This is meant to look like
@@ -158,7 +154,7 @@ public class AtomScaleNode extends PNode {
 
         // Add the front of the weigh plate.
         Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
-                SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
+                                                                     SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
         addChild( new PhetPPath( frontOfWeighPlateShape, COLOR, STROKE, STROKE_PAINT ) );
     }
 
@@ -166,11 +162,11 @@ public class AtomScaleNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    public void reset(){
+    public void reset() {
         displayModeProperty.reset();
     }
 
-    public double getWeighPlateTopProjectedHeight(){
+    public double getWeighPlateTopProjectedHeight() {
         return weighPlateTop.getFullBoundsReference().getHeight();
     }
 
@@ -188,15 +184,15 @@ public class AtomScaleNode extends PNode {
      */
     private static class ScaleReadoutNode extends PNode {
 
-        private static final DecimalFormat atomicMassNumberFormatter = new DecimalFormat("#0.00000");
-        PText readoutText = new PText(){{
+        private static final DecimalFormat atomicMassNumberFormatter = new DecimalFormat( "#0.00000" );
+        PText readoutText = new PText() {{
             setFont( new PhetFont( 24 ) );
         }};
         Property<DisplayMode> displayModeProperty;
         IDynamicAtom atom;
         private final PPath readoutBackground;
 
-        public ScaleReadoutNode( IDynamicAtom atom, Property<DisplayMode> displayModeProperty ){
+        public ScaleReadoutNode( IDynamicAtom atom, Property<DisplayMode> displayModeProperty ) {
 
             this.atom = atom;
             this.displayModeProperty = displayModeProperty;
@@ -228,18 +224,18 @@ public class AtomScaleNode extends PNode {
             } );
         }
 
-        private void updateReadout(){
-            if ( displayModeProperty.get() == DisplayMode.MASS_NUMBER ){
+        private void updateReadout() {
+            if ( displayModeProperty.get() == DisplayMode.MASS_NUMBER ) {
                 readoutText.setText( Integer.toString( atom.getMassNumber() ) );
             }
-            else{
+            else {
                 double atomicMass = atom.getAtomicMass();
                 readoutText.setText( atomicMass > 0 ? atomicMassNumberFormatter.format( atomicMass ) : "--" );
             }
             // Make sure that the text fits in the display.
             readoutText.setScale( 1 );
             if ( readoutText.getFullBoundsReference().width > readoutBackground.getFullBoundsReference().width ||
-                 readoutText.getFullBoundsReference().height > readoutBackground.getFullBoundsReference().height ){
+                 readoutText.getFullBoundsReference().height > readoutBackground.getFullBoundsReference().height ) {
                 double scaleFactor = Math.min(
                         readoutBackground.getFullBoundsReference().width / readoutText.getFullBoundsReference().width,
                         readoutBackground.getFullBoundsReference().height / readoutText.getFullBoundsReference().height );
@@ -247,7 +243,7 @@ public class AtomScaleNode extends PNode {
             }
             // Center the text in the display.
             readoutText.centerFullBoundsOnPoint( readoutBackground.getFullBoundsReference().getCenterX(),
-                    readoutBackground.getFullBoundsReference().getCenterY() );
+                                                 readoutBackground.getFullBoundsReference().getCenterY() );
         }
     }
 
@@ -262,15 +258,15 @@ public class AtomScaleNode extends PNode {
         private static final Font LABEL_FONT = new PhetFont( 16 );
 
         public DisplayModeSelectionNode( Property<DisplayMode> displayModeProperty ) {
-            JPanel buttonPanel = new JPanel( new GridLayout( 2, 1 ) ){{
+            JPanel buttonPanel = new JPanel( new GridLayout( 2, 1 ) ) {{
                 setBackground( COLOR );
             }};
-            PropertyRadioButton<DisplayMode> massNumberButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.MASS_NUMBER, displayModeProperty, DisplayMode.MASS_NUMBER ){{
+            PropertyRadioButton<DisplayMode> massNumberButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.MASS_NUMBER, displayModeProperty, DisplayMode.MASS_NUMBER ) {{
                 setBackground( COLOR );
                 setFont( LABEL_FONT );
             }};
             buttonPanel.add( massNumberButton );
-            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.ATOMIC_MASS, displayModeProperty, DisplayMode.ATOMIC_MASS ){{
+            PropertyRadioButton<DisplayMode> atomicMassButton = new PropertyRadioButton<DisplayMode>( BuildAnAtomStrings.ATOMIC_MASS, displayModeProperty, DisplayMode.ATOMIC_MASS ) {{
                 setBackground( COLOR );
                 setFont( LABEL_FONT );
             }};
