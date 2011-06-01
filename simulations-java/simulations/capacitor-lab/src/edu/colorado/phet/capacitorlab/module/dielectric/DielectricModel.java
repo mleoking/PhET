@@ -11,7 +11,6 @@ import edu.colorado.phet.capacitorlab.model.meter.BarMeter.PlateChargeMeter;
 import edu.colorado.phet.capacitorlab.model.meter.BarMeter.StoredEnergyMeter;
 import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
 import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
-import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
@@ -92,14 +91,6 @@ public class DielectricModel {
 
     public Voltmeter getVoltmeter() {
         return voltmeter;
-    }
-
-    public Wire getTopWire() {
-        return circuit.getTopWire();
-    }
-
-    public Wire getBottomWire() {
-        return circuit.getBottomWire();
     }
 
     public void reset() {
