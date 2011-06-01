@@ -11,11 +11,15 @@ import java.text.NumberFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.capacitorlab.view.meters.TimesTenValueNode;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -252,5 +256,17 @@ public class CapacitanceControlNode extends PhetPNode {
             setTextPaint( TITLE_COLOR );
             setFont( TITLE_FONT );
         }
+    }
+
+    /*
+     * Gets the typical width of this control, in view coordinates. This is needed to account for
+     * i18n when laying out circuits. This value is converted to model coordinates and used as the
+     * x-spacing of the capacitors, ensuring that there is room between the capacitors for the
+     * capacitance controls.
+     */
+    public static double getTypicalWidth() {
+        Capacitor capacitor = new Capacitor( new Point3D.Double(), 1, 1, new Air(), 0, new CLModelViewTransform3D() );
+        CapacitanceControlNode node = new CapacitanceControlNode( capacitor, CLConstants.CAPACITANCE_RANGE, CLConstants.CAPACITANCE_CONTROL_EXPONENT );
+        return node.getFullBoundsReference().getWidth();
     }
 }
