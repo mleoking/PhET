@@ -3,7 +3,8 @@ TODO list for capacitor-lab
 DEADLINES
 
 HIGH PRIORITY
-- make capacitance slider snap to nearest 0.1 (what to do while dragging? show 2 decimal places and snap on release?)
+- bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
+- change request: make capacitance slider snap to nearest 0.1 (what to do while dragging? show 2 decimal places and snap on release?)
 - lots of duplicate code in AbstractCircuit subclasses
 
 MEDIUM PRIORITY
