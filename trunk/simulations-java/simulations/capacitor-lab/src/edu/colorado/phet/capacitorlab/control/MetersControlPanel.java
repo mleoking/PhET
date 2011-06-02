@@ -24,12 +24,16 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
  */
 public class MetersControlPanel extends PhetTitledPanel {
 
-    public MetersControlPanel( CapacitanceMeter capacitanceMeter, PlateChargeMeter plateChangeMeter, StoredEnergyMeter storedEnergyMeter, Voltmeter voltmeter, EFieldDetector eFieldDetector ) {
+    public MetersControlPanel( CapacitanceMeter capacitanceMeter, String capacitanceMeterLabel,
+                               PlateChargeMeter plateChargeMeter, String plateChargeMeterLabel,
+                               StoredEnergyMeter storedEnergyMeter,
+                               Voltmeter voltmeter,
+                               EFieldDetector eFieldDetector ) {
         super( CLStrings.METERS );
 
         // check boxes
-        JCheckBox capacitanceCheckBox = new PropertyCheckBox( CLStrings.CAPACITANCE, capacitanceMeter.visibleProperty );
-        JCheckBox plateChargeCheckBox = new PropertyCheckBox( CLStrings.PLATE_CHARGE, plateChangeMeter.visibleProperty );
+        JCheckBox capacitanceCheckBox = new PropertyCheckBox( capacitanceMeterLabel, capacitanceMeter.visibleProperty );
+        JCheckBox plateChargeCheckBox = new PropertyCheckBox( plateChargeMeterLabel, plateChargeMeter.visibleProperty );
         JCheckBox storedEnergyCheckBox = new PropertyCheckBox( CLStrings.STORED_ENERGY, storedEnergyMeter.visibleProperty );
         JCheckBox voltmeterCheckBox = new PropertyCheckBox( CLStrings.VOLTMETER, voltmeter.visibleProperty );
         JCheckBox eFieldDetectorCheckBox = new PropertyCheckBox( CLStrings.ELECTRIC_FIELD_DETECTOR, eFieldDetector.visibleProperty );
