@@ -1,3 +1,4 @@
+# 2.07.01 (52603) Jun 2, 2011
 4/27/2011 switched Microsoft Clip Art Images for 'bugboard.gif', 'bulldog.png', 'rocket5.png', 'ruler-thumb.png'
 Moved spline computations from phetcommon to common/spline since it depends on Jama
 Moved spline computations from energy-skate-park to phetcommon for reuse in fluid-pressure-and-flow
@@ -109,8 +110,8 @@ Added "Return Skater" button to move to the last set restore point.
 
 2.01.10 (6-8-2007)
 Fixed: Adding a skater with 'A' was broken
-Fixed: On the E vs. T graph, only one “pause” button should be visible at a time,
-    other button should be grayed out and read “record” or “playback”;
+Fixed: On the E vs. T graph, only one ï¿½pauseï¿½ button should be visible at a time,
+    other button should be grayed out and read ï¿½recordï¿½ or ï¿½playbackï¿½;
     it is confusing to see 2 pause buttons at once
 Fixed: The playback button should be enabled during record; when pressed during recording,
     it should reset the playback timer and start playback.
@@ -132,7 +133,7 @@ Readouts on E vs. T plot no longer update during "live mode"
 2.01.07 (6-4-2007)
 Added improved time series controls for main window and Energy vs. Time graph
 If the user grabs the skater during playback mode (whether or not it is paused), it changes to record (or live) mode.
-Reworded “Record Path” to “Show Path”
+Reworded ï¿½Record Pathï¿½ to ï¿½Show Pathï¿½
 "Playback" auto-restarts playback timer if already at the end of the sequence.
 Change of character is correctly recorded and played back.
 Added an ellipsis for menu items or buttons that pop up a dialog
@@ -141,7 +142,7 @@ Fixed: "Bring back the skater" button should have setopaque false for mac
 Fixed: Dropping the character outside of the visible range, and then pressing "return the character" returns him to the same offscreen location. -This makes it very difficult to retrieve the character.
 Fixed: Jet pack graphic doesn't update when thrust changes
 Removed clock icon
-Fixed: Readout for “show path” follows last point
+Fixed: Readout for ï¿½show pathï¿½ follows last point
 Rewind button is disabled during record and playback.
 Made simulation continue after recording time runs out
 Energy vs. Time readouts update even when mode is live, not record
@@ -165,7 +166,7 @@ Skater reorients angle on a bounce (this item appears in the Options menu)
 Fixed: Something preventing characters from being grabbed near the left side of the screen
 Removed "Frictionless Landing" option
 Increased available zoom-in range
-Fixed: Grid should continue in the –y direction in space, instead of stopping at y=0.
+Fixed: Grid should continue in the ï¿½y direction in space, instead of stopping at y=0.
 Fixed: In space, splines are still being bumped up above y=0
 Fixed: Performance issue when friction > 0
     Removed duplicated computation in radius of curvature approximation.
@@ -254,8 +255,8 @@ Bugfix: When you zoom out, the area that you cannot play on gets bigger (because
 Bugfix: roller-coaster mode isn't being saved/loaded correctly.
 Added "skater restore point" to file save/load to be able to share initial conditions.
 Toned down the colors on bulldog skateboard.
-Reduce the length of the bulldog skateboard by about 15% so that his skate board is the same size as the PhET guy’s.
-Made the bug about ¼ to 1/3 the length of his board, and made his board the same size as the PhET skater.
+Reduce the length of the bulldog skateboard by about 15% so that his skate board is the same size as the PhET guyï¿½s.
+Made the bug about ï¿½ to 1/3 the length of his board, and made his board the same size as the PhET skater.
 Made the proportions of all the possible skaters accurate in the Choose Character menu.
 Added an option under Edit Skater to enable "Frictionless Landing" in which the perpendicular part of velocity is not converted to thermal.
     >>Probably what we want here is if the incident angle is less than greater than 45 degrees, it should be a hard landing (normal velocity converted to thermal) , otherwise "frictionless landing". 
@@ -306,7 +307,7 @@ Bugfix: Tests wouldn't launch
 Cars (& similar objects) have been removed since they are self-powered.
 Removed unused image files
 Shrank the bulldog to 1/3 current size.
-Reworded “Bring Back Skater” to “Bring Back [character name]”
+Reworded ï¿½Bring Back Skaterï¿½ to ï¿½Bring Back [character name]ï¿½
 Fixed: Character falls through the track sometimes at high speeds.  (Still falls through sometimes at combinations of large speeds & large curvature)
 
 1.05.14 (3-31-2007)
@@ -617,8 +618,8 @@ The skater's potential energy is now zero when he's on the ground (by default).
 The skater cannot be dragged outside the window, or below ground.
 
 -Changes for 1-2-2006, 0.17
-“Play” has been changed to “Go” for clarity.
-Add a movable “zero-point potential energy” graphic
+ï¿½Playï¿½ has been changed to ï¿½Goï¿½ for clarity.
+Add a movable ï¿½zero-point potential energyï¿½ graphic
 Add a clear button to e vs t graph in skater.
 Remove "minimize" button from e vs t in skater.
 Background is on by default
@@ -626,15 +627,15 @@ Improved backgrounds a bit (tone down, position properly)
 
 -Changes for 12-23-2005, 0.15
 Paused shows up in the play area when skater is paused.
-Renamed “Live” to “Play”
+Renamed ï¿½Liveï¿½ to ï¿½Playï¿½
 Radio buttons match slider values. (all off when no exact location).
 Energy vs. Time chart comes up recording.
 Added color code legend for pie chart.
 Energy vs Position graph has a color-coded legend.
 Energy vs Position graph doesn't fade during pause.
-Renamed “Coefficient of Restitution” to “bounciness” 
+Renamed ï¿½Coefficient of Restitutionï¿½ to ï¿½bouncinessï¿½ 
 Reset starts module running (not paused)
-Reset button changes the values in “edit skater”
+Reset button changes the values in ï¿½edit skaterï¿½
 Save graphs (e.g. to compare friction on to friction off).
 
 -Changes for 11-17-2005, 0.13
