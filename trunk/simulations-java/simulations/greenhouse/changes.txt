@@ -1,3 +1,4 @@
+# 3.02.01 (52601) Jun 2, 2011
 # 3.02.00 (49411) Mar 2, 2011
 3/2/11 > New version containing several fixes, see the rest of the change log for details.
 # 3.01.17 (49053) Feb 18, 2011
