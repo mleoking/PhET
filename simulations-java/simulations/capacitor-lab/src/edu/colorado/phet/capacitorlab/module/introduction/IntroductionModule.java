@@ -36,7 +36,6 @@ public class IntroductionModule extends CLModule {
 
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
-        //TODO would it be OK to have the dielectric fully inserted?
         double dielectricOffset = CLConstants.PLATE_WIDTH_RANGE.getMax() + 1; // dielectric fully outside
         model = new DielectricModel( getClock(), mvt, dielectricOffset, new DielectricMaterial[] { new Air() } );
 
