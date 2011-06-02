@@ -1,12 +1,13 @@
+6/2/11 change request: make bar meters autoscale whenever they are made visible
 6/2/11 change default locations of voltmeter probes, so they don't overlap most circuits
 6/2/11 change default locations of voltmeter and E-field detector in MC, so they don't overlap most circuits
 6/2/11 lower MC battery slightly, so that bar meters in default locations don't overlap 3-parallel circuit
 6/2/11 increase x-spacing of capacitors so that things don't look so cramped
 6/2/11 move capacitance slider closer to capacitor, tuck slider label under bottom plate
-6/2/11 use a fixed x-spacing for capacitors, translation of capacitance slider label may cause overlap, but this is preferable to circuit getting too wide to fit in play area
-6/2/11 use "Total Capacitance" for capacitance meter and check box in Multiple Capacitors
-6/2/11 use "Stored Charge" for charge meter and check box in Multiple Capacitors
-6/2/11 reduce dielectric constant control to 2 decimal places precision
+6/2/11 change request: use a fixed x-spacing for capacitors, translation of capacitance slider label may cause overlap, but this is preferable to circuit getting too wide to fit in play area
+6/2/11 change request: use "Total Capacitance" for capacitance meter and check box in Multiple Capacitors
+6/2/11 change request: use "Stored Charge" for charge meter and check box in Multiple Capacitors
+6/2/11 change request: reduce dielectric constant control to 2 decimal places precision
 6/2/11 add label parameter to all bar meters, since their labels change from tab to tab
 6/1/11 account for capacitance slider i18n when computing horizontal spacing of capacitors
 6/1/11 fix: reset EFieldDetector.hasBeenVisible on Reset All

@@ -3,7 +3,6 @@ TODO list for capacitor-lab
 DEADLINES
 
 HIGH PRIORITY
-- make bar meters autoscale whenever they are made visible
 - make capacitance slider snap to nearest 0.1 (what to do while dragging? show 2 decimal places and snap on release?)
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses

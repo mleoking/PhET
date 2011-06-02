@@ -257,6 +257,20 @@ public abstract class BarMeterNode extends PhetPNode {
         exponentProperty.reset();
     }
 
+    /**
+     * Whenever the meter becomes visible, autoscale.
+     *
+     * @param visible
+     */
+    @Override public void setVisible( boolean visible ) {
+        if ( visible != getVisible() ) {
+            super.setVisible( visible );
+            if ( visible ) {
+                updateExponent();
+            }
+        }
+    }
+
     private void updateLayout() {
         double x = 0;
         double y = 0;
