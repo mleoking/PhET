@@ -2,11 +2,9 @@ TODO list for capacitor-lab
 
 DEADLINES
 
-DESIGN ISSUES
-- do interviews with mockups of circuit construction feature, due to cost and potential issues
-- what happens when meters are in the way in Multiple Capacitors tab?
-
 HIGH PRIORITY
+- make bar meters autoscale whenever they are made visible
+- make capacitance slider snap to nearest 0.1 (what to do while dragging? show 2 decimal places and snap on release?)
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
@@ -24,6 +22,4 @@ LOW PRIORITY
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - remove unused code
 
-MIGRATE TO PHETCOMMON
-
---
+--                               ˚
