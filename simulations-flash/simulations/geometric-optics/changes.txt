@@ -1,3 +1,4 @@
+# 2.04.01 (52610) Jun 2, 2011
 # 2.04.00 (37306) Dec 10, 2009
 12/10/09 > Common interface fixes, improvements, and Khmer support.
 # 2.03.00 (32366) Jun 9, 2009
