@@ -1,3 +1,4 @@
+# 1.03.02 (52608) Jun 2, 2011
 # 1.03.01 (52281) May 21, 2011
 Use ApparatusPanel3 to improve support for low resolution screens, see #2860
 5/9/11 #2862, reimplement color intensity slider in phetgraphics, so that it scales
