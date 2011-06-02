@@ -2,12 +2,10 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.control.CapacitanceControlNode;
 import edu.colorado.phet.capacitorlab.model.*;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial.Air;
 import edu.colorado.phet.capacitorlab.model.circuit.*;
@@ -31,7 +29,8 @@ public class MultipleCapacitorsModel {
 
     // Circuits
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
-    private static final double CAPACITOR_Y_SPACING = 0.015; // meters
+    private static final double CAPACITOR_X_SPACING = 0.018; // meters
+    private static final double CAPACITOR_Y_SPACING = 0.016; // meters
     private static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
     private static final double DIELECTRIC_OFFSET = 0;
     private static final double PLATE_WIDTH = 0.0075; // meters
@@ -81,14 +80,10 @@ public class MultipleCapacitorsModel {
 
     public MultipleCapacitorsModel( final IClock clock, final CLModelViewTransform3D mvt ) {
 
-        // Compute x-spacing of capacitors, to handle i18n of capacitance controls.
-        double capacitanceControlWidth = CapacitanceControlNode.getTypicalWidth();
-        double capacitorXSpacing = mvt.viewToModelDelta( new Point2D.Double( capacitanceControlWidth, 0 ) ).getX() + PLATE_WIDTH + 0.004;
-
         final CircuitConfig circuitConfig = new CircuitConfig( clock,
                                                                mvt,
                                                                BATTERY_LOCATION,
-                                                               capacitorXSpacing,
+                                                               CAPACITOR_X_SPACING,
                                                                CAPACITOR_Y_SPACING,
                                                                PLATE_WIDTH,
                                                                PLATE_SEPARATION,

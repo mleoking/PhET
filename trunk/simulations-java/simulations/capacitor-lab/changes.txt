@@ -1,3 +1,6 @@
+6/2/11 increase x-spacing of capacitors so that things don't look so cramped
+6/2/11 move capacitance slider closer to capacitor, tuck slider label under bottom plate
+6/2/11 use a fixed x-spacing for capacitors, translation of capacitance slider label may cause overlap, but this is preferable to circuit getting too wide to fit in play area
 6/2/11 use "Total Capacitance" for capacitance meter and check box in Multiple Capacitors
 6/2/11 use "Stored Charge" for charge meter and check box in Multiple Capacitors
 6/2/11 reduce dielectric constant control to 2 decimal places precision
