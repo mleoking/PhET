@@ -1,3 +1,4 @@
+6/2/11 PSwing zoom buttons are causing problems, change to ButtonNode
 6/2/11 change request: make bar meters autoscale whenever they are made visible
 6/2/11 change default locations of voltmeter probes, so they don't overlap most circuits
 6/2/11 change default locations of voltmeter and E-field detector in MC, so they don't overlap most circuits

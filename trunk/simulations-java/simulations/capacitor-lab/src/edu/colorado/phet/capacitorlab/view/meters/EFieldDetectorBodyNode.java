@@ -20,8 +20,8 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.drag.WorldLocationDragHandler;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
-import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomInButton;
-import edu.colorado.phet.capacitorlab.view.meters.ZoomButton.ZoomOutButton;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButtonNode.ZoomInButtonNode;
+import edu.colorado.phet.capacitorlab.view.meters.ZoomButtonNode.ZoomOutButtonNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -31,6 +31,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.Vector2DNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -77,7 +78,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private final PSwing showVectorsPSwing;
     private final ViewportNode viewportNode;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
-    private final ZoomPanel zoomPanel;
+    private final ZoomPanelNode zoomPanelNode;
 
     /**
      * Constructor
@@ -112,11 +113,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 viewportNode.zoom();
             }
         };
-        zoomPanel = new ZoomPanel( zoomActionListener, zoomActionListener );
-        PSwing zoomPSwing = new PSwing( zoomPanel );
+        zoomPanelNode = new ZoomPanelNode( zoomActionListener, zoomActionListener );
 
         // display area for vectors and values
-        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanel.zoomInEnabledProperty, zoomPanel.zoomOutEnabledProperty, simplified );
+        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanelNode.zoomInEnabledProperty, zoomPanelNode.zoomOutEnabledProperty, simplified );
         viewportNode.setSimplified( simplified );
 
         // Vector controls
@@ -140,7 +140,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         addChild( titleNode );
         addChild( closeButtonNode );
         addChild( showVectorsPSwing );
-        addChild( zoomPSwing );
+        addChild( zoomPanelNode );
         addChild( showValuesPSwing );
         addChild( viewportNode );
 
@@ -163,8 +163,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             showVectorsPSwing.setOffset( x, y );
             // zoom controls below vector controls
             x = showVectorsPSwing.getFullBoundsReference().getMinX();
-            y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING );
-            zoomPSwing.setOffset( x, y );
+            y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING ) - PNodeLayoutUtils.getOriginYOffset( zoomPanelNode );
+            zoomPanelNode.setOffset( x, y );
             // "Show values" control at lower left
             x = BODY_X_MARGIN;
             y = backgroundNode.getFullBoundsReference().getMaxY() - showValuesPSwing.getFullBoundsReference().getHeight() - BODY_Y_MARGIN;
@@ -584,30 +584,32 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     /*
      * Panel with zoom controls.
      */
-    private static class ZoomPanel extends GridPanel {
+    private static class ZoomPanelNode extends PNode {
 
         public Property<Boolean> zoomInEnabledProperty = new Property<Boolean>( false );
         public Property<Boolean> zoomOutEnabledProperty = new Property<Boolean>( false );
 
-        public ZoomPanel( ActionListener zoomInActionListener, ActionListener zoomOutActionListener ) {
-            setOpaque( false );
+        public ZoomPanelNode( ActionListener zoomInActionListener, ActionListener zoomOutActionListener ) {
 
-            JLabel label = new JLabel( CLStrings.ZOOM );
-            label.setFont( CONTROL_FONT );
-            label.setForeground( CONTROL_COLOR );
+            PText labelNode = new PText( CLStrings.ZOOM );
+            addChild( labelNode );
+            labelNode.setFont( CONTROL_FONT );
+            labelNode.setTextPaint( CONTROL_COLOR );
 
-            final JButton zoomInButton = new ZoomInButton();
+            final ZoomInButtonNode zoomInButton = new ZoomInButtonNode();
+            addChild( zoomInButton );
             zoomInButton.addActionListener( zoomInActionListener );
 
-            final JButton zoomOutButton = new ZoomOutButton();
+            final ZoomOutButtonNode zoomOutButton = new ZoomOutButtonNode();
+            addChild( zoomOutButton );
             zoomOutButton.addActionListener( zoomOutActionListener );
 
             // layout
-            setAnchor( Anchor.WEST );
-            setInsets( new Insets( 0, 0, 1, 10 ) );
-            add( label, 0, 0 );
-            add( zoomInButton, 0, 1 );
-            add( zoomOutButton, 1, 1 );
+            double x = labelNode.getFullBoundsReference().getMaxX() + 4;
+            double y = labelNode.getFullBoundsReference().getMaxY() - zoomInButton.getFullBoundsReference().getHeight();
+            zoomInButton.setOffset( x, y );
+            y = zoomInButton.getFullBoundsReference().getMaxY() + 3;
+            zoomOutButton.setOffset( x, y );
 
             zoomInEnabledProperty.addObserver( new SimpleObserver() {
                 public void update() {
