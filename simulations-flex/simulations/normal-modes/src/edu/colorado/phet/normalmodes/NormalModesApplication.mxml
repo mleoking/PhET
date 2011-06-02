@@ -5,5 +5,4 @@
                 frameRate="50"
                 applicationComplete="canvas.init()">
     <view:NormalModesCanvas id="canvas"/>
-    <mx:Label text="Hello World"/>
 </mx:Application>
