@@ -57,7 +57,7 @@ public class DielectricCanvas extends CLCanvas {
         this.model = model;
         this.mvt = mvt;
 
-        // maximums
+        // Maximums, for calibrating various view representations.
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
         final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
