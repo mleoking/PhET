@@ -1,3 +1,4 @@
+6/2/11 add label parameter to all bar meters, since their labels change from tab to tab
 6/1/11 account for capacitance slider i18n when computing horizontal spacing of capacitors
 6/1/11 fix: reset EFieldDetector.hasBeenVisible on Reset All
 6/1/11 cleanup model and view constants, move stuff out of CLConstants to reduce globals
