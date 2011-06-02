@@ -68,8 +68,8 @@ public abstract class BarMeterNode extends PhetPNode {
     }
 
     public static class StoredEnergyMeterNode extends BarMeterNode {
-        public StoredEnergyMeterNode( StoredEnergyMeter meter, CLModelViewTransform3D mvt ) {
-            super( meter, mvt, CLPaints.STORED_ENERGY, CLStrings.STORED_ENERGY, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
+        public StoredEnergyMeterNode( StoredEnergyMeter meter, CLModelViewTransform3D mvt, String label ) {
+            super( meter, mvt, CLPaints.STORED_ENERGY, label, "0.00", CLConstants.STORED_ENERGY_METER_VALUE_EXPONENT, CLStrings.JOULES );
         }
     }
 
