@@ -10,8 +10,7 @@ import flash.display.Sprite;
 
 import mx.containers.Canvas;
 
-public class MainView {
-    public class MainView extends Canvas {
+public class MainView extends Canvas {
     var myModel: Model;
     var myView: View;
     var myPlayPauseButtons: PlayPauseButtons;
@@ -53,7 +52,7 @@ public class MainView {
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
         this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
-        this.addChild( new SpriteUIComponent( myShakerView ) );
+        this.addChild( new SpriteUIComponent( myView ) );
         //this.addChild( new SpriteUIComponent( ruler ));
         this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( phetLogo ) );
@@ -61,30 +60,21 @@ public class MainView {
 
     }//end of constructor
 
-    //called from ControlPanel, so must not include any controlPanel setters
-    public function setNbrResonators( nbrR: int ): void {
-        this.myShakerModel.setNbrResonators( nbrR );
-        this.myShakerView.setNbrResonators( nbrR );
-    }
+
 
     public function initializeAll(): void {
-        this.setNbrResonators( 1 );
-        this.myControlPanel.setNbrResonatorsExternally( 1 );
-        this.myControlPanel.setResonatorIndex(1);
-        this.myControlPanel.setPresetComboBoxExternally( 3 );
-        this.myControlPanel.setGravityExternally( false );
-        this.myControlPanel.setDampingExternally( 1 );   //max is 5
-        this.myControlPanel.setRulerCheckBoxExternally( false );
-        this.myShakerView.initializeShakerControls();
+//        this.myControlPanel.setNbrResonatorsExternally( 1 );
+//        this.myControlPanel.setResonatorIndex(1);
+//        this.myControlPanel.setPresetComboBoxExternally( 3 );
+//        this.myControlPanel.setGravityExternally( false );
+//        this.myControlPanel.setDampingExternally( 1 );   //max is 5
+//        this.myControlPanel.setRulerCheckBoxExternally( false );
+        this.myView.initializeControls();
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
         //this.setNbrResonators(2);
     }
 
-    private function waitForGraphicsLoad(): void {
-        //trace("MainView.momentumView.scale_slider.height = "+this.momentumView.scale_slider.height);
-    }
 
 }//end of class
-}
-}
+} //end of package
