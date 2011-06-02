@@ -1,3 +1,4 @@
+# 1.03.01 (52604) Jun 2, 2011
 # 1.03.00 (47969) Jan 14, 2011
 1/14/11 > Fixed two strings that were not translatable.
 # 1.02.00 (41395) Jun 3, 2010
