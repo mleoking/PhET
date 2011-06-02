@@ -3,10 +3,11 @@ TODO list for capacitor-lab
 HIGH PRIORITY
 - bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
 - change request: make capacitance slider snap to nearest 0.1 (what to do while dragging? show 2 decimal places and snap on release?)
-- lots of duplicate code in AbstractCircuit subclasses
-- things at the bottom of the play area are cut off when main frame is < 1024x768
+- change zoom buttons to ButtonNode, EFieldDetectorBodyNode.ZoomPanel to PNode
+- bug: things at the bottom of the play area are cut off when main frame is height is reduced
 
 MEDIUM PRIORITY
+- lots of duplicate code in AbstractCircuit subclasses
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
 - add "circuit selection" screenshots to design doc, with verbage
