@@ -65,13 +65,13 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
             } );
             updateLabelOffset( labelNode, capacitorNode );
 
-            // capacitance control, to the left of the capacitor
+            // capacitance control, to the left of the capacitor, tucked slightly under bottom plate
             CapacitanceControlNode capacitanceControlNode = new CapacitanceControlNode( capacitor,
                                                                                         CLConstants.CAPACITANCE_RANGE,
                                                                                         CLConstants.CAPACITANCE_CONTROL_EXPONENT );
             addChild( capacitanceControlNode );
-            double x = capacitorNode.getFullBoundsReference().getMinX() - capacitanceControlNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( capacitanceControlNode ) - 5;
-            double y = capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 );
+            double x = capacitorNode.getFullBoundsReference().getMinX() - capacitanceControlNode.getFullBoundsReference().getWidth() - PNodeLayoutUtils.getOriginXOffset( capacitanceControlNode ) + 20;
+            double y = capacitorNode.getYOffset() - ( capacitanceControlNode.getFullBoundsReference().getHeight() / 2 ) + 20;
             capacitanceControlNode.setOffset( x, y );
         }
 
@@ -118,7 +118,7 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
 
     private static void updateLabelOffset( PNode labelNode, CapacitorNode capacitorNode ) {
         double x = capacitorNode.getFullBoundsReference().getMinX();
-        double y = capacitorNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() + 3;
+        double y = capacitorNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() + 5;
         labelNode.setOffset( x, y );
     }
 }
