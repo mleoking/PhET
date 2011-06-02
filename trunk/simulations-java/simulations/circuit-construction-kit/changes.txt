@@ -1,3 +1,4 @@
+# 3.19.01 (52605) Jun 2, 2011
 4/14/11 replaced images for 'bag.gif', 'stopwatch-thumb.png', 'dog.gif'. see #2800
 2/27/11 #2756, replaced validateTree() with validate()
 Converted to use SimpleObservable.getObserverList instead of Array version
