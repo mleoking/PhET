@@ -61,8 +61,8 @@ public class MultipleCapacitorsModel {
 
     // Voltmeter
     public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.04, 0.041, 0 );
-    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
-    public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
+    public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( 0.035, 0.042, 0 );
+    public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( 0.038, 0.042, 0 );
     public static final boolean VOLTMETER_VISIBLE = false;
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
