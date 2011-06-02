@@ -1,3 +1,4 @@
+# 0.00.28 (52581) Jun 2, 2011
 Changed text on all-filled dialog to "You completed your collection!"
 # 0.00.27 (52506) May 29, 2011
 Improved Jmol size in sim file, startup time, and added antialiasing
