@@ -51,7 +51,7 @@ public class MultipleCapacitorsModel {
     public static final boolean STORED_ENERGY_METER_VISIBLE = false;
 
     // E-Field Detector
-    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.043, 0.041, 0 );
+    public static final Point3D EFIELD_DETECTOR_BODY_LOCATION = new Point3D.Double( 0.05, 0.041, 0 );
     public static final Point3D EFIELD_DETECTOR_PROBE_LOCATION = BATTERY_LOCATION;
     public static final boolean EFIELD_DETECTOR_VISIBLE = false;
     public static final boolean EFIELD_PLATE_VECTOR_VISIBLE = true;
@@ -60,7 +60,7 @@ public class MultipleCapacitorsModel {
     public static final boolean EFIELD_VALUES_VISIBLE = true;
 
     // Voltmeter
-    public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.057, 0.023, 0 );
+    public static final Point3D VOLTMETER_BODY_LOCATION = new Point3D.Double( 0.04, 0.041, 0 );
     public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
     public static final boolean VOLTMETER_VISIBLE = false;

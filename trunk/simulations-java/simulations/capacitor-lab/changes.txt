@@ -1,3 +1,4 @@
+6/2/11 change default locations of voltmeter and E-field detector in MC, so they don't overlap most circuits
 6/2/11 lower MC battery slightly, so that bar meters in default locations don't overlap 3-parallel circuit
 6/2/11 increase x-spacing of capacitors so that things don't look so cramped
 6/2/11 move capacitance slider closer to capacitor, tuck slider label under bottom plate
