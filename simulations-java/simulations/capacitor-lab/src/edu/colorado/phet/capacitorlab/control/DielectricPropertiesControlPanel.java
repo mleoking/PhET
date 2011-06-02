@@ -68,6 +68,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
         // layout
         GridPanel innerPanel = new GridPanel();
+        innerPanel.setInsets( new Insets( 0, 5, 5, 0 ) );
         innerPanel.setAnchor( Anchor.WEST );
         innerPanel.setFill( Fill.HORIZONTAL );
         innerPanel.setGridX( 0 ); // one column
