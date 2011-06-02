@@ -1,3 +1,5 @@
+6/2/11 use "Total Capacitance" for capacitance meter and check box in Multiple Capacitors
+6/2/11 use "Stored Charge" for charge meter and check box in Multiple Capacitors
 6/2/11 reduce dielectric constant control to 2 decimal places precision
 6/2/11 add label parameter to all bar meters, since their labels change from tab to tab
 6/1/11 account for capacitance slider i18n when computing horizontal spacing of capacitors

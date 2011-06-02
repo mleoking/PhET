@@ -10,8 +10,6 @@ HIGH PRIORITY
 - #2903, E-field default scale and autoscaling
 - lots of duplicate code in AbstractCircuit subclasses
 - cleanup maximums used in DielectricCanvas and MultipleCapacitorsCanvas
-- "Total Capacitance" for capacitance meter?
-- "Stored Charge" for charge meter?
 
 MEDIUM PRIORITY
 - factor duplicate code into canvas base class (CLCanvas?)

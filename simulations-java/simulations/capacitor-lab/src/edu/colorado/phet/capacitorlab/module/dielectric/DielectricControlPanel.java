@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.control.DielectricPropertiesControlPanel;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
@@ -19,7 +20,7 @@ public class DielectricControlPanel extends ControlPanel {
 
     public DielectricControlPanel( Resettable resettable, DielectricModel model, DielectricCanvas canvas, CLGlobalProperties globalProperties ) {
         addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisibleProperty, canvas.eFieldVisibleProperty ) );
-        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
+        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), CLStrings.CAPACITANCE, model.getPlateChargeMeter(), CLStrings.PLATE_CHARGE, model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
         addControlFullWidth( new DielectricPropertiesControlPanel( model.getCapacitor(), model.getDielectricMaterials(), canvas.dielectricChargeViewProperty ) );
         if ( globalProperties.dev ) {
             addControlFullWidth( new DeveloperControlPanel( globalProperties.frame, model ) );

@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
+import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.control.CircuitChoiceControl;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
@@ -18,7 +19,7 @@ public class MultipleCapacitorsControlPanel extends ControlPanel {
 
     public MultipleCapacitorsControlPanel( Resettable resettable, MultipleCapacitorsModel model, MultipleCapacitorsCanvas canvas, CLGlobalProperties globalProperties ) {
         addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisibleProperty, canvas.eFieldVisibleProperty ) );
-        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), model.getPlateChargeMeter(), model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
+        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), CLStrings.TOTAL_CAPACITANCE, model.getPlateChargeMeter(), CLStrings.STORED_CHARGE, model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
         addControlFullWidth( new CircuitChoiceControl( model.getCircuits(), model.currentCircuitProperty ) );
         addResetAllButton( resettable );
     }
