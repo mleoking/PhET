@@ -14,7 +14,6 @@ MEDIUM PRIORITY
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
 - fudging of wire segment endpoints should be handled in view based on stroke, not in model
-- delete empty packages
 - Win: need some space between dielectric material combo box and separator below it
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - remove unused code
