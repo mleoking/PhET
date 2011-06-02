@@ -59,8 +59,11 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         this.mvt = mvt;
         this.globalProperties = globalProperties;
 
-        //TODO maximums shouldn't be dependent on DielectricModel, and may be different for this module
-        // maximums
+        /*
+         * Maximums, for calibrating various view representations.
+         * Note that for charge and fields, we get these values from the DielectricModel,
+         * so that density of charge and field will be the same across all modules.
+         */
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
         final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
