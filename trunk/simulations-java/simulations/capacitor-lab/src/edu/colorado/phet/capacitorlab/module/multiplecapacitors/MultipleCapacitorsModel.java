@@ -28,7 +28,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public class MultipleCapacitorsModel {
 
     // Circuits
-    private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.028, 0 ); // meters
+    private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.030, 0 ); // meters
     private static final double CAPACITOR_X_SPACING = 0.018; // meters
     private static final double CAPACITOR_Y_SPACING = 0.016; // meters
     private static final DielectricMaterial DIELECTRIC_MATERIAL = new Air();
