@@ -24,7 +24,7 @@ public class Plank extends ModelObject {
     public static final double LENGTH = 4;// meters
     public static final double THICKNESS = 0.05; // meters
     public static final int NUM_SNAP_TO_MARKERS = 19;
-    public static final double MASS = 20; // kg
+    public static final double MASS = 200; // kg
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
