@@ -12,7 +12,7 @@ public class NormalModes extends Canvas {
     public function NormalModes( w: Number, h: Number ) {
         percentWidth = 100;
         percentHeight = 100;
-        //this.addChild( new MainView( new ShakerModel( 10 ), w, h ) );
+        this.addChild( new MainView( new Model( ), w, h ) );
     }
 }
 }

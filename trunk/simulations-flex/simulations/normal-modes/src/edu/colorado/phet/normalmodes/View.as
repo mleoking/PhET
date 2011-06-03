@@ -31,7 +31,7 @@ public class View extends Sprite {
         this.myMainView = myMainView;
         this.model = model;
         this.model.registerView( this );
-        this.initialize();
+        //this.initialize();
     }//end of constructor
 
     //add "piston driver" label

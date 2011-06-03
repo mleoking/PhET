@@ -48,7 +48,7 @@ public class ControlPanel extends Canvas {
         super();
         this.myMainView = myMainView;
         this.myModel = model;
-        this.init();
+        //this.init();
 
     }//end of constructor
 

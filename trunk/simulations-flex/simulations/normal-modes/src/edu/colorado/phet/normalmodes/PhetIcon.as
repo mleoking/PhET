@@ -1,4 +1,5 @@
-﻿package edu.colorado.phet.normalmodes {
+﻿
+package edu.colorado.phet.normalmodes {
 
 import flash.display.*;
 import flash.text.*;
