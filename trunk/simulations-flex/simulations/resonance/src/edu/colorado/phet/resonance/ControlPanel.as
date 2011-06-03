@@ -384,28 +384,33 @@ public class ControlPanel extends Canvas {
     public function setNbrResonators( ): void {
         var nbrR:Number = this.nbrResonatorsSlider.getVal();
         this.myMainView.setNbrResonators( nbrR );
-        //hide presets comboBox if only one resonator is shown
         if(nbrR == 1){
-            if( this.presets_cbx.parent == this.background ) {
-               this.background.removeChild(this.presets_cbx);
-            }
-        } else{
-            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
+           this.presets_cbx.visible = false;
+        }else{
+           this.presets_cbx.visible = true;
         }
-    }
+        //hide presets comboBox if only one resonator is shown
+//        if(nbrR == 1){
+//            if( this.presets_cbx.parent == this.background ) {
+//               this.background.removeChild(this.presets_cbx);
+//            }
+//         }else{
+//            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
+//        }
+    }//end setNbrResonators()
 
 
     public function setNbrResonatorsExternally( nbrR: int ): void {
         this.nbrResonatorsSlider.setVal( nbrR );
         this.myMainView.setNbrResonators( nbrR );
         //hide presets comboBox if only one resonator is shown
-        if(nbrR == 1){
-            if( this.presets_cbx.parent == this.background ) {
-               this.background.removeChild(this.presets_cbx);
-            }
-        } else{
-            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
-        }
+//        if(nbrR == 1){
+//            if( this.presets_cbx.parent == this.background ) {
+//               this.background.removeChild(this.presets_cbx);
+//            }
+//        } else{
+//            this.background.addChildAt( this.presets_cbx, this.displayIndxOfPresetsBox );
+//        }
     }
 
     private function setMassWithSlider():void{
