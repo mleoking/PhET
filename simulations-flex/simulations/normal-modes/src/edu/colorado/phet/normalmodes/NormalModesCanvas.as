@@ -18,6 +18,7 @@ public class NormalModesCanvas extends Canvas {
     private var RENDER_HEIGHT: int = 768;
 
     public function init(): void {
+        //trace("NormalModesCanvas.init() called");
         setStyle( "backgroundColor", 0xffff99 );//same color as build an atom
         percentWidth = 100;
         percentHeight = 100;
