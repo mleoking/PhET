@@ -5,10 +5,15 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
  * This is the plank upon which weights can be placed.
@@ -39,6 +44,9 @@ public class Plank extends ModelObject {
     public double angularVelocity = 0; // radians/sec
     public final double maxTiltAngle;
 
+    // List of the weights that are resting on the surface of this plank.
+    private final List<WeightOnPlank> weightsOnSurface = new ArrayList<WeightOnPlank>();
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -61,6 +69,29 @@ public class Plank extends ModelObject {
         return LENGTH;
     }
 
+    /**
+     * Add a weight (e.g. a brick) to the surface of the plank.
+     *
+     * @param weight
+     */
+    public void addWeightToSurface( Weight weight ) {
+        final WeightOnPlank weightOnPlank = new WeightOnPlank( weight, weight.getPosition().getX() - positionHandle.getX() );
+        weightsOnSurface.add( weightOnPlank );
+        weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean userControlled ) {
+                if ( userControlled ) {
+                    // The user has picked up this weight, so it is no longer
+                    // on the surface.
+                    weightsOnSurface.remove( weightOnPlank );
+                }
+            }
+        }
+        );
+        updateWeightPositions();
+    }
+
+    // Generate the shape of the plank.  This is static so that it can be used
+    // in the constructor.
     private static Shape generateShape( final double centerHeight, double tiltAngle ) {
         // Create the outline shape of the plank.
         GeneralPath path = new GeneralPath();
@@ -114,6 +145,7 @@ public class Plank extends ModelObject {
     public void forceToLevel() {
         tiltAngle = 0;
         updateShape();
+        updateWeightPositions();
     }
 
     public void setTorqueFromWeights( double torque ) {
@@ -130,6 +162,7 @@ public class Plank extends ModelObject {
                 angularVelocity = 0;
             }
             updateShape();
+            updateWeightPositions();
         }
     }
 
@@ -137,7 +170,32 @@ public class Plank extends ModelObject {
         setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
     }
 
+    private void updateWeightPositions() {
+        for ( WeightOnPlank weightOnPlank : weightsOnSurface ) {
+            Vector2D vectorToPivotPoint = new Vector2D( positionHandle );
+            Vector2D vectorToCenterAbovePivot = new Vector2D( 0, THICKNESS );
+            vectorToCenterAbovePivot.rotate( tiltAngle );
+            Vector2D vectorToWeight = new Vector2D( weightOnPlank.distanceFromPivot, 0 );
+            vectorToWeight.rotate( tiltAngle );
+            weightOnPlank.weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
+            weightOnPlank.weight.setRotationAngle( tiltAngle );
+        }
+    }
+
     //------------------------------------------------------------------------
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
+
+    /**
+     * Convenience class for keeping information about weights on the plank.
+     */
+    private class WeightOnPlank {
+        public final Weight weight;
+        public final double distanceFromPivot;
+
+        public WeightOnPlank( Weight weight, double distanceFromPivot ) {
+            this.distanceFromPivot = distanceFromPivot;
+            this.weight = weight;
+        }
+    }
 }

@@ -106,6 +106,7 @@ public class TeeterTotterTorqueModel implements Resettable {
                         // The weight was dropped above the plank, move it to a
                         // valid location on the plank.
                         weight.setPosition( plank.getClosestOpenLocation( weight.getPosition() ) );
+                        plank.addWeightToSurface( weight );
                         // Update the torque on the plank due to the weights.
                         if ( !supportColumnsActive.get() ) {
                             updateTorqueDueToWeights();
