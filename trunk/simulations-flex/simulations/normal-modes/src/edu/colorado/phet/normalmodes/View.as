@@ -10,6 +10,8 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+import org.aswing.ext.FormRow;
+
 import org.aswing.plaf.basic.border.ColorChooserBorder;
 
 public class View extends Sprite {
@@ -98,6 +100,28 @@ public class View extends Sprite {
 
         this.drawWalls();
     }
+
+    private function drawSprings():void{
+        var d:Number = 10;      //radius of each mass in pixels, all distance in this function in pixels
+        var nMasses:Number = this.myModel.N;       //number of masses in chain
+        var equilL:Number = (this.LinPix - 2*d*nMasses)/(nMasses + 1);  //equilibrium length of single spring in pixels
+        var leadL:Number = 15;  //length of each straight end of spring
+        var nTurns:Number = 7;  //number of turns in spring
+        var w:Number = (equilL - 2*leadL)/nTurns;   //width of each turn
+        var r:Number = 10;      //radius of each turn
+        for(var i:int = 0; i < this.myModel.N; i++){
+           var g:Graphics = this.spring_arr[i].Graphics;
+           g.clear();
+           g.lineStyle( 3, 0xff0000, 1 );
+           g.moveTo( 0, 0 );
+           g.lineTo(leadL, 0);
+            for(var j:int = 0; j < nTurns; j++){
+                g.lineTo( leadL + j*w + w/4, r );
+                g.lineTo( leadL + j*w + 3*w/4, -r);
+                g.lineTo( leadL + j*w + w,  0 );
+            }//end for j
+         }//end for i
+    }//end drawSprings()
 
     private function drawWalls():void{
         var g:Graphics = this.walls.graphics;
