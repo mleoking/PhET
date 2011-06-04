@@ -1,3 +1,5 @@
+# 1.08.00 (52639) Jun 4, 2011
+6/4/11 > added new translation credits features
 # 1.07.01 (52619) Jun 2, 2011
 2/27/11 Removed commented out code
 # 1.07.00 (38013) Jan 10, 2010
