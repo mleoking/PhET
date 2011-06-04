@@ -16,13 +16,14 @@ public class Model {
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
     private var k:Number;           //spring constant in N/m of each spring in array (all springs equal)
     private var b:Number;           //damping constant: F_drag = -b*v
-    private var L:Number;           //distance between fixed walls in meters
-    private var nMax:int;           //maximum possible number of mobile masses in 1D array
-    private var N:int;              //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
+    private var _L:Number;           //distance between fixed walls in meters
+    private var _nMax:int;           //maximum possible number of mobile masses in 1D array
+    private var _N:int;              //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var x_arr:Array;        //array of positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
     private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
+    private var _grabbedMass:int;    //index of mass grabbed by mouse
     //time variables
     private var _paused: Boolean;  //true if sim paused
     private var t: Number;		    //time in seconds
@@ -34,25 +35,26 @@ public class Model {
 
     public function Model( ) {
 
-        this.x_arr = new Array(nMax + 2);     //nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
-        this.v_arr = new Array(nMax + 2);
-        this.a_arr = new Array(nMax + 2);
-        this.aPre_arr = new Array(nMax + 2);
+        this.x_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
+        this.v_arr = new Array(_nMax + 2);
+        this.a_arr = new Array(_nMax + 2);
+        this.aPre_arr = new Array(_nMax + 2);
         this.initialize();
     }//end of constructor
 
     private function initialize() {
-        this.nMax = 10;             //maximum of 10 mobile masses in array
-        this.N = 1;                 //start with 1 or 3 mobile masses
+        this._nMax = 10;             //maximum of 10 mobile masses in array
+        this._N = 10;                 //start with 1 or 3 mobile masses
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
-        this.L = 1;                 //1 meter between fixed walls
+        this._L = 1;                //1 meter between fixed walls
+        this._grabbedMass = 0;      //left mass (index 0) is always stationary
         this.initializeKinematicArrays();
-        this.setInitialPositions(); //for testing only
+        //this.setInitialPositions(); //for testing only
         this._paused = false;
         this.t = 0;
-        this.tInt = 1;
+        this.tInt = 1;              //testing only
         this.dt = 0.01;
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
@@ -62,9 +64,9 @@ public class Model {
 
 
     private function initializeKinematicArrays():void{
-        var arrLength:int = this.N + 2;
+        var arrLength:int = this._N + 2;
         for(var i:int = 0; i < arrLength; i++){
-            this.x_arr[i] = i*this.L/(this.N + 1);  //space masses evenly between x = 0 and x = L
+            this.x_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
             this.v_arr[i] = 0;                      //initial velocities = 0;
             this.a_arr[i] = 0;                      //initial accelerations = 0
             this.aPre_arr[i] = 0;
@@ -73,27 +75,46 @@ public class Model {
 
     //for testing only
     private function setInitialPositions():void{
-       var arrLength:int = this.N + 2;
+       var arrLength:int = this._N + 2;
        for(var i:int = 1; i < (arrLength - 1); i++){
-            this.x_arr[i] = i*this.L/(this.N + 1) + 0.1;
+            this.x_arr[i] = i*this._L/(this._N + 1) + 0.1;
        }
     }
 
     //SETTERS and GETTERS
     public function setN(nbrOfMobileMasses:int):void{
-        if(nbrOfMobileMasses > this.nMax){
-            this.N = this.nMax;
+        if(nbrOfMobileMasses > this._nMax){
+            this._N = this._nMax;
             trace("ERROR: nbr of masses too high");
         }else if(nbrOfMobileMasses < 1){
-            this.N = 1;
+            this._N = 1;
             trace("ERROR: nbr of masses too low");
         }else{
-           this.N = nbrOfMobileMasses;
+           this._N = nbrOfMobileMasses;
         }
         this.initializeKinematicArrays();
         this.updateView();
     }//end setN
 
+    public function get L(){
+      return this._L;
+    }
+
+    public function get nMax(){
+        return this._nMax;
+    }
+
+    public function get N(){
+        return this._N;
+    }
+
+    public function setX(i:int, xPos:Number):void{
+        this.x_arr[i] = xPos;
+    }
+
+    public function getX(i:int):Number{
+        return this.x_arr[i];
+    }
 
     public function setB(b:Number):void{
         if(b < 0 || b > 2*Math.sqrt(this.m*this.k)){         //if b negative or if b > critical damping value
@@ -113,6 +134,10 @@ public class Model {
     public function get paused() {
         return this._paused;
     }
+
+    public function set grabbedMass(indx:int){
+        this._grabbedMass = indx;
+    }
     //END SETTERS and GETTERS
 
 
@@ -124,6 +149,7 @@ public class Model {
 
     public function unPauseSim(): void {
         this._paused = false;
+        this.msTimer.start();
     }
 
 
@@ -149,30 +175,34 @@ public class Model {
     }
 
     private function singleStep(): void {
-//        var currentTime = getTimer() / 1000;              //flash.utils.getTimer()
-//        var realDt: Number = currentTime - this.lastTime;
-//        this.lastTime = currentTime;
-//        //time step must not exceed 0.04 seconds.
-//        //If time step < 0.04 s, then sim uses time-based animation.  Else uses frame-based animation
-//        if ( realDt < 0.04 ) {
-//            this.dt = this.tRate * realDt;
-//        }
-//        else {
-//            this.dt = this.tRate * 0.04;
-//        }
+        var currentTime = getTimer() / 1000;              //flash.utils.getTimer()
+        var realDt: Number = currentTime - this.lastTime;
+        this.lastTime = currentTime;
+        //time step must not exceed 0.04 seconds.
+        //If time step < 0.04 s, then sim uses time-based animation.  Else uses frame-based animation
+        if ( realDt < 0.04 ) {
+            this.dt = this.tRate * realDt;
+        }
+        else {
+            this.dt = this.tRate * 0.04;
+        }
         this.t += this.dt;
 
         //velocity verlet algorithm
-        for(var i:int = 1; i <= this.N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
-            //var a: Number = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);
-            x_arr[i] = x_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
-            aPre_arr[i] = a_arr[i];   //store current accelerations for next step
+        for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
+            if(i != this._grabbedMass ){
+                x_arr[i] = x_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
+                aPre_arr[i] = a_arr[i];   //store current accelerations for next step
+            }
             //var vp:Number = v_arr[i] + a_arr[i] * dt;		//post velocity, only needed if computing drag
         }//end 1st for loop
 
-        for(var i:int = 1; i <= this.N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
-            this.a_arr[i] = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);		//post-acceleration
-            v_arr[i] = v_arr[i] + 0.5 * (this.aPre_arr[i] + a_arr[i]) * dt;
+        for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
+            if( i != this._grabbedMass ){
+                this.a_arr[i] = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);		//post-acceleration
+                v_arr[i] = v_arr[i] + 0.5 * (this.aPre_arr[i] + a_arr[i]) * dt;
+            }
+
         }//end 2nd for loop
         //this.test();
         updateView();
@@ -208,7 +238,7 @@ public class Model {
 
 
     public function registerView( view: View ): void {
-        this.view = view;
+        this.view = view;    //only one view, so far
     }
 
     public function updateView(): void {
