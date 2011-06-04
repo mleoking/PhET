@@ -1,3 +1,5 @@
+# 1.12.00 (52635) Jun 4, 2011
+6/4/11 > added new translation credits features
 # 1.11.01 (52609) Jun 2, 2011
 Use an ApparatusPanel3 to fix scaling problems on low resolution screens, see #2860
 # 1.11.00 (48298) Jan 27, 2011
