@@ -10,51 +10,75 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
+import org.aswing.plaf.basic.border.ColorChooserBorder;
+
 public class View extends Sprite {
 
     public var myMainView: MainView;		//MainView
-    private var model: Model;			//model of shaker bar system
+    private var myModel: Model;			    //model of shaker bar system
 
 
-    public var pixPerMeter: Number;		//scale: number of pixels in 1 meter
-    private var barPixPerResonator: Number; //number of pixels along bar per Resonator
-    private var label_txt: TextField;
-    private var label_fmt: TextFormat;
+    private var _pixPerMeter: Number;		    //scale: number of pixels in 1 meter
+    private var LinMeters:Number;           //distance between fixed walls in meters
+    private var LinPix:Number;              //distance between fixed walls in pixels
+    private var leftEdgeY:Number;           //y-position of leftEdge in pixels measured down from top of screen
+    private var _leftEdgeX:Number;           //x-position of leftEdge in pixels measured right from left edge of screen
+    private var mass_arr:Array;             //array of mass sprites , index 0 = mobile mass 1
+    private var spring_arr:Array;           //array of spring sprites
+    private var walls:Sprite;
+
+    //private var label_txt: TextField;
+    //private var label_fmt: TextFormat;
     private var stageW: int;
     private var stageH: int;
 
     //strings for internationalization
-    public var driver_str: String;
+    public var any_str: String;
 
 
-    public function View( myMainView: MainView, model: Model ) {
+    public function View( myMainView: MainView, myModel: Model ) {
         this.myMainView = myMainView;
-        this.model = model;
-        this.model.registerView( this );
-        //this.initialize();
+        this.myModel = myModel;
+        this.myModel.registerView( this );
+
+        this.initialize();
     }//end of constructor
 
-    //add "piston driver" label
 
     public function initialize(): void {
-
         this.initializeStrings();
+        this.stageW = this.myMainView.stageW;
+        this.stageH = this.myMainView.stageH;
+        this.LinMeters =  this.myModel.L;
+        this.LinPix = 0.8*this.stageW;
+        this._pixPerMeter = this.LinPix/this.LinMeters;
+        this._leftEdgeX = 0.1*this.stageW;
+        this.leftEdgeY = 0.4*this.stageH;
+        var nMax:int = this.myModel.nMax;
+        this.mass_arr = new Array( nMax );
+        this.spring_arr = new Array( nMax );
+        for(var i:int =0; i < nMax; i++){
+            this.mass_arr[i] = new MassView( i+1, this.myModel, this );
+            this.spring_arr[i] = new Sprite();
+        }
+        this.walls = new Sprite();
 
-        this.stageW = Util.STAGEW;
-        this.stageH = Util.STAGEH;
-        this.pixPerMeter = 800;
-        this.createLabel();
+        //trace("View.leftEdgeY = "+this.leftEdgeY);
+        //this.createGraphics();
+        this.drawWalls();
+        this.positionGraphics();
+
+        for(var i:int = 0; i < this.myModel.nMax; i++){
+            this.addChild(this.mass_arr[i])
+        }
+        this.addChild(this.walls);
+        //this.createLabel();
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
 
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
 
         //HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 )
 
-
-
-        //this.addChild( this.springHolder );
-        //this.addChild( this.bar );
-//        this.addChild( this.base );
 //        this.addChild( this.ruler );
 //        this.ruler.x = - barPixPerResonator*maxNbrResonators/2 - this.ruler.ruler.width; //-this.base.width/2;
 //        this.ruler.y = -this.ruler.height;
@@ -69,113 +93,69 @@ public class View extends Sprite {
 
     }
 
-    private function createLabel(): void {
-        this.label_txt = new TextField();	//static label
-        this.addChild( this.label_txt );
-        this.label_txt.selectable = false;
-        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
-        this.label_txt.text = driver_str;
-        this.label_fmt = new TextFormat();	//format of label
-        this.label_fmt.font = "Arial";
-        this.label_fmt.color = 0xffffff;
-        this.label_fmt.size = 18;
-        this.label_txt.setTextFormat( this.label_fmt );
-        //this.label_txt.x = -0.5 * this.label_txt.width;
-        //this.label_txt.y = 1.1 * this.knobRadius;
-    }//end createLabel()
+    private function createGraphics():void{
+
+
+        this.drawWalls();
+    }
+
+    private function drawWalls():void{
+        var g:Graphics = this.walls.graphics;
+        var h:Number = 100;  //height of wall in pix
+        g.clear();
+        g.lineStyle(5, 0x444444, 1);   //gray walls
+        g.moveTo(this._leftEdgeX, this.leftEdgeY - h/2);
+        g.lineTo(this._leftEdgeX, this.leftEdgeY + h/2);
+        g.moveTo(this._leftEdgeX + this.LinPix, this.leftEdgeY - h/2);
+        g.lineTo(this._leftEdgeX + this.LinPix, this.leftEdgeY + h/2);
+    }
+
+    private function positionGraphics():void{
+       var N:int = this.myModel.N;   //number of visible masses
+       var separationInPix:Number = this.LinPix/(N + 1);   //center-to-center separation of mobile masses in chain
+       for(var i:int = 0; i < N; i++){
+           this.mass_arr[i].visible = true;
+           this.mass_arr[i].y = this.leftEdgeY;
+           this.mass_arr[i].x = this._leftEdgeX + (1+i)*separationInPix;
+       }
+    }
+
+//    private function createLabel(): void {
+//        this.label_txt = new TextField();	//static label
+//        this.addChild( this.label_txt );
+//        this.label_txt.selectable = false;
+//        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+//        this.label_txt.text = any_str;
+//        this.label_fmt = new TextFormat();	//format of label
+//        this.label_fmt.font = "Arial";
+//        this.label_fmt.color = 0xffffff;
+//        this.label_fmt.size = 18;
+//        this.label_txt.setTextFormat( this.label_fmt );
+//        //this.label_txt.x = -0.5 * this.label_txt.width;
+//        //this.label_txt.y = 1.1 * this.knobRadius;
+//    }//end createLabel()
 
     public function initializeControls(): void {
         //trace("initializeShakerControls() called");
 
         this.update();
-
     }
 
+    public function get pixPerMeter(){
+        return this._pixPerMeter;
+    }
 
-
-
-//    private function drawOnLight( color: Number ): void {
-//        var gOL: Graphics = this.onLight.graphics;
-//        gOL.clear();
-//        gOL.lineStyle( 0, 0x5555ff, 1, true, LineScaleMode.NONE );
-//        var radius: Number = 8;
-//        gOL.beginFill( color );
-//        gOL.drawCircle( 0, 0, radius );
-//        gOL.endFill();
-//        //draw specular highlight
-//        gOL.lineStyle( 0, 0xffffff, 1, true, LineScaleMode.NONE );
-//        gOL.beginFill( 0xdd9999 );
-//        gOL.drawCircle( 0.3 * radius, -0.3 * radius, 1 );
-//        gOL.endFill();
-//        this.onLight.filters = [this.glow];
-//        if ( color == 0x000000 ) {
-//            this.onLight.filters = [];
-//        }
-//        else {
-//            this.onLight.filters = [this.glow];
-//        }
-//    }//end drawLight
-
-
-
-
-
-    private function makeSpriteGrabbable( mySprite:Sprite): void {
-        //this.bar.buttonMode = true;
-        var target = mySprite;
-        var thisObject: Object = this;
-        var wasRunning: Boolean;
-        //var L0inPix:Number = this.orientation*this.pixPerMeter * this.model.getL0();
-        //var D0inPix:Number = this.orientation*this.L0InPix;
-        target.buttonMode = true;
-        target.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        var clickOffset: Point;
-
-        function startTargetDrag( evt: MouseEvent ): void {
-            if ( !thisObject.model.paused ) {
-                clickOffset = new Point( evt.localX, evt.localY );
-                wasRunning = thisObject.model.getRunning();
-                thisObject.model.stopShaker();
-                stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-                stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            }
-            //problem with localX, localY if sprite is rotated.
-            //trace("evt.target.y: "+evt.target.y);
-            //thisObject.drawOnLight();
-            //thisObject.spring.scaleY *= 1.5;
-        }
-
-        function stopTargetDrag( evt: MouseEvent ): void {
-            //trace("stop dragging");
-            clickOffset = null;
-            stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-            stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            if ( wasRunning ) {thisObject.model.startShaker();}
-            //thisObject.drawOnLight();
-        }
-
-        function dragTarget( evt: MouseEvent ): void {
-            var barYInPix = mouseY - clickOffset.y;
-            var barYInMeters = -barYInPix / thisObject.pixPerMeter;
-            var limit: Number = 0.05;
-            if ( barYInMeters > limit ) {
-                //trace("bar high");
-                barYInMeters = limit;
-            } else if ( barYInMeters < -limit ) {
-                barYInMeters = -limit;
-                //trace("bar low");
-            }
-            thisObject.model.setY0( barYInMeters );
-            //trace("ShakerView.makeBar..  barYInMeters = " + barYInMeters);
-            //trace("evt.localY = "+evt.localY);
-            //trace("mouseY = "+mouseY);
-            evt.updateAfterEvent();
-        }//end of dragTarget()
-
+    public function get leftEdgeX(){
+        return this._leftEdgeX;
     }
 
     public function update(): void {
-
+        for(var j:int = 0; j < this.myModel.N; j++){
+            var i:int = j+1;    //index of mobile mass, left mass = 1
+            var xInMeters:Number = this.myModel.getX(i);
+            var xInPix:Number = this._leftEdgeX + xInMeters*this._pixPerMeter;
+            this.mass_arr[j].x = xInPix;
+        }//end for loop
     }//end update()
 
 }//end of class

@@ -12,8 +12,8 @@ public class Util extends Sprite {
     //public static var ORIGINX:Number = 0.10*stage.stageWidth;
     public static var PINGRABBED: Boolean = false;
     public static var BACKGROUNDCOLOR: uint = 0xFFFF99;
-    public static var STAGEW: int = 1000; //= stage.stageWidth;
-    public static var STAGEH: int = 700; //= stage.stageHeight;
+    public static var STAGEW: int = 1024; //= stage.stageWidth;
+    public static var STAGEH: int = 768; //= stage.stageHeight;
 
     public function Util() {
         //this is a static class

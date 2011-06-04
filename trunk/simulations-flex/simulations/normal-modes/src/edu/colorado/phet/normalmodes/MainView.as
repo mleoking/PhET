@@ -17,8 +17,8 @@ public class MainView extends Canvas {
     //var ruler:VerticalRuler;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
-    var stageH: Number;
-    var stageW: Number;
+    public var stageH: Number;
+    public var stageW: Number;
 
     //Internalized strings are located at:
 
@@ -31,12 +31,12 @@ public class MainView extends Canvas {
         this.myModel = myModel;
         this.myView = new View( this, myModel );
 
-        this.myView.x = 0.40 * stageW;
-        this.myView.y = 0.6 * stageH;
+        this.myView.x = 0 * stageW;
+        this.myView.y = 0 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myModel );
 
-        this.myPlayPauseButtons.x = this.myView.x;
+        this.myPlayPauseButtons.x = 0.5*stageW;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
         this.myControlPanel = new ControlPanel( this, myModel );
@@ -54,7 +54,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
         this.addChild( new SpriteUIComponent( myView ) );
         //this.addChild( new SpriteUIComponent( ruler ));
-        this.addChild( myControlPanel );
+        //this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
 
