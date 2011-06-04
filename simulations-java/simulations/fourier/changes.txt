@@ -1,3 +1,5 @@
+# 3.05.00 (52637) Jun 4, 2011
+6/4/11 > added new translation credits features
 # 3.04.01 (52613) Jun 2, 2011
 8/24/10 switch to phetcommon Vector2D for "wiggle me", #2467
 # 3.04.00 (38001) Jan 9, 2010
