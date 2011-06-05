@@ -1,3 +1,5 @@
+# 1.23.00 (52641) Jun 5, 2011
+6/5/11 > added new translation credits features
 # 1.22.01 (52624) Jun 2, 2011
 4/11/2011 Set frame size to be 1024x768
 # 1.22.00 (40974) May 21, 2010
