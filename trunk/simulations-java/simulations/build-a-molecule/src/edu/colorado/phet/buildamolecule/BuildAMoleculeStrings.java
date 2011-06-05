@@ -42,6 +42,7 @@ public class BuildAMoleculeStrings {
     public static final String JMOL_3D_SPACE_FILLING = BuildAMoleculeResources.getString( "3d.spaceFilling" );
     public static final String JMOL_3D_BALL_AND_STICK = BuildAMoleculeResources.getString( "3d.ballAndStick" );
     public static final String JMOL_3D_LOADING = BuildAMoleculeResources.getString( "3d.loading" );
+    public static final String ICON_3D = BuildAMoleculeResources.getString( "3d.icon" );
 
     public static final String COLLECTION_AREA_YOUR_MOLECULE_COLLECTION = BuildAMoleculeResources.getString( "collection.yourMoleculeCollection" );
     public static final String COLLECTION_ALL_FILLED = BuildAMoleculeResources.getString( "collection.allFilled" );
