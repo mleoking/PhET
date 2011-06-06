@@ -67,7 +67,7 @@ public class Kit {
         }
 
         // if reset kit ignores collection boxes, add in other atoms that are equivalent to how the bucket started
-        // TODO: right now, the actual atom models move back to the buckets even though the virtual "molecule" says in the box. consider moving it!
+        // NOTE: right now, the actual atom models move back to the buckets even though the virtual "molecule" says in the box. consider moving it!
 
         // wipe our internal state
         atoms.clear();
