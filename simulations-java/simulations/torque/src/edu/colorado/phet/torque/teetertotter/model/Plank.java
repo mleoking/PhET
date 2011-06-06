@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -185,6 +186,50 @@ public class Plank extends ModelObject {
             vectorToWeight.rotate( tiltAngle );
             weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
             weight.setRotationAngle( tiltAngle );
+        }
+    }
+
+    /**
+     * Get the balance point for the plank.  This is the point on which the
+     * plank rests and tilts, so it is the underside of the plank, not the
+     * top.
+     *
+     * @return
+     */
+    public Point2D getBalancePoint() {
+        // TODO: This only works when the fulcrum is immobile, and will need
+        // to be improved.
+        return new Point2D.Double( positionHandle.getX(), positionHandle.getY() );
+    }
+
+    private Point2D getSurfacePointAboveBalancePoint() {
+        return new Vector2D( getBalancePoint() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) ).toPoint2D();
+    }
+
+    /**
+     * Obtain the Y value for the surface of the plank for the specified X
+     * value.
+     *
+     * @param xValue
+     * @return
+     */
+    public double getSurfaceYValue( double xValue ) {
+        // Solve the linear equation for the line that represents the surface
+        // of the plank.
+        Point2D surfacePointAboveBalancePoint = getSurfacePointAboveBalancePoint();
+        double m = Math.atan( tiltAngle );
+        double b = surfacePointAboveBalancePoint.getY() - m * surfacePointAboveBalancePoint.getX();
+        // Does NOT check if the xValue range is valid.
+        return m * xValue + b;
+    }
+
+    public boolean isPointAbovePlank( Point2D p ) {
+        Rectangle2D plankBounds = getShape().getBounds2D();
+        if ( p.getX() >= plankBounds.getMinX() && p.getX() <= plankBounds.getMaxX() && p.getY() > getSurfaceYValue( p.getX() ) ) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
