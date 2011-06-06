@@ -57,7 +57,10 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
             addChild( goalNode );
         }} );
         addHeaderNode( new HTMLNode() {{
-            // TODO: figure out a possible better way to assure that we don't see a "bumping" size change due to increase of string height with subscripts:
+            /*
+             * Adding this text in will make text the same height (generally) whether or not they contain subscripts.
+             * Before, the general positioning would be different on molecules which do not involve subscripts (HCN, NO, etc.)
+             */
             final String subscriptFix = "<sub> </sub>";
 
             setFont( new PhetFont( 14 ) );

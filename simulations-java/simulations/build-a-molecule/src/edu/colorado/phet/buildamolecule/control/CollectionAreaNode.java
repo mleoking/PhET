@@ -105,7 +105,7 @@ public class CollectionAreaNode extends PNode {
                                  }
 
                                  @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                                     // TODO can we get rid of this hack ?
+                                     // TODO more elegant way to handle addPropertyChangeListener hack
                                  }
                              }, c );
 

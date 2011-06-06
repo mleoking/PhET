@@ -14,7 +14,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Allows the user to turn the global sound for the sim on or off
  * <p/>
- * TODO: consider a "muted" icon where there are no "sound" waves coming from the speaker icon
+ * NOTE: consider a "muted" icon where there are no "sound" waves coming from the speaker icon
  */
 public class SoundOnOffNode extends PNode {
     public SoundOnOffNode() {
