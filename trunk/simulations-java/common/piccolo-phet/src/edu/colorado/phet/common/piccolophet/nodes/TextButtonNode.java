@@ -68,6 +68,13 @@ public class TextButtonNode extends ButtonNode {
         updateContentNodes();
     }
 
+    public void setText( String text ) {
+        if ( !text.equals( this.text ) ) {
+            this.text = text;
+            updateContentNodes();
+        }
+    }
+
     public String getText() {
         return text;
     }
