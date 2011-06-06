@@ -29,6 +29,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Control for setting a capacitor's capacitance.
+ * Origin at upper-left of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -72,6 +73,13 @@ public class CapacitanceControlNode extends PhetPNode {
     private final TimesTenValueNode valueNode;
     private final double snapInterval;
 
+    /**
+     * Constructor
+     *
+     * @param capacitor       the capacitor we're controlling
+     * @param range           range of capacitance, in Farads
+     * @param displayExponent power of 10 exponent used in displaying the value
+     */
     public CapacitanceControlNode( final Capacitor capacitor, DoubleRange range, int displayExponent ) {
 
         this.range = range;
@@ -90,7 +98,7 @@ public class CapacitanceControlNode extends PhetPNode {
         titleNode = new TitleNode( CLStrings.CAPACITANCE );
         valueNode = new TimesTenValueNode( VALUE_FORMAT, displayExponent, CLStrings.FARADS, capacitor.getTotalCapacitance(), VALUE_FONT, VALUE_COLOR );
 
-        // background, sized to fit around parentNode
+        // background, sized to fit around track and knob.
         Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0,
                                                              knobNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN ),
                                                              trackNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN ) );
@@ -108,15 +116,19 @@ public class CapacitanceControlNode extends PhetPNode {
 
         // layout
         {
+            // background at origin
             double x = 0;
             double y = 0;
             backgroundNode.setOffset( x, y );
+            // track centered in background
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( trackNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getCenterY() - ( trackNode.getFullBoundsReference().getHeight() / 2 );
             trackNode.setOffset( x, y );
+            // knob centered in track
             x = backgroundNode.getFullBoundsReference().getCenterX() + ( knobNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getCenterY();
             knobNode.setOffset( x, y );
+            // title centered below background
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
             titleNode.setOffset( x, y );
@@ -136,6 +148,7 @@ public class CapacitanceControlNode extends PhetPNode {
         // hand cursor on knob
         knobNode.addInputEventListener( new CursorHandler() );
 
+        // highlight the knob on mouseover
         knobNode.addInputEventListener( new PaintHighlightHandler( knobNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
 
         // Constrain the knob to be dragged vertically within the track
@@ -194,6 +207,7 @@ public class CapacitanceControlNode extends PhetPNode {
         } );
     }
 
+    // Updates the control to match the capacitor model.
     private void update() {
 
         double capacitance = capacitor.getTotalCapacitance();

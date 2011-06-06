@@ -23,6 +23,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Displays the shapes related to the measurement of voltage.
  * All shapes are in the global view coordinate frame; when a model object moves, its shape changes.
+ * This is a developer feature, not intended to be visible to the user.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

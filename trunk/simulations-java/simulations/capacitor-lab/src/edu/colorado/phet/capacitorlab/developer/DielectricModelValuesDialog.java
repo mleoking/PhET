@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.developer;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
@@ -13,11 +13,11 @@ import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */ class ModelValuesDialog extends PaintImmediateDialog {
+/* package private */ class DielectricModelValuesDialog extends PaintImmediateDialog {
 
     private final DielectricModelValuesPanel panel;
 
-    public ModelValuesDialog( Frame owner, DielectricModel model ) {
+    public DielectricModelValuesDialog( Frame owner, DielectricModel model ) {
         super( owner );
         setTitle( "Model Values" );
         setResizable( false );

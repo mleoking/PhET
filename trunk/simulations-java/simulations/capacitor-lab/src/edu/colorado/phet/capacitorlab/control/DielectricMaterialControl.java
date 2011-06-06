@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
@@ -23,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Fill;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * Control for selecting a dielectric material.
+ * Control for selecting a dielectric material, a labeled combo box.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -47,7 +46,7 @@ public class DielectricMaterialControl extends JPanel {
                     fireStateChanged();
                 }
             }
-        });
+        } );
 
         GridPanel innerPanel = new GridPanel();
         innerPanel.setAnchor( Anchor.WEST );
@@ -79,7 +78,7 @@ public class DielectricMaterialControl extends JPanel {
         return (DielectricMaterial) comboBox.getSelectedItem();
     }
 
-    public void addChangeListener ( ChangeListener listener ) {
+    public void addChangeListener( ChangeListener listener ) {
         listeners.add( ChangeListener.class, listener );
     }
 
@@ -94,6 +93,11 @@ public class DielectricMaterialControl extends JPanel {
         }
     }
 
+    /*
+     * Custom renderer for a dielectric material, used by the combo box.
+     * Displays the name and constant for the material, with a color chip to the left showing its color.
+     * For custom dielectric, the constant is omitted, since it varies dynamically.
+     */
     private static class DielectricMaterialRenderer extends JLabel implements ListCellRenderer {
 
         private static final double COLOR_CHIP_SIZE = 11;
@@ -128,7 +132,7 @@ public class DielectricMaterialControl extends JPanel {
         }
 
         public String getText( DielectricMaterial material ) {
-            String s = null;
+            String s;
             if ( material instanceof CustomDielectricMaterial ) {
                 s = material.getName();
             }
