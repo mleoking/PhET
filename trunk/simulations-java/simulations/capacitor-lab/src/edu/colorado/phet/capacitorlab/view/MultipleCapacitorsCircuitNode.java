@@ -116,8 +116,9 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
         }
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO call cleanup methods of component nodes
+        //FUTURE call cleanup methods of component nodes
     }
 
     private static void updateLabelOffset( PNode labelNode, CapacitorNode capacitorNode ) {

@@ -104,8 +104,9 @@ public class CurrentIndicatorNode extends PhetPNode {
         } );
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO circuit.removeCurrentAmplitudeObserver
+        //FUTURE circuit.removeCurrentAmplitudeObserver
     }
 
     /*

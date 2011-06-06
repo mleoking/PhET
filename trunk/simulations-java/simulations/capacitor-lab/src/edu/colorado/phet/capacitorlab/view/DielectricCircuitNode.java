@@ -146,8 +146,9 @@ public class DielectricCircuitNode extends PhetPNode {
         updateBatteryConnectivity();
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO circuit.removeCircuitChangeListener
+        //FUTURE circuit.removeCircuitChangeListener
     }
 
     /**
