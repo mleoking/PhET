@@ -6,6 +6,11 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 
 
+/**
+ * Visual representation of a negative charge.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class NegativeChargeNode extends MinusNode {
 
     public NegativeChargeNode() {

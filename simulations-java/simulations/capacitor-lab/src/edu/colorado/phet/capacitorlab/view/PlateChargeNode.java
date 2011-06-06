@@ -56,6 +56,10 @@ public abstract class PlateChargeNode extends PhetPNode {
         update();
     }
 
+    public void cleanup() {
+        //TODO capacitor.removeCapacitorChangeListener
+    }
+
     /*
      * Charge on the portion of the plate that this node handles.
      */

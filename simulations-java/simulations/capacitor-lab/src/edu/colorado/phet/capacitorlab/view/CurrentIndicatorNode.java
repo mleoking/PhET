@@ -104,6 +104,10 @@ public class CurrentIndicatorNode extends PhetPNode {
         } );
     }
 
+    public void cleanup() {
+        //TODO circuit.removeCurrentAmplitudeObserver
+    }
+
     /*
      * Updates the transparency of this node based on the current amplitude.
      * Any non-zero current amplitude results in a constant transparency.

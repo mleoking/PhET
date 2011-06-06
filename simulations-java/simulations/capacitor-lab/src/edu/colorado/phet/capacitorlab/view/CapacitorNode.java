@@ -84,7 +84,8 @@ public class CapacitorNode extends PhetPNode {
     }
 
     public void cleanup() {
-        //TODO remove observers from plateChargesVisible and eFieldVisible
+        //TODO plateChargeVisibleProperty.removeObserver
+        //TODO eFieldVisibleProperty.removeObserver
     }
 
     public DielectricNode getDielectricNode() {

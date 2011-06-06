@@ -59,7 +59,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
             addChild( originNode );
         }
 
-        // make draggable
+        // make draggable, constrained to the world bounds
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new WorldLocationDragHandler( detector.probeLocationProperty, this, mvt ) );
 

@@ -146,6 +146,10 @@ public class DielectricCircuitNode extends PhetPNode {
         updateBatteryConnectivity();
     }
 
+    public void cleanup() {
+        //TODO circuit.removeCircuitChangeListener
+    }
+
     /**
      * Determines whether the dielectric is transparent or opaque.
      * This depends on which meteres are selected in the Dielectric canvas, not on the dielectric properties.

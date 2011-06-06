@@ -53,6 +53,10 @@ public class DielectricTotalChargeNode extends PhetPNode {
         update();
     }
 
+    public void cleanup() {
+        //TODO capacitor.removeCapacitorChangeListener
+    }
+
     /**
      * Update the node when it becomes visible.
      */

@@ -37,6 +37,10 @@ public class WireNode extends PComposite {
         } );
     }
 
+    public void cleanup() {
+        //TODO wire.removeShapeObserver
+    }
+
     public Wire getWire() {
         return wire;
     }
