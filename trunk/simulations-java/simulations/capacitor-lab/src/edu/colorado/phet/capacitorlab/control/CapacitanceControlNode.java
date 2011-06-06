@@ -70,10 +70,12 @@ public class CapacitanceControlNode extends PhetPNode {
     private final TitleNode titleNode;
     private final DoubleRange range;
     private final TimesTenValueNode valueNode;
+    private final double snapInterval;
 
     public CapacitanceControlNode( final Capacitor capacitor, DoubleRange range, int displayExponent ) {
 
         this.range = range;
+        this.snapInterval = Math.pow( 10, displayExponent - 1 ); // snap to 0.1 of the mantissa
 
         this.capacitor = capacitor;
         capacitor.addCapacitorChangeListener( new CapacitorChangeListener() {
@@ -179,6 +181,11 @@ public class CapacitanceControlNode extends PhetPNode {
                 }
                 else if ( capacitance > range.getMax() ) {
                     capacitance = range.getMax();
+                }
+
+                // snap to closest value
+                if ( !isDragging ) {
+                    capacitance = Math.floor( ( capacitance / snapInterval ) + 0.5d ) * snapInterval;
                 }
 
                 // set the model
