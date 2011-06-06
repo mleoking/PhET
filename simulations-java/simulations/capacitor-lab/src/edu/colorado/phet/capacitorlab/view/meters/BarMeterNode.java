@@ -119,6 +119,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
     private double value;
     private final Property<Integer> exponentProperty; // exponent of the value display and max label
+    private final Property<Boolean> hasBeenVisibleProperty;
 
     /**
      * Constructor.
@@ -135,6 +136,7 @@ public abstract class BarMeterNode extends PhetPNode {
 
         this.value = meter.getValue();
         this.exponentProperty = new Property<Integer>( exponent );
+        this.hasBeenVisibleProperty = new Property<Boolean>( meter.visibleProperty.get() );
 
         // track
         trackNode = new TrackNode();
@@ -251,17 +253,19 @@ public abstract class BarMeterNode extends PhetPNode {
 
     public void reset() {
         exponentProperty.reset();
+        hasBeenVisibleProperty.reset();
     }
 
     /**
-     * Whenever the meter becomes visible, autoscale.
+     * When the meter first becomes visible, autoscale.
      *
      * @param visible
      */
     @Override public void setVisible( boolean visible ) {
         if ( visible != getVisible() ) {
             super.setVisible( visible );
-            if ( visible ) {
+            if ( visible && !hasBeenVisibleProperty.get() ) {
+                hasBeenVisibleProperty.set( true );
                 updateExponent();
             }
         }
