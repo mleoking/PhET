@@ -37,8 +37,9 @@ public class WireNode extends PComposite {
         } );
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO wire.removeShapeObserver
+        //FUTURE wire.removeShapeObserver
     }
 
     public Wire getWire() {

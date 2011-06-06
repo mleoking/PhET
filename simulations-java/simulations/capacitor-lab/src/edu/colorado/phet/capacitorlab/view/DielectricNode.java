@@ -47,9 +47,10 @@ public class DielectricNode extends BoxNode {
         } );
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO dielectricChargeViewProperty.removeObserver
-        //TODO capacitor.removeDielectricMaterialObserver
+        //FUTURE dielectricChargeViewProperty.removeObserver
+        //FUTURE capacitor.removeDielectricMaterialObserver
     }
 
     /**
