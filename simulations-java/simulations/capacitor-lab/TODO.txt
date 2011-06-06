@@ -1,7 +1,6 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- bug: capacitance slider thumb jumps down when you start dragging (yClickOffset is probably wrong)
 - bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
 - bug: things at the bottom of the play area are cut off when main frame is height is reduced
 

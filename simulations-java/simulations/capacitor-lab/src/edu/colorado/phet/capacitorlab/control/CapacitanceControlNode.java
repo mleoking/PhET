@@ -150,7 +150,7 @@ public class CapacitanceControlNode extends PhetPNode {
                 Point2D pMouseLocal = event.getPositionRelativeTo( CapacitanceControlNode.this );
                 Point2D pMouseGlobal = CapacitanceControlNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = CapacitanceControlNode.this.localToGlobal( knobNode.getOffset() );
-                globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+                globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY() + trackNode.getYOffset();
             }
 
             @Override
