@@ -8,6 +8,8 @@ MEDIUM PRIORITY
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
 - add "circuit selection" screenshots to design doc, with verbage
+- document model.circuit package
+- create implementation notes document
 
 LOW PRIORITY
 - move shape creation out of Wire and into WireNode (via WireShapeFactory) to be consistent with pattern used elsewhere
