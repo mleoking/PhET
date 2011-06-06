@@ -13,6 +13,10 @@ import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
+/**
+ * Filters a molecule file by removing molecules that could not be made with the
+ * kits available in the 3rd tab.
+ */
 public class MoleculeKitFilterer {
     public static final List<ElementHistogram> availableKitHistograms = new LinkedList<ElementHistogram>();
 
@@ -34,7 +38,7 @@ public class MoleculeKitFilterer {
             availableKitHistograms.add( histogram );
         }
 
-        // TODO: better way of grabbing this info
+        // grab information about the various kits from the 3rd tab.
         new LargerMoleculesModule( new JFrame() ) {
             @Override
             protected void setInitialCollection( KitCollection collection ) {

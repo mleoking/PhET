@@ -13,24 +13,20 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
 import edu.colorado.phet.common.phetcommon.util.Pair;
 
 /**
- * NOT PRODUCTION CODE. Turns separate 2d and 3d SDF files into a filtered ready-to-use chemical file
- * TODO: find any that we need to manually add in (those without names?) NO2?
+ * Main parsing process. Turns separate 2d and 3d SDF files into a filtered ready-to-use chemical file.
  */
 public class MoleculeSDFCombinedParser {
 
-    private static final String SEPARATOR = "|";
-
-    private static String[] desiredProperties = new String[] {
-            "PUBCHEM_IUPAC_TRADITIONAL_NAME",
-            "PUBCHEM_MOLECULAR_FORMULA", "PUBCHEM_PHARMACOPHORE_FEATURES"
-
-            , "PUBCHEM_IUPAC_OPENEYE_NAME", "PUBCHEM_IUPAC_CAS_NAME", "PUBCHEM_IUPAC_NAME", "PUBCHEM_IUPAC_SYSTEMATIC_NAME"
-    };
-
+    /**
+     * Molecules that will NOT be tossed, even though they match our criteria to exclude them
+     */
     public static final Set<Integer> EXCLUSION_OVERRIDE_CIDS = new HashSet<Integer>() {{
         add( 3609161 ); // nitrogen dioxide (ion)
     }};
 
+    /**
+     * Molecules that we will separate out into the collection-molecules.txt
+     */
     public static final Set<Integer> COLLECTION_BOX_CIDS = new HashSet<Integer>() {{
         add( 6326 ); // acetylene
         add( 222 ); // ammonia
@@ -61,8 +57,11 @@ public class MoleculeSDFCombinedParser {
     }};
 
     private static final int MAX_NUM_HEAVY_ATOMS = 12; // hard-count of 12
-    private static final int MAX_NUM_CARBON = 4;
+    private static final int MAX_NUM_CARBON = 4; // maximum number of carbon. if this is higher, it will significantly increase the number of included molecules
 
+    /**
+     * @param args [0] = directory where compressed 2d SDF files exist. [1] = directory where compressed 3d SDF files exist. [2] = output directory for files
+     */
     public static void main( String[] args ) {
         File dir2d = new File( args[0] );
         File dir3d = new File( args[1] );
@@ -72,10 +71,6 @@ public class MoleculeSDFCombinedParser {
         assert ( dir3d.exists() );
         assert ( outDir.exists() );
 
-        Set<String> propertiesNotOnEveryMolecule = new HashSet<String>();
-        Set<String> propertiesUsed = new HashSet<String>();
-
-        int uniqueAcceptedAtoms = 0;
         Set<String> names = new HashSet<String>();
 
         List<CompleteMolecule> otherMolecules = new LinkedList<CompleteMolecule>();
@@ -84,8 +79,11 @@ public class MoleculeSDFCombinedParser {
         FilteredMoleculeIterator moleculeIterator = new FilteredMoleculeIterator( new MoleculeReader( dir2d, MAX_NUM_HEAVY_ATOMS ), new MoleculeReader( dir3d, MAX_NUM_HEAVY_ATOMS ) );
 
         try {
-
             while ( moleculeIterator.hasNext() ) {
+                /*---------------------------------------------------------------------------*
+                * parse the SDF format
+                *----------------------------------------------------------------------------*/
+
                 Pair<MoleculeFile, MoleculeFile> pair = moleculeIterator.next();
                 int cid = pair._1.cid;
 
@@ -120,6 +118,7 @@ public class MoleculeSDFCombinedParser {
                 int atomCount = Integer.parseInt( infoTokenizer.nextToken() );
                 int bondCount = Integer.parseInt( infoTokenizer.nextToken() );
 
+                // will fill in the name and formula later.
                 CompleteMolecule molecule = new CompleteMolecule( "fake common name", "fake molecular formula", atomCount, bondCount, include2d, has3d );
 
                 Properties moleculeProperties = new Properties();
@@ -147,7 +146,6 @@ public class MoleculeSDFCombinedParser {
 
                     Element element = Element.getElementBySymbol( symbol );
 
-                    // TODO: isomorphism finding
                     if ( has3d ) {
                         StringTokenizer t3d = new StringTokenizer( reader3d.readLine(), " " );
                         float x3d = Float.parseFloat( t3d.nextToken() );
@@ -202,18 +200,6 @@ public class MoleculeSDFCombinedParser {
                     hasRings = has3d && moleculeProperties.getProperty( "PUBCHEM_PHARMACOPHORE_FEATURES" ).contains( "rings" );
                     hasName = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" ) != null;
 
-                    propertiesUsed.addAll( moleculeProperties.stringPropertyNames() );
-
-                    for ( String key : desiredProperties ) {
-                        if ( moleculeProperties.containsKey( key ) ) {
-                            //System.out.println( key + ": " + moleculeProperties.getProperty( key ) );
-                        }
-                        else {
-                            //System.out.println( cid + " missing " + key );
-                            propertiesNotOnEveryMolecule.add( key );
-                        }
-                    }
-
                     if ( hasName && !hasRings && cid != 139247 && cid != 9561073 ) { // blacklist
                         // we will accept it
                         String name = moleculeProperties.getProperty( "PUBCHEM_IUPAC_TRADITIONAL_NAME" );
@@ -225,7 +211,6 @@ public class MoleculeSDFCombinedParser {
                             System.out.println( "duplicate name: " + name );
                         }
 
-                        uniqueAcceptedAtoms++;
                         names.add( name );
 
                         // actually store it for now
@@ -250,15 +235,6 @@ public class MoleculeSDFCombinedParser {
             e.printStackTrace();
         }
 
-        for ( String key : propertiesNotOnEveryMolecule ) {
-            System.out.println( "At least one missed property: " + key );
-        }
-        for ( String key : desiredProperties ) {
-            if ( !propertiesNotOnEveryMolecule.contains( key ) ) {
-                System.out.println( "Every one had property: " + key );
-            }
-        }
-        System.out.println( "uniqueAcceptedAtoms: " + uniqueAcceptedAtoms );
         System.out.println( "unique names: " + names.size() );
 
         /*---------------------------------------------------------------------------*
@@ -350,7 +326,7 @@ public class MoleculeSDFCombinedParser {
         while ( reader.ready() ) {
             String line = reader.readLine();
             if ( line == null ) {
-                // TODO: why do we need this? is reader.ready() returning true for StringReader?
+                // NOTE: why do we need this? is reader.ready() returning true for StringReader?
                 return;
             }
             if ( line.startsWith( "> <" ) ) {
