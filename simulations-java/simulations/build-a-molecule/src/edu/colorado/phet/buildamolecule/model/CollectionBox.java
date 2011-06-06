@@ -47,6 +47,7 @@ public class CollectionBox {
     }
 
     public void setDropBounds( Rectangle2D modelDropBounds ) {
+        assert ( modelDropBounds != null );
         this.dropBounds = modelDropBounds;
     }
 
