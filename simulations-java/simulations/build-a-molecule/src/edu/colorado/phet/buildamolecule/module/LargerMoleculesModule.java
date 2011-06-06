@@ -24,6 +24,8 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
         *----------------------------------------------------------------------------*/
 
         final KitCollection initialCollection = new KitCollection() {{
+            // NOTE: if kits are modified here, examine MAX_NUM_HEAVY_ATOMS in MoleculeSDFCombinedParser, as it may need to be changed
+
             // general kit
             addKit( new Kit( bounds,
                              new Bucket( getClock(), H, 13 ),
