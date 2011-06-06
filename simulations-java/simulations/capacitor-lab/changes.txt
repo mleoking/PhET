@@ -1,3 +1,4 @@
+6/6/11 create one persistent node for each circuit in the model, so we don't need to do cleanup when circuit choice changes
 6/6/11 add stubs for required cleanup methods in view package
 6/6/11 misc internal documentation
 6/6/11 change "disconnect battery" button to Piccolo, so that this sim uses no PSwing
