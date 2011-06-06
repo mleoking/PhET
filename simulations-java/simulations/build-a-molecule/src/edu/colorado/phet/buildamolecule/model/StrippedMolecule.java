@@ -8,7 +8,9 @@ import edu.colorado.phet.chemistry.model.Element;
 
 /**
  * Molecule structure with the hydrogens stripped out (but with the hydrogen count of an atom saved)
- * TODO: potentially move a "stripped" structure into MoleculeStructure for quick comparison!
+ * <p/>
+ * This class was motivated by a need for efficient molecule comparison. It brought down the cost
+ * of filtering molecules from months to minutes, along with significant reductions in the structures file size.
  */
 public class StrippedMolecule<AtomT extends Atom> {
     public final MoleculeStructure<AtomT> stripped;
@@ -86,7 +88,7 @@ public class StrippedMolecule<AtomT extends Atom> {
         return hydrogenCount[getIndex( atom )];
     }
 
-    public <AtomU extends Atom> boolean isEquivalent( StrippedMolecule<AtomU> other ) {
+    public <AtomU extends Atom> boolean isEquivalent( StrippedMolecule<AtomU> other ) { // I know this isn't used, but it might be useful in the future
         if ( this == other ) {
             // same instance
             return true;
@@ -107,6 +109,17 @@ public class StrippedMolecule<AtomT extends Atom> {
         return false;
     }
 
+    /**
+     * This checks to see whether the "other" molecule (with 0 or more added hydrogens) would be
+     * equivalent to this stripped molecule.
+     * <p/>
+     * This is useful for checking whether "other" is a valid structure by checking it against
+     * stripped structures efficiently.
+     *
+     * @param other   Other (potential) submolecule
+     * @param <AtomU> Other atom type.
+     * @return Whether "other" is a hydrogen submolecule of this instance
+     */
     public <AtomU extends Atom> boolean isHydrogenSubmolecule( StrippedMolecule<AtomU> other ) {
         if ( this == other ) {
             // same instance
@@ -129,8 +142,17 @@ public class StrippedMolecule<AtomT extends Atom> {
         return false;
     }
 
-    // TODO: separate out common behavior?
-    private <AtomU extends Atom> boolean checkEquivalency( StrippedMolecule<AtomU> other, Set<AtomT> myVisited, Set<AtomU> otherVisited, AtomT myAtom, AtomU otherAtom, boolean subCheck ) {
+    private <AtomU extends Atom> boolean checkEquivalency( StrippedMolecule<AtomU> other, Set<AtomT> myVisited, Set<AtomU> otherVisited,
+                                                           AtomT myAtom, AtomU otherAtom, boolean subCheck ) {
+        // basically this checks whether two different sub-trees of two different molecules are "equivalent"
+
+        /*
+         * NOTE: this shares much overall structure (and some code) from MoleculeStructure's version, however
+         * extracting out the common parts would be more effort (and lines of code) than it would be worth
+         *
+         * ------- If you change this, also consider the similar code in MoleculeStructure
+         */
+
         if ( !myAtom.hasSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;

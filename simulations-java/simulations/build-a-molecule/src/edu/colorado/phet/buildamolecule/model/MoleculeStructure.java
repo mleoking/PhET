@@ -522,6 +522,10 @@ public class MoleculeStructure<AtomT extends Atom> {
     }
 
     private <U extends Atom> boolean checkEquivalency( MoleculeStructure<U> other, Set<AtomT> myVisited, Set<U> otherVisited, AtomT myAtom, U otherAtom ) {
+        // basically this checks whether two different sub-trees of two different molecules are "equivalent"
+
+        // ------- If you change this, also consider the similar code in StrippedMolecule
+
         if ( !myAtom.hasSameElement( otherAtom ) ) {
             // if the atoms are of different types, bail. subtrees can't possibly be equivalent
             return false;
