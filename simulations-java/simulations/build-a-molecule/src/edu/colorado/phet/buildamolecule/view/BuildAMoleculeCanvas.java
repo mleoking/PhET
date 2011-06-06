@@ -128,18 +128,15 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     */
     @Override
     protected void updateLayout() {
-
         Dimension2D worldSize = getWorldSize();
         if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
         }
-
-        //XXX lay out nodes
     }
 
     /**
-     * Returns model bounds from a piccolo node TODO: try to make this unnecessary
+     * Returns model bounds from a piccolo node, given local coordinates on a piccolo node.
      */
     public final Function1<PNode, Rectangle2D> toModelBounds = new Function1<PNode, Rectangle2D>() {
         public Rectangle2D apply( PNode node ) {
@@ -153,8 +150,8 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
             PDimension dimensions = new PDimension( globalBounds.getWidth(), globalBounds.getHeight() );
 
             // transform the point and dimensions to world coordinates
-            BuildAMoleculeCanvas.this.getPhetRootNode().globalToWorld( upperLeftCorner );
-            BuildAMoleculeCanvas.this.getPhetRootNode().globalToWorld( dimensions );
+            getPhetRootNode().globalToWorld( upperLeftCorner );
+            getPhetRootNode().globalToWorld( dimensions );
 
             // our bounds relative to our simulation (BAM) canvas. Will be filled in
             Rectangle2D viewBounds = new Rectangle2D.Double( upperLeftCorner.getX(), upperLeftCorner.getY(), dimensions.getWidth(), dimensions.getHeight() );
