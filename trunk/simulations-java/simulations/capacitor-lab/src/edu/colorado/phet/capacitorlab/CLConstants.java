@@ -96,8 +96,6 @@ public class CLConstants {
     public static final double MVT_YAW = Math.toRadians( -45 ); // rotation about the vertical axis, right-hand rule determines sign
     public static final double MVT_PITCH = Math.toRadians( 30 ); // rotation about the horizontal axis, right-hand rule determines sign
 
-    public static final double PSWING_SCALE = 1.5;
-
     public static final double DRAG_HANDLE_ARROW_LENGTH = 35; // pixels
 
     // default exponents for the meters
