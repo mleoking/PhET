@@ -2,26 +2,23 @@
 
 package edu.colorado.phet.capacitorlab.developer;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.view.PhetTitledPanel;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel.Anchor;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 
 /**
- * Developer controls for capacitor.
+ * A panel of developer controls, no i18n required.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -31,7 +28,7 @@ public class DeveloperControlPanel extends PhetTitledPanel {
     private final DielectricModel model;
     private final JCheckBox modelValuesCheckBox;
 
-    private ModelValuesDialog modelValuesDialog;
+    private DielectricModelValuesDialog modelValuesDialog;
     private Point modelValuesDialogLocation;
 
     public DeveloperControlPanel( Frame parentFrame, final DielectricModel model ) {
@@ -71,7 +68,7 @@ public class DeveloperControlPanel extends PhetTitledPanel {
 
         closeModelValuesDialog();
 
-        modelValuesDialog = new ModelValuesDialog( parentFrame, model );
+        modelValuesDialog = new DielectricModelValuesDialog( parentFrame, model );
         modelValuesDialog.addWindowListener( new WindowAdapter() {
 
             // called when the close button in the dialog's window dressing is clicked

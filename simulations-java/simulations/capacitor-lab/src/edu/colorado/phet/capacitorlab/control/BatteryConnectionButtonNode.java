@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
 /**
  * Button that connects/disconnects the battery from the capacitor.
+ * Origin at upper-left of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -28,6 +29,8 @@ public class BatteryConnectionButtonNode extends TextButtonNode {
         setBackground( Color.WHITE );
 
         addInputEventListener( new CursorHandler() );
+
+        // toggle battery connectivity when pressed
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( !circuit.isBatteryConnected() );

@@ -11,7 +11,7 @@ import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
- * Drag handler that modify a WorldLocationProperty,
+ * Drag handler that modifies a WorldLocationProperty,
  * typically used to model an object's 3D location.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

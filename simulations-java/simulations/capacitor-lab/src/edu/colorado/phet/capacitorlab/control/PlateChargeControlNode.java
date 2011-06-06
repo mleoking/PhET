@@ -79,6 +79,12 @@ public class PlateChargeControlNode extends PhetPNode {
     private final TitleNode titleNode;
     private final DoubleRange range;
 
+    /**
+     * Constructor
+     *
+     * @param circuit the circuit that we're controlling
+     * @param range   range of the plate charge
+     */
     public PlateChargeControlNode( final SingleCircuit circuit, DoubleRange range ) {
 
         this.range = range;
@@ -163,12 +169,15 @@ public class PlateChargeControlNode extends PhetPNode {
 
         // layout
         {
+            // background at origin
             x = 0;
             y = 0;
             backgroundNode.setOffset( x, y );
+            // track and knob centered in background
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
             y = backgroundNode.getFullBoundsReference().getCenterY() - ( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
             parentNode.setOffset( x, y );
+            // title centered below background
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
             titleNode.setOffset( x, y );
@@ -246,6 +255,7 @@ public class PlateChargeControlNode extends PhetPNode {
         } );
     }
 
+    // Updates the control to match the circuit model.
     private void update() {
 
         double plateCharge = circuit.getDisconnectedPlateCharge();
