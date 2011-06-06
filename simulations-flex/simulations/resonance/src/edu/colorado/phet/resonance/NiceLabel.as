@@ -69,6 +69,12 @@ public class NiceLabel extends Sprite {
         this.label_txt.setTextFormat( this.tFormat );
     }
 
+    public function centerText():void{
+        //this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.tFormat.align = TextFormatAlign.CENTER;
+        this.label_txt.setTextFormat( this.tFormat );
+    }
+
     public function setText(labelText_str:String):void{
         this.label_txt.text = labelText_str;
         this.label_txt.setTextFormat( this.tFormat );
