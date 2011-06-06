@@ -19,6 +19,7 @@ public class Model {
     private var _L:Number;           //distance between fixed walls in meters
     private var _nMax:int;           //maximum possible number of mobile masses in 1D array
     private var _N:int;              //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
+    private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
     private var x_arr:Array;        //array of positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
@@ -44,7 +45,8 @@ public class Model {
 
     private function initialize() {
         this._nMax = 10;             //maximum of 10 mobile masses in array
-        this._N = 10;                 //start with 1 or 3 mobile masses
+        this._N = 5;                 //start with 1 or 3 mobile masses
+        this.nChanged = false;
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
@@ -63,7 +65,7 @@ public class Model {
     }//end initialize()
 
 
-    private function initializeKinematicArrays():void{
+    public function initializeKinematicArrays():void{
         var arrLength:int = this._N + 2;
         for(var i:int = 0; i < arrLength; i++){
             this.x_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
@@ -93,6 +95,7 @@ public class Model {
            this._N = nbrOfMobileMasses;
         }
         this.initializeKinematicArrays();
+        this.nChanged = true;
         this.updateView();
     }//end setN
 
@@ -242,8 +245,12 @@ public class Model {
     }
 
     public function updateView(): void {
+        if(nChanged){
+            this.view.setNbrMasses();
+            this.nChanged = false;
+        }
         this.view.update();
-    }
+    }//end updateView()
 
 }//end of class
 

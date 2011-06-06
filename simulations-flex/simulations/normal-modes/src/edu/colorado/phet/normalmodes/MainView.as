@@ -35,7 +35,6 @@ public class MainView extends Canvas {
         this.myView.y = 0 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myModel );
-
         this.myPlayPauseButtons.x = 0.5*stageW;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
@@ -43,8 +42,9 @@ public class MainView extends Canvas {
 
         //this.myControlPanel.right = 10;    //does not work, "right" is a style property
         //this.myControlPanel.setStyle("right", 10);    //this works, but forces the control panel on the far right
-        this.myControlPanel.x = 0.8 * stageW; //- 3 * this.myControlPanel.width;
+        this.myControlPanel.x = 0.1 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.1 * stageH;
+
 
         this.phetLogo = new PhetIcon();
 
@@ -54,7 +54,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
         this.addChild( new SpriteUIComponent( myView ) );
         //this.addChild( new SpriteUIComponent( ruler ));
-        //this.addChild( myControlPanel );
+        this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
 
