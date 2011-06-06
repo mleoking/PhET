@@ -1,3 +1,4 @@
+6/6/11 change request: make capacitance slider snap to closest 0.1 of displayed mantissa
 # 1.00.07 (52616) Jun 2, 2011
 6/2/11 tweak insets of Dielectric control panel to make it look better on Windows
 6/2/11 PSwing zoom buttons are causing problems, change to ButtonNode
