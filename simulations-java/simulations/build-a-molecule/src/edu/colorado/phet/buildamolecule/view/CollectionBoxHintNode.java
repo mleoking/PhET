@@ -20,6 +20,9 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
+/**
+ * Labeled arrow pointing the user to move the molecule into the collection box
+ */
 public class CollectionBoxHintNode extends PNode {
     public CollectionBoxHintNode( final Molecule molecule, final CollectionBox box ) {
 
