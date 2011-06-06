@@ -6,7 +6,9 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -45,7 +47,10 @@ public class Plank extends ModelObject {
     public final double maxTiltAngle;
 
     // List of the weights that are resting on the surface of this plank.
-    private final List<WeightOnPlank> weightsOnSurface = new ArrayList<WeightOnPlank>();
+    private final List<Weight> weightsOnSurface = new ArrayList<Weight>();
+
+    // Map of weights to distance from the center of the plank.
+    private final Map<Weight, Double> mapWeightToDistFromCenter = new HashMap<Weight, Double>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -74,15 +79,16 @@ public class Plank extends ModelObject {
      *
      * @param weight
      */
-    public void addWeightToSurface( Weight weight ) {
-        final WeightOnPlank weightOnPlank = new WeightOnPlank( weight, weight.getPosition().getX() - positionHandle.getX() );
-        weightsOnSurface.add( weightOnPlank );
+    public void addWeightToSurface( final Weight weight ) {
+        weightsOnSurface.add( weight );
+        mapWeightToDistFromCenter.put( weight, weight.getPosition().getX() - positionHandle.getX() );
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
                     // The user has picked up this weight, so it is no longer
                     // on the surface.
-                    weightsOnSurface.remove( weightOnPlank );
+                    weightsOnSurface.remove( weight );
+                    weight.setRotationAngle( 0 );
                 }
             }
         }
@@ -171,14 +177,14 @@ public class Plank extends ModelObject {
     }
 
     private void updateWeightPositions() {
-        for ( WeightOnPlank weightOnPlank : weightsOnSurface ) {
+        for ( Weight weight : weightsOnSurface ) {
             Vector2D vectorToPivotPoint = new Vector2D( positionHandle );
             Vector2D vectorToCenterAbovePivot = new Vector2D( 0, THICKNESS );
             vectorToCenterAbovePivot.rotate( tiltAngle );
-            Vector2D vectorToWeight = new Vector2D( weightOnPlank.distanceFromPivot, 0 );
+            Vector2D vectorToWeight = new Vector2D( mapWeightToDistFromCenter.get( weight ), 0 );
             vectorToWeight.rotate( tiltAngle );
-            weightOnPlank.weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
-            weightOnPlank.weight.setRotationAngle( tiltAngle );
+            weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
+            weight.setRotationAngle( tiltAngle );
         }
     }
 
@@ -186,16 +192,4 @@ public class Plank extends ModelObject {
     // Inner Classes and Interfaces
     //------------------------------------------------------------------------
 
-    /**
-     * Convenience class for keeping information about weights on the plank.
-     */
-    private class WeightOnPlank {
-        public final Weight weight;
-        public final double distanceFromPivot;
-
-        public WeightOnPlank( Weight weight, double distanceFromPivot ) {
-            this.distanceFromPivot = distanceFromPivot;
-            this.weight = weight;
-        }
-    }
 }
