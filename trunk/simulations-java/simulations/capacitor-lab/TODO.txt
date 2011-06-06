@@ -1,7 +1,6 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- change request: autoscale bar meters only when they first become visible
 - bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
 
 MEDIUM PRIORITY
