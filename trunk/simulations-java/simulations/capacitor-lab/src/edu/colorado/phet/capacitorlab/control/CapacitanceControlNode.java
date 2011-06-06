@@ -141,7 +141,7 @@ public class CapacitanceControlNode extends PhetPNode {
         // Constrain the knob to be dragged vertically within the track
         knobNode.addInputEventListener( new PDragSequenceEventHandler() {
 
-            private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+            private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
 
             @Override
             protected void startDrag( PInputEvent event ) {
@@ -150,26 +150,26 @@ public class CapacitanceControlNode extends PhetPNode {
                 Point2D pMouseLocal = event.getPositionRelativeTo( CapacitanceControlNode.this );
                 Point2D pMouseGlobal = CapacitanceControlNode.this.localToGlobal( pMouseLocal );
                 Point2D pKnobGlobal = CapacitanceControlNode.this.localToGlobal( knobNode.getOffset() );
-                _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+                globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
             }
 
             @Override
             protected void drag( PInputEvent event ) {
                 super.drag( event );
-                updateVoltage( event, true /* isDragging */ );
+                updateCapacitance( event, true /* isDragging */ );
             }
 
             @Override
             protected void endDrag( PInputEvent event ) {
-                updateVoltage( event, false /* isDragging */ );
+                updateCapacitance( event, false /* isDragging */ );
                 super.endDrag( event );
             }
 
-            private void updateVoltage( PInputEvent event, boolean isDragging ) {
+            private void updateCapacitance( PInputEvent event, boolean isDragging ) {
                 // determine the knob's new offset
                 Point2D pMouseLocal = event.getPositionRelativeTo( CapacitanceControlNode.this );
                 Point2D pMouseGlobal = CapacitanceControlNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
+                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
                 Point2D pKnobLocal = CapacitanceControlNode.this.globalToLocal( pKnobGlobal );
 
                 // convert the offset to a charge value
