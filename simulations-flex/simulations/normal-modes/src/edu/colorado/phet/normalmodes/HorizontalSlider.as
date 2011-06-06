@@ -261,11 +261,11 @@ public class HorizontalSlider extends Sprite {
         var roundedReadout:Number = Math.floor( readout );
         var decimalPortion:Number = readout - roundedReadout;
         var factor:Number = 1000000;
-        var decimalPortion = Math.round(decimalPortion * factor)/factor;   //necessary because of bug in AS3 arithmetic. Example: 1.16 - 1 = 0.160000000000019
+        decimalPortion = Math.round(decimalPortion * factor)/factor;   //necessary because of bug in AS3 arithmetic. Example: 1.16 - 1 = 0.160000000000019
         var decimal_str:String = decimalPortion.toString();
         var nbrDecimalPlaces:Number = decimal_str.length - 2;
         //trace("The number "+decimalPortion+" has "+nbrDecimalPlaces + " decimal places.")
-        var readoutPlaces = this.decimalPlaces;
+        var readoutPlaces:int = this.decimalPlaces;
         if(nbrDecimalPlaces > this.decimalPlaces){
             readoutPlaces = nbrDecimalPlaces;
             if(nbrDecimalPlaces > 4){
@@ -353,7 +353,7 @@ public class HorizontalSlider extends Sprite {
 
     //obsolete function
     private function evtTextToNumber1( evt: Event ): Number {
-        var inputText = evt.target.text;
+        var inputText:String = evt.target.text;
         var outputNumber: Number;
         if ( inputText == "." ) {
             evt.target.text = "0.";
