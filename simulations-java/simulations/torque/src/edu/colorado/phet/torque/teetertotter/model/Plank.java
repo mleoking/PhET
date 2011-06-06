@@ -15,6 +15,8 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
@@ -53,11 +55,15 @@ public class Plank extends ModelObject {
     // Map of weights to distance from the center of the plank.
     private final Map<Weight, Double> mapWeightToDistFromCenter = new HashMap<Weight, Double>();
 
+    // Property that indicates whether the suppoort columns are currently
+    // active.
+    BooleanProperty supportColumnsActive;
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public Plank( final ConstantDtClock clock, double centerHeight ) {
+    public Plank( final ConstantDtClock clock, double centerHeight, BooleanProperty supportColumnsActive ) {
         super( generateShape( centerHeight, 0 ) );
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
@@ -65,13 +71,25 @@ public class Plank extends ModelObject {
             }
         } );
         maxTiltAngle = Math.asin( centerHeight / ( LENGTH / 2 ) );
+
+        this.supportColumnsActive = supportColumnsActive;
+        // Listen to the support column property.  The plank goes back to the
+        // level position whenever the supports are active.
+        supportColumnsActive.addObserver( new SimpleObserver() {
+            public void update() {
+                tiltAngle = 0; // Force the plank to be level.
+                updateShape();
+                updateWeightPositions();
+            }
+        }
+        );
     }
 
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
 
-    public double getLength() {
+    public static double getLength() {
         return LENGTH;
     }
 
@@ -90,11 +108,13 @@ public class Plank extends ModelObject {
                     // on the surface.
                     weightsOnSurface.remove( weight );
                     weight.setRotationAngle( 0 );
+                    updateTorqueDueToWeights();
                 }
             }
         }
         );
         updateWeightPositions();
+        updateTorqueDueToWeights();
     }
 
     // Generate the shape of the plank.  This is static so that it can be used
@@ -160,8 +180,13 @@ public class Plank extends ModelObject {
     }
 
     public void stepInTime( double dt ) {
-        // Update the angular velocity based on the current torque.
-        angularVelocity += torqueFromWeights / MOMENT_OF_INERTIA;
+        if ( !supportColumnsActive.get() ) {
+            // Update the angular velocity based on the current torque.
+            angularVelocity += torqueFromWeights / MOMENT_OF_INERTIA;
+        }
+        else {
+            angularVelocity = 0;
+        }
         if ( angularVelocity != 0 ) {
             tiltAngle += angularVelocity * dt;
             if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
@@ -174,7 +199,13 @@ public class Plank extends ModelObject {
     }
 
     private void updateShape() {
-        setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
+        if ( !supportColumnsActive.get() ) {
+            setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
+        }
+        else {
+            // The support columns are in place, so the plank must be flat.
+            setShapeProperty( generateShape( positionHandle.getY(), 0 ) );
+        }
     }
 
     private void updateWeightPositions() {
@@ -231,6 +262,14 @@ public class Plank extends ModelObject {
         else {
             return false;
         }
+    }
+
+    private void updateTorqueDueToWeights() {
+        double netTorqueFromWeights = 0;
+        for ( Weight weight : weightsOnSurface ) {
+            netTorqueFromWeights += -weight.getPosition().getX() * weight.getMass();
+        }
+        torqueFromWeights = netTorqueFromWeights;
     }
 
     //------------------------------------------------------------------------
