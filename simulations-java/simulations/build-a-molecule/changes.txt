@@ -1,3 +1,4 @@
+# 0.00.30 (52669) Jun 5, 2011
 # 0.00.29 (52667) Jun 5, 2011
 # 0.00.28 (52581) Jun 2, 2011
 Changed text on all-filled dialog to "You completed your collection!"
