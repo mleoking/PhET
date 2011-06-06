@@ -5,7 +5,11 @@ package edu.colorado.phet.capacitorlab.view;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 
-
+/**
+ * Visual representation of a positive charge.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
 public class PositiveChargeNode extends PlusNode {
 
     public PositiveChargeNode() {

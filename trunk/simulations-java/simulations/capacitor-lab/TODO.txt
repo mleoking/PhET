@@ -4,6 +4,7 @@ HIGH PRIORITY
 - bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
 
 MEDIUM PRIORITY
+- implement MultipleCapacitorNode.cleanup or keep node for each circuit
 - lots of duplicate code in AbstractCircuit subclasses
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)

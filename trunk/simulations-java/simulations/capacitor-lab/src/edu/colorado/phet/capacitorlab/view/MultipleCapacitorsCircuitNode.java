@@ -116,6 +116,10 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
         }
     }
 
+    public void cleanup() {
+        //TODO call cleanup methods of component nodes
+    }
+
     private static void updateLabelOffset( PNode labelNode, CapacitorNode capacitorNode ) {
         double x = capacitorNode.getFullBoundsReference().getMinX();
         double y = capacitorNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() + 5;

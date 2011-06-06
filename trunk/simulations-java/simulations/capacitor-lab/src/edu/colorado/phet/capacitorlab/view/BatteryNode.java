@@ -66,4 +66,8 @@ public class BatteryNode extends PhetPNode {
             }
         } );
     }
+
+    public void cleanup() {
+        //TODO battery.removePolarityObserver
+    }
 }

@@ -47,6 +47,11 @@ public class DielectricNode extends BoxNode {
         } );
     }
 
+    public void cleanup() {
+        //TODO dielectricChargeViewProperty.removeObserver
+        //TODO capacitor.removeDielectricMaterialObserver
+    }
+
     /**
      * Controls the opacity of the dielectric.
      * This is needed because the dielectric must be transparent to see E-field.
