@@ -208,7 +208,7 @@ public class Kit {
      * @param box      Its collection box
      */
     public void moleculePutInCollectionBox( Molecule molecule, CollectionBox box ) {
-        System.out.println( "You have dropped in a " + box.getMoleculeType().getCommonName() );
+        System.out.println( "You have collected: " + box.getMoleculeType().getCommonName() );
         hasMoleculesInBoxes.set( true );
         removeMolecule( molecule );
         for ( Atom2D atomModel : molecule.getAtoms() ) {
@@ -485,7 +485,7 @@ public class Kit {
         * bonding diagnostics and sanity checks
         *----------------------------------------------------------------------------*/
 
-        System.out.println( "bonded to molecule structure; " + getMolecule( a ).toSerial() );
+        System.out.println( "created structure: " + getMolecule( a ).toSerial2() );
         Molecule struc = getMolecule( a );
         if ( struc.getAtoms().size() > 2 ) {
             for ( Bond<Atom2D> bond : struc.getBonds() ) {

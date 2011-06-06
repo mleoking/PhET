@@ -139,8 +139,6 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
                 // funky math part. sqrt scales it so that we can get two layers of atoms if the atom count is above 2
                 int bucketWidth = Bucket.calculateIdealBucketWidth( element.getRadius(), atomCount );
-                System.out.println( bucketWidth );
-                //int bucketWidth = ( (int) ( 2 * atomRadius * Math.pow( atomCount + 1, 0.4 ) ) ) + 200;
 
                 buckets.add( new Bucket( new PDimension( bucketWidth, 200 ), getClock(), element, atomCount ) );
             }
