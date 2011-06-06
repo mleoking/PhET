@@ -11,6 +11,9 @@ import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.buildamolecule.model.StrippedMolecule;
 import edu.colorado.phet.chemistry.model.Atom;
 
+/**
+ * Generate allowed structures (structures.txt) from the molecules
+ */
 public class MoleculePreprocessing {
     // indexed with atom histogram hash for heavy atoms
     private static final Map<String, List<StrippedMolecule<Atom>>> allowedStructures = new HashMap<String, List<StrippedMolecule<Atom>>>();

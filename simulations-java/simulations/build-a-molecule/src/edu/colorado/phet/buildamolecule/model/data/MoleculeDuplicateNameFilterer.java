@@ -16,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.FileUtils;
  */
 public class MoleculeDuplicateNameFilterer {
     public static void main( String[] args ) throws IOException {
-        File inFile = new File( args[0] );
-        File outFile = new File( args[1] );
+        File inFile = new File( args[0] ); // molecule list file
+        File outFile = new File( args[1] ); // filtered molecule list file
 
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
