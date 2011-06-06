@@ -6,7 +6,6 @@ import edu.colorado.phet.buildamolecule.model.CollectionList;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -14,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class KitCollectionNode extends PNode {
 
-    public KitCollectionNode( final CollectionList collectionList, final KitCollection collection, ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
+    public KitCollectionNode( final CollectionList collectionList, final KitCollection collection, BuildAMoleculeCanvas canvas ) {
         /*---------------------------------------------------------------------------*
         * layers
         *----------------------------------------------------------------------------*/
@@ -28,10 +27,10 @@ public class KitCollectionNode extends PNode {
         addChild( metadataLayer );
         addChild( topLayer );
 
-        bottomLayer.addChild( new KitPanel( collection, collectionList.getAvailableKitBounds(), mvt ) );
+        bottomLayer.addChild( new KitPanel( collection, collectionList.getAvailableKitBounds() ) );
 
         for ( final Kit kit : collection.getKits() ) {
-            KitView kitView = new KitView( kit, mvt, canvas ); // TODO: we need the ability to control scissors (screen) node from molecule bond code?
+            KitView kitView = new KitView( kit, canvas ); // TODO: we need the ability to control scissors (screen) node from molecule bond code?
             bottomLayer.addChild( kitView.getBottomLayer() );
             atomLayer.addChild( kitView.getAtomLayer() );
             metadataLayer.addChild( kitView.getMetadataLayer() );

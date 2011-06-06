@@ -12,10 +12,11 @@ import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
 /**
  * Common canvas for Build a Molecule. It features kits shown at the bottom. Can be extended to add other parts
@@ -28,9 +29,6 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     // View
     private final PNode _rootNode;
-
-    // Model-View transform.
-    private final ModelViewTransform mvt = BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM; // TODO: refactor out?
 
     private CollectionBoxHintNode collectionBoxHintNode = null;
 
@@ -84,7 +82,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
                     // if a hint doesn't exist AND we have a target box, add it
                     if ( collectionBoxHintNode == null && targetBox != null ) {
-                        collectionBoxHintNode = new CollectionBoxHintNode( mvt, molecule, targetBox );
+                        collectionBoxHintNode = new CollectionBoxHintNode( molecule, targetBox );
                         addWorldChild( collectionBoxHintNode );
                     }
                     else if ( collectionBoxHintNode != null ) {
@@ -114,7 +112,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
     }
 
     public KitCollectionNode addCollection( KitCollection collection ) {
-        KitCollectionNode result = new KitCollectionNode( collectionList, collection, mvt, this );
+        KitCollectionNode result = new KitCollectionNode( collectionList, collection, this );
         addWorldChild( result );
 
         // return this so we can manipulate it in an override
@@ -123,10 +121,6 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
 
     public KitCollection getCurrentCollection() {
         return collectionList.currentCollection.get();
-    }
-
-    public ModelViewTransform getModelViewTransform() {
-        return mvt;
     }
 
     /*
@@ -166,7 +160,7 @@ public class BuildAMoleculeCanvas extends PhetPCanvas {
             Rectangle2D viewBounds = new Rectangle2D.Double( upperLeftCorner.getX(), upperLeftCorner.getY(), dimensions.getWidth(), dimensions.getHeight() );
 
             // return the model bounds
-            return BuildAMoleculeCanvas.this.getModelViewTransform().viewToModel( viewBounds ).getBounds2D();
+            return MODEL_VIEW_TRANSFORM.viewToModel( viewBounds ).getBounds2D();
         }
     };
 }

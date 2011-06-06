@@ -23,8 +23,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
-import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.STAGE_SIZE;
-import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.VIEW_PADDING;
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.*;
 
 /**
  * A panel that shows collection areas for different collections, and allows switching between those collections
@@ -212,7 +211,7 @@ public class CollectionPanel extends PNode {
             }
         }
         );
-        return BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
+        return MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
     }
 
     private double getPlacementWidth() {

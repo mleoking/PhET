@@ -12,11 +12,12 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.LewisDotModel;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
 /**
  * This is a circular mouse target that when moused-over turns the mouse cursor into scissors that will split the referenced bond
@@ -36,7 +37,7 @@ public class MoleculeBondNode extends PNode {
     private Atom2D a;
     private Atom2D b;
 
-    public MoleculeBondNode( final Bond<Atom2D> bond, final Kit kit, final BuildAMoleculeCanvas canvas, final ModelViewTransform mvt ) {
+    public MoleculeBondNode( final Bond<Atom2D> bond, final Kit kit, final BuildAMoleculeCanvas canvas ) {
         this.canvas = canvas;
         a = bond.a;
         b = bond.b;
@@ -163,7 +164,7 @@ public class MoleculeBondNode extends PNode {
         positionObserver = new RichSimpleObserver() {
             public void update() {
                 ImmutableVector2D location = b.getPosition().getSubtractedInstance( a.getPosition() ).getNormalizedInstance().getScaledInstance( a.getRadius() ).getAddedInstance( a.getPosition() );
-                setOffset( mvt.modelToView( location.toPoint2D() ) );
+                setOffset( MODEL_VIEW_TRANSFORM.modelToView( location.toPoint2D() ) );
             }
         };
         positionObserver.observe( a.position, b.position );

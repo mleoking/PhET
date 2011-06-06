@@ -40,7 +40,7 @@ public class BuildAMoleculeConstants {
 
     // padding between simulation edges and kit/collection areas
     public static final double VIEW_PADDING = 18;
-    public static final double MODEL_PADDING = BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
+    public static final double MODEL_PADDING = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( VIEW_PADDING );
 
     /*---------------------------------------------------------------------------*
     * colors
@@ -74,6 +74,12 @@ public class BuildAMoleculeConstants {
     public static final String IMAGE_GREEN_MIDDLE = "green-middle.png";
     public static final String IMAGE_SCISSORS_ICON = "scissors.png";
     public static final String IMAGE_SCISSORS_CLOSED_ICON = "scissors-closed.png";
+
+    /*---------------------------------------------------------------------------*
+    * layout
+    *----------------------------------------------------------------------------*/
+
+    public static final double METADATA_PADDING_BETWEEN_NODE_AND_MOLECULE = 5; // vertical space between molecule and name/buttons
 
     /*---------------------------------------------------------------------------*
     * misc
