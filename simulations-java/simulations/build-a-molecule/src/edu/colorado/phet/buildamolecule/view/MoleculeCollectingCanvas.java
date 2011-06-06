@@ -39,7 +39,7 @@ public class MoleculeCollectingCanvas extends BuildAMoleculeCanvas {
             public void update() {
                 if ( collection.allCollectionBoxesFilled.get() ) {
                     if ( !hasShownOnce ) {
-                        allFilledDialogNode = new AllFilledDialogNode( collectionList.getAvailablePlayAreaBounds(), getModelViewTransform(), regenerateCallback );
+                        allFilledDialogNode = new AllFilledDialogNode( collectionList.getAvailablePlayAreaBounds(), regenerateCallback );
                         hasShownOnce = true;
                     }
                     kitCollectionNode.addChild( allFilledDialogNode );

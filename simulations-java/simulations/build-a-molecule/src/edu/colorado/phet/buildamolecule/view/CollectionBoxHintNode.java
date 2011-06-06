@@ -11,7 +11,6 @@ import edu.colorado.phet.buildamolecule.model.Atom2D.Adapter;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -19,16 +18,18 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+
 public class CollectionBoxHintNode extends PNode {
-    public CollectionBoxHintNode( final ModelViewTransform mvt, final Molecule molecule, final CollectionBox box ) {
+    public CollectionBoxHintNode( final Molecule molecule, final CollectionBox box ) {
 
         PBounds moleculeDestinationBounds = molecule.getDestinationBounds();
 
         // at the end, where our tip and tail should be
-        final ImmutableVector2D tipTarget = mvt.modelToView( new ImmutableVector2D( box.getDropBounds().getMinX() - 20, box.getDropBounds().getCenterY() ) );
+        final ImmutableVector2D tipTarget = MODEL_VIEW_TRANSFORM.modelToView( new ImmutableVector2D( box.getDropBounds().getMinX() - 20, box.getDropBounds().getCenterY() ) );
 
-        final Rectangle2D moleculeViewBounds = mvt.modelToViewRectangle( moleculeDestinationBounds );
-        final Rectangle2D boxViewBounds = mvt.modelToView( box.getDropBounds() ).getBounds2D();
+        final Rectangle2D moleculeViewBounds = MODEL_VIEW_TRANSFORM.modelToViewRectangle( moleculeDestinationBounds );
+        final Rectangle2D boxViewBounds = MODEL_VIEW_TRANSFORM.modelToView( box.getDropBounds() ).getBounds2D();
 
         PNode labelNode = new PNode() {{
             PText textNode = new PText( BuildAMoleculeStrings.COLLECTION_HINT ) {{

@@ -14,7 +14,6 @@ import edu.colorado.phet.buildamolecule.view.view3d.JmolDialogProperty;
 import edu.colorado.phet.buildamolecule.view.view3d.ShowMolecule3DButtonNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -23,24 +22,20 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+
 /**
  * Displays the molecule name and 'X' to break apart the molecule
  */
 public class MoleculeMetadataNode extends PNode {
-    private Kit kit;
     private Molecule molecule;
-    private ModelViewTransform mvt;
     private final JmolDialogProperty dialog = new JmolDialogProperty();
 
     private Map<Atom2D, SimpleObserver> observerMap = new HashMap<Atom2D, SimpleObserver>();
 
-    private static final double PADDING_BETWEEN_NODE_AND_ATOM = 5;
-
-    public MoleculeMetadataNode( final Kit kit, final Molecule molecule, ModelViewTransform mvt ) {
+    public MoleculeMetadataNode( final Kit kit, final Molecule molecule ) {
         // SwingLayoutNode was doing some funky stuff (and wasn't centering), so we're rolling back to manual positioning
-        this.kit = kit;
         this.molecule = molecule;
-        this.mvt = mvt;
 
         if ( molecule.getAtoms().size() < 2 ) {
             // we don't need anything at all if it is not a "molecule"
@@ -116,9 +111,9 @@ public class MoleculeMetadataNode extends PNode {
 
     public void updatePosition() {
         PBounds modelPositionBounds = molecule.getPositionBounds();
-        Rectangle2D moleculeViewBounds = mvt.modelToView( modelPositionBounds ).getBounds2D();
+        Rectangle2D moleculeViewBounds = MODEL_VIEW_TRANSFORM.modelToView( modelPositionBounds ).getBounds2D();
 
         setOffset( moleculeViewBounds.getCenterX() - getFullBounds().getWidth() / 2, // horizontally center
-                   moleculeViewBounds.getY() - getFullBounds().getHeight() - PADDING_BETWEEN_NODE_AND_ATOM ); // offset from top of molecule
+                   moleculeViewBounds.getY() - getFullBounds().getHeight() - BuildAMoleculeConstants.METADATA_PADDING_BETWEEN_NODE_AND_MOLECULE ); // offset from top of molecule
     }
 }

@@ -38,7 +38,7 @@ public class InteractiveIsotopeNode extends SchematicAtomNode {
         });
 
         // Add the bucket that holds the neutrons.
-        BucketView neutronBucketNode = new BucketView( model.getNeutronBucket(), mvt );
+        BucketView neutronBucketNode = new BucketView( model.getNeutronBucket() );
         electronShellLayer.addChild( neutronBucketNode.getHoleNode() );
         frontLayer.addChild( neutronBucketNode.getFrontNode() );
         for ( SphericalParticle neutron : model.getNeutronBucket().getParticleList() ) {

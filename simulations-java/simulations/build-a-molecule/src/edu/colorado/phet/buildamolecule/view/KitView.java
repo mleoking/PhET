@@ -13,12 +13,13 @@ import edu.colorado.phet.buildamolecule.model.Molecule;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
 /**
  * Shows a kit (series of buckets full of different types of atoms)
@@ -30,7 +31,6 @@ public class KitView {
     private PNode bottomLayer = new PNode();
 
     private final Kit kit;
-    private final ModelViewTransform mvt;
     private final BuildAMoleculeCanvas canvas;
 
     private Map<Molecule, MoleculeMetadataNode> metadataMap = new HashMap<Molecule, MoleculeMetadataNode>();
@@ -39,19 +39,18 @@ public class KitView {
     // store the node-atom relationships
     private Map<Atom, AtomNode> atomNodeMap = new HashMap<Atom, AtomNode>();
 
-    public KitView( final Kit kit, final ModelViewTransform mvt, BuildAMoleculeCanvas canvas ) {
+    public KitView( final Kit kit, BuildAMoleculeCanvas canvas ) {
         this.kit = kit;
-        this.mvt = mvt;
         this.canvas = canvas;
 
         for ( Bucket bucket : kit.getBuckets() ) {
-            BucketView bucketView = new BucketView( bucket, mvt, Color.BLACK );
+            BucketView bucketView = new BucketView( bucket, Color.BLACK );
 
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
 
             for ( final Atom2D atom : bucket.getAtoms() ) {
-                final AtomNode atomNode = new AtomNode( mvt, atom );
+                final AtomNode atomNode = new AtomNode( atom );
                 atomNodeMap.put( atom, atomNode );
                 atomLayer.addChild( atomNode );
 
@@ -78,7 +77,7 @@ public class KitView {
                     @Override
                     public void mouseDragged( PInputEvent event ) {
                         PDimension delta = event.getDeltaRelativeTo( atomNode.getParent() );
-                        ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
+                        ImmutableVector2D modelDelta = MODEL_VIEW_TRANSFORM.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
                         kit.atomDragged( atom, modelDelta );
                     }
 
@@ -95,7 +94,7 @@ public class KitView {
         kit.addMoleculeListener( new Kit.MoleculeAdapter() {
             @Override
             public void addedMolecule( Molecule molecule ) {
-                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( kit, molecule, mvt );
+                MoleculeMetadataNode moleculeMetadataNode = new MoleculeMetadataNode( kit, molecule );
                 metadataLayer.addChild( moleculeMetadataNode );
                 metadataMap.put( molecule, moleculeMetadataNode );
 
@@ -148,7 +147,7 @@ public class KitView {
     }
 
     public void addMoleculeBondNodes( Molecule molecule ) {
-        MoleculeBondContainerNode moleculeBondContainerNode = new MoleculeBondContainerNode( kit, molecule, mvt, canvas );
+        MoleculeBondContainerNode moleculeBondContainerNode = new MoleculeBondContainerNode( kit, molecule, canvas );
         metadataLayer.addChild( moleculeBondContainerNode );
         bondMap.put( molecule, moleculeBondContainerNode );
     }

@@ -8,7 +8,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.FaceNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -19,11 +18,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
+
 /**
  * Displays a dialog that tells the user that all collection boxes are full.
  */
 public class AllFilledDialogNode extends PNode {
-    public AllFilledDialogNode( PBounds availablePlayAreaBounds, ModelViewTransform mvt, final VoidFunction0 regenerateCallback ) {
+    public AllFilledDialogNode( PBounds availablePlayAreaBounds, final VoidFunction0 regenerateCallback ) {
         PNode background = new PNode();
         addChild( background );
         addChild( new SwingLayoutNode( new GridBagLayout() ) {{
@@ -72,7 +73,7 @@ public class AllFilledDialogNode extends PNode {
         backgroundNode.setPaint( BuildAMoleculeConstants.COMPLETE_BACKGROUND_COLOR );
         background.addChild( backgroundNode );
 
-        Rectangle2D playAreaViewBounds = mvt.modelToView( availablePlayAreaBounds ).getBounds2D();
+        Rectangle2D playAreaViewBounds = MODEL_VIEW_TRANSFORM.modelToView( availablePlayAreaBounds ).getBounds2D();
         centerFullBoundsOnPoint( playAreaViewBounds.getCenterX(), playAreaViewBounds.getCenterY() );
     }
 }

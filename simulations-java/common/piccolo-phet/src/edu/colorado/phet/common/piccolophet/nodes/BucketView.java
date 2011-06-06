@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
 /**
  * This is the view representation of a bucket.  It is set up to have a sort
@@ -45,11 +48,13 @@ public class BucketView {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketView( Bucket bucket, ModelViewTransform mvt ) {
-        this( bucket, mvt, Color.WHITE );
+    public BucketView( Bucket bucket ) {
+        this( bucket, Color.WHITE );
     }
 
-    public BucketView( Bucket bucket, ModelViewTransform mvt, Color captionColor ) {
+    public BucketView( Bucket bucket, Color captionColor ) {
+        final ModelViewTransform mvt = MODEL_VIEW_TRANSFORM;
+
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),

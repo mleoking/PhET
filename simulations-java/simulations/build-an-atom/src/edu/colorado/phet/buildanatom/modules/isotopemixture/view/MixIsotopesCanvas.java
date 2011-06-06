@@ -136,7 +136,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
             @Override
             public void isotopeBucketAdded( final MonoIsotopeParticleBucket bucket ) {
-                final BucketView bucketView = new BucketView( bucket, mvt );
+                final BucketView bucketView = new BucketView( bucket );
                 bucketHoleLayer.addChild( bucketView.getHoleNode() );
                 bucketFrontLayer.addChild( bucketView.getFrontNode() );
                 mapBucketToView.put( bucket, bucketView );

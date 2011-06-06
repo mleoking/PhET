@@ -5,12 +5,13 @@ import java.awt.*;
 
 import edu.colorado.phet.buildamolecule.model.Atom2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
 
 /**
  * Class that displays an atom and that labels it with the chemical symbol
@@ -22,9 +23,9 @@ public class AtomNode extends PNode {
 
     private final ShadedSphereNode sphericalNode;
 
-    public AtomNode( final ModelViewTransform mvt, final Atom2D atom ) {
+    public AtomNode( final Atom2D atom ) {
 
-        double transformedRadius = mvt.modelToViewDeltaX( atom.getRadius() );
+        double transformedRadius = MODEL_VIEW_TRANSFORM.modelToViewDeltaX( atom.getRadius() );
         sphericalNode = new ShadedSphereNode( 2 * transformedRadius, atom.getColor() );
         addChild( sphericalNode );
 
@@ -44,7 +45,7 @@ public class AtomNode extends PNode {
         // changes.
         atom.addPositionListener( new SimpleObserver() {
             public void update() {
-                sphericalNode.setOffset( mvt.modelToView( atom.getPosition() ).toPoint2D() );
+                sphericalNode.setOffset( MODEL_VIEW_TRANSFORM.modelToView( atom.getPosition() ).toPoint2D() );
             }
         } );
 
