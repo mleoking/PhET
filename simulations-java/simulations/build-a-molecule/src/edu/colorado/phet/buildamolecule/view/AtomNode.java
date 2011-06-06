@@ -15,6 +15,8 @@ import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIE
 
 /**
  * Class that displays an atom and that labels it with the chemical symbol
+ * <p/>
+ * NOTE: Iodine is unusable as its label is too large (very thin I). If needed, rework the scaling
  *
  * @author John Blanco
  * @author Jonathan Olson

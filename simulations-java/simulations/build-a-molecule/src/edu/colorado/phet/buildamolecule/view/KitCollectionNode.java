@@ -30,7 +30,7 @@ public class KitCollectionNode extends PNode {
         bottomLayer.addChild( new KitPanel( collection, collectionList.getAvailableKitBounds() ) );
 
         for ( final Kit kit : collection.getKits() ) {
-            KitView kitView = new KitView( kit, canvas ); // TODO: we need the ability to control scissors (screen) node from molecule bond code?
+            KitView kitView = new KitView( kit, canvas );
             bottomLayer.addChild( kitView.getBottomLayer() );
             atomLayer.addChild( kitView.getAtomLayer() );
             metadataLayer.addChild( kitView.getMetadataLayer() );
