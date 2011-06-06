@@ -11,14 +11,12 @@
 
 package edu.colorado.phet.fourier.module;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 import javax.swing.event.MouseInputAdapter;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
@@ -153,7 +151,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
         // Control
         //----------------------------------------------------------------------------
 
-        getClockControlPanel().setEnabled( false );
+        setClockControlPanelEmpty( true ); //#2915
 
         _gameManager = new GameManager( _userFourierSeries, _randomFourierSeries, _amplitudesView );
         apparatusPanel.addMouseListener( _gameManager );
@@ -174,7 +172,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                     _harmonicsMinimizedView.setVisible( true );
                     layoutViews();
                 }
-             } );
+            } );
 
             // Harmonics maximize
             _harmonicsMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -185,7 +183,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                     layoutViews();
                     setWaitCursorEnabled( false );
                 }
-             } );
+            } );
 
             // Sum minimize
             _sumView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -194,7 +192,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                     _sumMinimizedView.setVisible( true );
                     layoutViews();
                 }
-             } );
+            } );
 
             // Sum maximize
             _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -205,7 +203,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
                     layoutViews();
                     setWaitCursorEnabled( false );
                 }
-             } );
+            } );
         }
 
         //----------------------------------------------------------------------------
@@ -265,9 +263,9 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
 
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             // Both maximized
-            _harmonicsView.setHeight( availableHeight/2 );
+            _harmonicsView.setHeight( availableHeight / 2 );
             _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
-            _sumView.setHeight( availableHeight/2 );
+            _sumView.setHeight( availableHeight / 2 );
             _sumView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
         else if ( _harmonicsView.isVisible() ) {
@@ -295,8 +293,9 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
 
     private static class ModuleVisibleListener extends ComponentAdapter {
         boolean _instructionsHaveBeenDisplayed = false;
+
         public void componentShown( ComponentEvent event ) {
-            if ( ! _instructionsHaveBeenDisplayed  ) {
+            if ( !_instructionsHaveBeenDisplayed ) {
                 _instructionsHaveBeenDisplayed = true;
                 String message = FourierResources.getString( "GameInstructionsDialog.message" );
                 String title = FourierResources.getString( "GameInstructionsDialog.title" );
@@ -327,7 +326,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
      * @return
      */
     public FourierConfig.GameConfig save() {
-        
+
         FourierConfig.GameConfig config = new FourierConfig.GameConfig();
 
         // Save control panel config
@@ -337,7 +336,7 @@ public class GameModule extends FourierAbstractModule implements ApparatusPanel2
         // Save view config
         config.setHarmonicsViewMaximized( _harmonicsView.isVisible() );
         config.setSumViewMaximized( _sumView.isVisible() );
-        
+
         return config;
     }
 

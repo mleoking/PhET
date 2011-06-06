@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.fourier.module;
 
-import java.awt.Color;
+import java.awt.*;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
@@ -35,34 +37,34 @@ public abstract class FourierAbstractModule extends PhetGraphicsModule {
 
     public static final double HELP_LAYER = ApparatusPanel.LAYER_TOP;
     public static final double DEBUG_LAYER = HELP_LAYER - 1;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private BoundsDebugger _debuggerGraphic;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param title the module title
      */
     public FourierAbstractModule( String title ) {
         super( title, new SwingClock( FourierConstants.CLOCK_DELAY, FourierConstants.CLOCK_STEP ) );
         setLogoPanelVisible( false );
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Turns the wait cursor on and off.
-     * 
+     *
      * @param enabled true or false
      */
     public void setWaitCursorEnabled( boolean enabled ) {
@@ -74,14 +76,25 @@ public abstract class FourierAbstractModule extends PhetGraphicsModule {
             apparatusPanel.setCursor( FourierConstants.DEFAULT_CURSOR );
         }
     }
-    
+
+    protected void setClockControlPanelEmpty( boolean empty ) {
+        if ( empty ) {
+            // #2915, Replace standard clock controls with an empty panel of the same size.
+            JPanel emptyPanel = new JPanel() {{
+                add( Box.createVerticalStrut( (int) getClockControlPanel().getPreferredSize().getHeight() ) );
+                setPreferredSize( getClockControlPanel().getPreferredSize() );
+            }};
+            setClockControlPanel( emptyPanel );
+        }
+    }
+
     //----------------------------------------------------------------------------
     // Debugging
     //----------------------------------------------------------------------------
-    
+
     /**
      * Causes the graphic's location and bounds to be rendered.
-     * 
+     *
      * @param graphic the graphic
      */
     protected void drawBounds( PhetGraphic graphic ) {
