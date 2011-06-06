@@ -10,7 +10,8 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
 /**
  * Represents a general molecular structure (without position or instance information).
  * <p/>
- * TODO: consider using generics to specify bond type, with MoleculeStructure<AtomT extends Atom, BondT extends Bond>
+ * Generics for the atom type significantly simplify a lot of other code that would need
+ * either explicit casting or wrapper functions.
  */
 public class MoleculeStructure<AtomT extends Atom> {
     private final ArrayList<AtomT> atoms; // NOTE: don't mess with the order
@@ -220,7 +221,6 @@ public class MoleculeStructure<AtomT extends Atom> {
     }
 
     public double getApproximateMolecularWeight() {
-        // TODO: verify the accuracy of this
         double result = 0;
         for ( Atom atom : atoms ) {
             result += atom.getAtomicWeight();
@@ -317,11 +317,10 @@ public class MoleculeStructure<AtomT extends Atom> {
      * @return A list of remaining structures
      */
     public static <U extends Atom, M extends MoleculeStructure<U>> List<M> getMoleculesFromBrokenBond( MoleculeStructure<U> structure, final Bond<U> bond, final M molA, final M molB ) {
-        // TODO: in the future when we have loops, we can't assume that this will break a molecule into two separate molecules!
+        // NOTE: in the future when we have loops, we can't assume that this will break a molecule into two separate molecules!
 
         /*---------------------------------------------------------------------------*
         * separate out which atoms belong in which remaining molecule
-        * TODO: separate out code into a "get connected submolecule" code?
         *----------------------------------------------------------------------------*/
 
         Set<U> atomsInA = new HashSet<U>() {{

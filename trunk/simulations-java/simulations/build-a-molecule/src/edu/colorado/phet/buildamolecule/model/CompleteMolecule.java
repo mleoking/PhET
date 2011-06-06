@@ -23,14 +23,14 @@ import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
  */
 public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
     private String commonName; // as said by pubchem (or overridden)
-    private String molecularFormula; // as said by pubchem TODO remove this, and rely on CID checks
+    private String molecularFormula; // as said by pubchem
 
     public final boolean has2d;
     public final boolean has3d;
 
-    public int cid; // TODO: if we can, make this final - need to read CID before construction?
+    public int cid; // NOTE: would be final, but sometimes we need to set it after construction during parsing
 
-    // nodes listed so we can construct them with reflection TODO: auto-construction of nodes like the default case, but tuned?
+    // nodes listed so we can construct them with reflection
     private static final Class[] nodeClasses = new Class[] {
             Cl2Node.class, CO2Node.class, CO2Node.class, CS2Node.class, F2Node.class, H2Node.class, N2Node.class, NONode.class, N2ONode.class,
             O2Node.class, C2H2Node.class, C2H4Node.class, C2H5ClNode.class, C2H5OHNode.class, C2H6Node.class, CH2ONode.class, CH3OHNode.class,
@@ -38,7 +38,6 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
             PCl3Node.class, PCl5Node.class, PF3Node.class, PH3Node.class, SO2Node.class, SO3Node.class
     };
 
-    // TODO: remove common name/molecular formula from constructor? consider at least
     public CompleteMolecule( String commonName, String molecularFormula, int atomCount, int bondCount, boolean has2d, boolean has3d ) {
         super( atomCount, bondCount );
         this.commonName = commonName;
@@ -102,7 +101,7 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
         ret += "<atomArray>";
         for ( int i = 0; i < this.getAtoms().size(); i++ ) {
             PubChemAtom atom = this.getAtoms().get( i );
-            // TODO: include the formal charge possibly later, if Jmol can show it?
+            // NOTE: include the formal charge possibly later, if Jmol can show it?
             ret += "<atom id=\"a" + i + "\" elementType=\"" + atom.getSymbol() + "\" x3=\"" + atom.getX3d() + "\" y3=\"" + atom.getY3d() + "\" z3=\"" + atom.getZ3d() + "\"/>";
         }
         ret += "</atomArray>";
@@ -270,9 +269,6 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
     *----------------------------------------------------------------------------*/
 
     public static abstract class PubChemAtom extends Atom {
-
-        // TODO: tostring for serialization? or toSerial
-
         protected PubChemAtom( Element element ) {
             super( element );
         }
