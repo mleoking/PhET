@@ -1,3 +1,5 @@
+# 1.03.00 (52708) Jun 6, 2011
+6/6/11 > added new translation credits features
 # 1.02.02 (52602) Jun 2, 2011
 2/16/11 #2727, rewrite GameSettings to use properties exclusively, remove old-style constructors and accessor methods
 1/10/11 move IntegerSpinner to phetcommon
