@@ -12,9 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-//BAD DEPENDENCY
-//import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIEW_TRANSFORM;
-
 /**
  * This is the view representation of a bucket.  It is set up to have a sort
  * of "faux 3D" look, where it is tipped slightly so that the hole at the top
@@ -48,15 +45,11 @@ public class BucketView {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public BucketView( Bucket bucket ) {
-        this( bucket, Color.WHITE );
+    public BucketView( Bucket bucket, ModelViewTransform mvt ) {
+        this( bucket, mvt, Color.WHITE );
     }
 
-    public BucketView( Bucket bucket, Color captionColor ) {
-
-        //BAD DEPENDENCY
-        final ModelViewTransform mvt = null;//MODEL_VIEW_TRANSFORM;
-
+    public BucketView( Bucket bucket, ModelViewTransform mvt, Color captionColor ) {
         // Create a scaling transform based on the provided MVT, since we only
         // want the scaling portion and we want to avoid any translation.
         AffineTransform scaleTransform = AffineTransform.getScaleInstance( mvt.getTransform().getScaleX(),
