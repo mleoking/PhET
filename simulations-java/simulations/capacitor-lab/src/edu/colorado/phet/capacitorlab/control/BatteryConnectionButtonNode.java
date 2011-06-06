@@ -2,34 +2,33 @@
 
 package edu.colorado.phet.capacitorlab.control;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
-
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 
 /**
  * Button that connects/disconnects the battery from the capacitor.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatteryConnectionButtonNode extends PhetPNode {
+public class BatteryConnectionButtonNode extends TextButtonNode {
 
     public BatteryConnectionButtonNode( final SingleCircuit circuit ) {
+        super( getText( circuit.isBatteryConnected() ) );
 
-        final JButton button = new JButton( getText( circuit.isBatteryConnected() ) );
-        addChild( new PSwing( button ) );
-        scale( CLConstants.PSWING_SCALE );
+        setFont( new PhetFont( 20 ) );
+        setForeground( Color.BLACK );
+        setBackground( Color.WHITE );
 
         addInputEventListener( new CursorHandler() );
-        button.addActionListener( new ActionListener() {
+        addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 circuit.setBatteryConnected( !circuit.isBatteryConnected() );
             }
@@ -38,12 +37,12 @@ public class BatteryConnectionButtonNode extends PhetPNode {
         // change button text to match battery state
         circuit.addCircuitChangeListener( new CircuitChangeListener() {
             public void circuitChanged() {
-                button.setText( getText( circuit.isBatteryConnected() ) );
+                setText( getText( circuit.isBatteryConnected() ) );
             }
         } );
     }
 
-    private String getText( boolean isBatteryConnected ) {
+    private static String getText( boolean isBatteryConnected ) {
         return isBatteryConnected ? CLStrings.DISCONNECT_BATTERY : CLStrings.CONNECT_BATTERY;
     }
 }
