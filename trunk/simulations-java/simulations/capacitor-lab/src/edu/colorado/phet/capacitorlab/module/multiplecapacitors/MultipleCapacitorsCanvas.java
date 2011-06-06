@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
 import java.awt.geom.Dimension2D;
+import java.util.HashMap;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
@@ -11,6 +12,7 @@ import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
+import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.view.MultipleCapacitorsCircuitNode;
@@ -42,6 +44,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     private final CLModelViewTransform3D mvt;
 
     private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
+    private final HashMap<ICircuit, PNode> circuitToNodeMap;
 
     // meters
     private final CapacitanceMeterNode capacitanceMeterNode;
@@ -70,7 +73,17 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
         final double eFieldReferenceMagnitude = MultipleCapacitorsModel.getEFieldReferenceMagnitude();
 
+        // One node for each circuit. These persist so we don't have to do cleanup when the current circuit changes.
         circuitParentNode = new PNode();
+        circuitToNodeMap = new HashMap<ICircuit, PNode>();
+        for ( ICircuit circuit : model.getCircuits() ) {
+            PNode node = new MultipleCapacitorsCircuitNode( circuit, mvt, false /* dielectricVisible */,
+                                                            plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+            node.setVisible( false );
+            circuitParentNode.addChild( node );
+            circuitToNodeMap.put( circuit, node );
+        }
 
         // meters
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.TOTAL_CAPACITANCE );
@@ -97,12 +110,14 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeter.getNegativeWireNode() );
         addChild( shapesDebugParentNode );
 
+        // When the current circuit changes, make the proper circuit node visible.
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
-                circuitParentNode.removeAllChildren();
-                circuitParentNode.addChild( new MultipleCapacitorsCircuitNode( model.currentCircuitProperty.get(), mvt, false /* dielectricVisible */,
-                                                                               plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                                               maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) );
+                int numberOfChildren = circuitParentNode.getChildrenCount();
+                for ( int i = 0; i < numberOfChildren; i++ ) {
+                    circuitParentNode.getChild( i ).setVisible( false );
+                }
+                circuitToNodeMap.get( model.currentCircuitProperty.get() ).setVisible( true );
                 updateShapesDebugNodes();
             }
         } );
