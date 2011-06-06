@@ -84,12 +84,7 @@ public class Battery {
         return location.getZ();
     }
 
-    /**
-     * Gets the battery voltage.
-     * (design doc symbol: V_battery)
-     *
-     * @param voltage
-     */
+    // Sets the battery voltage (design doc symbol: V_battery)
     public void setVoltage( double voltage ) {
         voltageProperty.set( voltage );
     }
@@ -150,11 +145,9 @@ public class Battery {
         return NEGATIVE_TERMINAL_ELLIPSE_SIZE;
     }
 
-    /**
+    /*
      * Gets the offset of the top terminal from the battery's origin, in model coordinates (meters).
      * This offset depends on the polarity.
-     *
-     * @return
      */
     public double getTopTerminalYOffset() {
         if ( getPolarity() == Polarity.POSITIVE ) {
@@ -165,11 +158,9 @@ public class Battery {
         }
     }
 
-    /**
+    /*
      * Gets the offset of the bottom terminal from the battery's origin, in model coordinates (meters).
      * We don't need to account for the polarity since the bottom terminal is never visible.
-     *
-     * @return
      */
     public double getBottomTerminalYOffset() {
         return BODY_SIZE.getHeight() / 2;

@@ -82,7 +82,7 @@ public abstract class DielectricMaterial {
 
     public static class Air extends DielectricMaterial {
         public Air() {
-            super( "air", CLConstants.EPSILON_AIR, CLPaints.AIR );
+            super( "air", CLConstants.EPSILON_AIR, CLPaints.AIR ); // name is never visible, i18n not required
         }
     }
 
