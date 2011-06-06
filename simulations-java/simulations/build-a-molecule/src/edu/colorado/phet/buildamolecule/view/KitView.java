@@ -44,7 +44,7 @@ public class KitView {
         this.canvas = canvas;
 
         for ( Bucket bucket : kit.getBuckets() ) {
-            BucketView bucketView = new BucketView( bucket, Color.BLACK );
+            BucketView bucketView = new BucketView( bucket, MODEL_VIEW_TRANSFORM, Color.BLACK );
 
             topLayer.addChild( bucketView.getFrontNode() );
             bottomLayer.addChild( bucketView.getHoleNode() );
