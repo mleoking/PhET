@@ -89,7 +89,7 @@ public class CLConstants {
     //----------------------------------------------------------------------------
 
     // reference coordinate frame size for world nodes
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 768 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 864 );
 
     // model-view transform
     public static final double MVT_SCALE = 15000; // scale factor when going from model to view
