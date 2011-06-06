@@ -74,15 +74,6 @@ public class LargerMoleculesModule extends AbstractBuildAMoleculeModule {
                              new Bucket( getClock(), P, 2 )
             ) );
 
-            // iodine
-            // TODO: make iodine look better. "I" can be taller than atom
-//            addKit( new Kit( bounds,
-//                             new Bucket( new PDimension( 700, 200 ), getClock(), HYDROGEN_FACTORY, 21 ),
-//                             new Bucket( getClock(), CARBON_FACTORY, 4 ),
-//                             new Bucket( getClock(), IODINE_FACTORY, 2 ),
-//                             new Bucket( getClock(), OXYGEN_FACTORY, 2 )
-//            ) );
-
             // bromine kit?
             addKit( new Kit( bounds,
                              new Bucket( new PDimension( 700, 200 ), getClock(), H, 21 ),

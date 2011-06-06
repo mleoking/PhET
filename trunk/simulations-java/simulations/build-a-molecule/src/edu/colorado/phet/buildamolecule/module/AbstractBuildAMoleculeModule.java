@@ -99,9 +99,9 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             MoleculeStructure<Atom> molecule = molecules.get( 0 );
 
             // get the set of atoms that we need
-            Set<String> atomSymbols = new HashSet<String>(); // TODO: use set of elements instead
+            Set<Element> atomSymbols = new HashSet<Element>(); // TODO: use set of elements instead
             for ( Atom atom : molecule.getAtoms() ) {
-                atomSymbols.add( atom.getSymbol() );
+                atomSymbols.add( atom.getElement() );
             }
 
             // TODO: potentially add another type of atom?
@@ -118,22 +118,20 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             int atomMultiple = 1 + ( ableToIncreaseMultiple ? equivalentMoleculesRemaining : 0 );
 
             // for each type of atom
-            for ( String symbol : atomSymbols ) {
+            for ( Element element : atomSymbols ) {
                 // find out how many atoms of this type we need
                 int requiredAtomCount = 0;
                 for ( Atom atom : molecule.getAtoms() ) {
-                    if ( atom.getSymbol().equals( symbol ) ) {
+                    if ( atom.getElement().isSameElement( element ) ) {
                         requiredAtomCount++;
                     }
                 }
-
-                Element element = Element.getElementBySymbol( symbol );
 
                 // create a multiple of the required number of atoms, so they can construct 'atomMultiple' molecules with this
                 int atomCount = requiredAtomCount * atomMultiple;
 
                 // possibly add more, if we can only have 1 molecule per box
-                if ( !symbol.equals( "C" ) && ( symbol.equals( "H" ) || atomCount < 4 ) ) {
+                if ( !element.isCarbon() && ( element.isHydrogen() || atomCount < 4 ) ) {
                     atomCount += random.nextInt( 2 );
                 }
 
@@ -150,7 +148,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             molecules.remove( molecule );
             atomMultiple -= 1;
 
-            // TODO: sort through and find out if we can construct another whole atom within our larger margins
+            // NOTE: for the future, we could sort through and find out if we can construct another whole atom within our larger margins
 
             // if we can remove others (due to an atom multiple), remove the others
             while ( atomMultiple > 0 ) {
