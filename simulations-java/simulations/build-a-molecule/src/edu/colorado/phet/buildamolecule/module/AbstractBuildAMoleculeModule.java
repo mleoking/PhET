@@ -99,12 +99,12 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
             MoleculeStructure<Atom> molecule = molecules.get( 0 );
 
             // get the set of atoms that we need
-            Set<Element> atomSymbols = new HashSet<Element>(); // TODO: use set of elements instead
+            Set<Element> atomSymbols = new HashSet<Element>();
             for ( Atom atom : molecule.getAtoms() ) {
                 atomSymbols.add( atom.getElement() );
             }
 
-            // TODO: potentially add another type of atom?
+            // NOTE: for the future, we could potentially add another type of atom?
 
             int equivalentMoleculesRemaining = 0;
             for ( MoleculeStructure<Atom> moleculeStructure : molecules ) {
