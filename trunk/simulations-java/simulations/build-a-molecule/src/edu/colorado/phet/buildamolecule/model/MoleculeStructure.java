@@ -663,7 +663,7 @@ public class MoleculeStructure<AtomT extends Atom> {
     }
 
     /**
-     * Format description, '\' is literal
+     * Format description, '|' is literal
      * <p/>
      * line = numAtoms|numBonds(|atomBondSpec)*
      * atomBondSpec = atomSpec(,bondSpec)*
