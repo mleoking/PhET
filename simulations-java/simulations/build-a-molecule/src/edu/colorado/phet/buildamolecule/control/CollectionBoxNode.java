@@ -126,7 +126,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
             }
         } );
 
-        // TODO: this is somewhat of an ugly way of getting the fixed layout (where the molecules don't resize). consider changing
+        // NOTE: this is somewhat of an ugly way of getting the fixed layout (where the molecules don't resize). consider changing
         // kept for now since it is much easier to revert back to the old behavior
         {
             // add invisible molecules to the molecule layer so that its size won't change later (fixes molecule positions)
