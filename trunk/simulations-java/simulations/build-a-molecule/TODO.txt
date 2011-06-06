@@ -1,3 +1,5 @@
+Remove temporary translation file (i18n testing)
+Note translation of 3d button in changes
 On i18nized version, collection box in 2nd tab changes position when given molecules. Investigate
 Consider replacing SwingLayoutNode with a proper layout!!!
 A convenient way to get rid of the addPropertyChangeListener override hack?
@@ -16,7 +18,6 @@ Potential collection area in 3rd tab?
 Experiment with true 2d structure and loops!
 
 TESTING:
-I18n
 Color blindness test
 
 EVALUATION:
