@@ -1,4 +1,3 @@
-3D button make translatable - resizing of collection boxes? Set square size minimum, use that for English. If over a threshold, turn it into eye icon.
 Other TODOs
 3d icon image deprecated -- remove
 
