@@ -25,10 +25,12 @@ public abstract class CLCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
     }
 
+    // Adds a child node to the root node.
     protected void addChild( PNode node ) {
         rootNode.addChild( node );
     }
 
+    // Removes a child node from the root node.
     protected void removeChild( PNode node ) {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );

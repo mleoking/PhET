@@ -26,7 +26,7 @@ public class Voltmeter {
     // size of the probe tips, determined by visual inspection of the associated image files
     private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 ); // meters
 
-    private final VoltmeterShapeFactory shapeFactory;
+    private final VoltmeterShapeFactory shapeFactory; // determines shape of probe tips in view coordinates
 
     // public observable properties
     public final Property<Boolean> visibleProperty;
@@ -76,6 +76,7 @@ public class Voltmeter {
         }
     }
 
+    // Probes are touching if their tips intersect.
     private boolean probesAreTouching() {
         return ShapeUtils.intersects( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() );
     }
