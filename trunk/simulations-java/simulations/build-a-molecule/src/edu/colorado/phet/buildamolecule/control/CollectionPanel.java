@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetRootPNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -170,7 +171,7 @@ public class CollectionPanel extends PNode {
         collectionAreaHolder.addChild( collectionAreaNode );
 
         // if we are hooked up, update the box locations. otherwise, listen to the canvas for when it is
-        if ( getParent() != null ) {
+        if ( hasCanvasAsParent() ) {
             collectionAreaNode.updateCollectionBoxLocations();
         }
         else {
@@ -190,6 +191,22 @@ public class CollectionPanel extends PNode {
         background.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
         background.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BORDER );
         backgroundHolder.addChild( background );
+    }
+
+    /**
+     * Walk up the scene graph, looking to see if we are a (grand)child of a canvas
+     *
+     * @return If an ancestor is a BuildAMoleculeCanvas
+     */
+    private boolean hasCanvasAsParent() {
+        PNode node = this;
+        while ( node.getParent() != null ) {
+            node = node.getParent();
+            if ( node instanceof PhetRootPNode ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
