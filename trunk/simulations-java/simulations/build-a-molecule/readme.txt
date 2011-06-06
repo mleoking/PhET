@@ -25,3 +25,16 @@ BuildAMoleculeCanvas: view for each tab (collection list). if the tab has collec
     CollectionPanel: collection area panel if applicable, only 1 for the canvas. responsible for sound on/off and collection label/controls
         CollectionAreaNode: CollectionPanels contain one of these at a time (they swap in/out when the user changes collections). Handles the "Reset Collection" button and the collection box nodes:
             CollectionBoxNode: Shows label and black area for one collection box. Either Single or Multiple subclasses.
+
+
+Notes useful for code review (or if you need to edit the sim):
+
+* Some layout in the model is calculated based on the view layout:
+    Play area bounds are based on the maximum collection area width (depends on string translation lengths, etc.)
+    CollectionBox coordinates are set based on their view coordinates.
+         Relies on canvas computations, so in one case a listener setup is needed to wait until all PNodes are hooked together to compute this.
+         (ugliest code part of the sim in JO's opinion)
+* Things under model.data are not used during the regular sim's runtime
+* Reading molecule-data-readme.txt is recommended.
+* JO is dissatisfied with code duplication and use of MoleculeStructure (has references to hydrogens as atoms) and StrippedMolecule (just has hydrogen counts on heavy atoms). Ideally they could be combined?
+* LewisDotModel is separate from MoleculeStructure since future extensions may add in a Pseudo3DModel which handles 2d connectivity in a different way than LewisDotModel
