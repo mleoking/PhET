@@ -57,15 +57,21 @@ public class CollectionAreaNode extends PNode {
                                          maximumBoxHeight - collectionBoxNode.getFullBounds().getHeight() );
 
             // enforce consistent bounds of the maximum size
-            PNode collectionBoxHolder = new PNode() {{
-                // invisible background. enforces SwingLayoutNode's correct positioning
-                addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maximumBoxWidth, maximumBoxHeight ) ) {{
-                    setStroke( null ); // don't add any sort of border to mess up the bounds
-                    setVisible( false );
-                }} );
+            PNode collectionBoxHolder = new PNode() {
+                {
+                    // invisible background. enforces SwingLayoutNode's correct positioning
+                    addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, maximumBoxWidth, maximumBoxHeight ) ) {{
+                        setStroke( null ); // don't add any sort of border to mess up the bounds
+                        setVisible( false );
+                    }} );
 
-                addChild( collectionBoxNode );
-            }};
+                    addChild( collectionBoxNode );
+                }
+
+                @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
+                    // TODO more elegant way to handle addPropertyChangeListener hack
+                }
+            };
             layoutNode.addChild( collectionBoxHolder, c );
             c.gridy += 1;
         }
