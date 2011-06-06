@@ -76,7 +76,7 @@ public class CollectionPanel extends PNode {
                              }}, Color.YELLOW, Color.BLACK, 14, 18 ) {
                                  {
 
-                                     // update when the collection stuff might change. TODO simplify this
+                                     // update when the collection stuff might change.
                                      final SimpleObserver updater = new SimpleObserver() {
                                          public void update() {
                                              hasNext.set( collectionList.hasNextCollection() );
@@ -104,7 +104,7 @@ public class CollectionPanel extends PNode {
                                  }
 
                                  @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                                     // TODO can we get rid of this hack ?
+                                     // TODO more elegant way to handle addPropertyChangeListener hack
                                  }
 
                              },

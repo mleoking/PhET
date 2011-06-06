@@ -27,10 +27,7 @@ import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.MODEL_VIE
  */
 public class KitPanel extends PNode {
 
-    // TODO: dead code?
-    private static final double KIT_LABEL_ARROW_PADDING = 8;
-    private static final double KIT_LABEL_Y_OFFSET = 5;
-    private static final double KIT_ARROW_Y_OFFSET = 5;
+    private static final double KIT_ARROW_Y_OFFSET = 5; // vertical offset of the kit arrows from the top of the kit
 
     public KitPanel( final KitCollection kitCollectionModel, PBounds availableKitBounds ) {
 

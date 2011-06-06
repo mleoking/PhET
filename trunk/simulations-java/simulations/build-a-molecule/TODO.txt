@@ -1,3 +1,4 @@
+A convenient way to get rid of the addPropertyChangeListener override hack?
 Other TODOs
 3d icon image deprecated -- remove
 
