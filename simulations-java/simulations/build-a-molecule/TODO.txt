@@ -1,4 +1,5 @@
 On i18nized version, collection box in 2nd tab changes position when given molecules. Investigate
+Consider replacing SwingLayoutNode with a proper layout!!!
 A convenient way to get rid of the addPropertyChangeListener override hack?
 Other TODOs
 3d icon image deprecated -- remove
