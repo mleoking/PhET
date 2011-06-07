@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 
 /**
  * Button that shows "Remove salt/sugar" as a single button, even if there is no sugar in the sim.  Shown only if there is anything to be removed.
@@ -16,7 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
  * @author Sam Reid
  */
 public class RemoveSaltSugarButton extends HTMLImageButtonNode {
-    public RemoveSaltSugarButton( final IntroModel model ) {
+    public RemoveSaltSugarButton( final MacroModel model ) {
         super( "Remove salt/sugar", SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
 
         //Remove all solutes from the model when pressed

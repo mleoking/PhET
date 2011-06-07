@@ -18,18 +18,18 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.IntroCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.water.MicroscopicModel.Barrier;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.water.WaterModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
 /**
- * Canvas for the Microscopic tab
+ * Canvas for the Water tab
  *
  * @author Sam Reid
  */
-public class MicroscopicCanvas extends PhetPCanvas {
+public class WaterCanvas extends PhetPCanvas {
 
     //Default size of the canvas.  Sampled at runtime on a large res screen from a sim with multiple tabs
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
@@ -40,7 +40,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
     //Separate layer for the particles so they are always behind the control panel
     private PNode particleNode = new PNode();
 
-    public MicroscopicCanvas( final MicroscopicModel model, final SugarAndSaltSolutionsColorScheme config ) {
+    public WaterCanvas( final WaterModel model, final SugarAndSaltSolutionsColorScheme config ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         config.backgroundColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
@@ -191,7 +191,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
 //                    add( new PropertySlider( 0, 100, model.randomness ) );
 //                }} )
         ) ) {{
-            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - IntroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - MacroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
         model.k.trace( "k" );
         model.pow.trace( "pow" );

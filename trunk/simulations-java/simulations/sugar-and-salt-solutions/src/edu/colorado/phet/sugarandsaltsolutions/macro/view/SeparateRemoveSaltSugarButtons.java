@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class SeparateRemoveSaltSugarButtons extends PNode {
-    public SeparateRemoveSaltSugarButtons( final IntroModel model ) {
+    public SeparateRemoveSaltSugarButtons( final MacroModel model ) {
 
         //Button to remove salt, only shown if there is any salt
         TextButtonNode saltButton = new TextButtonNode( "Remove salt", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{

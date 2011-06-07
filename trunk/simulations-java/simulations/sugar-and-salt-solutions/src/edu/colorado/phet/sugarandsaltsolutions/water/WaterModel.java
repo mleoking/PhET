@@ -25,11 +25,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.CHLORINE_R
 import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.SODIUM_RADIUS;
 
 /**
- * Model for "micro" tab for sugar and salt solutions.
+ * Model for "water" tab for sugar and salt solutions.
  *
  * @author Sam Reid
  */
-public class MicroscopicModel extends SugarAndSaltSolutionModel {
+public class WaterModel extends SugarAndSaltSolutionModel {
 
     //List of all model objects objects
     private ArrayList<WaterMolecule> waterList = new ArrayList<WaterMolecule>();
@@ -77,7 +77,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private int DEFAULT_NUM_WATERS = 100;
     public DoubleProperty numSodiums = new DoubleProperty( 0.0 );
 
-    public MicroscopicModel() {
+    public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
         worldAABB.lowerBound = new Vec2( -200, -200 );
