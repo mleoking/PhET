@@ -13,10 +13,10 @@ import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
-import edu.colorado.phet.sugarandsaltsolutions.macro.IntroModule;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.SeparateRemoveSaltSugarButtons;
-import edu.colorado.phet.sugarandsaltsolutions.water.MicroscopicModule;
+import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -37,9 +37,9 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         final SugarAndSaltSolutionsColorScheme configuration = new SugarAndSaltSolutionsColorScheme();
 
         //Create the modules
-        addModule( new IntroModule( configuration, getRemoveSolutesControl() ) );
+        addModule( new MacroModule( configuration, getRemoveSolutesControl() ) );
         addModule( new SodiumChlorideModule( new SolubleSaltsClock(), "Micro" ) );
-        addModule( new MicroscopicModule( configuration ) );
+        addModule( new WaterModule( configuration ) );
 
         //Add developer menus for changing the color of background and salt
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", configuration.backgroundColor ) );
@@ -48,9 +48,9 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
     //Use the separate buttons to remove sugar and salt
     //This feature is implemented as an override so that we can still use reflection in PhetApplicationLauncher.launchSim
-    protected Function1<IntroModel, PNode> getRemoveSolutesControl() {
-        return new Function1<IntroModel, PNode>() {
-            public PNode apply( IntroModel model ) {
+    protected Function1<MacroModel, PNode> getRemoveSolutesControl() {
+        return new Function1<MacroModel, PNode>() {
+            public PNode apply( MacroModel model ) {
                 return new SeparateRemoveSaltSugarButtons( model );
             }
         };

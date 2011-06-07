@@ -38,7 +38,7 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 
 /**
- * Canvas for the introductory (first) tab in the Sugar and Salt Solutions Sim
+ * Canvas for the first tab in the Sugar and Salt Solutions Sim
  *
  * @author Sam Reid
  */

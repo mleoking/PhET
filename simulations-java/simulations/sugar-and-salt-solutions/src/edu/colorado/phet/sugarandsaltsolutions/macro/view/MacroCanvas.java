@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -21,15 +21,15 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
 /**
- * Canvas for the "intro" tab of sugar and salt solutions
+ * Canvas for the introductory (macro) tab of sugar and salt solutions
  *
  * @author Sam Reid
  */
-public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
-    public IntroCanvas( final IntroModel model, SugarAndSaltSolutionsColorScheme config,
+public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
+    public MacroCanvas( final MacroModel model, SugarAndSaltSolutionsColorScheme config,
 
                         //Function that creates a piccolo control to remove solutes, either a combined RemoveSaltSugarButton or a SeparateRemoveSaltSugarButtons
-                        Function1<IntroModel, PNode> newRemoveSolutesControl ) {
+                        Function1<MacroModel, PNode> newRemoveSolutesControl ) {
         super( model, config );
 
         //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
@@ -102,7 +102,7 @@ public class IntroCanvas extends SugarAndSaltSolutionsCanvas {
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider2( model.evaporationRate ) {{
-            Point2D point = IntroCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
+            Point2D point = MacroCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
 

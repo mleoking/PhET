@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSaltSugarButton;
 import edu.umd.cs.piccolo.PNode;
 
@@ -21,9 +21,9 @@ public class SugarAndSaltSolutionsApplicationCombinedButton extends SugarAndSalt
 
     //Use the consolidated RemoveSaltSugarButton instead of separate buttons for each solute
     //This feature is implemented as an override so that we can still use reflection in PhetApplicationLauncher.launchSim
-    protected Function1<IntroModel, PNode> getRemoveSolutesControl() {
-        return new Function1<IntroModel, PNode>() {
-            public PNode apply( IntroModel model ) {
+    protected Function1<MacroModel, PNode> getRemoveSolutesControl() {
+        return new Function1<MacroModel, PNode>() {
+            public PNode apply( MacroModel model ) {
                 return new RemoveSaltSugarButton( model );
             }
         };

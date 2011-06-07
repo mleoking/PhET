@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Max;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Min;
 
 /**
- * Model of the amount in moles, concentration, amount dissolved, amount precipitated, for sugar and salt in the intro tab.
+ * Model of the amount in moles, concentration, amount dissolved, amount precipitated, for sugar and salt in the introductory (macro) tab.
  *
  * @author Sam Reid
  */
