@@ -11,6 +11,7 @@ import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.DielectricCircuitNode;
+import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
@@ -40,18 +41,7 @@ public class DielectricCanvas extends CLCanvas {
 
     private final DielectricModel model;
     private final CLGlobalProperties globalProperties;
-
-    // circuit
-    private final DielectricCircuitNode circuitNode;
-
-    // meters
-    private final CapacitanceMeterNode capacitanceMeterNode;
-    private final PlateChargeMeterNode plateChargeMeterNode;
-    private final StoredEnergyMeterNode storedEnergyMeterNode;
-    private final VoltmeterView voltmeter;
-    private final EFieldDetectorView eFieldDetector;
-
-    // debug
+    private final BarMeterNode capacitanceMeterNode, plateChargeMeterNode, storedEnergyMeterNode;
     private final PNode shapesDebugParentNode;
 
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, CLGlobalProperties globalProperties,
@@ -69,16 +59,16 @@ public class DielectricCanvas extends CLCanvas {
         final double eFieldReferenceMagnitude = DielectricModel.getEFieldReferenceMagnitude();
 
         // circuit
-        circuitNode = new DielectricCircuitNode( model.getCircuit(), mvt, dielectricVisible,
-                                                 plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
-                                                 maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+        final DielectricCircuitNode circuitNode = new DielectricCircuitNode( model.getCircuit(), mvt, dielectricVisible,
+                                                                             plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
 
         // meters
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.CAPACITANCE );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.PLATE_CHARGE_TOP );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt, CLStrings.STORED_ENERGY );
-        voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
+        VoltmeterView voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
+        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -123,6 +113,7 @@ public class DielectricCanvas extends CLCanvas {
     }
 
     public void reset() {
+        super.reset();
         // global properties of the view
         plateChargesVisibleProperty.reset();
         eFieldVisibleProperty.reset();
