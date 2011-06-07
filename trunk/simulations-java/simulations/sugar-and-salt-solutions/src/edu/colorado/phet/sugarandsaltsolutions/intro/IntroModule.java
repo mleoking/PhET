@@ -21,7 +21,7 @@ public class IntroModule extends SugarAndSaltSolutionsModule {
     }
 
     private IntroModule( IntroModel model, SugarAndSaltSolutionsColorScheme config, Function1<IntroModel, PNode> removeSolutesControl ) {
-        super( "Intro", model.clock );
+        super( "Macro", model.clock );
         this.model = model;
         setSimulationPanel( new IntroCanvas( this.model, config, removeSolutesControl ) );
     }
