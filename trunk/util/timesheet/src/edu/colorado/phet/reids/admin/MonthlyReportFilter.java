@@ -4,13 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Jun 1, 2010
- * Time: 2:06:09 PM
- * To change this template use File | Settings | File Templates.
- */
 public class MonthlyReportFilter {
     private ArrayList<String> sims;
     private ArrayList<String> allList;
@@ -161,6 +154,9 @@ public class MonthlyReportFilter {
         if ( category.equals( "phet-help" ) ) { return mapCategory( "Customer Support" ); }
         if ( category.equals( "phethelp" ) ) { return mapCategory( "Customer Support" ); }
         if ( category.equals( "ksu-credits" ) ) { return mapCategory( "KSU Translation Credits" ); }
+        if ( category.equals( "environment" ) ) { return mapCategory( "Environment/Maintenance/Tools" ); }
+        if ( category.equals( "dna" ) ) { return mapCategory( "New Sim Investigations" ); }
+        if ( category.equals( "interview" ) ) { return mapCategory( "Interviewing" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
