@@ -12,12 +12,6 @@ import java.util.Random;
 
 import javax.swing.*;
 
-import edu.colorado.phet.batteryresistorcircuit.common.paint.Painter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.batteryresistorcircuit.collisions.Collider;
 import edu.colorado.phet.batteryresistorcircuit.collisions.DefaultCollisionEvent;
 import edu.colorado.phet.batteryresistorcircuit.common.math.functions.Transform;
@@ -49,6 +43,11 @@ import edu.colorado.phet.batteryresistorcircuit.regions.AndRegion;
 import edu.colorado.phet.batteryresistorcircuit.regions.PatchRegion;
 import edu.colorado.phet.batteryresistorcircuit.regions.SimplePatch;
 import edu.colorado.phet.batteryresistorcircuit.volt.*;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 public class BatteryResistorCircuitSimulationPanel extends JPanel {
     public static int BASE_FRAME_WIDTH = 1028;
@@ -163,7 +162,7 @@ public class BatteryResistorCircuitSimulationPanel extends JPanel {
         System2D sys = new System2D();
         int CORE_LEVEL = 4;
         int CORE_LEVEL_BOTTOM = 1;
-        ShowPainters showCores = new ShowPainters( cp, new int[]{CORE_LEVEL, CORE_LEVEL_BOTTOM} );
+        ShowPainters showCores = new ShowPainters( cp, new int[] { CORE_LEVEL, CORE_LEVEL_BOTTOM } );
 
         BufferedImage greeny = BatteryResistorCircuitResources.loadBufferedImage( "ron/particle-green-med.png" );
 //        greeny = new MakeMETransp().patchAlpha( greeny );
@@ -263,7 +262,7 @@ public class BatteryResistorCircuitSimulationPanel extends JPanel {
         gus.setBorder( BorderFactory.createTitledBorder( BatteryResistorCircuitStrings.get( "Ohm1dModule.AmmeterScaleBorder" ) ) );
         medium.actionPerformed( null );
         int ELECTRON_LEVEL = 3;
-        ShowPainters showElectrons = new ShowPainters( cp, new int[]{ELECTRON_LEVEL, ELECTRON_LEVEL - 1} );
+        ShowPainters showElectrons = new ShowPainters( cp, new int[] { ELECTRON_LEVEL, ELECTRON_LEVEL - 1 } );
 
         resistance.layoutCores();
         double aMax = Double.MAX_VALUE;//10000;//35;
@@ -499,7 +498,7 @@ public class BatteryResistorCircuitSimulationPanel extends JPanel {
         JPanel jp = new JPanel();
         jp.add( conPan );
         mainPanel.add( jp, BorderLayout.EAST );
-        conPan.setPreferredSize( new Dimension( 200, 300 ) );
+        conPan.setPreferredSize( new Dimension( 200, conPan.getPreferredSize().height ) );
 
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.CENTER );
