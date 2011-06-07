@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -20,10 +18,9 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.PropertySlider;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.IntroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.MicroscopicModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
@@ -126,40 +123,9 @@ public class MicroscopicCanvas extends PhetPCanvas {
 
         //Control panel
         addChild( new ControlPanelNode( new VBox(
-                //Add a reset all button that resets this tab
-                new HTMLImageButtonNode( "Reset All" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.reset();
-                        }
-                    } );
-                }},
-                //Button to add a single sodium ion
-                new HTMLImageButtonNode( "Add Sodium Ion" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addSodiumIon( randomX.apply(), model.beakerHeight );
-                        }
-                    } );
-                }},
-                //Button to add a chlorine icon
-                new HTMLImageButtonNode( "Add Chlorine Ion" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addChlorineIon( randomX.apply(), model.beakerHeight );
-                        }
-                    } );
-                }},
-                //button to add a water
-                new HTMLImageButtonNode( "Add Water" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addWater( randomX.apply(), randomY.apply(), 0 );
-                        }
-                    } );
-                }},
-                //button to add a water
-                new HTMLImageButtonNode( "Add NaCl" ) {{
+
+                //button to add a salt
+                new HTMLImageButtonNode( "Add Salt" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             model.addSalt( randomX.apply(), randomY.apply() );
@@ -167,20 +133,56 @@ public class MicroscopicCanvas extends PhetPCanvas {
                     } );
                 }},
 
+                //Add a reset all button that resets this tab
+                new HTMLImageButtonNode( "Reset All" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.reset();
+                        }
+                    } );
+                }}
+                //Button to add a single sodium ion
+//                new HTMLImageButtonNode( "Add Sodium Ion" ) {{
+//                    addActionListener( new ActionListener() {
+//                        public void actionPerformed( ActionEvent e ) {
+//                            model.addSodiumIon( randomX.apply(), model.beakerHeight );
+//                        }
+//                    } );
+//                }},
+//                //Button to add a chlorine icon
+//                new HTMLImageButtonNode( "Add Chlorine Ion" ) {{
+//                    addActionListener( new ActionListener() {
+//                        public void actionPerformed( ActionEvent e ) {
+//                            model.addChlorineIon( randomX.apply(), model.beakerHeight );
+//                        }
+//                    } );
+//                }},
+//                //button to add a water
+//                new HTMLImageButtonNode( "Add Water" ) {{
+//                    addActionListener( new ActionListener() {
+//                        public void actionPerformed( ActionEvent e ) {
+//                            model.addWater( randomX.apply(), randomY.apply(), 0 );
+//                        }
+//                    } );
+//                }},
+
                 //Developer controls for physics settings
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "k" ) );
-                    add( new PropertySlider( 0, 1000, model.k ) );
-                }} ),
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "pow" ) );
-                    add( new PropertySlider( 0, 10, model.pow ) );
-                }} ),
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "rand" ) );
-                    add( new PropertySlider( 0, 100, model.randomness ) );
-                }} )
-        ) ) );
+//                ,
+//                new PSwing( new JPanel() {{
+//                    add( new JLabel( "k" ) );
+//                    add( new PropertySlider( 0, 1000, model.k ) );
+//                }} ),
+//                new PSwing( new JPanel() {{
+//                    add( new JLabel( "pow" ) );
+//                    add( new PropertySlider( 0, 10, model.pow ) );
+//                }} ),
+//                new PSwing( new JPanel() {{
+//                    add( new JLabel( "rand" ) );
+//                    add( new PropertySlider( 0, 100, model.randomness ) );
+//                }} )
+        ) ) {{
+            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - IntroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+        }} );
         model.k.trace( "k" );
         model.pow.trace( "pow" );
         model.randomness.trace( "randomness" );
