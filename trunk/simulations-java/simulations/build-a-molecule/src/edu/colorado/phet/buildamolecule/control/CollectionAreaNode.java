@@ -62,10 +62,6 @@ public class CollectionAreaNode extends GeneralLayoutNode {
 
                     addChild( collectionBoxNode );
                 }
-
-                @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                    // TODO more elegant way to handle addPropertyChangeListener hack
-                }
             };
             addChild( collectionBoxHolder, method, 0, 0, 15, 0 );
         }
@@ -102,10 +98,6 @@ public class CollectionAreaNode extends GeneralLayoutNode {
                               }
                           }
                           setEnabled( enabled );
-                      }
-
-                      @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                          // TODO more elegant way to handle addPropertyChangeListener hack
                       }
                   }, method );
     }
