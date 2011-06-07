@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.torque.teetertotter.model.weights.Brick;
+import edu.colorado.phet.torque.teetertotter.model.weights.BrickStack;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -143,8 +143,9 @@ public class TeeterTotterTorqueModel implements Resettable {
             removeWeight( weight );
         }
         // Add initial weights.
-        addWeight( new Brick( new Point2D.Double( 3, 0 ) ) );
-        addWeight( new Brick( new Point2D.Double( 3.3, 0 ) ) );
+        addWeight( new BrickStack( 1, new Point2D.Double( 2.6, 0 ) ) );
+        addWeight( new BrickStack( 2, new Point2D.Double( 3.0, 0 ) ) );
+        addWeight( new BrickStack( 4, new Point2D.Double( 3.4, 0 ) ) );
     }
 
     //------------------------------------------------------------------------
