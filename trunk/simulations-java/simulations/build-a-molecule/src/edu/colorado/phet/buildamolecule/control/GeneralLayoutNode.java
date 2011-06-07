@@ -20,6 +20,8 @@ import edu.umd.cs.piccolo.util.PBounds;
 public class GeneralLayoutNode extends PNode {
     private static final boolean DEBUG = false;
 
+    private boolean activelyLayingOut = false; // used to prevent children bounds changes during layout trigger another layout
+
     private final List<LayoutElement> elements = new ArrayList<LayoutElement>();
 
     private boolean updateOnChildBounds;
@@ -41,7 +43,7 @@ public class GeneralLayoutNode extends PNode {
     }};
 
     public GeneralLayoutNode() {
-        this( false );
+        this( true ); // TODO: improve the layout change detection.
     }
 
     public GeneralLayoutNode( boolean updateOnChildBounds ) {
@@ -105,6 +107,11 @@ public class GeneralLayoutNode extends PNode {
      * Fully updates the layout
      */
     public void updateLayout() {
+        if ( activelyLayingOut ) {
+            // don't start another layout while one is going on!
+            return;
+        }
+        activelyLayingOut = true;
         LayoutProperties layoutProperties = getLayoutProperties();
         for ( int i = 0; i < elements.size(); i++ ) {
             LayoutElement element = elements.get( i );
@@ -116,7 +123,7 @@ public class GeneralLayoutNode extends PNode {
         PBounds bounds = getLayoutBounds();
         if ( bounds != null ) {
             invisibleBackground.addChild( new PPath( bounds ) {{
-                setStrokePaint( Color.RED );
+                setStroke( null );
             }} );
         }
 
@@ -130,6 +137,7 @@ public class GeneralLayoutNode extends PNode {
                 }} );
             }
         }
+        activelyLayingOut = false;
     }
 
     public PBounds getLayoutBounds() {
@@ -249,8 +257,12 @@ public class GeneralLayoutNode extends PNode {
             this.paddingRight = paddingRight;
         }
 
+        public PBounds getFullBounds() {
+            return node.getFullBounds();
+        }
+
         public PBounds getLayoutBounds() {
-            PBounds bounds = node.getFullBounds();
+            PBounds bounds = getFullBounds();
             return new PBounds( bounds.getX() - paddingLeft,
                                 bounds.getY() - paddingTop,
                                 bounds.getWidth() + paddingLeft + paddingRight,
@@ -258,14 +270,22 @@ public class GeneralLayoutNode extends PNode {
         }
 
         public void setLeft( double left ) {
-            double newXOffset = left + paddingLeft;
+            // how far does the node stick out to the left of its x=0 line?
+            double overflow = node.getXOffset() - getFullBounds().getX();
+
+            // x offset such that the layout bounds will have a left of "left"
+            double newXOffset = left + paddingLeft + overflow;
             if ( node.getXOffset() != newXOffset ) {
                 node.setOffset( newXOffset, node.getYOffset() );
             }
         }
 
         public void setTop( double top ) {
-            double newYOffset = top + paddingTop;
+            // how far does the node stick out to the top of its y=0 line?
+            double overflow = node.getYOffset() - getFullBounds().getY();
+
+            // y offset such that the layout bounds will have a top of "top"
+            double newYOffset = top + paddingTop + overflow;
             if ( node.getYOffset() != newYOffset ) {
                 node.setOffset( node.getXOffset(), newYOffset );
             }

@@ -18,6 +18,25 @@ import edu.umd.cs.piccolo.util.PBounds;
  * Allows the collection of a single molecule
  */
 public class SingleCollectionBoxNode extends CollectionBoxNode {
+
+    public SingleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
+        super( box, toModelBounds );
+        assert ( box.getCapacity() == 1 );
+
+        addHeaderNode( new PNode() {{
+            final HTMLNode nameAndFormula = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_SINGLE_FORMAT,
+                                                                                box.getMoleculeType().getGeneralFormulaFragment(),
+                                                                                box.getMoleculeType().getDisplayName() ) ) {{
+                setFont( new PhetFont( 15, true ) );
+            }};
+            addChild( nameAndFormula );
+        }} );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * precomputation of largest single collection box size
+    *----------------------------------------------------------------------------*/
+
     private static double maxWidth;
     private static double maxHeight;
 
@@ -27,9 +46,11 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
 
         // compute maximum width and height for all different molecules
         for ( CompleteMolecule molecule : MoleculeList.COLLECTION_BOX_MOLECULES ) {
+
+            // fake boxes
             PBounds boxBounds = new SingleCollectionBoxNode( new CollectionBox( molecule, 1 ), new Function1<PNode, Rectangle2D>() {
                 public Rectangle2D apply( PNode pNode ) {
-                    return null;
+                    return pNode.getFullBounds();
                 }
             } ).getFullBounds();
 
@@ -44,19 +65,5 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
 
     public static double getMaxHeight() {
         return maxHeight;
-    }
-
-    public SingleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
-        super( box, toModelBounds );
-        assert ( box.getCapacity() == 1 );
-
-        addHeaderNode( new PNode() {{
-            final HTMLNode nameAndFormula = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_SINGLE_FORMAT,
-                                                                                box.getMoleculeType().getGeneralFormulaFragment(),
-                                                                                box.getMoleculeType().getDisplayName() ) ) {{
-                setFont( new PhetFont( 15, true ) );
-            }};
-            addChild( nameAndFormula );
-        }} );
     }
 }

@@ -89,8 +89,6 @@ public class CollectionBoxNode extends GeneralLayoutNode {
         }};
         boxNode.addChild( blackBox );
         boxNode.addChild( moleculeLayer );
-        addChild( boxNode, method, 3, 0, 0, 0 ); // add this at the specified index
-
         updateBoxGraphics();
 
         box.addListener( new CollectionBox.Listener() {
@@ -114,7 +112,7 @@ public class CollectionBoxNode extends GeneralLayoutNode {
             }
         } );
 
-        // NOTE: this is somewhat of an ugly way of getting the fixed layout (where the molecules don't resize). consider changing
+        // TODO: this is somewhat of an ugly way of getting the fixed layout (where the molecules don't resize). consider changing
         // kept for now since it is much easier to revert back to the old behavior
         {
             // add invisible molecules to the molecule layer so that its size won't change later (fixes molecule positions)
@@ -129,6 +127,9 @@ public class CollectionBoxNode extends GeneralLayoutNode {
             // position them like we would with the others
             layOutMoleculeList( nodes );
         }
+
+        centerMoleculesInBlackBox();
+        addChild( boxNode, method, 3, 0, 0, 0 ); // add this at the specified index
     }
 
     protected void addHeaderNode( PNode headerNode ) {
@@ -185,6 +186,50 @@ public class CollectionBoxNode extends GeneralLayoutNode {
             moleculeNode.setOffset( x, ( maxHeight - moleculeNode.getFullBounds().getHeight() ) / 2 );
             x += moleculeNode.getFullBounds().getWidth() + MOLECULE_PADDING;
         }
+    }
+
+    /**
+     * @return Molecule area. Excludes the area in the black box where the 3D button needs to go
+     */
+    private PBounds getMoleculeAreaInBlackBox() {
+        PBounds blackBoxFullBounds = blackBox.getFullBounds();
+        return new PBounds(
+                blackBoxFullBounds.getX(),
+                blackBoxFullBounds.getY(),
+                blackBoxFullBounds.getWidth() - BLACK_BOX_PADDING_FOR_3D - button3dWidth, // leave room for 3d button on RHS
+                blackBoxFullBounds.getHeight()
+        );
+    }
+
+    private void centerMoleculesInBlackBox() {
+        PBounds moleculeArea = getMoleculeAreaInBlackBox();
+
+        // for now, we scale the molecules up and down depending on their size
+        moleculeLayer.setScale( 1 );
+        double xScale = ( moleculeArea.getWidth() - 25 ) / moleculeLayer.getFullBounds().getWidth();
+        double yScale = ( moleculeArea.getHeight() - 25 ) / moleculeLayer.getFullBounds().getHeight();
+        moleculeLayer.setScale( Math.min( xScale, yScale ) );
+
+        moleculeLayer.centerFullBoundsOnPoint(
+                moleculeArea.getCenterX() - moleculeArea.getX(),
+                moleculeArea.getCenterY() - moleculeArea.getY() );
+    }
+
+    private void updateBoxGraphics() {
+        blackBox.setStroke( new BasicStroke( 4 ) );
+        if ( box.isFull() ) {
+            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.get() );
+        }
+        else {
+            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
+        }
+    }
+
+    /**
+     * Allows us to set the model position of the collection boxes according to how they are laid out
+     */
+    public void updateLocation() {
+        locationUpdateObserver.update();
     }
 
     /**
@@ -245,49 +290,5 @@ public class CollectionBoxNode extends GeneralLayoutNode {
             blinkTimer.cancel();
             blinkTimer = null;
         }
-    }
-
-    /**
-     * @return Molecule area. Excludes the area in the black box where the 3D button needs to go
-     */
-    private PBounds getMoleculeAreaInBlackBox() {
-        PBounds blackBoxFullBounds = blackBox.getFullBounds();
-        return new PBounds(
-                blackBoxFullBounds.getX(),
-                blackBoxFullBounds.getY(),
-                blackBoxFullBounds.getWidth() - BLACK_BOX_PADDING_FOR_3D - button3dWidth, // leave room for 3d button on RHS
-                blackBoxFullBounds.getHeight()
-        );
-    }
-
-    private void centerMoleculesInBlackBox() {
-        PBounds moleculeArea = getMoleculeAreaInBlackBox();
-
-        // for now, we scale the molecules up and down depending on their size
-        moleculeLayer.setScale( 1 );
-        double xScale = ( moleculeArea.getWidth() - 25 ) / moleculeLayer.getFullBounds().getWidth();
-        double yScale = ( moleculeArea.getHeight() - 25 ) / moleculeLayer.getFullBounds().getHeight();
-        moleculeLayer.setScale( Math.min( xScale, yScale ) );
-
-        moleculeLayer.centerFullBoundsOnPoint(
-                moleculeArea.getCenterX() - moleculeArea.getX(),
-                moleculeArea.getCenterY() - moleculeArea.getY() );
-    }
-
-    private void updateBoxGraphics() {
-        blackBox.setStroke( new BasicStroke( 4 ) );
-        if ( box.isFull() ) {
-            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_HIGHLIGHT.get() );
-        }
-        else {
-            blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
-        }
-    }
-
-    /**
-     * Allows us to set the model position of the collection boxes according to how they are laid out
-     */
-    public void updateLocation() {
-        locationUpdateObserver.update();
     }
 }
