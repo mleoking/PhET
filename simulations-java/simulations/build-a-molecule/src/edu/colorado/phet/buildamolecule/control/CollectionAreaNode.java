@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,6 +17,7 @@ import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -47,9 +49,28 @@ public class CollectionAreaNode extends GeneralLayoutNode {
                                                         : new MultipleCollectionBoxNode( collectionBox, toModelBounds );
             collectionBoxNodes.add( collectionBoxNode );
 
+            // TODO: can we fix this up somehow to be better?
             // center box horizontally and put at bottom vertically in our holder
-            collectionBoxNode.setOffset( ( maximumBoxWidth - collectionBoxNode.getFullBounds().getWidth() ) / 2,
-                                         maximumBoxHeight - collectionBoxNode.getFullBounds().getHeight() );
+            final VoidFunction0 layoutBoxNode = new VoidFunction0() {
+                public void apply() {
+                    // compute correct offsets
+                    double offsetX = ( maximumBoxWidth - collectionBoxNode.getFullBounds().getWidth() ) / 2;
+                    double offsetY = maximumBoxHeight - collectionBoxNode.getFullBounds().getHeight();
+
+                    // only apply these if they are different. otherwise we run into infinite recursion
+                    if ( collectionBoxNode.getXOffset() != offsetX || collectionBoxNode.getYOffset() != offsetY ) {
+                        collectionBoxNode.setOffset( offsetX, offsetY );
+                    }
+                }
+            };
+            layoutBoxNode.apply();
+
+            // also position if its size changes in the future
+            collectionBoxNode.addPropertyChangeListener( new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    layoutBoxNode.apply();
+                }
+            } );
 
             // enforce consistent bounds of the maximum size
             PNode collectionBoxHolder = new PNode() {
@@ -66,40 +87,42 @@ public class CollectionAreaNode extends GeneralLayoutNode {
             addChild( collectionBoxHolder, method, 0, 0, 15, 0 );
         }
 
-        addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
-                      {
-                          // when clicked, empty collection boxes
-                          addActionListener( new ActionListener() {
-                              public void actionPerformed( ActionEvent e ) {
-                                  for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                                      box.clear();
-                                  }
-                                  for ( Kit kit : collection.getKits() ) {
-                                      kit.resetKit();
-                                  }
-                              }
-                          } );
+        // TODO: this button is bad!
+        final HTMLImageButtonNode resetCollectionButton = new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
+            {
+                // when clicked, empty collection boxes
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                            box.clear();
+                        }
+                        for ( Kit kit : collection.getKits() ) {
+                            kit.resetKit();
+                        }
+                    }
+                } );
 
-                          // when any collection box quantity changes, re-update our visibility
-                          for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                              box.quantity.addObserver( new SimpleObserver() {
-                                  public void update() {
-                                      updateEnabled();
-                                  }
-                              } );
-                          }
-                      }
+                // when any collection box quantity changes, re-update our visibility
+                for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                    box.quantity.addObserver( new SimpleObserver() {
+                        public void update() {
+                            updateEnabled();
+                        }
+                    } );
+                }
+            }
 
-                      public void updateEnabled() {
-                          boolean enabled = false;
-                          for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                              if ( box.quantity.get() > 0 ) {
-                                  enabled = true;
-                              }
-                          }
-                          setEnabled( enabled );
-                      }
-                  }, method );
+            public void updateEnabled() {
+                boolean enabled = false;
+                for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                    if ( box.quantity.get() > 0 ) {
+                        enabled = true;
+                    }
+                }
+                setEnabled( enabled );
+            }
+        };
+        addChild( resetCollectionButton, method );
     }
 
     public void updateCollectionBoxLocations() {

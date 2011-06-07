@@ -19,33 +19,6 @@ import edu.umd.cs.piccolo.util.PBounds;
  * quantity present in the box.
  */
 public class MultipleCollectionBoxNode extends CollectionBoxNode {
-    private static double maxWidth;
-    private static double maxHeight;
-
-    static {
-        maxWidth = 0;
-        maxHeight = 0;
-
-        // compute maximum width and height for all different molecules
-        for ( CompleteMolecule molecule : MoleculeList.COLLECTION_BOX_MOLECULES ) {
-            PBounds boxBounds = new MultipleCollectionBoxNode( new CollectionBox( molecule, 1 ), new Function1<PNode, Rectangle2D>() {
-                public Rectangle2D apply( PNode pNode ) {
-                    return null;
-                }
-            } ).getFullBounds();
-
-            maxWidth = Math.max( maxWidth, boxBounds.getWidth() );
-            maxHeight = Math.max( maxHeight, boxBounds.getHeight() );
-        }
-    }
-
-    public static double getMaxWidth() {
-        return maxWidth;
-    }
-
-    public static double getMaxHeight() {
-        return maxHeight;
-    }
 
     public MultipleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
         super( box, toModelBounds );
@@ -78,5 +51,37 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
             } );
         }}
         );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * precomputation of largest multiple collection box size
+    *----------------------------------------------------------------------------*/
+
+    private static double maxWidth;
+    private static double maxHeight;
+
+    static {
+        maxWidth = 0;
+        maxHeight = 0;
+
+        // compute maximum width and height for all different molecules
+        for ( CompleteMolecule molecule : MoleculeList.COLLECTION_BOX_MOLECULES ) {
+            PBounds boxBounds = new MultipleCollectionBoxNode( new CollectionBox( molecule, 1 ), new Function1<PNode, Rectangle2D>() {
+                public Rectangle2D apply( PNode pNode ) {
+                    return null;
+                }
+            } ).getFullBounds();
+
+            maxWidth = Math.max( maxWidth, boxBounds.getWidth() );
+            maxHeight = Math.max( maxHeight, boxBounds.getHeight() );
+        }
+    }
+
+    public static double getMaxWidth() {
+        return maxWidth;
+    }
+
+    public static double getMaxHeight() {
+        return maxHeight;
     }
 }
