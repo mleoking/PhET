@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro;
+package edu.colorado.phet.sugarandsaltsolutions.water;
 
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
