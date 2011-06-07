@@ -29,9 +29,13 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class MultipleCapacitorsCircuitNode extends PhetPNode {
 
+    private final ICircuit circuit;
+
     public MultipleCapacitorsCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt, boolean dielectricVisible,
                                           Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible, Property<DielectricChargeView> dielectricChargeView,
                                           double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
+
+        this.circuit = circuit;
 
         // battery
         Battery battery = circuit.getBattery();
@@ -119,6 +123,10 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
     // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
         //FUTURE call cleanup methods of component nodes
+    }
+
+    public ICircuit getCircuit() {
+        return circuit;
     }
 
     private static void updateLabelOffset( PNode labelNode, CapacitorNode capacitorNode ) {

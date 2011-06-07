@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.util.HashMap;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -15,6 +13,7 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.capacitorlab.view.MultipleCapacitorsCircuitNode;
+import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
@@ -44,19 +43,9 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     private final CLGlobalProperties globalProperties;
     private final MultipleCapacitorsModel model;
-
     private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
-    private final HashMap<ICircuit, PNode> circuitToNodeMap;
-
-    // meters
-    private final CapacitanceMeterNode capacitanceMeterNode;
-    private final PlateChargeMeterNode plateChargeMeterNode;
-    private final StoredEnergyMeterNode storedEnergyMeterNode;
-    private final VoltmeterView voltmeter;
-    private final EFieldDetectorView eFieldDetector;
-
-    // debug
-    private final PNode shapesDebugParentNode;
+    private final BarMeterNode capacitanceMeterNode, plateChargeMeterNode, storedEnergyMeterNode;
+    private final PNode shapesDebugParentNode; // debugging shapes, developer control
 
     public MultipleCapacitorsCanvas( final MultipleCapacitorsModel model, final CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
         super( model, mvt );
@@ -77,22 +66,20 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
         // One node for each circuit. These persist so we don't have to do cleanup when the current circuit changes.
         circuitParentNode = new PNode();
-        circuitToNodeMap = new HashMap<ICircuit, PNode>();
         for ( ICircuit circuit : model.getCircuits() ) {
             PNode node = new MultipleCapacitorsCircuitNode( circuit, mvt, false /* dielectricVisible */,
                                                             plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             node.setVisible( false );
             circuitParentNode.addChild( node );
-            circuitToNodeMap.put( circuit, node );
         }
 
         // meters
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.TOTAL_CAPACITANCE );
         plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.STORED_CHARGE );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt, CLStrings.STORED_ENERGY );
-        voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
+        VoltmeterView voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
+        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -115,12 +102,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         // When the current circuit changes, make the proper circuit node visible.
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
-                int numberOfChildren = circuitParentNode.getChildrenCount();
-                for ( int i = 0; i < numberOfChildren; i++ ) {
-                    circuitParentNode.getChild( i ).setVisible( false );
-                }
-                circuitToNodeMap.get( model.currentCircuitProperty.get() ).setVisible( true );
-                updateShapesDebugNodes();
+                updateCircuitNodes();
             }
         } );
 
@@ -135,6 +117,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     }
 
     public void reset() {
+        super.reset();
         // global properties of the view
         plateChargesVisibleProperty.reset();
         eFieldVisibleProperty.reset();
@@ -143,6 +126,19 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
+    }
+
+    // Updates visibility of circuit nodes, so that the node corresponding to the current circuit is visible.
+    private void updateCircuitNodes() {
+        int numberOfChildren = circuitParentNode.getChildrenCount();
+        for ( int i = 0; i < numberOfChildren; i++ ) {
+            PNode child = circuitParentNode.getChild( i );
+            if ( child instanceof MultipleCapacitorsCircuitNode ) {
+                MultipleCapacitorsCircuitNode circuitNode = (MultipleCapacitorsCircuitNode) child;
+                circuitNode.setVisible( model.currentCircuitProperty.get() == circuitNode.getCircuit() );
+            }
+        }
+        updateShapesDebugNodes();
     }
 
     // Updates the debugging shapes by recreating them. Quick and dirty, because this is a developer feature.
