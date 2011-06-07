@@ -19,9 +19,15 @@ import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Canvas for the "Dielectric" module.
+ * </p>
+ * This canvas has much in common with MultipleCapacitorsCanvas, but was developed added much earlier, uses a different
+ * representation for circuits, and has different parameterizations of some view components.  I attempted to force some
+ * of the common bits into the base class, but it because messy and less readable. So I decided that a bit of
+ * duplication is preferable here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -33,6 +39,7 @@ public class DielectricCanvas extends CLCanvas {
     public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final DielectricModel model;
+    private final CLGlobalProperties globalProperties;
 
     // circuit
     private final DielectricCircuitNode circuitNode;
@@ -45,13 +52,14 @@ public class DielectricCanvas extends CLCanvas {
     private final EFieldDetectorView eFieldDetector;
 
     // debug
-    private final PNode voltageShapesDebugNode, eFieldShapesDebugNode;
+    private final PNode shapesDebugParentNode;
 
-    public DielectricCanvas( final DielectricModel model, final CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties,
-                             boolean eFieldDetectorSimplified, final boolean dielectricVisible ) {
+    public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, CLGlobalProperties globalProperties,
+                             boolean eFieldDetectorSimplified, boolean dielectricVisible ) {
         super( model, mvt );
 
         this.model = model;
+        this.globalProperties = globalProperties;
 
         // Maximums, for calibrating various view representations.
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
@@ -72,11 +80,8 @@ public class DielectricCanvas extends CLCanvas {
         voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
         eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
-        voltageShapesDebugNode = new VoltageShapesDebugNode( model.getCircuit(), model.getVoltmeter() );
-        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
-
-        eFieldShapesDebugNode = new EFieldShapesDebugNode( model.getCircuit() );
-        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
+        // debug
+        shapesDebugParentNode = new PComposite();
 
         // rendering order
         addChild( circuitNode );
@@ -91,36 +96,27 @@ public class DielectricCanvas extends CLCanvas {
         addChild( voltmeter.getPositiveWireNode() );
         addChild( voltmeter.getNegativeProbeNode() );
         addChild( voltmeter.getNegativeWireNode() );
-        addChild( voltageShapesDebugNode );
-        addChild( eFieldShapesDebugNode );
+        addChild( shapesDebugParentNode );
 
-        // observers
-        {
-            // things whose visibility causes the dielectric to become transparent
-            SimpleObserver o = new SimpleObserver() {
-                public void update() {
-                    boolean transparent = eFieldVisibleProperty.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
-                    circuitNode.setDielectricTransparent( transparent );
-                }
-            };
-            eFieldVisibleProperty.addObserver( o );
-            model.getVoltmeter().visibleProperty.addObserver( o );
-            model.getEFieldDetector().visibleProperty.addObserver( o );
+        // watch things whose visibility causes the dielectric to become transparent
+        SimpleObserver o = new SimpleObserver() {
+            public void update() {
+                boolean transparent = eFieldVisibleProperty.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
+                circuitNode.setDielectricTransparent( transparent );
+            }
+        };
+        eFieldVisibleProperty.addObserver( o );
+        model.getVoltmeter().visibleProperty.addObserver( o );
+        model.getEFieldDetector().visibleProperty.addObserver( o );
 
-            // debug shapes for measuring E-field
-            globalProperties.eFieldShapesVisibleProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
-                }
-            } );
-
-            // debug shapes for measuring voltage
-            globalProperties.voltageShapesVisibleProperty.addObserver( new SimpleObserver() {
-                public void update() {
-                    voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
-                }
-            } );
-        }
+        // change visibility of debug shapes
+        SimpleObserver shapesVisibilityObserver = new SimpleObserver() {
+            public void update() {
+                updateShapesDebugNodes();
+            }
+        };
+        globalProperties.eFieldShapesVisibleProperty.addObserver( shapesVisibilityObserver );
+        globalProperties.voltageShapesVisibleProperty.addObserver( shapesVisibilityObserver );
 
         // default state
         reset();
@@ -135,5 +131,18 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
+    }
+
+    // Updates the debugging shapes by recreating them. Quick and dirty, because this is a developer feature.
+    private void updateShapesDebugNodes() {
+        shapesDebugParentNode.removeAllChildren();
+
+        PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.getCircuit(), model.getVoltmeter() );
+        shapesDebugParentNode.addChild( voltageShapesDebugNode );
+        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
+
+        PNode eFieldShapesDebugNode = new EFieldShapesDebugNode( model.getCircuit() );
+        shapesDebugParentNode.addChild( eFieldShapesDebugNode );
+        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
     }
 }
