@@ -164,17 +164,11 @@ public class Plank extends ModelObject {
     private Point2D getClosestOpenLocation( Point2D p ) {
         // TODO: Doesn't actually give open locations yet, just valid snap-to ones.
         Point2D closestOpenLocation = new Point2D.Double( 0, 0 );
-        System.out.println( "-------" );
-        System.out.println( "Test point: " + p );
         for ( Point2D location : getSnapToLocations() ) {
-            System.out.println( "Testing against location: " + location );
-            System.out.println( "distance = " + location.distance( p ) );
             if ( location.distance( p ) < closestOpenLocation.distance( p ) ) {
-                System.out.println( "Accepting location: " + location + ", distance = " + location.distance( p ) );
                 closestOpenLocation.setLocation( location );
             }
         }
-        System.out.println( "Returning: " + closestOpenLocation );
         return closestOpenLocation;
     }
 
