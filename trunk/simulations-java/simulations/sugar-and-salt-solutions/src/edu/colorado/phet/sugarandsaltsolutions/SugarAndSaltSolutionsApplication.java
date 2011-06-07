@@ -13,9 +13,9 @@ import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
-import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModule;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
-import edu.colorado.phet.sugarandsaltsolutions.intro.view.SeparateRemoveSaltSugarButtons;
+import edu.colorado.phet.sugarandsaltsolutions.macro.IntroModule;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.SeparateRemoveSaltSugarButtons;
 import edu.colorado.phet.sugarandsaltsolutions.water.MicroscopicModule;
 import edu.umd.cs.piccolo.PNode;
 

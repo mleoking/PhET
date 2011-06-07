@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro.view;
+package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

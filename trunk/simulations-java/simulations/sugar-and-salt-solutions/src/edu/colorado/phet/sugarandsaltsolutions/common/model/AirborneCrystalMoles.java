@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 
 /**
  * Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro.model;
+package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;

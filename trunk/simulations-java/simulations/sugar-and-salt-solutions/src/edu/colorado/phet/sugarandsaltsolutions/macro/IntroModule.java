@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro;
+package edu.colorado.phet.sugarandsaltsolutions.macro;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
-import edu.colorado.phet.sugarandsaltsolutions.intro.view.IntroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.IntroCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**

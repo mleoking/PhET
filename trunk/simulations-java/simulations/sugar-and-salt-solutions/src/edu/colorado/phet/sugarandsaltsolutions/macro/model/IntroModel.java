@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro.model;
+package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 

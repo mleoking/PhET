@@ -25,10 +25,10 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.SoluteModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
