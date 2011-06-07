@@ -8,9 +8,7 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * User: Sam Reid
- * Date: May 29, 2004
- * Time: 12:19:48 AM
+ * Model class for an Electron object, which moves along a Branch.
  */
 public class Electron extends SimpleObservableDebug {
     private Branch branch;
@@ -32,10 +30,6 @@ public class Electron extends SimpleObservableDebug {
         updatePosition();
         observer = new Observer( this );
         branch.addObserver( observer );
-    }
-
-    public void addObserver( SimpleObserver so ) {
-        super.addObserver( so );
     }
 
     public static class Observer implements SimpleObserver {
@@ -138,11 +132,7 @@ public class Electron extends SimpleObservableDebug {
         return "Electron, deleted=" + deleted + ", observers= " + Arrays.asList( getObserverList() );
     }
 
-    /**
-     * For use in debugging.
-     *
-     * @return
-     */
+    //For use in debugging.
     public boolean isDeleted() {
         return deleted;
     }
