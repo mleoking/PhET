@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Canvas for the "Multiple Capacitors" module.
  * </p>
  * This canvas has much in common with DielectricCanvas, but was developed added much later, uses a different
- * representation for circuits, has different parameterizations of some view components.  I attempted to force some
+ * representation for circuits, has different parametrizations of some view components.  I attempted to force some
  * of the common bits into the base class, but it because messy and less readable. So I decided that a bit of
  * duplication is preferable here.
  *
