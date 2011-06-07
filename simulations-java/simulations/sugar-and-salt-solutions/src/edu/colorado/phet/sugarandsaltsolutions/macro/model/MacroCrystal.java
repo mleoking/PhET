@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.intro.model;
+package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
 import java.awt.geom.Line2D;
 import java.util.ArrayList;

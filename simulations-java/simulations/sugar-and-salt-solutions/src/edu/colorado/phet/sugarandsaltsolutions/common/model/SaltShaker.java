@@ -8,7 +8,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 

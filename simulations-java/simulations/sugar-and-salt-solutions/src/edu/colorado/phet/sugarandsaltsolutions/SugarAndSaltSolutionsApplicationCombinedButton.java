@@ -4,8 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.sugarandsaltsolutions.intro.model.IntroModel;
-import edu.colorado.phet.sugarandsaltsolutions.intro.view.RemoveSaltSugarButton;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.IntroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSaltSugarButton;
 import edu.umd.cs.piccolo.PNode;
 
 /**
