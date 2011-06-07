@@ -60,6 +60,9 @@ public class MicroscopicCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
         rootNode.addChild( particleNode );
 
+        //Set the transform from stage coordinates to screen coordinates
+        setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
+
         //Adapter method for wiring up components to listen to when the model updates
         final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
