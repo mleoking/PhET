@@ -1,7 +1,7 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- bug: in "excess charge" view, dielectric should have the same or fewer charges along the edge as there are along the edge of the plates
+- bug: #2929, excess charge view shows too many charges in some cases
 
 MEDIUM PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses
