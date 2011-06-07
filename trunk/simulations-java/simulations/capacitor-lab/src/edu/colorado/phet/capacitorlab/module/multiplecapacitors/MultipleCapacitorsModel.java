@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MultipleCapacitorsModel {
+public class MultipleCapacitorsModel extends CLModel {
 
     // Circuits
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.030, 0 ); // meters
@@ -71,7 +71,6 @@ public class MultipleCapacitorsModel {
     // directly observable properties
     public final Property<ICircuit> currentCircuitProperty;
 
-    private final WorldBounds worldBounds;
     private final CapacitanceMeter capacitanceMeter;
     private final PlateChargeMeter plateChargeMeter;
     private final StoredEnergyMeter storedEnergyMeter;
@@ -106,17 +105,15 @@ public class MultipleCapacitorsModel {
 
         batteryVoltageProperty = new Property<Double>( currentCircuitProperty.get().getBattery().getVoltage() );
 
-        worldBounds = new WorldBounds();
+        capacitanceMeter = new CapacitanceMeter( currentCircuitProperty.get(), getWorldBounds(), CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( currentCircuitProperty.get(), getWorldBounds(), PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( currentCircuitProperty.get(), getWorldBounds(), STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
 
-        capacitanceMeter = new CapacitanceMeter( currentCircuitProperty.get(), worldBounds, CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( currentCircuitProperty.get(), worldBounds, PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( currentCircuitProperty.get(), worldBounds, STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
-
-        eFieldDetector = new EFieldDetector( currentCircuitProperty.get(), worldBounds, EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( currentCircuitProperty.get(), getWorldBounds(), EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
                                              EFIELD_DETECTOR_VISIBLE, EFIELD_PLATE_VECTOR_VISIBLE, EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              EFIELD_SUM_VECTOR_VISIBLE, EFIELD_VALUES_VISIBLE );
 
-        voltmeter = new Voltmeter( currentCircuitProperty.get(), worldBounds, mvt,
+        voltmeter = new Voltmeter( currentCircuitProperty.get(), getWorldBounds(), mvt,
                                    VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    VOLTMETER_VISIBLE );
 
@@ -161,10 +158,6 @@ public class MultipleCapacitorsModel {
             circuit.reset();
         }
         currentCircuitProperty.reset();
-    }
-
-    public WorldBounds getWorldBounds() {
-        return worldBounds;
     }
 
     public ArrayList<ICircuit> getCircuits() {
