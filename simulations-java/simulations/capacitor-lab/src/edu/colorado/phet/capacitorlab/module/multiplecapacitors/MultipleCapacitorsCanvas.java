@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
@@ -19,7 +17,6 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -35,11 +32,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MultipleCapacitorsCanvas extends CLCanvas {
-
-    // global view properties, directly observable
-    public final Property<Boolean> plateChargesVisibleProperty = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final CLGlobalProperties globalProperties;
     private final MultipleCapacitorsModel model;
@@ -68,7 +60,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         circuitParentNode = new PNode();
         for ( ICircuit circuit : model.getCircuits() ) {
             PNode node = new MultipleCapacitorsCircuitNode( circuit, mvt, false /* dielectricVisible */,
-                                                            plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                            getPlateChargesVisibleProperty(), getEFieldVisibleProperty(), getDielectricChargeViewProperty(),
                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             node.setVisible( false );
             circuitParentNode.addChild( node );
@@ -118,10 +110,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     public void reset() {
         super.reset();
-        // global properties of the view
-        plateChargesVisibleProperty.reset();
-        eFieldVisibleProperty.reset();
-        dielectricChargeViewProperty.reset();
         // zoom level of bar meters
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();

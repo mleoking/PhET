@@ -8,7 +8,9 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -18,6 +20,11 @@ import edu.umd.cs.piccolo.PNode;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public abstract class CLCanvas extends PhetPCanvas {
+
+    // global view properties, directly observable
+    private final Property<Boolean> plateChargesVisibleProperty = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
+    private final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
+    private final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final CLModel model;
     private final CLModelViewTransform3D mvt; // model-view transform
@@ -35,7 +42,10 @@ public abstract class CLCanvas extends PhetPCanvas {
     }
 
     public void reset() {
-        // nothing to do
+        // global properties of the view
+        plateChargesVisibleProperty.reset();
+        eFieldVisibleProperty.reset();
+        dielectricChargeViewProperty.reset();
     }
 
     // Adds a child node to the root node.
@@ -48,6 +58,18 @@ public abstract class CLCanvas extends PhetPCanvas {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );
         }
+    }
+
+    public Property<Boolean> getPlateChargesVisibleProperty() {
+        return plateChargesVisibleProperty;
+    }
+
+    public Property<Boolean> getEFieldVisibleProperty() {
+        return eFieldVisibleProperty;
+    }
+
+    public Property<DielectricChargeView> getDielectricChargeViewProperty() {
+        return dielectricChargeViewProperty;
     }
 
     @Override protected void updateLayout() {
