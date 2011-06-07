@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.model.*;
+import edu.colorado.phet.circuitconstructionkit.model.Electron.Observer;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -145,16 +146,24 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public void notifyObservers() {
-        ArrayList<SimpleObserver> so = getObserverList();
-        for ( int i = 0; i < so.size(); i++ ) {
-            SimpleObserver simpleObserver = so.get( i );
-            if ( simpleObserver instanceof Electron.Observer ) {
-                Electron.Observer e = (Electron.Observer) simpleObserver;//todo: why need for casting?
+        //Find out which electrons should not be updated since they have been removed from the model
+        ArrayList<Electron.Observer> toRemove = new ArrayList<Observer>();
+        for ( int i = 0; i < getObserverList().size(); i++ ) {
+            SimpleObserver observer = getObserverList().get( i );
+            if ( observer instanceof Electron.Observer ) {
+                Electron.Observer e = (Electron.Observer) observer;
                 if ( e.isDeleted() ) {
-                    removeObserver( simpleObserver );
+                    toRemove.add( e );
                 }
             }
         }
+
+        //Remove any deleted electrons from our list
+        for ( Observer observer : toRemove ) {
+            removeObserver( observer );
+        }
+
+        //Notify any remaining listeners that the Branch state has changed.
         super.notifyObservers();
     }
 
