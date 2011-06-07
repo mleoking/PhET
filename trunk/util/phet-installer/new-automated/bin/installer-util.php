@@ -502,7 +502,6 @@
         return true;
     }
 
-    
     //--------------------------------------------------------------------------
     // Build the rommable distribution, which is a file that contains all of the
     // platform-specific installers plus the appropriate autorun files.

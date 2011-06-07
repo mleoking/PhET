@@ -40,6 +40,9 @@
         if ($config == "PHET"){
             $ripper_args = RIPPER_ARGS_PHET;
         }
+        else if ($config == "PHET_WITH_ACTIVITIES"){
+            $ripper_args = RIPPER_ARGS_PHET_WITH_ACTIVITIES;
+        }
         else if ($config == "YF"){
             $ripper_args = RIPPER_ARGS_YF;
         }
