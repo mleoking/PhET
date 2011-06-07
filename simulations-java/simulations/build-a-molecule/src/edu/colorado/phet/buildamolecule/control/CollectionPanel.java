@@ -101,11 +101,6 @@ public class CollectionPanel extends PNode {
                                  @Override protected void previous() {
                                      collectionList.switchToPreviousCollection();
                                  }
-
-                                 @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                                     // TODO more elegant way to handle addPropertyChangeListener hack
-                                 }
-
                              }, method, 0, 0, 10, 0 );
 
         // all of the collection boxes themselves
