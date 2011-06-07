@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class WeightNode extends ModelObjectNode {
     public WeightNode( final ModelViewTransform mvt, final Weight weight ) {
         // TODO: Temp - at this point, all weights are bricks, but this obviously won't work long term.
-        super( mvt, weight, Color.RED );
+        super( mvt, weight, new Color( 205, 38, 38 ) );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
             @Override protected void startDrag( PInputEvent event ) {
