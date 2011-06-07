@@ -284,10 +284,6 @@
     define("BITROCK_DIST_SRC_Linux",      file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Linux));
     define("BITROCK_DIST_SRC_Mac",        file_cleanup_local_filename(BITROCK_DIST_DIR.BITROCK_DISTNAME_Mac));
 
-    define("BITROCK_DIST_DEST_WINNT",     file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_WINNT));
-    define("BITROCK_DIST_DEST_Linux",     file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Linux));
-    define("BITROCK_DIST_DEST_Mac",       file_cleanup_local_filename(OUTPUT_DIR.BITROCK_DISTNAME_Mac));
-
     define("BITROCK_PRE_ARGS",            " build ");
 
     define("BITROCK_OUTPUT_DIR",          file_cleanup_local_filename(ROOT_DIR."BitRock/output/"));
