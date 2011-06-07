@@ -7,7 +7,6 @@ MEDIUM PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses
 - factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
-- add "circuit selection" screenshots to design doc, with verbage
 - document model.circuit package
 - create implementation notes document
 
@@ -17,4 +16,4 @@ LOW PRIORITY
 - small (100mm^2) capacitor plates look like they are at a 46-degree yaw, instead of 45-degree
 - remove unused code
 
---                               ˚
+--
