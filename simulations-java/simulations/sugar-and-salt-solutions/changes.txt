@@ -1,3 +1,5 @@
+Added "Table Salt" tab from Salts & Solubility as new "Micro" tab
+Renamed last tab to "Water"
 Increased the number of grams per grain of salt/sugar
 Renamed tabs to "Macro" and "Micro"
 # 0.00.28 (52384) May 25, 2011

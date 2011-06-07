@@ -36,7 +36,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
         Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
         Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );
-        Module moduleC = new SodiumChlorideModule( new SolubleSaltsClock() );
+        Module moduleC = new SodiumChlorideModule( new SolubleSaltsClock(), SolubleSaltResources.getString( "Module.sodiumChloride" ) );
 
         setModules( new Module[]{moduleC, moduleA, moduleB} );
 
@@ -46,7 +46,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
         }
     }
 
-    static class SolubleSaltsClock extends SwingClock {
+    public static class SolubleSaltsClock extends SwingClock {
         public SolubleSaltsClock() {
             super( 1000 / SolubleSaltsConfig.FPS, SolubleSaltsConfig.DT );
         }

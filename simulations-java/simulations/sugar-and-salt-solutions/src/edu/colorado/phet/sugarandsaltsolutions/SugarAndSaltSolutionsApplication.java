@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
+import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.intro.IntroModule;
@@ -36,6 +38,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
         //Create the modules
         addModule( new IntroModule( configuration, getRemoveSolutesControl() ) );
+        addModule( new SodiumChlorideModule( new SolubleSaltsClock(), "Micro" ) );
         addModule( new MicroscopicModule( configuration ) );
 
         //Add developer menus for changing the color of background and salt

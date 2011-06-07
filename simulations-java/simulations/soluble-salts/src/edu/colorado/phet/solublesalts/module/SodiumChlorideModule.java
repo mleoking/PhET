@@ -34,9 +34,10 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
      * Only constructor
      *
      * @param clock
+     * @param title
      */
-    public SodiumChlorideModule( IClock clock ) {
-        super( SolubleSaltResources.getString( "Module.sodiumChloride" ),
+    public SodiumChlorideModule( IClock clock, final String title ) {
+        super( title,
                clock,
                new SolubleSaltsConfig.Calibration( 1.7342E-25,
                                                    5E-23,
