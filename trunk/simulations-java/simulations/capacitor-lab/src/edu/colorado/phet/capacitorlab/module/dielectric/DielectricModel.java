@@ -16,10 +16,19 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 
 /**
  * Model for the "Dielectric" module.
+ * </p>
+ * This model has much in common with MultipleCapacitorsModel, but was developed added much earlier,
+ * and is parametrized differently (with a large number of parameters).
+ * I attempted to force some of the common bits into the base class, but it because messy and less readable.
+ * So I decided that a bit of duplication is preferable here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricModel extends CLModel {
+
+    //================================================================================
+    // Model parameter values
+    //================================================================================
 
     // Circuit
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
@@ -57,6 +66,8 @@ public class DielectricModel extends CLModel {
     public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( BATTERY_LOCATION.getX() + 0.015, BATTERY_LOCATION.getY(), BATTERY_LOCATION.getZ() );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
     public static final boolean VOLTMETER_VISIBLE = false;
+
+    //================================================================================
 
     private final DielectricMaterial[] dielectricMaterials;
     private final SingleCircuit circuit;

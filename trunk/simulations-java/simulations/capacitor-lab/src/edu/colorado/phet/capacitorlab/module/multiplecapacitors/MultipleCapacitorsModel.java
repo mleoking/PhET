@@ -22,10 +22,19 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model for the "Multiple Capacitors" module.
+ * </p>
+ * This model has much in common with DielectricModel, but was developed added much later,
+ * and is parametrized differently (with a large number of parameters).
+ * I attempted to force some of the common bits into the base class, but it because messy and less readable.
+ * So I decided that a bit of duplication is preferable here.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class MultipleCapacitorsModel extends CLModel {
+
+    //================================================================================
+    // Model parameter values
+    //================================================================================
 
     // Circuits
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.030, 0 ); // meters
@@ -64,6 +73,8 @@ public class MultipleCapacitorsModel extends CLModel {
     public static final Point3D VOLTMETER_POSITIVE_PROBE_LOCATION = new Point3D.Double( 0.035, 0.042, 0 );
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( 0.038, 0.042, 0 );
     public static final boolean VOLTMETER_VISIBLE = false;
+
+    //================================================================================
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
     private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
