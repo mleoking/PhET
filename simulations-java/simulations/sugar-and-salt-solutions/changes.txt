@@ -1,3 +1,4 @@
+Water tab: improved canvas resizing
 # 0.00.30 (52762) Jun 7, 2011
 Macro tab: moved the "remove salt" and "remove sugar" buttons to the right side of the beaker
 # 0.00.29 (52759) Jun 7, 2011
