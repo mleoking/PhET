@@ -11,6 +11,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
@@ -23,13 +24,20 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  */
 public class DefaultParticleNode extends PNode {
 
-    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, S3Element element ) {
+    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, final S3Element element ) {
 
         //Get the diameters in view coordinates
         double diameter = transform.modelToViewDeltaX( particle.radius * 2 );
 
         //Use images from chemistry since they look shaded and good colors
-        final PImage image = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( element.getRadius(), element.getColor() ).toImage() ), (int) diameter ) );
+        final PImage image = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( element.getRadius(), element.getColor() ) {{
+
+            //Show the label inside the particle
+            addChild( new PText( element.name ) {{setOffset( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() / 2 );}} );
+
+            //increase the resolution so when it is rasterized and scaled up it won't be blocky
+            scale( 2.0 );
+        }}.toImage() ), (int) diameter ) );
 
         //Update the graphics for the updated model objects
         VoidFunction0 update = new VoidFunction0() {

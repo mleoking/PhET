@@ -1,3 +1,4 @@
+Water tab: added labels to ions
 Water tab: Removed developer controls
 Water tab: Fixed reset all
 Water tab: Made it so particles don't go in front of the control panel
