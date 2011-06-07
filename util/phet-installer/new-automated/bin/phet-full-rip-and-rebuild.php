@@ -68,13 +68,38 @@
         // install a local mirror of the PhET web site.
         installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, OUTPUT_DIR );
 
-        // Build the CD-ROM distribution, which contains all of the
+        // Build the rommable distribution, which contains all of the installers
         // installers and is suitable for burning on CD.
         installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CDROM_FILE_NAME );
 
         // If specified, deploy the sims to the production web site.
         if ( $args->flag( 'deploy' ) ){
            deploy_all();
+        }
+
+        // Re-rip the site, but this time include the activities.  This should
+        // be an update of the initial rip, since we didn't delete that rip
+        // before kicking off this one.
+        ripper_rip_website( "PHET_WITH_ACTIVITIES" );
+
+        // Log the time at which the rip completed.
+        $rip_finish_time = exec( "date" );
+        flushing_echo( "Rip with activities completed at time $start_time" );
+
+        // Make sure permissions of the ripped website are correct.
+        file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
+
+        // Build the local installers, meaning installers that can be used to
+        // install a local mirror of the PhET web site.
+        installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, INSTALLERS_WITH_ACTIVITIES_DIR );
+
+        // Build the rommable distribution, which contains all of the installers
+        // installers and is suitable for burning on DVD.
+        installer_build_rommable_distribution( INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVDROM_FILE_NAME );
+
+        // Deploy the rommable file to the web site.
+        if ( $args->flag( 'deploy' ) ){
+           // TODO: Deploy the rommable file with activities to the web site.
         }
 
         // Output the time of completion.
