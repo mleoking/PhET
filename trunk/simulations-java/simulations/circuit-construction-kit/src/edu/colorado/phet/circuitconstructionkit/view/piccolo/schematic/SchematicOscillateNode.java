@@ -1,6 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.schematic;
 
+import java.awt.*;
+import java.awt.geom.Area;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponent;
@@ -10,11 +16,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Area;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -32,8 +33,8 @@ public class SchematicOscillateNode extends ComponentNode {
     private PhetPPath path;
     private static final double SCALE = 1.0 / 60.0;
 
-    public SchematicOscillateNode(CCKModel parent, CircuitComponent circuitComponent, JComponent jComponent, CCKModule module, double wireThickness) {
-        super(parent, circuitComponent, jComponent, module);
+    public SchematicOscillateNode( CCKModel parent, CircuitComponent circuitComponent, JComponent jComponent, CCKModule module, double wireThickness ) {
+        super( parent, circuitComponent, jComponent, module );
         this.component = circuitComponent;
         this.wireThickness = wireThickness;
         simpleObserver = new SimpleObserver() {
@@ -41,66 +42,67 @@ public class SchematicOscillateNode extends ComponentNode {
                 changed();
             }
         };
-        path = new PhetPPath(Color.black);
-        addChild(path);
-        component.addObserver(simpleObserver);
+        path = new PhetPPath( Color.black );
+        addChild( path );
+        component.addObserver( simpleObserver );
         changed();
-        setVisible(true);
+        setVisible( true );
     }
 
-    public void setVisible(boolean visible) {
-        super.setVisible(visible);
+    public void setVisible( boolean visible ) {
+        super.setVisible( visible );
     }
 
-    private ImmutableVector2D getVector(double east, double north) {
-        ImmutableVector2D e = eastDir.getScaledInstance(east);
-        ImmutableVector2D n = northDir.getScaledInstance(north);
-        return e.getAddedInstance(n);
+    private ImmutableVector2D getVector( double east, double north ) {
+        ImmutableVector2D e = eastDir.getScaledInstance( east );
+        ImmutableVector2D n = northDir.getScaledInstance( north );
+        return e.getAddedInstance( n );
     }
 
     protected void changed() {
         super.update();
         Point2D srcpt = component.getStartJunction().getPosition();
         Point2D dstpt = component.getEndJunction().getPosition();
-        ImmutableVector2D vector = new ImmutableVector2D(srcpt, dstpt);
+        ImmutableVector2D vector = new ImmutableVector2D( srcpt, dstpt );
         double fracDistToCathode = .1;
-        double fracDistToAnode = (1 - fracDistToCathode);
-        catPoint = vector.getScaledInstance(fracDistToCathode).getDestination(srcpt);
-        anoPoint = vector.getScaledInstance(fracDistToAnode).getDestination(srcpt);
+        double fracDistToAnode = ( 1 - fracDistToCathode );
+        catPoint = vector.getScaledInstance( fracDistToCathode ).getDestination( srcpt );
+        anoPoint = vector.getScaledInstance( fracDistToAnode ).getDestination( srcpt );
 
-        eastDir = vector.getInstanceOfMagnitude(1);
+        eastDir = vector.getInstanceOfMagnitude( 1 );
         northDir = eastDir.getNormalVector();
         double viewThickness = getViewThickness();
         double resistorThickness = viewThickness / 2.5;
         DoubleGeneralPath path = new DoubleGeneralPath();
-        path.moveTo(catPoint);
-        double length = catPoint.distance(anoPoint);
+        path.moveTo( catPoint );
+        double length = catPoint.distance( anoPoint );
         double dx = 1 * SCALE;
         double fracDistToStartSine = getFracDistToStartSine();
         double sinDist = length - 2 * length * fracDistToStartSine;
-        double omega = 2 * Math.PI / (sinDist);
-        for (double x = 0; x < length; x += dx) {
-            double y = getY(x, length, fracDistToStartSine, omega);
-            ImmutableVector2D v = getVector(x, y);
-            Point2D pt = v.getDestination(catPoint);
-            if (x > length * fracDistToStartSine && x < (length - length * fracDistToStartSine)) {
-                path.lineTo(pt);
-            } else {
-                path.moveTo(pt);
+        double omega = 2 * Math.PI / ( sinDist );
+        for ( double x = 0; x < length; x += dx ) {
+            double y = getY( x, length, fracDistToStartSine, omega );
+            ImmutableVector2D v = getVector( x, y );
+            Point2D pt = v.getDestination( catPoint );
+            if ( x > length * fracDistToStartSine && x < ( length - length * fracDistToStartSine ) ) {
+                path.lineTo( pt );
+            }
+            else {
+                path.moveTo( pt );
             }
         }
 
         Shape shape = path.getGeneralPath();
-        BasicStroke stroke = new BasicStroke((float) resistorThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1);
+        BasicStroke stroke = new BasicStroke( (float) resistorThickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1 );
 
-        Shape sha = stroke.createStrokedShape(shape);
-        Area area = new Area(sha);
-        area.add(new Area(LineSegment.getSegment(srcpt, catPoint, viewThickness)));
-        area.add(new Area(LineSegment.getSegment(anoPoint, dstpt, viewThickness)));
-        this.path.setPathTo(area);
+        Shape sha = stroke.createStrokedShape( shape );
+        Area area = new Area( sha );
+        area.add( new Area( LineSegment.getSegment( srcpt, catPoint, viewThickness ) ) );
+        area.add( new Area( LineSegment.getSegment( anoPoint, dstpt, viewThickness ) ) );
+        this.path.setPathTo( area );
 
-        getHighlightNode().setStroke(new BasicStroke(0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f));
-        getHighlightNode().setPathTo(area);
+        getHighlightNode().setStroke( new BasicStroke( 0.1f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f ) );
+        getHighlightNode().setPathTo( area );
     }
 
     protected double getFracDistToStartSine() {
@@ -111,8 +113,8 @@ public class SchematicOscillateNode extends ComponentNode {
         return wireThickness;
     }
 
-    protected double getY(double x, double dist, double fracDistToStartSine, double omega) {
-        return -10 * Math.sin((x - dist * fracDistToStartSine) * omega) * SCALE;
+    protected double getY( double x, double dist, double fracDistToStartSine, double omega ) {
+        return -10 * Math.sin( ( x - dist * fracDistToStartSine ) * omega ) * SCALE;
     }
 
     public CircuitComponent getCircuitComponent() {
@@ -121,7 +123,7 @@ public class SchematicOscillateNode extends ComponentNode {
 
     public void delete() {
         super.delete();
-        component.removeObserver(simpleObserver);
+        component.removeObserver( simpleObserver );
     }
 
     protected Point2D getAnoPoint() {

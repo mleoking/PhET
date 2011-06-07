@@ -1,6 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
+import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.controls.GrabBagButton;
 import edu.colorado.phet.circuitconstructionkit.controls.SimpleKeyEvent;
@@ -11,16 +21,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * User: Sam Reid
@@ -44,76 +44,76 @@ public class CCKSimulationPanel extends PhetPCanvas {
     private final CCKBackground backgroundNode;
     public WarningMessageNode warningMessageNode;
 
-    public CCKSimulationPanel(CCKModel model, final CCKModule module, IClock clock) {
-        super(new Dimension(10, 10));
+    public CCKSimulationPanel( CCKModel model, final CCKModule module, IClock clock ) {
+        super( new Dimension( 10, 10 ) );
         this.model = model;
         this.module = module;
 
-        backgroundNode = new CCKBackground(model, this);
-        addScreenChild(backgroundNode);
-        setBackground(CCKModule.BACKGROUND_COLOR);
+        backgroundNode = new CCKBackground( model, this );
+        addScreenChild( backgroundNode );
+        setBackground( CCKModule.BACKGROUND_COLOR );
 
-        branchNodeFactory = new BranchNodeFactory(model, this, module, module.getCCKViewState().getLifelikeProperty());
-        toolboxSuite = new ToolboxNodeSuite(model, module, this, branchNodeFactory, module.getCCKViewState().getLifelikeProperty());
-        addScreenChild(toolboxSuite);
+        branchNodeFactory = new BranchNodeFactory( model, this, module, module.getCCKViewState().getLifelikeProperty() );
+        toolboxSuite = new ToolboxNodeSuite( model, module, this, branchNodeFactory, module.getCCKViewState().getLifelikeProperty() );
+        addScreenChild( toolboxSuite );
 
-        circuitNode = new CircuitNode(model, model.getCircuit(), this, module, branchNodeFactory, module.getCCKViewState().getReadoutsVisibleProperty(), module.getCCKViewState().getLifelikeProperty());
-        addWorldChild(circuitNode);
+        circuitNode = new CircuitNode( model, model.getCircuit(), this, module, branchNodeFactory, module.getCCKViewState().getReadoutsVisibleProperty(), module.getCCKViewState().getLifelikeProperty() );
+        addWorldChild( circuitNode );
 
-        measurementToolSetNode = new MeasurementToolSetNode(model, this, module, module.getVoltmeterModel(), clock);
-        addWorldChild(measurementToolSetNode);
+        measurementToolSetNode = new MeasurementToolSetNode( model, this, module, module.getVoltmeterModel(), clock );
+        addWorldChild( measurementToolSetNode );
         messageNode = new MessageNode();
-        addScreenChild(messageNode);
+        addScreenChild( messageNode );
 
-        chartSetNode = new ChartSetNode(this, model.getCircuit(), clock);
-        addScreenChild(chartSetNode);
+        chartSetNode = new ChartSetNode( this, model.getCircuit(), clock );
+        addScreenChild( chartSetNode );
 
-        cckHelpSuite = new CCKHelpSuite(this, module);
-        addScreenChild(cckHelpSuite);
+        cckHelpSuite = new CCKHelpSuite( this, module );
+        addScreenChild( cckHelpSuite );
 
-        rightClickHelpNode = new RightClickHelpNode(this, module);
-        addScreenChild(rightClickHelpNode);
+        rightClickHelpNode = new RightClickHelpNode( this, module );
+        addScreenChild( rightClickHelpNode );
 
-        addKeyListener(new SimpleKeyEvent(KeyEvent.VK_SPACE) {
+        addKeyListener( new SimpleKeyEvent( KeyEvent.VK_SPACE ) {
             public void invoke() {
                 super.invoke();
                 addTestElement();
             }
-        });
-        setWorldScale(30);
-        addComponentListener(new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
+        } );
+        setWorldScale( 30 );
+        addComponentListener( new ComponentAdapter() {
+            public void componentResized( ComponentEvent e ) {
                 relayout();
             }
-        });
+        } );
 
         requestFocus();
-        addKeyListener(new KeyListener() {
-            public void keyPressed(KeyEvent e) {
+        addKeyListener( new KeyListener() {
+            public void keyPressed( KeyEvent e ) {
             }
 
-            public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_A && e.isControlDown()) {
+            public void keyReleased( KeyEvent e ) {
+                if ( e.getKeyCode() == KeyEvent.VK_A && e.isControlDown() ) {
                     module.selectAll();
                 }
-                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE) {
+                if ( e.getKeyCode() == KeyEvent.VK_BACK_SPACE || e.getKeyCode() == KeyEvent.VK_DELETE ) {
                     module.desolderSelection();
                     module.deleteSelectedBranches();
                 }
             }
 
-            public void keyTyped(KeyEvent e) {
+            public void keyTyped( KeyEvent e ) {
             }
-        });
-        timeScaleNode = new TimeScaleNode(this, model);
-        addScreenChild(timeScaleNode);
-        timeScaleNode.addPropertyChangeListener(PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
+        } );
+        timeScaleNode = new TimeScaleNode( this, model );
+        addScreenChild( timeScaleNode );
+        timeScaleNode.addPropertyChangeListener( PNode.PROPERTY_VISIBLE, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
                 relayout();
             }
-        });
+        } );
 
-        warningMessageNode = new WarningMessageNode(model.getCircuit());
+        warningMessageNode = new WarningMessageNode( model.getCircuit() );
 
 // todo: we may eventually add a different warning message,
 // so for right now I'm just commenting this out, see #2087 for first usage and #2282 for potential future usage
@@ -123,13 +123,13 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private void relayout() {
-        if (getWidth() > 0) {
-            if (grabBagPSwing != null) {
+        if ( getWidth() > 0 ) {
+            if ( grabBagPSwing != null ) {
                 updateButtonLayout();
             }
             updateToolboxLayout();
             updateTimeScaleNodeLayout();
-            warningMessageNode.setOffset(getTimeScaleNodeX(), getTimeScaleNodeY() - warningMessageNode.getFullBounds().getHeight() - 5);
+            warningMessageNode.setOffset( getTimeScaleNodeX(), getTimeScaleNodeY() - warningMessageNode.getFullBounds().getHeight() - 5 );
         }
     }
 
@@ -138,20 +138,20 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private void updateToolboxLayout() {
-        toolboxSuite.setTransform(new AffineTransform());
+        toolboxSuite.setTransform( new AffineTransform() );
         Rectangle2D rect = toolboxSuite.getGlobalFullBounds();
-        getPhetRootNode().globalToScreen(rect);
+        getPhetRootNode().globalToScreen( rect );
         int bottomInsetY = 5;
         double distBetweenGrabBagAndToolbarTop = getHeight() > 600 ? 50 : 10;
         double availableHeightForToolbar = getHeight() - bottomInsetY - distBetweenGrabBagAndToolbarTop - getToolboxTopY();
         double sy = availableHeightForToolbar / rect.getHeight();
-        toolboxSuite.scale(sy);
+        toolboxSuite.scale( sy );
         double insetX = 8;
-        toolboxSuite.setOffset(getWidth() - toolboxSuite.getFullBounds().getWidth() - insetX, getToolboxTopY() + distBetweenGrabBagAndToolbarTop);
+        toolboxSuite.setOffset( getWidth() - toolboxSuite.getFullBounds().getWidth() - insetX, getToolboxTopY() + distBetweenGrabBagAndToolbarTop );
     }
 
     private void updateTimeScaleNodeLayout() {
-        timeScaleNode.setOffset(getTimeScaleNodeX(), getTimeScaleNodeY());
+        timeScaleNode.setOffset( getTimeScaleNodeX(), getTimeScaleNodeY() );
     }
 
     private int getTimeScaleNodeX() {
@@ -159,58 +159,59 @@ public class CCKSimulationPanel extends PhetPCanvas {
     }
 
     private double getTimeScaleNodeY() {
-        timeScaleNode.setScale(1.0);
+        timeScaleNode.setScale( 1.0 );
         double timeScaleGraphicRatio = timeScaleNode.getFullBounds().getWidth() / getWidth();
-        if (timeScaleGraphicRatio > 0.8) {
-            timeScaleNode.setScale(0.8 / timeScaleGraphicRatio);
-        } else {
-            timeScaleNode.setScale(1.0);
+        if ( timeScaleGraphicRatio > 0.8 ) {
+            timeScaleNode.setScale( 0.8 / timeScaleGraphicRatio );
+        }
+        else {
+            timeScaleNode.setScale( 1.0 );
         }
         double timeScaleNodeY = getHeight() - 10 - timeScaleNode.getFullBounds().getHeight();
         return timeScaleNodeY;
     }
 
     private void addTestElement() {
-        model.getCircuit().addBranch(new Wire(model.getCircuitChangeListener(), new Junction(5, 5), new Junction(8, 5)));
+        model.getCircuit().addBranch( new Wire( model.getCircuitChangeListener(), new Junction( 5, 5 ), new Junction( 8, 5 ) ) );
     }
 
-    public void setToolboxBackgroundColor(Color color) {
-        toolboxSuite.setBackground(color);
+    public void setToolboxBackgroundColor( Color color ) {
+        toolboxSuite.setBackground( color );
     }
 
     public Color getToolboxBackgroundColor() {
         return toolboxSuite.getBackgroundColor();
     }
 
-    public void setVoltmeterVisible(boolean visible) {
-        measurementToolSetNode.setVoltmeterVisible(visible);
+    public void setVoltmeterVisible( boolean visible ) {
+        measurementToolSetNode.setVoltmeterVisible( visible );
     }
 
     public CircuitNode getCircuitNode() {
         return circuitNode;
     }
 
-    public void setVirtualAmmeterVisible(boolean selected) {
-        measurementToolSetNode.setVirtualAmmeterVisible(selected);
+    public void setVirtualAmmeterVisible( boolean selected ) {
+        measurementToolSetNode.setVirtualAmmeterVisible( selected );
     }
 
-    public void setStopwatchVisible(boolean selected) {
-        measurementToolSetNode.setStopwatchVisible(selected);
+    public void setStopwatchVisible( boolean selected ) {
+        measurementToolSetNode.setStopwatchVisible( selected );
     }
 
-    public void setSeriesAmmeterVisible(boolean selected) {
-        toolboxSuite.setSeriesAmmeterVisible(selected);
+    public void setSeriesAmmeterVisible( boolean selected ) {
+        toolboxSuite.setSeriesAmmeterVisible( selected );
     }
 
     public void addGrabBag() {
-        GrabBagButton grabBagButton = new GrabBagButton(module);
-        grabBagPSwing = new PSwing(grabBagButton);
-        addScreenChild(grabBagPSwing);
+        GrabBagButton grabBagButton = new GrabBagButton( module );
+        grabBagPSwing = new PSwing( grabBagButton );
+        addScreenChild( grabBagPSwing );
     }
 
     public void updateButtonLayout() {
         int buttonInset = 4;
-        grabBagPSwing.setOffset(getWidth() - grabBagPSwing.getFullBounds().getWidth() - buttonInset, buttonInset);
+        grabBagPSwing.setOffset( getWidth() - grabBagPSwing.getFullBounds().getWidth() - buttonInset, buttonInset );
     }
 
     public ToolboxNodeSuite getToolboxNodeSuite() {
@@ -221,19 +222,19 @@ public class CCKSimulationPanel extends PhetPCanvas {
         cckHelpSuite.applicationStarted();
     }
 
-    public void setHelpEnabled(boolean enabled) {
-        cckHelpSuite.setHelpEnabled(enabled);
+    public void setHelpEnabled( boolean enabled ) {
+        cckHelpSuite.setHelpEnabled( enabled );
     }
 
     public PNode getWireMaker() {
         return toolboxSuite.getWireMaker();
     }
 
-    public void setZoom(double zoom) {
-        AffineTransform desiredTx = circuitNode.getTransformForZoom(zoom, this);
+    public void setZoom( double zoom ) {
+        AffineTransform desiredTx = circuitNode.getTransformForZoom( zoom, this );
         int animateTime = 2000;
-        circuitNode.animateToTransform(desiredTx, animateTime);
-        measurementToolSetNode.animateToTransform(desiredTx, animateTime);
+        circuitNode.animateToTransform( desiredTx, animateTime );
+        measurementToolSetNode.animateToTransform( desiredTx, animateTime );
     }
 
     public void addCurrentChart() {
@@ -252,7 +253,7 @@ public class CCKSimulationPanel extends PhetPCanvas {
         return backgroundNode.getColor();
     }
 
-    public void setCCKBackground(Color color) {
-        backgroundNode.setColor(color);
+    public void setCCKBackground( Color color ) {
+        backgroundNode.setColor( color );
     }
 }

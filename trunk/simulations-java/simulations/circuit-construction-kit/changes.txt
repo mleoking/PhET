@@ -1,3 +1,4 @@
+Reformatted according to current PhET IntelliJ code style
 6/7/11 removed duplicated code in Electron's internal observer, see #2919
 # 3.19.01 (52605) Jun 2, 2011
 4/14/11 replaced images for 'bag.gif', 'stopwatch-thumb.png', 'dog.gif'. see #2800

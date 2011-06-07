@@ -1,16 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.CCKSimulationPanel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -24,27 +24,27 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     private TwoTerminalValueReader valueReader;
     private PhetPCanvas phetPCanvas;
 
-    public DoubleTerminalFloatingChart(PhetPCanvas phetPCanvas, String title, TwoTerminalValueReader valueReader, IClock clock) {
-        super(title, clock);
+    public DoubleTerminalFloatingChart( PhetPCanvas phetPCanvas, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+        super( title, clock );
         this.valueReader = valueReader;
         this.phetPCanvas = phetPCanvas;
 
-        leftCrosshairNode = new CrosshairNode(this, 10, 15);
-        rightCrosshairNode = new CrosshairNode(this, 10, 15);
-        CrosshairConnection leftCrosshairConnection = new CrosshairConnection(this, leftCrosshairNode);
-        addChild(leftCrosshairConnection);
-        CrosshairConnection rightCrosshairConnection = new CrosshairConnection(this, rightCrosshairNode);
-        addChild(rightCrosshairConnection);
+        leftCrosshairNode = new CrosshairNode( this, 10, 15 );
+        rightCrosshairNode = new CrosshairNode( this, 10, 15 );
+        CrosshairConnection leftCrosshairConnection = new CrosshairConnection( this, leftCrosshairNode );
+        addChild( leftCrosshairConnection );
+        CrosshairConnection rightCrosshairConnection = new CrosshairConnection( this, rightCrosshairNode );
+        addChild( rightCrosshairConnection );
 
-        addChild(leftCrosshairNode);
-        addChild(rightCrosshairNode);
+        addChild( leftCrosshairNode );
+        addChild( rightCrosshairNode );
         StripChartJFCNode stripChartJFCNode = super.getStripChartJFCNode();
-        stripChartJFCNode.setOffset(-stripChartJFCNode.getFullBounds().getWidth() - leftCrosshairNode.getFullBounds().getWidth() / 2.0,
-                -stripChartJFCNode.getFullBounds().getHeight() / 2.0);
+        stripChartJFCNode.setOffset( -stripChartJFCNode.getFullBounds().getWidth() - leftCrosshairNode.getFullBounds().getWidth() / 2.0,
+                                     -stripChartJFCNode.getFullBounds().getHeight() / 2.0 );
         double crosshairOffsetDX = leftCrosshairNode.getFullBounds().getWidth() * 1.25;
-        leftCrosshairNode.translate(crosshairOffsetDX, -30);
-        rightCrosshairNode.translate(crosshairOffsetDX, 30);
-        stripChartJFCNode.addInputEventListener(new DoubleTerminalFloatingChart.PairDragHandler());
+        leftCrosshairNode.translate( crosshairOffsetDX, -30 );
+        rightCrosshairNode.translate( crosshairOffsetDX, 30 );
+        stripChartJFCNode.addInputEventListener( new DoubleTerminalFloatingChart.PairDragHandler() );
     }
 
     public CrosshairNode getLeftCrosshairGraphic() {
@@ -57,11 +57,11 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
 
     public void update() {
         super.update();
-        if (leftCrosshairNode != null && valueReader != null) {
+        if ( leftCrosshairNode != null && valueReader != null ) {
             //get the coordinate in the wavefunctiongraphic.
-            double value = valueReader.getValue(getLeftShape(), getRightShape());
+            double value = valueReader.getValue( getLeftShape(), getRightShape() );
             double t = super.getClock().getSimulationTime();
-            getStripChartJFCNode().addValue(t, value);
+            getStripChartJFCNode().addValue( t, value );
         }
     }
 
@@ -69,16 +69,16 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
 
     protected abstract Shape getLeftShape();
 
-    public void setValueReader(TwoTerminalValueReader valueReader) {
+    public void setValueReader( TwoTerminalValueReader valueReader ) {
         this.valueReader = valueReader;
         update();
     }
 
     class PairDragHandler extends PDragEventHandler {
-        protected void drag(PInputEvent event) {
-            super.drag(event);
-            if (leftCrosshairNode.isAttached()) {
-                leftCrosshairNode.translate(event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight());
+        protected void drag( PInputEvent event ) {
+            super.drag( event );
+            if ( leftCrosshairNode.isAttached() ) {
+                leftCrosshairNode.translate( event.getCanvasDelta().getWidth(), event.getCanvasDelta().getHeight() );
             }
         }
     }
@@ -86,23 +86,23 @@ public abstract class DoubleTerminalFloatingChart extends AbstractFloatingChart 
     public static class Piccolo extends DoubleTerminalFloatingChart {
         private CCKSimulationPanel cckSimulationPanel;
 
-        public Piccolo(CCKSimulationPanel cckSimulationPanel, String title, TwoTerminalValueReader valueReader, IClock clock) {
-            super(cckSimulationPanel, title, valueReader, clock);
+        public Piccolo( CCKSimulationPanel cckSimulationPanel, String title, TwoTerminalValueReader valueReader, IClock clock ) {
+            super( cckSimulationPanel, title, valueReader, clock );
             this.cckSimulationPanel = cckSimulationPanel;
         }
 
         protected Shape getRightShape() {
-            return getShape(getRightCrosshairGraphic());
+            return getShape( getRightCrosshairGraphic() );
         }
 
-        private Shape getShape(PNode node) {
+        private Shape getShape( PNode node ) {
             Point2D location = node.getGlobalTranslation();
-            cckSimulationPanel.getCircuitNode().globalToLocal(location);
-            return new Rectangle2D.Double(location.getX(), location.getY(), 0.01, 0.01);
+            cckSimulationPanel.getCircuitNode().globalToLocal( location );
+            return new Rectangle2D.Double( location.getX(), location.getY(), 0.01, 0.01 );
         }
 
         protected Shape getLeftShape() {
-            return getShape(getLeftCrosshairGraphic());
+            return getShape( getLeftCrosshairGraphic() );
         }
     }
 

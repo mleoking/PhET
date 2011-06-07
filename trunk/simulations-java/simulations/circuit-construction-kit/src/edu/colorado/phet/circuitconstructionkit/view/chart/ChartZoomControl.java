@@ -11,9 +11,9 @@ import edu.umd.cs.piccolo.PNode;
  * Time: 11:19:45 AM
  */
 public class ChartZoomControl extends PNode {
-    public ChartZoomControl(final AbstractFloatingChart chart) {
-        ZoomControlNode child = new ZoomControlNode(ZoomControlNode.VERTICAL);
-        child.addZoomListener(new ZoomControlNode.ZoomListener() {
+    public ChartZoomControl( final AbstractFloatingChart chart ) {
+        ZoomControlNode child = new ZoomControlNode( ZoomControlNode.VERTICAL );
+        child.addZoomListener( new ZoomControlNode.ZoomListener() {
             public void zoomedOut() {
                 chart.zoomOut();
             }
@@ -21,8 +21,8 @@ public class ChartZoomControl extends PNode {
             public void zoomedIn() {
                 chart.zoomIn();
             }
-        });
-        addChild(child);
+        } );
+        addChild( child );
 
     }
 }

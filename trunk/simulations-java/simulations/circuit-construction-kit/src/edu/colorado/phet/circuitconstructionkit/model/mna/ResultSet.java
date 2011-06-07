@@ -13,17 +13,17 @@ public class ResultSet<A> implements Iterable<ResultSet.State<A>> {
 
     private final ArrayList<State<A>> states;
 
-    public ResultSet(ArrayList<State<A>> states) {
+    public ResultSet( ArrayList<State<A>> states ) {
         this.states = states;
     }
 
     public A getFinalState() {
-        return states.get(states.size() - 1).state;
+        return states.get( states.size() - 1 ).state;
     }
 
     public double getTotalTime() {
         double sum = 0.0;
-        for (State<A> state : states) sum += state.dt;
+        for ( State<A> state : states ) { sum += state.dt; }
         return sum;
     }
 
@@ -35,7 +35,7 @@ public class ResultSet<A> implements Iterable<ResultSet.State<A>> {
         double dt;
         A state;
 
-        public State(double dt, A state) {
+        public State( double dt, A state ) {
             this.state = state;
             this.dt = dt;
         }

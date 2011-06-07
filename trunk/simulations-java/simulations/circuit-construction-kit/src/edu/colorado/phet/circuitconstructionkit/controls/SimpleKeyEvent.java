@@ -12,15 +12,15 @@ import java.awt.event.KeyListener;
 public class SimpleKeyEvent implements KeyListener {
     int keycode;
 
-    public SimpleKeyEvent(int keycode) {
+    public SimpleKeyEvent( int keycode ) {
         this.keycode = keycode;
     }
 
-    public void keyPressed(KeyEvent e) {
+    public void keyPressed( KeyEvent e ) {
     }
 
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == keycode) {
+    public void keyReleased( KeyEvent e ) {
+        if ( e.getKeyCode() == keycode ) {
             invoke();
         }
     }
@@ -28,6 +28,6 @@ public class SimpleKeyEvent implements KeyListener {
     public void invoke() {
     }
 
-    public void keyTyped(KeyEvent e) {
+    public void keyTyped( KeyEvent e ) {
     }
 }

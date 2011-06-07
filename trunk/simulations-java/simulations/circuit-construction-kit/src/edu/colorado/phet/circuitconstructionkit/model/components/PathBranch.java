@@ -1,17 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.*;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CircuitChangeListener;
 import edu.colorado.phet.circuitconstructionkit.model.Junction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
-import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -22,24 +22,24 @@ public class PathBranch extends Branch {
     protected ArrayList segments = new ArrayList();
     private Point2D.Double startPoint;
 
-    public PathBranch(CircuitChangeListener listener, Junction startJunction, Junction endJunction) {
-        super(listener, startJunction, endJunction);
+    public PathBranch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
+        super( listener, startJunction, endJunction );
     }
 
-    public Point2D getPosition(double x) {
-        Location seg = getLocation(x);
+    public Point2D getPosition( double x ) {
+        Location seg = getLocation( x );
         return seg.getPoint2D();
     }
 
     public Shape getShape() {
-        return new BasicStroke((float) (CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER).createStrokedShape(getPath());
+        return new BasicStroke( (float) ( CCKDefaults.WIRE_THICKNESS * CCKDefaults.DEFAULT_SCALE ), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( getPath() );
     }
 
     public GeneralPath getPath() {
-        DoubleGeneralPath path = new DoubleGeneralPath(startPoint);
-        for (int i = 0; i < segments.size(); i++) {
-            Segment segment = (Segment) segments.get(i);
-            path.lineTo(segment.getEnd());
+        DoubleGeneralPath path = new DoubleGeneralPath( startPoint );
+        for ( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment) segments.get( i );
+            path.lineTo( segment.getEnd() );
         }
         return path.getGeneralPath();
     }
@@ -48,7 +48,7 @@ public class PathBranch extends Branch {
         private Segment segment;
         private double distAlongSegment;
 
-        public Location(Segment segment, double distAlongSegment) {
+        public Location( Segment segment, double distAlongSegment ) {
             this.segment = segment;
             this.distAlongSegment = distAlongSegment;
         }
@@ -62,19 +62,19 @@ public class PathBranch extends Branch {
         }
 
         public Point2D getPoint2D() {
-            ImmutableVector2D vec = new Vector2D(segment.getStart(), segment.getEnd());
-            vec = vec.getInstanceOfMagnitude(distAlongSegment);
-            return vec.getDestination(segment.getStart());
+            ImmutableVector2D vec = new Vector2D( segment.getStart(), segment.getEnd() );
+            vec = vec.getInstanceOfMagnitude( distAlongSegment );
+            return vec.getDestination( segment.getStart() );
         }
     }
 
-    public Location getLocation(double x) {
+    public Location getLocation( double x ) {
         double segStartsAt = 0;
-        for (int i = 0; i < numSegments(); i++) {
-            Segment seg = segmentAt(i);
+        for ( int i = 0; i < numSegments(); i++ ) {
+            Segment seg = segmentAt( i );
             double segStopsAt = segStartsAt + seg.getLength();
-            if (x <= segStopsAt) {
-                return new Location(seg, x - segStartsAt);
+            if ( x <= segStopsAt ) {
+                return new Location( seg, x - segStartsAt );
             }
             segStartsAt += seg.getLength();
         }
@@ -85,22 +85,22 @@ public class PathBranch extends Branch {
         return segments.size();
     }
 
-    public Segment segmentAt(int i) {
-        return (Segment) segments.get(i);
+    public Segment segmentAt( int i ) {
+        return (Segment) segments.get( i );
     }
 
     public static class Segment {
         Point2D start;
         Point2D end;
 
-        public Segment(Point2D start, Point2D end) {
+        public Segment( Point2D start, Point2D end ) {
             this.start = start;
             this.end = end;
-            if (Double.isNaN(start.getX()) || Double.isNaN(start.getY())) {
-                throw new RuntimeException("Start was NaN: " + start);
+            if ( Double.isNaN( start.getX() ) || Double.isNaN( start.getY() ) ) {
+                throw new RuntimeException( "Start was NaN: " + start );
             }
-            if (Double.isNaN(end.getX()) || Double.isNaN(end.getY())) {
-                throw new RuntimeException("end was NaN: " + end);
+            if ( Double.isNaN( end.getX() ) || Double.isNaN( end.getY() ) ) {
+                throw new RuntimeException( "end was NaN: " + end );
             }
         }
 
@@ -113,9 +113,9 @@ public class PathBranch extends Branch {
         }
 
         public double getLength() {
-            double dist = start.distance(end);
-            if (Double.isNaN(dist)) {
-                throw new RuntimeException(" Length was NaN.");
+            double dist = start.distance( end );
+            if ( Double.isNaN( dist ) ) {
+                throw new RuntimeException( " Length was NaN." );
             }
             return dist;
         }
@@ -123,34 +123,34 @@ public class PathBranch extends Branch {
 
     public double getLength() {
         double length = 0;
-        for (int i = 0; i < segments.size(); i++) {
-            Segment segment = (Segment) segments.get(i);
+        for ( int i = 0; i < segments.size(); i++ ) {
+            Segment segment = (Segment) segments.get( i );
             length += segment.getLength();
         }
-        if (Double.isNaN(length)) {
-            throw new RuntimeException("Length is NaN");
+        if ( Double.isNaN( length ) ) {
+            throw new RuntimeException( "Length is NaN" );
         }
         return length;
     }
 
-    public void reset(Point2D start, Point2D next) {
+    public void reset( Point2D start, Point2D next ) {
         segments.clear();
-        Segment seg = new Segment(start, next);
-        segments.add(seg);
+        Segment seg = new Segment( start, next );
+        segments.add( seg );
     }
 
-    public void addPoint(Point2D position) {
-        Segment seg = new Segment(lastPoint(), position);
-        segments.add(seg);
+    public void addPoint( Point2D position ) {
+        Segment seg = new Segment( lastPoint(), position );
+        segments.add( seg );
     }
 
     public Point2D lastPoint() {
-        return segmentAt(numSegments() - 1).getEnd();
+        return segmentAt( numSegments() - 1 ).getEnd();
     }
 
-    public void addPoint(ImmutableVector2D vec) {
-        Point2D pt = vec.getDestination(lastPoint());
-        addPoint(pt);
+    public void addPoint( ImmutableVector2D vec ) {
+        Point2D pt = vec.getDestination( lastPoint() );
+        addPoint( pt );
     }
 
 }

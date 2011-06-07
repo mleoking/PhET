@@ -9,5 +9,5 @@ import java.awt.*;
  * Time: 12:07:00 AM
  */
 public interface ClipFactory {
-    Shape getClip(ElectronNode electronNode);
+    Shape getClip( ElectronNode electronNode );
 }

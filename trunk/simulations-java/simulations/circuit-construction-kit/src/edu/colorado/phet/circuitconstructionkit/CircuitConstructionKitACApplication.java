@@ -11,15 +11,15 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
  * Apr 12, 2007, 11:48:01 PM
  */
 public class CircuitConstructionKitACApplication extends CircuitConstructionKitApplication {
-    public CircuitConstructionKitACApplication(PhetApplicationConfig config) {
-        super(config, true, false);
+    public CircuitConstructionKitACApplication( PhetApplicationConfig config ) {
+        super( config, true, false );
     }
 
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(new CircuitConstructionKitApplicationConfig(args, "circuit-construction-kit", "circuit-construction-kit-ac"), new ApplicationConstructor() {
-            public PhetApplication getApplication(PhetApplicationConfig config) {
-                return new CircuitConstructionKitACApplication(config);
+    public static void main( String[] args ) {
+        new PhetApplicationLauncher().launchSim( new CircuitConstructionKitApplicationConfig( args, "circuit-construction-kit", "circuit-construction-kit-ac" ), new ApplicationConstructor() {
+            public PhetApplication getApplication( PhetApplicationConfig config ) {
+                return new CircuitConstructionKitACApplication( config );
             }
-        });
+        } );
     }
 }

@@ -10,12 +10,12 @@ package edu.colorado.phet.circuitconstructionkit;
  */
 
 public class CCKStrings {
-    public static String getString(String s) {
-        return CCKResources.getString(s);
+    public static String getString( String s ) {
+        return CCKResources.getString( s );
     }
 
-    public static String getHTML(String key) {
-        String text = getString(key);
-        return "<html>" + text.replaceAll("\n", "<br>") + "</html>";
+    public static String getHTML( String key ) {
+        String text = getString( key );
+        return "<html>" + text.replaceAll( "\n", "<br>" ) + "</html>";
     }
 }

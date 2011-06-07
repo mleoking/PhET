@@ -9,21 +9,21 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
  * Time: 10:43:05 AM
  */
 public interface CircuitListener {
-    void junctionRemoved(Junction junction);
+    void junctionRemoved( Junction junction );
 
-    void branchRemoved(Branch branch);
+    void branchRemoved( Branch branch );
 
     void junctionsMoved();
 
-    void branchesMoved(Branch[] branches);
+    void branchesMoved( Branch[] branches );
 
-    void junctionAdded(Junction junction);
+    void junctionAdded( Junction junction );
 
-    void junctionsConnected(Junction a, Junction b, Junction newTarget);
+    void junctionsConnected( Junction a, Junction b, Junction newTarget );
 
-    void junctionsSplit(Junction old, Junction[] j);
+    void junctionsSplit( Junction old, Junction[] j );
 
-    void branchAdded(Branch branch);
+    void branchAdded( Branch branch );
 
     void selectionChanged();
 

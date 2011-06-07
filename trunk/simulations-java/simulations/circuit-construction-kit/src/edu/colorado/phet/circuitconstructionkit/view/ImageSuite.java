@@ -13,7 +13,7 @@ public class ImageSuite {
     BufferedImage batteryImage;
     BufferedImage switchImage;
 
-    public ImageSuite(BufferedImage resistorImage, BufferedImage batteryImage, BufferedImage switchImage) {
+    public ImageSuite( BufferedImage resistorImage, BufferedImage batteryImage, BufferedImage switchImage ) {
         this.resistorImage = resistorImage;
         this.batteryImage = batteryImage;
         this.switchImage = switchImage;
@@ -28,7 +28,7 @@ public class ImageSuite {
     }
 
     public double getBatteryImageAspectRatio() {
-        return ((double) batteryImage.getWidth()) / batteryImage.getHeight();
+        return ( (double) batteryImage.getWidth() ) / batteryImage.getHeight();
     }
 
 }

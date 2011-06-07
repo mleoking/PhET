@@ -3,6 +3,18 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.view.chart;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
+import org.jfree.data.Range;
+
 import edu.colorado.phet.circuitconstructionkit.CCKStrings;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -16,16 +28,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import org.jfree.data.Range;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -42,50 +44,50 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     private ClockAdapter clockListener;
     private ChartZoomControl chartZoomControl;
 
-    public AbstractFloatingChart(String title, final IClock clock) {
+    public AbstractFloatingChart( String title, final IClock clock ) {
         this.clock = clock;
         textReadout = new TextReadout();
         //> Removed numbers and units from chart time axis, see #1333
-        stripChartJFCNode = new StripChartJFCNode(200, 150, CCKStrings.getString("time.sec"), title);
-        stripChartJFCNode.setDomainRange(0, 5);
+        stripChartJFCNode = new StripChartJFCNode( 200, 150, CCKStrings.getString( "time.sec" ), title );
+        stripChartJFCNode.setDomainRange( 0, 5 );
 
-        addChild(textReadout);
-        addChild(stripChartJFCNode);
-        chartZoomControl = new ChartZoomControl(this);
-        addChild(chartZoomControl);
+        addChild( textReadout );
+        addChild( stripChartJFCNode );
+        chartZoomControl = new ChartZoomControl( this );
+        addChild( chartZoomControl );
 
-        CursorHandler cursorHandler = new CursorHandler(Cursor.HAND_CURSOR);
-        addInputEventListener(cursorHandler);
+        CursorHandler cursorHandler = new CursorHandler( Cursor.HAND_CURSOR );
+        addInputEventListener( cursorHandler );
 
-        textReadout.setOffset(0, 0);
-        textReadout.setVisible(false);
+        textReadout.setOffset( 0, 0 );
+        textReadout.setVisible( false );
 
         update();
         clockListener = new ClockAdapter() {
-            public void simulationTimeChanged(ClockEvent clockEvent) {
+            public void simulationTimeChanged( ClockEvent clockEvent ) {
                 update();
             }
         };
-        this.clock.addClockListener(clockListener);
+        this.clock.addClockListener( clockListener );
         try {
-            closeButton = new JButton(new ImageIcon(ImageLoader.loadBufferedImage("circuit-construction-kit/images/x-20.png")));
-            closeButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+            closeButton = new JButton( new ImageIcon( ImageLoader.loadBufferedImage( "circuit-construction-kit/images/x-20.png" ) ) );
+            closeButton.addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
                     close();
                 }
-            });
-            closeButtonPSwing = new PSwing(closeButton);
+            } );
+            closeButtonPSwing = new PSwing( closeButton );
             PropertyChangeListener listener = new PropertyChangeListener() {
-                public void propertyChange(PropertyChangeEvent evt) {
+                public void propertyChange( PropertyChangeEvent evt ) {
                     updateButtonLocations();
                 }
             };
             updateButtonLocations();
-            stripChartJFCNode.addPropertyChangeListener(PNode.PROPERTY_BOUNDS, listener);
-            stripChartJFCNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, listener);
-            addChild(closeButtonPSwing);
+            stripChartJFCNode.addPropertyChangeListener( PNode.PROPERTY_BOUNDS, listener );
+            stripChartJFCNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, listener );
+            addChild( closeButtonPSwing );
         }
-        catch (IOException e) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -95,24 +97,24 @@ public abstract class AbstractFloatingChart extends PhetPNode {
     }
 
     public void zoomOut() {
-        zoom(1.2);
+        zoom( 1.2 );
     }
 
-    private void zoom(double v) {
+    private void zoom( double v ) {
         Range range = stripChartJFCNode.getVerticalRange();
-        stripChartJFCNode.setVerticalRange(range.getLowerBound() * v, range.getUpperBound() * v);
+        stripChartJFCNode.setVerticalRange( range.getLowerBound() * v, range.getUpperBound() * v );
     }
 
     public void zoomIn() {
-        zoom(0.8);
+        zoom( 0.8 );
     }
 
     public static interface ValueReader {
-        double getValue(double x, double y);
+        double getValue( double x, double y );
     }
 
     private void close() {
-        clock.removeClockListener(clockListener);
+        clock.removeClockListener( clockListener );
         notifyCloseButtonPressed();
     }
 
@@ -122,21 +124,21 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         void chartClosing();
     }
 
-    public void addListener(Listener listener) {
-        listeners.add(listener);
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public void notifyCloseButtonPressed() {
-        for (int i = 0; i < listeners.size(); i++) {
-            Listener listener = (Listener) listeners.get(i);
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.chartClosing();
         }
     }
 
     private void updateButtonLocations() {
-        closeButtonPSwing.setOffset(stripChartJFCNode.getFullBounds().getMaxX() - closeButtonPSwing.getFullBounds().getWidth(),
-                stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight());
-        chartZoomControl.setOffset(stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight());
+        closeButtonPSwing.setOffset( stripChartJFCNode.getFullBounds().getMaxX() - closeButtonPSwing.getFullBounds().getWidth(),
+                                     stripChartJFCNode.getFullBounds().getOrigin().getY() - closeButtonPSwing.getFullBounds().getHeight() );
+        chartZoomControl.setOffset( stripChartJFCNode.getFullBounds().getOrigin().getX(), stripChartJFCNode.getFullBounds().getOrigin().getY() - chartZoomControl.getFullBounds().getHeight() );
     }
 
     public StripChartJFCNode getStripChartJFCNode() {
@@ -151,8 +153,8 @@ public abstract class AbstractFloatingChart extends PhetPNode {
         textReadout.updateBackground();
     }
 
-    public void setReadoutVisible(boolean selected) {
-        textReadout.setVisible(selected);
+    public void setReadoutVisible( boolean selected ) {
+        textReadout.setVisible( selected );
     }
 
     public boolean isReadoutVisible() {
@@ -165,20 +167,20 @@ public abstract class AbstractFloatingChart extends PhetPNode {
 
         public TextReadout() {
             textBackground = new PPath();
-            textBackground.setPaint(new Color(255, 255, 255, 235));
-            addChild(textBackground);
-            readout = new PText(("value"));
-            readout.setFont(new PhetFont(Font.BOLD, 14));
-            readout.setTextPaint(Color.blue);
-            addChild(readout);
+            textBackground.setPaint( new Color( 255, 255, 255, 235 ) );
+            addChild( textBackground );
+            readout = new PText( ( "value" ) );
+            readout.setFont( new PhetFont( Font.BOLD, 14 ) );
+            readout.setTextPaint( Color.blue );
+            addChild( readout );
         }
 
-        public void setText(String s) {
-            readout.setText(s);
+        public void setText( String s ) {
+            readout.setText( s );
         }
 
         public void updateBackground() {
-            textBackground.setPathTo(RectangleUtils.expand(readout.getFullBounds(), 10, 10));
+            textBackground.setPathTo( RectangleUtils.expand( readout.getFullBounds(), 10, 10 ) );
         }
     }
 

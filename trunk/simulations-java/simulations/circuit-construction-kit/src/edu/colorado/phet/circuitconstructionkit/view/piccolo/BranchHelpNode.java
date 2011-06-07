@@ -7,23 +7,23 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
 
 public class BranchHelpNode extends TrackingHelpNode {
 
-    public BranchHelpNode(CCKSimulationPanel cckSimulationPanel, CCKModule module, String text) {
-        super(cckSimulationPanel, module, text, BOTTOM_LEFT);
-        module.getCircuit().addCircuitListener(new CircuitListenerAdapter() {
-            public void branchRemoved(Branch branch) {
+    public BranchHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module, String text ) {
+        super( cckSimulationPanel, module, text, BOTTOM_LEFT );
+        module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
+            public void branchRemoved( Branch branch ) {
                 update();
             }
 
-            public void branchAdded(Branch branch) {
+            public void branchAdded( Branch branch ) {
                 update();
             }
-        });
+        } );
     }
 
     protected void update() {
-        setVisible(getCckSimulationPanel().getCircuitNode().getNumBranchNodes() > 0);
-        if (getVisible()) {
-            setFollowedNode(getCckSimulationPanel().getCircuitNode().getBranchNode(0));
+        setVisible( getCckSimulationPanel().getCircuitNode().getNumBranchNodes() > 0 );
+        if ( getVisible() ) {
+            setFollowedNode( getCckSimulationPanel().getCircuitNode().getBranchNode( 0 ) );
         }
     }
 

@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Switch;
 import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.RectangularComponentNode;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -16,7 +16,7 @@ import javax.swing.*;
  */
 
 public class SwitchBodyRectangleNode extends RectangularComponentNode {
-    public SwitchBodyRectangleNode(CCKModel model, Switch s, JComponent component, CCKModule module) {
-        super(model, s, CCKImageSuite.getInstance().getKnifeBoardImage().getWidth(), CCKImageSuite.getInstance().getKnifeBoardImage().getHeight(), component, module);
+    public SwitchBodyRectangleNode( CCKModel model, Switch s, JComponent component, CCKModule module ) {
+        super( model, s, CCKImageSuite.getInstance().getKnifeBoardImage().getWidth(), CCKImageSuite.getInstance().getKnifeBoardImage().getHeight(), component, module );
     }
 }
