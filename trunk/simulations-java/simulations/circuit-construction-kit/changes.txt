@@ -1,3 +1,4 @@
+# 3.19.02 (52727) Jun 7, 2011
 Fixed: "Advanced" label missing from control panel, resolves #2921
 Fixed: light bulb units were listed as "bulb" instead of "Ohms" in the light bulb resistance control, resolves #2920
 Fixed: listeners are removed while iterating over listener list, see #2919
