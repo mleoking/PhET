@@ -16,15 +16,18 @@ public class Model {
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
     private var k:Number;           //spring constant in N/m of each spring in array (all springs equal)
     private var b:Number;           //damping constant: F_drag = -b*v
-    private var _L:Number;           //distance between fixed walls in meters
-    private var _nMax:int;           //maximum possible number of mobile masses in 1D array
-    private var _N:int;              //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
+    private var _L:Number;          //distance between fixed walls in meters
+    private var _nMax:int;          //maximum possible number of mobile masses in 1D array
+    private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
-    private var x_arr:Array;        //array of positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
+    private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
+    private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
+    private var s_arr:Array;        //array of s-positions of masses, s = distance from equilibrium positions in either x or y-direction
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
     private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
     private var _grabbedMass:int;    //index of mass grabbed by mouse
+    private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
     //time variables
     private var _paused: Boolean;  //true if sim paused
     private var t: Number;		    //time in seconds
@@ -36,7 +39,9 @@ public class Model {
 
     public function Model( ) {
 
-        this.x_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
+        this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
+        this.y0_arr = new Array(_nMax + 2);
+        this.s_arr = new Array(_nMax + 2);
         this.v_arr = new Array(_nMax + 2);
         this.a_arr = new Array(_nMax + 2);
         this.aPre_arr = new Array(_nMax + 2);
@@ -52,6 +57,7 @@ public class Model {
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
         this._L = 1;                //1 meter between fixed walls
         this._grabbedMass = 0;      //left mass (index 0) is always stationary
+        this._longitudinalMode = true;
         this.initializeKinematicArrays();
         //this.setInitialPositions(); //for testing only
         this._paused = false;
@@ -68,18 +74,35 @@ public class Model {
     public function initializeKinematicArrays():void{
         var arrLength:int = this._N + 2;
         for(var i:int = 0; i < arrLength; i++){
-            this.x_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
+            this.x0_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
+            this.y0_arr[i] = 0;
+            this.s_arr[i] = 0;
             this.v_arr[i] = 0;                      //initial velocities = 0;
             this.a_arr[i] = 0;                      //initial accelerations = 0
             this.aPre_arr[i] = 0;
         }
     }//end initializeKinematicArrays()
 
+//    public function zeroXPositions():void{
+//        var arrLength:int = this._N + 2;
+//        for(var i:int = 0; i < arrLength; i++){
+//           this.x_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
+//        }
+//    }
+//
+//    public function zeroYPositions():void{
+//        var arrLength:int = this._N + 2;
+//        for(var i:int = 0; i < arrLength; i++){
+//           this.y_arr[i] = 0;
+//        }
+//    }
+
     //for testing only
     private function setInitialPositions():void{
        var arrLength:int = this._N + 2;
        for(var i:int = 1; i < (arrLength - 1); i++){
-            this.x_arr[i] = i*this._L/(this._N + 1) + 0.1;
+           this.s_arr[i] = 0;
+            //this.x_arr[i] = i*this._L/(this._N + 1) + 0.1;
        }
     }
 
@@ -111,12 +134,43 @@ public class Model {
         return this._N;
     }
 
+    //used in when in longitudinal mode
     public function setX(i:int, xPos:Number):void{
-        this.x_arr[i] = xPos;
+        var sPos:Number = xPos - this.x0_arr[i];
+        this.s_arr[i] = sPos;
     }
 
     public function getX(i:int):Number{
-        return this.x_arr[i];
+        var xPos:Number;
+        if(_longitudinalMode){
+           xPos = this.x0_arr[i] + this.s_arr[i];
+        }else{
+           xPos = this.x0_arr[i];
+        }
+        return xPos ;
+    }
+
+    //used when in transverse mode
+    public function setY(i:int, yPos:Number):void{
+       if(!_longitudinalMode){
+         this.s_arr[i] = yPos;
+       } else{
+          //do nothing
+       }
+    }
+
+    public function getY(i:int):Number{
+        var yPos:Number;
+        if(!_longitudinalMode){   //if tranverse mode
+            yPos = this.s_arr[i];
+        }else{
+            yPos = 0;
+        }
+        return yPos
+    }//end getY()
+
+    public function get longitudinalMode(){
+        return this._longitudinalMode;
     }
 
     public function setB(b:Number):void{
@@ -125,6 +179,20 @@ public class Model {
         }
         this.b = b;
     }
+
+    public function setTorL( TorL:String ):void{
+        if(TorL == "L"){
+            this._longitudinalMode = true;
+            //this.zeroYPositions();
+            //trace("Model.setTorL(longitudinal)");
+        } else if(TorL == "T"){
+            this._longitudinalMode = false;
+            //this.zeroXPositions();
+            //trace("Model.setTorL(transverse)");
+        } else{
+            trace("ERROR: incorrect string argument in Model.setTorL().")
+        }
+    }//end setTorL
 
     public function setTRate(rate:Number):void{
         this.tRate = rate;
@@ -178,7 +246,7 @@ public class Model {
     }
 
     private function singleStep(): void {
-        var currentTime = getTimer() / 1000;              //flash.utils.getTimer()
+        var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
         var realDt: Number = currentTime - this.lastTime;
         this.lastTime = currentTime;
         //time step must not exceed 0.04 seconds.
@@ -194,7 +262,9 @@ public class Model {
         //velocity verlet algorithm
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
             if(i != this._grabbedMass ){
-                x_arr[i] = x_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
+                s_arr[i] = s_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
+                //x_arr[i] = x_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
+                //y_arr[i] = y_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
                 aPre_arr[i] = a_arr[i];   //store current accelerations for next step
             }
             //var vp:Number = v_arr[i] + a_arr[i] * dt;		//post velocity, only needed if computing drag
@@ -202,7 +272,8 @@ public class Model {
 
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
             if( i != this._grabbedMass ){
-                this.a_arr[i] = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);		//post-acceleration
+               this.a_arr[i] = (this.k/this.m)*(s_arr[i+1] + s_arr[i-1] - 2*s_arr[i]);		//post-acceleration
+               // this.a_arr[i] = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);		//post-acceleration
                 v_arr[i] = v_arr[i] + 0.5 * (this.aPre_arr[i] + a_arr[i]) * dt;
             }
 
@@ -221,7 +292,7 @@ public class Model {
     //for testing only
     public function test():void{
         if(this.t > this.tInt){
-            trace("x_1 = " + x_arr[1] + "   at t = " + this.t);
+            trace("s_1 = " + s_arr[1] + "   at t = " + this.t);
             this.tInt += 1;
         }
     }
