@@ -28,27 +28,15 @@ public class Electron extends SimpleObservableDebug {
             throw new RuntimeException( "Electron out of bounds." );
         }
         updatePosition();
-        observer = new Observer( this );
-        branch.addObserver( observer );
-    }
-
-    public static class Observer implements SimpleObserver {
-        private Electron electron;
-
-        public Observer( Electron electron ) {
-            this.electron = electron;
-        }
-
-        public void update() {
-            if ( electron.isDeleted() ) {
-                new RuntimeException( "Update called on deleted electron." ).printStackTrace();
+        observer = new SimpleObserver() {
+            public void update() {
+                if ( isDeleted() ) {
+                    new RuntimeException( "Update called on deleted electron." ).printStackTrace();
+                }
+                updatePosition();
             }
-            electron.updatePosition();
-        }
-
-        public boolean isDeleted() {
-            return electron.isDeleted();
-        }
+        };
+        branch.addObserver( observer );
     }
 
     private void updatePosition() {
