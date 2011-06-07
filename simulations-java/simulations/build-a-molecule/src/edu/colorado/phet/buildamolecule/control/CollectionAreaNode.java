@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.HorizontalAlignMethod.Align;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.Kit;
 import edu.colorado.phet.buildamolecule.model.KitCollection;
@@ -18,12 +19,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * Area that shows all of the collection boxes and a reset collection button
  */
-public class CollectionAreaNode extends PNode {
+public class CollectionAreaNode extends GeneralLayoutNode {
 
     private List<CollectionBoxNode> collectionBoxNodes = new LinkedList<CollectionBoxNode>();
 
@@ -35,12 +35,7 @@ public class CollectionAreaNode extends PNode {
      * @param toModelBounds        Function to convert piccolo node bounds to model bounds
      */
     public CollectionAreaNode( final KitCollection collection, final boolean singleCollectionMode, Function1<PNode, Rectangle2D> toModelBounds ) {
-        SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
-
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridx = 0;
-        c.gridy = 0;
-        c.insets = new Insets( 0, 0, 15, 0 );
+        LayoutMethod method = new CompositeLayoutMethod( new VerticalLayoutMethod(), new HorizontalAlignMethod( Align.Centered ) );
 
         final double maximumBoxWidth = singleCollectionMode ? SingleCollectionBoxNode.getMaxWidth() : MultipleCollectionBoxNode.getMaxWidth();
         final double maximumBoxHeight = singleCollectionMode ? SingleCollectionBoxNode.getMaxHeight() : MultipleCollectionBoxNode.getMaxHeight();
@@ -72,51 +67,47 @@ public class CollectionAreaNode extends PNode {
                     // TODO more elegant way to handle addPropertyChangeListener hack
                 }
             };
-            layoutNode.addChild( collectionBoxHolder, c );
-            c.gridy += 1;
+            addChild( collectionBoxHolder, method, 0, 0, 15, 0 );
         }
 
-        layoutNode.addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
-                                 {
-                                     // when clicked, empty collection boxes
-                                     addActionListener( new ActionListener() {
-                                         public void actionPerformed( ActionEvent e ) {
-                                             for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                                                 box.clear();
-                                             }
-                                             for ( Kit kit : collection.getKits() ) {
-                                                 kit.resetKit();
-                                             }
-                                         }
-                                     } );
+        addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
+                      {
+                          // when clicked, empty collection boxes
+                          addActionListener( new ActionListener() {
+                              public void actionPerformed( ActionEvent e ) {
+                                  for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                                      box.clear();
+                                  }
+                                  for ( Kit kit : collection.getKits() ) {
+                                      kit.resetKit();
+                                  }
+                              }
+                          } );
 
-                                     // when any collection box quantity changes, re-update our visibility
-                                     for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                                         box.quantity.addObserver( new SimpleObserver() {
-                                             public void update() {
-                                                 updateEnabled();
-                                             }
-                                         } );
-                                     }
-                                 }
+                          // when any collection box quantity changes, re-update our visibility
+                          for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                              box.quantity.addObserver( new SimpleObserver() {
+                                  public void update() {
+                                      updateEnabled();
+                                  }
+                              } );
+                          }
+                      }
 
-                                 public void updateEnabled() {
-                                     boolean enabled = false;
-                                     for ( CollectionBox box : collection.getCollectionBoxes() ) {
-                                         if ( box.quantity.get() > 0 ) {
-                                             enabled = true;
-                                         }
-                                     }
-                                     setEnabled( enabled );
-                                 }
+                      public void updateEnabled() {
+                          boolean enabled = false;
+                          for ( CollectionBox box : collection.getCollectionBoxes() ) {
+                              if ( box.quantity.get() > 0 ) {
+                                  enabled = true;
+                              }
+                          }
+                          setEnabled( enabled );
+                      }
 
-                                 @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
-                                     // TODO more elegant way to handle addPropertyChangeListener hack
-                                 }
-                             }, c );
-
-        addChild( layoutNode );
-
+                      @Override public void addPropertyChangeListener( PropertyChangeListener listener ) {
+                          // TODO more elegant way to handle addPropertyChangeListener hack
+                      }
+                  }, method );
     }
 
     public void updateCollectionBoxLocations() {

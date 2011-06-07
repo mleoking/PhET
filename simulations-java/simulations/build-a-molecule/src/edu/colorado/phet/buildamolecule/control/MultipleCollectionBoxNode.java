@@ -48,7 +48,7 @@ public class MultipleCollectionBoxNode extends CollectionBoxNode {
     }
 
     public MultipleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
-        super( box, 2, toModelBounds );
+        super( box, toModelBounds );
 
         addHeaderNode( new PNode() {{
             HTMLNode goalNode = new HTMLNode( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_MULTIPLE_GOAL_FORMAT, box.getCapacity(), box.getMoleculeType().getGeneralFormulaFragment() ) ) {{

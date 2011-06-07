@@ -9,6 +9,11 @@ import java.util.Map;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.CompositeLayoutMethod;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.HorizontalAlignMethod;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.HorizontalAlignMethod.Align;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.LayoutMethod;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.VerticalLayoutMethod;
 import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Adapter;
 import edu.colorado.phet.buildamolecule.model.CollectionList.Listener;
@@ -22,7 +27,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.*;
 
@@ -32,7 +36,7 @@ import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.*;
 public class CollectionPanel extends PNode {
 
     public static final int CONTAINER_PADDING = 15;
-    SwingLayoutNode layoutNode = new SwingLayoutNode( new GridBagLayout() );
+    GeneralLayoutNode layoutNode = new GeneralLayoutNode();
     private final PNode collectionAreaHolder = new PNode();
     private final PNode backgroundHolder = new PNode();
 
@@ -51,19 +55,15 @@ public class CollectionPanel extends PNode {
     public CollectionPanel( final CollectionList collectionList, final boolean singleCollectionMode, VoidFunction1<SimpleObserver> addCollectionAttachmentListener, final Function1<PNode, Rectangle2D> toModelBounds ) {
         this.addCollectionAttachmentListener = addCollectionAttachmentListener;
 
+        LayoutMethod method = new CompositeLayoutMethod( new VerticalLayoutMethod(), new HorizontalAlignMethod( Align.Centered ) );
+
         // move it over so the background will have padding
         layoutNode.translate( CONTAINER_PADDING, CONTAINER_PADDING );
 
         // "Your Molecule Collection"
         layoutNode.addChild( new HTMLNode( BuildAMoleculeStrings.COLLECTION_AREA_YOUR_MOLECULE_COLLECTION ) {{
                                  setFont( new PhetFont( 22 ) );
-                             }},
-                             new GridBagConstraints() {{
-                                 gridx = 0;
-                                 gridy = 0;
-                                 insets = new Insets( 0, 0, 5, 0 );
-                             }}
-        );
+                             }}, method, 0, 0, 5, 0 );
 
         // "Collection X" with arrows
         layoutNode.addChild( new NextPreviousNavigationNode( new PText() {{
@@ -75,7 +75,6 @@ public class CollectionPanel extends PNode {
                                  } );
                              }}, Color.YELLOW, Color.BLACK, 14, 18 ) {
                                  {
-
                                      // update when the collection stuff might change.
                                      final SimpleObserver updater = new SimpleObserver() {
                                          public void update() {
@@ -107,28 +106,13 @@ public class CollectionPanel extends PNode {
                                      // TODO more elegant way to handle addPropertyChangeListener hack
                                  }
 
-                             },
-                             new GridBagConstraints() {{
-                                 gridx = 0;
-                                 gridy = GridBagConstraints.RELATIVE;
-                                 insets = new Insets( 0, 0, 10, 0 );
-                             }}
-        );
+                             }, method, 0, 0, 10, 0 );
 
         // all of the collection boxes themselves
-        layoutNode.addChild( collectionAreaHolder,
-                             new GridBagConstraints() {{
-                                 gridx = 0;
-                                 gridy = GridBagConstraints.RELATIVE;
-                                 insets = new Insets( 0, 0, 5, 0 );
-                             }} );
+        layoutNode.addChild( collectionAreaHolder, method, 0, 0, 5, 0 );
 
         // sound on/off
-        layoutNode.addChild( new SoundOnOffNode(), new GridBagConstraints() {{
-            gridx = 0;
-            gridy = GridBagConstraints.RELATIVE;
-            insets = new Insets( 0, 0, 0, 0 );
-        }} );
+        layoutNode.addChild( new SoundOnOffNode(), method );
 
 
         // add our two layers: background and controls
@@ -169,6 +153,8 @@ public class CollectionPanel extends PNode {
         collectionAreaHolder.removeAllChildren();
         final CollectionAreaNode collectionAreaNode = collectionAreaMap.get( collection );
         collectionAreaHolder.addChild( collectionAreaNode );
+
+        layoutNode.updateLayout();
 
         // if we are hooked up, update the box locations. otherwise, listen to the canvas for when it is
         if ( hasCanvasAsParent() ) {
@@ -232,12 +218,12 @@ public class CollectionPanel extends PNode {
     }
 
     private double getPlacementWidth() {
-        return layoutNode.getContainer().getPreferredSize().getWidth() + CONTAINER_PADDING * 2;
+        return layoutNode.getLayoutBounds().getWidth() + CONTAINER_PADDING * 2;
     }
 
     private double getPlacementHeight() {
         // how much height we need with proper padding
-        double requiredHeight = layoutNode.getContainer().getPreferredSize().getHeight() + CONTAINER_PADDING * 2;
+        double requiredHeight = layoutNode.getLayoutBounds().getHeight() + CONTAINER_PADDING * 2;
 
         // how much height we will take up to fit our vertical size perfectly
         double fixedHeight = STAGE_SIZE.getHeight() - VIEW_PADDING * 2; // we will have padding above and below

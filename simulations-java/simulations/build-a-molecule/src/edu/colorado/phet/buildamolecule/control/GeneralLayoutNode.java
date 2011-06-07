@@ -10,6 +10,10 @@ import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * A container that allows flexible layout generation.
+ * <p/>
+ * NOTE: layout update only happens on addChild and/or manual calls to updateLayout()
+ * TODO: documentation
+ * TODO: consider updating methods
  */
 public class GeneralLayoutNode extends PNode {
     private final List<LayoutElement> elements = new ArrayList<LayoutElement>();
@@ -25,9 +29,31 @@ public class GeneralLayoutNode extends PNode {
         addChild( invisibleBackground );
     }
 
+    public void addChild( PNode node, LayoutMethod method ) {
+        addChild( new LayoutElement( node, method ) );
+    }
+
+    public void addChild( PNode node, LayoutMethod method, double paddingTop, double paddingLeft, double paddingBottom, double paddingRight ) {
+        addChild( new LayoutElement( node, method, paddingTop, paddingLeft, paddingBottom, paddingRight ) );
+    }
+
+    public void addChild( final int index, PNode node, LayoutMethod method ) {
+        addChild( index, new LayoutElement( node, method ) );
+    }
+
+    public void addChild( final int index, PNode node, LayoutMethod method, double paddingTop, double paddingLeft, double paddingBottom, double paddingRight ) {
+        addChild( index, new LayoutElement( node, method, paddingTop, paddingLeft, paddingBottom, paddingRight ) );
+    }
+
     public void addChild( LayoutElement element ) {
         elements.add( element );
         super.addChild( element.node );
+        updateLayout();
+    }
+
+    public void addChild( final int index, LayoutElement element ) {
+        elements.add( index, element );
+        super.addChild( index + 1, element.node ); // index + 1 since we take into account invisibleBackground
         updateLayout();
     }
 

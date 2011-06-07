@@ -47,7 +47,7 @@ public class SingleCollectionBoxNode extends CollectionBoxNode {
     }
 
     public SingleCollectionBoxNode( final CollectionBox box, Function1<PNode, Rectangle2D> toModelBounds ) {
-        super( box, 1, toModelBounds );
+        super( box, toModelBounds );
         assert ( box.getCapacity() == 1 );
 
         addHeaderNode( new PNode() {{

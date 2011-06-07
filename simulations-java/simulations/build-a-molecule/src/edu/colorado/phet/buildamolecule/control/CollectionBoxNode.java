@@ -6,6 +6,7 @@ import java.util.*;
 import java.util.List;
 
 import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
+import edu.colorado.phet.buildamolecule.control.GeneralLayoutNode.HorizontalAlignMethod.Align;
 import edu.colorado.phet.buildamolecule.model.CollectionBox;
 import edu.colorado.phet.buildamolecule.model.CollectionBox.Adapter;
 import edu.colorado.phet.buildamolecule.model.Molecule;
@@ -17,13 +18,12 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * Represents a generic collection box node which is decorated by additional header nodes (probably text describing what can be put in, what is in it,
  * etc.)
  */
-public class CollectionBoxNode extends SwingLayoutNode {
+public class CollectionBoxNode extends GeneralLayoutNode {
 
     private final CollectionBox box;
     private final PNode boxNode = new PNode();
@@ -41,26 +41,14 @@ public class CollectionBoxNode extends SwingLayoutNode {
     private static final double BLACK_BOX_PADDING_FOR_3D = 10;
     private Timer blinkTimer = null;
     private double button3dWidth;
+    private int headerCount = 0;
+
+    private final LayoutMethod method = new CompositeLayoutMethod( new VerticalLayoutMethod(), new HorizontalAlignMethod( Align.Centered ) );
 
     private SimpleObserver locationUpdateObserver;
 
-    private GridBagConstraints headerConstraints = new GridBagConstraints() {{
-        gridx = 0;
-        gridy = 0;
-        insets = new Insets( 0, 0, -3, 0 );
-    }};
-
-    public CollectionBoxNode( final CollectionBox box, final int headerQuantity, final Function1<PNode, Rectangle2D> toModelBounds ) {
-        super( new GridBagLayout() );
+    public CollectionBoxNode( final CollectionBox box, final Function1<PNode, Rectangle2D> toModelBounds ) {
         this.box = box;
-
-        // grid bag layout and SwingLayoutNode for easier horizontal and vertical layout
-        GridBagConstraints c = new GridBagConstraints() {{
-            gridx = 0;
-            gridy = headerQuantity;
-        }};
-
-        c.insets = new Insets( 3, 0, 0, 0 ); // some padding between the black box
 
         blackBox = new PhetPPath( new Rectangle2D.Double( 0, 0, 160, 50 ), BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND ) {{
             final PhetPPath reference = this;
@@ -101,7 +89,7 @@ public class CollectionBoxNode extends SwingLayoutNode {
         }};
         boxNode.addChild( blackBox );
         boxNode.addChild( moleculeLayer );
-        addChild( boxNode, c );
+        addChild( boxNode, method, 3, 0, 0, 0 ); // add this at the specified index
 
         updateBoxGraphics();
 
@@ -144,8 +132,8 @@ public class CollectionBoxNode extends SwingLayoutNode {
     }
 
     protected void addHeaderNode( PNode headerNode ) {
-        addChild( headerNode, headerConstraints );
-        headerConstraints.gridy += 1;
+        addChild( headerCount, headerNode, method, 0, 0, -3, 0 );
+        headerCount++;
     }
 
     private void addMolecule( Molecule molecule ) {
