@@ -24,9 +24,9 @@ public class View extends Sprite {
     private var LinMeters:Number;           //distance between fixed walls in meters
     private var LinPix:Number;              //distance between fixed walls in pixels
     private var L0Spring;                   //equilibrium length of spring in pixels
-    private var leftEdgeY:Number;           //y-position of leftEdge in pixels measured down from top of screen
+    private var _leftEdgeY:Number;           //y-position of leftEdge in pixels measured down from top of screen
     private var _leftEdgeX:Number;          //x-position of leftEdge in pixels measured right from left edge of screen
-    private var mass_arr:Array;             //array of mass sprites , index 0 = mobile mass 1
+    private var mass_arr:Array;             //array of massView instances , index 0 = mobile mass 1
     private var spring_arr:Array;           //array of spring sprites
     private var walls:Sprite;
 
@@ -56,7 +56,7 @@ public class View extends Sprite {
         this.LinPix = 0.8*this.stageW;
         this._pixPerMeter = this.LinPix/this.LinMeters;
         this._leftEdgeX = 0.1*this.stageW;
-        this.leftEdgeY = 0.4*this.stageH;
+        this._leftEdgeY = 0.4*this.stageH;
         var nMax:int = this.myModel.nMax;
         this.mass_arr = new Array( nMax );
         this.spring_arr = new Array( nMax + 1 );  //one more spring than masses
@@ -134,10 +134,10 @@ public class View extends Sprite {
         var h:Number = 100;  //height of wall in pix
         g.clear();
         g.lineStyle(5, 0x444444, 1);   //gray walls
-        g.moveTo(this._leftEdgeX, this.leftEdgeY - h/2);
-        g.lineTo(this._leftEdgeX, this.leftEdgeY + h/2);
-        g.moveTo(this._leftEdgeX + this.LinPix, this.leftEdgeY - h/2);
-        g.lineTo(this._leftEdgeX + this.LinPix, this.leftEdgeY + h/2);
+        g.moveTo(this._leftEdgeX, this._leftEdgeY - h/2);
+        g.lineTo(this._leftEdgeX, this._leftEdgeY + h/2);
+        g.moveTo(this._leftEdgeX + this.LinPix, this._leftEdgeY - h/2);
+        g.lineTo(this._leftEdgeX + this.LinPix, this._leftEdgeY + h/2);
     }
 
     private function positionGraphics():void{
@@ -147,12 +147,12 @@ public class View extends Sprite {
         var d:Number = 10;     //radius of each mass in pix
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
-            this.mass_arr[i].y = this.leftEdgeY;
+            this.mass_arr[i].y = this._leftEdgeY;
             this.mass_arr[i].x = this._leftEdgeX + (1+i)*separationInPix;
         }
         for (var i:int = 0; i <= N; i++ ){
             this.spring_arr[i].visible = true;
-            this.spring_arr[i].y = this.leftEdgeY;
+            this.spring_arr[i].y = this._leftEdgeY;
             this.spring_arr[i].x = this._leftEdgeX + i*separationInPix;
         }
         for(var i:int = N; i < nMax; i++){
@@ -193,18 +193,28 @@ public class View extends Sprite {
         return this._pixPerMeter;
     }
 
-    public function get leftEdgeX(){
+    public function get leftEdgeX():Number{
         return this._leftEdgeX;
+    }
+
+    public function get leftEdgeY():Number{
+        return this._leftEdgeY;
     }
 
     public function update(): void {
         var xInMeters:Number;
+        var yInMeters:Number;
         var xInPix:Number;
+        var yInPix:Number;
         for(var j:int = 0; j < this.myModel.N; j++){
             var i:int = j+1;    //index of mobile mass, left mass = 1
-            xInMeters = this.myModel.getX(i);
+            xInMeters = this.myModel.getX(i);       //irrelevant when in transverse mode
+            yInMeters = this.myModel.getY(i);       //irrelevant when in longitudinal mode
             xInPix = this._leftEdgeX + xInMeters*this._pixPerMeter;
+            yInPix = this._leftEdgeY -  yInMeters*this._pixPerMeter;   //don't forget. +y direction is down in screen coords, is up in cartesian coords
             this.mass_arr[j].x = xInPix;
+            this.mass_arr[j].y = yInPix;
+
         }//end for loop
         for(var i:int = 0; i <= this.myModel.N; i++){
             xInMeters = this.myModel.getX(i);

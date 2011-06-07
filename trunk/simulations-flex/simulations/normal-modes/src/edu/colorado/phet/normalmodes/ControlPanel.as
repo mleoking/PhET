@@ -35,14 +35,22 @@ public class ControlPanel extends Canvas {
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
     private var innerBckgrnd: VBox;
+
     private var nbrMassesSlider: HorizontalSlider;
     private var resetPositionsButton: NiceButton2;
+    private var radioButtonVBox: VBox;
+    private var longTransMode_rbg: RadioButtonGroup;
+    private var longitudinalModeButton: RadioButton;
+    private var transverseModeButton: RadioButton;
+
     private var resetAllButton: NiceButton2;
 //    private var selectedResonatorNbr: int;	//index number of currently selected resonator
 
     //internationalized strings
     public var numberOfMasses_str: String;
     public var resetPositions_str: String;
+    public var longitudinal_str: String;
+    public var transverse_str: String;
     public var resetAll_str: String;
 
 
@@ -96,19 +104,40 @@ public class ControlPanel extends Canvas {
 
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
-
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
+
+        //Set up longitudinal or transverse radio button box
+        this.radioButtonVBox = new VBox();
+        this.longTransMode_rbg = new RadioButtonGroup();
+        this.longitudinalModeButton = new RadioButton();
+        this.transverseModeButton = new RadioButton();
+        this.transverseModeButton.setStyle( "paddingTop", -5 );
+        this.longitudinalModeButton.group = longTransMode_rbg;
+        this.transverseModeButton.group = longTransMode_rbg;
+        this.longitudinalModeButton.label = this.longitudinal_str;
+        this.transverseModeButton.label = this.transverse_str;
+        this.longitudinalModeButton.value = 1;
+        this.transverseModeButton.value = 0;
+        this.longitudinalModeButton.selected = true;
+        this. transverseModeButton.selected = false;
+        this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
+
 
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
+        this.background.addChild( this.radioButtonVBox );
+        this.radioButtonVBox.addChild( this.longitudinalModeButton );
+        this.radioButtonVBox.addChild( this.transverseModeButton );
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
 
     private function initializeStrings(): void {
         numberOfMasses_str = "Number of Masses";//FlexSimStrings.get("numberOfResonators", "Number of Resonators");
         resetPositions_str = "Reset Positions";
+        longitudinal_str = "longitudinal";
+        transverse_str = "transverse";
         resetAll_str = "Reset All";
     }
 
@@ -119,6 +148,16 @@ public class ControlPanel extends Canvas {
 
     private function resetPositions():void{
         this.myModel.initializeKinematicArrays();
+    }
+
+    private function clickLongOrTrans( evt: Event ): void {
+        var val: Object = this.longTransMode_rbg.selectedValue;
+        if ( val == 1 ) {
+            this.myModel.setTorL( "L" );
+        }
+        else {
+            this.myModel.setTorL( "T" );
+        }
     }
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{

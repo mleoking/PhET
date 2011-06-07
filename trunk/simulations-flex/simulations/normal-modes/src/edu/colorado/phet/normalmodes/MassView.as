@@ -47,6 +47,7 @@ public class MassView extends Sprite{
         //var target = mySprite;
         //var wasRunning: Boolean;
         var leftEdgeX:Number = this.container.leftEdgeX;
+        var leftEdgeY:Number = this.container.leftEdgeY;
         var pixPerMeter:Number = this.container.pixPerMeter;
         var thisObject:Object = this;
         this.buttonMode = true;
@@ -74,10 +75,17 @@ public class MassView extends Sprite{
 
         function dragTarget( evt: MouseEvent ): void {
             var xInPix:Number = thisObject.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
-            this.x = xInPix;
+            var yInPix:Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
+            if(thisObject.myModel.longitudinalMode){
+                var xInMeters:Number = (xInPix - leftEdgeX) / pixPerMeter;
+                thisObject.myModel.setX( thisObject.index,  xInMeters );
+            }else{
+                var yInMeters:Number = -(yInPix - leftEdgeY) / pixPerMeter;   //screen coords vs. cartesian coordinates, hence the minus sign
+                thisObject.myModel.setY( thisObject.index,  yInMeters );
+            }
+
             //xInMeters is physical coordinate in meters, origin at left wall
-            var xInMeters:Number = (xInPix - leftEdgeX) / pixPerMeter;
-            thisObject.myModel.setX( thisObject.index,  xInMeters );
+
             var limit: Number = 100;   //max range in pixels
 //            if ( xInMeters > limit ) {  x
 //                //trace("bar high");
@@ -87,7 +95,7 @@ public class MassView extends Sprite{
 //                //trace("bar low");
 //            }
 
-            trace("xInMeters = "+xInMeters);
+            //trace("xInMeters = "+xInMeters);
             //trace("xInPix = "+xInPix);
             evt.updateAfterEvent();
         }//end of dragTarget()
