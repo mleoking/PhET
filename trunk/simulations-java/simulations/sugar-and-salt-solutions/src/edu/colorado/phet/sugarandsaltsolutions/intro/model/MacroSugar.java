@@ -14,7 +14,7 @@ public class MacroSugar extends MacroCrystal {
 
 //    private static final double gramsPerGrain = 1;
 
-    private static final double gramsPerGrain = 0.1;//SR Guess
+    private static final double gramsPerGrain = 0.2;//SR Guess
 
 //        private static final double gramsPerGrain = 0.2E-3;//http://wiki.answers.com/Q/What_is_the_weight_of_a_grain_of_sugar
 
