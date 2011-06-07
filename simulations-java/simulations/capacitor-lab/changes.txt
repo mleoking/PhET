@@ -1,3 +1,4 @@
+6/6/11 update model.txt to include Multiple Capacitors
 6/6/11 mark all view cleaup() methods as "//FUTURE" since there's currently no reason to implement them
 6/6/11 create one persistent node for each circuit in the model, so we don't need to do cleanup when circuit choice changes
 6/6/11 add stubs for required cleanup methods in view package
