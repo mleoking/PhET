@@ -11,55 +11,43 @@
     // Inclusions of other PHP files.
     //--------------------------------------------------------------------------
 
+    require_once("args.php");
     require_once("config.php");
-    require_once("global.php");
+    require_once("deploy-util.php");
     require_once("file-util.php");
+    require_once("global.php");
     require_once("installer-util.php");
     require_once("ripper-util.php");
-    require_once("deploy-util.php");
 
     //-------------------------------------------------------------------------
     // Rip the web site and rebuild the installer.
     //-------------------------------------------------------------------------
     function full_rip_and_rebuild() {
 
-        $args = $_SERVER['argv'];
-
-        if ( count( $args ) == 1 ){
-            // Deploy flag is not present.
-            $deploy = false;
-        }   
-        else if ( count( $args >= 2 ) ){
-            // Verify that the only accepted option is the 2nd argument.
-            if ( ( $args[1] != "--deploy" ) || ( count( $args ) > 2 ) ) { 
-                flushing_echo("Usage: $args[0] [--deploy]");
-                exit( 1 );
-            }   
-            $deploy = true;
-        }   
+        $args = new Args();
 
         // Grab a file lock to prevent multiple simultaneous executions.
         if ( !file_lock( LOCK_FILE_STEM_NAME ) ){
-            flushing_echo("ERROR: The PhET installer builder appears to be completing another build.");
-            flushing_echo("If you believe this to be incorrect, use the appropriate script to force");
-            flushing_echo("an unlock (something like \"force-unlock.sh\") and try again.");
+            flushing_echo( "ERROR: The PhET installer builder appears to be completing another build." );
+            flushing_echo( "If you believe this to be incorrect, use the appropriate script to force" );
+            flushing_echo( "an unlock (something like \"force-unlock.sh\") and try again." );
             return;
         }
 
         // Log the start time of this operation.
-        $start_time = exec("date");
-        flushing_echo("Starting full rip and rebuild of PhET installers at time $start_time");
+        $start_time = exec( "date" );
+        flushing_echo( "Starting full rip and rebuild of PhET installers at time $start_time" );
 
         // Remove previous copy of web site.
         ripper_remove_website_copy();
 
         // Rip the web site.
-        ripper_rip_website("PHET");
+        ripper_rip_website( "PHET" );
         ripper_download_sims();
 
         // Log the time at which the rip completed.
-        $rip_finish_time = exec("date");
-        flushing_echo("Rip without activities completed at time $start_time");
+        $rip_finish_time = exec( "date" );
+        flushing_echo( "Rip without activities completed at time $start_time" );
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
@@ -78,20 +66,20 @@
 
         // Build the local installers, meaning installers that can be used to
         // install a local mirror of the PhET web site.
-        installer_build_local_mirror_installers(BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, OUTPUT_DIR);
+        installer_build_local_mirror_installers( BITROCK_PHET_LOCAL_MIRROR_BUILDFILE, OUTPUT_DIR );
 
         // Build the CD-ROM distribution, which contains all of the
         // installers and is suitable for burning on CD.
-        installer_build_rommable_distribution(OUTPUT_DIR, OUTPUT_DIR.CDROM_FILE_NAME);
+        installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CDROM_FILE_NAME );
 
         // If specified, deploy the sims to the production web site.
-        if ($deploy){
+        if ( $args->flag( 'deploy' ) ){
            deploy_all();
         }
 
         // Output the time of completion.
-        $end_time = exec("date");
-        flushing_echo("\nCompleted rebuild at time $end_time");
+        $end_time = exec( "date" );
+        flushing_echo( "\nCompleted rebuild at time $end_time" );
 
         // Release the lock.
         file_unlock( LOCK_FILE_STEM_NAME );
