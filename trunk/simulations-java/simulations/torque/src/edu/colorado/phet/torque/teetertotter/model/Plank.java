@@ -165,9 +165,12 @@ public class Plank extends ModelObject {
         // TODO: Doesn't actually give open locations yet, just valid snap-to ones.
         Point2D closestOpenLocation = new Point2D.Double( 0, 0 );
         System.out.println( "-------" );
+        System.out.println( "Test point: " + p );
         for ( Point2D location : getSnapToLocations() ) {
             System.out.println( "Testing against location: " + location );
+            System.out.println( "distance = " + location.distance( p ) );
             if ( location.distance( p ) < closestOpenLocation.distance( p ) ) {
+                System.out.println( "Accepting location: " + location + ", distance = " + location.distance( p ) );
                 closestOpenLocation.setLocation( location );
             }
         }
@@ -287,7 +290,7 @@ public class Plank extends ModelObject {
      */
     private List<Point2D> getSnapToLocations() {
         // Find the point that represents the leftmost edge of the surface.
-        ImmutableVector2D vectorFromPivotToCenterSurface = new Vector2D( getBalancePoint() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) );
+        ImmutableVector2D vectorFromPivotToCenterSurface = new Vector2D( 0, THICKNESS ).rotate( tiltAngle );
         ImmutableVector2D vectorToLeftSurfaceEdge = new Vector2D( -PIVOT_PT_POS_X, 0 ).rotate( tiltAngle );
         Point2D currentPoint = new Vector2D( getBalancePoint() ).add( vectorFromPivotToCenterSurface ).add( vectorToLeftSurfaceEdge ).toPoint2D();
         // Create a vector for moving one snap-to mark along the plank.
