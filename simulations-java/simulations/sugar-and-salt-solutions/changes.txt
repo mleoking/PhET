@@ -1,3 +1,4 @@
+Increased the number of grams per grain of salt/sugar
 Renamed tabs to "Macro" and "Micro"
 # 0.00.28 (52384) May 25, 2011
 Moved the "show values" checkbox back into the concentration bar chart panel
