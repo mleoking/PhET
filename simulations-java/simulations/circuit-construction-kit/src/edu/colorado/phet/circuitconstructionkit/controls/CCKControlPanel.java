@@ -362,7 +362,7 @@ public class CCKControlPanel extends ControlPanel {
 
         public AdvancedControlPanel( final CCKModule module ) {
             super( CCKResources.getString( "CCK3ControlPanel.Enable" ), CCKResources.getString( "CCK3ControlPanel.Disable" ) );
-            setBorder( null );
+            setBorder( new PhetTitledBorder( CCKResources.getString( "CCK3ControlPanel.AdvancedPanelBorder" ) ) );
             this.module = module;
             resistivitySlider = new ResistivitySlider();
 
