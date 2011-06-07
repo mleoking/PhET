@@ -131,6 +131,13 @@ public class MicroscopicCanvas extends PhetPCanvas {
                             model.addSalt( randomX.apply(), randomY.apply() );
                         }
                     } );
+
+                    //disable the "add salt" button if there are already 2 salts
+                    model.numSodiums.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                        public void apply( Boolean lessThanTwoSodiums ) {
+                            setEnabled( lessThanTwoSodiums );
+                        }
+                    } );
                 }},
 
                 //Add a reset all button that resets this tab

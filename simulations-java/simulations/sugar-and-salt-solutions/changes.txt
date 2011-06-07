@@ -1,3 +1,4 @@
+Water tab: disable the "add salt" button if there are already 2 salts
 Water tab: added labels to ions
 Water tab: Removed developer controls
 Water tab: Fixed reset all
