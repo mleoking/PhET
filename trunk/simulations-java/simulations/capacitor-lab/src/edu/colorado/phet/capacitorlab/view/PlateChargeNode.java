@@ -56,8 +56,9 @@ public abstract class PlateChargeNode extends PhetPNode {
         update();
     }
 
+    // This method must be called if the model element has a longer lifetime than the view.
     public void cleanup() {
-        //TODO capacitor.removeCapacitorChangeListener
+        //FUTURE capacitor.removeCapacitorChangeListener
     }
 
     /*
