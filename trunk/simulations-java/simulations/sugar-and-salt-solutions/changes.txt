@@ -1,3 +1,4 @@
+# 0.00.29 (52759) Jun 7, 2011
 Water tab: disable the "add salt" button if there are already 2 salts
 Water tab: added labels to ions
 Water tab: Removed developer controls
