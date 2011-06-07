@@ -38,7 +38,10 @@ public class MicroscopicCanvas extends PhetPCanvas {
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
 
     //Where the content is shown
-    private PNode rootNode;
+    private PNode rootNode = new PNode();
+
+    //Separate layer for the particles so they are always behind the control panel
+    private PNode particleNode = new PNode();
 
     public MicroscopicCanvas( final MicroscopicModel model, final SugarAndSaltSolutionsColorScheme config ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -57,8 +60,8 @@ public class MicroscopicCanvas extends PhetPCanvas {
                                                                               new Rectangle2D.Double( -inset, -inset, canvasSize.getWidth() + inset * 2, canvasSize.getHeight() + inset * 2 ) );
 
         // Root of our scene graph
-        rootNode = new PNode();
         addWorldChild( rootNode );
+        rootNode.addChild( particleNode );
 
         //Adapter method for wiring up components to listen to when the model updates
         final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
@@ -68,7 +71,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         };
 
         //Provide graphics for WaterMolecules
-        new GraphicAdapter<WaterMolecule>( rootNode, new Function1<WaterMolecule, PNode>() {
+        new GraphicAdapter<WaterMolecule>( particleNode, new Function1<WaterMolecule, PNode>() {
             public PNode apply( WaterMolecule waterMolecule ) {
                 return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
             }
@@ -80,7 +83,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         );
 
         //Provide graphics for SodiumIons
-        new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
+        new GraphicAdapter<DefaultParticle>( particleNode, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
             }
@@ -92,7 +95,7 @@ public class MicroscopicCanvas extends PhetPCanvas {
         );
 
         //Provide graphics for Chlorine Ions
-        new GraphicAdapter<DefaultParticle>( rootNode, new Function1<DefaultParticle, PNode>() {
+        new GraphicAdapter<DefaultParticle>( particleNode, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.ClIon );
             }
