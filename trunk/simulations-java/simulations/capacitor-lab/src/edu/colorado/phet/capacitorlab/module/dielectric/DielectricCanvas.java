@@ -2,13 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.developer.EFieldShapesDebugNode;
 import edu.colorado.phet.capacitorlab.developer.VoltageShapesDebugNode;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.model.DielectricChargeView;
 import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.view.DielectricCircuitNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
@@ -17,7 +15,6 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -33,11 +30,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class DielectricCanvas extends CLCanvas {
-
-    // global view properties, directly observable
-    public final Property<Boolean> plateChargesVisibleProperty = new Property<Boolean>( CLConstants.PLATE_CHARGES_VISIBLE );
-    public final Property<Boolean> eFieldVisibleProperty = new Property<Boolean>( CLConstants.EFIELD_VISIBLE );
-    public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final DielectricModel model;
     private final CLGlobalProperties globalProperties;
@@ -60,7 +52,7 @@ public class DielectricCanvas extends CLCanvas {
 
         // circuit
         final DielectricCircuitNode circuitNode = new DielectricCircuitNode( model.getCircuit(), mvt, dielectricVisible,
-                                                                             plateChargesVisibleProperty, eFieldVisibleProperty, dielectricChargeViewProperty,
+                                                                             getPlateChargesVisibleProperty(), getEFieldVisibleProperty(), getDielectricChargeViewProperty(),
                                                                              maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
 
         // meters
@@ -91,11 +83,11 @@ public class DielectricCanvas extends CLCanvas {
         // watch things whose visibility causes the dielectric to become transparent
         SimpleObserver o = new SimpleObserver() {
             public void update() {
-                boolean transparent = eFieldVisibleProperty.get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
+                boolean transparent = getEFieldVisibleProperty().get() || model.getVoltmeter().isVisible() || model.getEFieldDetector().visibleProperty.get();
                 circuitNode.setDielectricTransparent( transparent );
             }
         };
-        eFieldVisibleProperty.addObserver( o );
+        getEFieldVisibleProperty().addObserver( o );
         model.getVoltmeter().visibleProperty.addObserver( o );
         model.getEFieldDetector().visibleProperty.addObserver( o );
 
@@ -114,10 +106,6 @@ public class DielectricCanvas extends CLCanvas {
 
     public void reset() {
         super.reset();
-        // global properties of the view
-        plateChargesVisibleProperty.reset();
-        eFieldVisibleProperty.reset();
-        dielectricChargeViewProperty.reset();
         // zoom levels of bar meters
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();

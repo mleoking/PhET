@@ -5,7 +5,6 @@ HIGH PRIORITY
 
 MEDIUM PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses
-- factor duplicate code into canvas base class (CLCanvas?)
 - factor duplicate code into model base class (CLModel?)
 - document model.circuit package
 - create implementation notes document

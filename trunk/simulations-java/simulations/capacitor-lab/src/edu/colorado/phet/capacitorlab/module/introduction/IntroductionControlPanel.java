@@ -7,7 +7,7 @@ import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.control.MetersControlPanel;
 import edu.colorado.phet.capacitorlab.control.ViewControlPanel;
 import edu.colorado.phet.capacitorlab.developer.DeveloperControlPanel;
-import edu.colorado.phet.capacitorlab.module.dielectric.DielectricCanvas;
+import edu.colorado.phet.capacitorlab.module.CLCanvas;
 import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.ControlPanel;
  */
 public class IntroductionControlPanel extends ControlPanel {
 
-    public IntroductionControlPanel( Resettable resettable, DielectricModel model, DielectricCanvas canvas, CLGlobalProperties globalProperties ) {
-        addControlFullWidth( new ViewControlPanel( canvas.plateChargesVisibleProperty, canvas.eFieldVisibleProperty ) );
+    public IntroductionControlPanel( Resettable resettable, DielectricModel model, CLCanvas canvas, CLGlobalProperties globalProperties ) {
+        addControlFullWidth( new ViewControlPanel( canvas.getPlateChargesVisibleProperty(), canvas.getEFieldVisibleProperty() ) );
         addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), CLStrings.CAPACITANCE, model.getPlateChargeMeter(), CLStrings.PLATE_CHARGE, model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
         if ( globalProperties.dev ) {
             addControlFullWidth( new DeveloperControlPanel( globalProperties.frame, model ) );
