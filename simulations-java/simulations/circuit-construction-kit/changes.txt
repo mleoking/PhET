@@ -1,3 +1,4 @@
+Fixed: light bulb units were listed as "bulb" instead of "Ohms" in the light bulb resistance control, resolves #2920
 Fixed: listeners are removed while iterating over listener list, see #2919
 Reformatted according to current PhET IntelliJ code style
 6/7/11 removed duplicated code in Electron's internal observer, see #2919
