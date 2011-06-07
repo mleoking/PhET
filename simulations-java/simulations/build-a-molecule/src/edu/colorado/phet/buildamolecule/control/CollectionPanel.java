@@ -3,7 +3,6 @@ package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
-import java.beans.PropertyChangeListener;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +35,7 @@ import static edu.colorado.phet.buildamolecule.BuildAMoleculeConstants.*;
 public class CollectionPanel extends PNode {
 
     public static final int CONTAINER_PADDING = 15;
-    GeneralLayoutNode layoutNode = new GeneralLayoutNode();
+    private GeneralLayoutNode layoutNode = new GeneralLayoutNode();
     private final PNode collectionAreaHolder = new PNode();
     private final PNode backgroundHolder = new PNode();
 
@@ -141,6 +140,8 @@ public class CollectionPanel extends PNode {
                 useCollection( newCollection );
             }
         } );
+
+        System.out.println( "width " + singleCollectionMode + ": " + getFullBounds().getWidth() );
     }
 
     public void useCollection( KitCollection collection ) {
@@ -198,6 +199,7 @@ public class CollectionPanel extends PNode {
      */
     public static double getCollectionPanelModelWidth( boolean singleCollectionMode ) {
         // construct a dummy collection panel and check its width
+        System.out.println( "dummy" );
         CollectionPanel collectionPanel = new CollectionPanel( new CollectionList( new KitCollection() {{
             addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) ); // collection box so it gets the width correctly
         }}, new LayoutBounds( false, 0 ) ), singleCollectionMode, new VoidFunction1<SimpleObserver>() {
@@ -209,11 +211,15 @@ public class CollectionPanel extends PNode {
             }
         }
         );
-        return MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
+        System.out.println( "verify: " + collectionPanel.getFullBounds().getWidth() );
+        double result = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
+        System.out.println( "prediction model " + singleCollectionMode + ": " + result );
+        System.out.println( "prediction view " + singleCollectionMode + ": " + MODEL_VIEW_TRANSFORM.modelToViewDeltaX( result ) );
+        return result;
     }
 
     private double getPlacementWidth() {
-        return layoutNode.getLayoutBounds().getWidth() + CONTAINER_PADDING * 2;
+        return layoutNode.getFullBounds().getWidth() + CONTAINER_PADDING * 2;
     }
 
     private double getPlacementHeight() {

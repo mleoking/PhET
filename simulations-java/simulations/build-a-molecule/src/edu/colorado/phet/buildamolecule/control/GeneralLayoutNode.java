@@ -1,9 +1,13 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.control;
 
+import java.awt.*;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -11,12 +15,23 @@ import edu.umd.cs.piccolo.util.PBounds;
 /**
  * A container that allows flexible layout generation.
  * <p/>
- * NOTE: layout update only happens on addChild and/or manual calls to updateLayout()
- * TODO: documentation
- * TODO: consider updating methods
+ * Based on layout methods that can be composed together.
  */
 public class GeneralLayoutNode extends PNode {
+    private static final boolean DEBUG = false;
+
     private final List<LayoutElement> elements = new ArrayList<LayoutElement>();
+
+    private boolean updateOnChildBounds;
+    private PropertyChangeListener childBoundsListener = new PropertyChangeListener() {
+        public void propertyChange( final PropertyChangeEvent event ) {
+            final String propertyName = event.getPropertyName();
+            if ( propertyName.equals( PNode.PROPERTY_VISIBLE ) || propertyName.equals( PNode.PROPERTY_FULL_BOUNDS ) ||
+                 propertyName.equals( PNode.PROPERTY_BOUNDS ) || propertyName.equals( PNode.PROPERTY_TRANSFORM ) ) {
+                updateLayout();
+            }
+        }
+    };
 
     /**
      * Takes up space that represents the bounds of all of the layout elements (with their padding)
@@ -26,8 +41,22 @@ public class GeneralLayoutNode extends PNode {
     }};
 
     public GeneralLayoutNode() {
+        this( false );
+    }
+
+    public GeneralLayoutNode( boolean updateOnChildBounds ) {
+        this.updateOnChildBounds = updateOnChildBounds;
         addChild( invisibleBackground );
     }
+
+    public LayoutProperties getLayoutProperties() {
+        return new LayoutProperties( elements );
+    }
+
+    /*---------------------------------------------------------------------------*
+    * adding children
+    * adds a node at an optional index with a specific layout method (and optional padding)
+    *----------------------------------------------------------------------------*/
 
     public void addChild( PNode node, LayoutMethod method ) {
         addChild( new LayoutElement( node, method ) );
@@ -46,17 +75,19 @@ public class GeneralLayoutNode extends PNode {
     }
 
     public void addChild( LayoutElement element ) {
-        elements.add( element );
-        super.addChild( element.node );
-        updateLayout();
+        addChild( elements.size(), element );
     }
 
     public void addChild( final int index, LayoutElement element ) {
         elements.add( index, element );
         super.addChild( index + 1, element.node ); // index + 1 since we take into account invisibleBackground
+        if ( updateOnChildBounds ) {
+            element.node.addPropertyChangeListener( childBoundsListener );
+        }
         updateLayout();
     }
 
+    // handle removal of children properly, however it is done
     @Override public PNode removeChild( int index ) {
         PNode child = super.getChild( index );
 
@@ -64,13 +95,17 @@ public class GeneralLayoutNode extends PNode {
         for ( LayoutElement element : new ArrayList<LayoutElement>( elements ) ) {
             if ( element.node == child ) {
                 elements.remove( element );
+                element.node.removePropertyChangeListener( childBoundsListener );
             }
         }
         return super.removeChild( index );
     }
 
+    /**
+     * Fully updates the layout
+     */
     public void updateLayout() {
-        LayoutProperties layoutProperties = new LayoutProperties( elements );
+        LayoutProperties layoutProperties = getLayoutProperties();
         for ( int i = 0; i < elements.size(); i++ ) {
             LayoutElement element = elements.get( i );
             element.method.layout( element, i, ( i > 0 ? elements.get( i - 1 ) : null ), layoutProperties );
@@ -80,7 +115,20 @@ public class GeneralLayoutNode extends PNode {
         invisibleBackground.removeAllChildren();
         PBounds bounds = getLayoutBounds();
         if ( bounds != null ) {
-            invisibleBackground.addChild( new PPath( bounds ) );
+            invisibleBackground.addChild( new PPath( bounds ) {{
+                setStrokePaint( Color.RED );
+            }} );
+        }
+
+        if ( DEBUG ) {
+            invisibleBackground.setVisible( true );
+
+            for ( LayoutElement element : elements ) {
+                invisibleBackground.addChild( new PhetPPath( new PBounds( element.node.getFullBounds() ) ) {{
+                    setStrokePaint( Color.BLUE );
+                    setPaint( new Color( 255, 0, 0, 100 ) );
+                }} );
+            }
         }
     }
 
@@ -159,6 +207,11 @@ public class GeneralLayoutNode extends PNode {
         public final double maxWidth;
         public final double maxHeight;
 
+        public LayoutProperties( double maxWidth, double maxHeight ) {
+            this.maxWidth = maxWidth;
+            this.maxHeight = maxHeight;
+        }
+
         public LayoutProperties( List<LayoutElement> elements ) {
             double largestWidth = 0;
             double largestHeight = 0;
@@ -205,11 +258,17 @@ public class GeneralLayoutNode extends PNode {
         }
 
         public void setLeft( double left ) {
-            node.setOffset( left + paddingLeft, node.getYOffset() );
+            double newXOffset = left + paddingLeft;
+            if ( node.getXOffset() != newXOffset ) {
+                node.setOffset( newXOffset, node.getYOffset() );
+            }
         }
 
         public void setTop( double top ) {
-            node.setOffset( node.getXOffset(), top + paddingTop );
+            double newYOffset = top + paddingTop;
+            if ( node.getYOffset() != newYOffset ) {
+                node.setOffset( node.getXOffset(), newYOffset );
+            }
         }
     }
 }
