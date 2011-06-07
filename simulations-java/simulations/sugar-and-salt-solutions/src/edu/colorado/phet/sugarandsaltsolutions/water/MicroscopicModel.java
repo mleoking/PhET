@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro;
+package edu.colorado.phet.sugarandsaltsolutions.water;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -20,8 +20,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
-import static edu.colorado.phet.sugarandsaltsolutions.micro.S3Element.CHLORINE_RADIUS;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.S3Element.SODIUM_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.CHLORINE_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.SODIUM_RADIUS;
 
 /**
  * Model for "micro" tab for sugar and salt solutions.
