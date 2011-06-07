@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.model.components;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.circuitconstructionkit.model.*;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -36,18 +36,18 @@ public abstract class Branch extends SimpleObservableDebug {
 
     private static int indexCounter = 0;
 
-    protected Branch(CircuitChangeListener listener) {
-        name = toLabel(indexCounter++);
-        setResistance(CCKModel.MIN_RESISTANCE);
-        addKirkhoffListener(listener);
+    protected Branch( CircuitChangeListener listener ) {
+        name = toLabel( indexCounter++ );
+        setResistance( CCKModel.MIN_RESISTANCE );
+        addKirkhoffListener( listener );
     }
 
-    public Branch(CircuitChangeListener listener, Junction startJunction, Junction endJunction) {
-        this(listener);
+    public Branch( CircuitChangeListener listener, Junction startJunction, Junction endJunction ) {
+        this( listener );
         this.startJunction = startJunction;
         this.endJunction = endJunction;
-        startJunction.addObserver(so);
-        endJunction.addObserver(so);
+        startJunction.addObserver( so );
+        endJunction.addObserver( so );
     }
 
     public int hashCode() {
@@ -59,7 +59,7 @@ public abstract class Branch extends SimpleObservableDebug {
      *
      * @param label the name to assign to this Branch.
      */
-    public void setName(String label) {
+    public void setName( String label ) {
         this.name = label;
     }
 
@@ -75,13 +75,13 @@ public abstract class Branch extends SimpleObservableDebug {
         return isSelected;
     }
 
-    public void setSelected(boolean selected) {
+    public void setSelected( boolean selected ) {
         isSelected = selected;
         notifyObservers();
     }
 
-    public void removeFlameListener(FlameListener flameListener) {
-        flameListeners.remove(flameListener);
+    public void removeFlameListener( FlameListener flameListener ) {
+        flameListeners.remove( flameListener );
     }
 
     public static interface FlameListener {
@@ -90,24 +90,24 @@ public abstract class Branch extends SimpleObservableDebug {
         void flameFinished();
     }
 
-    public void addFlameListener(FlameListener flameListener) {
-        flameListeners.add(flameListener);
+    public void addFlameListener( FlameListener flameListener ) {
+        flameListeners.add( flameListener );
     }
 
-    public void addCurrentVoltListener(CurrentVoltListener currentListener) {
-        ivListeners.add(currentListener);
+    public void addCurrentVoltListener( CurrentVoltListener currentListener ) {
+        ivListeners.add( currentListener );
     }
 
-    public void removeCurrentVoltListener(CurrentVoltListener currentListener) {
-        ivListeners.remove(currentListener);
+    public void removeCurrentVoltListener( CurrentVoltListener currentListener ) {
+        ivListeners.remove( currentListener );
     }
 
-    public void addKirkhoffListener(CircuitChangeListener circuitChangeListener) {
-        circuitChangeListeners.addCircuitChangeListener(circuitChangeListener);
+    public void addKirkhoffListener( CircuitChangeListener circuitChangeListener ) {
+        circuitChangeListeners.addCircuitChangeListener( circuitChangeListener );
     }
 
-    public void addObserver(SimpleObserver so) {
-        super.addObserver(so);
+    public void addObserver( SimpleObserver so ) {
+        super.addObserver( so );
     }
 
     public String toString() {
@@ -115,7 +115,7 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
     public ImmutableVector2D getDirectionVector() {
-        return new ImmutableVector2D(startJunction.getPosition(), endJunction.getPosition());
+        return new ImmutableVector2D( startJunction.getPosition(), endJunction.getPosition() );
     }
 
     public double getResistance() {
@@ -130,14 +130,14 @@ public abstract class Branch extends SimpleObservableDebug {
         return voltageDrop;
     }
 
-    public void setResistance(double resistance) {
-        if (resistance < 0) {
-            throw new RuntimeException("Resistance was < 0, value=" + resistance);
+    public void setResistance( double resistance ) {
+        if ( resistance < 0 ) {
+            throw new RuntimeException( "Resistance was < 0, value=" + resistance );
         }
-        if (resistance < CCKModel.MIN_RESISTANCE) {
-            throw new RuntimeException("Resistance was less than MIN, res=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE);
+        if ( resistance < CCKModel.MIN_RESISTANCE ) {
+            throw new RuntimeException( "Resistance was less than MIN, res=" + resistance + ", min=" + CCKModel.MIN_RESISTANCE );
         }
-        if (resistance != this.resistance) {
+        if ( resistance != this.resistance ) {
             this.resistance = resistance;
             notifyObservers();
             fireKirkhoffChange();
@@ -146,35 +146,36 @@ public abstract class Branch extends SimpleObservableDebug {
 
     public void notifyObservers() {
         ArrayList<SimpleObserver> so = getObserverList();
-        for (int i = 0; i < so.size(); i++) {
+        for ( int i = 0; i < so.size(); i++ ) {
             SimpleObserver simpleObserver = so.get( i );
-            if (simpleObserver instanceof Electron.Observer) {
+            if ( simpleObserver instanceof Electron.Observer ) {
                 Electron.Observer e = (Electron.Observer) simpleObserver;//todo: why need for casting?
-                if (e.isDeleted()) {
-                    removeObserver(simpleObserver);
+                if ( e.isDeleted() ) {
+                    removeObserver( simpleObserver );
                 }
             }
         }
         super.notifyObservers();
     }
 
-    public void setCurrent(double current) {
-        if (this.current != current) {
+    public void setCurrent( double current ) {
+        if ( this.current != current ) {
             this.current = current;
             notifyObservers();
-            for (CurrentVoltListener ivListener : ivListeners) {
-                ivListener.currentOrVoltageChanged(this);
+            for ( CurrentVoltListener ivListener : ivListeners ) {
+                ivListener.currentOrVoltageChanged( this );
             }
         }
-        boolean shouldBeOnFire = Math.abs(current) > 10.0;
-        if (shouldBeOnFire != isOnFire) {
+        boolean shouldBeOnFire = Math.abs( current ) > 10.0;
+        if ( shouldBeOnFire != isOnFire ) {
             this.isOnFire = shouldBeOnFire;
-            if (isOnFire) {
-                for (FlameListener flameListener : flameListeners) {
+            if ( isOnFire ) {
+                for ( FlameListener flameListener : flameListeners ) {
                     flameListener.flameFinished();
                 }
-            } else {
-                for (FlameListener flameListener : flameListeners) {
+            }
+            else {
+                for ( FlameListener flameListener : flameListeners ) {
                     flameListener.flameStarted();
                 }
             }
@@ -182,18 +183,18 @@ public abstract class Branch extends SimpleObservableDebug {
     }
 
 
-    public void setVoltageDrop(double voltageDrop) {
-        if (this.voltageDrop != voltageDrop) {
+    public void setVoltageDrop( double voltageDrop ) {
+        if ( this.voltageDrop != voltageDrop ) {
             this.voltageDrop = voltageDrop;
             notifyObservers();
-            for (int i = 0; i < ivListeners.size(); i++) {
-                ivListeners.get(i).currentOrVoltageChanged(this);
+            for ( int i = 0; i < ivListeners.size(); i++ ) {
+                ivListeners.get( i ).currentOrVoltageChanged( this );
             }
         }
     }
 
     public void fireKirkhoffChange() {
-        if (kirkhoffEnabled) {
+        if ( kirkhoffEnabled ) {
             circuitChangeListeners.circuitChanged();
         }
     }
@@ -230,71 +231,76 @@ public abstract class Branch extends SimpleObservableDebug {
         return endJunction;
     }
 
-    public boolean hasJunction(Junction junction) {
+    public boolean hasJunction( Junction junction ) {
         return endJunction == junction || startJunction == junction;
     }
 
-    public Junction opposite(Junction a) {
-        if (startJunction == a) {
+    public Junction opposite( Junction a ) {
+        if ( startJunction == a ) {
             return endJunction;
-        } else if (endJunction == a) {
+        }
+        else if ( endJunction == a ) {
             return startJunction;
-        } else {
-            throw new RuntimeException("No such junction: " + a);
+        }
+        else {
+            throw new RuntimeException( "No such junction: " + a );
         }
     }
 
-    public void setStartJunction(Junction newJunction) {
-        if (startJunction != null) {
-            startJunction.removeObserver(so);
+    public void setStartJunction( Junction newJunction ) {
+        if ( startJunction != null ) {
+            startJunction.removeObserver( so );
         }
         this.startJunction = newJunction;
-        startJunction.addObserver(so);
+        startJunction.addObserver( so );
     }
 
-    public void translate(double dx, double dy) {
-        getStartJunction().translate(dx, dy);
-        getEndJunction().translate(dx, dy);
+    public void translate( double dx, double dy ) {
+        getStartJunction().translate( dx, dy );
+        getEndJunction().translate( dx, dy );
     }
 
-    public void setEndJunction(Junction newJunction) {
-        if (endJunction != null) {
-            endJunction.removeObserver(so);
+    public void setEndJunction( Junction newJunction ) {
+        if ( endJunction != null ) {
+            endJunction.removeObserver( so );
         }
         this.endJunction = newJunction;
-        endJunction.addObserver(so);
+        endJunction.addObserver( so );
     }
 
-    public void replaceJunction(Junction junction, Junction newJ) {
-        if (junction == startJunction) {
-            setStartJunction(newJ);
-        } else if (junction == endJunction) {
-            setEndJunction(newJ);
-        } else {
-            throw new RuntimeException("No such junction.");
+    public void replaceJunction( Junction junction, Junction newJ ) {
+        if ( junction == startJunction ) {
+            setStartJunction( newJ );
+        }
+        else if ( junction == endJunction ) {
+            setEndJunction( newJ );
+        }
+        else {
+            throw new RuntimeException( "No such junction." );
         }
     }
 
     public double getLength() {
-        return getStartJunction().getDistance(getEndJunction());
+        return getStartJunction().getDistance( getEndJunction() );
     }
 
-    public Point2D getPosition(double x) {
-        if (getLength() == 0) {
+    public Point2D getPosition( double x ) {
+        if ( getLength() == 0 ) {
             return getStartJunction().getPosition();
         }
-        ImmutableVector2D vec = new Vector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getInstanceOfMagnitude(x);
-        return vec.getDestination(getStartJunction().getPosition());
+        ImmutableVector2D vec = new Vector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getInstanceOfMagnitude( x );
+        return vec.getDestination( getStartJunction().getPosition() );
     }
 
-    private static String toLabel(int label) {
+    private static String toLabel( int label ) {
         char ch = 'a';
         ch += label % 26;
         int val = label / 26;
         String out = "";
-        if (val == 0) {
+        if ( val == 0 ) {
             out = "" + ch;
-        } else {
+        }
+        else {
             out = "" + ch + "_" + val;
         }
         return out;
@@ -304,25 +310,25 @@ public abstract class Branch extends SimpleObservableDebug {
         return name;
     }
 
-    public boolean containsScalarLocation(double x) {
+    public boolean containsScalarLocation( double x ) {
         return x >= 0 && x <= getLength();
     }
 
     public double getAngle() {
-        return new ImmutableVector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getAngle();
+        return new ImmutableVector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getAngle();
     }
 
     public Point2D getCenter() {
-        return new Vector2D(getStartJunction().getPosition(), getEndJunction().getPosition()).getScaledInstance(.5).getDestination(getStartJunction().getPosition());
+        return new Vector2D( getStartJunction().getPosition(), getEndJunction().getPosition() ).getScaledInstance( .5 ).getDestination( getStartJunction().getPosition() );
     }
 
     public void delete() {
         removeAllObservers();
-        endJunction.removeObserver(so);
-        startJunction.removeObserver(so);
+        endJunction.removeObserver( so );
+        startJunction.removeObserver( so );
     }
 
-    public void setKirkhoffEnabled(boolean kirkhoffEnabled) {
+    public void setKirkhoffEnabled( boolean kirkhoffEnabled ) {
         this.kirkhoffEnabled = kirkhoffEnabled;
     }
 
@@ -336,8 +342,8 @@ public abstract class Branch extends SimpleObservableDebug {
         return editing;
     }
 
-    public void setEditing(boolean editing) {
-        if (this.editing != editing) {
+    public void setEditing( boolean editing ) {
+        if ( this.editing != editing ) {
             this.editing = editing;
             notifyObservers();
         }
@@ -347,7 +353,7 @@ public abstract class Branch extends SimpleObservableDebug {
         return true;
     }
 
-    public void setMNACurrent(double mnaCurrent) {
+    public void setMNACurrent( double mnaCurrent ) {
         this.mnaCurrent = mnaCurrent;
     }
 
@@ -355,7 +361,7 @@ public abstract class Branch extends SimpleObservableDebug {
         return mnaCurrent;
     }
 
-    public void setMNAVoltageDrop(double mnaVoltageDrop) {
+    public void setMNAVoltageDrop( double mnaVoltageDrop ) {
         this.mnaVoltageDrop = mnaVoltageDrop;
     }
 

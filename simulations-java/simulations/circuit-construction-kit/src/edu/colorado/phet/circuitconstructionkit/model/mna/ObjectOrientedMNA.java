@@ -12,17 +12,17 @@ import java.util.*;
  * @author Sam Reid
  */
 public class ObjectOrientedMNA implements LinearCircuitSolver {
-    public ISolution solve(Circuit circuit) {
-        return new OOCircuit(circuit.batteries, circuit.resistors, circuit.currentSources).solve();
+    public ISolution solve( Circuit circuit ) {
+        return new OOCircuit( circuit.batteries, circuit.resistors, circuit.currentSources ).solve();
     }
 
     public static class OOCircuit extends Circuit {
-        OOCircuit(List<Battery> batteries, List<Resistor> resistors) {
-            super(batteries, resistors);
+        OOCircuit( List<Battery> batteries, List<Resistor> resistors ) {
+            super( batteries, resistors );
         }
 
-        OOCircuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
-            super(batteries, resistors, currentSources);
+        OOCircuit( List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources ) {
+            super( batteries, resistors, currentSources );
         }
 
         int getNumVars() {
@@ -33,44 +33,44 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
             private final double coefficient;
             private final Unknown variable;
 
-            public Term(double coefficient, Unknown variable) {
+            public Term( double coefficient, Unknown variable ) {
                 this.coefficient = coefficient;
                 this.variable = variable;
             }
 
             public String toTermString() {
-                String prefix = coefficient == 1 ? "" : ((coefficient == -1) ? "-" : coefficient + "*");
+                String prefix = coefficient == 1 ? "" : ( ( coefficient == -1 ) ? "-" : coefficient + "*" );
                 return prefix + variable.toTermName();
             }
         }
 
         static interface IndexMap {
-            int getIndex(Unknown unknown);
+            int getIndex( Unknown unknown );
         }
 
         class Equation {
             double rhs;
             Term[] terms;
 
-            Equation(double rhs, Term... terms) {
+            Equation( double rhs, Term... terms ) {
                 this.rhs = rhs;
                 this.terms = terms;
             }
 
-            void stamp(int row, Matrix A, Matrix z, IndexMap indexMap) {
-                z.set(row, 0, rhs);
-                for (Term a : terms) {
-                    A.set(row, indexMap.getIndex(a.variable), a.coefficient + A.get(row, indexMap.getIndex(a.variable)));
+            void stamp( int row, Matrix A, Matrix z, IndexMap indexMap ) {
+                z.set( row, 0, rhs );
+                for ( Term a : terms ) {
+                    A.set( row, indexMap.getIndex( a.variable ), a.coefficient + A.get( row, indexMap.getIndex( a.variable ) ) );
                 }
             }
 
             public String toString() {
                 ArrayList<String> termList = new ArrayList<String>();
-                for (Term a : terms) {
-                    termList.add(a.toTermString());
+                for ( Term a : terms ) {
+                    termList.add( a.toTermString() );
                 }
-                String result = "" + Util.mkString(termList, "+") + "=" + rhs;
-                return result.replaceAll("\\+\\-", "\\-");
+                String result = "" + Util.mkString( termList, "+" ) + "=" + rhs;
+                return result.replaceAll( "\\+\\-", "\\-" );
             }
         }
 
@@ -81,7 +81,7 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
         class UnknownCurrent extends Unknown {
             Element element;
 
-            UnknownCurrent(Element element) {
+            UnknownCurrent( Element element ) {
                 this.element = element;
             }
 
@@ -90,17 +90,17 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
             }
 
             @Override
-            public boolean equals(Object o) {
-                if (this == o) {
+            public boolean equals( Object o ) {
+                if ( this == o ) {
                     return true;
                 }
-                if (o == null || getClass() != o.getClass()) {
+                if ( o == null || getClass() != o.getClass() ) {
                     return false;
                 }
 
                 UnknownCurrent that = (UnknownCurrent) o;
 
-                if (!element.equals(that.element)) {
+                if ( !element.equals( that.element ) ) {
                     return false;
                 }
 
@@ -119,7 +119,7 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
         class UnknownVoltage extends Unknown {
             int node;
 
-            UnknownVoltage(int node) {
+            UnknownVoltage( int node ) {
                 this.node = node;
             }
 
@@ -128,17 +128,17 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
             }
 
             @Override
-            public boolean equals(Object o) {
-                if (this == o) {
+            public boolean equals( Object o ) {
+                if ( this == o ) {
                     return true;
                 }
-                if (o == null || getClass() != o.getClass()) {
+                if ( o == null || getClass() != o.getClass() ) {
                     return false;
                 }
 
                 UnknownVoltage that = (UnknownVoltage) o;
 
-                if (node != that.node) {
+                if ( node != that.node ) {
                     return false;
                 }
 
@@ -157,13 +157,13 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
         }
 
 
-        double getRHS(int node) {
+        double getRHS( int node ) {
             double sum = 0.0;
-            for (CurrentSource c : currentSources) {
-                if (c.node1 == node) {
+            for ( CurrentSource c : currentSources ) {
+                if ( c.node1 == node ) {
                     sum = sum - c.current;//positive current is entering the node//TODO: these signs seem backwards, shouldn't incoming current add?
                 }
-                if (c.node0 == node) {
+                if ( c.node0 == node ) {
                     sum = sum + c.current;//positive current is leaving the node
                 }
             }
@@ -175,23 +175,23 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
 
         //incoming current is negative, outgoing is positive
 
-        ArrayList<Term> getIncomingCurrentTerms(int node) {
+        ArrayList<Term> getIncomingCurrentTerms( int node ) {
             ArrayList<Term> nodeTerms = new ArrayList<Term>();
-            for (Battery b : batteries) {
-                if (b.node1 == node) {
-                    nodeTerms.add(new Term(-1, new UnknownCurrent(b)));
+            for ( Battery b : batteries ) {
+                if ( b.node1 == node ) {
+                    nodeTerms.add( new Term( -1, new UnknownCurrent( b ) ) );
                 }
             }
-            for (Resistor r : resistors) {
-                if (r.node1 == node && r.resistance == 0)//Treat resistors with R=0 as having unknown current and v1=v2
+            for ( Resistor r : resistors ) {
+                if ( r.node1 == node && r.resistance == 0 )//Treat resistors with R=0 as having unknown current and v1=v2
                 {
-                    nodeTerms.add(new Term(-1, new UnknownCurrent(r)));
+                    nodeTerms.add( new Term( -1, new UnknownCurrent( r ) ) );
                 }
             }
-            for (Resistor r : resistors) {
-                if (r.node1 == node && r.resistance != 0) {
-                    nodeTerms.add(new Term(1 / r.resistance, new UnknownVoltage(r.node1)));
-                    nodeTerms.add(new Term(-1 / r.resistance, new UnknownVoltage(r.node0)));
+            for ( Resistor r : resistors ) {
+                if ( r.node1 == node && r.resistance != 0 ) {
+                    nodeTerms.add( new Term( 1 / r.resistance, new UnknownVoltage( r.node1 ) ) );
+                    nodeTerms.add( new Term( -1 / r.resistance, new UnknownVoltage( r.node0 ) ) );
                 }
             }
             return nodeTerms;
@@ -199,32 +199,32 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
 
         //outgoing currents are negative so that incoming + outgoing = 0
 
-        ArrayList<Term> getOutgoingCurrentTerms(int node) {
+        ArrayList<Term> getOutgoingCurrentTerms( int node ) {
             ArrayList<Term> nodeTerms = new ArrayList<Term>();
-            for (Battery b : batteries) {
-                if (b.node0 == node) {
-                    nodeTerms.add(new Term(1, new UnknownCurrent(b)));
+            for ( Battery b : batteries ) {
+                if ( b.node0 == node ) {
+                    nodeTerms.add( new Term( 1, new UnknownCurrent( b ) ) );
                 }
             }
-            for (Resistor r : resistors) {
+            for ( Resistor r : resistors ) {
                 //Treat resistors with R=0 as having unknown current and v1=v2
-                if (r.node0 == node && r.resistance == 0) {
-                    nodeTerms.add(new Term(1, new UnknownCurrent(r)));
+                if ( r.node0 == node && r.resistance == 0 ) {
+                    nodeTerms.add( new Term( 1, new UnknownCurrent( r ) ) );
                 }
             }
-            for (Resistor r : resistors) {
-                if (r.node0 == node && r.resistance != 0) {
-                    nodeTerms.add(new Term(-1 / r.resistance, new UnknownVoltage(r.node1)));
-                    nodeTerms.add(new Term(1 / r.resistance, new UnknownVoltage(r.node0)));
+            for ( Resistor r : resistors ) {
+                if ( r.node0 == node && r.resistance != 0 ) {
+                    nodeTerms.add( new Term( -1 / r.resistance, new UnknownVoltage( r.node1 ) ) );
+                    nodeTerms.add( new Term( 1 / r.resistance, new UnknownVoltage( r.node0 ) ) );
                 }
             }
             return nodeTerms;
         }
 
-        ArrayList<Term> getCurrentConservationTerms(int node) {
+        ArrayList<Term> getCurrentConservationTerms( int node ) {
             ArrayList<Term> nodeTerms = new ArrayList<Term>();
-            nodeTerms.addAll(getIncomingCurrentTerms(node));
-            nodeTerms.addAll(getOutgoingCurrentTerms(node));
+            nodeTerms.addAll( getIncomingCurrentTerms( node ) );
+            nodeTerms.addAll( getOutgoingCurrentTerms( node ) );
             return nodeTerms;
         }
 
@@ -233,41 +233,41 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
         HashSet<Integer> getReferenceNodes() {
             HashSet<Integer> nodeSet = getNodeSet();
             HashSet<Integer> remaining = new HashSet<Integer>();
-            remaining.addAll(nodeSet);
+            remaining.addAll( nodeSet );
             HashSet<Integer> referenceNodes = new HashSet<Integer>();
-            while (remaining.size() > 0) {
-                ArrayList<Integer> sorted = doSort(remaining.toArray(new Integer[remaining.size()]));
-                referenceNodes.add(sorted.get(0));
-                HashSet<Integer> connected = getConnectedNodes(sorted.get(0));
-                remaining.removeAll(connected);
+            while ( remaining.size() > 0 ) {
+                ArrayList<Integer> sorted = doSort( remaining.toArray( new Integer[remaining.size()] ) );
+                referenceNodes.add( sorted.get( 0 ) );
+                HashSet<Integer> connected = getConnectedNodes( sorted.get( 0 ) );
+                remaining.removeAll( connected );
             }
             return referenceNodes;
         }
 
-        private ArrayList<Integer> doSort(Integer[] objects) {
-            ArrayList<Integer> copy = new ArrayList<Integer>(Arrays.asList(objects));
-            Collections.sort(copy);
+        private ArrayList<Integer> doSort( Integer[] objects ) {
+            ArrayList<Integer> copy = new ArrayList<Integer>( Arrays.asList( objects ) );
+            Collections.sort( copy );
             return copy;
         }
 
-        HashSet<Integer> getConnectedNodes(int node) {
+        HashSet<Integer> getConnectedNodes( int node ) {
             HashSet<Integer> visited = new HashSet<Integer>();
             HashSet<Integer> toVisit = new HashSet<Integer>();
-            toVisit.add(node);
-            getConnectedNodes(visited, toVisit);
+            toVisit.add( node );
+            getConnectedNodes( visited, toVisit );
             return visited;
         }
 
-        private void getConnectedNodes(HashSet<Integer> visited, HashSet<Integer> toVisit) {
-            while (toVisit.size() > 0) {
-                Integer n = toVisit.toArray(new Integer[toVisit.size()])[0];
-                visited.add(n);
-                for (Element e : getElements()) {
-                    if (e.containsNode(n) && !visited.contains(e.getOpposite(n))) {
-                        toVisit.add(e.getOpposite(n));
+        private void getConnectedNodes( HashSet<Integer> visited, HashSet<Integer> toVisit ) {
+            while ( toVisit.size() > 0 ) {
+                Integer n = toVisit.toArray( new Integer[toVisit.size()] )[0];
+                visited.add( n );
+                for ( Element e : getElements() ) {
+                    if ( e.containsNode( n ) && !visited.contains( e.getOpposite( n ) ) ) {
+                        toVisit.add( e.getOpposite( n ) );
                     }
                 }
-                toVisit.remove(n);
+                toVisit.remove( n );
             }
         }
 
@@ -276,24 +276,24 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
             //    println("nodeset=" + getNodeSet)
 
             //reference node in each connected component has a voltage of 0.0
-            for (Integer n : getReferenceNodes()) {
-                list.add(new Equation(0, new Term(1, new UnknownVoltage(n))));
+            for ( Integer n : getReferenceNodes() ) {
+                list.add( new Equation( 0, new Term( 1, new UnknownVoltage( n ) ) ) );
             }
 
             //for each node, charge is conserved
-            for (Integer node : getNodeSet()) {
-                list.add(new Equation(getRHS(node), getCurrentConservationTerms(node).toArray(new Term[getCurrentConservationTerms(node).size()])));
+            for ( Integer node : getNodeSet() ) {
+                list.add( new Equation( getRHS( node ), getCurrentConservationTerms( node ).toArray( new Term[getCurrentConservationTerms( node ).size()] ) ) );
             }
 
             //for each battery, voltage drop is given
-            for (Battery battery : batteries) {
-                list.add(new Equation(battery.voltage, new Term(-1, new UnknownVoltage(battery.node0)), new Term(1, new UnknownVoltage(battery.node1))));
+            for ( Battery battery : batteries ) {
+                list.add( new Equation( battery.voltage, new Term( -1, new UnknownVoltage( battery.node0 ) ), new Term( 1, new UnknownVoltage( battery.node1 ) ) ) );
             }
 
             //if resistor has no resistance, node0 and node1 should have same voltage
-            for (Resistor resistor : resistors) {
-                if (resistor.resistance == 0) {
-                    list.add(new Equation(0, new Term(1, new UnknownVoltage(resistor.node0)), new Term(-1, new UnknownVoltage(resistor.node1))));
+            for ( Resistor resistor : resistors ) {
+                if ( resistor.resistance == 0 ) {
+                    list.add( new Equation( 0, new Term( 1, new UnknownVoltage( resistor.node0 ) ), new Term( -1, new UnknownVoltage( resistor.node1 ) ) ) );
                 }
             }
 
@@ -302,100 +302,100 @@ public class ObjectOrientedMNA implements LinearCircuitSolver {
 
         ArrayList<UnknownVoltage> getUnknownVoltages() {
             ArrayList<UnknownVoltage> v = new ArrayList<UnknownVoltage>();
-            for (Integer node : getNodeSet()) {
-                v.add(new UnknownVoltage(node));
+            for ( Integer node : getNodeSet() ) {
+                v.add( new UnknownVoltage( node ) );
             }
             return v;
         }
 
         ArrayList<UnknownCurrent> getUnknownCurrents() {
             ArrayList<UnknownCurrent> unknowns = new ArrayList<UnknownCurrent>();
-            for (Battery battery : batteries) {
-                unknowns.add(new UnknownCurrent(battery));
+            for ( Battery battery : batteries ) {
+                unknowns.add( new UnknownCurrent( battery ) );
             }
 
             //Treat resistors with R=0 as having unknown current and v1=v2
-            for (Resistor resistor : resistors) {
-                if (resistor.resistance == 0) {
-                    unknowns.add(new UnknownCurrent(resistor));
+            for ( Resistor resistor : resistors ) {
+                if ( resistor.resistance == 0 ) {
+                    unknowns.add( new UnknownCurrent( resistor ) );
                 }
             }
             return unknowns;
         }
 
         ArrayList<Unknown> getUnknowns() {
-            ArrayList<Unknown> all = new ArrayList<Unknown>(getUnknownCurrents());
-            all.addAll(getUnknownVoltages());
+            ArrayList<Unknown> all = new ArrayList<Unknown>( getUnknownCurrents() );
+            all.addAll( getUnknownVoltages() );
             return all;
         }
 
         public ISolution solve() {
             ArrayList<Equation> equations = getEquations();
 
-            Matrix A = new Matrix(equations.size(), getNumVars());
-            Matrix z = new Matrix(equations.size(), 1);
+            Matrix A = new Matrix( equations.size(), getNumVars() );
+            Matrix z = new Matrix( equations.size(), 1 );
             final ArrayList<Unknown> unknowns = getUnknowns();//store the unknown list for index lookup
-            for (int i = 0; i < equations.size(); i++) {
-                equations.get(i).stamp(i, A, z, new IndexMap() {
-                    public int getIndex(Unknown unknown) {
-                        return unknowns.indexOf(unknown);//todo: this step could be sped up
+            for ( int i = 0; i < equations.size(); i++ ) {
+                equations.get( i ).stamp( i, A, z, new IndexMap() {
+                    public int getIndex( Unknown unknown ) {
+                        return unknowns.indexOf( unknown );//todo: this step could be sped up
                     }
-                });
+                } );
             }
 
-            if (debug) {
-                System.out.println("Debugging circuit: " + toString());
-                System.out.println(Util.mkString(equations, "\n"));
-                System.out.println("a=");
-                A.print(4, 2);
-                System.out.println("z=");
-                z.print(4, 2);
-                System.out.println("unknowns=\n" + Util.mkString(getUnknowns(), "\n"));
+            if ( debug ) {
+                System.out.println( "Debugging circuit: " + toString() );
+                System.out.println( Util.mkString( equations, "\n" ) );
+                System.out.println( "a=" );
+                A.print( 4, 2 );
+                System.out.println( "z=" );
+                z.print( 4, 2 );
+                System.out.println( "unknowns=\n" + Util.mkString( getUnknowns(), "\n" ) );
             }
-            Matrix x = A.solve(z);
+            Matrix x = A.solve( z );
 
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
-            for (UnknownVoltage nodeVoltage : getUnknownVoltages()) {
-                voltageMap.put(nodeVoltage.node, x.get(getUnknowns().indexOf(nodeVoltage), 0));
+            for ( UnknownVoltage nodeVoltage : getUnknownVoltages() ) {
+                voltageMap.put( nodeVoltage.node, x.get( getUnknowns().indexOf( nodeVoltage ), 0 ) );
             }
 
             HashMap<Element, Double> currentMap = new HashMap<Element, Double>();
-            for (UnknownCurrent currentVar : getUnknownCurrents()) {
-                currentMap.put(currentVar.element, x.get(getUnknowns().indexOf(currentVar), 0));
+            for ( UnknownCurrent currentVar : getUnknownCurrents() ) {
+                currentMap.put( currentVar.element, x.get( getUnknowns().indexOf( currentVar ), 0 ) );
             }
 
-            if (debug) {
-                System.out.println("x=");
-                x.print(4, 2);
+            if ( debug ) {
+                System.out.println( "x=" );
+                x.print( 4, 2 );
             }
 
-            return new LinearCircuitSolution(voltageMap, currentMap);
+            return new LinearCircuitSolution( voltageMap, currentMap );
         }
 
         public boolean debug = false;
     }
 
     public static class TestMNA {
-        public static void main(String[] args) {
+        public static void main( String[] args ) {
             final ArrayList<Battery> batteryArrayList = new ArrayList<Battery>();
-            Battery battery = new Battery(0, 1, 4.0);
-            batteryArrayList.add(battery);
+            Battery battery = new Battery( 0, 1, 4.0 );
+            batteryArrayList.add( battery );
             final ArrayList<Resistor> resistorArrayList = new ArrayList<Resistor>();
-            resistorArrayList.add(new Resistor(1, 2, 4.0));
-            Resistor resistor2 = new Resistor(2, 0, 0.0);
-            resistorArrayList.add(resistor2);
-            OOCircuit circuit = new OOCircuit(batteryArrayList, resistorArrayList);
+            resistorArrayList.add( new Resistor( 1, 2, 4.0 ) );
+            Resistor resistor2 = new Resistor( 2, 0, 0.0 );
+            resistorArrayList.add( resistor2 );
+            OOCircuit circuit = new OOCircuit( batteryArrayList, resistorArrayList );
             HashMap<Integer, Double> voltageMap = new HashMap<Integer, Double>();
-            voltageMap.put(0, 0.0);
-            voltageMap.put(1, 4.0);
-            voltageMap.put(2, 0.0);
+            voltageMap.put( 0, 0.0 );
+            voltageMap.put( 1, 4.0 );
+            voltageMap.put( 2, 0.0 );
             HashMap<Element, Double> currentMap = new HashMap<Element, Double>();
-            currentMap.put(battery, 1.0);
-            currentMap.put(resistor2, 1.0);
-            LinearCircuitSolution desiredSolution = new LinearCircuitSolution(voltageMap, currentMap);
+            currentMap.put( battery, 1.0 );
+            currentMap.put( resistor2, 1.0 );
+            LinearCircuitSolution desiredSolution = new LinearCircuitSolution( voltageMap, currentMap );
             circuit.debug = true;
-            System.out.println("circuit.solve=" + circuit.solve());
-            assert (circuit.solve().approxEquals(desiredSolution));
+            System.out.println( "circuit.solve=" + circuit.solve() );
+            assert ( circuit.solve().approxEquals( desiredSolution ) );
         }
     }
 }

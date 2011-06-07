@@ -3,11 +3,12 @@
 /*  */
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.model.DynamicBranch;
 
 /**
  * User: Sam Reid
@@ -18,13 +19,13 @@ import java.awt.event.ActionListener;
 public class ResetDynamicsMenuItem extends JMenuItem {
     private DynamicBranch branch;
 
-    public ResetDynamicsMenuItem(String text, final DynamicBranch branch) {
-        super(text);
+    public ResetDynamicsMenuItem( String text, final DynamicBranch branch ) {
+        super( text );
         this.branch = branch;
-        addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
                 branch.resetDynamics();
             }
-        });
+        } );
     }
 }

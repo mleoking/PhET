@@ -1,10 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 public class CCKImageSuite {
 
@@ -28,16 +28,16 @@ public class CCKImageSuite {
     }
 
     public BufferedImage getParticleImage() throws IOException {
-        return imageLoader.loadImage("circuit-construction-kit/images/electron10.png");
+        return imageLoader.loadImage( "circuit-construction-kit/images/electron10.png" );
     }
 
     private void loadImages() throws IOException {
-        resistorImage = ImageLoader.loadBufferedImage(resistorImageLocation);
-        BufferedImage batteryImage = ImageLoader.loadBufferedImage(batteryImageLocation);
-        lifelikeImageSuite = new ImageSuite(resistorImage, batteryImage, closedImage);
-        capacitorImage = ImageLoader.loadBufferedImage(capImageLoc);
-        acImage = ImageLoader.loadBufferedImage(acImageLoc);
-        inductorImage = ImageLoader.loadBufferedImage(inductorImageLoc);
+        resistorImage = ImageLoader.loadBufferedImage( resistorImageLocation );
+        BufferedImage batteryImage = ImageLoader.loadBufferedImage( batteryImageLocation );
+        lifelikeImageSuite = new ImageSuite( resistorImage, batteryImage, closedImage );
+        capacitorImage = ImageLoader.loadBufferedImage( capImageLoc );
+        acImage = ImageLoader.loadBufferedImage( acImageLoc );
+        inductorImage = ImageLoader.loadBufferedImage( inductorImageLoc );
     }
 
     public ImageSuite getLifelikeSuite() {
@@ -46,19 +46,19 @@ public class CCKImageSuite {
 
     public BufferedImage getKnifeHandleImage() {
         try {
-            return imageLoader.loadImage("circuit-construction-kit/images/handle8.gif");
+            return imageLoader.loadImage( "circuit-construction-kit/images/handle8.gif" );
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch ( IOException e ) {
+            throw new RuntimeException( e );
         }
     }
 
     public BufferedImage getKnifeBoardImage() {
         try {
-            return imageLoader.loadImage("circuit-construction-kit/images/knifeBoard.gif");
+            return imageLoader.loadImage( "circuit-construction-kit/images/knifeBoard.gif" );
         }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        catch ( IOException e ) {
+            throw new RuntimeException( e );
         }
     }
 
@@ -82,9 +82,9 @@ public class CCKImageSuite {
         try {
             return new CCKImageSuite();
         }
-        catch (IOException e) {
+        catch ( IOException e ) {
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new RuntimeException( e );
         }
     }
 }

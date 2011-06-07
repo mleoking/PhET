@@ -20,22 +20,22 @@ public class ChartSetNode extends PhetPNode {
     private Circuit circuit;
     private IClock clock;
 
-    public ChartSetNode(CCKSimulationPanel cckSimulationPanel, Circuit circuit, IClock clock) {
+    public ChartSetNode( CCKSimulationPanel cckSimulationPanel, Circuit circuit, IClock clock ) {
         this.cckSimulationPanel = cckSimulationPanel;
         this.circuit = circuit;
         this.clock = clock;
     }
 
     public void addCurrentChart() {
-        final CurrentStripChart chart = new CurrentStripChart(cckSimulationPanel, CCKStrings.getString("current-y-axis"), clock, getCircuit(), cckSimulationPanel);
-        chart.translate(3 * 70, 3 * 70);
+        final CurrentStripChart chart = new CurrentStripChart( cckSimulationPanel, CCKStrings.getString( "current-y-axis" ), clock, getCircuit(), cckSimulationPanel );
+        chart.translate( 3 * 70, 3 * 70 );
 
-        addChild(chart);
-        chart.addListener(new AbstractFloatingChart.Listener() {
+        addChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
             public void chartClosing() {
-                removeChild(chart);
+                removeChild( chart );
             }
-        });
+        } );
     }
 
     private Circuit getCircuit() {
@@ -43,14 +43,14 @@ public class ChartSetNode extends PhetPNode {
     }
 
     public void addVoltageChart() {
-        final VoltageStripChart chart = new VoltageStripChart(cckSimulationPanel, "Current", clock, getCircuit());
-        chart.translate(4 * 70, 4 * 70);
+        final VoltageStripChart chart = new VoltageStripChart( cckSimulationPanel, "Current", clock, getCircuit() );
+        chart.translate( 4 * 70, 4 * 70 );
 
-        addChild(chart);
-        chart.addListener(new AbstractFloatingChart.Listener() {
+        addChild( chart );
+        chart.addListener( new AbstractFloatingChart.Listener() {
             public void chartClosing() {
-                removeChild(chart);
+                removeChild( chart );
             }
-        });
+        } );
     }
 }

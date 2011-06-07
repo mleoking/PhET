@@ -9,45 +9,47 @@ import java.util.ArrayList;
  * If the error between the h vs. 2x(h/2) states is within the tolerated threshold, the time step is accepted.
  * See #2241
  *
- * @author Sam Reid
  * @param <A> the state type that is being updated
+ * @author Sam Reid
  */
 public class TimestepSubdivisions<A> {
     private double errorThreshold;//threshold for determining whether 2 states are similar enough; any error less than errorThreshold will be tolerated.
     private double minDT;//lowest possible value for DT, independent of how the error scales with reduced time step
 
-    public TimestepSubdivisions(double errorThreshold, double minDT) {
+    public TimestepSubdivisions( double errorThreshold, double minDT ) {
         this.errorThreshold = errorThreshold;
         this.minDT = minDT;
     }
 
     public static interface Steppable<A> {
-        double distance(A a, A b);
+        double distance( A a, A b );
 
-        A update(A a, double dt);
+        A update( A a, double dt );
     }
 
-    public ResultSet<A> stepInTimeWithHistory(A originalState, Steppable<A> steppable, double dt) {
+    public ResultSet<A> stepInTimeWithHistory( A originalState, Steppable<A> steppable, double dt ) {
         A state = originalState;
         double elapsed = 0.0;
         ArrayList<ResultSet.State<A>> states = new ArrayList<ResultSet.State<A>>();
-        while (elapsed < dt) {
-            double seedValue = states.size() > 0 ? states.get(states.size() - 1).dt : dt;//use the last obtained dt as a starting value, if possible
+        while ( elapsed < dt ) {
+            double seedValue = states.size() > 0 ? states.get( states.size() - 1 ).dt : dt;//use the last obtained dt as a starting value, if possible
 
             // try to increase first, in case higher dt has acceptable error
             // but don't try to double dt if it is first state
             int startScale = states.size() > 0 ? 2 : 1;
-            double subdivisionDT = getTimestep(state, steppable, seedValue * startScale);
-            if (subdivisionDT + elapsed > dt) subdivisionDT = dt - elapsed; // don't exceed max allowed dt
-            state = steppable.update(state, subdivisionDT);
-            states.add(new ResultSet.State<A>(subdivisionDT, state));
+            double subdivisionDT = getTimestep( state, steppable, seedValue * startScale );
+            if ( subdivisionDT + elapsed > dt ) {
+                subdivisionDT = dt - elapsed; // don't exceed max allowed dt
+            }
+            state = steppable.update( state, subdivisionDT );
+            states.add( new ResultSet.State<A>( subdivisionDT, state ) );
             elapsed = elapsed + subdivisionDT;
         }
-        return new ResultSet<A>(states);
+        return new ResultSet<A>( states );
     }
 
-    public A stepInTime(A originalState, Steppable<A> steppable, double dt) {
-        return stepInTimeWithHistory(originalState, steppable, dt).getFinalState();
+    public A stepInTime( A originalState, Steppable<A> steppable, double dt ) {
+        return stepInTimeWithHistory( originalState, steppable, dt ).getFinalState();
     }
 
     /**
@@ -58,21 +60,23 @@ public class TimestepSubdivisions<A> {
      * @param dt        the initial value to use for dt
      * @return the selected timestep that has acceptable error or meets the minimum allowed
      */
-    protected double getTimestep(A state, Steppable<A> steppable, double dt) {
-        if (dt < minDT) {
-            System.out.println("Time step too small");
+    protected double getTimestep( A state, Steppable<A> steppable, double dt ) {
+        if ( dt < minDT ) {
+            System.out.println( "Time step too small" );
             return minDT;
-        } else if (errorAcceptable(state, steppable, dt)) {
+        }
+        else if ( errorAcceptable( state, steppable, dt ) ) {
             return dt;
-        } else {
-            return getTimestep(state, steppable, dt / 2);
+        }
+        else {
+            return getTimestep( state, steppable, dt / 2 );
         }
     }
 
-    protected boolean errorAcceptable(A state, Steppable<A> steppable, double dt) {
-        A a = steppable.update(state, dt);
-        A b1 = steppable.update(state, dt / 2);
-        A b2 = steppable.update(b1, dt / 2);
-        return steppable.distance(a, b2) < errorThreshold;
+    protected boolean errorAcceptable( A state, Steppable<A> steppable, double dt ) {
+        A a = steppable.update( state, dt );
+        A b1 = steppable.update( state, dt / 2 );
+        A b2 = steppable.update( b1, dt / 2 );
+        return steppable.distance( a, b2 ) < errorThreshold;
     }
 }

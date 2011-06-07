@@ -7,26 +7,26 @@ import edu.colorado.phet.circuitconstructionkit.model.Junction;
 
 public class JunctionHelpNode extends TrackingHelpNode {
 
-    public JunctionHelpNode(CCKSimulationPanel cckSimulationPanel, CCKModule module, String text) {
-        super(cckSimulationPanel, module, text, RIGHT_BOTTOM);
-        module.getCircuit().addCircuitListener(new CircuitListenerAdapter() {
-            public void junctionAdded(Junction junction) {
+    public JunctionHelpNode( CCKSimulationPanel cckSimulationPanel, CCKModule module, String text ) {
+        super( cckSimulationPanel, module, text, RIGHT_BOTTOM );
+        module.getCircuit().addCircuitListener( new CircuitListenerAdapter() {
+            public void junctionAdded( Junction junction ) {
                 update();
             }
 
-            public void junctionRemoved(Junction junction) {
+            public void junctionRemoved( Junction junction ) {
                 update();
             }
-        });
+        } );
         update();
     }
 
     private void update() {
-        setVisible(getCckSimulationPanel().getCircuitNode().getNumJunctionNodes() > 0);
-        if (getVisible()) {
+        setVisible( getCckSimulationPanel().getCircuitNode().getNumJunctionNodes() > 0 );
+        if ( getVisible() ) {
             int index = 0;
-            final JunctionNode targetNode = getCckSimulationPanel().getCircuitNode().getJunctionNode(index);
-            setFollowedNode(targetNode);
+            final JunctionNode targetNode = getCckSimulationPanel().getCircuitNode().getJunctionNode( index );
+            setFollowedNode( targetNode );
         }
     }
 

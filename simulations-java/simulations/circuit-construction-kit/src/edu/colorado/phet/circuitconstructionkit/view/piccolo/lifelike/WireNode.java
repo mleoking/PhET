@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
+import java.awt.*;
+
 import edu.colorado.phet.circuitconstructionkit.model.CCKDefaults;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -15,8 +17,6 @@ import edu.colorado.phet.common.piccolophet.event.PopupMenuHandler;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -37,58 +37,59 @@ public class WireNode extends BranchNode {
         }
     };
 
-    public WireNode(final CCKModel cckModel, final Wire wire, Component component) {
+    public WireNode( final CCKModel cckModel, final Wire wire, Component component ) {
         this.wire = wire;
-        this.circuitInteractionModel = new CircuitInteractionModel(cckModel);
+        this.circuitInteractionModel = new CircuitInteractionModel( cckModel );
 
         wireHighlightPPath = new PPath();
-        wireHighlightPPath.setPaint(CCKLookAndFeel.HIGHLIGHT_COLOR);
-        wireHighlightPPath.setStroke(null);
+        wireHighlightPPath.setPaint( CCKLookAndFeel.HIGHLIGHT_COLOR );
+        wireHighlightPPath.setStroke( null );
 
         wirePPath = new PPath();
-        setWirePaint(CCKLookAndFeel.COPPER);
-        wirePPath.setStroke(null);
-        addChild(wireHighlightPPath);
-        addChild(wirePPath);
-        addInputEventListener(new CursorHandler());
-        addInputEventListener(new PBasicInputEventHandler() {
-            public void mouseDragged(PInputEvent event) {
-                circuitInteractionModel.translate(wire, event.getPositionRelativeTo(WireNode.this.getParent()));
+        setWirePaint( CCKLookAndFeel.COPPER );
+        wirePPath.setStroke( null );
+        addChild( wireHighlightPPath );
+        addChild( wirePPath );
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                circuitInteractionModel.translate( wire, event.getPositionRelativeTo( WireNode.this.getParent() ) );
             }
 
-            public void mouseReleased(PInputEvent event) {
-                circuitInteractionModel.dropBranch(wire);
+            public void mouseReleased( PInputEvent event ) {
+                circuitInteractionModel.dropBranch( wire );
             }
 
-            public void mousePressed(PInputEvent event) {
-                if (event.isControlDown()) {
-                    wire.setSelected(!wire.isSelected());
-                } else {
-                    cckModel.getCircuit().setSelection(wire);
+            public void mousePressed( PInputEvent event ) {
+                if ( event.isControlDown() ) {
+                    wire.setSelected( !wire.isSelected() );
+                }
+                else {
+                    cckModel.getCircuit().setSelection( wire );
                 }
             }
-        });
-        wire.addObserver(wireObserver);
+        } );
+        wire.addObserver( wireObserver );
         update();
-        addInputEventListener(new PopupMenuHandler(component, new WirePopupMenu(cckModel, wire)));
+        addInputEventListener( new PopupMenuHandler( component, new WirePopupMenu( cckModel, wire ) ) );
     }
 
-    public void setHighlightStrokeWidth(double highlightStrokeWidth) {
+    public void setHighlightStrokeWidth( double highlightStrokeWidth ) {
         this.highlightStrokeWidth = highlightStrokeWidth;
         update();
     }
 
-    public void setWirePaint(Color newPaint) {
-        wirePPath.setPaint(newPaint);
+    public void setWirePaint( Color newPaint ) {
+        wirePPath.setPaint( newPaint );
     }
 
     private void update() {
-        wireHighlightPPath.setVisible(wire.isSelected());
+        wireHighlightPPath.setVisible( wire.isSelected() );
 
-        Shape highlightShape = new BasicStroke((float) highlightStrokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER).createStrokedShape(wire.getLine());
-        wireHighlightPPath.setPathTo(highlightShape);
+        Shape highlightShape = new BasicStroke( (float) highlightStrokeWidth, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER ).createStrokedShape( wire.getLine() );
+        wireHighlightPPath.setPathTo( highlightShape );
 
-        wirePPath.setPathTo(wire.getShape());
+        wirePPath.setPathTo( wire.getShape() );
     }
 
     public Branch getBranch() {
@@ -96,6 +97,6 @@ public class WireNode extends BranchNode {
     }
 
     public void delete() {
-        wire.removeObserver(wireObserver);
+        wire.removeObserver( wireObserver );
     }
 }

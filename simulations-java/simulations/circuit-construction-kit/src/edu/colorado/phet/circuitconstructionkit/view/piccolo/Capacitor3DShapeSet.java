@@ -1,14 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-
 import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * User: Sam Reid
@@ -28,7 +28,7 @@ public class Capacitor3DShapeSet {
     private Shape plate2Wire;
     private Shape plate1Wire;
 
-    public Capacitor3DShapeSet(double tiltAngle, double width, double height, Point2D inPt, Point2D outPt, double distBetweenPlates) {
+    public Capacitor3DShapeSet( double tiltAngle, double width, double height, Point2D inPt, Point2D outPt, double distBetweenPlates ) {
         this.tiltAngle = tiltAngle;
         this.width = width;
         this.length = height;
@@ -41,69 +41,69 @@ public class Capacitor3DShapeSet {
     private void updateShape() {
         Point2D plate1Point = getPlate1Point();
         Point2D plate2Point = getPlate2Point();
-        plate1Path = createPlatePath(plate1Point);
-        plate2Path = createPlatePath(plate2Point);
-        plate1Wire = createWirePath(inPt, plate1Point);
-        plate2Wire = createWirePath(outPt, plate2Point);
+        plate1Path = createPlatePath( plate1Point );
+        plate2Path = createPlatePath( plate2Point );
+        plate1Wire = createWirePath( inPt, plate1Point );
+        plate2Wire = createWirePath( outPt, plate2Point );
     }
 
-    private Shape createWirePath(Point2D a, Point2D b) {
-        return new Line2D.Double(a, b);
+    private Shape createWirePath( Point2D a, Point2D b ) {
+        return new Line2D.Double( a, b );
     }
 
-    private Shape createPlatePath(Point2D point) {
-        DoubleGeneralPath path = new DoubleGeneralPath(point);
-        moveUV(path, -width / 2, 0);
-        lineUV(path, 0, -length / 2);
-        lineUV(path, width, 0);
-        lineUV(path, 0, length);
-        lineUV(path, -width, 0);
-        lineUV(path, 0, -length / 2);
+    private Shape createPlatePath( Point2D point ) {
+        DoubleGeneralPath path = new DoubleGeneralPath( point );
+        moveUV( path, -width / 2, 0 );
+        lineUV( path, 0, -length / 2 );
+        lineUV( path, width, 0 );
+        lineUV( path, 0, length );
+        lineUV( path, -width, 0 );
+        lineUV( path, 0, -length / 2 );
         return path.getGeneralPath();
     }
 
-    private void moveUV(DoubleGeneralPath path, double u, double v) {
-        Vector2D x = getVector(u, v);
-        path.moveToRelative(x);
+    private void moveUV( DoubleGeneralPath path, double u, double v ) {
+        Vector2D x = getVector( u, v );
+        path.moveToRelative( x );
     }
 
-    private Vector2D getVector(double u, double v) {
-        Vector2D vector = new Vector2D(u * Math.cos(tiltAngle), u * Math.sin(tiltAngle) + v);
-        vector.rotate(getSegmentAngle());
+    private Vector2D getVector( double u, double v ) {
+        Vector2D vector = new Vector2D( u * Math.cos( tiltAngle ), u * Math.sin( tiltAngle ) + v );
+        vector.rotate( getSegmentAngle() );
         return vector;
     }
 
-    public Point2D getPlate1Location(double u, double v) {
-        Vector2D vec = getVector(u, v);
-        return vec.getDestination(getPlate1Point());
+    public Point2D getPlate1Location( double u, double v ) {
+        Vector2D vec = getVector( u, v );
+        return vec.getDestination( getPlate1Point() );
     }
 
-    public Point2D getPlate2Location(double u, double v) {
-        Vector2D vec = getVector(u, v);
-        return vec.getDestination(getPlate2Point());
+    public Point2D getPlate2Location( double u, double v ) {
+        Vector2D vec = getVector( u, v );
+        return vec.getDestination( getPlate2Point() );
     }
 
     private double getSegmentAngle() {
-        return new Vector2D(inPt, outPt).getAngle();
+        return new Vector2D( inPt, outPt ).getAngle();
     }
 
-    private void lineUV(DoubleGeneralPath path, double u, double v) {
-        Vector2D x = getVector(u, v);
-        path.lineToRelative(x);
+    private void lineUV( DoubleGeneralPath path, double u, double v ) {
+        Vector2D x = getVector( u, v );
+        path.lineToRelative( x );
     }
 
     public Point2D getPlate2Point() {
-        Vector2D vector = new Vector2D(outPt, inPt);
-        return vector.getInstanceOfMagnitude(getDistToPlate()).getDestination(outPt);
+        Vector2D vector = new Vector2D( outPt, inPt );
+        return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( outPt );
     }
 
     public Point2D getPlate1Point() {
-        Vector2D vector = new Vector2D(inPt, outPt);
-        return vector.getInstanceOfMagnitude(getDistToPlate()).getDestination(inPt);
+        Vector2D vector = new Vector2D( inPt, outPt );
+        return vector.getInstanceOfMagnitude( getDistToPlate() ).getDestination( inPt );
     }
 
     private double getDistToPlate() {
-        return (new Vector2D(inPt, outPt).getMagnitude() - distBetweenPlates) / 2.0;
+        return ( new Vector2D( inPt, outPt ).getMagnitude() - distBetweenPlates ) / 2.0;
     }
 
     public Shape getPlate1Shape() {
@@ -129,20 +129,20 @@ public class Capacitor3DShapeSet {
 
     public Area getArea() {
         Area a = new Area();
-        a.add(new Area(getPlate1Shape()));
-        a.add(new Area(getPlate2Shape()));
+        a.add( new Area( getPlate1Shape() ) );
+        a.add( new Area( getPlate2Shape() ) );
         Stroke stroke = new BasicStroke();
-        a.add(new Area(stroke.createStrokedShape(getPlate1Wire())));
-        a.add(new Area(stroke.createStrokedShape(getPlate2Wire())));
+        a.add( new Area( stroke.createStrokedShape( getPlate1Wire() ) ) );
+        a.add( new Area( stroke.createStrokedShape( getPlate2Wire() ) ) );
         return a;
     }
 
     public Point2D getPlate2EdgePoint() {
-        ImmutableVector2D vector = new Vector2D(inPt, outPt);
-        double a = width * Math.cos(tiltAngle);
-        double initDist = new Vector2D(inPt, getPlate2Point()).getMagnitude();
-        vector = vector.getInstanceOfMagnitude(initDist + a / 2.0);
-        return vector.getDestination(inPt);
+        ImmutableVector2D vector = new Vector2D( inPt, outPt );
+        double a = width * Math.cos( tiltAngle );
+        double initDist = new Vector2D( inPt, getPlate2Point() ).getMagnitude();
+        vector = vector.getInstanceOfMagnitude( initDist + a / 2.0 );
+        return vector.getDestination( inPt );
     }
 
     public double getWidth() {
@@ -155,8 +155,8 @@ public class Capacitor3DShapeSet {
 
     public Area getPlateArea() {
         Area a = new Area();
-        a.add(new Area(getPlate1Shape()));
-        a.add(new Area(getPlate2Shape()));
+        a.add( new Area( getPlate1Shape() ) );
+        a.add( new Area( getPlate2Shape() ) );
         return a;
     }
 }

@@ -11,14 +11,14 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
  * To change this template use File | Settings | File Templates.
  */
 public class CCKViewState {
-    private BooleanProperty readoutsVisible = new BooleanProperty(false);
-    private BooleanProperty lifelikeProperty = new BooleanProperty(true);
+    private BooleanProperty readoutsVisible = new BooleanProperty( false );
+    private BooleanProperty lifelikeProperty = new BooleanProperty( true );
 
     public void resetAll() {
         readoutsVisible.reset();
     }
 
-    public void setReadoutsVisible(boolean r) {
+    public void setReadoutsVisible( boolean r ) {
         readoutsVisible.set( r );
     }
 
@@ -30,7 +30,7 @@ public class CCKViewState {
         return lifelikeProperty;
     }
 
-    public void setLifelike(boolean lifelike) {
+    public void setLifelike( boolean lifelike ) {
         getLifelikeProperty().set( lifelike );
     }
 }

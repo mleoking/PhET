@@ -14,14 +14,14 @@ import java.util.Set;
  */
 public interface LinearCircuitSolver {
 
-    ISolution solve(Circuit circuit);
+    ISolution solve( Circuit circuit );
 
     public static interface ISolution {
-        double getNodeVoltage(int node);
+        double getNodeVoltage( int node );
 
-        double getCurrent(Element element);
+        double getCurrent( Element element );
 
-        boolean approxEquals(ISolution solution);//todo: convert to distance() computation instead of having built-in threshold for equality
+        boolean approxEquals( ISolution solution );//todo: convert to distance() computation instead of having built-in threshold for equality
 
         Set<Integer> getNodes();
 
@@ -29,11 +29,11 @@ public interface LinearCircuitSolver {
     }
 
     public static class Util {
-        public static String mkString(List list, String separator) {
+        public static String mkString( List list, String separator ) {
             String out = "";
-            for (int i = 0; i < list.size(); i++) {
-                out += list.get(i);
-                if (i < list.size() - 1) {
+            for ( int i = 0; i < list.size(); i++ ) {
+                out += list.get( i );
+                if ( i < list.size() - 1 ) {
                     out += separator;
                 }
             }
@@ -46,19 +46,19 @@ public interface LinearCircuitSolver {
         List<Resistor> resistors;
         List<CurrentSource> currentSources;
 
-        Circuit(List<Battery> batteries, List<Resistor> resistors) {
-            this(batteries, resistors, new ArrayList<CurrentSource>());
+        Circuit( List<Battery> batteries, List<Resistor> resistors ) {
+            this( batteries, resistors, new ArrayList<CurrentSource>() );
         }
 
         public List<Battery> getBatteries() {
             return batteries;
         }
 
-        public Battery getBattery(int i) {
-            return batteries.get(i);
+        public Battery getBattery( int i ) {
+            return batteries.get( i );
         }
 
-        Circuit(List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources) {
+        Circuit( List<Battery> batteries, List<Resistor> resistors, List<CurrentSource> currentSources ) {
             this.batteries = batteries;
             this.resistors = resistors;
             this.currentSources = currentSources;
@@ -70,9 +70,9 @@ public interface LinearCircuitSolver {
 
         List<Element> getElements() {
             List<Element> list = new ArrayList<Element>();
-            list.addAll(batteries);
-            list.addAll(resistors);
-            list.addAll(currentSources);
+            list.addAll( batteries );
+            list.addAll( resistors );
+            list.addAll( currentSources );
             return list;
         }
 
@@ -82,8 +82,8 @@ public interface LinearCircuitSolver {
 
         int getCurrentCount() {
             int zeroResistors = 0;
-            for (Resistor resistor : resistors) {
-                if (resistor.resistance == 0) {
+            for ( Resistor resistor : resistors ) {
+                if ( resistor.resistance == 0 ) {
                     zeroResistors++;
                 }
             }
@@ -92,37 +92,35 @@ public interface LinearCircuitSolver {
 
         HashSet<Integer> getNodeSet() {
             HashSet<Integer> set = new HashSet<Integer>();
-            for (Element element : getElements()) {
-                set.add(element.node0);
-                set.add(element.node1);
+            for ( Element element : getElements() ) {
+                set.add( element.node0 );
+                set.add( element.node1 );
             }
             return set;
         }
 
-        public double sumConductances(int nodeIndex) {
+        public double sumConductances( int nodeIndex ) {
             double sum = 0.0;
-            for (Resistor resistor : resistors) {
-                if (resistor.containsNode(nodeIndex))
-                    sum += resistor.conductance;
+            for ( Resistor resistor : resistors ) {
+                if ( resistor.containsNode( nodeIndex ) ) { sum += resistor.conductance; }
             }
             return sum;
         }
 
-        public double getConductance(int node1, int node2) {
+        public double getConductance( int node1, int node2 ) {
             //conductances sum:
             double sum = 0.0;
-            for (Resistor resistor : resistors) {
-                if (resistor.containsNode(node1) && resistor.containsNode(node2))
-                    sum += resistor.conductance;
+            for ( Resistor resistor : resistors ) {
+                if ( resistor.containsNode( node1 ) && resistor.containsNode( node2 ) ) { sum += resistor.conductance; }
             }
             return sum;
         }
 
-        public double sumIncomingCurrents(int nodeIndex) {
+        public double sumIncomingCurrents( int nodeIndex ) {
             double sum = 0.0;
-            for (int i = 0; i < currentSources.size(); i++) {
-                CurrentSource cs = currentSources.get(i);
-                if (cs.node1 == nodeIndex) sum += cs.current;
+            for ( int i = 0; i < currentSources.size(); i++ ) {
+                CurrentSource cs = currentSources.get( i );
+                if ( cs.node1 == nodeIndex ) { sum += cs.current; }
             }
             return sum;
         }
@@ -135,8 +133,8 @@ public interface LinearCircuitSolver {
     public static class Battery extends Element {
         double voltage;
 
-        Battery(int node0, int node1, double voltage) {
-            super(node0, node1);
+        Battery( int node0, int node1, double voltage ) {
+            super( node0, node1 );
             this.voltage = voltage;
         }
 
@@ -149,8 +147,8 @@ public interface LinearCircuitSolver {
         final double resistance;
         final double conductance;
 
-        Resistor(int node0, int node1, double resistance) {
-            super(node0, node1);
+        Resistor( int node0, int node1, double resistance ) {
+            super( node0, node1 );
             this.resistance = resistance;
             this.conductance = 1.0 / resistance;//todo: not all solvers use this
         }
@@ -163,8 +161,8 @@ public interface LinearCircuitSolver {
     public static class CurrentSource extends Element {
         double current;
 
-        public CurrentSource(int node0, int node1, double current) {
-            super(node0, node1);
+        public CurrentSource( int node0, int node1, double current ) {
+            super( node0, node1 );
             this.current = current;
         }
 
@@ -183,12 +181,12 @@ public interface LinearCircuitSolver {
 
         public final int node1;
 
-        protected Element(int node0, int node1) {
+        protected Element( int node0, int node1 ) {
             this.node0 = node0;
             this.node1 = node1;
         }
 
-        boolean containsNode(int n) {
+        boolean containsNode( int n ) {
             return n == node0 || n == node1;
         }
 
@@ -200,13 +198,15 @@ public interface LinearCircuitSolver {
             return node1;
         }
 
-        int getOpposite(int node) {
-            if (node == node0) {
+        int getOpposite( int node ) {
+            if ( node == node0 ) {
                 return node1;
-            } else if (node == node1) {
+            }
+            else if ( node == node1 ) {
                 return node0;
-            } else {
-                throw new RuntimeException("node not found");
+            }
+            else {
+                throw new RuntimeException( "node not found" );
             }
         }
 

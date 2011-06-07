@@ -1,6 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
@@ -8,10 +13,6 @@ import edu.colorado.phet.circuitconstructionkit.model.components.CircuitComponen
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.umd.cs.piccolo.util.PDimension;
-
-import javax.swing.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -32,47 +33,47 @@ public abstract class RectangularComponentNode extends ComponentNode {
         }
     };
 
-    public RectangularComponentNode(final CCKModel model, final CircuitComponent circuitComponent, double width, double height, JComponent component, CCKModule module) {
-        super(model, circuitComponent, component, module);
-        dimension = new PDimension(width, height);
-        flameNode = new FlameNode(getBranch());
-        addChild(flameNode);
-        getBranch().addFlameListener(flameListener);
+    public RectangularComponentNode( final CCKModel model, final CircuitComponent circuitComponent, double width, double height, JComponent component, CCKModule module ) {
+        super( model, circuitComponent, component, module );
+        dimension = new PDimension( width, height );
+        flameNode = new FlameNode( getBranch() );
+        addChild( flameNode );
+        getBranch().addFlameListener( flameListener );
         update();
     }
 
     public void delete() {
         super.delete();
-        getBranch().removeFlameListener(flameListener);
+        getBranch().removeFlameListener( flameListener );
     }
 
     public PDimension getDimension() {
-        return new PDimension(dimension);
+        return new PDimension( dimension );
     }
 
     protected void update() {
         super.update();
 
-        Rectangle2D aShape = new Rectangle2D.Double(0, 0, dimension.getWidth(), dimension.getHeight());
-        aShape = RectangleUtils.expand(aShape, 2, 2);
-        getHighlightNode().setPathTo(aShape);
-        getHighlightNode().setVisible(getBranch().isSelected());
+        Rectangle2D aShape = new Rectangle2D.Double( 0, 0, dimension.getWidth(), dimension.getHeight() );
+        aShape = RectangleUtils.expand( aShape, 2, 2 );
+        getHighlightNode().setPathTo( aShape );
+        getHighlightNode().setVisible( getBranch().isSelected() );
 
-        double resistorLength = getBranch().getStartPoint().distance(getBranch().getEndPoint());
+        double resistorLength = getBranch().getStartPoint().distance( getBranch().getEndPoint() );
         double imageLength = dimension.getWidth();
         double sx = resistorLength / imageLength;
         double sy = getCircuitComponent().getHeight() / dimension.getHeight();
-        double angle = new Vector2D(getBranch().getStartPoint(), getBranch().getEndPoint()).getAngle();
-        setTransform(new AffineTransform());
-        if (Math.abs(sx) > 1E-4) {
-            setScale(sx);
+        double angle = new Vector2D( getBranch().getStartPoint(), getBranch().getEndPoint() ).getAngle();
+        setTransform( new AffineTransform() );
+        if ( Math.abs( sx ) > 1E-4 ) {
+            setScale( sx );
         }
-        setOffset(getBranch().getStartPoint());
-        rotate(angle);
-        translate(0, -dimension.getHeight() / 2);
+        setOffset( getBranch().getStartPoint() );
+        rotate( angle );
+        translate( 0, -dimension.getHeight() / 2 );
 
-        flameNode.setOffset(0, -flameNode.getFullBounds().getHeight() + dimension.getHeight() / 2);
-        if (getParent() != null && getParent().getChildrenReference().indexOf(flameNode) != getParent().getChildrenReference().size() - 1) {
+        flameNode.setOffset( 0, -flameNode.getFullBounds().getHeight() + dimension.getHeight() / 2 );
+        if ( getParent() != null && getParent().getChildrenReference().indexOf( flameNode ) != getParent().getChildrenReference().size() - 1 ) {
             flameNode.moveToFront();
         }
     }

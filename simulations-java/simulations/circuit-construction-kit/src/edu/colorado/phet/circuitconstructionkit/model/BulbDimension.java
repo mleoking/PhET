@@ -9,8 +9,8 @@ package edu.colorado.phet.circuitconstructionkit.model;
 public class BulbDimension extends ComponentDimension {
     private double distBetweenJunctions;
 
-    public BulbDimension(double length, double height, double distBetweenJunctions) {
-        super(length, height);
+    public BulbDimension( double length, double height, double distBetweenJunctions ) {
+        super( length, height );
         this.distBetweenJunctions = distBetweenJunctions;
     }
 

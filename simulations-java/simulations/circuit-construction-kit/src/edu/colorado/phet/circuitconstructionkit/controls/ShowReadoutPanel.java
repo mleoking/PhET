@@ -1,12 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.controls;
 
-import edu.colorado.phet.circuitconstructionkit.CCKModule;
-import edu.colorado.phet.circuitconstructionkit.CCKResources;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.circuitconstructionkit.CCKModule;
+import edu.colorado.phet.circuitconstructionkit.CCKResources;
 
 /**
  * User: Sam Reid
@@ -18,15 +19,15 @@ public class ShowReadoutPanel extends JPanel {
     private JCheckBox showValues;
     private CCKModule module;
 
-    public ShowReadoutPanel(final CCKModule module) {
+    public ShowReadoutPanel( final CCKModule module ) {
         this.module = module;
-        showValues = new JCheckBox(CCKResources.getString("CCK3ControlPanel.ShowValuesCheckBox"));
-        add(showValues);
+        showValues = new JCheckBox( CCKResources.getString( "CCK3ControlPanel.ShowValuesCheckBox" ) );
+        add( showValues );
 
-        showValues.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                module.setReadoutsVisible(showValues.isSelected());
+        showValues.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                module.setReadoutsVisible( showValues.isSelected() );
             }
-        });
+        } );
     }
 }

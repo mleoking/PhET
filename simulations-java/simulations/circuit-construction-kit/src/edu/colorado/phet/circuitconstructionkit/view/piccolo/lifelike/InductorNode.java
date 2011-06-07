@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo.lifelike;
 
+import javax.swing.*;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
 import edu.colorado.phet.circuitconstructionkit.model.components.Inductor;
 import edu.colorado.phet.circuitconstructionkit.view.CCKImageSuite;
 import edu.colorado.phet.circuitconstructionkit.view.piccolo.ComponentImageNode;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -19,8 +19,8 @@ public class InductorNode extends ComponentImageNode {
     private CCKModule module;
     private Inductor inductor;
 
-    public InductorNode(CCKModel model, Inductor inductor, JComponent component, CCKModule module) {
-        super(model, inductor, CCKImageSuite.getInstance().getInductorImage(), component, module);
+    public InductorNode( CCKModel model, Inductor inductor, JComponent component, CCKModule module ) {
+        super( model, inductor, CCKImageSuite.getInstance().getInductorImage(), component, module );
         this.module = module;
         this.inductor = inductor;
     }

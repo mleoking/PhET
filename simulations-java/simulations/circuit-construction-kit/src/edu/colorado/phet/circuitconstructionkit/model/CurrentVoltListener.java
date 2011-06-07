@@ -9,5 +9,5 @@ import edu.colorado.phet.circuitconstructionkit.model.components.Branch;
  * Time: 1:46:20 AM
  */
 public interface CurrentVoltListener {
-    void currentOrVoltageChanged(Branch branch);
+    void currentOrVoltageChanged( Branch branch );
 }

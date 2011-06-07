@@ -9,5 +9,5 @@ import java.awt.*;
  * Time: 8:47:52 PM
  */
 public interface TwoTerminalValueReader {
-    double getValue(Shape a, Shape b);
+    double getValue( Shape a, Shape b );
 }

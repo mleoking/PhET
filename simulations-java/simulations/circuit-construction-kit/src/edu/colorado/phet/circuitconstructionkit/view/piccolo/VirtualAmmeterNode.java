@@ -1,6 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.circuitconstructionkit.view.piccolo;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.circuitconstructionkit.CCKModule;
 import edu.colorado.phet.circuitconstructionkit.CCKResources;
 import edu.colorado.phet.circuitconstructionkit.model.Circuit;
@@ -14,10 +18,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-
 /**
  * User: Sam Reid
  * Date: Jun 14, 2004
@@ -29,39 +29,39 @@ public class VirtualAmmeterNode extends PhetPNode {
     private CCKModule module;
     private Circuit circuit;
 
-    public VirtualAmmeterNode(Circuit circuit, Component panel, CCKModule module) {
-        this(new TargetReadoutToolNode(), panel, circuit, module);
+    public VirtualAmmeterNode( Circuit circuit, Component panel, CCKModule module ) {
+        this( new TargetReadoutToolNode(), panel, circuit, module );
     }
 
-    public VirtualAmmeterNode(TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final CCKModule module) {
+    public VirtualAmmeterNode( TargetReadoutToolNode targetReadoutTool, final Component panel, Circuit circuit, final CCKModule module ) {
         this.targetReadoutToolNode = targetReadoutTool;
         this.panel = panel;
         this.module = module;
         this.circuit = circuit;
-        targetReadoutToolNode.scale(1.0 / 60.0 * 0.75);
-        targetReadoutToolNode.setOffset(1, 1);
-        addChild(targetReadoutTool);
+        targetReadoutToolNode.scale( 1.0 / 60.0 * 0.75 );
+        targetReadoutToolNode.setOffset( 1, 1 );
+        addChild( targetReadoutTool );
 
-        addInputEventListener(new PBasicInputEventHandler() {
-            public void mouseDragged(PInputEvent event) {
-                PDimension pt = event.getDeltaRelativeTo(VirtualAmmeterNode.this);
-                translate(pt.width, pt.height);
+        addInputEventListener( new PBasicInputEventHandler() {
+            public void mouseDragged( PInputEvent event ) {
+                PDimension pt = event.getDeltaRelativeTo( VirtualAmmeterNode.this );
+                translate( pt.width, pt.height );
                 update();
             }
-        });
-        addInputEventListener(new CursorHandler());
-        module.getCCKModel().getCircuitSolver().addSolutionListener(new CircuitSolutionListener() {
+        } );
+        addInputEventListener( new CursorHandler() );
+        module.getCCKModel().getCircuitSolver().addSolutionListener( new CircuitSolutionListener() {
             public void circuitSolverFinished() {
                 update();
             }
-        });
-        circuit.addCircuitListener(new CircuitListenerAdapter() {
+        } );
+        circuit.addCircuitListener( new CircuitListenerAdapter() {
 
-            public void junctionRemoved(Junction junction) {
+            public void junctionRemoved( Junction junction ) {
                 update();
             }
 
-            public void branchRemoved(Branch branch) {
+            public void branchRemoved( Branch branch ) {
                 update();
             }
 
@@ -69,53 +69,54 @@ public class VirtualAmmeterNode extends PhetPNode {
                 update();
             }
 
-            public void branchesMoved(Branch[] branches) {
+            public void branchesMoved( Branch[] branches ) {
                 update();
             }
 
-            public void junctionAdded(Junction junction) {
+            public void junctionAdded( Junction junction ) {
                 update();
             }
 
-            public void junctionsConnected(Junction a, Junction b, Junction newTarget) {
+            public void junctionsConnected( Junction a, Junction b, Junction newTarget ) {
                 update();
             }
 
-            public void junctionsSplit(Junction old, Junction[] j) {
+            public void junctionsSplit( Junction old, Junction[] j ) {
                 update();
             }
 
-            public void branchAdded(Branch branch) {
+            public void branchAdded( Branch branch ) {
                 update();
             }
 
-        });
+        } );
         update();
     }
 
     public void update() {
         Point2D target = new Point2D.Double();
-        targetReadoutToolNode.localToGlobal(target);
-        globalToLocal(target);
-        localToParent(target);
+        targetReadoutToolNode.localToGlobal( target );
+        globalToLocal( target );
+        localToParent( target );
         //check for intersect with circuit.
-        Branch branch = circuit.getBranch(target);
-        if (branch != null) {
+        Branch branch = circuit.getBranch( target );
+        if ( branch != null ) {
             double current = branch.getCurrent();
-            DecimalFormat df = new DecimalFormat("0.00");
-            String amps = df.format(Math.abs(current));
-            targetReadoutToolNode.setText(amps + " " + CCKResources.getString("VirtualAmmeter.Amps"));
-        } else {
+            DecimalFormat df = new DecimalFormat( "0.00" );
+            String amps = df.format( Math.abs( current ) );
+            targetReadoutToolNode.setText( amps + " " + CCKResources.getString( "VirtualAmmeter.Amps" ) );
+        }
+        else {
             resetText();
         }
     }
 
     private void resetText() {
-        String[] text = new String[]{
-                CCKResources.getString("VirtualAmmeter.HelpString1"),
-                CCKResources.getString("VirtualAmmeter.HelpString2")
+        String[] text = new String[] {
+                CCKResources.getString( "VirtualAmmeter.HelpString1" ),
+                CCKResources.getString( "VirtualAmmeter.HelpString2" )
         };
-        targetReadoutToolNode.setText(text);
+        targetReadoutToolNode.setText( text );
     }
 
 }
