@@ -2,7 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module.multiplecapacitors;
 
-import java.awt.geom.Dimension2D;
 import java.util.HashMap;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
@@ -21,7 +20,6 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
@@ -41,7 +39,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
     private final CLGlobalProperties globalProperties;
     private final MultipleCapacitorsModel model;
-    private final CLModelViewTransform3D mvt;
 
     private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
     private final HashMap<ICircuit, PNode> circuitToNodeMap;
@@ -57,9 +54,9 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     private final PNode shapesDebugParentNode;
 
     public MultipleCapacitorsCanvas( final MultipleCapacitorsModel model, final CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
+        super( model, mvt );
 
         this.model = model;
-        this.mvt = mvt;
         this.globalProperties = globalProperties;
 
         /*
@@ -153,19 +150,5 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         PNode eFieldShapesDebugNode = new EFieldShapesDebugNode( model.currentCircuitProperty.get() );
         shapesDebugParentNode.addChild( eFieldShapesDebugNode );
         eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
-    }
-
-    @Override protected void updateLayout() {
-        super.updateLayout();
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-
-        // adjust the model bounds
-        Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
-        model.getWorldBounds().setBounds( 0, 0, p.getX(), p.getY() );
     }
 }

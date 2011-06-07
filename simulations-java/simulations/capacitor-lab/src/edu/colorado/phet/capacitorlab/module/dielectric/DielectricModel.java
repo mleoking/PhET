@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DielectricModel {
+public class DielectricModel extends CLModel {
 
     // Circuit
     private static final Point3D BATTERY_LOCATION = new Point3D.Double( 0.005, 0.034, 0 ); // meters
@@ -58,7 +58,6 @@ public class DielectricModel {
     public static final Point3D VOLTMETER_NEGATIVE_PROBE_LOCATION = new Point3D.Double( VOLTMETER_POSITIVE_PROBE_LOCATION.getX() + 0.005, VOLTMETER_POSITIVE_PROBE_LOCATION.getY(), VOLTMETER_POSITIVE_PROBE_LOCATION.getZ() );
     public static final boolean VOLTMETER_VISIBLE = false;
 
-    private final WorldBounds worldBounds;
     private final DielectricMaterial[] dielectricMaterials;
     private final SingleCircuit circuit;
     private final CapacitanceMeter capacitanceMeter;
@@ -68,8 +67,6 @@ public class DielectricModel {
     private final Voltmeter voltmeter;
 
     public DielectricModel( IClock clock, CLModelViewTransform3D mvt, double dielectricOffset, DielectricMaterial[] dielectricMaterials ) {
-
-        worldBounds = new WorldBounds();
 
         this.dielectricMaterials = dielectricMaterials;
 
@@ -87,21 +84,17 @@ public class DielectricModel {
 
         circuit = new SingleCircuit( circuitConfig, BATTERY_CONNECTED );
 
-        capacitanceMeter = new CapacitanceMeter( circuit, worldBounds, CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
-        plateChargeMeter = new PlateChargeMeter( circuit, worldBounds, PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
-        storedEnergyMeter = new StoredEnergyMeter( circuit, worldBounds, STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
+        capacitanceMeter = new CapacitanceMeter( circuit, getWorldBounds(), CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
+        plateChargeMeter = new PlateChargeMeter( circuit, getWorldBounds(), PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
+        storedEnergyMeter = new StoredEnergyMeter( circuit, getWorldBounds(), STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
 
-        eFieldDetector = new EFieldDetector( circuit, worldBounds, EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( circuit, getWorldBounds(), EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
                                              EFIELD_DETECTOR_VISIBLE, EFIELD_PLATE_VECTOR_VISIBLE, EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              EFIELD_SUM_VECTOR_VISIBLE, EFIELD_VALUES_VISIBLE );
 
-        voltmeter = new Voltmeter( circuit, worldBounds, mvt,
+        voltmeter = new Voltmeter( circuit, getWorldBounds(), mvt,
                                    VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    VOLTMETER_VISIBLE );
-    }
-
-    public WorldBounds getWorldBounds() {
-        return worldBounds;
     }
 
     public DielectricMaterial[] getDielectricMaterials() {

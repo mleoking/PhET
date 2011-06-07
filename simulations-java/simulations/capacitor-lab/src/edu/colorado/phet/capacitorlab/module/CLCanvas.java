@@ -2,8 +2,13 @@
 
 package edu.colorado.phet.capacitorlab.module;
 
+import java.awt.geom.Dimension2D;
+
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
+import edu.colorado.phet.capacitorlab.model.CLModel;
+import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
+import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
@@ -14,12 +19,16 @@ import edu.umd.cs.piccolo.PNode;
  */
 public abstract class CLCanvas extends PhetPCanvas {
 
-    private PNode rootNode; // root node of our scenegraph, all nodes added below here
+    private final CLModel model;
+    private final CLModelViewTransform3D mvt; // model-view transform
+    private final PNode rootNode; // root node of our scenegraph, all nodes added below here
 
-    public CLCanvas() {
+    public CLCanvas( CLModel model, CLModelViewTransform3D mvt ) {
         super( CLConstants.CANVAS_RENDERING_SIZE );
-
         setBackground( CLPaints.CANVAS_BACKGROUND );
+
+        this.model = model;
+        this.mvt = mvt;
 
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -35,5 +44,19 @@ public abstract class CLCanvas extends PhetPCanvas {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );
         }
+    }
+
+    @Override protected void updateLayout() {
+        super.updateLayout();
+
+        Dimension2D worldSize = getWorldSize();
+        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
+            // canvas hasn't been sized, blow off layout
+            return;
+        }
+
+        // adjust the world bounds
+        Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
+        model.getWorldBounds().setBounds( 0, 0, p.getX(), p.getY() );
     }
 }

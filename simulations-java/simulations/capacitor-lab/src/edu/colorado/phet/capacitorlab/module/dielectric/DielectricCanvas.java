@@ -2,8 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.module.dielectric;
 
-import java.awt.geom.Dimension2D;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLStrings;
@@ -18,7 +16,6 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +33,6 @@ public class DielectricCanvas extends CLCanvas {
     public final Property<DielectricChargeView> dielectricChargeViewProperty = new Property<DielectricChargeView>( CLConstants.DIELECTRIC_CHARGE_VIEW );
 
     private final DielectricModel model;
-    private final CLModelViewTransform3D mvt;
 
     // circuit
     private final DielectricCircuitNode circuitNode;
@@ -53,9 +49,9 @@ public class DielectricCanvas extends CLCanvas {
 
     public DielectricCanvas( final DielectricModel model, final CLModelViewTransform3D mvt, final CLGlobalProperties globalProperties,
                              boolean eFieldDetectorSimplified, final boolean dielectricVisible ) {
+        super( model, mvt );
 
         this.model = model;
-        this.mvt = mvt;
 
         // Maximums, for calibrating various view representations.
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
@@ -139,19 +135,5 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode.reset();
         plateChargeMeterNode.reset();
         storedEnergyMeterNode.reset();
-    }
-
-    @Override protected void updateLayout() {
-        super.updateLayout();
-
-        Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
-        }
-
-        // adjust the model bounds
-        Point3D p = mvt.viewToModelDelta( worldSize.getWidth(), worldSize.getHeight() );
-        model.getWorldBounds().setBounds( 0, 0, p.getX(), p.getY() );
     }
 }

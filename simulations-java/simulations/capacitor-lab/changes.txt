@@ -1,3 +1,4 @@
+6/7/11 move update of world bounds to canvas base class
 6/6/11 document the Multiple Capacitors user interface in Google design doc
 6/6/11 update model.txt to include Multiple Capacitors
 6/6/11 mark all view cleaup() methods as "//FUTURE" since there's currently no reason to implement them
