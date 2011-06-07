@@ -88,10 +88,6 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
         //Commented out while we evaluate periodic boundary conditions
 //        world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
-        //Add water particles
-        addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
-//        addSodiumParticles( System.currentTimeMillis() );
-
         //Create beaker floor
         double glassThickness = 1E-10;
         bottomWallShape = new ImmutableRectangle2D( -beakerWidth / 2, 0, beakerWidth, glassThickness );
@@ -114,6 +110,9 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 //            world.step( (float) ( clock.getDt() * 10 ), 1 );
 //        }
 //        System.out.println( "stable start time: " + ( System.currentTimeMillis() - startTime ) );
+
+        //Set up initial state, same as reset() method would do
+        initModel();
     }
 
     //Adds a NaCl molecule by adding a nearby sodium and chlorine, electrostatic forces are responsible for keeping them together
@@ -341,10 +340,20 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
 
     //Resets the model, clearing water molecules and starting over
     @Override public void reset() {
+        initModel();
+    }
+
+    //Set up the initial model state, used on init and after reset
+    private void initModel() {
         clearWater();
+        clearSodium();
+        clearChlorine();
+
+        //Add water particles
         addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
     }
 
+    //TODO: factor out code from clear methods
     //Removes all water from the model
     private void clearWater() {
         for ( WaterMolecule waterMolecule : waterList ) {
@@ -352,6 +361,24 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             waterMolecule.notifyRemoved();
         }
         waterList.clear();
+    }
+
+    //Removes all sodium from the model
+    private void clearSodium() {
+        for ( DefaultParticle sodiumMolecule : sodiumList ) {
+            world.destroyBody( sodiumMolecule.body );
+            sodiumMolecule.notifyRemoved();
+        }
+        sodiumList.clear();
+    }
+
+    //Removes all Chlorine from the model
+    private void clearChlorine() {
+        for ( DefaultParticle chlorineParticle : chlorineList ) {
+            world.destroyBody( chlorineParticle.body );
+            chlorineParticle.notifyRemoved();
+        }
+        chlorineList.clear();
     }
 
     public ArrayList<DefaultParticle> getSodiumIonList() {

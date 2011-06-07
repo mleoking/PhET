@@ -1,3 +1,5 @@
+Water tab: Fixed reset all
+Water tab: Made it so particles don't go in front of the control panel
 Added "Table Salt" tab from Salts & Solubility as new "Micro" tab
 Renamed last tab to "Water"
 Increased the number of grams per grain of salt/sugar
