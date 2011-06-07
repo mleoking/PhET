@@ -39,7 +39,6 @@ public class WeightNode extends ModelObjectNode {
                 super.endDrag( event );
                 // The user is no longer moving this, so they have relinquished control.
                 weight.userControlled.set( false );
-                System.out.println( "endDrag" );
             }
         } );
     }
