@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -38,7 +39,12 @@ public class Plank extends ModelObject {
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
-    public static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
+    private static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
+
+    // The x position (i.e. the position along the horizontal axis) where the
+    // pivot exists.  If and when the fulcrum becomes movable, this will need
+    // to become a variable.
+    private static final double PIVOT_PT_POS_X = LENGTH / 2;
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -63,6 +69,15 @@ public class Plank extends ModelObject {
     // Constructor(s)
     //------------------------------------------------------------------------
 
+    /**
+     * Constructor.  Creates the initial shape of the plank.  This assumes
+     * that the plank is initially sitting with a fulcrum under the center and
+     * that it is initially balanced.
+     *
+     * @param clock
+     * @param centerHeight
+     * @param supportColumnsActive
+     */
     public Plank( final ConstantDtClock clock, double centerHeight, BooleanProperty supportColumnsActive ) {
         super( generateShape( centerHeight, 0 ) );
         clock.addClockListener( new ClockAdapter() {
@@ -77,12 +92,9 @@ public class Plank extends ModelObject {
         // level position whenever the supports are active.
         supportColumnsActive.addObserver( new SimpleObserver() {
             public void update() {
-                tiltAngle = 0; // Force the plank to be level.
-                updateShape();
-                updateWeightPositions();
+                forceToLevel();
             }
-        }
-        );
+        } );
     }
 
     //------------------------------------------------------------------------
@@ -94,13 +106,17 @@ public class Plank extends ModelObject {
     }
 
     /**
-     * Add a weight (e.g. a brick) to the surface of the plank.
+     * Add a weight (e.g. a brick) to the surface of the plank.  This will
+     * set the position and orientation of the weight.  The plank will then
+     * continue to control the position and orientation of the weight until the
+     * weight is removed from the surface of the plank.
      *
      * @param weight
      */
     public void addWeightToSurface( final Weight weight ) {
         weightsOnSurface.add( weight );
-        mapWeightToDistFromCenter.put( weight, weight.getPosition().getX() - positionHandle.getX() );
+        weight.setPosition( getClosestOpenLocation( weight.getPosition() ) );
+        mapWeightToDistFromCenter.put( weight, ( weight.getPosition().getX() - positionHandle.getX() ) / Math.cos( tiltAngle ) );
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
@@ -145,41 +161,31 @@ public class Plank extends ModelObject {
         return shape;
     }
 
-    public Point2D getClosestOpenLocation( Point2D p ) {
+    private Point2D getClosestOpenLocation( Point2D p ) {
         // TODO: Doesn't actually give open locations yet, just valid snap-to ones.
-        // TODO: Doesn't handle rotation yet.
-        double minX = getShape().getBounds2D().getMinX();
-        double maxX = getShape().getBounds2D().getMaxX();
-        double increment = getShape().getBounds2D().getWidth() / ( NUM_SNAP_TO_MARKERS + 1 );
-        double xPos = 0;
-        if ( p.getX() > maxX - increment ) {
-            xPos = maxX - increment;
+        Point2D closestOpenLocation = new Point2D.Double( 0, 0 );
+        System.out.println( "-------" );
+        for ( Point2D location : getSnapToLocations() ) {
+            System.out.println( "Testing against location: " + location );
+            if ( location.distance( p ) < closestOpenLocation.distance( p ) ) {
+                closestOpenLocation.setLocation( location );
+            }
         }
-        else if ( xPos < minX + increment ) {
-            xPos = minX + increment;
-        }
-        else {
-            int numLengths = (int) Math.round( ( p.getX() - minX ) / increment );
-            xPos = minX + numLengths * increment;
-        }
-        return new Point2D.Double( xPos, getShape().getBounds2D().getMaxY() );
+        System.out.println( "Returning: " + closestOpenLocation );
+        return closestOpenLocation;
     }
 
     /**
      * Force the plank back to the level position.  This is generally done when some sort of support column has been
      * put into place.
      */
-    public void forceToLevel() {
+    private void forceToLevel() {
         tiltAngle = 0;
         updateShape();
         updateWeightPositions();
     }
 
-    public void setTorqueFromWeights( double torque ) {
-        torqueFromWeights = torque;
-    }
-
-    public void stepInTime( double dt ) {
+    private void stepInTime( double dt ) {
         if ( !supportColumnsActive.get() ) {
             // Update the angular velocity based on the current torque.
             angularVelocity += torqueFromWeights / MOMENT_OF_INERTIA;
@@ -228,8 +234,7 @@ public class Plank extends ModelObject {
      * @return
      */
     public Point2D getBalancePoint() {
-        // TODO: This only works when the fulcrum is immobile, and will need
-        // to be improved.
+        // TODO: This only works when the fulcrum is immobile, and will need to be improved.
         return new Point2D.Double( positionHandle.getX(), positionHandle.getY() );
     }
 
@@ -244,7 +249,7 @@ public class Plank extends ModelObject {
      * @param xValue
      * @return
      */
-    public double getSurfaceYValue( double xValue ) {
+    private double getSurfaceYValue( double xValue ) {
         // Solve the linear equation for the line that represents the surface
         // of the plank.
         Point2D surfacePointAboveBalancePoint = getSurfacePointAboveBalancePoint();
@@ -270,6 +275,31 @@ public class Plank extends ModelObject {
             netTorqueFromWeights += -weight.getPosition().getX() * weight.getMass();
         }
         torqueFromWeights = netTorqueFromWeights;
+    }
+
+    /**
+     * Get a list of the "snap to" locations on the surface of the plank.
+     * These locations are the only locations where the weights may ba placed,
+     * and locations between these points are not considered valid.  This is
+     * done to make it easier to balance things.
+     *
+     * @return
+     */
+    private List<Point2D> getSnapToLocations() {
+        // Find the point that represents the leftmost edge of the surface.
+        ImmutableVector2D vectorFromPivotToCenterSurface = new Vector2D( getBalancePoint() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) );
+        ImmutableVector2D vectorToLeftSurfaceEdge = new Vector2D( -PIVOT_PT_POS_X, 0 ).rotate( tiltAngle );
+        Point2D currentPoint = new Vector2D( getBalancePoint() ).add( vectorFromPivotToCenterSurface ).add( vectorToLeftSurfaceEdge ).toPoint2D();
+        // Create a vector for moving one snap-to mark along the plank.
+        ImmutableVector2D incrementVector = new Vector2D( LENGTH / ( NUM_SNAP_TO_MARKERS + 1 ), 0 ).rotate( tiltAngle );
+        // Create the list of locations by starting at the left edge and
+        // stepping to the right edge.
+        List<Point2D> snapToLocations = new ArrayList<Point2D>( NUM_SNAP_TO_MARKERS );
+        for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
+            currentPoint = new Vector2D( currentPoint ).add( incrementVector ).toPoint2D();
+            snapToLocations.add( currentPoint );
+        }
+        return snapToLocations;
     }
 
     //------------------------------------------------------------------------
