@@ -33,17 +33,15 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class MultipleCapacitorsCanvas extends CLCanvas {
 
-    private final CLGlobalProperties globalProperties;
     private final MultipleCapacitorsModel model;
     private final PNode circuitParentNode; // parent of all circuit nodes, so we don't have to mess with rendering order
     private final BarMeterNode capacitanceMeterNode, plateChargeMeterNode, storedEnergyMeterNode;
     private final PNode shapesDebugParentNode; // debugging shapes, developer control
 
     public MultipleCapacitorsCanvas( final MultipleCapacitorsModel model, final CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
-        super( model, mvt );
+        super( model, mvt, globalProperties );
 
         this.model = model;
-        this.globalProperties = globalProperties;
 
         /*
          * Maximums, for calibrating various view representations.
@@ -135,10 +133,10 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
 
         PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.currentCircuitProperty.get(), model.getVoltmeter() );
         shapesDebugParentNode.addChild( voltageShapesDebugNode );
-        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
+        voltageShapesDebugNode.setVisible( getGlobalProperties().voltageShapesVisibleProperty.get() );
 
         PNode eFieldShapesDebugNode = new EFieldShapesDebugNode( model.currentCircuitProperty.get() );
         shapesDebugParentNode.addChild( eFieldShapesDebugNode );
-        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
+        eFieldShapesDebugNode.setVisible( getGlobalProperties().eFieldShapesVisibleProperty.get() );
     }
 }

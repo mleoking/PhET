@@ -5,6 +5,7 @@ package edu.colorado.phet.capacitorlab.module;
 import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
+import edu.colorado.phet.capacitorlab.CLGlobalProperties;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.CLModel;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
@@ -28,14 +29,16 @@ public abstract class CLCanvas extends PhetPCanvas {
 
     private final CLModel model;
     private final CLModelViewTransform3D mvt; // model-view transform
+    private final CLGlobalProperties globalProperties;
     private final PNode rootNode; // root node of our scenegraph, all nodes added below here
 
-    public CLCanvas( CLModel model, CLModelViewTransform3D mvt ) {
+    public CLCanvas( CLModel model, CLModelViewTransform3D mvt, CLGlobalProperties globalProperties ) {
         super( CLConstants.CANVAS_RENDERING_SIZE );
         setBackground( CLPaints.CANVAS_BACKGROUND );
 
         this.model = model;
         this.mvt = mvt;
+        this.globalProperties = globalProperties;
 
         rootNode = new PNode();
         addWorldChild( rootNode );
@@ -58,6 +61,10 @@ public abstract class CLCanvas extends PhetPCanvas {
         if ( node != null && rootNode.indexOfChild( node ) != -1 ) {
             rootNode.removeChild( node );
         }
+    }
+
+    protected CLGlobalProperties getGlobalProperties() {
+        return globalProperties;
     }
 
     public Property<Boolean> getPlateChargesVisibleProperty() {
