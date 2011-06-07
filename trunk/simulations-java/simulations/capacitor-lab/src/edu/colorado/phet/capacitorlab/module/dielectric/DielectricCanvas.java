@@ -32,16 +32,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class DielectricCanvas extends CLCanvas {
 
     private final DielectricModel model;
-    private final CLGlobalProperties globalProperties;
     private final BarMeterNode capacitanceMeterNode, plateChargeMeterNode, storedEnergyMeterNode;
     private final PNode shapesDebugParentNode;
 
     public DielectricCanvas( final DielectricModel model, CLModelViewTransform3D mvt, CLGlobalProperties globalProperties,
                              boolean eFieldDetectorSimplified, boolean dielectricVisible ) {
-        super( model, mvt );
+        super( model, mvt, globalProperties );
 
         this.model = model;
-        this.globalProperties = globalProperties;
 
         // Maximums, for calibrating various view representations.
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
@@ -118,10 +116,10 @@ public class DielectricCanvas extends CLCanvas {
 
         PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.getCircuit(), model.getVoltmeter() );
         shapesDebugParentNode.addChild( voltageShapesDebugNode );
-        voltageShapesDebugNode.setVisible( globalProperties.voltageShapesVisibleProperty.get() );
+        voltageShapesDebugNode.setVisible( getGlobalProperties().voltageShapesVisibleProperty.get() );
 
         PNode eFieldShapesDebugNode = new EFieldShapesDebugNode( model.getCircuit() );
         shapesDebugParentNode.addChild( eFieldShapesDebugNode );
-        eFieldShapesDebugNode.setVisible( globalProperties.eFieldShapesVisibleProperty.get() );
+        eFieldShapesDebugNode.setVisible( getGlobalProperties().eFieldShapesVisibleProperty.get() );
     }
 }
