@@ -15,6 +15,7 @@ import org.jbox2d.dynamics.World;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -74,6 +75,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
     private int DEFAULT_NUM_WATERS = 100;
+    public DoubleProperty numSodiums = new DoubleProperty( 0.0 );
 
     public MicroscopicModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -152,9 +154,14 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             }
         }, +1, SODIUM_RADIUS );
         sodiumList.add( sodiumIon );
+        updateNumSodiums();
         for ( VoidFunction1<DefaultParticle> sodiumAddedListener : sodiumAddedListeners ) {
             sodiumAddedListener.apply( sodiumIon );
         }
+    }
+
+    private void updateNumSodiums() {
+        numSodiums.set( sodiumList.size() + 0.0 );
     }
 
     //Adds default water particles
@@ -370,6 +377,7 @@ public class MicroscopicModel extends SugarAndSaltSolutionModel {
             sodiumMolecule.notifyRemoved();
         }
         sodiumList.clear();
+        updateNumSodiums();
     }
 
     //Removes all Chlorine from the model
