@@ -221,7 +221,7 @@ public abstract class ComponentEditor extends PaintImmediateDialog {
         public BulbResistanceEditor( CCKModule module, final CircuitComponent element, Component parent, Circuit circuit ) {
             super( module, CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ),
                    element, parent, CCKResources.getString( "ComponentEditor.BulbResistanceName" ),
-                   CCKResources.getString( "ComponentEditor.BulbResistanceTitle" ), 0, 100, element.getResistance(), circuit );
+                   CCKResources.getString( "ComponentEditor.ResistorResistanceUnits" ), 0, 100, element.getResistance(), circuit );
         }
 
         protected void doChange( double value ) {
