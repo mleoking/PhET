@@ -7,6 +7,7 @@ import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 
 /**
  * Provides a mapping between model and view coordinates.  Convenience constructors and methods around AffineTransform.
@@ -383,52 +384,7 @@ public class ModelViewTransform {
         return new ImmutableRectangle2D( modelToView( modelRect.toRectangle2D() ) );
     }
 
-    /**
-     * Inner implementation of Dimension2D since one is not provided by awt.
-     */
-    public static class Dimension2DDouble extends Dimension2D {
-        public double width;
-        public double height;
-
-        public Dimension2DDouble( double width, double height ) {
-            this.width = width;
-            this.height = height;
-        }
-
-        public Dimension2DDouble( Dimension2D size ) {
-            this( size.getWidth(), size.getHeight() );
-        }
-
-        @Override
-        public double getWidth() {
-            return width;
-        }
-
-        @Override
-        public double getHeight() {
-            return height;
-        }
-
-        @Override
-        public void setSize( double width, double height ) {
-            this.width = width;
-            this.height = height;
-        }
-
-        @Override
-        public String toString() {
-            final StringBuffer result = new StringBuffer();
-            result.append( super.toString().replaceAll( ".*\\.", "" ) ); // abbreviate the class name
-            result.append( '[' );
-            result.append( "width=" );
-            result.append( width );
-            result.append( ",height=" );
-            result.append( height );
-            result.append( ']' );
-            return result.toString();
-        }
-    }
-
+    //Test main
     public static void main( String[] args ) {
         Point2D x = ModelViewTransform.createOffsetScaleMapping( new Double( 3, 4 ), 9 ).modelToView( 1, 1 );
         System.out.println( "x = " + x );
