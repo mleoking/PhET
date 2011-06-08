@@ -43,7 +43,7 @@ public class WorldBounds extends Property<Rectangle2D> {
      * @return
      */
     public Point3D getClosest( Point3D p, double margin ) {
-        Point3D pConstrained = null;
+        Point3D pConstrained;
         if ( isEmpty() ) {
             pConstrained = new Point3D.Double( p );
         }

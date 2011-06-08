@@ -102,7 +102,7 @@ public class DielectricCircuitNode extends PhetPNode {
 
         // layout
         {
-            double x, y = 0;
+            double x, y;
 
             // wires shapes are in model coordinate frame, so the nodes live at (0,0)
             topWireNode.setOffset( 0, 0 );

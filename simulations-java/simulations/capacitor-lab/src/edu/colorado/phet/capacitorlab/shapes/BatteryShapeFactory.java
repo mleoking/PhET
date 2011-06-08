@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
@@ -31,6 +31,7 @@ public class BatteryShapeFactory {
     /**
      * Gets the shape of the battery's body in the world coordinate frame.
      * Origin at the center.
+     *
      * @return
      */
     public Shape createBodyShape() {
@@ -62,7 +63,7 @@ public class BatteryShapeFactory {
     private Shape createPositiveTerminalShape( Point3D origin ) {
 
         // top of the cylinder
-        Shape topEllipse = null;
+        Shape topEllipse;
         {
             final double width = battery.getPositiveTerminalEllipseSize().getWidth();
             final double height = battery.getPositiveTerminalEllipseSize().getHeight();
@@ -72,7 +73,7 @@ public class BatteryShapeFactory {
         }
 
         // bottom of the cylinder
-        Shape bottomEllipse = null;
+        Shape bottomEllipse;
         {
             final double width = battery.getPositiveTerminalEllipseSize().getWidth();
             final double height = battery.getPositiveTerminalEllipseSize().getHeight();
@@ -82,7 +83,7 @@ public class BatteryShapeFactory {
         }
 
         // wall of the cylinder
-        Shape wallShape = null;
+        Shape wallShape;
         {
             final double width = battery.getPositiveTerminalEllipseSize().getWidth();
             final double height = battery.getPositiveTerminalCylinderHeight();
