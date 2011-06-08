@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.CHLORINE_RADIUS;
@@ -408,6 +409,16 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     public void addChlorineIonAddedListener( VoidFunction1<DefaultParticle> createNode ) {
         chlorineAddedListeners.add( createNode );
+    }
+
+    //Gets a random number within the horizontal range of the beaker
+    public double getRandomX() {
+        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * beakerWidth - beakerWidth / 2 );
+    }
+
+    //Gets a random number within the vertical range of the beaker
+    public double getRandomY() {
+        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * beakerHeight );
     }
 
     //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through

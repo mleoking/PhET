@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -16,7 +15,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.WaterModel.Barrier;
@@ -109,21 +107,6 @@ public class WaterCanvas extends PhetPCanvas {
 //        addChild( new BarrierNode( transform, model.bottomWall ) );
 //        addChild( new BarrierNode( transform, model.leftWall ) );
 //        addChild( new BarrierNode( transform, model.rightWall ) );
-
-        //Gets a random number within the horizontal range of the beaker
-        final Function0<Float> randomX = new Function0<Float>() {
-            public Float apply() {
-                return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * model.beakerWidth - model.beakerWidth / 2 );
-            }
-        };
-
-        //Gets a random number within the vertical range of the beaker
-        final Function0<Float> randomY = new Function0<Float>() {
-            public Float apply() {
-                return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * model.beakerHeight );
-            }
-        };
-
         //Control panel
         addChild( new ControlPanelNode( new VBox(
 
@@ -151,45 +134,6 @@ public class WaterCanvas extends PhetPCanvas {
                         }
                     } );
                 }}
-                //Button to add a single sodium ion
-//                new HTMLImageButtonNode( "Add Sodium Ion" ) {{
-//                    addActionListener( new ActionListener() {
-//                        public void actionPerformed( ActionEvent e ) {
-//                            model.addSodiumIon( randomX.apply(), model.beakerHeight );
-//                        }
-//                    } );
-//                }},
-//                //Button to add a chlorine icon
-//                new HTMLImageButtonNode( "Add Chlorine Ion" ) {{
-//                    addActionListener( new ActionListener() {
-//                        public void actionPerformed( ActionEvent e ) {
-//                            model.addChlorineIon( randomX.apply(), model.beakerHeight );
-//                        }
-//                    } );
-//                }},
-//                //button to add a water
-//                new HTMLImageButtonNode( "Add Water" ) {{
-//                    addActionListener( new ActionListener() {
-//                        public void actionPerformed( ActionEvent e ) {
-//                            model.addWater( randomX.apply(), randomY.apply(), 0 );
-//                        }
-//                    } );
-//                }},
-
-                //Developer controls for physics settings
-//                ,
-//                new PSwing( new JPanel() {{
-//                    add( new JLabel( "k" ) );
-//                    add( new PropertySlider( 0, 1000, model.k ) );
-//                }} ),
-//                new PSwing( new JPanel() {{
-//                    add( new JLabel( "pow" ) );
-//                    add( new PropertySlider( 0, 10, model.pow ) );
-//                }} ),
-//                new PSwing( new JPanel() {{
-//                    add( new JLabel( "rand" ) );
-//                    add( new PropertySlider( 0, 100, model.randomness ) );
-//                }} )
         ) ) {{
             setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - MacroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
