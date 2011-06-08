@@ -1,3 +1,5 @@
+Water tab: when you add salt, it appears near the middle of the play area
+Water tab: Instead of one NaCl, show a "crystal" of salt made up of 2 Na's and 2 Cl's, and then only allow students to "add salt" once
 Macro tab: if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
 Macro tab: reduced the rate of evaporation
 Macro tab: doubled the number of moles per grain of sugar

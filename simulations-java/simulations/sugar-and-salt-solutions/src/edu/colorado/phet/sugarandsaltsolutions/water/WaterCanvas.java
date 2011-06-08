@@ -131,7 +131,7 @@ public class WaterCanvas extends PhetPCanvas {
                 new HTMLImageButtonNode( "Add Salt" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSalt( randomX.apply(), randomY.apply() );
+                            model.addSalt();
                         }
                     } );
 

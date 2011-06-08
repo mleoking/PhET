@@ -117,10 +117,15 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         initModel();
     }
 
-    //Adds a NaCl molecule by adding a nearby sodium and chlorine, electrostatic forces are responsible for keeping them together
-    public void addSalt( double x, double y ) {
-        addSodiumIon( x, y );
-        addChlorineIon( x + SODIUM_RADIUS, y );
+    //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
+    public void addSalt() {
+        final double separation = CHLORINE_RADIUS + SODIUM_RADIUS;
+
+        addSodiumIon( 0, beakerHeight / 2 );
+        addChlorineIon( separation, beakerHeight / 2 );
+
+        addChlorineIon( 0, beakerHeight / 2 + separation );
+        addSodiumIon( separation, beakerHeight / 2 + separation );
     }
 
     //Adds some random sodium particles
