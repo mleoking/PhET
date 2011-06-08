@@ -8,7 +8,7 @@ import edu.colorado.phet.capacitorlab.module.dielectric.DielectricModel;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
 
 /**
- * Dialog that displays "raw" model values.
+ * Dialog that displays "raw" values for the DielectricModel.
  * This is intended for use by developers and is not internationalized.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
