@@ -498,7 +498,7 @@ public class BatteryResistorCircuitSimulationPanel extends JPanel {
         JPanel jp = new JPanel();
         jp.add( conPan );
         mainPanel.add( jp, BorderLayout.EAST );
-        conPan.setPreferredSize( new Dimension( 200, conPan.getPreferredSize().height ) );
+        conPan.setPreferredSize( new Dimension( 200, conPan.getPreferredSize().height + 20 ) ); //#2914
 
         setLayout( new BorderLayout() );
         add( mainPanel, BorderLayout.CENTER );
