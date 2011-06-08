@@ -130,7 +130,7 @@ public abstract class PlateChargeNode extends PhetPNode {
 
             // offset to move us to the center of cells
             final double xOffset = dx / 2;
-            final double zOffset = ( numberOfCharges == 1 ? dz / 3 : dz / 2 ); //#2935, so that single charge is not obscured by wire connected to center of top plate
+            final double zOffset = dz / 2;
 
             // populate the grid
             for ( int row = 0; row < rows; row++ ) {
@@ -143,6 +143,9 @@ public abstract class PlateChargeNode extends PhetPNode {
                     double x = getContactXOrigin() + xOffset + ( column * dx );
                     double y = 0;
                     double z = -( plateDepth / 2 ) + ( zMargin / 2 ) + zOffset + ( row * dz );
+                    if ( numberOfCharges == 1 ) {
+                        z -= dz / 6; //#2935, so that single charge is not obscured by wire connected to center of top plate
+                    }
                     chargeNode.setOffset( mvt.modelToView( x, y, z ) );
                 }
             }
