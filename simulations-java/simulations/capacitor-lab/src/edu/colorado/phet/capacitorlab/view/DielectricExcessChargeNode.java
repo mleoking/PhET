@@ -84,13 +84,14 @@ public class DielectricExcessChargeNode extends PhetPNode {
         // remove existing charges
         parentNode.removeAllChildren();
 
-        final double plateCharge = capacitor.getDielectricPlateCharge();
+        final double excessCharge = capacitor.getExcessDielectricPlateCharge();
         final double dielectricWidth = capacitor.getDielectricWidth();
         final double dielectricDepth = capacitor.getDielectricDepth();
         final double contactWidth = Math.max( 0, dielectricWidth - capacitor.getDielectricOffset() ); // contact between plate and dielectric
 
-        if ( plateCharge != 0 && contactWidth > 0 ) {
+        if ( excessCharge != 0 && contactWidth > 0 ) {
 
+            final double plateCharge = capacitor.getDielectricPlateCharge();
             final int numberOfCharges = PlateChargeNode.getNumberOfCharges( plateCharge, maxPlateCharge );
             Dimension gridSize = gridSizeStrategy.getGridSize( numberOfCharges, contactWidth, dielectricDepth );
             final int rows = gridSize.height;
