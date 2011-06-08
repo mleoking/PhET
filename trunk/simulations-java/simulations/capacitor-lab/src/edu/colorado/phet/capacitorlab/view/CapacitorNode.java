@@ -93,10 +93,6 @@ public class CapacitorNode extends PhetPNode {
         return dielectricNode;
     }
 
-    public void setDielectricVisible( boolean visible ) {
-        dielectricNode.setVisible( visible );
-    }
-
     private void updateGeometry() {
 
         // geometry

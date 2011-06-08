@@ -20,17 +20,6 @@ public class CLConstants {
     private CLConstants() {
     }
 
-    //----------------------------------------------------------------------------
-    // Debugging
-    //----------------------------------------------------------------------------
-
-    // enable debug output for canvas layout updates
-    public static final boolean DEBUG_CANVAS_UPDATE_LAYOUT = false;
-
-    //----------------------------------------------------------------------------
-    // Application
-    //----------------------------------------------------------------------------
-
     public static final String PROJECT_NAME = "capacitor-lab";
 
     //----------------------------------------------------------------------------
