@@ -32,7 +32,7 @@ public class CapacitorNode extends PhetPNode {
     public CapacitorNode( Capacitor capacitor, CLModelViewTransform3D mvt, boolean dielectricVisible,
                           final Property<Boolean> plateChargeVisibleProperty, final Property<Boolean> eFieldVisibleProperty,
                           Property<DielectricChargeView> dielectricChargeViewProperty,
-                          double maxPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
+                          double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
 
         this.capacitor = capacitor;
         this.mvt = mvt;
@@ -40,7 +40,7 @@ public class CapacitorNode extends PhetPNode {
         // child nodes
         topPlateNode = new TopPlateNode( capacitor, mvt, maxPlateCharge );
         bottomPlateNode = new BottomPlateNode( capacitor, mvt, maxPlateCharge );
-        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeViewProperty, maxPlateCharge, maxDielectricEField );
+        dielectricNode = new DielectricNode( capacitor, mvt, dielectricChargeViewProperty, maxPlateCharge, maxExcessDielectricPlateCharge, maxDielectricEField );
         eFieldNode = new EFieldNode( capacitor, mvt, maxEffectiveEField );
 
         // rendering order

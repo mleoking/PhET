@@ -33,7 +33,7 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
 
     public MultipleCapacitorsCircuitNode( ICircuit circuit, CLModelViewTransform3D mvt, boolean dielectricVisible,
                                           Property<Boolean> plateChargeVisible, final Property<Boolean> eFieldVisible, Property<DielectricChargeView> dielectricChargeView,
-                                          double maxPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
+                                          double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
 
         this.circuit = circuit;
 
@@ -50,7 +50,7 @@ public class MultipleCapacitorsCircuitNode extends PhetPNode {
             // capacitor
             final CapacitorNode capacitorNode = new CapacitorNode( capacitor, mvt, dielectricVisible,
                                                                    plateChargeVisible, eFieldVisible, dielectricChargeView,
-                                                                   maxPlateCharge, maxEffectiveEField, maxDielectricEField );
+                                                                   maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
             capacitorNode.getDielectricNode().setVisible( false );
             addChild( capacitorNode );
             capacitorNode.setOffset( mvt.modelToView( capacitor.getLocation() ) );
