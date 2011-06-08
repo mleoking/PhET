@@ -1,3 +1,4 @@
+# 1.00.08 (52803) Jun 7, 2011
 6/7/11 #2928, deleted maxExcessDielectricPlateCharge parameter from many constructors, since excess charge view is now based on plate charge
 6/7/11 #2928, base excess charge view on plate charge, so that we can fake both in a similar manner
 6/7/11 move common view properties to canvas base class
