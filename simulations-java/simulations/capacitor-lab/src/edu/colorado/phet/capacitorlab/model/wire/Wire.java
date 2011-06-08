@@ -30,10 +30,6 @@ public class Wire {
     // observable properties
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
 
-    public Wire( CLModelViewTransform3D mvt, double thickness, final WireSegment segment ) {
-        this( mvt, thickness, new ArrayList<WireSegment>() {{ add( segment ); }} );
-    }
-
     public Wire( CLModelViewTransform3D mvt, double thickness, ArrayList<WireSegment> segments ) {
         assert ( segments != null );
         assert ( thickness > 0 );
