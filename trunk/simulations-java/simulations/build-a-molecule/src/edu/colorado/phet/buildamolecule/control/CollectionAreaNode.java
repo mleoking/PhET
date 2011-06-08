@@ -49,7 +49,7 @@ public class CollectionAreaNode extends GeneralLayoutNode {
                                                         : new MultipleCollectionBoxNode( collectionBox, toModelBounds );
             collectionBoxNodes.add( collectionBoxNode );
 
-            // TODO: can we fix this up somehow to be better?
+            // TODO: can we fix this up somehow to be better? easier way to force height?
             // center box horizontally and put at bottom vertically in our holder
             final VoidFunction0 layoutBoxNode = new VoidFunction0() {
                 public void apply() {
