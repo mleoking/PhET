@@ -586,8 +586,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     private static class ZoomPanelNode extends PNode {
 
-        public Property<Boolean> zoomInEnabledProperty = new Property<Boolean>( false );
-        public Property<Boolean> zoomOutEnabledProperty = new Property<Boolean>( false );
+        public final Property<Boolean> zoomInEnabledProperty = new Property<Boolean>( false );
+        public final Property<Boolean> zoomOutEnabledProperty = new Property<Boolean>( false );
 
         public ZoomPanelNode( ActionListener zoomInActionListener, ActionListener zoomOutActionListener ) {
 
