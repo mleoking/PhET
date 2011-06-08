@@ -35,9 +35,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Combination1Circuit extends AbstractCircuit {
 
-    private final ArrayList<Capacitor> capacitors;
-    private final Capacitor c1, c2, c3;
-    private final ArrayList<Wire> wires;
+    private final Capacitor c1, c2, c3; // references to improve code readability
+    private final ArrayList<Capacitor> capacitors; // order is significant
+    private final ArrayList<Wire> wires; // order is significant
 
     public Combination1Circuit( CircuitConfig config ) {
         super( CLStrings.COMBINATION_1, config.clock, config.mvt, config.batteryLocation );
@@ -129,6 +129,7 @@ public class Combination1Circuit extends AbstractCircuit {
         return ( 1 / ( 1 / C1 + 1 / C2 ) ) + C3;
     }
 
+    // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
         if ( connectedToBatteryTop( shape ) ) {

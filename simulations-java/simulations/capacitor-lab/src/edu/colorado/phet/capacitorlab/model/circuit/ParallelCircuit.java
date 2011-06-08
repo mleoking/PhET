@@ -29,8 +29,8 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class ParallelCircuit extends AbstractCircuit {
 
-    private final ArrayList<Capacitor> capacitors;
-    private final ArrayList<Wire> wires;
+    private final ArrayList<Capacitor> capacitors; // ordered left-to-right from battery
+    private final ArrayList<Wire> wires; // ordered clockwise from battery's top terminal
 
     public ParallelCircuit( CircuitConfig config, String displayName, int numberOfCapacitors ) {
         super( displayName, config.clock, config.mvt, config.batteryLocation );
@@ -118,6 +118,7 @@ public class ParallelCircuit extends AbstractCircuit {
         return sum;
     }
 
+    // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
         if ( connectedToBatteryTop( shape ) ) {

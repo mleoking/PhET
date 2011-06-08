@@ -132,6 +132,7 @@ public class SeriesCircuit extends AbstractCircuit {
         return 1 / sum;
     }
 
+    // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape shape ) {
 
         double voltage = Double.NaN;
