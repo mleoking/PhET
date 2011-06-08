@@ -21,7 +21,9 @@ public class IntroductionControlPanel extends ControlPanel {
 
     public IntroductionControlPanel( Resettable resettable, DielectricModel model, CLCanvas canvas, CLGlobalProperties globalProperties ) {
         addControlFullWidth( new ViewControlPanel( canvas.getPlateChargesVisibleProperty(), canvas.getEFieldVisibleProperty() ) );
-        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), CLStrings.CAPACITANCE, model.getPlateChargeMeter(), CLStrings.PLATE_CHARGE, model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
+        addControlFullWidth( new MetersControlPanel( model.capacitanceMeter, CLStrings.CAPACITANCE,
+                                                     model.plateChargeMeter, CLStrings.PLATE_CHARGE,
+                                                     model.storedEnergyMeter, model.voltmeter, model.eFieldDetector ) );
         if ( globalProperties.dev ) {
             addControlFullWidth( new DeveloperControlPanel( globalProperties.frame, model ) );
         }

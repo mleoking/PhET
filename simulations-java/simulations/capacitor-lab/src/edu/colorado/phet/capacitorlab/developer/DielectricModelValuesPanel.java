@@ -61,7 +61,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
         this.model = model;
 
-        this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
+        this.dielectricMaterial = model.circuit.getCapacitor().getDielectricMaterial();
 
         // instructions
         JLabel instructions = new JLabel( "= MOUSE OVER FOR DESCRIPTIONS =" );
@@ -191,7 +191,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
                     updateValues();
                 }
             };
-            model.getCircuit().addCircuitChangeListener( circuitChangeListener );
+            model.circuit.addCircuitChangeListener( circuitChangeListener );
 
             // dielectric constant
             dielectricConstantObserver = new SimpleObserver() {
@@ -202,7 +202,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
             dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
 
             // capacitor
-            model.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
+            model.circuit.getCapacitor().addDielectricMaterialObserver( new SimpleObserver() {
                 public void update() {
                     updateDielectricObserver();
                 }
@@ -216,7 +216,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      * Unregister for notifications.
      */
     public void cleanup() {
-        model.getCircuit().removeCircuitChangeListener( circuitChangeListener );
+        model.circuit.removeCircuitChangeListener( circuitChangeListener );
         dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
     }
 
@@ -225,7 +225,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      */
     private void updateValues() {
 
-        SingleCircuit circuit = model.getCircuit();
+        SingleCircuit circuit = model.circuit;
         Battery battery = circuit.getBattery();
         Capacitor capacitor = circuit.getCapacitor();
 
@@ -261,7 +261,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         E_air.setValue( capacitor.getAirEField() );
         E_dielectric.setValue( capacitor.getDielectricEField() );
         // energy
-        U.setValue( model.getCircuit().getStoredEnergy() );
+        U.setValue( model.circuit.getStoredEnergy() );
     }
 
     /*
@@ -269,7 +269,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
      */
     private void updateDielectricObserver() {
         this.dielectricMaterial.removeDielectricConstantObserver( dielectricConstantObserver );
-        this.dielectricMaterial = model.getCapacitor().getDielectricMaterial();
+        this.dielectricMaterial = model.circuit.getCapacitor().getDielectricMaterial();
         this.dielectricMaterial.addDielectricConstantObserver( dielectricConstantObserver );
     }
 
