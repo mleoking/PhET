@@ -20,7 +20,9 @@ public class MultipleCapacitorsControlPanel extends ControlPanel {
 
     public MultipleCapacitorsControlPanel( Resettable resettable, MultipleCapacitorsModel model, CLCanvas canvas, CLGlobalProperties globalProperties ) {
         addControlFullWidth( new ViewControlPanel( canvas.getPlateChargesVisibleProperty(), canvas.getEFieldVisibleProperty() ) );
-        addControlFullWidth( new MetersControlPanel( model.getCapacitanceMeter(), CLStrings.TOTAL_CAPACITANCE, model.getPlateChargeMeter(), CLStrings.STORED_CHARGE, model.getStoredEnergyMeter(), model.getVoltmeter(), model.getEFieldDetector() ) );
+        addControlFullWidth( new MetersControlPanel( model.capacitanceMeter, CLStrings.TOTAL_CAPACITANCE,
+                                                     model.plateChargeMeter, CLStrings.STORED_CHARGE,
+                                                     model.storedEnergyMeter, model.voltmeter, model.eFieldDetector ) );
         addControlFullWidth( new CircuitChoiceControl( model.getCircuits(), model.currentCircuitProperty ) );
         addResetAllButton( resettable );
     }

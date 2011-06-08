@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 /**
  * Model for the "Dielectric" module.
  * </p>
- * This model has much in common with MultipleCapacitorsModel, but was developed added much earlier,
+ * This model is somewhat similar to  with MultipleCapacitorsModel, but was developed much earlier,
  * and is parametrized differently (with a large number of parameters).
  * I attempted to force some of the common bits into the base class, but it because messy and less readable.
  * So I decided that a bit of duplication is preferable here.
