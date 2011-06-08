@@ -72,7 +72,7 @@ public class CollectionAreaNode extends GeneralLayoutNode {
                 }
             } );
 
-            // enforce consistent bounds of the maximum size
+            // enforce consistent bounds of the maximum size. reason: we don't want switching between collections to alter the positions of the collection boxes
             PNode collectionBoxHolder = new PNode() {
                 {
                     // invisible background. enforces SwingLayoutNode's correct positioning
