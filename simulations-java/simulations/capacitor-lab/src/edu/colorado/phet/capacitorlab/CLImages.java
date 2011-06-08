@@ -15,7 +15,8 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 public class CLImages {
 
     /* not intended for instantiation */
-    private CLImages() {}
+    private CLImages() {
+    }
 
     public static final BufferedImage BATTERY_UP = getBufferedImage( "battery_3D_up.png" );
     public static final BufferedImage BATTERY_DOWN = getBufferedImage( "battery_3D_down.png" );
@@ -29,11 +30,11 @@ public class CLImages {
     // common images
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
 
-    private static final BufferedImage getBufferedImage( String resourceName ) {
+    private static BufferedImage getBufferedImage( String resourceName ) {
         return CLResources.getBufferedImage( resourceName );
     }
 
-    private static final BufferedImage getCommonBufferedImage( String resourceName ) {
+    private static BufferedImage getCommonBufferedImage( String resourceName ) {
         return PhetCommonResources.getImage( resourceName );
     }
 }
