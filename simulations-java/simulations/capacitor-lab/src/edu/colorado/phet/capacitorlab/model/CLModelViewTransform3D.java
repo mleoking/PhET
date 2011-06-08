@@ -10,7 +10,7 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
- * ModelViewTransform provides the transforms between model and view coordinate systems.
+ * Provides the transforms between model and view 3D-coordinate systems.
  * In both coordinate systems, +x is to the right, +y is down, +z is away from the viewer.
  * Sign of rotation angles is specified using the right-hand rule.
  * <p/>
