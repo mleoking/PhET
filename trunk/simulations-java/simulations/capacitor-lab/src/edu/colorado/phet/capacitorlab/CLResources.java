@@ -21,11 +21,11 @@ public class CLResources {
     private CLResources() {
     }
 
-    public static final String getString( String name ) {
+    public static String getString( String name ) {
         return RESOURCES.getLocalizedString( name );
     }
 
-    public static final BufferedImage getBufferedImage( String name ) {
+    public static BufferedImage getBufferedImage( String name ) {
         return RESOURCES.getImage( name );
     }
 }

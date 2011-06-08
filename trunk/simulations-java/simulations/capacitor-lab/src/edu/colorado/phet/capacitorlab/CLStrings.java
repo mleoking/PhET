@@ -82,7 +82,7 @@ public class CLStrings {
     // Greek letters, i18n not required
     public static final String EPSILON = "\u0190";
 
-    private static final String getString( String key ) {
+    private static String getString( String key ) {
         return CLResources.getString( key );
     }
 }
