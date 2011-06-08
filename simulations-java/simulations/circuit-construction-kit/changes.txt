@@ -1,3 +1,4 @@
+Fixed: "resistivity" doesn't reset when "reset all" is pressed, resolves #2934
 Fixed: "show values" checkbox doesn't reset when "reset all" is pressed, resolves #2933
 # 3.19.02 (52727) Jun 7, 2011
 Fixed: "Advanced" label missing from control panel, resolves #2921
