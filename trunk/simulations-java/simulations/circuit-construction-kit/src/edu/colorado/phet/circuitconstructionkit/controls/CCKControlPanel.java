@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
@@ -374,6 +375,11 @@ public class CCKControlPanel extends ControlPanel {
                         new RuntimeException( "Illegal resistivity: " + value ).printStackTrace();
                     }
                     module.getResistivityManager().setResistivity( value );
+                }
+            } );
+            module.getResistivityManager().resistivity.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double value ) {
+                    resistivitySlider.setValue( value );
                 }
             } );
 

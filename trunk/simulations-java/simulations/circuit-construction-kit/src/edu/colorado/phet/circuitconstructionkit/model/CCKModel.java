@@ -180,6 +180,7 @@ public class CCKModel {
         getCircuit().clear();
         getCircuit().clearSelection();
         getParticleSet().clear();
+        resistivityManager.reset();
     }
 
     public Junction[] split( Junction junction ) {

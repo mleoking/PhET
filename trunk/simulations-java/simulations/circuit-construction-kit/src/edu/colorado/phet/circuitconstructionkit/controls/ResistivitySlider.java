@@ -42,4 +42,8 @@ public class ResistivitySlider extends JPanel {//TODO: this should probably be o
     public void addChangeListener( ChangeListener changeListener ) {
         control.addChangeListener( changeListener );
     }
+
+    public void setValue( double value ) {
+        control.setValue( value );
+    }
 }
