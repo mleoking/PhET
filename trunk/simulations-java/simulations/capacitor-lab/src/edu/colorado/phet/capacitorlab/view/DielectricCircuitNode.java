@@ -51,7 +51,7 @@ public class DielectricCircuitNode extends PhetPNode {
     public DielectricCircuitNode( final SingleCircuit circuit, final CLModelViewTransform3D mvt, final boolean dielectricVisible,
                                   Property<Boolean> plateChargeVisibleProperty, final Property<Boolean> eFieldVisibleProperty,
                                   Property<DielectricChargeView> dielectricChargeView,
-                                  double maxPlateCharge, double maxExcessDielectricPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
+                                  double maxPlateCharge, double maxEffectiveEField, double maxDielectricEField ) {
 
         this.circuit = circuit;
 
@@ -59,7 +59,7 @@ public class DielectricCircuitNode extends PhetPNode {
         batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( circuit.getCapacitor(), mvt, dielectricVisible,
                                            plateChargeVisibleProperty, eFieldVisibleProperty, dielectricChargeView,
-                                           maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
+                                           maxPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
             if ( dielectricVisible ) {
                 // make dielectric directly draggable
                 getDielectricNode().addInputEventListener( new CursorHandler( Cursor.E_RESIZE_CURSOR ) );

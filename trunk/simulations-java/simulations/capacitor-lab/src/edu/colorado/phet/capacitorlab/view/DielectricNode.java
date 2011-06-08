@@ -21,7 +21,7 @@ public class DielectricNode extends BoxNode {
 
     public DielectricNode( final Capacitor capacitor, CLModelViewTransform3D mvt,
                            final Property<DielectricChargeView> dielectricChargeViewProperty,
-                           double maxExcessDielectricPlateCharge, double maxDielectricEField ) {
+                           double maxPlateCharge, double maxDielectricEField ) {
         super( mvt, capacitor.getDielectricMaterial().getColor(), capacitor.getDielectricSize() );
 
         this.capacitor = capacitor;
@@ -29,7 +29,7 @@ public class DielectricNode extends BoxNode {
         final DielectricTotalChargeNode totalChargeNode = new DielectricTotalChargeNode( capacitor, mvt, maxDielectricEField );
         addChild( totalChargeNode );
 
-        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxExcessDielectricPlateCharge );
+        final DielectricExcessChargeNode excessChargeNode = new DielectricExcessChargeNode( capacitor, mvt, maxPlateCharge );
         addChild( excessChargeNode );
 
         dielectricChargeViewProperty.addObserver( new SimpleObserver() {

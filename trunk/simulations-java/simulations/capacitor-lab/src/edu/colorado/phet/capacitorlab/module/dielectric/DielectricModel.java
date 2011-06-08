@@ -170,18 +170,6 @@ public class DielectricModel extends CLModel {
     }
 
     /*
-     * Gets the maximum excess charge for the dielectric area (Q_exess_dielectric).
-     */
-    public static double getMaxExcessDielectricPlateCharge() {
-        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
-        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        return capacitor.getExcessDielectricPlateCharge();
-    }
-
-    /*
      * Gets the maximum effective E-field between the plates (E_effective).
      * The maximum occurs when the battery is disconnected, the Plate Charge control is set to its maximum,
      * the plate area is set to its minimum, and the dielectric constant is min, and the dielectric is fully inserted.
