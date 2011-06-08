@@ -49,7 +49,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume ) );
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume, model.anySolutes ) );
 
         //Add a button that allows the user to remove all solutes
         final PNode removeSolutesButton = newRemoveSolutesControl.apply( model );
