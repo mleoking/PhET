@@ -234,7 +234,7 @@ public class View extends Sprite {
                 springLengthInPix =  (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
                 scale = springLengthInPix/this.L0Spring;
                 this.spring_arr[i].scaleX = scale;
-            }else{
+            }else{  //transverse mode
                 var sprLX:Number = (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
                 var sprLY:Number = (this.myModel.getY(i+1)-this.myModel.getY(i))*this.pixPerMeter;
                 springLengthInPix = Math.sqrt(sprLX*sprLX + sprLY*sprLY);
