@@ -3,6 +3,7 @@ package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
 import java.awt.*;
 import java.awt.geom.*;
+import java.awt.geom.Point2D.Double;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -14,8 +15,14 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class ModelViewTransform {
+    //The transform is stored internally as an AffineTransform.  This is okay since the transform must be 2D and affine (non nonlinear warping)
     private AffineTransform transform;
 
+    /**
+     * Construct the ModelViewTransform with the specified AffineTransform transform
+     *
+     * @param transform the transform to represent
+     */
     private ModelViewTransform( AffineTransform transform ) {
         this.transform = transform;
     }
@@ -24,18 +31,50 @@ public class ModelViewTransform {
     * Factory methods
     *----------------------------------------------------------------------------*/
 
+    /**
+     * Creates a ModelViewTransform that uses the identity transform (i.e. model coordinates are the same as view coordinates)
+     *
+     * @return the identity ModelViewTransform
+     */
     public static ModelViewTransform createIdentity() {
         return new ModelViewTransform( new AffineTransform() );
     }
 
+    /**
+     * Creates a ModelViewTransform that has the specified scale and offset such that
+     * view = model * scale + offset
+     *
+     * @param offset the offset in view coordinates
+     * @param scale  the scale to map model to view
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createOffsetScaleMapping( Point2D offset, double scale ) {
         return new ModelViewTransform( new AffineTransform( scale, 0, 0, scale, offset.getX(), offset.getY() ) );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that has the specified scale and offset such that
+     * view.x = model.x * xScale + offset.x
+     * view.y = model.y * yScale + offset.y
+     *
+     * @param offset the offset in view coordinates
+     * @param xScale the scale to map model to view in the x-dimension
+     * @param yScale the scale to map model to view in the y-dimension
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createOffsetScaleMapping( Point2D offset, double xScale, double yScale ) {
         return new ModelViewTransform( new AffineTransform( xScale, 0, 0, yScale, offset.getX(), offset.getY() ) );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given x and y scales.
+     *
+     * @param modelPoint the reference point in the model which maps to the specified view point
+     * @param viewPoint  the reference point in the view
+     * @param xScale     the amount to scale in the x direction
+     * @param yScale     the amount to scale in the y direction
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createSinglePointScaleMapping( Point2D modelPoint, Point2D viewPoint, double xScale, double yScale ) {
         // mx * scale + ox = vx
         // my * scale + oy = vy
@@ -44,14 +83,41 @@ public class ModelViewTransform {
         return createOffsetScaleMapping( new Point2D.Double( offsetX, offsetY ), xScale, yScale );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions.
+     *
+     * @param modelPoint the reference point in the model which maps to the specified view point
+     * @param viewPoint  the reference point in the view
+     * @param scale      the amount to scale in the x and y directions
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createSinglePointScaleMapping( Point2D modelPoint, Point2D viewPoint, double scale ) {
         return createSinglePointScaleMapping( modelPoint, viewPoint, scale, scale );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that maps the specified model point to the specified view point, with the given scale factor for both x and y dimensions,
+     * but inverting the y axis so that +y in the model corresponds to -y in the view.
+     * Inverting the y axis is commonly necessary since +y is usually up in textbooks and -y is down in pixel coordinates.
+     *
+     * @param modelPoint the reference point in the model which maps to the specified view point
+     * @param viewPoint  the reference point in the view
+     * @param scale      the amount to scale in the x and y directions
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createSinglePointScaleInvertedYMapping( Point2D modelPoint, Point2D viewPoint, double scale ) {
         return createSinglePointScaleMapping( modelPoint, viewPoint, scale, -scale );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that maps the specified rectangle in the model to the specified rectangle in the view,
+     * so that any point x% of the way across and y% down in the model rectangle will be mapped to the corresponding point x% across and y% down in the view rectangle.
+     * Linear extrapolation is performed outside of the rectangle bounds.
+     *
+     * @param modelBounds the reference rectangle in the model, must have area > 0
+     * @param viewBounds  the reference rectangle in the view, must have area > 0
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createRectangleMapping( Rectangle2D modelBounds, Rectangle2D viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
@@ -60,6 +126,16 @@ public class ModelViewTransform {
         return new ModelViewTransform( new AffineTransform( m00, 0, 0, m11, m02, m12 ) );
     }
 
+    /**
+     * Creates a shearless ModelViewTransform that maps the specified rectangle in the model to the specified rectangle in the view,
+     * so that any point x% of the way across and y% down in the model rectangle will be mapped to the corresponding point x% across and (100-y)% down in the view rectangle.
+     * Linear extrapolation is performed outside of the rectangle bounds.
+     * Inverting the y axis is commonly necessary since +y is usually up in textbooks and -y is down in pixel coordinates.
+     *
+     * @param modelBounds the reference rectangle in the model, must have area > 0
+     * @param viewBounds  the reference rectangle in the view, must have area > 0
+     * @return the resultant ModelViewTransform
+     */
     public static ModelViewTransform createRectangleInvertedYMapping( Rectangle2D modelBounds, Rectangle2D viewBounds ) {
         double m00 = viewBounds.getWidth() / modelBounds.getWidth();
         double m02 = viewBounds.getX() - m00 * modelBounds.getX();
@@ -76,7 +152,7 @@ public class ModelViewTransform {
     /**
      * Returns a defensive copy of the AffineTransform in the ModelViewTransform.
      *
-     * @return
+     * @return a defensive copy of the AffineTransform in the ModelViewTransform
      */
     public AffineTransform getTransform() {
         return new AffineTransform( transform );
@@ -86,40 +162,94 @@ public class ModelViewTransform {
     * Model To View transforms
     *----------------------------------------------------------------------------*/
 
-    public Point2D modelToView( Point2D pt ) {
-        return transform.transform( pt, null );
+    /**
+     * Maps a point from model to view coordinates, instantiating a new instance with the view coordinate
+     *
+     * @param point the model point to transform to view coordinates
+     * @return a new Point2D instance with coordinates corresponding to the mapping of the specified model coordinates.
+     */
+    public Point2D modelToView( Point2D point ) {
+        return transform.transform( point, null );
     }
 
+    /**
+     * Maps a vector from model to view coordinates, instantiating a new instance with the vector in view coordinates
+     *
+     * @param vector2D the model vector2D to transform to view coordinates
+     * @return a new ImmutableVector2D instance with coordinates corresponding to the mapping of the specified model coordinates.
+     */
     public ImmutableVector2D modelToView( ImmutableVector2D vector2D ) {
         return new ImmutableVector2D( transform.transform( vector2D.toPoint2D(), null ) );
     }
 
+    /**
+     * Maps a delta from model coordinates to view coordinates, instantiating a new instance with the delta in view coordinates
+     *
+     * @param delta the difference in model coordinates to be transformed into view coordinates
+     * @return a new Point2D instance corresponding to the delta in view coordinates
+     */
     public Point2D modelToViewDelta( Point2D delta ) {
         return transform.deltaTransform( delta, null );
     }
 
+    /**
+     * Maps a delta from model coordinates to view coordinates, instantiating a new instance with the delta in view coordinates
+     *
+     * @param delta the difference in model coordinates to be transformed into view coordinates
+     * @return a new ImmutableVector2D instance corresponding to the delta in view coordinates
+     */
     public ImmutableVector2D modelToViewDelta( ImmutableVector2D delta ) {
         return new ImmutableVector2D( modelToViewDelta( delta.toPoint2D() ) );
     }
 
+    /**
+     * Maps a shape from model to view coordinates, instantiating a new instance with the view shape
+     *
+     * @param shape the model point to transform to the view coordinate frame
+     * @return a new Shape instance with coordinates corresponding to the mapping of the specified model shape
+     */
     public Shape modelToView( Shape shape ) {
         return transform.createTransformedShape( shape );
     }
 
-    //Transforms a size in the model to a size in the view (without potentially inverting axes)
+    /**
+     * Maps a size dimension (delta) from model to view coordinates, instantiating a new instance with the view dimension
+     *
+     * @param modelSize the size in model coordinate to convert to view coordinates
+     * @return a new Dimension2D instance with coordinates corresponding to the mapping of the specified model size
+     */
     public Dimension2D modelToViewSize( Dimension2D modelSize ) {
         Rectangle2D viewShape = modelToView( new Rectangle2D.Double( 0, 0, modelSize.getWidth(), modelSize.getHeight() ) ).getBounds2D();
         return new Dimension2DDouble( viewShape.getWidth(), viewShape.getHeight() );
     }
 
+    /**
+     * Maps an x-coordinate from model to view coordinates
+     *
+     * @param x the model x-coordinate
+     * @return the corresponding view x-coordinate
+     */
     public double modelToViewX( double x ) {
         return modelToView( new Point2D.Double( x, 0 ) ).getX();
     }
 
+    /**
+     * Maps an y-coordinate from model to view coordinates
+     *
+     * @param y the model y-coordinate
+     * @return the corresponding view y-coordinate
+     */
     public double modelToViewY( double y ) {
         return modelToView( 0, y ).getY();
     }
 
+    /**
+     * Maps a point from model to view coordinates, instantiating a new instance with the view coordinate
+     *
+     * @param x the x-coordinate of the model point to transform to view coordinates
+     * @param y the y-coordinate of the model point to transform to view coordinates
+     * @return a new Point2D instance with coordinates corresponding to the mapping of the specified model coordinates.
+     */
     public Point2D modelToView( double x, double y ) {
         return modelToView( new Point2D.Double( x, y ) );
     }
@@ -184,6 +314,12 @@ public class ModelViewTransform {
         return new Dimension2DDouble( pt.getX(), pt.getY() );
     }
 
+    /**
+     * Inverts the model view transform for use in viewToModel methods
+     *
+     * @return the inverse AffineTransform
+     * @throws RuntimeException if the transform was non-invertible
+     */
     protected AffineTransform getInverseTransform() {
         try {
             return transform.createInverse();
@@ -291,5 +427,10 @@ public class ModelViewTransform {
             result.append( ']' );
             return result.toString();
         }
+    }
+
+    public static void main( String[] args ) {
+        Point2D x = ModelViewTransform.createOffsetScaleMapping( new Double( 3, 4 ), 9 ).modelToView( 1, 1 );
+        System.out.println( "x = " + x );
     }
 }
