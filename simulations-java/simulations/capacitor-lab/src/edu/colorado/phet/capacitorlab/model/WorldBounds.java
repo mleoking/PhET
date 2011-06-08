@@ -18,7 +18,12 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class WorldBounds extends Property<Rectangle2D> {
 
     public WorldBounds() {
-        super( new Rectangle2D.Double() ); //TODO questionable aspect of this approach is that we start with empty bounds until the canvas is realized
+        /*
+         * NOTE: A questionable aspect of this approach is that we start with empty bounds until
+         * the canvas is realized. This works fine for this sim, but may not be a good general
+         * approach. See #2826 for further discussion.
+         */
+        super( new Rectangle2D.Double() );
     }
 
     // Convenience method for setting bounds property
