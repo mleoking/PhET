@@ -87,7 +87,6 @@ public class CollectionAreaNode extends GeneralLayoutNode {
             addChild( collectionBoxHolder, method, 0, 0, 15, 0 );
         }
 
-        // TODO: this button is bad!
         final HTMLImageButtonNode resetCollectionButton = new HTMLImageButtonNode( BuildAMoleculeStrings.RESET_COLLECTION, Color.ORANGE ) {
             {
                 // when clicked, empty collection boxes
@@ -122,7 +121,15 @@ public class CollectionAreaNode extends GeneralLayoutNode {
                 setEnabled( enabled );
             }
         };
-        addChild( resetCollectionButton, method );
+
+        // add the reset collection button, but with an invisible bottom layer so that when clicked its size won't change
+        addChild( new PNode() {{
+                      addChild( new PhetPPath( resetCollectionButton.getFullBounds() ) {{
+                          setStroke( new BasicStroke( 2 ) ); // a stroke, so that the stroke around the button won't cause a size change
+                          setVisible( false );
+                      }} );
+                      addChild( resetCollectionButton );
+                  }}, method );
     }
 
     public void updateCollectionBoxLocations() {
