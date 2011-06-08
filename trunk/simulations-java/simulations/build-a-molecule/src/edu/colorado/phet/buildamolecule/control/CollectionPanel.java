@@ -3,6 +3,7 @@ package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,7 +70,7 @@ public class CollectionPanel extends PNode {
                                  collectionList.currentCollection.addObserver( new SimpleObserver() {
                                      public void update() {
                                          setFont( new PhetFont( 16, true ) );
-                                         setText( "Collection " + ( collectionList.getCurrentIndex() + 1 ) );
+                                         setText( MessageFormat.format( BuildAMoleculeStrings.COLLECTION_LABEL, collectionList.getCurrentIndex() + 1 ) );
                                      }
                                  } );
                              }}, Color.YELLOW, Color.BLACK, 14, 18 ) {
