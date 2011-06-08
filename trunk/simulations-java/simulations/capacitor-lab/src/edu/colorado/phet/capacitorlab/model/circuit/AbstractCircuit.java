@@ -29,7 +29,7 @@ public abstract class AbstractCircuit implements ICircuit {
     private final ClockAdapter clockListener;
     private final Battery battery;
     private final EventListenerList listeners;
-    private Property<Double> currentAmplitudeProperty; // dV/dt, rate of voltage change
+    private Property<Double> currentAmplitudeProperty; // proportional to dV/dt, the rate of voltage change
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
     protected AbstractCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
@@ -66,6 +66,11 @@ public abstract class AbstractCircuit implements ICircuit {
         return battery;
     }
 
+    /*
+     * Default implementation has a connected battery.
+     * In the "single capacitor" circuit, we'll override this and add a setter,
+     * so that the battery can be dynamically connected and disconnected in the "Dielectric" module.
+     */
     public boolean isBatteryConnected() {
         return true;
     }
@@ -75,6 +80,7 @@ public abstract class AbstractCircuit implements ICircuit {
         return getTotalVoltage() * getTotalCapacitance();
     }
 
+    // Since the default is a connected battery, the total voltage is the battery voltage.
     public double getTotalVoltage() {
         return battery.getVoltage();
     }
@@ -165,6 +171,7 @@ public abstract class AbstractCircuit implements ICircuit {
         listeners.remove( CircuitChangeListener.class, listener );
     }
 
+    // Notifies all listeners that the circuit has changed.
     protected void fireCircuitChanged() {
         for ( CircuitChangeListener listener : listeners.getListeners( CircuitChangeListener.class ) ) {
             listener.circuitChanged();
