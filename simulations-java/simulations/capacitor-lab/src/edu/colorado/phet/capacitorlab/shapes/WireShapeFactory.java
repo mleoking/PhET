@@ -32,7 +32,7 @@ public class WireShapeFactory {
     // Create the wire shape by using constructive area geometry to add shapes of wire segments.
     public Shape createWireShape() {
         Area area = new Area();
-        for ( WireSegment segment : wire.getSegmentsReference() ) {
+        for ( WireSegment segment : wire.getSegments() ) {
             Shape s = createWireSegmentShape( segment, wire.getThickness() );
             area.add( new Area( s ) );
         }

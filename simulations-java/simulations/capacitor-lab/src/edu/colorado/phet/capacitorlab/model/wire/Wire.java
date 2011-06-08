@@ -73,8 +73,8 @@ public class Wire {
         return thickness;
     }
 
-    public ArrayList<WireSegment> getSegmentsReference() {
-        return segments;
+    public ArrayList<WireSegment> getSegments() {
+        return new ArrayList<WireSegment>( segments );
     }
 
     public void addShapeObserver( SimpleObserver o ) {
