@@ -3,10 +3,7 @@ package edu.colorado.phet.capacitorlab.test;
 
 import java.util.EventListener;
 
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -17,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
- * Comparsion of notification mechanisms.
+ * Comparison of notification mechanisms.
  * Both approaches result in 5 calls to the model setter when a check box is clicked.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -99,19 +96,19 @@ public class TestPropertyT extends JFrame {
             public void update() {
                 fooCheckBox.setSelected( model.isFoo() );
             }
-        });
+        } );
 
         // wire up property that uses EventListener
         barCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-               model.setBar( barCheckBox.isSelected() );
+                model.setBar( barCheckBox.isSelected() );
             }
         } );
         model.addTestModelListener( new TestModelListener() {
             public void barChanged() {
                 barCheckBox.setSelected( model.isBar() );
             }
-        });
+        } );
     }
 
     public static void main( String[] args ) {

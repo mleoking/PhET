@@ -540,7 +540,7 @@ public class Capacitor {
 
     /**
      * Gets the excess plate charge due to plates contacting air.
-     * (design doc symbol: Q_exess_air)
+     * (design doc symbol: Q_excess_air)
      *
      * @return excess charge, in Coulombs
      */

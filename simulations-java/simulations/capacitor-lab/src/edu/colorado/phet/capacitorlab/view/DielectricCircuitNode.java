@@ -140,7 +140,7 @@ public class DielectricCircuitNode extends PhetPNode {
 
     /**
      * Determines whether the dielectric is transparent or opaque.
-     * This depends on which meteres are selected in the Dielectric canvas, not on the dielectric properties.
+     * This depends on which meters are selected in the Dielectric canvas, not on the dielectric properties.
      *
      * @param transparent
      */

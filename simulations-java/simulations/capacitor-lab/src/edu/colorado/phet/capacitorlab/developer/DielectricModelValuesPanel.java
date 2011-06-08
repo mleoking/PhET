@@ -50,7 +50,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
     private final ValueDisplay C_air, C_dielectric, C;
     private final ValueDisplay V_plates;
     private final ValueDisplay Q_air, Q_dielectric, Q_total, Q_excess_air, Q_excess_dielectric;
-    private final ValueDisplay E_effective, E_plates_air, E_plates_diectric, E_air, E_dielectric;
+    private final ValueDisplay E_effective, E_plates_air, E_plates_dielectric, E_air, E_dielectric;
     private final ValueDisplay U;
 
     private DielectricMaterial dielectricMaterial;
@@ -157,9 +157,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         E_plates_air = new ValueDisplay( "E_plates_air", "V/m", "0.000E00" );
         E_plates_air.setToolTipText( "<html>field due to the plates in the<br>capacitor volume that contains air</html>" );
         derivedPanel.add( E_plates_air );
-        E_plates_diectric = new ValueDisplay( "E_plates_dielectric", "V/m", "0.000E00" );
-        E_plates_diectric.setToolTipText( "<html>field due to the plates in the<br>capacitor volume that contains dielectric</html>" );
-        derivedPanel.add( E_plates_diectric );
+        E_plates_dielectric = new ValueDisplay( "E_plates_dielectric", "V/m", "0.000E00" );
+        E_plates_dielectric.setToolTipText( "<html>field due to the plates in the<br>capacitor volume that contains dielectric</html>" );
+        derivedPanel.add( E_plates_dielectric );
         E_air = new ValueDisplay( "E_air", "V/m", "0.000E00" );
         E_air.setToolTipText( "field in air volume" );
         derivedPanel.add( E_air );
@@ -257,7 +257,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
         // E-field
         E_effective.setValue( capacitor.getEffectiveEField() );
         E_plates_air.setValue( capacitor.getPlatesAirEField() );
-        E_plates_diectric.setValue( capacitor.getPlatesDielectricEField() );
+        E_plates_dielectric.setValue( capacitor.getPlatesDielectricEField() );
         E_air.setValue( capacitor.getAirEField() );
         E_dielectric.setValue( capacitor.getDielectricEField() );
         // energy
