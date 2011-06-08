@@ -1,3 +1,4 @@
+# 1.00.11 (52825) Jun 7, 2011
 6/7/11 #2928, new hybrid approach for excess charge view, uses excess charge model to compute number of charges, but limits them to be <= displayed plate charges
 6/7/11 #2928, revert [52802] and [52818], this solution for excess charge view didn't work
 # 1.00.10 (52819) Jun 7, 2011
