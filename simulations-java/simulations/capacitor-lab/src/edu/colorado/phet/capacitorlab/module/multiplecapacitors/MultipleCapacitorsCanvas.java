@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * Canvas for the "Multiple Capacitors" module.
  * </p>
  * This canvas has much in common with DielectricCanvas, but was developed added much later, uses a different
- * representation for circuits, has different parametrizations of some view components.  I attempted to force some
+ * representation for circuits, has different parametrizations of some view components.  I attempted to move some
  * of the common bits into the base class, but it because messy and less readable. So I decided that a bit of
  * duplication is preferable here.
  *
@@ -65,11 +65,11 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         }
 
         // meters
-        capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.TOTAL_CAPACITANCE );
-        plateChargeMeterNode = new PlateChargeMeterNode( model.getPlateChargeMeter(), mvt, CLStrings.STORED_CHARGE );
-        storedEnergyMeterNode = new StoredEnergyMeterNode( model.getStoredEnergyMeter(), mvt, CLStrings.STORED_ENERGY );
-        VoltmeterView voltmeter = new VoltmeterView( model.getVoltmeter(), mvt );
-        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.getEFieldDetector(), mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
+        capacitanceMeterNode = new CapacitanceMeterNode( model.capacitanceMeter, mvt, CLStrings.TOTAL_CAPACITANCE );
+        plateChargeMeterNode = new PlateChargeMeterNode( model.plateChargeMeter, mvt, CLStrings.STORED_CHARGE );
+        storedEnergyMeterNode = new StoredEnergyMeterNode( model.storedEnergyMeter, mvt, CLStrings.STORED_ENERGY );
+        VoltmeterView voltmeter = new VoltmeterView( model.voltmeter, mvt );
+        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.eFieldDetector, mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -131,7 +131,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
     private void updateShapesDebugNodes() {
         shapesDebugParentNode.removeAllChildren();
 
-        PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.currentCircuitProperty.get(), model.getVoltmeter() );
+        PNode voltageShapesDebugNode = new VoltageShapesDebugNode( model.currentCircuitProperty.get(), model.voltmeter );
         shapesDebugParentNode.addChild( voltageShapesDebugNode );
         voltageShapesDebugNode.setVisible( getGlobalProperties().voltageShapesVisibleProperty.get() );
 

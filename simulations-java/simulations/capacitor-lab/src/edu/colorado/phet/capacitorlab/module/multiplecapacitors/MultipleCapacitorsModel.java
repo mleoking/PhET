@@ -23,7 +23,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 /**
  * Model for the "Multiple Capacitors" module.
  * </p>
- * This model has much in common with DielectricModel, but was developed added much later,
+ * This model is somewhat similar to DielectricModel, but was developed much later,
  * and is parametrized differently (with a large number of parameters).
  * I attempted to force some of the common bits into the base class, but it because messy and less readable.
  * So I decided that a bit of duplication is preferable here.
@@ -77,19 +77,17 @@ public class MultipleCapacitorsModel extends CLModel {
     //================================================================================
 
     private final ArrayList<ICircuit> circuits; // the set of circuits to choose from
-    private final Property<Double> batteryVoltageProperty; // for synchronizing battery voltage in all circuits
 
-    // directly observable properties
-    public final Property<ICircuit> currentCircuitProperty;
-
-    private final CapacitanceMeter capacitanceMeter;
-    private final PlateChargeMeter plateChargeMeter;
-    private final StoredEnergyMeter storedEnergyMeter;
-    private final EFieldDetector eFieldDetector;
-    private final Voltmeter voltmeter;
+    public final Property<ICircuit> currentCircuitProperty; // the circuit that is currently chosen by the user
+    public final CapacitanceMeter capacitanceMeter;
+    public final PlateChargeMeter plateChargeMeter;
+    public final StoredEnergyMeter storedEnergyMeter;
+    public final EFieldDetector eFieldDetector;
+    public final Voltmeter voltmeter;
 
     public MultipleCapacitorsModel( final IClock clock, final CLModelViewTransform3D mvt ) {
 
+        // configuration info common to all circuits
         final CircuitConfig circuitConfig = new CircuitConfig( clock,
                                                                mvt,
                                                                BATTERY_LOCATION,
@@ -114,8 +112,6 @@ public class MultipleCapacitorsModel extends CLModel {
         }};
         currentCircuitProperty = new Property<ICircuit>( circuits.get( 0 ) );
 
-        batteryVoltageProperty = new Property<Double>( currentCircuitProperty.get().getBattery().getVoltage() );
-
         capacitanceMeter = new CapacitanceMeter( currentCircuitProperty.get(), getWorldBounds(), CAPACITANCE_METER_LOCATION, CAPACITANCE_METER_VISIBLE );
         plateChargeMeter = new PlateChargeMeter( currentCircuitProperty.get(), getWorldBounds(), PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
         storedEnergyMeter = new StoredEnergyMeter( currentCircuitProperty.get(), getWorldBounds(), STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
@@ -128,7 +124,7 @@ public class MultipleCapacitorsModel extends CLModel {
                                    VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    VOLTMETER_VISIBLE );
 
-        // when the circuit changes...
+        // when the user's circuit selection changes...
         currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
                 ICircuit circuit = currentCircuitProperty.get();
@@ -142,6 +138,7 @@ public class MultipleCapacitorsModel extends CLModel {
 
         // synchronize battery voltages in all circuits, so that it looks like circuits share one battery
         {
+            final Property<Double> batteryVoltageProperty = new Property<Double>( currentCircuitProperty.get().getBattery().getVoltage() );
             batteryVoltageProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     for ( ICircuit circuit : circuits ) {
@@ -171,28 +168,9 @@ public class MultipleCapacitorsModel extends CLModel {
         currentCircuitProperty.reset();
     }
 
+    // Gets the list of circuits, but returns a new list so that no one messes with the model's list.
     public ArrayList<ICircuit> getCircuits() {
-        return circuits;
-    }
-
-    public CapacitanceMeter getCapacitanceMeter() {
-        return capacitanceMeter;
-    }
-
-    public PlateChargeMeter getPlateChargeMeter() {
-        return plateChargeMeter;
-    }
-
-    public StoredEnergyMeter getStoredEnergyMeter() {
-        return storedEnergyMeter;
-    }
-
-    public EFieldDetector getEFieldDetector() {
-        return eFieldDetector;
-    }
-
-    public Voltmeter getVoltmeter() {
-        return voltmeter;
+        return new ArrayList<ICircuit>( circuits );
     }
 
     /*
