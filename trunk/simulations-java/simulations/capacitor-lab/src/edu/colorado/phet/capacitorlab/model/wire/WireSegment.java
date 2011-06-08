@@ -95,7 +95,7 @@ public class WireSegment {
     // Any wire segment that is connected to one capacitor.
     private static abstract class CapacitorWireSegment extends WireSegment implements SimpleObserver {
 
-        private Capacitor capacitor;
+        private final Capacitor capacitor;
 
         public CapacitorWireSegment( Capacitor capacitor, Point2D startPoint, Point2D endPoint ) {
             super( startPoint, endPoint );

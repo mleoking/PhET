@@ -41,7 +41,7 @@ public class SingleCircuit extends AbstractCircuit {
     private final ArrayList<Wire> wires;
 
     // mutable instance data
-    private Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
+    private final Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
     private double disconnectedPlateCharge; // charge set manually by the user, used when battery is disconnected
 
     public SingleCircuit( CircuitConfig config ) {
