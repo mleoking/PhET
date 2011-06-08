@@ -69,18 +69,19 @@ public class DielectricModel extends CLModel {
 
     //================================================================================
 
-    private final DielectricMaterial[] dielectricMaterials;
-    private final SingleCircuit circuit;
-    private final CapacitanceMeter capacitanceMeter;
-    private final PlateChargeMeter plateChargeMeter;
-    private final StoredEnergyMeter storedEnergyMeter;
-    private final EFieldDetector eFieldDetector;
-    private final Voltmeter voltmeter;
+    public final DielectricMaterial[] dielectricMaterials;
+    public final SingleCircuit circuit;
+    public final CapacitanceMeter capacitanceMeter;
+    public final PlateChargeMeter plateChargeMeter;
+    public final StoredEnergyMeter storedEnergyMeter;
+    public final EFieldDetector eFieldDetector;
+    public final Voltmeter voltmeter;
 
     public DielectricModel( IClock clock, CLModelViewTransform3D mvt, double dielectricOffset, DielectricMaterial[] dielectricMaterials ) {
 
         this.dielectricMaterials = dielectricMaterials;
 
+        // configuration info for the circuit
         final CircuitConfig circuitConfig = new CircuitConfig( clock,
                                                                mvt,
                                                                BATTERY_LOCATION,
@@ -106,42 +107,6 @@ public class DielectricModel extends CLModel {
         voltmeter = new Voltmeter( circuit, getWorldBounds(), mvt,
                                    VOLTMETER_BODY_LOCATION, VOLTMETER_POSITIVE_PROBE_LOCATION, VOLTMETER_NEGATIVE_PROBE_LOCATION,
                                    VOLTMETER_VISIBLE );
-    }
-
-    public DielectricMaterial[] getDielectricMaterials() {
-        return dielectricMaterials;
-    }
-
-    public SingleCircuit getCircuit() {
-        return circuit;
-    }
-
-    public Battery getBattery() {
-        return circuit.getBattery();
-    }
-
-    public Capacitor getCapacitor() {
-        return circuit.getCapacitor();
-    }
-
-    public CapacitanceMeter getCapacitanceMeter() {
-        return capacitanceMeter;
-    }
-
-    public PlateChargeMeter getPlateChargeMeter() {
-        return plateChargeMeter;
-    }
-
-    public StoredEnergyMeter getStoredEnergyMeter() {
-        return storedEnergyMeter;
-    }
-
-    public EFieldDetector getEFieldDetector() {
-        return eFieldDetector;
-    }
-
-    public Voltmeter getVoltmeter() {
-        return voltmeter;
     }
 
     public void reset() {
