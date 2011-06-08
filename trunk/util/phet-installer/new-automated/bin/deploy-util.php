@@ -87,6 +87,12 @@
         else {
             flushing_echo( "Error: Unable to successfully copy CD ROM installer to: ".DEPLOY_DIR );
         }
+        if ( copy( OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME, DEPLOY_DIR.DVD_ROM_INSTALLER_FILE_NAME ) ){
+            flushing_echo( "DVD ROM installer successfully copied to: ".DEPLOY_DIR );
+        }
+        else {
+            flushing_echo( "Error: Unable to successfully copy DVD ROM installer to: ".DEPLOY_DIR );
+        }
     }
 
     //--------------------------------------------------------------------------

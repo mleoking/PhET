@@ -72,11 +72,6 @@
         // installers and is suitable for burning on CD.
         installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME );
 
-        // If specified, deploy the sims to the production web site.
-        if ( $args->flag( 'deploy' ) ){
-           deploy_all();
-        }
-
         // Re-rip the site, but this time include the activities.  This should
         // be an update of the initial rip, since we didn't delete that rip
         // before kicking off this one.
@@ -97,9 +92,9 @@
         // installers and is suitable for burning on DVD.
         installer_build_rommable_distribution( INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME );
 
-        // Deploy the rommable file to the web site.
+        // If specified, deploy the installers to the production web site.
         if ( $args->flag( 'deploy' ) ){
-           // TODO: Deploy the rommable file with activities to the web site.
+           deploy_all();
         }
 
         // Output the time of completion.
