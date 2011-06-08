@@ -1,3 +1,4 @@
+6/7/11 Added docs to ModelViewTransform, see #123
 5/23/11 Added getMax() functions to ImmutableRectangle2D
 5/23/11 Removed AdvancedPanel constructor that used untranslated strings
 5/20/11 Added ModelViewTransform.modelToView(ImmutableRectangle2D)
