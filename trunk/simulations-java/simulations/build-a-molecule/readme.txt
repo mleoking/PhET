@@ -38,3 +38,4 @@ Notes useful for code review (or if you need to edit the sim):
 * Reading molecule-data-readme.txt is recommended.
 * JO is dissatisfied with code duplication and use of MoleculeStructure (has references to hydrogens as atoms) and StrippedMolecule (just has hydrogen counts on heavy atoms). Ideally they could be combined?
 * LewisDotModel is separate from MoleculeStructure since future extensions may add in a Pseudo3DModel which handles 2d connectivity in a different way than LewisDotModel
+* I switched some collection area layout to use GeneralLayoutNode, since SwingLayoutNode presented with multiple problems. GeneralLayoutNode works for these purposes, but would need more work to be moved to phetcommon
