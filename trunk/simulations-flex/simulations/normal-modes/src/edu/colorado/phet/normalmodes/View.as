@@ -206,6 +206,9 @@ public class View extends Sprite {
         var yInMeters:Number;
         var xInPix:Number;
         var yInPix:Number;
+        var springLengthInPix:Number;
+        var scale:Number;
+        //position masses
         for(var j:int = 0; j < this.myModel.N; j++){
             var i:int = j+1;    //index of mobile mass, left mass = 1
             xInMeters = this.myModel.getX(i);       //irrelevant when in transverse mode
@@ -216,14 +219,32 @@ public class View extends Sprite {
             this.mass_arr[j].y = yInPix;
 
         }//end for loop
-        for(var i:int = 0; i <= this.myModel.N; i++){
-            xInMeters = this.myModel.getX(i);
-            xInPix = this._leftEdgeX + xInMeters*this._pixPerMeter;
-            this.spring_arr[i].x = xInPix;
-            var springLengthInPix:Number =  (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
-            var scale:Number = springLengthInPix/this.L0Spring;
-            this.spring_arr[i].scaleX = scale;
-        }
+        //position springs
+        if(this.myModel.longitudinalMode){
+            for(var i:int = 0; i <= this.myModel.N; i++){
+                xInMeters = this.myModel.getX(i);
+                xInPix = this._leftEdgeX + xInMeters*this._pixPerMeter;
+                this.spring_arr[i].x = xInPix;
+                springLengthInPix =  (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
+                scale = springLengthInPix/this.L0Spring;
+                this.spring_arr[i].scaleX = scale;
+            }//end for
+        }else if(!this.myModel.longitudinalMode){
+            for(var i:int = 0; i <= this.myModel.N; i++){
+                yInMeters = this.myModel.getY(i);
+                yInPix = this._leftEdgeY - yInMeters*this._pixPerMeter;
+                this.spring_arr[i].y = yInPix;
+                //set length of stretched spring
+                var sprLX:Number = (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
+                var sprLY:Number = (this.myModel.getY(i+1)-this.myModel.getY(i))*this.pixPerMeter;
+                springLengthInPix = Math.sqrt(sprLX*sprLX + sprLY*sprLY);
+                scale = springLengthInPix/this.L0Spring;
+                this.spring_arr[i].scaleX = scale;
+                //set rotation of stretched spring
+                var angleInDeg:Number = Math.atan2(sprLX,  sprLY)*180/Math.PI;
+                this.spring_arr.rotation = angleInDeg;
+            } //end for
+        } //end if..else if
     }//end update()
 
 }//end of class
