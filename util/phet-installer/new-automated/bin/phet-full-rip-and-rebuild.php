@@ -47,7 +47,7 @@
 
         // Log the time at which the rip completed.
         $rip_finish_time = exec( "date" );
-        flushing_echo( "Rip without activities completed at time $start_time" );
+        flushing_echo( "Rip without activities completed at time $rip_finish_time" );
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
@@ -70,7 +70,7 @@
 
         // Build the rommable distribution, which contains all of the installers
         // installers and is suitable for burning on CD.
-        installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CDROM_FILE_NAME );
+        installer_build_rommable_distribution( OUTPUT_DIR, OUTPUT_DIR.CD_ROM_INSTALLER_FILE_NAME );
 
         // If specified, deploy the sims to the production web site.
         if ( $args->flag( 'deploy' ) ){
@@ -84,7 +84,7 @@
 
         // Log the time at which the rip completed.
         $rip_finish_time = exec( "date" );
-        flushing_echo( "Rip with activities completed at time $start_time" );
+        flushing_echo( "Rip with activities completed at time $rip_finish_time" );
 
         // Make sure permissions of the ripped website are correct.
         file_chmod_recursive( RIPPED_WEBSITE_ROOT, 0775, 0775 );
@@ -95,7 +95,7 @@
 
         // Build the rommable distribution, which contains all of the installers
         // installers and is suitable for burning on DVD.
-        installer_build_rommable_distribution( INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVDROM_FILE_NAME );
+        installer_build_rommable_distribution( INSTALLERS_WITH_ACTIVITIES_DIR, OUTPUT_DIR.DVD_ROM_INSTALLER_FILE_NAME );
 
         // Deploy the rommable file to the web site.
         if ( $args->flag( 'deploy' ) ){

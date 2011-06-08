@@ -14,12 +14,12 @@
 
     define("WEBSITE_PAGES_PATTERN", '*.htm*, *.php');
 
-    define("ROOT_DIR",                       file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
-    define("TEMP_DIR",                       file_cleanup_local_filename(ROOT_DIR."temp/"));
-    define("OUTPUT_DIR",                     file_cleanup_local_filename(TEMP_DIR."installer-output/"));
-    define("INSTALLERS_WITH_ACTIVITES_DIR",  file_cleanup_local_filename(OUTPUT_DIR."installers-with-activities/"));
-    define("DEPLOY_DIR",                     "/data/web/htdocs/phetsims/installer/");
-    define("TRANSLATED_JAR_TEMP_DIR",        file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
+    define("ROOT_DIR",                        file_cleanup_local_filename(dirname(dirname(__FILE__))."/"));
+    define("TEMP_DIR",                        file_cleanup_local_filename(ROOT_DIR."temp/"));
+    define("OUTPUT_DIR",                      file_cleanup_local_filename(TEMP_DIR."installer-output/"));
+    define("INSTALLERS_WITH_ACTIVITIES_DIR",  file_cleanup_local_filename(OUTPUT_DIR."installers-with-activities/"));
+    define("DEPLOY_DIR",                      "/data/web/htdocs/phetsims/installer/");
+    define("TRANSLATED_JAR_TEMP_DIR",         file_cleanup_local_filename(TEMP_DIR."translated-jar-tmp/"));
 
     function GET_OS_BOUND_REL_PATH($constantPrefix) {
         return file_cleanup_local_filename(ROOT_DIR."${constantPrefix}/".PHP_OS."/");
@@ -53,13 +53,14 @@
     define("PHET_WEBSITE_ROOT_PATTERN",         '/'.PHET_WEBSITE_ROOT_PARTIAL_PATTERN.'/');
 
     // *****************************************************************************
-    // CD-ROM Configuration
+    // Rommable Installer Configuration
 
     define("AUTORUN_FILE_NAME",    'autorun.inf');
     define("AUTORUN_ICON_NAME",    'phet-icon.ico');
     define("AUTORUN_ICON_SRC",     file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path/".AUTORUN_ICON_NAME));
 
-    define("CDROM_FILE_NAME",      "PhET-Installer_cdrom.zip");
+    define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
+    define("DVD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_dvdrom.zip");
 
     // *****************************************************************************
     // Website Ripper Configuration
@@ -307,8 +308,6 @@
     define("LINUX_INSTALLER_FILE_NAME", "PhET-Installer_linux.bin");
     define("WINDOWS_INSTALLER_FILE_NAME", "PhET-Installer_windows.exe");
     define("OSX_INSTALLER_FILE_NAME", "PhET-Installer_osx.zip");
-    define("CD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_cdrom.zip");
-    define("DVD_ROM_INSTALLER_FILE_NAME", "PhET-Installer_dvdrom.zip");
     define("INSTALLER_RESOURCES_DIR", file_cleanup_local_filename(ROOT_DIR."Installer-Resources/Install-Path"));
 
     // *****************************************************************************
