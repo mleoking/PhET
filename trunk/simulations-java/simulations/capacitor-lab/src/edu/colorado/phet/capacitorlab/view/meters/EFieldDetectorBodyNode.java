@@ -75,10 +75,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
 
-    private final PSwing showVectorsPSwing;
     private final ViewportNode viewportNode;
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
-    private final ZoomPanelNode zoomPanelNode;
 
     /**
      * Constructor
@@ -113,14 +111,14 @@ import edu.umd.cs.piccolox.pswing.PSwing;
                 viewportNode.zoom();
             }
         };
-        zoomPanelNode = new ZoomPanelNode( zoomActionListener, zoomActionListener );
+        ZoomPanelNode zoomPanelNode = new ZoomPanelNode( zoomActionListener, zoomActionListener );
 
         // display area for vectors and values
         viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanelNode.zoomInEnabledProperty, zoomPanelNode.zoomOutEnabledProperty, simplified );
         viewportNode.setSimplified( simplified );
 
         // Vector controls
-        showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
+        PSwing showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
         showVectorsPSwing.setVisible( !simplified );
 
         // Show Values check box

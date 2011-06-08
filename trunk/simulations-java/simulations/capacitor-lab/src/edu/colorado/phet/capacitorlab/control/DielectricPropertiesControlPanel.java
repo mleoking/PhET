@@ -32,7 +32,6 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
     private final SimpleObserver dielectricConstantObserver;
     private final DielectricMaterialControl materialControl;
     private final DielectricConstantControl constantControl;
-    private final DielectricChargesControl chargesControl;
 
     private DielectricMaterial material;
 
@@ -64,7 +63,7 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
             }
         } );
 
-        chargesControl = new DielectricChargesControl( dielectricChargeView );
+        DielectricChargesControl chargesControl = new DielectricChargesControl( dielectricChargeView );
 
         // layout
         GridPanel innerPanel = new GridPanel();

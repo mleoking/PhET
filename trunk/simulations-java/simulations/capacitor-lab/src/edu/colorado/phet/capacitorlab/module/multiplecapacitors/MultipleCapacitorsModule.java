@@ -28,7 +28,6 @@ public class MultipleCapacitorsModule extends CLModule {
 
     private final MultipleCapacitorsModel model;
     private final MultipleCapacitorsCanvas canvas;
-    private final MultipleCapacitorsControlPanel controlPanel;
 
     public MultipleCapacitorsModule( CLGlobalProperties globalProperties ) {
         super( CLStrings.MULTIPLE_CAPACITORS );
@@ -40,8 +39,7 @@ public class MultipleCapacitorsModule extends CLModule {
         canvas = new MultipleCapacitorsCanvas( model, mvt, globalProperties );
         setSimulationPanel( canvas );
 
-        controlPanel = new MultipleCapacitorsControlPanel( this, model, canvas );
-        setControlPanel( controlPanel );
+        setControlPanel( new MultipleCapacitorsControlPanel( this, model, canvas ) );
     }
 
     @Override

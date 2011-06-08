@@ -30,22 +30,9 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 public class DielectricCircuitNode extends PhetPNode {
 
     private final SingleCircuit circuit;
-
-    // circuit components
     private final CapacitorNode capacitorNode;
-    private final BatteryNode batteryNode;
     private final WireNode topWireNode, bottomWireNode;
-
-    // current indicators
     private final CurrentIndicatorNode topCurrentIndicatorNode, bottomCurrentIndicatorNode;
-
-    // drag handles
-    private final DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode;
-    private final PlateSeparationDragHandleNode plateSeparationDragHandleNode;
-    private final PlateAreaDragHandleNode plateAreaDragHandleNode;
-
-    // controls
-    private final BatteryConnectionButtonNode batteryConnectionButtonNode;
     private final PlateChargeControlNode plateChargeControlNode;
 
     public DielectricCircuitNode( final SingleCircuit circuit, final CLModelViewTransform3D mvt, final boolean dielectricVisible,
@@ -56,7 +43,7 @@ public class DielectricCircuitNode extends PhetPNode {
         this.circuit = circuit;
 
         // circuit components
-        batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
+        BatteryNode batteryNode = new BatteryNode( circuit.getBattery(), CLConstants.BATTERY_VOLTAGE_RANGE );
         capacitorNode = new CapacitorNode( circuit.getCapacitor(), mvt, dielectricVisible,
                                            plateChargeVisibleProperty, eFieldVisibleProperty, dielectricChargeView,
                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField ) {{
@@ -73,16 +60,16 @@ public class DielectricCircuitNode extends PhetPNode {
         bottomWireNode = new WireNode( circuit.getBottomWire() );
 
         // drag handles
-        dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
-        plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
-        plateAreaDragHandleNode = new PlateAreaDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.PLATE_WIDTH_RANGE );
+        DielectricOffsetDragHandleNode dielectricOffsetDragHandleNode = new DielectricOffsetDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.DIELECTRIC_OFFSET_RANGE );
+        PlateSeparationDragHandleNode plateSeparationDragHandleNode = new PlateSeparationDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.PLATE_SEPARATION_RANGE );
+        PlateAreaDragHandleNode plateAreaDragHandleNode = new PlateAreaDragHandleNode( circuit.getCapacitor(), mvt, CLConstants.PLATE_WIDTH_RANGE );
 
         // current indicators
         topCurrentIndicatorNode = new CurrentIndicatorNode( circuit, 0 );
         bottomCurrentIndicatorNode = new CurrentIndicatorNode( circuit, Math.PI );
 
         // controls
-        batteryConnectionButtonNode = new BatteryConnectionButtonNode( circuit );
+        BatteryConnectionButtonNode batteryConnectionButtonNode = new BatteryConnectionButtonNode( circuit );
         plateChargeControlNode = new PlateChargeControlNode( circuit, new DoubleRange( -maxPlateCharge, maxPlateCharge ) );
 
         // rendering order
