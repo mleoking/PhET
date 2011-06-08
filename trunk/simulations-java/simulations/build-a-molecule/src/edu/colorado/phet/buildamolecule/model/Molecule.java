@@ -9,6 +9,9 @@ import edu.umd.cs.piccolo.util.PBounds;
  */
 public class Molecule extends MoleculeStructure<Atom2D> {
 
+    /**
+     * @return Where the molecule is right now
+     */
     public PBounds getPositionBounds() {
         PBounds bounds = null;
         for ( Atom2D atom : getAtoms() ) {
@@ -23,6 +26,9 @@ public class Molecule extends MoleculeStructure<Atom2D> {
         return bounds;
     }
 
+    /**
+     * @return Where the molecule will end up
+     */
     public PBounds getDestinationBounds() {
         PBounds bounds = null;
         for ( Atom2D atom : getAtoms() ) {
