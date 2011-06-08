@@ -163,20 +163,28 @@ public class DielectricModel extends CLModel {
     public static double getMaxPlateCharge() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(),
+                                             CLConstants.PLATE_WIDTH_RANGE.getMax(),
+                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                             material,
+                                             CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
+                                             mvt );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
         return capacitor.getTotalPlateCharge();
     }
 
     /*
-     * Gets the maximum excess charge for the dielectric area (Q_exess_dielectric).
+     * Gets the maximum excess charge for the dielectric area (Q_excess_dielectric).
      */
     public static double getMaxExcessDielectricPlateCharge() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(), CLConstants.PLATE_WIDTH_RANGE.getMax(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(), material, CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(), mvt );
+        Capacitor capacitor = new Capacitor( new Point3D.Double(),
+                                             CLConstants.PLATE_WIDTH_RANGE.getMax(),
+                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(),
+                                             material,
+                                             CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
+                                             mvt );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
         return capacitor.getExcessDielectricPlateCharge();
     }
@@ -191,12 +199,12 @@ public class DielectricModel extends CLModel {
         CircuitConfig circuitConfig = new CircuitConfig( new CLClock(),
                                                          new CLModelViewTransform3D(),
                                                          new Point3D.Double(),
-                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING,
+                                                         CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                          CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                          new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMin() ),
                                                          CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT
-        );
+                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT );
         SingleCircuit circuit = new SingleCircuit( circuitConfig, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getEffectiveEField();
@@ -209,12 +217,12 @@ public class DielectricModel extends CLModel {
         CircuitConfig circuitConfig = new CircuitConfig( new CLClock(),
                                                          new CLModelViewTransform3D(),
                                                          new Point3D.Double(),
-                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING, CLConstants.PLATE_WIDTH_RANGE.getMin(),
+                                                         CAPACITOR_X_SPACING, CAPACITOR_Y_SPACING,
+                                                         CLConstants.PLATE_WIDTH_RANGE.getMin(),
                                                          CLConstants.PLATE_SEPARATION_RANGE.getMin(),
                                                          new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() ),
                                                          CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT
-        );
+                                                         CLConstants.WIRE_THICKNESS, WIRE_EXTENT );
         SingleCircuit circuit = new SingleCircuit( circuitConfig, false /* batteryConnected */ );
         circuit.setDisconnectedPlateCharge( getMaxPlateCharge() );
         return circuit.getCapacitor().getDielectricEField();
