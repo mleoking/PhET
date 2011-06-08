@@ -37,8 +37,7 @@ public class WorldLocationProperty extends Property<Point3D> {
      *
      * @param location
      */
-    @Override
-    public void set( Point3D location ) {
+    @Override public void set( Point3D location ) {
         super.set( worldBounds.getClosest( location ) );
     }
 }
