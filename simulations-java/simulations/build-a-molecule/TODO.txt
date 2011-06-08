@@ -1,6 +1,3 @@
-Remove temporary translation file (i18n testing)
-Note translation of 3d button in changes
-On i18nized version, collection box in 2nd tab changes position when given molecules. Investigate
 Other TODOs
 3d icon image deprecated -- remove
 
