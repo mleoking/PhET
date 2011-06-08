@@ -6,6 +6,7 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Solution;
@@ -21,25 +22,28 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class VolumeIndicatorNode extends PNode {
-    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Double> solidVolume ) {
+    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Double> solidVolume, final ObservableProperty<Boolean> anySolutes ) {
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
             }
         } );
         addChild( new PText() {{
-            solution.volume.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double volumeInSI ) {
+            new RichSimpleObserver() {
+                @Override public void update() {
                     //Read out one more degree of precision than the tick marks on the side
                     DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
                     //Convert to liters for the display
-                    double liters = volumeInSI * 1000;
+                    double liters = solution.volume.get() * 1000;
 
                     //Update the readout
-                    setText( decimalFormat.format( liters ) + "L solution" );
+                    setText( decimalFormat.format( liters ) + "L " +
+
+                             //if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
+                             ( anySolutes.get() ? "solution" : "water" ) );
                 }
-            } );
+            }.observe( solution.volume, anySolutes );
 
             //Use a large font so it will be easy to read inside the water
             setFont( CONTROL_FONT );

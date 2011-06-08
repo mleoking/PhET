@@ -1,3 +1,4 @@
+Macro tab: if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
 Macro tab: reduced the rate of evaporation
 Macro tab: doubled the number of moles per grain of sugar
 # 0.00.31 (52764) Jun 7, 2011
