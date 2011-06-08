@@ -1,7 +1,6 @@
 TODO list for capacitor-lab
 
 HIGH PRIORITY
-- bug: #2928, excess charge view shows too many charges in some cases
 
 MEDIUM PRIORITY
 - lots of duplicate code in AbstractCircuit subclasses

@@ -49,7 +49,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
          * so that density of charge and field will be the same across all modules.
          */
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
-        final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
         final double eFieldReferenceMagnitude = MultipleCapacitorsModel.getEFieldReferenceMagnitude();
@@ -59,7 +58,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         for ( ICircuit circuit : model.getCircuits() ) {
             PNode node = new MultipleCapacitorsCircuitNode( circuit, mvt, false /* dielectricVisible */,
                                                             getPlateChargesVisibleProperty(), getEFieldVisibleProperty(), getDielectricChargeViewProperty(),
-                                                            maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+                                                            maxPlateCharge, maxEffectiveEField, maxDielectricEField );
             node.setVisible( false );
             circuitParentNode.addChild( node );
         }

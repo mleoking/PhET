@@ -43,7 +43,6 @@ public class DielectricCanvas extends CLCanvas {
 
         // Maximums, for calibrating various view representations.
         final double maxPlateCharge = DielectricModel.getMaxPlateCharge();
-        final double maxExcessDielectricPlateCharge = DielectricModel.getMaxExcessDielectricPlateCharge();
         final double maxEffectiveEField = DielectricModel.getMaxEffectiveEField();
         final double maxDielectricEField = DielectricModel.getMaxDielectricEField();
         final double eFieldReferenceMagnitude = DielectricModel.getEFieldReferenceMagnitude();
@@ -51,7 +50,7 @@ public class DielectricCanvas extends CLCanvas {
         // circuit
         final DielectricCircuitNode circuitNode = new DielectricCircuitNode( model.getCircuit(), mvt, dielectricVisible,
                                                                              getPlateChargesVisibleProperty(), getEFieldVisibleProperty(), getDielectricChargeViewProperty(),
-                                                                             maxPlateCharge, maxExcessDielectricPlateCharge, maxEffectiveEField, maxDielectricEField );
+                                                                             maxPlateCharge, maxEffectiveEField, maxDielectricEField );
 
         // meters
         capacitanceMeterNode = new CapacitanceMeterNode( model.getCapacitanceMeter(), mvt, CLStrings.CAPACITANCE );

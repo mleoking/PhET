@@ -105,8 +105,8 @@ public abstract class PlateChargeNode extends PhetPNode {
      */
     private void update() {
 
-        double plateCharge = getPlateCharge();
-        int numberOfCharges = getNumberOfCharges( plateCharge );
+        final double plateCharge = getPlateCharge();
+        final int numberOfCharges = getNumberOfCharges( plateCharge, maxPlateCharge );
 
         // remove existing charges
         parentNode.removeAllChildren();
@@ -158,7 +158,7 @@ public abstract class PlateChargeNode extends PhetPNode {
      * Computes number of charges, linearly proportional to plate charge.
      * All non-zero values below some minimum are mapped to 1 charge.
      */
-    private int getNumberOfCharges( double plateCharge ) {
+    public static int getNumberOfCharges( double plateCharge, double maxPlateCharge ) {
         double absCharge = Math.abs( plateCharge );
         int numberOfCharges = (int) ( CLConstants.NUMBER_OF_PLATE_CHARGES.getMax() * absCharge / maxPlateCharge );
         if ( absCharge > 0 && numberOfCharges < CLConstants.NUMBER_OF_PLATE_CHARGES.getMin() ) {
