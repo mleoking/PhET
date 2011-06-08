@@ -61,8 +61,8 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         Point2D viewLocation = transform.modelToView( location );
         conductivityTester.setLocation( viewLocation.getX(), viewLocation.getY() );
 
-        //Move the probes down to encourage the user to dip them in the water without dipping the light bulb in the water too
-        double offsetY = 0.03;
+        //Move the probes down to encourage the user to dip them in the water without dipping the light bulb/battery in the water too, which would short out the circuit
+        double offsetY = 0.065;
         conductivityTester.setNegativeProbeLocation( location.getX() - 0.03, location.getY() - offsetY );
         conductivityTester.setPositiveProbeLocation( location.getX() + 0.07, location.getY() - offsetY );
 
