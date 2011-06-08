@@ -76,7 +76,6 @@ public class PlateChargeControlNode extends PhetPNode {
 
     private final TrackNode trackNode;
     private final KnobNode knobNode;
-    private final TitleNode titleNode;
     private final DoubleRange range;
 
     /**
@@ -107,7 +106,7 @@ public class PlateChargeControlNode extends PhetPNode {
         RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.NONE );
         TickMarkNode minTickMarkNode = new TickMarkNode();
         RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
-        titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
+        TitleNode titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
 
         // parent for all nodes that are part of the slider, excluding the value
         PNode parentNode = new PNode();

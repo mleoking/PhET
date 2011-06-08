@@ -27,7 +27,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
     private final String pattern;
     private final String units;
     private final NumberFormat format;
-    private final PText labelNode;
     private final HTMLNode valueNode;
 
     public DragHandleValueNode( String pattern, String label, double value, String units ) {
@@ -49,7 +48,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         this.units = units;
         this.format = format;
 
-        labelNode = new PText( label );
+        PText labelNode = new PText( label );
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
 
