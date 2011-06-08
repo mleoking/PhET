@@ -43,7 +43,7 @@ public class GeneralLayoutNode extends PNode {
     }};
 
     public GeneralLayoutNode() {
-        this( true ); // TODO: improve the layout change detection.
+        this( true ); // default to changing layout
     }
 
     public GeneralLayoutNode( boolean updateOnChildBounds ) {
