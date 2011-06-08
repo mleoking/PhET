@@ -219,7 +219,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Rate at which liquid (but no solutes) leaves the model
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
-    private static final double EVAPORATION_SCALE = FLOW_SCALE / 100.0;//Scaled down by 100 since the evaporation rate is 100 times bigger than flow scales
+    private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
 
     public SugarAndSaltSolutionModel() {
         clock = new ConstantDtClock( 30 );
