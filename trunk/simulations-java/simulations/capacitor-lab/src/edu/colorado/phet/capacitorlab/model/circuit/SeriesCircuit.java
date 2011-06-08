@@ -69,7 +69,7 @@ public class SeriesCircuit extends AbstractCircuit {
     private ArrayList<Capacitor> createCapacitors( int numberOfCapacitors, CircuitConfig config ) {
 
         final double x = config.batteryLocation.getX() + config.capacitorXSpacing;
-        double y = 0;
+        double y;
         final double z = config.batteryLocation.getZ();
 
         double half = numberOfCapacitors / 2;

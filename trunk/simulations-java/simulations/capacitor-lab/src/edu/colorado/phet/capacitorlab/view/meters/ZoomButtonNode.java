@@ -72,7 +72,7 @@ public abstract class ZoomButtonNode extends ButtonNode {
             addChild( handleNode );
 
             // plus or minus sign
-            PNode signNode = null;
+            PNode signNode;
             if ( zoomIn ) {
                 signNode = new PlusNode( PLUS_MINUS_WIDTH, PLUS_MINUS_HEIGHT, color );
             }
