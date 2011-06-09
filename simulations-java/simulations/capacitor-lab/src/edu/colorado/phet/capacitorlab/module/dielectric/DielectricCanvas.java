@@ -15,7 +15,7 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -79,26 +79,21 @@ public class DielectricCanvas extends CLCanvas {
         addChild( shapesDebugParentNode );
 
         // watch things whose visibility causes the dielectric to become transparent
-        //REVIEW: consider using RichSimpleObserver in cases like this
-        SimpleObserver o = new SimpleObserver() {
+        RichSimpleObserver transparencyObserver = new RichSimpleObserver() {
             public void update() {
                 boolean transparent = getEFieldVisibleProperty().get() || model.voltmeter.isVisible() || model.eFieldDetector.visibleProperty.get();
                 circuitNode.setDielectricTransparent( transparent );
             }
         };
-        getEFieldVisibleProperty().addObserver( o );
-        model.voltmeter.visibleProperty.addObserver( o );
-        model.eFieldDetector.visibleProperty.addObserver( o );
+        transparencyObserver.observe( getEFieldVisibleProperty(), model.voltmeter.visibleProperty, model.eFieldDetector.visibleProperty );
 
         // change visibility of debug shapes
-        //REVIEW: consider using RichSimpleObserver in cases like this
-        SimpleObserver shapesVisibilityObserver = new SimpleObserver() {
+        RichSimpleObserver shapesVisibilityObserver = new RichSimpleObserver() {
             public void update() {
                 updateShapesDebugNodes();
             }
         };
-        globalProperties.eFieldShapesVisibleProperty.addObserver( shapesVisibilityObserver );
-        globalProperties.voltageShapesVisibleProperty.addObserver( shapesVisibilityObserver );
+        shapesVisibilityObserver.observe( globalProperties.eFieldShapesVisibleProperty, globalProperties.voltageShapesVisibleProperty );
 
         // default state
         reset();
