@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
     private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat( "0.0" );
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 18 );
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 ); // see #2936, size chosen so HTMLNode won't leave artifacts on Windows
 
     private final String pattern;
     private final String units;
