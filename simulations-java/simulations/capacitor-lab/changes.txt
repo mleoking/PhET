@@ -1,3 +1,5 @@
+# 1.00.12 (52878) Jun 8, 2011
+6/8/11 dev version published after completing all 2.00 tasks, but before code review or final test
 6/8/11 > added "Multiple Capacitors" tab
 6/8/11 major refactoring of model.circuit package: move duplicate code to base class, provide function parameters for creating capacitors and wires in base class
 6/8/11 return copies of capacitor and wire lists from circuits
