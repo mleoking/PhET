@@ -42,6 +42,7 @@ public class EFieldShapesDebugNode extends PComposite {
             final PPath airBetweenPlatesNode = new PhetPPath( shapeFactory.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( airBetweenPlatesNode );
 
+            //REVIEW: consider using RichSimpleObserver in cases like this
             // set shapes to match model
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
