@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -36,7 +37,7 @@ public class WaterCanvas extends PhetPCanvas {
     private PNode rootNode = new PNode();
 
     //Separate layer for the particles so they are always behind the control panel
-    private PNode particleNode = new PNode();
+    private PNode particleLayer = new PNode();
 
     public WaterCanvas( final WaterModel model, final SugarAndSaltSolutionsColorScheme config ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -56,7 +57,7 @@ public class WaterCanvas extends PhetPCanvas {
 
         // Root of our scene graph
         addWorldChild( rootNode );
-        rootNode.addChild( particleNode );
+        rootNode.addChild( particleLayer );
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
@@ -69,7 +70,7 @@ public class WaterCanvas extends PhetPCanvas {
         };
 
         //Provide graphics for WaterMolecules
-        new GraphicAdapter<WaterMolecule>( particleNode, new Function1<WaterMolecule, PNode>() {
+        new GraphicAdapter<WaterMolecule>( particleLayer, new Function1<WaterMolecule, PNode>() {
             public PNode apply( WaterMolecule waterMolecule ) {
                 return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
             }
@@ -81,7 +82,7 @@ public class WaterCanvas extends PhetPCanvas {
         );
 
         //Provide graphics for SodiumIons
-        new GraphicAdapter<DefaultParticle>( particleNode, new Function1<DefaultParticle, PNode>() {
+        new GraphicAdapter<DefaultParticle>( particleLayer, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
             }
@@ -93,7 +94,7 @@ public class WaterCanvas extends PhetPCanvas {
         );
 
         //Provide graphics for Chlorine Ions
-        new GraphicAdapter<DefaultParticle>( particleNode, new Function1<DefaultParticle, PNode>() {
+        new GraphicAdapter<DefaultParticle>( particleLayer, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.ClIon );
             }
@@ -102,6 +103,22 @@ public class WaterCanvas extends PhetPCanvas {
                 model.addChlorineIonAddedListener( createNode );
             }
         }
+        );
+
+
+        //Provide graphics for Salt Crystals
+        new GraphicAdapter<Molecule>( particleLayer, new Function1<Molecule, PNode>() {
+            public PNode apply( Molecule sodiumIon ) {
+                return new MoleculeNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
+            }
+        },
+                                      //TODO: use the pre-existing list when it is made
+                                      new ArrayList<Molecule>(),
+                                      new VoidFunction1<VoidFunction1<Molecule>>() {
+                                          public void apply( VoidFunction1<Molecule> createNode ) {
+                                              model.addSugarAddedListener( createNode );
+                                          }
+                                      }
         );
 
 //        addChild( new BarrierNode( transform, model.bottomWall ) );
@@ -122,6 +139,22 @@ public class WaterCanvas extends PhetPCanvas {
                     model.numSodiums.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean lessThanTwoSodiums ) {
                             setEnabled( lessThanTwoSodiums );
+                        }
+                    } );
+                }},
+
+                //button to add a sugar
+                new HTMLImageButtonNode( "Add Sugar" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            model.addSugar();
+                        }
+                    } );
+
+                    //disable the "add sugar" button if there are already 2 sugars
+                    model.numSugars.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                        public void apply( Boolean lessThanTwoSugars ) {
+                            setEnabled( lessThanTwoSugars );
                         }
                     } );
                 }},
