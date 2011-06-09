@@ -12,7 +12,8 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.BatteryTopWireSegme
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSegment;
 
 /**
- * Wire that connects the top of a battery (B) to the tops of N parallel capacitors (C1,C2,...,Cn).
+ * A specialized wire, found in all of our circuits.
+ * It connects the top of a battery (B) to the tops of N parallel capacitors (C1,C2,...,Cn).
  * <code>
  * |-----|------|--...--|
  * |     |      |       |
@@ -23,10 +24,20 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSeg
  */
 public class WireBatteryTopToCapacitorTops extends Wire {
 
+    /**
+     * Constructor
+     *
+     * @param mvt        model-view transform
+     * @param thickness  thickness of the wire, in meters
+     * @param wireExtent how far the wire extends above the capacitors, in meters
+     * @param battery
+     * @param capacitors
+     */
     public WireBatteryTopToCapacitorTops( CLModelViewTransform3D mvt, double thickness, double wireExtent, Battery battery, Capacitor... capacitors ) {
         this( mvt, thickness, wireExtent, battery, new ArrayList<Capacitor>( Arrays.asList( capacitors ) ) );
     }
 
+    // Same as above constructor, but with list of capacitors instead of varargs.
     public WireBatteryTopToCapacitorTops( final CLModelViewTransform3D mvt, double thickness, double wireExtent, Battery battery, ArrayList<Capacitor> capacitors ) {
         super( mvt, thickness );
 
@@ -36,7 +47,7 @@ public class WireBatteryTopToCapacitorTops extends Wire {
             minY = Math.min( minY, capacitor.getLocation().getY() - wireExtent );
         }
 
-        // horizontal segment connecting battery to the rightmost capacitor
+        // horizontal segment connecting battery (B) to the rightmost capacitor (Cn)
         final Capacitor rightmostCapacitor = capacitors.get( capacitors.size() - 1 );
         final Point2D.Double leftCorner = new Point2D.Double( battery.getX(), minY );
         final Point2D.Double rightCorner = new Point2D.Double( rightmostCapacitor.getX(), leftCorner.getY() );
@@ -45,7 +56,7 @@ public class WireBatteryTopToCapacitorTops extends Wire {
         addSegment( new WireSegment( leftCorner.getX() - t, leftCorner.getY() + t, rightCorner.getX() + t, rightCorner.getY() + t ) );
         addSegment( new CapacitorTopWireSegment( rightmostCapacitor, rightCorner ) );
 
-        // vertical segments for all capacitors in between the battery and rightmost capacitor
+        // vertical segments for all capacitors (C1...Cn-1) in between the battery (B) and rightmost capacitor (Cn)
         for ( int i = 0; i < capacitors.size() - 1; i++ ) {
             Capacitor capacitor = capacitors.get( i );
             Point2D.Double startPoint = new Point2D.Double( capacitor.getX(), minY );
