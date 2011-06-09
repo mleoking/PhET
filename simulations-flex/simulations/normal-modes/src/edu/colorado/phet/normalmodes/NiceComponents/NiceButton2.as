@@ -1,4 +1,5 @@
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.NiceComponents {
+import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.*;
 
 //import edu.colorado.phet.flashcommon.TextFieldUtils;

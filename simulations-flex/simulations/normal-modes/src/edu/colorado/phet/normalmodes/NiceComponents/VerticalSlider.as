@@ -1,26 +1,38 @@
-//horizontal slider component
-
-package edu.colorado.phet.normalmodes {
-import edu.colorado.phet.normalmodes.*;
-
-import flash.display.*;
-import flash.events.*;
+/**
+ * Created by IntelliJ IDEA.
+ * User: General User
+ * Date: 6/9/11
+ * Time: 5:39 AM
+ * To change this template use File | Settings | File Templates.
+ */
+package edu.colorado.phet.normalmodes.NiceComponents {
+import flash.display.CapsStyle;
+import flash.display.Graphics;
+import flash.display.LineScaleMode;
+import flash.display.Sprite;
+import flash.events.FocusEvent;
+import flash.events.KeyboardEvent;
+import flash.events.MouseEvent;
 import flash.geom.Rectangle;
-import flash.text.*;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFieldType;
+import flash.text.TextFormat;
 
-public class HorizontalSlider extends Sprite {
 
-    //private var owner:Object;		//container of this slider
-    private var action: Function;	//function passed in from Object containing this slider
-    private var lengthInPix: int; 	//length of slider in pixels
-    private var minVal: Number;		//minimum output value of slider
-    private var maxVal: Number;		//maximum value
-    private var textEditable: Boolean; //true if readout is user editable
-    private var detented: Boolean;	//false if slider continuous
-    private var nbrTics: int;		//number of tick marks, if detented
-    private var readoutShown:Boolean;  //false if readout not shown
-    private var rail: Sprite;		//rail along which knob slides
-    private var knob: Sprite;		//grabbable knob on slider
+public class VerticalSlider extends Sprite{
+
+    //private var owner:Object;		    //container of this slider
+    private var action: Function;	    //function passed in from Object containing this slider
+    private var lengthInPix: int; 	    //length of slider in pixels
+    private var minVal: Number;		    //minimum output value of slider
+    private var maxVal: Number;		    //maximum value
+    private var textEditable: Boolean;  //true if readout is user editable
+    private var detented: Boolean;	    //false if slider continuous
+    private var nbrTics: int;		    //number of tick marks, if detented
+    private var readoutShown:Boolean;   //false if readout not shown
+    private var rail: Sprite;		    //rail along which knob slides
+    private var knob: Sprite;		    //grabbable knob on slider
     private var outputValue: Number;    //readout = scale * outputValue; scale is often 1.0, but you might want outputVal in meters and readoutVal in cm
     private var label_txt: TextField;	//static label
     private var readout_txt: TextField; //dynamic readout
@@ -32,7 +44,7 @@ public class HorizontalSlider extends Sprite {
     private var decimalPlaces: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
-    public function HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true ) {
+    public function VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true ) {
         //this.owner = owner;
         this.action = action;
         this.lengthInPix = lengthInPix;
@@ -57,46 +69,31 @@ public class HorizontalSlider extends Sprite {
         //this.drawBorder();  //for testing only
     }//end of constructor
 
+
+
+//****Getters and Setters****
+
     public function getVal(): Number {
         return this.outputValue;
     }
 
     public function setVal( val: Number ): void {
-        var xVal: Number = val;  /// this.scale;
+        var yVal: Number = val;
         //trace("HorizSlider.setVal val = "+val);
-        if ( xVal >= this.minVal && xVal <= this.maxVal ) {
-            this.outputValue = xVal;
-            this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
-        }else if(xVal > this.maxVal){
+        if ( yVal >= this.minVal && yVal <= this.maxVal ) {
+            this.outputValue = yVal;
+            this.knob.y = this.lengthInPix *(1 - (yVal - this.minVal) / (this.maxVal - this.minVal));
+        }else if( yVal > this.maxVal ){
 				this.outputValue = this.maxVal;
-				this.knob.x = this.lengthInPix;
+				this.knob.y = 0;
 				this.updateReadout();
-			}else if(xVal < this.minVal){
+			}else if(yVal < this.minVal){
 				this.outputValue = this.minVal;
-				this.knob.x = 0;
+				this.knob.y = this.lengthInPix;
 			}
         this.action();
         this.updateReadout();
     }//end setVal
-
- //****PUBLIC FUNCTIONS****
-
-    public function setSliderWithoutAction(val:Number):void{
-         var xVal: Number = val;  /// this.scale;
-        //trace("HorizSlider.setVal val = "+val);
-        if ( xVal >= this.minVal && xVal <= this.maxVal ) {
-            this.outputValue = xVal;
-            this.knob.x = this.lengthInPix * (xVal - this.minVal) / (this.maxVal - this.minVal);
-        }else if(xVal > this.maxVal){
-				this.outputValue = this.maxVal;
-				this.knob.x = this.lengthInPix;
-				this.updateReadout();
-			}else if(xVal < this.minVal){
-				this.outputValue = this.minVal;
-				this.knob.x = 0;
-			}
-        this.updateReadout();
-    }//end setSliderWithoutAction()
 
     public function setScale( scale: Number ): void {
         this.scale = scale;
@@ -105,16 +102,6 @@ public class HorizontalSlider extends Sprite {
     public function setReadoutPrecision( nbrOfPlaces: int ): void {
         this.decimalPlaces = nbrOfPlaces;     //nbr of places displayed past the decimal point
     }
-
-    public function switchLabelAndReadoutPositions():void{
-       //this.label_txt.y = 0.4 * this.knob.height;
-       //this.readout_txt.y = -1.5 * this.readout_txt.height;
-       //this.units_txt.y = -1.5 * this.units_txt.height;
-       this.label_txt.y = 0.4 * this.knob.height ;
-       this.readout_txt.y = -this.label_txt.height - 1.0*this.readout_txt.height;
-       this.units_txt.y = -this.label_txt.height - 1.0*this.units_txt.height;
-    }
-
 
     public function setLabelText( label_str: String ): void {
         this.label_txt.text = label_str;
@@ -125,6 +112,35 @@ public class HorizontalSlider extends Sprite {
     public function setUnitsText( str:String ):void{
         this.units_str = str;
         this.units_txt.text = " " + this.units_str;
+    }
+
+ //****PUBLIC FUNCTIONS****
+
+    public function setSliderWithoutAction(val:Number):void{
+         var yVal: Number = val;
+        //trace("HorizSlider.setVal val = "+val);
+        if ( yVal >= this.minVal && yVal <= this.maxVal ) {
+            this.outputValue = yVal;
+            this.knob.y = this.lengthInPix *(1 - (yVal - this.minVal) / (this.maxVal - this.minVal));
+        }else if( yVal > this.maxVal ){
+				this.outputValue = this.maxVal;
+				this.knob.y = 0;
+				this.updateReadout();
+			}else if(yVal < this.minVal){
+				this.outputValue = this.minVal;
+				this.knob.y = this.lengthInPix;
+			}
+        this.updateReadout();
+    }//end setSliderWithoutAction()
+
+
+    public function switchLabelAndReadoutPositions():void{
+       //this.label_txt.y = 0.4 * this.knob.height;
+       //this.readout_txt.y = -1.5 * this.readout_txt.height;
+       //this.units_txt.y = -1.5 * this.units_txt.height;
+       this.label_txt.y = 0.4 * this.knob.height ;
+       this.readout_txt.y = -this.label_txt.height - 1.0*this.readout_txt.height;
+       this.units_txt.y = -this.label_txt.height - 1.0*this.units_txt.height;
     }
 
     public function restrictInput( allowedCharacters:String ):void{
@@ -138,43 +154,28 @@ public class HorizontalSlider extends Sprite {
         gR.lineStyle( 1.5, 0x333333, 1, true );
         gR.moveTo( 0, 0 );
         gR.beginFill( 0xbbbbbb );
-        gR.drawRoundRect( 0, -2, this.lengthInPix, 3, 3 );
+        gR.drawRoundRect( -2, 0,  3, this.lengthInPix, 3 );
         gR.endFill();
         //draw knob
         var gK: Graphics = this.knob.graphics;
         gK.clear();
-        var kW: Number = 15; //knob width
-        var kH: Number = 10; //knob height
-        //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
+        var kW: Number = 10; //knob width
+        var kH: Number = 15; //knob height
         with(gK){
             lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
-            moveTo( 0, -0.5*kH);
-            lineTo(0, 0.5*kH );
-//            moveTo(-0.5*kW, -0.5*kH);
-//            lineTo(0.5*kW, -0.5*kH);
-//            lineTo(0.5*kW, 0.3*kH);
-//            lineStyle( 2, 0x0000cc, 1, true);
-//            curveTo(0, kH, -0.5*kW, 0.3*kH );
-//            lineTo(-0.5*kW, -0.5*kH);
+            moveTo( -0.5*kW, 0 );
+            lineTo( 0.5*kW, 0 );
             endFill();
-            //lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            //moveTo(0,-0.4*kH);
-            // lineTo(0,0.4*kH);
-            //lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            //moveTo(-0.5, -0.1*kH);
-            //lineTo(-0.5, 0.5*kH);
-
         }
-        //gK.drawRect( -kW / 2, -kH / 2, kW, kH );
         if ( this.detented ) {
             //draw tic marks
             gR.lineStyle( 1.5, 0x000000, 1, false, LineScaleMode.NORMAL, CapsStyle.NONE );
             for ( var i: int = 0; i < this.nbrTics; i++ ) {
                 var delPix: Number = this.lengthInPix / (this.nbrTics - 1);
-                gR.moveTo( i * delPix, 3 );
-                gR.lineTo( i * delPix, 8.5 );
+                gR.moveTo( 3, i * delPix  );
+                gR.lineTo( 8.5, i * delPix );
             }//end for
         }//end if
         //trace("drawSlider called." + this.lengthInPix);
@@ -217,20 +218,17 @@ public class HorizontalSlider extends Sprite {
         this.tFormat2.leading = 0;
         this.readout_txt.defaultTextFormat = this.tFormat2;
         this.units_txt.defaultTextFormat = this.tFormat2;
-        this.readout_txt.text = " 1.6";
-        this.units_txt.text = "cm";
+        this.readout_txt.text = " 1.6";   //placeholder only
+        this.units_txt.text = "cm";       //placeholder only
         this.readout_txt.width = 60;
-        //this.readout_txt.height = 12;
-        //this.units_txt.height = 12;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width;
-        this.readout_txt.y = 0.7*knob.height;//-1.5 * this.readout_txt.height;
+        this.readout_txt.y = - 0.7*knob.height;
         this.units_txt.x = this.rail.width / 2 ;
-        this.units_txt.y = 0.7*knob.height; //-1.5 * this.units_txt.height;
+        this.units_txt.y = - 0.7*knob.height;
         if(this.readoutShown){
             this.addChild( this.readout_txt );
             this.addChild( this.units_txt );
         }
-        //this.readout_txt.addEventListener( Event.CHANGE, onTextChange );
         this.readout_txt.addEventListener( KeyboardEvent.KEY_DOWN, onHitEnter );
         this.readout_txt.addEventListener( FocusEvent.FOCUS_OUT, onFocusOut)
     }//end createReadoutfield()
@@ -244,7 +242,7 @@ public class HorizontalSlider extends Sprite {
            this.setVal( inputNumber / this.scale );
         }
         this.manualUpdating = false;
-    }
+    }//end onHitEnter
 
     private function onFocusOut( focusEvt: FocusEvent ):void{
         //trace( "ControlPanel.onFocuOut called.");
@@ -296,21 +294,20 @@ public class HorizontalSlider extends Sprite {
         }
 
         function moveKnob( evt: MouseEvent ): void {
-            //trace("HorizSlider.mouseX = "+mouseX);
-            var knobX: Number;
-            var maxX: int = thisKnob.parent.lengthInPix;
-            if ( mouseX < 0 ) {
-                knobX = 0;
-            } else if ( mouseX > maxX ) {
-                knobX = maxX;
-            }
-            else {
-                knobX = mouseX
+            //trace("HorizSlider.mouseY = "+mouseY);
+            var knobY: Number;
+            var maxY: int = thisKnob.parent.lengthInPix;
+            if ( mouseY < 0 ) {
+                knobY = 0;
+            } else if ( mouseY > maxY ) {
+                knobY = maxY;
+            } else {
+                knobY = mouseY;
             }
             if ( !thisSlider.detented ) {
-                thisKnob.x = knobX;
+                thisKnob.y = knobY;
                 //round output value so that readout value is exact, according to decimal precision set by decimalPlaces
-                var sliderValue: Number = thisSlider.minVal + (thisSlider.maxVal - thisSlider.minVal) * thisKnob.x / thisSlider.lengthInPix;
+                var sliderValue: Number = thisSlider.minVal + (thisSlider.maxVal - thisSlider.minVal) * (thisSlider.lengthInPix - thisKnob.y) / thisSlider.lengthInPix;
                 var factor:Number = thisSlider.scale * Math.pow( 10, thisSlider.decimalPlaces );
                 thisSlider.outputValue = Math.round( sliderValue*factor )/factor;
                 //trace( "HorizontalSlider.outputValue = "+thisSlider.outputValue );
@@ -318,8 +315,8 @@ public class HorizontalSlider extends Sprite {
             }
             else {
                 //set knob to nearest detented position
-                thisKnob.x = delPix * Math.round( knobX / delPix );
-                var newVal: Number = thisSlider.minVal + Math.round( (thisSlider.maxVal - thisSlider.minVal) * thisKnob.x / thisSlider.lengthInPix );
+                thisKnob.y = delPix * Math.round( knobY / delPix );
+                var newVal: Number = thisSlider.minVal + Math.round( (thisSlider.maxVal - thisSlider.minVal) * (thisSlider.lengthInPix - thisKnob.y) / thisSlider.lengthInPix );
                 //var factor: Number = Math.pow( 10, thisSlider.decimalPlaces );
                // var newVal:Number = Math.round(newSliderVal * factor ) / factor;
                 //action only if output is changed
@@ -341,39 +338,7 @@ public class HorizontalSlider extends Sprite {
         var g:Graphics = this.graphics;
         g.lineStyle(1,0x000000,1);
         g.drawRect(rect.x, rect.y, rect.width, rect.height) ;
-//        var delX = this.width;
-//        var delY = this.height;
-//        g.moveTo(0,0);
-//        g.lineTo(delX,0);
-//        g.lineTo(delX, delY);
-//        g.lineTo(0,delY);
-//        g.lineTo(0,0);
-
     }
 
-    //obsolete function
-    private function evtTextToNumber1( evt: Event ): Number {
-        var inputText:String = evt.target.text;
-        var outputNumber: Number;
-        if ( inputText == "." ) {
-            evt.target.text = "0.";
-            evt.target.setSelection( 2, 2 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( inputText == "-" ) {
-            outputNumber = 0;
-        } else if ( inputText == "-." ) {
-            evt.target.text = "-0.";
-            evt.target.setSelection( 3, 3 ); //sets cursor at end of line
-            outputNumber = 0;
-        } else if ( isNaN( Number( inputText ) ) ) {
-            evt.target.text = "0";
-            outputNumber = 0;
-        }
-        else {
-            outputNumber = Number( inputText );
-        }
-        return outputNumber;
-    }//end textToNumber
-
-}//end of class
-}//end of package
+} //end class
+} //end package

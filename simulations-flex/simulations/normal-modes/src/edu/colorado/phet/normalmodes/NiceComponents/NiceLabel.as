@@ -4,7 +4,7 @@
  * Date: 5/22/11
  * Time: 2:12 PM
  */
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.NiceComponents {
 import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.events.KeyboardEvent;
