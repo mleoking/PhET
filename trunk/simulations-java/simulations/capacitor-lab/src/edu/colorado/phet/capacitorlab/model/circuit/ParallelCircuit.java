@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a circuit with a battery (B) and N capacitors (Ci) in parallel.
+ * Model of a circuit with a battery (B) and N capacitors (C1...Cn) in parallel.
  * <p/>
  * <code>
  * |-----|------|------|
@@ -92,11 +92,11 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     public ArrayList<Capacitor> getCapacitors() {
-        return capacitors;
+        return new ArrayList<Capacitor>( capacitors );
     }
 
     public ArrayList<Wire> getWires() {
-        return wires;
+        return new ArrayList<Wire>( wires );
     }
 
     // Gets the wire connected to the battery's top terminal.

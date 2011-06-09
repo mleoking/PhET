@@ -106,7 +106,7 @@ public class SingleCircuit extends AbstractCircuit {
     }
 
     public ArrayList<Wire> getWires() {
-        return wires;
+        return new ArrayList<Wire>( wires );
     }
 
     public Wire getTopWire() {
