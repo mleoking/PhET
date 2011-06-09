@@ -3,8 +3,6 @@ TODO list for capacitor-lab
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- lots of duplicate code in AbstractCircuit subclasses
-- document model.circuit package
 - create implementation notes document
 
 LOW PRIORITY

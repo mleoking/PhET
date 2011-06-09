@@ -93,8 +93,12 @@ public class Battery {
         return voltageProperty.get();
     }
 
+    public void addVoltageObserver( SimpleObserver o, boolean notifyOnAdd ) {
+        voltageProperty.addObserver( o, notifyOnAdd );
+    }
+
     public void addVoltageObserver( SimpleObserver o ) {
-        voltageProperty.addObserver( o );
+        addVoltageObserver( o, true );
     }
 
     private void setPolarity( Polarity polarity ) {

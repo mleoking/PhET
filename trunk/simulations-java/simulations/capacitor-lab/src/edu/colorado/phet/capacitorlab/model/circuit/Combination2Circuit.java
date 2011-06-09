@@ -6,15 +6,14 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a circuit with a battery (B), 2 capacitors in parallel (C2, C3), and one additional in series (C1).
@@ -35,61 +34,54 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Combination2Circuit extends AbstractCircuit {
 
-    private final Capacitor c1, c2, c3; // references to improve code readability
-    private final ArrayList<Capacitor> capacitors; // order is significant
-    private final ArrayList<Wire> wires; // order is significant
+    private final Capacitor c1, c2, c3; // references for correlation with javadoc diagram, to improve code readability
 
     public Combination2Circuit( final CircuitConfig config ) {
-        super( CLStrings.COMBINATION_2, config.clock, config.mvt, config.batteryLocation );
+        super( CLStrings.COMBINATION_2, config, 3 /* numberOfCapacitors */,
+               new CreateCapacitors() {
+                   // Creates capacitors, as shown in javadoc diagram.
+                   public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {
+                       // Series
+                       double x = config.batteryLocation.getX() + config.capacitorXSpacing;
+                       double y = config.batteryLocation.getY() - ( 0.5 * config.capacitorYSpacing );
+                       final double z = config.batteryLocation.getZ();
+                       final Capacitor c1 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
 
-        // capacitors
-        {
-            // Series
-            double x = getBattery().getX() + config.capacitorXSpacing;
-            double y = getBattery().getY() - ( 0.5 * config.capacitorYSpacing );
-            final double z = getBattery().getZ();
-            c1 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+                       // Parallel
+                       y += config.capacitorYSpacing;
+                       final Capacitor c2 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+                       x += config.capacitorXSpacing;
+                       final Capacitor c3 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
 
-            // Parallel
-            y += config.capacitorYSpacing;
-            c2 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
-            x += config.capacitorXSpacing;
-            c3 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+                       return new ArrayList<Capacitor>() {{
+                           add( c1 );
+                           add( c2 );
+                           add( c3 );
+                       }};
+                   }
+               },
+               new CreateWires() {
+                   // Creates the wires, as shown in javadoc diagram
+                   public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
+                       final Capacitor c1 = capacitors.get( 0 );
+                       final Capacitor c2 = capacitors.get( 1 );
+                       final Capacitor c3 = capacitors.get( 2 );
+                       return new ArrayList<Wire>() {{
+                           add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c1 ) );
+                           add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
+                           add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c2, c3 ) );
+                       }};
+                   }
+               } );
 
-            capacitors = new ArrayList<Capacitor>() {{
-                add( c1 );
-                add( c2 );
-                add( c3 );
-            }};
-        }
-
-        // wires
-        wires = new ArrayList<Wire>() {{
-            add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c1 ) );
-            add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
-            add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c2, c3 ) );
-        }};
-
-        // observe battery
-        getBattery().addVoltageObserver( new SimpleObserver() {
-            public void update() {
-                updatePlateVoltages();
-            }
-        } );
-
-        // observe capacitors
-        CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
-            public void capacitorChanged() {
-                updatePlateVoltages();
-                fireCircuitChanged();
-            }
-        };
-        for ( Capacitor capacitor : capacitors ) {
-            capacitor.addCapacitorChangeListener( capacitorChangeListener );
-        }
+        c1 = getCapacitors().get( 0 );
+        c2 = getCapacitors().get( 1 );
+        c3 = getCapacitors().get( 2 );
+        updatePlateVoltages();
     }
 
-    private void updatePlateVoltages() {
+    // @see AbstractCircuit.updatePlateVoltages
+    @Override protected void updatePlateVoltages() {
         double Q_total = getTotalCharge();
         // series
         c1.setPlatesVoltage( Q_total / c1.getTotalCapacitance() );
@@ -99,27 +91,9 @@ public class Combination2Circuit extends AbstractCircuit {
         c3.setPlatesVoltage( V_parallel );
     }
 
-    public ArrayList<Capacitor> getCapacitors() {
-        return new ArrayList<Capacitor>( capacitors );
-    }
-
-    public ArrayList<Wire> getWires() {
-        return new ArrayList<Wire>( wires );
-    }
-
-    // Gets the wire connected to the battery's top terminal.
-    private Wire getTopWire() {
-        return wires.get( 0 );
-    }
-
-    // Gets the wire connected to the battery's bottom terminal.
-    private Wire getBottomWire() {
-        return wires.get( wires.size() - 1 );
-    }
-
-    // Gets the wire between the 2 capacitors.
+    // Gets the wire that connects C1 to C2 and C3.
     private Wire getMiddleWire() {
-        return wires.get( 1 );
+        return getWires().get( 1 );
     }
 
     // C_total = ( 1 / ( 1/C1 + 1/(C2 + C3) )
@@ -158,12 +132,5 @@ public class Combination2Circuit extends AbstractCircuit {
     // True if shape is touching part of the circuit that is connected to C2's top plate.
     private boolean connectedToC2TopPlate( Shape shape ) {
         return c1.intersectsBottomPlateShape( shape ) || getMiddleWire().intersects( shape ) || c2.intersectsTopPlateShape( shape ) || c3.intersectsTopPlateShape( shape );
-    }
-
-    public void reset() {
-        super.reset();
-        for ( Capacitor capacitor : capacitors ) {
-            capacitor.reset();
-        }
     }
 }

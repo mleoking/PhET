@@ -1,3 +1,4 @@
+6/8/11 major refactoring of model.circuit package: move duplicate code to base class, provide function parameters for creating capacitors and wires in base class
 6/8/11 return copies of capacitor and wire lists from circuits
 6/8/11 improve capacitor layout algorithm in SeriesCircuit
 6/8/11 document model.wire package
