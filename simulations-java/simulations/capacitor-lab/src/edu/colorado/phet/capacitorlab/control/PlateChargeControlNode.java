@@ -281,9 +281,8 @@ public class PlateChargeControlNode extends PhetPNode {
 
         private void updateVoltage( PInputEvent event, boolean isDragging ) {
 
-            PNode parent = event.getPickedNode().getParent();
-
             // determine the knob's new offset
+            PNode parent = event.getPickedNode().getParent();
             Point2D pMouseLocal = event.getPositionRelativeTo( parent );
             Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
             Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
