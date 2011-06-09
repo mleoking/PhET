@@ -3,16 +3,15 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.DielectricMaterial;
@@ -31,12 +30,11 @@ public class DielectricMaterialControl extends JPanel {
 
     private final JComboBox comboBox;
 
-    //REVIEW: Convert to List<ChangeListener>, see #2936 comment 12
-    private final EventListenerList listeners;
+    private final ArrayList<ChangeListener> listeners;
 
     public DielectricMaterialControl( DielectricMaterial[] materials, DielectricMaterial selectedMaterial ) {
 
-        listeners = new EventListenerList();
+        listeners = new ArrayList<ChangeListener>();
 
         JLabel label = new JLabel( MessageFormat.format( CLStrings.PATTERN_LABEL, CLStrings.MATERIAL ) );
 
@@ -82,16 +80,16 @@ public class DielectricMaterialControl extends JPanel {
     }
 
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( ChangeListener.class, listener );
+        listeners.add( listener );
     }
 
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( ChangeListener.class, listener );
+        listeners.remove( listener );
     }
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
+        for ( ChangeListener listener : new ArrayList<ChangeListener>( listeners ) ) {
             listener.stateChanged( event );
         }
     }
@@ -105,15 +103,10 @@ public class DielectricMaterialControl extends JPanel {
 
         private static final double COLOR_CHIP_SIZE = 11;
 
-        //REVIEW: Why is this created eagerly and mutated instead of just on demand?  Is it for performance reasons?
-        private final PPath colorChipNode;
-
         public DielectricMaterialRenderer() {
             super();
             setOpaque( true ); // for Macintosh
             setHorizontalTextPosition( SwingConstants.RIGHT ); // text to right of icon
-            colorChipNode = new PPath( new Rectangle2D.Double( 0, 0, COLOR_CHIP_SIZE, COLOR_CHIP_SIZE ) );
-            colorChipNode.setStroke( null );
         }
 
         public Component getListCellRendererComponent( JList list, Object value, int index, boolean isSelected, boolean cellHasFocus ) {
@@ -147,6 +140,8 @@ public class DielectricMaterialControl extends JPanel {
         }
 
         public Icon getIcon( DielectricMaterial material ) {
+            PPath colorChipNode = new PPath( new Rectangle2D.Double( 0, 0, COLOR_CHIP_SIZE, COLOR_CHIP_SIZE ) );
+            colorChipNode.setStroke( null );
             colorChipNode.setPaint( material.getColor() );
             return new ImageIcon( colorChipNode.toImage() );
         }
