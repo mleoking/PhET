@@ -167,11 +167,12 @@ public class Atom implements IDynamicAtom {
         boolean particleFound = false;
         if ( particle instanceof Proton && protons.contains( particle ) ) {
             removeProton( (Proton) particle );
+            particleFound = true;
         }
         else if ( particle instanceof Neutron && neutrons.contains( particle ) ) {
             removeNeutron( (Neutron) particle );
+            particleFound = true;
         }
-        //REVIEW bug? particleFound is always false, so this will always return null
         return particleFound ? particle : null;
     }
 
