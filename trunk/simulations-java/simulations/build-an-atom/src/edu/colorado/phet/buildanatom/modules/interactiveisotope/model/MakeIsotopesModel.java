@@ -211,34 +211,21 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      */
     private void clearAtom() {
         // Remove all particles associated with the atom from the model.
-        //REVIEW why not iterate on atom.getProtons? Ditto for neutrons and electrons.
-        ArrayList<Proton> copyOfProtons = new ArrayList<Proton>( protons );
-        for ( Proton proton : copyOfProtons ) {
-            if ( atom.containsProton( proton ) ) {
-                atom.removeProton( proton );
-                protons.remove( proton );
-                proton.removedFromModel();
-            }
+        for ( Proton proton : new ArrayList<Proton>( atom.getProtons() ) ) {
+            atom.removeProton( proton );
+            protons.remove( proton );
+            proton.removedFromModel();
         }
-        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
-        for ( Neutron neutron : copyOfNeutrons ) {
-            if ( atom.containsNeutron( neutron ) ) {
-                atom.removeNeutron( neutron );
-                neutrons.remove( neutron );
-                neutron.removedFromModel();
-            }
+        for ( Neutron neutron : new ArrayList<Neutron>( atom.getNeutrons() ) ) {
+            atom.removeNeutron( neutron );
+            neutrons.remove( neutron );
+            neutron.removedFromModel();
         }
-        ArrayList<Electron> copyOfElectrons = new ArrayList<Electron>( electrons );
-        for ( Electron electron : copyOfElectrons ) {
-            if ( atom.containsElectron( electron ) ) {
-                atom.removeElectron( electron );
-                electrons.remove( electron );
-                electron.removedFromModel();
-            }
+        for ( Electron electron : new ArrayList<Electron>( atom.getElectrons() ) ) {
+            atom.removeElectron( electron );
+            electrons.remove( electron );
+            electron.removedFromModel();
         }
-
-        // Now clear the atom itself.
-        atom.reset();
     }
 
     /**
