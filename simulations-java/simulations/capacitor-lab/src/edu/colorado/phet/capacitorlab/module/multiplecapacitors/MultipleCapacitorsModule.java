@@ -41,8 +41,6 @@ public class MultipleCapacitorsModule extends CLModule {
         setSimulationPanel( canvas );
 
         setControlPanel( new MultipleCapacitorsControlPanel( this, model, canvas ) );
-
-        //REVIEW: no reset() call here like in the other modules, why?
     }
 
     @Override
