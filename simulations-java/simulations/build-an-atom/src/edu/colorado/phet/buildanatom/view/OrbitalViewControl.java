@@ -4,12 +4,11 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.umd.cs.piccolo.PNode;
@@ -24,7 +23,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class OrbitalViewControl extends PNode {
-    public OrbitalViewControl( final OrbitalViewProperty orbitalViewProperty ) {
+    public OrbitalViewControl( final Property<OrbitalView> orbitalViewProperty ) {
         final PText textTitle = new PText( BuildAnAtomStrings.ELECTRON_MODEL ) {
             {
                 setFont( BuildAnAtomConstants.WINDOW_TITLE_FONT );
@@ -55,7 +54,7 @@ public class OrbitalViewControl extends PNode {
                         } );
                     }
                 } );
-                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, orbitalViewProperty.get() == OrbitalView.RESIZING_CLOUD) {
+                add( new JRadioButton( BuildAnAtomStrings.ELECTRON_MODEL_CLOUD, orbitalViewProperty.get() == OrbitalView.RESIZING_CLOUD ) {
                     {
                         setOpaque( false );
                         buttonGroup.add( this );

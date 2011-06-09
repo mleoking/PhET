@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.HashMap;
@@ -13,6 +11,7 @@ import java.util.Map;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -40,7 +39,7 @@ public class IsotopeElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public IsotopeElectronCloudNode( final ModelViewTransform mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
+    public IsotopeElectronCloudNode( final ModelViewTransform mvt, final Property<OrbitalView> orbitalView, final Atom atom ) {
 
         // Add a listener that will update the cloud's appearance when the
         // atom configuration changes.
@@ -51,7 +50,7 @@ public class IsotopeElectronCloudNode extends PNode {
                 double centerX = atom.getPosition().getX();
                 double centerY = atom.getPosition().getY();
                 final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( centerX - radius,
-                        centerY - radius, radius * 2, radius * 2 ) );
+                                                                                        centerY - radius, radius * 2, radius * 2 ) );
                 electronCloudNode.setPathTo( electronShellShape );
                 Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, MAX_ELECTRONS, 80, 110 );//Map to alpha values
                 int alpha = atom.getNumElectrons() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( atom.getNumElectrons() );//But if there are no electrons, be transparent
@@ -59,7 +58,7 @@ public class IsotopeElectronCloudNode extends PNode {
                 // in the center and darker as we move out so that the nucleus can be
                 // clearly seen, and it looks like a cloud but with a distinct edge.
                 Paint electronShellPaint;
-                if (radius > 0){
+                if ( radius > 0 ) {
                     electronShellPaint = new RoundGradientPaint(
                             electronShellShape.getBounds2D().getCenterX(),
                             electronShellShape.getBounds2D().getCenterY(),
@@ -67,7 +66,7 @@ public class IsotopeElectronCloudNode extends PNode {
                             new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                             new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ) );
                 }
-                else{
+                else {
                     electronShellPaint = CLOUD_BASE_COLOR;
                 }
                 electronCloudNode.setPaint( electronShellPaint );
@@ -95,13 +94,13 @@ public class IsotopeElectronCloudNode extends PNode {
      * parameters to reduce the range and scale to provide values that
      * are usable for our needs on the canvas.
      */
-    private double getElectronShellDiameter( int numElectrons ){
-        if (mapElectronCountToRadius.containsKey( numElectrons )){
+    private double getElectronShellDiameter( int numElectrons ) {
+        if ( mapElectronCountToRadius.containsKey( numElectrons ) ) {
             return reduceRadiusRange( mapElectronCountToRadius.get( numElectrons ) );
         }
-        else{
-            if ( numElectrons > MAX_ELECTRONS ){
-                System.out.println(getClass().getName() + " - Warning: Atom has more than supported number of electrons, " + numElectrons);
+        else {
+            if ( numElectrons > MAX_ELECTRONS ) {
+                System.out.println( getClass().getName() + " - Warning: Atom has more than supported number of electrons, " + numElectrons );
             }
             return 0;
         }
@@ -110,29 +109,30 @@ public class IsotopeElectronCloudNode extends PNode {
     // This data structure maps atomic number of atomic radius.  The values
     // are the covalent radii, and were taken from a Wikipedia entry entitled
     // "Atomic radii of the elements".  Values are in picometers.
-    private static Map<Integer, Double> mapElectronCountToRadius = new HashMap<Integer, Double>(){{
-        put(1, 38d);   // Hydrogen
-        put(2, 32d);   // Helium
-        put(3, 134d);  // Lithium
-        put(4, 90d);   // Beryllium
-        put(5, 82d);   // Boron
-        put(6, 77d);   // Carbon
-        put(7, 75d);   // Nitrogen
-        put(8, 73d);   // Oxygen
-        put(9, 71d);   // Fluorine
-        put(10, 69d);  // Neon
+    private static Map<Integer, Double> mapElectronCountToRadius = new HashMap<Integer, Double>() {{
+        put( 1, 38d );   // Hydrogen
+        put( 2, 32d );   // Helium
+        put( 3, 134d );  // Lithium
+        put( 4, 90d );   // Beryllium
+        put( 5, 82d );   // Boron
+        put( 6, 77d );   // Carbon
+        put( 7, 75d );   // Nitrogen
+        put( 8, 73d );   // Oxygen
+        put( 9, 71d );   // Fluorine
+        put( 10, 69d );  // Neon
     }};
 
     // Determine the min and max radii of the supported atoms.
     private static double minShellRadius, maxShellRadius;
+
     static {
         minShellRadius = Double.MAX_VALUE;
         maxShellRadius = 0;
-        for ( Double radius : mapElectronCountToRadius.values()){
-            if ( radius > maxShellRadius ){
+        for ( Double radius : mapElectronCountToRadius.values() ) {
+            if ( radius > maxShellRadius ) {
                 maxShellRadius = radius;
             }
-            if ( radius < minShellRadius ){
+            if ( radius < minShellRadius ) {
                 minShellRadius = radius;
             }
         }
@@ -142,10 +142,10 @@ public class IsotopeElectronCloudNode extends PNode {
      * This method increases the value of the smaller radius values and
      * decreases the value of the larger ones.  This effectively reduces
      * the range of radii values used.
-     *
+     * <p/>
      * This is a very specialized function for the purposes of this class.
      */
-    private double reduceRadiusRange( double value ){
+    private double reduceRadiusRange( double value ) {
         // The following two factors define the way in which an input value is
         // increased or decreased.  These values can be adjusted as needed
         // to make the cloud size appear as desired.

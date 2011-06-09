@@ -5,22 +5,9 @@ package edu.colorado.phet.buildanatom.modules.game.view;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import edu.colorado.phet.buildanatom.model.Atom;
-import edu.colorado.phet.buildanatom.model.AtomListener;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.ElectronShell;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SphericalParticle;
-import edu.colorado.phet.buildanatom.view.ElectronNode;
-import edu.colorado.phet.buildanatom.view.ElectronOrbitalNode;
-import edu.colorado.phet.buildanatom.view.IsotopeElectronCloudNode;
-import edu.colorado.phet.buildanatom.view.NeutronNode;
-import edu.colorado.phet.buildanatom.view.OrbitalView;
-import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
-import edu.colorado.phet.buildanatom.view.ProtonNode;
-import edu.colorado.phet.buildanatom.view.ResizingElectronCloudNode;
-import edu.colorado.phet.buildanatom.view.SubatomicParticleNode;
+import edu.colorado.phet.buildanatom.model.*;
+import edu.colorado.phet.buildanatom.view.*;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
@@ -45,7 +32,7 @@ public class SchematicAtomNode extends PNode {
 
     // Property that controls whether the electrons are depicted as particles
     // or as a cloud when they are a part of the atom.
-    private final OrbitalViewProperty orbitalViewProperty;
+    private final Property<OrbitalView> orbitalViewProperty;
 
     // Particle layers.  These exist so that we can give the nucleus a faux
     // 3D sort of look, with the particles toward the center of the nucleus
@@ -71,31 +58,31 @@ public class SchematicAtomNode extends PNode {
      * Constructor that assumes that all particles are interactive, meaning
      * that the user can pick them up and move them.
      *
-     * @param atom - The atom that is being represented by this node.
-     * @param mvt - Transform for moving back and forth between model and view coordinates.
+     * @param atom                - The atom that is being represented by this node.
+     * @param mvt                 - Transform for moving back and forth between model and view coordinates.
      * @param orbitalViewProperty - A property that controls how the electrons
-     * are represented.
+     *                            are represented.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final OrbitalViewProperty orbitalViewProperty ) {
+    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final Property<OrbitalView> orbitalViewProperty ) {
         this( atom, mvt, orbitalViewProperty, true, true, true );
     }
 
     /**
      * Constructor.
      *
-     * @param atom - The atom that is being represented by this node.
-     * @param mvt - Transform for moving back and forth between model and view coordinates.
-     * @param orbitalViewProperty - A property that controls how the electrons
-     * are represented.
-     * @param protonsAreInteractive - Flag that controls whether protons can
-     * be picked up and moved.
-     * @param neutronsAreInteractive - Flag that controls whether neutrons can
-     * be picked up and moved.
+     * @param atom                    - The atom that is being represented by this node.
+     * @param mvt                     - Transform for moving back and forth between model and view coordinates.
+     * @param orbitalViewProperty     - A property that controls how the electrons
+     *                                are represented.
+     * @param protonsAreInteractive   - Flag that controls whether protons can
+     *                                be picked up and moved.
+     * @param neutronsAreInteractive  - Flag that controls whether neutrons can
+     *                                be picked up and moved.
      * @param electronsAreInteractive - Flag that controls whether electrons can
-     * be picked up and moved.
+     *                                be picked up and moved.
      */
-    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final OrbitalViewProperty orbitalViewProperty,
-            boolean protonsAreInteractive, boolean neutronsAreInteractive, boolean electronsAreInteractive ) {
+    public SchematicAtomNode( final Atom atom, ModelViewTransform mvt, final Property<OrbitalView> orbitalViewProperty,
+                              boolean protonsAreInteractive, boolean neutronsAreInteractive, boolean electronsAreInteractive ) {
         this.protonsAreInteractive = protonsAreInteractive;
         this.electronsAreInteractive = electronsAreInteractive;
         this.neutronsAreInteractive = neutronsAreInteractive;
@@ -104,13 +91,13 @@ public class SchematicAtomNode extends PNode {
         this.orbitalViewProperty = orbitalViewProperty;
 
         // Create the layers and add them in the desired order.
-        electronShellLayer = new PNode( );
+        electronShellLayer = new PNode();
         addChild( electronShellLayer );
-        electronParticleLayer = new PNode( );
+        electronParticleLayer = new PNode();
         addChild( electronParticleLayer );
         nucleusLayersParentNode = new PNode();
         addChild( nucleusLayersParentNode );
-        for (int i = 0; i < NUM_NUCLEUS_LAYERS; i++){
+        for ( int i = 0; i < NUM_NUCLEUS_LAYERS; i++ ) {
             PNode particleLayer = new PNode();
             nucleusLayersParentNode.addChild( particleLayer );
             nucleusLayers.add( particleLayer );
@@ -132,13 +119,13 @@ public class SchematicAtomNode extends PNode {
         electronShellLayer.addChild( isotopeElectronCloudNode );
 
         // Add the subatomic particles.
-        for ( final Electron electron : atom.getElectrons() ){
+        for ( final Electron electron : atom.getElectrons() ) {
             addElectronNode( electron );
         }
-        for ( final Proton proton : atom.getProtons()){
+        for ( final Proton proton : atom.getProtons() ) {
             addProtonNode( proton );
         }
-        for ( final Neutron neutron : atom.getNeutrons()){
+        for ( final Neutron neutron : atom.getNeutrons() ) {
             addNeutronNode( neutron );
         }
     }
@@ -155,12 +142,12 @@ public class SchematicAtomNode extends PNode {
      * @param nucleon
      * @return
      */
-    private int mapNucleonToLayerNumber( SphericalParticle nucleon ){
+    private int mapNucleonToLayerNumber( SphericalParticle nucleon ) {
         // Note: This algorithm for layering was made up to look reasonable,
         // and can be modified as needed to produce better looking nuclei.
         double maxNucleusRadius = Neutron.RADIUS * 6;
         double distanceFromCenter = nucleon.getPosition().getDistance( atom.getPosition() );
-        return Math.min( (int)Math.floor( distanceFromCenter / (maxNucleusRadius / NUM_NUCLEUS_LAYERS )), NUM_NUCLEUS_LAYERS - 1 );
+        return Math.min( (int) Math.floor( distanceFromCenter / ( maxNucleusRadius / NUM_NUCLEUS_LAYERS ) ), NUM_NUCLEUS_LAYERS - 1 );
     }
 
     /**
@@ -170,10 +157,10 @@ public class SchematicAtomNode extends PNode {
      * @param nucleon
      * @param nucleonNode
      */
-    private void updateNucleonLayer( SphericalParticle nucleon, SubatomicParticleNode nucleonNode ){
+    private void updateNucleonLayer( SphericalParticle nucleon, SubatomicParticleNode nucleonNode ) {
         int currentLayerNumber = getNucleusLayerIndex( nucleonNode );
         int targetLayerNumber = mapNucleonToLayerNumber( nucleon );
-        if (currentLayerNumber != targetLayerNumber){
+        if ( currentLayerNumber != targetLayerNumber ) {
             removeNucleonNodeFromLayers( nucleonNode );
             nucleusLayers.get( targetLayerNumber ).addChild( nucleonNode );
         }
@@ -185,20 +172,20 @@ public class SchematicAtomNode extends PNode {
      * @param nucleonNode
      * @return
      */
-    private int getNucleusLayerIndex( SubatomicParticleNode nucleonNode ){
+    private int getNucleusLayerIndex( SubatomicParticleNode nucleonNode ) {
         int index;
-        for (index = 0; index < NUM_NUCLEUS_LAYERS; index++){
-            if ( nucleusLayers.get( index ).isAncestorOf( nucleonNode )){
+        for ( index = 0; index < NUM_NUCLEUS_LAYERS; index++ ) {
+            if ( nucleusLayers.get( index ).isAncestorOf( nucleonNode ) ) {
                 break;
             }
         }
         return index;
     }
 
-    private boolean removeNucleonNodeFromLayers( SubatomicParticleNode nucleonNode ){
+    private boolean removeNucleonNodeFromLayers( SubatomicParticleNode nucleonNode ) {
         boolean found = false;
-        for (PNode nucleusLayer : nucleusLayers){
-            if ( nucleusLayer.removeChild( nucleonNode ) != null){
+        for ( PNode nucleusLayer : nucleusLayers ) {
+            if ( nucleusLayer.removeChild( nucleonNode ) != null ) {
                 found = true;
                 break;
             }
@@ -213,30 +200,30 @@ public class SchematicAtomNode extends PNode {
      *
      * @param proton
      */
-    protected void addProtonNode( final Proton proton ){
+    protected void addProtonNode( final Proton proton ) {
 
         // Create the node to represent this particle.
         final ProtonNode protonNode = new ProtonNode( mvt, proton );
         proton.addPositionListener( new SimpleObserver() {
             public void update() {
-                if ( !proton.isUserControlled() ){
+                if ( !proton.isUserControlled() ) {
                     updateNucleonLayer( proton, protonNode );
                 }
             }
-        });
+        } );
 
         // Set up the removal of this particle's representation when the
         // particle itself is removed.
-        proton.addListener( new SphericalParticle.Adapter(){
+        proton.addListener( new SphericalParticle.Adapter() {
             @Override
             public void removedFromModel( SphericalParticle particle ) {
                 removeNucleonNodeFromLayers( protonNode );
                 proton.removeListener( this );
             }
-        });
+        } );
 
         // Set the pickability of the new node.
-        if ( !protonsAreInteractive ){
+        if ( !protonsAreInteractive ) {
             protonNode.setPickable( false );
             protonNode.setChildrenPickable( false );
         }
@@ -252,29 +239,29 @@ public class SchematicAtomNode extends PNode {
      *
      * @param neutron
      */
-    protected void addNeutronNode( final Neutron neutron ){
+    protected void addNeutronNode( final Neutron neutron ) {
         // Create the node to represent this particle.
         final NeutronNode neutronNode = new NeutronNode( mvt, neutron );
         neutron.addPositionListener( new SimpleObserver() {
             public void update() {
-                if ( !neutron.isUserControlled() ){
+                if ( !neutron.isUserControlled() ) {
                     updateNucleonLayer( neutron, neutronNode );
                 }
             }
-        });
+        } );
 
         // Set up the removal of this particle's representation when the
         // particle itself is removed.
-        neutron.addListener( new SphericalParticle.Adapter(){
+        neutron.addListener( new SphericalParticle.Adapter() {
             @Override
             public void removedFromModel( SphericalParticle particle ) {
                 removeNucleonNodeFromLayers( neutronNode );
                 neutron.removeListener( this );
             }
-        });
+        } );
 
         // Set the pickability of the new node.
-        if ( !neutronsAreInteractive ){
+        if ( !neutronsAreInteractive ) {
             neutronNode.setPickable( false );
             neutronNode.setChildrenPickable( false );
         }
@@ -290,16 +277,16 @@ public class SchematicAtomNode extends PNode {
      *
      * @param electron
      */
-    protected void addElectronNode( final Electron electron ){
+    protected void addElectronNode( final Electron electron ) {
 
         // Create the node to represent this particle.
-        final ElectronNode electronNode = new ElectronNode( mvt, electron ){{
+        final ElectronNode electronNode = new ElectronNode( mvt, electron ) {{
             orbitalViewProperty.addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( orbitalViewProperty.get() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
                 }
             } );
-            atom.addAtomListener( new AtomListener.Adapter(){
+            atom.addAtomListener( new AtomListener.Adapter() {
                 @Override
                 public void configurationChanged() {
                     setVisible( orbitalViewProperty.get() == OrbitalView.PARTICLES || !atom.containsElectron( electron ) );
@@ -318,10 +305,10 @@ public class SchematicAtomNode extends PNode {
                 electronParticleLayer.removeChild( electronNode );
                 electron.removeListener( this );
             }
-        });
+        } );
 
         // Set the pickability of the new node.
-        if ( !electronsAreInteractive ){
+        if ( !electronsAreInteractive ) {
             electronNode.setPickable( false );
             electronNode.setChildrenPickable( false );
         }
