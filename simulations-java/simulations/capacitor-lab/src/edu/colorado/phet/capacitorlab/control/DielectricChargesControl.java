@@ -29,12 +29,6 @@ public class DielectricChargesControl extends JPanel {
         JRadioButton showAllRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_ALL_CHARGES, dielectricChargeView, DielectricChargeView.TOTAL );
         JRadioButton showExcessRadioButton = new PropertyRadioButton<DielectricChargeView>( CLStrings.SHOW_EXCESS_CHARGES, dielectricChargeView, DielectricChargeView.EXCESS );
 
-        //REVIEW: PropertyRadioButton makes ButtonGroup unnecessary, this code should be removed.
-        ButtonGroup group = new ButtonGroup();
-        group.add( hideAllRadioButton );
-        group.add( showAllRadioButton );
-        group.add( showExcessRadioButton );
-
         // layout
         GridPanel innerPanel = new GridPanel();
         innerPanel.setAnchor( Anchor.WEST );
