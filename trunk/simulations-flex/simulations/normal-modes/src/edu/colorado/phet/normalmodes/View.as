@@ -19,12 +19,11 @@ public class View extends Sprite {
     public var myMainView: MainView;		//MainView
     private var myModel: Model;			    //model of shaker bar system
 
-
-    private var _pixPerMeter: Number;		    //scale: number of pixels in 1 meter
+    private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var LinMeters:Number;           //distance between fixed walls in meters
     private var LinPix:Number;              //distance between fixed walls in pixels
     private var L0Spring;                   //equilibrium length of spring in pixels
-    private var _leftEdgeY:Number;           //y-position of leftEdge in pixels measured down from top of screen
+    private var _leftEdgeY:Number;          //y-position of leftEdge in pixels measured down from top of screen
     private var _leftEdgeX:Number;          //x-position of leftEdge in pixels measured right from left edge of screen
     private var mass_arr:Array;             //array of massView instances , index 0 = mobile mass 1
     private var spring_arr:Array;           //array of spring sprites

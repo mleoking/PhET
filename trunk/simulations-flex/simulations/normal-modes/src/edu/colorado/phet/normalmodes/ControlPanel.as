@@ -3,7 +3,8 @@ import edu.colorado.phet.normalmodes.*;
 
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
-import edu.colorado.phet.normalmodes.HorizontalSlider;
+import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
+import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
 import edu.colorado.phet.normalmodes.SpriteUIComponent;
 
 import flash.display.*;
