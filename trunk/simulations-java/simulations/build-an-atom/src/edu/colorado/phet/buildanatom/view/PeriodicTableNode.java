@@ -84,80 +84,75 @@ public class PeriodicTableNode extends PNode {
 
     private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
         ElementCell elementCell = createCellForElement( atom, atomicNumber, backgroundColor );
-        final Point gridPoint = getGridPoint( atomicNumber );
+        final Point gridPoint = getPeriodicTableGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
         elementCell.setOffset( x, y );
         table.addChild( elementCell );
     }
 
-    //REVIEW doc looks like sentence is incomplete, a 1-index what? And I don't understand what's going on here.
-    //  This looks error prone. And there are 2 "if ( i >= 19 && i <= 36 )" cases.
-
     /**
-     * Reports (row,column) on the grid, with a 1-index
+     * Returns a point that represents the row and column on a grid that
+     * corresponds to the layout of the standard periodic table.
      *
-     * @param i
+     * @param atomicNumber
      * @return
      */
-    private Point getGridPoint( int i ) {
+    private Point getPeriodicTableGridPoint( int atomicNumber ) {
         //http://www.ptable.com/ was useful here
-        if ( i == 1 ) {
+        if ( atomicNumber == 1 ) {
             return new Point( 1, 1 );
         }
-        if ( i == 2 ) {
+        if ( atomicNumber == 2 ) {
             return new Point( 1, 18 );
         }
-        else if ( i == 3 ) {
+        else if ( atomicNumber == 3 ) {
             return new Point( 2, 1 );
         }
-        else if ( i == 4 ) {
+        else if ( atomicNumber == 4 ) {
             return new Point( 2, 2 );
         }
-        else if ( i >= 5 && i <= 10 ) {
-            return new Point( 2, i + 8 );
+        else if ( atomicNumber >= 5 && atomicNumber <= 10 ) {
+            return new Point( 2, atomicNumber + 8 );
         }
-        else if ( i == 11 ) {
+        else if ( atomicNumber == 11 ) {
             return new Point( 3, 1 );
         }
-        else if ( i == 12 ) {
+        else if ( atomicNumber == 12 ) {
             return new Point( 3, 2 );
         }
-        else if ( i >= 13 && i <= 18 ) {
-            return new Point( 3, i );
+        else if ( atomicNumber >= 13 && atomicNumber <= 18 ) {
+            return new Point( 3, atomicNumber );
         }
-        else if ( i >= 19 && i <= 36 ) {
-            return new Point( 4, i - 18 );
+        else if ( atomicNumber >= 19 && atomicNumber <= 36 ) {
+            return new Point( 4, atomicNumber - 18 );
         }
-        else if ( i >= 37 && i <= 54 ) {
-            return new Point( 5, i - 36 );
+        else if ( atomicNumber >= 37 && atomicNumber <= 54 ) {
+            return new Point( 5, atomicNumber - 36 );
         }
-        else if ( i >= 19 && i <= 36 ) {
-            return new Point( 4, i - 36 );
-        }
-        else if ( i == 55 ) {
+        else if ( atomicNumber == 55 ) {
             return new Point( 6, 1 );
         }
-        else if ( i == 56 ) {
+        else if ( atomicNumber == 56 ) {
             return new Point( 6, 2 );
         }
-        else if ( i >= 57 && i <= 71 ) {
+        else if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
             return new Point( 6, 3 );
         }
-        else if ( i >= 72 && i <= 86 ) {
-            return new Point( 6, i - 68 );
+        else if ( atomicNumber >= 72 && atomicNumber <= 86 ) {
+            return new Point( 6, atomicNumber - 68 );
         }
-        else if ( i == 87 ) {
+        else if ( atomicNumber == 87 ) {
             return new Point( 7, 1 );
         }
-        else if ( i == 88 ) {
+        else if ( atomicNumber == 88 ) {
             return new Point( 7, 2 );
         }
-        else if ( i >= 89 && i <= 103 ) {
+        else if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
             return new Point( 7, 3 );
         }
-        else if ( i >= 104 && i <= 118 ) {
-            return new Point( 7, i - 100 );
+        else if ( atomicNumber >= 104 && atomicNumber <= 118 ) {
+            return new Point( 7, atomicNumber - 100 );
         }
         return new Point( 1, 1 );
     }
