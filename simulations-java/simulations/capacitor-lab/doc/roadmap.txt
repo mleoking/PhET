@@ -17,6 +17,10 @@ EFieldDetector
 
 Misc notes:
 
+- Subclasses of AbstractCircuit and Wire all have circuit topology diagrams in their class documentation.
+Labels in the diagrams match the labels used in the design document, and you may find these useful for
+determining which capacitors are in series or parallel, which wires connect to which components, etc.
+
 - Model units are meters, Farad, Coulombs, Volts and Joules.  These are not ideal units for working at this scale,
 but they match the design document, and this was the team's preference.  Consequently, you'll see small model values
 in the code, like 0.005 meters for plate separation.
