@@ -8,7 +8,7 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.Problem;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
-import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Base class for views of problems that present a schematic view of an atom
@@ -24,11 +24,11 @@ public abstract class SchematicToQuestionView extends ToQuestionView {
      * Constructor.
      */
     public SchematicToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
-            String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
+                                    String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
-        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true ) ;
+        final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT, new OrbitalViewProperty( OrbitalView.PARTICLES ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), ProblemView.SCHEMATIC_PROBLEM_MVT, new Property<OrbitalView>( OrbitalView.PARTICLES ) ) {{
             setPickable( false );
             setChildrenPickable( false );
         }};

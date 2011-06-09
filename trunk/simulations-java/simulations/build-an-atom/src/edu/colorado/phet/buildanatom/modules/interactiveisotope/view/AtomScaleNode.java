@@ -45,7 +45,7 @@ public class AtomScaleNode extends PNode {
 
     private static final Color COLOR = new Color( 228, 194, 167 );
     private static final Dimension2D SIZE = new PDimension( 320, 125 );
-    private static final double WIEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70; //REVIEW name typo
+    private static final double WEIGH_PLATE_WIDTH = SIZE.getWidth() * 0.70;
     private static final Stroke STROKE = new BasicStroke( 2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
     private static final Paint STROKE_PAINT = Color.BLACK;
 
@@ -136,10 +136,10 @@ public class AtomScaleNode extends PNode {
         // Draw the top of the weigh plate.  This is meant to look like a
         // tilted rectangle.
         DoubleGeneralPath weighPlateTopShape = new DoubleGeneralPath();
-        weighPlateTopShape.moveTo( centerX - WIEIGH_PLATE_WIDTH * 0.35, 0 );
-        weighPlateTopShape.lineTo( centerX + WIEIGH_PLATE_WIDTH * 0.35, 0 );
-        weighPlateTopShape.lineTo( centerX + WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
-        weighPlateTopShape.lineTo( centerX - WIEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
+        weighPlateTopShape.moveTo( centerX - WEIGH_PLATE_WIDTH * 0.35, 0 );
+        weighPlateTopShape.lineTo( centerX + WEIGH_PLATE_WIDTH * 0.35, 0 );
+        weighPlateTopShape.lineTo( centerX + WEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
+        weighPlateTopShape.lineTo( centerX - WEIGH_PLATE_WIDTH / 2, SIZE.getHeight() * 0.125 );
         weighPlateTopShape.closePath();
         Rectangle2D weighPlateTopShapeBounds = weighPlateTopShape.getGeneralPath().getBounds2D();
         GradientPaint weighPlateTopPaint = new GradientPaint(
@@ -153,8 +153,8 @@ public class AtomScaleNode extends PNode {
         addChild( weighPlateTop );
 
         // Add the front of the weigh plate.
-        Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WIEIGH_PLATE_WIDTH / 2,
-                                                                     SIZE.getHeight() * 0.125, WIEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
+        Rectangle2D frontOfWeighPlateShape = new Rectangle2D.Double( centerX - WEIGH_PLATE_WIDTH / 2,
+                                                                     SIZE.getHeight() * 0.125, WEIGH_PLATE_WIDTH, SIZE.getHeight() * 0.15 );
         addChild( new PhetPPath( frontOfWeighPlateShape, COLOR, STROKE, STROKE_PAINT ) );
     }
 

@@ -6,7 +6,7 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
 import edu.colorado.phet.buildanatom.modules.game.model.SchematicToSymbolProblem;
 import edu.colorado.phet.buildanatom.view.OrbitalView;
-import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Piccolo view for game problem where the user is shown the schematic view of an atom and is asked to fill in the symbol.
@@ -16,6 +16,7 @@ import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
  */
 public class SchematicToSymbolView extends ToSymbolProblemView {
     private final SchematicAtomNode gameAtomModelNode;
+
     /**
      * Constructor.
      */
@@ -23,7 +24,7 @@ public class SchematicToSymbolView extends ToSymbolProblemView {
         super( model, canvas, problem );
         final BuildAnAtomModel buildAnAtomModel = new BuildAnAtomModel( getClock(), problem.getAnswer(), true );
 
-        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), SCHEMATIC_PROBLEM_MVT, new OrbitalViewProperty( OrbitalView.PARTICLES ) ){{
+        gameAtomModelNode = new SchematicAtomNode( buildAnAtomModel.getAtom(), SCHEMATIC_PROBLEM_MVT, new Property<OrbitalView>( OrbitalView.PARTICLES ) ) {{
             setPickable( false );
             setChildrenPickable( false );
         }};

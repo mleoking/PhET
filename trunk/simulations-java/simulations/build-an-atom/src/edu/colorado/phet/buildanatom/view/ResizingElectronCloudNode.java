@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -14,6 +12,7 @@ import edu.colorado.phet.buildanatom.model.Electron;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -45,7 +44,7 @@ public class ResizingElectronCloudNode extends PNode {
     /**
      * Constructor.
      */
-    public ResizingElectronCloudNode( final ModelViewTransform mvt, final OrbitalViewProperty orbitalView, final Atom atom ) {
+    public ResizingElectronCloudNode( final ModelViewTransform mvt, final Property<OrbitalView> orbitalView, final Atom atom ) {
 
         // This representation only pays attention to the first two shells.
         // This may need to be changed if this is ever expanded to use more
@@ -64,7 +63,7 @@ public class ResizingElectronCloudNode extends PNode {
                 double centerX = electronShells.get( 0 ).getCenterLocation().getX();
                 double centerY = electronShells.get( 0 ).getCenterLocation().getY();
                 final Shape electronShellShape = mvt.modelToView( new Ellipse2D.Double( centerX - radius,
-                        centerY - radius, radius * 2, radius * 2 ) );
+                                                                                        centerY - radius, radius * 2, radius * 2 ) );
                 electronCloudNode.setPathTo( electronShellShape );
                 Function.LinearFunction electronCountToAlphaMapping = new Function.LinearFunction( 0, getTotalElectronCapacity(), 50, 175 );//Map to alpha values between 50 and 200
                 int alpha = getElectronCount() == 0 ? 0 : (int) electronCountToAlphaMapping.evaluate( getElectronCount() );//But if there are no electrons, be transparent
@@ -74,7 +73,7 @@ public class ResizingElectronCloudNode extends PNode {
                         new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), alpha ),
                         new Point2D.Double( electronShellShape.getBounds2D().getWidth() / 3, electronShellShape.getBounds2D().getHeight() / 3 ),
                         new Color( CLOUD_BASE_COLOR.getRed(), CLOUD_BASE_COLOR.getGreen(), CLOUD_BASE_COLOR.getBlue(), 0 ) );
-                        electronCloudNode.setPaint( shellGradientPaint );
+                electronCloudNode.setPaint( shellGradientPaint );
             }
         };
 

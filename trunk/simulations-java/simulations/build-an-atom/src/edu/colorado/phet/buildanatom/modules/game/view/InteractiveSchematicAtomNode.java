@@ -2,18 +2,11 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 
-import edu.colorado.phet.buildanatom.model.AtomListener;
-import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
-import edu.colorado.phet.buildanatom.model.SphericalParticle;
-import edu.colorado.phet.buildanatom.view.OrbitalViewProperty;
+import edu.colorado.phet.buildanatom.model.*;
+import edu.colorado.phet.buildanatom.view.OrbitalView;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
@@ -36,7 +29,7 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
     /**
      * Constructor.
      */
-    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform mvt, final OrbitalViewProperty orbitalView ) {
+    public InteractiveSchematicAtomNode( final BuildAnAtomModel model, ModelViewTransform mvt, final Property<OrbitalView> orbitalView ) {
         super( model.getAtom(), mvt, orbitalView );
 
         this.model = model;
@@ -91,21 +84,21 @@ public class InteractiveSchematicAtomNode extends SchematicAtomNode {
                 @Override
                 public void configurationChanged() {
                     // Only visible when there are no nucleons in the atom.
-                    setVisible (model.getAtom().getMassNumber() == 0);
+                    setVisible( model.getAtom().getMassNumber() == 0 );
                 }
-            });
+            } );
 
             // Create the marker.
             DoubleGeneralPath nucleusXMarkerModelCoords = new DoubleGeneralPath();
             double xMarkerSize = Proton.RADIUS; // Arbitrary, adjust as desired.
             nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
-                    model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+                                              model.getAtom().getPosition().getY() - xMarkerSize / 2 );
             nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
-                    model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+                                              model.getAtom().getPosition().getY() + xMarkerSize / 2 );
             nucleusXMarkerModelCoords.moveTo( model.getAtom().getPosition().getX() - xMarkerSize / 2,
-                    model.getAtom().getPosition().getY() + xMarkerSize / 2 );
+                                              model.getAtom().getPosition().getY() + xMarkerSize / 2 );
             nucleusXMarkerModelCoords.lineTo( model.getAtom().getPosition().getX() + xMarkerSize / 2,
-                    model.getAtom().getPosition().getY() - xMarkerSize / 2 );
+                                              model.getAtom().getPosition().getY() - xMarkerSize / 2 );
             Shape nucleusXMarkerShape = mvt.modelToView( nucleusXMarkerModelCoords.getGeneralPath() );
             PNode nucleusXMarkerNode = new PhetPPath( nucleusXMarkerShape, new BasicStroke( 4f ), new Color( 255, 0, 0, 75 ) );
             addChild( nucleusXMarkerNode );

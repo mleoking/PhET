@@ -20,6 +20,7 @@ import edu.colorado.phet.buildanatom.model.BuildAnAtomModel;
 import edu.colorado.phet.buildanatom.modules.game.view.InteractiveSchematicAtomNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -52,7 +53,7 @@ public class BuildAnAtomCanvas extends PhetPCanvas implements Resettable {
     private final ModelViewTransform mvt;
 
     // Variable needed to able to reset the canvas.
-    private final OrbitalViewProperty orbitalViewProperty = new OrbitalViewProperty( OrbitalView.PARTICLES );
+    private final Property<OrbitalView> orbitalViewProperty = new Property<OrbitalView>( OrbitalView.PARTICLES );
     private final BooleanProperty showName = new BooleanProperty( true );
     private final BooleanProperty showNeutralIon = new BooleanProperty( true );
     private final BooleanProperty showStableUnstable = new BooleanProperty( true );

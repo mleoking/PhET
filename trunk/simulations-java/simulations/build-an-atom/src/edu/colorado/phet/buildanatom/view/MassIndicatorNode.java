@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -13,6 +11,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomResources;
 import edu.colorado.phet.buildanatom.model.Atom;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.ElectronShell;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -31,17 +30,17 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class MassIndicatorNode extends PNode {
     private static final double WIDTH = 90; // The image will define the aspect ratio and therefore the height.
 
-    public MassIndicatorNode( final Atom atom, final OrbitalViewProperty orbitalViewProperty ) {
+    public MassIndicatorNode( final Atom atom, final Property<OrbitalView> orbitalViewProperty ) {
 
         final PImage weighScaleImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_scale.png" ) );
         weighScaleImageNode.setScale( WIDTH / weighScaleImageNode.getFullBoundsReference().width );
         final double HEIGHT = weighScaleImageNode.getHeight();
-        addChild ( weighScaleImageNode );
+        addChild( weighScaleImageNode );
 
-        final PPath readout = new PhetPPath(Color.WHITE, new BasicStroke(1f), Color.LIGHT_GRAY){{
-            Shape readoutBackgroundShape = new RoundRectangle2D.Double(0, 0,
-                    WIDTH * 0.4,
-                    HEIGHT * 0.31, 4, 4);
+        final PPath readout = new PhetPPath( Color.WHITE, new BasicStroke( 1f ), Color.LIGHT_GRAY ) {{
+            Shape readoutBackgroundShape = new RoundRectangle2D.Double( 0, 0,
+                                                                        WIDTH * 0.4,
+                                                                        HEIGHT * 0.31, 4, 4 );
             setPathTo( readoutBackgroundShape );
         }};
         addChild( readout );
@@ -65,7 +64,7 @@ public class MassIndicatorNode extends PNode {
 
         atomNode.addChild( new ResizingElectronCloudNode( mvt, orbitalViewProperty, atom ) );
 
-        double nucleusWidth=1;
+        double nucleusWidth = 1;
         atomNode.addChild( new PhetPPath( new Ellipse2D.Double( -nucleusWidth / 2, -nucleusWidth / 2, nucleusWidth, nucleusWidth ), Color.red ) {{
             setOffset( atomNode.getFullBounds().getCenter2D() );
             final AtomListener updateNucleusNode = new AtomListener.Adapter() {
@@ -97,10 +96,10 @@ public class MassIndicatorNode extends PNode {
                 }
                 else {
                     if ( atom.getElectronShells().get( 1 ).getNumElectrons() == 0 ) {
-                        y = atomNode.getFullBoundsReference().height*0.9;
+                        y = atomNode.getFullBoundsReference().height * 0.9;
                     }
                     else {
-                        y = atomNode.getFullBoundsReference().height *0.6;
+                        y = atomNode.getFullBoundsReference().height * 0.6;
                     }
                 }
                 atomNode.setOffset( weighScaleImageNode.getFullBoundsReference().getCenterX(), y );
@@ -111,7 +110,7 @@ public class MassIndicatorNode extends PNode {
             public void update() {
                 updateAtomOffset.configurationChanged();
             }
-        });
+        } );
 
         // There is a tweak factor here to set the vertical relationship between
         // the atom and scale.
@@ -121,14 +120,14 @@ public class MassIndicatorNode extends PNode {
         // readout.
         readout.setOffset(
                 weighScaleImageNode.getFullBoundsReference().getCenterX() - readout.getFullBoundsReference().width / 2,
-                weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 2.5);
+                weighScaleImageNode.getFullBoundsReference().getMaxX() - readout.getFullBoundsReference().height - 2.5 );
 
         // Add the test to the readout.
         final AtomListener readoutUpdater = new AtomListener.Adapter() {
             @Override
             public void configurationChanged() {
                 readoutPText.setText( atom.getMassNumber() + "" );
-                readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY()-readoutPText.getFullBounds().getHeight()/2);
+                readoutPText.setOffset( readout.getFullBounds().getCenterX() - readoutPText.getFullBounds().getWidth() / 2, readout.getFullBounds().getCenterY() - readoutPText.getFullBounds().getHeight() / 2 );
             }
         };
         atom.addAtomListener( readoutUpdater );
