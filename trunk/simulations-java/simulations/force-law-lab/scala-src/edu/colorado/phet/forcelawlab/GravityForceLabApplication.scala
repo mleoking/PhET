@@ -367,8 +367,6 @@ object ForceLawBorders {
     }
 }
 
-class ForceLawLabApplication
-
 class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
 }
