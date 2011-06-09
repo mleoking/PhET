@@ -39,7 +39,7 @@ public class Combination1Circuit extends AbstractCircuit {
     private final ArrayList<Capacitor> capacitors; // order is significant
     private final ArrayList<Wire> wires; // order is significant
 
-    public Combination1Circuit( CircuitConfig config ) {
+    public Combination1Circuit( final CircuitConfig config ) {
         super( CLStrings.COMBINATION_1, config.clock, config.mvt, config.batteryLocation );
 
         // capacitors
@@ -56,19 +56,19 @@ public class Combination1Circuit extends AbstractCircuit {
             x += config.capacitorXSpacing;
             c3 = new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
 
-            capacitors = new ArrayList<Capacitor>();
-            capacitors.add( c1 );
-            capacitors.add( c2 );
-            capacitors.add( c3 );
+            capacitors = new ArrayList<Capacitor>() {{
+                add( c1 );
+                add( c2 );
+                add( c3 );
+            }};
         }
 
         // wires
-        {
-            wires = new ArrayList<Wire>();
-            wires.add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c1, c3 ) );
-            wires.add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
-            wires.add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c2, c3 ) );
-        }
+        wires = new ArrayList<Wire>() {{
+            add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c1, c3 ) );
+            add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2 ) );
+            add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, getBattery(), c2, c3 ) );
+        }};
 
         // observe battery
         getBattery().addVoltageObserver( new SimpleObserver() {
