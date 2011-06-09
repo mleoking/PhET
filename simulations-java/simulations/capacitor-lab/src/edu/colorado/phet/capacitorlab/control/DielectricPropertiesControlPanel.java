@@ -56,7 +56,12 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
 
         constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
 
-        //REVIEW: Document this callback: why is it only doing something if the type is CustomDielectricMaterial?  Why is it okay that it doesn't do something for other types?
+        /*
+         * The dielectric constant control serves as both a control (for custom dielectrics)
+         * and a display (for all dielectrics, including "real world" dielectrics whose constant are immutable.)
+         * If the dielectric constant control is changed when we have a custom dielectric, we must update the model.
+         * Otherwise the control was changed to display the constant of an immutable dielectric, and we do nothing.
+         */
         constantControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if ( capacitor.getDielectricMaterial() instanceof CustomDielectricMaterial ) {
