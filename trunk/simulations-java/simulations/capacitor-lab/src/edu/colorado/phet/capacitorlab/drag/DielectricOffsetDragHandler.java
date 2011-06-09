@@ -50,6 +50,8 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = pMouse.getX() - clickXOffset;
         double xModel = mvt.viewToModelDelta( xView, 0 ).getX();
+
+        //REVIEW: consider using MathUtil.clamp in cases like this
         if ( xModel > valueRange.getMax() ) {
             xModel = valueRange.getMax();
         }
