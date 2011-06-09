@@ -45,6 +45,11 @@ public class BatteryConnectionButtonNode extends TextButtonNode {
         } );
     }
 
+    // This method must be called if the model element has a longer lifetime than this control.
+    public void cleanup() {
+        //FUTURE circuit.removeCircuitChangeListener
+    }
+
     private static String getText( boolean isBatteryConnected ) {
         return isBatteryConnected ? CLStrings.DISCONNECT_BATTERY : CLStrings.CONNECT_BATTERY;
     }
