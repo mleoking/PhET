@@ -1,4 +1,5 @@
-package edu.colorado.phet.forcelawlab
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.forcelawlab.view
 
 import java.awt.{Dimension, Rectangle}
 import javax.swing.event.{ChangeListener, ChangeEvent}

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.view
 
 import edu.umd.cs.piccolo.nodes.PText
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
@@ -11,6 +11,8 @@ import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import java.text.NumberFormat
 import edu.colorado.phet.scalacommon.Predef._
+import edu.colorado.phet.forcelawlab.model.{ForceLawLabModel, Mass}
+import edu.colorado.phet.forcelawlab.ForceLawLabResources
 
 //Draws and arrow and a numerical readout (with units) of the gravitational force applied to a mass.
 class ForceLabelNode(target: Mass, source: Mass, transform: ModelViewTransform, model: ForceLawLabModel,

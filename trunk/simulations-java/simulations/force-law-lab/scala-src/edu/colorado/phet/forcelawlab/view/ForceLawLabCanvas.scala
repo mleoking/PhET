@@ -1,4 +1,5 @@
-package edu.colorado.phet.forcelawlab
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.forcelawlab.view
 
 import collection.mutable.ArrayBuffer
 import edu.umd.cs.piccolo.event.{PBasicInputEventHandler, PInputEvent}
@@ -7,6 +8,7 @@ import java.awt.{Font, Color}
 import edu.colorado.phet.common.piccolophet.nodes._
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
 import java.text.NumberFormat
+import edu.colorado.phet.forcelawlab.model.ForceLawLabModel
 
 /**
  * Canvas for Force Law Lab

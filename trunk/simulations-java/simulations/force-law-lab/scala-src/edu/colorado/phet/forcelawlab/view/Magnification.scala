@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.scalacommon.util.Observable
 

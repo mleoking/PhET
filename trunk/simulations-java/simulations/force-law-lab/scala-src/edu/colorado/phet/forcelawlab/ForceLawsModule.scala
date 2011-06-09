@@ -5,7 +5,8 @@ import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.common.phetcommon.application.Module
 import java.lang.Math._
 import java.awt.Color
-import edu.colorado.phet.common.phetcommon.application.Module._
+import model.ForceLawLabModel
+import view.{ForceLawLabControlPanel, Magnification, TinyDecimalFormat, ForceLawLabCanvas}
 
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   def massToRadiusFn(m: Double) = pow(m, 1 / 3.0) / 10.0 * 4.0

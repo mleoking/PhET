@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.model
 
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable

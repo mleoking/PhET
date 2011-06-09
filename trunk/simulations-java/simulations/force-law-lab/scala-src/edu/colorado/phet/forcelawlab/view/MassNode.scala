@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import java.awt.Color
@@ -10,6 +10,7 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint
 import java.awt.geom.{Point2D, Ellipse2D}
 import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.forcelawlab.model.Mass
 
 //Draws a single mass, including a label for its name
 class MassNode(mass: Mass, transform: ModelViewTransform, color: Color, magnification: Magnification, textOffset: () => Double) extends PNode {

@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
+import edu.colorado.phet.forcelawlab.model.ForceLawLabModel
+import edu.colorado.phet.forcelawlab.ForceLawLabResources
 
 class ForceLawLabControlPanel(model: ForceLawLabModel, resetFunction: () => Unit) extends ControlPanel {
 

@@ -1,4 +1,5 @@
-package edu.colorado.phet.forcelawlab
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
@@ -10,6 +11,8 @@ import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.PNode
 import edu.umd.cs.piccolo.nodes.PImage
 import java.awt.geom.{Rectangle2D, Ellipse2D, Line2D}
+import edu.colorado.phet.forcelawlab.model.Mass
+import edu.colorado.phet.forcelawlab.ForceLawLabResources
 
 class CharacterNode(mass: Mass, mass2: Mass, transformMV: ModelViewTransform, leftOfObject: Boolean, gravityForce: () => Double,
                     minDragX: () => Double, maxDragX: () => Double) extends PNode {
