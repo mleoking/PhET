@@ -61,7 +61,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
     // value
     private static final NumberFormat VALUE_FORMAT = new DecimalFormat( "0.00" );
-    private static final Font VALUE_FONT = new PhetFont( 14 );
+    private static final Font VALUE_FONT = new PhetFont( 16 );
     private static final Color VALUE_COLOR = Color.BLACK;
 
     private final Capacitor capacitor;
