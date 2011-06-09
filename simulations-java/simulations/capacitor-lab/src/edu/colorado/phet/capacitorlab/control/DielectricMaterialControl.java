@@ -105,6 +105,7 @@ public class DielectricMaterialControl extends JPanel {
 
         private static final double COLOR_CHIP_SIZE = 11;
 
+        //REVIEW: Why is this created eagerly and mutated instead of just on demand?  Is it for performance reasons?
         private final PPath colorChipNode;
 
         public DielectricMaterialRenderer() {
