@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 
@@ -23,6 +23,6 @@ public class HighlightingPeriodicTable extends PeriodicTableNode {
     protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
         // Create a cell that highlights when its configuration matches that
         // of the atom being watched.
-        return new PeriodicTableNode.HightlightingElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
+        return new HighlightingElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
     }
 }
