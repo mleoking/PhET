@@ -45,6 +45,7 @@ public class IntroductionModule extends CLModule {
 
         setControlPanel( new IntroductionControlPanel( this, model, canvas, globalProperties ) );
 
+        //REVIEW: Is it necessary to call reset() here?  If so, document why.  If not, remove it.
         reset();
     }
 
