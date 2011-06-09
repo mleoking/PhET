@@ -8,6 +8,7 @@
 package edu.colorado.phet.normalmodes.NiceComponents {
 import flash.display.CapsStyle;
 import flash.display.Graphics;
+import flash.display.JointStyle;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;
 import flash.events.FocusEvent;
@@ -24,6 +25,7 @@ public class VerticalSlider extends Sprite{
 
     //private var owner:Object;		    //container of this slider
     private var action: Function;	    //function passed in from Object containing this slider
+    private var _index:int;              //optional integer index labeling the slider
     private var lengthInPix: int; 	    //length of slider in pixels
     private var minVal: Number;		    //minimum output value of slider
     private var maxVal: Number;		    //maximum value
@@ -44,7 +46,7 @@ public class VerticalSlider extends Sprite{
     private var decimalPlaces: int;		//number of figures past decimal point in readout
     private var manualUpdating: Boolean;	//true if user is manually entering text in readout textfield
 
-    public function VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true ) {
+    public function VerticalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true ) {
         //this.owner = owner;
         this.action = action;
         this.lengthInPix = lengthInPix;
@@ -61,9 +63,9 @@ public class VerticalSlider extends Sprite{
         this.drawSlider();
         this.addChild( this.rail );
         this.addChild( this.knob );
-        this.knob.x = this.knob.width;
+        //this.knob.x = this.knob.width;
+        this.createReadoutFields();        //order important: must create readout field first, then label, since label positioning depends on height of readout field
         this.createLabel();
-        this.createReadoutFields()
         this.makeKnobGrabbable();
         //this.switchLabelAndReadoutPositions();
         //this.drawBorder();  //for testing only
@@ -91,9 +93,17 @@ public class VerticalSlider extends Sprite{
 				this.outputValue = this.minVal;
 				this.knob.y = this.lengthInPix;
 			}
-        this.action();
+        this.action( this._index );
         this.updateReadout();
     }//end setVal
+
+    public function set index( i:int ):void{
+        this._index = i;
+    }
+
+    public function get index():int{
+        return this._index;
+    }
 
     public function setScale( scale: Number ): void {
         this.scale = scale;
@@ -163,6 +173,7 @@ public class VerticalSlider extends Sprite{
         var kH: Number = 15; //knob height
         with(gK){
             lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
+            moveTo( 0, 0 );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
             moveTo( -0.5*kW, 0 );
@@ -192,7 +203,7 @@ public class VerticalSlider extends Sprite{
         this.tFormat1.size = 14;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = 0;// -0.5*this.label_txt.width;
-        this.label_txt.y = -0.5 * this.knob.height - this.label_txt.height;
+        this.label_txt.y = -0.5 * this.knob.height - this.readout_txt.height - this.label_txt.height;
         this.addChild( this.label_txt );
         //this.label_txt.border = true;      //for testing only
     }//end createLabel()
@@ -222,9 +233,9 @@ public class VerticalSlider extends Sprite{
         this.units_txt.text = "cm";       //placeholder only
         this.readout_txt.width = 60;
         this.readout_txt.x = this.rail.width / 2 - this.readout_txt.width;
-        this.readout_txt.y = - 0.7*knob.height;
+        this.readout_txt.y = -this.readout_txt.height - 0.5*knob.height;
         this.units_txt.x = this.rail.width / 2 ;
-        this.units_txt.y = - 0.7*knob.height;
+        this.units_txt.y = -this.readout_txt.height - 0.5*knob.height;
         if(this.readoutShown){
             this.addChild( this.readout_txt );
             this.addChild( this.units_txt );
@@ -311,7 +322,7 @@ public class VerticalSlider extends Sprite{
                 var factor:Number = thisSlider.scale * Math.pow( 10, thisSlider.decimalPlaces );
                 thisSlider.outputValue = Math.round( sliderValue*factor )/factor;
                 //trace( "HorizontalSlider.outputValue = "+thisSlider.outputValue );
-                thisSlider.action();
+                thisSlider.action( thisSlider._index);
             }
             else {
                 //set knob to nearest detented position
@@ -322,7 +333,7 @@ public class VerticalSlider extends Sprite{
                 //action only if output is changed
                 if ( newVal != thisSlider.outputValue ) {
                     thisSlider.outputValue = newVal;
-                    thisSlider.action();
+                    thisSlider.action( thisSlider._index);
                 }
             }//end else
 

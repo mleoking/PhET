@@ -21,7 +21,7 @@ public class View extends Sprite {
 
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var LinMeters:Number;           //distance between fixed walls in meters
-    private var LinPix:Number;              //distance between fixed walls in pixels
+    private var _LinPix:Number;              //distance between fixed walls in pixels
     private var L0Spring;                   //equilibrium length of spring in pixels
     private var _leftEdgeY:Number;          //y-position of leftEdge in pixels measured down from top of screen
     private var _leftEdgeX:Number;          //x-position of leftEdge in pixels measured right from left edge of screen
@@ -52,10 +52,10 @@ public class View extends Sprite {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this.LinMeters =  this.myModel.L;
-        this.LinPix = 0.8*this.stageW;
-        this._pixPerMeter = this.LinPix/this.LinMeters;
+        this._LinPix = 0.8*this.stageW;
+        this._pixPerMeter = this._LinPix/this.LinMeters;
         this._leftEdgeX = 0.1*this.stageW;
-        this._leftEdgeY = 0.4*this.stageH;
+        this._leftEdgeY = 0.3*this.stageH;
         var nMax:int = this.myModel.nMax;
         this.mass_arr = new Array( nMax );
         this.spring_arr = new Array( nMax + 1 );  //one more spring than masses
@@ -104,7 +104,7 @@ public class View extends Sprite {
     private function drawSprings():void{        //only the visible springs are drawn
         //var d:Number = 10;                      //radius of each mass in pixels, all distance in this function in pixels
         var nMasses:Number = this.myModel.N;    //number of masses in chain
-        this.L0Spring = ( this.LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
+        this.L0Spring = ( this._LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL:Number = 20;                  //length of each straight end of spring
         var nTurns:Number = 5;                  //number of turns in spring
         var w:Number = (this.L0Spring - 2*leadL)/nTurns;   //width of each turn
@@ -135,14 +135,14 @@ public class View extends Sprite {
         g.lineStyle(5, 0x444444, 1);   //gray walls
         g.moveTo(this._leftEdgeX, this._leftEdgeY - h/2);
         g.lineTo(this._leftEdgeX, this._leftEdgeY + h/2);
-        g.moveTo(this._leftEdgeX + this.LinPix, this._leftEdgeY - h/2);
-        g.lineTo(this._leftEdgeX + this.LinPix, this._leftEdgeY + h/2);
+        g.moveTo(this._leftEdgeX + this._LinPix, this._leftEdgeY - h/2);
+        g.lineTo(this._leftEdgeX + this._LinPix, this._leftEdgeY + h/2);
     }
 
     private function positionGraphics():void{
         var N:int = this.myModel.N;   //number of visible masses
         var nMax:int = this.myModel.nMax;
-        var separationInPix:Number = this.LinPix/(N + 1);   //center-to-center separation of mobile masses in chain
+        var separationInPix:Number = this._LinPix/(N + 1);   //center-to-center separation of mobile masses in chain
         var d:Number = 10;     //radius of each mass in pix
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
@@ -188,8 +188,12 @@ public class View extends Sprite {
         this.update();
     }
 
-    public function get pixPerMeter(){
+    public function get pixPerMeter():Number{
         return this._pixPerMeter;
+    }
+
+    public function get LinPix():Number{
+        return this._LinPix;
     }
 
     public function get leftEdgeX():Number{

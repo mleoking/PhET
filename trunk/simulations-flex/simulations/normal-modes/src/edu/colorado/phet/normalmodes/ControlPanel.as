@@ -145,6 +145,12 @@ public class ControlPanel extends Canvas {
     private function setNbrMasses():void{
         var nbrM:Number = this.nbrMassesSlider.getVal();
         this.myModel.setN( nbrM );
+        this.myMainView.mySliderArrayPanel.positionSliders();
+    }
+
+    public function setNbrMassesExternally( nbrM: int ): void {
+        this.nbrMassesSlider.setVal( nbrM );
+        this.myModel.setN( nbrM );
     }
 
     private function resetPositions():void{
