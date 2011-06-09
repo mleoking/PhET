@@ -15,8 +15,8 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
-import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
-import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
+import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorNode;
+import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -68,8 +68,8 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         capacitanceMeterNode = new CapacitanceMeterNode( model.capacitanceMeter, mvt, CLStrings.TOTAL_CAPACITANCE );
         plateChargeMeterNode = new PlateChargeMeterNode( model.plateChargeMeter, mvt, CLStrings.STORED_CHARGE );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.storedEnergyMeter, mvt, CLStrings.STORED_ENERGY );
-        VoltmeterView voltmeter = new VoltmeterView( model.voltmeter, mvt );
-        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.eFieldDetector, mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
+        VoltmeterNode voltmeterNode = new VoltmeterNode( model.voltmeter, mvt );
+        EFieldDetectorNode eFieldDetectorNode = new EFieldDetectorNode( model.eFieldDetector, mvt, eFieldReferenceMagnitude, globalProperties.dev, true /* eFieldDetectorSimplified */ );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -79,14 +79,8 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( capacitanceMeterNode );
         addChild( plateChargeMeterNode );
         addChild( storedEnergyMeterNode );
-        addChild( eFieldDetector.getBodyNode() );
-        addChild( eFieldDetector.getWireNode() );
-        addChild( eFieldDetector.getProbeNode() );
-        addChild( voltmeter.getBodyNode() );
-        addChild( voltmeter.getPositiveProbeNode() );
-        addChild( voltmeter.getPositiveWireNode() );
-        addChild( voltmeter.getNegativeProbeNode() );
-        addChild( voltmeter.getNegativeWireNode() );
+        addChild( eFieldDetectorNode );
+        addChild( voltmeterNode );
         addChild( shapesDebugParentNode );
 
         //REVIEW: consider using RichSimpleObserver in cases like this
