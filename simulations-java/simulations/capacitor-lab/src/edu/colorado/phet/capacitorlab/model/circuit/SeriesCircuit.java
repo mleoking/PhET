@@ -113,11 +113,11 @@ public class SeriesCircuit extends AbstractCircuit {
                 Capacitor capacitor = capacitors.get( i );
                 Wire topWire = wires.get( i );
                 Wire bottomWire = wires.get( i + 1 );
-                if ( capacitor.intersectsTopPlateShape( shape ) || topWire.intersects( shape ) ) {
+                if ( capacitor.intersectsTopPlate( shape ) || topWire.intersects( shape ) ) {
                     // intersects top plate or wire, sum voltage of this capacitor and all capacitors below it.
                     voltage = sumPlateVoltages( i );
                 }
-                else if ( capacitor.intersectsBottomPlateShape( shape ) || bottomWire.intersects( shape ) ) {
+                else if ( capacitor.intersectsBottomPlate( shape ) || bottomWire.intersects( shape ) ) {
                     // intersects bottom plate or wire, sum voltage of all capacitors below this one.
                     voltage = sumPlateVoltages( i + 1 );
                 }

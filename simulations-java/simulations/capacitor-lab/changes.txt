@@ -1,3 +1,4 @@
+6/8/11 simplify shaped-related method names in Capacitor
 # 1.00.12 (52878) Jun 8, 2011
 6/8/11 dev version published after completing all 2.00 tasks, but before code review or final test
 6/8/11 > added "Multiple Capacitors" tab

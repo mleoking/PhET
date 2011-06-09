@@ -100,7 +100,7 @@ public class ParallelCircuit extends AbstractCircuit {
     private boolean intersectsSomeTopPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
-            if ( capacitor.intersectsTopPlateShape( s ) ) {
+            if ( capacitor.intersectsTopPlate( s ) ) {
                 intersects = true;
                 break;
             }
@@ -112,7 +112,7 @@ public class ParallelCircuit extends AbstractCircuit {
     private boolean intersectsSomeBottomPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
-            if ( capacitor.intersectsBottomPlateShape( s ) ) {
+            if ( capacitor.intersectsBottomPlate( s ) ) {
                 intersects = true;
                 break;
             }

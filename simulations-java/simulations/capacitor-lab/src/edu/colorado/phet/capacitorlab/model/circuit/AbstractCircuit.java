@@ -181,7 +181,7 @@ public abstract class AbstractCircuit implements ICircuit {
     public double getEffectiveEFieldAt( Point3D location ) {
         double eField = 0;
         for ( Capacitor capacitor : getCapacitors() ) {
-            if ( capacitor.isBetweenPlatesShape( location ) ) {
+            if ( capacitor.isBetweenPlates( location ) ) {
                 eField = capacitor.getEffectiveEField();
                 break;
             }
@@ -193,11 +193,11 @@ public abstract class AbstractCircuit implements ICircuit {
     public double getPlatesDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         for ( Capacitor capacitor : getCapacitors() ) {
-            if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
+            if ( capacitor.isInsideDielectricBetweenPlates( location ) ) {
                 eField = capacitor.getPlatesDielectricEField();
                 break;
             }
-            else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
+            else if ( capacitor.isInsideAirBetweenPlates( location ) ) {
                 eField = capacitor.getPlatesAirEField();
                 break;
             }
@@ -209,11 +209,11 @@ public abstract class AbstractCircuit implements ICircuit {
     public double getDielectricEFieldAt( Point3D location ) {
         double eField = 0;
         for ( Capacitor capacitor : getCapacitors() ) {
-            if ( capacitor.isInsideDielectricBetweenPlatesShape( location ) ) {
+            if ( capacitor.isInsideDielectricBetweenPlates( location ) ) {
                 eField = capacitor.getDielectricEField();
                 break;
             }
-            else if ( capacitor.isInsideAirBetweenPlatesShape( location ) ) {
+            else if ( capacitor.isInsideAirBetweenPlates( location ) ) {
                 eField = capacitor.getAirEField();
                 break;
             }
