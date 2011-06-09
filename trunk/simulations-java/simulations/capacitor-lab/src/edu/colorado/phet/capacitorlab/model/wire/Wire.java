@@ -16,9 +16,9 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  * It contains a factory object that creates the wire shape.
  * The shape is used to display the wire, and to check continuity when measuring voltage.
  * <p/>
- * NOTE: It's the client's responsibility to ensure that all segments are connected. No checking is done here.
- * And in fact, the segments may not actually be connected, if that makes it more convenient for the view to make
- * them appear as if they are connected.
+ * Note that strict connectivity of the wire segments is not required. In fact, you'll notice that
+ * segment endpoints are often adjusted to accommodate the creation of wire shapes that look convincing
+ * in the view.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
