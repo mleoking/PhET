@@ -71,6 +71,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( eFieldDetector.getBodyNode() );
         addChild( eFieldDetector.getWireNode() );
         addChild( eFieldDetector.getProbeNode() );
+
+        //REVIEW: Why are children of the VoltmeterView passed in separately here in adjacent layers instead of just doing something more like addChild(voltmeterNode)?  Document or fix.
         addChild( voltmeter.getBodyNode() );
         addChild( voltmeter.getPositiveProbeNode() );
         addChild( voltmeter.getPositiveWireNode() );
