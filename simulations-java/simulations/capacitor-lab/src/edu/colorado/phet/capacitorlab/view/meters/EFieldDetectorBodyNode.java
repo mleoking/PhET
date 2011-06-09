@@ -315,12 +315,10 @@ import edu.umd.cs.piccolox.pswing.PSwing;
          * Zooming is based solely on vertical dimensions (height); width of the scene is irrelevant.
          */
         private void zoom() {
-            double viewportHeight = this.getFullBoundsReference().getHeight();
-            double sceneHeight = sceneNode.getFullBoundsReference().getHeight();
-            double plateVectorHeight = plateVectorNode.getFullBoundsReference().getHeight();
-            double labelsAndValuesHeight = sceneHeight - plateVectorHeight;
+            final double plateVectorHeight = plateVectorNode.getFullBoundsReference().getHeight();
+            final double labelsAndValuesHeight = getSceneHeight() - plateVectorHeight;
             final double percentOfViewPortToFill = 0.9;
-            double zoomFactor = ( percentOfViewPortToFill * ( viewportHeight - labelsAndValuesHeight ) ) / ( sceneHeight - labelsAndValuesHeight );
+            double zoomFactor = ( percentOfViewPortToFill * ( getViewportHeight() - labelsAndValuesHeight ) ) / ( getSceneHeight() - labelsAndValuesHeight );
             vectorsScale = vectorsScale * zoomFactor;
             updateVectors();
         }
@@ -329,9 +327,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private boolean canZoomOut() {
             boolean canZoomOut = false;
             if ( isZoomable() ) {
-                double viewportHeight = this.getFullBoundsReference().getHeight();
-                double totalHeight = sceneNode.getFullBoundsReference().getHeight();
-                canZoomOut = ( viewportHeight < totalHeight );
+                canZoomOut = ( getViewportHeight() < getSceneHeight() );
             }
             return canZoomOut;
         }
@@ -340,12 +336,19 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private boolean canZoomIn() {
             boolean canZoomIn = false;
             if ( isZoomable() ) {
-                double viewportHeight = this.getFullBoundsReference().getHeight();
-                double totalHeight = sceneNode.getFullBoundsReference().getHeight();
                 final double percentOfViewportThatIsFilled = 0.75;
-                canZoomIn = ( percentOfViewportThatIsFilled * viewportHeight > totalHeight );
+                canZoomIn = ( percentOfViewportThatIsFilled * getViewportHeight() > getSceneHeight() );
             }
             return canZoomIn;
+        }
+
+        private double getViewportHeight() {
+            return this.getFullBoundsReference().getHeight();
+        }
+
+        // Gets the height of the scene, what's being displayed in the viewport.
+        private double getSceneHeight() {
+            return sceneNode.getFullBoundsReference().getHeight();
         }
 
         // True when the scene contain a least one visible, non-zero vector.
