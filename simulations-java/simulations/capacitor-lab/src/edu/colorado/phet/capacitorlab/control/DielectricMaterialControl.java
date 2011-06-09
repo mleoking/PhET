@@ -91,7 +91,7 @@ public class DielectricMaterialControl extends JPanel {
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        for ( ActionListener listener : listeners.getListeners( ActionListener.class ) ) {
+        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
             listener.stateChanged( event );
         }
     }
