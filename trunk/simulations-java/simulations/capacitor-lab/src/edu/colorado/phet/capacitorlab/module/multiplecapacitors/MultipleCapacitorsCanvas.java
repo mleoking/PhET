@@ -17,6 +17,7 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterN
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorNode;
 import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -83,7 +84,6 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeterNode );
         addChild( shapesDebugParentNode );
 
-        //REVIEW: consider using RichSimpleObserver in cases like this
         // When the current circuit changes, make the proper circuit node visible.
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {
@@ -92,13 +92,12 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         } );
 
         // change visibility of debug shapes
-        SimpleObserver shapesVisibilityObserver = new SimpleObserver() {
+        RichSimpleObserver shapesVisibilityObserver = new RichSimpleObserver() {
             public void update() {
                 updateShapesDebugNodes();
             }
         };
-        globalProperties.eFieldShapesVisibleProperty.addObserver( shapesVisibilityObserver );
-        globalProperties.voltageShapesVisibleProperty.addObserver( shapesVisibilityObserver );
+        shapesVisibilityObserver.observe( globalProperties.eFieldShapesVisibleProperty, globalProperties.voltageShapesVisibleProperty );
     }
 
     public void reset() {
