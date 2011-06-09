@@ -31,6 +31,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
+ * //REVIEW: Remove duplicated code between Combination1Circuit and Combination2Circuit
  */
 public class Combination1Circuit extends AbstractCircuit {
 
