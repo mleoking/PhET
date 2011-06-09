@@ -1,12 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.capacitorlab.test;
 
-import java.util.EventListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.test.TestPropertyT.TestModel.TestModelListener;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,7 +22,7 @@ public class TestPropertyT extends JFrame {
 
     public static class TestModel {
 
-        private final EventListenerList listeners;
+        private final ArrayList<TestModelListener> listeners;
 
         private final Property<Boolean> foo;
         private boolean bar;
@@ -31,7 +30,7 @@ public class TestPropertyT extends JFrame {
         public TestModel( boolean foo, boolean bar ) {
             this.foo = new Property<Boolean>( foo );
             this.bar = bar;
-            this.listeners = new EventListenerList();
+            this.listeners = new ArrayList<TestModelListener>();
         }
 
         public void addVisibleObserver( SimpleObserver o ) {
@@ -59,16 +58,16 @@ public class TestPropertyT extends JFrame {
             return bar;
         }
 
-        public interface TestModelListener extends EventListener {
+        public interface TestModelListener {
             public void barChanged();
         }
 
         public void addTestModelListener( TestModelListener listener ) {
-            listeners.add( TestModelListener.class, listener );
+            listeners.add( listener );
         }
 
         private void fireBarChanged() {
-            for ( TestModelListener listener : listeners.getListeners( TestModelListener.class ) ) {
+            for ( TestModelListener listener : new ArrayList<TestModelListener>( listeners ) ) {
                 listener.barChanged();
             }
         }
@@ -98,7 +97,7 @@ public class TestPropertyT extends JFrame {
             }
         } );
 
-        // wire up property that uses EventListener
+        // wire up property that uses listener
         barCheckBox.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 model.setBar( barCheckBox.isSelected() );

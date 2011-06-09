@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.EventListener;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -101,7 +100,7 @@ public interface ICircuit {
      * No performance problems have been noted, but this would be a prime place
      * to start optimizing if performance becomes an issue.
      */
-    interface CircuitChangeListener extends EventListener {
+    interface CircuitChangeListener {
         public void circuitChanged();
     }
 
