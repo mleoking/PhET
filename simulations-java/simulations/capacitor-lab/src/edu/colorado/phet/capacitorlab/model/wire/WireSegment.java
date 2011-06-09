@@ -37,7 +37,7 @@ public class WireSegment {
     private static abstract class BatteryWireSegment extends WireSegment implements SimpleObserver {
 
         private final Battery battery;
-        private final double startYOffset;
+        private final double startYOffset; // used to compensate for physical appearance of positive and negative battery terminals
 
         public BatteryWireSegment( Battery battery, double startYOffset, Point2D startPoint, Point2D endPoint ) {
             super( startPoint, endPoint );
