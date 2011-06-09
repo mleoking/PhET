@@ -3,6 +3,7 @@
 package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.geom.Rectangle2D;
@@ -29,6 +30,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class DielectricMaterialControl extends JPanel {
 
     private final JComboBox comboBox;
+
+    //REVIEW: Convert to List<ChangeListener>, see #2936 comment 12
     private final EventListenerList listeners;
 
     public DielectricMaterialControl( DielectricMaterial[] materials, DielectricMaterial selectedMaterial ) {
@@ -88,7 +91,7 @@ public class DielectricMaterialControl extends JPanel {
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
+        for ( ActionListener listener : listeners.getListeners( ActionListener.class ) ) {
             listener.stateChanged( event );
         }
     }
