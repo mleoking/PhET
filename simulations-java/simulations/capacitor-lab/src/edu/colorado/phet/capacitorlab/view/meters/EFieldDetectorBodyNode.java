@@ -283,6 +283,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             detector.addDielectricVectorObserver( vectorsObserver );
             detector.addSumVectorObserver( vectorsObserver );
 
+            //REVIEW: consider using RichSimpleObserver in cases like this
             // observer visibility changes
             SimpleObserver visibilityObserver = new SimpleObserver() {
                 public void update() {
