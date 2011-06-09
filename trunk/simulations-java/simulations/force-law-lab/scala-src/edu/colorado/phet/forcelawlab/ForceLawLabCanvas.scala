@@ -13,7 +13,7 @@ import java.text.NumberFormat
  */
 class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color: Color, mass2Color: Color, backgroundColor: Color,
                         rulerLength: Long, numTicks: Long, rulerLabel: String, tickToString: Long => String,
-                        forceLabelScale: Double, forceArrowNumberFormat: NumberFormat, magnification: Magnification, units: UnitsContainer) extends DefaultCanvas(modelWidth, modelWidth) {
+                        forceLabelScale: Double, forceArrowNumberFormat: NumberFormat, magnification: Magnification) extends DefaultCanvas(modelWidth, modelWidth) {
   setBackground(backgroundColor)
 
   val tickIncrement = rulerLength / numTicks
@@ -42,10 +42,6 @@ class ForceLawLabCanvas(model: ForceLawLabModel, modelWidth: Double, mass1Color:
     val dx = transform.modelToViewDeltaX(rulerLength)
     new RulerNode(dx, 14, 40, maj.toArray, new PhetFont(Font.BOLD, 16), rulerLabel, new PhetFont(Font.BOLD, 16), 4, 10, 6);
   }
-  units.addListenerByName {
-                            rulerNode.setUnits(units.units.name)
-                            rulerNode.setMajorTickLabels(maj.toArray)
-                          }
 
   def resetRulerLocation() {
     rulerNode.setOffset(150, 500)
