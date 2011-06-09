@@ -12,6 +12,7 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListen
 import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -58,14 +59,12 @@ public class Voltmeter {
         this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
 
         // update value when probes move
-        //REVIEW: consider using RichSimpleObserver in cases like this
-        SimpleObserver o = new SimpleObserver() {
+        RichSimpleObserver probeObserver = new RichSimpleObserver() {
             public void update() {
                 updateValue();
             }
         };
-        positiveProbeLocationProperty.addObserver( o );
-        negativeProbeLocationProperty.addObserver( o );
+        probeObserver.observe( positiveProbeLocationProperty, negativeProbeLocationProperty );
     }
 
     private void updateValue() {
