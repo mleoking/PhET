@@ -15,6 +15,7 @@ import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -239,14 +240,7 @@ public class PlateChargeControlNode extends PhetPNode {
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
                 double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-
-                //REVIEW: consider using MathUtil.clamp to improve readability
-                if ( charge < range.getMin() ) {
-                    charge = range.getMin();
-                }
-                else if ( charge > range.getMax() ) {
-                    charge = range.getMax();
-                }
+                charge = MathUtil.clamp( range.getMin(), charge, range.getMax() );
 
                 // snap to zero if knob is released and value is close enough to zero
                 if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
