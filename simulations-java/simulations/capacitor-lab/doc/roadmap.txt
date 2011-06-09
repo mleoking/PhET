@@ -50,11 +50,11 @@ continue in Unfuddle #2826, but I see no reason to change the approach used in t
 - You'll see cleanup method stubs throughout the view code, marked with "//FUTURE" comments. These cleanup methods
 are currently unnecessary because the model and view objects have identical lifetimes; that is, each circuit has
 a model and view, and both the model and view persist for the entire runtime of the sim. If this every changes,
-the cleanup methods serves to document what needs to be done to disconnect the view from the model (to prevent memory leaks.)
+the cleanup methods serve to document what needs to be done to disconnect the view from the model (to prevent memory leaks.)
 
 - Version 1.00 was developed when our convention for Property field names was to use a "Property" suffix,
-e g "visibleProperty". While adding 2.00 features, I stuck with this convention, rather than trying to
-switch everything to "foo" or having an inconsistent naming scheme.
+eg "visibleProperty". While adding 2.00 features, I stuck with this convention, rather than trying to
+change existing code or use an inconsistent naming scheme.
 
 - In some cases (mostly in the model) I violated Java's naming conventions in order to match names to
 the design document. For example, I used capital V for voltage. I tried to note these violations in
