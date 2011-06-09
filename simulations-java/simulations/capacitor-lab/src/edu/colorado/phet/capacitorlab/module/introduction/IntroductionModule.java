@@ -34,6 +34,7 @@ public class IntroductionModule extends CLModule {
     public IntroductionModule( CLGlobalProperties globalProperties ) {
         super( CLStrings.INTRODUCTION );
 
+        //REVIEW: Why create the IClock and CLModelViewTransform3D outside of model objects and pass them in, instead of just creating them in the CLModel?
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
         double dielectricOffset = CLConstants.PLATE_WIDTH_RANGE.getMax() + 1; // dielectric fully outside
