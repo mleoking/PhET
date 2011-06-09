@@ -49,8 +49,7 @@ public class Wire {
             }
         };
         for ( WireSegment segment : segments ) {
-            segment.startPointProperty.addObserver( segmentObserver );
-            segment.endPointProperty.addObserver( segmentObserver );
+            addSegmentObserver( segment, segmentObserver );
         }
     }
 
@@ -67,8 +66,12 @@ public class Wire {
 
     protected void addSegment( WireSegment segment ) {
         segments.add( segment );
-        segment.startPointProperty.addObserver( segmentObserver );
-        segment.endPointProperty.addObserver( segmentObserver );
+        addSegmentObserver( segment, segmentObserver );
+    }
+
+    private static void addSegmentObserver( WireSegment segment, SimpleObserver observer ) {
+        segment.startPointProperty.addObserver( observer );
+        segment.endPointProperty.addObserver( observer );
     }
 
     public double getThickness() {
