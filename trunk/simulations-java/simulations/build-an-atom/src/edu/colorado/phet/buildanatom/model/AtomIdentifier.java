@@ -827,7 +827,6 @@ public class AtomIdentifier {
             "83, 208.9804\n";
 
 
-    //REVIEW why is abundance a string?
     // Table that maps atomic number to the atomic weight and abundances for
     // that isotope.  This was generated from data obtained from
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
@@ -1747,6 +1746,15 @@ public class AtomIdentifier {
         public final double atomicMass;
         public final PrecisionDecimal abundance;
 
+        /**
+         * Constructor
+         *
+         * @param protonCount
+         * @param neutronCount
+         * @param atomicMass   Exact atomic mass for this isotope.
+         * @param abundance    The isotope's abundance on Earth at the current
+         *                     time.  This must be a string so that the precision can be tracked.
+         */
         public Isotope2( int protonCount, int neutronCount, double atomicMass, String abundance ) {
             this.protonCount = protonCount;
             this.neutronCount = neutronCount;
