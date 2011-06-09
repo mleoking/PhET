@@ -5,8 +5,6 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-//REVIEW consider contributing this to phetcommon
-
 /**
  * A number formatter that formats a number and also takes a specification for
  * the number of decimal places.
