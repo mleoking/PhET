@@ -51,7 +51,7 @@ public class SingleCircuit extends AbstractCircuit {
     public SingleCircuit( final CircuitConfig config, boolean batteryConnected ) {
         super( CLStrings.SINGLE, config, 1 /* numberOfCapacitors */,
                new CreateCapacitors() {
-                   // Creates a single capacitor to the right of the battery
+                   // Creates a single capacitor to the right of the battery.
                    public ArrayList<Capacitor> apply( final CircuitConfig config, Integer numberOfCapacitors ) {
                        final double x = config.batteryLocation.getX() + config.capacitorXSpacing;
                        final double y = config.batteryLocation.getY();
@@ -62,7 +62,7 @@ public class SingleCircuit extends AbstractCircuit {
                    }
                },
                new CreateWires() {
-                   // Creates the wires.
+                   // Creates wires, as shown in the javadoc diagram.
                    public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
                        return new ArrayList<Wire>() {{
                            add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
