@@ -24,12 +24,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class AbstractCircuit implements ICircuit {
 
-    private final String displayName;
+    private final String displayName; // localized name that is visible to the user
     private final IClock clock;
     private final ClockAdapter clockListener;
     private final Battery battery;
     private final EventListenerList listeners;
-    private Property<Double> currentAmplitudeProperty; // proportional to dV/dt, the rate of voltage change
+    private Property<Double> currentAmplitudeProperty; // simulates current flow. 0=no flow, non-zero=flow
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
     protected AbstractCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
