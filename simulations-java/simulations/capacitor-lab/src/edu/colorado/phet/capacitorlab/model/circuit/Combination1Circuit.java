@@ -99,11 +99,11 @@ public class Combination1Circuit extends AbstractCircuit {
     }
 
     public ArrayList<Capacitor> getCapacitors() {
-        return capacitors;
+        return new ArrayList<Capacitor>( capacitors );
     }
 
     public ArrayList<Wire> getWires() {
-        return wires;
+        return new ArrayList<Wire>( wires );
     }
 
     // Gets the wire connected to the battery's top terminal.

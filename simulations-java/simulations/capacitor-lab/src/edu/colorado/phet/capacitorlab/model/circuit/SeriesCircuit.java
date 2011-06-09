@@ -109,11 +109,11 @@ public class SeriesCircuit extends AbstractCircuit {
     }
 
     public ArrayList<Capacitor> getCapacitors() {
-        return capacitors;
+        return new ArrayList<Capacitor>( capacitors );
     }
 
     public ArrayList<Wire> getWires() {
-        return wires;
+        return new ArrayList<Wire>( wires );
     }
 
     // C_total = 1 / ( 1/C1 + 1/C2 + ... + 1/Cn)
