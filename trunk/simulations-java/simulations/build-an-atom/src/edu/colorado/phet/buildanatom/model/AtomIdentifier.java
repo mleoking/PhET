@@ -120,9 +120,10 @@ public class AtomIdentifier {
         }
     };
 
-    //REVIEW please describe the format of each line. The URL may not be there forever.
     // Copied table from http://www.zyra.org.uk/elements.htm
     // Used for generating the element table version below in main()
+    // The format of the table is:
+    // Atomic Number, Element Name, Element Symbol, Average Atomic Mass
     private static final String ORIGINAL_TABLE =
             "1 \tHYDROGEN  \tH  \t1.008\n" +
             "2 \tHELIUM \tHe \t4.003\n" +
