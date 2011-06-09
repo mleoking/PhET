@@ -34,8 +34,7 @@ public class CapacitorLabApplication extends PiccoloPhetApplication {
         addModule( new DielectricModule( globalProperties ) );
         addModule( new MultipleCapacitorsModule( globalProperties ) );
 
-        //REVIEW: consider moving this to common code
-        // make all control panels the same width
+        //TODO: #2941, consider moving this to common code
         int maxWidth = 0;
         for ( Module module : getModules() ) {
             maxWidth = Math.max( maxWidth, module.getControlPanel().getPreferredSize().width );
