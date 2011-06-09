@@ -32,6 +32,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Control for applying charge to the capacitor plates.
  * This control is activated when the battery is disconnected.
+ * //REVIEW: factor out duplicated code between VoltageSliderNode and PlateChargeControlNode
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -120,6 +121,7 @@ public class PlateChargeControlNode extends PhetPNode {
         parentNode.addChild( knobNode );
 
         // layout in parentNode
+        //REVIEW: consider making parentNode a separate class
         double x = 0;
         double y = 0;
         {
@@ -188,6 +190,7 @@ public class PlateChargeControlNode extends PhetPNode {
         update();
     }
 
+    //REVIEW: consider moving this code to KnobNode or a subclass of KnobNode
     /*
      * Adds interactivity to the knob.
      */
@@ -236,6 +239,8 @@ public class PlateChargeControlNode extends PhetPNode {
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
                 double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+
+                //REVIEW: consider using MathUtil.clamp to improve readability
                 if ( charge < range.getMin() ) {
                     charge = range.getMin();
                 }
@@ -243,7 +248,7 @@ public class PlateChargeControlNode extends PhetPNode {
                     charge = range.getMax();
                 }
 
-                // snap to zero if knob is release and value is close enough to zero
+                // snap to zero if knob is released and value is close enough to zero
                 if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
                     charge = 0;
                 }

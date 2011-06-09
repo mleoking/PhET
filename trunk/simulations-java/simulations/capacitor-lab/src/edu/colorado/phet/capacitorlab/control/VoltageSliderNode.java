@@ -31,7 +31,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Slider used to control battery voltage.
- *
+ * //REVIEW: factor out duplicated code between VoltageSliderNode and PlateChargeControlNode
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltageSliderNode extends PhetPNode {
@@ -56,7 +56,7 @@ public class VoltageSliderNode extends PhetPNode {
 
     // immutable instance data
     private final DoubleRange voltageRange;
-    private final EventListenerList listeners;
+    private final EventListenerList listeners;//REVIEW: Convert to List<ChangeListener>, see #2936 comment 12
     private final TrackNode trackNode;
     private final KnobNode knobNode;
 
@@ -131,11 +131,11 @@ public class VoltageSliderNode extends PhetPNode {
         return voltage;
     }
 
+    //REVIEW: consider moving this code to KnobNode or a subclass of KnobNode
     /*
      * Adds interactivity to the knob.
      */
     private void initInteractivity() {
-
         // hand cursor on knob
         knobNode.addInputEventListener( new CursorHandler() );
 
