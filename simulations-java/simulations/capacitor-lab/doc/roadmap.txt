@@ -61,6 +61,7 @@ the design document. For example, I used capital V for voltage. I tried to note 
 the class doc (see for example SingleCircuit) but may have missed some cases.
 
 - There is sparse use of double-brace initialization (DBI). You'll see it in collections initialization,
-but not many other places. Keep in mind that the majority of this code preceded PhET's "discovery" of DBI.
+but not many other places. Keep in mind that the majority of this code preceded PhET's "discovery" of DBI,
+and I saw no reason to change existing code.
 
 ================================================================================================================
