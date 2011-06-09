@@ -1,9 +1,0 @@
-TODO list for capacitor-lab
-
-HIGH PRIORITY
-
-MEDIUM PRIORITY
-
-LOW PRIORITY
-
---
