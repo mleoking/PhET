@@ -41,6 +41,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //List of all Chlorine ions
     private ArrayList<DefaultParticle> chlorineList = new ArrayList<DefaultParticle>();
 
+    //List of all Sugar molecules
+    private ArrayList<Molecule> sugarMoleculeList = new ArrayList<Molecule>();
+
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
 
@@ -50,6 +53,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Listeners that are notified when something enters the model.  Removal listeners are added to the particle itself
     private ArrayList<VoidFunction1<WaterMolecule>> waterAddedListeners = new ArrayList<VoidFunction1<WaterMolecule>>();
     private ArrayList<VoidFunction1<DefaultParticle>> sodiumAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
+    private ArrayList<VoidFunction1<Molecule>> sugarAddedListeners = new ArrayList<VoidFunction1<Molecule>>();
     private ArrayList<VoidFunction1<DefaultParticle>> chlorineAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
 
     private Random random = new Random();
@@ -75,8 +79,10 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private ImmutableRectangle2D rightWallShape;
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
+    public final DoubleProperty numSodiums = new DoubleProperty( 0.0 );
+    public final DoubleProperty numSugars = new DoubleProperty( 0.0 );
+
     private int DEFAULT_NUM_WATERS = 100;
-    public DoubleProperty numSodiums = new DoubleProperty( 0.0 );
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -129,6 +135,22 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         addSodiumIon( separation, beakerHeight / 2 + separation );
     }
 
+    //Adds a sugar crystal near the center of the screen
+    public void addSugar() {
+        double x = 0;
+        double y = beakerHeight / 2;
+        Molecule sugarMolecule = new Molecule( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
+            public void apply( VoidFunction0 sodiumMolecule ) {
+                addFrameListener( sodiumMolecule );
+            }
+        }, +1, SODIUM_RADIUS );
+        sugarMoleculeList.add( sugarMolecule );
+        updateNumSugarMolecules();
+        for ( VoidFunction1<Molecule> sugarAddedListener : sugarAddedListeners ) {
+            sugarAddedListener.apply( sugarMolecule );
+        }
+    }
+
     //Adds some random sodium particles
     private void addSodiumParticles( long seed ) {
         Random random = new Random( seed );
@@ -168,6 +190,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     private void updateNumSodiums() {
         numSodiums.set( sodiumList.size() + 0.0 );
+    }
+
+    //Updates the property that represents the size of the sugar molecule list to enable/disable buttons
+    private void updateNumSugarMolecules() {
+        numSugars.set( sugarMoleculeList.size() + 0.0 );
     }
 
     //Adds default water particles
@@ -419,6 +446,10 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Gets a random number within the vertical range of the beaker
     public double getRandomY() {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * beakerHeight );
+    }
+
+    public void addSugarAddedListener( VoidFunction1<Molecule> createNode ) {
+        sugarAddedListeners.add( createNode );
     }
 
     //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through

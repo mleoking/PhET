@@ -1,3 +1,4 @@
+Water tab: started adding support for sugar
 # 0.00.32 (52850) Jun 8, 2011
 Macro tab: Moved the conductivity tester probes lower so there is less chance of shorting out the circuit
 Water tab: when you add salt, it appears near the middle of the play area
