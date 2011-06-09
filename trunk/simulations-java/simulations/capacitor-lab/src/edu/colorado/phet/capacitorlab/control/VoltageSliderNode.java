@@ -8,15 +8,13 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -55,19 +53,15 @@ public class VoltageSliderNode extends PhetPNode {
     private static final DecimalFormat TICK_LABEL_ZERO_FORMAT = new DecimalFormat( "0" );
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
 
-    // immutable instance data
+    private final Battery battery;
     private final DoubleRange voltageRange;
-    private final ArrayList<ChangeListener> listeners;
     private final TrackNode trackNode;
     private final KnobNode knobNode;
 
-    // mutable instance data
-    private double voltage;
+    public VoltageSliderNode( final Battery battery, final DoubleRange voltageRange, double trackLength ) {
 
-    public VoltageSliderNode( DoubleRange voltageRange, double trackLength ) {
-
+        this.battery = battery;
         this.voltageRange = new DoubleRange( voltageRange );
-        listeners = new ArrayList<ChangeListener>();
 
         // track
         trackNode = new TrackNode( trackLength );
@@ -83,7 +77,7 @@ public class VoltageSliderNode extends PhetPNode {
         addChild( minTickNode );
 
         // knob
-        knobNode = new KnobNode();
+        knobNode = new KnobNode( trackNode, voltageRange, battery );
         addChild( knobNode );
 
         // layout
@@ -100,36 +94,14 @@ public class VoltageSliderNode extends PhetPNode {
 
         initInteractivity();
 
-        // default state
-        voltage = voltageRange.getMin() - 1; // force an update
-        setVoltage( voltageRange.getDefault() );
-    }
-
-    /**
-     * Sets the voltage value and moves the knob to the proper position.
-     *
-     * @param voltage
-     */
-    public void setVoltage( double voltage ) {
-        if ( !voltageRange.contains( voltage ) ) {
-            throw new IllegalArgumentException( "voltage is out of range: " + voltage );
-        }
-        if ( voltage != this.voltage ) {
-            this.voltage = voltage;
-            double xOffset = knobNode.getXOffset();
-            double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( voltageRange.getMax() - voltage ) / voltageRange.getLength() );
-            knobNode.setOffset( xOffset, yOffset );
-            fireStateChanged();
-        }
-    }
-
-    /**
-     * Gets the voltage value.
-     *
-     * @return
-     */
-    public double getVoltage() {
-        return voltage;
+        battery.addVoltageObserver( new SimpleObserver() {
+            public void update() {
+                double voltage = battery.getVoltage();
+                double xOffset = knobNode.getXOffset();
+                double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( voltageRange.getMax() - voltage ) / voltageRange.getLength() );
+                knobNode.setOffset( xOffset, yOffset );
+            }
+        } );
     }
 
     //REVIEW: consider moving this code to KnobNode or a subclass of KnobNode
@@ -192,27 +164,9 @@ public class VoltageSliderNode extends PhetPNode {
                 }
 
                 // set the voltage (this will move the knob)
-                setVoltage( voltage );
+                battery.setVoltage( voltage );
             }
-
         } );
-    }
-
-    /*
-     * Slider knob (aka thumb), highlighted while the mouse is pressed or the mouse is inside the knob.
-     * Origin is in the center of the knob's bounding rectangle.
-     */
-    private static class KnobNode extends PNode {
-
-        public KnobNode() {
-            // image, origin moved to center
-            PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
-            addChild( imageNode );
-            double x = -( imageNode.getFullBoundsReference().getWidth() / 2 );
-            double y = -( imageNode.getFullBoundsReference().getHeight() / 2 );
-            imageNode.setOffset( x, y );
-            addInputEventListener( new ImageHighlightHandler( imageNode, CLImages.SLIDER_KNOB, CLImages.SLIDER_KNOB_HIGHLIGHT ) );
-        }
     }
 
     /*
@@ -225,6 +179,25 @@ public class VoltageSliderNode extends PhetPNode {
             super( new Line2D.Double( 0, 0, 0, trackLength ) );
             setStroke( TRACK_STROKE );
             setStrokePaint( TRACK_COLOR );
+        }
+    }
+
+    /*
+     * Slider knob (aka thumb), highlighted while the mouse is pressed or the mouse is inside the knob.
+     * Origin is in the center of the knob's bounding rectangle.
+     */
+    private static class KnobNode extends PNode {
+
+        public KnobNode( PNode trackNode, DoubleRange range, Battery battery ) {
+            // image, origin moved to center
+            PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
+            addChild( imageNode );
+            double x = -( imageNode.getFullBoundsReference().getWidth() / 2 );
+            double y = -( imageNode.getFullBoundsReference().getHeight() / 2 );
+            imageNode.setOffset( x, y );
+
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new ImageHighlightHandler( imageNode, CLImages.SLIDER_KNOB, CLImages.SLIDER_KNOB_HIGHLIGHT ) );
         }
     }
 
@@ -274,21 +247,6 @@ public class VoltageSliderNode extends PhetPNode {
             setTextPaint( TICK_LABEL_COLOR );
             NumberFormat format = ( value == 0 ) ? TICK_LABEL_ZERO_FORMAT : TICK_LABEL_NONZERO_FORMAT;
             setText( MessageFormat.format( CLStrings.PATTERN_VALUE_UNITS, format.format( value ), CLStrings.VOLTS ) );
-        }
-    }
-
-    public void addChangeListener( ChangeListener listener ) {
-        listeners.add( listener );
-    }
-
-    public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( listener );
-    }
-
-    private void fireStateChanged() {
-        ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : new ArrayList<ChangeListener>( listeners ) ) {
-            listener.stateChanged( event );
         }
     }
 }
