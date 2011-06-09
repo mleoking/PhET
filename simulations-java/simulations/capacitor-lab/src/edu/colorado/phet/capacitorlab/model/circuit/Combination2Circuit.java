@@ -61,7 +61,7 @@ public class Combination2Circuit extends AbstractCircuit {
                    }
                },
                new CreateWires() {
-                   // Creates the wires, as shown in javadoc diagram
+                   // Creates wires, as shown in javadoc diagram
                    public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
                        final Capacitor c1 = capacitors.get( 0 );
                        final Capacitor c2 = capacitors.get( 1 );

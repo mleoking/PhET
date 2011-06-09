@@ -30,7 +30,7 @@ public class ParallelCircuit extends AbstractCircuit {
     public ParallelCircuit( CircuitConfig config, String displayName, int numberOfCapacitors ) {
         super( displayName, config, numberOfCapacitors,
                new CreateCapacitors() {
-                   // Creates a row of capacitors, to the right of the battery, vertically centered on the battery.
+                   // Creates a row of capacitors, as shown in the javadoc diagram.
                    public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {
                        double x = config.batteryLocation.getX() + config.capacitorXSpacing;
                        final double y = config.batteryLocation.getY();
@@ -47,7 +47,7 @@ public class ParallelCircuit extends AbstractCircuit {
                    }
                },
                new CreateWires() {
-                   // Creates the wires, starting at the battery's top terminal and working clockwise.
+                   // Creates wires, as shown in the javadoc diagram.
                    public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
                        return new ArrayList<Wire>() {{
                            add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );

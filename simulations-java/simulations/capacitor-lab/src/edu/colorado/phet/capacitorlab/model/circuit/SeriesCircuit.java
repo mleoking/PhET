@@ -35,7 +35,7 @@ public class SeriesCircuit extends AbstractCircuit {
     public SeriesCircuit( CircuitConfig config, String displayName, int numberOfCapacitors ) {
         super( displayName, config, numberOfCapacitors,
                new CreateCapacitors() {
-                   // Creates a column of capacitors, to the right of the battery, vertically centered on the battery.
+                   // Creates a column of capacitors, as shown in the javadoc diagram.
                    public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {
                        // location of first capacitor
                        final double x = config.batteryLocation.getX() + config.capacitorXSpacing;
@@ -57,7 +57,7 @@ public class SeriesCircuit extends AbstractCircuit {
                    }
                },
                new CreateWires() {
-                   // Creates the wires, starting at the battery's top terminal and working clockwise.
+                   // Creates wires, as shown in the javadoc diagram.
                    public ArrayList<Wire> apply( CircuitConfig config, Battery battery, ArrayList<Capacitor> capacitors ) {
                        ArrayList<Wire> wires = new ArrayList<Wire>();
                        wires.add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors.get( 0 ) ) );
