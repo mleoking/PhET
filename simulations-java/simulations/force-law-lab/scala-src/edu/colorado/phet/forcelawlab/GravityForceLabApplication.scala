@@ -15,7 +15,7 @@ import java.awt.geom.{Ellipse2D, Point2D}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
-import java.text.{DecimalFormatSymbols, DecimalFormat, FieldPosition, NumberFormat}
+import java.text.{DecimalFormat, FieldPosition, NumberFormat}
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.scalacommon.ScalaClock
@@ -315,12 +315,6 @@ class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
   }
 }
 
-class SunPlanetDecimalFormat extends DecimalFormat("#,###,###,###,###,###,##0.0", {
-  val x = new DecimalFormatSymbols()
-  x.setGroupingSeparator(' ')
-  x
-})
-
 class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.getLocalizedString("module.force-laws.name"), clock) {
   def massToRadiusFn(m: Double) = pow(m, 1 / 3.0) / 10.0 * 4.0
 
@@ -361,16 +355,15 @@ object ForceLawLabDefaults {
 class Circle(center: Vector2D, radius: Double) extends Ellipse2D.Double(center.x - radius, center.y - radius, radius * 2, radius * 2)
 
 object ForceLawBorders {
-  def createTitledBorder(key: String) =
-    new TitledBorder(ForceLawLabResources.getLocalizedString(key)) {
-      setTitleFont(new PhetFont(14, true))
-    }
+  def createTitledBorder(key: String) = new TitledBorder(ForceLawLabResources.getLocalizedString(key)) {
+    setTitleFont(new PhetFont(14, true))
+  }
 }
 
 class GravityForceLabApplication(config: PhetApplicationConfig) extends PiccoloPhetApplication(config) {
   addModule(new ForceLawsModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
-object GravityForceLabApplication extends App{
+object GravityForceLabApplication extends App {
   new PhetApplicationLauncher().launchSim(args, "force-law-lab", "gravity-force-lab", classOf[GravityForceLabApplication])
 }
