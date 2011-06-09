@@ -3,13 +3,16 @@
 package edu.colorado.phet.capacitorlab.model.circuit;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
+import edu.colorado.phet.capacitorlab.model.CircuitConfig;
+import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -24,22 +27,49 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public abstract class AbstractCircuit implements ICircuit {
 
+    // Function for creating capacitors.
+    public interface CreateCapacitors {
+        public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors );
+    }
+
+    // Function for creating wires.
+    public interface CreateWires {
+        ArrayList<Wire> apply( CircuitConfig config, Battery battery, ArrayList<Capacitor> capacitors );
+    }
+
     private final String displayName; // localized name that is visible to the user
     private final IClock clock;
     private final ClockAdapter clockListener;
     private final Battery battery;
+    private final ArrayList<Capacitor> capacitors;
+    private final ArrayList<Wire> wires;
     private final EventListenerList listeners;
     private Property<Double> currentAmplitudeProperty; // simulates current flow. 0=no flow, non-zero=flow
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
-    protected AbstractCircuit( String displayName, IClock clock, CLModelViewTransform3D mvt, Point3D batteryLocation ) {
+    /**
+     * Constructor
+     *
+     * @param displayName        localized name this is visible to the user
+     * @param config             circuit configuration values
+     * @param numberOfCapacitors number of capacitors in the circuit
+     * @param createCapacitors   function for creating capacitors
+     * @param createWires        function for creating wires
+     */
+    protected AbstractCircuit( String displayName, CircuitConfig config, int numberOfCapacitors, CreateCapacitors createCapacitors, CreateWires createWires ) {
 
         this.displayName = displayName;
-        this.clock = clock;
-        this.battery = new Battery( batteryLocation, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), mvt );
+        this.clock = config.clock;
         this.listeners = new EventListenerList();
         this.currentAmplitudeProperty = new Property<Double>( 0d );
         this.previousTotalCharge = -1; // no value
+
+        // create circuit components
+        battery = new Battery( config.batteryLocation, CLConstants.BATTERY_VOLTAGE_RANGE.getDefault(), config.mvt );
+        capacitors = createCapacitors.apply( config, numberOfCapacitors );
+        assert ( capacitors.size() >= 1 );
+        wires = createWires.apply( config, battery, capacitors );
+        assert ( wires.size() >= 2 );
 
         // update current amplitude on each clock tick
         clockListener = new ClockAdapter() {
@@ -48,7 +78,36 @@ public abstract class AbstractCircuit implements ICircuit {
             }
         };
         clock.addClockListener( clockListener );
+
+        // observe capacitors
+        CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
+            public void capacitorChanged() {
+                updatePlateVoltages();
+                fireCircuitChanged();
+            }
+        };
+        for ( Capacitor capacitor : capacitors ) {
+            capacitor.addCapacitorChangeListener( capacitorChangeListener );
+        }
+
+        /*
+         * When the battery voltage changes, update the plate voltages.
+         * Do NOT automatically do this when adding the observer because
+         * updatePlateVoltages is implemented by the subclass, and all
+         * necessary fields in the subclass may not be initialized.
+         */
+        battery.addVoltageObserver( new SimpleObserver() {
+            public void update() {
+                updatePlateVoltages();
+            }
+        }, false /* notifyOnAdd */ );
     }
+
+    /*
+     * Updates the plate voltages.
+     * Subclasses must call this at the end of their constructor, see note in constructor.
+     */
+    protected abstract void updatePlateVoltages();
 
     public void cleanup() {
         clock.removeClockListener( clockListener );
@@ -56,6 +115,9 @@ public abstract class AbstractCircuit implements ICircuit {
 
     public void reset() {
         battery.reset();
+        for ( Capacitor capacitor : capacitors ) {
+            capacitor.reset();
+        }
     }
 
     public String getDisplayName() {
@@ -73,6 +135,24 @@ public abstract class AbstractCircuit implements ICircuit {
      */
     public boolean isBatteryConnected() {
         return true;
+    }
+
+    public ArrayList<Capacitor> getCapacitors() {
+        return new ArrayList<Capacitor>( capacitors );
+    }
+
+    public ArrayList<Wire> getWires() {
+        return new ArrayList<Wire>( wires );
+    }
+
+    // Gets the wire connected to the battery's top terminal.
+    public Wire getTopWire() {
+        return wires.get( 0 );
+    }
+
+    // Gets the wire connected to the battery's bottom terminal.
+    public Wire getBottomWire() {
+        return wires.get( wires.size() - 1 );
     }
 
     // Q_total = V_total * C_total
@@ -141,6 +221,7 @@ public abstract class AbstractCircuit implements ICircuit {
         return eField;
     }
 
+    // 0 == current is not flowing, !0 == current is flowing
     public double getCurrentAmplitude() {
         return currentAmplitudeProperty.get();
     }

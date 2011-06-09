@@ -6,13 +6,11 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
-import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a circuit with a battery (B) and N capacitors (C1...Cn) in parallel.
@@ -29,84 +27,42 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class ParallelCircuit extends AbstractCircuit {
 
-    private final ArrayList<Capacitor> capacitors; // ordered left-to-right from battery
-    private final ArrayList<Wire> wires; // ordered clockwise from battery's top terminal
-
     public ParallelCircuit( CircuitConfig config, String displayName, int numberOfCapacitors ) {
-        super( displayName, config.clock, config.mvt, config.batteryLocation );
+        super( displayName, config, numberOfCapacitors,
+               new CreateCapacitors() {
+                   // Creates a row of capacitors, to the right of the battery, vertically centered on the battery.
+                   public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {
+                       double x = config.batteryLocation.getX() + config.capacitorXSpacing;
+                       final double y = config.batteryLocation.getY();
+                       final double z = config.batteryLocation.getZ();
 
-        assert ( numberOfCapacitors > 0 );
-
-        capacitors = createCapacitors( numberOfCapacitors, config );
-
-        wires = createWires( getBattery(), capacitors, config );
-
-        // observe battery
-        getBattery().addVoltageObserver( new SimpleObserver() {
-            public void update() {
-                updatePlateVoltages();
-            }
-        } );
-
-        // observe capacitors
-        CapacitorChangeListener capacitorChangeListener = new CapacitorChangeListener() {
-            public void capacitorChanged() {
-                updatePlateVoltages();
-                fireCircuitChanged();
-            }
-        };
-        for ( Capacitor capacitor : capacitors ) {
-            capacitor.addCapacitorChangeListener( capacitorChangeListener );
-        }
+                       ArrayList<Capacitor> capacitors = new ArrayList<Capacitor>();
+                       for ( int i = 0; i < numberOfCapacitors; i++ ) {
+                           Point3D location = new Point3D.Double( x, y, z );
+                           Capacitor capacitor = new Capacitor( location, config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
+                           capacitors.add( capacitor );
+                           x += config.capacitorXSpacing;
+                       }
+                       return capacitors;
+                   }
+               },
+               new CreateWires() {
+                   // Creates the wires, starting at the battery's top terminal and working clockwise.
+                   public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
+                       return new ArrayList<Wire>() {{
+                           add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
+                           add( new WireBatteryBottomToCapacitorBottoms( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
+                       }};
+                   }
+               } );
+        updatePlateVoltages();
     }
 
-    // Creates a row of capacitors, to the right of the battery, vertically centered on the battery.
-    private ArrayList<Capacitor> createCapacitors( int numberOfCapacitors, CircuitConfig config ) {
-
-        double x = config.batteryLocation.getX() + config.capacitorXSpacing;
-        final double y = config.batteryLocation.getY();
-        final double z = config.batteryLocation.getZ();
-
-        ArrayList<Capacitor> capacitors = new ArrayList<Capacitor>();
-        for ( int i = 0; i < numberOfCapacitors; i++ ) {
-            Point3D location = new Point3D.Double( x, y, z );
-            Capacitor capacitor = new Capacitor( location, config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt );
-            capacitors.add( capacitor );
-            x += config.capacitorXSpacing;
-        }
-        return capacitors;
-    }
-
-    // Creates the wires, starting at the battery's top terminal and working clockwise.
-    private ArrayList<Wire> createWires( Battery battery, ArrayList<Capacitor> capacitors, CircuitConfig config ) {
-        ArrayList<Wire> wires = new ArrayList<Wire>();
-        wires.add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
-        wires.add( new WireBatteryBottomToCapacitorBottoms( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
-        return wires;
-    }
-
-    private void updatePlateVoltages() {
+    // @see AbstractCircuit.updatePlateVoltages
+    @Override protected void updatePlateVoltages() {
         for ( Capacitor capacitor : getCapacitors() ) {
             capacitor.setPlatesVoltage( getTotalVoltage() ); // voltage across all capacitors is the same
         }
-    }
-
-    public ArrayList<Capacitor> getCapacitors() {
-        return new ArrayList<Capacitor>( capacitors );
-    }
-
-    public ArrayList<Wire> getWires() {
-        return new ArrayList<Wire>( wires );
-    }
-
-    // Gets the wire connected to the battery's top terminal.
-    private Wire getTopWire() {
-        return wires.get( 0 );
-    }
-
-    // Gets the wire connected to the battery's bottom terminal.
-    private Wire getBottomWire() {
-        return wires.get( wires.size() - 1 );
     }
 
     // C_total = C1 + C2 + ... + Cn
@@ -162,12 +118,5 @@ public class ParallelCircuit extends AbstractCircuit {
             }
         }
         return intersects;
-    }
-
-    public void reset() {
-        super.reset();
-        for ( Capacitor capacitor : capacitors ) {
-            capacitor.reset();
-        }
     }
 }
