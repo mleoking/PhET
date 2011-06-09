@@ -13,8 +13,8 @@ import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.CapacitanceMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.PlateChargeMeterNode;
 import edu.colorado.phet.capacitorlab.view.meters.BarMeterNode.StoredEnergyMeterNode;
-import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorView;
-import edu.colorado.phet.capacitorlab.view.meters.VoltmeterView;
+import edu.colorado.phet.capacitorlab.view.meters.EFieldDetectorNode;
+import edu.colorado.phet.capacitorlab.view.meters.VoltmeterNode;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.nodes.PComposite;
@@ -57,8 +57,8 @@ public class DielectricCanvas extends CLCanvas {
         capacitanceMeterNode = new CapacitanceMeterNode( model.capacitanceMeter, mvt, CLStrings.CAPACITANCE );
         plateChargeMeterNode = new PlateChargeMeterNode( model.plateChargeMeter, mvt, CLStrings.PLATE_CHARGE_TOP );
         storedEnergyMeterNode = new StoredEnergyMeterNode( model.storedEnergyMeter, mvt, CLStrings.STORED_ENERGY );
-        VoltmeterView voltmeter = new VoltmeterView( model.voltmeter, mvt );
-        EFieldDetectorView eFieldDetector = new EFieldDetectorView( model.eFieldDetector, mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
+        VoltmeterNode voltmeterNode = new VoltmeterNode( model.voltmeter, mvt );
+        EFieldDetectorNode eFieldDetectorNode = new EFieldDetectorNode( model.eFieldDetector, mvt, eFieldReferenceMagnitude, globalProperties.dev, eFieldDetectorSimplified );
 
         // debug
         shapesDebugParentNode = new PComposite();
@@ -68,16 +68,8 @@ public class DielectricCanvas extends CLCanvas {
         addChild( capacitanceMeterNode );
         addChild( plateChargeMeterNode );
         addChild( storedEnergyMeterNode );
-        addChild( eFieldDetector.getBodyNode() );
-        addChild( eFieldDetector.getWireNode() );
-        addChild( eFieldDetector.getProbeNode() );
-
-        //REVIEW: Why are children of the VoltmeterView passed in separately here in adjacent layers instead of just doing something more like addChild(voltmeterNode)?  Document or fix.
-        addChild( voltmeter.getBodyNode() );
-        addChild( voltmeter.getPositiveProbeNode() );
-        addChild( voltmeter.getPositiveWireNode() );
-        addChild( voltmeter.getNegativeProbeNode() );
-        addChild( voltmeter.getNegativeWireNode() );
+        addChild( eFieldDetectorNode );
+        addChild( voltmeterNode );
         addChild( shapesDebugParentNode );
 
         // watch things whose visibility causes the dielectric to become transparent
