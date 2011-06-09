@@ -149,10 +149,10 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( ( isBatteryConnected() && ( getTopWire().intersects( shape ) || getBattery().intersectsTopTerminal( shape ) ) ) || capacitor.intersectsTopPlateShape( shape ) ) {
+        if ( ( isBatteryConnected() && ( getTopWire().intersects( shape ) || getBattery().intersectsTopTerminal( shape ) ) ) || capacitor.intersectsTopPlate( shape ) ) {
             voltage = getTotalVoltage();
         }
-        else if ( ( isBatteryConnected() && ( getBottomWire().intersects( shape ) || getBattery().intersectsBottomTerminal( shape ) ) ) || capacitor.intersectsBottomPlateShape( shape ) ) {
+        else if ( ( isBatteryConnected() && ( getBottomWire().intersects( shape ) || getBattery().intersectsBottomTerminal( shape ) ) ) || capacitor.intersectsBottomPlate( shape ) ) {
             voltage = 0;
         }
         return voltage;

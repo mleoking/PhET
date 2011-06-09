@@ -120,16 +120,16 @@ public class Combination1Circuit extends AbstractCircuit {
 
     // True if shape is touching part of the circuit that is connected to the battery's top terminal.
     private boolean connectedToBatteryTop( Shape shape ) {
-        return getBattery().intersectsTopTerminal( shape ) || getTopWire().intersects( shape ) || c1.intersectsTopPlateShape( shape ) || c3.intersectsTopPlateShape( shape );
+        return getBattery().intersectsTopTerminal( shape ) || getTopWire().intersects( shape ) || c1.intersectsTopPlate( shape ) || c3.intersectsTopPlate( shape );
     }
 
     // True if shape is touching part of the circuit that is connected to the battery's bottom terminal.
     private boolean connectedToBatteryBottom( Shape shape ) {
-        return getBattery().intersectsBottomTerminal( shape ) || getBottomWire().intersects( shape ) || c2.intersectsBottomPlateShape( shape ) || c3.intersectsBottomPlateShape( shape );
+        return getBattery().intersectsBottomTerminal( shape ) || getBottomWire().intersects( shape ) || c2.intersectsBottomPlate( shape ) || c3.intersectsBottomPlate( shape );
     }
 
     // True if shape is touching part of the circuit that is connected to C2's top plate.
     private boolean connectedToC2TopPlate( Shape shape ) {
-        return c1.intersectsBottomPlateShape( shape ) || c2.intersectsTopPlateShape( shape ) || getMiddleWire().intersects( shape );
+        return c1.intersectsBottomPlate( shape ) || c2.intersectsTopPlate( shape ) || getMiddleWire().intersects( shape );
     }
 }

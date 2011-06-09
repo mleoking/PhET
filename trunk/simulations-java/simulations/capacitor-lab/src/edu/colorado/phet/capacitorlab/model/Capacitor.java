@@ -448,7 +448,7 @@ public class Capacitor {
      * @param shape
      * @return
      */
-    public boolean intersectsTopPlateShape( Shape shape ) {
+    public boolean intersectsTopPlate( Shape shape ) {
         return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShapeOccluded() );
     }
 
@@ -458,7 +458,7 @@ public class Capacitor {
      * @param shape
      * @return
      */
-    public boolean intersectsBottomPlateShape( Shape shape ) {
+    public boolean intersectsBottomPlate( Shape shape ) {
         return ShapeUtils.intersects( shape, shapeFactory.createBottomPlateShapeOccluded() );
     }
 
@@ -468,8 +468,8 @@ public class Capacitor {
      * @param p a point in the global 3D model coordinate frame
      * @return true or false
      */
-    public boolean isBetweenPlatesShape( Point3D p ) {
-        return isInsideDielectricBetweenPlatesShape( p ) || isInsideAirBetweenPlatesShape( p );
+    public boolean isBetweenPlates( Point3D p ) {
+        return isInsideDielectricBetweenPlates( p ) || isInsideAirBetweenPlates( p );
     }
 
     /**
@@ -478,7 +478,7 @@ public class Capacitor {
      * @param p a point in the global 3D model coordinate frame
      * @return true or false
      */
-    public boolean isInsideDielectricBetweenPlatesShape( Point3D p ) {
+    public boolean isInsideDielectricBetweenPlates( Point3D p ) {
         return shapeFactory.createDielectricBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
     }
 
@@ -488,7 +488,7 @@ public class Capacitor {
      * @param p a point in the global 3D model coordinate frame
      * @return true or false
      */
-    public boolean isInsideAirBetweenPlatesShape( Point3D p ) {
+    public boolean isInsideAirBetweenPlates( Point3D p ) {
         return shapeFactory.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
     }
 
