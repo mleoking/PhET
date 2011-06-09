@@ -5,8 +5,6 @@ package edu.colorado.phet.capacitorlab.model.circuit;
 import java.awt.*;
 import java.util.ArrayList;
 
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
@@ -43,7 +41,7 @@ public abstract class AbstractCircuit implements ICircuit {
     private final Battery battery;
     private final ArrayList<Capacitor> capacitors;
     private final ArrayList<Wire> wires;
-    private final EventListenerList listeners;
+    private final ArrayList<CircuitChangeListener> listeners;
     private Property<Double> currentAmplitudeProperty; // simulates current flow. 0=no flow, non-zero=flow
     private double previousTotalCharge; // total charge the previous time the clock ticked, used to compute current amplitude
 
@@ -60,7 +58,7 @@ public abstract class AbstractCircuit implements ICircuit {
 
         this.displayName = displayName;
         this.clock = config.clock;
-        this.listeners = new EventListenerList();
+        this.listeners = new ArrayList<CircuitChangeListener>();
         this.currentAmplitudeProperty = new Property<Double>( 0d );
         this.previousTotalCharge = -1; // no value
 
@@ -244,17 +242,17 @@ public abstract class AbstractCircuit implements ICircuit {
 
     // @see ICircuit.addCircuitChangeListener
     public void addCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.add( CircuitChangeListener.class, listener );
+        listeners.add( listener );
     }
 
     // @see ICircuit.removeCircuitChangeListener
     public void removeCircuitChangeListener( CircuitChangeListener listener ) {
-        listeners.remove( CircuitChangeListener.class, listener );
+        listeners.remove( listener );
     }
 
     // Notifies all listeners that the circuit has changed.
     protected void fireCircuitChanged() {
-        for ( CircuitChangeListener listener : listeners.getListeners( CircuitChangeListener.class ) ) {
+        for ( CircuitChangeListener listener : new ArrayList<CircuitChangeListener>( listeners ) ) {
             listener.circuitChanged();
         }
     }

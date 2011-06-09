@@ -3,9 +3,7 @@
 package edu.colorado.phet.capacitorlab.model;
 
 import java.awt.*;
-import java.util.EventListener;
-
-import javax.swing.event.EventListenerList;
+import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
@@ -38,7 +36,7 @@ public class Capacitor {
     private final CapacitorShapeFactory shapeFactory;
     private final SimpleObserver propertiesObserver;
     private final SimpleObserver dielectricConstantObserver;
-    private final EventListenerList listeners = new EventListenerList();
+    private final ArrayList<CapacitorChangeListener> listeners = new ArrayList<CapacitorChangeListener>();
 
     // immutable properties
     private final Point3D location; // location of the capacitor's geometric center (meters)
@@ -659,20 +657,20 @@ public class Capacitor {
      * For view and control elements that are strictly interested in geometry
      * of the capacitor, see the various add*Observer methods.
      */
-    public interface CapacitorChangeListener extends EventListener {
+    public interface CapacitorChangeListener {
         void capacitorChanged();
     }
 
     public void addCapacitorChangeListener( CapacitorChangeListener listener ) {
-        listeners.add( CapacitorChangeListener.class, listener );
+        listeners.add( listener );
     }
 
     public void removeCapacitorChangeListener( CapacitorChangeListener listener ) {
-        listeners.remove( CapacitorChangeListener.class, listener );
+        listeners.remove( listener );
     }
 
     public void fireCapacitorChanged() {
-        for ( CapacitorChangeListener listener : listeners.getListeners( CapacitorChangeListener.class ) ) {
+        for ( CapacitorChangeListener listener : new ArrayList<CapacitorChangeListener>( listeners ) ) {
             listener.capacitorChanged();
         }
     }
