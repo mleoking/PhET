@@ -56,6 +56,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         valueNode.setFont( VALUE_FONT );
         addChild( valueNode );
 
+        //REVIEW: make a note about why setValue has to be called before layout code is called
         setValue( value );
 
         // layout: value below label, left-justified
