@@ -52,7 +52,7 @@ public class Battery {
 
     public Battery( Point3D location, double voltage, CLModelViewTransform3D mvt ) {
 
-        this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
+        this.location = new Point3D.Double( location );
         this.voltageProperty = new Property<Double>( voltage );
         this.polarityProperty = new Property<Polarity>( getPolarity( voltage ) );
         this.shapeFactory = new BatteryShapeFactory( this, mvt );

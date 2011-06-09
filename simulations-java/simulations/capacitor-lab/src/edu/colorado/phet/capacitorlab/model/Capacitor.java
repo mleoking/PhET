@@ -63,7 +63,7 @@ public class Capacitor {
         this.mvt = mvt;
         this.shapeFactory = new CapacitorShapeFactory( this, mvt );
 
-        this.location = new Point3D.Double( location.getX(), location.getY(), location.getZ() );
+        this.location = new Point3D.Double( location );
 
         this.plateSizeProperty = new Property<Dimension3D>( new Dimension3D( plateWidth, CLConstants.PLATE_HEIGHT, plateWidth ) ); // plates are square
         this.plateSeparationProperty = new Property<Double>( plateSeparation );
