@@ -8,10 +8,10 @@ import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
@@ -32,6 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Slider used to control battery voltage.
  * //REVIEW: factor out duplicated code between VoltageSliderNode and PlateChargeControlNode
+ *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class VoltageSliderNode extends PhetPNode {
@@ -56,7 +57,7 @@ public class VoltageSliderNode extends PhetPNode {
 
     // immutable instance data
     private final DoubleRange voltageRange;
-    private final EventListenerList listeners;//REVIEW: Convert to List<ChangeListener>, see #2936 comment 12
+    private final ArrayList<ChangeListener> listeners;
     private final TrackNode trackNode;
     private final KnobNode knobNode;
 
@@ -66,7 +67,7 @@ public class VoltageSliderNode extends PhetPNode {
     public VoltageSliderNode( DoubleRange voltageRange, double trackLength ) {
 
         this.voltageRange = new DoubleRange( voltageRange );
-        listeners = new EventListenerList();
+        listeners = new ArrayList<ChangeListener>();
 
         // track
         trackNode = new TrackNode( trackLength );
@@ -277,16 +278,16 @@ public class VoltageSliderNode extends PhetPNode {
     }
 
     public void addChangeListener( ChangeListener listener ) {
-        listeners.add( ChangeListener.class, listener );
+        listeners.add( listener );
     }
 
     public void removeChangeListener( ChangeListener listener ) {
-        listeners.remove( ChangeListener.class, listener );
+        listeners.remove( listener );
     }
 
     private void fireStateChanged() {
         ChangeEvent event = new ChangeEvent( this );
-        for ( ChangeListener listener : listeners.getListeners( ChangeListener.class ) ) {
+        for ( ChangeListener listener : new ArrayList<ChangeListener>( listeners ) ) {
             listener.stateChanged( event );
         }
     }
