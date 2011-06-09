@@ -58,6 +58,7 @@ public class Voltmeter {
         this.valueProperty = new Property<Double>( 0d ); // will be properly initialized by updateValue
 
         // update value when probes move
+        //REVIEW: consider using RichSimpleObserver in cases like this
         SimpleObserver o = new SimpleObserver() {
             public void update() {
                 updateValue();

@@ -89,6 +89,7 @@ public class MultipleCapacitorsCanvas extends CLCanvas {
         addChild( voltmeter.getNegativeWireNode() );
         addChild( shapesDebugParentNode );
 
+        //REVIEW: consider using RichSimpleObserver in cases like this
         // When the current circuit changes, make the proper circuit node visible.
         model.currentCircuitProperty.addObserver( new SimpleObserver() {
             public void update() {

@@ -79,6 +79,7 @@ public class DielectricCanvas extends CLCanvas {
         addChild( shapesDebugParentNode );
 
         // watch things whose visibility causes the dielectric to become transparent
+        //REVIEW: consider using RichSimpleObserver in cases like this
         SimpleObserver o = new SimpleObserver() {
             public void update() {
                 boolean transparent = getEFieldVisibleProperty().get() || model.voltmeter.isVisible() || model.eFieldDetector.visibleProperty.get();
@@ -90,6 +91,7 @@ public class DielectricCanvas extends CLCanvas {
         model.eFieldDetector.visibleProperty.addObserver( o );
 
         // change visibility of debug shapes
+        //REVIEW: consider using RichSimpleObserver in cases like this
         SimpleObserver shapesVisibilityObserver = new SimpleObserver() {
             public void update() {
                 updateShapesDebugNodes();
