@@ -186,6 +186,7 @@ public abstract class BarMeterNode extends PhetPNode {
         closeButton = new PImage( CLImages.CLOSE_BUTTON );
         addChild( closeButton );
 
+        //REVIEW: Pushing scope in BarMeterNode constructor (around //zoom buttons and //observers) seems awkward
         // zoom buttons
         {
             zoomInButtonNode = new ZoomInButtonNode();
@@ -218,7 +219,7 @@ public abstract class BarMeterNode extends PhetPNode {
         // layout
         updateLayout();
 
-
+        //REVIEW: Pushing scope in BarMeterNode constructor (around //zoom buttons and //observers) seems awkward
         // observers
         {
             // value
