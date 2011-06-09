@@ -58,7 +58,6 @@ public interface IPlateChargeGridSizeStrategy {
      * area but larger aspect ratio will display more charges.
      * For example, if charges=7, a 5x200mm plate will display 7 charges,
      * while a 200x200mm plate will only display 4 charges.
-     * //REVIEW: Consider removing this unused class or explain why it should be kept
      */
     public static class ModifiedCCKStrategy extends CCKStrategy {
 
