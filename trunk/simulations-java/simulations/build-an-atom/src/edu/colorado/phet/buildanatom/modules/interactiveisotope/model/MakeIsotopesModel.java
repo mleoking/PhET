@@ -234,17 +234,11 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
      * the particles from the atom.
      */
     private void clearBucket() {
-        // Remove neutrons from this model.
-        //REVIEW why not iterate on neutronBucket.getParticleList?
-        ArrayList<Neutron> copyOfNeutrons = new ArrayList<Neutron>( neutrons );
-        for ( Neutron neutron : copyOfNeutrons ) {
-            if ( neutronBucket.containsParticle( neutron ) ) {
-                neutrons.remove( neutron );
-                neutron.removedFromModel();
-            }
+        for ( SphericalParticle neutron : new ArrayList<SphericalParticle>( neutronBucket.getParticleList() ) ) {
+            neutrons.remove( neutron );
+            neutronBucket.removeParticle( neutron );
+            neutron.removedFromModel();
         }
-        // Remove neutrons from bucket.
-        neutronBucket.reset(); //REVIEW why not remove them individually above, as you did in clearAtom?
     }
 
     /**
