@@ -55,6 +55,8 @@ public class DielectricPropertiesControlPanel extends PhetTitledPanel {
         } );
 
         constantControl = new DielectricConstantControl( CLConstants.DIELECTRIC_CONSTANT_RANGE.getDefault() );
+
+        //REVIEW: Document this callback: why is it only doing something if the type is CustomDielectricMaterial?  Why is it okay that it doesn't do something for other types?
         constantControl.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 if ( capacitor.getDielectricMaterial() instanceof CustomDielectricMaterial ) {
