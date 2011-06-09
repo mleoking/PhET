@@ -14,6 +14,7 @@ import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBot
 import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a circuit with a battery (B) connected to a single capacitor (C1).
@@ -74,7 +75,13 @@ public class SingleCircuit extends AbstractCircuit {
         this.capacitor = getCapacitors().get( 0 );
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
         this.disconnectedPlateCharge = getTotalCharge();
-        updatePlateVoltages();
+
+        batteryConnectedProperty.addObserver( new SimpleObserver() {
+            public void update() {
+                updatePlateVoltages(); // Requirement of calling this in constructor is met because this is called on registration.
+                fireCircuitChanged();
+            }
+        } );
     }
 
     @Override public void reset() {
@@ -111,8 +118,6 @@ public class SingleCircuit extends AbstractCircuit {
                 disconnectedPlateCharge = getTotalCharge();
             }
             batteryConnectedProperty.set( batteryConnected );
-            updatePlateVoltages();
-            fireCircuitChanged();
         }
     }
 
