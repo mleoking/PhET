@@ -2,9 +2,6 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.control.VoltageSliderNode;
 import edu.colorado.phet.capacitorlab.model.Battery;
@@ -31,13 +28,8 @@ public class BatteryNode extends PhetPNode {
 
         // voltage slider
         double trackLength = 0.60 * imageNode.getFullBoundsReference().getHeight();
-        final VoltageSliderNode sliderNode = new VoltageSliderNode( voltageRange, trackLength );
+        final VoltageSliderNode sliderNode = new VoltageSliderNode( battery, voltageRange, trackLength );
         addChild( sliderNode );
-        sliderNode.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                battery.setVoltage( sliderNode.getVoltage() );
-            }
-        } );
 
         // layout
         double x = -imageNode.getFullBoundsReference().getWidth() / 2;
@@ -46,13 +38,6 @@ public class BatteryNode extends PhetPNode {
         x = imageNode.getXOffset() + ( ( imageNode.getFullBoundsReference().getWidth() - sliderNode.getFullBoundsReference().getWidth() ) / 2 ) + 5; // sort of centered
         y = imageNode.getYOffset() + 53; // set by visual inspection, depends on images
         sliderNode.setOffset( x, y );
-
-        // when battery voltage changes, update the slider
-        battery.addVoltageObserver( new SimpleObserver() {
-            public void update() {
-                sliderNode.setVoltage( battery.getVoltage() );
-            }
-        } );
 
         // when battery polarity changes, change the battery image
         battery.addPolarityObserver( new SimpleObserver() {
