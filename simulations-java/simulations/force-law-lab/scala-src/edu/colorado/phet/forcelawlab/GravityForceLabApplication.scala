@@ -16,43 +16,6 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
 import javax.swing.border.TitledBorder
 
-class UnitsControl(units: UnitsContainer, phetFrame: PhetFrame) extends VerticalLayoutPanel {
-  setBorder(ForceLawBorders.createTitledBorder("units")) //todo: translate when used
-  for ( u <- UnitsCollection.values ) {
-    add(new MyRadioButton(u.name, units.units = u, units.units == u, units.addListener))
-  }
-}
-
-case class Units(name: String, scale: Double) {
-  def metersToUnits(m: Double) = m * scale
-
-  def unitsToMeters(u: Double) = u / scale
-}
-
-object UnitsCollection {
-  val values = new Units(ForceLawLabResources.getLocalizedString("units.light-minutes"), 5.5594E-11) :: //new Units("meters", 1.0) ::
-               new Units(ForceLawLabResources.getLocalizedString("units.kilometers"), 1 / 1000.0) :: Nil
-}
-
-class UnitsContainer(private var _units: Units) extends Observable {
-  private val initialState = _units
-
-  def units = _units
-
-  def units_=(u: Units) {
-    _units = u
-    notifyListeners()
-  }
-
-  def metersToUnits(m: Double) = _units.metersToUnits(m)
-
-  def unitsToMeters(u: Double) = _units.unitsToMeters(u)
-
-  def reset() {
-    units = initialState
-  }
-}
-
 class Magnification(private var _magnified: Boolean) extends Observable {
   private val initialState = _magnified
 
@@ -125,7 +88,7 @@ class ForceLawsModule(clock: ScalaClock) extends Module(ForceLawLabResources.get
   val model = new ForceLawLabModel(38, 25, -2, 2, massToRadiusFn, massToRadiusFn, 9E-10, 0.0, 50, 50, -4, ForceLawLabResources.getLocalizedString("mass-1"), ForceLawLabResources.getLocalizedString("mass-2"))
   val canvas = new ForceLawLabCanvas(model, 10, Color.blue, Color.red, Color.white, 10, 10,
                                      ForceLawLabResources.getLocalizedString("units.m"), _.toString, 1E10,
-                                     new TinyDecimalFormat(), new Magnification(false), new UnitsContainer(new Units("meters", 1)))
+                                     new TinyDecimalFormat(), new Magnification(false))
   setSimulationPanel(canvas)
   clock.addClockListener(model.update(_))
   setControlPanel(new ForceLawLabControlPanel(model, () => canvas.resetRulerLocation()))
