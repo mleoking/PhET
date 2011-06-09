@@ -127,7 +127,10 @@ public class SeriesCircuit extends AbstractCircuit {
         return voltage;
     }
 
-    // Sums the plate voltages for all capacitors between some top plate and ground.
+    /*
+     * Sums the plate voltages for all capacitors between some top plate and ground.
+     * Assumes that capacitors are ordered as shown in the javadoc diagram.
+     */
     private double sumPlateVoltages( int topPlateIndex ) {
         double voltage = 0;
         ArrayList<Capacitor> capacitors = getCapacitors();
