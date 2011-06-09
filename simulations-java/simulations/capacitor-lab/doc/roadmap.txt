@@ -2,7 +2,7 @@
 Capacitor Lab: roadmap and notes for developers
 ================================================================================================================
 
-I'd recommend starting with the model of circuit and their components:
+I'd recommend starting with the model of circuits and their components:
 
 ICircuit, AbstractCircuit, and its subclasses
 Battery
