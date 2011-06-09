@@ -1,3 +1,5 @@
+6/8/11 improve capacitor layout algorithm in SeriesCircuit
+6/8/11 document model.wire package
 6/8/11 cleanup method of synchronizing battery voltages
 6/8/11 make model fields public final and delete unneeded getters
 # 1.00.11 (52825) Jun 7, 2011
