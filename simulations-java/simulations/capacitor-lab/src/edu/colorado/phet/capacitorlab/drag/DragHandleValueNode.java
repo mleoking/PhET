@@ -57,12 +57,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         addChild( valueNode );
 
         // layout: value below label, left-justified
-        double x = 0;
-        double y = 0;
-        labelNode.setOffset( x, y );
-        x = labelNode.getXOffset();
-        y = labelNode.getFullBoundsReference().getMaxY() + 1;
-        valueNode.setOffset( x, y );
+        labelNode.setOffset( 0, 0 );
+        valueNode.setOffset( 0, labelNode.getFullBoundsReference().getMaxY() + 1 );
 
         setValue( value );
     }
