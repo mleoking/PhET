@@ -101,7 +101,7 @@ public class PlateChargeControlNode extends PhetPNode {
 
         // nodes
         trackNode = new TrackNode();
-        knobNode = new KnobNode();
+        knobNode = new KnobNode( trackNode, range, circuit );
         TickMarkNode maxTickMarkNode = new TickMarkNode();
         RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LOTS_POSITIVE );
         TickMarkNode zeroTickMarkNode = new TickMarkNode();
@@ -185,72 +185,7 @@ public class PlateChargeControlNode extends PhetPNode {
             titleNode.setOffset( x, y );
         }
 
-        // interactivity
-        initInteractivity();
-
         update();
-    }
-
-    //REVIEW: consider moving this code to KnobNode or a subclass of KnobNode
-    /*
-     * Adds interactivity to the knob.
-     */
-    private void initInteractivity() {
-
-        // hand cursor on knob
-        knobNode.addInputEventListener( new CursorHandler() );
-
-        knobNode.addInputEventListener( new PaintHighlightHandler( knobNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-
-        // Constrain the knob to be dragged vertically within the track
-        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
-
-            private double _globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
-
-            @Override
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( PlateChargeControlNode.this );
-                Point2D pMouseGlobal = PlateChargeControlNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = PlateChargeControlNode.this.localToGlobal( knobNode.getOffset() );
-                _globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
-            }
-
-            @Override
-            protected void drag( PInputEvent event ) {
-                super.drag( event );
-                updateVoltage( event, true /* isDragging */ );
-            }
-
-            @Override
-            protected void endDrag( PInputEvent event ) {
-                updateVoltage( event, false /* isDragging */ );
-                super.endDrag( event );
-            }
-
-            private void updateVoltage( PInputEvent event, boolean isDragging ) {
-                // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( PlateChargeControlNode.this );
-                Point2D pMouseGlobal = PlateChargeControlNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - _globalClickYOffset );
-                Point2D pKnobLocal = PlateChargeControlNode.this.globalToLocal( pKnobGlobal );
-
-                // convert the offset to a charge value
-                double yOffset = pKnobLocal.getY();
-                double trackLength = trackNode.getFullBoundsReference().getHeight();
-                double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-                charge = MathUtil.clamp( charge, range );
-
-                // snap to zero if knob is released and value is close enough to zero
-                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
-                    charge = 0;
-                }
-
-                // set the model
-                circuit.setDisconnectedPlateCharge( charge );
-            }
-        } );
     }
 
     // Updates the control to match the circuit model.
@@ -283,7 +218,7 @@ public class PlateChargeControlNode extends PhetPNode {
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PPath {
-        public KnobNode() {
+        public KnobNode( PNode trackNode, DoubleRange range, SingleCircuit circuit ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -299,6 +234,74 @@ public class PlateChargeControlNode extends PhetPNode {
             setPaint( KNOB_NORMAL_COLOR );
             setStroke( KNOB_STROKE );
             setStrokePaint( KNOB_STROKE_COLOR );
+
+            // hand cursor on knob
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
+            addInputEventListener( new KnobDragHandler( trackNode, range, circuit ) );
+        }
+    }
+
+    // Drag handler for the knob, updates disconnected plate charge as the knob is dragged.
+    private static class KnobDragHandler extends PDragSequenceEventHandler {
+
+        private final PNode trackNode;
+        private final DoubleRange range;
+        private final SingleCircuit circuit;
+        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+
+        public KnobDragHandler( PNode trackNode, DoubleRange range, SingleCircuit circuit ) {
+            this.trackNode = trackNode;
+            this.range = range;
+            this.circuit = circuit;
+        }
+
+        @Override
+        protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            // note the offset between the mouse click and the knob's origin
+            PNode parent = event.getPickedNode().getParent();
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = parent.localToGlobal( event.getPickedNode().getOffset() );
+            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+        }
+
+        @Override
+        protected void drag( PInputEvent event ) {
+            super.drag( event );
+            updateVoltage( event, true /* isDragging */ );
+        }
+
+        @Override
+        protected void endDrag( PInputEvent event ) {
+            updateVoltage( event, false /* isDragging */ );
+            super.endDrag( event );
+        }
+
+        private void updateVoltage( PInputEvent event, boolean isDragging ) {
+
+            PNode parent = event.getPickedNode().getParent();
+
+            // determine the knob's new offset
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
+            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
+
+            // convert the offset to a charge value
+            double yOffset = pKnobLocal.getY();
+            double trackLength = trackNode.getFullBoundsReference().getHeight();
+            double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+            charge = MathUtil.clamp( charge, range );
+
+            // snap to zero if knob is released and value is close enough to zero
+            if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
+                charge = 0;
+            }
+
+            // set the model
+            circuit.setDisconnectedPlateCharge( charge );
         }
     }
 
