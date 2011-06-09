@@ -110,8 +110,8 @@ public class DielectricExcessChargeNode extends PhetPNode {
             for ( int i = 0; i < numberOfCharges; i++ ) {
 
                 // add a pair of charges
-                PNode topChargeNode = ( excessCharge > 0 ) ? new NegativeChargeNode() : new PositiveChargeNode();
-                PNode bottomChargeNode = ( excessCharge > 0 ) ? new PositiveChargeNode() : new NegativeChargeNode();
+                PNode topChargeNode = getTopChargeNode( excessCharge );
+                PNode bottomChargeNode = getBottomChargeNode( excessCharge );
                 parentNode.addChild( topChargeNode );
                 parentNode.addChild( bottomChargeNode );
 
@@ -130,8 +130,8 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 for ( int i = 0; i < numberOfCharges; i++ ) {
 
                     // add a pair of charges
-                    PNode topChargeNode = ( excessCharge > 0 ) ? new NegativeChargeNode() : new PositiveChargeNode();
-                    PNode bottomChargeNode = ( excessCharge > 0 ) ? new PositiveChargeNode() : new NegativeChargeNode();
+                    PNode topChargeNode = getTopChargeNode( excessCharge );
+                    PNode bottomChargeNode = getBottomChargeNode( excessCharge );
                     parentNode.addChild( topChargeNode );
                     parentNode.addChild( bottomChargeNode );
 
@@ -147,6 +147,14 @@ public class DielectricExcessChargeNode extends PhetPNode {
                 }
             }
         }
+    }
+
+    private static PNode getTopChargeNode( double excessCharge ) {
+        return ( excessCharge > 0 ) ? new NegativeChargeNode() : new PositiveChargeNode();
+    }
+
+    private static PNode getBottomChargeNode( double excessCharge ) {
+        return ( excessCharge > 0 ) ? new PositiveChargeNode() : new NegativeChargeNode();
     }
 
     /*
