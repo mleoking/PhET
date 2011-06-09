@@ -35,12 +35,12 @@ Shared classes are broken into model, view and control packages (and subpackages
 role in MVC. Developer stuff is in the developer package.  Each tab has its own package that contains the stuff
 that's specific to that tab: module, canvas, model and control panel.
 
-- There is some duplication between DielectricCanvas and MultipleCapacitorsCanvas, and DielectricModel and
-MultipleCapacitorsModel. This is because: (1) the Dielectric tab was implemented in 1.00 without knowledge
-of the Multiple Capacitors tab, and (2) these 2 tabs are just different enough that trying to move more stuff
-into the base class makes things messy. So in these 2 cases, I'm willing to live with a bit of duplication.
-This is far better than the original suggestion of developing the Multiple Capacitors tab as an entirely
-separate entity.  The entire sim uses the same set of model, view and control components.
+- As noted in the javadoc, there is some duplication between DielectricCanvas and MultipleCapacitorsCanvas,
+and DielectricModel and MultipleCapacitorsModel. This is because: (1) the Dielectric tab was implemented in
+1.00 without knowledge of the Multiple Capacitors tab, and (2) these 2 tabs are just different enough that
+trying to move more stuff into the base class makes things messy. So in these 2 cases, I'm willing to live
+with a bit of duplication. This is far better than the original suggestion of developing the Multiple Capacitors
+tab as an entirely separate entity.  The entire sim uses the same set of model, view and control components.
 
 - Dragging is constrained to the bounds of the play area using the WorldBounds property. This worked out
 very nicely for this sim. But as noted in the WorldBounds constructor, a questionable aspect of this approach
