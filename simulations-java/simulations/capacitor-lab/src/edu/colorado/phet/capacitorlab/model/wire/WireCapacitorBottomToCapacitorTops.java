@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * A specialized wire, found in all of our circuits.
- * It connects the bottom plate of one capacitor (C1) to the top plates of N other capacitor (C2,C3,...,Cn).
+ * It connects the bottom plate of one capacitor (C1) to the top plates of N other capacitors (C2,C3,...,Cn).
  * <code>
  * C1
  * |
