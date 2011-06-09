@@ -263,28 +263,28 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
 
     //Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
     //This code is copied from BufferedPhetPCanvas
-    public void paintComponent( Graphics g ) {
-        if ( PhetUtilities.isMacintosh() ) {
-            super.paintComponent( g );
-        }
-        //Apply the workaround on windows and linux since they have similar behavior
-        else {
-            //Create a new buffer if the old one is wrong size or doesn't exist
-            if ( ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) ) {
-                bufferedImage = new BufferedImage( getWidth(), getHeight(), TYPE_INT_RGB );
-            }
-            //Draw into the buffer
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-            bufferedGraphics.setClip( g.getClipBounds() );
-            super.paintComponent( bufferedGraphics );
-
-            //Draw the buffer into this canvas
-            ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
-
-            //Dispose for memory
-            bufferedGraphics.dispose();
-        }
-    }
+//    public void paintComponent( Graphics g ) {
+//        if ( PhetUtilities.isMacintosh() ) {
+//            super.paintComponent( g );
+//        }
+//        //Apply the workaround on windows and linux since they have similar behavior
+//        else {
+//            //Create a new buffer if the old one is wrong size or doesn't exist
+//            if ( ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) ) {
+//                bufferedImage = new BufferedImage( getWidth(), getHeight(), TYPE_INT_RGB );
+//            }
+//            //Draw into the buffer
+//            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
+//            bufferedGraphics.setClip( g.getClipBounds() );
+//            super.paintComponent( bufferedGraphics );
+//
+//            //Draw the buffer into this canvas
+//            ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
+//
+//            //Dispose for memory
+//            bufferedGraphics.dispose();
+//        }
+//    }
 
     //Returns a function that maps from proposed model point to allowed model point (i.e. within visible bounds), for use with RelativeDragHandler
     public Function1<Point2D, Point2D> getBoundedConstraint() {
