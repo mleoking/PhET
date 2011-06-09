@@ -1,3 +1,4 @@
+# 1.00.01 (52896) Jun 9, 2011
 5/14/11 Moved toolbox-related classes to toolbox package from Bending Light for reuse in Sugar and Salt Solutions
 Generalized toolbox node and related classes for reuse with other canvas types
 # 1.00.00 (51700) May 9, 2011
