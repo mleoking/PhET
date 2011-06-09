@@ -26,15 +26,15 @@ public interface ICircuit {
     // The battery may or may not be connected to the circuit.
     boolean isBatteryConnected();
 
-    /*
-     * Gets an ordered list of capacitors in the circuit.
-     * The capacitors are ordered starting at the battery's top terminal, and proceeding clockwise.
-     */
+    // Gets a list of capacitors in the circuit. All circuits have at least 1 capacitor.
     ArrayList<Capacitor> getCapacitors();
 
     /*
-     * Gets an ordered list of wires in the circuit.
-     * The wires are ordered starting at the battery's top terminal, and proceeding clockwise.
+     * Gets a list of wires in the circuit.
+     * All circuit contain at least 2 wires, and order is somewhat important:
+     * The first wire in the list is connected to the battery's top terminal.
+     * The last wire in the list is connected to the battery's bottom terminal.
+     * The order of other wires in the list is up to the specific circuit.
      */
     ArrayList<Wire> getWires();
 
@@ -55,7 +55,7 @@ public interface ICircuit {
 
     /*
      * Gets the voltage between 2 Shapes. The shapes are in world coordinates.
-     * Returns Double.NaN if the 2 Shape are not both connected to the circuit
+     * Returns Double.NaN if the 2 Shapes are not both connected to the circuit
      */
     double getVoltageBetween( Shape positiveShape, Shape negativeShape );
 
