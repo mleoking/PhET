@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.common.phetcommon.math.Function;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -70,17 +71,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         final double xModel2 = getModelX( pMouse, xView2 );
 
         Function.LinearFunction function = new Function.LinearFunction( xView1, xView2, xModel1, xModel2 );
-        double plateWidth = function.createInverse().evaluate( 0 );
-
-        // constrain to the plate width bounds
-        if ( plateWidth > valueRange.getMax() ) {
-            plateWidth = valueRange.getMax();
-        }
-        else if ( plateWidth < valueRange.getMin() ) {
-            plateWidth = valueRange.getMin();
-        }
-
-        return plateWidth;
+        return MathUtil.clamp( function.createInverse().evaluate( 0 ), valueRange );
     }
 
     /*

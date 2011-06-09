@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -49,13 +50,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double yView = pMouse.getY() - clickYOffset;
-        double yModel = 2 * mvt.viewToModelDelta( 0, -yView ).getY();
-        if ( yModel > valueRange.getMax() ) {
-            yModel = valueRange.getMax();
-        }
-        else if ( yModel < valueRange.getMin() ) {
-            yModel = valueRange.getMin();
-        }
+        double yModel = MathUtil.clamp( 2 * mvt.viewToModelDelta( 0, -yView ).getY(), valueRange );
         capacitor.setPlateSeparation( yModel );
     }
 }

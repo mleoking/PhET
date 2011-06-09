@@ -7,6 +7,8 @@ import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+
 /**
  * A class of static general purpose math utilities.
  *
@@ -447,6 +449,10 @@ public class MathUtil {
             return max;
         }
         return value;
+    }
+
+    public static double clamp( double value, DoubleRange range ) {
+        return clamp( range.getMin(), value, range.getMax() );
     }
 
     /**

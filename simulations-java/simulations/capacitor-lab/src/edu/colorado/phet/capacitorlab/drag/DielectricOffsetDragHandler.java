@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
@@ -49,15 +50,7 @@ public class DielectricOffsetDragHandler extends PDragSequenceEventHandler {
         super.drag( event );
         Point2D pMouse = event.getPositionRelativeTo( dragNode.getParent() );
         double xView = pMouse.getX() - clickXOffset;
-        double xModel = mvt.viewToModelDelta( xView, 0 ).getX();
-
-        //REVIEW: consider using MathUtil.clamp in cases like this
-        if ( xModel > valueRange.getMax() ) {
-            xModel = valueRange.getMax();
-        }
-        else if ( xModel < valueRange.getMin() ) {
-            xModel = valueRange.getMin();
-        }
+        double xModel = MathUtil.clamp( mvt.viewToModelDelta( xView, 0 ).getX(), valueRange );
         capacitor.setDielectricOffset( xModel );
     }
 }

@@ -240,7 +240,7 @@ public class PlateChargeControlNode extends PhetPNode {
                 double yOffset = pKnobLocal.getY();
                 double trackLength = trackNode.getFullBoundsReference().getHeight();
                 double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-                charge = MathUtil.clamp( range.getMin(), charge, range.getMax() );
+                charge = MathUtil.clamp( charge, range );
 
                 // snap to zero if knob is released and value is close enough to zero
                 if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
