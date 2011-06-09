@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.forcelawlab
+package edu.colorado.phet.forcelawlab.view
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import edu.umd.cs.piccolo.PNode
@@ -8,6 +8,7 @@ import edu.umd.cs.piccolo.util.PDimension
 import java.awt.geom.Point2D
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 import edu.colorado.phet.scalacommon.math.Vector2D
+import edu.colorado.phet.forcelawlab.model.Mass
 
 //Drag handler used for translating the masses with the mouse
 class DragHandler(mass: Mass,
