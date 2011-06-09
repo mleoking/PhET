@@ -56,9 +56,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         valueNode.setFont( VALUE_FONT );
         addChild( valueNode );
 
-        //REVIEW: make a note about why setValue has to be called before layout code is called
-        setValue( value );
-
         // layout: value below label, left-justified
         double x = 0;
         double y = 0;
@@ -66,6 +63,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         x = labelNode.getXOffset();
         y = labelNode.getFullBoundsReference().getMaxY() + 1;
         valueNode.setOffset( x, y );
+
+        setValue( value );
     }
 
     public void setValue( double value ) {
