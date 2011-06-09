@@ -343,7 +343,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
      */
     public void updatePossibleIsotopesList() {
         // Get a list of all stable isotopes for the current atomic number.
-        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopes( prototypeIsotope.getNumProtons() );
+        ArrayList<ImmutableAtom> newIsotopeList = AtomIdentifier.getStableIsotopesOfElement( prototypeIsotope.getNumProtons() );
 
         // Sort from lightest to heaviest.  Do not change this without careful
         // considerations, since several areas of the code count on this.
