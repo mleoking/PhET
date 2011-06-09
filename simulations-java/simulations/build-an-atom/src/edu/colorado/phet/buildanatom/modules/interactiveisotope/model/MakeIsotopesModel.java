@@ -141,10 +141,14 @@ public class MakeIsotopesModel implements Resettable, IConfigurableAtomModel {
         return atom;
     }
 
-    //REVIEW: doc
-    //  Why isn't this setter method part of IAtom? Then the
-    //  model could react to the atom change to add electrons, protons, etc.
-    //  Or maybe describe what's going on here and why it's done here.
+    /**
+     * Set the configuration of the atom that the user interacts with.  This
+     * is done here rather than by directly accessing the atom so that the
+     * appropriate notifications can be sent and the bucket can be
+     * reinitialized.
+     *
+     * @param atomConfig New configuration to which the atom should be set.
+     */
     public void setAtomConfiguration( IAtom atomConfig ) {
         if ( !atom.configurationEquals( atomConfig ) ) {
             // Clear the atom.
