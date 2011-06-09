@@ -5,7 +5,7 @@
 
 detector-thumb.gif author=PhET 
 faucet1.gif source=microsoft notes=This image is not used in the sim "j0356883.wmf "
-faucet2.gif source=Public Domain Clip Art notes="Faucet", 'http://www.clker.com/search/faucet/1'
+faucet2.gif source=Wikimedia Commons="Faucet in a bathroom sink", 'http://commons.wikimedia.org/wiki/File:Faucet_in_a_bathroom_sink.jpg'
 particle-blue.gif author=PhET
 particle-pink.gif author=PhET 
 raindrop1.png author=PhET 
