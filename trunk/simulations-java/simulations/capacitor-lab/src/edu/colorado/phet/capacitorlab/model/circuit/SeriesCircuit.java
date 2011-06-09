@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
- * Model of a circuit with a battery (B) and N capacitors (Ci) in series.
+ * Model of a circuit with a battery (B) and N capacitors (C1...Cn) in series.
  * <p/>
  * <code>
  * |-----|
@@ -68,19 +68,14 @@ public class SeriesCircuit extends AbstractCircuit {
     // Creates a column of capacitors, to the right of the battery, vertically centered on the battery.
     private ArrayList<Capacitor> createCapacitors( int numberOfCapacitors, CircuitConfig config ) {
 
+        // location of first capacitor
         final double x = config.batteryLocation.getX() + config.capacitorXSpacing;
-        double y;
+        double y = config.batteryLocation.getY() - ( ( numberOfCapacitors / 2 ) * config.capacitorYSpacing );
+        if ( numberOfCapacitors % 2 == 0 ) {
+            // we have an even number of capacitors, shift up
+            y += ( 0.5 * config.capacitorYSpacing );
+        }
         final double z = config.batteryLocation.getZ();
-
-        double half = numberOfCapacitors / 2;
-        if ( half * 2 != numberOfCapacitors ) {
-            // we have an odd number of capacitors, align the middle one with the battery
-            y = config.batteryLocation.getY() - ( half * config.capacitorYSpacing );
-        }
-        else {
-            // we have an even number of capacitors
-            y = config.batteryLocation.getY() - ( half * config.capacitorYSpacing ) + ( 0.5 * config.capacitorYSpacing );
-        }
 
         ArrayList<Capacitor> capacitors = new ArrayList<Capacitor>();
         for ( int i = 0; i < numberOfCapacitors; i++ ) {
