@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.shapes;
 
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
@@ -27,11 +27,11 @@ public class BoxShapeFactory {
 
     /**
      * Top face is a parallelogram.
-     *
-     *          p0 -------------- p1
-     *          /                /
-     *         /                /
-     *       p3 --------------p2
+     * <p/>
+     * p0 -------------- p1
+     * /                /
+     * /                /
+     * p3 --------------p2
      */
     public Shape createTopFace( double x, double y, double z, double width, double height, double depth ) {
         // points
@@ -49,11 +49,11 @@ public class BoxShapeFactory {
 
     /**
      * Front face is a rectangle.
-     *
-     *    p0 --------------- p1
-     *     |                 |
-     *     |                 |
-     *    p3 --------------- p2
+     * <p/>
+     * p0 --------------- p1
+     * |                 |
+     * |                 |
+     * p3 --------------- p2
      */
     public Shape createFrontFace( double x, double y, double z, double width, double height, double depth ) {
         // points
@@ -72,19 +72,19 @@ public class BoxShapeFactory {
 
     /**
      * Side face is a parallelogram.
-     *
-     *              p1
-     *             / |
-     *            /  |
-     *           /   |
-     *          /   p2
-     *         p0   /
-     *         |   /
-     *         |  /
-     *         | /
-     *         p3
+     * <p/>
+     * p1
+     * / |
+     * /  |
+     * /   |
+     * /   p2
+     * p0   /
+     * |   /
+     * |  /
+     * | /
+     * p3
      */
-    public Shape createSideFace( double x, double y, double z, double width, double height, double depth  ) {
+    public Shape createSideFace( double x, double y, double z, double width, double height, double depth ) {
         // points
         Point2D p0 = mvt.modelToView( x + ( width / 2 ), y, z - ( depth / 2 ) );
         Point2D p1 = mvt.modelToView( x + ( width / 2 ), y, z + ( depth / 2 ) );

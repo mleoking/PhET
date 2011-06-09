@@ -2,14 +2,11 @@
 
 package edu.colorado.phet.capacitorlab.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
 import edu.umd.cs.piccolo.PCanvas;
