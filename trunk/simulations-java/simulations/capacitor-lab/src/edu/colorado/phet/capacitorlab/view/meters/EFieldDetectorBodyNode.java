@@ -23,6 +23,7 @@ import edu.colorado.phet.capacitorlab.model.meter.EFieldDetector;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButtonNode.ZoomInButtonNode;
 import edu.colorado.phet.capacitorlab.view.meters.ZoomButtonNode.ZoomOutButtonNode;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -283,17 +284,13 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             detector.addDielectricVectorObserver( vectorsObserver );
             detector.addSumVectorObserver( vectorsObserver );
 
-            //REVIEW: consider using RichSimpleObserver in cases like this
             // observer visibility changes
-            SimpleObserver visibilityObserver = new SimpleObserver() {
+            RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
                 public void update() {
                     updateVisibility();
                 }
             };
-            detector.plateVisibleProperty.addObserver( visibilityObserver );
-            detector.dielectricVisibleProperty.addObserver( visibilityObserver );
-            detector.sumVisibleProperty.addObserver( visibilityObserver );
-            detector.valuesVisibleProperty.addObserver( visibilityObserver );
+            visibilityObserver.observe( detector.plateVisibleProperty, detector.dielectricVisibleProperty, detector.sumVisibleProperty, detector.valuesVisibleProperty );
 
             zoom();
         }
