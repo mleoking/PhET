@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Paint;
+import java.awt.*;
 
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -14,7 +14,8 @@ public class PlusNode extends PComposite {
 
     /**
      * Constructor
-     * @param width width of the horizontal bar
+     *
+     * @param width  width of the horizontal bar
      * @param height height of the horizontal bar
      * @param paint
      */

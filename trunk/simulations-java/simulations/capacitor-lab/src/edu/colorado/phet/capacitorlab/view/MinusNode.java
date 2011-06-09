@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class MinusNode extends PPath {
 
     public MinusNode( double width, double height, Paint paint ) {
-        super( new Rectangle2D.Double( -width/2, -height/2, width, height ) );
+        super( new Rectangle2D.Double( -width / 2, -height / 2, width, height ) );
         setStroke( null );
         setPaint( paint );
     }

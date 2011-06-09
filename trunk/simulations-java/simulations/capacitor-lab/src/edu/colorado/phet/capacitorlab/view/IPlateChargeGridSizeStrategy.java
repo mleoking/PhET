@@ -2,14 +2,14 @@
 
 package edu.colorado.phet.capacitorlab.view;
 
-import java.awt.Dimension;
+import java.awt.*;
 
 /**
  * Interface for all strategies used to determine the size of the grid used to represent plate charge.
- * <p>
+ * <p/>
  * Only one of these strategies is used. The others are kept for historical purposes,
  * so that we know what we tried, why it didn't work, and how we arrived at the final solution.
- * <p>
+ * <p/>
  * See TestPlateChargeLayout for a test application.
  */
 public interface IPlateChargeGridSizeStrategy {
@@ -19,8 +19,8 @@ public interface IPlateChargeGridSizeStrategy {
      * The number of cells in the grid may be more or less than numberOfObjects.
      *
      * @param numberOfObjects number of objects to put on the plate
-     * @param width width of the plate
-     * @param height height of the plate
+     * @param width           width of the plate
+     * @param height          height of the plate
      * @return
      */
     public Dimension getGridSize( int numberOfObjects, double width, double height );
@@ -45,8 +45,8 @@ public interface IPlateChargeGridSizeStrategy {
         public Dimension getGridSize( int numberOfObjects, double width, double height ) {
             double alpha = Math.sqrt( numberOfObjects / width / height );
             // casting here may result in some charges being thrown out, but that's OK
-            int columns = (int)( width * alpha );
-            int rows = (int)( height * alpha );
+            int columns = (int) ( width * alpha );
+            int rows = (int) ( height * alpha );
             return new Dimension( columns, rows );
         }
     }
@@ -117,7 +117,7 @@ public interface IPlateChargeGridSizeStrategy {
                     columns = numberOfObjects;
                 }
             }
-            assert( columns >= 0 && rows >=0 );
+            assert ( columns >= 0 && rows >= 0 );
             return new Dimension( columns, rows );
         }
     }

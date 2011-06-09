@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.capacitorlab.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Point2D;
@@ -12,8 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
