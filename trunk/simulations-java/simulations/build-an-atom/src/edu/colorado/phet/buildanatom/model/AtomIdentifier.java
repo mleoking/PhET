@@ -26,8 +26,9 @@ import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
  */
 public class AtomIdentifier {
 
-    // This data structure maps the proton number, a.k.a. the atomic number,
-    // to the element name.
+    // This data structure maps the atomic number (i.e. the number of protons
+    // in the nucleus) to the translatable element name.  Only element names
+    // displayed in the simulation are translatable.
     private static final HashMap<Integer, String> MAP_PROTON_COUNT_TO_NAME = new HashMap<Integer, String>() {
         {
             put( 0, new String( BuildAnAtomStrings.ELEMENT_NONE_NAME ) );//for an unbuilt or empty atom
@@ -259,7 +260,7 @@ public class AtomIdentifier {
 
     // Table of element symbols, indexed by the atomic number.  Note that this
     // is not internationalizable, a decision made by the chemistry team.
-    public static final String[] ELEMENT_SYMBOL_TABLE = {
+    private static final String[] ELEMENT_SYMBOL_TABLE = {
             BuildAnAtomStrings.ELEMENT_NONE_SYMBOL, // 0, NO ELEMENT
             "H", // 1, HYDROGEN
             "He", // 2, HELIUM
@@ -380,8 +381,12 @@ public class AtomIdentifier {
     //
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
     //
-    // ...though some post-processing was necessary to get it into the format below.
-    private static final String ISOTOPE_INFORMATION_TABLE_STR =
+    // ...though some minor manual post-processing was necessary to get it
+    // into the format below.  In order to minimize initialization time, this
+    // table was processed by routines below into a data structure that is then
+    // used at run time.  It is retained here in this file for maintenance
+    // purposes.
+    private static final String RAW_ISOTOPE_INFORMATION_TABLE_STR =
             // Format:
             // Atomic number (empty if same as previous), Symbol, mass number, atomic mass, abundance.
             "1,H,1,1.00782503207,0.999885\n" +
@@ -738,7 +743,7 @@ public class AtomIdentifier {
 
     // CSV-formatted table that maps atomic numbers to standard atomic mass
     // (a.k.a. standard atomic weight).  This was obtained from the URL below
-    // subsequently post-processed to remove unneeded data:
+    // and subsequently post-processed to remove unneeded data:
     //
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=ascii2&isotype=some
     private static final String MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS_STRING =
@@ -1740,6 +1745,61 @@ public class AtomIdentifier {
         }
     }
 
+    /**
+     * Class that contains the number of protons and neutrons in an atomic
+     * nucleus.  This information can be used to uniquely identify any
+     * isotope, so it is used as the key to the tables where isotope
+     * information is stored.
+     */
+    private static class IsotopeKey {
+        private final int numProtons; // a.k.a. the atomic number
+
+        private final int numNeutrons;
+
+        public IsotopeKey( int numProtons, int numNeutrons ) {
+            this.numProtons = numProtons;
+            this.numNeutrons = numNeutrons;
+        }
+
+        public int getNumProtons() {
+            return numProtons;
+        }
+
+        public int getNumNeutrons() {
+            return numNeutrons;
+        }
+
+        //Regenerate equals and hashcode if you change the contents of the isotope
+
+        @Override
+        public boolean equals( Object o ) {
+            if ( this == o ) {
+                return true;
+            }
+            if ( o == null || getClass() != o.getClass() ) {
+                return false;
+            }
+
+            IsotopeKey isotopeKey = (IsotopeKey) o;
+
+            if ( numProtons != isotopeKey.getNumProtons() ) {
+                return false;
+            }
+            if ( numNeutrons != isotopeKey.getNumNeutrons() ) {
+                return false;
+            }
+
+            return true;
+        }
+
+        @Override
+        public int hashCode() {
+            int result = numProtons;
+            result = 31 * result + numNeutrons;
+            return result;
+        }
+    }
+
     private static class Isotope2 {
         public final int protonCount;
         public final int neutronCount;
@@ -1787,6 +1847,78 @@ public class AtomIdentifier {
     }
 
     /**
+     * Class that contains a bunch of information for an isotope.  Note that
+     * it does NOT contain the configuration of the isotope nucleus, since it
+     * is expected to be used in a map that associates the configuration with
+     * this information.
+     */
+    private static class IsotopeInfo {
+        public double atomicMass;
+        public String elementSymbol;
+        public String elementName;
+        public double abundance;      // On earth, present day.
+        public boolean stable;        // True if the half life is greater than the age of the universe.
+
+        /**
+         * Constructor.
+         */
+        public IsotopeInfo() {
+            // Default constructor does no initialization.
+        }
+
+        /**
+         * Constructor.
+         */
+        private IsotopeInfo( double atomicMass, String elementSymbol, String elementName, double abundance, boolean stable ) {
+            this.atomicMass = atomicMass;
+            this.elementSymbol = elementSymbol;
+            this.elementName = elementName;
+            this.abundance = abundance;
+            this.stable = stable;
+        }
+
+        public double getAtomicMass() {
+            return atomicMass;
+        }
+
+        public void setAtomicMass( double atomicMass ) {
+            this.atomicMass = atomicMass;
+        }
+
+        public String getElementSymbol() {
+            return elementSymbol;
+        }
+
+        public void setElementSymbol( String elementSymbol ) {
+            this.elementSymbol = elementSymbol;
+        }
+
+        public String getElementName() {
+            return elementName;
+        }
+
+        public void setElementName( String elementName ) {
+            this.elementName = elementName;
+        }
+
+        public double getAbundance() {
+            return abundance;
+        }
+
+        public void setAbundance( double abundance ) {
+            this.abundance = abundance;
+        }
+
+        public boolean isStable() {
+            return stable;
+        }
+
+        public void setStable( boolean stable ) {
+            this.stable = stable;
+        }
+    }
+
+    /**
      * Get the configuration of the most abundant isotope of the element with
      * with given atomic number.  The returned atom will be neutral.
      *
@@ -1810,12 +1942,12 @@ public class AtomIdentifier {
     }
 
     /**
-     * Get a list of all stable isotopes for the given atomic weight.
+     * Get a list of all isotopes for the given atomic number.
      *
      * @param atomicNumber
      * @return
      */
-    public static ArrayList<ImmutableAtom> getAllIsotopes( int atomicNumber ) {
+    public static ArrayList<ImmutableAtom> getAllIsotopesOfElement( int atomicNumber ) {
         ArrayList<ImmutableAtom> isotopeList = new ArrayList<ImmutableAtom>();
         ArrayList<Isotope2> isotopeInfoList = new ArrayList<Isotope2>( ISOTOPE_INFORMATION_TABLE.get( atomicNumber ) );
         for ( Isotope2 isotope : isotopeInfoList ) {
@@ -1832,8 +1964,8 @@ public class AtomIdentifier {
      * @param atomicNumber
      * @return
      */
-    public static ArrayList<ImmutableAtom> getStableIsotopes( int atomicNumber ) {
-        ArrayList<ImmutableAtom> isotopeList = getAllIsotopes( atomicNumber );
+    public static ArrayList<ImmutableAtom> getStableIsotopesOfElement( int atomicNumber ) {
+        ArrayList<ImmutableAtom> isotopeList = getAllIsotopesOfElement( atomicNumber );
         ArrayList<ImmutableAtom> stableIsotopeList = new ArrayList<ImmutableAtom>( isotopeList );
         for ( ImmutableAtom isotope : isotopeList ) {
             if ( !isStable( isotope ) ) {
@@ -1873,8 +2005,7 @@ public class AtomIdentifier {
     }
 
     /**
-     * Use to regenerate element symbol table if needed.  Run from "main" if
-     * needed.
+     * Use to regenerate element symbol table.  Run from "main" if needed.
      */
     private static void generateSymbolTable() {
         String t = ORIGINAL_TABLE;
@@ -1901,12 +2032,12 @@ public class AtomIdentifier {
      * Generate a data structure from the Isotope table that is in string
      * format.  Rename to "main" to use.
      */
-    private static void generateIsotopeInfoTable() {
+    private static void generateIsotopeInfoTableOld() {
 
         // Break the overall string into lines.
-        String[] lines = ISOTOPE_INFORMATION_TABLE_STR.split( "\n" );
+        String[] lines = RAW_ISOTOPE_INFORMATION_TABLE_STR.split( "\n" );
 
-        System.out.println( "// Automatically generated, see routines in this class." );
+        System.out.println( "   // Automatically generated, see routines in this class." );
 
         // Process each line.
         int currentAtomicNumber = 0;
@@ -1934,13 +2065,15 @@ public class AtomIdentifier {
 
     public static class GenerateIsotopeInfoTable {
         public static void main( String[] args ) {
-            AtomIdentifier.generateIsotopeInfoTable();
+            AtomIdentifier.generateIsotopeInfoTableOld();
         }
     }
 
     /**
      * Generate a data structure that maps atomic number to average atomic
-     * mass.  Rename to "main" to use.
+     * mass.  This prints to the console, with the intent being that the
+     * output is pasted back into this file.  Call this from the "main"
+     * function in order to regenerate the table.
      */
     private static void generateMapOfAtomicNumberToMass() {
 
@@ -1957,6 +2090,48 @@ public class AtomIdentifier {
             // Start the list of isotopes for this atomic number.
             System.out.println( "put( " + currentAtomicNumber + ", " + "\"" + dataElements[1].trim() + "\"" + " );" );
         }
+    }
+
+    /**
+     * Generate the code that defines and initializes a data structure with
+     * information about isotopes.  This is meant to be run from the main
+     * routine, and then its output is cut from the console and pasted into
+     * this source code file to define the needed run-time data.
+     */
+    private void generateIsotopeInfoTable() {
+        Map<IsotopeKey, IsotopeInfo> isotopeInfoMap = new HashMap<IsotopeKey, IsotopeInfo>();
+
+        System.out.println( "   // Automatically generated, see routines in this class." );
+
+        // Create the map by going through the raw information table and
+        // adding an entry for each entry in the raw table.
+        String[] lines = RAW_ISOTOPE_INFORMATION_TABLE_STR.split( "\n" );
+        int currentAtomicNumber = 0;
+        String currentSymbol = "";
+        for ( String line : lines ) {
+            final String[] dataElements = line.split( "," );
+            if ( dataElements[0].length() != 0 ) {
+                currentAtomicNumber = Integer.parseInt( dataElements[0] );
+                currentSymbol = dataElements[1]; // This ignores isotope names, which is what we want.
+            }
+            int numNeutrons = Integer.parseInt( dataElements[2] ) - currentAtomicNumber;
+            IsotopeKey isotopeKey = new IsotopeKey( currentAtomicNumber, Integer.parseInt( dataElements[2] ) - currentAtomicNumber );
+            IsotopeInfo isotopeInfo = new IsotopeInfo();
+            isotopeInfo.setAtomicMass( Double.parseDouble( dataElements[3] ) );
+            isotopeInfo.setAbundance( dataElements.length >= 5 ? Double.parseDouble( dataElements[4] ) : 0 );
+            isotopeInfo.setElementSymbol( currentSymbol );
+
+            isotopeInfoMap.put( isotopeKey, isotopeInfo );
+        }
+
+        // Add the element names for the elements that can be translated.
+
+        // Add the stability information.
+
+        // TODO: How fast is it to create this at init time?  If reasonably fast, just do it.
+        // Print this data as a structure that will declare and initialize a
+        // the same structure but without all the processing.
+
     }
 
     public static void main( String[] args ) {
