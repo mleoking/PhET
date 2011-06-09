@@ -215,14 +215,12 @@ public class PeriodicTableNode extends PNode {
         }
     }
 
-    //REVIEW typo in class name, should be HighlightingElementCell ?
-
     /**
-     * Cell that watches the atom and highlights the cell if the atomic number
-     * matches that of the cell.
+     * Cell that watches the atom and highlights itself if the atomic number
+     * matches its configuration.
      */
-    public static class HightlightingElementCell extends BasicElementCell {
-        public HightlightingElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+    public static class HighlightingElementCell extends BasicElementCell {
+        public HighlightingElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber, backgroundColor );
             getAtom().addAtomListener( new AtomListener.Adapter() {
                 @Override
@@ -233,7 +231,7 @@ public class PeriodicTableNode extends PNode {
                         getBox().setStroke( new BasicStroke( 2 ) );
                         getBox().setStrokePaint( PhetColorScheme.RED_COLORBLIND );
                         getBox().setPaint( Color.white );
-                        HightlightingElementCell.this.moveToFront();
+                        HighlightingElementCell.this.moveToFront();
                     }
                     else {
                         getText().setTextPaint( Color.BLACK );

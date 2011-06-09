@@ -2,14 +2,12 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
@@ -17,6 +15,7 @@ import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode.HighlightingElementCell;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -36,8 +35,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author John Blanco
  */
 public class GamePeriodicTable extends PNode {
-    private final ArrayList<SimpleObserver> jradioButtonListeners=new ArrayList<SimpleObserver>( );
-    private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION};
+    private final ArrayList<SimpleObserver> jradioButtonListeners = new ArrayList<SimpleObserver>();
+
+    private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION}
+
+    ;
     private final SimpleAtom atom = new SimpleAtom();
     private final Property<GamePeriodicTable.ChargeGuess> chargeGuessProperty = new Property<GamePeriodicTable.ChargeGuess>( ChargeGuess.UNANSWERED );
     private final PNode selectNeutralOrIonTypeNode;
@@ -87,14 +89,14 @@ public class GamePeriodicTable extends PNode {
         }} );
 
         selectNeutralOrIonTypeNode = new PNode();
-        PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ){{
+        PText buttonLabel = new PText( BuildAnAtomStrings.IS_IT ) {{
             setFont( new PhetFont( 30, true ) );
         }};
         selectNeutralOrIonTypeNode.addChild( buttonLabel );
         buttonPanelNode.setOffset( buttonLabel.getFullBoundsReference().width + 5,
-                buttonLabel.getFullBoundsReference().height * 0.6 - buttonPanelNode.getFullBoundsReference().height / 2 );
+                                   buttonLabel.getFullBoundsReference().height * 0.6 - buttonPanelNode.getFullBoundsReference().height / 2 );
         selectNeutralOrIonTypeNode.addChild( buttonPanelNode );
-        addChild(selectNeutralOrIonTypeNode);
+        addChild( selectNeutralOrIonTypeNode );
 
         // This selector is initially invisible but then appears when the
         // user makes a selection in the periodic table.
@@ -136,13 +138,13 @@ public class GamePeriodicTable extends PNode {
         return ( atomValue.isNeutral() && chargeGuessProperty.get() == ChargeGuess.NEUTRAL_ATOM ) || ( !atomValue.isNeutral() && chargeGuessProperty.get() == ChargeGuess.ION );
     }
 
-    public void setGuessNeutral( boolean isNeutral ){
+    public void setGuessNeutral( boolean isNeutral ) {
         // This assumes that the guess is being set to something other
         // than UNANSWERED.
-        if ( isNeutral ){
+        if ( isNeutral ) {
             chargeGuessProperty.set( ChargeGuess.NEUTRAL_ATOM );
         }
-        else{
+        else {
             chargeGuessProperty.set( ChargeGuess.ION );
         }
         // Display the selector node in case it isn't already visible.
@@ -150,7 +152,7 @@ public class GamePeriodicTable extends PNode {
     }
 
     public void addJRadioButtonListener( SimpleObserver simpleObserver ) {
-        jradioButtonListeners.add(simpleObserver);
+        jradioButtonListeners.add( simpleObserver );
     }
 
     /**
@@ -158,7 +160,7 @@ public class GamePeriodicTable extends PNode {
      * on by the user in order to submit a guess about an atom's
      * configuration.
      */
-    private static class SelectableElementCell extends PeriodicTableNode.HightlightingElementCell {
+    private static class SelectableElementCell extends HighlightingElementCell {
         public SelectableElementCell( final GamePeriodicTable table, final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber, backgroundColor );
             addInputEventListener( new CursorHandler() );
