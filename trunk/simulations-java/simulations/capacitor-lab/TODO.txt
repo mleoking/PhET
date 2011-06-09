@@ -3,6 +3,7 @@ TODO list for capacitor-lab
 HIGH PRIORITY
 
 MEDIUM PRIORITY
-- create implementation notes document
+
+LOW PRIORITY
 
 --
