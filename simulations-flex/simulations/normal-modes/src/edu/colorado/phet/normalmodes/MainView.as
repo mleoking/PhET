@@ -1,3 +1,4 @@
+
 /**
  * Created by IntelliJ IDEA.
  * User: Dubson
@@ -9,11 +10,14 @@ package edu.colorado.phet.normalmodes {
 import flash.display.Sprite;
 
 import mx.containers.Canvas;
+import mx.controls.sliderClasses.Slider;
 
 public class MainView extends Canvas {
+
     var myModel: Model;
     var myView: View;
     var myPlayPauseButtons: PlayPauseButtons;
+    var mySliderArrayPanel: SliderArrayPanel;
     //var ruler:VerticalRuler;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
@@ -38,12 +42,13 @@ public class MainView extends Canvas {
         this.myPlayPauseButtons.x = 0.5*stageW;
         this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
 
-        this.myControlPanel = new ControlPanel( this, myModel );
+        this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel );
+        this.mySliderArrayPanel.x = 0*stageW;
+        this.mySliderArrayPanel.y = 0.5*stageH;
 
-        //this.myControlPanel.right = 10;    //does not work, "right" is a style property
-        //this.myControlPanel.setStyle("right", 10);    //this works, but forces the control panel on the far right
+        this.myControlPanel = new ControlPanel( this, myModel );
         this.myControlPanel.x = 0.1 * stageW; //- 3 * this.myControlPanel.width;
-        this.myControlPanel.y = 0.1 * stageH;
+        this.myControlPanel.y = 0.02 * stageH;
 
 
         this.phetLogo = new PhetIcon();
@@ -52,6 +57,7 @@ public class MainView extends Canvas {
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
         this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
+        this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView ) );
         //this.addChild( new SpriteUIComponent( ruler ));
         this.addChild( myControlPanel );
@@ -72,7 +78,13 @@ public class MainView extends Canvas {
         this.myView.initializeControls();
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
+        this.myControlPanel.setNbrMassesExternally( 5 );
         //this.setNbrResonators(2);
+    }
+
+    public function positionSliderPanel():void{
+        trace("MainView.positionSliderPanel  mySliderArrayPanel.x = "+this.mySliderArrayPanel.x)
+       //this.mySliderArrayPanel.x = 0.5*stageW - this.mySliderArrayPanel.width/2;
     }
 
 

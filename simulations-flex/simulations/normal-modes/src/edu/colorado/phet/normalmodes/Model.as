@@ -26,8 +26,12 @@ public class Model {
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
     private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
+    private var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
+    private var modeAmpli_arr:Array;//array of normal mode amplitudes
+    private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMass:int;    //index of mass grabbed by mouse
     private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
+
     //time variables
     private var _paused: Boolean;  //true if sim paused
     private var t: Number;		    //time in seconds
@@ -45,6 +49,9 @@ public class Model {
         this.v_arr = new Array(_nMax + 2);
         this.a_arr = new Array(_nMax + 2);
         this.aPre_arr = new Array(_nMax + 2);
+        this.modeOmega_arr = new Array( _nMax );
+        this.modeAmpli_arr = new Array( _nMax );
+        this.modePhase_arr = new Array( _nMax );
         this.initialize();
     }//end of constructor
 
@@ -59,6 +66,7 @@ public class Model {
         this._grabbedMass = 0;      //left mass (index 0) is always stationary
         this._longitudinalMode = true;
         this.initializeKinematicArrays();
+        this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
         this._paused = false;
         this.t = 0;
@@ -83,19 +91,16 @@ public class Model {
         }
     }//end initializeKinematicArrays()
 
-//    public function zeroXPositions():void{
-//        var arrLength:int = this._N + 2;
-//        for(var i:int = 0; i < arrLength; i++){
-//           this.x_arr[i] = i*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
-//        }
-//    }
-//
-//    public function zeroYPositions():void{
-//        var arrLength:int = this._N + 2;
-//        for(var i:int = 0; i < arrLength; i++){
-//           this.y_arr[i] = 0;
-//        }
-//    }
+    private function initializeModeArrays():void{
+        var omega0:Number = Math.sqrt( k/m );
+        for(var i:int = 0; i < _nMax; i++){
+            var j:int = i + 1;
+            modeOmega_arr[i] = 2*omega0*Math.sin( j*Math.PI/(2*(_N + 1 )));
+            modeAmpli_arr[i] = 0;
+            modePhase_arr[i] = 0;
+        }
+    }
+
 
     //for testing only
     private function setInitialPositions():void{
@@ -173,6 +178,7 @@ public class Model {
         return this._longitudinalMode;
     }
 
+    //currently unused, because model has no damping
     public function setB(b:Number):void{
         if(b < 0 || b > 2*Math.sqrt(this.m*this.k)){         //if b negative or if b > critical damping value
             trace("ERROR: damping constant out of bounds")
@@ -193,6 +199,15 @@ public class Model {
             trace("ERROR: incorrect string argument in Model.setTorL().")
         }
     }//end setTorL
+
+    public function setModeAmpli( modeNbr:int, A:Number ):void{
+        this.modeAmpli_arr[ modeNbr - 1 ] = A;
+        trace("Model.setModeAmpli.  A = "+ A);
+    }
+
+    public function setModePhase( modeNbr:int,  phase:Number ):void{
+        this.modePhase_arr[ modeNbr - 1 ] = phase;
+    }
 
     public function setTRate(rate:Number):void{
         this.tRate = rate;
@@ -244,6 +259,8 @@ public class Model {
         this.singleStep();
         evt.updateAfterEvent();
     }
+
+
 
     private function singleStep(): void {
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
