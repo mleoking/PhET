@@ -79,9 +79,9 @@ public class WireBatteryBottomToCapacitorBottoms extends Wire {
         Shape wireShape = super.createShape();
         // Null checks required because createShape is called in the superclass constructor.
         if ( battery != null && capacitors != null ) {
-            wireShape = ShapeUtils.subtract( wireShape, battery.getShapeFactory().createBodyShape() );
+            wireShape = ShapeUtils.subtract( wireShape, battery.getShapeCreator().createBodyShape() );
             for ( Capacitor capacitor : capacitors ) {
-                wireShape = ShapeUtils.subtract( wireShape, capacitor.getShapeFactory().createBottomPlateShape() );
+                wireShape = ShapeUtils.subtract( wireShape, capacitor.getShapeCreator().createBottomPlateShape() );
             }
         }
         return wireShape;

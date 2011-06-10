@@ -12,9 +12,9 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.meter.Voltmeter;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
-import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.BatteryShapeCreator;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeCreator;
+import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeCreator;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -43,22 +43,22 @@ public class VoltageShapesDebugNode extends PComposite {
         // battery
         {
             final Battery battery = circuit.getBattery();
-            final BatteryShapeFactory shapeFactory = battery.getShapeFactory();
+            final BatteryShapeCreator shapeCreator = battery.getShapeCreator();
 
-            final PPath bodyNode = new PhetPPath( shapeFactory.createBodyShape(), STROKE, STROKE_COLOR );
+            final PPath bodyNode = new PhetPPath( shapeCreator.createBodyShape(), STROKE, STROKE_COLOR );
             if ( SHOW_BATTERY_BODY ) {
                 addChild( bodyNode );
             }
             bodyNode.setVisible( circuit.isBatteryConnected() );
 
-            final PPath topTerminalNode = new PhetPPath( shapeFactory.createTopTerminalShape(), STROKE, STROKE_COLOR );
+            final PPath topTerminalNode = new PhetPPath( shapeCreator.createTopTerminalShape(), STROKE, STROKE_COLOR );
             addChild( topTerminalNode );
             topTerminalNode.setVisible( circuit.isBatteryConnected() );
 
             // set top terminal shape to match polarity
             battery.addPolarityObserver( new SimpleObserver() {
                 public void update() {
-                    topTerminalNode.setPathTo( shapeFactory.createTopTerminalShape() );
+                    topTerminalNode.setPathTo( shapeCreator.createTopTerminalShape() );
                 }
             } );
             circuit.addCircuitChangeListener( new CircuitChangeListener() {
@@ -71,18 +71,18 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // capacitors
         for ( Capacitor capacitor : circuit.getCapacitors() ) {
-            final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
-            final PPath topPlateNode = new PhetPPath( shapeFactory.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
+            final CapacitorShapeCreator shapeCreator = capacitor.getShapeCreator();
+            final PPath topPlateNode = new PhetPPath( shapeCreator.createTopPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( topPlateNode );
 
-            final PPath bottomPlateNode = new PhetPPath( shapeFactory.createBottomPlateShapeOccluded(), STROKE, STROKE_COLOR );
+            final PPath bottomPlateNode = new PhetPPath( shapeCreator.createBottomPlateShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( bottomPlateNode );
 
             // set plate shapes to match model
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    topPlateNode.setPathTo( shapeFactory.createTopPlateShapeOccluded() );
-                    bottomPlateNode.setPathTo( shapeFactory.createBottomPlateShapeOccluded() );
+                    topPlateNode.setPathTo( shapeCreator.createTopPlateShapeOccluded() );
+                    bottomPlateNode.setPathTo( shapeCreator.createBottomPlateShapeOccluded() );
                 }
             };
             capacitor.addPlateSizeObserver( o );
@@ -117,25 +117,25 @@ public class VoltageShapesDebugNode extends PComposite {
 
         // voltmeter
         {
-            final VoltmeterShapeFactory shapeFactory = voltmeter.getShapeFactory();
+            final VoltmeterShapeCreator shapeCreator = voltmeter.getShapeCreator();
 
-            final PPath positiveTipNode = new PhetPPath( shapeFactory.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
+            final PPath positiveTipNode = new PhetPPath( shapeCreator.getPositiveProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( positiveTipNode );
 
-            final PPath negativeTipNode = new PhetPPath( shapeFactory.getNegativeProbeTipShape(), STROKE, STROKE_COLOR );
+            final PPath negativeTipNode = new PhetPPath( shapeCreator.getNegativeProbeTipShape(), STROKE, STROKE_COLOR );
             addChild( negativeTipNode );
 
             // set shape to match positive probe location
             voltmeter.positiveProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    positiveTipNode.setPathTo( shapeFactory.getPositiveProbeTipShape() );
+                    positiveTipNode.setPathTo( shapeCreator.getPositiveProbeTipShape() );
                 }
             } );
 
             // set shape to match negative probe location
             voltmeter.negativeProbeLocationProperty.addObserver( new SimpleObserver() {
                 public void update() {
-                    negativeTipNode.setPathTo( shapeFactory.getNegativeProbeTipShape() );
+                    negativeTipNode.setPathTo( shapeCreator.getNegativeProbeTipShape() );
                 }
             } );
 

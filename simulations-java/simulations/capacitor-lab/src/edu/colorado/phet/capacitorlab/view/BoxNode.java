@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.view;
 import java.awt.*;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.shapes.BoxShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.BoxShapeCreator;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -24,7 +24,7 @@ public abstract class BoxNode extends PhetPNode {
     private static final Stroke STROKE = new BasicStroke( 1f );
     private static final Color STROKE_COLOR = Color.BLACK;
 
-    private final BoxShapeFactory shapeFactory; // creates shapes for the visible faces
+    private final BoxShapeCreator shapeCreator; // creates shapes for the visible faces
     private final PPath topNode, frontNode, sideNode; // the visible faces
     private Dimension3D size;
 
@@ -37,12 +37,12 @@ public abstract class BoxNode extends PhetPNode {
      */
     public BoxNode( CLModelViewTransform3D mvt, Color color, Dimension3D size ) {
 
-        this.shapeFactory = new BoxShapeFactory( mvt );
+        this.shapeCreator = new BoxShapeCreator( mvt );
         this.size = new Dimension3D( size );
 
-        topNode = new PhetPPath( shapeFactory.createTopFace( size ), getTopColor( color ), STROKE, STROKE_COLOR );
-        frontNode = new PhetPPath( shapeFactory.createFrontFace( size ), getFrontColor( color ), STROKE, STROKE_COLOR );
-        sideNode = new PhetPPath( shapeFactory.createSideFace( size ), getSideColor( color ), STROKE, STROKE_COLOR );
+        topNode = new PhetPPath( shapeCreator.createTopFace( size ), getTopColor( color ), STROKE, STROKE_COLOR );
+        frontNode = new PhetPPath( shapeCreator.createFrontFace( size ), getFrontColor( color ), STROKE, STROKE_COLOR );
+        sideNode = new PhetPPath( shapeCreator.createSideFace( size ), getSideColor( color ), STROKE, STROKE_COLOR );
 
         addChild( topNode );
         addChild( frontNode );
@@ -63,9 +63,9 @@ public abstract class BoxNode extends PhetPNode {
     }
 
     private void updateShapes() {
-        topNode.setPathTo( shapeFactory.createTopFace( size ) );
-        frontNode.setPathTo( shapeFactory.createFrontFace( size ) );
-        sideNode.setPathTo( shapeFactory.createSideFace( size ) );
+        topNode.setPathTo( shapeCreator.createTopFace( size ) );
+        frontNode.setPathTo( shapeCreator.createFrontFace( size ) );
+        sideNode.setPathTo( shapeCreator.createSideFace( size ) );
     }
 
     // top color is the base color

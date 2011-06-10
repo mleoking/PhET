@@ -19,14 +19,14 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class CapacitorShapeFactory {
+public class CapacitorShapeCreator {
 
     private final Capacitor capacitor;
-    private final BoxShapeFactory boxShapeFactory;
+    private final BoxShapeCreator boxShapeCreator;
 
-    public CapacitorShapeFactory( Capacitor capacitor, CLModelViewTransform3D mvt ) {
+    public CapacitorShapeCreator( Capacitor capacitor, CLModelViewTransform3D mvt ) {
         this.capacitor = capacitor;
-        this.boxShapeFactory = new BoxShapeFactory( mvt );
+        this.boxShapeCreator = new BoxShapeCreator( mvt );
     }
 
     //----------------------------------------------------------------------------------------
@@ -128,7 +128,7 @@ public class CapacitorShapeFactory {
 
     // A box, relative to a specific origin.
     private Shape createBoxShape( double x, double y, double z, Dimension3D size ) {
-        return boxShapeFactory.createBoxShape( x, y, z, size.getWidth(), size.getHeight(), size.getDepth() );
+        return boxShapeCreator.createBoxShape( x, y, z, size.getWidth(), size.getHeight(), size.getDepth() );
     }
 
     // Encapsulation of empty shape.

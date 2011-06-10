@@ -16,12 +16,12 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class VoltmeterShapeFactory {
+public class VoltmeterShapeCreator {
 
     private final Voltmeter voltmeter;
     private final CLModelViewTransform3D mvt;
 
-    public VoltmeterShapeFactory( Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
+    public VoltmeterShapeCreator( Voltmeter voltmeter, CLModelViewTransform3D mvt ) {
         this.voltmeter = voltmeter;
         this.mvt = mvt;
     }

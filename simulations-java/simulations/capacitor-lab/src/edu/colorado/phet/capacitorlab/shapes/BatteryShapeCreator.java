@@ -18,12 +18,12 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BatteryShapeFactory {
+public class BatteryShapeCreator {
 
     private final Battery battery;
     private final CLModelViewTransform3D mvt;
 
-    public BatteryShapeFactory( Battery battery, CLModelViewTransform3D mvt ) {
+    public BatteryShapeCreator( Battery battery, CLModelViewTransform3D mvt ) {
         this.battery = battery;
         this.mvt = mvt;
     }
