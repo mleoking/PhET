@@ -22,23 +22,25 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  * @author Sam Reid
  */
 public class WaterMolecule implements Removable, Particle {
-    public Body body;
-    public CircleDef oxygen;
-    public CircleDef h1;
-    public CircleDef h2;
-    private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
     public final double oxygenRadius = 1E-10;
     public final double hydrogenRadius = 0.5E-10;
+
+    public Body body;
+    private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
+
+    public CircleDef oxygen;
     public final Property<ImmutableVector2D> oxygenPosition;
-    public final Property<ImmutableVector2D> hydrogen1Position;
-    public final Property<ImmutableVector2D> hydrogen2Position;
-    private final ModelViewTransform transform;
     private Particle oxygenParticle;
+
+    public CircleDef h1;
     private Particle h1Particle;
+    public final Property<ImmutableVector2D> hydrogen1Position;
+
+    public CircleDef h2;
+    public final Property<ImmutableVector2D> hydrogen2Position;
     private Particle h2Particle;
 
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
-        this.transform = transform;
 
         //Model state in SI
         oxygenPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
