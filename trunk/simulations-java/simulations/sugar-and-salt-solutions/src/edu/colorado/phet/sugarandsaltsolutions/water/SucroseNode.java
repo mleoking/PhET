@@ -14,8 +14,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
  *
  * @author Sam Reid
  */
-public class MoleculeNode extends PNode {
-    public MoleculeNode( final ModelViewTransform transform, Molecule sodiumIon, VoidFunction1<VoidFunction0> addFrameListener, S3Element naIon ) {
+public class SucroseNode extends PNode {
+    public SucroseNode( final ModelViewTransform transform, Sucrose sodiumIon, VoidFunction1<VoidFunction0> addFrameListener, S3Element naIon ) {
         addChild( new PImage( SugarAndSaltSolutionsApplication.RESOURCES.getImage( "sucrose.png" ) ) );
         scale( 0.5 );
         sodiumIon.position.addObserver( new VoidFunction1<ImmutableVector2D>() {

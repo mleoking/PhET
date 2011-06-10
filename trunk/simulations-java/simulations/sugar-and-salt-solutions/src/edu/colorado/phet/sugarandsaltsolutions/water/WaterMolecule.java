@@ -89,7 +89,6 @@ public class WaterMolecule implements Removable, Particle {
         return getOxygenParticle().getBox2DPosition();
     }
 
-
     public double getCharge() {
         return 0;
     }

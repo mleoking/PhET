@@ -39,7 +39,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private ArrayList<DefaultParticle> chlorineList = new ArrayList<DefaultParticle>();
 
     //List of all Sugar molecules
-    private ArrayList<Molecule> sugarMoleculeList = new ArrayList<Molecule>();
+    private ArrayList<Sucrose> sugarMoleculeList = new ArrayList<Sucrose>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -50,7 +50,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Listeners that are notified when something enters the model.  Removal listeners are added to the particle itself
     private ArrayList<VoidFunction1<WaterMolecule>> waterAddedListeners = new ArrayList<VoidFunction1<WaterMolecule>>();
     private ArrayList<VoidFunction1<DefaultParticle>> sodiumAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
-    private ArrayList<VoidFunction1<Molecule>> sugarAddedListeners = new ArrayList<VoidFunction1<Molecule>>();
+    private ArrayList<VoidFunction1<Sucrose>> sugarAddedListeners = new ArrayList<VoidFunction1<Sucrose>>();
     private ArrayList<VoidFunction1<DefaultParticle>> chlorineAddedListeners = new ArrayList<VoidFunction1<DefaultParticle>>();
 
     private Random random = new Random();
@@ -121,14 +121,14 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     public void addSugar() {
         double x = 0;
         double y = beakerHeight / 2;
-        Molecule sugarMolecule = new Molecule( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
+        Sucrose sugarMolecule = new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
                 addFrameListener( listener );
             }
         }, +1, SODIUM_RADIUS );
         sugarMoleculeList.add( sugarMolecule );
         updateNumSugarMolecules();
-        for ( VoidFunction1<Molecule> sugarAddedListener : sugarAddedListeners ) {
+        for ( VoidFunction1<Sucrose> sugarAddedListener : sugarAddedListeners ) {
             sugarAddedListener.apply( sugarMolecule );
         }
     }
@@ -413,7 +413,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * beakerHeight );
     }
 
-    public void addSugarAddedListener( VoidFunction1<Molecule> createNode ) {
+    public void addSugarAddedListener( VoidFunction1<Sucrose> createNode ) {
         sugarAddedListeners.add( createNode );
     }
 }
