@@ -1,3 +1,4 @@
+6/9/11 #2943, generalize knob drag handler in plate charge control, for reuse in other Piccolo sliders
 6/9/11 #2936, delete CLResources, move to CapacitorLabApplication.RESOURCES
 6/9/11 change order of args in AbstractCircuit constructor
 6/9/11 #2944, major changes to SingleCircuit, make this is specialization of ParallelCircuit in order to remove duplicated code [52972]

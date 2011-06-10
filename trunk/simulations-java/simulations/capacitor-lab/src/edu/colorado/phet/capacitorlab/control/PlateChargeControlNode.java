@@ -17,6 +17,7 @@ import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListen
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -57,7 +58,6 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color KNOB_NORMAL_COLOR = CLPaints.DRAGGABLE_NORMAL;
     private static final Color KNOB_HIGHLIGHT_COLOR = CLPaints.DRAGGABLE_HIGHLIGHT;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
-    private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
 
     // ticks
     private static final double TICK_MARK_LENGTH = 8;
@@ -107,9 +107,8 @@ public class PlateChargeControlNode extends PhetPNode {
         RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.NONE );
         TickMarkNode minTickMarkNode = new TickMarkNode();
         RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
-        TitleNode titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
 
-        // parent for all nodes that are part of the slider, excluding the value
+        // parent for all nodes that are part of the slider
         PNode parentNode = new PNode();
         parentNode.addChild( trackNode );
         parentNode.addChild( maxTickMarkNode );
@@ -122,9 +121,9 @@ public class PlateChargeControlNode extends PhetPNode {
 
         // layout in parentNode
         //TODO: consider making parentNode a separate class
-        double x = 0;
-        double y = 0;
         {
+            double x = 0;
+            double y = 0;
             // track
             trackNode.setOffset( x, y );
             // knob
@@ -154,6 +153,8 @@ public class PlateChargeControlNode extends PhetPNode {
             minLabelNode.setOffset( x, y );
         }
 
+        TitleNode titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
+
         // background, sized to fit around parentNode
         double bWidth = parentNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
         double bHeight = parentNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN );
@@ -171,8 +172,8 @@ public class PlateChargeControlNode extends PhetPNode {
         // layout
         {
             // background at origin
-            x = 0;
-            y = 0;
+            double x = 0;
+            double y = 0;
             backgroundNode.setOffset( x, y );
             // track and knob centered in background
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
@@ -189,9 +190,7 @@ public class PlateChargeControlNode extends PhetPNode {
 
     // Updates the control to match the circuit model.
     private void update() {
-
-        double plateCharge = circuit.getDisconnectedPlateCharge();
-
+        final double plateCharge = circuit.getDisconnectedPlateCharge();
         // knob location
         double xOffset = knobNode.getXOffset();
         double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - plateCharge ) / range.getLength() );
@@ -217,7 +216,8 @@ public class PlateChargeControlNode extends PhetPNode {
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PPath {
-        public KnobNode( PNode trackNode, DoubleRange range, SingleCircuit circuit ) {
+
+        public KnobNode( PNode trackNode, DoubleRange range, final SingleCircuit circuit ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -237,7 +237,12 @@ public class PlateChargeControlNode extends PhetPNode {
             // hand cursor on knob
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new KnobDragHandler( trackNode, range, circuit ) );
+            addInputEventListener( new KnobDragHandler( trackNode, range, CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD,
+                                                        new VoidFunction1<Double>() {
+                                                            public void apply( Double value ) {
+                                                                circuit.setDisconnectedPlateCharge( value );
+                                                            }
+                                                        } ) );
         }
     }
 
@@ -246,13 +251,15 @@ public class PlateChargeControlNode extends PhetPNode {
 
         private final PNode trackNode;
         private final DoubleRange range;
-        private final SingleCircuit circuit;
+        private final double snapThreshold;
+        private final VoidFunction1<Double> updateFunction;
         private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
 
-        public KnobDragHandler( PNode trackNode, DoubleRange range, SingleCircuit circuit ) {
+        public KnobDragHandler( PNode trackNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
             this.trackNode = trackNode;
             this.range = range;
-            this.circuit = circuit;
+            this.snapThreshold = snapThreshold;
+            this.updateFunction = updateFunction;
         }
 
         @Override
@@ -269,16 +276,16 @@ public class PlateChargeControlNode extends PhetPNode {
         @Override
         protected void drag( PInputEvent event ) {
             super.drag( event );
-            updateVoltage( event, true /* isDragging */ );
+            updateValue( event, true /* isDragging */ );
         }
 
         @Override
         protected void endDrag( PInputEvent event ) {
-            updateVoltage( event, false /* isDragging */ );
+            updateValue( event, false /* isDragging */ );
             super.endDrag( event );
         }
 
-        private void updateVoltage( PInputEvent event, boolean isDragging ) {
+        private void updateValue( PInputEvent event, boolean isDragging ) {
 
             // determine the knob's new offset
             PNode parent = event.getPickedNode().getParent();
@@ -290,16 +297,15 @@ public class PlateChargeControlNode extends PhetPNode {
             // convert the offset to a charge value
             double yOffset = pKnobLocal.getY();
             double trackLength = trackNode.getFullBoundsReference().getHeight();
-            double charge = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-            charge = MathUtil.clamp( charge, range );
+            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+            value = MathUtil.clamp( value, range );
 
             // snap to zero if knob is released and value is close enough to zero
-            if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( charge ) <= CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD ) {
-                charge = 0;
+            if ( !isDragging && Math.abs( value ) <= snapThreshold ) {
+                value = 0;
             }
 
-            // set the model
-            circuit.setDisconnectedPlateCharge( charge );
+            updateFunction.apply( value );
         }
     }
 
