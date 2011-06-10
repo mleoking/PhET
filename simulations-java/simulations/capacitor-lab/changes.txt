@@ -1,3 +1,4 @@
+6/9/10 #2943, further generalize common drag handler, make all Piccolo sliders use this drag handler
 6/9/11 #2943, create knob drag handler class in battery voltage slider node
 6/9/11 #2943, factor out common drag handler for Piccolo sliders, with hook for subclasses to implement snapping
 6/9/11 #2943, create knob drag handler class in capacitance control node

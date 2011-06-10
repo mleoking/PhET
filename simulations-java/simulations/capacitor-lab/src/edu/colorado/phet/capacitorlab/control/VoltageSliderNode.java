@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
@@ -12,8 +11,8 @@ import java.text.NumberFormat;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.Battery;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -22,8 +21,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.ImageHighlightHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -39,9 +36,6 @@ public class VoltageSliderNode extends PhetPNode {
     // track properties
     private static final Color TRACK_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 2f );
-
-    // knob properties
-    private static final boolean KNOB_SNAP_TO_ZERO_ENABLED = true;
 
     // tick mark properties
     private static final double TICK_MARK_LENGTH = 13;
@@ -137,68 +131,19 @@ public class VoltageSliderNode extends PhetPNode {
     }
 
     // Drag handler for the knob, snaps to zero.
-    public static class KnobDragHandler extends PDragSequenceEventHandler {
+    public static class KnobDragHandler extends VerticalSliderDragHandler {
 
-        private final PNode parent;
-        private final PNode trackNode, knobNode;
-        private final DoubleRange range;
-        private final double snapThreshold;
-        private final VoidFunction1<Double> updateFunction;
-        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+        private final double snapThreshold; // slider snaps to zero when model value is <= this threshold
 
-        public KnobDragHandler( PNode parent, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            this.parent = parent;
-            this.trackNode = trackNode;
-            this.knobNode = knobNode;
-            this.range = range;
+        // see superclass for constructor params
+        public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
+            super( relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
-            this.updateFunction = updateFunction;
-        }
-
-        @Override protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            // note the offset between the mouse click and the knob's origin
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = parent.localToGlobal( knobNode.getOffset() );
-            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
-        }
-
-        @Override protected void drag( PInputEvent event ) {
-            super.drag( event );
-            updateValue( event, true /* isDragging */ );
-        }
-
-        @Override protected void endDrag( PInputEvent event ) {
-            updateValue( event, false /* isDragging */ );
-            super.endDrag( event );
         }
 
         // snaps to zero if the value is within some threshold.
-        protected double adjustValue( double value ) {
+        @Override protected double adjustValue( double value ) {
             return ( Math.abs( value ) <= snapThreshold ) ? 0 : value;
-        }
-
-        private void updateValue( PInputEvent event, boolean isDragging ) {
-
-            // determine the knob's new offset
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
-
-            // convert the offset to a voltage value
-            double yOffset = pKnobLocal.getY();
-            double trackLength = trackNode.getFullBoundsReference().getHeight();
-            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-            value = MathUtil.clamp( value, range );
-
-            // snap to zero if knob is release and value is close enough to zero
-            if ( !isDragging ) {
-                value = adjustValue( value );
-            }
-
-            updateFunction.apply( value );
         }
     }
 
