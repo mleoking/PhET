@@ -45,18 +45,15 @@ public class SliderArrayPanel extends UIComponent {
             this.container.addChild( this.phaseSlider_arr[i] );
         }
 
-        this.positionSliders();
+        this.locateSliders();
 
     } //end constructor
 
     private function initializeSliderArray():void{
          for(var i:int = 0; i < this.nMax; i++){
              // VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true )
-//             var amplitudeFunction = function (){
-//                 trace("SliderArrayPanel.index = "+ i)
-//             }
-             var vertSliderAmpli:VerticalSlider = new VerticalSlider( amplitudeFunction, 100, 0, 0.1, true  );
-             var vertSliderPhase:VerticalSlider = new VerticalSlider( phaseFunction, 100, -Math.PI, +Math.PI, true  );
+             var vertSliderAmpli:VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, true  );
+             var vertSliderPhase:VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, true  );
              vertSliderAmpli.setReadoutPrecision( 3 );
              vertSliderPhase.setReadoutPrecision( 2 );
 
@@ -69,13 +66,14 @@ public class SliderArrayPanel extends UIComponent {
              vertSliderAmpli.setLabelText( "Ampli " + j );
              vertSliderPhase.setLabelText( "Phase " + j );
              this.ampliSlider_arr[i] = vertSliderAmpli;
-             this.ampliSlider_arr[i].setVal( 0 );
+             this.ampliSlider_arr[i].setSliderWithoutAction( 0 );
              this.phaseSlider_arr[i] = vertSliderPhase;
-             this.phaseSlider_arr[i].setVal( 0 );
+             this.phaseSlider_arr[i].setSliderWithoutAction( 0 );
          }
     }//end createSliderArray
 
-    public function positionSliders():void{
+    //Arrange the layout of sliders
+    public function locateSliders():void{
         var nbrSliders:int = this.myModel.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView.LinPix;
 
@@ -95,14 +93,25 @@ public class SliderArrayPanel extends UIComponent {
         this.container.x = 0;
     } //end positionSliders();
 
+    public function resetSliders():void{
+        var amplitude:Number;
+        var phase:Number;
+        for(var j:int = 1; j <= this.myModel.N; j++ ){
+            amplitude = this.myModel.getModeAmpli( j );
+            phase = this.myModel.getModePhase( j );
+            this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
+            this.phaseSlider_arr[j - 1 ].setSliderWithoutAction( phase );
+        }
+    }
 
-    private function amplitudeFunction( indx:int ):void{
+
+    private function setAmplitude( indx:int ):void{
         var A:Number = this.ampliSlider_arr[ indx - 1 ].getVal();
         this.myModel.setModeAmpli( indx,  A );
         //trace("SliderArrayPanel.amplitudeFunction. Index = "+passedIndex)
     }
 
-    private function phaseFunction( indx:int ):void{
+    private function setPhase( indx:int ):void{
         var phase:Number = this.phaseSlider_arr[ indx - 1 ].getVal();
         this.myModel.setModePhase( indx,  phase );
     }

@@ -124,7 +124,6 @@ public class ControlPanel extends Canvas {
         this. transverseModeButton.selected = false;
         this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
 
-
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
@@ -145,7 +144,7 @@ public class ControlPanel extends Canvas {
     private function setNbrMasses():void{
         var nbrM:Number = this.nbrMassesSlider.getVal();
         this.myModel.setN( nbrM );
-        this.myMainView.mySliderArrayPanel.positionSliders();
+        this.myMainView.mySliderArrayPanel.locateSliders();
     }
 
     public function setNbrMassesExternally( nbrM: int ): void {
