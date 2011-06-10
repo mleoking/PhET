@@ -140,9 +140,7 @@ public class CapacitanceControlNode extends PhetPNode {
         update();
     }
 
-    /*
-     * Adds interactivity to the knob.
-     */
+    //TODO: move this to a new class, KnobDragHandler, and wire up in KnobNode
     private void initInteractivity() {
 
         // hand cursor on knob

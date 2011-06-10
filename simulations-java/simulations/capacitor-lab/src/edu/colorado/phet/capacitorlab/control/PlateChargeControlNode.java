@@ -33,7 +33,6 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * Control for applying charge to the capacitor plates.
  * This control is activated when the battery is disconnected.
- * //REVIEW: factor out duplicated code between VoltageSliderNode and PlateChargeControlNode
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -122,7 +121,7 @@ public class PlateChargeControlNode extends PhetPNode {
         parentNode.addChild( knobNode );
 
         // layout in parentNode
-        //REVIEW: consider making parentNode a separate class
+        //TODO: consider making parentNode a separate class
         double x = 0;
         double y = 0;
         {
