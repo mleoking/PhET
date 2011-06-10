@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 

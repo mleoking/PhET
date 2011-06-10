@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.PropertySlider;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**

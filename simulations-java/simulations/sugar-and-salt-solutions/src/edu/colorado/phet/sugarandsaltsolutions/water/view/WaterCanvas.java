@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,6 +17,10 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.DefaultParticle;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;

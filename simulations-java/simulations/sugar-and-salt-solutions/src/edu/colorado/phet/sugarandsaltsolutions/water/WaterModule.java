@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.water;
 
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
+import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterCanvas;
 
 /**
  * Module for "water" tab of sugar and salt solutions module

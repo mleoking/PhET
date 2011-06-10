@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.DefaultParticle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
