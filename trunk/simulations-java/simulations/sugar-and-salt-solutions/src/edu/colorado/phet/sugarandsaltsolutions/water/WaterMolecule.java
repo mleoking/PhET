@@ -38,8 +38,7 @@ public class WaterMolecule implements Removable, Particle {
         //First create the body def at the right location
         BodyDef bodyDef = new BodyDef() {{
             position = new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() );
-//            System.out.println( "position = " + position );
-            this.angle = (float) theta;
+            angle = (float) theta;
         }};
 
         //Now create the Box2D body for physics updates
@@ -50,7 +49,6 @@ public class WaterMolecule implements Removable, Particle {
         hydrogen2 = new Atom( x - 1E-10, y + 1E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 1, false );
 
         //Construct other hydrogen
-        final ImmutableVector2D h2ModelOffset = new ImmutableVector2D( -0.5E-10, 0.5E-10 );
         body.setMassFromShapes();
 
         //Set the velocity
@@ -60,7 +58,7 @@ public class WaterMolecule implements Removable, Particle {
             public void apply() {
                 oxygen.position.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
                 hydrogen1.position.set( hydrogen1.modelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
-                hydrogen2.position.set( h2ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
+                hydrogen2.position.set( hydrogen2.modelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
             }
         } );
     }
