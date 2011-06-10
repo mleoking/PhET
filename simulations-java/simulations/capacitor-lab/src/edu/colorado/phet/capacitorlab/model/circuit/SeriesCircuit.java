@@ -8,9 +8,9 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
-import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsBottom;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorToCapacitors;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
@@ -60,11 +60,11 @@ public class SeriesCircuit extends AbstractCircuit {
                    // Creates wires, as shown in the javadoc diagram.
                    public ArrayList<Wire> apply( CircuitConfig config, Battery battery, ArrayList<Capacitor> capacitors ) {
                        ArrayList<Wire> wires = new ArrayList<Wire>();
-                       wires.add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors.get( 0 ) ) );
+                       wires.add( new WireBatteryToCapacitorsTop( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors.get( 0 ) ) );
                        for ( int i = 0; i < capacitors.size() - 1; i++ ) {
-                           wires.add( new WireCapacitorBottomToCapacitorTops( config.mvt, config.wireThickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
+                           wires.add( new WireCapacitorToCapacitors( config.mvt, config.wireThickness, capacitors.get( i ), capacitors.get( i + 1 ) ) );
                        }
-                       wires.add( new WireBatteryBottomToCapacitorBottoms( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors.get( capacitors.size() - 1 ) ) );
+                       wires.add( new WireBatteryToCapacitorsBottom( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors.get( capacitors.size() - 1 ) ) );
                        assert ( wires.size() == capacitors.size() + 1 );
                        return wires;
                    }

@@ -25,7 +25,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireCapacitorBottomToCapacitorTops extends Wire {
+public class WireCapacitorToCapacitors extends Wire {
 
     private final Capacitor topCapacitor;
 
@@ -37,12 +37,12 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
      * @param topCapacitor     C1 in the javadoc diagram
      * @param bottomCapacitors C2...Cn in the javadoc diagram
      */
-    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, Capacitor... bottomCapacitors ) {
+    public WireCapacitorToCapacitors( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, Capacitor... bottomCapacitors ) {
         this( mvt, thickness, topCapacitor, new ArrayList<Capacitor>( Arrays.asList( bottomCapacitors ) ) );
     }
 
     // Same as above constructor, but with list of bottom capacitors instead of varargs.
-    public WireCapacitorBottomToCapacitorTops( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, ArrayList<Capacitor> bottomCapacitors ) {
+    public WireCapacitorToCapacitors( CLModelViewTransform3D mvt, double thickness, Capacitor topCapacitor, ArrayList<Capacitor> bottomCapacitors ) {
         super( mvt, thickness );
 
         this.topCapacitor = topCapacitor;

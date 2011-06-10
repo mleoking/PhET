@@ -10,9 +10,9 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
-import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorBottomToCapacitorTops;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsBottom;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsTop;
+import edu.colorado.phet.capacitorlab.model.wire.WireCapacitorToCapacitors;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 
 /**
@@ -31,7 +31,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * </code>
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * //REVIEW: Remove duplicated code between Combination1Circuit and Combination2Circuit
+ *         //REVIEW: Remove duplicated code between Combination1Circuit and Combination2Circuit
  */
 public class Combination2Circuit extends AbstractCircuit {
 
@@ -68,9 +68,9 @@ public class Combination2Circuit extends AbstractCircuit {
                        final Capacitor c2 = capacitors.get( 1 );
                        final Capacitor c3 = capacitors.get( 2 );
                        return new ArrayList<Wire>() {{
-                           add( new WireBatteryTopToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c1 ) );
-                           add( new WireCapacitorBottomToCapacitorTops( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
-                           add( new WireBatteryBottomToCapacitorBottoms( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c2, c3 ) );
+                           add( new WireBatteryToCapacitorsTop( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c1 ) );
+                           add( new WireCapacitorToCapacitors( config.mvt, CLConstants.WIRE_THICKNESS, c1, c2, c3 ) );
+                           add( new WireBatteryToCapacitorsBottom( config.mvt, CLConstants.WIRE_THICKNESS, config.wireExtent, battery, c2, c3 ) );
                        }};
                    }
                } );

@@ -10,8 +10,8 @@ import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
 import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryBottomToCapacitorBottoms;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryTopToCapacitorTops;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsBottom;
+import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsTop;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -66,8 +66,8 @@ public class SingleCircuit extends AbstractCircuit {
                    // Creates wires, as shown in the javadoc diagram.
                    public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
                        return new ArrayList<Wire>() {{
-                           add( new WireBatteryTopToCapacitorTops( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
-                           add( new WireBatteryBottomToCapacitorBottoms( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
+                           add( new WireBatteryToCapacitorsTop( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
+                           add( new WireBatteryToCapacitorsBottom( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
                        }};
                    }
                } );
