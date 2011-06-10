@@ -60,7 +60,7 @@ public class WaterMoleculeNode extends PNode {
                 ImmutableVector2D h1Position = transform.modelToView( waterMolecule.hydrogen1.position.get() );
                 h1.setOffset( h1Position.getX() - h1.getFullBounds().getWidth() / 2, h1Position.getY() - h1.getFullBounds().getHeight() / 2 );
 
-                ImmutableVector2D h2Position = transform.modelToView( waterMolecule.hydrogen2Position.get() );
+                ImmutableVector2D h2Position = transform.modelToView( waterMolecule.hydrogen2.position.get() );
                 h2.setOffset( h2Position.getX() - h2.getFullBounds().getWidth() / 2, h2Position.getY() - h2.getFullBounds().getHeight() / 2 );
             }
         };
