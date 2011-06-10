@@ -1,4 +1,4 @@
-6/9/11 #2938, changed implementation of "Mx10^N units" number display, because HTMLNode looked lousy on Windows
+6/9/11 #2940, hack: increase HTMLNode bounds to prevent dielectric offset drag handle from leaving artifacts
 6/9/11 #2936, convert all EventListenerLists to ArrayList<T>
 6/9/11 #2936, reduce font size on capacitor drag handles so that HTMLNode doesn't leave artifacts on Windows
 6/9/11 #2936, increase font size on capacitance slider to compensate for awful HTML rendering on Windows

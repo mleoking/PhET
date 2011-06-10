@@ -22,7 +22,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
     private static final DecimalFormat DEFAULT_FORMAT = new DecimalFormat( "0.0" );
     private static final Font LABEL_FONT = new PhetFont( Font.BOLD, 18 );
-    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 ); // see #2936, size chosen so HTMLNode won't leave artifacts on Windows
+    private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 16 );
 
     private final String pattern;
     private final String units;
@@ -52,7 +52,12 @@ import edu.umd.cs.piccolox.nodes.PComposite;
         labelNode.setFont( LABEL_FONT );
         addChild( labelNode );
 
-        valueNode = new HTMLNode();
+        valueNode = new HTMLNode() {
+            // #2940, adjust HTMLNode bounds are wrong, adjust width to prevent it from leaving artifacts
+            @Override public boolean setBounds( final double x, final double y, final double width, final double height ) {
+                return super.setBounds( x, y, width + 2, height );
+            }
+        };
         valueNode.setFont( VALUE_FONT );
         addChild( valueNode );
 
