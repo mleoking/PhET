@@ -32,7 +32,6 @@ public class MultipleCapacitorsModule extends CLModule {
     public MultipleCapacitorsModule( CLGlobalProperties globalProperties ) {
         super( CLStrings.MULTIPLE_CAPACITORS );
 
-        //REVIEW: Why create the IClock and CLModelViewTransform3D outside of model objects and pass them in, instead of just creating them in the CLModel?
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
         model = new MultipleCapacitorsModel( getClock(), mvt );
