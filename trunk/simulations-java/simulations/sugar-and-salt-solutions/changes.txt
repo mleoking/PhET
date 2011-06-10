@@ -1,3 +1,4 @@
+Fixed: Sugar doesn't respect periodic boundary conditions
 Fixed: Dragging a sugar molecule resets its angle
 # 0.00.37 (53018) Jun 10, 2011
 Add 2 sugar molecules when "add sugar" is pressed

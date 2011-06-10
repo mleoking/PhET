@@ -243,6 +243,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         applyPeriodicBoundaryConditions( sodiumList );
         applyPeriodicBoundaryConditions( chlorineList );
         applyPeriodicBoundaryConditions( waterList );
+        applyPeriodicBoundaryConditions( sugarMoleculeList );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
