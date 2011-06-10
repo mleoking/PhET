@@ -57,20 +57,17 @@ public class MassView extends Sprite{
         function startTargetDrag( evt: MouseEvent ): void {
             thisObject.myModel.grabbedMass = thisObject._index;
             clickOffset = new Point( evt.localX, evt.localY );
-                //wasRunning = thisObject.model.getRunning();
-                //thisObject.model.stopShaker();
              stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
              stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            //problem with localX, localY if sprite is rotated.
             //trace("evt.target.y: "+evt.target.y);
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
             thisObject.myModel.grabbedMass = 0;
+            thisObject.myModel.computeModeAmplitudesAndPhases();
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            //if ( wasRunning ) {thisObject.model.startShaker();}
         }
 
         function dragTarget( evt: MouseEvent ): void {

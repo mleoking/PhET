@@ -104,9 +104,7 @@ public class Model {
     }
 
     public function zeroModeArrays():void{
-        var omega0:Number = Math.sqrt( k/m );
         for(var i:int = 0; i < _nMax; i++){
-            var j:int = i + 1;
             modeAmpli_arr[i] = 0;
             modePhase_arr[i] = 0;
         }
@@ -116,14 +114,6 @@ public class Model {
         //call to SliderArrayPanel.resetSliders();
     }
 
-    //for testing only
-    private function setInitialPositions():void{
-       var arrLength:int = this._N + 2;
-       for(var i:int = 1; i < (arrLength - 1); i++){
-           this.s_arr[i] = 0;
-            //this.x_arr[i] = i*this._L/(this._N + 1) + 0.1;
-       }
-    }
 
     //SETTERS and GETTERS
     public function setN(nbrOfMobileMasses:int):void{
@@ -141,16 +131,16 @@ public class Model {
         this.updateView();
     }//end setN
 
+    public function get N():int {
+        return this._N;
+    }
+
     public function get L():Number{
       return this._L;
     }
 
     public function get nMax():int {
         return this._nMax;
-    }
-
-    public function get N():int {
-        return this._N;
     }
 
     //used in when in longitudinal mode
@@ -284,13 +274,28 @@ public class Model {
 
     private function stepForward( evt: TimerEvent ): void {
         //need function without event argument
-        this.singleStep2();
+        this.singleStep();
         evt.updateAfterEvent();
     }
 
+    public function computeModeAmplitudesAndPhases():void{
+        var N:int  = this._N;
+        var mu:Array = new Array( this._N );
+        var nu:Array = new Array( this._N );
 
+        for (var r:int = 1; r <= N; r++ ){
+            mu[ r-1 ] = 0;
+            nu[ r-1 ] = 0;
+            for (var i:int = 1; i <= N; i++ ){
+                mu[ r-1 ] += ((2)/(N+1))*s_arr[i]*Math.sin(i*r*Math.PI/(N+1));
+                nu[ r-1 ] += (2/(this.modeOmega_arr[r-1]*(N+1)))*v_arr[i]*Math.sin(i*r*Math.PI/(N+1));
+            }
+            this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
+            this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
+        }
+    }//computeModeAmplitudesAndPhases();
 
-    private function singleStep1(): void {
+    private function singleStep(): void {
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
         var realDt: Number = currentTime - this.lastTime;
         this.lastTime = currentTime;
@@ -304,12 +309,19 @@ public class Model {
         }
         this.t += this.dt;
 
-        //velocity verlet algorithm
+        if(this._grabbedMass != 0){
+            this.singleStepVerlet();
+        }else{
+            this.singleStepExact();
+        }
+        this.updateView();
+    } //end singleStep()
+
+    private function singleStepVerlet():void{
+         //velocity verlet algorithm
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
             if(i != this._grabbedMass ){
                 s_arr[i] = s_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
-                //x_arr[i] = x_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
-                //y_arr[i] = y_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
                 aPre_arr[i] = a_arr[i];   //store current accelerations for next step
             }
             //var vp:Number = v_arr[i] + a_arr[i] * dt;		//post velocity, only needed if computing drag
@@ -318,28 +330,13 @@ public class Model {
         for( i = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
             if( i != this._grabbedMass ){
                this.a_arr[i] = (this.k/this.m)*(s_arr[i+1] + s_arr[i-1] - 2*s_arr[i]);		//post-acceleration
-               // this.a_arr[i] = (this.k/this.m)*(x_arr[i+1] + x_arr[i-1] - 2*x_arr[i]);		//post-acceleration
                 v_arr[i] = v_arr[i] + 0.5 * (this.aPre_arr[i] + a_arr[i]) * dt;
             }
-
         }//end 2nd for loop
-        //this.test();
-        updateView();
-    } //end singleStep()
+        //trace("Model.grabbedMass index: "+this._grabbedMass )
+    }
 
-    private function singleStep2():void{
-        var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
-        var realDt: Number = currentTime - this.lastTime;
-        this.lastTime = currentTime;
-        //time step must not exceed 0.04 seconds.
-        //If time step < 0.04 s, then sim uses time-based animation.  Else uses frame-based animation
-        if ( realDt < 0.04 ) {
-            this.dt = this.tRate * realDt;
-        }
-        else {
-            this.dt = this.tRate * 0.04;
-        }
-        this.t += this.dt;
+    private function singleStepExact():void{
         for(var i:int = 1; i <= this._N; i++){
             s_arr[i] = 0
             for( var r:int = 1; r <= this._N; r++){
@@ -348,13 +345,12 @@ public class Model {
             }
         }
         //trace("Model.t = "+ this.t +"    s[1] = " + this.s_arr[1] )
-        this.updateView();
-    } //end singleStep2
+    }
 
     public function singleStepWhenPaused():void{
         this.dt = this.tRate * 0.02;
         this.t += this.dt;
-        this.singleStep2( );
+        this.singleStep( );
         updateView();
     }
 
@@ -390,7 +386,7 @@ public class Model {
             this.nChanged = false;
         }
         if( modesChanged ){
-            //this.view.myMainView.mySliderArrayPanel.resetSliders();
+            this.view.myMainView.mySliderArrayPanel.resetSliders();
             this.modesChanged = false;
         }
         this.view.update();
