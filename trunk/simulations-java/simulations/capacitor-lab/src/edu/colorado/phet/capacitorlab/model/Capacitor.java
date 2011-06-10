@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLConstants;
-import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeCreator;
 import edu.colorado.phet.common.phetcommon.math.Dimension3D;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
@@ -33,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 public class Capacitor {
 
     private final CLModelViewTransform3D mvt;
-    private final CapacitorShapeFactory shapeFactory;
+    private final CapacitorShapeCreator shapeCreator;
     private final SimpleObserver propertiesObserver;
     private final SimpleObserver dielectricConstantObserver;
     private final ArrayList<CapacitorChangeListener> listeners = new ArrayList<CapacitorChangeListener>();
@@ -61,7 +61,7 @@ public class Capacitor {
     public Capacitor( Point3D location, double plateWidth, double plateSeparation, DielectricMaterial dielectricMaterial, double dielectricOffset, CLModelViewTransform3D mvt ) {
 
         this.mvt = mvt;
-        this.shapeFactory = new CapacitorShapeFactory( this, mvt );
+        this.shapeCreator = new CapacitorShapeCreator( this, mvt );
 
         this.location = new Point3D.Double( location );
 
@@ -436,8 +436,8 @@ public class Capacitor {
     // Shapes
     //----------------------------------------------------------------------------------
 
-    public CapacitorShapeFactory getShapeFactory() {
-        return shapeFactory;
+    public CapacitorShapeCreator getShapeCreator() {
+        return shapeCreator;
     }
 
     /**
@@ -447,7 +447,7 @@ public class Capacitor {
      * @return
      */
     public boolean intersectsTopPlate( Shape shape ) {
-        return ShapeUtils.intersects( shape, shapeFactory.createTopPlateShapeOccluded() );
+        return ShapeUtils.intersects( shape, shapeCreator.createTopPlateShapeOccluded() );
     }
 
     /**
@@ -457,7 +457,7 @@ public class Capacitor {
      * @return
      */
     public boolean intersectsBottomPlate( Shape shape ) {
-        return ShapeUtils.intersects( shape, shapeFactory.createBottomPlateShapeOccluded() );
+        return ShapeUtils.intersects( shape, shapeCreator.createBottomPlateShapeOccluded() );
     }
 
     /**
@@ -477,7 +477,7 @@ public class Capacitor {
      * @return true or false
      */
     public boolean isInsideDielectricBetweenPlates( Point3D p ) {
-        return shapeFactory.createDielectricBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
+        return shapeCreator.createDielectricBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
     }
 
     /**
@@ -487,7 +487,7 @@ public class Capacitor {
      * @return true or false
      */
     public boolean isInsideAirBetweenPlates( Point3D p ) {
-        return shapeFactory.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
+        return shapeCreator.createAirBetweenPlatesShapeOccluded().contains( mvt.modelToView( p ) );
     }
 
     //----------------------------------------------------------------------------------

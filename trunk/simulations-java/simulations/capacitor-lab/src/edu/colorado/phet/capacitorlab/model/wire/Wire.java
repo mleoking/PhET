@@ -6,14 +6,14 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.model.CLModelViewTransform3D;
-import edu.colorado.phet.capacitorlab.shapes.WireShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.WireShapeCreator;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
  * A wire is a collection of connected wire segments.
- * It contains a factory object that creates the wire shape.
+ * It contains a creator object that creates the wire shape.
  * The shape is used to display the wire, and to check continuity when measuring voltage.
  * <p/>
  * Note that strict connectivity of the wire segments is not required. In fact, you'll notice that
@@ -27,7 +27,7 @@ public class Wire {
     private final ArrayList<WireSegment> segments;
     private final SimpleObserver segmentObserver;
     private final double thickness;
-    private final WireShapeFactory shapeFactory;
+    private final WireShapeCreator shapeCreator;
 
     // observable properties
     private final Property<Shape> shapeProperty; // Shape in view coordinates!
@@ -38,7 +38,7 @@ public class Wire {
 
         this.segments = new ArrayList<WireSegment>( segments );
         this.thickness = thickness;
-        this.shapeFactory = new WireShapeFactory( this, mvt );
+        this.shapeCreator = new WireShapeCreator( this, mvt );
 
         this.shapeProperty = new Property<Shape>( createShape() );
 
@@ -99,14 +99,14 @@ public class Wire {
     }
 
     protected Shape createShape() {
-        return shapeFactory.createWireShape();
+        return shapeCreator.createWireShape();
     }
 
     protected double getCornerOffset() {
-        return shapeFactory.getCornerOffset();
+        return shapeCreator.getCornerOffset();
     }
 
     protected double getEndOffset() {
-        return shapeFactory.getEndOffset();
+        return shapeCreator.getEndOffset();
     }
 }

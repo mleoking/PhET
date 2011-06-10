@@ -9,7 +9,7 @@ import edu.colorado.phet.capacitorlab.model.WorldBounds;
 import edu.colorado.phet.capacitorlab.model.WorldLocationProperty;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
-import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.VoltmeterShapeCreator;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -27,7 +27,7 @@ public class Voltmeter {
     // size of the probe tips, determined by visual inspection of the associated image files
     private final PDimension PROBE_TIP_SIZE = new PDimension( 0.0005, 0.0015 ); // meters
 
-    private final VoltmeterShapeFactory shapeFactory; // determines shape of probe tips in view coordinates
+    private final VoltmeterShapeCreator shapeCreator; // determines shape of probe tips in view coordinates
 
     // public observable properties
     public final Property<Boolean> visibleProperty;
@@ -51,7 +51,7 @@ public class Voltmeter {
         };
         circuit.addCircuitChangeListener( circuitChangeListener );
 
-        this.shapeFactory = new VoltmeterShapeFactory( this, mvt );
+        this.shapeCreator = new VoltmeterShapeCreator( this, mvt );
         this.visibleProperty = new Property<Boolean>( visible );
         this.bodyLocationProperty = new WorldLocationProperty( worldBounds, bodyLocation );
         this.positiveProbeLocationProperty = new WorldLocationProperty( worldBounds, positiveProbeLocation );
@@ -72,13 +72,13 @@ public class Voltmeter {
             valueProperty.set( 0d );
         }
         else {
-            valueProperty.set( circuit.getVoltageBetween( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() ) );
+            valueProperty.set( circuit.getVoltageBetween( shapeCreator.getPositiveProbeTipShape(), shapeCreator.getNegativeProbeTipShape() ) );
         }
     }
 
     // Probes are touching if their tips intersect.
     private boolean probesAreTouching() {
-        return ShapeUtils.intersects( shapeFactory.getPositiveProbeTipShape(), shapeFactory.getNegativeProbeTipShape() );
+        return ShapeUtils.intersects( shapeCreator.getPositiveProbeTipShape(), shapeCreator.getNegativeProbeTipShape() );
     }
 
     public void reset() {
@@ -110,8 +110,8 @@ public class Voltmeter {
         valueProperty.addObserver( o );
     }
 
-    public VoltmeterShapeFactory getShapeFactory() {
-        return shapeFactory;
+    public VoltmeterShapeCreator getShapeCreator() {
+        return shapeCreator;
     }
 
     public Dimension2D getProbeTipSizeReference() {

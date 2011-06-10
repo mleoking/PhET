@@ -17,11 +17,11 @@ import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class BoxShapeFactory {
+public class BoxShapeCreator {
 
     private final CLModelViewTransform3D mvt;
 
-    public BoxShapeFactory( CLModelViewTransform3D mvt ) {
+    public BoxShapeCreator( CLModelViewTransform3D mvt ) {
         this.mvt = mvt;
     }
 

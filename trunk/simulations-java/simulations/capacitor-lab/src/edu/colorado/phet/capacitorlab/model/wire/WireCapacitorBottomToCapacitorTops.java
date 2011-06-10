@@ -73,7 +73,7 @@ public class WireCapacitorBottomToCapacitorTops extends Wire {
         Shape wireShape = super.createShape();
         // Null check required because createShape is called in the superclass constructor.
         if ( topCapacitor != null ) {
-            wireShape = ShapeUtils.subtract( wireShape, topCapacitor.getShapeFactory().createBottomPlateShape() );
+            wireShape = ShapeUtils.subtract( wireShape, topCapacitor.getShapeCreator().createBottomPlateShape() );
         }
         return wireShape;
     }

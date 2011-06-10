@@ -16,7 +16,7 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class WireShapeFactory {
+public class WireShapeCreator {
 
     // Determines how the wires are capped. If you change this, you'll need to fiddle with getEndOffset and getCornerOffset.
     private static final int CAP_STYLE = BasicStroke.CAP_ROUND;
@@ -24,7 +24,7 @@ public class WireShapeFactory {
     private final Wire wire;
     private final CLModelViewTransform3D mvt;
 
-    public WireShapeFactory( Wire wire, CLModelViewTransform3D mvt ) {
+    public WireShapeCreator( Wire wire, CLModelViewTransform3D mvt ) {
         this.wire = wire;
         this.mvt = mvt;
     }

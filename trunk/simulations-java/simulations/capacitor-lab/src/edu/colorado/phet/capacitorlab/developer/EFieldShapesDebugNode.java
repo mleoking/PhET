@@ -7,7 +7,7 @@ import java.awt.*;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit;
-import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.CapacitorShapeCreator;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -34,19 +34,19 @@ public class EFieldShapesDebugNode extends PComposite {
         // capacitor
         for ( Capacitor capacitor : circuit.getCapacitors() ) {
 
-            final CapacitorShapeFactory shapeFactory = capacitor.getShapeFactory();
+            final CapacitorShapeCreator shapeCreator = capacitor.getShapeCreator();
 
-            final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeFactory.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
+            final PPath dielectricBetweenPlatesNode = new PhetPPath( shapeCreator.createDielectricBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( dielectricBetweenPlatesNode );
 
-            final PPath airBetweenPlatesNode = new PhetPPath( shapeFactory.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
+            final PPath airBetweenPlatesNode = new PhetPPath( shapeCreator.createAirBetweenPlatesShapeOccluded(), STROKE, STROKE_COLOR );
             addChild( airBetweenPlatesNode );
 
             // set shapes to match model
             SimpleObserver o = new SimpleObserver() {
                 public void update() {
-                    dielectricBetweenPlatesNode.setPathTo( shapeFactory.createDielectricBetweenPlatesShapeOccluded() );
-                    airBetweenPlatesNode.setPathTo( shapeFactory.createAirBetweenPlatesShapeOccluded() );
+                    dielectricBetweenPlatesNode.setPathTo( shapeCreator.createDielectricBetweenPlatesShapeOccluded() );
+                    airBetweenPlatesNode.setPathTo( shapeCreator.createAirBetweenPlatesShapeOccluded() );
                 }
             };
             capacitor.addPlateSizeObserver( o );

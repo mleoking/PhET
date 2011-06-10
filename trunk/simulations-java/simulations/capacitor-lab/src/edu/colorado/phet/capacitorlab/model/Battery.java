@@ -5,7 +5,7 @@ package edu.colorado.phet.capacitorlab.model;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 
-import edu.colorado.phet.capacitorlab.shapes.BatteryShapeFactory;
+import edu.colorado.phet.capacitorlab.shapes.BatteryShapeCreator;
 import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -42,7 +42,7 @@ public class Battery {
 
     // immutable properties
     private final Point3D location;
-    private final BatteryShapeFactory shapeFactory;
+    private final BatteryShapeCreator shapeCreator;
 
     // settable properties
     private final Property<Double> voltageProperty;
@@ -55,7 +55,7 @@ public class Battery {
         this.location = new Point3D.Double( location );
         this.voltageProperty = new Property<Double>( voltage );
         this.polarityProperty = new Property<Polarity>( getPolarity( voltage ) );
-        this.shapeFactory = new BatteryShapeFactory( this, mvt );
+        this.shapeCreator = new BatteryShapeCreator( this, mvt );
 
         voltageProperty.addObserver( new SimpleObserver() {
             public void update() {
@@ -122,15 +122,15 @@ public class Battery {
     }
 
     public boolean intersectsTopTerminal( Shape shape ) {
-        return ShapeUtils.intersects( shapeFactory.createTopTerminalShape(), shape );
+        return ShapeUtils.intersects( shapeCreator.createTopTerminalShape(), shape );
     }
 
     public boolean intersectsBottomTerminal( Shape shape ) {
         return false; // bottom terminal is not visible
     }
 
-    public BatteryShapeFactory getShapeFactory() {
-        return shapeFactory;
+    public BatteryShapeCreator getShapeCreator() {
+        return shapeCreator;
     }
 
     public Dimension2D getBodySizeReference() {
