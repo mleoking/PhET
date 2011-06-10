@@ -64,6 +64,7 @@ public class WaterCanvas extends PhetPCanvas {
         final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
                 model.addFrameListener( listener );
+                listener.apply();
             }
         };
 
@@ -107,7 +108,7 @@ public class WaterCanvas extends PhetPCanvas {
         //Provide graphics for Salt Crystals
         new GraphicAdapter<Sucrose>( particleLayer, new Function1<Sucrose, PNode>() {
             public PNode apply( Sucrose sodiumIon ) {
-                return new SucroseNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
+                return new SucroseNode( transform, sodiumIon, addFrameListener );
             }
         },
                                      //TODO: use the pre-existing list when it is made
@@ -119,9 +120,6 @@ public class WaterCanvas extends PhetPCanvas {
                                      }
         );
 
-//        addChild( new BarrierNode( transform, model.bottomWall ) );
-//        addChild( new BarrierNode( transform, model.leftWall ) );
-//        addChild( new BarrierNode( transform, model.rightWall ) );
         //Control panel
         addChild( new ControlPanelNode( new VBox(
 
