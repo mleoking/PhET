@@ -115,6 +115,12 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     public void addSugar() {
         double x = 0;
         double y = beakerHeight / 2;
+        final double delta = beakerHeight / 4 * 0.87;
+        addSugar( x, y - delta / 2 );
+        addSugar( x, y + delta / 2 );
+    }
+
+    private void addSugar( double x, double y ) {
         Sucrose sugarMolecule = new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
                 addFrameListener( listener );

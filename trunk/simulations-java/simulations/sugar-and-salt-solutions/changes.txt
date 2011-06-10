@@ -1,3 +1,4 @@
+Add 2 sugar molecules when "add sugar" is pressed
 Added option to show sugar molecules
 Made sugar draggable
 Changed water particle charges to be more like TIPS water model
