@@ -1,3 +1,4 @@
+Refactored one hydrogen into an atom in water molecule
 Factored out oxygen atom in water molecule
 Removed code related to barriers, since we are now using periodic boundary conditions
 # 0.00.33 (52970) Jun 9, 2011

@@ -29,10 +29,7 @@ public class WaterMolecule implements Removable, Particle {
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
     public final Atom oxygen;
-
-    public CircleDef h1;
-    private Particle h1Particle;
-    public final Property<ImmutableVector2D> hydrogen1Position;
+    public final Atom hydrogen1;
 
     public CircleDef h2;
     public final Property<ImmutableVector2D> hydrogen2Position;
@@ -40,7 +37,6 @@ public class WaterMolecule implements Removable, Particle {
 
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
         //Model state in SI
-        hydrogen1Position = new Property<ImmutableVector2D>( new ImmutableVector2D( x + 1E-10, y + 1E-10 ) );
         hydrogen2Position = new Property<ImmutableVector2D>( new ImmutableVector2D( x - 1E-10, y + 1E-10 ) );
 
         //Find the box2d coordinates
@@ -57,18 +53,8 @@ public class WaterMolecule implements Removable, Particle {
         //Now create the Box2D body for physics updates
         body = world.createBody( bodyDef );
 
-        oxygen = new Atom( x, y, transform, oxygenRadius, body );
-
-        //Construct hydrogen
-        final ImmutableVector2D h1ModelOffset = new ImmutableVector2D( 0.5E-10, 0.5E-10 );
-        h1 = new CircleDef() {{
-            restitution = 0.4f;
-            ImmutableVector2D boxOffset = transform.modelToViewDelta( h1ModelOffset );
-            localPosition = new Vec2( (float) boxOffset.getX(), (float) boxOffset.getY() );
-            radius = (float) transform.modelToViewDeltaX( hydrogenRadius );
-            density = 1;
-        }};
-        body.createShape( h1 );
+        oxygen = new Atom( x, y, transform, oxygenRadius, body, 0, 0, -2 );
+        hydrogen1 = new Atom( x + 1E-10, y + 1E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 1 );
 
         //Construct other hydrogen
         final ImmutableVector2D h2ModelOffset = new ImmutableVector2D( -0.5E-10, 0.5E-10 );
@@ -88,30 +74,10 @@ public class WaterMolecule implements Removable, Particle {
         addUpdateListener.apply( new VoidFunction0() {
             public void apply() {
                 oxygen.position.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
-                hydrogen1Position.set( h1ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
+                hydrogen1.position.set( hydrogen1.modelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
                 hydrogen2Position.set( h2ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
             }
         } );
-
-
-        h1Particle = new Particle() {
-            public Vec2 getBox2DPosition() {
-                ImmutableVector2D x = transform.modelToView( hydrogen1Position.get() );
-                return new Vec2( (float) x.getX(), (float) x.getY() );
-            }
-
-            public double getCharge() {
-                return +1;
-            }
-
-            public ImmutableVector2D getModelPosition() {
-                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
-            }
-
-            //Not implemented since the oxygen sets the reference point for this water
-            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
-            }
-        };
 
         h2Particle = new Particle() {
             public Vec2 getBox2DPosition() {
@@ -151,7 +117,7 @@ public class WaterMolecule implements Removable, Particle {
     }
 
     public Particle getH1Particle() {
-        return h1Particle;
+        return hydrogen1.particle;
     }
 
     public Particle getH2Particle() {
