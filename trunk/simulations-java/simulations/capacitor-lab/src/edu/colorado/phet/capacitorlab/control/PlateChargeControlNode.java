@@ -71,7 +71,6 @@ public class PlateChargeControlNode extends PhetPNode {
     private static final Color TITLE_COLOR = Color.BLACK;
 
     private final SingleCircuit circuit;
-
     private final SliderNode sliderNode;
     private final DoubleRange range;
 

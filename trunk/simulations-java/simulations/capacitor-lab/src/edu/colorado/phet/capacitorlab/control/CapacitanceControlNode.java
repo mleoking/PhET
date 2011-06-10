@@ -65,7 +65,6 @@ public class CapacitanceControlNode extends PhetPNode {
     private static final Color VALUE_COLOR = Color.BLACK;
 
     private final Capacitor capacitor;
-
     private final TrackNode trackNode;
     private final KnobNode knobNode;
     private final TitleNode titleNode;
