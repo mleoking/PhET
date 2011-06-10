@@ -1,3 +1,4 @@
+# 0.00.34 (53006) Jun 10, 2011
 Added sucrose model and graphics
 Finished refactoring water hydrogen into atoms
 Refactored one hydrogen into an atom in water molecule
