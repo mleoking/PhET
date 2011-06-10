@@ -17,10 +17,12 @@ import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.view.meters.TimesTenValueNode;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -94,7 +96,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
         // nodes
         trackNode = new TrackNode();
-        knobNode = new KnobNode();
+        knobNode = new KnobNode( trackNode, range, snapInterval, capacitor );
         titleNode = new TitleNode( CLStrings.CAPACITANCE );
         valueNode = new TimesTenValueNode( VALUE_FORMAT, displayExponent, CLStrings.FARADS, capacitor.getTotalCapacitance(), VALUE_FONT, VALUE_COLOR );
 
@@ -134,75 +136,7 @@ public class CapacitanceControlNode extends PhetPNode {
             titleNode.setOffset( x, y );
         }
 
-        // interactivity
-        initInteractivity();
-
         update();
-    }
-
-    //TODO: move this to a new class, KnobDragHandler, and wire up in KnobNode
-    private void initInteractivity() {
-
-        // hand cursor on knob
-        knobNode.addInputEventListener( new CursorHandler() );
-
-        // highlight the knob on mouseover
-        knobNode.addInputEventListener( new PaintHighlightHandler( knobNode, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-
-        // Constrain the knob to be dragged vertically within the track
-        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
-
-            private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
-
-            @Override
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( CapacitanceControlNode.this );
-                Point2D pMouseGlobal = CapacitanceControlNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = CapacitanceControlNode.this.localToGlobal( knobNode.getOffset() );
-                globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY() + trackNode.getYOffset();
-            }
-
-            @Override
-            protected void drag( PInputEvent event ) {
-                super.drag( event );
-                updateCapacitance( event, true /* isDragging */ );
-            }
-
-            @Override
-            protected void endDrag( PInputEvent event ) {
-                updateCapacitance( event, false /* isDragging */ );
-                super.endDrag( event );
-            }
-
-            private void updateCapacitance( PInputEvent event, boolean isDragging ) {
-                // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( CapacitanceControlNode.this );
-                Point2D pMouseGlobal = CapacitanceControlNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-                Point2D pKnobLocal = CapacitanceControlNode.this.globalToLocal( pKnobGlobal );
-
-                // convert the offset to a charge value
-                double yOffset = pKnobLocal.getY();
-                double trackLength = trackNode.getFullBoundsReference().getHeight();
-                double capacitance = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-                if ( capacitance < range.getMin() ) {
-                    capacitance = range.getMin();
-                }
-                else if ( capacitance > range.getMax() ) {
-                    capacitance = range.getMax();
-                }
-
-                // snap to closest value
-                if ( !isDragging ) {
-                    capacitance = Math.floor( ( capacitance / snapInterval ) + 0.5d ) * snapInterval;
-                }
-
-                // set the model
-                capacitor.setTotalCapacitance( capacitance );
-            }
-        } );
     }
 
     // Updates the control to match the capacitor model.
@@ -241,7 +175,8 @@ public class CapacitanceControlNode extends PhetPNode {
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PPath {
-        public KnobNode() {
+
+        public KnobNode( PNode trackNode, DoubleRange range, double snapInterval, final Capacitor capacitor ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -257,6 +192,79 @@ public class CapacitanceControlNode extends PhetPNode {
             setPaint( KNOB_NORMAL_COLOR );
             setStroke( KNOB_STROKE );
             setStrokePaint( KNOB_STROKE_COLOR );
+
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
+            addInputEventListener( new KnobDragHandler( trackNode, range, snapInterval,
+                                                        new VoidFunction1<Double>() {
+                                                            public void apply( Double value ) {
+                                                                capacitor.setTotalCapacitance( value );
+                                                            }
+                                                        } ) );
+        }
+    }
+
+    // Drag handler for the knob, snaps to closet value, updates model value.
+    private static class KnobDragHandler extends PDragSequenceEventHandler {
+
+        private final PNode trackNode;
+        private final DoubleRange range;
+        private final double snapInterval;
+        private final VoidFunction1<Double> updateFunction;
+        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+
+        public KnobDragHandler( PNode trackNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
+            this.trackNode = trackNode;
+            this.range = range;
+            this.snapInterval = snapInterval;
+            this.updateFunction = updateFunction;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            // note the offset between the mouse click and the knob's origin
+            PNode parent = event.getPickedNode().getParent();
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = parent.localToGlobal( event.getPickedNode().getOffset() );
+            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY() + trackNode.getYOffset();
+        }
+
+        @Override protected void drag( PInputEvent event ) {
+            super.drag( event );
+            updateValue( event, true /* isDragging */ );
+        }
+
+        @Override protected void endDrag( PInputEvent event ) {
+            updateValue( event, false /* isDragging */ );
+            super.endDrag( event );
+        }
+
+        private void updateValue( PInputEvent event, boolean isDragging ) {
+            // determine the knob's new offset
+            PNode parent = event.getPickedNode().getParent();
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
+            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
+
+            // convert the offset to a charge value
+            double yOffset = pKnobLocal.getY();
+            double trackLength = trackNode.getFullBoundsReference().getHeight();
+            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+            if ( value < range.getMin() ) {
+                value = range.getMin();
+            }
+            else if ( value > range.getMax() ) {
+                value = range.getMax();
+            }
+
+            // snap to closest value
+            if ( !isDragging ) {
+                value = Math.floor( ( value / snapInterval ) + 0.5d ) * snapInterval;
+            }
+
+            updateFunction.apply( value );
         }
     }
 
