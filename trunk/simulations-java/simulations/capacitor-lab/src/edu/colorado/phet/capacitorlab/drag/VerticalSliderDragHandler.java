@@ -25,7 +25,7 @@ public class VerticalSliderDragHandler extends PDragSequenceEventHandler {
     /**
      * Constructor
      *
-     * @param relativeNode   dragging is relative to this node, typically the sliders's parent
+     * @param relativeNode   dragging is relative to this node, typically the sliders' parent
      * @param trackNode      the track
      * @param knobNode       the knob
      * @param range          range of model values
