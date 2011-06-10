@@ -76,8 +76,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final Font CONTROL_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color CONTROL_COLOR = Color.WHITE;
 
-    private final ViewportNode viewportNode;
+    private final ViewportNode viewportNode; // display area for vectors and values
     private final Point2D connectionOffset; // offset for connection point of wire that attaches probe to body
+    private final Property<Boolean> zoomInEnabledProperty, zoomOutEnabledProperty;
 
     /**
      * Constructor
@@ -88,6 +89,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      * @param simplified               if true, disabled some feature of the detector
      */
     public EFieldDetectorBodyNode( final EFieldDetector detector, final CLModelViewTransform3D mvt, double vectorReferenceMagnitude, boolean simplified ) {
+
+        this.zoomInEnabledProperty = new Property<Boolean>( false );
+        this.zoomOutEnabledProperty = new Property<Boolean>( false );
 
         // title that appears at the top
         PText titleNode = new PText( CLStrings.ELECTRIC_FIELD ) {{
@@ -106,32 +110,16 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             } );
         }};
 
-        // Zoom controls
-        ActionListener zoomActionListener = new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                viewportNode.zoom();
-            }
-        };
-        ZoomPanelNode zoomPanelNode = new ZoomPanelNode( zoomActionListener, zoomActionListener );
-
-        // display area for vectors and values
-        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomPanelNode.zoomInEnabledProperty, zoomPanelNode.zoomOutEnabledProperty, simplified );
+        // viewport
+        viewportNode = new ViewportNode( detector, vectorReferenceMagnitude, zoomInEnabledProperty, zoomOutEnabledProperty, simplified );
         viewportNode.setSimplified( simplified );
 
-        // Vector controls
-        PSwing showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
-        showVectorsPSwing.setVisible( !simplified );
-
-        // Show Values check box
-        PSwing showValuesPSwing = new PSwing( new DetectorCheckBox( CLStrings.SHOW_VALUES, detector.valuesVisibleProperty, CONTROL_COLOR ) );
+        // control panel
+        ControlPanelNode controlPanelNode = new ControlPanelNode( detector, viewportNode, zoomInEnabledProperty, zoomOutEnabledProperty, simplified );
 
         // background
-        double maxControlWidth = Math.max( showVectorsPSwing.getFullBoundsReference().getWidth(), showValuesPSwing.getFullBoundsReference().getWidth() );
-        double width = maxControlWidth + viewportNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
-        final double controlsHeight = showVectorsPSwing.getFullBoundsReference().getHeight() + BODY_Y_SPACING +
-                                      zoomPanelNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING +
-                                      showValuesPSwing.getFullBoundsReference().getHeight();
-        double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlsHeight, viewportNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
+        double width = controlPanelNode.getFullBoundsReference().getWidth() + viewportNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
+        double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlPanelNode.getFullBoundsReference().getHeight(), viewportNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, BODY_CORNER_RADIUS, BODY_CORNER_RADIUS ) );
         backgroundNode.setPaint( BODY_COLOR );
         backgroundNode.setStroke( null );
@@ -140,9 +128,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         addChild( backgroundNode );
         addChild( titleNode );
         addChild( closeButtonNode );
-        addChild( showVectorsPSwing );
-        addChild( zoomPanelNode );
-        addChild( showValuesPSwing );
+        addChild( controlPanelNode );
         addChild( viewportNode );
 
         // layout
@@ -150,29 +136,21 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             double x = 0;
             double y = 0;
             backgroundNode.setOffset( x, y );
-            // title
+            // title centered at top
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
             y = BODY_Y_MARGIN;
             titleNode.setOffset( x, y );
-            // close button
+            // close button in upper right
             x = backgroundNode.getFullBoundsReference().getMaxX() - closeButtonNode.getFullBoundsReference().getWidth() - BODY_X_MARGIN;
             y = backgroundNode.getFullBoundsReference().getMinY() + BODY_Y_MARGIN;
             closeButtonNode.setOffset( x, y );
-            // vector controls in upper left
+            // control panel on left
             x = BODY_X_MARGIN;
             y = titleNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
-            showVectorsPSwing.setOffset( x, y );
-            // zoom controls below vector controls
-            x = BODY_X_MARGIN;
-            y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING ) - PNodeLayoutUtils.getOriginYOffset( zoomPanelNode );
-            zoomPanelNode.setOffset( x, y );
-            // "Show values" control below zoom controls
-            x = BODY_X_MARGIN;
-            y = zoomPanelNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
-            showValuesPSwing.setOffset( x, y );
-            // vectors
-            x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
-            y = showVectorsPSwing.getYOffset();
+            controlPanelNode.setOffset( x, y );
+            // viewport on right
+            x = controlPanelNode.getFullBoundsReference().getMaxX() + BODY_X_SPACING;
+            y = controlPanelNode.getYOffset();
             viewportNode.setOffset( x, y );
         }
 
@@ -194,6 +172,48 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     // Gets the offset for connecting wire that attached to probe.
     public Point2D getConnectionOffset() {
         return new Point2D.Double( connectionOffset.getX(), connectionOffset.getY() );
+    }
+
+    // Control panel, contains 3 subpanels
+    private static class ControlPanelNode extends PNode {
+
+        public ControlPanelNode( EFieldDetector detector, final ViewportNode viewportNode,
+                                 Property<Boolean> zoomInEnabledProperty, Property<Boolean> zoomOutEnabledProperty, boolean simplified ) {
+
+            // Vector visibility controls
+            PSwing showVectorsPSwing = new PSwing( new ShowVectorsPanel( detector ) );
+            showVectorsPSwing.setVisible( !simplified );
+
+            // Zoom controls
+            ActionListener zoomActionListener = new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    viewportNode.zoom();
+                }
+            };
+            ZoomPanelNode zoomPanelNode = new ZoomPanelNode( zoomActionListener, zoomActionListener, zoomInEnabledProperty, zoomOutEnabledProperty );
+
+            // Show Values check box
+            PSwing showValuesPSwing = new PSwing( new DetectorCheckBox( CLStrings.SHOW_VALUES, detector.valuesVisibleProperty, CONTROL_COLOR ) );
+
+            // rendering order
+            addChild( showVectorsPSwing );
+            addChild( zoomPanelNode );
+            addChild( showValuesPSwing );
+
+            // layout
+            // vector controls at upper left
+            double x = 0;
+            double y = 0;
+            showVectorsPSwing.setOffset( x, y );
+            // zoom controls below vector controls
+            x = BODY_X_MARGIN;
+            y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING ) - PNodeLayoutUtils.getOriginYOffset( zoomPanelNode );
+            zoomPanelNode.setOffset( x, y );
+            // "Show values" control below zoom controls
+            x = BODY_X_MARGIN;
+            y = zoomPanelNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
+            showValuesPSwing.setOffset( x, y );
+        }
     }
 
     /*
@@ -232,7 +252,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
     private static final class ViewportNode extends PClip {
 
         private final EFieldDetector detector;
-        private final Property<Boolean> zoomInEnabled, zoomOutEnabled;
+        private final Property<Boolean> zoomInEnabledProperty, zoomOutEnabledProperty;
 
         private final PComposite sceneNode; // the portion of the scenegraph visible in the viewport
         private final FieldVectorNode plateVectorNode, dielectricVectorNode, sumVectorNode;
@@ -240,7 +260,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         private double vectorsScale;
         private boolean simplified;
 
-        public ViewportNode( final EFieldDetector detector, double vectorReferenceMagnitude, Property<Boolean> zoomInEnabled, Property<Boolean> zoomOutEnabled, boolean simplified ) {
+        public ViewportNode( final EFieldDetector detector, double vectorReferenceMagnitude,
+                             Property<Boolean> zoomInEnabledProperty, Property<Boolean> zoomOutEnabledProperty, boolean simplified ) {
 
             PDimension size = ( simplified ? SIMPLIFIED_VIEWPORT_SIZE : VIEWPORT_SIZE );
             setPathTo( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) );
@@ -248,8 +269,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             setStroke( null );
 
             this.detector = detector;
-            this.zoomInEnabled = zoomInEnabled;
-            this.zoomOutEnabled = zoomOutEnabled;
+            this.zoomInEnabledProperty = zoomInEnabledProperty;
+            this.zoomOutEnabledProperty = zoomOutEnabledProperty;
             vectorsScale = 1;
             simplified = false;
 
@@ -286,7 +307,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             detector.addDielectricVectorObserver( vectorsObserver );
             detector.addSumVectorObserver( vectorsObserver );
 
-            // observer visibility changes
+            // observe visibility changes
             RichSimpleObserver visibilityObserver = new RichSimpleObserver() {
                 public void update() {
                     updateVisibility();
@@ -495,8 +516,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         }
 
         private void updateZoomEnabled() {
-            zoomInEnabled.set( canZoomIn() );
-            zoomOutEnabled.set( canZoomOut() );
+            zoomInEnabledProperty.set( canZoomIn() );
+            zoomOutEnabledProperty.set( canZoomOut() );
         }
     }
 
@@ -587,10 +608,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
      */
     private static class ZoomPanelNode extends PNode {
 
-        public final Property<Boolean> zoomInEnabledProperty = new Property<Boolean>( false );
-        public final Property<Boolean> zoomOutEnabledProperty = new Property<Boolean>( false );
-
-        public ZoomPanelNode( ActionListener zoomInActionListener, ActionListener zoomOutActionListener ) {
+        public ZoomPanelNode( ActionListener zoomInActionListener, ActionListener zoomOutActionListener,
+                              final Property<Boolean> zoomInEnabledProperty, final Property<Boolean> zoomOutEnabledProperty ) {
 
             PText labelNode = new PText( CLStrings.ZOOM );
             addChild( labelNode );
