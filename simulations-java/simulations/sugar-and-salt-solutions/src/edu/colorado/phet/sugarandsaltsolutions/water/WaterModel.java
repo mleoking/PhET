@@ -6,10 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import org.jbox2d.collision.AABB;
-import org.jbox2d.collision.PolygonDef;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -58,11 +55,6 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     private Random random = new Random();
 
-    //Barriers are commented out while we evaluate periodic boundary conditions
-//    public final Barrier bottomWall;
-//    public final Barrier rightWall;
-//    public final Barrier leftWall;
-
     public final double beakerWidth = 40E-10;
     public final double beakerHeight = beakerWidth * 0.6;
     private final double box2DWidth = 20;
@@ -90,12 +82,8 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         worldAABB.lowerBound = new Vec2( -200, -200 );
         worldAABB.upperBound = new Vec2( 200, 200 );
 
-        //Create the world
-        //No gravity
+        //Create the Box2D world with no gravity
         world = new World( worldAABB, new Vec2( 0, 0 ), true );
-
-        //Commented out while we evaluate periodic boundary conditions
-//        world = new World( worldAABB, new Vec2( 0, -9.8f ), true );
 
         //Create beaker floor
         double glassThickness = 1E-10;
@@ -105,12 +93,6 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         //Create sides
         rightWallShape = new ImmutableRectangle2D( beakerWidth / 2, 0, glassThickness, beakerHeight );
         leftWallShape = new ImmutableRectangle2D( -beakerWidth / 2, 0, glassThickness, beakerHeight );
-
-        //Box2d barriers are commented out while we evaluate periodic boundary conditions
-        //        leftWall = createBarrier( leftWallShape );
-        //        bottomWall = createBarrier( bottomWallShape );
-//        bottomWall = createBarrier( bottomWallShape );
-//        rightWall = createBarrier( rightWallShape );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -220,23 +202,6 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         for ( VoidFunction1<WaterMolecule> waterAddedListener : waterAddedListeners ) {
             waterAddedListener.apply( water );
         }
-    }
-
-    //Creates a rectangular barrier
-    private Barrier createBarrier( ImmutableRectangle2D modelRect ) {
-        final ImmutableRectangle2D box2DRect = modelToBox2D.modelToView( modelRect );
-        PolygonDef shape = new PolygonDef() {{
-            restitution = 0.2f;
-            setAsBox( (float) box2DRect.width, (float) box2DRect.height );
-        }};
-        BodyDef bd = new BodyDef() {{
-            position = new Vec2( (float) box2DRect.x, (float) box2DRect.y );
-        }};
-        Body body = world.createBody( bd );
-        body.createShape( shape );
-        body.setMassFromShapes();
-
-        return new Barrier( body, modelRect );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
@@ -450,16 +415,5 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     public void addSugarAddedListener( VoidFunction1<Molecule> createNode ) {
         sugarAddedListeners.add( createNode );
-    }
-
-    //Model object representing a barrier, such as the beaker floor or wall which particles shouldn't pass through
-    public static class Barrier {
-        public final Body body;
-        public final ImmutableRectangle2D shape;
-
-        public Barrier( Body body, ImmutableRectangle2D shape ) {
-            this.body = body;
-            this.shape = shape;
-        }
     }
 }
