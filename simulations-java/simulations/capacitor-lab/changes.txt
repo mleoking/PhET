@@ -1,3 +1,4 @@
+6/9/11 #2943, factor out common drag handler for Piccolo sliders, with hook for subclasses to implement snapping
 6/9/11 #2943, create knob drag handler class in capacitance control node
 6/9/11 #2943, create inner class for slider in plate charge control
 6/9/11 #2943, generalize knob drag handler in plate charge control, for reuse in other Piccolo sliders
