@@ -12,10 +12,10 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 /**
  * @author Sam Reid
  */
-public class Molecule implements Removable {
+public class Sucrose implements Removable {
     public final Property<ImmutableVector2D> position;
 
-    public Molecule( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, double charge, double radius ) {
+    public Sucrose( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, double charge, double radius ) {
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
     }
 

@@ -105,18 +105,18 @@ public class WaterCanvas extends PhetPCanvas {
 
 
         //Provide graphics for Salt Crystals
-        new GraphicAdapter<Molecule>( particleLayer, new Function1<Molecule, PNode>() {
-            public PNode apply( Molecule sodiumIon ) {
-                return new MoleculeNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
+        new GraphicAdapter<Sucrose>( particleLayer, new Function1<Sucrose, PNode>() {
+            public PNode apply( Sucrose sodiumIon ) {
+                return new SucroseNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
             }
         },
-                                      //TODO: use the pre-existing list when it is made
-                                      new ArrayList<Molecule>(),
-                                      new VoidFunction1<VoidFunction1<Molecule>>() {
-                                          public void apply( VoidFunction1<Molecule> createNode ) {
-                                              model.addSugarAddedListener( createNode );
-                                          }
-                                      }
+                                     //TODO: use the pre-existing list when it is made
+                                     new ArrayList<Sucrose>(),
+                                     new VoidFunction1<VoidFunction1<Sucrose>>() {
+                                         public void apply( VoidFunction1<Sucrose> createNode ) {
+                                             model.addSugarAddedListener( createNode );
+                                         }
+                                     }
         );
 
 //        addChild( new BarrierNode( transform, model.bottomWall ) );
