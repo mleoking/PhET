@@ -38,7 +38,7 @@ public class Combination1Circuit extends AbstractCircuit {
     private final Capacitor c1, c2, c3; // references for correlation with javadoc diagram, to improve code readability
 
     public Combination1Circuit( final CircuitConfig config ) {
-        super( CLStrings.COMBINATION_1, config, 3 /* numberOfCapacitors */,
+        super( config, CLStrings.COMBINATION_1, 3 /* numberOfCapacitors */,
                new CreateCapacitors() {
                    // Creates capacitors, as shown in javadoc diagram.
                    public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {
