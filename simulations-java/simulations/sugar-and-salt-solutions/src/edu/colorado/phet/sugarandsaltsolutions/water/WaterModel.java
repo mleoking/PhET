@@ -125,7 +125,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
             public void apply( VoidFunction0 listener ) {
                 addFrameListener( listener );
             }
-        }, +1, SODIUM_RADIUS );
+        } );
         sugarMoleculeList.add( sugarMolecule );
         updateNumSugarMolecules();
         for ( VoidFunction1<Sucrose> sugarAddedListener : sugarAddedListeners ) {
