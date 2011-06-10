@@ -253,7 +253,7 @@ public class PlateChargeControlNode extends PhetPNode {
         }
     }
 
-    // Drag handler for the knob, updates disconnected plate charge as the knob is dragged.
+    // Drag handler for the knob, snaps to zero, updates model value.
     private static class KnobDragHandler extends PDragSequenceEventHandler {
 
         private final PNode trackNode;
