@@ -155,6 +155,7 @@ public class ControlPanel extends Canvas {
 
     private function resetPositions():void{
         this.myModel.initializeKinematicArrays();
+        this.myModel.zeroModeArrays();
     }
 
     private function clickLongOrTrans( evt: Event ): void {

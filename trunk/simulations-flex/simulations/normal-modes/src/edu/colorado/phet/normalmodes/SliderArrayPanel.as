@@ -55,8 +55,10 @@ public class SliderArrayPanel extends UIComponent {
 //             var amplitudeFunction = function (){
 //                 trace("SliderArrayPanel.index = "+ i)
 //             }
-             var vertSliderAmpli:VerticalSlider = new VerticalSlider( amplitudeFunction, 100, 0, 10, true  );
+             var vertSliderAmpli:VerticalSlider = new VerticalSlider( amplitudeFunction, 100, 0, 0.1, true  );
              var vertSliderPhase:VerticalSlider = new VerticalSlider( phaseFunction, 100, -Math.PI, +Math.PI, true  );
+             vertSliderAmpli.setReadoutPrecision( 3 );
+             vertSliderPhase.setReadoutPrecision( 2 );
 
 //             function amplitudeFunction():void{
 //                 trace( "SliderArrayPanel.sliderIndex = " + vertSliderAmpli.index);
@@ -94,15 +96,15 @@ public class SliderArrayPanel extends UIComponent {
     } //end positionSliders();
 
 
-
     private function amplitudeFunction( indx:int ):void{
         var A:Number = this.ampliSlider_arr[ indx - 1 ].getVal();
         this.myModel.setModeAmpli( indx,  A );
         //trace("SliderArrayPanel.amplitudeFunction. Index = "+passedIndex)
     }
 
-    private function phaseFunction( passedIndex:int ):void{
-        //do nothing yet
+    private function phaseFunction( indx:int ):void{
+        var phase:Number = this.phaseSlider_arr[ indx - 1 ].getVal();
+        this.myModel.setModePhase( indx,  phase );
     }
 }//end class
 }//end package
