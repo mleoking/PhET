@@ -13,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  * @author Sam Reid
  */
 public class WaterMolecule extends Molecule {
-    public final double oxygenRadius = 1E-10;
-    public final double hydrogenRadius = 0.5E-10;
+    public static final double oxygenRadius = 1E-10;
+    public static final double hydrogenRadius = 0.5E-10;
 
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
         super( world, transform, x, y, vx, vy, theta, addUpdateListener );
