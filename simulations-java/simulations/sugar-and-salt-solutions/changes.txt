@@ -1,3 +1,4 @@
+Reduced scale of the sucrose molecule OH distance in sugar will look like that in water
 # 0.00.34 (53006) Jun 10, 2011
 Added sucrose model and graphics
 Finished refactoring water hydrogen into atoms

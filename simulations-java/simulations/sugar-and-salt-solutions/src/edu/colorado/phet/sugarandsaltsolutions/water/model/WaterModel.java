@@ -29,16 +29,10 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIU
  */
 public class WaterModel extends SugarAndSaltSolutionModel {
 
-    //List of all model objects objects
+    //Lists of all model objects
     private ArrayList<WaterMolecule> waterList = new ArrayList<WaterMolecule>();
-
-    //List of all Sodium ions
     private ArrayList<DefaultParticle> sodiumList = new ArrayList<DefaultParticle>();
-
-    //List of all Chlorine ions
     private ArrayList<DefaultParticle> chlorineList = new ArrayList<DefaultParticle>();
-
-    //List of all Sugar molecules
     private ArrayList<Sucrose> sugarMoleculeList = new ArrayList<Sucrose>();
 
     //Listeners who are called back when the physics updates
