@@ -353,6 +353,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         clearWater();
         clearSodium();
         clearChlorine();
+        clearSugar();
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
@@ -385,6 +386,16 @@ public class WaterModel extends SugarAndSaltSolutionModel {
             chlorineParticle.notifyRemoved();
         }
         chlorineList.clear();
+    }
+
+    //Removes all Sugar from the model
+    private void clearSugar() {
+        for ( Sucrose sucrose : sugarMoleculeList ) {
+            world.destroyBody( sucrose.body );
+            sucrose.notifyRemoved();
+        }
+        sugarMoleculeList.clear();
+        updateNumSugarMolecules();
     }
 
     public ArrayList<DefaultParticle> getSodiumIonList() {
