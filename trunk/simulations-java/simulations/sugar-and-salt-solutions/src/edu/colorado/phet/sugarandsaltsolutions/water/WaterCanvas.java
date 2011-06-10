@@ -14,11 +14,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.water.WaterModel.Barrier;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
@@ -177,12 +175,5 @@ public class WaterCanvas extends PhetPCanvas {
 
     private void addChild( PNode node ) {
         rootNode.addChild( node );
-    }
-
-    //Graphic to show a barrier such as the beaker floor
-    private class BarrierNode extends PNode {
-        public BarrierNode( ModelViewTransform transform, Barrier floor ) {
-            addChild( new PhetPPath( transform.modelToView( floor.shape.toRectangle2D() ), Color.lightGray ) );
-        }
     }
 }
