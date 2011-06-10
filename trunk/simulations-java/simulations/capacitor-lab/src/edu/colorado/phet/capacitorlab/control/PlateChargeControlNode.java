@@ -5,7 +5,6 @@ package edu.colorado.phet.capacitorlab.control;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
@@ -13,9 +12,9 @@ import javax.swing.*;
 import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.circuit.ICircuit.CircuitChangeListener;
 import edu.colorado.phet.capacitorlab.model.circuit.SingleCircuit;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,8 +24,6 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -253,66 +250,19 @@ public class PlateChargeControlNode extends PhetPNode {
         }
     }
 
-    // Drag handler for the knob, snaps to zero, updates model value.
-    private static class KnobDragHandler extends PDragSequenceEventHandler {
+    // Drag handler for the knob, snaps to zero.
+    private static class KnobDragHandler extends VerticalSliderDragHandler {
 
-        private final PNode trackNode;
-        private final DoubleRange range;
         private final double snapThreshold;
-        private final VoidFunction1<Double> updateFunction;
-        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
 
         public KnobDragHandler( PNode trackNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            this.trackNode = trackNode;
-            this.range = range;
+            super( trackNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
-            this.updateFunction = updateFunction;
         }
 
-        @Override
-        protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            // note the offset between the mouse click and the knob's origin
-            PNode parent = event.getPickedNode().getParent();
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = parent.localToGlobal( event.getPickedNode().getOffset() );
-            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
-        }
-
-        @Override
-        protected void drag( PInputEvent event ) {
-            super.drag( event );
-            updateValue( event, true /* isDragging */ );
-        }
-
-        @Override
-        protected void endDrag( PInputEvent event ) {
-            updateValue( event, false /* isDragging */ );
-            super.endDrag( event );
-        }
-
-        private void updateValue( PInputEvent event, boolean isDragging ) {
-
-            // determine the knob's new offset
-            PNode parent = event.getPickedNode().getParent();
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
-
-            // convert the offset to a charge value
-            double yOffset = pKnobLocal.getY();
-            double trackLength = trackNode.getFullBoundsReference().getHeight();
-            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-            value = MathUtil.clamp( value, range );
-
-            // snap to zero if knob is released and value is close enough to zero
-            if ( !isDragging && Math.abs( value ) <= snapThreshold ) {
-                value = 0;
-            }
-
-            updateFunction.apply( value );
+        // snaps to zero if the value is within some threshold.
+        @Override protected double adjustValue( double value ) {
+            return ( Math.abs( value ) <= snapThreshold ) ? 0 : value;
         }
     }
 

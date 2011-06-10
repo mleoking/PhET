@@ -4,7 +4,6 @@ package edu.colorado.phet.capacitorlab.control;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -13,6 +12,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.capacitorlab.CLPaints;
 import edu.colorado.phet.capacitorlab.CLStrings;
+import edu.colorado.phet.capacitorlab.drag.VerticalSliderDragHandler;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.Capacitor.CapacitorChangeListener;
 import edu.colorado.phet.capacitorlab.view.meters.TimesTenValueNode;
@@ -23,8 +23,6 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -204,67 +202,19 @@ public class CapacitanceControlNode extends PhetPNode {
         }
     }
 
-    // Drag handler for the knob, snaps to closet value, updates model value.
-    private static class KnobDragHandler extends PDragSequenceEventHandler {
+    // Drag handler for the knob, snaps to closet value.
+    private static class KnobDragHandler extends VerticalSliderDragHandler {
 
-        private final PNode trackNode;
-        private final DoubleRange range;
         private final double snapInterval;
-        private final VoidFunction1<Double> updateFunction;
-        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
 
         public KnobDragHandler( PNode trackNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            this.trackNode = trackNode;
-            this.range = range;
+            super( trackNode, range, updateFunction );
             this.snapInterval = snapInterval;
-            this.updateFunction = updateFunction;
         }
 
-        @Override protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            // note the offset between the mouse click and the knob's origin
-            PNode parent = event.getPickedNode().getParent();
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = parent.localToGlobal( event.getPickedNode().getOffset() );
-            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY() + trackNode.getYOffset();
-        }
-
-        @Override protected void drag( PInputEvent event ) {
-            super.drag( event );
-            updateValue( event, true /* isDragging */ );
-        }
-
-        @Override protected void endDrag( PInputEvent event ) {
-            updateValue( event, false /* isDragging */ );
-            super.endDrag( event );
-        }
-
-        private void updateValue( PInputEvent event, boolean isDragging ) {
-            // determine the knob's new offset
-            PNode parent = event.getPickedNode().getParent();
-            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
-            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
-            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
-
-            // convert the offset to a charge value
-            double yOffset = pKnobLocal.getY();
-            double trackLength = trackNode.getFullBoundsReference().getHeight();
-            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
-            if ( value < range.getMin() ) {
-                value = range.getMin();
-            }
-            else if ( value > range.getMax() ) {
-                value = range.getMax();
-            }
-
-            // snap to closest value
-            if ( !isDragging ) {
-                value = Math.floor( ( value / snapInterval ) + 0.5d ) * snapInterval;
-            }
-
-            updateFunction.apply( value );
+        // snaps to the closest value
+        @Override protected double adjustValue( double value ) {
+            return Math.floor( ( value / snapInterval ) + 0.5d ) * snapInterval;
         }
     }
 
