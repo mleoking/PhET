@@ -31,7 +31,7 @@ public class CLImages {
     public static final BufferedImage CLOSE_BUTTON = getCommonBufferedImage( PhetCommonResources.IMAGE_CLOSE_BUTTON );
 
     private static BufferedImage getBufferedImage( String resourceName ) {
-        return CLResources.getBufferedImage( resourceName );
+        return CapacitorLabApplication.RESOURCES.getImage( resourceName );
     }
 
     private static BufferedImage getCommonBufferedImage( String resourceName ) {
