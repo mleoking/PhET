@@ -46,7 +46,7 @@ public class WaterMolecule implements Removable, Particle {
 
         oxygen = new Atom( x, y, transform, oxygenRadius, body, 0, 0, -2, true );
         hydrogen1 = new Atom( x + 0.5E-10, y + 0.5E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 1, false );
-        hydrogen2 = new Atom( x - 1E-10, y + 1E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 1, false );
+        hydrogen2 = new Atom( x - 1E-10, y + 1E-10, transform, hydrogenRadius, body, -0.5E-10, 0.5E-10, 1, false );
 
         //Construct other hydrogen
         body.setMassFromShapes();
@@ -56,9 +56,10 @@ public class WaterMolecule implements Removable, Particle {
 
         addUpdateListener.apply( new VoidFunction0() {
             public void apply() {
-                oxygen.position.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
-                hydrogen1.position.set( hydrogen1.modelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
-                hydrogen2.position.set( hydrogen2.modelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
+                final ImmutableVector2D origin = new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) );
+                oxygen.updatePosition( body.getAngle(), origin );
+                hydrogen1.updatePosition( body.getAngle(), origin );
+                hydrogen2.updatePosition( body.getAngle(), origin );
             }
         } );
     }

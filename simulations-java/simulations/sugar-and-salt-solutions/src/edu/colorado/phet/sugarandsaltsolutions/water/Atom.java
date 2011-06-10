@@ -60,4 +60,8 @@ public class Atom {
             }
         };
     }
+
+    public void updatePosition( float angle, ImmutableVector2D origin ) {
+        position.set( modelOffset.getRotatedInstance( angle ).plus( origin ) );
+    }
 }

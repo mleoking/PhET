@@ -41,6 +41,10 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         addModule( new SodiumChlorideModule( new SolubleSaltsClock(), "Micro" ) );
         addModule( new WaterModule( configuration ) );
 
+        if ( config.isDev() ) {
+            setStartModule( moduleAt( 2 ) );
+        }
+
         //Add developer menus for changing the color of background and salt
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", configuration.backgroundColor ) );
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", configuration.saltColor ) );
