@@ -14,12 +14,12 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class SucrosePositions {
     private final String oxygen =
+            "561, 562\n" +
             "295, 185\n" +
             "770, 150\n" +
             "964, 437\n" +
             "885, 586\n" +
             "633, 367\n" +
-            "561, 562\n" +
             "567, 636\n" +
             "648, 657\n" +
             "406, 404\n" +
