@@ -28,12 +28,12 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.
  */
 public class SucroseNode extends PNode {
 
-    //Preload the images statically to save processor time during startup.  Use high resolution images here, and scale them down so they'll have good quality
-    private static final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 1000, Color.yellow ).toImage() );
-    private static final BufferedImage HYDROGEN_IMAGE = toBufferedImage( new AtomNode( 1000, Color.yellow ).toImage() );
-    private static final BufferedImage CARBON_IMAGE = toBufferedImage( new AtomNode( 1000, Color.yellow ).toImage() );
+    public SucroseNode( final ModelViewTransform transform, final Sucrose sucrose, VoidFunction1<VoidFunction0> addListener, Color oxygenColor, Color hydrogenColor, Color carbonColor ) {
 
-    public SucroseNode( final ModelViewTransform transform, final Sucrose sucrose, VoidFunction1<VoidFunction0> addListener ) {
+        //Preload the images statically to save processor time during startup.  Use high resolution images here, and scale them down so they'll have good quality
+        final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 300, oxygenColor ).toImage() );
+        final BufferedImage HYDROGEN_IMAGE = toBufferedImage( new AtomNode( 300, hydrogenColor ).toImage() );
+        final BufferedImage CARBON_IMAGE = toBufferedImage( new AtomNode( 300, carbonColor ).toImage() );
 
         //Get the diameters in view coordinates
         double oxygenDiameter = transform.modelToViewDeltaX( oxygenRadius * 2 );

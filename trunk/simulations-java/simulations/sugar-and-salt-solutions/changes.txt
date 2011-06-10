@@ -1,3 +1,4 @@
+Added option to show sugar molecules
 Made sugar draggable
 Changed water particle charges to be more like TIPS water model
 # 0.00.36 (53012) Jun 10, 2011
