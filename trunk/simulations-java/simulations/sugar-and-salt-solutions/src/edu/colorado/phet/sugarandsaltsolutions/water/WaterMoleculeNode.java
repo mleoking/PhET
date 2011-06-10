@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water;
 
+import java.awt.image.BufferedImage;
+
 import org.jbox2d.common.Vec2;
 
 import edu.colorado.phet.chemistry.molecules.AtomNode;
@@ -24,6 +26,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  */
 public class WaterMoleculeNode extends PNode {
 
+    //Preload the images statically to save processor time during startup.  Use high resolution images here, and scale them down so they'll have good quality
+    private static final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 1000, O.getColor() ).toImage() );
+    private static final BufferedImage HYDROGEN_IMAGE = toBufferedImage( new AtomNode( 1000, H.getColor() ).toImage() );
+
     public WaterMoleculeNode( final ModelViewTransform transform, final WaterMolecule waterMolecule, VoidFunction1<VoidFunction0> addListener ) {
 
         //Get the diameters in view coordinates
@@ -32,16 +38,13 @@ public class WaterMoleculeNode extends PNode {
 
         //Create shapes for O, H, H
         //Use images from chemistry since they look shaded and good colors
-        final PImage oxygen = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( O ).toImage() ), (int) oxygenDiameter ) );
-//        final PhetPPath oxygen = new PhetPPath( new Ellipse2D.Double( -oxygenDiameter / 2, -oxygenDiameter / 2, oxygenDiameter, oxygenDiameter ), oxygenColor );
+        final PImage oxygen = new PImage( multiScaleToWidth( OXYGEN_IMAGE, (int) oxygenDiameter ) );
 
         //First hydrogen
-        final PImage h1 = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( H ).toImage() ), (int) hydrogenDiameter ) );
-//        final PhetPPath h1 = new PhetPPath( new Ellipse2D.Double( -hydrogenDiameter / 2, -hydrogenDiameter / 2, hydrogenDiameter, hydrogenDiameter ), hydrogenColor );
+        final PImage h1 = new PImage( multiScaleToWidth( HYDROGEN_IMAGE, (int) hydrogenDiameter ) );
 
         //Second hydrogen
-        final PImage h2 = new PImage( multiScaleToWidth( toBufferedImage( new AtomNode( H ).toImage() ), (int) hydrogenDiameter ) );
-//        final PhetPPath h2 = new PhetPPath( new Ellipse2D.Double( -hydrogenDiameter / 2, -hydrogenDiameter / 2, hydrogenDiameter, hydrogenDiameter ), hydrogenColor );
+        final PImage h2 = new PImage( multiScaleToWidth( HYDROGEN_IMAGE, (int) hydrogenDiameter ) );
 
         //Update the graphics for the updated model objects
         VoidFunction0 update = new VoidFunction0() {
