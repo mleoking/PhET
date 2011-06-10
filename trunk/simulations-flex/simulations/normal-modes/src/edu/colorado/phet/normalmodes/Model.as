@@ -20,6 +20,7 @@ public class Model {
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
+    private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
     private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
     private var s_arr:Array;        //array of s-positions of masses, s = distance from equilibrium positions in either x or y-direction
@@ -59,6 +60,7 @@ public class Model {
         this._nMax = 10;             //maximum of 10 mobile masses in array
         this._N = 5;                 //start with 1 or 3 mobile masses
         this.nChanged = false;
+        this.modesChanged = false;
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
@@ -108,6 +110,10 @@ public class Model {
             modeAmpli_arr[i] = 0;
             modePhase_arr[i] = 0;
         }
+        this.modesChanged = true;
+        updateView();
+        this.modesChanged = false;
+        //call to SliderArrayPanel.resetSliders();
     }
 
     //for testing only
@@ -211,10 +217,24 @@ public class Model {
     public function setModeAmpli( modeNbr:int, A:Number ):void{
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
         trace("Model.setModeAmpli.  A = "+ A);
+        this.modesChanged = true;
+        updateView();
+        this.modesChanged = false;
+    }
+
+    public function getModeAmpli( modeNbr:int ):Number{
+        return this.modeAmpli_arr[ modeNbr - 1];
     }
 
     public function setModePhase( modeNbr:int,  phase:Number ):void{
         this.modePhase_arr[ modeNbr - 1 ] = phase;
+        this.modesChanged = true;
+        updateView();
+        this.modesChanged = false;
+    }
+
+    public function getModePhase( modeNbr:int ):Number{
+        return this.modePhase_arr[ modeNbr - 1 ];
     }
 
     public function setTRate(rate:Number):void{
@@ -324,7 +344,7 @@ public class Model {
             s_arr[i] = 0
             for( var r:int = 1; r <= this._N; r++){
                var j:int = r - 1;
-               this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this.t + modePhase_arr[j]);
+               this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this.t - modePhase_arr[j]);
             }
         }
         //trace("Model.t = "+ this.t +"    s[1] = " + this.s_arr[1] )
@@ -368,6 +388,10 @@ public class Model {
         if(nChanged){
             this.view.setNbrMasses();
             this.nChanged = false;
+        }
+        if( modesChanged ){
+            //this.view.myMainView.mySliderArrayPanel.resetSliders();
+            this.modesChanged = false;
         }
         this.view.update();
     }//end updateView()
