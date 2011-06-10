@@ -140,8 +140,8 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         double x = 0;
         double y = beakerHeight / 2;
         Molecule sugarMolecule = new Molecule( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 sodiumMolecule ) {
-                addFrameListener( sodiumMolecule );
+            public void apply( VoidFunction0 listener ) {
+                addFrameListener( listener );
             }
         }, +1, SODIUM_RADIUS );
         sugarMoleculeList.add( sugarMolecule );
