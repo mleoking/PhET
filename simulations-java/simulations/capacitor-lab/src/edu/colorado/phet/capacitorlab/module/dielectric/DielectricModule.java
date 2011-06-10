@@ -30,7 +30,6 @@ public class DielectricModule extends CLModule {
     protected DielectricModule( String title, CLGlobalProperties globalProperties ) {
         super( title );
 
-        //REVIEW: Why create the IClock and CLModelViewTransform3D outside of model objects and pass them in, instead of just creating them in the CLModel?
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
 
         DielectricMaterial[] materials = new DielectricMaterial[] { new CustomDielectricMaterial(), new Teflon(), new Paper(), new Glass() };
