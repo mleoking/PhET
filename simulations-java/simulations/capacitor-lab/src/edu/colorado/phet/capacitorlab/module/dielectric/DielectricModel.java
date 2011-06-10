@@ -126,22 +126,18 @@ public class DielectricModel extends CLModel {
      * We compute this with the battery connected because this is used to determine the range of the Plate Charge slider.
      */
     public static double getMaxPlateCharge() {
-        CLModelViewTransform3D mvt = new CLModelViewTransform3D();
-        DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
-        Capacitor capacitor = new Capacitor( new Point3D.Double(),
-                                             CLConstants.PLATE_WIDTH_RANGE.getMax(),
-                                             CLConstants.PLATE_SEPARATION_RANGE.getMin(),
-                                             material,
-                                             CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
-                                             mvt );
-        capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        return capacitor.getTotalPlateCharge();
+        return getCapacitorWithMaxCharge().getTotalPlateCharge();
     }
 
     /*
      * Gets the maximum excess charge for the dielectric area (Q_excess_dielectric).
      */
     public static double getMaxExcessDielectricPlateCharge() {
+        return getCapacitorWithMaxCharge().getExcessDielectricPlateCharge();
+    }
+
+    // Gets a capacitor with maximum charge.
+    private static Capacitor getCapacitorWithMaxCharge() {
         CLModelViewTransform3D mvt = new CLModelViewTransform3D();
         DielectricMaterial material = new CustomDielectricMaterial( CLConstants.DIELECTRIC_CONSTANT_RANGE.getMax() );
         Capacitor capacitor = new Capacitor( new Point3D.Double(),
@@ -151,7 +147,7 @@ public class DielectricModel extends CLModel {
                                              CLConstants.DIELECTRIC_OFFSET_RANGE.getMin(),
                                              mvt );
         capacitor.setPlatesVoltage( CLConstants.BATTERY_VOLTAGE_RANGE.getMax() );
-        return capacitor.getExcessDielectricPlateCharge();
+        return capacitor;
     }
 
     /*
