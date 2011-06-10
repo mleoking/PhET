@@ -7,10 +7,14 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
@@ -22,6 +26,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
@@ -40,6 +45,7 @@ public class WaterCanvas extends PhetPCanvas {
 
     //Separate layer for the particles so they are always behind the control panel
     private PNode particleLayer = new PNode();
+    private SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
 
     public WaterCanvas( final WaterModel model, final SugarAndSaltSolutionsColorScheme config ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -109,10 +115,10 @@ public class WaterCanvas extends PhetPCanvas {
         );
 
 
-        //Provide graphics for Salt Crystals
+        //Provide graphics for Sugar molecules
         new GraphicAdapter<Sucrose>( particleLayer, new Function1<Sucrose, PNode>() {
             public PNode apply( Sucrose sodiumIon ) {
-                return new SucroseNode( transform, sodiumIon, addFrameListener );
+                return new MultiSucroseNode( transform, sodiumIon, addFrameListener, showSugarAtoms );
             }
         },
                                      //TODO: use the pre-existing list when it is made
@@ -158,6 +164,10 @@ public class WaterCanvas extends PhetPCanvas {
                         }
                     } );
                 }},
+
+                new PSwing( new PropertyCheckBox( "Show sugar atoms", showSugarAtoms ) {{
+                    setFont( new PhetFont( 16 ) );
+                }} ),
 
                 //Add a reset all button that resets this tab
                 new HTMLImageButtonNode( "Reset All" ) {{
