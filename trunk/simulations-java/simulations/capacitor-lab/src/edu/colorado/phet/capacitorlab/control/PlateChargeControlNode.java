@@ -150,7 +150,7 @@ public class PlateChargeControlNode extends PhetPNode {
 
             // nodes
             trackNode = new TrackNode();
-            knobNode = new KnobNode( trackNode, range, circuit );
+            knobNode = new KnobNode( this, trackNode, range, circuit );
             TickMarkNode maxTickMarkNode = new TickMarkNode();
             RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LOTS_POSITIVE );
             TickMarkNode zeroTickMarkNode = new TickMarkNode();
@@ -221,7 +221,7 @@ public class PlateChargeControlNode extends PhetPNode {
      */
     private static class KnobNode extends PPath {
 
-        public KnobNode( PNode trackNode, DoubleRange range, final SingleCircuit circuit ) {
+        public KnobNode( PNode relativeNode, PNode trackNode, DoubleRange range, final SingleCircuit circuit ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -241,7 +241,7 @@ public class PlateChargeControlNode extends PhetPNode {
             // hand cursor on knob
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new KnobDragHandler( trackNode, range, CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD,
+            addInputEventListener( new KnobDragHandler( relativeNode, trackNode, this, range, CLConstants.PLATE_CHARGE_CONTROL_SNAP_TO_ZERO_THRESHOLD,
                                                         new VoidFunction1<Double>() {
                                                             public void apply( Double value ) {
                                                                 circuit.setDisconnectedPlateCharge( value );
@@ -253,10 +253,11 @@ public class PlateChargeControlNode extends PhetPNode {
     // Drag handler for the knob, snaps to zero.
     private static class KnobDragHandler extends VerticalSliderDragHandler {
 
-        private final double snapThreshold;
+        private final double snapThreshold; // slider snaps to zero when model value is <= this threshold
 
-        public KnobDragHandler( PNode trackNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
-            super( trackNode, range, updateFunction );
+        // see superclass for constructor params
+        public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
+            super( relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapThreshold = snapThreshold;
         }
 

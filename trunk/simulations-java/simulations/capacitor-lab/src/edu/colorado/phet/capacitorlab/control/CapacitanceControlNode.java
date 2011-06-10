@@ -94,7 +94,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
         // nodes
         trackNode = new TrackNode();
-        knobNode = new KnobNode( trackNode, range, snapInterval, capacitor );
+        knobNode = new KnobNode( this, trackNode, range, snapInterval, capacitor );
         titleNode = new TitleNode( CLStrings.CAPACITANCE );
         valueNode = new TimesTenValueNode( VALUE_FORMAT, displayExponent, CLStrings.FARADS, capacitor.getTotalCapacitance(), VALUE_FONT, VALUE_COLOR );
 
@@ -174,7 +174,7 @@ public class CapacitanceControlNode extends PhetPNode {
      */
     private static class KnobNode extends PPath {
 
-        public KnobNode( PNode trackNode, DoubleRange range, double snapInterval, final Capacitor capacitor ) {
+        public KnobNode( PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Capacitor capacitor ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -193,7 +193,7 @@ public class CapacitanceControlNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new KnobDragHandler( trackNode, range, snapInterval,
+            addInputEventListener( new KnobDragHandler( relativeNode, trackNode, this, range, snapInterval,
                                                         new VoidFunction1<Double>() {
                                                             public void apply( Double value ) {
                                                                 capacitor.setTotalCapacitance( value );
@@ -205,10 +205,11 @@ public class CapacitanceControlNode extends PhetPNode {
     // Drag handler for the knob, snaps to closet value.
     private static class KnobDragHandler extends VerticalSliderDragHandler {
 
-        private final double snapInterval;
+        private final double snapInterval; // slider snaps to closet model value in this interval
 
-        public KnobDragHandler( PNode trackNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
-            super( trackNode, range, updateFunction );
+        // see superclass for constructor params
+        public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
+            super( relativeNode, trackNode, knobNode, range, updateFunction );
             this.snapInterval = snapInterval;
         }
 
