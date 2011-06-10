@@ -1,3 +1,4 @@
+6/10/11 fix: adjust E-field detector control panel layout so that things don't get crowded on Windows
 # 1.00.13 (52989) Jun 9, 2011
 6/9/11 #2936, completed followup on code review and all tickets created as a result of code review
 6/9/11 #2943, create knob drag handler class in battery voltage slider node

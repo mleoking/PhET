@@ -128,7 +128,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
         // background
         double maxControlWidth = Math.max( showVectorsPSwing.getFullBoundsReference().getWidth(), showValuesPSwing.getFullBoundsReference().getWidth() );
         double width = maxControlWidth + viewportNode.getFullBoundsReference().getWidth() + ( 2 * BODY_X_MARGIN ) + BODY_X_SPACING;
-        final double controlsHeight = showVectorsPSwing.getFullBoundsReference().getHeight() + showValuesPSwing.getFullBoundsReference().getHeight();
+        final double controlsHeight = showVectorsPSwing.getFullBoundsReference().getHeight() + BODY_Y_SPACING +
+                                      zoomPanelNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING +
+                                      showValuesPSwing.getFullBoundsReference().getHeight();
         double height = titleNode.getFullBoundsReference().getHeight() + BODY_Y_SPACING + Math.max( controlsHeight, viewportNode.getFullBoundsReference().getHeight() ) + ( 2 * BODY_Y_MARGIN );
         PPath backgroundNode = new PPath( new RoundRectangle2D.Double( 0, 0, width, height, BODY_CORNER_RADIUS, BODY_CORNER_RADIUS ) );
         backgroundNode.setPaint( BODY_COLOR );
@@ -161,12 +163,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
             y = titleNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
             showVectorsPSwing.setOffset( x, y );
             // zoom controls below vector controls
-            x = showVectorsPSwing.getFullBoundsReference().getMinX();
+            x = BODY_X_MARGIN;
             y = showVectorsPSwing.getFullBoundsReference().getMaxY() + ( 2 * BODY_Y_SPACING ) - PNodeLayoutUtils.getOriginYOffset( zoomPanelNode );
             zoomPanelNode.setOffset( x, y );
-            // "Show values" control at lower left
+            // "Show values" control below zoom controls
             x = BODY_X_MARGIN;
-            y = backgroundNode.getFullBoundsReference().getMaxY() - showValuesPSwing.getFullBoundsReference().getHeight() - BODY_Y_MARGIN;
+            y = zoomPanelNode.getFullBoundsReference().getMaxY() + BODY_Y_SPACING;
             showValuesPSwing.setOffset( x, y );
             // vectors
             x = BODY_X_MARGIN + maxControlWidth + BODY_X_SPACING;
