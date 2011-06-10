@@ -18,7 +18,7 @@ public class Atom {
     public final Particle particle;
     public final ImmutableVector2D modelOffset;
 
-    public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final double charge ) {
+    public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final double charge, final boolean origin ) {
         modelOffset = new ImmutableVector2D( localOffsetX, localOffsetY );
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
 
@@ -35,7 +35,13 @@ public class Atom {
         //Particle interface for coulomb updates
         particle = new Particle() {
             public Vec2 getBox2DPosition() {
-                return body.getPosition();
+                if ( origin ) {
+                    return body.getPosition();
+                }
+                else {
+                    ImmutableVector2D x = transform.modelToView( position.get() );
+                    return new Vec2( (float) x.getX(), (float) x.getY() );
+                }
             }
 
             public double getCharge() {
@@ -47,30 +53,11 @@ public class Atom {
             }
 
             public void setModelPosition( ImmutableVector2D immutableVector2D ) {
-                ImmutableVector2D box2d = transform.modelToView( immutableVector2D );
-                body.setXForm( new Vec2( (float) box2d.getX(), (float) box2d.getY() ), 0 );
+                if ( origin ) {
+                    ImmutableVector2D box2d = transform.modelToView( immutableVector2D );
+                    body.setXForm( new Vec2( (float) box2d.getX(), (float) box2d.getY() ), 0 );
+                }
             }
         };
-
-//h1Particle = new Particle() {
-//            public Vec2 getBox2DPosition() {
-//                ImmutableVector2D x = transform.modelToView( hydrogen1Position.get() );
-//                return new Vec2( (float) x.getX(), (float) x.getY() );
-//            }
-//
-//            public double getCharge() {
-//                return +1;
-//            }
-//
-//            public ImmutableVector2D getModelPosition() {
-//                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
-//            }
-//
-//            //Not implemented since the oxygen sets the reference point for this water
-//            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
-//            }
-//        };
-
-
     }
 }
