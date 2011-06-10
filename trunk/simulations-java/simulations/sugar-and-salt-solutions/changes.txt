@@ -1,3 +1,4 @@
+Changed water particle charges to be more like TIPS water model
 # 0.00.36 (53012) Jun 10, 2011
 Made sugar yellow
 # 0.00.35 (53010) Jun 10, 2011

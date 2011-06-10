@@ -283,7 +283,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private final Vec2 zero = new Vec2();
 
     //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 500 );
+    public final Property<Integer> k = new Property<Integer>( 2000 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 10 );
 

@@ -20,9 +20,10 @@ public class WaterMolecule extends Molecule {
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
         super( world, transform, x, y, vx, vy, theta, addUpdateListener );
 
-        initAtoms( new Atom( x, y, transform, oxygenRadius, body, 0, 0, -2, true ),
-                   new Atom( x + 0.5E-10, y + 0.5E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 1, false ),
-                   new Atom( x - 1E-10, y + 1E-10, transform, hydrogenRadius, body, -0.5E-10, 0.5E-10, 1, false ) );
+        //Water particle charges are as in TIPS 3-site model: http://en.wikipedia.org/wiki/Water_model
+        initAtoms( new Atom( x, y, transform, oxygenRadius, body, 0, 0, -0.8, true ),
+                   new Atom( x + 0.5E-10, y + 0.5E-10, transform, hydrogenRadius, body, 0.5E-10, 0.5E-10, 0.4, false ),
+                   new Atom( x - 1E-10, y + 1E-10, transform, hydrogenRadius, body, -0.5E-10, 0.5E-10, 0.4, false ) );
     }
 
     public Atom getOxygen() {
