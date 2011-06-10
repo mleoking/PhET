@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.water.WaterMolecule;
 
 /**
  * Provides physical locations (positions) of the atoms within a Sucrose molecule.

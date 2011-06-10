@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,8 +19,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
-import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.CHLORINE_RADIUS;
-import static edu.colorado.phet.sugarandsaltsolutions.water.S3Element.SODIUM_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.CHLORINE_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIUM_RADIUS;
 
 /**
  * Model for "water" tab for sugar and salt solutions.

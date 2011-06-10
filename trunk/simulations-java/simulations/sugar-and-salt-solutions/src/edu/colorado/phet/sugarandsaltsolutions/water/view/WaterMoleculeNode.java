@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water;
+package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.image.BufferedImage;
 
@@ -8,13 +8,14 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.chemistry.model.Element.H;
 import static edu.colorado.phet.chemistry.model.Element.O;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
-import static edu.colorado.phet.sugarandsaltsolutions.water.WaterMolecule.hydrogenRadius;
-import static edu.colorado.phet.sugarandsaltsolutions.water.WaterMolecule.oxygenRadius;
+import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.hydrogenRadius;
+import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.oxygenRadius;
 
 /**
  * Draws a single water molecule, including a circle for each of the O, H, H
