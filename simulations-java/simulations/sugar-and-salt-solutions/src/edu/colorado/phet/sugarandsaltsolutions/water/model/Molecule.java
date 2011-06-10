@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.jbox2d.collision.MassData;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -25,6 +27,7 @@ public class Molecule implements Removable, Particle {
     private Point2D box2DVelocity;
     private final ModelViewTransform transform;
     private final VoidFunction1<VoidFunction0> addUpdateListener;
+    private boolean grabbed;
 
     public Molecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
         this.transform = transform;
@@ -41,6 +44,21 @@ public class Molecule implements Removable, Particle {
 
         //Now create the Box2D body for physics updates
         body = world.createBody( bodyDef );
+    }
+
+    //Translate when the user drags the particle
+    public void translate( Dimension2D delta ) {
+        atoms.get( 0 ).position.set( atoms.get( 0 ).position.get().getAddedInstance( delta ) );
+        final Point2D box2DLocation = transform.modelToView( atoms.get( 0 ).position.get().getX(), atoms.get( 0 ).position.get().getY() );
+        body.setXForm( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), 0 );
+        body.setLinearVelocity( new Vec2() );
+    }
+
+    //Turn off physics updates when grabbed by the user by turning the mass to zero
+    public void setGrabbed( boolean b ) {
+        grabbed = b;
+        if ( grabbed ) { body.setMass( new MassData() ); }
+        else { body.setMassFromShapes(); }
     }
 
     protected void initAtoms( Atom... atom ) {

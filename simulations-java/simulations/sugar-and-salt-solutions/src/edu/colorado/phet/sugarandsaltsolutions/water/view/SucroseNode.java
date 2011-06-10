@@ -10,9 +10,12 @@ import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.Atom;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.hydrogenRadius;
@@ -55,5 +58,21 @@ public class SucroseNode extends PNode {
         for ( PNode child : children ) {
             addChild( child );
         }
+
+        //Mouse interaction, makes it draggable
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                sucrose.setGrabbed( true );
+            }
+
+            @Override public void mouseDragged( PInputEvent event ) {
+                sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( SucroseNode.this.getParent() ) ) );
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                sucrose.setGrabbed( false );
+            }
+        } );
     }
 }
