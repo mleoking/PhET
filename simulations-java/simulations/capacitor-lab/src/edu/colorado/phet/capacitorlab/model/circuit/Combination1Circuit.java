@@ -29,9 +29,14 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
  * |     |      |
  * |-----|------|
  * </code>
+ * </p>
+ * At first glance, this class appears to duplicate code from Combination2Circuit. But there are subtle
+ * differences, and the commonalities are only due to coincidences in the how the components are numbered
+ * in the circuit diagram.  It would be a mistake to extra common functionality based on these factors,
+ * since one or the other circuit could change in the future. Unlike the other circuits, these 2 circuit
+ * are very specific, one-of-a-kind, and there's really no meaningful base class that safely describes them both.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- *         //REVIEW: Remove duplicated code between Combination1Circuit and Combination2Circuit
  */
 public class Combination1Circuit extends AbstractCircuit {
 
