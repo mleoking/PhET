@@ -3,8 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water;
 
 import java.awt.image.BufferedImage;
 
-import org.jbox2d.common.Vec2;
-
 import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -81,9 +79,5 @@ public class WaterMoleculeNode extends PNode {
             addChild( oxygen );
             addChild( h1 );
         }
-    }
-
-    public static ImmutableVector2D toImmutableVector2D( Vec2 from ) {
-        return new ImmutableVector2D( from.x, from.y );
     }
 }
