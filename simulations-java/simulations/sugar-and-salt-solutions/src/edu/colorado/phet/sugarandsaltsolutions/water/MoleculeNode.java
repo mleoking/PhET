@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class MoleculeNode extends PNode {
     public MoleculeNode( final ModelViewTransform transform, Molecule sodiumIon, VoidFunction1<VoidFunction0> addFrameListener, S3Element naIon ) {
         addChild( new PImage( SugarAndSaltSolutionsApplication.RESOURCES.getImage( "sucrose.png" ) ) );
-        scale( 0.6 );
+        scale( 0.5 );
         sodiumIon.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D immutableVector2D ) {
                 setOffset( transform.modelToView( immutableVector2D ).getX() - getFullBounds().getWidth() / 2,
