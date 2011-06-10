@@ -28,9 +28,7 @@ public class WaterMolecule implements Removable, Particle {
     public Body body;
     private ArrayList<VoidFunction0> removalListeners = new ArrayList<VoidFunction0>();
 
-    public CircleDef oxygen;
-    public final Property<ImmutableVector2D> oxygenPosition;
-    private Particle oxygenParticle;
+    public final Atom oxygen;
 
     public CircleDef h1;
     private Particle h1Particle;
@@ -41,9 +39,7 @@ public class WaterMolecule implements Removable, Particle {
     private Particle h2Particle;
 
     public WaterMolecule( World world, final ModelViewTransform transform, double x, double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener ) {
-
         //Model state in SI
-        oxygenPosition = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         hydrogen1Position = new Property<ImmutableVector2D>( new ImmutableVector2D( x + 1E-10, y + 1E-10 ) );
         hydrogen2Position = new Property<ImmutableVector2D>( new ImmutableVector2D( x - 1E-10, y + 1E-10 ) );
 
@@ -58,16 +54,10 @@ public class WaterMolecule implements Removable, Particle {
             this.angle = (float) theta;
         }};
 
-        //Now create the body
+        //Now create the Box2D body for physics updates
         body = world.createBody( bodyDef );
 
-        //Make it a bouncy circle
-        oxygen = new CircleDef() {{
-            restitution = 0.4f;
-            density = 1;
-            radius = (float) transform.modelToViewDeltaX( oxygenRadius );
-        }};
-        body.createShape( oxygen );
+        oxygen = new Atom( x, y, transform, oxygenRadius, body );
 
         //Construct hydrogen
         final ImmutableVector2D h1ModelOffset = new ImmutableVector2D( 0.5E-10, 0.5E-10 );
@@ -97,32 +87,12 @@ public class WaterMolecule implements Removable, Particle {
 
         addUpdateListener.apply( new VoidFunction0() {
             public void apply() {
-                oxygenPosition.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
-                hydrogen1Position.set( h1ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygenPosition.get() ) );
-                hydrogen2Position.set( h2ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygenPosition.get() ) );
+                oxygen.position.set( new ImmutableVector2D( transform.viewToModel( body.getPosition().x, body.getPosition().y ) ) );
+                hydrogen1Position.set( h1ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
+                hydrogen2Position.set( h2ModelOffset.getRotatedInstance( body.getAngle() ).plus( oxygen.position.get() ) );
             }
         } );
 
-
-        //Particle interface for coulomb updates
-        oxygenParticle = new Particle() {
-            public Vec2 getBox2DPosition() {
-                return body.getPosition();
-            }
-
-            public double getCharge() {
-                return -2;
-            }
-
-            public ImmutableVector2D getModelPosition() {
-                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
-            }
-
-            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
-                ImmutableVector2D box2d = transform.modelToView( immutableVector2D );
-                body.setXForm( new Vec2( (float) box2d.getX(), (float) box2d.getY() ), 0 );
-            }
-        };
 
         h1Particle = new Particle() {
             public Vec2 getBox2DPosition() {
@@ -177,7 +147,7 @@ public class WaterMolecule implements Removable, Particle {
     }
 
     public Particle getOxygenParticle() {
-        return oxygenParticle;
+        return oxygen.particle;
     }
 
     public Particle getH1Particle() {
@@ -189,7 +159,7 @@ public class WaterMolecule implements Removable, Particle {
     }
 
     public Vec2 getBox2DPosition() {
-        return oxygenParticle.getBox2DPosition();
+        return oxygen.particle.getBox2DPosition();
     }
 
     public double getCharge() {
@@ -197,10 +167,10 @@ public class WaterMolecule implements Removable, Particle {
     }
 
     public ImmutableVector2D getModelPosition() {
-        return oxygenParticle.getModelPosition();
+        return oxygen.particle.getModelPosition();
     }
 
     public void setModelPosition( ImmutableVector2D immutableVector2D ) {
-        oxygenParticle.setModelPosition( immutableVector2D );
+        oxygen.particle.setModelPosition( immutableVector2D );
     }
 }
