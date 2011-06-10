@@ -33,7 +33,7 @@ import edu.colorado.phet.common.phetcommon.math.Point3D;
 public class SeriesCircuit extends AbstractCircuit {
 
     public SeriesCircuit( CircuitConfig config, String displayName, int numberOfCapacitors ) {
-        super( displayName, config, numberOfCapacitors,
+        super( config, displayName, numberOfCapacitors,
                new CreateCapacitors() {
                    // Creates a column of capacitors, as shown in the javadoc diagram.
                    public ArrayList<Capacitor> apply( CircuitConfig config, Integer numberOfCapacitors ) {

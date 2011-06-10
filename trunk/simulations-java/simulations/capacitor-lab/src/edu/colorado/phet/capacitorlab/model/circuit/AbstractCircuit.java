@@ -48,13 +48,13 @@ public abstract class AbstractCircuit implements ICircuit {
     /**
      * Constructor
      *
-     * @param displayName        localized name this is visible to the user
      * @param config             circuit configuration values
+     * @param displayName        localized name this is visible to the user
      * @param numberOfCapacitors number of capacitors in the circuit
      * @param createCapacitors   function for creating capacitors
      * @param createWires        function for creating wires
      */
-    protected AbstractCircuit( String displayName, CircuitConfig config, int numberOfCapacitors, CreateCapacitors createCapacitors, CreateWires createWires ) {
+    protected AbstractCircuit( CircuitConfig config, String displayName, int numberOfCapacitors, CreateCapacitors createCapacitors, CreateWires createWires ) {
 
         this.displayName = displayName;
         this.clock = config.clock;
