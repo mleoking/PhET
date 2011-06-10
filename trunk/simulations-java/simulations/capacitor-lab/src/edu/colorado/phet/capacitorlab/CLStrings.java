@@ -83,6 +83,6 @@ public class CLStrings {
     public static final String EPSILON = "\u0190";
 
     private static String getString( String key ) {
-        return CLResources.getString( key );
+        return CapacitorLabApplication.RESOURCES.getLocalizedString( key );
     }
 }

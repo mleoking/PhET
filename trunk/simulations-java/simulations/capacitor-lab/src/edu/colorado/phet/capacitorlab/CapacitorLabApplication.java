@@ -10,6 +10,7 @@ import edu.colorado.phet.capacitorlab.module.multiplecapacitors.MultipleCapacito
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -19,6 +20,8 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class CapacitorLabApplication extends PiccoloPhetApplication {
+
+    public static final PhetResources RESOURCES = new PhetResources( CLConstants.PROJECT_NAME );
 
     public CapacitorLabApplication( PhetApplicationConfig config ) {
         super( config );
