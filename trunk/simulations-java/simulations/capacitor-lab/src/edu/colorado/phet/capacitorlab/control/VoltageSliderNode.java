@@ -13,8 +13,10 @@ import edu.colorado.phet.capacitorlab.CLConstants;
 import edu.colorado.phet.capacitorlab.CLImages;
 import edu.colorado.phet.capacitorlab.CLStrings;
 import edu.colorado.phet.capacitorlab.model.Battery;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -52,15 +54,10 @@ public class VoltageSliderNode extends PhetPNode {
     private static final DecimalFormat TICK_LABEL_ZERO_FORMAT = new DecimalFormat( "0" );
     private static final Font TICK_LABEL_FONT = new PhetFont( 14 );
 
-    private final Battery battery;
-    private final DoubleRange voltageRange;
     private final TrackNode trackNode;
     private final KnobNode knobNode;
 
     public VoltageSliderNode( final Battery battery, final DoubleRange voltageRange, double trackLength ) {
-
-        this.battery = battery;
-        this.voltageRange = new DoubleRange( voltageRange );
 
         // track
         trackNode = new TrackNode( trackLength );
@@ -76,7 +73,7 @@ public class VoltageSliderNode extends PhetPNode {
         addChild( minTickNode );
 
         // knob
-        knobNode = new KnobNode( trackNode, voltageRange, battery );
+        knobNode = new KnobNode( this, trackNode, voltageRange, battery );
         addChild( knobNode );
 
         // layout
@@ -91,79 +88,12 @@ public class VoltageSliderNode extends PhetPNode {
         y = 0; // don't care, this will be set by setVoltage
         knobNode.setOffset( x, y );
 
-        initInteractivity();
-
         battery.addVoltageObserver( new SimpleObserver() {
             public void update() {
                 double voltage = battery.getVoltage();
                 double xOffset = knobNode.getXOffset();
                 double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( voltageRange.getMax() - voltage ) / voltageRange.getLength() );
                 knobNode.setOffset( xOffset, yOffset );
-            }
-        } );
-    }
-
-    //TODO: move this to a new class, KnobDragHandler, and wire up in KnobNode
-    /*
-     * Adds interactivity to the knob.
-     */
-    private void initInteractivity() {
-        // hand cursor on knob
-        knobNode.addInputEventListener( new CursorHandler() );
-
-        // Constrain the knob to be dragged vertically within the track
-        knobNode.addInputEventListener( new PDragSequenceEventHandler() {
-
-            private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
-
-            @Override
-            protected void startDrag( PInputEvent event ) {
-                super.startDrag( event );
-                // note the offset between the mouse click and the knob's origin
-                Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
-                Point2D pMouseGlobal = VoltageSliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = VoltageSliderNode.this.localToGlobal( knobNode.getOffset() );
-                globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
-            }
-
-            @Override
-            protected void drag( PInputEvent event ) {
-                super.drag( event );
-                updateVoltage( event, true /* isDragging */ );
-            }
-
-            @Override
-            protected void endDrag( PInputEvent event ) {
-                updateVoltage( event, false /* isDragging */ );
-                super.endDrag( event );
-            }
-
-            private void updateVoltage( PInputEvent event, boolean isDragging ) {
-
-                // determine the knob's new offset
-                Point2D pMouseLocal = event.getPositionRelativeTo( VoltageSliderNode.this );
-                Point2D pMouseGlobal = VoltageSliderNode.this.localToGlobal( pMouseLocal );
-                Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
-                Point2D pKnobLocal = VoltageSliderNode.this.globalToLocal( pKnobGlobal );
-
-                // convert the offset to a voltage value
-                double yOffset = pKnobLocal.getY();
-                double trackLength = trackNode.getFullBoundsReference().getHeight();
-                double voltage = voltageRange.getMin() + voltageRange.getLength() * ( trackLength - yOffset ) / trackLength;
-                if ( voltage < voltageRange.getMin() ) {
-                    voltage = voltageRange.getMin();
-                }
-                else if ( voltage > voltageRange.getMax() ) {
-                    voltage = voltageRange.getMax();
-                }
-
-                // snap to zero if knob is release and value is close enough to zero
-                if ( !isDragging && KNOB_SNAP_TO_ZERO_ENABLED && Math.abs( voltage ) <= CLConstants.BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD ) {
-                    voltage = 0;
-                }
-
-                // set the voltage (this will move the knob)
-                battery.setVoltage( voltage );
             }
         } );
     }
@@ -187,7 +117,7 @@ public class VoltageSliderNode extends PhetPNode {
      */
     private static class KnobNode extends PNode {
 
-        public KnobNode( PNode trackNode, DoubleRange range, Battery battery ) {
+        public KnobNode( PNode parent, PNode trackNode, DoubleRange range, final Battery battery ) {
             // image, origin moved to center
             PImage imageNode = new PImage( CLImages.SLIDER_KNOB );
             addChild( imageNode );
@@ -197,6 +127,78 @@ public class VoltageSliderNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new ImageHighlightHandler( imageNode, CLImages.SLIDER_KNOB, CLImages.SLIDER_KNOB_HIGHLIGHT ) );
+            addInputEventListener( new KnobDragHandler( parent, trackNode, this, range, CLConstants.BATTERY_VOLTAGE_SNAP_TO_ZERO_THRESHOLD,
+                                                        new VoidFunction1<Double>() {
+                                                            public void apply( Double value ) {
+                                                                battery.setVoltage( value );
+                                                            }
+                                                        } ) );
+        }
+    }
+
+    // Drag handler for the knob, snaps to zero.
+    public static class KnobDragHandler extends PDragSequenceEventHandler {
+
+        private final PNode parent;
+        private final PNode trackNode, knobNode;
+        private final DoubleRange range;
+        private final double snapThreshold;
+        private final VoidFunction1<Double> updateFunction;
+        private double globalClickYOffset; // y offset of mouse click from knob's origin, in global coordinates
+
+        public KnobDragHandler( PNode parent, PNode trackNode, PNode knobNode, DoubleRange range, double snapThreshold, VoidFunction1<Double> updateFunction ) {
+            this.parent = parent;
+            this.trackNode = trackNode;
+            this.knobNode = knobNode;
+            this.range = range;
+            this.snapThreshold = snapThreshold;
+            this.updateFunction = updateFunction;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            // note the offset between the mouse click and the knob's origin
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = parent.localToGlobal( knobNode.getOffset() );
+            globalClickYOffset = pMouseGlobal.getY() - pKnobGlobal.getY();
+        }
+
+        @Override protected void drag( PInputEvent event ) {
+            super.drag( event );
+            updateValue( event, true /* isDragging */ );
+        }
+
+        @Override protected void endDrag( PInputEvent event ) {
+            updateValue( event, false /* isDragging */ );
+            super.endDrag( event );
+        }
+
+        // snaps to zero if the value is within some threshold.
+        protected double adjustValue( double value ) {
+            return ( Math.abs( value ) <= snapThreshold ) ? 0 : value;
+        }
+
+        private void updateValue( PInputEvent event, boolean isDragging ) {
+
+            // determine the knob's new offset
+            Point2D pMouseLocal = event.getPositionRelativeTo( parent );
+            Point2D pMouseGlobal = parent.localToGlobal( pMouseLocal );
+            Point2D pKnobGlobal = new Point2D.Double( pMouseGlobal.getX(), pMouseGlobal.getY() - globalClickYOffset );
+            Point2D pKnobLocal = parent.globalToLocal( pKnobGlobal );
+
+            // convert the offset to a voltage value
+            double yOffset = pKnobLocal.getY();
+            double trackLength = trackNode.getFullBoundsReference().getHeight();
+            double value = range.getMin() + range.getLength() * ( trackLength - yOffset ) / trackLength;
+            value = MathUtil.clamp( value, range );
+
+            // snap to zero if knob is release and value is close enough to zero
+            if ( !isDragging ) {
+                value = adjustValue( value );
+            }
+
+            updateFunction.apply( value );
         }
     }
 
