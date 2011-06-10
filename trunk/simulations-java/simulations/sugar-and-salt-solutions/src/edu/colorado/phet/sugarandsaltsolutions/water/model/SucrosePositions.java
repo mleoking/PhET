@@ -61,6 +61,7 @@ public class SucrosePositions {
             "883, 213\n" +
             "718, 196\n" +
             "694, 188";
+    private ImmutableVector2D origin;
 
     //Get the positions for a specific list of atom types.
     private ArrayList<ImmutableVector2D> getPositions( String text ) {
@@ -77,7 +78,10 @@ public class SucrosePositions {
     }
 
     public ImmutableVector2D getOrigin() {
-        return getPositions( carbon ).get( 0 );
+        if ( origin == null ) {
+            origin = getPositions( carbon ).get( 0 );
+        }
+        return origin;
     }
 
     public ArrayList<ImmutableVector2D> getCarbonPositions() {
@@ -88,7 +92,7 @@ public class SucrosePositions {
     private ArrayList<ImmutableVector2D> normalize( final ArrayList<ImmutableVector2D> positions ) {
         return new ArrayList<ImmutableVector2D>() {{
             for ( ImmutableVector2D position : positions ) {
-                add( position.minus( getOrigin() ).times( WaterMolecule.oxygenRadius * 10 / 800 ) );
+                add( position.minus( getOrigin() ).times( WaterMolecule.oxygenRadius * 10 / 800 * 0.7 ) );//OH distance in sugar should look like that in water
             }
         }};
     }
