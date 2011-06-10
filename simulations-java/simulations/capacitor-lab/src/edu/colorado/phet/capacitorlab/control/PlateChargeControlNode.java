@@ -75,8 +75,7 @@ public class PlateChargeControlNode extends PhetPNode {
 
     private final SingleCircuit circuit;
 
-    private final TrackNode trackNode;
-    private final KnobNode knobNode;
+    private final SliderNode sliderNode;
     private final DoubleRange range;
 
     /**
@@ -98,30 +97,81 @@ public class PlateChargeControlNode extends PhetPNode {
             }
         } );
 
-        // nodes
-        trackNode = new TrackNode();
-        knobNode = new KnobNode( trackNode, range, circuit );
-        TickMarkNode maxTickMarkNode = new TickMarkNode();
-        RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LOTS_POSITIVE );
-        TickMarkNode zeroTickMarkNode = new TickMarkNode();
-        RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.NONE );
-        TickMarkNode minTickMarkNode = new TickMarkNode();
-        RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
+        sliderNode = new SliderNode( circuit, range );
 
-        // parent for all nodes that are part of the slider
-        PNode parentNode = new PNode();
-        parentNode.addChild( trackNode );
-        parentNode.addChild( maxTickMarkNode );
-        parentNode.addChild( maxLabelNode );
-        parentNode.addChild( zeroTickMarkNode );
-        parentNode.addChild( zeroLabelNode );
-        parentNode.addChild( minTickMarkNode );
-        parentNode.addChild( minLabelNode );
-        parentNode.addChild( knobNode );
+        // background, sized to fit around slider
+        double bWidth = sliderNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
+        double bHeight = sliderNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN );
+        Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, bWidth, bHeight );
+        PPath backgroundNode = new PPath( backgroundRect );
+        backgroundNode.setStroke( BACKGROUND_STROKE );
+        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
+        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
 
-        // layout in parentNode
-        //TODO: consider making parentNode a separate class
+        TitleNode titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
+
+        // rendering order
+        addChild( backgroundNode );
+        addChild( sliderNode );
+        addChild( titleNode );
+
+        // layout
         {
+            // background at origin
+            double x = 0;
+            double y = 0;
+            backgroundNode.setOffset( x, y );
+            // slider centered in background
+            x = backgroundNode.getFullBoundsReference().getCenterX() - ( sliderNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( sliderNode );
+            y = backgroundNode.getFullBoundsReference().getCenterY() - ( sliderNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( sliderNode );
+            sliderNode.setOffset( x, y );
+            // title centered below background
+            x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+            y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
+            titleNode.setOffset( x, y );
+        }
+
+        update();
+    }
+
+    // Updates the control to match the circuit model.
+    private void update() {
+        final double plateCharge = circuit.getDisconnectedPlateCharge();
+        // knob location
+        double xOffset = sliderNode.knobNode.getXOffset();
+        double yOffset = sliderNode.trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - plateCharge ) / range.getLength() );
+        sliderNode.knobNode.setOffset( xOffset, yOffset );
+    }
+
+    // Slider, knob, ticks marks, tick labels
+    private static class SliderNode extends PhetPNode {
+
+        public final TrackNode trackNode;
+        public final KnobNode knobNode;
+
+        public SliderNode( final SingleCircuit circuit, DoubleRange range ) {
+
+            // nodes
+            trackNode = new TrackNode();
+            knobNode = new KnobNode( trackNode, range, circuit );
+            TickMarkNode maxTickMarkNode = new TickMarkNode();
+            RangeLabelNode maxLabelNode = new RangeLabelNode( CLStrings.LOTS_POSITIVE );
+            TickMarkNode zeroTickMarkNode = new TickMarkNode();
+            RangeLabelNode zeroLabelNode = new RangeLabelNode( CLStrings.NONE );
+            TickMarkNode minTickMarkNode = new TickMarkNode();
+            RangeLabelNode minLabelNode = new RangeLabelNode( CLStrings.LOTS_NEGATIVE );
+
+            // parent for all nodes that are part of the slider
+            addChild( trackNode );
+            addChild( maxTickMarkNode );
+            addChild( maxLabelNode );
+            addChild( zeroTickMarkNode );
+            addChild( zeroLabelNode );
+            addChild( minTickMarkNode );
+            addChild( minLabelNode );
+            addChild( knobNode );
+
+            // layout
             double x = 0;
             double y = 0;
             // track
@@ -152,49 +202,6 @@ public class PlateChargeControlNode extends PhetPNode {
             y = minTickMarkNode.getFullBoundsReference().getCenterY() - ( minLabelNode.getFullBoundsReference().getHeight() / 2 );
             minLabelNode.setOffset( x, y );
         }
-
-        TitleNode titleNode = new TitleNode( CLStrings.PLATE_CHARGE_TOP );
-
-        // background, sized to fit around parentNode
-        double bWidth = parentNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN );
-        double bHeight = parentNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN );
-        Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0, bWidth, bHeight );
-        PPath backgroundNode = new PPath( backgroundRect );
-        backgroundNode.setStroke( BACKGROUND_STROKE );
-        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
-
-        // rendering order
-        addChild( backgroundNode );
-        addChild( parentNode );
-        addChild( titleNode );
-
-        // layout
-        {
-            // background at origin
-            double x = 0;
-            double y = 0;
-            backgroundNode.setOffset( x, y );
-            // track and knob centered in background
-            x = backgroundNode.getFullBoundsReference().getCenterX() - ( parentNode.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( parentNode );
-            y = backgroundNode.getFullBoundsReference().getCenterY() - ( parentNode.getFullBoundsReference().getHeight() / 2 ) - PNodeLayoutUtils.getOriginYOffset( parentNode );
-            parentNode.setOffset( x, y );
-            // title centered below background
-            x = backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 );
-            y = backgroundNode.getFullBoundsReference().getMaxY() + 2;
-            titleNode.setOffset( x, y );
-        }
-
-        update();
-    }
-
-    // Updates the control to match the circuit model.
-    private void update() {
-        final double plateCharge = circuit.getDisconnectedPlateCharge();
-        // knob location
-        double xOffset = knobNode.getXOffset();
-        double yOffset = trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - plateCharge ) / range.getLength() );
-        knobNode.setOffset( xOffset, yOffset );
     }
 
     /*
