@@ -87,17 +87,17 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     // True if shape is touching part of the circuit that is connected to the battery's top terminal.
-    private boolean connectedToBatteryTop( Shape shape ) {
+    protected boolean connectedToBatteryTop( Shape shape ) {
         return getBattery().intersectsTopTerminal( shape ) || getTopWire().intersects( shape ) || intersectsSomeTopPlate( shape );
     }
 
     // True if shape is touching part of the circuit that is connected to the battery's bottom terminal.
-    private boolean connectedToBatteryBottom( Shape shape ) {
+    protected boolean connectedToBatteryBottom( Shape shape ) {
         return getBattery().intersectsBottomTerminal( shape ) || getBottomWire().intersects( shape ) || intersectsSomeBottomPlate( shape );
     }
 
     // True if the shape intersects any capacitor's top plate.
-    private boolean intersectsSomeTopPlate( Shape s ) {
+    protected boolean intersectsSomeTopPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsTopPlate( s ) ) {
@@ -109,7 +109,7 @@ public class ParallelCircuit extends AbstractCircuit {
     }
 
     // True if the shape intersects any capacitor's bottom plate.
-    private boolean intersectsSomeBottomPlate( Shape s ) {
+    protected boolean intersectsSomeBottomPlate( Shape s ) {
         boolean intersects = false;
         for ( Capacitor capacitor : getCapacitors() ) {
             if ( capacitor.intersectsBottomPlate( s ) ) {

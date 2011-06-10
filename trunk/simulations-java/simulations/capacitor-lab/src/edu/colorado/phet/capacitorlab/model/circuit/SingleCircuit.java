@@ -3,21 +3,17 @@
 package edu.colorado.phet.capacitorlab.model.circuit;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 import edu.colorado.phet.capacitorlab.CLStrings;
-import edu.colorado.phet.capacitorlab.model.Battery;
 import edu.colorado.phet.capacitorlab.model.Capacitor;
 import edu.colorado.phet.capacitorlab.model.CircuitConfig;
-import edu.colorado.phet.capacitorlab.model.wire.Wire;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsBottom;
-import edu.colorado.phet.capacitorlab.model.wire.WireBatteryToCapacitors.WireBatteryToCapacitorsTop;
-import edu.colorado.phet.common.phetcommon.math.Point3D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Model of a circuit with a battery (B) connected to a single capacitor (C1).
+ * This is treated as a special case of a parallel circuit, with some added features
+ * that are specific to "Dielectric" module.
  * </p>
  * <code>
  * |-----|
@@ -39,7 +35,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class SingleCircuit extends AbstractCircuit {
+public class SingleCircuit extends ParallelCircuit {
 
     private final Capacitor capacitor; // convenience field, since 1.00 only had one capacitor
     private final Property<Boolean> batteryConnectedProperty; // is the battery connected to the circuit?
@@ -50,27 +46,7 @@ public class SingleCircuit extends AbstractCircuit {
     }
 
     public SingleCircuit( final CircuitConfig config, boolean batteryConnected ) {
-        super( CLStrings.SINGLE, config, 1 /* numberOfCapacitors */,
-               new CreateCapacitors() {
-                   // Creates a single capacitor to the right of the battery.
-                   public ArrayList<Capacitor> apply( final CircuitConfig config, Integer numberOfCapacitors ) {
-                       final double x = config.batteryLocation.getX() + config.capacitorXSpacing;
-                       final double y = config.batteryLocation.getY();
-                       final double z = config.batteryLocation.getZ();
-                       return new ArrayList<Capacitor>() {{
-                           add( new Capacitor( new Point3D.Double( x, y, z ), config.plateWidth, config.plateSeparation, config.dielectricMaterial, config.dielectricOffset, config.mvt ) );
-                       }};
-                   }
-               },
-               new CreateWires() {
-                   // Creates wires, as shown in the javadoc diagram.
-                   public ArrayList<Wire> apply( final CircuitConfig config, final Battery battery, final ArrayList<Capacitor> capacitors ) {
-                       return new ArrayList<Wire>() {{
-                           add( new WireBatteryToCapacitorsTop( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
-                           add( new WireBatteryToCapacitorsBottom( config.mvt, config.wireThickness, config.wireExtent, battery, capacitors ) );
-                       }};
-                   }
-               } );
+        super( config, CLStrings.SINGLE, 1 /* numberOfCapacitors */ );
 
         this.capacitor = getCapacitors().get( 0 );
         this.batteryConnectedProperty = new Property<Boolean>( batteryConnected );
@@ -78,10 +54,12 @@ public class SingleCircuit extends AbstractCircuit {
 
         batteryConnectedProperty.addObserver( new SimpleObserver() {
             public void update() {
-                updatePlateVoltages(); // Requirement of calling this in constructor is met because this is called on registration.
+                updatePlateVoltages();
                 fireCircuitChanged();
             }
-        } );
+        }, false /* notifyOnAdd */ );
+
+        updatePlateVoltages(); // Must call this at end of constructor!
     }
 
     @Override public void reset() {
@@ -89,17 +67,9 @@ public class SingleCircuit extends AbstractCircuit {
         batteryConnectedProperty.reset();
     }
 
-    //----------------------------------------------------------------------------------
-    // Circuit components
-    //----------------------------------------------------------------------------------
-
     public Capacitor getCapacitor() {
         return capacitor;
     }
-
-    //----------------------------------------------------------------------------------
-    // Battery connectivity
-    //----------------------------------------------------------------------------------
 
     /**
      * Determines whether the battery is connected to the capacitor.
@@ -125,18 +95,20 @@ public class SingleCircuit extends AbstractCircuit {
         return batteryConnectedProperty.get();
     }
 
-    // Updates the plate voltage, depending on whether the battery is connected.
+    /*
+     * Updates the plate voltage, depending on whether the battery is connected.
+     * Null check required because superclass calls this method from its constructor.
+     * Remember to call this method at the end of this class' constructor.
+     */
     @Override protected void updatePlateVoltages() {
-        double V = getBattery().getVoltage();
-        if ( !isBatteryConnected() ) {
-            V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
+        if ( batteryConnectedProperty != null ) {
+            double V = getBattery().getVoltage();
+            if ( !isBatteryConnected() ) {
+                V = disconnectedPlateCharge / capacitor.getTotalCapacitance(); // V = Q/C
+            }
+            capacitor.setPlatesVoltage( V );
         }
-        capacitor.setPlatesVoltage( V );
     }
-
-    //----------------------------------------------------------------------------------
-    // Plate voltage (V)
-    //----------------------------------------------------------------------------------
 
     /*
      * Normally the total voltage is equivalent to the battery voltage.
@@ -154,27 +126,19 @@ public class SingleCircuit extends AbstractCircuit {
     // @see ICircuit.getVoltageAt
     public double getVoltageAt( Shape shape ) {
         double voltage = Double.NaN;
-        if ( ( isBatteryConnected() && ( getTopWire().intersects( shape ) || getBattery().intersectsTopTerminal( shape ) ) ) || capacitor.intersectsTopPlate( shape ) ) {
-            voltage = getTotalVoltage();
+        if ( isBatteryConnected() ) {
+            voltage = super.getVoltageAt( shape );
         }
-        else if ( ( isBatteryConnected() && ( getBottomWire().intersects( shape ) || getBattery().intersectsBottomTerminal( shape ) ) ) || capacitor.intersectsBottomPlate( shape ) ) {
-            voltage = 0;
+        else {
+            if ( intersectsSomeTopPlate( shape ) ) {
+                voltage = getTotalVoltage();
+            }
+            else if ( intersectsSomeBottomPlate( shape ) ) {
+                voltage = 0;
+            }
         }
         return voltage;
     }
-
-    //----------------------------------------------------------------------------------
-    // Capacitance (C)
-    //----------------------------------------------------------------------------------
-
-    // @see ICircuit.getTotalCapacitance
-    public double getTotalCapacitance() {
-        return capacitor.getTotalCapacitance();
-    }
-
-    //----------------------------------------------------------------------------------
-    // Plate charge (Q)
-    //----------------------------------------------------------------------------------
 
     /**
      * Sets the value used for plate charge when the battery is disconnected.
