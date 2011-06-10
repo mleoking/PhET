@@ -227,9 +227,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
         //Apply coulomb forces between all pairs of particles
         for ( WaterMolecule waterMolecule : waterList ) {
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getOxygenParticle() ), waterMolecule.body.getPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH1Particle() ), waterMolecule.getH1Particle().getBox2DPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getH2Particle() ), waterMolecule.getH2Particle().getBox2DPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getOxygen().particle ), waterMolecule.body.getPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getHydrogen1().particle ), waterMolecule.getHydrogen1().particle.getBox2DPosition() );
+            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getHydrogen2().particle ), waterMolecule.getHydrogen2().particle.getBox2DPosition() );
         }
         for ( DefaultParticle sodiumIon : sodiumList ) {
             sodiumIon.body.applyForce( getCoulombForce( sodiumIon ), sodiumIon.body.getPosition() );
@@ -278,9 +278,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
             sumForces = sumForces.add( getCoulombForce( source, target ) );
         }
         for ( WaterMolecule water : waterList ) {
-            sumForces = sumForces.add( getCoulombForce( water.getOxygenParticle(), target ) );
-            sumForces = sumForces.add( getCoulombForce( water.getH1Particle(), target ) );
-            sumForces = sumForces.add( getCoulombForce( water.getH2Particle(), target ) );
+            sumForces = sumForces.add( getCoulombForce( water.getOxygen().particle, target ) );
+            sumForces = sumForces.add( getCoulombForce( water.getHydrogen1().particle, target ) );
+            sumForces = sumForces.add( getCoulombForce( water.getHydrogen2().particle, target ) );
         }
         return sumForces;
     }
