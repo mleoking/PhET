@@ -16,14 +16,18 @@ public class Atom {
     public final CircleDef circleDef;
     public final Property<ImmutableVector2D> position;
     public final Particle particle;
+    public final ImmutableVector2D modelOffset;
 
-    public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body ) {
+    public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final double charge ) {
+        modelOffset = new ImmutableVector2D( localOffsetX, localOffsetY );
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
 
         //Make it a bouncy circle
         circleDef = new CircleDef() {{
             restitution = 0.4f;
             density = 1;
+            ImmutableVector2D boxOffset = transform.modelToViewDelta( new ImmutableVector2D( localOffsetX, localOffsetY ) );
+            localPosition = new Vec2( (float) boxOffset.getX(), (float) boxOffset.getY() );
             radius = (float) transform.modelToViewDeltaX( r );
         }};
         body.createShape( circleDef );
@@ -35,7 +39,7 @@ public class Atom {
             }
 
             public double getCharge() {
-                return -2;
+                return charge;
             }
 
             public ImmutableVector2D getModelPosition() {
@@ -47,5 +51,26 @@ public class Atom {
                 body.setXForm( new Vec2( (float) box2d.getX(), (float) box2d.getY() ), 0 );
             }
         };
+
+//h1Particle = new Particle() {
+//            public Vec2 getBox2DPosition() {
+//                ImmutableVector2D x = transform.modelToView( hydrogen1Position.get() );
+//                return new Vec2( (float) x.getX(), (float) x.getY() );
+//            }
+//
+//            public double getCharge() {
+//                return +1;
+//            }
+//
+//            public ImmutableVector2D getModelPosition() {
+//                return transform.viewToModel( new ImmutableVector2D( getBox2DPosition().x, getBox2DPosition().y ) );
+//            }
+//
+//            //Not implemented since the oxygen sets the reference point for this water
+//            public void setModelPosition( ImmutableVector2D immutableVector2D ) {
+//            }
+//        };
+
+
     }
 }
