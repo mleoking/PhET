@@ -4,18 +4,17 @@ package edu.colorado.phet.sugarandsaltsolutions.water;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.chemistry.molecules.AtomNode;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.chemistry.model.Element.H;
 import static edu.colorado.phet.chemistry.model.Element.O;
-import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
+import static edu.colorado.phet.sugarandsaltsolutions.water.WaterMolecule.hydrogenRadius;
+import static edu.colorado.phet.sugarandsaltsolutions.water.WaterMolecule.oxygenRadius;
 
 /**
  * Draws a single water molecule, including a circle for each of the O, H, H
@@ -28,44 +27,16 @@ public class WaterMoleculeNode extends PNode {
     private static final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 1000, O.getColor() ).toImage() );
     private static final BufferedImage HYDROGEN_IMAGE = toBufferedImage( new AtomNode( 1000, H.getColor() ).toImage() );
 
-    public WaterMoleculeNode( final ModelViewTransform transform, final WaterMolecule waterMolecule, VoidFunction1<VoidFunction0> addListener ) {
+    public WaterMoleculeNode( final ModelViewTransform transform, final WaterMolecule waterMolecule, final VoidFunction1<VoidFunction0> addListener ) {
 
         //Get the diameters in view coordinates
-        double oxygenDiameter = transform.modelToViewDeltaX( waterMolecule.oxygenRadius * 2 );
-        double hydrogenDiameter = transform.modelToViewDeltaX( waterMolecule.hydrogenRadius * 2 );
+        double oxygenDiameter = transform.modelToViewDeltaX( oxygenRadius * 2 );
+        double hydrogenDiameter = transform.modelToViewDeltaX( hydrogenRadius * 2 );
 
-        //Create shapes for O, H, H
-        //Use images from chemistry since they look shaded and good colors
-        final PImage oxygen = new PImage( multiScaleToWidth( OXYGEN_IMAGE, (int) oxygenDiameter ) );
-
-        //First hydrogen
-        final PImage h1 = new PImage( multiScaleToWidth( HYDROGEN_IMAGE, (int) hydrogenDiameter ) );
-
-        //Second hydrogen
-        final PImage h2 = new PImage( multiScaleToWidth( HYDROGEN_IMAGE, (int) hydrogenDiameter ) );
-
-        //Update the graphics for the updated model objects
-        VoidFunction0 update = new VoidFunction0() {
-            public void apply() {
-                //Compute angle and position of the molecule
-                ImmutableVector2D oxygenPosition = waterMolecule.getOxygen().position.get();
-
-                //Set the location of the oxygen atom
-                ImmutableVector2D viewPosition = transform.modelToView( oxygenPosition );
-                oxygen.setOffset( viewPosition.getX() - oxygen.getFullBounds().getWidth() / 2, viewPosition.getY() - oxygen.getFullBounds().getHeight() / 2 );
-
-                //Set the location of the hydrogens
-                ImmutableVector2D h1Position = transform.modelToView( waterMolecule.getHydrogen1().position.get() );
-                h1.setOffset( h1Position.getX() - h1.getFullBounds().getWidth() / 2, h1Position.getY() - h1.getFullBounds().getHeight() / 2 );
-
-                ImmutableVector2D h2Position = transform.modelToView( waterMolecule.getHydrogen2().position.get() );
-                h2.setOffset( h2Position.getX() - h2.getFullBounds().getWidth() / 2, h2Position.getY() - h2.getFullBounds().getHeight() / 2 );
-            }
-        };
-        addListener.apply( update );
-
-        //Also update initially
-        update.apply();
+        //Create images for O, H, H
+        final AtomImage oxygen = new AtomImage( OXYGEN_IMAGE, oxygenDiameter, waterMolecule.getOxygen(), addListener, transform );
+        final AtomImage h1 = new AtomImage( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen1(), addListener, transform );
+        final AtomImage h2 = new AtomImage( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen2(), addListener, transform );
 
         //Add the children in staggered layers so it looks 3d
         //Z-Flip about half of them so they don't all look like 2d rotated versions of each other
