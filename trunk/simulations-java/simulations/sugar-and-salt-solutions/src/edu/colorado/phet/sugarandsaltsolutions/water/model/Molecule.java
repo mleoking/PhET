@@ -50,7 +50,9 @@ public class Molecule implements Removable, Particle {
     public void translate( Dimension2D delta ) {
         atoms.get( 0 ).position.set( atoms.get( 0 ).position.get().getAddedInstance( delta ) );
         final Point2D box2DLocation = transform.modelToView( atoms.get( 0 ).position.get().getX(), atoms.get( 0 ).position.get().getY() );
-        body.setXForm( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), 0 );
+
+        //Translate, but keep the same angle
+        body.setXForm( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), body.getAngle() );
         body.setLinearVelocity( new Vec2() );
     }
 
