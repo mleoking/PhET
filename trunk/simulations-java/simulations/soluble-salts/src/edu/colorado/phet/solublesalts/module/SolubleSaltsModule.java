@@ -28,7 +28,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Ron LeMaster
  */
 public class SolubleSaltsModule extends PiccoloModule {
-
+    boolean debug = false;
     static public final double viewScale = 0.1;
 
     private SSCanvas simPanel;
@@ -77,11 +77,13 @@ public class SolubleSaltsModule extends PiccoloModule {
         } );
 
         // Add some ions for testing
-//        createTestIons( model );
+        if ( debug ) {
+            createTestIons( model );
+        }
     }
 
     private void createTestIons( final SolubleSaltsModel model ) {
-        Ion ion = null;
+        Ion ion;
 
         ion = new Chlorine();
         IonInitializer.initialize( ion, model );

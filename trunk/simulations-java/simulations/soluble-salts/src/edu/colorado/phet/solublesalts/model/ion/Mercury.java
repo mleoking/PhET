@@ -2,10 +2,6 @@
 
 package edu.colorado.phet.solublesalts.model.ion;
 
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 /**
  * Copper
  *
@@ -17,12 +13,5 @@ public class Mercury extends Ion {
 
     public Mercury() {
         super( ionProperties );
-    }
-
-    public Mercury( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position,
-               velocity,
-               acceleration,
-               ionProperties );
     }
 }

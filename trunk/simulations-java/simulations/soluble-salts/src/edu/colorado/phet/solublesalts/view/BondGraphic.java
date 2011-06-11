@@ -5,7 +5,6 @@ package edu.colorado.phet.solublesalts.view;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 import edu.colorado.phet.solublesalts.model.crystal.Bond;
 import edu.umd.cs.piccolo.PNode;
@@ -22,16 +21,14 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
     static Color closedColor = Color.black;
 
     private PPath bondLine;
-    private Bond bond;
 
     public BondGraphic( Bond bond ) {
-        this.bond = bond;
         createGraphic( bond );
         bond.addChangeListener( this );
     }
 
     private void createGraphic( Bond bond ) {
-        if ( bond == null || !( bond instanceof Bond ) ) {
+        if ( bond == null ) {
             throw new IllegalArgumentException();
         }
         if ( bondLine != null ) {
@@ -40,8 +37,8 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
         }
         if ( bond.getOrigin() != null ) {
             Stroke stroke = new BasicStroke( 2 );
-            Line2D line = null;
-            Color color = null;
+            Line2D line;
+            Color color;
             if ( bond.isOpen() ) {
                 line = new Line2D.Double( bond.getOrigin().getPosition(), bond.getOpenPosition() );
                 color = openColor;
@@ -61,13 +58,9 @@ public class BondGraphic extends PNode implements Bond.ChangeListener {
             addChild( bondLine );
 
             if ( bond.isOpen() ) {
-                Point2D p = new Point2D.Double( bond.getOpenPosition().getX() - ( bond.getOpenPosition().getX() - bond.getOrigin().getPosition().getX() ) / 2,
-                                                bond.getOpenPosition().getY() - ( bond.getOpenPosition().getY() - bond.getOrigin().getPosition().getY() ) / 2 );
-                Line2D line2 = new Line2D.Double( p, bond.getOpenPosition() );
                 Ellipse2D e = new Ellipse2D.Double( bond.getOpenPosition().getX(), bond.getOpenPosition().getY(), 2, 2 );
                 PPath pp = new PPath( e );
                 pp.setStrokePaint( Color.blue );
-//                addChild(pp);
             }
         }
     }
