@@ -21,6 +21,7 @@ public class Model {
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
     private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
+    public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
     private var s_arr:Array;        //array of s-positions of masses, s = distance from equilibrium positions in either x or y-direction
@@ -61,6 +62,7 @@ public class Model {
         this._N = 5;                 //start with 1 or 3 mobile masses
         this.nChanged = false;
         this.modesChanged = false;
+        this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
@@ -94,12 +96,20 @@ public class Model {
     }//end initializeKinematicArrays()
 
     private function initializeModeArrays():void{
-        var omega0:Number = Math.sqrt( k/m );
         for(var i:int = 0; i < _nMax; i++){
             var j:int = i + 1;
-            modeOmega_arr[i] = 2*omega0*Math.sin( j*Math.PI/(2*(_N + 1 )));
             modeAmpli_arr[i] = 0;
             modePhase_arr[i] = 0;
+        }
+        this.setResonantFrequencies();
+    }
+
+    private function setResonantFrequencies():void{
+        var omega0:Number = Math.sqrt( k/m );
+        for(var i:int = 0; i < _N; i++){
+            var j:int = i + 1;
+            modeOmega_arr[i] = 2*omega0*Math.sin( j*Math.PI/(2*(_N + 1 )));
+            //trace("mode "+ j + " omega = "+ modeOmega_arr[i]);
         }
     }
 
@@ -127,6 +137,7 @@ public class Model {
            this._N = nbrOfMobileMasses;
         }
         this.initializeKinematicArrays();
+        this.setResonantFrequencies();
         this.nChanged = true;
         this.updateView();
     }//end setN
@@ -206,7 +217,6 @@ public class Model {
 
     public function setModeAmpli( modeNbr:int, A:Number ):void{
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
-        trace("Model.setModeAmpli.  A = "+ A);
         this.modesChanged = true;
         updateView();
         this.modesChanged = false;
@@ -293,6 +303,9 @@ public class Model {
             this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
             this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
         }
+        this.modesChanged = true;
+        this.updateView();
+        this.modesChanged = false;
     }//computeModeAmplitudesAndPhases();
 
     private function singleStep(): void {
@@ -309,10 +322,19 @@ public class Model {
         }
         this.t += this.dt;
 
-        if(this._grabbedMass != 0){
+        if(this._grabbedMass != 0 ){
             this.singleStepVerlet();
-        }else{
-            this.singleStepExact();
+        }else if( this._grabbedMass == 0 && this.nbrStepsSinceRelease < 2 ){
+            this.singleStepVerlet();
+            //trace("Model.singleStep. just released nbr steps = " + this.nbrStepsSinceRelease) ;
+            this.nbrStepsSinceRelease += 1;
+            if(this.nbrStepsSinceRelease == 2){
+                this.t = 0;
+                this.computeModeAmplitudesAndPhases();
+            }
+            //this.justReleased = false;
+        }else {
+           this.singleStepExact();
         }
         this.updateView();
     } //end singleStep()
@@ -361,20 +383,6 @@ public class Model {
             this.tInt += 1;
         }
     }
-
-//    public function singleStepWhenPaused(): void {
-//        this.dt = this.tRate * 0.02;
-//        this.t += this.dt;
-//        //trace("ShakerModel.singleStep called. realDt = "+realDt);
-//        //this.y0 = this.A*Math.sin(2*Math.PI*f*t + this.phase);
-//        if ( this.running ) {
-//
-//        }
-//
-//
-//        updateView();
-//    }
-
 
     public function registerView( view: View ): void {
         this.view = view;    //only one view, so far
