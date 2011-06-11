@@ -100,7 +100,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Create the control panel for choosing sugar vs salt
-        soluteControlPanelNode = new SoluteControlPanelNode( model ) {{
+        soluteControlPanelNode = new SoluteControlPanelNode( model.dispenserType ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
         }};
         addChild( soluteControlPanelNode );
