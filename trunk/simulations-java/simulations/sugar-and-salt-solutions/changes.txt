@@ -1,3 +1,4 @@
+Increased coulomb force
 Increased number of water molecules
 Increased randomness in water molecule motion
 Fixed: Sugar doesn't respect periodic boundary conditions
