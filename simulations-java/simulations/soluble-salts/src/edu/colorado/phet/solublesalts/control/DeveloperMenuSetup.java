@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.solublesalts.control;
 
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
@@ -21,11 +21,12 @@ import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 
 /**
- *  Static setup method for the Developer menu.  No i18n needed, not visible to users.
+ * Static setup method for the Developer menu.  No i18n needed, not visible to users.
  */
 public class DeveloperMenuSetup extends JMenu {
 
-    private DeveloperMenuSetup() {}
+    private DeveloperMenuSetup() {
+    }
 
     public static void setup( JMenu menu, final JFrame frame ) {
 

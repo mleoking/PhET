@@ -31,14 +31,14 @@ import edu.colorado.phet.solublesalts.view.IonGraphic;
  */
 public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
-    public SolubleSaltsApplication( PhetApplicationConfig config) {
+    public SolubleSaltsApplication( PhetApplicationConfig config ) {
         super( config );
 
         Module moduleA = new RealSaltsModule( new SolubleSaltsClock() );
         Module moduleB = new ConfigurableSaltModule( new SolubleSaltsClock() );
         Module moduleC = new SodiumChlorideModule( new SolubleSaltsClock(), SolubleSaltResources.getString( "Module.sodiumChloride" ) );
 
-        setModules( new Module[]{moduleC, moduleA, moduleB} );
+        setModules( new Module[] { moduleC, moduleA, moduleB } );
 
         // developer options, a bit non-standard
         if ( isDeveloperControlsEnabled() ) {
@@ -53,7 +53,7 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( final String[] args ) {
-        PhetApplicationConfig p=new PhetApplicationConfig(args, "soluble-salts");
+        PhetApplicationConfig p = new PhetApplicationConfig( args, "soluble-salts" );
         new PhetApplicationLauncher().launchSim( p, new ApplicationConstructor() {
             public PhetApplication getApplication( PhetApplicationConfig config ) {
 
@@ -94,6 +94,6 @@ public class SolubleSaltsApplication extends PiccoloPhetApplication {
 
                 return app;
             }
-        });
+        } );
     }
 }

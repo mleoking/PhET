@@ -16,7 +16,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -24,8 +23,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -89,7 +88,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
         try {
             bImg = ImageLoader.loadBufferedImage( SolubleSaltsConfig.FAUCET_IMAGE );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -116,7 +115,7 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
                                                        getRegistrationPoint().getY() );
             waterGraphicLocation = atx.transform( waterGraphicLocation, null );
 //            bImg = atxOp.filter( bImg, null );
-            bImg= BufferedImageUtils.flipX( bImg );
+            bImg = BufferedImageUtils.flipX( bImg );
             setRegistrationPoint( bImg.getWidth() - getRegistrationPoint().getX(),
                                   getRegistrationPoint().getY() );
         }

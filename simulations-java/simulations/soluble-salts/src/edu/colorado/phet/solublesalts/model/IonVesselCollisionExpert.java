@@ -71,8 +71,8 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
 
             if ( !vessel.isOutside( ion.getPosition() )
 //            if( vessel.getShape().getBounds2D().contains( ion.getPosition() )
-&& ( areInContact( ion, vessel.getWater() )
-     || areInContact( ion, vessel ) ) ) {
+                 && ( areInContact( ion, vessel.getWater() )
+                      || areInContact( ion, vessel ) ) ) {
 
                 // If the ion isn't bound to a crystal, then create a new crystal, if all other
                 // conditions are met

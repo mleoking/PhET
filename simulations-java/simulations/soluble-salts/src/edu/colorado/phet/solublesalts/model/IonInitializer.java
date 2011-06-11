@@ -14,7 +14,6 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 
 /**
@@ -58,7 +57,7 @@ public class IonInitializer {
      */
     private static Vector2D genIonVelocity() {
         return new Vector2D( ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ),
-                                    ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ) );
+                             ( random.nextDouble() * ( vMax - vMin ) + vMin ) * ( random.nextBoolean() ? 1 : -1 ) );
     }
 
 }
