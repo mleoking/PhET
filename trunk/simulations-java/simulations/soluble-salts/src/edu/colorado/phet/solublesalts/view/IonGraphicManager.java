@@ -60,7 +60,7 @@ public class IonGraphicManager implements IonListener {
         putImage( new Arsenate(), new Color( 255, 90, 13 ) );
     }
 
-    static private void putImage( Ion ion, Color color ) {
+    public static void putImage( Ion ion, Color color ) {
         IonGraphic ig = new IonGraphic( ion, SolubleSaltsConfig.BLUE_ION_IMAGE_NAME );
         if ( color != null ) {
             ig.setColor( color );
