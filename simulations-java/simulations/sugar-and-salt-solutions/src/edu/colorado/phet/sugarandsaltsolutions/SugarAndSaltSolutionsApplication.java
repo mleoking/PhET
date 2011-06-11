@@ -7,17 +7,12 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
-import edu.colorado.phet.solublesalts.module.SodiumChlorideModule;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.SeparateRemoveSaltSugarButtons;
+import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
 import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * Main application for PhET's "Sugar and Salt Solutions" simulation
@@ -37,27 +32,17 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         final SugarAndSaltSolutionsColorScheme configuration = new SugarAndSaltSolutionsColorScheme();
 
         //Create the modules
-        addModule( new MacroModule( configuration, getRemoveSolutesControl() ) );
-        addModule( new SodiumChlorideModule( new SolubleSaltsClock(), "Micro" ) );
+        addModule( new MacroModule( configuration ) );
+        addModule( new MicroModule( configuration ) );
         addModule( new WaterModule( configuration ) );
 
         if ( config.isDev() ) {
-            setStartModule( moduleAt( 2 ) );
+            setStartModule( moduleAt( 1 ) );
         }
 
         //Add developer menus for changing the color of background and salt
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", configuration.backgroundColor ) );
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", configuration.saltColor ) );
-    }
-
-    //Use the separate buttons to remove sugar and salt
-    //This feature is implemented as an override so that we can still use reflection in PhetApplicationLauncher.launchSim
-    protected Function1<MacroModel, PNode> getRemoveSolutesControl() {
-        return new Function1<MacroModel, PNode>() {
-            public PNode apply( MacroModel model ) {
-                return new SeparateRemoveSaltSugarButtons( model );
-            }
-        };
     }
 
     public static void main( String[] args ) {

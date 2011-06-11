@@ -1,3 +1,4 @@
+Micro tab: removed the control panel
 Increased coulomb force
 Increased number of water molecules
 Increased randomness in water molecule motion
