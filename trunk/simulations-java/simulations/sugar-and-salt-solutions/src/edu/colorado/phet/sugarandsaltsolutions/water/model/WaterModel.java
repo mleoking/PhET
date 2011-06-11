@@ -61,6 +61,14 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     private int DEFAULT_NUM_WATERS = 100;
 
+    //So we don't have to reallocate zeros all the time
+    private final Vec2 zero = new Vec2();
+
+    //Properties for developer controls
+    public final Property<Integer> k = new Property<Integer>( 2000 );
+    public final Property<Integer> pow = new Property<Integer>( 2 );
+    public final Property<Integer> randomness = new Property<Integer>( 10 );
+
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
@@ -112,12 +120,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     }
 
     private void addSugar( double x, double y ) {
-        Sucrose sugarMolecule = new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
+        sugarMoleculeList.add( new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
                 addFrameListener( listener );
             }
-        } );
-        sugarMoleculeList.add( sugarMolecule );
+        } ) );
     }
 
     //Adds some random sodium particles
@@ -133,21 +140,19 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //Adds a chlorine ion
     public void addChlorineIon( double x, double y ) {
-        DefaultParticle chlorineIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
+        chlorineList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 chlorineMolecule ) {
                 addFrameListener( chlorineMolecule );
             }
-        }, -1, CHLORINE_RADIUS );
-        chlorineList.add( chlorineIon );
+        }, -1, CHLORINE_RADIUS ) );
     }
 
     public void addSodiumIon( double x, double y ) {
-        DefaultParticle sodiumIon = new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
+        sodiumList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 sodiumMolecule ) {
                 addFrameListener( sodiumMolecule );
             }
-        }, +1, SODIUM_RADIUS );
-        sodiumList.add( sodiumIon );
+        }, +1, SODIUM_RADIUS ) );
     }
 
     //Adds default water particles
@@ -164,12 +169,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //Adds a single water molecule
     public void addWater( double x, double y, float angle ) {
-        WaterMolecule water = new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
+        waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 waterMolecule ) {
                 addFrameListener( waterMolecule );
             }
-        } );
-        waterList.add( water );
+        } ) );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
@@ -253,14 +257,6 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         }
         return sumForces;
     }
-
-    //So we don't have to reallocate zeros all the time
-    private final Vec2 zero = new Vec2();
-
-    //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 2000 );
-    public final Property<Integer> pow = new Property<Integer>( 2 );
-    public final Property<Integer> randomness = new Property<Integer>( 10 );
 
     //Get the contribution to the total coulomb force from a single source
     private Vec2 getCoulombForce( Particle source, Particle target ) {
