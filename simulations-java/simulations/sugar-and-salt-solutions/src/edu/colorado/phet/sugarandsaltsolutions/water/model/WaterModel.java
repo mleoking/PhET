@@ -59,7 +59,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
 
-    private int DEFAULT_NUM_WATERS = 100;
+    private int DEFAULT_NUM_WATERS = 150;
 
     //So we don't have to reallocate zeros all the time
     private final Vec2 zero = new Vec2();
@@ -67,7 +67,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Properties for developer controls
     public final Property<Integer> k = new Property<Integer>( 2000 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
-    public final Property<Integer> randomness = new Property<Integer>( 10 );
+    public final Property<Integer> randomness = new Property<Integer>( 100 );
     private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
             addFrameListener( waterMolecule );
