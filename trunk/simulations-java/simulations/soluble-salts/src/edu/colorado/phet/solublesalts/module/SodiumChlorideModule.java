@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.module;
 
 import java.awt.*;
@@ -26,7 +18,6 @@ import edu.colorado.phet.solublesalts.model.ion.IonListener;
  * SolubleSaltsModule
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SodiumChlorideModule extends SolubleSaltsModule {
 
@@ -70,7 +61,7 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
             }
 
             public void ionRemoved( IonEvent event ) {
-                // noop
+                // intentional noop
             }
         } );
     }

@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.util.*;
@@ -23,7 +15,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  * ions' velocities are restored to their original magnitudes.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListener {
 
@@ -84,11 +75,9 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
             double virtualEmptyLevel = model.getVessel().getLocation().getY()
                                        + model.getVessel().getDepth()
                                        - model.getDrain().getPosition().getY();
-//            double virtualEmptyLevel = 10;
             double waterToDrain = vessel.getWaterLevel() - virtualEmptyLevel;
             waterToDrain = waterToDrain > 0 ? waterToDrain : vessel.getWaterLevel();
             double timeToEmpty = waterToDrain / ( -change );
-//            double timeToEmpty = ( vessel.getWaterLevel() - virtualEmptyLevel ) / ( -change );
 
             // Compute the speed that the ion farthest from the drain must have in order to make
             // it out of the tank by the time the water is gone.

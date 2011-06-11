@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.view;
 
 import java.awt.*;
@@ -25,7 +17,6 @@ import edu.umd.cs.piccolo.PNode;
  * and removes the graphics from the canvas when the ions leave the model
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class IonGraphicManager implements IonListener {
 
@@ -52,7 +43,6 @@ public class IonGraphicManager implements IonListener {
     static {
         putImage( new ConfigurableCation(), new Color( 0, 0, 0 ) );
         putImage( new ConfigurableAnion(), new Color( 230, 230, 230 ) );
-//        putImage( new ConfigurableAnion(), new Color( 200, 200, 200 ) );
         putImage( new Sodium(), new Color( 200, 0, 60 ) );
         putImage( new Chlorine(), new Color( 0, 100, 0 ) );
         putImage( new Lead(), Color.red );
@@ -67,7 +57,6 @@ public class IonGraphicManager implements IonListener {
         putImage( new Mercury(), new Color( 160, 80, 210 ) );
         putImage( new Thallium(), new Color( 180, 0, 220 ) );
         putImage( new Sulfur(), new Color( 255, 255, 0 ) );
-//        putImage( new Sulfur(), new Color( 255, 90, 13 ) );
         putImage( new Arsenate(), new Color( 255, 90, 13 ) );
     }
 

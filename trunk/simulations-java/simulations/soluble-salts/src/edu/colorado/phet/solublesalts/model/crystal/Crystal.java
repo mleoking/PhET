@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import java.awt.geom.Point2D;
@@ -46,7 +38,6 @@ import edu.colorado.phet.solublesalts.model.salt.Salt;
  * design, and should be changed.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class Crystal extends Body implements Collidable {
 
@@ -633,7 +624,6 @@ public class Crystal extends Body implements Collidable {
         // Sanity check
         if ( releaseVelocity.getMagnitude() < 0.0001 ) {
             System.out.println( "Crystal.determineReleaseVelocity < 0.0001" );
-//            throw new RuntimeException( "releaseVelocity.getMagnitude() < 0.0001" );
         }
         return releaseVelocity;
     }
@@ -686,19 +676,6 @@ public class Crystal extends Body implements Collidable {
         return ions;
     }
 
-    public double getDissociationLikelihood() {
-        return dissociationLikelihood;
-    }
-
-    public List getOccupiedSites() {
-        List l = new ArrayList();
-        for ( int i = 0; i < ions.size(); i++ ) {
-            Atom atom = (Atom) ions.get( i );
-            l.add( atom.getPosition() );
-        }
-        return l;
-    }
-
     /**
      * Sets the bounds of the model. I don't know if this is used anymore or not
      *
@@ -733,16 +710,11 @@ public class Crystal extends Body implements Collidable {
         isInWater &= west.getPosition().getX() > waterBounds.getMinX();
         isInWater &= south.getPosition().getY() < waterBounds.getMaxY();
 
-//        isInWater &= east.getPosition().getX() + east.getRadius() < waterBounds.getMaxX();
-//        isInWater &= west.getPosition().getX() - west.getRadius() > waterBounds.getMinX();
-//        isInWater &= south.getPosition().getY() + south.getRadius() < waterBounds.getMaxY();
-
         // North is a special case. If the crystal is moving downward, we don't want to say that it is completely
         // in the water unless it is far enough in that an ion release by the crystal will be sure to stay
         // in the water
         double dy = ( getVelocity().getY() > 0 ) ? 2 * north.getRadius() : 0;
         isInWater &= north.getPosition().getY() - dy > waterBounds.getMinY();
-//        isInWater &= north.getPosition().getY() - north.getRadius() - dy > waterBounds.getMinY();
 
         return isInWater;
     }

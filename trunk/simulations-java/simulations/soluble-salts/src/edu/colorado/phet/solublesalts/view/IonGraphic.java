@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.view;
 
 import java.awt.*;
@@ -27,7 +19,6 @@ import edu.umd.cs.piccolo.nodes.PText;
  * IonGraphic
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeListener */ {
 
@@ -83,7 +74,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
         Font newFont = new Font( font.getName(), font.getStyle(), font.getSize() + 2 );
         pText.setFont( newFont );
         pText.setX( pImage.getWidth() * 1 / 2 - font.getSize() / 2 );
-//        this.addChild( pText );
         update();
     }
 
@@ -104,18 +94,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
             if ( ion.getBindingCrystal().getSeed() == ion ) {
                 color = Color.green;
             }
-//            if( ion.getBindingCrystal().getExtremeIon( Crystal.NORTH ) == ion ) {
-//                color = Color.orange;
-//            }
-//            if( ion.getBindingCrystal().getExtremeIon( Crystal.EAST ) == ion ) {
-//                color = Color.black;
-//            }
-//            if( ion.getBindingCrystal().getExtremeIon( Crystal.SOUTH ) == ion ) {
-//                color = Color.cyan;
-//            }
-//            if( ion.getBindingCrystal().getExtremeIon( Crystal.WEST ) == ion ) {
-//                color = Color.blue;
-//            }
 
             pDebugPath.setPaint( color );
             pDebugPath.setStrokePaint( color );
@@ -129,10 +107,6 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     public void setColor( Color color ) {
         MakeDuotoneImageOp op = new MakeDuotoneImageOp( color );
         pImage.setImage( op.filter( (BufferedImage) pImage.getImage(), null ) );
-    }
-
-    public void setPolarityMarkerColor( Color color ) {
-        pText.setTextPaint( color );
     }
 
     public Image getImage() {

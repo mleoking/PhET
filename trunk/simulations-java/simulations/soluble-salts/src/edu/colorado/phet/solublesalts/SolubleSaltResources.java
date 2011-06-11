@@ -7,12 +7,6 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Sam
- * Date: Oct 11, 2007
- * Time: 6:56:07 AM
- */
 public class SolubleSaltResources {
 
     private static final PhetResources RESOURCES = new PhetResources( "soluble-salts" );

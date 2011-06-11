@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.util.EventListener;
@@ -20,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.EventChannel;
  * HeatSource
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class HeatSource implements ModelElement {
     private double heatChangePerClockTick;
@@ -49,10 +40,6 @@ public class HeatSource implements ModelElement {
         public ChangeEvent( HeatSource source ) {
             super( source );
         }
-
-        public HeatSource getHeatSource() {
-            return (HeatSource) getSource();
-        }
     }
 
     public interface ChangeListener extends EventListener {
@@ -66,6 +53,4 @@ public class HeatSource implements ModelElement {
     public void removeListener( ChangeListener listener ) {
         changeEventChannel.removeListener( listener );
     }
-
-
 }

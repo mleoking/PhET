@@ -1,24 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.module;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.util.EventListener;
 import java.util.HashMap;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
-import edu.colorado.phet.common.piccolophet.nodes.RegisterablePNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -31,17 +21,14 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.SSCanvas;
 import edu.colorado.phet.solublesalts.view.WorldNode;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * SolubleSaltsModule
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SolubleSaltsModule extends PiccoloModule {
 
-    //    static public final double viewScale = 1;
     static public final double viewScale = 0.1;
 
     private SSCanvas simPanel;
@@ -100,25 +87,16 @@ public class SolubleSaltsModule extends PiccoloModule {
         IonInitializer.initialize( ion, model );
         ion.setPosition( 130, 200 );
         ion.setVelocity( 0, 5 );
-//        model.addModelElement( ion );
 
         ion = new Sodium();
         IonInitializer.initialize( ion, model );
         ion.setPosition( 70, 230 );
         ion.setVelocity( 5, 0 );
-//        model.addModelElement( ion );
 
         ion = new Sodium();
         IonInitializer.initialize( ion, model );
         ion.setPosition( 600, 435 );
         ion.setVelocity( 5, 0 );
-//        model.addModelElement( ion );
-
-//        ion = new Chloride();
-//        IonInitializer.initialize( ion, model );
-//        ion.setPosition( 280, 200 );
-//        ion.setVelocity( 0, 5 );
-//        model.addModelElement( ion );
     }
 
     protected PNode getFullScaleCanvas() {
@@ -135,17 +113,6 @@ public class SolubleSaltsModule extends PiccoloModule {
 
     public void reset() {
         resetListenerProxy.reset( calibration );
-    }
-
-    class TestGraphic extends RegisterablePNode {
-
-        public TestGraphic() {
-            PPath pPath = new PPath( new Rectangle2D.Double( 0, 0, 60, 30 ) );
-            pPath.setPaint( Color.cyan );
-            setRegistrationPoint( pPath.getWidth() / 3, pPath.getHeight() / 3 );
-            addChild( pPath );
-
-        }
     }
 
     //----------------------------------------------------------------
@@ -165,5 +132,4 @@ public class SolubleSaltsModule extends PiccoloModule {
     public void removeResetListener( ResetListener listener ) {
         resetEventChannel.removeListener( listener );
     }
-
 }

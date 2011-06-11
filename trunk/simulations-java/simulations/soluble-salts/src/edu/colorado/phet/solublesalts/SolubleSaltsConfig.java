@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts;
 
 import java.awt.*;
@@ -21,7 +13,6 @@ import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
  * SolubleSaltsConfig
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SolubleSaltsConfig {
 
@@ -31,20 +22,15 @@ public class SolubleSaltsConfig {
 
     // Defaults
     public static final Salt DEFAULT_SALT = new SodiumChloride();
-    public static String DEFAULT_SALT_NAME = "Sodium Chloride";
-//    public static final Salt DEFAULT_SALT = new SilverIodide();
-//    public static String DEFAULT_SALT_NAME = "Silver Iodide";
 
     // An ion will bind to another if it is within a distance of the open binding site that is less than or
     // equal to this many times the free ion's radius
     public static double BINDING_DISTANCE_FACTOR = 2;
     public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.4;
-    //    public static double DEFAULT_LATTICE_STICK_LIKELIHOOD = 0.9;
     public static double DEFAULT_LATTICE_DISSOCIATION_LIKELIHOOD = 0.001;
     public static double CONCENTRATION_CALIBRATION_FACTOR = 1 / 6.22E23;  // 2/27/06
 
     // Physical things
-    //    public static final double SCALE = 500 / 580E-16;
     public static final double SCALE = 1;
     public static final Point2D VESSEL_ULC = new Point2D.Double( 150 / SCALE, 250 / SCALE ); // upper-left corner of vessel
     public static final Dimension VESSEL_SIZE = new Dimension( (int) ( 700 / SCALE ), (int) ( 500 / SCALE ) );

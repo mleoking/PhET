@@ -135,9 +135,6 @@ public class DeveloperMenuSetup extends JMenu {
                                                           1E2,
                                                           IonFlowManager.SPEED_FACTOR,
                                                           new DecimalFormat( "0.0E0" ) );
-//                sldr.setMajorTickSpacing( 1E1 );
-//                sldr.setPaintTicks( true );
-//                sldr.setPaintLabels( true );
                 sldr.addChangeListener( new ChangeListener() {
                     public void stateChanged( ChangeEvent e ) {
                         IonFlowManager.SPEED_FACTOR = sldr.getValue();

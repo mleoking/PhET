@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.control;
 
 import java.awt.*;
@@ -33,7 +25,6 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
  * SaltSpinnerPanel
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.ChangeListener,
                                                         Ion.ChangeListener {
@@ -166,60 +157,6 @@ public class SaltSpinnerPanel extends JPanel implements SolubleSaltsModel.Change
         boundNumLabel = new JLabel( SolubleSaltResources.getString( "ControlLabels.Bound" ) );
 
         layoutPanel();
-//        layoutPanel2();
-    }
-
-    private void layoutPanel2() {
-        // Layout the panel
-        GridBagConstraints gbc = new DefaultGridBagConstraints();
-        gbc.insets = new Insets( 5, 0, 0, 5 );
-        gbc.weightx = 0.5;
-
-        // Ion labels on left
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( anionLabel, gbc );
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( cationLabel, gbc );
-
-        // Ion labels on left
-        gbc.gridy = 1;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( anionLabel, gbc );
-        gbc.gridy++;
-        gbc.anchor = GridBagConstraints.WEST;
-        add( cationLabel, gbc );
-
-        // Labels over counters
-        gbc.anchor = GridBagConstraints.CENTER;
-        gbc.gridx = GridBagConstraints.RELATIVE;
-        gbc.gridy = 0;
-        gbc.insets = new Insets( 15, 0, 0, 5 );
-        add( ionsLabel, gbc );
-        add( totalNumLabel, gbc );
-        add( freeNumLabel, gbc );
-        add( boundNumLabel, gbc );
-
-        // Counters
-        gbc.insets = new Insets( 5, 0, 0, 5 );
-        gbc.gridx = 1;
-        gbc.gridy++;
-        add( anionSpinner, gbc );
-        gbc.gridy++;
-        add( cationSpinner, gbc );
-
-        gbc.gridx = 2;
-        gbc.gridy = 1;
-        add( numFreeAnionTF, gbc );
-        gbc.gridy = 2;
-        add( numFreeCationTF, gbc );
-
-        gbc.gridx = 3;
-        gbc.gridy = 1;
-        add( numBoundAnionTF, gbc );
-        gbc.gridy = 2;
-        add( numBoundCationTF, gbc );
     }
 
     private void layoutPanel() {

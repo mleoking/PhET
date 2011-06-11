@@ -1,18 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.List;
 
 import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollisionExpert;
@@ -33,7 +24,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  * <p/> Will not let two ions of the same type bind within one diameter of each other
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDetector {
 
@@ -124,52 +114,8 @@ public class CrystalVesselCollisionExpert implements CollisionExpert, ContactDet
         ion.getBindingCrystal().setSeed( ion );
     }
 
-    /**
-     * Performs a collision between an ion and a vessel, giving the ion the proper velocity. If
-     * certain conditions are met, the ion sticks to the vessel as the seed of a new crystal.
-     *
-     * @param ion
-     * @param vessel
-     * @return If a collision occured between the ion and the vessel
-     */
-    private boolean handleIonVesselCollision( Ion ion, Vessel vessel ) {
-        boolean collisionOccurred;
-        // Check that nucleation is enabled in the model
-        boolean canBind = model.isNucleationEnabled();
-
-        // Make sure the ion isn't too close to another ion of the same polarity
-        double minDist = minDistToLikeIon;
-        List otherIons = model.getIons();
-        for ( int i = 0; i < otherIons.size() && canBind; i++ ) {
-            Ion testIon = (Ion) otherIons.get( i );
-            if ( testIon.isBound()
-                 && testIon.getPosition().distance( ion.getPosition() ) < minDist ) {
-                canBind = false;
-            }
-        }
-
-        if ( canBind && vessel.getIonStickAffinity().stick( ion, vessel ) ) {
-            vessel.bind( ion );
-        }
-
-        // Perform the collision, even if we bind, so when the ion is
-        // released it moves properly
-        collisionOccurred = sphereBoxExpert.detectAndDoCollision( ion, vessel.getWater() );
-        return collisionOccurred;
-    }
-
     public boolean areInContact( Collidable bodyA, Collidable bodyB ) {
         return sphereBoxExpert.areInContact( bodyA, bodyB );
-    }
-
-    private boolean areInContact( Ion ion, Vessel vessel ) {
-        Rectangle2D v = vessel.getShape();
-        Point2D i = ion.getPosition();
-        double r = ion.getRadius();
-        boolean b = i.getX() + r >= v.getMaxX()
-                    || i.getX() - r <= v.getMinX()
-                    || i.getY() + r >= v.getMaxY();
-        return b;
     }
 
     public boolean applies( Collidable bodyA, Collidable bodyB ) {

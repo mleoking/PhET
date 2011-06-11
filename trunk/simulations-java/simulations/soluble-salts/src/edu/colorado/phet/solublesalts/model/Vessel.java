@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Point2D;
@@ -36,7 +28,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  * should be changed.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class Vessel implements ModelElement, Collidable {
     // The shape of the vessel's interior
@@ -145,11 +136,6 @@ public class Vessel implements ModelElement, Collidable {
      * @return true if the point is outside the vessel
      */
     public boolean isOutside( Point2D p ) {
-//        return !( getShape().getMinX() < p.getX()
-//                && getShape().getMinY() < p.getY()
-//                && getShape().getMaxX() > p.getX()
-//                && getShape().getMaxY() > p.getY()
-//            );
         return !( getShape().getMinX() - wallThickness < p.getX()
                   && getShape().getMinY() < p.getY()
                   && getShape().getMaxX() + wallThickness > p.getX()
