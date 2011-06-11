@@ -24,7 +24,7 @@ public class IonGraphicManager implements IonListener {
     // Class data and methods
     //----------------------------------------------------------------
 
-    static private HashMap imageMap = new HashMap();
+    static private HashMap<Class, BufferedImage> imageMap = new HashMap<Class, BufferedImage>();
 
     /**
      * Returns the buffered image for a specified ion class
@@ -33,11 +33,11 @@ public class IonGraphicManager implements IonListener {
      * @return a BufferedImage
      */
     static public BufferedImage getIonImage( Class ionClass ) {
-        BufferedImage bi = (BufferedImage) imageMap.get( ionClass );
+        BufferedImage bi = imageMap.get( ionClass );
         if ( bi == null ) {
             throw new RuntimeException( "Ion class not recognized" );
         }
-        return (BufferedImage) imageMap.get( ionClass );
+        return imageMap.get( ionClass );
     }
 
     static {
@@ -68,13 +68,15 @@ public class IonGraphicManager implements IonListener {
         else {
             throw new RuntimeException( "Ion class not recognized" );
         }
-        imageMap.put( ion.getClass(), ig.getImage() );
+        putImage( ion.getClass(), (BufferedImage) ig.getImage() );
+    }
+
+    public static void putImage( Class clazz, BufferedImage image ) {
+        imageMap.put( clazz, image );
     }
 
     static private IonGraphic createPImage( Ion ion ) {
-        BufferedImage bi = (BufferedImage) imageMap.get( ion.getClass() );
-        IonGraphic ig = new IonGraphic( ion, bi );
-        return ig;
+        return new IonGraphic( ion, imageMap.get( ion.getClass() ) );
     }
 
     //----------------------------------------------------------------

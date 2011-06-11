@@ -125,7 +125,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     }
 
     private void addSugar( double x, double y ) {
-        sugarMoleculeList.add( new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener ) );
+        sugarMoleculeList.add( newSugar( x, y ) );
+    }
+
+    public Sucrose newSugar( double x, double y ) {
+        return new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener );
     }
 
     //Adds some random sodium particles

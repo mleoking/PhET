@@ -84,7 +84,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                                                      new Rectangle2D.Double( 20,
                                                                              135,//increasing this number moves down the beaker
                                                                              canvasSize.width * modelScale, canvasSize.height * modelScale ) );
-
+//        System.out.println( "transform.getTransform().getScaleX() = " + transform.getTransform().getScaleX() );
         // Root of our scene graph
         rootNode = new PNode();
         addWorldChild( rootNode );
