@@ -99,10 +99,6 @@ public class Ion extends Atom {
         public ChangeEvent( Ion source ) {
             super( source );
         }
-
-        public Ion getIon() {
-            return (Ion) getSource();
-        }
     }
 
     public interface ChangeListener extends EventListener {

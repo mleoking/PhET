@@ -34,7 +34,6 @@ public class HeatSource implements ModelElement {
     // Events and Listeners
     //----------------------------------------------------------------
     private EventChannel changeEventChannel = new EventChannel( ChangeListener.class );
-    private ChangeListener changeListenerProxy = (ChangeListener) changeEventChannel.getListenerProxy();
 
     public class ChangeEvent extends EventObject {
         public ChangeEvent( HeatSource source ) {

@@ -75,20 +75,6 @@ public class IonVesselCollisionExpert implements CollisionExpert, ContactDetecto
     }
 
     /**
-     * Stops the crystal and resets its seed to be the ion that's in contact with the
-     * vessel.
-     *
-     * @param ion
-     */
-    private void handleCrystalVesselCollision( Ion ion ) {
-        // todo: need something here for setting the seed on a crystal that comes out of the shaker. Mayeb
-        // have it set the one with maxY as the seed.
-        ion.getBindingCrystal().setVelocity( 0, 0 );
-        ion.getBindingCrystal().setAcceleration( 0, 0 );
-        ion.getBindingCrystal().setSeed( ion );
-    }
-
-    /**
      * Performs a collision between an ion and a vessel, giving the ion the proper velocity. If
      * certain conditions are met, the ion sticks to the vessel as the seed of a new crystal.
      *

@@ -23,7 +23,6 @@ import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
  */
 public class KspControl extends JPanel {
 
-    private ModelSlider kspSlider;
     private JSpinner mantissaSpinner;
     private JSpinner oomSpinner;
     private SolubleSaltsModel model;
@@ -36,8 +35,6 @@ public class KspControl extends JPanel {
      */
     public KspControl( final SolubleSaltsModel model ) {
         this.model = model;
-
-        kspSlider = createSlider( model, 1E-15 );
 
         mantissaSpinner = new JSpinner( new SpinnerNumberModel( 1, 0, 10, 0.1 ) );
         mantissaSpinner.setPreferredSize( new Dimension( 45, (int) mantissaSpinner.getPreferredSize().getHeight() ) );

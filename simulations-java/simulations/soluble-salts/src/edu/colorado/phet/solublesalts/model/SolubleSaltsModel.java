@@ -479,7 +479,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
      * Detects and handles collisions between ions and the vessel
      */
     private class CollisionAgent implements ModelElement {
-        CrystalVesselCollisionExpert crystalVesselCollisionExpert = new CrystalVesselCollisionExpert( SolubleSaltsModel.this );
+        CrystalVesselCollisionExpert crystalVesselCollisionExpert = new CrystalVesselCollisionExpert();
         IonVesselCollisionExpert ionVesselCollisionExpert = new IonVesselCollisionExpert( SolubleSaltsModel.this );
         IonIonCollisionExpert ionIonCollisionExpert = new IonIonCollisionExpert( SolubleSaltsModel.this );
 
