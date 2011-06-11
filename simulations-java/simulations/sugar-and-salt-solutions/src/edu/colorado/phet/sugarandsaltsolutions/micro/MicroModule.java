@@ -3,7 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +30,8 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 
@@ -74,10 +75,16 @@ public class MicroModule extends SolubleSaltsModule {
             }
         } );
 
-        //Show a control that lets the user choose different solutes (salt/sugar)
+        //Show the expandable/collapsable concentration bar chart in the top right
+        getFullScaleCanvas().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), new Property<Double>( 0.0 ), new Property<Double>( 0.0 ), new Property<Boolean>( true ) ) {{
+            scale( 1.5 );
+            setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
+        }} );
+
+        //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
         getFullScaleCanvas().addChild( new SoluteControlPanelNode( dispenserType ) {{
             scale( 1.5 );
-            setOffset( 1300 - getFullBounds().getWidth(), 768 / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( 1400 - getFullBounds().getWidth(), 768 / 2 );
         }} );
     }
 
@@ -119,7 +126,7 @@ public class MicroModule extends SolubleSaltsModule {
     //Create an image for sucrose using the same code as in the water tab to keep representations consistent
     private static BufferedImage getSucroseImage() {
         //Create a transform that will make the constituent particles big enough since they are rasterized.  I obtained the values by running the Water tab and printing out the box2d transform used in SucroseNode
-        final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleMapping( new Point2D.Double(), new Double(), 3150 / 6.3E-7 * 400 );
+        final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleMapping( new Point2D.Double(), new Point2D.Double(), 3150 / 6.3E-7 * 400 );
 
         //Create the graphic
         final SucroseNode sucroseNode = new SucroseNode( transform, new WaterModel().newSugar( 0, 0 ), new VoidFunction1<VoidFunction0>() {
