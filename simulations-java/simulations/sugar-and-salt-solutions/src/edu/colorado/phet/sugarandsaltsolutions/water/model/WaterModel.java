@@ -65,7 +65,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private final Vec2 zero = new Vec2();
 
     //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 2000 );
+    public final Property<Integer> k = new Property<Integer>( 4000 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 100 );
     private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
