@@ -12,30 +12,23 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 
 /**
  * Canvas for the first tab in the Sugar and Salt Solutions Sim
@@ -107,14 +100,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Create the control panel for choosing sugar vs salt
-        soluteControlPanelNode = new WhiteControlPanelNode( new VBox() {{
-            addChild( new PText( "Solute" ) {{setFont( TITLE_FONT );}} );
-            addChild( new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ) );//spacer
-            addChild( new PSwing( new VerticalLayoutPanel() {{
-                add( new PropertyRadioButton<DispenserType>( "Salt", model.dispenserType, SALT ) {{setFont( CONTROL_FONT );}} );
-                add( new PropertyRadioButton<DispenserType>( "Sugar", model.dispenserType, DispenserType.SUGAR ) {{setFont( CONTROL_FONT );}} );
-            }} ) );
-        }} ) {{
+        soluteControlPanelNode = new SoluteControlPanelNode( model ) {{
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
         }};
         addChild( soluteControlPanelNode );

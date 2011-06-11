@@ -24,5 +24,7 @@ public class MicroModule extends SolubleSaltsModule {
 
         // Use NaCl by default
         ( (SolubleSaltsModel) getModel() ).setCurrentSalt( new SodiumChloride() );
+
+//        getSimulationPanel()
     }
 }
