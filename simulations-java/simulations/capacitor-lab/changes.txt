@@ -1,3 +1,4 @@
+# 1.00.14 (53028) Jun 10, 2011
 6/10/11 fix: when plate size changes, recompute occlusion of wire that connects to bottom of capacitor plate
 6/10/11 change request: when E-field detector is first made visible, adjust probe location if centering it would intersect the top plate
 6/10/11 change request: adjust initial locations of bar maters in MC tab so that text doesn't intersect wires of any circuits
