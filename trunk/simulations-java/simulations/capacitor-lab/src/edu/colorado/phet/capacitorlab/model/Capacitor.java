@@ -197,8 +197,12 @@ public class Capacitor {
         return getPlateWidth() * getPlateDepth();
     }
 
+    public void addPlateSizeObserver( SimpleObserver o, boolean notifyOnAdd ) {
+        plateSizeProperty.addObserver( o, notifyOnAdd );
+    }
+
     public void addPlateSizeObserver( SimpleObserver o ) {
-        plateSizeProperty.addObserver( o );
+        addPlateSizeObserver( o, true );
     }
 
     //----------------------------------------------------------------------------------

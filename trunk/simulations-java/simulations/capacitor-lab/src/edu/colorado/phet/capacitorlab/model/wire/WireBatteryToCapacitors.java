@@ -13,6 +13,7 @@ import edu.colorado.phet.capacitorlab.model.wire.WireSegment.BatteryBottomWireSe
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.BatteryTopWireSegment;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorBottomWireSegment;
 import edu.colorado.phet.capacitorlab.model.wire.WireSegment.CapacitorTopWireSegment;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ShapeUtils;
 
 /**
@@ -73,7 +74,22 @@ public abstract class WireBatteryToCapacitors extends Wire {
             super( ConnectionPoint.BOTTOM, mvt, thickness, wireExtent, battery, capacitors );
             this.battery = battery;
             this.capacitors = capacitors;
-            setShape( createShape() );
+
+            // Add plate size observers to all capacitors, so we can handle wire occlusion.
+            SimpleObserver plateSizeObserver = new SimpleObserver() {
+                public void update() {
+                    setShape( createShape() );
+                }
+            };
+            for ( Capacitor capacitor : capacitors ) {
+                capacitor.addPlateSizeObserver( plateSizeObserver, false /* notifyOnAdd */ );
+            }
+            setShape( createShape() ); // call explicitly because notifyOnAdd was false
+        }
+
+        public void cleanup() {
+            super.cleanup();
+            //FUTURE removePlateSizeObserver for all capacitors
         }
 
         // Subtract any part of the wire that is occluded by the battery or one of the bottom plates.
