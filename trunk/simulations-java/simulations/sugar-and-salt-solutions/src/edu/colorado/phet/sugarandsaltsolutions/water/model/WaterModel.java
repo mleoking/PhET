@@ -173,38 +173,23 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         //Ignore super update for now
 //        super.updateModel( dt );
 
+        //Apply a random force so the system doesn't settle down, setting random velocity looks funny
         for ( WaterMolecule waterMolecule : waterList.list ) {
-            //Apply a random force so the system doesn't settle down
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
             float rand2 = ( random.nextFloat() - 0.5f ) * 2;
             waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
-
-            //Setting random velocity looks funny
-//            double randomAngle = random.nextDouble() * Math.PI * 2;
-//            ImmutableVector2D v = ImmutableVector2D.parseAngleAndMagnitude( rand1 * 1, randomAngle );
-//            Vec2 linearVelocity = waterMolecule.body.getLinearVelocity();
-//            waterMolecule.body.setLinearVelocity( new Vec2( linearVelocity.x + (float) v.getX(), linearVelocity.y + (float) v.getY() ) );
         }
 
         //Apply coulomb forces between all pairs of particles
-        for ( WaterMolecule waterMolecule : waterList.list ) {
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getOxygen().particle ), waterMolecule.body.getPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getHydrogen1().particle ), waterMolecule.getHydrogen1().particle.getBox2DPosition() );
-            waterMolecule.body.applyForce( getCoulombForce( waterMolecule.getHydrogen2().particle ), waterMolecule.getHydrogen2().particle.getBox2DPosition() );
-        }
-        for ( DefaultParticle sodiumIon : sodiumList.list ) {
-            sodiumIon.body.applyForce( getCoulombForce( sodiumIon ), sodiumIon.body.getPosition() );
-        }
-        for ( DefaultParticle chlorineIon : chlorineList.list ) {
-            chlorineIon.body.applyForce( getCoulombForce( chlorineIon ), chlorineIon.body.getPosition() );
+        for ( Molecule molecule : getAllMolecules() ) {
+            for ( Atom atom : molecule.atoms ) {
+                molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
+            }
         }
         world.step( (float) dt / 2, 50 );
 
         //Apply periodic boundary conditions
-        applyPeriodicBoundaryConditions( sodiumList.list );
-        applyPeriodicBoundaryConditions( chlorineList.list );
-        applyPeriodicBoundaryConditions( waterList.list );
-        applyPeriodicBoundaryConditions( sugarMoleculeList.list );
+        applyPeriodicBoundaryConditions( getAllMolecules() );
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
@@ -212,20 +197,29 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         }
     }
 
+    private ArrayList<Molecule> getAllMolecules() {
+        return new ArrayList<Molecule>() {{
+            addAll( waterList.list );
+            addAll( sugarMoleculeList.list );
+            addAll( sodiumList.list );
+            addAll( chlorineList.list );
+        }};
+    }
+
     //Move particles from one side of the screen to the other if they went out of bounds
-    private void applyPeriodicBoundaryConditions( ArrayList<? extends Particle> ionList ) {
-        for ( Particle sodium : ionList ) {
-            if ( sodium.getModelPosition().getX() > rightWallShape.x ) {
-                sodium.setModelPosition( new ImmutableVector2D( leftWallShape.getMaxX(), sodium.getModelPosition().getY() ) );
+    private void applyPeriodicBoundaryConditions( ArrayList<? extends Particle> list ) {
+        for ( Particle particle : list ) {
+            if ( particle.getModelPosition().getX() > rightWallShape.x ) {
+                particle.setModelPosition( new ImmutableVector2D( leftWallShape.getMaxX(), particle.getModelPosition().getY() ) );
             }
-            if ( sodium.getModelPosition().getX() < leftWallShape.getMaxX() ) {
-                sodium.setModelPosition( new ImmutableVector2D( rightWallShape.x, sodium.getModelPosition().getY() ) );
+            if ( particle.getModelPosition().getX() < leftWallShape.getMaxX() ) {
+                particle.setModelPosition( new ImmutableVector2D( rightWallShape.x, particle.getModelPosition().getY() ) );
             }
-            if ( sodium.getModelPosition().getY() < bottomWallShape.getMaxY() ) {
-                sodium.setModelPosition( new ImmutableVector2D( sodium.getModelPosition().getX(), topWallShape.y ) );
+            if ( particle.getModelPosition().getY() < bottomWallShape.getMaxY() ) {
+                particle.setModelPosition( new ImmutableVector2D( particle.getModelPosition().getX(), topWallShape.y ) );
             }
-            if ( sodium.getModelPosition().getY() > topWallShape.y ) {
-                sodium.setModelPosition( new ImmutableVector2D( sodium.getModelPosition().getX(), bottomWallShape.getMaxY() ) );
+            if ( particle.getModelPosition().getY() > topWallShape.y ) {
+                particle.setModelPosition( new ImmutableVector2D( particle.getModelPosition().getX(), bottomWallShape.getMaxY() ) );
             }
         }
     }
@@ -233,16 +227,10 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Gets the force on a single particle
     private Vec2 getCoulombForce( Particle target ) {
         Vec2 sumForces = new Vec2();
-        for ( DefaultParticle source : sodiumList.list ) {
-            sumForces = sumForces.add( getCoulombForce( source, target ) );
-        }
-        for ( DefaultParticle source : chlorineList.list ) {
-            sumForces = sumForces.add( getCoulombForce( source, target ) );
-        }
-        for ( WaterMolecule water : waterList.list ) {
-            sumForces = sumForces.add( getCoulombForce( water.getOxygen().particle, target ) );
-            sumForces = sumForces.add( getCoulombForce( water.getHydrogen1().particle, target ) );
-            sumForces = sumForces.add( getCoulombForce( water.getHydrogen2().particle, target ) );
+        for ( Molecule m : getAllMolecules() ) {
+            for ( Atom atom : m.atoms ) {
+                sumForces = sumForces.add( getCoulombForce( atom.particle, target ) );
+            }
         }
         return sumForces;
     }
