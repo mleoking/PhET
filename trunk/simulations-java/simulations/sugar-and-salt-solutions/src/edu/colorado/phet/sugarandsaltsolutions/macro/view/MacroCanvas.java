@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
@@ -26,10 +25,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
-    public MacroCanvas( final MacroModel model, SugarAndSaltSolutionsColorScheme config,
-
-                        //Function that creates a piccolo control to remove solutes, either a combined RemoveSaltSugarButton or a SeparateRemoveSaltSugarButtons
-                        Function1<MacroModel, PNode> newRemoveSolutesControl ) {
+    public MacroCanvas( final MacroModel model, SugarAndSaltSolutionsColorScheme config ) {
         super( model, config );
 
         //Show the full water node at the correct color, then overlay a partially transparent one on top, so that some objects (such as the conductivity tester) will look submerged
@@ -51,8 +47,9 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume, model.anySolutes ) );
 
-        //Add a button that allows the user to remove all solutes
-        final PNode removeSolutesButton = newRemoveSolutesControl.apply( model );
+        //Add a control that allows the user to remove solutes
+        final PNode removeSolutesButton = new SeparateRemoveSaltSugarButtons( model );
+
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
         removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - INSET - removeSolutesButton.getFullBounds().getWidth(),
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
