@@ -100,7 +100,7 @@ public class DielectricModel extends CLModel {
         plateChargeMeter = new PlateChargeMeter( circuit, getWorldBounds(), PLATE_CHARGE_METER_LOCATION, PLATE_CHARGE_METER_VISIBLE );
         storedEnergyMeter = new StoredEnergyMeter( circuit, getWorldBounds(), STORED_ENERGY_METER_LOCATION, STORED_ENERGY_METER_VISIBLE );
 
-        eFieldDetector = new EFieldDetector( circuit, getWorldBounds(), EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
+        eFieldDetector = new EFieldDetector( circuit, getWorldBounds(), mvt, EFIELD_DETECTOR_BODY_LOCATION, EFIELD_DETECTOR_PROBE_LOCATION,
                                              EFIELD_DETECTOR_VISIBLE, EFIELD_PLATE_VECTOR_VISIBLE, EFIELD_DIELECTRIC_VECTOR_VISIBLE,
                                              EFIELD_SUM_VECTOR_VISIBLE, EFIELD_VALUES_VISIBLE );
 
