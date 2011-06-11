@@ -142,7 +142,7 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
 
                     //disable the "add salt" button if there are already 2 salts
-                    model.numSodiums.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                    model.sodiumList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean lessThanTwoSodiums ) {
                             setEnabled( lessThanTwoSodiums );
                         }
@@ -158,7 +158,7 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
 
                     //disable the "add sugar" button if there are already 2 sugars
-                    model.numSugars.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                    model.sugarMoleculeList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean lessThanTwoSugars ) {
                             setEnabled( lessThanTwoSugars );
                         }
