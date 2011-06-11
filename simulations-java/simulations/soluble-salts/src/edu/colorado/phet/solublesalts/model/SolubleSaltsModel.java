@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Point2D;
@@ -41,7 +33,6 @@ import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
  * with the very small numbers that are in the domain.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.ResetListener {
 

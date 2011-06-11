@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import java.awt.geom.Point2D;
@@ -26,7 +18,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  * Lattice
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public abstract class Lattice {
 
@@ -261,11 +252,9 @@ public abstract class Lattice {
             if ( node.hasNoChildren() ) {
                 if ( preferredIonType.isAssignableFrom( node.getIon().getClass() ) ) {
                     preferredIons[node.getNumFilledBonds()].add( node );
-//                    preferredCandidates.add( node );
                 }
                 else {
                     otherIons[node.getNumFilledBonds()].add( node );
-//                    otherCandidates.add( node );
                 }
             }
         }
@@ -282,7 +271,6 @@ public abstract class Lattice {
 
         // If we have candidates of the prefered type, select from them, otherwise, select
         // from the other candidates
-//        List candidates = preferredCandidates.size() > 0 ? preferredCandidates : otherCandidates;
 
         // Sanity check
         if ( candidates.size() == 0 ) {
@@ -409,35 +397,6 @@ public abstract class Lattice {
     }
 
     //----------------------------------------------------------------
-    // Utility
-    //----------------------------------------------------------------
-    public String toStringRep() {
-        Node node = getNode( getSeed() );
-        StringBuffer sb = visitNode( node );
-
-        return sb.toString();
-    }
-
-    private StringBuffer visitNode( Node node ) {
-        StringBuffer sb = new StringBuffer();
-        sb.append( node.toString() + " | " + node.getPosition().toString() );
-        sb.append( "\n" );
-        List bonds = node.getBonds();
-        for ( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond) bonds.get( i );
-            sb.append( "\t" + bond.getOrientation() + bond.getOrigin() + " : " + bond.getDestination() + "  " + "\n" );
-        }
-
-        for ( int i = 0; i < bonds.size(); i++ ) {
-            Bond bond = (Bond) bonds.get( i );
-            if ( bond.getDestination() != node && bond.getDestination() != null ) {
-                sb.append( visitNode( bond.getDestination() ) );
-            }
-        }
-        return sb;
-    }
-
-    //----------------------------------------------------------------
     // Abstract methods
     //----------------------------------------------------------------
 
@@ -512,10 +471,6 @@ public abstract class Lattice {
         Ion ion2 = new Hydroxide();
         ion2.setPosition( 20, 30 );
         testLattice.add( ion2 );
-
-//        Ion ion3 = new Hydroxide();
-//        ion3.setPosition( 30, 20 );
-//        testLattice.add( ion3 );
 
         Ion ion4 = new Copper();
         ion4.setPosition( 30, 20 );

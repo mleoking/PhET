@@ -1,24 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model.ion;
-
-import java.awt.geom.Point2D;
-
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * ConfigurableAnion
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class ConfigurableCation extends Ion {
 
@@ -40,12 +27,5 @@ public class ConfigurableCation extends Ion {
 
     public ConfigurableCation() {
         super( new IonProperties( MASS, CHARGE, RADIUS ) );
-    }
-
-    public ConfigurableCation( Point2D position, Vector2D velocity, Vector2D acceleration ) {
-        super( position,
-               velocity,
-               acceleration,
-               new IonProperties( MASS, CHARGE, RADIUS ) );
     }
 }

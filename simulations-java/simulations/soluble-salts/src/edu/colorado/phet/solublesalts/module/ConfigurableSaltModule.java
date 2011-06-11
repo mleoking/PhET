@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.module;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -23,7 +15,6 @@ import edu.colorado.phet.solublesalts.model.salt.ConfigurableSalt;
  * SolubleSaltsModule
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class ConfigurableSaltModule extends SolubleSaltsModule {
 
@@ -39,11 +30,6 @@ public class ConfigurableSaltModule extends SolubleSaltsModule {
                                                    1E-16,
                                                    0.5E-16,
                                                    0.1E-16 ) );
-
-//               new SolubleSaltsConfig.Calibration( 7.83E-16 / 500,
-//                                            5E-16,
-//                                            1E-16,
-//                                            0.5E-16 ));
 
         // Set up the control panel
         setControlPanel( new ConfigurableSaltControlPanel( this ) );

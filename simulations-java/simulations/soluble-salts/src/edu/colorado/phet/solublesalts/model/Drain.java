@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Line2D;
@@ -22,7 +14,6 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  * Drain
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class Drain extends Spigot implements Vessel.ChangeListener {
     private Vessel vessel;
@@ -37,7 +28,6 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     // Distance, in ion radii, between an ion and the drain opening that will cause the ion to be
     // captured by the drain when it's open
     private int ionCaptureDistance = 2;
-    //    private int ionCaptureDistance = 8;
     private Vector2D inputToOutputOffset = new Vector2D( -95, 50 );
 
     public Drain( SolubleSaltsModel model,
@@ -105,16 +95,6 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
             super.setFlow( 0 );
         }
     }
-
-    public Line2D getOpening() {
-        return opening;
-    }
-
-    //----------------------------------------------------------------
-    // Vessel.ChangeListener implementation
-    //----------------------------------------------------------------
-    boolean noWater = false;
-    double savedFlow;
 
     public void stateChanged( Vessel.ChangeEvent event ) {
         Vessel vessel = event.getVessel();

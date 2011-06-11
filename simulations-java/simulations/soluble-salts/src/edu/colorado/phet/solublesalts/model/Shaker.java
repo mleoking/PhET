@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.awt.geom.Point2D;
@@ -34,7 +26,6 @@ import edu.colorado.phet.solublesalts.model.salt.StrontiumPhosphate;
  * StrontiumPhosphate crystals with their solubility.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class Shaker extends Particle {
     private Random random = new Random( System.currentTimeMillis() );
@@ -100,10 +91,6 @@ public class Shaker extends Particle {
         return orientation;
     }
 
-    protected double getOpeningLength() {
-        return openingLength;
-    }
-
     /**
      * Creates crystals and drops them into the water
      *
@@ -133,9 +120,6 @@ public class Shaker extends Particle {
         int minUnits = 3;
         int maxUnits = 10;
         int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
-//            numLaticeUnits = 15;
-//            numLaticeUnits = 8;
-//            numLaticeUnits = (int)dy;
 
         // Strontium Phosphate crystals should be smaller because we double them up
         if ( getCurrentSalt() instanceof StrontiumPhosphate ) {
@@ -161,13 +145,6 @@ public class Shaker extends Particle {
                 double x = getPosition().getX() + l * Math.cos( orientation );
                 Point2D p = new Point2D.Double( x, y );
 
-//            int minUnits = 3;
-//            int maxUnits = 10;
-//            int numLaticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
-////            numLaticeUnits = 15;
-////            numLaticeUnits = 8;
-////            numLaticeUnits = (int)dy;
-//
                 for ( int j = 0; j < numLaticeUnits; j++ ) {
                     Salt.Component[] components = currentSalt.getComponents();
                     for ( int k = 0; k < components.length; k++ ) {
@@ -200,20 +177,6 @@ public class Shaker extends Particle {
                 crystal = new Crystal( model, currentSalt.getLattice(), ions );
                 crystal.setVelocity( v );
             }
-
-//                if( getCurrentSalt() instanceof StrontiumPhosphate ) {
-//                    try {
-//                        Crystal secondCrystal = (Crystal)crystal.clone();
-//                        secondCrystal.translate( 30, 0 );
-//                        Crystal thirdCrystal = (Crystal)crystal.clone();
-//                        thirdCrystal.translate( -30, 0 );
-//                    }
-//                    catch( CloneNotSupportedException e ) {
-//                        e.printStackTrace();
-//                    }
-//                }
         }
     }
 }
-
-

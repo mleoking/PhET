@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts;
 
 import java.awt.*;
@@ -23,13 +15,11 @@ import edu.umd.cs.piccolo.nodes.PText;
  * WiggleMe
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class WiggleMe extends PNode implements ModelElement {
 
     PText text;
     Point2D finalLocation;
-    int direction = 1;
 
     public WiggleMe( String message, Point2D location, double shakeDist, Color color ) {
         text = new PText( message );

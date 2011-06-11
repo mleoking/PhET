@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model.crystal;
 
 import java.awt.geom.Point2D;
@@ -26,7 +18,6 @@ import edu.colorado.phet.common.phetcommon.util.EventChannel;
  * orientation is reversed.
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class Bond {
 
@@ -60,10 +51,6 @@ public class Bond {
 
     static public void addConstructionListener( ConstructionListener listener ) {
         constructionChannel.addListener( listener );
-    }
-
-    static public void removeConstructionListener( ConstructionListener listener ) {
-        constructionChannel.removeListener( listener );
     }
 
     //----------------------------------------------------------------

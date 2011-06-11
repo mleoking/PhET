@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.control;
 
 import java.awt.*;
@@ -38,7 +30,6 @@ import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
  * SolubleSaltsControlPanel
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 abstract public class SolubleSaltsControlPanel extends ControlPanel {
 
@@ -176,7 +167,6 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
                 model.setKsp( kspSlider.getValue() );
             }
         } );
-//        model.setKsp( kspSlider.getValue() );
 
         // Add a listener that will change the Ksp when the current salt changes
         model.addChangeListener( new SolubleSaltsModel.ChangeAdapter() {
@@ -298,9 +288,6 @@ abstract public class SolubleSaltsControlPanel extends ControlPanel {
         }
 
         private void setReadoutValue( Vessel vessel ) {
-//            double  volume = vessel.getWaterLevel() * module.getCalibration().volumeCalibrationFactor;
-//            String s2 = ScientificNotation.toHtml( volume, 2, "","");
-//            readout.setText( s2 );
             readout.setText( format.format( vessel.getWaterLevel() * module.getCalibration().volumeCalibrationFactor ) );
         }
     }

@@ -1,13 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
 package edu.colorado.phet.solublesalts.model;
 
 import java.util.*;
@@ -23,7 +15,6 @@ import edu.colorado.phet.solublesalts.model.ion.IonListener;
  * An agent that tracks the addition and removal of ions from the model
  *
  * @author Ron LeMaster
- * @version $Revision$
  */
 public class IonTracker {
 
@@ -104,13 +95,5 @@ public class IonTracker {
 
     public void removeIonListener( IonListener listener ) {
         ionEventChannel.removeListener( listener );
-    }
-
-    public static class IonListenerAdapter implements IonListener {
-        public void ionAdded( IonEvent event ) {
-        }
-
-        public void ionRemoved( IonEvent event ) {
-        }
     }
 }
