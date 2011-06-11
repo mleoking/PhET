@@ -17,11 +17,11 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
+import edu.colorado.phet.solublesalts.SolubleSaltResources;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.salt.*;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.util.DefaultGridBagConstraints;
-import edu.colorado.phet.solublesalts.SolubleSaltResources;
 
 /**
  * RealSaltsControlPanel

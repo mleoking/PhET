@@ -37,10 +37,10 @@ public class IonFactory {
         try {
             ion = (Ion) ionClass.newInstance();
         }
-        catch( InstantiationException e ) {
+        catch ( InstantiationException e ) {
             e.printStackTrace();
         }
-        catch( IllegalAccessException e ) {
+        catch ( IllegalAccessException e ) {
             e.printStackTrace();
         }
         return ion;

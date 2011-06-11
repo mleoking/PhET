@@ -18,7 +18,6 @@ import edu.colorado.phet.common.collision.Collidable;
 import edu.colorado.phet.common.collision.CollidableAdapter;
 import edu.colorado.phet.common.mechanics.Body;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.Atom;
@@ -590,14 +589,14 @@ public class Crystal extends Body implements Collidable {
             for ( int i = 0; i < openSites.size() - 1; i++ ) {
                 Point2D p1 = (Point2D) openSites.get( i );
                 Vector2D v1 = new Vector2D( p1.getX() - ionToRelease.getPosition().getX(),
-                                                          p1.getY() - ionToRelease.getPosition().getY() );
+                                            p1.getY() - ionToRelease.getPosition().getY() );
                 double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                 for ( int j = i + 1; j < openSites.size(); j++ ) {
 
                     // If the two open sites we're now looking at are adjacent, set the velocity to point between them
                     Point2D p2 = (Point2D) openSites.get( j );
                     Vector2D v2 = new Vector2D( p2.getX() - ionToRelease.getPosition().getX(),
-                                                              p2.getY() - ionToRelease.getPosition().getY() );
+                                                p2.getY() - ionToRelease.getPosition().getY() );
                     double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
                     if ( Math.abs( angle2 - angle1 ) < Math.PI ) {
                         double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
@@ -609,11 +608,11 @@ public class Crystal extends Body implements Collidable {
 
             Point2D p1 = (Point2D) openSites.get( 0 );
             Vector2D v1 = new Vector2D( p1.getX() - ionToRelease.getPosition().getX(),
-                                                      p1.getY() - ionToRelease.getPosition().getY() );
+                                        p1.getY() - ionToRelease.getPosition().getY() );
             double angle1 = ( v1.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             Point2D p2 = (Point2D) openSites.get( 1 );
             Vector2D v2 = new Vector2D( p2.getX() - ionToRelease.getPosition().getX(),
-                                                      p2.getY() - ionToRelease.getPosition().getY() );
+                                        p2.getY() - ionToRelease.getPosition().getY() );
             double angle2 = ( v2.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
             double angle = random.nextDouble() * ( angle2 - angle1 ) + angle1;
             releaseVelocity = new Vector2D( ionToRelease.getVelocity().getMagnitude(), 0 ).rotate( angle );
@@ -623,7 +622,7 @@ public class Crystal extends Body implements Collidable {
         // If we get here, there is only one open site adjacent to the ion being released
         Point2D point2D = (Point2D) openSites.get( 0 );
         Vector2D v = new Vector2D( point2D.getX() - ionToRelease.getPosition().getX(),
-                                                 point2D.getY() - ionToRelease.getPosition().getY() );
+                                   point2D.getY() - ionToRelease.getPosition().getY() );
         double angle = ( v.getAngle() + Math.PI * 2 ) % ( Math.PI * 2 );
         maxAngle = angle > maxAngle ? angle : maxAngle;
         minAngle = angle < minAngle ? angle : minAngle;
@@ -791,7 +790,7 @@ public class Crystal extends Body implements Collidable {
             try {
                 Thread.sleep( SolubleSaltsConfig.RELEASE_ESCAPE_TIME );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
             noBindList.remove( ion );
