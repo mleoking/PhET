@@ -68,6 +68,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     public final Property<Integer> k = new Property<Integer>( 2000 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 10 );
+    private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
+        public void apply( VoidFunction0 waterMolecule ) {
+            addFrameListener( waterMolecule );
+        }
+    };
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -120,11 +125,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     }
 
     private void addSugar( double x, double y ) {
-        sugarMoleculeList.add( new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 listener ) {
-                addFrameListener( listener );
-            }
-        } ) );
+        sugarMoleculeList.add( new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener ) );
     }
 
     //Adds some random sodium particles
@@ -140,19 +141,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //Adds a chlorine ion
     public void addChlorineIon( double x, double y ) {
-        chlorineList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 chlorineMolecule ) {
-                addFrameListener( chlorineMolecule );
-            }
-        }, -1, CHLORINE_RADIUS ) );
+        chlorineList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener, -1, CHLORINE_RADIUS ) );
     }
 
     public void addSodiumIon( double x, double y ) {
-        sodiumList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 sodiumMolecule ) {
-                addFrameListener( sodiumMolecule );
-            }
-        }, +1, SODIUM_RADIUS ) );
+        sodiumList.add( new DefaultParticle( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener, +1, SODIUM_RADIUS ) );
     }
 
     //Adds default water particles
@@ -169,11 +162,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //Adds a single water molecule
     public void addWater( double x, double y, float angle ) {
-        waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 waterMolecule ) {
-                addFrameListener( waterMolecule );
-            }
-        } ) );
+        waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, addFrameListener ) );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
