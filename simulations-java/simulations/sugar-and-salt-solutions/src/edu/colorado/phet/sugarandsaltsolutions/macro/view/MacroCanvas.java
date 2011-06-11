@@ -4,18 +4,10 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
-import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
@@ -55,36 +47,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
         addChild( removeSolutesButton );
 
-        //Button that maximizes the bar chart
-        PImage maximizeButton = new PImage( PhetCommonResources.getMaximizeButtonImage() ) {{
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
-                    model.showConcentrationBarChart.set( true );
-                }
-            } );
-        }};
-        //Layout maximize button next to "concentration" label
-        HBox contentPane = new HBox(
-                new PText( "Concentration" ) {{
-                    setFont( TITLE_FONT );
-                }},
-                maximizeButton
-        );
-
-        //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
-        edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode showBarChartPanel = new edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black, 3, 0, false ) {{
-            setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
-            model.showConcentrationBarChart.addObserver( new VoidFunction1<Boolean>() {
-                public void apply( Boolean chartVisible ) {
-                    setVisible( !chartVisible );
-                }
-            } );
-        }};
-        behindShakerNode.addChild( showBarChartPanel );
-
-        //The bar chart itself (when toggled to be visible)
-        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, model.showConcentrationBarChart ) {{
+        ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
