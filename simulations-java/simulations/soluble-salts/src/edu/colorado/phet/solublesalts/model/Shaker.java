@@ -14,6 +14,7 @@ import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonFactory;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
+import edu.colorado.phet.solublesalts.model.salt.Salt.Component;
 import edu.colorado.phet.solublesalts.model.salt.StrontiumPhosphate;
 
 /**
@@ -105,7 +106,7 @@ public class Shaker extends Particle {
             return;
         }
 
-        int cnt = 0;
+        int count = 0;
 
         // Set the shaker's position
         setPosition( getPosition().getX(), getPosition().getY() + dy );
@@ -140,16 +141,14 @@ public class Shaker extends Particle {
                 ArrayList<Ion> ions = new ArrayList<Ion>();
 
                 // Attempt to get Sr3(PO)2 to look more dense
-                l += cnt * 35;
-                cnt++;
+                l += count * 35;
+                count++;
 
                 double x = getPosition().getX() + l * Math.cos( orientation );
                 Point2D p = new Point2D.Double( x, y );
 
                 for ( int j = 0; j < numLatticeUnits; j++ ) {
-                    Salt.Component[] components = currentSalt.getComponents();
-                    for ( int k = 0; k < components.length; k++ ) {
-                        Salt.Component component = components[k];
+                    for ( Component component : currentSalt.getComponents() ) {
                         for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
                             ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D() );
                             ions.add( ion );
