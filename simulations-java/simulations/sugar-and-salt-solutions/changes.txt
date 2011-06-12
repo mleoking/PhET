@@ -3,11 +3,11 @@ Micro tab: Improved sugar graphics
 Micro tab: added sugar
 Micro tab: Added a solute salt/sugar control
 Micro tab: removed the control panel
-Increased coulomb force
-Increased number of water molecules
-Increased randomness in water molecule motion
-Fixed: Sugar doesn't respect periodic boundary conditions
-Fixed: Dragging a sugar molecule resets its angle
+Water tab: Increased coulomb force
+Water tab: Increased number of water molecules
+Water tab: Increased randomness in water molecule motion
+Water tab: Fixed: Sugar doesn't respect periodic boundary conditions
+Water tab: Fixed: Dragging a sugar molecule resets its angle
 # 0.00.37 (53018) Jun 10, 2011
 Add 2 sugar molecules when "add sugar" is pressed
 Added option to show sugar atoms (for color)
