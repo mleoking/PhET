@@ -34,6 +34,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     private SSCanvas simPanel;
     private SolubleSaltsConfig.Calibration calibration;
     private PNode fullScaleCanvas;
+    private final SolubleSaltsModel solubleSaltsModel;
 
     public SolubleSaltsModule( String title, IClock clock, SolubleSaltsConfig.Calibration calibration ) {
         super( title, clock );
@@ -42,9 +43,9 @@ public class SolubleSaltsModule extends PiccoloModule {
         setCalibration( calibration );
 
         // Set up the basics
-        final SolubleSaltsModel model = new SolubleSaltsModel( clock, this );
-        setModel( model );
-        simPanel = new SSCanvas( new Dimension( (int) ( model.getBounds().getWidth() * viewScale ), (int) ( model.getBounds().getHeight() * viewScale ) ) );
+        solubleSaltsModel = new SolubleSaltsModel( clock, this );
+        setModel( solubleSaltsModel );
+        simPanel = new SSCanvas( new Dimension( (int) ( solubleSaltsModel.getBounds().getWidth() * viewScale ), (int) ( solubleSaltsModel.getBounds().getHeight() * viewScale ) ) );
         setSimulationPanel( simPanel );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
@@ -54,7 +55,7 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
-        model.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
+        solubleSaltsModel.addIonListener( new IonGraphicManager( fullScaleCanvas ) );
 
         // DEBUG!!! Adds a listener that draws bonds on the screen
         Bond.addConstructionListener( new Bond.ConstructionListener() {
@@ -78,7 +79,7 @@ public class SolubleSaltsModule extends PiccoloModule {
 
         // Add some ions for testing
         if ( debug ) {
-            createTestIons( model );
+            createTestIons( solubleSaltsModel );
         }
     }
 
@@ -133,5 +134,9 @@ public class SolubleSaltsModule extends PiccoloModule {
 
     public void removeResetListener( ResetListener listener ) {
         resetEventChannel.removeListener( listener );
+    }
+
+    public SolubleSaltsModel getSolubleSaltsModel() {
+        return solubleSaltsModel;
     }
 }

@@ -69,7 +69,10 @@ public class IonTracker {
     }
 
     public List getIonsOfType( Class ionClass ) {
-        return (List) ionMap.get( ionClass );
+        if ( ionMap.containsKey( ionClass ) ) {
+            return (List) ionMap.get( ionClass );
+        }
+        else { return new ArrayList(); }
     }
 
     public List getIons() {

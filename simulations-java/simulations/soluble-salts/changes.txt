@@ -1,3 +1,6 @@
+Minor cleanup
+Made model publicly accessible
+Fixed a bug in IonTracker that was throwing an exception instead of returning 0 when querying on a nonexistent salt ion
 Removed unused and commented out code
 Reformatted according to IntelliJ PhetStyle code style
 # 1.07.00 (52278) May 21, 2011
