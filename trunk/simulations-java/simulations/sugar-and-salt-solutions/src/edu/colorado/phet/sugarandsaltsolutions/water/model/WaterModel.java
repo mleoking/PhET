@@ -196,7 +196,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         }
         long t2 = System.currentTimeMillis();
 //        System.out.println( "delta = " + ( t2 - t ) );
-        world.step( (float) dt / 2, 50 );
+        world.step( (float) dt / 6, 20 );
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( getAllMolecules() );
