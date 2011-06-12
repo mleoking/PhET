@@ -45,8 +45,12 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  */
 public class MicroModule extends SolubleSaltsModule {
 
+    //Model for the concentration in SI (moles/m^3)
     private final Property<Double> sugarConcentration = new Property<Double>( 0.0 );
     private final Property<Double> saltConcentration = new Property<Double>( 0.0 );
+
+    // Use NaCl by default
+    private final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
 
     static {
         IonGraphicManager.putImage( SugarMoleculePlus.class, getSucroseImage() );
@@ -61,9 +65,6 @@ public class MicroModule extends SolubleSaltsModule {
                                                    1E-23,
                                                    0.5E-23 ) );
 
-        // Use NaCl by default
-        final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
-
         //When the user selects a different solute, update the dispenser type
         dispenserType.addObserver( new SimpleObserver() {
             public void update() {
@@ -73,16 +74,17 @@ public class MicroModule extends SolubleSaltsModule {
                 else {
                     ( (SolubleSaltsModel) getModel() ).setCurrentSalt( new SugarCrystal() );
                 }
+                updateShakerAllowed();
             }
         } );
 
         getSolubleSaltsModel().addIonListener( new IonListener() {
             public void ionAdded( IonEvent event ) {
-                updateConcentration();
+                ionCountChanged();
             }
 
             public void ionRemoved( IonEvent event ) {
-                updateConcentration();
+                ionCountChanged();
             }
         } );
 
@@ -99,20 +101,36 @@ public class MicroModule extends SolubleSaltsModule {
         }} );
     }
 
-    private void updateConcentration() {
+    //Update concentrations and whether the shaker can emit more solutes
+    private void ionCountChanged() {
+        updateShakerAllowed();
+
         //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
         double volumeInLiters = getSolubleSaltsModel().getVessel().getWaterLevel() * getCalibration().volumeCalibrationFactor;
 
-        int numSugarMolecules = getSolubleSaltsModel().getIonsOfType( SugarMoleculePlus.class ).size() + getSolubleSaltsModel().getIonsOfType( SugarMoleculeMinus.class ).size();
-        final double molesSugarPerLiter = numSugarMolecules / 6.022E23 / volumeInLiters;
+        final double molesSugarPerLiter = getNumSugarMolecules() / 6.022E23 / volumeInLiters;
 
         //Set sugar concentration in SI (moles per m^3)
         sugarConcentration.set( molesSugarPerLiter * 1000 );//TODO: this looks wrong
 //        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
 
-        int numSaltMolecules = getSolubleSaltsModel().getIonsOfType( Sodium.class ).size();
-        final double molesSaltPerLiter = numSaltMolecules / 6.022E23 / volumeInLiters;
+        final double molesSaltPerLiter = getNumSaltMolecules() / 6.022E23 / volumeInLiters;
         saltConcentration.set( molesSaltPerLiter * 1000 );//TODO: this also looks the same wrong
+    }
+
+    //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
+    private void updateShakerAllowed() {
+        getSolubleSaltsModel().getShaker().setEnabledBasedOnMax( dispenserType.get() == DispenserType.SALT ?
+                                                                 getNumSaltMolecules() < 60 :
+                                                                 getNumSugarMolecules() < 10 );
+    }
+
+    private int getNumSugarMolecules() {
+        return getSolubleSaltsModel().getIonsOfType( SugarMoleculePlus.class ).size() + getSolubleSaltsModel().getIonsOfType( SugarMoleculeMinus.class ).size();
+    }
+
+    private int getNumSaltMolecules() {
+        return getSolubleSaltsModel().getIonsOfType( Sodium.class ).size();
     }
 
     //Model sugar as a kind of salt with positive and negative sucrose molecules (that look identical)

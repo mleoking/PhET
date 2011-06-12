@@ -38,7 +38,11 @@ public class Shaker extends Particle {
     private double minY;
     private double maxShakeDistance = 100;
 
-    boolean enabled = true;
+    //disable the spinners when the tank is empty
+    boolean enabledBasedOnVolume = true;
+
+    //disable when the amount of solute is maxed out
+    private boolean enabledBasedOnMax = true;
 
     boolean done;   // debug tool
 
@@ -58,7 +62,7 @@ public class Shaker extends Particle {
             public void stateChanged( Vessel.ChangeEvent event ) {
                 Vessel vessel = event.getVessel();
                 double drainLevel = vessel.getLocation().getY() + vessel.getDepth() - model.getDrain().getPosition().getY();
-                enabled = vessel.getWaterLevel() > drainLevel;
+                enabledBasedOnVolume = vessel.getWaterLevel() > drainLevel;
             }
         } );
     }
@@ -97,7 +101,7 @@ public class Shaker extends Particle {
     public void shake( double dy ) {
 
         // If not enabled, do nothing
-        if ( !enabled ) {
+        if ( !enabledBasedOnVolume || !enabledBasedOnMax ) {
             return;
         }
 
@@ -175,5 +179,10 @@ public class Shaker extends Particle {
                 crystal.setVelocity( v );
             }
         }
+    }
+
+    //Disable the shaker when there the max is reached
+    public void setEnabledBasedOnMax( boolean enabledBasedOnMax ) {
+        this.enabledBasedOnMax = enabledBasedOnMax;
     }
 }
