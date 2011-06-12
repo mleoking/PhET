@@ -1,3 +1,4 @@
+Water tab: slowed down the physics time step
 Water tab: subtract out center of momentum motion
 Water tab: ignore some coulomb interactions to improve performance
 # 0.00.38 (53052) Jun 12, 2011
