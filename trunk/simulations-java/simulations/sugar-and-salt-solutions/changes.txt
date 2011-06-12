@@ -1,3 +1,4 @@
+# 0.00.38 (53052) Jun 12, 2011
 Micro tab: Added a concentration bar chart
 Micro tab: Improved sugar graphics
 Micro tab: added sugar
