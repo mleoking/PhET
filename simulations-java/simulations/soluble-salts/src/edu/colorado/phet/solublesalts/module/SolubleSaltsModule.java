@@ -102,7 +102,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         ion.setVelocity( 5, 0 );
     }
 
-    protected PNode getFullScaleCanvas() {
+    protected PNode getFullScaleCanvasNode() {
         return fullScaleCanvas;
     }
 

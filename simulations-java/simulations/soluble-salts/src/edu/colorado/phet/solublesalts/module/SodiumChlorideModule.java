@@ -50,7 +50,7 @@ public class SodiumChlorideModule extends SolubleSaltsModule {
                                                         50,
                                                         new Color( 30, 100, 60 ) );
         model.addModelElement( wiggleMe );
-        getFullScaleCanvas().addChild( wiggleMe );
+        getFullScaleCanvasNode().addChild( wiggleMe );
         wiggleMe.setVisible( true );
 
         // A listener that will remove the wiggle-me when an ion is added to the model
