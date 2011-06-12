@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -183,8 +184,8 @@ public class MicroModule extends SolubleSaltsModule {
             public void apply( VoidFunction0 voidFunction0 ) {
                 voidFunction0.apply();
             }
-//        }, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
-        }, Color.yellow, Color.yellow, Color.yellow ) {{
+        }, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
+//        }, Color.yellow, Color.yellow, Color.yellow ) {{
 
             //Scale the graphic so it will be a good size for putting into a crystal lattice, with sizes
             //Just using RADIUS * 2 leaves too much space between particles in the lattice
