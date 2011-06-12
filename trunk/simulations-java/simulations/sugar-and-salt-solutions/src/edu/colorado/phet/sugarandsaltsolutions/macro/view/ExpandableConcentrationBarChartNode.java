@@ -26,7 +26,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public class ExpandableConcentrationBarChartNode extends PNode {
-    public ExpandableConcentrationBarChartNode( final Property<Boolean> showConcentrationBarChart, ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration, SettableProperty<Boolean> showConcentrationValues ) {
+    public ExpandableConcentrationBarChartNode( final Property<Boolean> showConcentrationBarChart, ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration, SettableProperty<Boolean> showConcentrationValues, double scaleFactor ) {
 
         //Button that maximizes the bar chart
         PImage maximizeButton = new PImage( PhetCommonResources.getMaximizeButtonImage() ) {{
@@ -57,7 +57,7 @@ public class ExpandableConcentrationBarChartNode extends PNode {
         addChild( showBarChartPanel );
 
         //The bar chart itself (when toggled to be visible)
-        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( saltConcentration, sugarConcentration, showConcentrationValues, showConcentrationBarChart );
+        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( saltConcentration, sugarConcentration, showConcentrationValues, showConcentrationBarChart, scaleFactor );
         addChild( concentrationBarChart );
 
         //Right align the expander button with the chart so the +/- buttons will be in the same location

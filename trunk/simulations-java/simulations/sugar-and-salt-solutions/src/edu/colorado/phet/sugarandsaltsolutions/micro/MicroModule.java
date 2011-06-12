@@ -21,8 +21,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
-import edu.colorado.phet.solublesalts.model.ion.Ion;
-import edu.colorado.phet.solublesalts.model.ion.IonProperties;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
@@ -46,7 +45,9 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  */
 public class MicroModule extends SolubleSaltsModule {
 
-    //Register sucrose images with the sugar constituents
+    private final Property<Double> sugarConcentration = new Property<Double>( 0.0 );
+    private final Property<Double> saltConcentration = new Property<Double>( 0.0 );
+
     static {
         IonGraphicManager.putImage( SugarMoleculePlus.class, getSucroseImage() );
         IonGraphicManager.putImage( SugarMoleculeMinus.class, getSucroseImage() );
@@ -75,8 +76,18 @@ public class MicroModule extends SolubleSaltsModule {
             }
         } );
 
+        getSolubleSaltsModel().addIonListener( new IonListener() {
+            public void ionAdded( IonEvent event ) {
+                updateConcentration();
+            }
+
+            public void ionRemoved( IonEvent event ) {
+                updateConcentration();
+            }
+        } );
+
         //Show the expandable/collapsable concentration bar chart in the top right
-        getFullScaleCanvas().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), new Property<Double>( 0.0 ), new Property<Double>( 0.0 ), new Property<Boolean>( true ) ) {{
+        getFullScaleCanvas().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, new Property<Boolean>( true ), 1 ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
         }} );
@@ -86,6 +97,22 @@ public class MicroModule extends SolubleSaltsModule {
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), 768 / 2 );
         }} );
+    }
+
+    private void updateConcentration() {
+        //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
+        double volumeInLiters = getSolubleSaltsModel().getVessel().getWaterLevel() * getCalibration().volumeCalibrationFactor;
+
+        int numSugarMolecules = getSolubleSaltsModel().getIonsOfType( SugarMoleculePlus.class ).size() + getSolubleSaltsModel().getIonsOfType( SugarMoleculeMinus.class ).size();
+        final double molesSugarPerLiter = numSugarMolecules / 6.022E23 / volumeInLiters;
+
+        //Set sugar concentration in SI (moles per m^3)
+        sugarConcentration.set( molesSugarPerLiter * 1000 );//TODO: this looks wrong
+//        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
+
+        int numSaltMolecules = getSolubleSaltsModel().getIonsOfType( Sodium.class ).size();
+        final double molesSaltPerLiter = numSaltMolecules / 6.022E23 / volumeInLiters;
+        saltConcentration.set( molesSaltPerLiter * 1000 );//TODO: this also looks the same wrong
     }
 
     //Model sugar as a kind of salt with positive and negative sucrose molecules (that look identical)

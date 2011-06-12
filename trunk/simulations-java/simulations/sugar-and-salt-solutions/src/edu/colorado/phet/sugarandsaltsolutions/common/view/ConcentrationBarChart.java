@@ -39,12 +39,15 @@ public class ConcentrationBarChart extends PNode {
     private final double CHART_HEIGHT = 234;
     protected final int INSET = 5;
     //Convert from model units (Mols) to stage units
-    private final double verticalAxisScale = 160 * 1E-4;
+    private final double verticalAxisScale;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
                                   ObservableProperty<Double> sugarConcentration,
                                   final SettableProperty<Boolean> showValues,
-                                  final SettableProperty<Boolean> visible ) {
+                                  final SettableProperty<Boolean> visible,
+                                  double scaleFactor ) {
+
+        verticalAxisScale = 160 * 1E-4 * scaleFactor;
         final double totalWidth = 220;
         final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
                                                 WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
