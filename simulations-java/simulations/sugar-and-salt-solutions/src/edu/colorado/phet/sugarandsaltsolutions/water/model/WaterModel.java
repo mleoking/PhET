@@ -59,7 +59,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
 
-    private int DEFAULT_NUM_WATERS = 170;
+    private int DEFAULT_NUM_WATERS = 180;
 
     //So we don't have to reallocate zeros all the time
     private final Vec2 zero = new Vec2();
@@ -196,7 +196,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         }
         long t2 = System.currentTimeMillis();
 //        System.out.println( "delta = " + ( t2 - t ) );
-        world.step( (float) dt / 6, 20 );
+        world.step( (float) dt / 10, 4 );
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( getAllMolecules() );
@@ -287,7 +287,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
         //Optimize forces for the distance between a sodium and chlorine so it is the strongest bond.
         //Units are box2d units
-        final double MIN = 1.2;
+        final double MIN = 0.1;
         if ( distance < MIN ) {
             distance = MIN;
         }
