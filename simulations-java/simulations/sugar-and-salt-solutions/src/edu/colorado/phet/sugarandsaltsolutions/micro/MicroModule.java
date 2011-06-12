@@ -51,6 +51,7 @@ public class MicroModule extends SolubleSaltsModule {
     //Model for the concentration in SI (moles/m^3)
     private final Property<Double> sugarConcentration = new Property<Double>( 0.0 );
     private final Property<Double> saltConcentration = new Property<Double>( 0.0 );
+    private final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
 
     // Use NaCl by default
     private final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
@@ -92,7 +93,7 @@ public class MicroModule extends SolubleSaltsModule {
         } );
 
         //Show the expandable/collapsable concentration bar chart in the top right
-        getFullScaleCanvasNode().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, new Property<Boolean>( true ), 1 ) {{
+        getFullScaleCanvasNode().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, showConcentrationValues, 1 ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
         }} );

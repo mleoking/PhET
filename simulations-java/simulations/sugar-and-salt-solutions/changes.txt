@@ -1,3 +1,4 @@
+Micro tab: Fixed: "show values" should be off by default
 Micro tab: made the background dark blue
 Micro tab: use less sugar molecules per sugar crystal
 Micro tab: limit the number of solutes
