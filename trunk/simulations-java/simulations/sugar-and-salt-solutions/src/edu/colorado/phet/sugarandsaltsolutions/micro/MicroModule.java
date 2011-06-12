@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
+import edu.colorado.phet.solublesalts.model.ISugarMolecule;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
@@ -134,7 +135,7 @@ public class MicroModule extends SolubleSaltsModule {
     }
 
     //Model sugar as a kind of salt with positive and negative sucrose molecules (that look identical)
-    public static class SugarCrystal extends Salt {
+    public static class SugarCrystal extends Salt implements ISugarMolecule {
         static private Lattice lattice = new OneToOneLattice( SugarMoleculePlus.RADIUS + SugarMoleculeMinus.RADIUS );
         static private ArrayList<Component> components = new ArrayList<Component>();
 
