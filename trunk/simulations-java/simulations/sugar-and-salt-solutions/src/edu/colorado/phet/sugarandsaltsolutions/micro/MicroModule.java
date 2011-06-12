@@ -90,13 +90,13 @@ public class MicroModule extends SolubleSaltsModule {
         } );
 
         //Show the expandable/collapsable concentration bar chart in the top right
-        getFullScaleCanvas().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, new Property<Boolean>( true ), 1 ) {{
+        getFullScaleCanvasNode().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, new Property<Boolean>( true ), 1 ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
         }} );
 
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
-        getFullScaleCanvas().addChild( new SoluteControlPanelNode( dispenserType ) {{
+        getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( dispenserType ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), 768 / 2 );
         }} );
