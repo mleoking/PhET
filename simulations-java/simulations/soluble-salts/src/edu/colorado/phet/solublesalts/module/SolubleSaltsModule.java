@@ -9,6 +9,7 @@ import java.util.HashMap;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.IonInitializer;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
@@ -18,7 +19,7 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.Sodium;
 import edu.colorado.phet.solublesalts.view.BondGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-import edu.colorado.phet.solublesalts.view.SSCanvas;
+import edu.colorado.phet.solublesalts.view.SolubleSaltsCanvas;
 import edu.colorado.phet.solublesalts.view.WorldNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -31,7 +32,7 @@ public class SolubleSaltsModule extends PiccoloModule {
     boolean debug = false;
     static public final double viewScale = 0.1;
 
-    private SSCanvas simPanel;
+    private SolubleSaltsCanvas canvas;
     private SolubleSaltsConfig.Calibration calibration;
     private PNode fullScaleCanvas;
     private final SolubleSaltsModel solubleSaltsModel;
@@ -45,13 +46,13 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         solubleSaltsModel = new SolubleSaltsModel( clock, this );
         setModel( solubleSaltsModel );
-        simPanel = new SSCanvas( new Dimension( (int) ( solubleSaltsModel.getBounds().getWidth() * viewScale ), (int) ( solubleSaltsModel.getBounds().getHeight() * viewScale ) ) );
-        setSimulationPanel( simPanel );
+        canvas = new SolubleSaltsCanvas( new Dimension( (int) ( solubleSaltsModel.getBounds().getWidth() * viewScale ), (int) ( solubleSaltsModel.getBounds().getHeight() * viewScale ) ) );
+        setSimulationPanel( canvas );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
-        fullScaleCanvas = new WorldNode( this, simPanel );
+        fullScaleCanvas = new WorldNode( this, canvas );
         fullScaleCanvas.setScale( viewScale );
-        simPanel.addWorldChild( fullScaleCanvas );
+        canvas.addWorldChild( fullScaleCanvas );
 
         // Add a graphic manager to the model that will create and remove IonGraphics
         // when Ions are added to and removed from the model
@@ -123,6 +124,10 @@ public class SolubleSaltsModule extends PiccoloModule {
     //----------------------------------------------------------------
     private EventChannel resetEventChannel = new EventChannel( ResetListener.class );
     private ResetListener resetListenerProxy = (ResetListener) resetEventChannel.getListenerProxy();
+
+    //Allows sims to override the look of HTMLNode, used in Sugar and Salt Solutions to make it show up against a dark background
+    public void updateHTMLNode( HTMLNode text ) {
+    }
 
     public interface ResetListener extends EventListener {
         void reset( SolubleSaltsConfig.Calibration calibration );

@@ -1,3 +1,5 @@
+Micro tab: made the background dark blue
+Micro tab: made the sugar molecules yellow
 Micro tab: use less sugar molecules per sugar crystal
 Micro tab: limit the number of solutes
 Water tab: slowed down the physics time step

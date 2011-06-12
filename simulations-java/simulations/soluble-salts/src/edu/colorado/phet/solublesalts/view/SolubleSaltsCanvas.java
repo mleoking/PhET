@@ -11,8 +11,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author Ron LeMaster
  */
-public class SSCanvas extends PhetPCanvas {
-    public SSCanvas( Dimension renderingSize ) {
+public class SolubleSaltsCanvas extends PhetPCanvas {
+    public SolubleSaltsCanvas( Dimension renderingSize ) {
         super( renderingSize );
     }
 }
