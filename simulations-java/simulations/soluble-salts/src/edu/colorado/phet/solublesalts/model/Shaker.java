@@ -118,7 +118,6 @@ public class Shaker extends Particle {
         v.rotate( theta );
         double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
 
-
         int minUnits = 3;
         int maxUnits = 10;
         int numLatticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
@@ -126,6 +125,11 @@ public class Shaker extends Particle {
         // Strontium Phosphate crystals should be smaller because we double them up
         if ( getCurrentSalt() instanceof StrontiumPhosphate ) {
             numLatticeUnits /= 2;
+        }
+
+        //For Sugar and Salt Solutions since it should have fewer particles per crystal
+        if ( getCurrentSalt() instanceof ISugarMolecule ) {
+            numLatticeUnits = random.nextDouble() < 0.5 ? 3 : 4;
         }
 
         // If the shaker moved downward, shake out a crystal
