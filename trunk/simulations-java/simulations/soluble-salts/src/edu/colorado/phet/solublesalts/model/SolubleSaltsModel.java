@@ -81,12 +81,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
 
-    /**
-     * @param clock
-     * @param module
-     */
     public SolubleSaltsModel( IClock clock, SolubleSaltsModule module ) {
-
         this.calibration = module.getCalibration();
 
         module.addResetListener( this );
@@ -146,9 +141,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         } );
     }
 
-    /**
-     * @param event
-     */
     public void update( ClockEvent event ) {
         super.update( event );
 
@@ -169,9 +161,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
     }
 
-    /**
-     * @param modelElement
-     */
     public void addModelElement( ModelElement modelElement ) {
         super.addModelElement( modelElement );
 
@@ -181,9 +170,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
     }
 
-    /**
-     * @param modelElement
-     */
     public void removeModelElement( ModelElement modelElement ) {
         super.removeModelElement( modelElement );
 
@@ -244,10 +230,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     // Getters and setters
     //----------------------------------------------------------------
 
-    public SolubleSaltsConfig.Calibration getCalibration() {
-        return calibration;
-    }
-
     public boolean isNucleationEnabled() {
         return nucleationEnabled;
     }
@@ -280,10 +262,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         return drain;
     }
 
-    public int getNumIons() {
-        return ionTracker.getIons().size();
-    }
-
     public int getNumIonsOfType( Class ionClass ) {
         return ionTracker.getNumIonsOfType( ionClass );
     }
@@ -306,10 +284,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
     public List getCrystals() {
         return crystalTracker.getCrystals();
-    }
-
-    public HeatSource getHeatSource() {
-        return heatSource;
     }
 
     /**
@@ -339,8 +313,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
     /**
      * Adds kinetic energy to all the ions in the system
-     *
-     * @param heat
      */
     public void addHeat( double heat ) {
         List ions = getIons();
@@ -352,15 +324,6 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 ion.setVelocity( ion.getVelocity().normalize().scale( speed1 ) );
             }
         }
-    }
-
-    /**
-     * Returns the bounds of the water in the vessel
-     *
-     * @return A Rectangle2D with the bounds of the water
-     */
-    public Rectangle2D getWaterBounds() {
-        return vessel.getWater().getBounds();
     }
 
     //-----------------------------------------------------------------
