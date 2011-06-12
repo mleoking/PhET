@@ -59,7 +59,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
 
-    private int DEFAULT_NUM_WATERS = 150;
+    private int DEFAULT_NUM_WATERS = 170;
 
     //So we don't have to reallocate zeros all the time
     private final Vec2 zero = new Vec2();
@@ -184,21 +184,54 @@ public class WaterModel extends SugarAndSaltSolutionModel {
             waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
         }
 
+        long t = System.currentTimeMillis();
         //Apply coulomb forces between all pairs of particles
         for ( Molecule molecule : getAllMolecules() ) {
             for ( Atom atom : molecule.atoms ) {
-                molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
+                //Only apply the force in some interactions, to improve performance and increase randomness
+                if ( Math.random() > 0.75 ) {
+                    molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
+                }
             }
         }
+        long t2 = System.currentTimeMillis();
+//        System.out.println( "delta = " + ( t2 - t ) );
         world.step( (float) dt / 2, 50 );
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( getAllMolecules() );
 
+        //Factor out center of mass motion so no large scale drifts can occur
+        Vec2 initTotalVelocity = getTotalMomentum();
+        for ( Molecule molecule : getAllMolecules() ) {
+            Vec2 v = molecule.body.getLinearVelocity();
+            final Vec2 delta = initTotalVelocity.mul( (float) ( -1 / getTotalMass() ) );
+            molecule.body.setLinearVelocity( v.add( delta ) );
+        }
+//        System.out.println( "init tot mom = " + initTotalVelocity + ", after = " + getTotalMomentum() );
+
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
         }
+    }
+
+    private Vec2 getTotalMomentum() {
+        Vec2 totalMomentum = new Vec2();
+        for ( Molecule molecule : getAllMolecules() ) {
+            Vec2 v = molecule.body.getLinearVelocity();
+            totalMomentum.x += v.x * molecule.body.getMass();
+            totalMomentum.y += v.y * molecule.body.getMass();
+        }
+        return totalMomentum;
+    }
+
+    private double getTotalMass() {
+        double m = 0.0;
+        for ( Molecule molecule : getAllMolecules() ) {
+            m += molecule.body.getMass();
+        }
+        return m;
     }
 
     private ArrayList<Molecule> getAllMolecules() {
@@ -241,40 +274,29 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //Get the contribution to the total coulomb force from a single source
     private Vec2 getCoulombForce( Particle source, Particle target ) {
+        //Precompute for performance reasons
+        final Vec2 sourceBox2DPosition = source.getBox2DPosition();
+        final Vec2 targetBox2DPosition = target.getBox2DPosition();
+
         if ( source == target ||
-             ( source.getBox2DPosition().x == target.getBox2DPosition().x && source.getBox2DPosition().y == target.getBox2DPosition().y ) ) {
+             ( sourceBox2DPosition.x == targetBox2DPosition.x && sourceBox2DPosition.y == targetBox2DPosition.y ) ) {
             return zero;
         }
-        Vec2 r = source.getBox2DPosition().sub( target.getBox2DPosition() );
+        Vec2 r = sourceBox2DPosition.sub( targetBox2DPosition );
         double distance = r.length();
-//        System.out.println( "distance = " + distance );
 
         //Optimize forces for the distance between a sodium and chlorine so it is the strongest bond.
         //Units are box2d units
-        if ( distance < 1.2 ) { distance = 1.2; }
+        final double MIN = 1.2;
+        if ( distance < MIN ) {
+            distance = MIN;
+        }
 
         double q1 = source.getCharge();
         double q2 = target.getCharge();
 
-        //Use a gaussian so that NaCl has a strong affinity
-//        double x0 = 1.29499;
-//        double distanceFunction = Math.exp( -Math.pow( distance - x0, 2 ) );
-
         double distanceFunction = 1 / Math.pow( distance, pow.get() );
         double magnitude = -k.get() * q1 * q2 * distanceFunction;
-
-//        System.out.println( "distance = " + distance + ", mag = " + magnitude );
-//        System.out.println( distance + "\t" + magnitude );
-
-//        double MAX = 1000;
-//        double MIN = 1E-3;
-//        if ( Math.abs( mag ) > MAX && q1 * q2 > 0 ) {
-//            magnitude = MAX;
-//        }
-//        else if ( magnitude < MIN ) {
-//            return zero;
-//        }
-//        System.out.println( magnitude );
         r.normalize();
         return r.mul( (float) magnitude );
     }
