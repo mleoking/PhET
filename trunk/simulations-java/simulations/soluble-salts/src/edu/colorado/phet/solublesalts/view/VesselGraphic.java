@@ -35,8 +35,10 @@ public class VesselGraphic extends PNode implements SolubleSaltsModule.ResetList
     private Color tickColor = new Color( 255, 180, 180 );
     private ArrayList minorTicks = new ArrayList();
     private ArrayList majorTicks = new ArrayList();
+    private final SolubleSaltsModule module;
 
     public VesselGraphic( final Vessel vessel, SolubleSaltsModule module ) {
+        this.module = module;
         module.addResetListener( this );
         this.vessel = vessel;
 
@@ -108,6 +110,10 @@ public class VesselGraphic extends PNode implements SolubleSaltsModule.ResetList
             double volume = ( vessel.getDepth() - y ) * calibration.volumeCalibrationFactor;
             String volumeStr = ScientificNotation.toHtml( volume, 1, "", SolubleSaltResources.getString( "ControlLabels.liters.abbreviation" ) );
             HTMLNode text = new HTMLNode( volumeStr );
+
+            //allow the application to override the color, used in Sugar and Salt Solutions to make it visible against a dark background
+            module.updateHTMLNode( text );
+
             Font orgFont = text.getFont();
             Font newFont = new Font( orgFont.getName(), Font.PLAIN, orgFont.getSize() + 12 );
             text.setFont( newFont );

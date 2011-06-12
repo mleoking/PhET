@@ -10,12 +10,13 @@ import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ISugarMolecule;
@@ -100,6 +101,9 @@ public class MicroModule extends SolubleSaltsModule {
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), 768 / 2 );
         }} );
+
+        //Set the background to match the other tabs
+        getPhetPCanvas().setBackground( configuration.backgroundColor.get() );
     }
 
     //Update concentrations and whether the shaker can emit more solutes
@@ -179,7 +183,8 @@ public class MicroModule extends SolubleSaltsModule {
             public void apply( VoidFunction0 voidFunction0 ) {
                 voidFunction0.apply();
             }
-        }, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
+//        }, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
+        }, Color.yellow, Color.yellow, Color.yellow ) {{
 
             //Scale the graphic so it will be a good size for putting into a crystal lattice, with sizes
             //Just using RADIUS * 2 leaves too much space between particles in the lattice
@@ -195,5 +200,12 @@ public class MicroModule extends SolubleSaltsModule {
     //Sample main writes a sucrose image to file for inspection
     public static void main( String[] args ) throws IOException {
         ImageIO.write( getSucroseImage(), "PNG", new File( args[0], System.currentTimeMillis() + ".PNG" ) );
+    }
+
+    //Make the HTML tick mark labels white so they will be visible on a dark background
+    @Override public void updateHTMLNode( HTMLNode text ) {
+        super.updateHTMLNode( text );
+        text.setHTMLColor( Color.white );
+        text.setFont( new PhetFont( 15, true ) );
     }
 }
