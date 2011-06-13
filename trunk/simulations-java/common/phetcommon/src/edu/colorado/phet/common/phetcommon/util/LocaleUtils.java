@@ -67,6 +67,18 @@ public class LocaleUtils {
         return locale;
     }
 
+    /**
+     * Formats the locale by RFC 4646 (http://www.ietf.org/rfc/rfc4646.txt), with language and optional country codes.
+     * Note that this does not include any "variant" that Java locales may have
+     *
+     * @param locale The locale to format
+     * @return String formatted via RFC 4646
+     */
+    public static String localeTo4646String( Locale locale ) {
+        assert ( locale != null );
+        return locale.getLanguage() + ( locale.getCountry().length() > 0 ? "-" + locale.getCountry() : "" );
+    }
+
     // tests
     public static void main( String[] args ) {
 
