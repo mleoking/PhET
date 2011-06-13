@@ -85,6 +85,7 @@ public class MainView extends Canvas {
             this.myView1.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
+            this.myPlayPauseButtons.setModel( this.myModel1 );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
             this.myModel1.stopMotion();
@@ -92,6 +93,7 @@ public class MainView extends Canvas {
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
+            this.myPlayPauseButtons.setModel( this.myModel2 );
         }
     }
 

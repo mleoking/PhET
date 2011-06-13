@@ -45,6 +45,7 @@ public class Model2 {
     //time variables
     private var _paused: Boolean;   //true if sim paused
     private var t: Number;		    //time in seconds
+    private var tInt: Number;       //time rounded down to nearest whole sec, for testing only
     private var lastTime: Number;	//time in previous timeStep
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
@@ -102,6 +103,7 @@ public class Model2 {
         //this.setInitialPositions(); //for testing only
         this._paused = false;
         this.t = 0;
+        this.tInt = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.02;
         this.tRate = 1;
@@ -200,7 +202,7 @@ public class Model2 {
         this.sx_arr[i][j] = sxPos;
         this.sy_arr[i][j] = syPos;
         //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
-        //trace("Model1.setXY  sxPos = "+sxPos+"    syPos = "+syPos);
+        //trace("Model1.setXY i = " + i +"   j = " + j + "   sxPos = "+ sxPos +"    syPos = "+syPos);
     }
 
     public function getXY(i:int, j:int):Array{
@@ -334,38 +336,30 @@ public class Model2 {
 //            trace("Model2.singleStepVerlet.  massView [2,2] grabbed");
 //        }
 
-/*        for(var j:int = 1; j <= this._N; j++){
-            var i:int = 1
-            if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
-                sx_arr[i][j] = sx_arr[i][j] + vx_arr[i][j] * dt + (1 / 2) * ax_arr[i][j] * dt * dt;
-                axPre_arr[i][j] = ax_arr[i][j];
-            }
-        }
-        for(var j:int = 1; j <= this._N; j++){
-            var i:int = 1
-            if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
-                this.ax_arr[i][j] = (this.k/this.m)*(sx_arr[i][j+1] + sx_arr[i][j-1] - 2*sx_arr[i][j]);
-                vx_arr[i][j] = vx_arr[i][j] + 0.5 * (this.axPre_arr[i][j] + ax_arr[i][j]) * dt;
-            }
-        }
-        */
         for(var i:int = 1; i <= this._N; i++){
             for(var j:int = 1; j <= this._N; j++){
-                if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
+                if( this._grabbedMassIndices[0] != i || this._grabbedMassIndices[1] != j ){
                     //this.sx_arr[]
                     sx_arr[i][j] = sx_arr[i][j] + vx_arr[i][j] * dt + (1 / 2) * ax_arr[i][j] * dt * dt;
                     sy_arr[i][j] = sy_arr[i][j] + vy_arr[i][j] * dt + (1 / 2) * ay_arr[i][j] * dt * dt;
                     axPre_arr[i][j] = ax_arr[i][j];   //store current accelerations for next step
                     ayPre_arr[i][j] = ay_arr[i][j];
+
                 }
+
             }//end for j loop
         }//end for i loop
+//        if(this.t > this.tInt ){
+//            this.tInt += 1;
+//            trace("i = "+this._grabbedMassIndices[0]+"   j = "+this._grabbedMassIndices[1])
+//            trace("Model2.singleStepVerlet.  t = "+ this.tInt + "   sx_arr[4][3] = "+ sx_arr[4][3]);
+//        }
 
         for(i = 1; i <= this._N; i++){
             for(j = 1; j <= this._N; j++){
-                if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
-                    this.ax_arr[i][j] = (this.k/this.m)*(sx_arr[i][j+1] + sx_arr[i][j-1] - 2*sx_arr[i][j]);		//post-acceleration
-                    this.ay_arr[i][j] = (this.k/this.m)*(sy_arr[i+1][j] + sy_arr[i-1][j] - 2*sy_arr[i][j]);
+                if( this._grabbedMassIndices[0] != i || this._grabbedMassIndices[1] != j ){
+                    this.ax_arr[i][j] = (this.k/this.m)*(sx_arr[i][j+1] + sx_arr[i][j-1] - 2*sx_arr[i][j] + sx_arr[i+1][j] + sx_arr[i-1][j] - 2*sx_arr[i][j]);		//post-acceleration
+                    this.ay_arr[i][j] = (this.k/this.m)*(sy_arr[i+1][j] + sy_arr[i-1][j] - 2*sy_arr[i][j] + sy_arr[i][j+1] + sy_arr[i][j-1] - 2*sy_arr[i][j]);
                     vx_arr[i][j] = vx_arr[i][j] + 0.5 * (this.axPre_arr[i][j] + ax_arr[i][j]) * dt;
                     vy_arr[i][j] = vy_arr[i][j] + 0.5 * (this.ayPre_arr[i][j] + ay_arr[i][j]) * dt;
                 }
