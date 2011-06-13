@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
@@ -11,11 +11,11 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
  * @author Sam Reid
  */
 public class MacroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
-    public DoubleProperty getSaltMoles() {
-        return salt.moles;
+    public ObservableProperty<Boolean> isAnySaltInSolution() {
+        return salt.moles.greaterThan( 0.0 );
     }
 
-    public DoubleProperty getSugarMoles() {
-        return sugar.moles;
+    public ObservableProperty<Boolean> isAnySugarInSolution() {
+        return sugar.moles.greaterThan( 0.0 );
     }
 }

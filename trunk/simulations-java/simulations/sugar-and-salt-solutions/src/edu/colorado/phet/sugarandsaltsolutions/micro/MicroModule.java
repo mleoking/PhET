@@ -53,6 +53,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 public class MicroModule extends SolubleSaltsModule {
 
     private MicroModel model;
+    private final double CONTROL_SCALE_FACTOR = 1.5;
 
     static {
         IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
@@ -76,21 +77,21 @@ public class MicroModule extends SolubleSaltsModule {
 
         //Show the expandable/collapsable concentration bar chart in the top right
         final ExpandableConcentrationBarChartNode barChartNode = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
-            scale( 1.5 );
+            scale( CONTROL_SCALE_FACTOR );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
         }};
         getFullScaleCanvasNode().addChild( barChartNode );
 
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
         getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( model.dispenserType ) {{
-            scale( 1.5 );
+            scale( CONTROL_SCALE_FACTOR );
             setOffset( 1400 - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + INSET );
         }} );
 
         //Add the reset all button
         getFullScaleCanvasNode().addChild( new HTMLImageButtonNode( "Reset All", BUTTON_COLOR ) {{
             setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
-            scale( 1.5 );
+            scale( CONTROL_SCALE_FACTOR );
             //Have to set the offset after changing the font since it changes the size of the node
             Dimension2DDouble stageSize = new Dimension2DDouble( 1400, 800 );
             setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
@@ -101,7 +102,11 @@ public class MicroModule extends SolubleSaltsModule {
             } );
         }} );
 
-        getFullScaleCanvasNode().addChild( new RemoveSoluteControlNode( model ) );
+        getFullScaleCanvasNode().addChild( new RemoveSoluteControlNode( model ) {{
+            scale( CONTROL_SCALE_FACTOR );
+            PBounds vesselBounds = getFullScaleCanvasNode().getVesselGraphic().getFullBounds();
+            setOffset( vesselBounds.getX() + INSET * 4, vesselBounds.getMaxY() - INSET * 4 - getFullBounds().getHeight() );
+        }} );
 
         //Add an evaporation rate slider below the beaker
         getFullScaleCanvasNode().addChild( new EvaporationSlider( model.evaporationRate ) {{

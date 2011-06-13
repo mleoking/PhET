@@ -20,7 +20,7 @@ public class RemoveSoluteControlNode extends PNode {
         //Button to remove salt, only shown if there is any salt
         TextButtonNode saltButton = new TextButtonNode( "Remove salt", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
-            model.getSaltMoles().greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
+            model.isAnySaltInSolution().addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
                 }
@@ -36,7 +36,7 @@ public class RemoveSoluteControlNode extends PNode {
         //Button to remove sugar, only shown if there is any sugar
         TextButtonNode sugarButton = new TextButtonNode( "Remove sugar", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
-            model.getSugarMoles().greaterThan( 0 ).addObserver( new VoidFunction1<Boolean>() {
+            model.isAnySugarInSolution().addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     setVisible( visible );
                 }
