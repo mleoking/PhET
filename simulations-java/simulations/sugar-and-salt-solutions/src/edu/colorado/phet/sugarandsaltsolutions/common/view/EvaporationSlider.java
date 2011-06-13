@@ -17,6 +17,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 
 /**
  * Modified copy of Evaporation slider, while we test different versions.  In the end, there should be only one.
+ * This doesn't have a background.
  *
  * @author Sam Reid
  */
