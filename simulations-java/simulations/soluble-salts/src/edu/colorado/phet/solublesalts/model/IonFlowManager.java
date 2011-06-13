@@ -101,7 +101,7 @@ public class IonFlowManager implements Vessel.ChangeListener, Spigot.ChangeListe
                 Vector2D v2 = new Vector2D( ds, 0 );
                 v2.rotate( beta2 );
                 // Adjust the ion's velocity so it will get to the drain before the water's gone 
-                double x = Math.min( v2.getX(), ion.getVelocity().getX() );
+                double x = event.isFromFaucet() ? Math.min( v2.getX(), ion.getVelocity().getX() ) : ion.getVelocity().getX();
                 double y = Math.max( v2.getY(), ion.getVelocity().getY() );
                 ion.setVelocity( x, y );
             }

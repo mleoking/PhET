@@ -120,8 +120,12 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
+        setWaterLevel(waterLevel,true);
+    }
+
+    public void setWaterLevel( double waterLevel, boolean fromFaucet ) {
         this.waterLevel = Math.max( 0, Math.min( waterLevel, getDepth() ) );
-        changeListenerProxy.stateChanged( new ChangeEvent( this ) );
+        changeListenerProxy.stateChanged( new ChangeEvent( this, fromFaucet ) );
     }
 
     public Rectangle2D getShape() {
@@ -221,12 +225,19 @@ public class Vessel implements ModelElement, Collidable {
     //----------------------------------------------------------------
 
     public class ChangeEvent extends EventObject {
-        public ChangeEvent( Vessel source ) {
+        private final boolean fromFaucet;
+
+        public ChangeEvent( Vessel source, boolean fromFaucet ) {
             super( source );
+            this.fromFaucet = fromFaucet;
         }
 
         public Vessel getVessel() {
             return (Vessel) getSource();
+        }
+
+        public boolean isFromFaucet() {
+            return fromFaucet;
         }
     }
 

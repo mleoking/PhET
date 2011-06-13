@@ -73,7 +73,7 @@ public class MicroModel implements ISugarAndSaltModel {
         solubleSaltsModel.getClock().addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
                 double delta = ( clockEvent.getSimulationTimeChange() * evaporationRate.get() ) / 50;
-                solubleSaltsModel.getVessel().setWaterLevel( Math.max( 0, solubleSaltsModel.getVessel().getWaterLevel() - delta ) );
+                solubleSaltsModel.getVessel().setWaterLevel( Math.max( 0, solubleSaltsModel.getVessel().getWaterLevel() - delta ), false );
             }
         } );
     }
