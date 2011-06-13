@@ -25,7 +25,7 @@ import mx.core.UIComponent;
 public class PlayPauseButtons extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
-    private var myModel: Model;
+    private var myModel: Model1;
     private var timeRateSlider:HSlider;
     private var playPauseButton: Sprite;
     private var stepButton: Sprite;
@@ -55,7 +55,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public var singleStep_str: String;
 
 
-    public function PlayPauseButtons( myMainView: MainView, myModel: Model ) {
+    public function PlayPauseButtons( myMainView: MainView, myModel: Model1 ) {
 
         this.initializeStrings();
 

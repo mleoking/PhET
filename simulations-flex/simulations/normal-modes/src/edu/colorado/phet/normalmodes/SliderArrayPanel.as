@@ -17,26 +17,24 @@ import mx.effects.effectClasses.ActionEffectInstance;
 public class SliderArrayPanel extends UIComponent {
 
     private var myMainView: MainView;
-    private var myModel: Model;
+    private var myModel1: Model1;
     private var container: Sprite;
     private var leftEdgeX;
     private var ampliSlider_arr:Array;       //array of verticalSliders for setting amplitude of mode.
     private var phaseSlider_arr:Array   //array of vertical Sliders for setting phase of mode
     private var nMax:int;               //maximum number of mobile masses = max nbr of normal modes
 
-    public function SliderArrayPanel( myMainView: MainView, myModel: Model) {
+    public function SliderArrayPanel( myMainView: MainView, myModel1: Model1) {
         this.myMainView = myMainView;
-        this.myModel = myModel;
+        this.myModel1 = myModel1;
         this.container = new Sprite();
-        this.leftEdgeX = this.myMainView.myView.leftEdgeX;
-        this.nMax = this.myModel.nMax;
+        this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
+        this.nMax = this.myModel1.nMax;
         this.ampliSlider_arr = new Array( nMax );
         this.phaseSlider_arr = new Array( nMax );
         //var vertSlider:VerticalSlider = new VerticalSlider( actionFunction, 150, 0, 10, true  );
         //vertSlider.setLabelText( "amplitude");
         //this.slider_arr[0] = vertSlider;
-
-
 
         this.addChild( this.container );
         this.initializeSliderArray();
@@ -52,8 +50,8 @@ public class SliderArrayPanel extends UIComponent {
     private function initializeSliderArray():void{
          for(var i:int = 0; i < this.nMax; i++){
              // VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true )
-             var vertSliderAmpli:VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, true  );
-             var vertSliderPhase:VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, true  );
+             var vertSliderAmpli:VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, false  );
+             var vertSliderPhase:VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, false  );
              vertSliderAmpli.setReadoutPrecision( 3 );
              vertSliderPhase.setReadoutPrecision( 2 );
 
@@ -65,6 +63,12 @@ public class SliderArrayPanel extends UIComponent {
              vertSliderPhase.index = j;
              vertSliderAmpli.setLabelText( "Ampli " + j );
              vertSliderPhase.setLabelText( "Phase " + j );
+             vertSliderAmpli.setScale( 100 );
+             vertSliderPhase.setScale( 1/Math.PI );
+             vertSliderAmpli.setUnitsText("cm");
+             vertSliderPhase.setUnitsText("pi");
+             vertSliderAmpli.setReadoutPrecision( 1 );
+
              this.ampliSlider_arr[i] = vertSliderAmpli;
              this.ampliSlider_arr[i].setSliderWithoutAction( 0 );
              this.phaseSlider_arr[i] = vertSliderPhase;
@@ -74,8 +78,8 @@ public class SliderArrayPanel extends UIComponent {
 
     //Arrange the layout of sliders
     public function locateSliders():void{
-        var nbrSliders:int = this.myModel.N;    //number of mobile masses = number normal modes
-        var lengthBetweenWallsInPix:Number =  this.myMainView.myView.LinPix;
+        var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
+        var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
 
         var horizSpacing:Number = lengthBetweenWallsInPix/(nbrSliders + 1);
         for(var i:int = 0; i < nbrSliders; i++){
@@ -96,9 +100,9 @@ public class SliderArrayPanel extends UIComponent {
     public function resetSliders():void{
         var amplitude:Number;
         var phase:Number;
-        for(var j:int = 1; j <= this.myModel.N; j++ ){
-            amplitude = this.myModel.getModeAmpli( j );
-            phase = this.myModel.getModePhase( j );
+        for(var j:int = 1; j <= this.myModel1.N; j++ ){
+            amplitude = this.myModel1.getModeAmpli( j );
+            phase = this.myModel1.getModePhase( j );
             this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
             this.phaseSlider_arr[j - 1 ].setSliderWithoutAction( phase );
         }
@@ -107,13 +111,13 @@ public class SliderArrayPanel extends UIComponent {
 
     private function setAmplitude( indx:int ):void{
         var A:Number = this.ampliSlider_arr[ indx - 1 ].getVal();
-        this.myModel.setModeAmpli( indx,  A );
+        this.myModel1.setModeAmpli( indx,  A );
         //trace("SliderArrayPanel.amplitudeFunction. Index = "+passedIndex)
     }
 
     private function setPhase( indx:int ):void{
         var phase:Number = this.phaseSlider_arr[ indx - 1 ].getVal();
-        this.myModel.setModePhase( indx,  phase );
+        this.myModel1.setModePhase( indx,  phase );
     }
 }//end class
 }//end package
