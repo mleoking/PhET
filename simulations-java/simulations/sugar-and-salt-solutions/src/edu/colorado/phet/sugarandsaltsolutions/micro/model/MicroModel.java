@@ -105,11 +105,11 @@ public class MicroModel implements ISugarAndSaltModel {
     }
 
     public void removeSugar() {
-        for ( Object modelElement : new ArrayList<Ion>() {{
+        for ( Ion ion : new ArrayList<Ion>() {{
             addAll( solubleSaltsModel.getIonsOfType( PositiveSugarIon.class ) );
             addAll( solubleSaltsModel.getIonsOfType( NegativeSugarIon.class ) );
         }} ) {
-            solubleSaltsModel.removeModelElement( (ModelElement) modelElement );
+            solubleSaltsModel.removeModelElement( ion );
         }
     }
 
