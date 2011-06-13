@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -86,12 +87,12 @@ public class MicroModel implements ISugarAndSaltModel {
         showConcentrationBarChart.reset();
     }
 
-    public DoubleProperty getSaltMoles() {
-        return saltConcentration;
+    public ObservableProperty<Boolean> isAnySaltInSolution() {
+        return saltConcentration.greaterThan( 0.0 );
     }
 
-    public DoubleProperty getSugarMoles() {
-        return sugarConcentration;
+    public ObservableProperty<Boolean> isAnySugarInSolution() {
+        return sugarConcentration.greaterThan( 0.0 );
     }
 
     public void removeSalt() {
