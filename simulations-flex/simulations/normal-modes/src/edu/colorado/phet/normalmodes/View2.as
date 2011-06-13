@@ -138,24 +138,21 @@ public class View2 extends Sprite {
         var N:int = this.myModel2.N;            //N x N = number of visible masses
         var nMax:int = this.myModel2.nMax;      //nMax x nMax = max possible number of visible masses
         var separationInPix:Number = this._LinPix/(N + 1);   //center-to-center separation of mobile masses in row or column
-        //make all invisible and then make visible only those required.
+        //make all masses invisible and then make visible only those required.
+        //no need to position masses, since this is done automatically in update()
+        //must position springs since spring positions not determined directly by model
         for(i = 0; i < nMax; i++){
             for(j = 0; j < nMax; j++){
-                this.mass_arr[i][j].visible = true;
+                this.mass_arr[i][j].visible = false;
             }
         }
 
-        for(var i:int = 0; i < N; i++){
-            for(var j:int = 0; j < N; j++){
+        for(var i:int = 0; i <= N - 1; i++){
+            for(var j:int = 0; j <= N - 1; j++){
                 this.mass_arr[i][j].visible = true;
-                trace("View2.positionGraphics. Visible i = " + i + "   j = " + j);
-                trace( "index0 = "+this.mass_arr[i][j].iJIndices[0]+ "   index1 = "+this.mass_arr[i][j].iJIndices[1])
-                var iIndex:int = this.mass_arr[i][j].iJIndices[0];
-                var jIndex:int = this.mass_arr[i][j].iJIndices[1];
-                this.mass_arr[i][j].x = this._topLeftCornerX + jIndex*separationInPix;
-                this.mass_arr[i][j].y = this._topLeftCornerY + iIndex*separationInPix;
             }
         }
+        //position springs
 //        for (i = 0; i <= N; i++ ){
 //            for (j = 0; j <= N; j++){
 //                this.spring_arr[i][j].visible = true;
@@ -210,13 +207,13 @@ public class View2 extends Sprite {
         for(var i:int = 0; i < N; i++){
             for(var j:int = 0; j < N; j++){
                 var u:int = i+1;    //u, v are indices of mobile masses
-                var v:int = j+1;    //top left mobilel masses is u=1, v=1
+                var v:int = j+1;    //top left mobile mass is u=1, v=1
                 xInMeters = this.myModel2.getXY(u, v)[0];
                 yInMeters = this.myModel2.getXY(u, v)[1];
                 xInPix = this._topLeftCornerX + xInMeters*this._pixPerMeter;
                 yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;   //+y direction is down in screen coords, in this case, ALSO DOWN in cartesian coords
-                this.mass_arr[u][v].x = xInPix;
-                this.mass_arr[u][v].y = yInPix;
+                this.mass_arr[i][j].x = xInPix;
+                this.mass_arr[i][j].y = yInPix;
             } //end for j loop
         }//end for i loop
 

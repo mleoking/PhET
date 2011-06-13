@@ -10,19 +10,26 @@ import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Point;
+import flash.text.TextField;
+import flash.text.TextFormat;
 
 //view for mass in 2D array of masses and springs
 public class MassView2 extends Sprite{
     private var _iJIndices:Array = new Array(2);       // i, j integers labeling the mass :i = row = 1, 2, .. N, j = column = 1, 2, .. N
     private var myModel2:Model2;
     private var container:View2;
+    private var label_txt:TextField;
+    private var tFormat:TextFormat;
 
     public function MassView2( i:int, j:int,  myModel2:Model2, container:View2 ) {
         this._iJIndices[0] = i;
         this._iJIndices[1] = j;
         this.myModel2 = myModel2
         this.container = container;
+        this.label_txt = new TextField();
+        this.tFormat = new TextFormat();
         this.drawMass();
+        //this.makeLabel();   //for testing only
         this.makeMassGrabbable();
     } //end constructor
 
@@ -36,6 +43,18 @@ public class MassView2 extends Sprite{
         g.endFill();
         this.visible = false;      //start with mass invisible
     }//end drawMass()
+
+    //For testing only. Label shows indices on mass graphic
+    private function makeLabel():void{
+        var txt1_str:String = this._iJIndices[0].toString();
+        var txt2_str:String = this._iJIndices[1].toString();
+        this.label_txt.text = txt1_str + "," + txt2_str;
+        this.tFormat.font = "Arial";
+        this.tFormat.size = 14;
+        this.label_txt.setTextFormat(this.tFormat);
+        this.label_txt.y +=10;
+        this.addChild(this.label_txt);
+    }
 
     public function get iJIndices():Array{
         return this._iJIndices;
@@ -55,7 +74,7 @@ public class MassView2 extends Sprite{
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            trace("MassView2.startTargetDrag.  i = " + thisObject._iJIndices[0] + "    j = "+thisObject._iJIndices[1]);
+            //trace("MassView2.startTargetDrag.  i = " + thisObject._iJIndices[0] + "    j = "+thisObject._iJIndices[1]);
             //trace("evt.target.y: "+evt.target.y);
         }
 

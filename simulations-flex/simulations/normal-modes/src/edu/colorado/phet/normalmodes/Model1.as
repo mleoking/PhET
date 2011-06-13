@@ -146,7 +146,7 @@ public class Model1 {
         return this._nMax;
     }
 
-    //currently unused?
+    //called from MassView dragTarget
     public function setX(i:int, xPos:Number):void{
         var sPos:Number = xPos - this.x0_arr[i];
         this.s_arr[i] = sPos;
