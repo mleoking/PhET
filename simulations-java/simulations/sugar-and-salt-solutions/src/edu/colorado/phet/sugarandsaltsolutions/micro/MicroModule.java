@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,6 +40,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNod
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 
@@ -55,14 +55,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  */
 public class MicroModule extends SolubleSaltsModule {
 
-    //Model for the concentration in SI (moles/m^3)
-    private final Property<Double> sugarConcentration = new Property<Double>( 0.0 );
-    private final Property<Double> saltConcentration = new Property<Double>( 0.0 );
-    private final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
-
-    // Use NaCl by default
-    private final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
-    private final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
+    private MicroModel model;
 
     static {
         IonGraphicManager.putImage( SugarMoleculePlus.class, getSucroseImage() );
@@ -71,11 +64,7 @@ public class MicroModule extends SolubleSaltsModule {
 
     @Override public void reset() {
         super.reset();
-        sugarConcentration.reset();
-        saltConcentration.reset();
-        showConcentrationValues.reset();
-        dispenserType.reset();
-        showConcentrationBarChart.reset();
+        model.reset();
     }
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
@@ -86,10 +75,11 @@ public class MicroModule extends SolubleSaltsModule {
                                                    1E-23,
                                                    0.5E-23 ) );
 
+        model = new MicroModel( getSolubleSaltsModel() );
         //When the user selects a different solute, update the dispenser type
-        dispenserType.addObserver( new SimpleObserver() {
+        model.dispenserType.addObserver( new SimpleObserver() {
             public void update() {
-                if ( dispenserType.get() == DispenserType.SALT ) {
+                if ( model.dispenserType.get() == DispenserType.SALT ) {
                     ( (SolubleSaltsModel) getModel() ).setCurrentSalt( new SodiumChloride() );
                 }
                 else {
@@ -115,14 +105,14 @@ public class MicroModule extends SolubleSaltsModule {
         } );
 
         //Show the expandable/collapsable concentration bar chart in the top right
-        final ExpandableConcentrationBarChartNode barChartNode = new ExpandableConcentrationBarChartNode( showConcentrationBarChart, saltConcentration, sugarConcentration, showConcentrationValues, 1 ) {{
+        final ExpandableConcentrationBarChartNode barChartNode = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
         }};
         getFullScaleCanvasNode().addChild( barChartNode );
 
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
-        getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( dispenserType ) {{
+        getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( model.dispenserType ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + MacroCanvas.INSET );
         }} );
@@ -141,6 +131,8 @@ public class MicroModule extends SolubleSaltsModule {
             } );
         }} );
 
+        getFullScaleCanvasNode().addChild( new RemoveSoluteControlNode( model ) );
+
         //Set the background to match the other tabs
         getPhetPCanvas().setBackground( configuration.backgroundColor.get() );
     }
@@ -158,16 +150,16 @@ public class MicroModule extends SolubleSaltsModule {
         final double molesSugarPerLiter = getNumSugarMolecules() / 6.022E23 / volumeInLiters;
 
         //Set sugar concentration in SI (moles per m^3)
-        sugarConcentration.set( molesSugarPerLiter * 1000 );//TODO: this looks wrong
+        model.sugarConcentration.set( molesSugarPerLiter * 1000 );//TODO: this looks wrong
 //        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
 
         final double molesSaltPerLiter = getNumSaltMolecules() / 6.022E23 / volumeInLiters;
-        saltConcentration.set( molesSaltPerLiter * 1000 );//TODO: this also looks the same wrong
+        model.saltConcentration.set( molesSaltPerLiter * 1000 );//TODO: this also looks the same wrong
     }
 
     //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
     private void updateShakerAllowed() {
-        getSolubleSaltsModel().getShaker().setEnabledBasedOnMax( dispenserType.get() == DispenserType.SALT ?
+        getSolubleSaltsModel().getShaker().setEnabledBasedOnMax( model.dispenserType.get() == DispenserType.SALT ?
                                                                  getNumSaltMolecules() < 60 :
                                                                  getNumSugarMolecules() < 10 );
     }
