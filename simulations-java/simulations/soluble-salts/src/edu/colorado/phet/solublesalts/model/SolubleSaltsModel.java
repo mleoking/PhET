@@ -268,7 +268,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         return ionTracker.getNumIonsOfType( ionClass );
     }
 
-    public List getIonsOfType( Class ionClass ) {
+    public List<Ion> getIonsOfType( Class ionClass ) {
         return ionTracker.getIonsOfType( ionClass );
     }
 
@@ -280,7 +280,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         return getNumIonsOfType( ionClass ) - getNumFreeIonsOfType( ionClass );
     }
 
-    public List getIons() {
+    public List<Ion> getIons() {
         return ionTracker.getIons();
     }
 

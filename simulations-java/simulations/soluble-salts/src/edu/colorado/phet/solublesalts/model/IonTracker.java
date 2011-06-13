@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.solublesalts.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.EventChannel;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -18,38 +21,31 @@ import edu.colorado.phet.solublesalts.model.ion.IonListener;
  */
 public class IonTracker {
 
-    private HashMap ionMap = new HashMap();
-    private HashMap freeIonCntMap = new HashMap();
+    private HashMap<Class, List<Ion>> ionMap = new HashMap<Class, List<Ion>>();
 
     //----------------------------------------------------------------
     // SolubleSaltsModel.IonListener implementation
     //----------------------------------------------------------------
 
     public void ionAdded( Ion ion ) {
-        List ionSet = (List) ionMap.get( ion.getClass() );
-        if ( ionSet == null ) {
-            ionSet = new ArrayList();
-            ionMap.put( ion.getClass(), ionSet );
-            freeIonCntMap.put( ion.getClass(), new Integer( 0 ) );
+        List<Ion> ionList = ionMap.get( ion.getClass() );
+        if ( ionList == null ) {
+            ionList = new ArrayList<Ion>();
+            ionMap.put( ion.getClass(), ionList );
         }
-        ionSet.add( ion );
-        int cnt = ( (Integer) freeIonCntMap.get( ion.getClass() ) ).intValue();
-        freeIonCntMap.put( ion.getClass(), new Integer( ++cnt ) );
+        ionList.add( ion );
         ionListenerProxy.ionAdded( new IonEvent( ion ) );
     }
 
     public void ionRemoved( Ion ion ) {
-        int cnt = ( (Integer) freeIonCntMap.get( ion.getClass() ) ).intValue();
-        freeIonCntMap.put( ion.getClass(), new Integer( --cnt ) );
-        List ionSet = (List) ionMap.get( ion.getClass() );
-        ionSet.remove( ion );
+        ionMap.get( ion.getClass() ).remove( ion );
 
         ionListenerProxy.ionRemoved( new IonEvent( ion ) );
     }
 
     public int getNumIonsOfType( Class ionClass ) {
         int result = 0;
-        List ionSet = (List) ionMap.get( ionClass );
+        List<Ion> ionSet = ionMap.get( ionClass );
         if ( ionSet != null ) {
             result = ionSet.size();
         }
@@ -57,29 +53,27 @@ public class IonTracker {
     }
 
     public int getNumFreeIonsOfType( Class ionClass ) {
-        Collection ionSet = (Collection) ionMap.get( ionClass );
+        Collection<Ion> ionSet = ionMap.get( ionClass );
         int cnt = 0;
         if ( ionSet != null ) {
-            for ( Iterator iterator = ionSet.iterator(); iterator.hasNext(); ) {
-                Ion ion = (Ion) iterator.next();
+            for ( Ion ion : ionSet ) {
                 cnt += ion.isBound() ? 0 : 1;
             }
         }
         return cnt;
     }
 
-    public List getIonsOfType( Class ionClass ) {
+    public List<Ion> getIonsOfType( Class ionClass ) {
         if ( ionMap.containsKey( ionClass ) ) {
-            return (List) ionMap.get( ionClass );
+            return ionMap.get( ionClass );
         }
-        else { return new ArrayList(); }
+        else { return new ArrayList<Ion>(); }
     }
 
-    public List getIons() {
-        List result = new ArrayList();
-        Collection lists = ionMap.values();
-        for ( Iterator it = lists.iterator(); it.hasNext(); ) {
-            List l = (List) it.next();
+    public List<Ion> getIons() {
+        List<Ion> result = new ArrayList<Ion>();
+        Collection<List<Ion>> lists = ionMap.values();
+        for ( List<Ion> l : lists ) {
             result.addAll( l );
         }
         return result;
