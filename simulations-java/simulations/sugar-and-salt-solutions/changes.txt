@@ -1,3 +1,4 @@
+Micro tab: Fixed: The concentration should only increase after the crystal breaks apart in the water - right now it increases when you shake in the solute
 Micro tab: Added evaporation slider
 Micro tab: Added clear sugar/salt buttons
 Micro tab: Added a reset all button
