@@ -141,7 +141,7 @@ public class View2 extends Sprite {
         //make all invisible and then make visible only those required.
         for(i = 0; i < nMax; i++){
             for(j = 0; j < nMax; j++){
-                this.mass_arr[i][j].visible = false;
+                this.mass_arr[i][j].visible = true;
             }
         }
 
@@ -150,8 +150,10 @@ public class View2 extends Sprite {
                 this.mass_arr[i][j].visible = true;
                 trace("View2.positionGraphics. Visible i = " + i + "   j = " + j);
                 trace( "index0 = "+this.mass_arr[i][j].iJIndices[0]+ "   index1 = "+this.mass_arr[i][j].iJIndices[1])
-                this.mass_arr[i][j].x = this._topLeftCornerX + (1+j)*separationInPix;
-                this.mass_arr[i][j].y = this._topLeftCornerY + (1+i)*separationInPix;
+                var iIndex:int = this.mass_arr[i][j].iJIndices[0];
+                var jIndex:int = this.mass_arr[i][j].iJIndices[1];
+                this.mass_arr[i][j].x = this._topLeftCornerX + jIndex*separationInPix;
+                this.mass_arr[i][j].y = this._topLeftCornerY + iIndex*separationInPix;
             }
         }
 //        for (i = 0; i <= N; i++ ){
