@@ -40,7 +40,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume, model.anySolutes ) );
 
         //Add a control that allows the user to remove solutes
-        final PNode removeSolutesButton = new SeparateRemoveSaltSugarButtons( model );
+        final PNode removeSolutesButton = new RemoveSoluteControlNode( model );
 
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
         removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - INSET - removeSolutesButton.getFullBounds().getWidth(),

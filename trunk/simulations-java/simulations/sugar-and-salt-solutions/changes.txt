@@ -1,3 +1,4 @@
+Micro tab: Added clear sugar/salt buttons
 Micro tab: Added a reset all button
 Micro tab: Fixed: concentration should change when water volume changes
 Water tab: Added a label to the sucrose
