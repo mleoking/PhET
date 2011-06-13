@@ -149,12 +149,12 @@ public class MicroModule extends SolubleSaltsModule {
 
         final double molesSugarPerLiter = getNumSugarMolecules() / 6.022E23 / volumeInLiters;
 
-        //Set sugar concentration in SI (moles per m^3)
-        model.sugarConcentration.set( molesSugarPerLiter * 1000 );//TODO: this looks wrong
+        //Set sugar concentration in SI (moles per m^3), convert to SI
+        model.sugarConcentration.set( molesSugarPerLiter * 1000 );
 //        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
 
         final double molesSaltPerLiter = getNumSaltMolecules() / 6.022E23 / volumeInLiters;
-        model.saltConcentration.set( molesSaltPerLiter * 1000 );//TODO: this also looks the same wrong
+        model.saltConcentration.set( molesSaltPerLiter * 1000 );
     }
 
     //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
