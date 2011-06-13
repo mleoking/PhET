@@ -55,12 +55,19 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
     }
 
     /**
+     * @return The translation string key that should be used to look up a translated value
+     */
+    public String getStringKey() {
+        return "molecule." + commonName.replace( ' ', '_' );
+    }
+
+    /**
      * @return A translated display name if possible. This does a weird lookup so that we can only list some of the names in the translation, but can
      *         accept an even larger number of translated names in a translation file
      */
     public String getDisplayName() {
         // first check if we have it translated. do NOT warn on missing
-        String lookupKey = "molecule." + commonName.replace( ' ', '_' );
+        String lookupKey = getStringKey();
         String stringLookup = BuildAMoleculeResources.getResourceLoader().getLocalizedProperties().getString( lookupKey, false );
 
         // we need to check whether it came back the same as the key due to how getString works.
