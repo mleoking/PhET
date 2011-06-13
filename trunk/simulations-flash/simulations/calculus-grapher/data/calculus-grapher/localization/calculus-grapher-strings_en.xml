@@ -15,6 +15,6 @@
     <string key="sine" value="Sine"/>
     <string key="freeform" value="Freeform"/>
     <string key="tilt" value="Tilt"/>
-    <string key="offset" value="Offset"/>
+    <string key="offset" value="Shift"/>
     <string key="simTitle" value="Calculus Grapher"/>
 </SimStrings>
