@@ -1,3 +1,5 @@
+# 3.20.00 (53075) Jun 12, 2011
+6/12/11 > added new translation credits features
 # 3.19.03 (52827) Jun 7, 2011
 Fixed: "resistivity" doesn't reset when "reset all" is pressed, resolves #2934
 Fixed: "show values" checkbox doesn't reset when "reset all" is pressed, resolves #2933
