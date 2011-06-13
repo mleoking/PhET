@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,7 +12,9 @@ import edu.colorado.phet.chemistry.molecules.AtomNode;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.Atom;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.umd.cs.piccolo.PNode;
@@ -52,12 +56,24 @@ public class SucroseNode extends PNode {
             children.add( new AtomImage( CARBON_IMAGE, oxygenDiameter, carbon, addListener, transform ) );
         }
 
+        final PNode childLayer = new PNode();
+
         //Put in random order so that all atoms of one type are not in same layer (like all hydrogens being at the front)
         //We may want to be able to specify the z-ordering later, but we'll see if this is good enough first.
         Collections.shuffle( children );
         for ( PNode child : children ) {
-            addChild( child );
+            childLayer.addChild( child );
         }
+        addChild( childLayer );
+
+        addChild( new HTMLNode( "C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>" ) {{
+            setFont( new PhetFont( 16, true ) );
+            childLayer.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+                public void propertyChange( PropertyChangeEvent evt ) {
+                    setOffset( childLayer.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, childLayer.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+                }
+            } );
+        }} );
 
         //Mouse interaction, makes it draggable
         addInputEventListener( new CursorHandler() );
