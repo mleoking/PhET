@@ -1,109 +1,74 @@
 package edu.colorado.phet.normalmodes {
-import edu.colorado.phet.normalmodes.*;
-import edu.colorado.phet.flexcommon.FlexSimStrings;
-
 import flash.display.*;
-import flash.events.*;
-import flash.filters.*;
-import flash.geom.*;
-import flash.text.TextField;
-import flash.text.TextFieldAutoSize;
-import flash.text.TextFormat;
 
-import org.aswing.ext.FormRow;
-
-import org.aswing.plaf.basic.border.ColorChooserBorder;
-
-public class View extends Sprite {
+//view for Model1, a 1-dimensional array of masses and springs
+public class View1 extends Sprite {
 
     public var myMainView: MainView;		//MainView
-    private var myModel: Model;			    //model of shaker bar system
+    private var myModel1: Model1;			//model for this view
 
     private var _pixPerMeter: Number;		//scale: number of pixels in 1 meter
     private var LinMeters:Number;           //distance between fixed walls in meters
-    private var _LinPix:Number;              //distance between fixed walls in pixels
-    private var L0Spring;                   //equilibrium length of spring in pixels
+    private var _LinPix:Number;             //distance between fixed walls in pixels
+    private var L0Spring:Number;            //equilibrium length of spring in pixels
     private var _leftEdgeY:Number;          //y-position of leftEdge in pixels measured down from top of screen
     private var _leftEdgeX:Number;          //x-position of leftEdge in pixels measured right from left edge of screen
     private var mass_arr:Array;             //array of massView instances , index 0 = mobile mass 1
     private var spring_arr:Array;           //array of spring sprites
-    private var walls:Sprite;
+    private var walls:Sprite;               //graphic for the fixed walls
 
-    //private var label_txt: TextField;
-    //private var label_fmt: TextFormat;
     private var stageW: int;
     private var stageH: int;
 
     //strings for internationalization
-    public var any_str: String;
+    //public var any_str: String;     //no strings in this view yet
 
-
-    public function View( myMainView: MainView, myModel: Model ) {
+    public function View1( myMainView: MainView, myModel1: Model1 ) {
         this.myMainView = myMainView;
-        this.myModel = myModel;
-        this.myModel.registerView( this );
-
+        this.myModel1 = myModel1;
+        this.myModel1.registerView( this );
         this.initialize();
     }//end of constructor
 
-
     public function initialize(): void {
-        this.initializeStrings();
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
-        this.LinMeters =  this.myModel.L;
-        this._LinPix = 0.8*this.stageW;
+        this.LinMeters =  this.myModel1.L;
+        this._LinPix = 0.9*this.stageW;
         this._pixPerMeter = this._LinPix/this.LinMeters;
-        this._leftEdgeX = 0.1*this.stageW;
+        this._leftEdgeX = 0.05*this.stageW;
         this._leftEdgeY = 0.3*this.stageH;
-        var nMax:int = this.myModel.nMax;
+        var nMax:int = this.myModel1.nMax;        //maximum number of mobile masses
         this.mass_arr = new Array( nMax );
+        //mass graphic drawn in MassView
+        for(i =0; i < nMax; i++){
+            this.mass_arr[i] = new MassView1( i+1, this.myModel1, this );
+        }
         this.spring_arr = new Array( nMax + 1 );  //one more spring than masses
-        this.walls = new Sprite();
-        this.drawWalls();
         for(var i:int =0; i <= nMax; i++){       //notice one more spring than nbr masses
             this.spring_arr[i] = new Sprite();
         }
         this.drawSprings();       //need to positions springs behind masses
-        //mass graphic drawn in MassView
-        for(var i:int =0; i < nMax; i++){
-            this.mass_arr[i] = new MassView( i+1, this.myModel, this );
-        }
+        this.walls = new Sprite();
+        this.drawWalls();
 
         this.positionGraphics();
 
-        for(var i:int = 0; i <= this.myModel.nMax; i++){
+        for(i = 0; i <= this.myModel1.nMax; i++){
             this.addChild(this.spring_arr[i]);
         }
-        for(var i:int = 0; i < this.myModel.nMax; i++){
+        for(i = 0; i < this.myModel1.nMax; i++){
             this.addChild(this.mass_arr[i]);
         }
         this.addChild(this.walls);
-        //this.createLabel();
-        //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
-
-        //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
-
-        //HorizontalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 )
-
-//        this.addChild( this.ruler );
-//        this.ruler.x = - barPixPerResonator*maxNbrResonators/2 - this.ruler.ruler.width; //-this.base.width/2;
-//        this.ruler.y = -this.ruler.height;
-
-        //this.makeObjectGrabbable();
 
         this.initializeControls();
     }//end of initialize()
 
-    private function initializeStrings(): void {
-       // driver_str = FlexSimStrings.get("driver", "DRIVER"); //"DRIVER";
-
-    }
-
 
     private function drawSprings():void{        //only the visible springs are drawn
         //var d:Number = 10;                      //radius of each mass in pixels, all distance in this function in pixels
-        var nMasses:Number = this.myModel.N;    //number of masses in chain
+        var nMasses:Number = this.myModel1.N;    //number of mobile masses in chain
         this.L0Spring = ( this._LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL:Number = 20;                  //length of each straight end of spring
         var nTurns:Number = 5;                  //number of turns in spring
@@ -112,7 +77,7 @@ public class View extends Sprite {
         for(var i:int = 0; i <= nMasses; i++){
            var g:Graphics = this.spring_arr[i].graphics;
            g.clear();
-           g.lineStyle( 3, 0xff0000, 1 );
+           g.lineStyle( 2, 0xff0000, 1 );
            g.moveTo( 0, 0 );
            g.lineTo(leadL, 0);
             for(var j:int = 0; j < nTurns; j++){
@@ -122,8 +87,8 @@ public class View extends Sprite {
             }//end for j
             g.lineTo( this.L0Spring, 0 );
          }//end for i
-        //to make sure that other springs are invisible
-        for(var i:int = nMasses + 1; i <= this.myModel.nMax; i++ ){
+        //make sure that other springs are invisible
+        for(i = nMasses + 1; i <= this.myModel1.nMax; i++ ){
             this.spring_arr[i].visible = false;
         }
     }//end drawSprings()
@@ -140,24 +105,23 @@ public class View extends Sprite {
     }
 
     private function positionGraphics():void{
-        var N:int = this.myModel.N;   //number of visible masses
-        var nMax:int = this.myModel.nMax;
+        var N:int = this.myModel1.N;            //number of visible, mobile masses
+        var nMax:int = this.myModel1.nMax;
         var separationInPix:Number = this._LinPix/(N + 1);   //center-to-center separation of mobile masses in chain
-        var d:Number = 10;     //radius of each mass in pix
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
             this.mass_arr[i].y = this._leftEdgeY;
             this.mass_arr[i].x = this._leftEdgeX + (1+i)*separationInPix;
         }
-        for (var i:int = 0; i <= N; i++ ){
+        for (i = 0; i <= N; i++ ){
             this.spring_arr[i].visible = true;
             this.spring_arr[i].y = this._leftEdgeY;
             this.spring_arr[i].x = this._leftEdgeX + i*separationInPix;
         }
-        for(var i:int = N; i < nMax; i++){
+        for(i = N; i < nMax; i++){
             this.mass_arr[i].visible = false;
         }
-        for( var i:int = N+1; i <= nMax; i ++ ){
+        for( i = N+1; i <= nMax; i ++ ){
             this.spring_arr[i].visible = false;
         }
     }
@@ -167,24 +131,8 @@ public class View extends Sprite {
         this.positionGraphics();
     }
 
-//    private function createLabel(): void {
-//        this.label_txt = new TextField();	//static label
-//        this.addChild( this.label_txt );
-//        this.label_txt.selectable = false;
-//        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
-//        this.label_txt.text = any_str;
-//        this.label_fmt = new TextFormat();	//format of label
-//        this.label_fmt.font = "Arial";
-//        this.label_fmt.color = 0xffffff;
-//        this.label_fmt.size = 18;
-//        this.label_txt.setTextFormat( this.label_fmt );
-//        //this.label_txt.x = -0.5 * this.label_txt.width;
-//        //this.label_txt.y = 1.1 * this.knobRadius;
-//    }//end createLabel()
-
     public function initializeControls(): void {
-        //trace("initializeShakerControls() called");
-
+        //trace("initializeControls() called");
         this.update();
     }
 
@@ -210,12 +158,11 @@ public class View extends Sprite {
         var xInPix:Number;
         var yInPix:Number;
         var springLengthInPix:Number;
-        var scale:Number;
         //position masses
-        for(var j:int = 0; j < this.myModel.N; j++){
+        for(var j:int = 0; j < this.myModel1.N; j++){
             var i:int = j+1;    //index of mobile mass, left mass = 1
-            xInMeters = this.myModel.getX(i);       //irrelevant when in transverse mode
-            yInMeters = this.myModel.getY(i);       //irrelevant when in longitudinal mode
+            xInMeters = this.myModel1.getX(i);       //irrelevant when in transverse mode
+            yInMeters = this.myModel1.getY(i);       //irrelevant when in longitudinal mode
             xInPix = this._leftEdgeX + xInMeters*this._pixPerMeter;
             yInPix = this._leftEdgeY -  yInMeters*this._pixPerMeter;   //don't forget. +y direction is down in screen coords, is up in cartesian coords
             this.mass_arr[j].x = xInPix;
@@ -223,26 +170,24 @@ public class View extends Sprite {
         }//end for loop
 
         //position springs
-        for(var i:int = 0; i <= this.myModel.N; i++){
+        for(i = 0; i <= this.myModel1.N; i++){
             //position left end of spring
-            xInMeters = this.myModel.getX(i);
+            xInMeters = this.myModel1.getX(i);      //irrelevant when in transverse mode
+            yInMeters = this.myModel1.getY(i);      //irrelevant when in longitudinal mode
             xInPix = this._leftEdgeX + xInMeters*this._pixPerMeter;
-            yInMeters = this.myModel.getY(i);
             yInPix = this._leftEdgeY - yInMeters*this._pixPerMeter;
             this.spring_arr[i].x = xInPix;
             this.spring_arr[i].y = yInPix;
             //position right end of spring; when in transverse mode, this requires rotation
-            if(this.myModel.longitudinalMode){
+            if(this.myModel1.longitudinalMode){
                 this.spring_arr[i].rotation = 0;
-                springLengthInPix =  (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
-                scale = springLengthInPix/this.L0Spring;
-                this.spring_arr[i].scaleX = scale;
-            }else{  //transverse mode
-                var sprLX:Number = (this.myModel.getX(i+1)-this.myModel.getX(i))*this.pixPerMeter;
-                var sprLY:Number = (this.myModel.getY(i+1)-this.myModel.getY(i))*this.pixPerMeter;
-                springLengthInPix = Math.sqrt(sprLX*sprLX + sprLY*sprLY);
-                scale = springLengthInPix/this.L0Spring;
-                this.spring_arr[i].scaleX = scale;
+                springLengthInPix =  (this.myModel1.getX(i+1)-this.myModel1.getX(i))*this.pixPerMeter;
+                this.spring_arr[i].scaleX = springLengthInPix/this.L0Spring;
+            }else{  //if in transverse mode
+                var sprLX:Number = (this.myModel1.getX(i+1)-this.myModel1.getX(i))*this.pixPerMeter;
+                var sprLY:Number = (this.myModel1.getY(i+1)-this.myModel1.getY(i))*this.pixPerMeter;
+                springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
+                this.spring_arr[i].scaleX = springLengthInPix/this.L0Spring;
                 //set rotation of stretched spring
                 var angleInDeg:Number = (Math.atan2(-sprLY, sprLX))*180/Math.PI;
                 this.spring_arr[i].rotation = angleInDeg;

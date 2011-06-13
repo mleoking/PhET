@@ -31,18 +31,23 @@ import mx.events.ListEvent;
 public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel: Model;
+    private var myModel1: Model1;
+    private var myModel2: Model2;
     private var background: HBox;
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
     private var innerBckgrnd: VBox;
-
     private var nbrMassesSlider: HorizontalSlider;
     private var resetPositionsButton: NiceButton2;
-    private var radioButtonVBox: VBox;
+    private var radioButtonVBox1: VBox;
     private var longTransMode_rbg: RadioButtonGroup;
     private var longitudinalModeButton: RadioButton;
     private var transverseModeButton: RadioButton;
+    private var radioButtonVBox2:VBox;
+    private var oneDtwoDMode_rbg: RadioButtonGroup;
+    private var oneDModeButton: RadioButton;
+    private var twoDModeButton: RadioButton;
+    private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
 //    private var selectedResonatorNbr: int;	//index number of currently selected resonator
@@ -53,12 +58,15 @@ public class ControlPanel extends Canvas {
     public var longitudinal_str: String;
     public var transverse_str: String;
     public var resetAll_str: String;
+    public var oneD_str: String;
+    public var twoD_str: String;
 
 
-    public function ControlPanel( myMainView: MainView, model: Model ) {
+    public function ControlPanel( myMainView: MainView, model1: Model1, model2: Model2 ) {
         super();
         this.myMainView = myMainView;
-        this.myModel = model;
+        this.myModel1 = model1;
+        this.myModel2 = model2;
         this.init();
 
     }//end of constructor
@@ -109,7 +117,7 @@ public class ControlPanel extends Canvas {
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
 
         //Set up longitudinal or transverse radio button box
-        this.radioButtonVBox = new VBox();
+        this.radioButtonVBox1 = new VBox();
         this.longTransMode_rbg = new RadioButtonGroup();
         this.longitudinalModeButton = new RadioButton();
         this.transverseModeButton = new RadioButton();
@@ -121,15 +129,35 @@ public class ControlPanel extends Canvas {
         this.longitudinalModeButton.value = 1;
         this.transverseModeButton.value = 0;
         this.longitudinalModeButton.selected = true;
-        this. transverseModeButton.selected = false;
+        this.transverseModeButton.selected = false;
         this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
+
+         //1D or 2D radio button box
+        this.radioButtonVBox2 = new VBox();
+        this.oneDtwoDMode_rbg = new RadioButtonGroup();
+        this.oneDModeButton = new RadioButton();
+        this.twoDModeButton = new RadioButton();
+        this.twoDModeButton.setStyle( "paddingTop", -5 );
+        this.oneDModeButton.group = oneDtwoDMode_rbg;
+        this.twoDModeButton.group = oneDtwoDMode_rbg;
+        this.oneDModeButton.label = this.oneD_str;
+        this.twoDModeButton.label = this.twoD_str;
+        this.oneDModeButton.value = 1;
+        this.twoDModeButton.value = 0;
+        this.oneDModeButton.selected = true;
+        this.twoDModeButton.selected = false;
+        this.oneDtwoDMode_rbg.addEventListener( Event.CHANGE, click1DOr2D );
 
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
-        this.background.addChild( this.radioButtonVBox );
-        this.radioButtonVBox.addChild( this.longitudinalModeButton );
-        this.radioButtonVBox.addChild( this.transverseModeButton );
+        this.background.addChild( this.radioButtonVBox1 );
+        this.radioButtonVBox1.addChild( this.longitudinalModeButton );
+        this.radioButtonVBox1.addChild( this.transverseModeButton );
+        this.background.addChild( this.radioButtonVBox2 );
+        this.radioButtonVBox2.addChild( this.oneDModeButton );
+        this.radioButtonVBox2.addChild( this.twoDModeButton );
+        this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
 
@@ -139,32 +167,55 @@ public class ControlPanel extends Canvas {
         longitudinal_str = "longitudinal";
         transverse_str = "transverse";
         resetAll_str = "Reset All";
+        oneD_str = "1D";
+        twoD_str = "2D";
     }
 
     private function setNbrMasses():void{
         var nbrM:Number = this.nbrMassesSlider.getVal();
-        this.myModel.setN( nbrM );
-        this.myMainView.mySliderArrayPanel.locateSliders();
+        if(this.oneDMode){
+            this.myModel1.setN( nbrM );
+            this.myMainView.mySliderArrayPanel.locateSliders();
+        } else{
+            this.myModel2.setN( nbrM );
+        }
     }
 
     public function setNbrMassesExternally( nbrM: int ): void {
         this.nbrMassesSlider.setVal( nbrM );
-        this.myModel.setN( nbrM );
+        this.myModel1.setN( nbrM );
+        this.myModel2.setN( nbrM );
     }
 
     private function resetPositions():void{
-        this.myModel.initializeKinematicArrays();
-        this.myModel.zeroModeArrays();
+        if(this.oneDMode){
+            this.myModel1.initializeKinematicArrays();
+            this.myModel1.zeroModeArrays();
+        }else{
+            this.myModel2.initializeKinematicArrays();
+            this.myModel2.zeroModeArrays();
+        }
     }
 
     private function clickLongOrTrans( evt: Event ): void {
         var val: Object = this.longTransMode_rbg.selectedValue;
         if ( val == 1 ) {
-            this.myModel.setTorL( "L" );
+            this.myModel1.setTorL( "L" );
         }
         else {
-            this.myModel.setTorL( "T" );
+            this.myModel1.setTorL( "T" );
         }
+    }
+
+    private function click1DOr2D( evt: Event ):void {
+       var val: Object = this.oneDtwoDMode_rbg.selectedValue;
+        if ( val == 1 ) {
+            this.myMainView.set1DOr2D( 1 );
+        }
+        else {
+            this.myMainView.set1DOr2D( 2 );
+        }
+        this.oneDMode = this.myMainView.oneDMode;
     }
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
