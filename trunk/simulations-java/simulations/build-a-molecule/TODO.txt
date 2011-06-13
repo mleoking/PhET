@@ -1,4 +1,3 @@
-Generator for translation properties file with all molecules
 Other TODOs
 3d icon image deprecated -- remove
 
