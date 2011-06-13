@@ -15,12 +15,12 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 
 /**
- * Piccolo control for setting and viewing the evaporation rate.  This version (unlike EvaporationSlider) comes in a white control panel.
+ * Piccolo control for setting and viewing the evaporation rate, in a white control panel and appearing beneath the beaker.
  *
  * @author Sam Reid
  */
-public class EvaporationSlider2 extends WhiteControlPanelNode {
-    public EvaporationSlider2( final SettableProperty<Integer> evaporationRate ) {
+public class EvaporationSlider extends WhiteControlPanelNode {
+    public EvaporationSlider( final SettableProperty<Integer> evaporationRate ) {
         super( new HBox(
                 //Add a label
                 new PText( "Evaporation" ) {{setFont( CONTROL_FONT );}},
