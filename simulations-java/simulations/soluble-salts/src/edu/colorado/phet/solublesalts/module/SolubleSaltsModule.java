@@ -34,7 +34,7 @@ public class SolubleSaltsModule extends PiccoloModule {
 
     private SolubleSaltsCanvas canvas;
     private SolubleSaltsConfig.Calibration calibration;
-    private PNode fullScaleCanvas;
+    private WorldNode fullScaleCanvas;
     private final SolubleSaltsModel solubleSaltsModel;
 
     public SolubleSaltsModule( String title, IClock clock, SolubleSaltsConfig.Calibration calibration ) {
@@ -103,7 +103,7 @@ public class SolubleSaltsModule extends PiccoloModule {
         ion.setVelocity( 5, 0 );
     }
 
-    protected PNode getFullScaleCanvasNode() {
+    protected WorldNode getFullScaleCanvasNode() {
         return fullScaleCanvas;
     }
 

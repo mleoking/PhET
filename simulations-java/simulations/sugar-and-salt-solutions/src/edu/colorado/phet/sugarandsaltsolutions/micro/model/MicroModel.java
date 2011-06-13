@@ -4,6 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -35,6 +37,7 @@ public class MicroModel implements ISugarAndSaltModel {
     public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
     private final SolubleSaltsModel solubleSaltsModel;
     private final Calibration calibration;
+    public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
 
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
@@ -67,6 +70,13 @@ public class MicroModel implements ISugarAndSaltModel {
 
             public void ionRemoved( IonEvent event ) {
                 ionCountChanged();
+            }
+        } );
+
+        solubleSaltsModel.getClock().addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                double delta = ( clockEvent.getSimulationTimeChange() * evaporationRate.get() ) / 50;
+                solubleSaltsModel.getVessel().setWaterLevel( Math.max( 0, solubleSaltsModel.getVessel().getWaterLevel() - delta ) );
             }
         } );
     }

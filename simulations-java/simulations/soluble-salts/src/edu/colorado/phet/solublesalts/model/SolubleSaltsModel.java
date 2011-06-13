@@ -76,12 +76,14 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     private RandomWalk randomWalkAgent;
 
     private SolubleSaltsConfig.Calibration calibration;
+    private final IClock clock;
 
     //---------------------------------------------------------------
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
 
     public SolubleSaltsModel( IClock clock, SolubleSaltsModule module ) {
+        this.clock = clock;
         this.calibration = module.getCalibration();
 
         module.addResetListener( this );
@@ -518,4 +520,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         }
     }
 
+    public IClock getClock() {
+        return clock;
+    }
 }
