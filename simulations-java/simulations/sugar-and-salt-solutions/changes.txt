@@ -1,3 +1,4 @@
+Water tab: Added a label to the sucrose
 Water tab: Physics tweaks
 Micro tab: Fixed: "show values" should be off by default
 Micro tab: made the background dark blue
