@@ -103,7 +103,7 @@ public class Model2 {
         this._paused = false;
         this.t = 0;
         //this.tInt = 1;              //testing only
-        this.dt = 0.01;
+        this.dt = 0.02;
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
@@ -199,6 +199,8 @@ public class Model2 {
         var syPos:Number = yPos - this.y0_arr[i][j];
         this.sx_arr[i][j] = sxPos;
         this.sy_arr[i][j] = syPos;
+        //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
+        //trace("Model1.setXY  sxPos = "+sxPos+"    syPos = "+syPos);
     }
 
     public function getXY(i:int, j:int):Array{
@@ -327,33 +329,49 @@ public class Model2 {
             this.dt = this.tRate * 0.04;
         }
         this.t += this.dt;
-
+        //trace("Model2.t = "+ this.t);
 //        if(this._grabbedMassIndices[0] == 2 && this._grabbedMassIndices[1] == 2) {
 //            trace("Model2.singleStepVerlet.  massView [2,2] grabbed");
 //        }
-        /*
+
+/*        for(var j:int = 1; j <= this._N; j++){
+            var i:int = 1
+            if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
+                sx_arr[i][j] = sx_arr[i][j] + vx_arr[i][j] * dt + (1 / 2) * ax_arr[i][j] * dt * dt;
+                axPre_arr[i][j] = ax_arr[i][j];
+            }
+        }
+        for(var j:int = 1; j <= this._N; j++){
+            var i:int = 1
+            if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
+                this.ax_arr[i][j] = (this.k/this.m)*(sx_arr[i][j+1] + sx_arr[i][j-1] - 2*sx_arr[i][j]);
+                vx_arr[i][j] = vx_arr[i][j] + 0.5 * (this.axPre_arr[i][j] + ax_arr[i][j]) * dt;
+            }
+        }
+        */
         for(var i:int = 1; i <= this._N; i++){
-            for(var j:int = 1; i <= this._N; j++){
+            for(var j:int = 1; j <= this._N; j++){
                 if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
-                    sx_arr[i] = sx_arr[i] + vx_arr[i] * dt + (1 / 2) * ax_arr[i] * dt * dt;
-                    sy_arr[i] = sy_arr[i] + vy_arr[i] * dt + (1 / 2) * ay_arr[i] * dt * dt;
-                    axPre_arr[i] = ax_arr[i];   //store current accelerations for next step
-                    ayPre_arr[i] = ay_arr[i];
+                    //this.sx_arr[]
+                    sx_arr[i][j] = sx_arr[i][j] + vx_arr[i][j] * dt + (1 / 2) * ax_arr[i][j] * dt * dt;
+                    sy_arr[i][j] = sy_arr[i][j] + vy_arr[i][j] * dt + (1 / 2) * ay_arr[i][j] * dt * dt;
+                    axPre_arr[i][j] = ax_arr[i][j];   //store current accelerations for next step
+                    ayPre_arr[i][j] = ay_arr[i][j];
                 }
             }//end for j loop
         }//end for i loop
 
-        for(var i:int = 1; i <= this._N; i++){
-            for(var j:int = 1; i <= this._N; j++){
+        for(i = 1; i <= this._N; i++){
+            for(j = 1; j <= this._N; j++){
                 if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
-                    this.ax_arr[i] = (this.k/this.m)*(sx_arr[i+1] + sx_arr[i-1] - 2*sx_arr[i]);		//post-acceleration
-                    this.ay_arr[i] = (this.k/this.m)*(sy_arr[i+1] + sy_arr[i-1] - 2*sy_arr[i]);
-                    vx_arr[i] = vx_arr[i] + 0.5 * (this.axPre_arr[i] + ax_arr[i]) * dt;
-                    vy_arr[i] = vy_arr[i] + 0.5 * (this.ayPre_arr[i] + ay_arr[i]) * dt;
+                    this.ax_arr[i][j] = (this.k/this.m)*(sx_arr[i][j+1] + sx_arr[i][j-1] - 2*sx_arr[i][j]);		//post-acceleration
+                    this.ay_arr[i][j] = (this.k/this.m)*(sy_arr[i+1][j] + sy_arr[i-1][j] - 2*sy_arr[i][j]);
+                    vx_arr[i][j] = vx_arr[i][j] + 0.5 * (this.axPre_arr[i][j] + ax_arr[i][j]) * dt;
+                    vy_arr[i][j] = vy_arr[i][j] + 0.5 * (this.ayPre_arr[i][j] + ay_arr[i][j]) * dt;
                 }
             }//end for j loop
         }//end for i loop
-        */
+
         this.updateView();
     }//end singleStepVerlet()
 
