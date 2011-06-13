@@ -2,6 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -15,8 +17,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
@@ -34,6 +38,7 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -57,10 +62,20 @@ public class MicroModule extends SolubleSaltsModule {
 
     // Use NaCl by default
     private final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
+    private final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
 
     static {
         IonGraphicManager.putImage( SugarMoleculePlus.class, getSucroseImage() );
         IonGraphicManager.putImage( SugarMoleculeMinus.class, getSucroseImage() );
+    }
+
+    @Override public void reset() {
+        super.reset();
+        sugarConcentration.reset();
+        saltConcentration.reset();
+        showConcentrationValues.reset();
+        dispenserType.reset();
+        showConcentrationBarChart.reset();
     }
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
@@ -100,15 +115,30 @@ public class MicroModule extends SolubleSaltsModule {
         } );
 
         //Show the expandable/collapsable concentration bar chart in the top right
-        getFullScaleCanvasNode().addChild( new ExpandableConcentrationBarChartNode( new Property<Boolean>( true ), saltConcentration, sugarConcentration, showConcentrationValues, 1 ) {{
+        final ExpandableConcentrationBarChartNode barChartNode = new ExpandableConcentrationBarChartNode( showConcentrationBarChart, saltConcentration, sugarConcentration, showConcentrationValues, 1 ) {{
             scale( 1.5 );
             setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
-        }} );
+        }};
+        getFullScaleCanvasNode().addChild( barChartNode );
 
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
         getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( dispenserType ) {{
             scale( 1.5 );
-            setOffset( 1400 - getFullBounds().getWidth(), 768 / 2 );
+            setOffset( 1400 - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + MacroCanvas.INSET );
+        }} );
+
+        //Add the reset all button
+        getFullScaleCanvasNode().addChild( new HTMLImageButtonNode( "Reset All", SugarAndSaltSolutionsCanvas.BUTTON_COLOR ) {{
+            setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
+            scale( 1.5 );
+            //Have to set the offset after changing the font since it changes the size of the node
+            Dimension2DDouble stageSize = new Dimension2DDouble( 1400, 800 );
+            setOffset( stageSize.width - getFullBounds().getWidth() - SugarAndSaltSolutionsCanvas.INSET, stageSize.height - getFullBounds().getHeight() - SugarAndSaltSolutionsCanvas.INSET );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    reset();
+                }
+            } );
         }} );
 
         //Set the background to match the other tabs
