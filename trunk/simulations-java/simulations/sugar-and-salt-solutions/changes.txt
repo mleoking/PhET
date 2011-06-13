@@ -1,3 +1,4 @@
+Micro tab: Added evaporation slider
 Micro tab: Added clear sugar/salt buttons
 Micro tab: Added a reset all button
 Micro tab: Fixed: concentration should change when water volume changes
@@ -124,7 +125,7 @@ Changed from 5g to 1g per grain of salt/sugar
 # 0.00.15 (52161) May 18, 2011
 Fixed: Underwater light bulb shouldn't light up (shorted out)
 Moved "show values" button to a new control panel instead of in the concentration bar chart
-Fixed: Crystals sitting on precipitate don’t get dissolved by water when water is added
+Fixed: Crystals sitting on precipitate donï¿½t get dissolved by water when water is added
 Fixed: concentration should be moles divided by solution volume, not water volume
 Made it so that dissolved solutes take up some volume proportionate to their volume per solid mole
 Fixed: salt crystals should land on top of the white rectangle if it exists and there is no water
@@ -191,7 +192,7 @@ Made it so the conductivity tester can be dropped back in the toolbox
 Made the bulb draggable
 Added a draggable toolbox for the conductivity tester
 Hid the red stage outline
-Made it so you can’t let all the water flow out through output faucet, only up to faucet level
+Made it so you canï¿½t let all the water flow out through output faucet, only up to faucet level
 Fixed: When you let go of the faucet slider, it should snap back (even if the beaker is full or empty)
 Fixed: When you let go of the evaporation slider, it should snap back (even if the beaker is empty)
 Improved units for concentration value readouts
