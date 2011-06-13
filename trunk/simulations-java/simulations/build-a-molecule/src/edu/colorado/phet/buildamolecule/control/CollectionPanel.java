@@ -141,8 +141,6 @@ public class CollectionPanel extends PNode {
                 useCollection( newCollection );
             }
         } );
-
-        System.out.println( "width " + singleCollectionMode + ": " + getFullBounds().getWidth() );
     }
 
     public void useCollection( KitCollection collection ) {
@@ -200,7 +198,6 @@ public class CollectionPanel extends PNode {
      */
     public static double getCollectionPanelModelWidth( boolean singleCollectionMode ) {
         // construct a dummy collection panel and check its width
-        System.out.println( "dummy" );
         CollectionPanel collectionPanel = new CollectionPanel( new CollectionList( new KitCollection() {{
             addCollectionBox( new CollectionBox( MoleculeList.H2O, 1 ) ); // collection box so it gets the width correctly
         }}, new LayoutBounds( false, 0 ) ), singleCollectionMode, new VoidFunction1<SimpleObserver>() {
@@ -212,10 +209,7 @@ public class CollectionPanel extends PNode {
             }
         }
         );
-        System.out.println( "verify: " + collectionPanel.getFullBounds().getWidth() );
         double result = MODEL_VIEW_TRANSFORM.viewToModelDeltaX( collectionPanel.getFullBounds().getWidth() );
-        System.out.println( "prediction model " + singleCollectionMode + ": " + result );
-        System.out.println( "prediction view " + singleCollectionMode + ": " + MODEL_VIEW_TRANSFORM.modelToViewDeltaX( result ) );
         return result;
     }
 
