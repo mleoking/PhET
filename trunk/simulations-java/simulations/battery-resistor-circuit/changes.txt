@@ -1,3 +1,5 @@
+# 1.04.00 (53077) Jun 12, 2011
+6/12/11 > added new translation credits features
 # 1.03.02 (52795) Jun 7, 2011
 6/7/11 #2914, fixed control panel height issue, height was hardcoded for Windows
 # 1.03.01 (52606) Jun 2, 2011
