@@ -1,3 +1,4 @@
+Added screenshot (2nd tab, showing multiple molecules and a 3D view of water)
 Removed unused 3d.png icon
 # 0.00.31 (52798) Jun 7, 2011
 # 0.00.30 (52669) Jun 5, 2011
