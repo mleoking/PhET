@@ -107,16 +107,16 @@ public class View1 extends Sprite {
     private function positionGraphics():void{
         var N:int = this.myModel1.N;            //number of visible, mobile masses
         var nMax:int = this.myModel1.nMax;
-        var separationInPix:Number = this._LinPix/(N + 1);   //center-to-center separation of mobile masses in chain
+        //Not necessary to position massView graphics, these are automatically positioned by update();
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
-            this.mass_arr[i].y = this._leftEdgeY;
-            this.mass_arr[i].x = this._leftEdgeX + (1+i)*separationInPix;
         }
         for (i = 0; i <= N; i++ ){
             this.spring_arr[i].visible = true;
+            var xInMeters:Number = this.myModel1.getX(i);
+            var xInPix:Number = xInMeters * this.pixPerMeter;
             this.spring_arr[i].y = this._leftEdgeY;
-            this.spring_arr[i].x = this._leftEdgeX + i*separationInPix;
+            this.spring_arr[i].x = this._leftEdgeX + xInPix; //i*separationInPix;
         }
         for(i = N; i < nMax; i++){
             this.mass_arr[i].visible = false;

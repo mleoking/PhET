@@ -256,7 +256,8 @@ public class Model2 {
 
     //called from MassView.startTargetDrag();
     public function set grabbedMassIndices(iJIndices:Array){
-        this._grabbedMassIndices.iJIndices = iJIndices;
+        this._grabbedMassIndices = iJIndices;
+        //trace("Model2.setGrabbeMassIndices called. u = " + this._grabbedMassIndices[0] + "   j = " + this._grabbedMassIndices[1]);
     }
     //END SETTERS and GETTERS
 
@@ -327,9 +328,13 @@ public class Model2 {
         }
         this.t += this.dt;
 
+//        if(this._grabbedMassIndices[0] == 2 && this._grabbedMassIndices[1] == 2) {
+//            trace("Model2.singleStepVerlet.  massView [2,2] grabbed");
+//        }
+        /*
         for(var i:int = 1; i <= this._N; i++){
             for(var j:int = 1; i <= this._N; j++){
-                if( this._grabbedMassIndices != [i, j] ){
+                if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
                     sx_arr[i] = sx_arr[i] + vx_arr[i] * dt + (1 / 2) * ax_arr[i] * dt * dt;
                     sy_arr[i] = sy_arr[i] + vy_arr[i] * dt + (1 / 2) * ay_arr[i] * dt * dt;
                     axPre_arr[i] = ax_arr[i];   //store current accelerations for next step
@@ -340,7 +345,7 @@ public class Model2 {
 
         for(var i:int = 1; i <= this._N; i++){
             for(var j:int = 1; i <= this._N; j++){
-                if( this._grabbedMassIndices != [i, j] ){
+                if( this._grabbedMassIndices[0] != i && this._grabbedMassIndices[1] != j ){
                     this.ax_arr[i] = (this.k/this.m)*(sx_arr[i+1] + sx_arr[i-1] - 2*sx_arr[i]);		//post-acceleration
                     this.ay_arr[i] = (this.k/this.m)*(sy_arr[i+1] + sy_arr[i-1] - 2*sy_arr[i]);
                     vx_arr[i] = vx_arr[i] + 0.5 * (this.axPre_arr[i] + ax_arr[i]) * dt;
@@ -348,7 +353,8 @@ public class Model2 {
                 }
             }//end for j loop
         }//end for i loop
-
+        */
+        this.updateView();
     }//end singleStepVerlet()
 
 /*    private function singleStepExact():void{

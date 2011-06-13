@@ -88,7 +88,7 @@ public class MainView extends Canvas {
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
             this.myModel1.stopMotion();
-            //this.myModel2.startMotion();
+            this.myModel2.startMotion();
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
