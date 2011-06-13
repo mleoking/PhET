@@ -98,8 +98,16 @@ public class View2 extends Sprite {
         var nTurns:Number = 5;                  //number of turns in spring
         var w:Number = (this.L0Spring - 2*leadL)/nTurns;   //width of each turn
         var r:Number = 10;                      //radius of each turn
+        //to make sure that other springs are invisible
+        for(i = 0; i <= this.myModel2.nMax; i++ ){
+            for(j = 0; j <= this.myModel2.nMax; j++){
+                this.spring_arr[i][j].visible = false;
+            }
+        }
+        //draw only those springs that are visible
         for(var i:int = 0; i <= nMasses; i++){
             for(var j:int = 0; j <= nMasses; j++){
+                this.spring_arr[i][j].visible = true;
                 var g:Graphics = this.spring_arr[i][j].graphics;
                 g.clear();
                 g.lineStyle( 2, 0xff0000, 1 );
@@ -113,12 +121,7 @@ public class View2 extends Sprite {
                 g.lineTo( this.L0Spring, 0 );
             }//end for j
         }//end for i
-        //to make sure that other springs are invisible
-        for(i = nMasses + 1; i <= this.myModel2.nMax; i++ ){
-            for(j = nMasses + 1; j <= this.myModel2.nMax; j++){
-                this.spring_arr[i][j].visible = false;
-            }
-        }
+
     }//end drawSprings()
 
     private function drawWalls():void{
@@ -153,13 +156,13 @@ public class View2 extends Sprite {
             }
         }
         //position springs
-//        for (i = 0; i <= N; i++ ){
-//            for (j = 0; j <= N; j++){
-//                this.spring_arr[i][j].visible = true;
-//                this.spring_arr[i][j].x = this._topLeftCornerX + i*separationInPix;
-//                this.spring_arr[i][j].y = this._topLeftCornerY + j*separationInPix;
-//            }
-//        }
+        for (i = 0; i <= N; i++ ){
+            for (j = 0; j <= N; j++){
+                this.spring_arr[i][j].visible = true;
+                this.spring_arr[i][j].x = this._topLeftCornerX + i*separationInPix;
+                this.spring_arr[i][j].y = this._topLeftCornerY + j*separationInPix;
+            }
+        }
 
 //        for( i = N+1; i <= nMax; i++ ){
 //            for( j = N+1; j <= nMax; j++ ){
@@ -220,7 +223,6 @@ public class View2 extends Sprite {
         //position springs, each mass has spring to right, and spring downward
         for(i = 0; i <= N; i++){
             for(j = 0; j <= N; j++){
-                /*
                 //position mass end of spring
                 xInMeters = this.myModel2.getXY(i, j)[0];
                 yInMeters = this.myModel2.getXY(i, j)[1];
@@ -229,14 +231,14 @@ public class View2 extends Sprite {
                 this.spring_arr[i][j].x = xInPix;
                 this.spring_arr[i][j].y = yInPix;
                 //position right end of spring; this requires rotation
-                var sprLX:Number = (this.myModel2.getXY(i+1)-this.myModel2.getXY(i))*this.pixPerMeter;
-                var sprLY:Number = (this.myModel2.getXY(i+1)-this.myModel2.getXY(i))*this.pixPerMeter;
+                var sprLX:Number = (this.myModel2.getXY(i, j+1)[0] - this.myModel2.getXY(i, j)[0])*this.pixPerMeter;
+                var sprLY:Number = (this.myModel2.getXY(i, j+1)[0]-this.myModel2.getXY(i, j)[0])*this.pixPerMeter;
                 springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
                 this.spring_arr[i][j].scaleX = springLengthInPix/this.L0Spring;
                 //set rotation of stretched spring
                 var angleInDeg:Number = (Math.atan2(-sprLY, sprLX))*180/Math.PI;
                 this.spring_arr[i][j].rotation = angleInDeg;
-                */
+
             } //end for j loop
         }//end for i loop
 
