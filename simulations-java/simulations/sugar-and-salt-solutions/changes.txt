@@ -1,3 +1,4 @@
+Micro tab: Fixed: concentration should change when water volume changes
 Water tab: Added a label to the sucrose
 Water tab: Physics tweaks
 Micro tab: Fixed: "show values" should be off by default

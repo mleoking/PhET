@@ -22,6 +22,8 @@ import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.model.ISugarMolecule;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
+import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
+import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
 import edu.colorado.phet.solublesalts.model.crystal.Lattice;
 import edu.colorado.phet.solublesalts.model.crystal.OneToOneLattice;
 import edu.colorado.phet.solublesalts.model.ion.*;
@@ -82,6 +84,11 @@ public class MicroModule extends SolubleSaltsModule {
             }
         } );
 
+        getSolubleSaltsModel().getVessel().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent event ) {
+                updateConcentrations();
+            }
+        } );
         getSolubleSaltsModel().addIonListener( new IonListener() {
             public void ionAdded( IonEvent event ) {
                 ionCountChanged();
@@ -111,7 +118,10 @@ public class MicroModule extends SolubleSaltsModule {
     //Update concentrations and whether the shaker can emit more solutes
     private void ionCountChanged() {
         updateShakerAllowed();
+        updateConcentrations();
+    }
 
+    private void updateConcentrations() {
         //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
         double volumeInLiters = getSolubleSaltsModel().getVessel().getWaterLevel() * getCalibration().volumeCalibrationFactor;
 
