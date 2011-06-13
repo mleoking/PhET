@@ -24,6 +24,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider2;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
@@ -35,6 +36,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSuga
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.BUTTON_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
@@ -100,6 +102,12 @@ public class MicroModule extends SolubleSaltsModule {
         }} );
 
         getFullScaleCanvasNode().addChild( new RemoveSoluteControlNode( model ) );
+
+        //Add an evaporation rate slider below the beaker
+        getFullScaleCanvasNode().addChild( new EvaporationSlider2( model.evaporationRate ) {{
+            PBounds vesselBounds = getFullScaleCanvasNode().getVesselGraphic().getFullBounds();
+            setOffset( vesselBounds.getCenterX() - getFullBounds().getWidth() / 2, vesselBounds.getMaxY() + INSET );
+        }} );
 
         //Set the background to match the other tabs
         getPhetPCanvas().setBackground( configuration.backgroundColor.get() );

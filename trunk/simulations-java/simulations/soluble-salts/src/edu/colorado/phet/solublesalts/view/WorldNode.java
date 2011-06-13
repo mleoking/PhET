@@ -21,12 +21,14 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class WorldNode extends PNode {
 
+    private VesselGraphic vesselGraphic;
+
     public WorldNode( final SolubleSaltsModule module, PhetPCanvas phetPCanvas ) {
         final SolubleSaltsModel model = (SolubleSaltsModel) module.getModel();
         double graphicsScale = 1;
 
         // Create a graphic for the vessel
-        VesselGraphic vesselGraphic = new VesselGraphic( model.getVessel(), module );
+        vesselGraphic = new VesselGraphic( model.getVessel(), module );
         this.addChild( vesselGraphic );
 
         // Add the stove
@@ -68,5 +70,9 @@ public class WorldNode extends PNode {
         drainGraphic.setScale( scale );
         drainGraphic.setOffset( model.getDrain().getPosition() );
         this.addChild( drainGraphic );
+    }
+
+    public VesselGraphic getVesselGraphic() {
+        return vesselGraphic;
     }
 }
