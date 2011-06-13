@@ -13,10 +13,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
 import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
-import edu.colorado.phet.solublesalts.model.ion.Chlorine;
-import edu.colorado.phet.solublesalts.model.ion.IonEvent;
-import edu.colorado.phet.solublesalts.model.ion.IonListener;
-import edu.colorado.phet.solublesalts.model.ion.Sodium;
+import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
@@ -98,7 +95,7 @@ public class MicroModel implements ISugarAndSaltModel {
     }
 
     public void removeSalt() {
-        for ( Object modelElement : new ArrayList() {{
+        for ( Object modelElement : new ArrayList<Ion>() {{
             addAll( solubleSaltsModel.getIonsOfType( Sodium.class ) );
             addAll( solubleSaltsModel.getIonsOfType( Chlorine.class ) );
         }} ) {
@@ -107,7 +104,7 @@ public class MicroModel implements ISugarAndSaltModel {
     }
 
     public void removeSugar() {
-        for ( Object modelElement : new ArrayList() {{
+        for ( Object modelElement : new ArrayList<Ion>() {{
             addAll( solubleSaltsModel.getIonsOfType( PositiveSugarIon.class ) );
             addAll( solubleSaltsModel.getIonsOfType( NegativeSugarIon.class ) );
         }} ) {
@@ -115,19 +112,29 @@ public class MicroModel implements ISugarAndSaltModel {
         }
     }
 
-    public int getNumSugarMolecules() {
+    public int getNumFreeSugarMolecules() {
+        return solubleSaltsModel.getNumFreeIonsOfType( PositiveSugarIon.class ) + solubleSaltsModel.getNumFreeIonsOfType( NegativeSugarIon.class );
+    }
+
+    public int getNumFreeSaltMolecules() {
+        // assumes # Na == # Cl
+        return solubleSaltsModel.getNumFreeIonsOfType( Sodium.class );
+    }
+
+    public int getNumTotalSugarMolecules() {
         return solubleSaltsModel.getIonsOfType( PositiveSugarIon.class ).size() + solubleSaltsModel.getIonsOfType( NegativeSugarIon.class ).size();
     }
 
-    public int getNumSaltMolecules() {
+    public int getNumTotalSaltMolecules() {
+        // assumes # Na == # Cl
         return solubleSaltsModel.getIonsOfType( Sodium.class ).size();
     }
 
     //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
     public void updateShakerAllowed() {
         solubleSaltsModel.getShaker().setEnabledBasedOnMax( dispenserType.get() == DispenserType.SALT ?
-                                                            getNumSaltMolecules() < 60 :
-                                                            getNumSugarMolecules() < 10 );
+                                                            getNumTotalSaltMolecules() < 60 :
+                                                            getNumTotalSugarMolecules() < 10 );
     }
 
     //Update concentrations and whether the shaker can emit more solutes
@@ -140,13 +147,13 @@ public class MicroModel implements ISugarAndSaltModel {
         //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
         double volumeInLiters = solubleSaltsModel.getVessel().getWaterLevel() * calibration.volumeCalibrationFactor;
 
-        final double molesSugarPerLiter = getNumSugarMolecules() / 6.022E23 / volumeInLiters;
+        final double molesSugarPerLiter = getNumFreeSugarMolecules() / 6.022E23 / volumeInLiters;
 
         //Set sugar concentration in SI (moles per m^3), convert to SI
         sugarConcentration.set( molesSugarPerLiter * 1000 );
 //        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
 
-        final double molesSaltPerLiter = getNumSaltMolecules() / 6.022E23 / volumeInLiters;
+        final double molesSaltPerLiter = getNumFreeSaltMolecules() / 6.022E23 / volumeInLiters;
         saltConcentration.set( molesSaltPerLiter * 1000 );
     }
 }
