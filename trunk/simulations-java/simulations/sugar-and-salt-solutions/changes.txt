@@ -1,3 +1,4 @@
+Micro tab: Fixed: If you evaporate or remove all of the water before you add solute, the concentration bars go off the chart.
 # 0.00.39 (53106) Jun 13, 2011
 Micro tab: Improved location of remove solute buttons
 Micro tab: Fixed: The concentration should only increase after the crystal breaks apart in the water - right now it increases when you shake in the solute
