@@ -91,7 +91,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
     }
 
     public void setFlow( double flow ) {
-        if ( vessel.getWaterLevel() > 0 ) {
+        if ( vessel.getWaterLevel() > minWaterLevel ) {
             super.setFlow( flow );
         }
         else {
