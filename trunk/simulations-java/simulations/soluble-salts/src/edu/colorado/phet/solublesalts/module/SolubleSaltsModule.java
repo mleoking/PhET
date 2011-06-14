@@ -21,7 +21,6 @@ import edu.colorado.phet.solublesalts.view.BondGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.solublesalts.view.SolubleSaltsCanvas;
 import edu.colorado.phet.solublesalts.view.WorldNode;
-import edu.umd.cs.piccolo.PNode;
 
 /**
  * SolubleSaltsModule
@@ -46,7 +45,8 @@ public class SolubleSaltsModule extends PiccoloModule {
         // Set up the basics
         solubleSaltsModel = new SolubleSaltsModel( clock, this );
         setModel( solubleSaltsModel );
-        canvas = new SolubleSaltsCanvas( new Dimension( (int) ( solubleSaltsModel.getBounds().getWidth() * viewScale ), (int) ( solubleSaltsModel.getBounds().getHeight() * viewScale ) ) );
+        canvas = new SolubleSaltsCanvas( new Dimension( (int) ( solubleSaltsModel.getBounds().getWidth() * viewScale ),
+                                                        (int) ( solubleSaltsModel.getBounds().getHeight() * viewScale ) ) );
         setSimulationPanel( canvas );
 
         // Make a graphic for the un-zoomed setup, and add it to the canvax
