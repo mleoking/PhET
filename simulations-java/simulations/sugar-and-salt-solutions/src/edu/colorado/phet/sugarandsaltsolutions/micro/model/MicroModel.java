@@ -164,6 +164,6 @@ public class MicroModel implements ISugarAndSaltModel {
         saltConcentration.set( molesSaltPerLiter * 1000 );
 
         numSaltIons.set( solubleSaltsModel.getNumIonsOfType( Sodium.class ) + solubleSaltsModel.getNumIonsOfType( Chlorine.class ) + 0.0 );
-        numSugarMolecules.set( solubleSaltsModel.getNumIonsOfType( SugarIon.class ) + 0.0 );
+        numSugarMolecules.set( solubleSaltsModel.getNumIonsOfType( PositiveSugarIon.class ) + solubleSaltsModel.getNumIonsOfType( NegativeSugarIon.class ) + 0.0 );
     }
 }
