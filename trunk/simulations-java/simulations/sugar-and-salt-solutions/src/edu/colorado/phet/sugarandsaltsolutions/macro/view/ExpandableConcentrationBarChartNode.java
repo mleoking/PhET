@@ -46,6 +46,10 @@ public class ExpandableConcentrationBarChartNode extends PNode {
                 maximizeButton
         );
 
+        //The bar chart itself (when toggled to be visible)
+        final ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( saltConcentration, sugarConcentration, showConcentrationValues, showConcentrationBarChart, scaleFactor );
+        addChild( concentrationBarChart );
+
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
         ControlPanelNode showBarChartPanel = new ControlPanelNode( contentPane, WATER_COLOR, new BasicStroke( 1 ), Color.black, 3, 0, false ) {{
             showConcentrationBarChart.addObserver( new VoidFunction1<Boolean>() {
@@ -53,14 +57,9 @@ public class ExpandableConcentrationBarChartNode extends PNode {
                     setVisible( !chartVisible );
                 }
             } );
+            //Right align the expander button with the chart so the +/- buttons will be in the same location
+            setOffset( concentrationBarChart.getFullBounds().getMaxX() - getFullBounds().getWidth(), 0 );
         }};
         addChild( showBarChartPanel );
-
-        //The bar chart itself (when toggled to be visible)
-        ConcentrationBarChart concentrationBarChart = new ConcentrationBarChart( saltConcentration, sugarConcentration, showConcentrationValues, showConcentrationBarChart, scaleFactor );
-        addChild( concentrationBarChart );
-
-        //Right align the expander button with the chart so the +/- buttons will be in the same location
-        showBarChartPanel.setOffset( concentrationBarChart.getFullBounds().getMaxX() - showBarChartPanel.getFullBounds().getWidth(), 0 );
     }
 }
