@@ -116,8 +116,9 @@ public class MicroModule extends SolubleSaltsModule {
 
         //Add an evaporation rate slider below the beaker
         getFullScaleCanvasNode().addChild( new EvaporationSlider( model.evaporationRate ) {{
+            scale( CONTROL_SCALE_FACTOR );
             PBounds vesselBounds = getFullScaleCanvasNode().getVesselGraphic().getFullBounds();
-            setOffset( vesselBounds.getCenterX() - 40, vesselBounds.getMaxY() + INSET );
+            setOffset( vesselBounds.getCenterX() - 70, vesselBounds.getMaxY() + INSET );
         }} );
 
         //Set the background to match the other tabs
