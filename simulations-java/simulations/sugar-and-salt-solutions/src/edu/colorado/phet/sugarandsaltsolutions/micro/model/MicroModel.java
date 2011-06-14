@@ -36,6 +36,7 @@ public class MicroModel implements ISugarAndSaltModel {
     private final SolubleSaltsModel solubleSaltsModel;
     private final Calibration calibration;
     public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
+    private boolean debug = false;
 
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
@@ -148,13 +149,12 @@ public class MicroModel implements ISugarAndSaltModel {
         //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
         double volumeInLiters = solubleSaltsModel.getVessel().getWaterLevel() * calibration.volumeCalibrationFactor;
 
-        final double molesSugarPerLiter = getNumFreeSugarMolecules() / 6.022E23 / volumeInLiters;
+        final double molesSugarPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSugarMolecules() / 6.022E23 / volumeInLiters;
 
         //Set sugar concentration in SI (moles per m^3), convert to SI
         sugarConcentration.set( molesSugarPerLiter * 1000 );
-//        System.out.println( "s = " + s + ", volume = " + volumeInLiters + ", molesSugarPerLiter = " + molesSugarPerLiter );
 
-        final double molesSaltPerLiter = getNumFreeSaltMolecules() / 6.022E23 / volumeInLiters;
+        final double molesSaltPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSaltMolecules() / 6.022E23 / volumeInLiters;
         saltConcentration.set( molesSaltPerLiter * 1000 );
     }
 }
