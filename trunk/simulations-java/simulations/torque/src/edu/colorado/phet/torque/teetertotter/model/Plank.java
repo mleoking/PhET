@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -137,7 +138,7 @@ public class Plank extends ModelObject {
     // in the constructor.
     private static Shape generateShape( final double centerHeight, double tiltAngle ) {
         // Create the outline shape of the plank.
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( LENGTH / 2, 0 );
         path.lineTo( LENGTH / 2, THICKNESS );
@@ -154,7 +155,7 @@ public class Plank extends ModelObject {
             markerXPos += interMarkerDistance;
         }
         // Rotate the appropriate amount.
-        Shape shape = AffineTransform.getRotateInstance( tiltAngle ).createTransformedShape( path );
+        Shape shape = AffineTransform.getRotateInstance( tiltAngle ).createTransformedShape( path.getGeneralPath() );
         // Translate to the appropriate height.
         shape = AffineTransform.getTranslateInstance( 0, centerHeight ).createTransformedShape( shape );
 

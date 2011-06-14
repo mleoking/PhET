@@ -7,6 +7,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * Class that represents a stack of bricks in the model.  Note that a single
@@ -31,7 +32,7 @@ public class BrickStack extends Weight {
     private static Shape generateShape( int numBricks, Point2D centerBottom, double rotationAngle ) {
         Point2D brickOrigin = new Point2D.Double( 0, 0 );
         // Create a path that represents a stack of bricks.
-        GeneralPath brickPath = new GeneralPath();
+        DoubleGeneralPath brickPath = new DoubleGeneralPath();
         for ( int i = 0; i < numBricks; i++ ) {
             // Draw the brick.
             brickPath.moveTo( brickOrigin.getX(), brickOrigin.getY() );
@@ -43,7 +44,7 @@ public class BrickStack extends Weight {
             // Move the origin to the next brick.
             brickOrigin.setLocation( brickOrigin.getX(), brickOrigin.getY() + BRICK_HEIGHT );
         }
-        Shape rotatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( brickPath );
+        Shape rotatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( brickPath.getGeneralPath() );
         Shape translatedShape = AffineTransform.getTranslateInstance( centerBottom.getX(), centerBottom.getY() ).createTransformedShape( rotatedShape );
         return translatedShape;
     }
