@@ -8,6 +8,7 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -152,8 +153,14 @@ public class ZoomButtonNode extends PhetPNode {
         return createGradient( createBrighterColor( DISABLED_BACKGROUND_COLOR ), DISABLED_BACKGROUND_COLOR );
     }
 
+    //See ButtonNode.   Work around problems caused when rendering gradient on Mac as in #2913
     private Paint createGradient( Color topColor, Color bottomColor ) {
-        return new GradientPaint( (float) getHtmlWidth() / 2, 0f, topColor, (float) getHtmlWidth() * 0.5f, (float) getHtmlHeight(), bottomColor );
+        if ( PhetUtilities.isMacintosh() ) {
+            return bottomColor;
+        }
+        else {
+            return new GradientPaint( (float) getHtmlWidth() / 2, 0f, topColor, (float) getHtmlWidth() * 0.5f, (float) getHtmlHeight(), bottomColor );
+        }
     }
 
     public void addActionListener( ActionListener listener ) {
