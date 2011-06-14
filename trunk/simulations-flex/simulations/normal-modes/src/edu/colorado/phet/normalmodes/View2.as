@@ -24,6 +24,7 @@ public class View2 extends Sprite {
     private var springH_arr:Array;          //2D array of horizontal spring sprites, (N+1) x (N+1) elements
     private var springV_arr:Array;          //2D array of vertical spring sprites, (N+1) x (N+1) elements
     private var walls:Sprite;               //graphic for the square fixed boundary
+    private var _springsVisible:Boolean;     //true if springs are shown
 
     private var stageW: int;
     private var stageH: int;
@@ -44,6 +45,7 @@ public class View2 extends Sprite {
         this.LinMeters =  this.myModel2.L;
         this._LinPix = 0.9*this.stageH;
         this._pixPerMeter = this._LinPix/this.LinMeters;
+        this._springsVisible = true;
         this._topLeftCornerX = 0.05*this.stageW;
         this._topLeftCornerY = 0.05*this.stageH;
         var nMax:int = this.myModel2.nMax;        //maximum number of mobile masses
@@ -106,16 +108,10 @@ public class View2 extends Sprite {
         var w:Number = (this.L0Spring - 2*leadL)/nTurns;   //width of each turn
         var r:Number = 5;                      //radius of each turn
         //to make sure that other springs are invisible
-        for(var i:int = 0; i < this.myModel2.nMax; i++ ){
-            for(var j:int = 0; j <= this.myModel2.nMax; j++){
-                this.springH_arr[i][j].visible = false;
-                this.springV_arr[j][i].visible = false;     //i, j switched
-                this.springV_arr[j][i].rotation = 0;        //rotation performed in update
-            }
-        }
+        this.makeAllSpringsInvisible();
         //draw only those springs that are visible
-        for(i = 0; i < nMasses; i++){
-            for(j = 0; j <= nMasses; j++){
+        for(var i:int = 0; i < nMasses; i++){
+            for(var j:int = 0; j <= nMasses; j++){
                 this.springH_arr[i][j].visible = true;
                 this.springV_arr[j][i].visible = true;
                 var gH:Graphics = this.springH_arr[i][j].graphics;
@@ -138,6 +134,16 @@ public class View2 extends Sprite {
         }//end for i
 
     }//end drawSprings()
+
+    private function makeAllSpringsInvisible():void{
+        for(var i:int = 0; i < this.myModel2.nMax; i++ ){
+            for(var j:int = 0; j <= this.myModel2.nMax; j++){
+                this.springH_arr[i][j].visible = false;
+                this.springV_arr[j][i].visible = false;     //i, j switched
+                this.springV_arr[j][i].rotation = 0;        //rotation performed in update
+            }
+        }
+    }
 
     private function drawWalls():void{
         var g:Graphics = this.walls.graphics;
@@ -174,6 +180,15 @@ public class View2 extends Sprite {
     public function setNbrMasses():void{
         this.drawSprings();
         this.positionGraphics();
+    }
+
+    public function set springsVisible( tOrF: Boolean):void{
+        this._springsVisible = tOrF;
+        if(!tOrF ){
+           this.makeAllSpringsInvisible();
+        }else{
+           this.drawSprings();
+        }
     }
 
 
@@ -223,50 +238,53 @@ public class View2 extends Sprite {
 
         //position horizontal springs and vertical springs
         //Start with horizontal springs, N rows, N+1 columns
-        for(i = 0; i < N; i++){
-            for(j = 0; j <= N; j++){
-                //position left ends of horizontal springs
-                xInMeters = this.myModel2.getXY( i + 1, j )[0];       //0th row has no springs
-                yInMeters = this.myModel2.getXY( i + 1, j )[1];
-                xInPix = this._topLeftCornerX + xInMeters*this._pixPerMeter;
-                yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;
-                this.springH_arr[i][j].x = xInPix;
-                this.springH_arr[i][j].y = yInPix;
+        if( _springsVisible ){
+            for(i = 0; i < N; i++){
+                for(j = 0; j <= N; j++){
+                    //position left ends of horizontal springs
+                    xInMeters = this.myModel2.getXY( i + 1, j )[0];       //0th row has no springs
+                    yInMeters = this.myModel2.getXY( i + 1, j )[1];
+                    xInPix = this._topLeftCornerX + xInMeters*this._pixPerMeter;
+                    yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;
+                    this.springH_arr[i][j].x = xInPix;
+                    this.springH_arr[i][j].y = yInPix;
 
-                //position right of horizontal springs; this requires rotation
-                var sprLX:Number = (this.myModel2.getXY(i + 1, j+1)[0] - this.myModel2.getXY(i + 1, j)[0])*this.pixPerMeter;
-                var sprLY:Number = (this.myModel2.getXY(i + 1, j+1)[1] - this.myModel2.getXY(i + 1, j)[1])*this.pixPerMeter;
-                springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
-                this.springH_arr[i][j].scaleX = springLengthInPix/this.L0Spring;
-                //set rotation of stretched horizontal spring
-                var angleInDeg:Number = (Math.atan2(sprLY, sprLX))*180/Math.PI;
-                this.springH_arr[i][j].rotation = angleInDeg;
+                    //position right of horizontal springs; this requires rotation
+                    var sprLX:Number = (this.myModel2.getXY(i + 1, j+1)[0] - this.myModel2.getXY(i + 1, j)[0])*this.pixPerMeter;
+                    var sprLY:Number = (this.myModel2.getXY(i + 1, j+1)[1] - this.myModel2.getXY(i + 1, j)[1])*this.pixPerMeter;
+                    springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
+                    this.springH_arr[i][j].scaleX = springLengthInPix/this.L0Spring;
+                    //set rotation of stretched horizontal spring
+                    var angleInDeg:Number = (Math.atan2(sprLY, sprLX))*180/Math.PI;
+                    this.springH_arr[i][j].rotation = angleInDeg;
 
-            } //end for j loop
-        }//end for i loop
+                } //end for j loop
+            }//end for i loop
 
-        //position vertical springs, N+1 rows, N columns
-        for(i = 0; i <= N; i++){
-            for(j = 0; j < N; j++){
-                //position top ends of vertical springs
-                xInMeters = this.myModel2.getXY( i, j + 1 )[0];       //0th column has no vertical springs
-                yInMeters = this.myModel2.getXY( i, j + 1 )[1];
-                xInPix = this._topLeftCornerX + xInMeters*this._pixPerMeter;
-                yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;
-                this.springV_arr[i][j].x = xInPix;
-                this.springV_arr[i][j].y = yInPix;
+            //position vertical springs, N+1 rows, N columns
+            for(i = 0; i <= N; i++){
+                for(j = 0; j < N; j++){
+                    //position top ends of vertical springs
+                    xInMeters = this.myModel2.getXY( i, j + 1 )[0];       //0th column has no vertical springs
+                    yInMeters = this.myModel2.getXY( i, j + 1 )[1];
+                    xInPix = this._topLeftCornerX + xInMeters*this._pixPerMeter;
+                    yInPix = this._topLeftCornerY + yInMeters*this._pixPerMeter;
+                    this.springV_arr[i][j].x = xInPix;
+                    this.springV_arr[i][j].y = yInPix;
 
-                //position bottom end of vertical springs; this requires rotation
-                sprLX = (this.myModel2.getXY(i+1, j+1)[0] - this.myModel2.getXY(i, j+1)[0])*this.pixPerMeter;
-                sprLY = (this.myModel2.getXY(i+1, j+1)[1] - this.myModel2.getXY(i, j+1)[1])*this.pixPerMeter;
-                springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
-                this.springV_arr[i][j].scaleX = springLengthInPix/this.L0Spring;
-                //set rotation of stretched vertical spring
-                angleInDeg = 90 - (Math.atan2(sprLX, sprLY))*180/Math.PI;
-                this.springV_arr[i][j].rotation = angleInDeg;
+                    //position bottom end of vertical springs; this requires rotation
+                    sprLX = (this.myModel2.getXY(i+1, j+1)[0] - this.myModel2.getXY(i, j+1)[0])*this.pixPerMeter;
+                    sprLY = (this.myModel2.getXY(i+1, j+1)[1] - this.myModel2.getXY(i, j+1)[1])*this.pixPerMeter;
+                    springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
+                    this.springV_arr[i][j].scaleX = springLengthInPix/this.L0Spring;
+                    //set rotation of stretched vertical spring
+                    angleInDeg = 90 - (Math.atan2(sprLX, sprLY))*180/Math.PI;
+                    this.springV_arr[i][j].rotation = angleInDeg;
 
-            } //end for j loop
-        }//end for i loop
+                } //end for j loop
+            }//end for i loop
+        }//end if(_springsVisible)
+
     }//end update()
 
 }//end of class

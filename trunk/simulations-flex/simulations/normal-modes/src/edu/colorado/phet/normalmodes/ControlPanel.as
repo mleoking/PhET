@@ -48,6 +48,7 @@ public class ControlPanel extends Canvas {
     private var oneDModeButton: RadioButton;
     private var twoDModeButton: RadioButton;
     private var showPhasesCheckBox: CheckBox;
+    private var showSpringsCheckBox: CheckBox;
     private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
@@ -62,6 +63,7 @@ public class ControlPanel extends Canvas {
     public var oneD_str: String;
     public var twoD_str: String;
     public var showPhases_str:String;
+    public var showSprings_str:String;
 
 
     public function ControlPanel( myMainView: MainView, model1: Model1, model2: Model2 ) {
@@ -154,6 +156,10 @@ public class ControlPanel extends Canvas {
         this.showPhasesCheckBox.label = this.showPhases_str;
         this.showPhasesCheckBox.addEventListener( Event.CHANGE, clickShowPhases );
 
+        this.showSpringsCheckBox = new CheckBox();
+        this.showSpringsCheckBox.label = this.showSprings_str;
+        this.showSpringsCheckBox.addEventListener( Event.CHANGE, clickShowSprings );
+
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
@@ -164,6 +170,7 @@ public class ControlPanel extends Canvas {
         this.radioButtonVBox2.addChild( this.oneDModeButton );
         this.radioButtonVBox2.addChild( this.twoDModeButton );
         this.background.addChild( showPhasesCheckBox );
+        this.background.addChild( showSpringsCheckBox );
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
@@ -177,6 +184,7 @@ public class ControlPanel extends Canvas {
         oneD_str = "1D";
         twoD_str = "2D";
         showPhases_str = "Show Phases";
+        showSprings_str = "Show Springs";
     }
 
     private function setNbrMasses():void{
@@ -229,7 +237,13 @@ public class ControlPanel extends Canvas {
     private function clickShowPhases( evt:Event ):void{
         var shown: Boolean = this.showPhasesCheckBox.selected;
         this.myMainView.mySliderArrayPanel.showPhaseSliders(shown);
-        //trace( "ControlPanel.clickRuler = " + val);
+        //trace( "ControlPanel.clickShowPhases = " + shown);
+    }
+
+    private function clickShowSprings( evt:Event ):void{
+        var shown: Boolean = this.showSpringsCheckBox.selected;
+        this.myMainView.myView2.springsVisible = shown;
+        //trace( "ControlPanel.clickShowSprings = " + shown);
     }
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
