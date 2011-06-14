@@ -1,3 +1,4 @@
+Made the faucet slider knobs bigger
 Minor cleanup
 Made model publicly accessible
 Fixed a bug in IonTracker that was throwing an exception instead of returning 0 when querying on a nonexistent salt ion

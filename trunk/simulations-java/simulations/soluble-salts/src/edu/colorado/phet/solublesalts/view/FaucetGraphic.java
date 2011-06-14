@@ -122,6 +122,10 @@ public class FaucetGraphic extends RegisterablePNode implements WaterSource.Chan
 
         // Water Flow slider
         flowSlider = new JSlider( 0, (int) spigot.getMaxFlow(), 0 );
+
+        //Setting paintTicks to true makes the slider knob bigger, easier to see and grab, even though we don't actually show any ticks
+        flowSlider.setPaintTicks( true );
+
         flowSlider.setBackground( Color.black );
         flowSlider.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
