@@ -40,7 +40,8 @@ public class MassView2 extends Sprite{
         var d:Number = 20;   //edge length of square mass in pixels
         g.beginFill(0x3333ff, 1);
         //g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
-        g.drawCircle(-d/2, -d/2, d/2)
+        //g.drawCircle(-d/2, -d/2, d/2)
+        g.drawCircle(0, 0, d/2)
         g.endFill();
         this.visible = false;      //start with mass invisible
     }//end drawMass()
