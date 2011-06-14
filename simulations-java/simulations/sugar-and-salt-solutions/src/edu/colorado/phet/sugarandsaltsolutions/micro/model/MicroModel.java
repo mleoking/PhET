@@ -37,7 +37,9 @@ public class MicroModel implements ISugarAndSaltModel {
     private final Calibration calibration;
     public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
     private boolean debug = false;
-    public final static int MIN_FLUID_VOLUME = 60;
+
+    //TODO: Eventually we will want to let the fluid volume go to zero, but to fix bugs for interviews, we limit it now
+    public final static int MIN_FLUID_VOLUME = 60 * 2;//2.0 E-23 L
 
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
