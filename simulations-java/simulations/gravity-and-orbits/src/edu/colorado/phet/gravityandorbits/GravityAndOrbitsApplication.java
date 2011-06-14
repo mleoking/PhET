@@ -71,6 +71,7 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
         return toScale;
     }
 
+    //Main method for the sim
     public static void main( final String[] args ) throws ClassNotFoundException {
         new PhetApplicationLauncher().launchSim( args, PROJECT_NAME, GravityAndOrbitsApplication.class );
     }
