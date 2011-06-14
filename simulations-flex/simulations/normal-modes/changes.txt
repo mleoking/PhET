@@ -1,3 +1,5 @@
+# 0.00.19 (53141) Jun 14, 2011
+6/14/11 2D array of masses and springs functioning OK.
 # 0.00.18 (53098) Jun 13, 2011
 6/13/11 2D array functiong OK.
 # 0.00.17 (52835) Jun 8, 2011
