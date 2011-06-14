@@ -41,6 +41,9 @@ public class MicroModel implements ISugarAndSaltModel {
     //TODO: Eventually we will want to let the fluid volume go to zero, but to fix bugs for interviews, we limit it now
     public final static int MIN_FLUID_VOLUME = 60 * 2;//2.0 E-23 L
 
+    private DoubleProperty numSaltIons = new DoubleProperty( 0.0 );
+    private DoubleProperty numSugarMolecules = new DoubleProperty( 0.0 );
+
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
         this.calibration = calibration;
@@ -91,12 +94,12 @@ public class MicroModel implements ISugarAndSaltModel {
         showConcentrationBarChart.reset();
     }
 
-    public ObservableProperty<Boolean> isAnySaltInSolution() {
-        return saltConcentration.greaterThan( 0.0 );
+    public ObservableProperty<Boolean> isAnySaltToRemove() {
+        return numSaltIons.greaterThan( 0.0 );
     }
 
-    public ObservableProperty<Boolean> isAnySugarInSolution() {
-        return sugarConcentration.greaterThan( 0.0 );
+    public ObservableProperty<Boolean> isAnySugarToRemove() {
+        return numSugarMolecules.greaterThan( 0.0 );
     }
 
     public void removeSalt() {
@@ -159,5 +162,8 @@ public class MicroModel implements ISugarAndSaltModel {
 
         final double molesSaltPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSaltMolecules() / 6.022E23 / volumeInLiters;
         saltConcentration.set( molesSaltPerLiter * 1000 );
+
+        numSaltIons.set( solubleSaltsModel.getNumIonsOfType( Sodium.class ) + solubleSaltsModel.getNumIonsOfType( Chlorine.class ) + 0.0 );
+        numSugarMolecules.set( solubleSaltsModel.getNumIonsOfType( SugarIon.class ) + 0.0 );
     }
 }

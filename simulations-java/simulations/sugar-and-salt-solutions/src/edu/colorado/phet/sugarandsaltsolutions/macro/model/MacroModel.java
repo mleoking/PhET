@@ -11,11 +11,11 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
  * @author Sam Reid
  */
 public class MacroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
-    public ObservableProperty<Boolean> isAnySaltInSolution() {
+    public ObservableProperty<Boolean> isAnySaltToRemove() {
         return salt.moles.greaterThan( 0.0 );
     }
 
-    public ObservableProperty<Boolean> isAnySugarInSolution() {
+    public ObservableProperty<Boolean> isAnySugarToRemove() {
         return sugar.moles.greaterThan( 0.0 );
     }
 }

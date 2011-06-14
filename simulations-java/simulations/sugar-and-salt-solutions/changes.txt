@@ -1,3 +1,4 @@
+Micro tab: Fixed: You should still be able to remove salt or sugar when they are not dissolved in the water
 Micro tab: Increased minimum fluid volume
 # 0.00.40 (53114) Jun 13, 2011
 Micro tab: Made it so the user can't remove all the solution
