@@ -73,6 +73,9 @@ public class MicroModule extends SolubleSaltsModule {
                                                    1E-23,
                                                    0.5E-23 ) );
 
+        //Don't use the entire south panel for the clock controls
+        setClockControlPanel( null );
+
         model = new MicroModel( getSolubleSaltsModel(), getCalibration() );
 
         //Show the expandable/collapsable concentration bar chart in the top right
@@ -105,7 +108,7 @@ public class MicroModule extends SolubleSaltsModule {
         getFullScaleCanvasNode().addChild( new RemoveSoluteControlNode( model ) {{
             scale( CONTROL_SCALE_FACTOR );
             PBounds vesselBounds = getFullScaleCanvasNode().getVesselGraphic().getFullBounds();
-            setOffset( vesselBounds.getX() + INSET * 4, vesselBounds.getMaxY() - INSET * 4 - getFullBounds().getHeight() );
+            setOffset( vesselBounds.getX() + INSET * 4, vesselBounds.getMaxY() + INSET );
         }} );
 
         //Add an evaporation rate slider below the beaker
