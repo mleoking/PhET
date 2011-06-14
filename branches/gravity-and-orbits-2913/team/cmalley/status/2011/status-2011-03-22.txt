@@ -1,0 +1,52 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: March 17-22, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations:
+- team meeting to discuss interview results and changes
+- hid close button and top bar in game popups
+- added "Show Why" feature
+- added more complicated rules for selection of equations in level-3 games
+- fixed minor issue with dragging of popups
+- published versions 0.00.18 through 0.00.20
+
+Optical Tweezers:
+- #2782, handled customer request for model info, pointed him to design docs
+
+Administrative:
+- 3/17 status meeting
+- weekly reports
+
+Common:
+- #2720, investigated PSwing ellipsis is Arabic versions of some sims (not resolved)
+- #2779, verified the use of Java logger in ObservableProperty (closed)
+- #2784, discussed how logging should be used in sims
+- #2780, investigate misalignment of ButtonNode labels on Windows (not resolved)
+
+KSU:
+- #2728, restored the Arabic translations of common string "Translated by" (closed)
+
+Misc:
+- discussed Doug Moore's questions about tablet/iPad development for Geo sims
+
+WHAT'S NEXT:
+
+- Capacitor Lab: implement Multiple Capacitors tab
+- Balancing Chemical Equations: fixes and changes, as requested; publish 1.00
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- March 23-25
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--

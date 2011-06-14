@@ -1,0 +1,1 @@
+log4j license=Apache Software License 2.0 licensefile=log4j-LICENSE name=log4j description=Log4j Java logging library website=http://logging.apache.org/log4j/1.2/index.html

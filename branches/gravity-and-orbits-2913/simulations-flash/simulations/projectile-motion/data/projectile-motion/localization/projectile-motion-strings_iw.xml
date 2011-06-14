@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--projectile-motion-strings_iw.xml created Tue Jun 22 00:13:55 IDT 2010 using: projectile-motion 2.02.00 (37323), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="dragLabel" value="גרור מקדם"/>
+<string key="userChoice" value="בחירת משתמש"/>
+<string key="altitudeLabel" value="(גובה (מטר"/>
+<string key="football" value="כדור פוטבול"/>
+<string key="golfball" value="כדור גולף"/>
+<string key="simTitle" value="שיגור"/>
+<string key="collision" value="!התנגשות"/>
+<string key="adultHuman" value="אדם בוגר"/>
+<string key="time" value="(זמן (שניות"/>
+<string key="buick" value="ביואיק"/>
+<string key="diameter" value="(קוטר (מטרים"/>
+<string key="initSpeed" value="(מהירות התחלתית (מטרים/שניה"/>
+<string key="bowlingball" value="כדור באולינג"/>
+<string key="piano" value="פסנתר"/>
+<string key="sound" value="קול"/>
+<string key="range" value="(טווח (מטר"/>
+<string key="mass" value="(מסה (ק&quot;ג"/>
+<string key="height" value="(גובה (מטרים"/>
+<string key="pumpkin" value="דלעת"/>
+<string key="score" value="!פגיעה"/>
+<string key="angle" value="(זווית (מעלות"/>
+<string key="baseball" value="כדור בייסבול"/>
+<string key="airResistance" value="התנגדות האוויר"/>
+<string key="fire" value="אש"/>
+<string key="erase" value="מחק"/>
+<string key="tankshell" value="פגז טנק"/>
+</SimStrings>

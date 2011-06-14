@@ -1,0 +1,37 @@
+PhET Progress Report
+John Blanco
+March 25, 2009
+
+IOM Alpha Testing – 16.0 hrs
+
+•	Worked with Nina, Marj, and Archie to run the remainder of uncovered testing on Alpha-2.
+•	Ran remaining tests for Alpha-2 on Mac 10.4
+•	Re-ran and re-published the testing coverage analysis.
+•	Planned the testing for the Alpha-3 release based on failure and coverage analysis of testing performed to date.
+•	Deployed the Alpha-3 release.
+•	Cleaned up problems that had somehow crept into the test results database and reporting form, added choices for Alpha-3 & Beta-1.
+
+JAR Signing - 10.0 hrs
+
+•	Researched time stamping of JAR file signatures (ticket #1334).
+•	Added time stamping to the build process.
+•	Tested by setting the clock of one of the PhET machines way into the future, works for Java 1.6.
+
+Heterogeneous Interaction Potential (HIP) – 6.0 hrs
+
+•	Changed the model to support heterogeneous atoms.
+•	Implemented most of the new control panel.
+
+Sim Testing – 2.0 hrs
+
+•	Verified and closed issues that were resolved by other developers.
+
+Installer & Web Site – 1.0 hrs
+
+•	Worked on some permissions issues that Sam saw.
+
+Meetings & Email - 5.0 hrs
+
+•	Weekly status meeting.
+•	Normal email and administrative overhead.
+

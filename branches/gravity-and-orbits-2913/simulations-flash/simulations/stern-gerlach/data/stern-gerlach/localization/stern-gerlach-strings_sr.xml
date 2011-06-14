@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--stern-gerlach-strings_sr.xml created Fri Jul 02 20:45:01 CEST 2010 using: stern-gerlach 2.01.00 (37325), translation-utility 2.01.00 (31673) May 14, 2009-->
+<SimStrings>
+<string key="angle3" value="УГАО 3"/>
+<string key="angle2" value="УГАО 2"/>
+<string key="slow" value="ПОЛАКО"/>
+<string key="randomXZ" value="НАСУМИЧНО xz"/>
+<string key="simTitle" value="ШТЕРН-ГЕРЛАХОВ ЕКСПЕРИМЕНТ"/>
+<string key="sternGerlachExperiment" value="ШТЕРН-ГЕРЛАХОВ ЕКСПЕРИМЕНТ"/>
+<string key="spinOrientation" value="ОРИЈЕНТАЦИЈА \nСПИНА"/>
+<string key="on" value="УКЉ,"/>
+<string key="up" value="ГОРЕ"/>
+<string key="down" value="ДОЛЕ"/>
+<string key="sound" value="ЗВУК"/>
+<string key="fast" value="БРЗО"/>
+<string key="numberOfMagnets" value="БРОЈ  \nМАГНЕТА"/>
+<string key="fireAtom" value="ИСПАЛИ АТОМ"/>
+<string key="autoFire" value="САМООКИДАЊЕ"/>
+<string key="angle" value="УГАО"/>
+<string key="reset" value="НА ПОЧЕТАК"/>
+<string key="resetCount" value="БРОЈАЧ НА НУЛУ"/>
+<string key="off" value="ИСКЉ."/>
+</SimStrings>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--estimation-strings_bp.xml created Tue Jan 01 01:11:52 GMT-03:00 2002 using: estimation 1.00.00 (22498), translation-utility 1.09.00 (26682)-->
+<SimStrings>
+<string key="ratioOfAreasIs" value="A razão das áreas é:"/>
+<string key="closeEnough" value="Bem perto! A resposta exata é:"/>
+<string key="levelColon" value="Nível:"/>
+<string key="score" value="Pontuação"/>
+<string key="EnterNumber" value="Coloque o número"/>
+<string key="selectTrainingOrGame" value="Selecione Treinar ou Jogar"/>
+<string key="percentUnderOver" value="por cento inferior/superior"/>
+<string key="estimation" value="Estimar"/>
+<string key="next" value="Próximo"/>
+<string key="ratioOfLengths" value="Razão dos comprimentos para linhas \nrazão das áreas para quadrado e círculos \nrazão dos volumes para cubos e esferas"/>
+<string key="exactAnswer" value="resposta exata"/>
+<string key="level" value="Nível"/>
+<string key="howMany" value="Quantos dos pequenos cabem no  grande?"/>
+<string key="noCreditIf" value="Nenhum crédito se:"/>
+<string key="home" value="Início"/>
+<string key="whatIsRatioOfVolumes" value="Qual é a razão dos volumes?"/>
+<string key="tooFarOff" value="Muito longe! \nA resposta exata é:"/>
+<string key="scorePerTimeColon" value="pontuação/tempo:"/>
+<string key="PleasePickANumber" value="Por favor escolha um número entre 1 e 100000"/>
+<string key="answerIsOutside" value="A resposta está fora destes limites."/>
+<string key="train" value="Treinar"/>
+<string key="strategyHelp" value="Ajuda Estratégica"/>
+<string key="whatIsRatioOfAreas" value="Qual é a razão das áreas?"/>
+<string key="scorePerTime" value="Pontuação/Tempo"/>
+<string key="gameOver" value="Fim de jogo"/>
+<string key="play" value="Jogar"/>
+<string key="fullCreditIf" value="todo o crédito se:"/>
+<string key="back" value="voltar"/>
+<string key="levelOneColon" value="Nível 1: apenas linhas \nNível 2: linhas e objetos 2d \nNível 3: todos os objetos"/>
+<string key="yourAnswer" value="Sua resposta"/>
+<string key="or" value="ou 2"/>
+<string key="sound" value="Som"/>
+<string key="accuracyIsSmaller" value="A precisão é menor que:"/>
+<string key="averageAccuracy" value="precisão média"/>
+<string key="gameRules" value="Regras do jogo"/>
+<string key="ratioOfVolumesIs" value="A razão do volume é:"/>
+<string key="time" value="Tempo(s)"/>
+<string key="numberEstimates" value="número de estimativas"/>
+<string key="yourAnswerIs" value="Sua resposta está dentro \nfator de 1.3 para linhas, \nfator de 1.6 para objetos 2D, \nfator de 2.0 para objetos 3D"/>
+<string key="enter" value="Entrar"/>
+<string key="endGame" value="Finalizar o jogo"/>
+<string key="nextLowerCase" value="próximo"/>
+</SimStrings>

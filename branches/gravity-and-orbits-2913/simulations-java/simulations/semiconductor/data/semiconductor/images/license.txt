@@ -1,0 +1,12 @@
+###################################
+# License info for semiconductor
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+AA-battery.gif author=PhET 
+gate2.gif author=PhET 
+particle-blue-sml.gif author=PhET 
+particle-green-med.gif author=PhET 
+particle-red-med.gif author=PhET 
+particle-red-plus.gif author=PhET 
+probeRed.gif author=PhET 

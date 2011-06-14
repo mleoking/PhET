@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--calculus-grapher-strings_iw.xml created Fri Jul 16 01:55:03 IDT 2010 using: calculus-grapher 2.02.00 (34696), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="simDescription" value="תצוגת גרפים בחשבון דיפרנציאלי"/>
+<string key="smooth" value="החלק"/>
+<string key="undo" value="חזור"/>
+<string key="zero" value="אפס"/>
+<string key="simTitle" value="תצוגת גרפים בחשבון דיפרנציאלי"/>
+</SimStrings>

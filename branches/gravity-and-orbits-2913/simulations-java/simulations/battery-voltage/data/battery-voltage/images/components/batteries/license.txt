@@ -1,0 +1,7 @@
+###################################
+# License info for battery-voltage
+# Automatically generated on Fri Aug 08 00:08:00 MDT 2008
+###################################
+
+AA-battery-600-left.gif author=PhET 
+AA-battery-600.gif author=PhET 

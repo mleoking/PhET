@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_iw.xml created Tue Jun 22 00:23:37 IDT 2010 using: pendulum-lab 2.02.00 (37319), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="resetStopwatch" value="אפס"/>
+<string key="earth" value="כדור הארץ"/>
+<string key="showPhotoGateTimer" value="שעון פוטוגייט"/>
+<string key="planetX" value="X כוכב"/>
+<string key="acceleration" value="תאוצה"/>
+<string key="showEnergyOf" value=":הצג אנרגית"/>
+<string key="velocity" value="מהירות"/>
+<string key="realTime" value="זמן אמיתי"/>
+<string key="length" value="אורך"/>
+<string key="lots" value="הרבה"/>
+<string key="friction" value="חיכוך"/>
+<string key="showSecondPendulum" value="הצג מטוטלת שנייה"/>
+<string key="start" value="התחל"/>
+<string key="mass_unit" value="ק&quot;ג"/>
+<string key="jupiter" value="צדק"/>
+<string key="moon" value="ירח"/>
+<string key="energyOf" value="אנרגית"/>
+<string key="period" value=":פרק זמן"/>
+<string key="simStrings" value="מעבדת מטוטלת"/>
+<string key="noneFriction" value="כלום"/>
+<string key="total" value="סה&quot;כ"/>
+<string key="mass2" value=" :מסה 2"/>
+<string key="pendulum" value=":מטוטלת"/>
+<string key="startPauseStopwatch" value="התחל/עצור"/>
+<string key="show" value=":הצג"/>
+<string key="length2" value=": 2 אורך "/>
+<string key="photoGateTimer" value="שעון פוטוגייט"/>
+<string key="thermal" value="תרמי"/>
+<string key="pausePlay" value="התחל/עצור"/>
+<string key="reset" value="אפס"/>
+<string key="mass" value="מסה"/>
+<string key="quarterTime" value="1/4 זמן"/>
+<string key="length_unit" value="מטרים"/>
+<string key="noneEnergy" value="כלום"/>
+<string key="simTitle" value="מעבדת מטוטלת"/>
+<string key="otherTools" value="כלים אחרים"/>
+<string key="angleUnit" value="מעלות"/>
+<string key="paused" value="עצר"/>
+<string key="sixteenthTime" value="1/16 זמן"/>
+</SimStrings>

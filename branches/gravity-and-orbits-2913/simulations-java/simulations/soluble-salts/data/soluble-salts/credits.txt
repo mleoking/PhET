@@ -1,0 +1,1 @@
+phet-credits lead-design=Linda Koch software-development=Ron LeMaster design-team=Wendy Adams, Trish Loeblein, Kathy Perkins interviews=Danielle Harlow, Linda Koch

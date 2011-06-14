@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--pendulum-lab-strings_fi.xml created Sun May 08 23:39:48 EEST 2011 using: pendulum-lab 2.02.00 (37319), translation-utility 2.10.00 (48775) helmi 9, 2011-->
+<SimStrings>
+<string key="resetStopwatch" value="nollaa"/>
+<string key="earth" value="Maa"/>
+<string key="showPhotoGateTimer" value="valoportin ajastin"/>
+<string key="planetX" value="Planeetta X"/>
+<string key="acceleration" value="kiihtyvyys"/>
+<string key="showEnergyOf" value="Näytä energia:"/>
+<string key="PE" value="Ep"/>
+<string key="velocity" value="nopeus"/>
+<string key="translation.credits" value="Rami Nuotio"/>
+<string key="realTime" value="reaaliaikainen"/>
+<string key="length" value="pituus 1:"/>
+<string key="lots" value="suuri"/>
+<string key="friction" value="kitka"/>
+<string key="showSecondPendulum" value="Näytä toinen heiluri"/>
+<string key="start" value="Käynnistä"/>
+<string key="mass_unit" value="kg"/>
+<string key="jupiter" value="Jupiter"/>
+<string key="moon" value="Kuu"/>
+<string key="energyOf" value="energia"/>
+<string key="period" value="jakso:"/>
+<string key="simStrings" value="Heilurilaboratorio"/>
+<string key="noneFriction" value="pieni"/>
+<string key="total" value="Ekok"/>
+<string key="mass2" value="massa 2:"/>
+<string key="pendulum" value="Heiluri:"/>
+<string key="startPauseStopwatch" value="käynnistä/pysäytä"/>
+<string key="show" value="Näytä:"/>
+<string key="length2" value="pituus 2:"/>
+<string key="photoGateTimer" value="valoportin ajastin"/>
+<string key="thermal" value="lämpö"/>
+<string key="pausePlay" value="käynnistä/pysäytä"/>
+<string key="reset" value="Aloita alusta"/>
+<string key="mass" value="massa 1:"/>
+<string key="quarterTime" value="hidastettu 1/4"/>
+<string key="KE" value="Ek"/>
+<string key="gEqZero" value="g = 0"/>
+<string key="length_unit" value="m"/>
+<string key="noneEnergy" value="ei mitään"/>
+<string key="simTitle" value="Heilurilaboratorio"/>
+<string key="otherTools" value="muut työkalut"/>
+<string key="angleUnit" value="°"/>
+<string key="paused" value="pysäytetty"/>
+<string key="sixteenthTime" value="hidastettu 1/16"/>
+</SimStrings>

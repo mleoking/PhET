@@ -1,0 +1,45 @@
+PhET Progress Report
+John Blanco
+August 20, 2008
+
+States of Matter Sim - 29 hrs
+
+* Finished implementation of normalized-to-Kelvin temperature conversion for Neon and Argon.
+* Removed autoscaling of the thermometer.
+* Changed the spacing on the water molecules to increase the perceived volume.
+* Implemented code for direct phase transition to liquid from either solid or gaseous state.
+* Added code to disallow pumping when squished below 1/2 nominal container size.
+* Implemented limitations to rate of change of the container size.
+* Implemented a modified pressure calculation in order to make pressure reading more steady.
+* Implemented a "fragmented" container image in order to be able to use graphical container on Macs (still testing).
+* Improved the look of the phase diagram based on input from Paul Beale.
+* Cleaned up unused images and updated the license file.
+* Worked with Noah P and Paul B to finalize approach on a user interface issue.
+* Worked with Paul B on how to make the container resizing correctly affect the temperature.
+
+Nuclear Physics - 2.0 hrs
+
+* Reviewed list of requested changes from Noah P. and provided estimates to implement.
+* Updated license file.
+
+Circuit Construction Kit - 2.5 hrs
+
+* Reviewed current list of bugs with Sam R. and together provided estimates to fix/implement each.
+
+
+Web Site - 1.5 hrs
+
+* Helped Marj to work out how to update publications.
+* Regression tested the installer builder after Sam R. fixed the language properties problem.
+
+
+Meetings & Email - 4.0 hrs
+
+* Regular weekly status meeting.
+* Various discussions with Noah P, Paul B, Sam R, and Kathy in person and via email.
+
+Misc - 1.0
+
+* Created one-page CV, needed by Wendy for Hewlett proposal.
+
+

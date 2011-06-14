@@ -1,0 +1,59 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 21-27, 2011
+
+ACCOMPLISHMENTS:
+
+Balancing Chemical Equations
+- postmortem meeting
+- added "Preview molecules" to Developer menu (used to be a separate app, used to check colors)
+
+Bound States:
+- #2814,2815 fixes to Save/Load feature (closed)
+
+Capacitor Lab
+- continued to make changes and refactors to support multi-capacitor circuits
+
+Hydrogen Atom
+- #2803, "excite me" button to get out of (2,0,0) with monochromatic light (pending)
+
+Ideal Gas
+- test new version published to PhET website
+- #2831, fixed colorblind issue with thermometer mercury (closed)
+
+Administrative
+- weekly status meeting
+- weekly reports
+- Developer Meeting IX
+- misc developer discussions via email
+
+Common
+- #2824, discussed changes to MinimizeMaximizeButton with Sam R. (resolved?)
+- #2775, discussed observer API changes (pending)
+
+Help
+- #2813, user can't access PhET source code (pending)
+
+KSU
+- misc fiddling with Google spreadsheet
+- published bound-states, ph-scale, rutherford-scatter, photoelectric
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--

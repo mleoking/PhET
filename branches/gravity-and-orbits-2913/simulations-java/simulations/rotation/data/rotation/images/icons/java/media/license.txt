@@ -1,0 +1,11 @@
+###################################
+# License info for rotation
+# Automatically generated on Fri Aug 08 00:08:03 MDT 2008
+###################################
+
+FastForward24.gif source=java 
+Pause24.gif source=java 
+Play24.gif source=java 
+Rewind24.gif source=java 
+StepForward24.gif source=java 
+Stop24.gif source=java 

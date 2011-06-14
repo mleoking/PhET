@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_ko.xml created Sun Aug 08 12:12:51 KST 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) 4월 2, 2010-->
+<SimStrings>
+<string key="pause" value="정지"/>
+<string key="earth" value="지구"/>
+<string key="dontBother" value="귀찮게 하지마세요!"/>
+<string key="16thTime" value="1/16 시간"/>
+<string key="nothinOK" value="아무것도 없음 OK?"/>
+<string key="mass1Label" value="50 그램"/>
+<string key="mass3Label" value="250 그램"/>
+<string key="planetX" value="X 행성"/>
+<string key="showEnergyOf" value="에너지 보기"/>
+<string key="hangMe" value="메달아 주세요!"/>
+<string key="resetTimer" value="초기화"/>
+<string key="hard" value="강함"/>
+<string key="mass7Label" value="100 그램"/>
+<string key="stopWatch" value="초시계"/>
+<string key="none" value="없음"/>
+<string key="realTime" value="실시간"/>
+<string key="startTimer" value="시작/정지"/>
+<string key="help4" value="드래그할 수 있는 시계"/>
+<string key="help3" value="추를 분리시키기 위해 옆으로 이동  "/>
+<string key="showHelp" value="도움말 보기"/>
+<string key="lots" value="많음"/>
+<string key="help2" value="드래그할 수 있는 기준선"/>
+<string key="help1" value="드래그할 수 있는 자"/>
+<string key="friction" value="마찰"/>
+<string key="jupiter" value="목성"/>
+<string key="moon" value="달"/>
+<string key="energyOf" value="에너지"/>
+<string key="total" value="합계"/>
+<string key="sound" value="소리"/>
+<string key="mass2Label" value="100 그램"/>
+<string key="thermal" value="열"/>
+<string key="quarterTime" value="1/4 시간"/>
+<string key="KE" value="운동에너지"/>
+<string key="hideHelp" value="도움말 숨기기"/>
+<string key="noHelp" value="도움 없음"/>
+<string key="soft" value="약함"/>
+<string key="softness" value="용수철 3의 강도"/>
+<string key="simTitle" value="추와 용수철"/>
+<string key="totalE" value="총 에너지"/>
+<string key="noShow" value="보기 없음"/>
+<string key="paused" value="정지됨"/>
+</SimStrings>

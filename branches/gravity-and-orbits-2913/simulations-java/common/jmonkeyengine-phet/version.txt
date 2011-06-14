@@ -1,0 +1,2 @@
+The natives were copied from the (current latest) snapshot distribution r4093 from here:
+http://code.google.com/p/jmonkeyengine/downloads/list

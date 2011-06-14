@@ -1,0 +1,47 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: April 28 - May 3, 2011
+
+ACCOMPLISHMENTS:
+
+Capacitor Lab
+- #2483, discussed and implemented new zoom buttons for bar meters (see 1.00.02)
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Common
+- #2846, rewrote ButtonNode to support icons and text, tested with JB (pending)
+- #2775, collaborated with Sam on property2 package (pending)
+- #2775, reviewed property3 package (pending)
+- #1766, discussed game loop design (pending)
+- #2848, reviewed BufferedPhetPCanvas fix for Mac (pending)
+
+Help
+- #2813, user can't access PhET source code (closed)
+- #2847, JWS caching problem with networked Macs (pending)
+
+Website
+- #2791, reviewed changes to "PhET Source Code" web page (pending)
+
+WHAT'S NEXT:
+
+- Capacitor Lab: continue working on version 2.00
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- May 23-25
+- June 6-17
+- August 22 - September 2
+- October 19-29
+
+--

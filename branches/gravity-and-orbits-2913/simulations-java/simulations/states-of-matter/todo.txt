@@ -1,0 +1,13 @@
+#=============================================================================
+# TODO list for States of Matter
+# =============================================================================
+
+HIGHEST PRIORITY
+
+HIGH PRIORITY
+- Conduct interviews to determine if it is ready to deploy.
+
+MEDIUM PRIORITY
+
+LOW PRIORITY
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--mass-spring-lab-strings_iw.xml created Tue Jun 22 00:05:33 IDT 2010 using: mass-spring-lab 2.02.00 (37312), translation-utility 2.08.00 (39581) Apr 2, 2010-->
+<SimStrings>
+<string key="pause" value="עצור"/>
+<string key="earth" value="כדור הארץ"/>
+<string key="dontBother" value="אל תטרח"/>
+<string key="16thTime" value="1/16 הזמן"/>
+<string key="nothinOK" value="אין כלום!"/>
+<string key="mass1Label" value="50 גרם"/>
+<string key="mass3Label" value="250 גרם"/>
+<string key="planetX" value="X כוכב"/>
+<string key="showEnergyOf" value="הצג אנרגיה של "/>
+<string key="hangMe" value="!תלה אותי"/>
+<string key="resetTimer" value="אפס"/>
+<string key="hard" value="קשה"/>
+<string key="mass7Label" value="100 גרם"/>
+<string key="stopWatch" value="שעון עצר"/>
+<string key="none" value="כלום"/>
+<string key="realTime" value="זמן אמיתי"/>
+<string key="startTimer" value="התחל/עצור"/>
+<string key="help4" value="שעון עצר ניתן לגרירה"/>
+<string key="help3" value="משוך את המסה לצדדים על מנת להסיר מהקפיץ"/>
+<string key="showHelp" value="הצג עזרה"/>
+<string key="lots" value="הרבה"/>
+<string key="help2" value="קו ייחוס ניתן לגרירה"/>
+<string key="help1" value="סרגל ניתן לגרירה"/>
+<string key="friction" value="חיכוך"/>
+<string key="jupiter" value="צדק"/>
+<string key="moon" value="ירח"/>
+<string key="energyOf" value="אנרגית"/>
+<string key="total" value="סה&quot;כ"/>
+<string key="sound" value="קול"/>
+<string key="mass2Label" value="100 גרם"/>
+<string key="thermal" value="תרמי"/>
+<string key="quarterTime" value="1/4 זמן"/>
+<string key="hideHelp" value="הסתר עזרה"/>
+<string key="noHelp" value="ללא עזרה"/>
+<string key="soft" value="רך"/>
+<string key="softness" value="3 קפיץ רך"/>
+<string key="simTitle" value="מסות וקפיצים"/>
+<string key="totalE" value="סה&quot;כ אנרגיה"/>
+<string key="noShow" value="ללא הצגה"/>
+<string key="paused" value="נעצר"/>
+</SimStrings>

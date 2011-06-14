@@ -1,0 +1,37 @@
+PhET Progress Report
+John Blanco
+July 15, 2008
+
+
+States of Matter Sim - 20 hrs
+
+* Finished implementation and testing of the Verlet algorithm for water molecules.
+* Implemented the Verlet algorithm for diatomic molecules, currently used only for oxygen
+* Implemented the Andersen Thermostat and made it possible to switch to the different thermostats via developer controls.
+* Incorporated graphical image of a cylindrical container from Noah P.
+* Changed the Gravity Slider range to be "None" to "Lots".
+* Implemented and deployed to dev a version with coffee cup, cylinder, and simple box as container.
+* Got the direct transition to the gaseous state working for water and oxygen.
+* Tested on a Mac, removed the highlighting as a result.
+* Fixed various minor bugs.
+* Brainstormed some ways to connect container size to the macroscopic world with Noah P.
+
+Installer Builder (Web Site) - 16 hrs
+
+* Implemented a temporary manual fix for issue #651, "installer is missing files for Flash sims" and disabled the nightly build.
+* Have almost completed a long-term fix for Unfuddle issue #651.
+* Updated the version of Java bundled with the installer to be the latest 1.5 version (1.5.0_16).
+* Fixed Unfuddle issue #650 "installer README for Macintosh refers to 'shortcuts'".
+* Fixed an issue with the phethelp email address.
+
+Meetings & Email - 4 hrs
+
+* Regular weekly status meeting.
+* Various discussions with Noah P, Sam R, Chris, Dano, and Kathy in person and via email.
+* Filled out Conflicts of Interest form, which initiated some dialog with the Compliance Director.
+
+Notes
+
+* Vacation scheduled for July 28 through August 9.
+
+

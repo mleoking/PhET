@@ -1,0 +1,40 @@
+PhET Progress Report
+John Blanco
+October 8, 2008
+
+States of Matter Sim - 19 hrs
+
+•	Finished making the phase diagram track roughly to the demarcation lines.
+•	Changed the dial gauge node to have an upper limit to prevent wildly large pressure values.
+•	Created a new sim "flavor" for standalone interaction potential.
+•	Implemented behavior for low temperatures (i.e. nearing absolute 0) by first implementing exponential decay, then actually allowing absolute zero.
+•	Cleaned up the image gradients for Interaction Potential tab, including making it resize with atom size.
+•	Cleaned up debug output.
+•	Added credits.
+
+Nuclear Physics - 4
+
+•	Updated the teaching activities and other sim information for Alpha Decay and Nuclear Fission.
+•	Deleted Nuclear Physics and put a redirect in place.
+•	Fixed a naming/labeling issue with Alpha Decay and redeployed to the production server.
+•	Added credits.
+
+Common Code - 2 hrs
+
+•	Added the ability to translate strings for the ColorChooser dialog.
+•	Tested (at home) running the tracking/update prototype code to see how firewalls would respond.
+
+Web Site – 9 hrs
+
+•	Fixed a problem with the installer that was causing bad installer files to be generated (related to cutover to Unfuddle SVN server).
+•	Made the flash redirects for the sims that changed names point to the sim page, not the sim itself.
+•	Trained Marj on redirects and had her add them for the other (i.e. non-name-change) flash sims.
+•	Created a shell script to make it easy to periodically create backups of working installers.
+•	Started investigating issue where IE warns about many PhET pages when running installed version (Unfuddle 184).
+
+Meetings & Email - 6 hrs
+
+•	Regular weekly status meeting.
+•	Sim tracking meeting.
+•	Meeting with Sam and Chris to plan improvements to common code base.
+•	Various discussions with Noah P, Chris M, Sam R, and Kathy in person and via email.
