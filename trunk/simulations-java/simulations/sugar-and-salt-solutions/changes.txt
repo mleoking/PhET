@@ -1,3 +1,4 @@
+# 0.00.40 (53114) Jun 13, 2011
 Micro tab: Made it so the user can't remove all the solution
 Micro tab: Moved remove solute buttons beneath the beaker
 Micro tab: Removed the clock control panel
