@@ -81,13 +81,14 @@ public class SliderArrayPanel extends UIComponent {
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
 
-        var horizSpacing:Number = lengthBetweenWallsInPix/(nbrSliders + 1);
+        var horizSpacing:Number = 0.8*lengthBetweenWallsInPix/(nbrSliders + 1);
+        var widthOfAllVisibleSliders = ( nbrSliders - 1) * horizSpacing;
         for(var i:int = 0; i < nbrSliders; i++){
             this.ampliSlider_arr[i].visible = true;
-            this.ampliSlider_arr[i].x = this.leftEdgeX + (i+1)*horizSpacing;
+            this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
             this.phaseSlider_arr[i].y =  1.1*this.ampliSlider_arr[i].height;
-            this.phaseSlider_arr[i].visible = true;
-            this.phaseSlider_arr[i].x = this.leftEdgeX + (i+1)*horizSpacing;
+            this.phaseSlider_arr[i].visible = false;
+            this.phaseSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
         }
         for( i = nbrSliders; i < this.nMax; i++ ){
             this.ampliSlider_arr[i].visible = false;
@@ -118,6 +119,16 @@ public class SliderArrayPanel extends UIComponent {
     private function setPhase( indx:int ):void{
         var phase:Number = this.phaseSlider_arr[ indx - 1 ].getVal();
         this.myModel1.setModePhase( indx,  phase );
+    }
+
+    public function showPhaseSliders( tOrF:Boolean ):void{
+        var nbrMasses:int = this.myModel1.N;
+        for( var i:int = 0; i < nbrMasses; i++ ){
+            this.phaseSlider_arr[i].visible = tOrF;
+        }
+        for ( i = nbrMasses; i < this.nMax; i++ ){
+            this.phaseSlider_arr[i].visible = false;
+        }
     }
 }//end class
 }//end package

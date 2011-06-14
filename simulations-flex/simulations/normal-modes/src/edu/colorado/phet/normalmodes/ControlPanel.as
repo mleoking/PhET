@@ -33,7 +33,7 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var myModel1: Model1;
     private var myModel2: Model2;
-    private var background: HBox;
+    private var background: VBox;
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
     private var innerBckgrnd: VBox;
@@ -47,6 +47,7 @@ public class ControlPanel extends Canvas {
     private var oneDtwoDMode_rbg: RadioButtonGroup;
     private var oneDModeButton: RadioButton;
     private var twoDModeButton: RadioButton;
+    private var showPhasesCheckBox: CheckBox;
     private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
@@ -60,6 +61,7 @@ public class ControlPanel extends Canvas {
     public var resetAll_str: String;
     public var oneD_str: String;
     public var twoD_str: String;
+    public var showPhases_str:String;
 
 
     public function ControlPanel( myMainView: MainView, model1: Model1, model2: Model2 ) {
@@ -79,18 +81,18 @@ public class ControlPanel extends Canvas {
 
         this.initializeStrings();
 
-        this.background = new HBox();
+        this.background = new VBox();
         with ( this.background ) {
             setStyle( "backgroundColor", 0x66ff66 );
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x009900 );
             setStyle( "cornerRadius", 10 );
             setStyle( "borderThickness", 4 );
-            setStyle( "paddingTop", 5 );
-            setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 20 );
-            setStyle( "paddingLeft", 20 );
-            setStyle( "horizontalGap", 25 );
+            setStyle( "paddingTop", 15 );
+            setStyle( "paddingBottom", 15 );
+            setStyle( "paddingRight", 5 );
+            setStyle( "paddingLeft", 5 );
+            setStyle( "verticalGap", 25 );
             setStyle( "verticalAlign", "center" );
         }
 
@@ -148,6 +150,10 @@ public class ControlPanel extends Canvas {
         this.twoDModeButton.selected = false;
         this.oneDtwoDMode_rbg.addEventListener( Event.CHANGE, click1DOr2D );
 
+        this.showPhasesCheckBox = new CheckBox();
+        this.showPhasesCheckBox.label = this.showPhases_str;
+        this.showPhasesCheckBox.addEventListener( Event.CHANGE, clickShowPhases );
+
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
@@ -157,6 +163,7 @@ public class ControlPanel extends Canvas {
         this.background.addChild( this.radioButtonVBox2 );
         this.radioButtonVBox2.addChild( this.oneDModeButton );
         this.radioButtonVBox2.addChild( this.twoDModeButton );
+        this.background.addChild( showPhasesCheckBox );
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
@@ -169,6 +176,7 @@ public class ControlPanel extends Canvas {
         resetAll_str = "Reset All";
         oneD_str = "1D";
         twoD_str = "2D";
+        showPhases_str = "Show Phases";
     }
 
     private function setNbrMasses():void{
@@ -218,6 +226,12 @@ public class ControlPanel extends Canvas {
         this.oneDMode = this.myMainView.oneDMode;
     }
 
+    private function clickShowPhases( evt:Event ):void{
+        var shown: Boolean = this.showPhasesCheckBox.selected;
+        this.myMainView.mySliderArrayPanel.showPhaseSliders(shown);
+        //trace( "ControlPanel.clickRuler = " + val);
+    }
+
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
         //this.setSelectedResonatorNbr();
     }
@@ -233,16 +247,6 @@ public class ControlPanel extends Canvas {
        this.myMainView.initializeAll();
     }
 
-//        function formatSlider( mySlider: HSlider ): void {
-//        mySlider.buttonMode = true;
-//        mySlider.liveDragging = true;
-//        mySlider.percentWidth = 100;
-//        mySlider.showDataTip = false;
-//        //mySlider.setStyle( "labelOffset", 25 );
-//        setStyle( "invertThumbDirection", true );
-//        //setStyle( "dataTipOffset", -50 );  //this does not work.  Why not?
-//        setStyle( "fontFamily", "Arial" );
-//    }
 
 }//end of class
 
