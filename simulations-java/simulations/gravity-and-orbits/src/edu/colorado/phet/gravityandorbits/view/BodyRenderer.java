@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.RoundGradientPaint;
@@ -76,14 +77,14 @@ public abstract class BodyRenderer extends PNode {
 
         public SphereRenderer( final Color color, final Color highlight, double viewDiameter ) {
             this( new IBodyColors() {
-                public Color getHighlight() {
-                    return highlight;
-                }
+                      public Color getHighlight() {
+                          return highlight;
+                      }
 
-                public Color getColor() {
-                    return color;
-                }
-            }, viewDiameter );
+                      public Color getColor() {
+                          return color;
+                      }
+                  }, viewDiameter );
         }
 
         public SphereRenderer( IBodyColors body, double viewDiameter ) {
@@ -99,11 +100,17 @@ public abstract class BodyRenderer extends PNode {
             sphereNode.setPaint( createPaint( viewDiameter ) );
         }
 
+        //The sim runs out of memory on Mac OS X 10.4 if you use a gradient here, see #2913
         private Paint createPaint( double diameter ) {// Create the gradient paint for the sphere in order to give it a 3D look.
-            return new RoundGradientPaint( diameter / 8, -diameter / 8,
-                                           getBody().getHighlight(),
-                                           new Point2D.Double( diameter / 4, diameter / 4 ),
-                                           getBody().getColor() );
+            if ( PhetUtilities.isMacintosh() ) {
+                return getBody().getColor();
+            }
+            else {
+                return new RoundGradientPaint( diameter / 8, -diameter / 8,
+                                               getBody().getHighlight(),
+                                               new Point2D.Double( diameter / 4, diameter / 4 ),
+                                               getBody().getColor() );
+            }
         }
     }
 
