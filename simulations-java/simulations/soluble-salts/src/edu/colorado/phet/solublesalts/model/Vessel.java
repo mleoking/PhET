@@ -120,7 +120,7 @@ public class Vessel implements ModelElement, Collidable {
     }
 
     public void setWaterLevel( double waterLevel ) {
-        setWaterLevel(waterLevel,true);
+        setWaterLevel( waterLevel, true );
     }
 
     public void setWaterLevel( double waterLevel, boolean fromFaucet ) {

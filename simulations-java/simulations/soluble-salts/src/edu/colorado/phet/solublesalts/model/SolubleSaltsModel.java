@@ -112,7 +112,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                            new Point2D.Double( vessel.getLocation().getX() - vessel.getWallThickness(),
                                                vessel.getLocation().getY() + vessel.getDepth() - 30 ),
                            60, Drain.HORIZONTAL,
-                           vesselWallThickness );
+                           vesselWallThickness,
+                           module.getMinimumFluidVolume() );
         addModelElement( drain );
 
         // Create an agent that will manage the flow of ions toward the drain when water is

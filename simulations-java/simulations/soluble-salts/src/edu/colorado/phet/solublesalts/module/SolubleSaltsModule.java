@@ -129,6 +129,10 @@ public class SolubleSaltsModule extends PiccoloModule {
     public void updateHTMLNode( HTMLNode text ) {
     }
 
+    public double getMinimumFluidVolume() {
+        return 0;
+    }
+
     public interface ResetListener extends EventListener {
         void reset( SolubleSaltsConfig.Calibration calibration );
     }

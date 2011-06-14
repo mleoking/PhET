@@ -159,4 +159,8 @@ public class MicroModule extends SolubleSaltsModule {
         text.setHTMLColor( Color.white );
         text.setFont( new PhetFont( 15, true ) );
     }
+
+    @Override public double getMinimumFluidVolume() {
+        return MicroModel.MIN_FLUID_VOLUME;
+    }
 }
