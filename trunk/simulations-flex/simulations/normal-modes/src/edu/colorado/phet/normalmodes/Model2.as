@@ -47,6 +47,7 @@ public class Model2 {
     private var t: Number;		    //time in seconds
     private var tInt: Number;       //time rounded down to nearest whole sec, for testing only
     private var lastTime: Number;	//time in previous timeStep
+    private var lastTimeDuringMouseDrag; //used to allow mouse user to "throw" the mass
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
     private var dt: Number;  	    //default time step in seconds
     private var msTimer: Timer;	    //millisecond timer
@@ -197,10 +198,20 @@ public class Model2 {
 
 
     public function setXY(i:int, j:int,  xPos:Number, yPos:Number ):void{
+        var previousSx:Number =  this.sx_arr[i][j];
+        var previousSy:Number =  this.sy_arr[i][j];
         var sxPos:Number = xPos - this.x0_arr[i][j];
         var syPos:Number = yPos - this.y0_arr[i][j];
         this.sx_arr[i][j] = sxPos;
         this.sy_arr[i][j] = syPos;
+
+        var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
+        var realDt: Number = 0.01; //currentTime - this.lastTime;
+        this.lastTimeDuringMouseDrag = currentTime;
+        var vX:Number = (sxPos - previousSx)/realDt;
+        var vY:Number = (syPos - previousSy)/realDt;
+        this.vx_arr[i][j] = vX;
+        this.vy_arr[i][j] = vY;
         //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
         //trace("Model1.setXY i = " + i +"   j = " + j + "   sxPos = "+ sxPos +"    syPos = "+syPos);
     }
