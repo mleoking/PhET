@@ -335,11 +335,11 @@ public class Model2 {
         this.lastTime = currentTime;
         //time step must not exceed 0.04 seconds.
         //If time step < 0.04 s, then sim uses time-based animation.  Else uses frame-based animation
-        if ( realDt < 0.04 ) {
+        if ( realDt < 0.06 ) {
             this.dt = this.tRate * realDt;
         }
         else {
-            this.dt = this.tRate * 0.04;
+            this.dt = this.tRate * 0.06;
         }
         this.t += this.dt;
         //trace("Model2.t = "+ this.t);
