@@ -1,3 +1,4 @@
+# 0.00.42 (53139) Jun 14, 2011
 Micro tab: Fixed: It looks like solution still comes out of the bottom faucet when the minimum volume is reached
 Micro tab: Fixed: Remove sugar button disappeared
 Water tab: Fixed: The "show sugar atoms" checkbox should be disabled until you add sugar.
