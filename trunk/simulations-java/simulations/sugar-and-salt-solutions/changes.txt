@@ -1,3 +1,4 @@
+Water tab: Fixed: The "show sugar atoms" checkbox should be disabled until you add sugar.
 # 0.00.41 (53132) Jun 14, 2011
 Micro tab: Fixed: You should still be able to remove salt or sugar when they are not dissolved in the water
 Micro tab: Increased minimum fluid volume

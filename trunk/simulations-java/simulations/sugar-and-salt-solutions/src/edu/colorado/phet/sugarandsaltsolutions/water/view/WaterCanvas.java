@@ -47,7 +47,7 @@ public class WaterCanvas extends PhetPCanvas {
     private PNode particleLayer = new PNode();
     private SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
 
-    public WaterCanvas( final WaterModel model, final SugarAndSaltSolutionsColorScheme config ) {
+    public WaterCanvas( final WaterModel waterModel, final SugarAndSaltSolutionsColorScheme config ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         config.backgroundColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
@@ -60,7 +60,7 @@ public class WaterCanvas extends PhetPCanvas {
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
         double inset = 40;
-        final ModelViewTransform transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, 0, model.beakerWidth, model.beakerHeight ),
+        final ModelViewTransform transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -waterModel.beakerWidth / 2, 0, waterModel.beakerWidth, waterModel.beakerHeight ),
                                                                               new Rectangle2D.Double( -inset, -inset, canvasSize.getWidth() + inset * 2, canvasSize.getHeight() + inset * 2 ) );
 
         // Root of our scene graph
@@ -73,7 +73,7 @@ public class WaterCanvas extends PhetPCanvas {
         //Adapter method for wiring up components to listen to when the model updates
         final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
-                model.addFrameListener( listener );
+                waterModel.addFrameListener( listener );
                 listener.apply();
             }
         };
@@ -83,9 +83,9 @@ public class WaterCanvas extends PhetPCanvas {
             public PNode apply( WaterMolecule waterMolecule ) {
                 return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
             }
-        }, model.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
+        }, waterModel.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
             public void apply( VoidFunction1<WaterMolecule> createNode ) {
-                model.addWaterAddedListener( createNode );
+                waterModel.addWaterAddedListener( createNode );
             }
         }
         );
@@ -95,9 +95,9 @@ public class WaterCanvas extends PhetPCanvas {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
             }
-        }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+        }, waterModel.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
-                model.addSodiumIonAddedListener( createNode );
+                waterModel.addSodiumIonAddedListener( createNode );
             }
         }
         );
@@ -107,9 +107,9 @@ public class WaterCanvas extends PhetPCanvas {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.ClIon );
             }
-        }, model.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+        }, waterModel.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
-                model.addChlorineIonAddedListener( createNode );
+                waterModel.addChlorineIonAddedListener( createNode );
             }
         }
         );
@@ -125,7 +125,7 @@ public class WaterCanvas extends PhetPCanvas {
                                      new ArrayList<Sucrose>(),
                                      new VoidFunction1<VoidFunction1<Sucrose>>() {
                                          public void apply( VoidFunction1<Sucrose> createNode ) {
-                                             model.addSugarAddedListener( createNode );
+                                             waterModel.addSugarAddedListener( createNode );
                                          }
                                      }
         );
@@ -137,12 +137,12 @@ public class WaterCanvas extends PhetPCanvas {
                 new HTMLImageButtonNode( "Add Salt" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSalt();
+                            waterModel.addSalt();
                         }
                     } );
 
                     //disable the "add salt" button if there are already 2 salts
-                    model.sodiumList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                    waterModel.sodiumList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean lessThanTwoSodiums ) {
                             setEnabled( lessThanTwoSodiums );
                         }
@@ -153,12 +153,12 @@ public class WaterCanvas extends PhetPCanvas {
                 new HTMLImageButtonNode( "Add Sugar" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.addSugar();
+                            waterModel.addSugar();
                         }
                     } );
 
                     //disable the "add sugar" button if there are already 2 sugars
-                    model.sugarMoleculeList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
+                    waterModel.sugarMoleculeList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
                         public void apply( Boolean lessThanTwoSugars ) {
                             setEnabled( lessThanTwoSugars );
                         }
@@ -167,22 +167,27 @@ public class WaterCanvas extends PhetPCanvas {
 
                 new PSwing( new PropertyCheckBox( "Show sugar atoms", showSugarAtoms ) {{
                     setFont( new PhetFont( 16 ) );
+                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
+                        public void apply( Boolean enabled ) {
+                            setEnabled( enabled );
+                        }
+                    } );
                 }} ),
 
                 //Add a reset all button that resets this tab
                 new HTMLImageButtonNode( "Reset All" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            model.reset();
+                            waterModel.reset();
                         }
                     } );
                 }}
         ) ) {{
             setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - MacroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
-        model.k.trace( "k" );
-        model.pow.trace( "pow" );
-        model.randomness.trace( "randomness" );
+        waterModel.k.trace( "k" );
+        waterModel.pow.trace( "pow" );
+        waterModel.randomness.trace( "randomness" );
     }
 
     private void addChild( PNode node ) {
