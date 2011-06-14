@@ -53,7 +53,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 public class MicroModule extends SolubleSaltsModule {
 
     private MicroModel model;
-    private final double CONTROL_SCALE_FACTOR = 1.5;
+    private final double CONTROL_SCALE_FACTOR = 1.2;
 
     static {
         IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
@@ -76,19 +76,23 @@ public class MicroModule extends SolubleSaltsModule {
         //Don't use the entire south panel for the clock controls
         setClockControlPanel( null );
 
+        //Shrink the play area so the controls fit, became necessary when we removed the south/clock control panel
+        getFullScaleCanvasNode().scale( 0.95 );
+
         model = new MicroModel( getSolubleSaltsModel(), getCalibration() );
+        final Dimension2DDouble stageSize = new Dimension2DDouble( 1300, 800 );
 
         //Show the expandable/collapsable concentration bar chart in the top right
         final ExpandableConcentrationBarChartNode barChartNode = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
             scale( CONTROL_SCALE_FACTOR );
-            setOffset( 1400 - getFullBounds().getWidth(), MacroCanvas.INSET );
+            setOffset( stageSize.width - getFullBounds().getWidth(), MacroCanvas.INSET );
         }};
         getFullScaleCanvasNode().addChild( barChartNode );
 
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
         getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( model.dispenserType ) {{
             scale( CONTROL_SCALE_FACTOR );
-            setOffset( 1400 - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + INSET );
+            setOffset( stageSize.width - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + INSET );
         }} );
 
         //Add the reset all button
@@ -96,7 +100,6 @@ public class MicroModule extends SolubleSaltsModule {
             setFont( SugarAndSaltSolutionsCanvas.CONTROL_FONT );
             scale( CONTROL_SCALE_FACTOR );
             //Have to set the offset after changing the font since it changes the size of the node
-            Dimension2DDouble stageSize = new Dimension2DDouble( 1400, 800 );
             setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
