@@ -58,8 +58,8 @@ public class MainView extends Canvas {
         this.mySliderArrayPanel.y = 0.5*stageH;
 
         this.myControlPanel = new ControlPanel( this, myModel1, myModel2 );
-        this.myControlPanel.x = 0.1 * stageW; //- 3 * this.myControlPanel.width;
-        this.myControlPanel.y = 0.02 * stageH;
+        this.myControlPanel.x = 0.85 * stageW; //- 3 * this.myControlPanel.width;
+        this.myControlPanel.y = 0.05 * stageH;
 
         this.phetLogo = new PhetIcon();
 
