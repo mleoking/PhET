@@ -17,6 +17,7 @@ import edu.colorado.phet.solublesalts.model.ion.Ion;
  */
 public class Drain extends Spigot implements Vessel.ChangeListener {
     private Vessel vessel;
+    private final double minWaterLevel;
 
     public static class Orientation {
     }
@@ -34,8 +35,10 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
                   Point2D location,
                   double openingHeight,
                   Orientation orientation,
-                  double wallThickness ) {
+                  double wallThickness,
+                  double minWaterLevel ) {
         super( model );
+        this.minWaterLevel = minWaterLevel;
         setPosition( location );
         this.vessel = model.getVessel();
         vessel.addChangeListener( this );
@@ -98,7 +101,7 @@ public class Drain extends Spigot implements Vessel.ChangeListener {
 
     public void stateChanged( Vessel.ChangeEvent event ) {
         Vessel vessel = event.getVessel();
-        if ( vessel.getWaterLevel() <= 0 ) {
+        if ( vessel.getWaterLevel() <= minWaterLevel ) {
             setFlow( 0 );
         }
     }

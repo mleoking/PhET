@@ -37,6 +37,7 @@ public class MicroModel implements ISugarAndSaltModel {
     private final Calibration calibration;
     public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
     private boolean debug = false;
+    public final static int MIN_FLUID_VOLUME = 60;
 
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
@@ -75,7 +76,7 @@ public class MicroModel implements ISugarAndSaltModel {
         solubleSaltsModel.getClock().addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
                 double delta = ( clockEvent.getSimulationTimeChange() * evaporationRate.get() ) / 50;
-                solubleSaltsModel.getVessel().setWaterLevel( Math.max( 0, solubleSaltsModel.getVessel().getWaterLevel() - delta ), false );
+                solubleSaltsModel.getVessel().setWaterLevel( Math.max( MIN_FLUID_VOLUME, solubleSaltsModel.getVessel().getWaterLevel() - delta ), false );
             }
         } );
     }
