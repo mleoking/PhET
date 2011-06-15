@@ -24,7 +24,9 @@ public class Model2 {
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array, number of mobile masses in 2D array is nMax*nMax
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
-    private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
+    private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed
+    private var modesZeroed:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must clear buttonArrayPanel
+    private var _verletOn:Boolean;  //true is using Verlet algorithm, false is using exact algorithm
     public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //2D array of equilibrium x-positions of masses; array size = N+2 * N+2, since 2 stationary masses in each row and column at x = 0 and x = L, y = 0 and y = L
     private var y0_arr:Array;       //2D array of equilibrium y-positions of masses
@@ -82,9 +84,9 @@ public class Model2 {
             ay_arr[i] = new Array(_nMax + 2);
             axPre_arr[i] = new Array(_nMax + 2);
             ayPre_arr[i] = new Array(_nMax + 2);
-            modeOmega_arr[i] = new Array( _nMax );
-            modeAmpli_arr[i] = new Array( _nMax );
-            modePhase_arr[i] = new Array( _nMax );
+            modeOmega_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
+            modeAmpli_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
+            modePhase_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
         }
         
         this.initialize();
@@ -94,7 +96,9 @@ public class Model2 {
         this._N = 5;                 //start with 5*5  mobile masses
         this.nChanged = false;
         this.modesChanged = false;
+        this.modesZeroed = false;
         this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
+        this._verletOn = true;
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
@@ -116,6 +120,7 @@ public class Model2 {
     }//end initialize()
 
     public function initializeKinematicArrays():void{
+        this._verletOn = true;
         var oneDLength:int = this._N + 2;                       //length of one row or one column in square array
         for(var i:int = 0; i < oneDLength; i++){
             for (var j: int = 0; j < oneDLength; j++){
@@ -146,10 +151,11 @@ public class Model2 {
 
     private function setResonantFrequencies():void{
         var omega0:Number = Math.sqrt( k/m );
-        for(var i:int = 0; i < _N; i++){
-            for(var j:int = 0; j < _N; j++){
-                var r:int = i + 1;
-                var s:int = j + 1;
+        //row i = 0, column j = 0 are dummies, unused
+        for(var i:int = 1; i <= _N; i++){
+            for(var j:int = 1; j <= _N; j++){
+                var r:int = i;
+                var s:int = j;
                 var omega_r:Number = 2*omega0*Math.sin( r*Math.PI/(2*(_N + 1 )));
                 var omega_s:Number = 2*omega0*Math.sin( s*Math.PI/(2*(_N + 1 )));
                 modeOmega_arr[i][j] = Math.sqrt( omega_r*omega_r + omega_s*omega_s ); //not certain this is correct
@@ -158,15 +164,14 @@ public class Model2 {
     }
 
     public function zeroModeArrays():void{
-        for(var i:int = 0; i < _nMax; i++){
-            for(var j:int = 0; j < _nMax; j++){
+        for(var i:int = 0; i <= _nMax; i++){
+            for(var j:int = 0; j <= _nMax; j++){
                 modeAmpli_arr[i][j] = 0;
                 modePhase_arr[i][j] = 0;
             }
         }
-        this.modesChanged = true;
+        this.modesZeroed = true;
         updateView();
-        this.modesChanged = false;
     }
 
     //SETTERS and GETTERS
@@ -196,6 +201,10 @@ public class Model2 {
 
     public function get nMax():int {
         return this._nMax;
+    }
+
+    public function set verletOn(tOrF:Boolean):void{
+        this._verletOn = tOrF;
     }
 
 
@@ -238,14 +247,16 @@ public class Model2 {
 
 
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
-        this.modeAmpli_arr[ modeNbrR - 1 ][ modeNbrS - 1 ] = A;
+        //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
+        this._verletOn = false;
+        this.modeAmpli_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modesChanged = true;
         updateView();
         this.modesChanged = false;
     }
 
     public function getModeAmpli( modeNbrR:int, modeNbrS:int ):Number{
-        return this.modeAmpli_arr[ modeNbrR - 1][ modeNbrS - 1] ;
+        return this.modeAmpli_arr[ modeNbrR ][ modeNbrS ] ;
     }
 
 /*    public function setModePhase( modeNbr:int,  phase:Number ):void{
@@ -305,7 +316,7 @@ public class Model2 {
 
     private function stepForward( evt: TimerEvent ): void {
         //need function without event argument
-        this.singleStepVerlet();
+        this.singleStep();
         evt.updateAfterEvent();
     }
 /*
@@ -329,9 +340,7 @@ public class Model2 {
     }//computeModeAmplitudesAndPhases();
 */
 
-
-
-    private function singleStepVerlet():void{       //velocity verlet algorithm
+    private function singleStep():void{
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
         var realDt: Number = currentTime - this.lastTime;
         this.lastTime = currentTime;
@@ -344,11 +353,20 @@ public class Model2 {
             this.dt = this.tRate * 0.06;
         }
         this.t += this.dt;
+
+        if( this._verletOn ){
+           this.singleStepVerlet();
+        }else{
+            this.singleStepExact();
+        }
+        this.updateView();
+    }
+
+    private function singleStepVerlet():void{       //velocity verlet algorithm
         //trace("Model2.t = "+ this.t);
 //        if(this._grabbedMassIndices[0] == 2 && this._grabbedMassIndices[1] == 2) {
 //            trace("Model2.singleStepVerlet.  massView [2,2] grabbed");
 //        }
-
         for(var i:int = 1; i <= this._N; i++){
             for(var j:int = 1; j <= this._N; j++){
                 if( this._grabbedMassIndices[0] != i || this._grabbedMassIndices[1] != j ){
@@ -378,19 +396,24 @@ public class Model2 {
                 }
             }//end for j loop
         }//end for i loop
-
-        this.updateView();
     }//end singleStepVerlet()
 
-/*    private function singleStepExact():void{
-        for(var i:int = 1; i <= this._N; i++){          //step thru N mobile masses
-            s_arr[i] = 0
-            for( var r:int = 1; r <= this._N; r++){     //step thru N normal modes
-               var j:int = r - 1;
-               this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this.t - modePhase_arr[j]);
-            }
-        }
-    }*/
+
+    private function singleStepExact():void{
+        var pi:Number = Math.PI;
+        for(var i:int = 1; i <= this._N; i++ ){
+            for( var j:int = 1; j <= this._N;  j++ ){
+                sx_arr[i][j] = 0;
+                sy_arr[i][j] = 0;
+                for( var r:int = 1; r <= this._N; r++ ){
+                    for(var s:int =1; s <= this._N; s++ ){
+                         this.sx_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                    }//end for s
+                }//end for r
+            }//end for j
+        }//end for i
+    }//end singleStepExact()
+
 
     public function singleStepWhenPaused():void{
         this.dt = this.tRate * 0.02;
@@ -409,10 +432,10 @@ public class Model2 {
             this.myMainView.myButtonArrayPanel.setNbrButtons()
             this.nChanged = false;
         }
-//        if( modesChanged ){
-//            this.view.myMainView.mySliderArrayPanel.resetSliders();
-//            this.modesChanged = false;
-//        }
+        if( modesZeroed ){
+            this.myMainView.myButtonArrayPanel.setNbrButtons();
+            this.modesZeroed = false;
+        }
         this.view.update();
     }//end updateView()
 

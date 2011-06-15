@@ -77,7 +77,7 @@ public class View1 extends Sprite {
         for(var i:int = 0; i <= nMasses; i++){
            var g:Graphics = this.spring_arr[i].graphics;
            g.clear();
-           g.lineStyle( 2, 0xff0000, 1 );
+           g.lineStyle( 2, 0xff0000, 1, true, LineScaleMode.NONE  );
            g.moveTo( 0, 0 );
            g.lineTo(leadL, 0);
             for(var j:int = 0; j < nTurns; j++){

@@ -60,6 +60,7 @@ public class ButtonArrayPanel extends UIComponent{
             for( var j: int = 1; j <= N; j++ ){
                 this.button_arr[i][j].setSize( this.containerWidth/N );
                 this.button_arr[i][j].visible = true;
+                this.button_arr[i][j].drawButton( 0xffffff );
                 this.button_arr[i][j].x = ( j-1 )*size;
                 this.button_arr[i][j].y = ( i-1 )*size;
             }
