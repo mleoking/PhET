@@ -1,4 +1,3 @@
-# 0.00.43 (53166) Jun 15, 2011
 Water tab: Added a mini beaker and zoom lines
 Water tab: Added a "hide water" button
 Water tab: Moved the control panel to the bottom left
