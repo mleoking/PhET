@@ -1,3 +1,5 @@
+Made it so that any water touching Na+ or Cl- is moved before NaCl is added
+Reduced the charge of Na+ and Cl-
 Added developer controls for charges
 # 0.00.46 (53180) Jun 15, 2011
 Water tab: removed a NaCl
