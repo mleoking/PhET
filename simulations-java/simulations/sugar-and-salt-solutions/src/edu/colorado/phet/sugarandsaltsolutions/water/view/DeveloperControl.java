@@ -6,58 +6,55 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.PropertySlider;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
+ * Developer controls for water model tab physics.
+ *
  * @author Sam Reid
  */
-public class DeveloperControl extends ControlPanelNode {
+public class DeveloperControl extends VerticalLayoutPanel {
 
-    public DeveloperControl( final WaterModel model ) {
-        super( new VBox(
-                //Button to add a single sodium ion
-                new HTMLImageButtonNode( "Add Sodium Ion" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addSodiumIon( model.getRandomX(), model.beakerHeight );
-                        }
-                    } );
-                }},
-                //Button to add a chlorine icon
-                new HTMLImageButtonNode( "Add Chlorine Ion" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addChlorineIon( model.getRandomX(), model.beakerHeight );
-                        }
-                    } );
-                }},
-                //button to add a water
-                new HTMLImageButtonNode( "Add Water" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            model.addWater( model.getRandomX(), model.getRandomY(), 0 );
-                        }
-                    } );
-                }},
+    public DeveloperControl( final WaterModel waterModel ) {
 
-                //Developer controls for physics settings,
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "k" ) );
-                    add( new PropertySlider( 0, 1000, model.k ) );
-                }} ),
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "pow" ) );
-                    add( new PropertySlider( 0, 10, model.pow ) );
-                }} ),
-                new PSwing( new JPanel() {{
-                    add( new JLabel( "rand" ) );
-                    add( new PropertySlider( 0, 100, model.randomness ) );
-                }} )
-        ) {{}} );
+        //Developer controls for physics settings,
+        add( new JButton( "Add Water" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    waterModel.addWater( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
+                }
+            } );
+        }} );
+        add( new JPanel() {{
+            add( new JLabel( "k" ) );
+            add( new PropertySlider( 0, 1000, waterModel.k ) );
+            add( new PropertyJLabel( waterModel.k ) );
+        }} );
+        add( new JPanel() {{
+            add( new JLabel( "pow" ) );
+            add( new PropertySlider( 0, 10, waterModel.pow ) );
+            add( new PropertyJLabel( waterModel.pow ) );
+        }} );
+
+        add( new JPanel() {{
+            add( new JLabel( "rand" ) );
+            add( new PropertySlider( 0, 100, waterModel.randomness ) );
+            add( new PropertyJLabel( waterModel.randomness ) );
+        }} );
+    }
+
+    private class PropertyJLabel extends JLabel {
+        public PropertyJLabel( Property<Integer> k ) {
+            super( k.get() + "" );
+            k.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer integer ) {
+                    setText( integer + "" );
+                }
+            } );
+        }
     }
 }
