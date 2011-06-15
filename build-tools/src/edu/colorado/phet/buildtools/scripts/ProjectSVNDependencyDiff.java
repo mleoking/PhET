@@ -1,36 +1,48 @@
 package edu.colorado.phet.buildtools.scripts;
 
+import java.io.*;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
 import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-public class SVNLogReader {
+/**
+ * Tool to help identify changes that occurred on a sim since the last deploy, for purposes of seeing whether unwanted changes crept in
+ *
+ * @author Sam Reid
+ */
+public class ProjectSVNDependencyDiff {
     private File trunk;
 
-    public SVNLogReader( File trunk ) {
+    public ProjectSVNDependencyDiff( File trunk ) {
         this.trunk = trunk;
     }
 
     public static void main( String[] args ) {
+        if ( args.length != 3 ) {
+            System.out.println( "Usage: SVNLogReader trunk project revision" );
+        }
         String trunk = args[0];
         String project = args[1];
-        {
-            ArrayList<Log> logs = new SVNLogReader( new File( trunk ) ).getLog( project, "log" );
-            for ( int i = 0; i < logs.size(); i++ ) {
-                System.out.println( logs.get( i ) );
-            }
-        }
+        int revision = Integer.parseInt( args[2] );
+        BuildLocalProperties.initRelativeToTrunk( new File( trunk ) );
 
-        {
-            ArrayList<Log> logs = new SVNLogReader( new File( trunk ) ).getLog( project, "diff" );
-            for ( int i = 0; i < logs.size(); i++ ) {
-                System.out.println( logs.get( i ) );
-            }
+        //Show all log entries
+        int count = 0;
+        final ArrayList<Log> commitMessages = new ProjectSVNDependencyDiff( new File( trunk ) ).getLog( project, "log", revision );
+        for ( Log log : commitMessages ) {
+            System.out.println( log );
+            count = count + log.numLines();
+        }
+        //there are at least 3 lines per commit message, a line of ------------, a line with revision number and a line with commit message
+        System.out.println( "Summary: At least " + count / 3 + " commits since " + revision );
+
+        final ArrayList<Log> diffs = new ProjectSVNDependencyDiff( new File( trunk ) ).getLog( project, "diff", revision );
+        for ( Log diff : diffs ) {
+            System.out.println( diff );
         }
     }
 
@@ -59,14 +71,20 @@ public class SVNLogReader {
             }
             return s;
         }
+
+        public int numLines() {
+            return changeSet.entries.length;
+        }
     }
 
-    private ArrayList<Log> getLog( String project, String command ) {
-        PhetProject proj = getProject( project );
-        int since = getLastDeploy( proj ) + 1;
+    private ArrayList<Log> getLog( String project, String command,
+                                   //Revision of the last deploy
+                                   int revision ) {
+        //Find out what changed after the last deploy (not including the deploy)
+        int since = revision + 1;
         System.out.println( "Getting info since revision: " + since );
 
-        return getLogs( proj, since, command );
+        return getLogs( getProject( project ), since, command );
     }
 
     //automatically identify revision based on last deploy indicated in changelog
@@ -83,10 +101,10 @@ public class SVNLogReader {
             }
             bufferedReader.close();
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         throw new RuntimeException( "Last deploy not found" );
@@ -110,11 +128,11 @@ public class SVNLogReader {
         try {
             BuildLocalProperties.initRelativeToTrunk( trunk );
         }
-        catch( IllegalStateException ise ) {
+        catch ( IllegalStateException ise ) {
         }
         BuildLocalProperties properties = BuildLocalProperties.getInstance();
         AuthenticationInfo auth = properties.getRespositoryAuthenticationInfo();
-        String[] args = new String[]{"svn", command, "-r", "HEAD:" + since, "--username", auth.getUsername(), "--password", auth.getPassword()};
+        String[] args = new String[] { "svn", command, "-r", "HEAD:" + since, "--username", auth.getUsername(), "--password", auth.getPassword() };
         System.out.print( "Getting " + command + " for " + dependency.getName() + "..." );
         ProcessOutputReader.ProcessExecResult output = exec( args, dependency.getProjectDir() );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
@@ -146,13 +164,13 @@ public class SVNLogReader {
 
                 return new ProcessOutputReader.ProcessExecResult( args, code, processOutputReader.getOutput(), processErr.getOutput() );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
                 throw new RuntimeException( e );
             }
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
