@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.World;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -65,7 +66,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private final Vec2 zero = new Vec2();
 
     //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 4000 );
+    public final Property<Integer> k = new Property<Integer>( 100 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 100 );
     private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
@@ -73,6 +74,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
             addFrameListener( waterMolecule );
         }
     };
+
+    //User settings
+    public final SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -189,23 +193,18 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         for ( Molecule molecule : getAllMolecules() ) {
             for ( Atom atom : molecule.atoms ) {
                 //Only apply the force in some interactions, to improve performance and increase randomness
-                if ( Math.random() > 0.75 ) {
+                if ( Math.random() > 0.5 ) {
                     molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
                 }
             }
         }
         long t2 = System.currentTimeMillis();
 //        System.out.println( "delta = " + ( t2 - t ) );
-        try {
-            world.step( (float) dt / 10, 4 );
-        }
-        catch ( AssertionError error ) {
-            //Thrown in World around these lines:
-//            TimeStep subStep = new TimeStep();
-//    		subStep.dt = (1.0f - minTOI) * step.dt;
-//    		assert(subStep.dt > Settings.EPSILON);
-            error.printStackTrace();
-        }
+
+        //Box2D will exception unless values are within its sweet spot range.
+        //if DT gets too low, it is hard to recover from assertion errors in box2D
+        //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
+        world.step( (float) dt / 2, 100 );
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( getAllMolecules() );
@@ -293,12 +292,18 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         }
         Vec2 r = sourceBox2DPosition.sub( targetBox2DPosition );
         double distance = r.length();
+//        System.out.println( distance );
 
-        //Optimize forces for the distance between a sodium and chlorine so it is the strongest bond.
+        //Limit the max force or objects will get accelerated too much
+        //After particles get far enough apart, just ignore the force.  Otherwise Na+ and Cl- will seek each other out from far away.
         //Units are box2d units
-        final double MIN = 0.1;
+        final double MIN = 0.5;
+        final double MAX = 2;
         if ( distance < MIN ) {
             distance = MIN;
+        }
+        else if ( distance > MAX ) {
+            return zero;
         }
 
         double q1 = source.getCharge();
