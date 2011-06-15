@@ -58,7 +58,9 @@ public class WaterCanvas extends PhetPCanvas {
         addWorldChild( rootNode );
 
         //Show the region with the particles
-        particleWindowNode = new ParticleWindowNode( waterModel, transform );
+        particleWindowNode = new ParticleWindowNode( waterModel, transform ) {{
+            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - 50, 0 );
+        }};
         rootNode.addChild( particleWindowNode );
 
         //Set the transform from stage coordinates to screen coordinates
@@ -118,7 +120,7 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
                 }}
         ) ) {{
-            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - MacroCanvas.INSET, canvasSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+            setOffset( MacroCanvas.INSET, canvasSize.getHeight() - getFullBounds().getHeight() - MacroCanvas.INSET );
         }} );
         waterModel.k.trace( "k" );
         waterModel.pow.trace( "pow" );
