@@ -157,6 +157,10 @@ public class WaterCanvas extends PhetPCanvas {
         waterModel.k.trace( "k" );
         waterModel.pow.trace( "pow" );
         waterModel.randomness.trace( "randomness" );
+
+//        BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( 100, 100 ), new Dimension2DDouble( 100, 100 ), Color.blue, "Salt" ), new ModelViewTransform());
+//        addChild( bucketView.getHoleNode() );
+//        addChild( bucketView.getFrontNode() );
     }
 
     private void addChild( PNode node ) {
