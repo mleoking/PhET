@@ -8,6 +8,7 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -29,7 +30,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class GrabbableVectorNode extends VectorNode {
     private PhetPPath grabArea;
 
-    public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible, final Property<ImmutableVector2D> vector,
+    public GrabbableVectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final BooleanProperty visible, final Property<ImmutableVector2D> vector,
                                 final double scale, Color fill, Color outline, final String labelText ) {
         super( body, modelViewTransform, visible, vector, scale, fill, outline );
         final Point2D tip = getTip();

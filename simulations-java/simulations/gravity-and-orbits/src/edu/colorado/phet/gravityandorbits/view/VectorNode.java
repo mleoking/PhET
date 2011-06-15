@@ -6,15 +6,16 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
 /**
  * Draws a vector for a Body, such as a force vector or velocity vector.
@@ -29,20 +30,19 @@ public class VectorNode extends PNode {
     private Property<ImmutableVector2D> vector;
     private ArrowNode arrowNode;
 
-    public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final Property<Boolean> visible,
+    public VectorNode( final Body body, final Property<ModelViewTransform> modelViewTransform, final BooleanProperty visible,
                        final Property<ImmutableVector2D> vector, final double scale, final Color fill, final Color outline ) {
         this.vector = vector;
         this.body = body;
         this.modelViewTransform = modelViewTransform;
         this.scale = scale;
         //Only show if the body hasn't collided
-        new And( visible, new SettableNot( body.getCollidedProperty() ) ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    setVisible( get() );
-                }
-            } );
-        }};
+        visible.and( not( body.getCollidedProperty() ) ).addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
+            }
+        } );
+
         arrowNode = new ArrowNode( new Point2D.Double(), new Point2D.Double(), 15, 15, 5, 0.5, true ) {{
             setPaint( fill );
             setStrokePaint( outline );
