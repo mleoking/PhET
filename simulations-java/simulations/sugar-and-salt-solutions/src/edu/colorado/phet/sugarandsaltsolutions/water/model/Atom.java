@@ -18,8 +18,10 @@ public class Atom {
     public final Property<ImmutableVector2D> position;
     public final Particle particle;
     public final ImmutableVector2D modelOffset;
+    public final double radius;
 
     public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final ObservableProperty<Double> charge, final boolean origin ) {
+        this.radius = r;
         modelOffset = new ImmutableVector2D( localOffsetX, localOffsetY );
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
 

@@ -38,4 +38,13 @@ public class WaterMolecule extends Molecule {
     public Atom getHydrogen2() {
         return atoms.get( 2 );
     }
+
+    public boolean intersects( DefaultParticle particle ) {
+        for ( Atom atom : atoms ) {
+            if ( atom.position.get().getDistance( particle.position.get() ) < atom.radius + particle.atoms.get( 0 ).radius ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
