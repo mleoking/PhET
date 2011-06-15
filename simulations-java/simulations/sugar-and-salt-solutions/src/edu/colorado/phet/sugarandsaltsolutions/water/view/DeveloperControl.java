@@ -20,38 +20,74 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 public class DeveloperControl extends VerticalLayoutPanel {
 
     public DeveloperControl( final WaterModel waterModel ) {
-
         //Developer controls for physics settings,
-        add( new JButton( "Add Water" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    waterModel.addWater( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
-                }
-            } );
-        }} );
         add( new JPanel() {{
-            add( new JLabel( "k" ) );
+            add( new JButton( "Add Water" ) {{
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        waterModel.addWater( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
+                    }
+                } );
+            }} );
+            add( new JLabel( "num waters:" ) );
+            add( new DoubleLabel( waterModel.waterList.count ) );
+        }} );
+        add( new JLabel( "coulomb strength (k)" ) );
+        add( new JPanel() {{
             add( new PropertySlider( 0, 1000, waterModel.k ) );
-            add( new PropertyJLabel( waterModel.k ) );
+            add( new IntLabel( waterModel.k ) );
         }} );
+        add( new JLabel( "coulomb power" ) );
         add( new JPanel() {{
-            add( new JLabel( "pow" ) );
-            add( new PropertySlider( 0, 10, waterModel.pow ) );
-            add( new PropertyJLabel( waterModel.pow ) );
+            add( new PropertySlider( 0, 4, waterModel.pow ) );
+            add( new IntLabel( waterModel.pow ) );
+        }} );
+
+        add( new JLabel( "model randomness" ) );
+        add( new JPanel() {{
+            add( new PropertySlider( 0, 100, waterModel.randomness ) );
+            add( new IntLabel( waterModel.randomness ) );
         }} );
 
         add( new JPanel() {{
-            add( new JLabel( "rand" ) );
-            add( new PropertySlider( 0, 100, waterModel.randomness ) );
-            add( new PropertyJLabel( waterModel.randomness ) );
+            add( new DoublePropertySlider( "min interaction dist", 0, 8, waterModel.minInteractionDistance ) );
+        }} );
+
+        add( new JPanel() {{
+            add( new DoublePropertySlider( "max interaction dist", 0, 8, waterModel.maxInteractionDistance ) );
+        }} );
+
+        add( new JPanel() {{
+            add( new DoublePropertySlider( "prob. of interaction", 0, 1, waterModel.probabilityOfInteraction ) );
+        }} );
+
+        add( new JPanel() {{
+            add( new DoublePropertySlider( "time scale", 0, 1, waterModel.timeScale ) );
+        }} );
+
+        add( new JLabel( "iterations per time step" ) );
+        add( new JPanel() {{
+            add( new PropertySlider( 0, 500, waterModel.iterations ) );
+            add( new IntLabel( waterModel.iterations ) );
         }} );
     }
 
-    private class PropertyJLabel extends JLabel {
-        public PropertyJLabel( Property<Integer> k ) {
+    private class IntLabel extends JLabel {
+        public IntLabel( Property<Integer> k ) {
             super( k.get() + "" );
             k.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
+                    setText( integer + "" );
+                }
+            } );
+        }
+    }
+
+    private class DoubleLabel extends JLabel {
+        public DoubleLabel( Property<Double> k ) {
+            super( k.get() + "" );
+            k.addObserver( new VoidFunction1<Double>() {
+                public void apply( Double integer ) {
                     setText( integer + "" );
                 }
             } );

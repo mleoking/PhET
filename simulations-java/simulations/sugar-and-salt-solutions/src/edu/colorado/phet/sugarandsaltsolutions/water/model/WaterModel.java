@@ -69,6 +69,11 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     public final Property<Integer> k = new Property<Integer>( 100 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 100 );
+    public final Property<Double> minInteractionDistance = new Property<Double>( 0.5 );
+    public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
+    public final Property<Double> timeScale = new Property<Double>( 0.5 );
+    public final Property<Integer> iterations = new Property<Integer>( 100 );
     private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
             addFrameListener( waterMolecule );
@@ -194,7 +199,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         for ( Molecule molecule : getAllMolecules() ) {
             for ( Atom atom : molecule.atoms ) {
                 //Only apply the force in some interactions, to improve performance and increase randomness
-                if ( Math.random() > 0.5 ) {
+                if ( Math.random() < probabilityOfInteraction.get() ) {
                     molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
                 }
             }
@@ -205,7 +210,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         //Box2D will exception unless values are within its sweet spot range.
         //if DT gets too low, it is hard to recover from assertion errors in box2D
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
-        world.step( (float) dt / 2, 100 );
+        world.step( (float) ( dt * timeScale.get() ), iterations.get() );
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( getAllMolecules() );
@@ -298,8 +303,8 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         //Limit the max force or objects will get accelerated too much
         //After particles get far enough apart, just ignore the force.  Otherwise Na+ and Cl- will seek each other out from far away.
         //Units are box2d units
-        final double MIN = 0.5;
-        final double MAX = 2;
+        final double MIN = minInteractionDistance.get();
+        final double MAX = maxInteractionDistance.get();
         if ( distance < MIN ) {
             distance = MIN;
         }
