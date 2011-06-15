@@ -29,20 +29,22 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         super( config );
 
         //Create a shared configuration for changing colors in all tabs
-        final SugarAndSaltSolutionsColorScheme configuration = new SugarAndSaltSolutionsColorScheme();
+        final SugarAndSaltSolutionsColorScheme colorScheme = new SugarAndSaltSolutionsColorScheme();
+
+        final GlobalSettings globalSettings = new GlobalSettings( colorScheme, config );
 
         //Create the modules
-        addModule( new MacroModule( configuration ) );
-        addModule( new MicroModule( configuration ) );
-        addModule( new WaterModule( configuration ) );
+        addModule( new MacroModule( colorScheme ) );
+        addModule( new MicroModule( colorScheme ) );
+        addModule( new WaterModule( globalSettings ) );
 
         if ( config.isDev() ) {
             setStartModule( moduleAt( 2 ) );
         }
 
         //Add developer menus for changing the color of background and salt
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", configuration.backgroundColor ) );
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", configuration.saltColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", colorScheme.backgroundColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", colorScheme.saltColor ) );
     }
 
     public static void main( String[] args ) {

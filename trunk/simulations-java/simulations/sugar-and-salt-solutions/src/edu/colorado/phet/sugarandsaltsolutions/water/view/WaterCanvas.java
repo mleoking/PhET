@@ -6,15 +6,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalSettings;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
@@ -38,11 +42,11 @@ public class WaterCanvas extends PhetPCanvas {
     //Separate layer for the particles so they are always behind the control panel
     private ParticleWindowNode particleWindowNode;
 
-    public WaterCanvas( final WaterModel waterModel, final SugarAndSaltSolutionsColorScheme config ) {
+    public WaterCanvas( final WaterModel waterModel, final GlobalSettings settings ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
-        config.backgroundColor.addObserver( new VoidFunction1<Color>() {
+        settings.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
-                setBackground( config.backgroundColor.get() );
+                setBackground( color );
             }
         } );
 
@@ -123,6 +127,21 @@ public class WaterCanvas extends PhetPCanvas {
                 new PSwing( new PropertyCheckBox( "Hide water", waterModel.hideWater ) {{
                     setFont( new PhetFont( 16 ) );
                 }} ),
+
+                //If development version, show button to launch developer controls
+                settings.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{
+                    addActionListener( new ActionListener() {
+                        DeveloperControlDialog dialog = null;
+
+                        public void actionPerformed( ActionEvent e ) {
+                            if ( dialog == null ) {
+                                dialog = new DeveloperControlDialog( SwingUtilities.getWindowAncestor( WaterCanvas.this ), waterModel );
+                                SwingUtils.centerInParent( dialog );
+                            }
+                            dialog.setVisible( true );
+                        }
+                    } );
+                }} : new PNode(),
 
                 //Add a reset all button that resets this tab
                 new HTMLImageButtonNode( "Reset All" ) {{
