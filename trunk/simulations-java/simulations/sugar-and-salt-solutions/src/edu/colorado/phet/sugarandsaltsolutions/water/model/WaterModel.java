@@ -121,8 +121,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         addSodiumIon( 0, beakerHeight / 2 );
         addChlorineIon( separation, beakerHeight / 2 );
 
-        addChlorineIon( 0, beakerHeight / 2 + separation );
-        addSodiumIon( separation, beakerHeight / 2 + separation );
+        //Only showing one NaCl because if there are 2, the opposite partners join together too easily
+//        addChlorineIon( 0, beakerHeight / 2 + separation );
+//        addSodiumIon( separation, beakerHeight / 2 + separation );
     }
 
     //Adds a sugar crystal near the center of the screen
