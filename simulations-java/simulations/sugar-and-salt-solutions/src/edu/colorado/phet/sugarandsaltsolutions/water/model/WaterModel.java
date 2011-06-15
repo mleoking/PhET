@@ -77,6 +77,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     //User settings
     public final SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
+    public final SettableProperty<Boolean> hideWater = new Property<Boolean>( false );//Allow the user to hide the water molecules so they can focus on the solutes
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units

@@ -111,6 +111,11 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
                 }} ),
 
+                //Allow the user to hide the water graphics
+                new PSwing( new PropertyCheckBox( "Hide water", waterModel.hideWater ) {{
+                    setFont( new PhetFont( 16 ) );
+                }} ),
+
                 //Add a reset all button that resets this tab
                 new HTMLImageButtonNode( "Reset All" ) {{
                     addActionListener( new ActionListener() {
