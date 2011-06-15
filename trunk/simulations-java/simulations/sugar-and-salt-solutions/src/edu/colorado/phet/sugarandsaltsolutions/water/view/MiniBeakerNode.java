@@ -24,7 +24,7 @@ public class MiniBeakerNode extends PNode {
         final ModelViewTransform transform = SugarAndSaltSolutionsCanvas.createTransform( model );
 
         addChild( new BeakerNode( transform, model.beaker ) );
-        addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
+        addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 255 ) ) );
 
         //Make it smaller so it will fit on the screen
         scale( 0.3 );
