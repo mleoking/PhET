@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -29,10 +30,10 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public static final double G = 6.67428E-11;
 
     //Properties that are common to all "modes" should live here.
-    public final Property<Boolean> showGravityForceProperty = new Property<Boolean>( false );
+    public final BooleanProperty showGravityForceProperty = new BooleanProperty( false );
     public final Property<Boolean> showPathProperty = new Property<Boolean>( false );
     public final Property<Boolean> showGridProperty = new Property<Boolean>( false );
-    public final Property<Boolean> showVelocityProperty = new Property<Boolean>( false );
+    public final BooleanProperty showVelocityProperty = new BooleanProperty( false );
     public final Property<Boolean> showMassProperty = new Property<Boolean>( false );
     public final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
     public final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
