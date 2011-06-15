@@ -1,3 +1,4 @@
+# 0.00.47 (53188) Jun 15, 2011
 Made it so that any water touching Na+ or Cl- is moved before NaCl is added
 Reduced the charge of Na+ and Cl-
 Added developer controls for charges
