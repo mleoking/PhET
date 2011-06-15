@@ -1,5 +1,5 @@
-// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
+// Copyright 2002-2011, University of Colorado
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -24,6 +24,9 @@ import edu.umd.cs.piccolox.nodes.PClip;
  */
 public class ParticleWindowNode extends PNode {
     private final PNode particleLayer = new PNode();
+
+    //Color to show around the particle window as its border.  Also used for the zoom in box in ZoomIndicatorNode
+    public static final Color FRAME_COLOR = Color.orange;
 
     public ParticleWindowNode( final WaterModel waterModel, final ModelViewTransform transform ) {
 
@@ -94,7 +97,7 @@ public class ParticleWindowNode extends PNode {
             double inset = 40;
             setPathTo( new Rectangle2D.Double( inset, inset, WaterCanvas.canvasSize.getWidth() - inset * 2, WaterCanvas.canvasSize.getHeight() - inset * 2 ) );
             setStroke( new BasicStroke( 2 ) );
-            setStrokePaint( Color.black );
+            setStrokePaint( FRAME_COLOR );
             addChild( particleLayer );
         }};
         addChild( clip );
