@@ -1,6 +1,7 @@
+Water tab: Moved the control panel to the bottom left
+Water tab: Decreased the size of the particle window
 Water tab: Added a frame around the particles
 Water tab: Fixed crashing due to physics
-Water tab:
 # 0.00.42 (53139) Jun 14, 2011
 Micro tab: Fixed: It looks like solution still comes out of the bottom faucet when the minimum volume is reached
 Micro tab: Fixed: Remove sugar button disappeared

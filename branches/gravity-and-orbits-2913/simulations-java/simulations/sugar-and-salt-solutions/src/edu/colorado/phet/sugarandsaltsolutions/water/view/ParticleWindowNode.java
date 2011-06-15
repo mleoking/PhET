@@ -98,5 +98,7 @@ public class ParticleWindowNode extends PNode {
             addChild( particleLayer );
         }};
         addChild( clip );
+
+        scale( 0.75 );
     }
 }
