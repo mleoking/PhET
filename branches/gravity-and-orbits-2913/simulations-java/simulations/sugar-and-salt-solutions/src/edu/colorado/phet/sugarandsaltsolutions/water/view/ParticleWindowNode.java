@@ -38,7 +38,7 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for WaterMolecules
         new GraphicAdapter<WaterMolecule>( particleLayer, new Function1<WaterMolecule, PNode>() {
             public PNode apply( WaterMolecule waterMolecule ) {
-                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
+                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener, waterModel.hideWater );
             }
         }, waterModel.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
             public void apply( VoidFunction1<WaterMolecule> createNode ) {
