@@ -138,9 +138,9 @@ public class NiceButton2 extends Sprite {
                 localRef.label_txt.setTextFormat( localRef.tFormat );
                 //trace("evt.name:"+evt.type);
             }
-        }//end of buttonBehave
+        }//end of buttonBehave()
 
-    }//end of makeButton
+    }//end of activateButton()
 
 }//end of class
 }//end of package

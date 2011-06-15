@@ -10,6 +10,8 @@ import flash.display.Sprite;
 
 import mx.core.UIComponent;
 
+import org.aswing.JAccordion;
+
 public class ButtonArrayPanel extends UIComponent{
 
     private var myMainView: MainView;
@@ -26,7 +28,7 @@ public class ButtonArrayPanel extends UIComponent{
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.nMax = this.myModel2.nMax;
-        this.containerWidth = 100;
+        this.containerWidth = 200;
         this.container = new Sprite();
         var nbrMasses:int = this.myModel2.N;
         //button_arr is nMax+1 x nMax+1,  i = 0 row and j = 0 column are dummies
@@ -39,16 +41,29 @@ public class ButtonArrayPanel extends UIComponent{
             for(var j:int = 1; j <= nMax; j++){
                 this.button_arr[i][j] = new ModeButton( myModel2, i, j, this.containerWidth/nbrMasses );
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
-
             }
         }
         this.addChild( this.container );
-        this.setNbrButtons();
+        this.setNbrButtons( );
 
     } //end constructor
 
-    public function setNbrButtons( N:int ):void{
-
+    public function setNbrButtons( ):void{
+        for(var i: int = 1; i <= this.nMax; i++ ){
+            for( var j: int = 1; j <= this.nMax; j++ ){
+                this.button_arr[i][j].visible = false;
+            }
+        }
+        var N:int = this.myModel2.N;
+        var size:Number = this.containerWidth/N;
+        for(var i: int = 1; i <= N; i++ ){
+            for( var j: int = 1; j <= N; j++ ){
+                this.button_arr[i][j].setSize( this.containerWidth/N );
+                this.button_arr[i][j].visible = true;
+                this.button_arr[i][j].x = ( j-1 )*size;
+                this.button_arr[i][j].y = ( i-1 )*size;
+            }
+        }
     }
 } //end class
 } //end package

@@ -22,6 +22,7 @@ public class MainView extends Canvas {
 
     var myPlayPauseButtons: PlayPauseButtons;
     var mySliderArrayPanel: SliderArrayPanel;
+    var myButtonArrayPanel: ButtonArrayPanel;
     //var ruler:VerticalRuler;
     var myControlPanel: ControlPanel;
     var phetLogo: Sprite;
@@ -31,15 +32,15 @@ public class MainView extends Canvas {
     //Internalized strings are located at:
 
 
-    public function MainView( myModel1: Model1, myModel2: Model2,  stageW: Number, stageH: Number ) {
+    public function MainView( stageW: Number, stageH: Number ) {
         percentWidth = 100;
         percentHeight = 100;
         this.stageH = stageH;
         this.stageW = stageW;
         this.oneDMode = true;       //start up in 1D mode
 
-        this.myModel1 = myModel1;
-        this.myModel2 = myModel2;
+        this.myModel1 = new Model1( ) ;
+        this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
         this.myView1 = new View1( this, myModel1 );
         this.myView2 = new View2( this, myModel2 );
@@ -61,6 +62,11 @@ public class MainView extends Canvas {
         this.myControlPanel.x = 0.85 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.05 * stageH;
 
+        this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
+        this.myButtonArrayPanel.x = 0.8*stageW;
+        this.myButtonArrayPanel.y = 0.6*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
+        this.myButtonArrayPanel.visible = false;
+
         this.phetLogo = new PhetIcon();
 
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
@@ -73,6 +79,7 @@ public class MainView extends Canvas {
         this.myView2.visible = false;
         //this.addChild( new SpriteUIComponent( ruler ));
         this.addChild( myControlPanel );
+        this.addChild( myButtonArrayPanel );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
     }//end of constructor
@@ -85,6 +92,7 @@ public class MainView extends Canvas {
             this.myView1.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
+            this.myButtonArrayPanel.visible = false;
             this.myPlayPauseButtons.setModel( this.myModel1 );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
@@ -93,12 +101,12 @@ public class MainView extends Canvas {
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
+            this.myButtonArrayPanel.visible = true;
             this.myPlayPauseButtons.setModel( this.myModel2 );
         }
     }
 
     public function initializeAll(): void {
-
         this.myView1.initializeControls();
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
