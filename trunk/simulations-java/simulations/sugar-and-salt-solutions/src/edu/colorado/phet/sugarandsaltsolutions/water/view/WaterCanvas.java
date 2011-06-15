@@ -67,7 +67,7 @@ public class WaterCanvas extends PhetPCanvas {
         setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
 
         final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{
-            translate( 0, -100 );
+            translate( 0, 300 );
         }};
         addChild( miniBeakerNode );
 
