@@ -76,14 +76,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                                     (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
-        //Create the transform from model (SI) to view (stage) coordinates
-        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
-        transform = createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
-                                                     //Manually tuned so that the model part shows up in the left side of the canvas,
-                                                     // leaving enough room for controls, labels, and positioning it so it appears near the bottom
-                                                     new Rectangle2D.Double( 20,
-                                                                             135,//increasing this number moves down the beaker
-                                                                             canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+        transform = createTransform( model );
+
 //        System.out.println( "transform.getTransform().getScaleX() = " + transform.getTransform().getScaleX() );
         // Root of our scene graph
         rootNode = new PNode();
@@ -166,9 +160,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         submergedInWaterNode.addChild( crystalLayer );
 
-        //Add beaker and water nodes and an indicator for the water volume
-        final BeakerNode beakerNode = new BeakerNode( transform, model.beaker );
-        addChild( beakerNode );
+        //Add beaker node that shows border of the beaker and tick marks
+        addChild( new BeakerNode( transform, model.beaker ) );
 
         //Debug for showing stage
         if ( debug ) {
@@ -181,6 +174,17 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
                 }
             } );
         }
+    }
+
+    //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab
+    public static ModelViewTransform createTransform( SugarAndSaltSolutionModel model ) {
+        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
+        return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                new Rectangle2D.Double( 20,
+                                                                        135,//increasing this number moves down the beaker
+                                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
     }
 
     public void addChild( PNode node ) {

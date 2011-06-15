@@ -57,7 +57,7 @@ public class WaterCanvas extends PhetPCanvas {
         // Root of our scene graph
         addWorldChild( rootNode );
 
-        //Show the region with the particles
+        //Add the region with the particles
         particleWindowNode = new ParticleWindowNode( waterModel, transform ) {{
             setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - 50, 0 );
         }};
@@ -65,6 +65,14 @@ public class WaterCanvas extends PhetPCanvas {
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
+
+        final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{
+            translate( 0, -100 );
+        }};
+        addChild( miniBeakerNode );
+
+        //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
+        addChild( new ZoomIndicatorNode( miniBeakerNode, particleWindowNode ) );
 
         //Control panel
         addChild( new ControlPanelNode( new VBox(
