@@ -1,4 +1,5 @@
 Water tab: Made water color more visible against the background
+Water tab: Made mini beaker walls thicker
 # 0.00.44 (53175) Jun 15, 2011
 Water tab: Added developer controls
 # 0.00.43 (53169) Jun 15, 2011

@@ -29,7 +29,7 @@ public class Beaker {
     private final double depth;
 
     //Width of the beaker
-    private final float wallWidth = 0.0025f;
+    public float wallWidth = 0.0025f;
 
     //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
     //This value was sampled by trial and error at runtime
@@ -44,6 +44,11 @@ public class Beaker {
         this.width = width;
         this.height = height;
         this.depth = depth;
+    }
+
+    //Make the walls bigger for MiniBeakerNode
+    public void setWallWidth( float wallWidth ) {
+        this.wallWidth = wallWidth;
     }
 
     //Gets the y-location of the base of the beaker
