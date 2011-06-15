@@ -14,6 +14,7 @@ import flash.utils.getTimer;
 
 public class Model2 {
 
+    public var myMainView: MainView;
     public var view: View2;          //view associated with this model
     //physical variables
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
@@ -52,7 +53,8 @@ public class Model2 {
     private var dt: Number;  	    //default time step in seconds
     private var msTimer: Timer;	    //millisecond timer
 
-    public function Model2( ) {
+    public function Model2( myMainView: MainView ) {
+        this.myMainView = myMainView;
         //all 2D arrays are in row-column format, x (column) increases to right; y (row) increases down
         this._nMax = 10;      //maximum of 10*10 mobile masses in 2D array
         this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
@@ -404,6 +406,7 @@ public class Model2 {
     public function updateView(): void {
         if(nChanged){
             this.view.setNbrMasses();
+            this.myMainView.myButtonArrayPanel.setNbrButtons()
             this.nChanged = false;
         }
 //        if( modesChanged ){
