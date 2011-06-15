@@ -2,7 +2,6 @@
 package edu.colorado.phet.torque.game;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.torque.teetertotter.view.TeeterTotterTorqueCanvas;
 
@@ -21,4 +20,5 @@ public class TorqueGameModule extends Module {
         // TODO: i18n
         super( "Game", model.getClock() );
         setSimulationPanel( new TeeterTotterTorqueCanvas( model ) );
-    }}
+    }
+}
