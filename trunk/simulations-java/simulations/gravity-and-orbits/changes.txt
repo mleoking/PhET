@@ -1,3 +1,4 @@
+# 2.01.02 (53171) Jun 15, 2011
 Fixed: velocity vectors still show after collision occurs
 # 2.01.01 (53157) Jun 14, 2011
 > Fixed for Mac OS X 10.4 crashes, see #2913
