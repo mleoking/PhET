@@ -109,7 +109,6 @@ public class SliderArrayPanel extends UIComponent {
         }
     }
 
-
     private function setAmplitude( indx:int ):void{
         var A:Number = this.ampliSlider_arr[ indx - 1 ].getVal();
         this.myModel1.setModeAmpli( indx,  A );
