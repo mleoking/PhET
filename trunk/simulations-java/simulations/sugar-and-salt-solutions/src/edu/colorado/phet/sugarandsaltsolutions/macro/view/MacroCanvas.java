@@ -29,12 +29,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
 
         //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
         //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
-        addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) {{
-
-            //Make it so the mouse events pass through the front water layer so it is still possible to pick and move the conductivity tester probes
-            setPickable( false );
-            setChildrenPickable( false );
-        }} );
+        addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume, model.anySolutes ) );
