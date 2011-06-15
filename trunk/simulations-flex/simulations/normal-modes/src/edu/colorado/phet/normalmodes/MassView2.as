@@ -73,6 +73,7 @@ public class MassView2 extends Sprite{
 
         function startTargetDrag( evt: MouseEvent ): void {
             thisObject.myModel2.grabbedMassIndices = thisObject._iJIndices;
+            thisObject.myModel2.verletOn = true;
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
