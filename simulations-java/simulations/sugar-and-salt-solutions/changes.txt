@@ -1,3 +1,4 @@
+# 0.00.48 (53191) Jun 15, 2011
 Water tab: Removed the "hide water" button
 Water tab: Make it so 2 NaCl enter when "add salt" is pressed instead of 1
 Water tab: Increased the ion charge for Na+ an Cl-
