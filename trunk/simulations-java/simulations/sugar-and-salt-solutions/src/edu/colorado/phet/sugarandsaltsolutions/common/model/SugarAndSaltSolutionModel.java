@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.model.ResetModel;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
-import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -21,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Composi
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
@@ -39,7 +34,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionModel implements ResetModel {
+public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel {
     //Beaker dimensions and location in meters, public so other classes can use them for layout
     public static final double BEAKER_WIDTH = 0.2;
     public static final double BEAKER_X = -BEAKER_WIDTH / 2;
@@ -66,9 +61,6 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
     public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker in m^3/s
 
-    //Model clock
-    public final ConstantDtClock clock;
-
     //Sugar and its listeners
     public final ArrayList<MacroSugar> sugarList = new ArrayList<MacroSugar>();//The sugar crystals that haven't been dissolved
     public final Notifier<MacroSugar> sugarAdded = new Notifier<MacroSugar>();//Listeners for when sugar crystals are added
@@ -85,9 +77,6 @@ public class SugarAndSaltSolutionModel implements ResetModel {
 
     //Which dispenser the user has selected
     public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );
-
-    //Listeners which are notified when the sim is reset.
-    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     //Model for the conductivity tester
     public final ConductivityTester conductivityTester = new ConductivityTester();
@@ -154,6 +143,58 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
     private Rectangle2D outFlowShape = new Rectangle();
 
+    //Model for the salt shaker
+    public final SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed ) {{
+        //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
+        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == SALT );
+            }
+        } );
+    }};
+
+    //Model for the sugar dispenser
+    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
+        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
+        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == SUGAR );
+            }
+        } );
+    }};
+
+    //Rate at which liquid (but no solutes) leaves the model
+    public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
+    private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
+
+    public SugarAndSaltSolutionModel() {
+        //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
+        new RichSimpleObserver() {
+            @Override public void update() {
+                updateConductivityTesterBrightness();
+            }
+        }.observe( saltConcentration, solution.shape );
+
+        //When the conductivity tester probe locations change, also update the conductivity tester brightness since they may come into contact (or leave contact) with the fluid
+        conductivityTester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
+            public void brightnessChanged() {
+            }
+
+            public void positiveProbeLocationChanged() {
+                updateConductivityTesterBrightness();
+            }
+
+            public void negativeProbeLocationChanged() {
+                updateConductivityTesterBrightness();
+            }
+
+            public void locationChanged() {
+                //Have to callback here too since the battery or bulb could get sumberged and short the circuit
+                updateConductivityTesterBrightness();
+            }
+        } );
+    }
+
     //When a crystal is absorbed by the water, increase the number of moles in solution
     protected void crystalAbsorbed( MacroCrystal crystal ) {
         if ( crystal instanceof MacroSalt ) {
@@ -195,67 +236,6 @@ public class SugarAndSaltSolutionModel implements ResetModel {
     private void updateConcentration( double outVolume, double concentration, SettableProperty<Double> moles ) {
         double molesOfSoluteLeaving = concentration * outVolume;
         moles.set( moles.get() - molesOfSoluteLeaving );
-    }
-
-    //Model for the salt shaker
-    public SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed ) {{
-        //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
-        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-            public void apply( DispenserType dispenserType ) {
-                enabled.set( dispenserType == SALT );
-            }
-        } );
-    }};
-
-    //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
-        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
-        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-            public void apply( DispenserType dispenserType ) {
-                enabled.set( dispenserType == SUGAR );
-            }
-        } );
-    }};
-
-    //Rate at which liquid (but no solutes) leaves the model
-    public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
-    private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
-
-    public SugarAndSaltSolutionModel() {
-        clock = new ConstantDtClock( 30 );
-
-        //Wire up to the clock so we can update when it ticks
-        clock.addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                updateModel( clockEvent.getSimulationTimeChange() );
-            }
-        } );
-
-        //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
-        new RichSimpleObserver() {
-            @Override public void update() {
-                updateConductivityTesterBrightness();
-            }
-        }.observe( saltConcentration, solution.shape );
-
-        //When the conductivity tester probe locations change, also update the conductivity tester brightness since they may come into contact (or leave contact) with the fluid
-        conductivityTester.addConductivityTesterChangeListener( new ConductivityTesterChangeListener() {
-            public void brightnessChanged() {
-            }
-
-            public void positiveProbeLocationChanged() {
-                updateConductivityTesterBrightness();
-            }
-
-            public void negativeProbeLocationChanged() {
-                updateConductivityTesterBrightness();
-            }
-
-            public void locationChanged() {
-                //Have to callback here too since the battery or bulb could get sumberged and short the circuit
-                updateConductivityTesterBrightness();
-            }
-        } );
     }
 
     //Determine if a conductivity tester probe is touching water in the beaker, or water flowing out of the beaker (which would have the same concentration as the water in the beaker)
@@ -419,15 +399,7 @@ public class SugarAndSaltSolutionModel implements ResetModel {
         dispenserType.reset();
         showConcentrationValues.reset();
 
-        //Notify listeners that registered for a reset message
-        for ( VoidFunction0 resetListener : resetListeners ) {
-            resetListener.apply();
-        }
-    }
-
-    //Adds a listener that will be notified when the model is reset
-    public void addResetListener( VoidFunction0 listener ) {
-        resetListeners.add( listener );
+        notifyReset();
     }
 
     //Sets the shape of the water flowing out of the beaker, for purpose of determining conductivity (since outflow water can conduct)
