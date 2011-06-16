@@ -53,7 +53,9 @@ public class WaterCanvas extends PhetPCanvas {
     //Make it easy to enable/disable buckets for testing each way
     private boolean useBuckets = true;
     private BucketView saltBucket;
+    private BucketView sugarBucket;
     private PNode saltBucketParticleLayer;
+    private PNode sugarBucketParticleLayer;
 
     public WaterCanvas( final WaterModel waterModel, final GlobalSettings settings ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -112,6 +114,7 @@ public class WaterCanvas extends PhetPCanvas {
                 }},
 
                 //button to add a sugar
+                useBuckets ? new PNode() :
                 new HTMLImageButtonNode( "Add Sugar" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
@@ -168,7 +171,7 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
                 }}
         ) ) {{
-            setOffset( MacroCanvas.INSET, canvasSize.getHeight() - getFullBounds().getHeight() - MacroCanvas.INSET );
+            setOffset( MacroCanvas.INSET, canvasSize.getHeight() - getFullBounds().getHeight() - MacroCanvas.INSET * 10 );
         }} );
         waterModel.k.trace( "k" );
         waterModel.pow.trace( "pow" );
@@ -178,14 +181,24 @@ public class WaterCanvas extends PhetPCanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         if ( useBuckets ) {
             final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
+
             saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
             addChild( saltBucket.getHoleNode() );
 
             saltBucketParticleLayer = new PNode();
             addChild( saltBucketParticleLayer );
+            addChild( saltBucket.getFrontNode() );
 
             addSaltToBucket( waterModel, transform );
-            addChild( saltBucket.getFrontNode() );
+
+            sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, "Sugar" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+            addChild( sugarBucket.getHoleNode() );
+
+            sugarBucketParticleLayer = new PNode();
+            addChild( sugarBucketParticleLayer );
+            addChild( sugarBucket.getFrontNode() );
+
+            addSugarToBucket( waterModel, transform );
         }
 
         //Add the "remove salt and sugar" buttons
@@ -205,6 +218,7 @@ public class WaterCanvas extends PhetPCanvas {
 
             public void removeSugar() {
                 waterModel.removeSugar();
+                addSugarToBucket( waterModel, transform );
             }
         } ) {{
             setOffset( particleWindowNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - MacroCanvas.INSET, particleWindowNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - MacroCanvas.INSET );
@@ -213,6 +227,7 @@ public class WaterCanvas extends PhetPCanvas {
         waterModel.addResetListener( new VoidFunction0() {
             public void apply() {
                 addSaltToBucket( waterModel, transform );
+                addSugarToBucket( waterModel, transform );
             }
         } );
     }
@@ -221,6 +236,13 @@ public class WaterCanvas extends PhetPCanvas {
         saltBucketParticleLayer.removeAllChildren();
         saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
             centerFullBoundsOnPoint( saltBucket.getHoleNode().getFullBounds().getCenterX(), saltBucket.getHoleNode().getFullBounds().getCenterY() );
+        }} );
+    }
+
+    private void addSugarToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
+        sugarBucketParticleLayer.removeAllChildren();
+        sugarBucketParticleLayer.addChild( new DraggableSugarCrystalNode( waterModel, transform, particleWindowNode ) {{
+            centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
         }} );
     }
 

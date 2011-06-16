@@ -130,6 +130,11 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         world.destroyBody( saltCrystal.chloride2.body );
     }
 
+    //Remove the sugar molecules bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
+    public void unhook( Sucrose sucrose ) {
+        world.destroyBody( sucrose.body );
+    }
+
     public ObservableProperty<Boolean> isAnySaltToRemove() {
         return sodiumList.count.plus( chlorineList.count ).greaterThan( 0 );
     }
@@ -174,11 +179,20 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Adds a sugar crystal near the center of the screen
     public void addSugar() {
-        double x = 0;
-        double y = beakerHeight / 2;
+        ArrayList<Sucrose> sugarCrystal = createSugarCrystal();
+        for ( Sucrose sucrose : sugarCrystal ) {
+            sugarMoleculeList.add( sucrose );
+        }
+    }
+
+    public ArrayList<Sucrose> createSugarCrystal() {
+        final double x = 0;
+        final double y = beakerHeight / 2;
         final double delta = beakerHeight / 4 * 0.87;
-        addSugar( x, y - delta / 2 );
-        addSugar( x, y + delta / 2 );
+        return new ArrayList<Sucrose>() {{
+            add( newSugar( x, y - delta / 2 ) );
+            add( newSugar( x, y + delta / 2 ) );
+        }};
     }
 
     private void addSugar( double x, double y ) {
