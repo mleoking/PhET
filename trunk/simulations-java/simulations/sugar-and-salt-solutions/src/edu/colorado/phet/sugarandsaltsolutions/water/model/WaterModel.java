@@ -11,6 +11,7 @@ import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -87,6 +88,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
     public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
+    public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -197,7 +199,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
         long t = System.currentTimeMillis();
         //Apply coulomb forces between all pairs of particles
-        for ( Molecule molecule : getAllMolecules() ) {
+        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList.list ) {
             for ( Atom atom : molecule.atoms ) {
                 //Only apply the force in some interactions, to improve performance and increase randomness
                 if ( Math.random() < probabilityOfInteraction.get() ) {
