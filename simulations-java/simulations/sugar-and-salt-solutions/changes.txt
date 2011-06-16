@@ -1,3 +1,4 @@
+Water tab: Reduce the repulsive force between Na+ and Cl- after 0.75 sec
 Water tab: Added a sugar bucket
 Water tab: Removed "add salt" button
 Water tab: Fixed bucket add/remove and resetting
