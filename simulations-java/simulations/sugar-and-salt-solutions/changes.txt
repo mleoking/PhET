@@ -1,3 +1,4 @@
+# 0.00.50 (53200) Jun 16, 2011
 Water tab: Added a repulsive force between Na+ and Cl- so they will disassociate quickly
 Water tab: Removed buckets
 Water tab: Added remove salt and sugar buttons
