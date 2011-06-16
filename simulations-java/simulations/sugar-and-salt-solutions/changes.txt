@@ -1,3 +1,4 @@
+Water tab: Added a repulsive force between Na+ and Cl- so they will disassociate quickly
 Water tab: Removed buckets
 Water tab: Added remove salt and sugar buttons
 Water tab: Dropping bucket salt in the model creates model salt
