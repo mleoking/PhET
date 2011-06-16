@@ -56,6 +56,6 @@ public class DraggableSugarCrystalNode extends PNode {
                 }
             }
         } );
-        scale( 0.6 );
+        scale( 0.45 );
     }
 }

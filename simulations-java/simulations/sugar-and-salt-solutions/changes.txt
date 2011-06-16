@@ -1,3 +1,4 @@
+Water tab: Reduced the size of salt and sugar in the buckets
 # 0.00.51 (53205) Jun 16, 2011
 Water tab: Reduce the repulsive force between Na+ and Cl- after 0.75 sec
 Water tab: Added a sugar bucket
