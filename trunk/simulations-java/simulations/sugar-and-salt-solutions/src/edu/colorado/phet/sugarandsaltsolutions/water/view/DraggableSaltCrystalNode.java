@@ -36,7 +36,7 @@ public class DraggableSaltCrystalNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
-                translate( event.getCanvasDelta().width, event.getCanvasDelta().height );
+                translate( event.getDeltaRelativeTo( getParent() ).getWidth() / getScale(), event.getDeltaRelativeTo( getParent() ).getHeight() / getScale() );
             }
 
             //When the user drops the crystal in the particle box, remove the dragged salt node and add salt directly to the model, which will create a new graphic
@@ -47,5 +47,6 @@ public class DraggableSaltCrystalNode extends PNode {
                 }
             }
         } );
+        scale( 0.8 );
     }
 }
