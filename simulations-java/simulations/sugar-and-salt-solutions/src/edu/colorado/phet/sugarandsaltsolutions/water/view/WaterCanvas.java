@@ -133,11 +133,11 @@ public class WaterCanvas extends PhetPCanvas {
                 //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
                 new PSwing( new PropertyCheckBox( "Show sugar atoms", waterModel.showSugarAtoms ) {{
                     setFont( new PhetFont( 16 ) );
-                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
-                        public void apply( Boolean enabled ) {
-                            setEnabled( enabled );
-                        }
-                    } );
+//                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
+//                        public void apply( Boolean enabled ) {
+//                            setEnabled( enabled );
+//                        }
+//                    } );
                 }} ),
 
                 //Allow the user to hide the water graphics
@@ -241,7 +241,7 @@ public class WaterCanvas extends PhetPCanvas {
 
     private void addSugarToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
-        sugarBucketParticleLayer.addChild( new DraggableSugarCrystalNode( waterModel, transform, particleWindowNode ) {{
+        sugarBucketParticleLayer.addChild( new DraggableSugarCrystalNode( waterModel, transform, particleWindowNode, waterModel.showSugarAtoms ) {{
             centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
         }} );
     }
