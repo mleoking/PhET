@@ -124,9 +124,11 @@ public class WaterCanvas extends PhetPCanvas {
                 }} ),
 
                 //Allow the user to hide the water graphics
-                new PSwing( new PropertyCheckBox( "Hide water", waterModel.hideWater ) {{
-                    setFont( new PhetFont( 16 ) );
-                }} ),
+                //KL said "I do not think students should be able to hide water, since the whole point of the tab is what the water is doing."
+                //But I'll leave this in just in case
+//                new PSwing( new PropertyCheckBox( "Hide water", waterModel.hideWater ) {{
+//                    setFont( new PhetFont( 16 ) );
+//                }} ),
 
                 //If development version, show button to launch developer controls
                 settings.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{

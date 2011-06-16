@@ -69,12 +69,12 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Properties for developer controls
     public final Property<Integer> k = new Property<Integer>( 100 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
-    public final Property<Integer> randomness = new Property<Integer>( 100 );
-    public final Property<Double> minInteractionDistance = new Property<Double>( 0.5 );
+    public final Property<Integer> randomness = new Property<Integer>( 5 );
+    public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
-    public final Property<Double> timeScale = new Property<Double>( 0.5 );
-    public final Property<Integer> iterations = new Property<Integer>( 100 );
+    public final Property<Double> timeScale = new Property<Double>( 0.4 );
+    public final Property<Integer> iterations = new Property<Integer>( 50 );
     private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
             addFrameListener( waterMolecule );
@@ -84,9 +84,9 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //User settings
     public final SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
     public final SettableProperty<Boolean> hideWater = new Property<Boolean>( false );//Allow the user to hide the water molecules so they can focus on the solutes
-    public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 * 2 );
-    public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 * 2 );
-    public final DoubleProperty ionCharge = new DoubleProperty( 0.3 );
+    public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
+    public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
+    public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
 
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
@@ -125,15 +125,21 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         DefaultParticle sodium = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
         DefaultParticle chloride = new DefaultParticle( world, modelToBox2D, separation, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
 
+        DefaultParticle sodium2 = new DefaultParticle( world, modelToBox2D, separation, beakerHeight / 2 + separation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
+        DefaultParticle chloride2 = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2 + separation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+
         //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
         for ( WaterMolecule water : waterList.list ) {
-            if ( water.intersects( sodium ) || water.intersects( chloride ) ) {
+            if ( water.intersects( sodium ) || water.intersects( chloride ) || water.intersects( sodium2 ) || water.intersects( chloride2 ) ) {
                 water.setModelPosition( water.getModelPosition().plus( new ImmutableVector2D( 4 + Math.random(), 4 + Math.random() ) ) );
             }
         }
 
         sodiumList.add( sodium );
         chlorineList.add( chloride );
+
+        sodiumList.add( sodium2 );
+        chlorineList.add( chloride2 );
 
         //Only showing one NaCl because if there are 2, the opposite partners join together too easily
 //        addChlorineIon( 0, beakerHeight / 2 + separation );
