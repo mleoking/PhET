@@ -20,7 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.CHLORINE_RADIUS;
@@ -31,7 +31,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIU
  *
  * @author Sam Reid
  */
-public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
+public class WaterModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
 
     //Lists of all model objects
     public final ParticleList<WaterMolecule> waterList = new ParticleList<WaterMolecule>();
@@ -237,7 +237,7 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         waterList.itemAddedListeners.add( waterAddedListener );
     }
 
-    @Override protected void updateModel( double dt ) {
+    protected void updateModel( double dt ) {
         //Ignore super update for now
 //        super.updateModel( dt );
 
@@ -406,8 +406,7 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Resets the model, clearing water molecules and starting over
-    @Override public void reset() {
-        super.reset();
+    public void reset() {
         initModel();
         showSugarAtoms.reset();
         hideWater.reset();
@@ -459,13 +458,11 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     public void removeSalt() {
-        super.removeSalt();
         clearSalt();
     }
 
     //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
     public void removeSugar() {
-        super.removeSugar();
         clearSugar();
     }
 
