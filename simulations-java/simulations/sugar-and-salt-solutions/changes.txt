@@ -1,3 +1,4 @@
+Water tab: Added a sugar bucket
 Water tab: Removed "add salt" button
 Water tab: Fixed bucket add/remove and resetting
 # 0.00.50 (53200) Jun 16, 2011
