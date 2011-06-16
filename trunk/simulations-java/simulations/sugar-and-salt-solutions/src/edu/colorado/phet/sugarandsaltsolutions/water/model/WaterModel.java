@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -151,16 +152,24 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         private final double horizontalSeparation = CHLORINE_RADIUS + SODIUM_RADIUS;
         private final double verticalSeparation = horizontalSeparation * 0.85;
 
-        public final DefaultParticle sodium = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-        public final DefaultParticle chloride = new DefaultParticle( world, modelToBox2D, horizontalSeparation, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+        public final DefaultParticle sodium;
+        public final DefaultParticle chloride;
 
-        public final DefaultParticle sodium2 = new DefaultParticle( world, modelToBox2D, horizontalSeparation, beakerHeight / 2 + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-        public final DefaultParticle chloride2 = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2 + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+        public final DefaultParticle sodium2;
+        public final DefaultParticle chloride2;
+
+        public SaltCrystal( Point2D location ) {
+            sodium = new DefaultParticle( world, modelToBox2D, location.getX(), location.getY(), 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
+            chloride = new DefaultParticle( world, modelToBox2D, location.getX() + horizontalSeparation, location.getY(), 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+
+            sodium2 = new DefaultParticle( world, modelToBox2D, location.getX() + horizontalSeparation, location.getY() + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
+            chloride2 = new DefaultParticle( world, modelToBox2D, location.getX(), location.getY() + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+        }
     }
 
     //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
-    public void addSalt() {
-        SaltCrystal saltCrystal = newSaltCrystal();
+    public void addSalt( Point2D location ) {
+        SaltCrystal saltCrystal = newSaltCrystal( location );
 
         //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
         for ( WaterMolecule water : waterList.list ) {
@@ -178,21 +187,21 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         timeSinceSaltAdded = 0;
     }
 
-    public SaltCrystal newSaltCrystal() {
-        return new SaltCrystal();
+    public SaltCrystal newSaltCrystal( Point2D location ) {
+        return new SaltCrystal( location );
     }
 
     //Adds a sugar crystal near the center of the screen
-    public void addSugar() {
-        ArrayList<Sucrose> sugarCrystal = createSugarCrystal();
+    public void addSugar( Point2D location ) {
+        ArrayList<Sucrose> sugarCrystal = createSugarCrystal( location );
         for ( Sucrose sucrose : sugarCrystal ) {
             sugarMoleculeList.add( sucrose );
         }
     }
 
-    public ArrayList<Sucrose> createSugarCrystal() {
-        final double x = 0;
-        final double y = beakerHeight / 2;
+    public ArrayList<Sucrose> createSugarCrystal( Point2D location ) {
+        final double x = location.getX();
+        final double y = location.getY();
         final double delta = beakerHeight / 4 * 0.87;
         return new ArrayList<Sucrose>() {{
             add( newSugar( x, y - delta / 2 ) );

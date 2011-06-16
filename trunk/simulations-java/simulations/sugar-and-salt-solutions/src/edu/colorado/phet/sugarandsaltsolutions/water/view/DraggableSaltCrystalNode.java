@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1.Null;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,11 +20,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class DraggableSaltCrystalNode extends PNode {
-    public DraggableSaltCrystalNode( final WaterModel waterModel, ModelViewTransform transform,
+    public DraggableSaltCrystalNode( final WaterModel waterModel, final ModelViewTransform transform,
                                      //Region where dropping the crystal is allowed, in the particle box
                                      final PNode target ) {
         //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
-        SaltCrystal saltCrystal = waterModel.newSaltCrystal();
+        SaltCrystal saltCrystal = waterModel.newSaltCrystal( new Point( 0, 0 ) );
 
         //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
         waterModel.unhook( saltCrystal );
@@ -42,7 +45,11 @@ public class DraggableSaltCrystalNode extends PNode {
             //When the user drops the crystal in the particle box, remove the dragged salt node and add salt directly to the model, which will create a new graphic
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( target.getGlobalFullBounds().contains( DraggableSaltCrystalNode.this.getGlobalFullBounds().getCenter2D() ) ) {
-                    waterModel.addSalt();
+                    Point2D point = DraggableSaltCrystalNode.this.getGlobalFullBounds().getCenter2D();
+                    point = target.globalToLocal( point );
+                    final Point2D model = transform.viewToModel( point );
+
+                    waterModel.addSalt( model );
                     getParent().removeChild( DraggableSaltCrystalNode.this );
                 }
             }
