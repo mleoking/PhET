@@ -10,6 +10,8 @@ import java.awt.geom.Rectangle2D;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -23,6 +25,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalSettings;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -46,7 +49,11 @@ public class WaterCanvas extends PhetPCanvas {
 
     //Separate layer for the particles so they are always behind the control panel
     private ParticleWindowNode particleWindowNode;
-    private boolean useBuckets = false;
+
+    //Make it easy to enable/disable buckets for testing each way
+    private boolean useBuckets = true;
+    private BucketView saltBucket;
+    private PNode saltBucketParticleLayer;
 
     public WaterCanvas( final WaterModel waterModel, final GlobalSettings settings ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -170,17 +177,49 @@ public class WaterCanvas extends PhetPCanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         if ( useBuckets ) {
             final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
-            final BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-            addChild( bucketView.getHoleNode() );
-            addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
-                centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
-            }} );
-            addChild( bucketView.getFrontNode() );
+            saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+            addChild( saltBucket.getHoleNode() );
+
+            saltBucketParticleLayer = new PNode();
+            addChild( saltBucketParticleLayer );
+
+            addSaltToBucket( waterModel, transform );
+            addChild( saltBucket.getFrontNode() );
         }
 
         //Add the "remove salt and sugar" buttons
-        addChild( new RemoveSoluteControlNode( waterModel ) {{
+        addChild( new RemoveSoluteControlNode( new ISugarAndSaltModel() {
+            public ObservableProperty<Boolean> isAnySaltToRemove() {
+                return waterModel.isAnySaltToRemove();
+            }
+
+            public ObservableProperty<Boolean> isAnySugarToRemove() {
+                return waterModel.isAnySugarToRemove();
+            }
+
+            public void removeSalt() {
+                waterModel.removeSalt();
+                addSaltToBucket( waterModel, transform );
+            }
+
+            public void removeSugar() {
+                waterModel.removeSugar();
+            }
+        } ) {{
             setOffset( particleWindowNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - MacroCanvas.INSET, particleWindowNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - MacroCanvas.INSET );
+        }} );
+
+        waterModel.addResetListener( new VoidFunction0() {
+            public void apply() {
+                addSaltToBucket( waterModel, transform );
+            }
+        } );
+    }
+
+    private void addSaltToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
+        saltBucketParticleLayer.removeAllChildren();
+        saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
+            centerFullBoundsOnPoint( saltBucket.getHoleNode().getFullBounds().getCenterX(), saltBucket.getHoleNode().getFullBounds().getCenterY() );
         }} );
     }
 
