@@ -101,7 +101,7 @@ public class WaterCanvas extends PhetPCanvas {
                 new HTMLImageButtonNode( "Add Salt" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            waterModel.addSalt();
+                            waterModel.addSalt( new Point2D.Double( 0, waterModel.beakerWidth / 2 ) );
                         }
                     } );
 
@@ -118,7 +118,7 @@ public class WaterCanvas extends PhetPCanvas {
                 new HTMLImageButtonNode( "Add Sugar" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            waterModel.addSugar();
+                            waterModel.addSugar( new Point2D.Double( 0, waterModel.beakerWidth / 2 ) );
                         }
                     } );
 

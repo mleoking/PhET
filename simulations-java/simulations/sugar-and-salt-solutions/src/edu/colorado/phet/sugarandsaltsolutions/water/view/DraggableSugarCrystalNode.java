@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -21,11 +22,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class DraggableSugarCrystalNode extends PNode {
-    public DraggableSugarCrystalNode( final WaterModel waterModel, ModelViewTransform transform,
+    public DraggableSugarCrystalNode( final WaterModel waterModel, final ModelViewTransform transform,
                                       //Region where dropping the crystal is allowed, in the particle box
                                       final PNode target ) {
         //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
-        ArrayList<Sucrose> saltCrystal = waterModel.createSugarCrystal();
+        ArrayList<Sucrose> saltCrystal = waterModel.createSugarCrystal( new Point() );
 
         //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
         for ( Sucrose sucrose : saltCrystal ) {
@@ -51,7 +52,12 @@ public class DraggableSugarCrystalNode extends PNode {
             //When the user drops the crystal in the particle box, remove the dragged salt node and add salt directly to the model, which will create a new graphic
             @Override public void mouseReleased( PInputEvent event ) {
                 if ( target.getGlobalFullBounds().contains( DraggableSugarCrystalNode.this.getGlobalFullBounds().getCenter2D() ) ) {
-                    waterModel.addSugar();
+                    Point2D point = DraggableSugarCrystalNode.this.getGlobalFullBounds().getCenter2D();
+                    point = target.globalToLocal( point );
+                    final Point2D model = transform.viewToModel( point );
+
+                    waterModel.addSugar( model );
+
                     getParent().removeChild( DraggableSugarCrystalNode.this );
                 }
             }
