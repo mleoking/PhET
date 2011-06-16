@@ -169,7 +169,7 @@ public class WaterCanvas extends PhetPCanvas {
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         final BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
         addChild( bucketView.getHoleNode() );
-        addChild( new DraggableSaltCrystalNode( waterModel, transform ) {{
+        addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
             centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
         }} );
         addChild( bucketView.getFrontNode() );

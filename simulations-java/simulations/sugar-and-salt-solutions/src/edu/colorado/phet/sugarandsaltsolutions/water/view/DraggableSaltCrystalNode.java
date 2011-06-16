@@ -17,7 +17,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  * @author Sam Reid
  */
 public class DraggableSaltCrystalNode extends PNode {
-    public DraggableSaltCrystalNode( WaterModel waterModel, ModelViewTransform transform ) {
+    public DraggableSaltCrystalNode( final WaterModel waterModel, ModelViewTransform transform,
+                                     //Region where dropping the crystal is allowed, in the particle box
+                                     final PNode target ) {
         //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
         SaltCrystal saltCrystal = waterModel.newSaltCrystal();
 
@@ -34,8 +36,15 @@ public class DraggableSaltCrystalNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
-                super.mouseDragged( event );
                 translate( event.getCanvasDelta().width, event.getCanvasDelta().height );
+            }
+
+            //When the user drops the crystal in the particle box, remove the dragged salt node and add salt directly to the model, which will create a new graphic
+            @Override public void mouseReleased( PInputEvent event ) {
+                if ( target.getGlobalFullBounds().contains( DraggableSaltCrystalNode.this.getGlobalFullBounds().getCenter2D() ) ) {
+                    waterModel.addSalt();
+                    getParent().removeChild( DraggableSaltCrystalNode.this );
+                }
             }
         } );
     }
