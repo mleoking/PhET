@@ -227,10 +227,21 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             for ( Atom atom : molecule.atoms ) {
                 //Only apply the force in some interactions, to improve performance and increase randomness
                 if ( Math.random() < probabilityOfInteraction.get() ) {
-                    molecule.body.applyForce( getCoulombForce( atom.particle ), atom.particle.getBox2DPosition() );
+                    molecule.body.applyForce( getCoulombForce( atom.particle, false ), atom.particle.getBox2DPosition() );
                 }
             }
         }
+
+        //Na+ and Cl- should repel each other so they disassociate quickly
+        for ( Molecule molecule : new ArrayList<Molecule>() {{
+            addAll( sodiumList.list );
+            addAll( chlorineList.list );
+        }} ) {
+            for ( Atom atom : molecule.atoms ) {
+                molecule.body.applyForce( getCoulombForce( atom.particle, true ), atom.particle.getBox2DPosition() );
+            }
+        }
+
         long t2 = System.currentTimeMillis();
 //        System.out.println( "delta = " + ( t2 - t ) );
 
@@ -303,18 +314,18 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Gets the force on a single particle
-    private Vec2 getCoulombForce( Particle target ) {
+    private Vec2 getCoulombForce( Particle target, boolean repel ) {
         Vec2 sumForces = new Vec2();
         for ( Molecule m : getAllMolecules() ) {
             for ( Atom atom : m.atoms ) {
-                sumForces = sumForces.add( getCoulombForce( atom.particle, target ) );
+                sumForces = sumForces.add( getCoulombForce( atom.particle, target, repel ) );
             }
         }
         return sumForces;
     }
 
     //Get the contribution to the total coulomb force from a single source
-    private Vec2 getCoulombForce( Particle source, Particle target ) {
+    private Vec2 getCoulombForce( Particle source, Particle target, boolean repel ) {
         //Precompute for performance reasons
         final Vec2 sourceBox2DPosition = source.getBox2DPosition();
         final Vec2 targetBox2DPosition = target.getBox2DPosition();
@@ -345,6 +356,9 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         double distanceFunction = 1 / Math.pow( distance, pow.get() );
         double magnitude = -k.get() * q1 * q2 * distanceFunction;
         r.normalize();
+        if ( repel ) {
+            magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
+        }
         return r.mul( (float) magnitude );
     }
 
