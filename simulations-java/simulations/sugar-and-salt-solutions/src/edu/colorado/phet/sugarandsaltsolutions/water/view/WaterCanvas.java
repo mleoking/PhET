@@ -46,6 +46,7 @@ public class WaterCanvas extends PhetPCanvas {
 
     //Separate layer for the particles so they are always behind the control panel
     private ParticleWindowNode particleWindowNode;
+    private boolean useBuckets = false;
 
     public WaterCanvas( final WaterModel waterModel, final GlobalSettings settings ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -167,13 +168,15 @@ public class WaterCanvas extends PhetPCanvas {
 
         //Add a bucket with salt that can be dragged into the play area
         //The transform must have inverted Y so the bucket is upside-up.
-        final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
-        final BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-        addChild( bucketView.getHoleNode() );
-        addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
-            centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
-        }} );
-        addChild( bucketView.getFrontNode() );
+        if ( useBuckets ) {
+            final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
+            final BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+            addChild( bucketView.getHoleNode() );
+            addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
+                centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
+            }} );
+            addChild( bucketView.getFrontNode() );
+        }
 
         //Add the "remove salt and sugar" buttons
         addChild( new RemoveSoluteControlNode( waterModel ) {{
