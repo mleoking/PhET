@@ -24,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalSettings;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -173,6 +174,11 @@ public class WaterCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
         }} );
         addChild( bucketView.getFrontNode() );
+
+        //Add the "remove salt and sugar" buttons
+        addChild( new RemoveSoluteControlNode( waterModel ) {{
+            setOffset( particleWindowNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - MacroCanvas.INSET, particleWindowNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - MacroCanvas.INSET );
+        }} );
     }
 
     private void addChild( PNode node ) {

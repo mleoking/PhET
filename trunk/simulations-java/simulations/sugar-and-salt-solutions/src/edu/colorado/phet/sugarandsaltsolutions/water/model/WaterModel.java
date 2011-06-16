@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.World;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -20,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.CHLORINE_RADIUS;
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIUM_RADIUS;
@@ -29,7 +31,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIU
  *
  * @author Sam Reid
  */
-public class WaterModel extends SugarAndSaltSolutionModel {
+public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
 
     //Lists of all model objects
     public final ParticleList<WaterMolecule> waterList = new ParticleList<WaterMolecule>();
@@ -126,6 +128,14 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         world.destroyBody( saltCrystal.sodium2.body );
         world.destroyBody( saltCrystal.chloride.body );
         world.destroyBody( saltCrystal.chloride2.body );
+    }
+
+    public ObservableProperty<Boolean> isAnySaltToRemove() {
+        return sodiumList.count.plus( chlorineList.count ).greaterThan( 0 );
+    }
+
+    public ObservableProperty<Boolean> isAnySugarToRemove() {
+        return sugarMoleculeList.count.greaterThan( 0 );
     }
 
     //Code that creates a single salt crystal, used when dragged from the bucket or created in the beaker
@@ -357,7 +367,7 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     private void initModel() {
         waterList.clear( world );
         clearSalt();
-        sugarMoleculeList.clear( world );
+        clearSugar();
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
@@ -396,5 +406,20 @@ public class WaterModel extends SugarAndSaltSolutionModel {
 
     public void addSugarAddedListener( VoidFunction1<Sucrose> createNode ) {
         sugarMoleculeList.itemAddedListeners.add( createNode );
+    }
+
+    public void removeSalt() {
+        super.removeSalt();
+        clearSalt();
+    }
+
+    //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
+    public void removeSugar() {
+        super.removeSugar();
+        clearSugar();
+    }
+
+    private void clearSugar() {
+        sugarMoleculeList.clear( world );
     }
 }
