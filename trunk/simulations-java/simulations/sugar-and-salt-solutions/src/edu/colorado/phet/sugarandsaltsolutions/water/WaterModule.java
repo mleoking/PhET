@@ -12,7 +12,6 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterCanvas;
  * @author Sam Reid
  */
 public class WaterModule extends SugarAndSaltSolutionsModule {
-    private final WaterModel model;
 
     public WaterModule( GlobalSettings settings ) {
         this( new WaterModel(), settings );
@@ -20,7 +19,6 @@ public class WaterModule extends SugarAndSaltSolutionsModule {
 
     public WaterModule( final WaterModel model, GlobalSettings settings ) {
         super( "Water", model.clock );
-        this.model = model;
         setSimulationPanel( new WaterCanvas( model, settings ) );
     }
 }

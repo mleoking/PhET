@@ -1,3 +1,4 @@
+Water tab: Added a bucket with salt
 # 0.00.49 (53193) Jun 15, 2011
 Water tab: Added a developer control that restricts forces to apply to waters only
 # 0.00.48 (53191) Jun 15, 2011

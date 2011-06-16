@@ -120,32 +120,46 @@ public class WaterModel extends SugarAndSaltSolutionModel {
         initModel();
     }
 
+    //Remove the SaltCrystal bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
+    public void unhook( SaltCrystal saltCrystal ) {
+        world.destroyBody( saltCrystal.sodium.body );
+        world.destroyBody( saltCrystal.sodium2.body );
+        world.destroyBody( saltCrystal.chloride.body );
+        world.destroyBody( saltCrystal.chloride2.body );
+    }
+
+    //Code that creates a single salt crystal, used when dragged from the bucket or created in the beaker
+    public class SaltCrystal {
+        private final double horizontalSeparation = CHLORINE_RADIUS + SODIUM_RADIUS;
+        private final double verticalSeparation = horizontalSeparation * 0.85;
+
+        public final DefaultParticle sodium = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
+        public final DefaultParticle chloride = new DefaultParticle( world, modelToBox2D, horizontalSeparation, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+
+        public final DefaultParticle sodium2 = new DefaultParticle( world, modelToBox2D, horizontalSeparation, beakerHeight / 2 + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
+        public final DefaultParticle chloride2 = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2 + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+    }
+
     //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
     public void addSalt() {
-        final double separation = CHLORINE_RADIUS + SODIUM_RADIUS;
-
-        DefaultParticle sodium = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-        DefaultParticle chloride = new DefaultParticle( world, modelToBox2D, separation, beakerHeight / 2, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
-
-        DefaultParticle sodium2 = new DefaultParticle( world, modelToBox2D, separation, beakerHeight / 2 + separation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-        DefaultParticle chloride2 = new DefaultParticle( world, modelToBox2D, 0, beakerHeight / 2 + separation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
+        SaltCrystal saltCrystal = newSaltCrystal();
 
         //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
         for ( WaterMolecule water : waterList.list ) {
-            if ( water.intersects( sodium ) || water.intersects( chloride ) || water.intersects( sodium2 ) || water.intersects( chloride2 ) ) {
+            if ( water.intersects( saltCrystal.sodium ) || water.intersects( saltCrystal.chloride ) || water.intersects( saltCrystal.sodium2 ) || water.intersects( saltCrystal.chloride2 ) ) {
                 water.setModelPosition( water.getModelPosition().plus( new ImmutableVector2D( 4 + Math.random(), 4 + Math.random() ) ) );
             }
         }
 
-        sodiumList.add( sodium );
-        chlorineList.add( chloride );
+        sodiumList.add( saltCrystal.sodium );
+        chlorineList.add( saltCrystal.chloride );
 
-        sodiumList.add( sodium2 );
-        chlorineList.add( chloride2 );
+        sodiumList.add( saltCrystal.sodium2 );
+        chlorineList.add( saltCrystal.chloride2 );
+    }
 
-        //Only showing one NaCl because if there are 2, the opposite partners join together too easily
-//        addChlorineIon( 0, beakerHeight / 2 + separation );
-//        addSodiumIon( separation, beakerHeight / 2 + separation );
+    public SaltCrystal newSaltCrystal() {
+        return new SaltCrystal();
     }
 
     //Adds a sugar crystal near the center of the screen
@@ -342,12 +356,16 @@ public class WaterModel extends SugarAndSaltSolutionModel {
     //Set up the initial model state, used on init and after reset
     private void initModel() {
         waterList.clear( world );
-        sodiumList.clear( world );
-        chlorineList.clear( world );
+        clearSalt();
         sugarMoleculeList.clear( world );
 
         //Add water particles
         addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
+    }
+
+    public void clearSalt() {
+        sodiumList.clear( world );
+        chlorineList.clear( world );
     }
 
     public ArrayList<DefaultParticle> getSodiumIonList() {
