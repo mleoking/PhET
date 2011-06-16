@@ -1,3 +1,4 @@
+Water tab: Removed buckets
 Water tab: Added remove salt and sugar buttons
 Water tab: Dropping bucket salt in the model creates model salt
 Water tab: Added a bucket with salt
