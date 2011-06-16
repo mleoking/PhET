@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class DraggableSaltCrystalNode extends PNode {
     public DraggableSaltCrystalNode( WaterModel waterModel, ModelViewTransform transform ) {
+        //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
         SaltCrystal saltCrystal = waterModel.newSaltCrystal();
 
         //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
