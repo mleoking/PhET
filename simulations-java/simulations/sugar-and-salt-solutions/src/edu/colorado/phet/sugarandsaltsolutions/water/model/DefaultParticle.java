@@ -18,10 +18,11 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 public class DefaultParticle extends Molecule {
     public final double radius;
     public final Property<ImmutableVector2D> position;
+    public final Atom atom;
 
     public DefaultParticle( World world, final ModelViewTransform transform, final double x, final double y, double vx, double vy, final double theta, VoidFunction1<VoidFunction0> addUpdateListener, ObservableProperty<Double> charge, double radius ) {
         super( world, transform, x, y, vx, vy, theta, addUpdateListener );
-        final Atom atom = new Atom( x, y, transform, radius, body, 0, 0, charge, true );
+        atom = new Atom( x, y, transform, radius, body, 0, 0, charge, true );
         initAtoms( atom );
         this.radius = radius;
         position = atom.position;

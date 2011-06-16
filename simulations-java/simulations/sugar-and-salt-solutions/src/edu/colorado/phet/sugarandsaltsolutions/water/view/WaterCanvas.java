@@ -4,16 +4,20 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -160,9 +164,15 @@ public class WaterCanvas extends PhetPCanvas {
         waterModel.pow.trace( "pow" );
         waterModel.randomness.trace( "randomness" );
 
-//        BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( 100, 100 ), new Dimension2DDouble( 100, 100 ), Color.blue, "Salt" ), new ModelViewTransform());
-//        addChild( bucketView.getHoleNode() );
-//        addChild( bucketView.getFrontNode() );
+        //Add a bucket with salt that can be dragged into the play area
+        //The transform must have inverted Y so the bucket is upside-up.
+        final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
+        final BucketView bucketView = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+        addChild( bucketView.getHoleNode() );
+        addChild( new DraggableSaltCrystalNode( waterModel, transform ) {{
+            centerFullBoundsOnPoint( bucketView.getHoleNode().getFullBounds().getCenterX(), bucketView.getHoleNode().getFullBounds().getCenterY() );
+        }} );
+        addChild( bucketView.getFrontNode() );
     }
 
     private void addChild( PNode node ) {
