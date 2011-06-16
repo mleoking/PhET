@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.*;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;

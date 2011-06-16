@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common;
+package edu.colorado.phet.sugarandsaltsolutions;
 
 import java.awt.*;
 

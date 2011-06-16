@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 
 /**
  * Global (application-wide) settings for Sugar and Salt Solutions, such as color scheme and developer options.

@@ -23,7 +23,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.EvaporationSlider;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
