@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
