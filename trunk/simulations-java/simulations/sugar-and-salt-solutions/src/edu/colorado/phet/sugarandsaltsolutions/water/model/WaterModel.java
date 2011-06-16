@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -86,8 +85,8 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     };
 
     //User settings
-    public final SettableProperty<Boolean> showSugarAtoms = new Property<Boolean>( false );
-    public final SettableProperty<Boolean> hideWater = new Property<Boolean>( false );//Allow the user to hide the water molecules so they can focus on the solutes
+    public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
+    public final Property<Boolean> hideWater = new Property<Boolean>( false );//Allow the user to hide the water molecules so they can focus on the solutes
     public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
     public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
@@ -410,6 +409,8 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     @Override public void reset() {
         super.reset();
         initModel();
+        showSugarAtoms.reset();
+        hideWater.reset();
     }
 
     //Set up the initial model state, used on init and after reset

@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -24,7 +25,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 public class DraggableSugarCrystalNode extends PNode {
     public DraggableSugarCrystalNode( final WaterModel waterModel, final ModelViewTransform transform,
                                       //Region where dropping the crystal is allowed, in the particle box
-                                      final PNode target ) {
+                                      final PNode target, ObservableProperty<Boolean> showSugarAtoms ) {
         //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
         ArrayList<Sucrose> saltCrystal = waterModel.createSugarCrystal( new Point() );
 
@@ -35,11 +36,11 @@ public class DraggableSugarCrystalNode extends PNode {
 
         //Add graphics for the sucrose molecules in the crystal
         for ( Sucrose sucrose : saltCrystal ) {
-            addChild( new SucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
+            addChild( new MultiSucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
                 public void apply( VoidFunction0 voidFunction0 ) {
                     voidFunction0.apply();
                 }
-            }, Color.yellow, Color.yellow, Color.yellow ) );
+            }, showSugarAtoms ) );
         }
 
         //Overrides the cursor handler in DefaultParticleNode instances
