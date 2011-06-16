@@ -374,6 +374,7 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Resets the model, clearing water molecules and starting over
     @Override public void reset() {
+        super.reset();
         initModel();
     }
 
