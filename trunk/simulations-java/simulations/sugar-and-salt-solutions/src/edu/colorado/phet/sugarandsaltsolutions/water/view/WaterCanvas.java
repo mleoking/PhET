@@ -95,6 +95,7 @@ public class WaterCanvas extends PhetPCanvas {
         addChild( new ControlPanelNode( new VBox(
 
                 //button to add a salt
+                useBuckets ? new PNode() :
                 new HTMLImageButtonNode( "Add Salt" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
