@@ -1,3 +1,4 @@
+# 0.00.54 (53211) Jun 16, 2011
 Water tab: Fixed "show sugar atoms" to work with bucket sugar
 Water tab: Fixed: "show sugar atoms" doesn't reset
 # 0.00.53 (53209) Jun 16, 2011
