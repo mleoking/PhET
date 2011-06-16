@@ -1,7 +1,11 @@
+Water tab: Removed the "hide water" button
+Water tab: Make it so 2 NaCl enter when "add salt" is pressed instead of 1
+Water tab: Increased the ion charge for Na+ an Cl-
+Water tab: Physics tweaks
 # 0.00.47 (53188) Jun 15, 2011
-Made it so that any water touching Na+ or Cl- is moved before NaCl is added
-Reduced the charge of Na+ and Cl-
-Added developer controls for charges
+Water tab: Made it so that any water touching Na+ or Cl- is moved before NaCl is added
+Water tab: Reduced the charge of Na+ and Cl-
+Water tab: Added developer controls for charges
 # 0.00.46 (53180) Jun 15, 2011
 Water tab: removed a NaCl
 # 0.00.45 (53178) Jun 15, 2011

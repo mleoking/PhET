@@ -72,7 +72,7 @@ public class DeveloperControl extends VerticalLayoutPanel {
             add( new DoublePropertySlider( "hydrogen charge", 0, 1, waterModel.hydrogenCharge ) );
         }} );
         add( new JPanel() {{
-            add( new DoublePropertySlider( "ion charge", 0, 1, waterModel.ionCharge ) );
+            add( new DoublePropertySlider( "ion charge", 0, 3, waterModel.ionCharge ) );
         }} );
 
         add( new JLabel( "iterations per time step" ) );
