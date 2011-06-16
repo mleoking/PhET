@@ -11,12 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsColorScheme {
-    //Color recommendations from KL
-    private static final Color bakersChocolate = new Color( 92, 51, 23 );
-    private static final Color semiSweetChocolate = new Color( 107, 66, 38 );
-    private static final Color buildAnAtom = new Color( 255, 255, 153 );//Nothing white shows up on this
-    private static final Color backgroundFromGeometricOptics = new Color( 0, 51, 153 );
+    private static final Color background = new Color( 0, 51, 153 );//Color recommendation from KL so that white sugar and salt will show against it.  Same color as geometric optics background
 
-    public final Property<Color> backgroundColor = new Property<Color>( backgroundFromGeometricOptics );
+    public final Property<Color> backgroundColor = new Property<Color>( background );
     public final Property<Color> saltColor = new Property<Color>( Color.white );
 }
