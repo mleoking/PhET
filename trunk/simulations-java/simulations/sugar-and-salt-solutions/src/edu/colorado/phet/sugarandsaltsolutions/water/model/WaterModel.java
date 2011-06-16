@@ -92,6 +92,9 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
     public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
 
+    //Turn down forces after salt disassociates
+    private double timeSinceSaltAdded = 0;
+
     public WaterModel() {
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
@@ -171,6 +174,8 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         sodiumList.add( saltCrystal.sodium2 );
         chlorineList.add( saltCrystal.chloride2 );
+
+        timeSinceSaltAdded = 0;
     }
 
     public SaltCrystal newSaltCrystal() {
@@ -280,6 +285,7 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
         }
+        timeSinceSaltAdded += dt;
     }
 
     private Vec2 getTotalMomentum() {
@@ -372,6 +378,11 @@ public class WaterModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         r.normalize();
         if ( repel ) {
             magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
+
+            //If the salt was just added, use full repulsive power, otherwise half the power
+            if ( timeSinceSaltAdded > 0.75 ) {
+                magnitude = magnitude / 2;
+            }
         }
         return r.mul( (float) magnitude );
     }
