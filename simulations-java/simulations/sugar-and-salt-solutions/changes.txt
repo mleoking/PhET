@@ -1,3 +1,4 @@
+Water tab: Added 3D view for sucrose
 # 0.00.54 (53211) Jun 16, 2011
 Water tab: Fixed "show sugar atoms" to work with bucket sugar
 Water tab: Fixed: "show sugar atoms" doesn't reset

@@ -30,12 +30,12 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         //Create a shared configuration for changing colors in all tabs
         final SugarAndSaltSolutionsColorScheme colorScheme = new SugarAndSaltSolutionsColorScheme();
 
-        final GlobalSettings globalSettings = new GlobalSettings( colorScheme, config );
+        final GlobalState globalState = new GlobalState( colorScheme, config, getPhetFrame() );
 
         //Create the modules
         addModule( new MacroModule( colorScheme ) );
         addModule( new MicroModule( colorScheme ) );
-        addModule( new WaterModule( globalSettings ) );
+        addModule( new WaterModule( globalState ) );
 
         if ( config.isDev() ) {
             setStartModule( moduleAt( 2 ) );
