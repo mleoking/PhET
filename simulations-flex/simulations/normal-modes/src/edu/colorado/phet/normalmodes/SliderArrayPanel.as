@@ -10,6 +10,12 @@ package edu.colorado.phet.normalmodes {
 import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
 
 import flash.display.Sprite;
+import flash.text.TextField;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
+
+import mx.controls.Text;
+import mx.controls.sliderClasses.Slider;
 
 import mx.core.UIComponent;
 import mx.effects.effectClasses.ActionEffectInstance;
@@ -20,9 +26,17 @@ public class SliderArrayPanel extends UIComponent {
     private var myModel1: Model1;
     private var container: Sprite;
     private var leftEdgeX;
-    private var ampliSlider_arr:Array;       //array of verticalSliders for setting amplitude of mode.
+    private var ampliSlider_arr:Array;   //array of verticalSliders for setting amplitude of mode.
     private var phaseSlider_arr:Array   //array of vertical Sliders for setting phase of mode
     private var nMax:int;               //maximum number of mobile masses = max nbr of normal modes
+    private var phasesShown:Boolean;    //true if phases sliders are visible
+    private var modeLabel_txt: TextField
+    private var amplitudeLabel_txt:TextField;
+    private var phaseLabel_txt:TextField;
+    private var tFormat:TextFormat;
+    private var amplitude_str:String;
+    private var phase_str:String;
+    private var mode_str:String;
 
     public function SliderArrayPanel( myMainView: MainView, myModel1: Model1) {
         this.myMainView = myMainView;
@@ -30,19 +44,27 @@ public class SliderArrayPanel extends UIComponent {
         this.container = new Sprite();
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
         this.nMax = this.myModel1.nMax;
+        this.phasesShown = false;
         this.ampliSlider_arr = new Array( nMax );
         this.phaseSlider_arr = new Array( nMax );
+        //this.amplitudeLabel_txt = new TextField();
+        //this.phaseLabel_txt = new TextField();
+        //this.tFormat = new TextFormat();
         //var vertSlider:VerticalSlider = new VerticalSlider( actionFunction, 150, 0, 10, true  );
         //vertSlider.setLabelText( "amplitude");
         //this.slider_arr[0] = vertSlider;
 
         this.addChild( this.container );
         this.initializeSliderArray();
+        this.initializeStrings();
+
         for(var i:int = 0; i < this.nMax; i++ ){
             this.container.addChild( this.ampliSlider_arr[i] );
             this.container.addChild( this.phaseSlider_arr[i] );
         }
-
+        this.createLabels();
+        //this.container.addChild( this.amplitudeLabel_txt );
+        //this.container.addChild( this.phaseLabel_txt );
         this.locateSliders();
 
     } //end constructor
@@ -50,10 +72,10 @@ public class SliderArrayPanel extends UIComponent {
     private function initializeSliderArray():void{
          for(var i:int = 0; i < this.nMax; i++){
              // VericalSlider( action: Function, lengthInPix: int, minVal: Number, maxVal: Number, textEditable:Boolean = false, detented: Boolean = false, nbrTics: int = 0 , readoutShown:Boolean = true )
-             var vertSliderAmpli:VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, false  );
-             var vertSliderPhase:VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, false  );
-             vertSliderAmpli.setReadoutPrecision( 3 );
-             vertSliderPhase.setReadoutPrecision( 2 );
+             var vertSliderAmpli:VerticalSlider = new VerticalSlider( setAmplitude, 100, 0, 0.1, false, false, 0, false  );
+             var vertSliderPhase:VerticalSlider = new VerticalSlider( setPhase, 100, -Math.PI, +Math.PI, false, false, 0, false  );
+             //vertSliderAmpli.setReadoutPrecision( 3 );
+             //vertSliderPhase.setReadoutPrecision( 2 );
 
 //             function amplitudeFunction():void{
 //                 trace( "SliderArrayPanel.sliderIndex = " + vertSliderAmpli.index);
@@ -61,12 +83,14 @@ public class SliderArrayPanel extends UIComponent {
              var j:int = i+1;
              vertSliderAmpli.index = j;     //label slider with index = mode number (not array element number)
              vertSliderPhase.index = j;
-             vertSliderAmpli.setLabelText( "Ampli " + j );
-             vertSliderPhase.setLabelText( "Phase " + j );
+             vertSliderAmpli.setLabelText( j.toString() );
+             vertSliderPhase.killLabel();
+             //vertSliderPhase.setLabelText( "Phase " + j );
              vertSliderAmpli.setScale( 100 );
-             vertSliderPhase.setScale( 1/Math.PI );
-             vertSliderAmpli.setUnitsText("cm");
-             vertSliderPhase.setUnitsText("pi");
+             vertSliderAmpli.setLabelFontSize( 18, true );
+             //vertSliderPhase.setScale( 1/Math.PI );
+             //vertSliderAmpli.setUnitsText("cm");
+             //vertSliderPhase.setUnitsText("pi");
              vertSliderAmpli.setReadoutPrecision( 1 );
 
              this.ampliSlider_arr[i] = vertSliderAmpli;
@@ -76,25 +100,63 @@ public class SliderArrayPanel extends UIComponent {
          }
     }//end createSliderArray
 
+    private function initializeStrings():void{
+        this.amplitude_str = "Amplitude:";
+        this.phase_str = "Phase:";
+        this.mode_str = "Mode:"
+    }
+
+    private function createLabels():void{
+        this.tFormat = new TextFormat();
+        this.tFormat.align = TextFormatAlign.RIGHT;
+        this.tFormat.size = 20;
+        this.tFormat.font = "Arial";
+        this.tFormat.color = 0x000000;
+        this.modeLabel_txt = new TextField();
+        this.amplitudeLabel_txt = new TextField();
+        this.phaseLabel_txt = new TextField();
+        this.amplitudeLabel_txt.text = this.amplitude_str;
+        this.phaseLabel_txt.text = this.phase_str;
+        this.modeLabel_txt.text = this.mode_str;
+        //this.amplitudeLabel_txt.setTextFormat( this.tFormat );
+        //this.addChild( this.amplitudeLabel_txt );
+        //this.amplitudeLabel_txt.x = -this.amplitudeLabel_txt.width;
+        //this.phaseLabel_txt.setTextFormat( this.tFormat );
+        setLabel( this.modeLabel_txt );
+        setLabel( this.amplitudeLabel_txt );
+        setLabel( this.phaseLabel_txt );
+        function setLabel( txtField:TextField ):void{
+            txtField.setTextFormat( tFormat );
+            addChild( txtField );     //this.addChild( txtField);  throw an error
+        }
+        this.modeLabel_txt.y = -50;
+        this.amplitudeLabel_txt.y = +30
+        this.phaseLabel_txt.y = +160;
+    }//end createLabels()
+
     //Arrange the layout of sliders
     public function locateSliders():void{
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
 
-        var horizSpacing:Number = 0.8*lengthBetweenWallsInPix/(nbrSliders + 1);
+        var horizSpacing:Number = 0.7*lengthBetweenWallsInPix/(nbrSliders + 1);
         var widthOfAllVisibleSliders = ( nbrSliders - 1) * horizSpacing;
         for(var i:int = 0; i < nbrSliders; i++){
             this.ampliSlider_arr[i].visible = true;
             this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
-            this.phaseSlider_arr[i].y =  1.1*this.ampliSlider_arr[i].height;
-            this.phaseSlider_arr[i].visible = false;
+            this.phaseSlider_arr[i].y =  1.0*this.ampliSlider_arr[i].height - 20;
+            //this.phaseSlider_arr[i].visible = false;
             this.phaseSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
         }
         for( i = nbrSliders; i < this.nMax; i++ ){
             this.ampliSlider_arr[i].visible = false;
-            this.phaseSlider_arr[i].visible = false;
+            //this.phaseSlider_arr[i].visible = false;
         }
-
+        this.showPhaseSliders( this.phasesShown );
+        var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
+        this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
+        this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
+        this.phaseLabel_txt.x = leftEdgeOfSliders - this.phaseLabel_txt.width;
         this.container.x = 0;
     } //end positionSliders();
 
@@ -121,9 +183,11 @@ public class SliderArrayPanel extends UIComponent {
     }
 
     public function showPhaseSliders( tOrF:Boolean ):void{
+        this.phasesShown = tOrF;
         var nbrMasses:int = this.myModel1.N;
         for( var i:int = 0; i < nbrMasses; i++ ){
             this.phaseSlider_arr[i].visible = tOrF;
+            this.phaseLabel_txt.visible = tOrF;
         }
         for ( i = nbrMasses; i < this.nMax; i++ ){
             this.phaseSlider_arr[i].visible = false;
