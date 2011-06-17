@@ -147,7 +147,7 @@ public class ControlPanel extends Canvas {
         this.oneDModeButton.label = this.oneD_str;
         this.twoDModeButton.label = this.twoD_str;
         this.oneDModeButton.value = 1;
-        this.twoDModeButton.value = 0;
+        this.twoDModeButton.value = 2;
         this.oneDModeButton.selected = true;
         this.twoDModeButton.selected = false;
         this.oneDtwoDMode_rbg.addEventListener( Event.CHANGE, click1DOr2D );
@@ -228,7 +228,7 @@ public class ControlPanel extends Canvas {
         if ( val == 1 ) {
             this.myMainView.set1DOr2D( 1 );
         }
-        else {
+        else if ( val == 2 ) {
             this.myMainView.set1DOr2D( 2 );
         }
         this.oneDMode = this.myMainView.oneDMode;

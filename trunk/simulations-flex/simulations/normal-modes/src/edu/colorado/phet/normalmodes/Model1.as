@@ -129,7 +129,7 @@ public class Model1 {
         }else{
            this._N = nbrOfMobileMasses;
         }
-        //trace("Model1.setN called N = " + this._N);
+        trace("Model1.setN called N = " + this._N);
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
         this.nChanged = true;
