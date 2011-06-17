@@ -28,10 +28,10 @@ public class StretchingPanel extends JPanel {
                 if ( timesheetModel.getEntryCount() > 0 ) {
                     if ( model.entryMatches( timesheetModel.getLastEntry() ) && time == (long) ( 4.5 * 60 ) )//TODO: this plays sound during loading CSV
                     {
-                        playNotification( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav" );//todo: take out absolute paths
+                        playNotification( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav" );//todo: take out absolute paths
                     }
                     if ( time == 60 * 60 ) {
-                        playNotification( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" );
+                        playNotification( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" );
                     }
                 }
             }
@@ -51,7 +51,7 @@ public class StretchingPanel extends JPanel {
     }
 
     public static void main( String[] args ) throws LineUnavailableException, IOException, UnsupportedAudioFileException {
-        playNotification( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" );
+        playNotification( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" );
     }
 
     private static void playNotification( String pathname ) {
