@@ -6,9 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.buildamolecule.view.view3d.JmolDialog;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -24,7 +28,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.GlobalSettings;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
@@ -57,9 +62,9 @@ public class WaterCanvas extends PhetPCanvas {
     private PNode saltBucketParticleLayer;
     private PNode sugarBucketParticleLayer;
 
-    public WaterCanvas( final WaterModel waterModel, final GlobalSettings settings ) {
+    public WaterCanvas( final WaterModel waterModel, final GlobalState state ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
-        settings.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
+        state.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
                 setBackground( color );
             }
@@ -148,7 +153,7 @@ public class WaterCanvas extends PhetPCanvas {
 //                }} ),
 
                 //If development version, show button to launch developer controls
-                settings.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{
+                state.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{
                     addActionListener( new ActionListener() {
                         DeveloperControlDialog dialog = null;
 
@@ -161,6 +166,18 @@ public class WaterCanvas extends PhetPCanvas {
                         }
                     } );
                 }} : new PNode(),
+
+                new TextButtonNode( "Show Sugar in 3D" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            JmolDialog.displayMolecule3D( state.frame, new CompleteMolecule( "Sugar", "sugar", 13, 23, false, true ) {
+                                @Override public String getCmlData() {
+                                    return readPDB();
+                                }
+                            } );
+                        }
+                    } );
+                }},
 
                 //Add a reset all button that resets this tab
                 new HTMLImageButtonNode( "Reset All" ) {{
@@ -230,6 +247,22 @@ public class WaterCanvas extends PhetPCanvas {
                 addSugarToBucket( waterModel, transform );
             }
         } );
+    }
+
+    private String readPDB() {
+        try {
+            BufferedReader structureReader = new BufferedReader( new InputStreamReader( SugarAndSaltSolutionsApplication.RESOURCES.getResourceAsStream( "sucrose.pdb" ) ) );
+            String s = "";
+            String line = structureReader.readLine();
+            while ( line != null ) {
+                s = s + line + "\n";
+                line = structureReader.readLine();
+            }
+            return s;
+        }
+        catch ( Exception e ) {
+            throw new RuntimeException( e );
+        }
     }
 
     private void addSaltToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
