@@ -1,6 +1,6 @@
-aluminum.jpg source=microsoft clip art notes=Sam Reid modified this based on microsoft clip art
+aluminum.jpg source=Wikimedia Commons notes='Diamond Plate.jpg', "http://commons.wikimedia.org/wiki/File:Diamond_Plate.jpg"
 custom.jpg license=Apache 2.0 notes=SRR modified this based on wall.jpg
-ice.jpg source=microsoft clip art notes=SRR modified this based on microsoft clip art "Melting ice cubes"
+ice.jpg source=Wikimedia Commons notes='Sea ice terrain.jpg', "http://commons.wikimedia.org/wiki/File:Sea_ice_terrain.jpg"
 scale-front.jpg author=phet notes=Jon Olson
 styrofoam.jpg author=phet notes=Sam Reid
 wall.jpg license=Apache 2.0 source=away3d notes=this image came with the library away3d so is allowed under Apache 2.0 license
