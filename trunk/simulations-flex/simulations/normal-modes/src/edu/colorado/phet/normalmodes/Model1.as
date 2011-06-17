@@ -119,6 +119,7 @@ public class Model1 {
 
     //SETTERS and GETTERS
     public function setN(nbrOfMobileMasses:int):void{
+
         if(nbrOfMobileMasses > this._nMax){
             this._N = this._nMax;
             trace("ERROR: nbr of masses too high");
@@ -128,6 +129,7 @@ public class Model1 {
         }else{
            this._N = nbrOfMobileMasses;
         }
+        //trace("Model1.setN called N = " + this._N);
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
         this.nChanged = true;

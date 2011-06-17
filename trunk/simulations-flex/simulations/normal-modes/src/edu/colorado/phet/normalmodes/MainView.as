@@ -51,12 +51,13 @@ public class MainView extends Canvas {
         this.myView2.y = 0 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myModel1 );
-        this.myPlayPauseButtons.x = 0.5*stageW;
-        this.myPlayPauseButtons.y = 0.9 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        this.myPlayPauseButtons.x = 0.88 * stageW ;//- this.myPlayPauseButtons.width ;
 
+        this.myPlayPauseButtons.y = 0.8 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
-        this.mySliderArrayPanel.y = 0.5*stageH;
+        this.mySliderArrayPanel.y = 0.6*stageH;
 
         this.myControlPanel = new ControlPanel( this, myModel1, myModel2 );
         this.myControlPanel.x = 0.85 * stageW; //- 3 * this.myControlPanel.width;
@@ -72,16 +73,17 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
-        this.addChild( new SpriteUIComponent( myPlayPauseButtons ) );
+        this.addChild( this.myPlayPauseButtons );
+
         this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
-        //this.addChild( new SpriteUIComponent( ruler ));
         this.addChild( myControlPanel );
-        this.addChild( myButtonArrayPanel );
+        this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
+
     }//end of constructor
 
     public function set1DOr2D(oneOrTwo:int):void{
@@ -94,6 +96,7 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = true;
             this.myButtonArrayPanel.visible = false;
             this.myPlayPauseButtons.setModel( this.myModel1 );
+            this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
             this.myModel1.stopMotion();
@@ -103,8 +106,9 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = false;
             this.myButtonArrayPanel.visible = true;
             this.myPlayPauseButtons.setModel( this.myModel2 );
+            this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
         }
-    }
+    }//end set1DOr2D
 
     public function initializeAll(): void {
         this.myView1.initializeControls();

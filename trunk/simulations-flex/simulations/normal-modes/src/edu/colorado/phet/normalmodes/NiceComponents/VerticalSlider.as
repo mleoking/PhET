@@ -19,6 +19,7 @@ import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFieldType;
 import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 
 public class VerticalSlider extends Sprite{
@@ -109,6 +110,14 @@ public class VerticalSlider extends Sprite{
         this.scale = scale;
     }
 
+    public function setLabelFontSize( size:Number, bold:Boolean = false ):void{
+        this.tFormat1.size = size;
+        this.tFormat1.bold = bold;
+        this.label_txt.setTextFormat( this.tFormat1 );
+        this.label_txt.x = - 0.5 * this.label_txt.width;
+    }
+
+
     public function setReadoutPrecision( nbrOfPlaces: int ): void {
         this.decimalPlaces = nbrOfPlaces;     //nbr of places displayed past the decimal point
     }
@@ -116,7 +125,11 @@ public class VerticalSlider extends Sprite{
     public function setLabelText( label_str: String ): void {
         this.label_txt.text = label_str;
         this.label_txt.setTextFormat( this.tFormat1 );
-        this.label_txt.x = this.rail.width / 2 - 0.5 * this.label_txt.width;
+        this.label_txt.x = - 0.5 * this.label_txt.width;
+    }
+
+    public function killLabel():void{
+        this.removeChild( this.label_txt );
     }
 
     public function setUnitsText( str:String ):void{
@@ -201,8 +214,9 @@ public class VerticalSlider extends Sprite{
         this.tFormat1.font = "Arial";
         this.tFormat1.color = 0x000000;
         this.tFormat1.size = 14;
+        this.tFormat1.align = TextFormatAlign.CENTER ;
         this.label_txt.setTextFormat( this.tFormat1 );
-        this.label_txt.x = 0;// -0.5*this.label_txt.width;
+        this.label_txt.x = 0; //-0.5*this.label_txt.width;
         this.label_txt.y = -0.5 * this.knob.height - this.readout_txt.height - this.label_txt.height;
         this.addChild( this.label_txt );
         //this.label_txt.border = true;      //for testing only
