@@ -149,6 +149,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/think-tank-maths/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/torque/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/jmol-phet/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/packload/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
