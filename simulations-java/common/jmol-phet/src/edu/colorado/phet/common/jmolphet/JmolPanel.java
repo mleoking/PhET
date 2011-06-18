@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildamolecule.view.view3d;
+package edu.colorado.phet.common.jmolphet;
 
 import java.awt.*;
 
@@ -8,9 +8,6 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
-import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -20,8 +17,10 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  */
 public class JmolPanel extends JPanel {
     private JmolViewer viewer = null;
+    private final String loadingString;
 
-    public JmolPanel( final CompleteMolecule molecule ) {
+    public JmolPanel( final Molecule molecule, String loadingString ) {
+        this.loadingString = loadingString;
 
         // create the 3D view after we have shown the "loading" text and dialog
         SwingUtilities.invokeLater( new Runnable() {
@@ -75,7 +74,7 @@ public class JmolPanel extends JPanel {
             super.paint( g );
 
             // create a piccolo node (helpful for centering and styling)
-            PText text = new PText( BuildAMoleculeStrings.JMOL_3D_LOADING ) {{
+            PText text = new PText( loadingString ) {{
                 setTextPaint( Color.WHITE );
                 setFont( new PhetFont( 20 ) );
 
@@ -94,18 +93,5 @@ public class JmolPanel extends JPanel {
             g.getClipBounds( clipBounds );
             viewer.renderScreenImage( g, currentSize, clipBounds );
         }
-    }
-
-    public static void main( String[] args ) {
-        JFrame frame = new JFrame( "Hello" ) {{
-            setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-            setSize( 410, 410 );
-        }};
-        Container contentPane = frame.getContentPane();
-        JmolPanel jmolPanel = new JmolPanel( MoleculeList.H2O );
-
-        contentPane.add( jmolPanel );
-
-        frame.setVisible( true );
     }
 }

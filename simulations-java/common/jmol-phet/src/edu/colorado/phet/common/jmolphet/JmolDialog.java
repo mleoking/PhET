@@ -1,4 +1,4 @@
-package edu.colorado.phet.buildamolecule.view.view3d;
+package edu.colorado.phet.common.jmolphet;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,31 +6,29 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
-import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
 /**
  * A dialog that shows a 3D molecule structure, and allows the user to switch between representation modes
  */
 public class JmolDialog extends JDialog {
-    public JmolDialog( Frame owner, CompleteMolecule molecule ) {
+    public JmolDialog( Frame owner, Molecule molecule, final String spacefillString, final String ballAndStickString, String loadingString ) {
         super( owner );
 
         setTitle( molecule.getDisplayName() );
         setSize( 410, 410 );
 
-        System.out.println( "Showing 3D dialog for " + molecule.getDisplayName() + " PubChem CID #" + molecule.cid );
+        System.out.println( "Showing 3D dialog for " + molecule.getDisplayName() + " PubChem CID #" + molecule.getCID() );
 
         JPanel container = new JPanel( new BorderLayout() );
         setContentPane( container );
 
-        final JmolPanel jmolPanel = new JmolPanel( molecule );
+        final JmolPanel jmolPanel = new JmolPanel( molecule, loadingString );
         getContentPane().add( jmolPanel, BorderLayout.CENTER );
 
         getContentPane().add( new JPanel() {{
                                   final ButtonGroup group = new ButtonGroup();
-                                  add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, true ) {{ // 50% size
+                                  add( new JRadioButton( spacefillString, true ) {{ // 50% size
                                       group.add( this );
                                       addActionListener( new ActionListener() {
                                           public void actionPerformed( ActionEvent e ) {
@@ -38,7 +36,7 @@ public class JmolDialog extends JDialog {
                                           }
                                       } );
                                   }} );
-                                  add( new JRadioButton( BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, false ) {{
+                                  add( new JRadioButton( ballAndStickString, false ) {{
                                       group.add( this );
                                       addActionListener( new ActionListener() {
                                           public void actionPerformed( ActionEvent e ) {
@@ -53,8 +51,8 @@ public class JmolDialog extends JDialog {
         setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
     }
 
-    public static JmolDialog displayMolecule3D( Frame frame, CompleteMolecule completeMolecule ) {
-        JmolDialog jmolDialog = new JmolDialog( frame, completeMolecule );
+    public static JmolDialog displayMolecule3D( Frame frame, Molecule completeMolecule, String spaceFillString, String ballAndStickString, String loadingString ) {
+        JmolDialog jmolDialog = new JmolDialog( frame, completeMolecule, spaceFillString, ballAndStickString, loadingString );
         SwingUtils.centerInParent( jmolDialog );
         jmolDialog.setVisible( true );
         return jmolDialog;

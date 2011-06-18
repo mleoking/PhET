@@ -16,6 +16,12 @@
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
 
+#Necessary for JMol-phet classes if you are using PDB file content, as is currently done in Sugar and Salt Solutions
+-keep class org.jmol.adapter.readers.cifpdb.PdbReader{
+<fields>;
+<methods>;
+}
+
 ##########
 # SimSharing features that use Akka
 # TODO: move this to simsharing build file somehow
