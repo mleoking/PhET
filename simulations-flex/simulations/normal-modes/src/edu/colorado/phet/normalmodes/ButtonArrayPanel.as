@@ -37,8 +37,9 @@ public class ButtonArrayPanel extends UIComponent{
         for (var i:int = 0; i < nMax + 1; i++){
             this.button_arr[i] = new Array( nMax + 1 )
         }
-        for(i = 1; i <= nMax; i++){
-            for(var j:int = 1; j <= nMax; j++){
+        //i, j order of addChild() important so that buttons look OK when pressed
+        for(i = nMax; i >= 1; i--){
+            for(var j:int = nMax; j >= 1; j--){
                 this.button_arr[i][j] = new ModeButton( myModel2, i, j, this.maxContainerWidth/nbrMasses );
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
             }
@@ -72,8 +73,8 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 this.button_arr[i][j].drawButton( 0xffffff );
-                this.button_arr[i][j].x = xOffset + ( j-1 )*size;
-                this.button_arr[i][j].y = yOffset + ( i-1 )*size;
+                this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
+                this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
             }
         }
     }

@@ -24,7 +24,8 @@ public class ModeButton extends Sprite{
     private var buttonColor:Number;
     private var label_txt; TextField;
     private var tFormat: TextFormat;
-    private var activated:Boolean;    //true if button pressed once, false is pressed again
+    private var activated:Boolean;      //true if button pressed once, false is pressed again
+    private var pushedIn:Boolean;         //true if button pushed in by mouseDown
 
     public function ModeButton( myModel2:Model2, iIndx:int, jIndx:int, sizeInPix:Number) {
         this.myModel2 = myModel2;
@@ -33,6 +34,7 @@ public class ModeButton extends Sprite{
         this.sizeInPix = sizeInPix;
         this.buttonColor = 0xffffff ;
         this.activated = false;
+        this.pushedIn = false;
         this.label_txt = new TextField();
         this.addChild(this.label_txt);
         this.tFormat = new TextFormat();
@@ -103,8 +105,12 @@ public class ModeButton extends Sprite{
         function buttonBehave( evt: MouseEvent ): void {
 
             if ( evt.type == "mouseDown" ) {
-                localRef.x += 2;
-                localRef.y += 2;
+                if( !localRef.pushedIn ){
+                    localRef.x += 2;
+                    localRef.y += 2;
+                    localRef.pushedIn = true;
+                }
+
                 if(!localRef.activated){
                     localRef.activated = true;
                     localRef.myModel2.setModeAmpli( localRef.iIndex, localRef.jIndex, 0.03  );
@@ -127,8 +133,11 @@ public class ModeButton extends Sprite{
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
-                localRef.x -= 2;
-                localRef.y -= 2;
+                if( localRef.pushedIn ){
+                    localRef.x -= 2;
+                    localRef.y -= 2;
+                    localRef.pushedIn = false;
+                }
                 if(!localRef.activated) {
                    localRef.drawButton( 0xffffff );
                 }
@@ -137,6 +146,11 @@ public class ModeButton extends Sprite{
                 localRef.tFormat.bold = false;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
                 //trace("evt.name:"+evt.type);
+                if( localRef.pushedIn ){
+                    localRef.x -= 2;
+                    localRef.y -= 2;
+                    localRef.pushedIn = false;
+                }
                 if(!localRef.activated){
                     localRef.drawButton( 0xffffff );
                 }

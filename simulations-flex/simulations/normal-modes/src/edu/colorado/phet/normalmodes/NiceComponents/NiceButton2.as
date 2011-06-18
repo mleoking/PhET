@@ -17,6 +17,7 @@ public class NiceButton2 extends Sprite {
     private var label_txt: TextField;
     private var myButtonWidth: Number;
     private var myButtonHeight: Number;
+    private var pushedIn:Boolean;           //true if button pushedIn with mouseDown
     private var nineSliceGrid:Rectangle;
     private var tFormat: TextFormat;
     private var buttonFunction: Function;
@@ -33,6 +34,7 @@ public class NiceButton2 extends Sprite {
         this.myButtonWidth = myButtonWidth;
         this.myButtonHeight = myButtonHeight;
         this.buttonFunction = buttonFunction;
+        this.pushedIn = false;
         this.bodyColor = bodyColor;  //default body color is green
         this.fontColor = fontColor;  //default font color is black
         this.tFormat = new TextFormat();
@@ -121,8 +123,12 @@ public class NiceButton2 extends Sprite {
         function buttonBehave( evt: MouseEvent ): void {
 
             if ( evt.type == "mouseDown" ) {
-                localRef.buttonBody.x += 2;
-                localRef.buttonBody.y += 2;
+                if(!localRef.pushedIn ){
+                    localRef.pushedIn = true;
+                    localRef.buttonBody.x += 2;
+                    localRef.buttonBody.y += 2;
+                    localRef.buttonFunction();
+                }
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
                 localRef.tFormat.bold = true;
@@ -130,10 +136,20 @@ public class NiceButton2 extends Sprite {
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
-                localRef.buttonBody.x -= 2;
-                localRef.buttonBody.y -= 2;
-                localRef.buttonFunction();
+                if(localRef.pushedIn ){
+                    localRef.pushedIn = false;
+                    localRef.buttonBody.x -= 2;
+                    localRef.buttonBody.y -= 2;
+                    //localRef.buttonFunction();
+                }
+
             } else if ( evt.type == "mouseOut" ) {
+                if(localRef.pushedIn ){
+                    localRef.pushedIn = false;
+                    localRef.buttonBody.x -= 2;
+                    localRef.buttonBody.y -= 2;
+                    //localRef.buttonFunction();
+                }
                 localRef.tFormat.bold = false;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
                 //trace("evt.name:"+evt.type);
