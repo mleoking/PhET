@@ -11,8 +11,10 @@ import java.io.InputStreamReader;
 
 import javax.swing.*;
 
-import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
-import edu.colorado.phet.buildamolecule.view.view3d.JmolDialog;
+import org.jmol.api.JmolViewer;
+
+import edu.colorado.phet.common.jmolphet.JmolDialog;
+import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -170,11 +172,22 @@ public class WaterCanvas extends PhetPCanvas {
                 new TextButtonNode( "Show Sugar in 3D" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            JmolDialog.displayMolecule3D( state.frame, new CompleteMolecule( "Sugar", "sugar", 13, 23, false, true ) {
-                                @Override public String getCmlData() {
-                                    return readPDB();
-                                }
-                            } );
+                            JmolDialog.displayMolecule3D( state.frame, new Molecule() {
+                                                              public String getDisplayName() {
+                                                                  return "Sugar";
+                                                              }
+
+                                                              public int getCID() {
+                                                                  return 5988;
+                                                              }
+
+                                                              public String getCmlData() {
+                                                                  return readPDB();
+                                                              }
+
+                                                              public void fixJmolColors( JmolViewer viewer ) {
+                                                              }
+                                                          }, "Space fill", "Ball and stick", "Loading..." );
                         }
                     } );
                 }},
