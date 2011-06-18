@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resistance-in-a-wire-strings_eu.xml created Fri Feb 11 23:55:20 CET 2011 using: resistance-in-a-wire 2.01.00 (37324), translation-utility 2.10.00 (48775) feb 9, 2011-->
-<SimStrings>
-<string key="cm" value="cm"/>
-<string key="resistanceEq" value="erresistentzia ="/>
-<string key="ohm" value="ohm"/>
-<string key="simTitle" value="Kable baten erresistentzia"/>
-</SimStrings>

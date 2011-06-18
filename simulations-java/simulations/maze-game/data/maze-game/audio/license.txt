@@ -1,7 +1,0 @@
-###################################
-# License info for maze-game
-# Automatically generated on Fri Aug 08 00:08:01 MDT 2008
-###################################
-
-cork.wav
-figaro.wav

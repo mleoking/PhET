@@ -46,7 +46,8 @@ public class ResetAllButton extends JButton {
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                delegate.resetAll();
+                Point location = getLocationOnScreen();
+                delegate.resetAll( location );
             }
         } );
     }

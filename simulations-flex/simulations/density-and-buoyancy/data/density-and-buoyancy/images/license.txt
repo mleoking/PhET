@@ -1,7 +1,0 @@
-aluminum.jpg source=Wikimedia Commons notes='Diamond Plate.jpg', "http://commons.wikimedia.org/wiki/File:Diamond_Plate.jpg"
-custom.jpg license=Apache 2.0 notes=SRR modified this based on wall.jpg
-ice.jpg source=Wikimedia Commons notes='Sea ice terrain.jpg', "http://commons.wikimedia.org/wiki/File:Sea_ice_terrain.jpg"
-scale-front.jpg author=phet notes=Jon Olson
-styrofoam.jpg author=phet notes=Sam Reid
-wall.jpg license=Apache 2.0 source=away3d notes=this image came with the library away3d so is allowed under Apache 2.0 license
-wood.png license=public domain notes=http://www.publicdomainpictures.net/view-image.php?pictureEQUALSIGNwood-texture&imageEQUALSIGN1282&largeEQUALSIGN1 This image is public domain. You may use this picture for any purpose, including commercial. If you do use it, please consider linking back to us. If you are going to redistribute this image online, a hyperlink to this particular page is mandatory.

@@ -1,3 +1,0 @@
-This directory contains scripts that are being or were used to track down a
-problem where the creation of the custom installer takes a very long time.
-See Unfuddle issue #2117 for more information on the problem.

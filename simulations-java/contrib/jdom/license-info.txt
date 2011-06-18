@@ -1,1 +1,0 @@
-jdom license=Apache-style, no acknowledgment clause licensefile=LICENSE.txt name=JDOM description=A a complete, Java-based solution for accessing, manipulating, and outputting XML data from Java code. copyright=2000-2004 Jason Hunter & Brett McLaughlin website=http://www.jdom.org/ 

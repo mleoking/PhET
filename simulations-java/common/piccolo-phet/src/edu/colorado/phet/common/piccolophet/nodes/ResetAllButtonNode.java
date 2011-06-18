@@ -5,6 +5,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -13,6 +14,9 @@ import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.view.ResetAllDelegate;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PComponent;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Piccolo version of the "Reset All" button.
@@ -24,6 +28,8 @@ import edu.umd.cs.piccolo.PCanvas;
 public class ResetAllButtonNode extends TextButtonNode {
 
     private final ResetAllDelegate delegate; // delegate that implements Reset All behavior
+    private Point2D mouseLocation;
+    private PComponent component;
 
     /**
      * @param resettable      thing to reset
@@ -50,7 +56,15 @@ public class ResetAllButtonNode extends TextButtonNode {
         this.delegate = new ResetAllDelegate( resettables, parent );
         addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                delegate.resetAll();
+                Component c = (Component) component;
+                delegate.resetAll( new Point2D.Double( mouseLocation.getX() + c.getLocationOnScreen().x, mouseLocation.getY() + c.getLocationOnScreen().y ) );
+            }
+        } );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseMoved( PInputEvent event ) {
+                super.mouseMoved( event );
+                mouseLocation = event.getCanvasPosition();
+                component = event.getComponent();
             }
         } );
     }
