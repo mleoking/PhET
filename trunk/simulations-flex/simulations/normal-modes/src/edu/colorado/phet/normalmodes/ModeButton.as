@@ -11,6 +11,7 @@ import flash.display.PixelSnapping;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 
 import mx.utils.object_proxy;
@@ -20,6 +21,7 @@ public class ModeButton extends Sprite{
     private var iIndex:int;
     private var jIndex:int;
     private var sizeInPix:Number;
+    private var buttonColor:Number;
     private var label_txt; TextField;
     private var tFormat: TextFormat;
     private var activated:Boolean;    //true if button pressed once, false is pressed again
@@ -29,25 +31,40 @@ public class ModeButton extends Sprite{
         this.iIndex = iIndx;
         this.jIndex = jIndx;
         this.sizeInPix = sizeInPix;
+        this.buttonColor = 0xffffff ;
         this.activated = false;
         this.label_txt = new TextField();
         this.addChild(this.label_txt);
         this.tFormat = new TextFormat();
-        this.drawButton( 0xffffff );
+        this.drawButton( this.buttonColor );
         this.makeLabel();
         this.activateButton();
 
     }//end constructor
 
     public function drawButton( backgroundColor:Number ):void{
+        this.buttonColor = backgroundColor;
         var g:Graphics = this.graphics;
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
         g.clear();
-        g.lineStyle( 3, 0x0000ff, 1 );
+        g.lineStyle( 2, 0x0000ff, 1 );
         g.beginFill( backgroundColor, 1);
         g.drawRoundRect( 0, 0, w,  h,  w/2 );
         g.endFill();
+        this.positionLabel();
+    }
+
+    private function setBorderThickness( borderThickness:Number ):void{
+        var g:Graphics = this.graphics;
+        var w:int = this.sizeInPix;       //width and height of button in pixels
+        var h:int = this.sizeInPix;
+        g.clear();
+        g.lineStyle( borderThickness, 0x0000ff, 1 );
+        g.beginFill( this.buttonColor, 1);
+        g.drawRoundRect( 0, 0, w,  h,  w/2 );
+        g.endFill();
+        this.positionLabel();
     }
 
     private function makeLabel():void{
@@ -55,7 +72,14 @@ public class ModeButton extends Sprite{
         this.label_txt.text = label_str;
         this.tFormat.font = "Arial";
         this.tFormat.size = 12;
+        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+        //this.label_txt.border = true;    //for testing only
         this.label_txt.setTextFormat( this.tFormat);
+    }
+
+    private function positionLabel():void{
+        this.label_txt.x = this.sizeInPix/2 - this.label_txt.width/2;
+        this.label_txt.y = this.sizeInPix/2 - this.label_txt.height/2;
     }
 
     public function setSize( sizeInPix: Number):void{
@@ -93,11 +117,13 @@ public class ModeButton extends Sprite{
 
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
+//                if(!localRef.activated){
+//                    localRef.drawButton( 0xffff00);
+//                }
+                localRef.setBorderThickness( 3 );
                 localRef.tFormat.bold = true;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
-                if(!localRef.activated){
-                    //localRef.drawButton( 0xffff00 );
-                }
+
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
@@ -114,6 +140,7 @@ public class ModeButton extends Sprite{
                 if(!localRef.activated){
                     localRef.drawButton( 0xffffff );
                 }
+                localRef.setBorderThickness( 2 );
             }
         }//end of buttonBehave
     }//end of activateButton

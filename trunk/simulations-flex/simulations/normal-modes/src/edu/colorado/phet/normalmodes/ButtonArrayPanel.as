@@ -17,7 +17,7 @@ public class ButtonArrayPanel extends UIComponent{
     private var myMainView: MainView;
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
-    private var containerWidth:Number;      //width of container in pixels
+    private var maxContainerWidth:Number;      //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
     private var button_arr:Array;           //N x N array of pushbuttons
     private var topLeftX;Number;
@@ -28,7 +28,7 @@ public class ButtonArrayPanel extends UIComponent{
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.nMax = this.myModel2.nMax;
-        this.containerWidth = 200;
+        this.maxContainerWidth = 250;
         this.container = new Sprite();
         var nbrMasses:int = this.myModel2.N;
         //button_arr is nMax+1 x nMax+1,  i = 0 row and j = 0 column are dummies
@@ -39,7 +39,7 @@ public class ButtonArrayPanel extends UIComponent{
         }
         for(i = 1; i <= nMax; i++){
             for(var j:int = 1; j <= nMax; j++){
-                this.button_arr[i][j] = new ModeButton( myModel2, i, j, this.containerWidth/nbrMasses );
+                this.button_arr[i][j] = new ModeButton( myModel2, i, j, this.maxContainerWidth/nbrMasses );
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
             }
         }
@@ -55,14 +55,25 @@ public class ButtonArrayPanel extends UIComponent{
             }
         }
         var N:int = this.myModel2.N;
-        var size:Number = this.containerWidth/N;
+        var size:Number = this.maxContainerWidth/N;
+        var xOffset:Number;
+        var yOffset:Number;
         for(var i: int = 1; i <= N; i++ ){
             for( var j: int = 1; j <= N; j++ ){
-                this.button_arr[i][j].setSize( this.containerWidth/N );
+                if( N == 1 || N == 2){
+                    size = this.maxContainerWidth/5;
+                }else if ( N == 3 || N == 4 ) {
+                    size =  this.maxContainerWidth/5;
+                } else if( N >= 5 ){
+                   size =  this.maxContainerWidth/N;
+                }
+                xOffset = this.maxContainerWidth/2 - N*size/2;
+                yOffset = xOffset;
+                this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 this.button_arr[i][j].drawButton( 0xffffff );
-                this.button_arr[i][j].x = ( j-1 )*size;
-                this.button_arr[i][j].y = ( i-1 )*size;
+                this.button_arr[i][j].x = xOffset + ( j-1 )*size;
+                this.button_arr[i][j].y = yOffset + ( i-1 )*size;
             }
         }
     }

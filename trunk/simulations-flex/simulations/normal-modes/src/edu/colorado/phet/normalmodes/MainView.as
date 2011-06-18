@@ -51,9 +51,8 @@ public class MainView extends Canvas {
         this.myView2.y = 0 * stageH;
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myModel1 );
-        this.myPlayPauseButtons.x = 0.88 * stageW ;//- this.myPlayPauseButtons.width ;
-
-        this.myPlayPauseButtons.y = 0.8 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        this.myPlayPauseButtons.x = 0.9 * stageW ;//- this.myPlayPauseButtons.width ;
+        this.myPlayPauseButtons.y = 0.45 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
@@ -64,8 +63,8 @@ public class MainView extends Canvas {
         this.myControlPanel.y = 0.05 * stageH;
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
-        this.myButtonArrayPanel.x = 0.8*stageW;
-        this.myButtonArrayPanel.y = 0.6*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
+        this.myButtonArrayPanel.x = 0.75*stageW;
+        this.myButtonArrayPanel.y = 0.55*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
         this.myButtonArrayPanel.visible = false;
 
         this.phetLogo = new PhetIcon();

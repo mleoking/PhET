@@ -113,8 +113,10 @@ public class View2 extends Sprite {
         //draw only those springs that are visible
         for(var i:int = 0; i < nMasses; i++){
             for(var j:int = 0; j <= nMasses; j++){
-                this.springH_arr[i][j].visible = true;
-                this.springV_arr[j][i].visible = true;
+                if(this._springsVisible){
+                    this.springH_arr[i][j].visible = true;
+                    this.springV_arr[j][i].visible = true;
+                }
                 var gH:Graphics = this.springH_arr[i][j].graphics;
                 var gV:Graphics = this.springV_arr[j][i].graphics;      //i, j switched intentionally
                 var g_arr:Array = new Array( gH,  gV );
