@@ -43,7 +43,7 @@ public class ControlPanel extends Canvas {
     private var longTransMode_rbg: RadioButtonGroup;
     private var longitudinalModeButton: RadioButton;
     private var transverseModeButton: RadioButton;
-    private var radioButtonVBox2:VBox;
+    private var radioButtonHBox:HBox;
     private var oneDtwoDMode_rbg: RadioButtonGroup;
     private var oneDModeButton: RadioButton;
     private var twoDModeButton: RadioButton;
@@ -94,7 +94,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingBottom", 15 );
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
-            setStyle( "verticalGap", 25 );
+            setStyle( "verticalGap", 10 );
             setStyle( "verticalAlign", "center" );
         }
 
@@ -111,7 +111,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 15 );
             setStyle( "paddingLeft", 15 );
-            setStyle( "verticalGap", 10 );
+            setStyle( "verticalGap", 5 );
             setStyle( "horizontalAlign" , "center" );
         }
 
@@ -137,11 +137,11 @@ public class ControlPanel extends Canvas {
         this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
 
          //1D or 2D radio button box
-        this.radioButtonVBox2 = new VBox();
+        this.radioButtonHBox = new HBox();
         this.oneDtwoDMode_rbg = new RadioButtonGroup();
         this.oneDModeButton = new RadioButton();
         this.twoDModeButton = new RadioButton();
-        this.twoDModeButton.setStyle( "paddingTop", -5 );
+        this.twoDModeButton.setStyle( "paddingLeft", -5 );
         this.oneDModeButton.group = oneDtwoDMode_rbg;
         this.twoDModeButton.group = oneDtwoDMode_rbg;
         this.oneDModeButton.label = this.oneD_str;
@@ -158,6 +158,7 @@ public class ControlPanel extends Canvas {
 
         this.showSpringsCheckBox = new CheckBox();
         this.showSpringsCheckBox.label = this.showSprings_str;
+        this.showSpringsCheckBox.selected = true;
         this.showSpringsCheckBox.addEventListener( Event.CHANGE, clickShowSprings );
 
         this.addChild( this.background );
@@ -166,9 +167,9 @@ public class ControlPanel extends Canvas {
         this.background.addChild( this.radioButtonVBox1 );
         this.radioButtonVBox1.addChild( this.longitudinalModeButton );
         this.radioButtonVBox1.addChild( this.transverseModeButton );
-        this.background.addChild( this.radioButtonVBox2 );
-        this.radioButtonVBox2.addChild( this.oneDModeButton );
-        this.radioButtonVBox2.addChild( this.twoDModeButton );
+        this.background.addChild( this.radioButtonHBox );
+        this.radioButtonHBox.addChild( this.oneDModeButton );
+        this.radioButtonHBox.addChild( this.twoDModeButton );
         this.background.addChild( showPhasesCheckBox );
         this.background.addChild( showSpringsCheckBox );
         this.oneDMode = this.myMainView.oneDMode;
@@ -189,7 +190,7 @@ public class ControlPanel extends Canvas {
 
     private function setNbrMasses():void{
         var nbrM:Number = this.nbrMassesSlider.getVal();
-        if(this.oneDMode){
+        if( this.myMainView.oneDMode ){
             this.myModel1.setN( nbrM );
             this.myMainView.mySliderArrayPanel.locateSliders();
         } else{
@@ -199,8 +200,11 @@ public class ControlPanel extends Canvas {
 
     public function setNbrMassesExternally( nbrM: int ): void {
         this.nbrMassesSlider.setVal( nbrM );
-        this.myModel1.setN( nbrM );
-        this.myModel2.setN( nbrM );
+        if( this.myMainView.oneDMode ){
+           this.myModel1.setN( nbrM );
+        }else{
+           this.myModel2.setN( nbrM );
+        }
     }
 
     private function resetPositions():void{
@@ -243,6 +247,7 @@ public class ControlPanel extends Canvas {
     private function clickShowSprings( evt:Event ):void{
         var shown: Boolean = this.showSpringsCheckBox.selected;
         this.myMainView.myView2.springsVisible = shown;
+        this.myMainView.myView1.springsVisible = shown;
         //trace( "ControlPanel.clickShowSprings = " + shown);
     }
 
