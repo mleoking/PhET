@@ -10,6 +10,7 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeConstants;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
+import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -88,7 +89,7 @@ public class ShowMolecule3DButtonNode extends PNode {
                 // if the 3D dialog is not shown, show it
                 if ( dialog.get().isNone() ) {
                     // set our reference to it ("disables" this button)
-                    dialog.set( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( PhetApplication.getInstance().getPhetFrame(), completeMolecule ) ) );
+                    dialog.set( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( PhetApplication.getInstance().getPhetFrame(), completeMolecule, BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, BuildAMoleculeStrings.JMOL_3D_LOADING ) ) );
 
                     // listen to when it closes so we can re-enable the button
                     dialog.get().get().addWindowListener( new WindowAdapter() {

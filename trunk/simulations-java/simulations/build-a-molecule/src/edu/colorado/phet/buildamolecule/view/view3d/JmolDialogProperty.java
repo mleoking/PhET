@@ -1,6 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.view.view3d;
 
+import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;

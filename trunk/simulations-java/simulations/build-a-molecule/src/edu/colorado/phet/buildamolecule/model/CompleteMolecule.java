@@ -21,7 +21,7 @@ import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
  * Represents a complete (stable) molecule with a name and structure. Includes 2d and 3d representations,
  * and can generate visuals of both types.
  */
-public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
+public class CompleteMolecule extends MoleculeStructure<PubChemAtom> implements edu.colorado.phet.common.jmolphet.Molecule {
     private String commonName; // as said by pubchem (or overridden)
     private String molecularFormula; // as said by pubchem
 
@@ -78,6 +78,10 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> {
             // if we didn't find it, pull it from our English data
             return getCommonName();
         }
+    }
+
+    public int getCID() {
+        return cid;
     }
 
     private String capitalize( String str ) {
