@@ -269,7 +269,7 @@ public class ControlPanel extends Canvas {
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
 
-    private function initializeStrings(): void {
+    public function initializeStrings(): void {
         numberOfMasses_str = "Number of Masses";//FlexSimStrings.get("numberOfResonators", "Number of Resonators");
         resetPositions_str = "Reset Positions";
         modeType_str = "Mode Type: "
