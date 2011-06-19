@@ -27,10 +27,16 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * Created by: Sam
- * Jul 1, 2008 at 9:43:43 AM
+ * Piccolo slider, which can also indicate when a value is out of the slider range.
+ *
+ * @author Sam Reid
  */
 public class SliderNode extends PNode {
+    private static final int DEFAULT_WIDTH = 160;
+    private static final int DEFAULT_HEIGHT = 30;
+    private static final int DEFAULT_THUMB_WIDTH = 10;
+    private static final int DEFAULT_THUMB_HEIGHT = 30;
+
     private int width = DEFAULT_WIDTH;
     private int height = DEFAULT_HEIGHT;
     private double min;
@@ -40,12 +46,7 @@ public class SliderNode extends PNode {
     private TrackNode trackNode;
     private PhetPPath backgroundForMouseEventHandling;
 
-    private ArrayList listeners = new ArrayList();
-
-    private static final int DEFAULT_WIDTH = 160;
-    private static final int DEFAULT_HEIGHT = 30;
-    private static final int DEFAULT_THUMB_WIDTH = 10;
-    private static final int DEFAULT_THUMB_HEIGHT = 30;
+    private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
     public SliderNode( double min, double max, double value ) {
         this.min = min;
@@ -59,11 +60,11 @@ public class SliderNode extends PNode {
             public void mousePressed( PInputEvent event ) {
 
                 double viewPoint = event.getPositionRelativeTo( SliderNode.this ).getX();
-                double modelvalue = viewToModel( viewPoint );
+                double modelValue = viewToModel( viewPoint );
 
                 double range = getRange();
                 double dx = range / 20;
-                double sign = modelvalue > getValue() ? 1 : -1;
+                double sign = modelValue > getValue() ? 1 : -1;
                 setValue( getValue() + sign * dx );
             }
         } );
@@ -75,7 +76,6 @@ public class SliderNode extends PNode {
 
         updateThumb();
         updateLayout();
-//        System.out.println( "trackNode.getFullBounds() = " + trackNode.getFullBounds() );
     }
 
     private void updateLayout() {
