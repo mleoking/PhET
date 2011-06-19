@@ -42,8 +42,6 @@ public class SliderNode extends PNode {
     private double max;
     private double value;
     private KnobNode knobNode;
-    private TrackNode trackNode;
-    private PhetPPath backgroundForMouseEventHandling;
 
     private ArrayList<ChangeListener> listeners = new ArrayList<ChangeListener>();
 
@@ -52,16 +50,16 @@ public class SliderNode extends PNode {
         this.max = max;
         this.value = value;
 
-        trackNode = new TrackNode();
+        TrackNode trackNode = new TrackNode();
         knobNode = new KnobNode();
-        backgroundForMouseEventHandling = new PhetPPath( new Color( 0, 0, 0, 0 ) );
+        PhetPPath backgroundForMouseEventHandling = new PhetPPath( new Color( 0, 0, 0, 0 ) );
         backgroundForMouseEventHandling.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
 
                 double viewPoint = event.getPositionRelativeTo( SliderNode.this ).getX();
                 double modelValue = viewToModel( viewPoint );
 
-                double range = getRange();
+                double range = SliderNode.this.max - SliderNode.this.min;
                 double dx = range / 20;
                 double sign = modelValue > getValue() ? 1 : -1;
                 setValue( getValue() + sign * dx );
@@ -185,10 +183,6 @@ public class SliderNode extends PNode {
         }
     }
 
-    private double getRange() {
-        return max - min;
-    }
-
     protected class KnobNode extends PNode {
         private int knobWidth = DEFAULT_KNOB_WIDTH;
         private int knobHeight = DEFAULT_KNOB_HEIGHT;
@@ -239,8 +233,8 @@ public class SliderNode extends PNode {
         }
 
         public void setKnobState( KnobState knobState ) {
-            setKnobPaint( knobState.getPaint() );
-            knob.setPathTo( knobState.getShape() );
+            setKnobPaint( knobState.paint );
+            knob.setPathTo( knobState.shape );
         }
 
         public void setKnobPaint( Paint paint ) {
@@ -257,20 +251,12 @@ public class SliderNode extends PNode {
     }
 
     public static class KnobState {
-        private Paint paint;
-        private Shape shape;
+        public final Paint paint;
+        public final Shape shape;
 
         public KnobState( Paint paint, Shape shape ) {
             this.paint = paint;
             this.shape = shape;
-        }
-
-        public Paint getPaint() {
-            return paint;
-        }
-
-        public Shape getShape() {
-            return shape;
         }
     }
 
@@ -284,7 +270,8 @@ public class SliderNode extends PNode {
         contentPane.addScreenChild( sliderNode );
         frame.setContentPane( contentPane );
         frame.setVisible( true );
-//
+
+        //After a second passes, set the range to be smaller to test the knob change
         Timer timer = new Timer( 1000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 sliderNode.setRange( 0, 1 );
