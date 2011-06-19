@@ -260,9 +260,13 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         boolean batterySubmerged = conductivityTester.getBatteryRegion() != null && waterBounds.intersects( conductivityTester.getBatteryRegion().getBounds2D() );
         boolean bulbSubmerged = conductivityTester.getBulbRegion() != null && waterBounds.intersects( conductivityTester.getBulbRegion().getBounds2D() );
 
+        //The circuit should short out if the battery or bulb is submerged
+        boolean shortCircuited = batterySubmerged || bulbSubmerged;
+
         //Set the brightness to be a linear function of the salt concentration (but keeping it bounded between 0 and 1 which are the limits of the conductivity tester brightness
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
-        conductivityTester.brightness.set( bothProbesTouching && !batterySubmerged && !bulbSubmerged ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
+        conductivityTester.brightness.set( bothProbesTouching && !shortCircuited ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
+        conductivityTester.shortCircuited.set( shortCircuited );
     }
 
     //Adds the specified Sugar crystal to the model

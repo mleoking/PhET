@@ -51,6 +51,8 @@ public class ConductivityTester implements IConductivityTester {
         } );
     }};
 
+    public final Property<Boolean> shortCircuited = new Property<Boolean>( false );
+
     //Model shapes corresponding to where the battery and bulb are
     private Shape batteryRegion;
     private Shape bulbRegion;
