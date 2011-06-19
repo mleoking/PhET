@@ -27,6 +27,7 @@ public class Model2 {
     private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed
     private var modesZeroed:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must clear buttonArrayPanel
     private var _verletOn:Boolean;  //true is using Verlet algorithm, false is using exact algorithm
+    private var _xModes:Boolean;     //true if x-motion modes only; false if y-motion modes only
     public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //2D array of equilibrium x-positions of masses; array size = N+2 * N+2, since 2 stationary masses in each row and column at x = 0 and x = L, y = 0 and y = L
     private var y0_arr:Array;       //2D array of equilibrium y-positions of masses
@@ -97,6 +98,7 @@ public class Model2 {
         this.nChanged = false;
         this.modesChanged = false;
         this.modesZeroed = false;
+        this._xModes = true;
         this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this._verletOn = true;
         this.m = 0.1;               //100 gram masses
@@ -245,6 +247,9 @@ public class Model2 {
         this.b = b;
     }
 
+    public function set xModes( tOrF:Boolean ):void{
+        this._xModes = tOrF;
+    }
 
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
         //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
@@ -407,7 +412,11 @@ public class Model2 {
                 sy_arr[i][j] = 0;
                 for( var r:int = 1; r <= this._N; r++ ){
                     for(var s:int =1; s <= this._N; s++ ){
-                         this.sx_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                        if(this._xModes){
+                            this.sx_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                        }else{
+                            this.sy_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                        }
                     }//end for s
                 }//end for r
             }//end for j
