@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -220,7 +221,7 @@ public class SliderNode extends PNode {
         }
 
         private void handleMouse( PInputEvent event, Cursor predefinedCursor ) {
-            Object o = event.getComponent();
+            PComponent o = event.getComponent();
             if ( o instanceof JComponent ) {
                 JComponent jComponent = (JComponent) o;
                 Window w = SwingUtilities.getWindowAncestor( jComponent );
