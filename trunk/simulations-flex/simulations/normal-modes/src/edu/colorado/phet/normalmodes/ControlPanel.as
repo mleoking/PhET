@@ -7,6 +7,8 @@ import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
 import edu.colorado.phet.normalmodes.SpriteUIComponent;
+import edu.colorado.phet.normalmodes.SpriteUIComponent;
+import edu.colorado.phet.normalmodes.SpriteUIComponent;
 
 import flash.display.*;
 import flash.display.DisplayObject;
@@ -37,10 +39,12 @@ public class ControlPanel extends Canvas {
 
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
-    private var innerBckgrnd1: VBox;
+    private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;
     private var resetPositionsButton: NiceButton2;
-    private var background: VBox;
+
+    //Type of Mode radio buttons
+    private var innerBckgrnd1: VBox;
     private var modeTypeLabel: NiceLabel;
     private var modeTypeHBox: HBox;
     private var longTransMode_rbg: RadioButtonGroup;
@@ -49,12 +53,22 @@ public class ControlPanel extends Canvas {
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
 
-    private var radioButtonHBox:HBox;
+    //one D or two D radio buttons
+    private var innerBckgrnd2: HBox;
+    private var dimensionButtonHBox:HBox;
     private var oneDtwoDMode_rbg: RadioButtonGroup;
     private var oneDModeButton: RadioButton;
     private var twoDModeButton: RadioButton;
+    private var oneDLabel: NiceLabel;
+    private var spacerLabel: NiceLabel;
+    private var twoDLabel: NiceLabel;
+
+    private var innerBckgrnd3:HBox;
     private var showPhasesCheckBox: CheckBox;
+    private var showPhasesLabel: NiceLabel;
+    private var innerBckgrnd4:HBox;
     private var showSpringsCheckBox: CheckBox;
+    private var showSpringsLabel: NiceLabel;
     private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
@@ -64,13 +78,12 @@ public class ControlPanel extends Canvas {
     public var numberOfMasses_str: String;
     public var resetPositions_str: String;
     public var modeType_str: String;
-    //public var longitudinal_str: String;
-    //public var transverse_str: String;
     public var resetAll_str: String;
     public var oneD_str: String;
     public var twoD_str: String;
     public var showPhases_str:String;
     public var showSprings_str:String;
+
 
 
     public function ControlPanel( myMainView: MainView, model1: Model1, model2: Model2 ) {
@@ -102,7 +115,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 5 );
             setStyle( "paddingLeft", 5 );
             setStyle( "verticalGap", 10 );
-            setStyle( "verticalAlign", "center" );
+            setStyle( "horizontalAlign", "center" );
         }
 
         this.innerBckgrnd1 = new VBox();
@@ -117,7 +130,41 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingTop", 0 );
             setStyle( "paddingBottom", 5 );
             setStyle( "paddingRight", 3 );
-            setStyle( "paddingLeft", 3 );
+            setStyle( "paddingLeft", 8 );
+            setStyle( "verticalGap", 0 );
+            setStyle( "horizontalAlign" , "left" );
+        }
+
+        this.dimensionButtonHBox = new HBox();
+        with (this.dimensionButtonHBox ){
+            setStyle( "backgroundColor", 0xdddd00 );
+            percentWidth = 100;
+            //percentHeight = 100;
+            setStyle( "borderStyle", "solid" );
+            setStyle( "borderColor", 0x0000ff );
+            setStyle( "cornerRadius", 6 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 4 );
+            setStyle( "paddingBottom", 4 );
+            setStyle( "paddingRight", 3 );
+            setStyle( "paddingLeft", 8 );
+            setStyle( "horizontalGap", 0 );
+            setStyle( "horizontalAlign" , "center" );
+        }
+
+        this.innerBckgrnd2 = new HBox();
+        with ( this.innerBckgrnd1 ) {
+            setStyle( "backgroundColor", 0xdddd00 );
+            percentWidth = 100;
+            //percentHeight = 100;
+            setStyle( "borderStyle", "solid" );
+            setStyle( "borderColor", 0x0000ff );
+            setStyle( "cornerRadius", 6 );
+            setStyle( "borderThickness", 2 );
+            setStyle( "paddingTop", 0 );
+            setStyle( "paddingBottom", 5 );
+            setStyle( "paddingRight", 3 );
+            setStyle( "paddingLeft", 8 );
             setStyle( "verticalGap", 0 );
             setStyle( "horizontalAlign" , "left" );
         }
@@ -155,47 +202,69 @@ public class ControlPanel extends Canvas {
         this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
 
          //1D or 2D radio button box
-        this.radioButtonHBox = new HBox();
         this.oneDtwoDMode_rbg = new RadioButtonGroup();
         this.oneDModeButton = new RadioButton();
         this.twoDModeButton = new RadioButton();
         this.twoDModeButton.setStyle( "paddingLeft", -5 );
         this.oneDModeButton.group = oneDtwoDMode_rbg;
         this.twoDModeButton.group = oneDtwoDMode_rbg;
-        this.oneDModeButton.label = this.oneD_str;
-        this.twoDModeButton.label = this.twoD_str;
+
         this.oneDModeButton.value = 1;
         this.twoDModeButton.value = 2;
         this.oneDModeButton.selected = true;
         this.twoDModeButton.selected = false;
         this.oneDtwoDMode_rbg.addEventListener( Event.CHANGE, click1DOr2D );
+        this.oneDLabel = new NiceLabel( 12, oneD_str );
+        this.spacerLabel = new NiceLabel(12, "    " );
+        this.twoDLabel = new NiceLabel( 12, twoD_str );
 
+        this.innerBckgrnd3 = new HBox();
+        this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
         this.showPhasesCheckBox = new CheckBox();
-        this.showPhasesCheckBox.label = this.showPhases_str;
+        //this.showPhasesCheckBox.label = this.showPhases_str;
         this.showPhasesCheckBox.addEventListener( Event.CHANGE, clickShowPhases );
+        this.showPhasesLabel = new NiceLabel( 12, showPhases_str );
 
+
+        this.innerBckgrnd4 = new HBox();
+        this.innerBckgrnd4.setStyle( "horizontalGap", 0 );
         this.showSpringsCheckBox = new CheckBox();
-        this.showSpringsCheckBox.label = this.showSprings_str;
+        //this.showSpringsCheckBox.label = this.showSprings_str;
         this.showSpringsCheckBox.selected = true;
         this.showSpringsCheckBox.addEventListener( Event.CHANGE, clickShowSprings );
+        this.showSpringsLabel = new NiceLabel( 12, this.showSprings_str );
 
+        //Layout components
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
-        this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
+
+        //one D or two D radio buttons
+        this.background.addChild( this.dimensionButtonHBox );
+        this.dimensionButtonHBox.addChild( this.oneDModeButton );
+        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.oneDLabel, true ) );
+        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.spacerLabel, true ) );
+        this.dimensionButtonHBox.addChild( this.twoDModeButton );
+        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.twoDLabel, true) );
+
+        //Mode type radio buttons
         this.background.addChild( this.innerBckgrnd1 );
         this.innerBckgrnd1.addChild( new SpriteUIComponent( this.modeTypeLabel));
         this.innerBckgrnd1.addChild( this.modeTypeHBox );
-
         this.modeTypeHBox.addChild( this.longitudinalModeButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
         this.modeTypeHBox.addChild( this.transverseModeButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
 
-        this.background.addChild( this.radioButtonHBox );
-        this.radioButtonHBox.addChild( this.oneDModeButton );
-        this.radioButtonHBox.addChild( this.twoDModeButton );
-        this.background.addChild( showPhasesCheckBox );
-        this.background.addChild( showSpringsCheckBox );
+        this.background.addChild( innerBckgrnd4 );
+        this.innerBckgrnd4.addChild( showSpringsCheckBox );
+        this.innerBckgrnd4.addChild( new SpriteUIComponent( showSpringsLabel, true ) );
+
+        this.background.addChild( this.innerBckgrnd3 );
+        this.innerBckgrnd3.addChild( showPhasesCheckBox );
+        this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
+
+        this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
+
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
