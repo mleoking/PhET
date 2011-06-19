@@ -132,6 +132,7 @@ public class VerticalSlider extends Sprite{
         this.removeChild( this.label_txt );
     }
 
+
     public function setUnitsText( str:String ):void{
         this.units_str = str;
         this.units_txt.text = " " + this.units_str;

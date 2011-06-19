@@ -221,9 +221,11 @@ public class ControlPanel extends Canvas {
         var val: Object = this.longTransMode_rbg.selectedValue;
         if ( val == 1 ) {
             this.myModel1.setTorL( "L" );
+            this.myModel2.xModes = true;
         }
         else {
             this.myModel1.setTorL( "T" );
+            this.myModel2.xModes =  false;
         }
     }
 

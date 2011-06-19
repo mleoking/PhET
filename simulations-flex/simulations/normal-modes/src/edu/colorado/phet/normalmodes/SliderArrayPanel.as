@@ -11,6 +11,7 @@ import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
 
 import flash.display.Sprite;
 import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
@@ -33,10 +34,15 @@ public class SliderArrayPanel extends UIComponent {
     private var modeLabel_txt: TextField
     private var amplitudeLabel_txt:TextField;
     private var phaseLabel_txt:TextField;
-    private var tFormat:TextFormat;
+    private var plusPi_txt:TextField;
+    private var zero_txt:TextField;
+    private var minusPi_txt:TextField;
+    private var tFormat1:TextFormat;
     private var amplitude_str:String;
     private var phase_str:String;
     private var mode_str:String;
+    private var plusPi_str:String;
+    private var minusPi_str:String;
 
     public function SliderArrayPanel( myMainView: MainView, myModel1: Model1) {
         this.myMainView = myMainView;
@@ -49,7 +55,7 @@ public class SliderArrayPanel extends UIComponent {
         this.phaseSlider_arr = new Array( nMax );
         //this.amplitudeLabel_txt = new TextField();
         //this.phaseLabel_txt = new TextField();
-        //this.tFormat = new TextFormat();
+        //this.tFormat1 = new TextFormat();
         //var vertSlider:VerticalSlider = new VerticalSlider( actionFunction, 150, 0, 10, true  );
         //vertSlider.setLabelText( "amplitude");
         //this.slider_arr[0] = vertSlider;
@@ -103,35 +109,46 @@ public class SliderArrayPanel extends UIComponent {
     private function initializeStrings():void{
         this.amplitude_str = "Amplitude:";
         this.phase_str = "Phase:";
-        this.mode_str = "Mode:"
+        this.mode_str = "Mode:";
+        this.plusPi_str = "+pi";
+        this.minusPi_str = "-pi";
     }
 
     private function createLabels():void{
-        this.tFormat = new TextFormat();
-        this.tFormat.align = TextFormatAlign.RIGHT;
-        this.tFormat.size = 20;
-        this.tFormat.font = "Arial";
-        this.tFormat.color = 0x000000;
+        this.tFormat1 = new TextFormat();
+        this.tFormat1.align = TextFormatAlign.RIGHT;
+        this.tFormat1.size = 20;
+        this.tFormat1.font = "Arial";
+        this.tFormat1.color = 0x000000;
         this.modeLabel_txt = new TextField();
         this.amplitudeLabel_txt = new TextField();
         this.phaseLabel_txt = new TextField();
+        this.plusPi_txt = new TextField();
+        this.zero_txt = new TextField();
+        this.minusPi_txt = new TextField();
         this.amplitudeLabel_txt.text = this.amplitude_str;
         this.phaseLabel_txt.text = this.phase_str;
         this.modeLabel_txt.text = this.mode_str;
-        //this.amplitudeLabel_txt.setTextFormat( this.tFormat );
+        this.plusPi_txt.text = this.plusPi_str;
+        this.zero_txt.text = "0";
+        this.minusPi_txt.text = minusPi_str;
+        //this.amplitudeLabel_txt.setTextFormat( this.tFormat1 );
         //this.addChild( this.amplitudeLabel_txt );
         //this.amplitudeLabel_txt.x = -this.amplitudeLabel_txt.width;
-        //this.phaseLabel_txt.setTextFormat( this.tFormat );
+        //this.phaseLabel_txt.setTextFormat( this.tFormat1 );
         setLabel( this.modeLabel_txt );
         setLabel( this.amplitudeLabel_txt );
         setLabel( this.phaseLabel_txt );
+        setLabel( this.plusPi_txt );
+        setLabel( this.zero_txt );
+        setLabel( this.minusPi_txt );
         function setLabel( txtField:TextField ):void{
-            txtField.setTextFormat( tFormat );
-            addChild( txtField );     //this.addChild( txtField);  throw an error
+            txtField.autoSize = TextFieldAutoSize.RIGHT;
+            txtField.setTextFormat( tFormat1 );
+            addChild( txtField );     //this.addChild( txtField)  throws an error
+            //txtField.border = true; //for testing only
         }
-        this.modeLabel_txt.y = -50;
-        this.amplitudeLabel_txt.y = +30
-        this.phaseLabel_txt.y = +160;
+
     }//end createLabels()
 
     //Arrange the layout of sliders
@@ -154,11 +171,24 @@ public class SliderArrayPanel extends UIComponent {
         }
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
+        this.modeLabel_txt.y = -50;
+        this.amplitudeLabel_txt.y = +30
+        this.phaseLabel_txt.y = +160;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
-        this.phaseLabel_txt.x = leftEdgeOfSliders - this.phaseLabel_txt.width;
+        this.phaseLabel_txt.x = leftEdgeOfSliders - 1.5*this.phaseLabel_txt.width;
+        this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.5* this.phaseLabel_txt.height;
+        this.zero_txt.y = this.plusPi_txt.y + 50;
+        this.minusPi_txt.y = this.plusPi_txt.y + 100;
+        var xOffset:Number = 10;
+        this.plusPi_txt.x = leftEdgeOfSliders + xOffset - this.plusPi_txt.width;
+        this.zero_txt.x = leftEdgeOfSliders + xOffset - this.zero_txt.width;
+        this.minusPi_txt.x = leftEdgeOfSliders + xOffset - this.minusPi_txt.width;
+
         this.container.x = 0;
     } //end positionSliders();
+
+
 
     public function resetSliders():void{
         var amplitude:Number;
@@ -185,9 +215,13 @@ public class SliderArrayPanel extends UIComponent {
     public function showPhaseSliders( tOrF:Boolean ):void{
         this.phasesShown = tOrF;
         var nbrMasses:int = this.myModel1.N;
+        this.phaseLabel_txt.visible = tOrF;
+        this.plusPi_txt.visible = tOrF;
+        this.zero_txt.visible = tOrF;
+        this.minusPi_txt.visible = tOrF;
         for( var i:int = 0; i < nbrMasses; i++ ){
             this.phaseSlider_arr[i].visible = tOrF;
-            this.phaseLabel_txt.visible = tOrF;
+
         }
         for ( i = nbrMasses; i < this.nMax; i++ ){
             this.phaseSlider_arr[i].visible = false;
