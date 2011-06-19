@@ -15,6 +15,7 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -27,7 +28,6 @@ import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 
 public class TestPhetApplication {
     static class MyModule extends PhetGraphicsModule {
@@ -168,7 +168,7 @@ public class TestPhetApplication {
         PhetGraphicsModule module3 = new MyModule2( "Button", clock, Color.red );
 
         MyModule3 modulePhotons = new MyModule3( clock );
-        PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, modulePhotons};
+        PhetGraphicsModule[] m = new PhetGraphicsModule[] { module, module2, module3, modulePhotons };
 
         PhetTestApplication app = new PhetTestApplication( args );
         for ( int i = 0; i < m.length; i++ ) {

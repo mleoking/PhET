@@ -16,14 +16,14 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class GradientBackgroundNode extends PNode {
-    public GradientBackgroundNode( ModelViewTransform mvt, Rectangle2D modelRect, Color color1, Color color2, double y1, double y2  ) {
+    public GradientBackgroundNode( ModelViewTransform mvt, Rectangle2D modelRect, Color color1, Color color2, double y1, double y2 ) {
         Shape viewShape = mvt.modelToView( modelRect );
         float centerX = (float) viewShape.getBounds2D().getCenterX();
         GradientPaint gradientPaint = new GradientPaint( centerX,
-                                                         (float)mvt.modelToViewY( y1 ),
+                                                         (float) mvt.modelToViewY( y1 ),
                                                          color1,
                                                          centerX,
-                                                         (float)mvt.modelToViewY( y2 ),
+                                                         (float) mvt.modelToViewY( y2 ),
                                                          color2 );
         PhetPPath path = new PhetPPath( viewShape, gradientPaint );
         addChild( path );

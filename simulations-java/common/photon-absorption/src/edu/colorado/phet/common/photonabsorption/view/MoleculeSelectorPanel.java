@@ -20,16 +20,16 @@ public class MoleculeSelectorPanel extends SelectionPanelWithImage {
     /**
      * Constructor.
      */
-    public MoleculeSelectorPanel( String caption, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ){
+    public MoleculeSelectorPanel( String caption, BufferedImage image, final PhotonAbsorptionModel model, final PhotonTarget photonTarget ) {
         super( caption, null, image );
 
         // Listen to the button so that the specified value can be set in the
         // model when the button is pressed.
         getRadioButton().addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                     model.setPhotonTarget( photonTarget );
-                }
-            } );
+            public void actionPerformed( ActionEvent e ) {
+                model.setPhotonTarget( photonTarget );
+            }
+        } );
 
         // Listen to the model so that the button state can be updated when
         // the model setting changes.
@@ -59,14 +59,14 @@ public class MoleculeSelectorPanel extends SelectionPanelWithImage {
      * Create a caption in the needed format given the chemical name and the
      * symbol.  The needed format consists of the chemical name, followed by
      * a line break, and then the chemical symbol.
-     *
+     * <p/>
      * Example: <html>Carbon Monoxide<br>CO</html>
      *
-     * @param chemicalName - Not formatted with HTML.
+     * @param chemicalName   - Not formatted with HTML.
      * @param chemicalSymbol - Formatted with HTML.
      * @return
      */
-    private static String createCaptionFromNameAndSymbol( String chemicalName, String chemicalSymbol ){
+    private static String createCaptionFromNameAndSymbol( String chemicalName, String chemicalSymbol ) {
         // IMPORTANT NOTE: This function exists in order to avoid forcing the
         // translators to translate the symbol, the name, and then the
         // combined symbol and name.  The symbols are assumed to be formatted
@@ -75,7 +75,7 @@ public class MoleculeSelectorPanel extends SelectionPanelWithImage {
         // designed to make sure that this assumption remains valid.
         assert !chemicalName.contains( "<html>" );
         assert chemicalSymbol.contains( "<html>" );
-        if (chemicalName.contains( "<html>" ) || !chemicalSymbol.contains( "<html>" )){
+        if ( chemicalName.contains( "<html>" ) || !chemicalSymbol.contains( "<html>" ) ) {
             throw new IllegalArgumentException();
         }
         // Create and return the combined string.

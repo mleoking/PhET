@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.charts;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

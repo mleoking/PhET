@@ -42,13 +42,13 @@ public class Photon extends Observable {
         return location;
     }
 
-    public void setLocation( double x, double y) {
+    public void setLocation( double x, double y ) {
         this.location.setLocation( x, y );
         setChanged();
         notifyObservers();
     }
 
     public void stepInTime( double dt ) {
-        setLocation( location.getX() + vx * dt, location.getY() + vy * dt  );
+        setLocation( location.getX() + vx * dt, location.getY() + vy * dt );
     }
 }

@@ -16,7 +16,7 @@ public class TestIntermediateRecord extends TestCase {
 
             public void stepInTime( double simulationTimeChange ) {
                 time += simulationTimeChange;
-                System.out.println( "Time Stepped: time="+time );
+                System.out.println( "Time Stepped: time=" + time );
             }
 
             public Object getState() {
@@ -25,7 +25,7 @@ public class TestIntermediateRecord extends TestCase {
 
             public void setState( Object o ) {
                 this.time = ( (Double) o ).doubleValue();
-                System.out.println( "Time Set: time="+time );
+                System.out.println( "Time Set: time=" + time );
             }
 
             public void resetTime() {
@@ -45,10 +45,10 @@ public class TestIntermediateRecord extends TestCase {
         timeSeriesModel.setPlaybackTime( 30 );
         timeSeriesModel.setPlaybackMode();
         timeSeriesModel.setPaused( false );
-        Thread.sleep(100);
+        Thread.sleep( 100 );
         timeSeriesModel.startRecording();
-        Thread.sleep(2000);
-        timeSeriesModel.setPlaybackTime( 0.0);
+        Thread.sleep( 2000 );
+        timeSeriesModel.setPlaybackTime( 0.0 );
         timeSeriesModel.setPlaybackMode();
         timeSeriesModel.setPaused( false );
     }

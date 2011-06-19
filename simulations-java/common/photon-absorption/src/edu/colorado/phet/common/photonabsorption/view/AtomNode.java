@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 
@@ -34,7 +34,7 @@ public class AtomNode extends PNode {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public AtomNode( Atom atom, ModelViewTransform2D mvt ){
+    public AtomNode( Atom atom, ModelViewTransform2D mvt ) {
 
         this.atom = atom;
         this.mvt = mvt;
@@ -43,30 +43,30 @@ public class AtomNode extends PNode {
         double transformedRadius = mvt.modelToViewDifferentialXDouble( atom.getRadius() );
         Color lightColor = Color.WHITE;
         Color darkColor;
-        if (atom.getRepresentationColor() != Color.WHITE){
+        if ( atom.getRepresentationColor() != Color.WHITE ) {
             darkColor = ColorUtils.darkerColor( atom.getRepresentationColor(), 0.1 );
         }
-        else{
+        else {
             darkColor = Color.LIGHT_GRAY;
         }
 
-        int highlightWidth=13;
+        int highlightWidth = 13;
         final RoundGradientPaint baseGradientPaint =
-                new RoundGradientPaint( -transformedRadius / 2, -transformedRadius / 2, lightColor,new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ),darkColor );
+                new RoundGradientPaint( -transformedRadius / 2, -transformedRadius / 2, lightColor, new Point2D.Double( transformedRadius / 2, transformedRadius / 2 ), darkColor );
         final RoundGradientPaint haloGradientPaint =
-                new RoundGradientPaint( 0, 0, Color.yellow,new Point2D.Double( transformedRadius + highlightWidth, transformedRadius + highlightWidth ),new Color( 0, 0, 0, 0 ) );
-        highlightNode = new PhetPPath(new Ellipse2D.Double( -transformedRadius-highlightWidth, -transformedRadius-highlightWidth,
-                transformedRadius * 2+highlightWidth*2, transformedRadius * 2 +highlightWidth*2),
-                                                haloGradientPaint );
-        PhetPPath atomNode = new PhetPPath(new Ellipse2D.Double( -transformedRadius, -transformedRadius,
-                transformedRadius * 2, transformedRadius * 2 ), baseGradientPaint );
+                new RoundGradientPaint( 0, 0, Color.yellow, new Point2D.Double( transformedRadius + highlightWidth, transformedRadius + highlightWidth ), new Color( 0, 0, 0, 0 ) );
+        highlightNode = new PhetPPath( new Ellipse2D.Double( -transformedRadius - highlightWidth, -transformedRadius - highlightWidth,
+                                                             transformedRadius * 2 + highlightWidth * 2, transformedRadius * 2 + highlightWidth * 2 ),
+                                       haloGradientPaint );
+        PhetPPath atomNode = new PhetPPath( new Ellipse2D.Double( -transformedRadius, -transformedRadius,
+                                                                  transformedRadius * 2, transformedRadius * 2 ), baseGradientPaint );
         addChild( highlightNode );
         addChild( atomNode );
         atom.addObserver( new SimpleObserver() {
             public void update() {
                 updatePosition();
             }
-        });
+        } );
         updatePosition();
     }
 
@@ -83,6 +83,6 @@ public class AtomNode extends PNode {
     //------------------------------------------------------------------------
 
     public void setHighlighted( boolean highlighted ) {
-        highlightNode.setVisible(highlighted);
+        highlightNode.setVisible( highlighted );
     }
 }

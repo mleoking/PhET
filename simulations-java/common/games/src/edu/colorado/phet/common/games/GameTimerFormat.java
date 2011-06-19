@@ -12,14 +12,14 @@ import java.text.NumberFormat;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameTimerFormat {
-    
+
     private static final NumberFormat ONE_DIGIT_TIME_FORMAT = new DecimalFormat( "0" );
     private static final NumberFormat TWO_DIGIT_TIME_FORMAT = new DecimalFormat( "00" );
 
     /**
      * When elapsedMillis is < 1 hour, the format is "minutes:seconds", eg "32:13".
      * When elapsedMillis is >= 1 hours, the format is "hours:minutes:seconds", eg "1:15:03".
-     * 
+     *
      * @param elapsedMillis
      * @return
      */

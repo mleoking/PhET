@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.model.atoms;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -39,7 +39,7 @@ public abstract class Atom extends SimpleObservable {
     }
 
     public Atom( Color representationColor, double radius, double mass ) {
-        this (representationColor, radius, mass, new Point2D.Double(0, 0));
+        this( representationColor, radius, mass, new Point2D.Double( 0, 0 ) );
     }
 
     //------------------------------------------------------------------------
@@ -51,14 +51,14 @@ public abstract class Atom extends SimpleObservable {
     }
 
     public void setPosition( Point2D position ) {
-        if (this.position != position){
+        if ( this.position != position ) {
             this.position.setLocation( position );
             notifyObservers();
         }
     }
 
     public void setPosition( double x, double y ) {
-        if (this.position.getX() != x || this.position.getY() != y){
+        if ( this.position.getX() != x || this.position.getY() != y ) {
             this.position.setLocation( x, y );
             notifyObservers();
         }
@@ -76,7 +76,7 @@ public abstract class Atom extends SimpleObservable {
         return mass;
     }
 
-    public Rectangle2D getBoundingRect (){
-        return new Rectangle2D.Double(position.getX() - radius, position.getY() - radius, radius * 2, radius * 2);
+    public Rectangle2D getBoundingRect() {
+        return new Rectangle2D.Double( position.getX() - radius, position.getY() - radius, radius * 2, radius * 2 );
     }
 }

@@ -741,7 +741,7 @@ public abstract class PhetGraphic {
                 Rectangle localBounds = inverse.createTransformedShape( global ).getBounds();
                 return localBounds;
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 e.printStackTrace();
                 throw new RuntimeException( e );
             }

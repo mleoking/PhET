@@ -34,7 +34,6 @@ public class PhetImageGraphic extends PhetGraphic {
     }
 
     /**
-     * 
      * @param component
      * @param imageResourceName
      * @deprecated use one of the constructors that takes a BufferedImage, sims should load the image using PhetResourceLoader to keep the image pathname transparent
@@ -47,7 +46,7 @@ public class PhetImageGraphic extends PhetGraphic {
         try {
             bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( "Image resource not found: " + imageResourceName );
         }
         setImage( bufferedImage );
@@ -91,7 +90,7 @@ public class PhetImageGraphic extends PhetGraphic {
             try {
                 g2.drawRenderedImage( image, getNetTransform() );
             }
-            catch( RuntimeException paintException ) {
+            catch ( RuntimeException paintException ) {
                 paintException.printStackTrace();
             }
             super.restoreGraphicsState();
@@ -133,7 +132,7 @@ public class PhetImageGraphic extends PhetGraphic {
         try {
             bufferedImage = ImageLoader.loadBufferedImage( imageResourceName );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( "Image resource not found: " + imageResourceName );
         }
         setImage( bufferedImage );

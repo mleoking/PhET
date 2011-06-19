@@ -371,7 +371,7 @@ public class FileUtils {
             // Complete the ZIP file
             out.close();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -422,7 +422,7 @@ public class FileUtils {
             inputStream.close();
             outputStream.close();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

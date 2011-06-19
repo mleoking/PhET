@@ -10,12 +10,9 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Rectangle;
+import java.awt.*;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;

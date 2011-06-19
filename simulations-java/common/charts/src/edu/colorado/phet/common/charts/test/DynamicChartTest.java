@@ -8,22 +8,13 @@
  */
 package edu.colorado.phet.common.charts.test;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GradientPaint;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
-import edu.colorado.phet.common.charts.Chart;
-import edu.colorado.phet.common.charts.DataSet;
-import edu.colorado.phet.common.charts.DataSetGraphic;
-import edu.colorado.phet.common.charts.LinePlot;
-import edu.colorado.phet.common.charts.Range2D;
-import edu.colorado.phet.common.charts.ScatterPlot;
+import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;

@@ -23,17 +23,17 @@ public class MoleculeSelectorPanelWithToolTip extends SelectionPanelWithImage {
      * Constructor.
      */
     public MoleculeSelectorPanelWithToolTip( String buttonCaption, String toolTipText, BufferedImage image,
-            final PhotonAbsorptionModel model, final PhotonTarget photonTarget ) {
+                                             final PhotonAbsorptionModel model, final PhotonTarget photonTarget ) {
 
         super( buttonCaption, toolTipText, image );
 
         // Listen to the button so that the specified value can be set in the
         // model when the button is pressed.
         getRadioButton().addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                     model.setPhotonTarget( photonTarget );
-                }
-            } );
+            public void actionPerformed( ActionEvent e ) {
+                model.setPhotonTarget( photonTarget );
+            }
+        } );
 
         // Listen to the model so that the button state can be updated when
         // the model setting changes.

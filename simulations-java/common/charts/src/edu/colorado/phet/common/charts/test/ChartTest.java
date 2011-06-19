@@ -38,8 +38,8 @@ public class ChartTest {
 
         chart.getVerticalGridlines().setMajorGridlinesColor( Color.blue );
         chart.getHorizonalGridlines().setMajorGridlinesColor( Color.green );
-        chart.getVerticalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
-        chart.getHorizonalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[]{5, 5}, 0 ) );
+        chart.getVerticalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[] { 5, 5 }, 0 ) );
+        chart.getHorizonalGridlines().setMajorGridlinesStroke( new BasicStroke( 1, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 1.0f, new float[] { 5, 5 }, 0 ) );
 
         JFrame frame = new JFrame( "ChartTest" );
         frame.setContentPane( apparatusPanel );
@@ -64,7 +64,7 @@ public class ChartTest {
         }
 
         DataSet sin2 = new DataSet();
-        DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, sin2, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[]{4, 5}, 0 ), Color.blue );
+        DataSetGraphic sinGraphic = new LinePlot( apparatusPanel, chart, sin2, new BasicStroke( 1, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1.0f, new float[] { 4, 5 }, 0 ), Color.blue );
         chart.addDataSetGraphic( sinGraphic );
         double dx2 = .01;
         for ( double x = 0; x < 10; x += dx2 ) {

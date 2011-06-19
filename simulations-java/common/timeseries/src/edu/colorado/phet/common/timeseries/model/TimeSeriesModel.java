@@ -215,11 +215,11 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public void clear() {
-        clear(false);
+        clear( false );
     }
 
     public void clear( boolean overrideClear ) {
-        if ( series.size() > 0 || overrideClear) {
+        if ( series.size() > 0 || overrideClear ) {
             series.clear();
             record.reset();
             recordableModel.clear();
@@ -274,7 +274,7 @@ public class TimeSeriesModel extends ClockAdapter {
     }
 
     public boolean isLiveAndNotPaused() {
-        return mode==live && !paused;
+        return mode == live && !paused;
     }
 
     public interface PlaybackTimeListener {

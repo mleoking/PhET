@@ -53,7 +53,7 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
      * @deprecated
      */
     public PhetMultiLineTextGraphic( Component component, String text, Font font, int x, int y, Color foreground, int dx, int dy, Color background ) {
-        this( component, new String[]{text}, font, x, y, foreground, dx, dy, background );
+        this( component, new String[] { text }, font, x, y, foreground, dx, dy, background );
     }
 
     /**
@@ -105,7 +105,7 @@ public class PhetMultiLineTextGraphic extends CompositePhetGraphic {
     }
 
     public void setText( String text ) {
-        setText( new String[]{text} );
+        setText( new String[] { text } );
     }
 
     /**

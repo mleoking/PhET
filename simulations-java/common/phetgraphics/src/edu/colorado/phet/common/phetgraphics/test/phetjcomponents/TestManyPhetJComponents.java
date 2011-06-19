@@ -14,6 +14,7 @@ import java.util.Random;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
@@ -23,7 +24,6 @@ import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
-import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 
 /**
  * User: Sam Reid
@@ -58,7 +58,7 @@ public class TestManyPhetJComponents extends PhetGraphicsModule {
 
         phetApplication.startApplication();
         TestManyPhetJComponents module = new TestManyPhetJComponents( "name", clock );
-        phetApplication.setModules( new PhetGraphicsModule[]{module} );
+        phetApplication.setModules( new PhetGraphicsModule[] { module } );
         System.out.println( "time to make & display " + numComponents + ", phetJComponents= " + main + " ms" );
 
         QuickProfiler swing = new QuickProfiler( "frame" );

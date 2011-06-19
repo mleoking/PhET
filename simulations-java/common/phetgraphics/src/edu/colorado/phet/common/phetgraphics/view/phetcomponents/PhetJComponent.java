@@ -284,7 +284,7 @@ public class PhetJComponent extends PhetGraphic {
             }
         };
         addKeyListener( keyHandler );
-        
+
         component.addFocusListener( new FocusAdapter() {
             public void focusGained( FocusEvent e ) {
 //                System.out.println( "PhetJComponent.focusGained=" + component );
@@ -296,13 +296,13 @@ public class PhetJComponent extends PhetGraphic {
                 repaint();
             }
         } );
-        
+
         component.addPropertyChangeListener( "enabled", new PropertyChangeListener() {
             public void propertyChange( PropertyChangeEvent evt ) {
                 fireRepaintBurst();
             }
         } );
-        
+
         component.addMouseListener( new MouseInputAdapter() {
             public void mouseExited( MouseEvent e ) {
                 fireRepaintBurst();
@@ -312,21 +312,21 @@ public class PhetJComponent extends PhetGraphic {
                 fireRepaintBurst();
             }
         } );
-        
+
         if ( component instanceof JTextComponent ) {
-            addTextComponentListeners( (JTextComponent)component );
+            addTextComponentListeners( (JTextComponent) component );
         }
-        
+
         repaintManagerPhet.put( this );
         manager.phetJComponentCreated( this );
     }
-    
+
     /*
-     * Ensure that repaint is called when various aspects of JTextComponet change.
-     * This was added to address Unfuddle #1337.
-     */
+    * Ensure that repaint is called when various aspects of JTextComponet change.
+    * This was added to address Unfuddle #1337.
+    */
     private void addTextComponentListeners( JTextComponent textComponent ) {
-        
+
         textComponent.getDocument().addDocumentListener( new DocumentListener() {
 
             public void changedUpdate( DocumentEvent e ) {
@@ -340,27 +340,27 @@ public class PhetJComponent extends PhetGraphic {
             public void removeUpdate( DocumentEvent e ) {
                 repaint();
             }
-            
-        });
-        
+
+        } );
+
         textComponent.addCaretListener( new CaretListener() {
 
             public void caretUpdate( CaretEvent e ) {
                 repaint();
             }
-            
-        });
+
+        } );
     }
 
     /**
      * Simply repainting in SwingUtilities.invokeLater doesn't have the correct behavior, we have to schedule a
      * repaint for much further out in time for some reason.
-     *
+     * <p/>
      * This workaround schedules 10 repaints over a second, and appears to work properly without demanding significantly more from the system.
      * See https://phet.unfuddle.com/projects/9404/tickets/by_number/906?cycle=true
      */
     private void fireRepaintBurst() {
-        final int[] count = new int[]{0};
+        final int[] count = new int[] { 0 };
         final Timer[] t = new Timer[1];
 
         t[0] = new Timer( 100, new ActionListener() {
@@ -444,7 +444,7 @@ public class PhetJComponent extends PhetGraphic {
             Point2D dst = affineTransform.inverseTransform( point, null );
             return new Point( (int) dst.getX(), (int) dst.getY() );
         }
-        catch( NoninvertibleTransformException e ) {
+        catch ( NoninvertibleTransformException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }

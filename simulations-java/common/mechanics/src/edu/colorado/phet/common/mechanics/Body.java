@@ -134,7 +134,7 @@ public abstract class Body extends Particle {
 
     public Vector2D getMomentum() {
         return new Vector2D( getVelocity().getX() * getMass(),
-                                    getVelocity().getY() * getMass() );
+                             getVelocity().getY() * getMass() );
     }
 
     public void setMomentum( Vector2D momentum ) {

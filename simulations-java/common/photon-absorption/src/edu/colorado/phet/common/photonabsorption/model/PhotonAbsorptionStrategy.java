@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * reacts to a given photon.  It is responsible for the following:
  * - Whether a given photon should be absorbed.
  * - How the molecule reacts to the absorption,, i.e. whether it vibrates,
- *   rotates, breaks apart, etc.
+ * rotates, breaks apart, etc.
  * - Maintenance of any counters or timers associated with the reaction to
- *   the absorption, such as those related to re-emission of an absorbed
- *   photon.
+ * the absorption, such as those related to re-emission of an absorbed
+ * photon.
  */
 public abstract class PhotonAbsorptionStrategy {
 
@@ -43,7 +43,7 @@ public abstract class PhotonAbsorptionStrategy {
         this.molecule = molecule;
     }
 
-    protected Molecule getMolecule(){
+    protected Molecule getMolecule() {
         return molecule;
     }
 
@@ -58,7 +58,7 @@ public abstract class PhotonAbsorptionStrategy {
      * Reset the strategy.  In most cases, this will need to be overridden in the descendant classes, but those
      * overrides should also call this one.
      */
-    public void reset(){
+    public void reset() {
         absorbedPhoton = null;
         isPhotonAbsorbed = false;
         photonHoldCountdownTime = 0;
@@ -67,6 +67,7 @@ public abstract class PhotonAbsorptionStrategy {
     /**
      * Decide whether the provided photon should be absorbed.  By design,
      * a given photon should only be requested once, not multiple times.
+     *
      * @param photon
      * @return
      */
@@ -74,7 +75,7 @@ public abstract class PhotonAbsorptionStrategy {
         // All circumstances are correct for photon absorption, so now we decide probabilistically whether or not to
         // actually do it.  This essentially simulates the quantum nature of the absorption.
         final boolean absorbed = !isPhotonAbsorbed && RAND.nextDouble() < photonAbsorptionProbability.get();
-        if (absorbed){
+        if ( absorbed ) {
             isPhotonAbsorbed = true;
             photonHoldCountdownTime = MIN_PHOTON_HOLD_TIME + RAND.nextDouble() * ( MAX_PHOTON_HOLD_TIME - MIN_PHOTON_HOLD_TIME );
         }
@@ -90,7 +91,7 @@ public abstract class PhotonAbsorptionStrategy {
      * once is has absorbed it, then after some amount of time re-emit it.
      * In the
      */
-    public static abstract class PhotonHoldStrategy extends PhotonAbsorptionStrategy{
+    public static abstract class PhotonHoldStrategy extends PhotonAbsorptionStrategy {
 
         private double absorbedWavelength;
 
@@ -235,6 +236,7 @@ public abstract class PhotonAbsorptionStrategy {
 
         /**
          * This strategy never absorbs.
+         *
          * @param photon
          * @return
          */

@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
@@ -23,7 +22,7 @@ public class VerticalRodNode extends PNode {
         Rectangle2D connectingRodShape = new Rectangle2D.Double( 0, 0, width, height );
         PNode connectingRod = new PhetPPath( connectingRodShape );
         connectingRod.setPaint( new GradientPaint( 0f, 0f, ColorUtils.brighterColor( baseColor, 0.5 ),
-                (float) connectingRodShape.getWidth(), 0f, ColorUtils.darkerColor( baseColor, 0.5 ) ) );
+                                                   (float) connectingRodShape.getWidth(), 0f, ColorUtils.darkerColor( baseColor, 0.5 ) ) );
         addChild( connectingRod );
     }
 }

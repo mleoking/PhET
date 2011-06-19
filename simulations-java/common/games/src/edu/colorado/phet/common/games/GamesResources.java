@@ -9,10 +9,11 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 public class GamesResources {
 
     private static final PhetResources RESOURCES = new PhetResources( "games" );
-    
+
     /* not intended for instantiation */
-    private GamesResources() {}
-    
+    private GamesResources() {
+    }
+
     /**
      * Convenience method for accessing an image file from games.
      *

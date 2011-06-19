@@ -36,7 +36,7 @@ public class NO extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public NO(Point2D inititialCenterOfGravityPos){
+    public NO( Point2D inititialCenterOfGravityPos ) {
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( nitrogenAtom );
@@ -50,8 +50,8 @@ public class NO extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public NO(){
-        this(new Point2D.Double(0, 0));
+    public NO() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -63,8 +63,8 @@ public class NO extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset(nitrogenAtom, new Vector2D(-INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
-        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0));
+        addInitialAtomCogOffset( nitrogenAtom, new Vector2D( -INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom, new Vector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE / 2, 0 ) );
 
         updateAtomPositions();
     }

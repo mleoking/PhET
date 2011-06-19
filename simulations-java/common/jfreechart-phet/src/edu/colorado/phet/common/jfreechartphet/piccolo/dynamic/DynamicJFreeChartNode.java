@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
@@ -111,8 +110,8 @@ public class DynamicJFreeChartNode extends JFreeChartNode {
         getSeries( series ).addValue( x, y );
     }
 
-    public void clearSeries(int series){
-        getSeries(series).clear();
+    public void clearSeries( int series ) {
+        getSeries( series ).clear();
     }
 
     public void addSeries( String title, Color color ) {

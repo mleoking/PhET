@@ -138,22 +138,22 @@ public class O3 extends Molecule {
         // of atomic dissociation.
         double diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_OXYGEN_OXYGEN_ANGLE / 2 ) );
         final double breakApartAngle;
-        if ( doubleBondOnRight ){
+        if ( doubleBondOnRight ) {
             diatomicOxygenMolecule.rotate( -diatomicMoleculeRotationAngle );
             diatomicOxygenMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( rightOxygenAtom ).getX() + getInitialAtomCogOffset( centerOxygenAtom ).getX() ) / 2,
-                    ( getInitialAtomCogOffset( centerOxygenAtom ).getY() + getInitialAtomCogOffset( rightOxygenAtom ).getY() ) / 2);
+                                                          ( getInitialAtomCogOffset( centerOxygenAtom ).getY() + getInitialAtomCogOffset( rightOxygenAtom ).getY() ) / 2 );
             breakApartAngle = Math.PI / 4 + RAND.nextDouble() * Math.PI / 4;
             singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
-        else{
+        else {
             diatomicOxygenMolecule.rotate( diatomicMoleculeRotationAngle );
             breakApartAngle = Math.PI / 2 + RAND.nextDouble() * Math.PI / 4;
             diatomicOxygenMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( leftOxygenAtom ).getX() + getInitialAtomCogOffset( centerOxygenAtom ).getX() ) / 2,
-                    ( getInitialAtomCogOffset( leftOxygenAtom ).getY() + getInitialAtomCogOffset( centerOxygenAtom ).getY() ) / 2);
+                                                          ( getInitialAtomCogOffset( leftOxygenAtom ).getY() + getInitialAtomCogOffset( centerOxygenAtom ).getY() ) / 2 );
             singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
-        diatomicOxygenMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.sin(breakApartAngle) );
-        singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.sin(breakApartAngle) );
+        diatomicOxygenMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) );
+        singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) );
 
         // Add these constituent molecules to the constituent list.
         addConstituentMolecule( diatomicOxygenMolecule );

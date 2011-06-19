@@ -8,23 +8,13 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.examples;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.Random;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -39,7 +29,6 @@ import edu.colorado.phet.common.phetgraphics.view.help.HelpItem;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.HTMLGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
-import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 
 public class TestPhetApplication2 {
     private static PhetTestApplication app;
@@ -214,7 +203,7 @@ public class TestPhetApplication2 {
         PhetGraphicsModule module3 = new MyModule2( "Button", clock, Color.red );
 
         MyModule3 module4 = new MyModule3( clock );
-        PhetGraphicsModule[] m = new PhetGraphicsModule[]{module, module2, module3, module4};
+        PhetGraphicsModule[] m = new PhetGraphicsModule[] { module, module2, module3, module4 };
 
         app = new PhetTestApplication( args );
         app.setModules( m );

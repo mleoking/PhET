@@ -231,7 +231,7 @@ public class Beam extends Particle implements PhotonSource {
 
     private double getNextTimeToProducePhoton() {
         double temp = isPhotonProductionGaussian ? ( gaussianGenerator.nextGaussian() + 1.0 )
-                      : 1;
+                                                 : 1;
         return temp / ( photonsPerSecond / 1000 );
     }
 
