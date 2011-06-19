@@ -9,13 +9,16 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -88,6 +91,19 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
                 conductivityTester.setBulbRegion( transform.viewToModel( bulbBounds ) );
             }
         } );
+
+        //Add a text label above the light bulb that indicates if the conductivity tester is short circuit (by having a bulb, wire or battery submerged)
+        addChild( new ControlPanelNode( new PText( "Short circuited" ) {{
+            setFont( new PhetFont( 18, true ) );
+        }}, Color.yellow ) {{
+            conductivityTester.shortCircuited.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean shortCircuited ) {
+                    setVisible( shortCircuited );
+                }
+            } );
+            //Center above the light bulb
+            setOffset( -getFullBounds().getWidth() / 2, -getLightBulbNode().getFullBounds().getHeight() - getFullBounds().getHeight() - 5 );
+        }} );
     }
 
     //Used to create a thumbnail icon for use in the toolbox.
