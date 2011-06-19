@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeseriesResources;
-import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -87,7 +87,7 @@ public class GraphTimeControlNode extends PNode {
         private TimeSeriesModel graphTimeSeries;
 
         public ClearButton( final TimeSeriesModel graphTimeSeries ) {
-            super(PhetCommonResources.getString( "Common.clear" ));
+            super( PhetCommonResources.getString( "Common.clear" ) );
             this.graphTimeSeries = graphTimeSeries;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -113,16 +113,17 @@ public class GraphTimeControlNode extends PNode {
         private TimeSeriesModel timeSeriesModel;
 
         public GoStopButton( final TimeSeriesModel timeSeriesModel ) {
-            super( PhetCommonResources.getString( "chart-time-control.go" ));
+            super( PhetCommonResources.getString( "chart-time-control.go" ) );
             this.timeSeriesModel = timeSeriesModel;
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     if ( isGoButton() ) {
                         //if the charts are filled up, then we must go to live mode, since switching to record mode entails restoring the last recorded state first
                         //see #2088
-                        if (timeSeriesModel.getRecordTime() >= timeSeriesModel.getMaxRecordTime()) {
+                        if ( timeSeriesModel.getRecordTime() >= timeSeriesModel.getMaxRecordTime() ) {
                             timeSeriesModel.startLiveMode();
-                        } else {
+                        }
+                        else {
                             timeSeriesModel.startRecording();
                         }
                     }
@@ -145,7 +146,7 @@ public class GraphTimeControlNode extends PNode {
         }
 
         private void updateGoState() {
-            setGoButton( !(timeSeriesModel.isRecording()||timeSeriesModel.isLiveAndNotPaused()) );
+            setGoButton( !( timeSeriesModel.isRecording() || timeSeriesModel.isLiveAndNotPaused() ) );
         }
 
         private void setGoButton( boolean go ) {

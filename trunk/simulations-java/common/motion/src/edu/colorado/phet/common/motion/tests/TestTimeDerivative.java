@@ -38,8 +38,8 @@ public class TestTimeDerivative extends TestCase {
     }
 
     private static TimeData[] getTestData() {
-        double[] x = new double[]{0, 1, 2, 3, 4};
-        double[] y = new double[]{1, 3, 5, 7, 9};
+        double[] x = new double[] { 0, 1, 2, 3, 4 };
+        double[] y = new double[] { 1, 3, 5, 7, 9 };
 
         TimeData[] timeData = new TimeData[x.length];
         for ( int i = 0; i < timeData.length; i++ ) {

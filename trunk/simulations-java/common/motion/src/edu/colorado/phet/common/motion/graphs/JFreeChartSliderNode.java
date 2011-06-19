@@ -34,7 +34,7 @@ public class JFreeChartSliderNode extends PNode {
     private JFreeChartNode jFreeChartNode;
     private boolean selected = false;//highlight
 
-    public JFreeChartSliderNode( JFreeChartNode jFreeChartNode, final PNode sliderThumb,Color highlightColor ) {
+    public JFreeChartSliderNode( JFreeChartNode jFreeChartNode, final PNode sliderThumb, Color highlightColor ) {
         this.sliderThumb = sliderThumb;
         this.highlightColor = highlightColor;
         this.sliderThumb.addInputEventListener( new CursorHandler() );
@@ -181,11 +181,11 @@ public class JFreeChartSliderNode extends PNode {
         trackPPath.setStrokePaint( selected ? highlightColor : Color.black );
     }
 
-    public Rectangle2D.Double getTrackFullBounds(){
+    public Rectangle2D.Double getTrackFullBounds() {
         return trackPPath.getFullBounds();
     }
 
-    public Rectangle2D.Double getThumbFullBounds(){
+    public Rectangle2D.Double getThumbFullBounds() {
         return sliderThumb.getFullBounds();
     }
 

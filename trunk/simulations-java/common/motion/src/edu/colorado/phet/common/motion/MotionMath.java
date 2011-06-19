@@ -85,8 +85,7 @@ public class MotionMath {
         double h1 = c.getTime() - b.getTime();
         double h2 = b.getTime() - a.getTime();
         double h = ( h1 + h2 ) / 2.0;
-        if (h==0)
-            new RuntimeException("h was zero").printStackTrace();
+        if ( h == 0 ) { new RuntimeException( "h was zero" ).printStackTrace(); }
         return num / ( h * h );
     }
 

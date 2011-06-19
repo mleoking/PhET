@@ -11,16 +11,16 @@ public class SingleBodyMotionModel extends MotionModel implements IPositionDrive
     private MotionBody motionBody;
 
     public SingleBodyMotionModel( ConstantDtClock clock ) {
-        this(4,4,4,clock);
+        this( 4, 4, 4, clock );
     }
 
-    public SingleBodyMotionModel( int smoothXV,int smoothXA,int smoothVA,ConstantDtClock clock ) {
-        this( smoothXV,smoothXA,smoothVA,clock, new TimeSeriesFactory.Default() );
+    public SingleBodyMotionModel( int smoothXV, int smoothXA, int smoothVA, ConstantDtClock clock ) {
+        this( smoothXV, smoothXA, smoothVA, clock, new TimeSeriesFactory.Default() );
     }
 
     public SingleBodyMotionModel( int smoothXV, int smoothXA, int smoothVA, ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
         super( clock, timeSeriesFactory );
-        motionBody = new MotionBody( smoothXV,smoothXA,smoothVA,timeSeriesFactory );
+        motionBody = new MotionBody( smoothXV, smoothXA, smoothVA, timeSeriesFactory );
     }
 
     protected void setPlaybackTime( double time ) {

@@ -17,35 +17,36 @@ public class MinimizeMaximizeButton extends PNode {
     private BooleanProperty maximized;
     private final boolean defaultMaximizedValue;
 
-    public MinimizeMaximizeButton(String title) {
-       this( title, true );
+    public MinimizeMaximizeButton( String title ) {
+        this( title, true );
     }
-    public MinimizeMaximizeButton(String title, boolean maximizedValue ) {
-       
-        node = new MinimizeMaximizeNode(title, MinimizeMaximizeNode.BUTTON_RIGHT);
-        addChild(node);
-        
+
+    public MinimizeMaximizeButton( String title, boolean maximizedValue ) {
+
+        node = new MinimizeMaximizeNode( title, MinimizeMaximizeNode.BUTTON_RIGHT );
+        addChild( node );
+
         SimpleObserver maximizedObserver = new SimpleObserver() {
             public void update() {
                 node.setMaximized( maximized.get() );
             }
         };
-        
-        this.maximized = new BooleanProperty(maximizedValue);
+
+        this.maximized = new BooleanProperty( maximizedValue );
         this.maximized.addObserver( maximizedObserver );
 
         this.defaultMaximizedValue = maximizedValue;
-        node.addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
+        node.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
                 maximized.set( node.isMaximized() );
             }
-        });
+        } );
     }
 
     public BooleanProperty getMaximized() {
         return maximized;
     }
-    
+
     public void reset() {
         maximized.set( defaultMaximizedValue );
     }

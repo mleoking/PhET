@@ -96,7 +96,7 @@ public class GraphSetNode extends PNode {
         }
 
         double yOffset = 0;
-        double graphHeight = Math.min( availableY / numMaximized(), getMaxAvailableHeight(availableY ));
+        double graphHeight = Math.min( availableY / numMaximized(), getMaxAvailableHeight( availableY ) );
 
         for ( int i = 0; i < graphComponents.size(); i++ ) {
             MinimizableControlGraph minimizableControlGraph = getGraphComponent( i );
@@ -104,8 +104,8 @@ public class GraphSetNode extends PNode {
             if ( numMaximized() > 0 ) {
                 minimizableControlGraph.setAvailableBounds( width, graphHeight );
             }
-            yOffset += Math.min(graphHeight,//make sure the children pnodes don't overstep their bounds
-                                minimizableControlGraph.getFullBounds().getHeight())+ yPad;
+            yOffset += Math.min( graphHeight,//make sure the children pnodes don't overstep their bounds
+                                 minimizableControlGraph.getFullBounds().getHeight() ) + yPad;
         }
         relayoutControlGraphs();
 
@@ -114,7 +114,7 @@ public class GraphSetNode extends PNode {
 
     //put a minimum on the vertical height of the graph.  Tall graphs were overwhelming.
     //overrideable
-    protected double getMaxAvailableHeight(double availableHeight){
+    protected double getMaxAvailableHeight( double availableHeight ) {
         return availableHeight;
     }
 

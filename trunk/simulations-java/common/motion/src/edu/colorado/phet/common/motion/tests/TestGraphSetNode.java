@@ -39,7 +39,7 @@ public class TestGraphSetNode {
                 phetPCanvas, new ControlGraphSeries( new DefaultTemporalVariable() ), "Long titleB", 0, 10, timeSeriesModel ) );
 
 
-        graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[]{minimizableControlGraphA, minimizableControlGraphB} ) ) );
+        graphSetNode = new GraphSetNode( new GraphSetModel( new GraphSuite( new MinimizableControlGraph[] { minimizableControlGraphA, minimizableControlGraphB } ) ) );
         graphSetNode.setAlignedLayout();
         phetPCanvas.addScreenChild( graphSetNode );
 

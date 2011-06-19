@@ -11,8 +11,8 @@ public class ChartCursor {
     private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private boolean visible;
 
-    public void addListener(Listener listener) {
-        listeners.add(listener);
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public static interface Listener {
@@ -28,10 +28,10 @@ public class ChartCursor {
         return time;
     }
 
-    public void setTime(double time) {
-        if (this.time != time) {
+    public void setTime( double time ) {
+        if ( this.time != time ) {
             this.time = time;
-            for (Listener listener : listeners) {
+            for ( Listener listener : listeners ) {
                 listener.positionChanged();
             }
         }
@@ -41,9 +41,9 @@ public class ChartCursor {
         return visible;
     }
 
-    public void setVisible(boolean visible) {
+    public void setVisible( boolean visible ) {
         this.visible = visible;
-        for (Listener listener : listeners) {
+        for ( Listener listener : listeners ) {
             listener.visibilityChanged();
         }
     }

@@ -22,7 +22,7 @@ public class MotionModel {
 
     public MotionModel( ConstantDtClock clock, TimeSeriesFactory timeSeriesFactory ) {
         timeVariable = new DefaultTemporalVariable( timeSeriesFactory );
-        this.clock=clock;
+        this.clock = clock;
         RecordableModel recordableModel = new RecordableModel() {
             public void stepInTime( double simulationTimeChange ) {
                 MotionModel.this.stepInTime( simulationTimeChange );
