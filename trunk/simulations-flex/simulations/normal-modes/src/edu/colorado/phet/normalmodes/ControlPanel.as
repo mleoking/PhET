@@ -5,6 +5,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
+import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
 import edu.colorado.phet.normalmodes.SpriteUIComponent;
 
 import flash.display.*;
@@ -33,16 +34,21 @@ public class ControlPanel extends Canvas {
     private var myMainView: MainView;
     private var myModel1: Model1;
     private var myModel2: Model2;
-    private var background: VBox;
+
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
-    private var innerBckgrnd: VBox;
+    private var innerBckgrnd1: VBox;
     private var nbrMassesSlider: HorizontalSlider;
     private var resetPositionsButton: NiceButton2;
-    private var radioButtonVBox1: VBox;
+    private var background: VBox;
+    private var modeTypeLabel: NiceLabel;
+    private var modeTypeHBox: HBox;
     private var longTransMode_rbg: RadioButtonGroup;
     private var longitudinalModeButton: RadioButton;
     private var transverseModeButton: RadioButton;
+    private var horizArrow: TwoHeadedArrow;
+    private var vertArrow: TwoHeadedArrow;
+
     private var radioButtonHBox:HBox;
     private var oneDtwoDMode_rbg: RadioButtonGroup;
     private var oneDModeButton: RadioButton;
@@ -57,8 +63,9 @@ public class ControlPanel extends Canvas {
     //internationalized strings
     public var numberOfMasses_str: String;
     public var resetPositions_str: String;
-    public var longitudinal_str: String;
-    public var transverse_str: String;
+    public var modeType_str: String;
+    //public var longitudinal_str: String;
+    //public var transverse_str: String;
     public var resetAll_str: String;
     public var oneD_str: String;
     public var twoD_str: String;
@@ -98,38 +105,49 @@ public class ControlPanel extends Canvas {
             setStyle( "verticalAlign", "center" );
         }
 
-        this.innerBckgrnd = new VBox();
-        with ( this.innerBckgrnd ) {
+        this.innerBckgrnd1 = new VBox();
+        with ( this.innerBckgrnd1 ) {
             setStyle( "backgroundColor", 0xdddd00 );
             percentWidth = 100;
             //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
-            setStyle( "cornerRadius", 8 );
+            setStyle( "cornerRadius", 6 );
             setStyle( "borderThickness", 2 );
-            setStyle( "paddingTop", 5 );
+            setStyle( "paddingTop", 0 );
             setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 15 );
-            setStyle( "paddingLeft", 15 );
-            setStyle( "verticalGap", 5 );
-            setStyle( "horizontalAlign" , "center" );
+            setStyle( "paddingRight", 3 );
+            setStyle( "paddingLeft", 3 );
+            setStyle( "verticalGap", 0 );
+            setStyle( "horizontalAlign" , "left" );
         }
 
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
-
+        this.modeTypeLabel = new NiceLabel( 12, modeType_str );
         //Set up longitudinal or transverse radio button box
-        this.radioButtonVBox1 = new VBox();
+        this.modeTypeHBox = new HBox();
         this.longTransMode_rbg = new RadioButtonGroup();
         this.longitudinalModeButton = new RadioButton();
         this.transverseModeButton = new RadioButton();
-        this.transverseModeButton.setStyle( "paddingTop", -5 );
+        this.horizArrow = new TwoHeadedArrow();
+        this.horizArrow.height = 10;
+        this.horizArrow.width = 20;
+        this.horizArrow.y = -0.5*this.horizArrow.height;   //I don't understand why this must be negative.
+        this.horizArrow.x = 5;                              //and why this is positive
+        this.vertArrow = new TwoHeadedArrow();
+        this.vertArrow.height = 10;
+        this.vertArrow.width = 20;
+        this.vertArrow.rotation = -90;
+        this.vertArrow.x = 5;
+
+        //this.transverseModeButton.setStyle( "paddingTop", -5 );
         this.longitudinalModeButton.group = longTransMode_rbg;
         this.transverseModeButton.group = longTransMode_rbg;
-        this.longitudinalModeButton.label = this.longitudinal_str;
-        this.transverseModeButton.label = this.transverse_str;
+        //this.longitudinalModeButton.label = this.longitudinal_str;
+        //this.transverseModeButton.label = this.transverse_str;
         this.longitudinalModeButton.value = 1;
         this.transverseModeButton.value = 0;
         this.longitudinalModeButton.selected = true;
@@ -164,9 +182,15 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
-        this.background.addChild( this.radioButtonVBox1 );
-        this.radioButtonVBox1.addChild( this.longitudinalModeButton );
-        this.radioButtonVBox1.addChild( this.transverseModeButton );
+        this.background.addChild( this.innerBckgrnd1 );
+        this.innerBckgrnd1.addChild( new SpriteUIComponent( this.modeTypeLabel));
+        this.innerBckgrnd1.addChild( this.modeTypeHBox );
+
+        this.modeTypeHBox.addChild( this.longitudinalModeButton );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
+        this.modeTypeHBox.addChild( this.transverseModeButton );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
+
         this.background.addChild( this.radioButtonHBox );
         this.radioButtonHBox.addChild( this.oneDModeButton );
         this.radioButtonHBox.addChild( this.twoDModeButton );
@@ -179,8 +203,9 @@ public class ControlPanel extends Canvas {
     private function initializeStrings(): void {
         numberOfMasses_str = "Number of Masses";//FlexSimStrings.get("numberOfResonators", "Number of Resonators");
         resetPositions_str = "Reset Positions";
-        longitudinal_str = "longitudinal";
-        transverse_str = "transverse";
+        modeType_str = "Mode Type: "
+        //longitudinal_str = "RL";
+        //transverse_str = "UD";
         resetAll_str = "Reset All";
         oneD_str = "1D";
         twoD_str = "2D";
