@@ -164,7 +164,7 @@ public class SliderNode extends PNode {
 
     private void notifyValueChanged() {
         for ( int i = 0; i < listeners.size(); i++ ) {
-            ( (ChangeListener) listeners.get( i ) ).stateChanged( new ChangeEvent( this ) );
+            listeners.get( i ).stateChanged( new ChangeEvent( this ) );
         }
     }
 
