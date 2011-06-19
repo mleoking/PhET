@@ -5,6 +5,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.SliderNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
