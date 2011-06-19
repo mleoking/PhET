@@ -7,6 +7,10 @@
  */
 package edu.colorado.phet.normalmodes {
 import flash.display.Sprite;
+import flash.text.TextField;
+import flash.text.TextFieldAutoSize;
+import flash.text.TextFormat;
+import flash.text.TextFormatAlign;
 
 import mx.core.UIComponent;
 
@@ -17,8 +21,11 @@ public class ButtonArrayPanel extends UIComponent{
     private var myMainView: MainView;
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
-    private var maxContainerWidth:Number;      //width of container in pixels
+    private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
+    private var label_txt: TextField;        //Label for array
+    private var tFormat: TextFormat;         //format for label
+    private var modesNxNy_str: String;      //text of Label
     private var button_arr:Array;           //N x N array of pushbuttons
     private var topLeftX;Number;
     private var topLeftY:Number;
@@ -30,6 +37,10 @@ public class ButtonArrayPanel extends UIComponent{
         this.nMax = this.myModel2.nMax;
         this.maxContainerWidth = 250;
         this.container = new Sprite();
+        this.label_txt = new TextField();
+        this.tFormat = new TextFormat();
+        this.initializeStrings();
+        this.createLabel();
         var nbrMasses:int = this.myModel2.N;
         //button_arr is nMax+1 x nMax+1,  i = 0 row and j = 0 column are dummies
         //so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
@@ -45,9 +56,24 @@ public class ButtonArrayPanel extends UIComponent{
             }
         }
         this.addChild( this.container );
+        this.addChild( this.label_txt );
         this.setNbrButtons( );
 
     } //end constructor
+
+    public function initializeStrings():void{
+        this.modesNxNy_str = "Modes nx, ny";
+    }
+
+    private function createLabel():void{
+        this.label_txt.text = this.modesNxNy_str;
+        this.label_txt.autoSize = TextFieldAutoSize.LEFT;
+        this.tFormat.font = "Arial";
+        this.tFormat.size = 16;
+        this.tFormat.align = TextFormatAlign.LEFT;
+        this.label_txt.setTextFormat( this.tFormat );
+        //this.label_txt.y = - this.label_txt.height;
+    }
 
     public function setNbrButtons( ):void{
         for(var i: int = 1; i <= this.nMax; i++ ){
@@ -77,6 +103,8 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
             }
         }
+        this.label_txt.x = xOffset;
+        this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
     }
 } //end class
 } //end package
