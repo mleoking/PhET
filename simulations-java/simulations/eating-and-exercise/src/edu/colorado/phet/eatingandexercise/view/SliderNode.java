@@ -16,7 +16,6 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -34,15 +33,15 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class SliderNode extends PNode {
     private static final int DEFAULT_WIDTH = 160;
     private static final int DEFAULT_HEIGHT = 30;
-    private static final int DEFAULT_THUMB_WIDTH = 10;
-    private static final int DEFAULT_THUMB_HEIGHT = 30;
+    private static final int DEFAULT_KNOB_WIDTH = 10;
+    private static final int DEFAULT_KNOB_HEIGHT = 30;
 
     private int width = DEFAULT_WIDTH;
     private int height = DEFAULT_HEIGHT;
     private double min;
     private double max;
     private double value;
-    private ThumbNode thumbNode;
+    private KnobNode knobNode;
     private TrackNode trackNode;
     private PhetPPath backgroundForMouseEventHandling;
 
@@ -54,7 +53,7 @@ public class SliderNode extends PNode {
         this.value = value;
 
         trackNode = new TrackNode();
-        thumbNode = new ThumbNode();
+        knobNode = new KnobNode();
         backgroundForMouseEventHandling = new PhetPPath( new Color( 0, 0, 0, 0 ) );
         backgroundForMouseEventHandling.addInputEventListener( new PBasicInputEventHandler() {
             public void mousePressed( PInputEvent event ) {
@@ -72,14 +71,12 @@ public class SliderNode extends PNode {
 
         addChild( trackNode );
         addChild( backgroundForMouseEventHandling );
-        addChild( thumbNode );
+        addChild( knobNode );
 
-        updateThumb();
-        updateLayout();
-    }
+        updateKnob();
 
-    private void updateLayout() {
-        backgroundForMouseEventHandling.setPathTo( trackNode.getFullBounds().createUnion( thumbNode.getFullBounds() ) );
+        //Update the background which is used for mouse event handling.
+        backgroundForMouseEventHandling.setPathTo( trackNode.getFullBounds().createUnion( knobNode.getFullBounds() ) );
     }
 
     public double getValue() {
@@ -90,42 +87,41 @@ public class SliderNode extends PNode {
         listeners.add( changeListener );
     }
 
+    //Set the range of the slider.  If the knob doesn't appear in the new range, it will be indicated with an arrow knob.
     public void setRange( double min, double max ) {
         this.min = min;
         this.max = max;
-        updateThumb();
-        //todo: check that the value appears in the range
+        updateKnob();
     }
 
     protected Shape createTrackShape( double min, double max ) {
         return new BasicStroke( 2 ).createStrokedShape( new Line2D.Double( modelToView( min ), height / 2, modelToView( max ), height / 2 ) );
     }
 
-    protected void updateThumb() {
-        updateThumbLocation();
-        Shape shape = new RoundRectangle2D.Double( 0, 0, thumbNode.getThumbWidth(), thumbNode.getThumbHeight(), 6, 6 );
+    protected void updateKnob() {
+        updateKnobLocation();
+        Shape shape = new RoundRectangle2D.Double( 0, 0, knobNode.getKnobWidth(), knobNode.getKnobHeight(), 6, 6 );
         if ( value < min ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
-            path.moveTo( thumbNode.getThumbWidth(), 0 );
-            path.lineTo( 0, thumbNode.getThumbHeight() / 2 );
-            path.lineTo( thumbNode.getThumbWidth(), thumbNode.getThumbHeight() );
-            path.lineTo( thumbNode.getThumbWidth(), 0 );
+            path.moveTo( knobNode.getKnobWidth(), 0 );
+            path.lineTo( 0, knobNode.getKnobHeight() / 2 );
+            path.lineTo( knobNode.getKnobWidth(), knobNode.getKnobHeight() );
+            path.lineTo( knobNode.getKnobWidth(), 0 );
             shape = path.getGeneralPath();
         }
         else if ( value > max ) {
             DoubleGeneralPath path = new DoubleGeneralPath();
             path.moveTo( 0, 0 );
-            path.lineTo( thumbNode.getThumbWidth(), thumbNode.getThumbHeight() / 2 );
-            path.lineTo( 0, thumbNode.getThumbHeight() );
+            path.lineTo( knobNode.getKnobWidth(), knobNode.getKnobHeight() / 2 );
+            path.lineTo( 0, knobNode.getKnobHeight() );
             path.lineTo( 0, 0 );
             shape = path.getGeneralPath();
         }
-        thumbNode.setThumbState( new ThumbState( value < min || value > max ? Color.red : new Color( 237, 200, 120 ),
-                                                 shape ) );
+        knobNode.setKnobState( new KnobState( value < min || value > max ? Color.red : new Color( 237, 200, 120 ), shape ) );
     }
 
-    private void updateThumbLocation() {
-        thumbNode.setOffset( modelToView( getClampedValue() ), 0 );
+    private void updateKnobLocation() {
+        knobNode.setOffset( modelToView( getClampedValue() ), 0 );
         repaint();//SRR 8-11-2008: adding this repaint() call resolves this problem, --When I switch from female to male, the body fat slider now has two brown rounded rectangles. As soon as I clicked on it, it corrected itself. I couldn't get it to do it again.
     }
 
@@ -164,7 +160,7 @@ public class SliderNode extends PNode {
         if ( this.value != value ) {
             this.value = value;
             notifyValueChanged();//todo: external set of value shouldn't fire notification
-            updateThumb();
+            updateKnob();
         }
     }
 
@@ -193,15 +189,15 @@ public class SliderNode extends PNode {
         return max - min;
     }
 
-    protected class ThumbNode extends PNode {
-        private int thumbWidth = DEFAULT_THUMB_WIDTH;
-        private int thumbHeight = DEFAULT_THUMB_HEIGHT;
+    protected class KnobNode extends PNode {
+        private int knobWidth = DEFAULT_KNOB_WIDTH;
+        private int knobHeight = DEFAULT_KNOB_HEIGHT;
         private Point2D dragStartPT;
-        private PPath thumb;
+        private PPath knob;
 
-        private ThumbNode() {
-            thumb = new PhetPPath( new RoundRectangle2D.Double( 0, 0, thumbWidth, thumbHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
-            thumb.setOffset( -thumb.getFullBounds().getWidth() / 2, height / 2 - thumb.getFullBounds().getHeight() / 2 );
+        private KnobNode() {
+            knob = new PhetPPath( new RoundRectangle2D.Double( 0, 0, knobWidth, knobHeight, 6, 6 ), new Color( 237, 200, 120 ), new BasicStroke(), Color.black );
+            knob.setOffset( -knob.getFullBounds().getWidth() / 2, height / 2 - knob.getFullBounds().getHeight() / 2 );
             addInputEventListener( new CursorHandler() );//todo: fails for PNode inside PhetPCanvas wrapped inside JComponent inside PSwing inside PhetPCanvas, see workaround below
             addInputEventListener( new PBasicInputEventHandler() {
                 //todo: remove this workaround for cursor handling on pswing double embedding
@@ -215,18 +211,18 @@ public class SliderNode extends PNode {
             } );
             addInputEventListener( new PBasicInputEventHandler() {
                 public void mousePressed( PInputEvent event ) {
-                    dragStartPT = event.getPositionRelativeTo( RestrictedSliderNode.ThumbNode.this );
+                    dragStartPT = event.getPositionRelativeTo( KnobNode.this );
                 }
 
                 public void mouseDragged( PInputEvent event ) {
-                    Point2D dragEndPT = event.getPositionRelativeTo( RestrictedSliderNode.ThumbNode.this );
+                    Point2D dragEndPT = event.getPositionRelativeTo( KnobNode.this );
                     PDimension d = new PDimension( dragEndPT.getX() - dragStartPT.getX(), dragEndPT.getY() - dragEndPT.getY() );
-                    RestrictedSliderNode.ThumbNode.this.localToGlobal( d );
+                    KnobNode.this.localToGlobal( d );
                     double proposedValue = value + viewToModelRelative( d.getWidth() );
                     setValue( clamp( proposedValue ) );
                 }
             } );
-            addChild( thumb );
+            addChild( knob );
         }
 
         private void handleMouse( PInputEvent event, Cursor predefinedCursor ) {
@@ -242,29 +238,29 @@ public class SliderNode extends PNode {
             }
         }
 
-        public void setThumbState( RestrictedSliderNode.ThumbState thumbState ) {
-            setThumbPaint( thumbState.getPaint() );
-            thumb.setPathTo( thumbState.getShape() );
+        public void setKnobState( KnobState knobState ) {
+            setKnobPaint( knobState.getPaint() );
+            knob.setPathTo( knobState.getShape() );
         }
 
-        public void setThumbPaint( Paint paint ) {
-            thumb.setPaint( paint );
+        public void setKnobPaint( Paint paint ) {
+            knob.setPaint( paint );
         }
 
-        public double getThumbWidth() {
-            return thumbWidth;
+        public double getKnobWidth() {
+            return knobWidth;
         }
 
-        public double getThumbHeight() {
-            return thumbHeight;
+        public double getKnobHeight() {
+            return knobHeight;
         }
     }
 
-    public static class ThumbState {
+    public static class KnobState {
         private Paint paint;
         private Shape shape;
 
-        public ThumbState( Paint paint, Shape shape ) {
+        public KnobState( Paint paint, Shape shape ) {
             this.paint = paint;
             this.shape = shape;
         }
@@ -282,7 +278,7 @@ public class SliderNode extends PNode {
         JFrame frame = new JFrame( "Test Frame" );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.setSize( 800, 600 );
-        PhetPCanvas contentPane = new BufferedPhetPCanvas();
+        PhetPCanvas contentPane = new PhetPCanvas();
         final SliderNode sliderNode = new SliderNode( 50, 100, 50 );
         sliderNode.setOffset( 100, 100 );
         contentPane.addScreenChild( sliderNode );
