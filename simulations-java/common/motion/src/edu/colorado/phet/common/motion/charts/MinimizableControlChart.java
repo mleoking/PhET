@@ -9,27 +9,27 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class MinimizableControlChart extends PNode {
-    
+
     private ControlChart controlChart;
     private MinimizeMaximizeButton minimizeMaximizeButton;
-    
-    public MinimizableControlChart(String title, final ControlChart controlChart ) {
+
+    public MinimizableControlChart( String title, final ControlChart controlChart ) {
         this( title, controlChart, true );
     }
 
-    public MinimizableControlChart(String title, final ControlChart controlChart, boolean maximized) {
+    public MinimizableControlChart( String title, final ControlChart controlChart, boolean maximized ) {
         this.controlChart = controlChart;
-        addChild(controlChart);
+        addChild( controlChart );
 
-        this.minimizeMaximizeButton = new MinimizeMaximizeButton(title, maximized);
-        addChild(minimizeMaximizeButton);
+        this.minimizeMaximizeButton = new MinimizeMaximizeButton( title, maximized );
+        addChild( minimizeMaximizeButton );
 
         final SimpleObserver updateVisibility = new SimpleObserver() {
             public void update() {
-                controlChart.setVisible(minimizeMaximizeButton.getMaximized().get());
+                controlChart.setVisible( minimizeMaximizeButton.getMaximized().get() );
             }
         };
-        minimizeMaximizeButton.getMaximized().addObserver(updateVisibility);
+        minimizeMaximizeButton.getMaximized().addObserver( updateVisibility );
         updateVisibility.update();
     }
 
@@ -37,17 +37,17 @@ public class MinimizableControlChart extends PNode {
         minimizeMaximizeButton.reset();
         controlChart.reset();
     }
-    
+
     public BooleanProperty getMaximized() {
         return minimizeMaximizeButton.getMaximized();
     }
 
-    public void setMaximized(Boolean maximized){
+    public void setMaximized( Boolean maximized ) {
         minimizeMaximizeButton.getMaximized().set( maximized );
     }
 
-    public void setMinimizeMaximizeButtonOffset(double x, double y) {
-        minimizeMaximizeButton.setOffset(x, y);
+    public void setMinimizeMaximizeButtonOffset( double x, double y ) {
+        minimizeMaximizeButton.setOffset( x, y );
     }
 
     public PNode getControlPanel() {
@@ -66,8 +66,8 @@ public class MinimizableControlChart extends PNode {
         return controlChart.getDomainLabelHeight();
     }
 
-    public void setLayoutLocations(double controlPanelX, double sliderX, double chartX, double zoomControlX) {
-        controlChart.setLayoutLocations(controlPanelX, sliderX, chartX, zoomControlX);
+    public void setLayoutLocations( double controlPanelX, double sliderX, double chartX, double zoomControlX ) {
+        controlChart.setLayoutLocations( controlPanelX, sliderX, chartX, zoomControlX );
     }
 
     public TemporalChart getChartNode() {
@@ -78,16 +78,16 @@ public class MinimizableControlChart extends PNode {
         return minimizeMaximizeButton;
     }
 
-    public void setHorizontalZoomVisible(boolean b) {
-        controlChart.getZoomButtonNode().setHorizontalZoomButtonsVisible(b);
+    public void setHorizontalZoomVisible( boolean b ) {
+        controlChart.getZoomButtonNode().setHorizontalZoomButtonsVisible( b );
     }
 
     public double getMinimizedHeight() {
         return minimizeMaximizeButton.getFullBounds().getHeight();
     }
 
-    public void setDomainAxisLabelsVisible(boolean b) {
-        controlChart.setDomainAxisLabelsVisible(b);
+    public void setDomainAxisLabelsVisible( boolean b ) {
+        controlChart.setDomainAxisLabelsVisible( b );
     }
 
     public double getMaxRangeAxisLabelWidth() {

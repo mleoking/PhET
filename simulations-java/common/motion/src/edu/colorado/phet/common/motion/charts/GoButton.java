@@ -15,28 +15,28 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class GoButton extends PNode {
-    public GoButton(final RecordAndPlaybackModel recordAndPlaybackModel, final BooleanProperty visible) {
-        final PlayPauseButton button = new PlayPauseButton(30);
+    public GoButton( final RecordAndPlaybackModel recordAndPlaybackModel, final BooleanProperty visible ) {
+        final PlayPauseButton button = new PlayPauseButton( 30 );
         SimpleObserver updateButtonState = new SimpleObserver() {
             public void update() {
-                button.setPlaying(!recordAndPlaybackModel.isPaused());
+                button.setPlaying( !recordAndPlaybackModel.isPaused() );
             }
         };
-        recordAndPlaybackModel.addObserver(updateButtonState);
+        recordAndPlaybackModel.addObserver( updateButtonState );
         updateButtonState.update();
-        button.addListener(new PlayPauseButton.Listener() {
+        button.addListener( new PlayPauseButton.Listener() {
             public void playbackStateChanged() {
-                recordAndPlaybackModel.setPaused(!button.isPlaying());
+                recordAndPlaybackModel.setPaused( !button.isPlaying() );
             }
-        });
+        } );
         final SimpleObserver observer = new SimpleObserver() {
             public void update() {
-                button.setVisible(visible.get());
+                button.setVisible( visible.get() );
             }
         };
         observer.update();
-        visible.addObserver(observer);
-        recordAndPlaybackModel.addObserver(observer);
-        addChild(button);
+        visible.addObserver( observer );
+        recordAndPlaybackModel.addObserver( observer );
+        addChild( button );
     }
 }

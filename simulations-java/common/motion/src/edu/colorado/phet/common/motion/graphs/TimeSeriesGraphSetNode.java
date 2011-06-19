@@ -2,17 +2,15 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import java.awt.geom.Rectangle2D;
-import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;
 import edu.colorado.phet.common.timeseries.ui.TimeSeriesControlPanel;
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -33,7 +31,7 @@ public class TimeSeriesGraphSetNode extends PNode {
         TimeSeriesControlPanel timeSeriesControlPanel = new TimeSeriesControlPanel( timeSeriesModel, minDT, maxDT );
         timeSeriesControlPanelNode = new PSwing( timeSeriesControlPanel );
 
-        background = new PhetPPath( new JLabel().getBackground());
+        background = new PhetPPath( new JLabel().getBackground() );
         addChild( background );
         addChild( graphSetNode );
         addChild( timeSeriesControlPanelNode );
@@ -62,8 +60,8 @@ public class TimeSeriesGraphSetNode extends PNode {
 //            System.out.println( "TSGSN::bounds = " + bounds );
             graphSetNode.setBounds( bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight() - timeSeriesControlPanelNode.getFullBounds().getHeight() );
             timeSeriesControlPanelNode.setOffset( bounds.getX() + bounds.getWidth() / 2.0 - timeSeriesControlPanelNode.getFullBounds().getWidth() / 2.0, graphSetNode.getFullBounds().getMaxY()
-                                                                                                                                                         -10);//workaround for problem in torque module in which the contents go vertically off the screen a bit 
-            background.setPathTo(bounds);
+                                                                                                                                                         - 10 );//workaround for problem in torque module in which the contents go vertically off the screen a bit
+            background.setPathTo( bounds );
 //            System.out.println( "bounds.getMaxY() = " + bounds.getMaxY() + ", tscpn.getmaxy=" + timeSeriesControlPanelNode.getFullBounds().getMaxY() );
         }
     }

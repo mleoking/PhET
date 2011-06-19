@@ -17,20 +17,20 @@ public class MotionBody implements UpdateableObject, IMotionBody {
     private UpdateStrategy.AccelerationDriven accelDriven;
     private UpdateStrategy updateStrategy;
 
-    public MotionBody(int smoothXV,int smoothXA,int smoothVA) {
-        this( smoothXV, smoothXA, smoothVA,new DefaultTemporalVariable(), new DefaultTemporalVariable(), new DefaultTemporalVariable() );
+    public MotionBody( int smoothXV, int smoothXA, int smoothVA ) {
+        this( smoothXV, smoothXA, smoothVA, new DefaultTemporalVariable(), new DefaultTemporalVariable(), new DefaultTemporalVariable() );
     }
 
-    public MotionBody( int smoothXV, int smoothXA,int smoothVA,TimeSeriesFactory factory ) {
-        this( smoothXV, smoothXA, smoothVA,new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ) );
+    public MotionBody( int smoothXV, int smoothXA, int smoothVA, TimeSeriesFactory factory ) {
+        this( smoothXV, smoothXA, smoothVA, new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ), new DefaultTemporalVariable( factory ) );
     }
 
-    public MotionBody( int smoothXV, int smoothXA,int smoothVA, DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
+    public MotionBody( int smoothXV, int smoothXA, int smoothVA, DefaultTemporalVariable x, DefaultTemporalVariable v, DefaultTemporalVariable a ) {
         this.x = x;
         this.v = v;
         this.a = a;
-        positionDriven = new UpdateStrategy.PositionDriven(smoothXV,smoothXA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
-        velocityDriven = new UpdateStrategy.VelocityDriven(smoothVA,Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY);
+        positionDriven = new UpdateStrategy.PositionDriven( smoothXV, smoothXA, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
+        velocityDriven = new UpdateStrategy.VelocityDriven( smoothVA, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY );
         accelDriven = new UpdateStrategy.AccelerationDriven();
         updateStrategy = positionDriven;
     }
@@ -101,8 +101,9 @@ public class MotionBody implements UpdateableObject, IMotionBody {
     public boolean isAccelDriven() {
         return updateStrategy == accelDriven;
     }
-    public boolean isPositionDriven(){
-        return updateStrategy==positionDriven;
+
+    public boolean isPositionDriven() {
+        return updateStrategy == positionDriven;
     }
 
     public void setVelocityDriven() {
@@ -164,7 +165,7 @@ public class MotionBody implements UpdateableObject, IMotionBody {
     }
 
     public void addAccelerationData( TimeData data ) {
-        addAccelerationData( data.getValue(),data.getTime());
+        addAccelerationData( data.getValue(), data.getTime() );
     }
 
     public void addVelocityData( double velocity, double time ) {

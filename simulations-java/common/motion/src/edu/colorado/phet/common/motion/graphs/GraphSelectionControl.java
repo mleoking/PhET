@@ -1,21 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.motion.util.GraphicsUtil;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
  * User: Sam Reid
@@ -28,7 +22,7 @@ public class GraphSelectionControl extends JPanel {
     public GraphSelectionControl( GraphSuiteSet graphSuiteSet, final GraphSetModel graphSetModel ) {
         setLayout( new GridBagLayout() );
         GridBagConstraints gridBagConstraints = new GridBagConstraints( 0, GridBagConstraints.RELATIVE, 1, 1, 0, 0, GridBagConstraints.WEST, GridBagConstraints.NONE, new Insets( 0, 0, 0, 0 ), 0, 0 );
-        JLabel label = new JLabel( PhetCommonResources.getString( "charts.show-graphs" ));
+        JLabel label = new JLabel( PhetCommonResources.getString( "charts.show-graphs" ) );
         label.setFont( new PhetFont( Font.PLAIN, 16 ) );
         add( label, gridBagConstraints );
         for ( int i = 0; i < graphSuiteSet.getNumGraphSuites(); i++ ) {

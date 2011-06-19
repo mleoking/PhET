@@ -50,7 +50,7 @@ public class TestTimeSeriesGraphSetNode {
 
         public TestGraphSet( PhetPCanvas pSwingCanvas, final TestMotionModel motionModel ) {
             positionGraph = new MinimizableControlGraph( "x", new MotionControlGraph( pSwingCanvas, new ControlGraphSeries( motionModel.getXVariable() ), "X", "Position", -Math.PI * 3, Math.PI * 3, true, motionModel.getTimeSeriesModel(), motionModel ) );
-            addGraphSuite( new GraphSuite( new MinimizableControlGraph[]{positionGraph} ) );
+            addGraphSuite( new GraphSuite( new MinimizableControlGraph[] { positionGraph } ) );
 
 //            motionModel.addListener( new MotionModel.Listener() {
 //                public void steppedInTime() {

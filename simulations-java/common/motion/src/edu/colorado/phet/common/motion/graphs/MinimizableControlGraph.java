@@ -48,7 +48,7 @@ public class MinimizableControlGraph extends PNode {
         try {
             minimizeButton.setIcon( new ImageIcon( MotionResources.loadBufferedImage( "minimizeButton.png" ) ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -74,7 +74,7 @@ public class MinimizableControlGraph extends PNode {
         try {
             maximizeButton.setIcon( new ImageIcon( MotionResources.loadBufferedImage( "maximizeButton.png" ) ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         PSwing maxButton = new PSwing( maximizeButton );
@@ -91,7 +91,7 @@ public class MinimizableControlGraph extends PNode {
 
     private void updateCloseButton() {
         controlGraph.getJFreeChartNode().updateChartRenderingInfo();
-        closeButton.setOffset( getButtonMaxX()-closeButton.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea().getY() );
+        closeButton.setOffset( getButtonMaxX() - closeButton.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
     private double getButtonMaxX() {
@@ -130,7 +130,7 @@ public class MinimizableControlGraph extends PNode {
 
     private void relayout() {
         updateCloseButton();
-        stubChild.setOffset( getButtonMaxX()-stubChild.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea().getY() );
+        stubChild.setOffset( getButtonMaxX() - stubChild.getFullBounds().getWidth(), controlGraph.getJFreeChartNode().getDataArea().getY() );
     }
 
     public double getFixedHeight() {

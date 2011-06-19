@@ -21,7 +21,7 @@ public class DefaultVariable implements IVariable {
         }
         if ( !equals( value, this.value ) ) {
             this.value = value;
-            for (Listener listener : listeners) {
+            for ( Listener listener : listeners ) {
                 listener.valueChanged();
             }
         }

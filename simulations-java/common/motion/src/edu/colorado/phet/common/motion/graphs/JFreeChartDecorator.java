@@ -33,8 +33,8 @@ public class JFreeChartDecorator extends JFreeChart {
     }
 
     private void drawDecoration( Graphics2D g2, Rectangle2D area, Point2D anchor, ChartRenderingInfo info ) {
-        for (JFreeChartDecoration decoration : decorations) {
-            decoration.paint(this, g2, area, anchor, info);
+        for ( JFreeChartDecoration decoration : decorations ) {
+            decoration.paint( this, g2, area, anchor, info );
         }
     }
 
@@ -82,7 +82,7 @@ public class JFreeChartDecorator extends JFreeChart {
             double x0 = chart.getXYPlot().getDomainAxis().valueToJava2D( chart.getXYPlot().getDomainAxis().getRange().getLowerBound(), da, chart.getXYPlot().getDomainAxisEdge() );
             double x1 = chart.getXYPlot().getDomainAxis().valueToJava2D( chart.getXYPlot().getDomainAxis().getRange().getUpperBound(), da, chart.getXYPlot().getDomainAxisEdge() );
             double y = chart.getXYPlot().getRangeAxis().valueToJava2D( 0, da, chart.getXYPlot().getRangeAxisEdge() );
-            PhetPPath path = new PhetPPath( new Line2D.Double( x0, y, x1, y ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[]{12, 4}, 0 ), Color.black );
+            PhetPPath path = new PhetPPath( new Line2D.Double( x0, y, x1, y ), new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1f, new float[] { 12, 4 }, 0 ), Color.black );
             path.fullPaint( new PPaintContext( g2 ) );
         }
     }

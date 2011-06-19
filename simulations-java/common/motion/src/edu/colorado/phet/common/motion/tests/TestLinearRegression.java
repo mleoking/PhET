@@ -26,8 +26,8 @@ public class TestLinearRegression {
      * @param args
      */
     public static void main( String[] args ) {
-        double[] x = new double[]{0, 1, 2, 3, 4};
-        double[] y = new double[]{1, 3, 5, 7, 9.01};
+        double[] x = new double[] { 0, 1, 2, 3, 4 };
+        double[] y = new double[] { 1, 3, 5, 7, 9.01 };
         int n = 2;
         double[][] data = new double[n][x.length];
         data[0] = x;

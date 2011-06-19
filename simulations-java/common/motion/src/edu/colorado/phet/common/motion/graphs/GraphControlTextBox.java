@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -10,10 +9,7 @@ import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 import edu.colorado.phet.common.motion.model.IVariable;
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;
@@ -39,7 +35,7 @@ public class GraphControlTextBox extends JPanel {
         add( equalsSign );
 
         textField = new JTextField( "0.0", 5 );
-        textField.setFont( new PhetFont( 20,true) );
+        textField.setFont( new PhetFont( 20, true ) );
         textField.setHorizontalAlignment( JTextField.RIGHT );
         add( textField );
         setBorder( BorderFactory.createLineBorder( Color.black ) );

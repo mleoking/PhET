@@ -2,7 +2,9 @@
 package edu.colorado.phet.common.motion.graphs;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -10,7 +12,6 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-import edu.umd.cs.piccolo.nodes.PText;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
@@ -39,6 +40,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -72,8 +74,8 @@ public class ControlGraph extends PNode {
     private double minViewableX = 0;
     private double maxViewableX;
 
-    private boolean centerControls=false;//todo: currently only applied for aligned layout
-    private double sliderDecorationInset= 0.0; //ability to increase padding between series controls and slider
+    private boolean centerControls = false;//todo: currently only applied for aligned layout
+    private double sliderDecorationInset = 0.0; //ability to increase padding between series controls and slider
 
     public ControlGraph( PhetPCanvas pSwingCanvas, final ITemporalVariable temporalVariable,
                          String title, double minY, double maxY, TimeSeriesModel timeSeriesModel ) {
@@ -228,11 +230,11 @@ public class ControlGraph extends PNode {
         return new JFreeChartSliderNode( dynamicJFreeChartNode, thumb == null ? new PPath() : thumb, highlightColor );//todo: better support for non-controllable graphs
     }
 
-    public void setDomain(Range r){
+    public void setDomain( Range r ) {
         setDomain( r.getLowerBound(), r.getUpperBound() );
     }
 
-    public Range getDomain(){
+    public Range getDomain() {
         return jFreeChart.getXYPlot().getDomainAxis().getRange();
     }
 
@@ -305,12 +307,12 @@ public class ControlGraph extends PNode {
         zoomControl.addHorizontalZoomListener( zoomListener );
     }
 
-    public void setAdditionalControlPanelFillNone(){
+    public void setAdditionalControlPanelFillNone() {
         additionalControlPanel.setFillNone();
     }
 
-    public void setAdditionalControlPanelBackground(Color color){
-        additionalControlPanel.setBackground(color);
+    public void setAdditionalControlPanelBackground( Color color ) {
+        additionalControlPanel.setBackground( color );
     }
 
     public PSwing getAdditionalControls() {
@@ -323,16 +325,16 @@ public class ControlGraph extends PNode {
 
     public void addControl( JComponent component ) {
         additionalControlPanel.add( component );
-        disableDoubleBuffering(additionalControls.getComponent());
+        disableDoubleBuffering( additionalControls.getComponent() );
         additionalControls.updateBounds();
     }
 
-    private static void disableDoubleBuffering(JComponent component){
+    private static void disableDoubleBuffering( JComponent component ) {
         component.setDoubleBuffered( false );
-        for(int i=0;i<component.getComponentCount();i++){
-            Component c=component.getComponent( i );
-            if (c instanceof JComponent){
-                disableDoubleBuffering( (JComponent)c );
+        for ( int i = 0; i < component.getComponentCount(); i++ ) {
+            Component c = component.getComponent( i );
+            if ( c instanceof JComponent ) {
+                disableDoubleBuffering( (JComponent) c );
             }
         }
     }
@@ -457,7 +459,7 @@ public class ControlGraph extends PNode {
             }
 
             public void dataCleared() {
-                handleDataCleared( getSeriesIndex( series ));
+                handleDataCleared( getSeriesIndex( series ) );
             }
         } );
 
@@ -484,8 +486,8 @@ public class ControlGraph extends PNode {
         addValue( seriesIndex, timeData.getTime(), timeData.getValue() );
     }
 
-        protected void handleDataCleared( int seriesIndex) {
-        dynamicJFreeChartNode.clearSeries( seriesIndex);
+    protected void handleDataCleared( int seriesIndex ) {
+        dynamicJFreeChartNode.clearSeries( seriesIndex );
     }
 
     protected int getSeriesIndex( ControlGraphSeries series ) {
@@ -565,13 +567,13 @@ public class ControlGraph extends PNode {
             this.minimizableControlGraphs = minimizableControlGraphs;
 
             //if the zoom changes on any of them, relayout this
-            for (int i = 0; i < minimizableControlGraphs.length; i++) {
+            for ( int i = 0; i < minimizableControlGraphs.length; i++ ) {
                 final MinimizableControlGraph minimizableControlGraph = minimizableControlGraphs[i];
-                minimizableControlGraph.getControlGraph().addListener(new Adapter(){
+                minimizableControlGraph.getControlGraph().addListener( new Adapter() {
                     public void zoomChanged() {
                         relayout();
                     }
-                });
+                } );
             }
         }
 
@@ -763,18 +765,19 @@ public class ControlGraph extends PNode {
 
     /**
      * Adds a "sec" label to the right side of the domain axis
+     *
      * @param label the text to display
      */
-    public void addTimeAxisLabel(String label){//label specified by client so we don't have to put it in phetcommon (could make it harder for translators to find), and so it can vary (e.g. msec, sec, etc).
-        final PText timeAxisLabel = new PText(label);
+    public void addTimeAxisLabel( String label ) {//label specified by client so we don't have to put it in phetcommon (could make it harder for translators to find), and so it can vary (e.g. msec, sec, etc).
+        final PText timeAxisLabel = new PText( label );
         final int dy = 4;
         final int dx = 2;
-        timeAxisLabel.setFont(dynamicJFreeChartNode.getChart().getXYPlot().getDomainAxis().getTickLabelFont());
-        dynamicJFreeChartNode.addPropertyChangeListener(PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-            public void propertyChange(PropertyChangeEvent evt) {
-                timeAxisLabel.setOffset(dynamicJFreeChartNode.getFullBounds().getMaxX() + dx, dynamicJFreeChartNode.getFullBounds().getMaxY() - timeAxisLabel.getFullBounds().getHeight() - dy);
+        timeAxisLabel.setFont( dynamicJFreeChartNode.getChart().getXYPlot().getDomainAxis().getTickLabelFont() );
+        dynamicJFreeChartNode.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                timeAxisLabel.setOffset( dynamicJFreeChartNode.getFullBounds().getMaxX() + dx, dynamicJFreeChartNode.getFullBounds().getMaxY() - timeAxisLabel.getFullBounds().getHeight() - dy );
             }
-        });
-        addChild(timeAxisLabel);
+        } );
+        addChild( timeAxisLabel );
     }
 }

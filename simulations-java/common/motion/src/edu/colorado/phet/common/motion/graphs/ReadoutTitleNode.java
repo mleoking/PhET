@@ -77,14 +77,14 @@ public class ReadoutTitleNode extends PNode {
         }
 
         public void setText( String valueText ) {
-            this.text=valueText;
+            this.text = valueText;
             update();
         }
     }
 
     public ReadoutTitleNode( final ControlGraphSeries series ) {
         this.series = series;
-        this.decimalFormat=series.getNumberFormat();
+        this.decimalFormat = series.getNumberFormat();
 
         titleNode = new ShadowHTMLNode();
         titleNode.setFont( getTitleFont() );
@@ -133,7 +133,7 @@ public class ReadoutTitleNode extends PNode {
         }
 
         valueNode.setOffset( titleNode.getFullBounds().getWidth() + 3, 3 );
-        
+
 //        ((PNode)valueNode).setOffset( titleNode.getFullBounds().getWidth() + 3, ( (PNode) valueNode ).getFullBounds().getHeight()*1.5);
         updateText();
     }

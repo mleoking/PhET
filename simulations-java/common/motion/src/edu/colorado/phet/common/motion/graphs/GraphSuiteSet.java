@@ -23,7 +23,7 @@ public class GraphSuiteSet {
         try {
             return MotionResources.loadBufferedImage( s );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
