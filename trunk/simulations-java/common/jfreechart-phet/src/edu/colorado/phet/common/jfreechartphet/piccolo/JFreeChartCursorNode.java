@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.piccolo;
 
@@ -60,7 +59,7 @@ public class JFreeChartCursorNode extends PNode {
      */
     public JFreeChartCursorNode( final JFreeChartNode jFreeChartNode ) {
         this.jFreeChartNode = jFreeChartNode;
-        path = new PhetPPath( new Color( 50, 50, 200, 80 ), new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[]{10.0f, 5.0f}, 0 ), Color.darkGray );
+        path = new PhetPPath( new Color( 50, 50, 200, 80 ), new BasicStroke( 1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f, new float[] { 10.0f, 5.0f }, 0 ), Color.darkGray );
         addChild( path );
 
         jFreeChartNode.addPropertyChangeListener( updater );

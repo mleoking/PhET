@@ -67,7 +67,7 @@ public class TestGraphicLayerSet {
                         try {
                             Thread.sleep( 2000 );
                         }
-                        catch( InterruptedException e1 ) {
+                        catch ( InterruptedException e1 ) {
                             e1.printStackTrace();
                         }
                         compositeGraphic.setVisible( true );
@@ -87,7 +87,7 @@ public class TestGraphicLayerSet {
                                 Thread.sleep( 30 );
                                 compositeGraphic.setLocation( compositeGraphic.getX() + 1, compositeGraphic.getY() + 1 );
                             }
-                            catch( InterruptedException e1 ) {
+                            catch ( InterruptedException e1 ) {
                                 e1.printStackTrace();
                             }
                             time = System.currentTimeMillis();

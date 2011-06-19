@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.common.games;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Line2D;
@@ -14,8 +11,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
@@ -29,9 +25,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Upon completion of a Game, this node is used to display a summary of the user's game results.
- * <p>
+ * <p/>
  * This is a generalization of the "Game Over" node from reactants-products-and-leftovers.
- * <p>
+ * <p/>
  * Note that this was originally implemented using a JPanel, wrapped with PSwing.
  * But some problems with PSwing bounds (see #2219) forced a rewrite.
  * Layout is now done using node offsets, PText is used instead of JLabels,
@@ -40,7 +36,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameOverNode extends PhetPNode {
-    
+
     // localized strings
     private static final String TITLE_GAME_OVER = PhetCommonResources.getString( "Games.title.gameOver" );
     private static final String BUTTON_NEW_GAME = PhetCommonResources.getString( "Games.button.newGame" );
@@ -51,62 +47,62 @@ public class GameOverNode extends PhetPNode {
     private static final String LABEL_BEST = PhetCommonResources.getString( "Games.label.best" );
     private static final String LABEL_NEW_BEST = PhetCommonResources.getString( "Games.label.newBest" );
     private static final String FORMAT_TIME_BEST = PhetCommonResources.getString( "Games.format.time.best" );
-    
+
     // "look" properties
     private static final Font TITLE_FONT = new PhetFont( 24 );
     private static final Font LABEL_FONT = new PhetFont( 18 );
     private static final Color BACKGROUND_FILL_COLOR = new Color( 180, 205, 255 );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
-    
+
     // layout properties
     private static final double MIN_SEPARATOR_WIDTH = 175;
     private static final double X_MARGIN = 25;
     private static final double Y_MARGIN = 15;
     private static final double Y_SPACING = 15;
-    
+
     private final NumberFormat scoreFormat;
     private final EventListenerList listeners;
-    
+
     /**
      * Constructor.
-     * 
-     * @param level level number
-     * @param score user's score on the game that just ended
-     * @param perfectScore perfect (highest possible) score on the game that just ended
-     * @param scoreFormat how the scores (user's and perfect) should be formatted
-     * @param time user's time on the game that just ended
-     * @param bestTime the user's best time on all games played so far (typically for a specific level)
+     *
+     * @param level         level number
+     * @param score         user's score on the game that just ended
+     * @param perfectScore  perfect (highest possible) score on the game that just ended
+     * @param scoreFormat   how the scores (user's and perfect) should be formatted
+     * @param time          user's time on the game that just ended
+     * @param bestTime      the user's best time on all games played so far (typically for a specific level)
      * @param isNewBestTime is the user's time a new "best" time? If so, this identifies the time as "new best".
-     * @param timerVisible was the timer visible during the game that just ended? Time is only shown if the timer was used during game play.
+     * @param timerVisible  was the timer visible during the game that just ended? Time is only shown if the timer was used during game play.
      */
     public GameOverNode( int level, double score, double perfectScore, NumberFormat scoreFormat, long time, long bestTime, boolean isNewBestTime, boolean timerVisible ) {
         super();
-        
+
         this.scoreFormat = scoreFormat;
         this.listeners = new EventListenerList();
-        
+
         // title
-        PText titleNode = new PText( TITLE_GAME_OVER ); 
+        PText titleNode = new PText( TITLE_GAME_OVER );
         titleNode.setFont( TITLE_FONT );
         addChild( titleNode );
-        
+
         // level
         PText levelNode = new PText( getLevelString( level ) );
         levelNode.setFont( LABEL_FONT );
         addChild( levelNode );
-        
+
         // score
         PText scoreNode = new PText( getScoreString( score, perfectScore ) );
         scoreNode.setFont( LABEL_FONT );
         addChild( scoreNode );
-        
+
         // time
         boolean isPerfectScore = ( score == perfectScore );
-        PText timeNode = new PText( getTimeString( time, bestTime, timerVisible, isPerfectScore, isNewBestTime ) ); 
+        PText timeNode = new PText( getTimeString( time, bestTime, timerVisible, isPerfectScore, isNewBestTime ) );
         timeNode.setFont( LABEL_FONT );
         addChild( timeNode );
-        
+
         // buttons
         JButton newGameButton = new JButton( BUTTON_NEW_GAME );
         newGameButton.setOpaque( false );
@@ -114,21 +110,21 @@ public class GameOverNode extends PhetPNode {
             public void actionPerformed( ActionEvent e ) {
                 fireNewGamePressed();
             }
-        });
+        } );
         JPanel buttonPanel = new JPanel();
         buttonPanel.setOpaque( false );
         buttonPanel.add( newGameButton );
         PSwing newGameButtonWrapper = new PSwing( newGameButton );
         newGameButtonWrapper.addInputEventListener( new CursorHandler() );
         addChild( newGameButtonWrapper );
-       
+
         // horizontal separators, compute width after adding other children
         final double separatorWidth = Math.max( PNodeLayoutUtils.getMaxFullWidthChildren( this ), MIN_SEPARATOR_WIDTH );
         PPath separatorNode1 = new PPath( new Line2D.Double( 0, 0, separatorWidth, 0 ) );
         addChild( separatorNode1 );
         PPath separatorNode2 = new PPath( new Line2D.Double( 0, 0, separatorWidth, 0 ) );
         addChild( separatorNode2 );
-        
+
         // create the background, after adding all other stuff
         final double backgroundWidth = separatorWidth + ( 2 * X_MARGIN );
         final double backgroundHeight = PNodeLayoutUtils.sumFullHeightsChildren( this ) + ( Y_SPACING * ( getChildrenCount() - 1 ) ) + ( 2 * Y_MARGIN );
@@ -138,7 +134,7 @@ public class GameOverNode extends PhetPNode {
         backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
         addChild( backgroundNode );
         backgroundNode.moveToBack();
-        
+
         // layout
         double x = 0;
         double y = 0;
@@ -166,18 +162,18 @@ public class GameOverNode extends PhetPNode {
         y = separatorNode2.getFullBoundsReference().getMaxY() + Y_SPACING;
         newGameButtonWrapper.setOffset( x, y );
     }
-    
+
     /*
-     * Gets the level string.
-     */
+    * Gets the level string.
+    */
     private static String getLevelString( int level ) {
         return MessageFormat.format( LABEL_LEVEL, String.valueOf( level ) );
     }
-    
+
     /*
-     * Gets the score string.
-     * If we had a perfect score, indicate that.
-     */
+    * Gets the score string.
+    * If we had a perfect score, indicate that.
+    */
     private String getScoreString( double score, double perfectScore ) {
         String pointsString = scoreFormat.format( score );
         String perfectScoreString = scoreFormat.format( perfectScore );
@@ -190,12 +186,12 @@ public class GameOverNode extends PhetPNode {
         }
         return scoreString;
     }
-    
+
     /*
-     * Gets the time string.
-     * If we had an imperfect score, simply show the time.
-     * If we had a perfect score, show the best time, and indicate if the time was a "new best".
-     */
+    * Gets the time string.
+    * If we had an imperfect score, simply show the time.
+    * If we had a perfect score, show the best time, and indicate if the time was a "new best".
+    */
     private static String getTimeString( long time, long bestTime, boolean timerVisible, boolean isPerfectScore, boolean isNewBestTime ) {
         String s = " ";
         if ( timerVisible ) {
@@ -218,19 +214,19 @@ public class GameOverNode extends PhetPNode {
         }
         return s;
     }
-    
+
     public interface GameOverListener extends EventListener {
         public void newGamePressed();
     }
-    
+
     public void addGameOverListener( GameOverListener listener ) {
         listeners.add( GameOverListener.class, listener );
     }
-    
+
     public void removeGameOverListener( GameOverListener listener ) {
         listeners.remove( GameOverListener.class, listener );
     }
-    
+
     private void fireNewGamePressed() {
         for ( GameOverListener listener : listeners.getListeners( GameOverListener.class ) ) {
             listener.newGamePressed();

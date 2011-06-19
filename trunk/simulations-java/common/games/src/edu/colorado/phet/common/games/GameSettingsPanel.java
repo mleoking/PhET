@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.common.games;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -27,9 +24,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
  * Control panel that provides settings for a game.
  * Provides settings for level, timer on/off, and sound on/off.
  * You can add additional controls via the addControl method.
- * <p>
+ * <p/>
  * This panel was generalized from the game in reactants-products-and-leftovers.
- * <p>
+ * <p/>
  * Note that this panel creates observers and attaches them to the GameSettings.
  * Remember to call cleanup before disposing of this panel, or it will continue
  * to be attached to the GameSettings, resulting in a memory leak.
@@ -187,7 +184,7 @@ public class GameSettingsPanel extends GridPanel {
      * Adds a control to the input portion of the panel, below the last control,
      * and above the separator that appears above the Start button.
      * The label is anchored east, the control is anchored west.
-     * <p>
+     * <p/>
      * Note: If you add controls that require cleanup, they must be cleaned up
      * by the client; they will not be handled via the cleanup method.
      *
@@ -213,7 +210,7 @@ public class GameSettingsPanel extends GridPanel {
         } );
 
         // Game settings
-        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1,5,3), false, false );
+        final GameSettings gameSettings = new GameSettings( new IntegerRange( 1, 5, 3 ), false, false );
         gameSettings.level.addObserver( new SimpleObserver() {
             public void update() {
                 System.out.println( "gameSettings.level " + gameSettings.level.get() );
@@ -232,9 +229,9 @@ public class GameSettingsPanel extends GridPanel {
         VoidFunction0 startFunction = new VoidFunction0() {
             public void apply() {
                 System.out.println( "START: level=" + gameSettings.level.get() +
-                        " timerEnabled=" + gameSettings.timerEnabled.get() +
-                        " soundEnabled=" + gameSettings.soundEnabled.get() +
-                        " powerEnabled=" + powerEnabledProperty.get() );
+                                    " timerEnabled=" + gameSettings.timerEnabled.get() +
+                                    " soundEnabled=" + gameSettings.soundEnabled.get() +
+                                    " powerEnabled=" + powerEnabledProperty.get() );
             }
         };
 

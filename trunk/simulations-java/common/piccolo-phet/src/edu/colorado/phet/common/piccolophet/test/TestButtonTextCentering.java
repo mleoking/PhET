@@ -53,18 +53,18 @@ public class TestButtonTextCentering {
 
     public static void test2() {
         JFrame frame = new JFrame( HTMLImageButtonNode.class.getName() );
-        frame.setContentPane( new JPanel(){
+        frame.setContentPane( new JPanel() {
             @Override protected void paintComponent( Graphics g ) {
                 super.paintComponent( g );
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setFont( new PhetFont(Font.BOLD, 18 ) );
+                Graphics2D g2 = (Graphics2D) g;
+                g2.setFont( new PhetFont( Font.BOLD, 18 ) );
                 g2.setRenderingHint( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON );
                 String text = "Zorg Foury";
                 Rectangle2D stringBounds = g2.getFontMetrics().getStringBounds( text, g2 );
-                g2.draw( new Rectangle2D.Double(100, 100 - stringBounds.getHeight() + g2.getFontMetrics().getDescent(), stringBounds.getWidth(), stringBounds.getHeight()));
+                g2.draw( new Rectangle2D.Double( 100, 100 - stringBounds.getHeight() + g2.getFontMetrics().getDescent(), stringBounds.getWidth(), stringBounds.getHeight() ) );
                 g2.drawString( text, 100, 100 );
             }
-        });
+        } );
         frame.setSize( 250, 200 );
         frame.setVisible( true );
     }
@@ -75,14 +75,14 @@ public class TestButtonTextCentering {
         PCanvas canvas = new PCanvas();
         String text = "This is a <br>test.";
         final Font font = new PhetFont( 18, true );
-        HTMLNode htmlNode = new HTMLNode( text ){{
+        HTMLNode htmlNode = new HTMLNode( text ) {{
             setFont( font );
-            setOffset(20, 20);
+            setOffset( 20, 20 );
         }};
         canvas.getLayer().addChild( htmlNode );
-        PText textNode = new PText( text ){{
+        PText textNode = new PText( text ) {{
             setFont( font );
-            setOffset(20, 100);
+            setOffset( 20, 100 );
         }};
         canvas.getLayer().addChild( textNode );
 

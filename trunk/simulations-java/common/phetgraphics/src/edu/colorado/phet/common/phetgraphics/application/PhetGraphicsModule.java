@@ -11,8 +11,7 @@
 
 package edu.colorado.phet.common.phetgraphics.application;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
@@ -57,7 +56,7 @@ public class PhetGraphicsModule extends Module {
         super( name, clock );
         helpManager = new HelpManager();
         updateHelpPanelVisible();//have to update the state in the parent class, since helpManager was null
-                                 //when updateHelpPanelVisible was called in the super()
+        //when updateHelpPanelVisible was called in the super()
 
         // Handle redrawing while the clock is paused.
         clock.addClockListener( new ClockPausedHandler( this ) );
@@ -187,8 +186,8 @@ public class PhetGraphicsModule extends Module {
     }
 
     public boolean hasHelp() {
-        return helpManager!=null//have to check since this method is called by superclass constructor 
-                && helpManager.getNumGraphics() > 0;
+        return helpManager != null//have to check since this method is called by superclass constructor
+               && helpManager.getNumGraphics() > 0;
     }
 
     public void setHelpEnabled( boolean h ) {

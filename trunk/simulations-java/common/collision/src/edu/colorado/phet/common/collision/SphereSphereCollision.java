@@ -61,9 +61,9 @@ public class SphereSphereCollision implements Collision {
 
         // Get the vectors from the bodies' CMs to the point of contact
         Vector2D r1 = new Vector2D( contactPt.getX() - sphereA.getPosition().getX(),
-                                           contactPt.getY() - sphereA.getPosition().getY() );
+                                    contactPt.getY() - sphereA.getPosition().getY() );
         Vector2D r2 = new Vector2D( contactPt.getX() - sphereB.getPosition().getX(),
-                                          contactPt.getY() - sphereB.getPosition().getY() );
+                                    contactPt.getY() - sphereB.getPosition().getY() );
 
         // Get the unit vector along the line of action
         n.setComponents( loa.getX(), loa.getY() );

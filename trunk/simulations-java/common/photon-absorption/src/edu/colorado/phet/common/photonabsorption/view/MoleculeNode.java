@@ -2,17 +2,15 @@
 
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.photonabsorption.model.Molecule;
+import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.colorado.phet.common.photonabsorption.model.atoms.AtomicBond;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.photonabsorption.model.atoms.Atom;
 import edu.umd.cs.piccolo.PNode;
 
 
@@ -42,26 +40,26 @@ public class MoleculeNode extends PNode {
     // Constructor(s)
     //------------------------------------------------------------------------
 
-    public MoleculeNode ( final Molecule molecule, ModelViewTransform2D mvt){
+    public MoleculeNode( final Molecule molecule, ModelViewTransform2D mvt ) {
         bondLayer = new PNode();
-        addChild(bondLayer);
+        addChild( bondLayer );
         atomLayer = new PNode();
-        addChild(atomLayer);
+        addChild( atomLayer );
 
-        for (Atom atom : molecule.getAtoms()){
+        for ( Atom atom : molecule.getAtoms() ) {
             atomLayer.addChild( new AtomNode( atom, mvt ) );
         }
 
-        for (AtomicBond atomicBond : molecule.getAtomicBonds()){
+        for ( AtomicBond atomicBond : molecule.getAtomicBonds() ) {
             bondLayer.addChild( new AtomicBondNode( atomicBond, mvt ) );
         }
         final Molecule.Adapter listener = new Molecule.Adapter() {
             @Override
             public void electronicEnergyStateChanged( Molecule molecule ) {
                 super.electronicEnergyStateChanged( molecule );
-                for (int i=0;i<atomLayer.getChildrenCount();i++){
+                for ( int i = 0; i < atomLayer.getChildrenCount(); i++ ) {
                     AtomNode atomNode = (AtomNode) atomLayer.getChild( i );
-                    atomNode.setHighlighted(molecule.isHighElectronicEnergyState());
+                    atomNode.setHighlighted( molecule.isHighElectronicEnergyState() );
                 }
             }
         };
@@ -69,9 +67,9 @@ public class MoleculeNode extends PNode {
         listener.electronicEnergyStateChanged( molecule );
 
         // If enabled, show the center of gravity of the molecule.
-        if ( SHOW_COG ){
+        if ( SHOW_COG ) {
             double cogMarkerRadius = 5;
-            Shape cogMarkerShape = new Ellipse2D.Double(-cogMarkerRadius, -cogMarkerRadius, cogMarkerRadius * 2, cogMarkerRadius * 2);
+            Shape cogMarkerShape = new Ellipse2D.Double( -cogMarkerRadius, -cogMarkerRadius, cogMarkerRadius * 2, cogMarkerRadius * 2 );
             PNode cogMarkerNode = new PhetPPath( cogMarkerShape, Color.pink );
             cogMarkerNode.setOffset( mvt.modelToViewDouble( molecule.getCenterOfGravityPos() ) );
             atomLayer.addChild( cogMarkerNode );
@@ -87,13 +85,13 @@ public class MoleculeNode extends PNode {
      * order to support putting molecule images on control panels, but may
      * have other usages.
      */
-    public BufferedImage getImage(){
+    public BufferedImage getImage() {
         Image image = this.toImage();
         assert image instanceof BufferedImage;
-        if (image instanceof BufferedImage){
+        if ( image instanceof BufferedImage ) {
             return (BufferedImage) this.toImage();
         }
-        else{
+        else {
             return null;
         }
     }

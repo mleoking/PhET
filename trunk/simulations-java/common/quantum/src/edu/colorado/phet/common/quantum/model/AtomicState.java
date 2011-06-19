@@ -351,9 +351,10 @@ public class AtomicState {
      * @deprecated
      */
     public static class MeanLifetimeChangeEvent extends EventObject {
-    	private AtomicState state;
-        public MeanLifetimeChangeEvent(AtomicState state) {
-            super( state);
+        private AtomicState state;
+
+        public MeanLifetimeChangeEvent( AtomicState state ) {
+            super( state );
             this.state = state;
         }
 

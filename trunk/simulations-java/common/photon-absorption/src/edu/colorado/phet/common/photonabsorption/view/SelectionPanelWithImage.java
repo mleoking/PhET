@@ -1,19 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -35,7 +28,7 @@ class SelectionPanelWithImage extends JPanel {
     /**
      * Constructor.
      */
-    public SelectionPanelWithImage( String moleculeNameAndSymbol, String toolTipText, BufferedImage image ){
+    public SelectionPanelWithImage( String moleculeNameAndSymbol, String toolTipText, BufferedImage image ) {
         setLayout( new GridBagLayout() );
         radioButton.setText( moleculeNameAndSymbol );
         radioButton.setFont( LABEL_FONT );
@@ -54,12 +47,12 @@ class SelectionPanelWithImage extends JPanel {
 
         // Add a listener to the image that essentially makes it so that
         // clicking on the image is the same as clicking on the button.
-        iconPanel.addMouseListener( new MouseAdapter(){
+        iconPanel.addMouseListener( new MouseAdapter() {
             @Override
-            public void mouseReleased(MouseEvent e) {
+            public void mouseReleased( MouseEvent e ) {
                 radioButton.doClick();
             }
-        });
+        } );
     }
 
     public JRadioButton getRadioButton() {

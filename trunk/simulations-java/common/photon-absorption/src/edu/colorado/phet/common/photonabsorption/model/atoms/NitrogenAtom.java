@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.model.atoms;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 
@@ -30,6 +30,6 @@ public class NitrogenAtom extends Atom {
     }
 
     public NitrogenAtom() {
-        this( new Point2D.Double(0, 0) );
+        this( new Point2D.Double( 0, 0 ) );
     }
 }

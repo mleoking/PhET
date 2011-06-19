@@ -98,7 +98,7 @@ public class TestSinePlotPerformance {
         PhetTestApplication app = new PhetTestApplication( args, frameSetup );
 
         Module module = new TestModule( clock );
-        app.setModules( new Module[]{module} );
+        app.setModules( new Module[] { module } );
 
         app.startApplication();
     }
@@ -332,7 +332,7 @@ public class TestSinePlotPerformance {
                 if ( event.getSource() == _slider ) {
                     int numberOfHarmonics = _slider.getValue();
                     // Update the label as the slider is dragged.
-                    Object[] args = {new Integer( numberOfHarmonics )};
+                    Object[] args = { new Integer( numberOfHarmonics ) };
                     String s = MessageFormat.format( "Number of sine waves: {0}", args );
                     _label.setText( s );
                     // Update the chart when the slider is released.

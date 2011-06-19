@@ -119,14 +119,14 @@ public abstract class Molecule {
     // Methods
     //------------------------------------------------------------------------
 
-    protected void setPhotonAbsorptionStrategy( double wavelength, PhotonAbsorptionStrategy strategy ){
+    protected void setPhotonAbsorptionStrategy( double wavelength, PhotonAbsorptionStrategy strategy ) {
         mapWavelengthToAbsorptionStrategy.put( wavelength, strategy );
     }
 
     protected boolean isPhotonAbsorbed() {
         // If there is an active non-null photon absorption strategy, it
         // indicates that a photon has been absorbed.
-        return !(activePhotonAbsorptionStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy);
+        return !( activePhotonAbsorptionStrategy instanceof PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy );
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class Molecule {
      * The offset is "initial" because this is where the atom should be when
      * it is not vibrating or rotating.
      */
-    protected void addInitialAtomCogOffset( Atom atom, Vector2D offset ){
+    protected void addInitialAtomCogOffset( Atom atom, Vector2D offset ) {
         // Check that the specified atom is a part of this molecule.  While it
         // would probably work to add the offsets first and the atoms later,
         // that's not how the sim was designed, so this is some enforcement of
@@ -148,9 +148,9 @@ public abstract class Molecule {
      * Get the initial offset from the molecule's center of gravity (COG) for
      * the specified molecule.
      */
-    protected Vector2D getInitialAtomCogOffset( Atom atom ){
-        if ( !initialAtomCogOffsets.containsKey( atom )){
-            System.out.println(getClass().getName() + " - Warning: Attempt to get initial COG offset for atom that is not in molecule.");
+    protected Vector2D getInitialAtomCogOffset( Atom atom ) {
+        if ( !initialAtomCogOffsets.containsKey( atom ) ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to get initial COG offset for atom that is not in molecule." );
         }
         return initialAtomCogOffsets.get( atom );
     }
@@ -159,9 +159,9 @@ public abstract class Molecule {
      * Get the current vibration offset from the molecule's center of gravity
      * (COG) for the specified molecule.
      */
-    protected Vector2D getVibrationAtomOffset( Atom atom ){
-        if ( !vibrationAtomOffsets.containsKey( atom )){
-            System.out.println(getClass().getName() + " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule.");
+    protected Vector2D getVibrationAtomOffset( Atom atom ) {
+        if ( !vibrationAtomOffsets.containsKey( atom ) ) {
+            System.out.println( getClass().getName() + " - Warning: Attempt to get vibrational COG offset for atom that is not in molecule." );
         }
         return vibrationAtomOffsets.get( atom );
     }
@@ -172,11 +172,11 @@ public abstract class Molecule {
      * Note that this does NOT check for any sort of conservation of atoms,
      * so use this carefully or weird break apart behaviors could result.
      */
-    protected void addConstituentMolecule( Molecule molecule ){
+    protected void addConstituentMolecule( Molecule molecule ) {
         constituentMolecules.add( molecule );
     }
 
-    public static Molecule createMolecule( Class<? extends Molecule> moleculeClass ){
+    public static Molecule createMolecule( Class<? extends Molecule> moleculeClass ) {
         Molecule newMolecule = null;
         try {
             newMolecule = moleculeClass.newInstance();
@@ -193,34 +193,35 @@ public abstract class Molecule {
     /**
      * Advance the molecule one step in time.
      */
-    public void stepInTime(double dt){
+    public void stepInTime( double dt ) {
 
         activePhotonAbsorptionStrategy.stepInTime( dt );
 
-        if (absorbtionHysteresisCountdownTime >= 0){
+        if ( absorbtionHysteresisCountdownTime >= 0 ) {
             absorbtionHysteresisCountdownTime -= dt;
         }
 
-        if ( vibrating ){
+        if ( vibrating ) {
             advanceVibration( dt * VIBRATION_FREQUENCY / 1000 * 2 * Math.PI );
         }
 
-        if ( rotating ){
+        if ( rotating ) {
             int directionMultiplier = rotationDirectionClockwise ? -1 : 1;
             rotate( dt * ROTATION_RATE / 1000 * 2 * Math.PI * directionMultiplier );
         }
 
         // Do any linear movement that is required.
         setCenterOfGravityPos( velocity.getDestination( centerOfGravity ) );
-        setCenterOfGravityPos( centerOfGravity.getX() + velocity.getX() * dt, centerOfGravity.getY() + velocity.getY() * dt);
+        setCenterOfGravityPos( centerOfGravity.getX() + velocity.getX() * dt, centerOfGravity.getY() + velocity.getY() * dt );
     }
 
     /**
      * Reset the molecule.  Any photons that have been absorbed are forgotten,
      * and any vibration is reset.
+     *
      * @return
      */
-    public void reset(){
+    public void reset() {
         activePhotonAbsorptionStrategy.reset();
         activePhotonAbsorptionStrategy = new PhotonAbsorptionStrategy.NullPhotonAbsorptionStrategy( this );
         absorbtionHysteresisCountdownTime = 0;
@@ -257,22 +258,22 @@ public abstract class Molecule {
      */
     protected abstract void initializeAtomOffsets();
 
-    public void addListener(Listener listener){
+    public void addListener( Listener listener ) {
         // Don't bother adding if already there.
-        if (!listeners.contains( listener )){
-            listeners.add(listener);
+        if ( !listeners.contains( listener ) ) {
+            listeners.add( listener );
         }
     }
 
-    public void removeListener(Listener listener){
-        listeners.remove(listener);
+    public void removeListener( Listener listener ) {
+        listeners.remove( listener );
     }
 
-    public Point2D getCenterOfGravityPos(){
-        return new Point2D.Double(centerOfGravity.getX(), centerOfGravity.getY());
+    public Point2D getCenterOfGravityPos() {
+        return new Point2D.Double( centerOfGravity.getX(), centerOfGravity.getY() );
     }
 
-    protected Point2D getCenterOfGravityPosRef(){
+    protected Point2D getCenterOfGravityPosRef() {
         return centerOfGravity;
     }
 
@@ -286,15 +287,15 @@ public abstract class Molecule {
      * @param x the x location to set
      * @param y the y location to set
      */
-    public void setCenterOfGravityPos( double x, double y ){
-        if ( centerOfGravity.getX() != x || centerOfGravity.getY() != y){
+    public void setCenterOfGravityPos( double x, double y ) {
+        if ( centerOfGravity.getX() != x || centerOfGravity.getY() != y ) {
             this.centerOfGravity.setLocation( x, y );
             updateAtomPositions();
             notifyCenterOfGravityPosChanged();
         }
     }
 
-    public void setCenterOfGravityPos(Point2D centerOfGravityPos){
+    public void setCenterOfGravityPos( Point2D centerOfGravityPos ) {
         setCenterOfGravityPos( centerOfGravityPos.getX(), centerOfGravityPos.getY() );
     }
 
@@ -312,7 +313,7 @@ public abstract class Molecule {
      *
      * @param deltaRadians
      */
-    public void advanceVibration( double deltaRadians ){
+    public void advanceVibration( double deltaRadians ) {
         currentVibrationRadians += deltaRadians;
         setVibration( currentVibrationRadians );
     }
@@ -323,18 +324,18 @@ public abstract class Molecule {
      *
      * @param deltaRadians
      */
-    public void rotate( double deltaRadians ){
-         setRotation( ( currentRotationRadians + deltaRadians ) % ( Math.PI * 2 ) );
+    public void rotate( double deltaRadians ) {
+        setRotation( ( currentRotationRadians + deltaRadians ) % ( Math.PI * 2 ) );
     }
 
-    public void setRotation( double radians ){
-        if ( radians != currentRotationRadians ){
+    public void setRotation( double radians ) {
+        if ( radians != currentRotationRadians ) {
             currentRotationRadians = radians;
             updateAtomPositions();
         }
     }
 
-    protected double getRotation(){
+    protected double getRotation() {
         return currentRotationRadians;
     }
 
@@ -346,8 +347,8 @@ public abstract class Molecule {
      *
      * @param highElectronicEnergyState
      */
-    public void setHighElectronicEnergyState( boolean highElectronicEnergyState ){
-        this.highElectronicEnergyState  = highElectronicEnergyState;
+    public void setHighElectronicEnergyState( boolean highElectronicEnergyState ) {
+        this.highElectronicEnergyState = highElectronicEnergyState;
         notifyElectronicEnergyStateChanged();
     }
 
@@ -363,7 +364,7 @@ public abstract class Molecule {
         }
     }
 
-    public boolean isHighElectronicEnergyState(){
+    public boolean isHighElectronicEnergyState() {
         return highElectronicEnergyState;
     }
 
@@ -375,24 +376,24 @@ public abstract class Molecule {
         assert false;
     }
 
-    protected void markPhotonForPassThrough(Photon photon){
-        if (passThroughPhotonList.size() >= PASS_THROUGH_PHOTON_LIST_SIZE){
+    protected void markPhotonForPassThrough( Photon photon ) {
+        if ( passThroughPhotonList.size() >= PASS_THROUGH_PHOTON_LIST_SIZE ) {
             // Make room for this photon be deleting the oldest one.
             passThroughPhotonList.remove( 0 );
         }
         passThroughPhotonList.add( photon );
     }
 
-    protected boolean isPhotonMarkedForPassThrough(Photon photon){
-        return (passThroughPhotonList.contains( photon ));
+    protected boolean isPhotonMarkedForPassThrough( Photon photon ) {
+        return ( passThroughPhotonList.contains( photon ) );
     }
 
     public ArrayList<Atom> getAtoms() {
-        return new ArrayList<Atom>(atoms);
+        return new ArrayList<Atom>( atoms );
     }
 
     public ArrayList<AtomicBond> getAtomicBonds() {
-        return new ArrayList<AtomicBond>(atomicBonds);
+        return new ArrayList<AtomicBond>( atomicBonds );
     }
 
     /**
@@ -403,28 +404,29 @@ public abstract class Molecule {
      * @param photon - The photon offered for absorption.
      * @return
      */
-    public boolean queryAbsorbPhoton( Photon photon ){
+    public boolean queryAbsorbPhoton( Photon photon ) {
 
         boolean absorbPhoton = false;
 
         if ( !isPhotonAbsorbed() &&
              absorbtionHysteresisCountdownTime <= 0 &&
              photon.getLocation().distance( getCenterOfGravityPos() ) < PHOTON_ABSORPTION_DISTANCE
-             &&!isPhotonMarkedForPassThrough( photon )
+             && !isPhotonMarkedForPassThrough( photon )
                 ) {
 
             // The circumstances for absorption are correct, but do we have an
             // absorption strategy for this photon's wavelength?
             PhotonAbsorptionStrategy candidateAbsorptionStrategy = mapWavelengthToAbsorptionStrategy.get( photon.getWavelength() );
-            if ( candidateAbsorptionStrategy != null ){
+            if ( candidateAbsorptionStrategy != null ) {
                 // Yes, there is a strategy available for this wavelength.
                 // Ask it if it wants the photon.
-                if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ){
+                if ( candidateAbsorptionStrategy.queryAndAbsorbPhoton( photon ) ) {
                     // It does want it, so consider the photon absorbed.
                     absorbPhoton = true;
                     activePhotonAbsorptionStrategy = candidateAbsorptionStrategy;
                     activePhotonAbsorptionStrategy.queryAndAbsorbPhoton( photon );
-                }else{
+                }
+                else {
                     markPhotonForPassThrough( photon );//we have the decision logic once for whether a photon should be absorbed, so it is not queried a second time
                 }
             }
@@ -437,13 +439,13 @@ public abstract class Molecule {
         this.activePhotonAbsorptionStrategy = activeStrategy;
     }
 
-    protected void addAtom( Atom atom ){
+    protected void addAtom( Atom atom ) {
         atoms.add( atom );
-        initialAtomCogOffsets.put( atom, new Vector2D(0, 0) );
-        vibrationAtomOffsets.put( atom, new Vector2D(0, 0) );
+        initialAtomCogOffsets.put( atom, new Vector2D( 0, 0 ) );
+        vibrationAtomOffsets.put( atom, new Vector2D( 0, 0 ) );
     }
 
-    protected void addAtomicBond( AtomicBond atomicBond ){
+    protected void addAtomicBond( AtomicBond atomicBond ) {
         atomicBonds.add( atomicBond );
     }
 
@@ -452,7 +454,7 @@ public abstract class Molecule {
      *
      * @param wavelength
      */
-    public void emitPhoton( double wavelength ){
+    public void emitPhoton( double wavelength ) {
         emitPhoton( new Photon( wavelength ) );
     }
 
@@ -461,23 +463,23 @@ public abstract class Molecule {
      *
      * @param photonToEmit
      */
-    protected void emitPhoton( Photon photonToEmit ){
+    protected void emitPhoton( Photon photonToEmit ) {
         double emissionAngle = RAND.nextDouble() * Math.PI * 2;
-        photonToEmit.setVelocity( (float)(PHOTON_EMISSION_SPEED * Math.cos( emissionAngle )),
-                (float)(PHOTON_EMISSION_SPEED * Math.sin( emissionAngle )));
+        photonToEmit.setVelocity( (float) ( PHOTON_EMISSION_SPEED * Math.cos( emissionAngle ) ),
+                                  (float) ( PHOTON_EMISSION_SPEED * Math.sin( emissionAngle ) ) );
         final Point2D centerOfGravityPosRef = getCenterOfGravityPosRef();
-        photonToEmit.setLocation( centerOfGravityPosRef.getX(),centerOfGravityPosRef.getY() );
+        photonToEmit.setLocation( centerOfGravityPosRef.getX(), centerOfGravityPosRef.getY() );
         notifyPhotonEmitted( photonToEmit );
         absorbtionHysteresisCountdownTime = ABSORPTION_HYSTERESIS_TIME;
     }
 
-    private void notifyPhotonEmitted(Photon photon){
-        for (Listener listener : listeners){
+    private void notifyPhotonEmitted( Photon photon ) {
+        for ( Listener listener : listeners ) {
             listener.photonEmitted( photon );
         }
     }
 
-    protected void notifyBrokeApart(){
+    protected void notifyBrokeApart() {
         for ( Listener listener : new ArrayList<Listener>( listeners ) ) {
             listener.brokeApart( this );
         }
@@ -489,9 +491,9 @@ public abstract class Molecule {
      */
     protected void updateAtomPositions() {
         for ( Atom atom : initialAtomCogOffsets.keySet() ) {
-            Vector2D atomOffset = new Vector2D( initialAtomCogOffsets.get( atom ));
+            Vector2D atomOffset = new Vector2D( initialAtomCogOffsets.get( atom ) );
             // Add the vibration, if any exists.
-            atomOffset.add( vibrationAtomOffsets.get( atom ));
+            atomOffset.add( vibrationAtomOffsets.get( atom ) );
             // Rotate.
             atomOffset.rotate( currentRotationRadians );
             // Set location based on combination of offset and current center
@@ -504,7 +506,7 @@ public abstract class Molecule {
         setVelocity( new ImmutableVector2D( vx, vy ) );
     }
 
-    public void setVelocity( ImmutableVector2D newVelocity) {
+    public void setVelocity( ImmutableVector2D newVelocity ) {
         this.velocity.setValue( newVelocity );
     }
 
@@ -518,9 +520,9 @@ public abstract class Molecule {
      *
      * @return
      */
-    public Rectangle2D getBoundingRect(){
-        Rectangle2D [] atomRects = new Rectangle2D[atoms.size()];
-        for (int i = 0; i < atoms.size(); i++){
+    public Rectangle2D getBoundingRect() {
+        Rectangle2D[] atomRects = new Rectangle2D[atoms.size()];
+        for ( int i = 0; i < atoms.size(); i++ ) {
             atomRects[i] = atoms.get( i ).getBoundingRect();
         }
 
@@ -537,15 +539,25 @@ public abstract class Molecule {
 
     public interface Listener {
         void photonEmitted( Photon photon );
+
         void brokeApart( Molecule molecule );
+
         void electronicEnergyStateChanged( Molecule molecule );
+
         void centerOfGravityPosChanged( Molecule molecule );
     }
 
     public static class Adapter implements Listener {
-        public void photonEmitted(Photon photon) {}
-        public void brokeApart(Molecule molecule) {}
-        public void electronicEnergyStateChanged( Molecule molecule ) {}
-        public void centerOfGravityPosChanged( Molecule molecule ) {}
+        public void photonEmitted( Photon photon ) {
+        }
+
+        public void brokeApart( Molecule molecule ) {
+        }
+
+        public void electronicEnergyStateChanged( Molecule molecule ) {
+        }
+
+        public void centerOfGravityPosChanged( Molecule molecule ) {
+        }
     }
 }

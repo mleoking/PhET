@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.spline;
 
 import Jama.Matrix;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -26,8 +27,8 @@ public class CubicSpline implements Serializable {
     }
 
     public boolean equals( Object obj ) {
-        if( obj instanceof CubicSpline ) {
-            CubicSpline cubicSpline = (CubicSpline)obj;
+        if ( obj instanceof CubicSpline ) {
+            CubicSpline cubicSpline = (CubicSpline) obj;
             return Arrays.equals( cubicSpline.segments, segments ) && Arrays.equals( cubicSpline.xTrain, xTrain ) && Arrays.equals( cubicSpline.yTrain, yTrain );
         }
         else {
@@ -36,15 +37,15 @@ public class CubicSpline implements Serializable {
     }
 
     public double evaluate( double x ) {
-        for( int i = 0; i < xTrain.length - 1; i++ ) {//todo could be binary search..?
-            if( x >= xTrain[i] && x <= xTrain[i + 1] ) {
-                if( i >= segments.length ) {
+        for ( int i = 0; i < xTrain.length - 1; i++ ) {//todo could be binary search..?
+            if ( x >= xTrain[i] && x <= xTrain[i + 1] ) {
+                if ( i >= segments.length ) {
                     throw new RuntimeException( "out of bounds" );
                 }
                 return segments[i].evaluate( x );
             }
         }
-        if( x < 0 ) {
+        if ( x < 0 ) {
             return segments[0].evaluate( x );
         }
         else {
@@ -75,8 +76,8 @@ public class CubicSpline implements Serializable {
         }
 
         public boolean equals( Object obj ) {
-            if( obj instanceof CubicSplineSegment ) {
-                CubicSplineSegment c = (CubicSplineSegment)obj;
+            if ( obj instanceof CubicSplineSegment ) {
+                CubicSplineSegment c = (CubicSplineSegment) obj;
                 return c.h == h && c.z0 == z0 && c.z1 == z1 && c.x0 == x0 && c.x1 == x1 && c.y0 == y0 && c.y1 == y1;
             }
             else {
@@ -103,14 +104,14 @@ public class CubicSpline implements Serializable {
     public static CubicSpline interpolate( double[] x, double[] y ) {
         int n = x.length;
         double[] h = new double[x.length - 1];
-        for( int i = 0; i < h.length; i++ ) {
+        for ( int i = 0; i < h.length; i++ ) {
             h[i] = x[i + 1] - x[i];
         }
 
         Jama.Matrix A = new Matrix( n, n );
         A.set( 0, 0, 1 );
         A.set( n - 1, n - 1, 1 );
-        for( int i = 1; i < n - 1; i++ ) {
+        for ( int i = 1; i < n - 1; i++ ) {
             A.set( i, i - 1, h[i - 1] );
             A.set( i, i, 2 * ( h[i - 1] + h[i] ) );
             A.set( i, i + 1, h[i] );
@@ -119,7 +120,7 @@ public class CubicSpline implements Serializable {
         Matrix b = new Matrix( n, 1 );
         b.set( 0, 0, 0 );
         b.set( n - 1, 0, 0 );
-        for( int i = 1; i < n - 1; i++ ) {
+        for ( int i = 1; i < n - 1; i++ ) {
             double a1 = ( ( y[i + 1] - y[i] ) / h[i] );
             double a2 = ( ( y[i] - y[i - 1] ) / h[i - 1] );
             b.set( i, 0, 6 * ( a1 - a2 ) );
@@ -127,7 +128,7 @@ public class CubicSpline implements Serializable {
         Matrix zMat = A.solve( b );
         double[] z = zMat.getColumnPackedCopy();
         CubicSplineSegment[] segments = new CubicSplineSegment[n - 1];
-        for( int i = 0; i < segments.length; i++ ) {
+        for ( int i = 0; i < segments.length; i++ ) {
             segments[i] = new CubicSplineSegment( h[i], z[i], z[i + 1], x[i], x[i + 1], y[i], y[i + 1] );
         }
         return new CubicSpline( segments, x, y );
@@ -140,8 +141,8 @@ public class CubicSpline implements Serializable {
 //        }
 //        EnergySkateParkLogging.println( "x = " + 2.0 + ", y=" + spline.evaluate( 2.0 ) );
 
-        CubicSpline spline = interpolate( new double[]{0, 1, 2}, new double[]{0, 1, 0} );
-        for( double x = 0; x < 2.0 - 0.01; x += 0.1 ) {
+        CubicSpline spline = interpolate( new double[] { 0, 1, 2 }, new double[] { 0, 1, 0 } );
+        for ( double x = 0; x < 2.0 - 0.01; x += 0.1 ) {
             System.out.println( spline.evaluate( x ) );
 //            EnergySkateParkLogging.println( "x = " + x + ", y=" + spline.evaluate( x ) );
         }

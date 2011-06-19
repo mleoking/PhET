@@ -48,7 +48,7 @@ public class N2O extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public N2O(Point2D inititialCenterOfGravityPos){
+    public N2O( Point2D inititialCenterOfGravityPos ) {
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( sideNitrogenAtom );
@@ -67,8 +67,8 @@ public class N2O extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public N2O(){
-        this(new Point2D.Double(0, 0));
+    public N2O() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -80,22 +80,22 @@ public class N2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset(centerNitrogenAtom, new Vector2D(0, 0));
-        addInitialAtomCogOffset(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE, 0));
-        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE, 0));
+        addInitialAtomCogOffset( centerNitrogenAtom, new Vector2D( 0, 0 ) );
+        addInitialAtomCogOffset( sideNitrogenAtom, new Vector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom, new Vector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE, 0 ) );
 
         updateAtomPositions();
     }
 
     @Override
-    public void setVibration( double vibrationRadians ){
+    public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        addInitialAtomCogOffset(centerNitrogenAtom, new Vector2D(0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION));
-        addInitialAtomCogOffset(sideNitrogenAtom, new Vector2D(-INITIAL_NITROGEN_NITROGEN_DISTANCE,
-                -multFactor * MAX_SIDE_NITROGEN_DEFLECTION));
-        addInitialAtomCogOffset(oxygenAtom, new Vector2D(INITIAL_NITROGEN_OXYGEN_DISTANCE,
-                -multFactor * MAX_OXYGEN_DEFLECTION));
+        addInitialAtomCogOffset( centerNitrogenAtom, new Vector2D( 0, multFactor * MAX_CENTER_NITROGEN_DEFLECTION ) );
+        addInitialAtomCogOffset( sideNitrogenAtom, new Vector2D( -INITIAL_NITROGEN_NITROGEN_DISTANCE,
+                                                                 -multFactor * MAX_SIDE_NITROGEN_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom, new Vector2D( INITIAL_NITROGEN_OXYGEN_DISTANCE,
+                                                           -multFactor * MAX_OXYGEN_DEFLECTION ) );
         updateAtomPositions();
     }
 }

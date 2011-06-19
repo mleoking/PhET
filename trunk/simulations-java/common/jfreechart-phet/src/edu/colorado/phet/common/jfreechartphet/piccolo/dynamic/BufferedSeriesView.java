@@ -1,4 +1,3 @@
-
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
@@ -10,7 +9,6 @@ import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
@@ -23,7 +21,7 @@ public class BufferedSeriesView extends SeriesView {
     public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f );
 //    private BasicStroke DEFAULT_STROKE = new BasicStroke( 3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER, 1.0f, new float[]{10, 10}, 0 );
 
-//    private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
+    //    private PhetPPath debugRegion = new PhetPPath( new BasicStroke( 3 ), Color.blue );
     private boolean updateAllEnabled = false;
     private double lastLineLength = 0;
 

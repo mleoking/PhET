@@ -30,11 +30,11 @@ public class PhotonNode extends PNode implements Observer {
     private final ModelViewTransform2D mvt;
 
     // Map of photon wavelengths to visual images used for representing them.
-    private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>(){{
-        put( WavelengthConstants.MICRO_WAVELENGTH, "microwave-photon.png");
-        put( WavelengthConstants.IR_WAVELENGTH, "photon-660.png");
-        put( WavelengthConstants.VISIBLE_WAVELENGTH, "thin2.png");
-        put( WavelengthConstants.UV_WAVELENGTH, "photon-100.png");
+    private static final HashMap<Double, String> mapWavelengthToImageName = new HashMap<Double, String>() {{
+        put( WavelengthConstants.MICRO_WAVELENGTH, "microwave-photon.png" );
+        put( WavelengthConstants.IR_WAVELENGTH, "photon-660.png" );
+        put( WavelengthConstants.VISIBLE_WAVELENGTH, "thin2.png" );
+        put( WavelengthConstants.UV_WAVELENGTH, "photon-100.png" );
     }};
 
     // For debug and testing.  TODO: Remove this if ultimately not used.
@@ -49,8 +49,8 @@ public class PhotonNode extends PNode implements Observer {
      * use in places like control panels in the play area, where the node is
      * needed but doesn't really correspond to anything in the model.
      */
-    public PhotonNode( double wavelength ){
-        this( new Photon(wavelength), new ModelViewTransform2D());
+    public PhotonNode( double wavelength ) {
+        this( new Photon( wavelength ), new ModelViewTransform2D() );
     }
 
     /**
@@ -62,7 +62,7 @@ public class PhotonNode extends PNode implements Observer {
         this.photon.addObserver( this );
         this.mvt = mvt;
 
-        if ( USE_PHOTON_FACTORY ){
+        if ( USE_PHOTON_FACTORY ) {
             if ( photon.getWavelength() == WavelengthConstants.MICRO_WAVELENGTH ) {
                 // Special case for microwaves, since PhotonImageFactory makes all
                 // photons with a wavelength longer than visible light look the
@@ -74,12 +74,12 @@ public class PhotonNode extends PNode implements Observer {
                 photonImage = new PImage( PhotonImageFactory.lookupPhotonImage( photon.getWavelength() * 1E9, 35 ) );
             }
         }
-        else{
+        else {
             assert mapWavelengthToImageName.containsKey( photon.getWavelength() );
             photonImage = new PImage( PhotonAbsorptionResources.getImage( mapWavelengthToImageName.get( photon.getWavelength() ) ) );
         }
         photonImage.setOffset( -photonImage.getFullBoundsReference().width / 2,
-                -photonImage.getFullBoundsReference().height / 2 );
+                               -photonImage.getFullBoundsReference().height / 2 );
         addChild( photonImage );
         updatePosition();
     }

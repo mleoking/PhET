@@ -104,7 +104,7 @@ public class TestApparatusPanel2 {
         PhetTestApplication testApp = new PhetTestApplication( args );
         TestModule module = new TestModule( new SwingClock( 30, 1 ) );
         testApp.addModule( module );
-        testApp.setModules( new Module[]{module} );
+        testApp.setModules( new Module[] { module } );
         testApp.startApplication();
     }
 }

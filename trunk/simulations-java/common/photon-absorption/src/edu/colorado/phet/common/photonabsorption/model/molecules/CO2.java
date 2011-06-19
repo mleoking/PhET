@@ -31,7 +31,7 @@ public class CO2 extends Molecule {
     // constant.
     private static final double CARBON_MAX_DEFLECTION = 40;
     private static final double OXYGEN_MAX_DEFLECTION =
-        new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / (2 * new OxygenAtom().getMass());
+            new CarbonAtom().getMass() * CARBON_MAX_DEFLECTION / ( 2 * new OxygenAtom().getMass() );
 
     // ------------------------------------------------------------------------
     // Instance Data
@@ -47,7 +47,7 @@ public class CO2 extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public CO2(Point2D inititialCenterOfGravityPos){
+    public CO2( Point2D inititialCenterOfGravityPos ) {
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( carbonAtom );
@@ -66,8 +66,8 @@ public class CO2 extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public CO2(){
-        this(new Point2D.Double(0, 0));
+    public CO2() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -76,12 +76,12 @@ public class CO2 extends Molecule {
 
 
     @Override
-    public void setVibration( double vibrationRadians ){
+    public void setVibration( double vibrationRadians ) {
         super.setVibration( vibrationRadians );
         double multFactor = Math.sin( vibrationRadians );
-        addInitialAtomCogOffset(carbonAtom, new Vector2D(0, multFactor * CARBON_MAX_DEFLECTION));
-        addInitialAtomCogOffset(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION));
-        addInitialAtomCogOffset(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, - multFactor * OXYGEN_MAX_DEFLECTION));
+        addInitialAtomCogOffset( carbonAtom, new Vector2D( 0, multFactor * CARBON_MAX_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom1, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
+        addInitialAtomCogOffset( oxygenAtom2, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, -multFactor * OXYGEN_MAX_DEFLECTION ) );
         updateAtomPositions();
     }
 
@@ -90,9 +90,9 @@ public class CO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset(carbonAtom, new Vector2D(0, 0));
-        addInitialAtomCogOffset(oxygenAtom1, new Vector2D(INITIAL_CARBON_OXYGEN_DISTANCE, 0));
-        addInitialAtomCogOffset(oxygenAtom2, new Vector2D(-INITIAL_CARBON_OXYGEN_DISTANCE, 0));
+        addInitialAtomCogOffset( carbonAtom, new Vector2D( 0, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom1, new Vector2D( INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
+        addInitialAtomCogOffset( oxygenAtom2, new Vector2D( -INITIAL_CARBON_OXYGEN_DISTANCE, 0 ) );
 
         updateAtomPositions();
     }

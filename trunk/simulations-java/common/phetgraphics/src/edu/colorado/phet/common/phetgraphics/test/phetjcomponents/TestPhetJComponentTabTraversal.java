@@ -1,17 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetgraphics.test.phetjcomponents;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.io.IOException;
 
-import javax.swing.JTextField;
+import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetgraphics.application.PhetGraphicsModule;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel2;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
@@ -36,7 +35,7 @@ public class TestPhetJComponentTabTraversal {
 
         // Add modules.
         PhetGraphicsModule module = new TestModule( clock );
-        app.setModules( new PhetGraphicsModule[]{module} );
+        app.setModules( new PhetGraphicsModule[] { module } );
 
         // Start the app.
         app.startApplication();

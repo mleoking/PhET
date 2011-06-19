@@ -21,28 +21,28 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class TestRecordAndPlaybackApplication extends PhetApplication {
 
-    public TestRecordAndPlaybackApplication(PhetApplicationConfig config) {
-        super(config);
-        addModule(new TestRecordAndPlaybackModule());
+    public TestRecordAndPlaybackApplication( PhetApplicationConfig config ) {
+        super( config );
+        addModule( new TestRecordAndPlaybackModule() );
     }
 
     private class TestRecordAndPlaybackModule extends Module {
         private TestRecordAndPlaybackModel model = new TestRecordAndPlaybackModel();
 
         public TestRecordAndPlaybackModule() {
-            super("test record and playback", new SwingClock(30, 1.0));
-            TestRecordAndPlaybackSimulationPanel simPanel = new TestRecordAndPlaybackSimulationPanel(model);
-            setSimulationPanel(simPanel);
+            super( "test record and playback", new SwingClock( 30, 1.0 ) );
+            TestRecordAndPlaybackSimulationPanel simPanel = new TestRecordAndPlaybackSimulationPanel( model );
+            setSimulationPanel( simPanel );
 
             //it doesn't matter how you wire up the model to update with each clock tick, here is one way
-            getClock().addClockListener(new ClockAdapter() {
-                public void simulationTimeChanged(ClockEvent clockEvent) {
-                    model.stepInTime(clockEvent.getSimulationTimeChange());
+            getClock().addClockListener( new ClockAdapter() {
+                public void simulationTimeChanged( ClockEvent clockEvent ) {
+                    model.stepInTime( clockEvent.getSimulationTimeChange() );
                 }
-            });
+            } );
 
             //use the record and playback control panel
-            setClockControlPanel(new RecordAndPlaybackControlPanel<TestState>(model, simPanel, 1000));
+            setClockControlPanel( new RecordAndPlaybackControlPanel<TestState>( model, simPanel, 1000 ) );
         }
     }
 
@@ -53,7 +53,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         private double x;
         private double y;
 
-        public TestState(double x, double y) {
+        public TestState( double x, double y ) {
             this.x = x;
             this.y = y;
         }
@@ -68,19 +68,19 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
     }
 
     private class TestRecordAndPlaybackSimulationPanel extends PhetPCanvas {
-        private TestRecordAndPlaybackSimulationPanel(final TestRecordAndPlaybackModel model) {
-            ParticleNode particleNode = new ParticleNode(model.getParticle());
+        private TestRecordAndPlaybackSimulationPanel( final TestRecordAndPlaybackModel model ) {
+            ParticleNode particleNode = new ParticleNode( model.getParticle() );
 
             //when the user starts dragging the object, start recording
             //note that this cannot be an attachment to the model's normal movement listener, since that is updated during playback
             //alternatively, you could add a new listener interface to the model object such as Particle.userDragged
             //to ensure communication happens through model notifications
-            particleNode.addInputEventListener(new PBasicInputEventHandler() {
-                public void mouseDragged(PInputEvent event) {
+            particleNode.addInputEventListener( new PBasicInputEventHandler() {
+                public void mouseDragged( PInputEvent event ) {
                     model.startRecording();
                 }
-            });
-            addScreenChild(particleNode);
+            } );
+            addScreenChild( particleNode );
         }
     }
 
@@ -88,7 +88,7 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
         private Particle particle = new Particle();
 
         protected TestRecordAndPlaybackModel() {
-            super(1000);
+            super( 1000 );
         }
 
         public Particle getParticle() {
@@ -101,11 +101,11 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
          * @param simulationTimeChange the amount of time to update the simulation (in whatever units the simulation model is using).
          * @return the new state memento
          */
-        public TestState step(double simulationTimeChange) {
+        public TestState step( double simulationTimeChange ) {
             //first step is to update state, apply physics, whatever
             //however, in this example, the movement is totally user controlled, so there is no physics update in this step
 
-            return new TestState(particle.getX(), particle.getY());
+            return new TestState( particle.getX(), particle.getY() );
         }
 
         /**
@@ -113,12 +113,12 @@ public class TestRecordAndPlaybackApplication extends PhetApplication {
          *
          * @param state the state to display
          */
-        public void setPlaybackState(TestState state) {
-            particle.setPosition(state.getX(), state.getY());
+        public void setPlaybackState( TestState state ) {
+            particle.setPosition( state.getX(), state.getY() );
         }
     }
 
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "record-and-playback", TestRecordAndPlaybackApplication.class);
+    public static void main( String[] args ) {
+        new PhetApplicationLauncher().launchSim( args, "record-and-playback", TestRecordAndPlaybackApplication.class );
     }
 }

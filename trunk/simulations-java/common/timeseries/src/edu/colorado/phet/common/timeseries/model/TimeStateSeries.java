@@ -14,7 +14,7 @@ public class TimeStateSeries {
     private ArrayList<TimeState> pts = new ArrayList<TimeState>();
 
     public void addPoint( Object value, double time ) {
-        pts.add( new TimeState( value, time ));
+        pts.add( new TimeState( value, time ) );
     }
 
     public TimeState getLastPoint() {
@@ -74,7 +74,7 @@ public class TimeStateSeries {
     }
 
     private TimeState[] getNeighborsForTime( double time, int minIndex, int maxIndex ) {
-        return new TimeState[]{getLowerSample( time, minIndex, maxIndex, 0 ), getUpperSample( time, minIndex, maxIndex, 0 )};
+        return new TimeState[] { getLowerSample( time, minIndex, maxIndex, 0 ), getUpperSample( time, minIndex, maxIndex, 0 ) };
     }
 
     private TimeState getLowerSample( double time, int min, int max, int depth ) {

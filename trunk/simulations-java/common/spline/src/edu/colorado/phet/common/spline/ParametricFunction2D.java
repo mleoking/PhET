@@ -1,13 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.spline;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
-
 import java.awt.geom.Line2D;
 import java.io.Serializable;
 import java.util.Arrays;
+
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 
 /**
  * User: Sam Reid
@@ -35,11 +35,11 @@ public abstract class ParametricFunction2D implements Serializable {
 
         int iterations = 0;
         double threshold = 1E-9;
-        while( true ) {
+        while ( true ) {
             SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, line );
-            SearchPoint[] pts = new SearchPoint[]{low, mid, high};
+            SearchPoint[] pts = new SearchPoint[] { low, mid, high };
             Arrays.sort( pts );
-            if( pts[0].alpha < pts[1].alpha ) {
+            if ( pts[0].alpha < pts[1].alpha ) {
                 low = pts[0];
                 high = pts[1];
             }
@@ -48,7 +48,7 @@ public abstract class ParametricFunction2D implements Serializable {
                 high = pts[0];
             }
             iterations++;
-            if( iterations > 50 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+            if ( iterations > 50 || Math.abs( low.alpha - high.alpha ) < threshold ) {
                 break;
             }
             //take the best 2 as our new endpoints
@@ -64,7 +64,7 @@ public abstract class ParametricFunction2D implements Serializable {
         SerializablePoint2D avg = new SerializablePoint2D( ( a0.getX() + a1.getX() ) / 2.0, ( a0.getY() + a1.getY() ) / 2.0 );
         Vector2D dir = new Vector2D( center, avg );
         ImmutableVector2D vec = new Vector2D( getUnitNormalVector( alpha ) );
-        if( dir.dot( vec ) < 0 ) {
+        if ( dir.dot( vec ) < 0 ) {
             vec = vec.getScaledInstance( -1.0 );
         }
         return vec;
@@ -90,7 +90,7 @@ public abstract class ParametricFunction2D implements Serializable {
         }
 
         public int compareTo( Object o ) {
-            return new Double( dist ).compareTo( new Double( ( (SearchPoint)o ).dist ) );
+            return new Double( dist ).compareTo( new Double( ( (SearchPoint) o ).dist ) );
         }
 
         public String toString() {
@@ -107,11 +107,11 @@ public abstract class ParametricFunction2D implements Serializable {
 
         int iterations = 0;
         double threshold = 1E-6;
-        while( true ) {
+        while ( true ) {
             SearchPoint mid = new SearchPoint( ( low.alpha + high.alpha ) / 2.0, pt );
-            SearchPoint[] pts = new SearchPoint[]{low, mid, high};
+            SearchPoint[] pts = new SearchPoint[] { low, mid, high };
             Arrays.sort( pts );
-            if( pts[0].alpha < pts[1].alpha ) {
+            if ( pts[0].alpha < pts[1].alpha ) {
                 low = pts[0];
                 high = pts[1];
             }
@@ -120,7 +120,7 @@ public abstract class ParametricFunction2D implements Serializable {
                 high = pts[0];
             }
             iterations++;
-            if( iterations > 30 || Math.abs( low.alpha - high.alpha ) < threshold ) {
+            if ( iterations > 30 || Math.abs( low.alpha - high.alpha ) < threshold ) {
                 break;
             }
             //take the best 2 as our new endpoints
@@ -131,10 +131,10 @@ public abstract class ParametricFunction2D implements Serializable {
     private double getClosestPointFlatSearch( SerializablePoint2D pt, int numSegments ) {
         double closestDist = Double.POSITIVE_INFINITY;
         double bestAlpha = Double.NaN;
-        for( int k = 0; k < numSegments; k++ ) {
-            double alpha = ( (double)k ) / numSegments;
+        for ( int k = 0; k < numSegments; k++ ) {
+            double alpha = ( (double) k ) / numSegments;
             double dist = evaluate( alpha ).distance( pt );
-            if( dist < closestDist ) {
+            if ( dist < closestDist ) {
                 closestDist = dist;
                 bestAlpha = alpha;
             }
@@ -154,17 +154,17 @@ public abstract class ParametricFunction2D implements Serializable {
     }
 
     public double getMetricDeltaIterative( double a0, double a1 ) {
-        if( a1 == a0 ) {
+        if ( a1 == a0 ) {
             return 0;
         }
-        if( a1 < a0 ) {
+        if ( a1 < a0 ) {
             return -getMetricDeltaIterative( a1, a0 );
         }
         int numSegments = 10;
         double da = ( a1 - a0 ) / ( numSegments - 1 );
         SerializablePoint2D prev = evaluate( a0 );
         double sum = 0;
-        for( int i = 1; i < numSegments; i++ ) {
+        for ( int i = 1; i < numSegments; i++ ) {
             double a = a0 + i * da;
             SerializablePoint2D pt = evaluate( a );
             double dist = pt.distance( prev );
@@ -178,14 +178,14 @@ public abstract class ParametricFunction2D implements Serializable {
    * Returns the metric distance between 2 fractional points.
     */
     public double getMetricDeltaRecursive( double a0, double a1 ) {
-        if( a0 > a1 ) {
+        if ( a0 > a1 ) {
             return -getMetricDeltaRecursive( a1, a0 );
         }
-        if( a0 == a1 ) {
+        if ( a0 == a1 ) {
             return 0;
         }
         double da = 1E-1;
-        if( Math.abs( a0 - a1 ) < da ) {
+        if ( Math.abs( a0 - a1 ) < da ) {
             return evaluate( a0 ).distance( evaluate( a1 ) );
         }
         else {
@@ -207,8 +207,8 @@ public abstract class ParametricFunction2D implements Serializable {
 //        double epsilon = 1E-10;
 
         int count = 0;
-        while( Math.abs( metricDelta - ds ) > epsilon ) {
-            if( metricDelta > ds ) {
+        while ( Math.abs( metricDelta - ds ) > epsilon ) {
+            if ( metricDelta > ds ) {
                 upperBound = guess;
             }
             else {
@@ -217,7 +217,7 @@ public abstract class ParametricFunction2D implements Serializable {
             guess = ( upperBound + lowerBound ) / 2.0;
             metricDelta = getMetricDelta( alpha0, guess );
             count++;
-            if( count > 100 ) {
+            if ( count > 100 ) {
                 System.out.println( "binary search failed: count=" + count );
                 break;
             }
@@ -235,7 +235,7 @@ public abstract class ParametricFunction2D implements Serializable {
 //        EnergySkateParkLogging.println( "a0 = " + a0 +", a1="+a1);
 
         Vector2D vector = new Vector2D( evaluate( a0 ), evaluate( a1 ) );
-        if( vector.getMagnitude() == 0 ) {
+        if ( vector.getMagnitude() == 0 ) {
             throw new RuntimeException( "unit parallel vector failed: alpha=" + alpha + ", eval=" + evaluate( alpha ) );
         }
         return vector.getNormalizedInstance();
@@ -258,7 +258,7 @@ public abstract class ParametricFunction2D implements Serializable {
         double alpha = 0;
         double dAlpha = 1.0 / ( numPts - 1 );
         SerializablePoint2D[] pts = new SerializablePoint2D[numPts];
-        for( int i = 0; i < numPts; i++ ) {
+        for ( int i = 0; i < numPts; i++ ) {
             pts[i] = getOffsetPoint( alpha, dist, top );
             alpha += dAlpha;
         }

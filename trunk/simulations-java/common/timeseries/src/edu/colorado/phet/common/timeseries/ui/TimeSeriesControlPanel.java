@@ -53,8 +53,8 @@ public class TimeSeriesControlPanel extends JPanel {
 
         add( timeSpeedSlider );
 
-        recordButton = new MultiStateButton( new Object[]{KEY_REC, KEY_PAUSE_REC}, new String[]{PhetCommonResources.getString( "chart-time-control.go" ), PhetCommonResources.getString( "Common.StopwatchPanel.stop" )},
-                                             new Icon[]{
+        recordButton = new MultiStateButton( new Object[] { KEY_REC, KEY_PAUSE_REC }, new String[] { PhetCommonResources.getString( "chart-time-control.go" ), PhetCommonResources.getString( "Common.StopwatchPanel.stop" ) },
+                                             new Icon[] {
                                                      new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/go.png" ) ),
                                                      new ImageIcon( TimeseriesResources.loadBufferedImage( "icons/stop.png" ) )
                                              } );
@@ -86,7 +86,7 @@ public class TimeSeriesControlPanel extends JPanel {
             }
         } );
 
-        playbackButton = new MultiStateButton( new Object[]{KEY_PLAYBACK, KEY_PAUSE}, new String[]{PhetCommonResources.getString( "timeseries.control.panel.playback" ), PhetCommonResources.getString( "Common.ClockControlPanel.Pause" )}, new Icon[]{loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE )} );
+        playbackButton = new MultiStateButton( new Object[] { KEY_PLAYBACK, KEY_PAUSE }, new String[] { PhetCommonResources.getString( "timeseries.control.panel.playback" ), PhetCommonResources.getString( "Common.ClockControlPanel.Pause" ) }, new Icon[] { loadCommonIcon( PhetCommonResources.IMAGE_PLAY ), loadCommonIcon( PhetCommonResources.IMAGE_PAUSE ) } );
         playbackButton.addActionListener( KEY_PLAYBACK, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( timeSeriesModel.isRecording() ) {
@@ -177,7 +177,7 @@ public class TimeSeriesControlPanel extends JPanel {
     }
 
     private boolean confirmClear() {
-        return PhetOptionPane.showYesNoDialog( this, TimeseriesResources.getString("Common.confirm.clear.graphs" ) )== JOptionPane.YES_OPTION;
+        return PhetOptionPane.showYesNoDialog( this, TimeseriesResources.getString( "Common.confirm.clear.graphs" ) ) == JOptionPane.YES_OPTION;
     }
 
     public void setSpeedControlVisible( boolean b ) {

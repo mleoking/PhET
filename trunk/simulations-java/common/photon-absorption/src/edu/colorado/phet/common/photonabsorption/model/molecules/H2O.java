@@ -51,7 +51,7 @@ public class H2O extends Molecule {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    public H2O(Point2D inititialCenterOfGravityPos){
+    public H2O( Point2D inititialCenterOfGravityPos ) {
         // Configure the base class.  It would be better to do this through
         // nested constructors, but I (jblanco) wasn't sure how to do this.
         addAtom( oxygenAtom );
@@ -71,8 +71,8 @@ public class H2O extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public H2O(){
-        this(new Point2D.Double(0, 0));
+    public H2O() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -84,9 +84,9 @@ public class H2O extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset(oxygenAtom, new Vector2D(0, INITIAL_OXYGEN_VERTICAL_OFFSET));
-        addInitialAtomCogOffset(hydrogenAtom1, new Vector2D(INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
-        addInitialAtomCogOffset(hydrogenAtom2, new Vector2D(-INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET));
+        addInitialAtomCogOffset( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET, INITIAL_HYDROGEN_VERTICAL_OFFSET ) );
 
         updateAtomPositions();
     }
@@ -99,9 +99,9 @@ public class H2O extends Molecule {
         double maxHydrogenDisplacement = 18;
         addInitialAtomCogOffset( oxygenAtom, new Vector2D( 0, INITIAL_OXYGEN_VERTICAL_OFFSET - multFactor * maxOxygenDisplacement ) );
         addInitialAtomCogOffset( hydrogenAtom1, new Vector2D( INITIAL_HYDROGEN_HORIZONTAL_OFFSET + multFactor * maxHydrogenDisplacement,
-                INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+                                                              INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         addInitialAtomCogOffset( hydrogenAtom2, new Vector2D( -INITIAL_HYDROGEN_HORIZONTAL_OFFSET - multFactor * maxHydrogenDisplacement,
-                INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
+                                                              INITIAL_HYDROGEN_VERTICAL_OFFSET + multFactor * maxHydrogenDisplacement ) );
         updateAtomPositions();
     }
 }

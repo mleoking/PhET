@@ -92,7 +92,7 @@ public class TransformManager {
         try {
             mouseTx = graphicTx.createInverse();
         }
-        catch( NoninvertibleTransformException e1 ) {
+        catch ( NoninvertibleTransformException e1 ) {
             e1.printStackTrace();
         }
     }

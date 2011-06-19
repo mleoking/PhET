@@ -56,17 +56,17 @@ public class NO2 extends Molecule {
     // it is initialized.
     private final boolean doubleBondOnRight;
 
-    public NO2(Point2D inititialCenterOfGravityPos){
+    public NO2( Point2D inititialCenterOfGravityPos ) {
 
         // Create the bond structure.  NO2 has a type of bond where each N-O
         // has essentially 1.5 bonds, so we randomly choose one side to show
         // two bonds and another to show one.
         doubleBondOnRight = RAND.nextBoolean();
-        if ( doubleBondOnRight ){
+        if ( doubleBondOnRight ) {
             rightNitrogenOxygenBond = new AtomicBond( nitrogenAtom, rightOxygenAtom, 2 );
             leftNitrogenOxygenBond = new AtomicBond( nitrogenAtom, leftOxygenAtom, 1 );
         }
-        else{
+        else {
             rightNitrogenOxygenBond = new AtomicBond( nitrogenAtom, rightOxygenAtom, 1 );
             leftNitrogenOxygenBond = new AtomicBond( nitrogenAtom, leftOxygenAtom, 2 );
         }
@@ -91,8 +91,8 @@ public class NO2 extends Molecule {
         setCenterOfGravityPos( inititialCenterOfGravityPos );
     }
 
-    public NO2(){
-        this(new Point2D.Double(0, 0));
+    public NO2() {
+        this( new Point2D.Double( 0, 0 ) );
     }
 
     // ------------------------------------------------------------------------
@@ -104,9 +104,9 @@ public class NO2 extends Molecule {
      */
     @Override
     protected void initializeAtomOffsets() {
-        addInitialAtomCogOffset(nitrogenAtom, new Vector2D(0, INITIAL_NITROGEN_VERTICAL_OFFSET));
-        addInitialAtomCogOffset(rightOxygenAtom, new Vector2D(INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
-        addInitialAtomCogOffset(leftOxygenAtom, new Vector2D(-INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET));
+        addInitialAtomCogOffset( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
+        addInitialAtomCogOffset( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET ) );
 
         updateAtomPositions();
     }
@@ -119,9 +119,9 @@ public class NO2 extends Molecule {
         double maxOxygenDisplacement = 15;
         addInitialAtomCogOffset( nitrogenAtom, new Vector2D( 0, INITIAL_NITROGEN_VERTICAL_OFFSET - multFactor * maxNitrogenDisplacement ) );
         addInitialAtomCogOffset( rightOxygenAtom, new Vector2D( INITIAL_OXYGEN_HORIZONTAL_OFFSET + multFactor * maxOxygenDisplacement,
-                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
+                                                                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
         addInitialAtomCogOffset( leftOxygenAtom, new Vector2D( -INITIAL_OXYGEN_HORIZONTAL_OFFSET - multFactor * maxOxygenDisplacement,
-                INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
+                                                               INITIAL_OXYGEN_VERTICAL_OFFSET + multFactor * maxOxygenDisplacement ) );
         updateAtomPositions();
     }
 
@@ -138,22 +138,22 @@ public class NO2 extends Molecule {
         // of atomic dissociation.
         double diatomicMoleculeRotationAngle = ( ( Math.PI / 2 ) - ( INITIAL_OXYGEN_NITROGEN_OXYGEN_ANGLE / 2 ) );
         final double breakApartAngle;
-        if ( doubleBondOnRight ){
+        if ( doubleBondOnRight ) {
             nitrogenMonoxideMolecule.rotate( -diatomicMoleculeRotationAngle );
             nitrogenMonoxideMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( nitrogenAtom ).getX() + getInitialAtomCogOffset( rightOxygenAtom ).getX() ) / 2,
-                    ( getInitialAtomCogOffset( nitrogenAtom ).getY() + getInitialAtomCogOffset( rightOxygenAtom ).getY() ) / 2);
+                                                            ( getInitialAtomCogOffset( nitrogenAtom ).getY() + getInitialAtomCogOffset( rightOxygenAtom ).getY() ) / 2 );
             breakApartAngle = Math.PI / 4 + RAND.nextDouble() * Math.PI / 4;
             singleOxygenMolecule.setCenterOfGravityPos( -INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
-        else{
+        else {
             nitrogenMonoxideMolecule.rotate( Math.PI + diatomicMoleculeRotationAngle );
             breakApartAngle = Math.PI / 2 + RAND.nextDouble() * Math.PI / 4;
             nitrogenMonoxideMolecule.setCenterOfGravityPos( ( getInitialAtomCogOffset( nitrogenAtom ).getX() + getInitialAtomCogOffset( leftOxygenAtom ).getX() ) / 2,
-                    ( getInitialAtomCogOffset( nitrogenAtom ).getY() + getInitialAtomCogOffset( leftOxygenAtom ).getY() ) / 2);
+                                                            ( getInitialAtomCogOffset( nitrogenAtom ).getY() + getInitialAtomCogOffset( leftOxygenAtom ).getY() ) / 2 );
             singleOxygenMolecule.setCenterOfGravityPos( INITIAL_OXYGEN_HORIZONTAL_OFFSET, INITIAL_OXYGEN_VERTICAL_OFFSET );
         }
-        nitrogenMonoxideMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos(breakApartAngle), BREAK_APART_VELOCITY * 0.33 * Math.sin(breakApartAngle) );
-        singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos(breakApartAngle), -BREAK_APART_VELOCITY * 0.67 * Math.sin(breakApartAngle) );
+        nitrogenMonoxideMolecule.setVelocity( BREAK_APART_VELOCITY * 0.33 * Math.cos( breakApartAngle ), BREAK_APART_VELOCITY * 0.33 * Math.sin( breakApartAngle ) );
+        singleOxygenMolecule.setVelocity( -BREAK_APART_VELOCITY * 0.67 * Math.cos( breakApartAngle ), -BREAK_APART_VELOCITY * 0.67 * Math.sin( breakApartAngle ) );
 
         // Add these constituent molecules to the constituent list.
         addConstituentMolecule( nitrogenMonoxideMolecule );

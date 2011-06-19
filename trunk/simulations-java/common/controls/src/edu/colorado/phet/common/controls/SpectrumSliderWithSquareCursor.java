@@ -370,7 +370,7 @@ public class SpectrumSliderWithSquareCursor extends CompositePhetGraphic {
         try {
             image = ImageLoader.loadBufferedImage( resourceName );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( "Image resource not found: " + resourceName );
         }
 

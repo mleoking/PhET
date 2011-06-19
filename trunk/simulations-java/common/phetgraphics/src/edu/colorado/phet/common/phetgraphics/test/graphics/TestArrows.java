@@ -8,13 +8,11 @@
  */
 package edu.colorado.phet.common.phetgraphics.test.graphics;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.geom.Area;
 import java.awt.geom.Point2D;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
