@@ -152,7 +152,7 @@ public class LinearValueControlNode extends PNode {
     }
 
     private double parseText() throws ParseException {
-        return LinearValueControlNode.this.numberFormat.parse( formattedTextField.getText() ).doubleValue();
+        return numberFormat.parse( formattedTextField.getText() ).doubleValue();
     }
 
     public void setSliderRange( double min, double max ) {
@@ -166,21 +166,19 @@ public class LinearValueControlNode extends PNode {
     }
 
     private void setValue( double v, boolean updateTextBox ) {
-        //run the value through the numberformat, so that the displayed value matches the internal model value
-        //todo: is this necessary?
-        try {
-            v = numberFormat.parse( String.valueOf( v ) ).doubleValue();
-            if ( this.value != v ) {
-                this.value = v;
-                if ( updateTextBox ) {
-                    formattedTextField.setValue( new Double( v ) );
-                    expirationTimer.stop();//no need to expire the current-type in value, since something else happened to set the value
-                }
-                sliderNode.setValue( v );
+        //run the value through the format in the text field, so that the displayed value matches the internal model value
+        final String source = String.valueOf( v );
+
+        //This next line used to use numberFormat.parse( source ).doubleValue();, but that was causing rounding errors as in #2644
+        //Using parseDouble works because it is the opposite of String.valueOf(double) and ignores locales
+        v = Double.parseDouble( source );
+        if ( this.value != v ) {
+            this.value = v;
+            if ( updateTextBox ) {
+                formattedTextField.setValue( new Double( v ) );
+                expirationTimer.stop();//no need to expire the current-type in value, since something else happened to set the value
             }
-        }
-        catch ( ParseException e ) {
-            e.printStackTrace();
+            sliderNode.setValue( v );
         }
     }
 
