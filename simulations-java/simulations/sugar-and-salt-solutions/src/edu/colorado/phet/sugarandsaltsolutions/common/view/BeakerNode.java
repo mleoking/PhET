@@ -12,6 +12,9 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static java.awt.Color.lightGray;
+import static java.awt.Color.white;
+
 /**
  * Graphical display of the beaker
  *
@@ -19,7 +22,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class BeakerNode extends PNode {
     public BeakerNode( ModelViewTransform transform, Beaker beaker ) {
-        addChild( new PhetPPath( transform.modelToView( beaker.getWallShape() ), Color.gray ) );
+        addChild( new PhetPPath( transform.modelToView( beaker.getWallShape() ), lightGray ) );
 
         //Add Tick marks and labels
         double viewX = transform.modelToViewX( beaker.getX() - beaker.getWallWidth() / 2 );
@@ -38,7 +41,7 @@ public class BeakerNode extends PNode {
             double viewY = transform.modelToViewY( beaker.getHeightForVolume( minorTick ) + beaker.getY() );
 
             //Add the tick mark
-            addChild( new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 2 ), Color.white ) );
+            addChild( new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 2 ), white ) );
         }
 
         //Show the major tick marks, using formatting that suppresses the decimal point for round numbers, like 0.5L, 1L, etc.
@@ -50,12 +53,12 @@ public class BeakerNode extends PNode {
             double viewY = transform.modelToViewY( beaker.getHeightForVolume( tick.volume ) + beaker.getY() );
 
             //Create and add the tick mark
-            final PhetPPath tickMark = new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 4 ), Color.white );
+            final PhetPPath tickMark = new PhetPPath( new Line2D.Double( viewX - lineWidth, viewY, viewX, viewY ), new BasicStroke( 4 ), white );
             addChild( tickMark );
 
             //Create and add a tick mark label to the left of the tick mark, like "0.5L"
             addChild( new PText( tick.formatLiters() + "L" ) {{
-                setTextPaint( Color.white );
+                setTextPaint( white );
                 setFont( new PhetFont( 26, true ) );
                 setOffset( tickMark.getFullBounds().getX() - getFullBounds().getWidth(), tickMark.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             }} );
