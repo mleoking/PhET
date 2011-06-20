@@ -16,6 +16,7 @@ import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
 import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
+import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
@@ -166,5 +167,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         numSaltIons.set( solubleSaltsModel.getNumIonsOfType( Sodium.class ) + solubleSaltsModel.getNumIonsOfType( Chlorine.class ) + 0.0 );
         numSugarMolecules.set( solubleSaltsModel.getNumIonsOfType( PositiveSugarIon.class ) + solubleSaltsModel.getNumIonsOfType( NegativeSugarIon.class ) + 0.0 );
+    }
+
+    public void addIonListener( IonGraphicManager ionGraphicManager ) {
+        solubleSaltsModel.addIonListener( ionGraphicManager );
     }
 }
