@@ -19,6 +19,7 @@ import edu.colorado.phet.solublesalts.model.crystal.Crystal;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.model.ion.IonListener;
 import edu.colorado.phet.solublesalts.model.salt.Salt;
+import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule;
 
 /**
@@ -82,7 +83,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
     // Constructor and lifecycle methods
     //---------------------------------------------------------------
 
-    public SolubleSaltsModel( IClock clock, SolubleSaltsModule module ) {
+    public SolubleSaltsModel( IClock clock, ISolubleSaltsModelContainer module ) {
         this.clock = clock;
         this.calibration = module.getCalibration();
 

@@ -27,7 +27,7 @@ import edu.colorado.phet.solublesalts.view.WorldNode;
  *
  * @author Ron LeMaster
  */
-public class SolubleSaltsModule extends PiccoloModule {
+public class SolubleSaltsModule extends PiccoloModule implements ISolubleSaltsModelContainer {
     boolean debug = false;
     static public final double viewScale = 0.1;
 
