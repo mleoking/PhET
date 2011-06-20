@@ -31,15 +31,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Model for the concentration in SI (moles/m^3)
     public final DoubleProperty sugarConcentration = new DoubleProperty( 0.0 );
     public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );
-    public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
 
-    // Use NaCl by default
-    public final Property<DispenserType> dispenserType = new Property<DispenserType>( DispenserType.SALT );
-    public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
     private final SolubleSaltsModel solubleSaltsModel;
     private final Calibration calibration;
     public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
-    private boolean debug = false;
 
     //TODO: Eventually we will want to let the fluid volume go to zero, but to fix bugs for interviews, we limit it now
     public final static int MIN_FLUID_VOLUME = 60 * 2;//2.0 E-23 L
@@ -90,6 +85,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     public void reset() {
+        super.reset();
         sugarConcentration.reset();
         saltConcentration.reset();
         showConcentrationValues.reset();
@@ -106,6 +102,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     public void removeSalt() {
+        super.removeSalt();
         for ( Object modelElement : new ArrayList<Ion>() {{
             addAll( solubleSaltsModel.getIonsOfType( Sodium.class ) );
             addAll( solubleSaltsModel.getIonsOfType( Chlorine.class ) );
@@ -115,6 +112,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     public void removeSugar() {
+        super.removeSugar();
         for ( Ion ion : new ArrayList<Ion>() {{
             addAll( solubleSaltsModel.getIonsOfType( PositiveSugarIon.class ) );
             addAll( solubleSaltsModel.getIonsOfType( NegativeSugarIon.class ) );
