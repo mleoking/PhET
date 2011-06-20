@@ -1,22 +1,14 @@
 package edu.colorado.phet.normalmodes.control {
-import edu.colorado.phet.normalmodes.*;
-import edu.colorado.phet.normalmodes.*;
-
-import edu.colorado.phet.flexcommon.FlexSimStrings;
-import edu.colorado.phet.flexcommon.model.NumericProperty;
 import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
-import edu.colorado.phet.normalmodes.SpriteUIComponent;
-import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
-import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
-import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
+import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.*;
-import flash.display.DisplayObject;
 import flash.events.Event;
 import flash.events.FocusEvent;
 import flash.events.KeyboardEvent;
@@ -25,16 +17,9 @@ import flash.events.MouseEvent;
 import mx.containers.Canvas;
 import mx.containers.HBox;
 import mx.containers.VBox;
-import mx.controls.Button;
 import mx.controls.CheckBox;
-import mx.controls.ComboBox;
-import mx.controls.HSlider;
-import mx.controls.HorizontalList;
-import mx.controls.Label;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
-import mx.core.UIComponent;
-import mx.events.ListEvent;
 
 public class ControlPanel extends Canvas {
 

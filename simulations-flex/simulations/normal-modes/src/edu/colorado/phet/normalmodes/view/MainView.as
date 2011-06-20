@@ -14,6 +14,8 @@ import edu.colorado.phet.normalmodes.control.PlayPauseButtons;
 import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.util.PhetIcon;
+import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 
 import flash.display.Sprite;
 
@@ -22,18 +24,17 @@ import mx.controls.sliderClasses.Slider;
 
 public class MainView extends Canvas {
 
-    var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
-    var myModel1: Model1;       //model for 1D array of masses and springs
-    var myModel2: Model2;       //model for 2D array of masses and springs
-    var myView1: View1;         //view for Model1
-    var myView2: View2;         //view for Model2
+    public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
+    public var myModel1: Model1;       //model for 1D array of masses and springs
+    public var myModel2: Model2;       //model for 2D array of masses and springs
+    public var myView1: View1;         //view for Model1
+    public var myView2: View2;         //view for Model2
 
-    var myPlayPauseButtons: PlayPauseButtons;
-    var mySliderArrayPanel: SliderArrayPanel;
-    var myButtonArrayPanel: ButtonArrayPanel;
-    //var ruler:VerticalRuler;
-    var myControlPanel: ControlPanel;
-    var phetLogo: Sprite;
+    public var myPlayPauseButtons: PlayPauseButtons;
+    public var mySliderArrayPanel: SliderArrayPanel;
+    public var myButtonArrayPanel: ButtonArrayPanel;
+    public var myControlPanel: ControlPanel;
+    public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
 
