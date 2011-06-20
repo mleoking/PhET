@@ -1,3 +1,4 @@
+Macro tab: Made the light bulb brightness work better against the dark background
 Macro tab: Made concentration box same width when minimized as when maximized
 Macro tab: Added angled sides for the beaker opening
 Macro tab: Made the beaker glass thicker and brighter
