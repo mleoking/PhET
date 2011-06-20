@@ -17,14 +17,17 @@ import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 
 /**
+ * Model for the micro tab, which uses code from soluble salts sim.
+ *
  * @author Sam Reid
  */
-public class MicroModel implements ISugarAndSaltModel {
+public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
     //Model for the concentration in SI (moles/m^3)
     public final DoubleProperty sugarConcentration = new DoubleProperty( 0.0 );
     public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );

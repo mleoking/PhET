@@ -24,6 +24,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -34,7 +35,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel {
+public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
     //Beaker dimensions and location in meters, public so other classes can use them for layout
     public static final double BEAKER_WIDTH = 0.2;
     public static final double BEAKER_X = -BEAKER_WIDTH / 2;
@@ -410,5 +411,15 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public void setOutflowShape( Rectangle2D outFlowShape ) {
         this.outFlowShape = outFlowShape;
         updateConductivityTesterBrightness();
+    }
+
+    //Determine if any salt can be removed for purposes of displaying a "remove salt" button
+    public ObservableProperty<Boolean> isAnySaltToRemove() {
+        return salt.moles.greaterThan( 0.0 );
+    }
+
+    //Determine if any sugar can be removed for purposes of displaying a "remove sugar" button
+    public ObservableProperty<Boolean> isAnySugarToRemove() {
+        return sugar.moles.greaterThan( 0.0 );
     }
 }
