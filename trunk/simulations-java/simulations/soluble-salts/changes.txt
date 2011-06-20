@@ -1,3 +1,4 @@
+Refactored model to not depend on module
 Made the faucet slider knobs bigger
 Minor cleanup
 Made model publicly accessible
