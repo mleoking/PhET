@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -168,7 +169,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
     private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
 
-    public SugarAndSaltSolutionModel() {
+    public SugarAndSaltSolutionModel( ConstantDtClock clock ) {
+        super( clock );
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
         new RichSimpleObserver() {
             @Override public void update() {
