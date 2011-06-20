@@ -29,7 +29,7 @@ public class Beaker {
     private final double depth;
 
     //Width of the beaker
-    public float wallWidth = 0.0025f;
+    public float wallWidth = 0.0075f;
 
     //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
     //This value was sampled by trial and error at runtime
