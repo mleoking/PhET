@@ -20,12 +20,9 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
-import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 
@@ -41,21 +38,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 public class MicroModule extends Module implements ISolubleSaltsModelContainer {
 
     private MicroModel model;
-
-    static {
-        IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
-        IonGraphicManager.putImage( NegativeSugarIon.class, getSucroseImage() );
-    }
-
-    @Override public void reset() {
-        super.reset();
-        model.reset();
-    }
-
-    private final Calibration calibration = new SolubleSaltsConfig.Calibration( 1.7342E-25,
-                                                                                5E-23,
-                                                                                1E-23,
-                                                                                0.5E-23 );
+    private final Calibration calibration = new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
         super( "Micro", new SolubleSaltsClock() );
@@ -101,6 +84,11 @@ public class MicroModule extends Module implements ISolubleSaltsModelContainer {
 
     public double getMinimumFluidVolume() {
         return MicroModel.MIN_FLUID_VOLUME;
+    }
+
+    @Override public void reset() {
+        super.reset();
+        model.reset();
     }
 
     //Sample main writes a sucrose image to file for inspection
