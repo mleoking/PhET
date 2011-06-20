@@ -13,7 +13,6 @@ import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.GoPauseClearPanel;
@@ -140,27 +139,6 @@ public class RampControlPanel extends ControlPanel {
         return frictionSlider;
     }
 
-
-    protected void addWorkEnergyBarGraphControls() {
-        final JCheckBox energyBars = new JCheckBox( TheRampStrings.getString( "energy.energy" ), true );
-        energyBars.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getModule().getRampPanel().setEnergyBarsVisible( energyBars.isSelected() );
-            }
-        } );
-        final JCheckBox workBars = new JCheckBox( TheRampStrings.getString( "energy.work" ), true );
-        workBars.addActionListener( new ActionListener() {
-            public void actionPerformed( ActionEvent e ) {
-                getModule().getRampPanel().setWorkBarsVisible( workBars.isSelected() );
-            }
-        } );
-
-        VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
-        verticalLayoutPanel.add( workBars );
-        verticalLayoutPanel.add( energyBars );
-        verticalLayoutPanel.setBorder( BorderFactory.createTitledBorder( TheRampStrings.getString( "display.bar-graph" ) ) );
-        addControlFullWidth( verticalLayoutPanel );
-    }
 
     public void addPositionAngleControls() {
         addControlFullWidth( positionSlider.getComponent() );

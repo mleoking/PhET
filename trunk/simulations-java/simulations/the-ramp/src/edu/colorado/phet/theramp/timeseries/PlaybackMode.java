@@ -20,10 +20,6 @@ public class PlaybackMode extends Mode {
         timer = new PhetTimer( "Playback Timer" );
     }
 
-    public double getPlaybackSpeed() {
-        return playbackSpeed;
-    }
-
     public void setPlaybackSpeed( double playbackSpeed ) {
         this.playbackSpeed = playbackSpeed;
     }

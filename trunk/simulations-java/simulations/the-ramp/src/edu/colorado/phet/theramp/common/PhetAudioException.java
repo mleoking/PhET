@@ -16,8 +16,4 @@ public class PhetAudioException extends RuntimeException {
         super( PhetAudioClip.class.getName() + " for URL=" + phetAudioClip.getURL(), exception );
         this.phetAudioClip = phetAudioClip;
     }
-
-    public PhetAudioClip getPhETAudioClip() {
-        return phetAudioClip;
-    }
 }

@@ -83,20 +83,6 @@ public class Range2D {
         return r;
     }
 
-    public Range2D getScaledRange( double fractionX, double fractionY ) {
-        Rectangle2D.Double rect = getBounds();
-        double centerX = rect.getX() + rect.getWidth() / 2;
-        double centerY = rect.getY() + rect.getHeight() / 2;
-
-        double width = rect.getWidth() * fractionX;
-        double height = rect.getHeight() * fractionY;
-
-        double x = centerX - width / 2;
-        double y = centerY - height / 2;
-        Rectangle2D.Double newRect = new Rectangle2D.Double( x, y, width, height );
-        return new Range2D( newRect );
-    }
-
     public double getWidth() {
         return maxX - minX;
     }
@@ -107,13 +93,5 @@ public class Range2D {
 
     public String toString() {
         return "x=[" + minX + ", " + maxX + "], y=[" + minY + ", " + maxY + "]";
-    }
-
-    public boolean containsX( double x ) {
-        return x >= minX && x <= maxX;
-    }
-
-    public boolean containsY( double y ) {
-        return y >= minY && y <= maxY;
     }
 }

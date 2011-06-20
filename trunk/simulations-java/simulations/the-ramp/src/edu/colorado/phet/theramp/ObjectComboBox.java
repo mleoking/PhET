@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -39,10 +38,6 @@ public class ObjectComboBox extends JComboBox {
             }
         } );
 //        setFont( font );
-    }
-
-    private Border createBorder( String s ) {
-        return BorderFactory.createTitledBorder( s );
     }
 
     private static ImageIcon[] toLabelArray( RampObject[] imageElements, Component component ) {

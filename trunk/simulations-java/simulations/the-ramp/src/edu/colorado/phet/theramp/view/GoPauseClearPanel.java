@@ -148,12 +148,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         repaint();
     }
 
-    public JButton getGoPauseButton() {
-        return goPauseButton;
-    }
-
     static class ControlButton extends JButton {
-        //        static Font font = new Font( PhetDefaultFont.LUCIDA_SANS, Font.BOLD, 14 );
         private static Font font = RampFontSet.getFontSet().getNormalButtonFont();
 
         public ControlButton( String text ) {

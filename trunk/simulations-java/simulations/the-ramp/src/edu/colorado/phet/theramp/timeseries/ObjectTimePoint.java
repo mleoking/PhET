@@ -18,10 +18,6 @@ public class ObjectTimePoint {
         this.time = time;
     }
 
-    public ObjectTimePoint( ObjectTimePoint timePoint ) {
-        this( timePoint.value, timePoint.time );
-    }
-
     public Object getValue() {
         return value;
     }

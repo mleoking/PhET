@@ -16,10 +16,6 @@ public class LayoutSet {
 
     private ArrayList items = new ArrayList();
 
-    public void addSpacer( double size ) {
-        addItem( new Spacer( size ) );
-    }
-
     public void addItem( LayoutItem layoutItem ) {
         items.add( layoutItem );
     }

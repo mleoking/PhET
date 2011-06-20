@@ -165,10 +165,6 @@ public abstract class TimeSeriesModel extends ClockTickListener {
         fireReset();
     }
 
-    public int getTimeIndex( double requestedTime ) {
-        return (int) ( requestedTime / TIME_SCALE );
-    }
-
     public boolean isRecordMode() {
         return mode == recordMode;
     }
@@ -216,16 +212,6 @@ public abstract class TimeSeriesModel extends ClockTickListener {
 
     public boolean isRecording() {
         return mode == recordMode && !isPaused();
-    }
-
-    public void setDynamicTime( boolean dynamicTime ) {
-        TimeSeriesModel.dynamicTime = dynamicTime;
-        if ( dynamicTime ) {
-            TIME_SCALE = 1.0;
-        }
-        else {
-            TIME_SCALE = 1.0 / 50.0;
-        }
     }
 
     public abstract void updateModel( ClockEvent clockEvent );

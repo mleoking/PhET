@@ -18,10 +18,6 @@ public class TestRampModule extends Module {
         setSimulationPanel( new RampSimPanel( this ) );
         addModelElement( new ModelElement() {
             public void stepInTime( double dt ) {
-//                System.out.println( "currentState.isInteracting() = " + currentState.isInteracting() );
-                if ( !currentState.isInteracting() ) {//todo: may need to update all blocks except those that are interacting, instead of as a batch
-//                    setCurrentState( currentState.update( dt ) );
-                }
                 debugState();
             }
         } );
