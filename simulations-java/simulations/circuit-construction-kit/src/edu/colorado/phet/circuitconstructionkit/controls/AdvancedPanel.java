@@ -31,13 +31,6 @@ public class AdvancedPanel extends VerticalLayoutPanel {
     private VerticalLayoutPanel controls;
 
     /**
-     * Create an AdvancedPanel with text Advanced >> and Hide <<.
-     */
-    public AdvancedPanel() {
-        this( "Advanced >>", "Hide <<" );
-    }
-
-    /**
      * Create an AdvancedPanel with specified expansion and collapse button labels.
      *
      * @param show
