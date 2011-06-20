@@ -42,7 +42,7 @@ public class SoundModule extends WaveInterferenceModule {
         public SoundModel() {
             setDistanceUnits( WIStrings.getString( "units.cm" ) );
             setPhysicalSize( 100, 100 );
-            setTimeScale( 1.0/1.42 );//determined experimentally to get clock to show a time that makes speed of sound correct
+            setTimeScale( 1.0 / 1.42 );//determined experimentally to get clock to show a time that makes speed of sound correct
             setTimeUnits( WIStrings.getString( "units.ms" ) );
         }
     }
@@ -57,12 +57,12 @@ public class SoundModule extends WaveInterferenceModule {
         soundModuleAudio.setActive( false );
     }
 
-    public SoundModule(boolean dev) {
+    public SoundModule( boolean dev ) {
         super( WIStrings.getString( "module.sound" ) );
         waveInterferenceModel = new SoundModel();
         soundModuleAudio = new SoundModuleAudio( waveInterferenceModel );
         soundSimulationPanel = new SoundSimulationPanel( this );
-        soundControlPanel = new SoundControlPanel( this,dev );
+        soundControlPanel = new SoundControlPanel( this, dev );
 
         addModelElement( waveInterferenceModel );
         addModelElement( soundSimulationPanel );
@@ -129,6 +129,6 @@ public class SoundModule extends WaveInterferenceModule {
     }
 
     public static void main( String[] args ) {
-        new ModuleApplication().startApplication( args, new SoundModule(false) );
+        new ModuleApplication().startApplication( args, new SoundModule( false ) );
     }
 }

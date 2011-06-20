@@ -7,11 +7,11 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.view.DetectorSetControlPanel;
 import edu.colorado.phet.waveinterference.view.IndexColorMap;
 import edu.colorado.phet.waveinterference.view.IntensityReaderSet;
 import edu.colorado.phet.waveinterference.view.WaveModelGraphic;
-import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid

@@ -46,7 +46,7 @@ public class AudioControlPanel extends JPanel {
             ImageIcon soundMaxIcon = new ImageIcon( ImageLoader.loadBufferedImage( SOUND_MAX_IMAGE ) );
             soundMaxLabel = new JLabel( soundMaxIcon );
         }
-        catch( IOException ioe ) {
+        catch ( IOException ioe ) {
             ioe.printStackTrace();
             soundMinLabel = new JLabel( "-" );
             soundMaxLabel = new JLabel( "+" );

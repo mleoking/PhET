@@ -3,7 +3,7 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

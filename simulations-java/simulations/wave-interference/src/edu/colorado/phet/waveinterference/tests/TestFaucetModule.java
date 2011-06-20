@@ -8,8 +8,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.waveinterference.view.*;
 import edu.colorado.phet.waveinterference.ModuleApplication;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid

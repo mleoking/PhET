@@ -34,7 +34,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
             midBarHeight = 1;
         }
 
-        int topBarHeight = gridH/2-midBarHeight/2-slitSize;
+        int topBarHeight = gridH / 2 - midBarHeight / 2 - slitSize;
         int bottomBarHeight = gridH - topBarHeight - slitSize - midBarHeight - slitSize;//remaining
 
         int thickness = getThickness();
@@ -64,7 +64,7 @@ public class VerticalDoubleSlit extends VerticalBarrier {
     }
 
     public Rectangle[] getSlitAreas() {
-        return new Rectangle[]{new Rectangle( topSlit ), new Rectangle( bottomSlit )};
+        return new Rectangle[] { new Rectangle( topSlit ), new Rectangle( bottomSlit ) };
     }
 
     public Rectangle[] getRectangleBarriers() {

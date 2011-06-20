@@ -35,10 +35,10 @@ public class SlitPotentialGraphic extends PhetPNode {
     //todo remove assumption that all bars are distinct.
     public SlitPotentialGraphic( final SlitPotential slitPotential, final LatticeScreenCoordinates latticeScreenCoordinates ) {
         this( new TopViewBarrierVisibility() {
-            public boolean isTopVisible() {
-                return true;
-            }
-        }, slitPotential, latticeScreenCoordinates );
+                  public boolean isTopVisible() {
+                      return true;
+                  }
+              }, slitPotential, latticeScreenCoordinates );
     }
 
     public SlitPotentialGraphic( TopViewBarrierVisibility topViewBarrierVisibility, final SlitPotential slitPotential, final LatticeScreenCoordinates latticeScreenCoordinates ) {
@@ -107,21 +107,21 @@ public class SlitPotentialGraphic extends PhetPNode {
         }
         else if ( r.length == 2 ) {
             if ( i == 0 ) {
-                return new boolean[]{false};
+                return new boolean[] { false };
             }
             else {
-                return new boolean[]{true};
+                return new boolean[] { true };
             }
         }
         else if ( r.length == 3 ) {
             if ( i == 0 ) {
-                return new boolean[]{false};
+                return new boolean[] { false };
             }
             else if ( i == 1 ) {
-                return new boolean[]{false, true};
+                return new boolean[] { false, true };
             }
             else if ( i == 2 ) {
-                return new boolean[]{true};
+                return new boolean[] { true };
             }
         }
         return new boolean[0];

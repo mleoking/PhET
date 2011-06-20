@@ -3,7 +3,6 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
@@ -43,7 +42,7 @@ public class WaveInterferenceModel implements ModelElement {
         initSecondaryOscillator();
         waveModel.setPotential( compositePotential );
         compositePotential.addPotential( wallPotentials );
-        
+
         compositePotential.addPotential( slitPotential );
         slitPotential.addListener( new SlitPotential.Listener() {
             public void slitsChanged() {

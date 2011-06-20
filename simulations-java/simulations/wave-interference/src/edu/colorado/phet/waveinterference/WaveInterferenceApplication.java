@@ -3,9 +3,9 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
+import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.ApplicationConstructor;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -16,12 +16,12 @@ import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
  */
 
 public class WaveInterferenceApplication extends PiccoloPhetApplication {
-    
+
     public WaveInterferenceApplication( PhetApplicationConfig config ) {
         super( config );
         WaveInterferenceMenu menu = new WaveInterferenceMenu();
         addModule( new WaterModule() );
-        addModule( new SoundModule(config.isDev()) );
+        addModule( new SoundModule( config.isDev() ) );
         LightModule lightModule = new LightModule();
         addModule( lightModule );
         menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
@@ -39,7 +39,7 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
                 return new WaveInterferenceApplication( config );
             }
         };
-        
+
         PhetApplicationConfig appConfig = new PhetApplicationConfig( args, WaveInterferenceConstants.PROJECT_NAME );
         new PhetApplicationLauncher().launchSim( appConfig, appConstructor );
     }

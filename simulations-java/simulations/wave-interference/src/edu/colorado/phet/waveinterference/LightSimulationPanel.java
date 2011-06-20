@@ -108,7 +108,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         try {
             verticalConnector.setTexture( ImageLoader.loadBufferedImage( "wave-interference/images/silverwire.png" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         addScreenChild( 0, verticalConnector );
@@ -126,7 +126,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
                 crossSectionGraphic.setVisible( rotationWaveGraphic.isTopView() );
             }
         } );
-        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection(waveChartGraphic) );
+        crossSectionGraphic.addListener( new UpdateWaveChartCrossSection( waveChartGraphic ) );
         addScreenChild( crossSectionGraphic );
 
         expandableWaveChart.addListener( new ExpandableWaveChart.Listener() {

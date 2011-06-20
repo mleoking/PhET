@@ -49,7 +49,7 @@ public class ExpandableScreenChartGraphic extends PNode {
                 }
             } );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         closeNode = new PhetPNode( new PSwing( closeButton ) );

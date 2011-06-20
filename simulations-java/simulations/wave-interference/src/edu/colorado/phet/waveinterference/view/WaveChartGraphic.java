@@ -52,7 +52,7 @@ public class WaveChartGraphic extends PNode {
         jFreeChartNode.setBounds( 0, 0, 500, 185 );
 
 //        setHorizontalLabel( WIStrings.getString( "position.0" ) + distanceUnits );
-        setHorizontalLabel( MessageFormat.format( WIStrings.getString( "controls.position" ), new Object[]{distanceUnits} ) );
+        setHorizontalLabel( MessageFormat.format( WIStrings.getString( "controls.position" ), new Object[] { distanceUnits } ) );
         setHorizontalRange( minX, maxX );
 
         crossSectionY = latticeScreenCoordinates.getGridSize().height / 2;
@@ -154,7 +154,7 @@ public class WaveChartGraphic extends PNode {
     }
 
     protected Point2D[] readValues() {
-        return new WaveSampler( waveModel, -60, latticeScreenCoordinates.getCellWidth() ).readValues(crossSectionY);
+        return new WaveSampler( waveModel, -60, latticeScreenCoordinates.getCellWidth() ).readValues( crossSectionY );
     }
 
     public void setCurveColor( Color color ) {

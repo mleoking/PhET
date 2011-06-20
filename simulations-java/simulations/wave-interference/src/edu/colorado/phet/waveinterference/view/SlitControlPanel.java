@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -15,10 +14,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.waveinterference.WaveInterferenceModel;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.util.WIStrings;
-import edu.colorado.phet.waveinterference.WallPotential;
-import edu.colorado.phet.waveinterference.WaveInterferenceModel;
 
 /**
  * User: Sam Reid
@@ -35,7 +33,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
     private WaveInterferenceModel model;
     private JCheckBox enableCheckBox;
 
-    public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits) {
+    public SlitControlPanel( final SlitPotential slitPotential, WaveInterferenceScreenUnits waveInterferenceScreenUnits ) {
         this.units = waveInterferenceScreenUnits;
         this.model = model;
         setBorder( BorderFactory.createEtchedBorder() );
@@ -85,7 +83,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
 
         slitWidthSlider = new ModelSlider( WIStrings.getString( "slit.width" ), "", 0, 30, slitPotential.getSlitWidth() );//measured in cells
 //        slitWidthSlider.setPaintLabels( false );
-        slitWidthSlider.setModelLabels( toHashtable( new int[]{0, 15, 30} ) );
+        slitWidthSlider.setModelLabels( toHashtable( new int[] { 0, 15, 30 } ) );
         slitWidthSlider.setTextFieldVisible( false );
         slitWidthSlider.setBorder( null );
         slitWidthSlider.addChangeListener( new ChangeListener() {
@@ -96,7 +94,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitWidthSlider );
 
         slitLocationSlider = new ModelSlider( WIStrings.getString( "controls.barrier-location" ), "", 0, 75, slitPotential.getLocation() );
-        slitLocationSlider.setModelLabels( toHashtable( new int[]{0, 75 / 2, 75} ) );
+        slitLocationSlider.setModelLabels( toHashtable( new int[] { 0, 75 / 2, 75 } ) );
         slitLocationSlider.setTextFieldVisible( false );
         slitLocationSlider.setBorder( null );
         slitLocationSlider.addChangeListener( new ChangeListener() {
@@ -107,7 +105,7 @@ public class SlitControlPanel extends VerticalLayoutPanelWithDisable {
         add( slitLocationSlider );
 
         slitSeparation = new ModelSlider( WIStrings.getString( "slit.separation" ), "", 0, 50, slitPotential.getSlitSeparation() );
-        slitSeparation.setModelLabels( toHashtable( new int[]{0, 25, 50} ) );
+        slitSeparation.setModelLabels( toHashtable( new int[] { 0, 25, 50 } ) );
         slitSeparation.setTextFieldVisible( false );
         slitSeparation.setBorder( null );
         slitSeparation.addChangeListener( new ChangeListener() {

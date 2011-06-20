@@ -27,7 +27,7 @@ public class VerticalConnector extends ConnectorNode {
         try {
             txtr = ImageLoader.loadBufferedImage( "wave-interference/images/wire.png" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         setTexture( txtr );

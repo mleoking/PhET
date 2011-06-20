@@ -142,7 +142,7 @@ public class DampedClassicalWavePropagator extends ClassicalWavePropagator {
         return (float) ( 1 - depthInDampRegion * 0.0001 );
     }
 
-    double[] dampCoefficients = new double[]{0.999, 0.999, 0.998, 0.995, 0.99, 0.95, 0.9, 0.8, 0.7, 0.5, 0.25, 0.2};
+    double[] dampCoefficients = new double[] { 0.999, 0.999, 0.998, 0.995, 0.99, 0.95, 0.9, 0.8, 0.7, 0.5, 0.25, 0.2 };
 //    private float getDamp( int depthInDampRegion ) {
 //
 //        return (float)dampCoefficients[depthInDampRegion];

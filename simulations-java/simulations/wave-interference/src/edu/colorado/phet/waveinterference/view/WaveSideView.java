@@ -95,6 +95,6 @@ public class WaveSideView extends AbstractWaveSideView {
     }
 
     public int getYValue() {
-        return latticeScreenCoordinates.getGridSize().height/2;
+        return latticeScreenCoordinates.getGridSize().height / 2;
     }
 }

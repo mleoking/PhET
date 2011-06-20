@@ -78,8 +78,7 @@ public class DarkWave {
             if ( getWaveInterferenceModel().getPrimaryOscillator().isEnabled() == false && primaryLast == true && !getWaveInterferenceModel().getSecondaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getPrimaryOscillator() );
             }
-            else
-            if ( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
+            else if ( getWaveInterferenceModel().getSecondaryOscillator().isEnabled() == false && secondaryLast == true && !getWaveInterferenceModel().getPrimaryOscillator().isEnabled() ) {
                 fireDarkWave( getWaveInterferenceModel().getSecondaryOscillator() );
             }
         }

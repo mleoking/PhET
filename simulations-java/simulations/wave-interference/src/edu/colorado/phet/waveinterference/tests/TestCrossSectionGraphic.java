@@ -3,8 +3,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
 import edu.colorado.phet.waveinterference.ModuleApplication;
+import edu.colorado.phet.waveinterference.view.CrossSectionGraphic;
 
 /**
  * User: Sam Reid

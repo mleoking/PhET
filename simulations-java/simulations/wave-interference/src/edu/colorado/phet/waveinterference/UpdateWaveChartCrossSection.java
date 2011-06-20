@@ -16,6 +16,6 @@ public class UpdateWaveChartCrossSection implements CrossSectionGraphic.Listener
     }
 
     public void changed( int crossSectionY ) {
-        waveChartGraphic.setCrossSectionYValue(crossSectionY);
+        waveChartGraphic.setCrossSectionYValue( crossSectionY );
     }
 }

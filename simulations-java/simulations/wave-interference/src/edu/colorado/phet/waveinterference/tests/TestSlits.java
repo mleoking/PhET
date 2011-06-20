@@ -3,8 +3,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
 import edu.colorado.phet.waveinterference.ModuleApplication;
+import edu.colorado.phet.waveinterference.WaveInterferenceModelUnits;
 import edu.colorado.phet.waveinterference.model.SlitPotential;
 import edu.colorado.phet.waveinterference.view.SlitControlPanel;
 import edu.colorado.phet.waveinterference.view.SlitPotentialGraphic;

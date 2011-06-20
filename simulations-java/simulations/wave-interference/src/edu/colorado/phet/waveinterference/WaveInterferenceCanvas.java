@@ -3,9 +3,7 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;

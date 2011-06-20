@@ -48,7 +48,7 @@ public class VerticalSingleSlit extends VerticalBarrier {
     }
 
     public Rectangle[] getSlitAreas() {
-        return new Rectangle[]{new Rectangle( slit )};
+        return new Rectangle[] { new Rectangle( slit ) };
     }
 
     public Rectangle[] getRectangleBarriers() {

@@ -188,7 +188,7 @@ public class FourierSoundPlayer implements Runnable {
                     int nWritten = _sourceDataLine.write( buffer, 0, nRead );
 //                System.out.println( "nWritten = " + nWritten );
                 }
-                catch( IOException ioe ) {
+                catch ( IOException ioe ) {
                     _soundEnabled = false; // cause the sound thread to exit
                     String message = WIStrings.getString( "sound.error.io" );
                     notifySoundErrorListeners( ioe, message );
@@ -198,7 +198,7 @@ public class FourierSoundPlayer implements Runnable {
                 try {
                     Thread.sleep( 30 );
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }

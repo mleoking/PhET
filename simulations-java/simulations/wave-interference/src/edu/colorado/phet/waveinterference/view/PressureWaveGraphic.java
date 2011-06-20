@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -71,7 +70,7 @@ public class PressureWaveGraphic extends PNode {
             blueImage = BufferedImageUtils.rescaleYMaintainAspectRatio( blueImageORIG, IMAGE_HEIGHT );
             pinkImage = BufferedImageUtils.rescaleYMaintainAspectRatio( pinkImageORIG, IMAGE_HEIGHT );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         int MOD = 3;

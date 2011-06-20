@@ -165,7 +165,7 @@ public class HorizontalDoubleSlit implements Potential {
     }
 
     public Rectangle[] getSlitAreas() {
-        return new Rectangle[]{new Rectangle( leftSlit ), new Rectangle( rightSlit )};
+        return new Rectangle[] { new Rectangle( leftSlit ), new Rectangle( rightSlit ) };
     }
 
     public Rectangle[] getBlockAreas() {
@@ -174,7 +174,7 @@ public class HorizontalDoubleSlit implements Potential {
         Rectangle leftBlock = new Rectangle( 0, y, leftSlit.x, height );
         Rectangle centerBlock = new Rectangle( leftSlit.x + leftSlit.width, y, rightSlit.x - leftSlit.x - leftSlit.width, height );
         Rectangle rightBlock = new Rectangle( rightSlit.x + rightSlit.width, y, gridWidth - rightSlit.x - rightSlit.width, height );
-        return new Rectangle[]{leftBlock, centerBlock, rightBlock};
+        return new Rectangle[] { leftBlock, centerBlock, rightBlock };
     }
 
     public void setInverseSlits( boolean inverseSlits ) {

@@ -3,12 +3,12 @@
 /*  */
 package edu.colorado.phet.waveinterference;
 
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.waveinterference.util.WIStrings;
 import edu.colorado.phet.waveinterference.view.*;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid
@@ -21,7 +21,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
     private MultiOscillatorControlPanel multiOscillatorControlPanel;
     private SlitControlPanel slitControlPanel;
 
-    public SoundControlPanel(SoundModule soundModule, boolean dev) {
+    public SoundControlPanel( SoundModule soundModule, boolean dev ) {
         this.soundModule = soundModule;
 //        addControl( new ParticleSizeSliderControl( soundModule.getSoundWaveGraphic() ) );
         addControl( new MeasurementControlPanel( soundModule.getMeasurementToolSet() ) );
@@ -40,7 +40,7 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
         addControl( new ShowMarkersControl( soundModule.getSoundWaveGraphic(), soundModule.getSoundWaveGraphic().getPressureWaveGraphic() ) );
         addControlFullWidth( new VerticalSeparator( PAD_FOR_RESET_BUTTON ) );
 
-        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "controls.one-speaker" ), WIStrings.getString( "controls.two-speakers" ),soundModule.getScreenUnits() );
+        multiOscillatorControlPanel = new MultiOscillatorControlPanel( soundModule.getMultiOscillator(), WIStrings.getString( "controls.one-speaker" ), WIStrings.getString( "controls.two-speakers" ), soundModule.getScreenUnits() );
         addControl( multiOscillatorControlPanel );
         addControl( new SoundAudioControlPanel( soundModule.getAudioSubsystem() ) );
 //        addVerticalSpace();
@@ -50,13 +50,13 @@ public class SoundControlPanel extends WaveInterferenceControlPanel {
 
         addControl( new AddWallPotentialButton( soundModule.getWaveInterferenceModel() ) );
 
-        if (dev){
+        if ( dev ) {
             addDeveloperControls();
         }
     }
 
     private void addDeveloperControls() {
-        final PressureWaveGraphic pressureWaveGraphic=soundModule.getSoundWaveGraphic().getPressureWaveGraphic();
+        final PressureWaveGraphic pressureWaveGraphic = soundModule.getSoundWaveGraphic().getPressureWaveGraphic();
 //        final ModelSlider cellDim = new ModelSlider( "Cell Dimension", "pixels", 1, 50, pressureWaveGraphic.getDistBetweenCells() );
 //        cellDim.addChangeListener( new ChangeListener() {
 //            public void stateChanged( ChangeEvent e ) {

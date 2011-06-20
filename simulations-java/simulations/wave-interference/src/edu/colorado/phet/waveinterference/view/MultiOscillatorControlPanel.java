@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.MessageFormat;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -27,7 +26,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
     private JRadioButton oneDrip;
     private JRadioButton twoDrips;
 
-    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String oneSourceName,String twoSourceName, WaveInterferenceScreenUnits units ) {
+    public MultiOscillatorControlPanel( final MultiOscillator multiOscillator, String oneSourceName, String twoSourceName, WaveInterferenceScreenUnits units ) {
         this.multiOscillator = multiOscillator;
         this.units = units;
         setBorder( BorderFactory.createEtchedBorder() );
@@ -52,7 +51,7 @@ public class MultiOscillatorControlPanel extends VerticalLayoutPanelWithDisable 
         add( oneDrip );
         add( twoDrips );
         spacingSlider = new ModelSlider( WIStrings.getString( "controls.spacing" ), "units.meters", 0, 30, multiOscillator.getSpacing() );
-        spacingSlider.setModelLabels( units.toHashtable( new int[]{0, 15, 30}, 2 ) );
+        spacingSlider.setModelLabels( units.toHashtable( new int[] { 0, 15, 30 }, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {
