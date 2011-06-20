@@ -47,9 +47,9 @@ public class ControlPanel extends Canvas {
     private var innerBckgrnd1: VBox;
     private var modeTypeLabel: NiceLabel;
     private var modeTypeHBox: HBox;
-    private var longTransMode_rbg: RadioButtonGroup;
-    private var longitudinalModeButton: RadioButton;
-    private var transverseModeButton: RadioButton;
+    private var directionOfMode_rbg: RadioButtonGroup;
+    private var rightLeftModeButton: RadioButton;
+    private var upDownModeButton: RadioButton;
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
 
@@ -174,11 +174,11 @@ public class ControlPanel extends Canvas {
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
         this.modeTypeLabel = new NiceLabel( 12, modeType_str );
-        //Set up longitudinal or transverse radio button box
+        //Set up rightLeft vs. upDown radio button box
         this.modeTypeHBox = new HBox();
-        this.longTransMode_rbg = new RadioButtonGroup();
-        this.longitudinalModeButton = new RadioButton();
-        this.transverseModeButton = new RadioButton();
+        this.directionOfMode_rbg = new RadioButtonGroup();
+        this.rightLeftModeButton = new RadioButton();
+        this.upDownModeButton = new RadioButton();
         this.horizArrow = new TwoHeadedArrow();
         this.horizArrow.height = 10;
         this.horizArrow.width = 20;
@@ -190,18 +190,15 @@ public class ControlPanel extends Canvas {
         this.vertArrow.rotation = -90;
         this.vertArrow.x = 5;
 
-        //this.transverseModeButton.setStyle( "paddingTop", -5 );
-        this.longitudinalModeButton.group = longTransMode_rbg;
-        this.transverseModeButton.group = longTransMode_rbg;
-        //this.longitudinalModeButton.label = this.longitudinal_str;
-        //this.transverseModeButton.label = this.transverse_str;
-        this.longitudinalModeButton.value = 1;
-        this.transverseModeButton.value = 0;
-        this.longitudinalModeButton.selected = true;
-        this.transverseModeButton.selected = false;
-        this.longTransMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
+        this.rightLeftModeButton.group = directionOfMode_rbg;
+        this.upDownModeButton.group = directionOfMode_rbg;
+        this.rightLeftModeButton.value = 1;
+        this.upDownModeButton.value = 0;
+        this.rightLeftModeButton.selected = true;
+        this.upDownModeButton.selected = false;
+        this.directionOfMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
 
-         //1D or 2D radio button box
+         //1D vs. 2D radio button box
         this.oneDtwoDMode_rbg = new RadioButtonGroup();
         this.oneDModeButton = new RadioButton();
         this.twoDModeButton = new RadioButton();
@@ -221,24 +218,21 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
         this.showPhasesCheckBox = new CheckBox();
-        //this.showPhasesCheckBox.label = this.showPhases_str;
         this.showPhasesCheckBox.addEventListener( Event.CHANGE, clickShowPhases );
         this.showPhasesLabel = new NiceLabel( 12, showPhases_str );
-
 
         this.innerBckgrnd4 = new HBox();
         this.innerBckgrnd4.setStyle( "horizontalGap", 0 );
         this.showSpringsCheckBox = new CheckBox();
-        //this.showSpringsCheckBox.label = this.showSprings_str;
         this.showSpringsCheckBox.selected = true;
         this.showSpringsCheckBox.addEventListener( Event.CHANGE, clickShowSprings );
         this.showSpringsLabel = new NiceLabel( 12, this.showSprings_str );
 
-        //Layout components
+        //Layout of components
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
 
-        //one D or two D radio buttons
+        //one D vs. two D radio buttons
         this.background.addChild( this.dimensionButtonHBox );
         this.dimensionButtonHBox.addChild( this.oneDModeButton );
         this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.oneDLabel, true ) );
@@ -250,9 +244,9 @@ public class ControlPanel extends Canvas {
         this.background.addChild( this.innerBckgrnd1 );
         this.innerBckgrnd1.addChild( new SpriteUIComponent( this.modeTypeLabel));
         this.innerBckgrnd1.addChild( this.modeTypeHBox );
-        this.modeTypeHBox.addChild( this.longitudinalModeButton );
+        this.modeTypeHBox.addChild( this.rightLeftModeButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
-        this.modeTypeHBox.addChild( this.transverseModeButton );
+        this.modeTypeHBox.addChild( this.upDownModeButton );
         this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
 
         this.background.addChild( innerBckgrnd4 );
@@ -299,20 +293,19 @@ public class ControlPanel extends Canvas {
         }else{
            this.myModel2.setN( nbrM );
         }
+        this.resetPositions();
     }
 
     private function resetPositions():void{
-        if(this.oneDMode){
-            this.myModel1.initializeKinematicArrays();
-            this.myModel1.zeroModeArrays();
-        }else{
-            this.myModel2.initializeKinematicArrays();
-            this.myModel2.zeroModeArrays();
-        }
+        //Doesn't matter if in 1D or 2D mode, want all modes zeroed.
+        this.myModel1.initializeKinematicArrays();
+        this.myModel1.zeroModeArrays();
+        this.myModel2.initializeKinematicArrays();
+        this.myModel2.zeroModeArrays();
     }
 
     private function clickLongOrTrans( evt: Event ): void {
-        var val: Object = this.longTransMode_rbg.selectedValue;
+        var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
             this.myModel1.setTorL( "L" );
             this.myModel2.xModes = true;
