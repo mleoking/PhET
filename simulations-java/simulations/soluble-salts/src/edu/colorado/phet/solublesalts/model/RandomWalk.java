@@ -34,7 +34,7 @@ public class RandomWalk {
      * @param body
      * @return The body's new velocity
      */
-    public Vector2D appy( Body body ) {
+    public Vector2D apply( Body body ) {
         if ( body.getVelocity().getMagnitude() != 0 && vessel.getWater().getBounds().contains( body.getPosition() ) ) {
             double theta = random.nextDouble() * Math.toRadians( this.theta ) * MathUtil.nextRandomSign();
             body.setVelocity( body.getVelocity().rotate( theta ) );

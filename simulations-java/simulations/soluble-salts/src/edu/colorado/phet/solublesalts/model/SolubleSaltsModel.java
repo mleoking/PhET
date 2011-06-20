@@ -431,7 +431,7 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
                 // Apply random walk to all the ions, but only if the drain is closed                
                 if ( SolubleSaltsConfig.RANDOM_WALK && drain.getFlow() == 0 ) {
-                    randomWalkAgent.appy( ion );
+                    randomWalkAgent.apply( ion );
                 }
 
                 // Remove ions that have gotten outside the bounds of the model
