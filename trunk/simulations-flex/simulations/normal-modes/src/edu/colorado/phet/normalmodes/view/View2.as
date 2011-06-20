@@ -5,7 +5,9 @@
  * Time: 6:23 AM
  * To change this template use File | Settings | File Templates.
  */
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.normalmodes.model.Model2;
+
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
 import flash.display.Sprite;

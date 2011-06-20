@@ -7,7 +7,11 @@
  */
 
 //model for 2D array of masses and springs
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.model {
+import edu.colorado.phet.normalmodes.*;
+import edu.colorado.phet.normalmodes.view.MainView;
+import edu.colorado.phet.normalmodes.view.View2;
+
 import flash.events.TimerEvent;
 import flash.utils.Timer;
 import flash.utils.getTimer;

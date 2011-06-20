@@ -1,6 +1,6 @@
 ﻿//General utilities.  Useful for all sims
 
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.util {
 import edu.colorado.phet.normalmodes.*;
 
 import flash.display.Sprite;

@@ -6,8 +6,11 @@
  * To change this template use File | Settings | File Templates.
  */
 //Array of VerticalSliders, two sliders for each mode: amplitude and phase
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.control {
+import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
+import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Sprite;
 import flash.text.TextField;
