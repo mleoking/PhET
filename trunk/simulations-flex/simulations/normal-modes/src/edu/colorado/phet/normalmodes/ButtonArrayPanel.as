@@ -75,6 +75,7 @@ public class ButtonArrayPanel extends UIComponent{
         //this.label_txt.y = - this.label_txt.height;
     }
 
+    //resets all buttons to zero state
     public function setNbrButtons( ):void{
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
@@ -99,6 +100,8 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 this.button_arr[i][j].drawButton( 0xffffff );
+                this.button_arr[i][j].pushedIn = false;
+                this.button_arr[i][j].activated = false;
                 this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
                 this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
             }

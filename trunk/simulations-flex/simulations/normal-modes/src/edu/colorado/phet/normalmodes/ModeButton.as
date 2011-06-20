@@ -24,8 +24,8 @@ public class ModeButton extends Sprite{
     private var buttonColor:Number;
     private var label_txt; TextField;
     private var tFormat: TextFormat;
-    private var activated:Boolean;      //true if button pressed once, false is pressed again
-    private var pushedIn:Boolean;         //true if button pushed in by mouseDown
+    private var _activated:Boolean;      //true if button pressed once, false is pressed again
+    private var _pushedIn:Boolean;         //true if button pushed in by mouseDown
 
     public function ModeButton( myModel2:Model2, iIndx:int, jIndx:int, sizeInPix:Number) {
         this.myModel2 = myModel2;
@@ -33,8 +33,8 @@ public class ModeButton extends Sprite{
         this.jIndex = jIndx;
         this.sizeInPix = sizeInPix;
         this.buttonColor = 0xffffff ;
-        this.activated = false;
-        this.pushedIn = false;
+        this._activated = false;
+        this._pushedIn = false;
         this.label_txt = new TextField();
         this.addChild(this.label_txt);
         this.tFormat = new TextFormat();
@@ -55,6 +55,14 @@ public class ModeButton extends Sprite{
         g.drawRoundRect( 0, 0, w,  h,  w/2 );
         g.endFill();
         this.positionLabel();
+    }
+
+    public function set pushedIn( tOrF:Boolean ):void{
+        this._pushedIn = tOrF;
+    }
+
+    public function set activated( tOrF:Boolean ):void{
+        this._activated = tOrF;
     }
 
     private function setBorderThickness( borderThickness:Number ):void{
@@ -105,25 +113,25 @@ public class ModeButton extends Sprite{
         function buttonBehave( evt: MouseEvent ): void {
 
             if ( evt.type == "mouseDown" ) {
-                if( !localRef.pushedIn ){
+                if( !localRef._pushedIn ){
                     localRef.x += 2;
                     localRef.y += 2;
-                    localRef.pushedIn = true;
+                    localRef._pushedIn = true;
                 }
 
-                if(!localRef.activated){
-                    localRef.activated = true;
+                if(!localRef._activated){
+                    localRef._activated = true;
                     localRef.myModel2.setModeAmpli( localRef.iIndex, localRef.jIndex, 0.03  );
                     localRef.drawButton( 0x00ff00 );
-                }else if(localRef.activated){
-                    localRef.activated = false;
+                }else if(localRef._activated){
+                    localRef._activated = false;
                     localRef.myModel2.setModeAmpli( localRef.iIndex, localRef.jIndex, 0  );
                     localRef.drawButton( 0xffffff );
                 }
 
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
-//                if(!localRef.activated){
+//                if(!localRef._activated){
 //                    localRef.drawButton( 0xffff00);
 //                }
                 localRef.setBorderThickness( 3 );
@@ -133,12 +141,12 @@ public class ModeButton extends Sprite{
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseUp" ) {
                 //trace("evt.name:"+evt.type);
-                if( localRef.pushedIn ){
+                if( localRef._pushedIn ){
                     localRef.x -= 2;
                     localRef.y -= 2;
-                    localRef.pushedIn = false;
+                    localRef._pushedIn = false;
                 }
-                if(!localRef.activated) {
+                if(!localRef._activated) {
                    localRef.drawButton( 0xffffff );
                 }
                 //localRef.myModel2.;
@@ -146,12 +154,12 @@ public class ModeButton extends Sprite{
                 localRef.tFormat.bold = false;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
                 //trace("evt.name:"+evt.type);
-                if( localRef.pushedIn ){
+                if( localRef._pushedIn ){
                     localRef.x -= 2;
                     localRef.y -= 2;
-                    localRef.pushedIn = false;
+                    localRef._pushedIn = false;
                 }
-                if(!localRef.activated){
+                if(!localRef._activated){
                     localRef.drawButton( 0xffffff );
                 }
                 localRef.setBorderThickness( 2 );
