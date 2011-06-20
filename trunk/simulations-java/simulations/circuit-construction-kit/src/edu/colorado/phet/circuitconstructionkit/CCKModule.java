@@ -3,6 +3,7 @@ package edu.colorado.phet.circuitconstructionkit;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 
 import edu.colorado.phet.circuitconstructionkit.controls.CCKControlPanel;
 import edu.colorado.phet.circuitconstructionkit.model.CCKModel;
@@ -15,6 +16,7 @@ import edu.colorado.phet.circuitconstructionkit.view.piccolo.*;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.SwingClock;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 
 /**
@@ -32,6 +34,9 @@ public class CCKModule extends PiccoloModule {
     private static int delay = 30;//ms
     public static double dt = delay / 1000.0;//simulation units = seconds
     private CCKViewState viewState = new CCKViewState();
+
+    //Listeners that are notified when the module is reset
+    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
 
     public CCKModule( String[] args, boolean ac, boolean virtualLab ) {
         super( "CCK-Piccolo", new SwingClock( delay, dt ) );
@@ -131,6 +136,11 @@ public class CCKModule extends PiccoloModule {
     public void resetAll() {
         model.resetAll();
         viewState.resetAll();
+
+        //Notify listeners that the module has been reset
+        for ( VoidFunction0 resetListener : resetListeners ) {
+            resetListener.apply();
+        }
     }
 
     public ResistivityManager getResistivityManager() {
@@ -231,5 +241,10 @@ public class CCKModule extends PiccoloModule {
 
     public CCKViewState getCCKViewState() {
         return viewState;
+    }
+
+    //Adds a listener that will be notified when this module is reset
+    public void addResetListener( VoidFunction0 voidFunction0 ) {
+        resetListeners.add( voidFunction0 );
     }
 }
