@@ -1,3 +1,4 @@
+# 0.00.55 (53289) Jun 20, 2011
 Micro tab: Moved solute selection box closer to the shaker like in the macro tab
 Water tab: Removed the "remove salt" and "remove sugar" buttons, users will use reset instead
 Macro tab: Made the light bulb brightness work better against the dark background
