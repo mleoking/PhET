@@ -16,6 +16,8 @@ import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
 import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
+import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
+import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -36,7 +38,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );
 
     private final SolubleSaltsModel solubleSaltsModel;
-    private final Calibration calibration;
     public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
 
     //TODO: Eventually we will want to let the fluid volume go to zero, but to fix bugs for interviews, we limit it now
@@ -44,10 +45,22 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     private DoubleProperty numSaltIons = new DoubleProperty( 0.0 );
     private DoubleProperty numSugarMolecules = new DoubleProperty( 0.0 );
+    private ISolubleSaltsModelContainer container;
 
-    public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
-        this.solubleSaltsModel = solubleSaltsModel;
-        this.calibration = calibration;
+    public MicroModel() {
+        container = new ISolubleSaltsModelContainer() {
+            public Calibration getCalibration() {
+                return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
+            }
+
+            public void addResetListener( ResetListener resetListener ) {
+            }
+
+            public double getMinimumFluidVolume() {
+                return MicroModel.MIN_FLUID_VOLUME;
+            }
+        };
+        solubleSaltsModel = new SolubleSaltsModel( clock, container );
 
         //When the user selects a different solute, update the dispenser type
         dispenserType.addObserver( new SimpleObserver() {
@@ -166,8 +179,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     private void updateConcentrations() {
-        //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibraitonFactor:
-        double volumeInLiters = solubleSaltsModel.getVessel().getWaterLevel() * calibration.volumeCalibrationFactor;
+        //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibrationFactor:
+        double volumeInLiters = solubleSaltsModel.getVessel().getWaterLevel() * container.getCalibration().volumeCalibrationFactor;
 
         final double molesSugarPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSugarMolecules() / 6.022E23 / volumeInLiters;
 
