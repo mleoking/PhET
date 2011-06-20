@@ -3,7 +3,7 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

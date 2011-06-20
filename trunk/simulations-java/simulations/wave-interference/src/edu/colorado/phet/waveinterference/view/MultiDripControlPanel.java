@@ -55,7 +55,7 @@ public class MultiDripControlPanel extends VerticalLayoutPanel {
         add( oneDrip );
         add( twoDrips );
         spacingSlider = new ModelSlider( WIStrings.getString( "controls.spacing" ), WIStrings.getString( "units.meters" ), 0, 30, multiFaucetDrip.getSpacing() );
-        spacingSlider.setModelLabels( screenUnits.toHashtable( new int[]{0, 15, 30}, 2 ) );
+        spacingSlider.setModelLabels( screenUnits.toHashtable( new int[] { 0, 15, 30 }, 2 ) );
         spacingSlider.setTextFieldVisible( false );
         spacingSlider.setBorder( null );
         spacingSlider.addChangeListener( new ChangeListener() {

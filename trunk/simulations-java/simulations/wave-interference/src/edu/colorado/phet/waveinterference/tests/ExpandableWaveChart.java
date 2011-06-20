@@ -57,7 +57,7 @@ public class ExpandableWaveChart extends PNode {
                 }
             } );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         addChild( waveChartGraphic );

@@ -12,8 +12,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -26,17 +25,17 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * Adds controls to an intensity reader detector.
- * 
+ *
  * @author Sam Reid
  */
 public class IntensityReaderDecorator extends PhetPNode {
-    
+
     private final ArrayList listeners = new ArrayList();
     private final IntensityReader intensityReader;
     private final PSwing buttonPSwing;
 
     public IntensityReaderDecorator( String title, final PSwingCanvas pSwingCanvas, WaveModel waveModel, LatticeScreenCoordinates latticeScreenCoordinates, IClock clock ) {
-        
+
         // detector
         this.intensityReader = new IntensityReader( title, waveModel, latticeScreenCoordinates, clock );
         intensityReader.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
@@ -49,7 +48,7 @@ public class IntensityReaderDecorator extends PhetPNode {
                 updateLocation();
             }
         } );
-        
+
         // close button
         JButton close = null;
         try {
@@ -63,11 +62,11 @@ public class IntensityReaderDecorator extends PhetPNode {
                 }
             } );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         buttonPSwing = new PSwing( close );
-        
+
         // rendering order
         addChild( intensityReader );
         addChild( buttonPSwing );

@@ -47,8 +47,8 @@ public abstract class LatticeScreenCoordinates {
         return toScreenCoordinates( 1, 0 ).getX() - toScreenCoordinates( 0, 0 ).getX();
     }
 
-    public double toScreenCoordinatesDifferentialX(int dx){
-        return toScreenCoordinates( dx,0 ).getX()-toScreenCoordinates( 0,0 ).getX();
+    public double toScreenCoordinatesDifferentialX( int dx ) {
+        return toScreenCoordinates( dx, 0 ).getX() - toScreenCoordinates( 0, 0 ).getX();
     }
 
     public double toLatticeCoordinatesDifferentialX( double dx ) {

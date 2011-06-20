@@ -57,7 +57,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         try {
             return ImageLoader.loadBufferedImage( "wave-interference/images/stopwatch-thumb.png" );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return null;
         }
@@ -67,7 +67,7 @@ public class MeasurementControlPanel extends VerticalLayoutPanel {
         try {
             return ( ImageLoader.loadBufferedImage( "wave-interference/images/ruler-thumb.png" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return null;
         }

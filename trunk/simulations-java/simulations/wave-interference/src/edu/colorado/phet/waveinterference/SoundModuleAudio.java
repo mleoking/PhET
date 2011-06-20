@@ -27,7 +27,7 @@ public class SoundModuleAudio {
         try {
             fourierSoundPlayer = new FourierSoundPlayer();
         }
-        catch( LineUnavailableException e ) {
+        catch ( LineUnavailableException e ) {
             e.printStackTrace();
         }
         waveInterferenceModel.getPrimaryOscillator().addListener( new Oscillator.Listener() {

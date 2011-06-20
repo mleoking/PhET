@@ -26,7 +26,7 @@ public class CrossSectionGraphic extends PhetPNode {
     private WaveModel waveModel;
     private LatticeScreenCoordinates latticeScreenCoordinates;
     private PPath path;
-    public static final BasicStroke STROKE = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{15, 10}, 0 );
+    public static final BasicStroke STROKE = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 15, 10 }, 0 );
     private int modelY = 30;
 
     public CrossSectionGraphic( final WaveModel waveModel, final LatticeScreenCoordinates latticeScreenCoordinates ) {

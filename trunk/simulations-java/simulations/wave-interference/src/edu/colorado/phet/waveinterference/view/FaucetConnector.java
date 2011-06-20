@@ -40,7 +40,7 @@ public class FaucetConnector extends VerticalConnector {
         try {
             setTexture( ImageLoader.loadBufferedImage( "wave-interference/images/silverwire.png" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         update();

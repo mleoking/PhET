@@ -36,7 +36,7 @@ public class CurveScreenGraphic extends AbstractScreenGraphic {
         path.setStroke( new BasicStroke( 1 ) );
         path.setStrokePaint( Color.black );
         axis = new PPath();
-        axis.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{40, 20}, 0 ) );
+        axis.setStroke( new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 40, 20 }, 0 ) );
         axis.setStrokePaint( Color.black );
         addChild( axis );
         axis.setVisible( false );

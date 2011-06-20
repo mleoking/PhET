@@ -5,8 +5,6 @@ package edu.colorado.phet.waveinterference.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.waveinterference.WallPotential;
-
 /**
  * User: Sam Reid
  * Date: Jun 10, 2005

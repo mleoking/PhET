@@ -6,7 +6,6 @@ package edu.colorado.phet.waveinterference.view;
 import edu.colorado.phet.waveinterference.phetcommon.ShinyPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid

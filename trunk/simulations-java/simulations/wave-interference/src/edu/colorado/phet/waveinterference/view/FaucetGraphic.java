@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 /**
  * User: Sam Reid
@@ -73,7 +72,7 @@ public class FaucetGraphic extends PhetPNode {
             }
         } );
         FaucetOnOffControl faucetOnOffButton = new FaucetOnOffControl( this );
-        faucetOnOffButton.setOffset( 0,-faucetOnOffButton.getFullBounds().getHeight() );
+        faucetOnOffButton.setOffset( 0, -faucetOnOffButton.getFullBounds().getHeight() );
         addChild( faucetOnOffButton );
 
         horizontalDragHandler = new HorizontalFaucetDragHandler( this );
@@ -282,7 +281,7 @@ public class FaucetGraphic extends PhetPNode {
                 BufferedImage origImage = ImageLoader.loadBufferedImage( "wave-interference/images/raindrop1.png" );
                 image = new PImage( BufferedImageUtils.rescaleXMaintainAspectRatio( origImage, (int) Math.max( scale * origImage.getWidth(), 1 ) ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
 //            image.setImage( BufferedImageUtils.rescaleFractional( image.get) );

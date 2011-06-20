@@ -3,9 +3,9 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
+import edu.colorado.phet.waveinterference.ModuleApplication;
 import edu.colorado.phet.waveinterference.view.ScreenControlPanel;
 import edu.colorado.phet.waveinterference.view.ScreenNode;
-import edu.colorado.phet.waveinterference.ModuleApplication;
 
 /**
  * User: Sam Reid

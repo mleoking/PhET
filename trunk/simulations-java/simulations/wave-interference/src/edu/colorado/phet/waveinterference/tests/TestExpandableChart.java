@@ -5,8 +5,8 @@ package edu.colorado.phet.waveinterference.tests;
 
 import java.awt.*;
 
-import edu.colorado.phet.waveinterference.view.*;
 import edu.colorado.phet.waveinterference.ModuleApplication;
+import edu.colorado.phet.waveinterference.view.*;
 
 /**
  * User: Sam Reid

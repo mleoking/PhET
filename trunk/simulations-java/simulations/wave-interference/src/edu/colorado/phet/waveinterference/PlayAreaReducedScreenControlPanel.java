@@ -68,7 +68,7 @@ public class PlayAreaReducedScreenControlPanel extends PhetPNode {
                 }
             } );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         closeButtonNode = new PhetPNode( new PSwing( closeButton ) );

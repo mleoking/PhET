@@ -36,7 +36,7 @@ public class JFreeChartIcon {
         JFreeChart jFreeChart = ChartFactory.createXYLineChart( WIStrings.getString( "chart.chart" ), "", "", dataset, PlotOrientation.VERTICAL, false, false, false );
 //        jFreeChart.getXYPlot().getRangeAxis().setTickLabelsVisible( false );
 //        jFreeChart.getXYPlot().getDomainAxis().setTickLabelsVisible( false );
-        BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[]{5, 1}, 0 );
+        BasicStroke stroke = new BasicStroke( 4, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 5, 1 }, 0 );
 //        BasicStroke stroke = new BasicStroke( 5 );
         jFreeChart.getXYPlot().setRangeGridlineStroke( stroke );
         jFreeChart.getXYPlot().setRangeGridlinePaint( Color.black );

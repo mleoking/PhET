@@ -50,7 +50,7 @@ public class StripChartJFCNode extends PNode {
         try {
             jFreeChart.setBackgroundImage( ImageLoader.loadBufferedImage( "wave-interference/images/wood.jpg" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

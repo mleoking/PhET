@@ -3,8 +3,8 @@
 /*  */
 package edu.colorado.phet.waveinterference.tests;
 
-import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
 import edu.colorado.phet.waveinterference.ModuleApplication;
+import edu.colorado.phet.waveinterference.view.OscillatorControlPanel;
 
 /**
  * User: Sam Reid
