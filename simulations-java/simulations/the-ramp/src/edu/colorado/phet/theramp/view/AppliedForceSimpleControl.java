@@ -3,6 +3,10 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.HorizontalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.theramp.RampModule;
@@ -10,10 +14,6 @@ import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * User: Sam Reid
@@ -45,14 +45,14 @@ public class AppliedForceSimpleControl extends PNode {
         addChild( pSwing );
         spinner.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
-                Number value = (Number)spinner.getValue();
+                Number value = (Number) spinner.getValue();
                 module.setAppliedForce( value.doubleValue() );
             }
         } );
         module.getRampPhysicalModel().addListener( new RampPhysicalModel.Adapter() {
             public void appliedForceChanged() {
                 Double value = new Double( module.getRampPhysicalModel().getAppliedForceScalar() );
-                if( !spinner.getValue().equals( value ) ) {
+                if ( !spinner.getValue().equals( value ) ) {
                     spinner.setValue( value );
                     repaint();
                 }

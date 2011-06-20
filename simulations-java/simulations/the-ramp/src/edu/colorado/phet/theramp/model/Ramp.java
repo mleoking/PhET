@@ -23,15 +23,15 @@ public class Ramp extends Surface {
     }
 
     public boolean applyBoundaryConditions( RampPhysicalModel rampPhysicalModel, Block block ) {
-        if( block.getPositionInSurface() < 0 ) {
+        if ( block.getPositionInSurface() < 0 ) {
             block.setSurface( rampPhysicalModel.getGround() );
             double overshoot = -block.getPositionInSurface();
-            if( overshoot > rampPhysicalModel.getGround().getLength() ) {
+            if ( overshoot > rampPhysicalModel.getGround().getLength() ) {
                 overshoot = rampPhysicalModel.getGround().getLength();
             }
             block.setPositionInSurface( rampPhysicalModel.getGround().getLength() - overshoot );
         }
-        else if( block.getPositionInSurface() > getLength() ) {
+        else if ( block.getPositionInSurface() > getLength() ) {
             block.setPositionInSurface( getLength() );
             block.setVelocity( 0.0 );
             super.notifyCollision();
@@ -41,7 +41,7 @@ public class Ramp extends Surface {
     }
 
     public double getWallForce( double sumOtherForces, Block block ) {
-        if( block.getPositionInSurface() == getLength() && sumOtherForces > 0 ) {
+        if ( block.getPositionInSurface() == getLength() && sumOtherForces > 0 ) {
             return -sumOtherForces;
         }
         else {

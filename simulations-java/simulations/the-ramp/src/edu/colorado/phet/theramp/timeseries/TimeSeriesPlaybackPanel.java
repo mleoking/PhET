@@ -1,13 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.theramp.timeseries;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.theramp.TheRampStrings;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.theramp.TheRampStrings;
 
 /**
  * User: Sam Reid
@@ -38,7 +39,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         try {
             pauseIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Pause24.gif" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -53,7 +54,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         try {
             playIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Play24.gif" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         play = new JButton( TheRampStrings.getString( "time.playback" ), playIcon );
@@ -67,7 +68,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         try {
             rewindIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/Rewind24.gif" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         rewind = new JButton( TheRampStrings.getString( "time.rewind" ), rewindIcon );
@@ -82,7 +83,7 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         try {
             slowIcon = new ImageIcon( new ImageLoader().loadImage( "the-ramp/images/icons/java/media/StepForward24.gif" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         slowMotion = new JButton( TheRampStrings.getString( "time.slow-motion" ), slowIcon );
@@ -105,11 +106,11 @@ public class TimeSeriesPlaybackPanel extends JPanel {
         add( rewind );
         add( clear );
 
-        if( timeSeriesModel instanceof HasAudio ) {
+        if ( timeSeriesModel instanceof HasAudio ) {
             final JCheckBox audio = new JCheckBox( TheRampStrings.getString( "controls.sound" ), true );
             audio.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    ( (HasAudio)timeSeriesModel ).setAudioEnabled( audio.isSelected() );
+                    ( (HasAudio) timeSeriesModel ).setAudioEnabled( audio.isSelected() );
                 }
             } );
             add( new JSeparator() );

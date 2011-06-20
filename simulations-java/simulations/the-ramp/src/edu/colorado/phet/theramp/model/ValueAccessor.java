@@ -3,11 +3,11 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.theramp.TheRampStrings;
-import edu.colorado.phet.theramp.view.RampLookAndFeel;
-
 import java.awt.*;
 import java.text.MessageFormat;
+
+import edu.colorado.phet.theramp.TheRampStrings;
+import edu.colorado.phet.theramp.view.RampLookAndFeel;
 
 /**
  * User: Sam Reid
@@ -144,20 +144,20 @@ public abstract class ValueAccessor {
 
     public static abstract class EnergyAccessor extends ValueAccessor {
         public EnergyAccessor( String name, Color color ) {
-            super( name, name, joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.energy" ), new Object[]{name} ) );
+            super( name, name, joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.energy" ), new Object[] { name } ) );
         }
     }
 
     public static abstract class WorkAccessor extends ValueAccessor {
         public WorkAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getString( "work.subscript" ), new Object[]{subText} ), joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.work" ), new Object[]{name} ) );
+            super( name, MessageFormat.format( TheRampStrings.getString( "work.subscript" ), new Object[] { subText } ), joules, joulesAbbreviation, color, MessageFormat.format( TheRampStrings.getString( "0.work" ), new Object[] { name } ) );
         }
     }
 
     public static abstract class ParallelForceAccessor extends ValueAccessor {
 
         protected ParallelForceAccessor( String name, Color color, String subText ) {
-            super( name, MessageFormat.format( TheRampStrings.getString( "force.subscript" ), new Object[]{subText} ), TheRampStrings.getString( "units.newtons" ), TheRampStrings.getString( "units.abbr.newtons" ), color, name );
+            super( name, MessageFormat.format( TheRampStrings.getString( "force.subscript" ), new Object[] { subText } ), TheRampStrings.getString( "units.newtons" ), TheRampStrings.getString( "units.abbr.newtons" ), color, name );
         }
 
     }

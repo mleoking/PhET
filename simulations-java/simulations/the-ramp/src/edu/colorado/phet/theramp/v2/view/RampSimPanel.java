@@ -9,7 +9,7 @@ public class RampSimPanel extends PhetPCanvas {
     public RampSimPanel( TestRampModule module ) {
         addScreenChild( new PText( "test" ) );
 
-        PDebug.debugRegionManagement=true;
+        PDebug.debugRegionManagement = true;
         RampModelView rampModelView = new RampModelView( module );
         addScreenChild( rampModelView );
 

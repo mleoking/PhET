@@ -3,14 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.timeseries.ObjectTimePoint;
 import edu.colorado.phet.theramp.timeseries.ObjectTimeSeries;
 import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
-
-import javax.swing.*;
 
 /**
  * User: Sam Reid
@@ -36,12 +36,12 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         rampModule.updateModel( clockEvent.getSimulationTimeChange() );
 
 //        timeSeries.addPoint( state, time );
-        if( getRecordTime() <= RampModule.MAX_TIME && !recordedLastTime ) {
+        if ( getRecordTime() <= RampModule.MAX_TIME && !recordedLastTime ) {
 //            System.out.println( "getRecordTime() = " + getRecordTime() );
             RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
             series.addPoint( state, getRecordTime() );
             rampModule.updatePlots( state, getRecordTime() );
-            if( getRecordTime() >= RampModule.MAX_TIME ) {
+            if ( getRecordTime() >= RampModule.MAX_TIME ) {
                 recordedLastTime = true;
             }
         }
@@ -57,7 +57,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
     }
 
     protected void setModelState( Object v ) {
-        rampModule.getRampPhysicalModel().setState( (RampPhysicalModel)v );
+        rampModule.getRampPhysicalModel().setState( (RampPhysicalModel) v );
     }
 
     public void setReplayTime( double requestedTime ) {
@@ -65,9 +65,9 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         super.setReplayTime( requestedTime );
 
         ObjectTimePoint value = series.getValueForTime( requestedTime );
-        if( value != null ) {
-            RampPhysicalModel v = (RampPhysicalModel)value.getValue();
-            if( v != null ) {
+        if ( value != null ) {
+            RampPhysicalModel v = (RampPhysicalModel) value.getValue();
+            if ( v != null ) {
                 rampModule.getRampPhysicalModel().setState( v );
             }
         }
@@ -102,7 +102,7 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
 
     public void clockTicked( ClockEvent event ) {
         super.clockTicked( event );
-        if( isPaused() ) {
+        if ( isPaused() ) {
             rampModule.updateReadouts();
         }
     }

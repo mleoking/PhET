@@ -3,8 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
@@ -12,12 +18,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -37,7 +37,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
         this.rampPhysicalModel = rampPhysicalModel;
         this.rampWorld = rampWorld;
 //        phetShapeGraphic = new PhetShapeGraphic( component, new Line2D.Double( 0, 0, 1000, 0 ),new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ), Color.black );
-        phetShapeGraphic = new PPath( new Line2D.Double( 0, 0, 1000, 0 ), new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[]{20, 20}, 0 ) );
+        phetShapeGraphic = new PPath( new Line2D.Double( 0, 0, 1000, 0 ), new BasicStroke( 4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 1, new float[] { 20, 20 }, 0 ) );
         phetShapeGraphic.setPaint( Color.black );
         addChild( phetShapeGraphic );
 
@@ -72,7 +72,7 @@ public class PotentialEnergyZeroGraphic extends PNode {
 
     private void updateLabel() {
         String str = new DecimalFormat( "0.0" ).format( rampPhysicalModel.getZeroPointY() );
-        label.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height" ), new Object[]{str} ) );
+        label.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height" ), new Object[] { str } ) );
 //        label.setText( "y=0.0" );
     }
 

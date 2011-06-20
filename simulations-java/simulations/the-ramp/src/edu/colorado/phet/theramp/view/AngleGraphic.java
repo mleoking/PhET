@@ -3,16 +3,16 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
+
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -67,9 +67,9 @@ public class AngleGraphic extends PNode {
 
     private RampWorld getRampWorld() {
         PNode parent = getParent();
-        while( parent != null ) {
-            if( parent instanceof RampWorld ) {
-                return (RampWorld)parent;
+        while ( parent != null ) {
+            if ( parent instanceof RampWorld ) {
+                return (RampWorld) parent;
             }
             parent = parent.getParent();
         }

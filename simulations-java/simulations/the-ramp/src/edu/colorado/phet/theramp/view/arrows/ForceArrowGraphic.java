@@ -3,7 +3,9 @@
 /*  */
 package edu.colorado.phet.theramp.view.arrows;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import java.awt.*;
+import java.awt.geom.Point2D;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
@@ -16,9 +18,6 @@ import edu.colorado.phet.theramp.view.RampWorld;
 import edu.colorado.phet.theramp.view.SurfaceGraphic;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -61,17 +60,17 @@ public class ForceArrowGraphic extends PNode {
                               int dy, AbstractArrowSet.ForceComponent forceComponent,
                               BlockGraphic blockGraphic, String sub ) {
         super();
-        if( name.equals( AbstractArrowSet.TOTAL ) ) {
+        if ( name.equals( AbstractArrowSet.TOTAL ) ) {
             verticalOffset = 30;
         }
-        if( name.equals( AbstractArrowSet.WALL ) ) {
+        if ( name.equals( AbstractArrowSet.WALL ) ) {
             verticalOffset = -30;
         }
         this.blockGraphic = blockGraphic;
         this.name = name;
         this.baseColor = color;
         this.sub = sub;
-        if( sub != null && !sub.trim().equals( "" ) ) {
+        if ( sub != null && !sub.trim().equals( "" ) ) {
             name = "<html>" + name + "<sub>" + sub + "</sub></html>";
         }
         this.color = baseColor;
@@ -103,7 +102,7 @@ public class ForceArrowGraphic extends PNode {
     public void update() {
         ImmutableVector2D force = new ImmutableVector2D( forceComponent.getForce() );
         force = force.getScaledInstance( RampModule.FORCE_LENGTH_SCALE );
-        if( force.getMagnitude() <= THRESHOLD ) {
+        if ( force.getMagnitude() <= THRESHOLD ) {
             setVisible( false );
             nonZero = false;
             return;
@@ -113,7 +112,7 @@ public class ForceArrowGraphic extends PNode {
             setVisible( userVisible );
         }
         RampWorld rampWorld = getRampWorld();
-        if( rampWorld == null ) {
+        if ( rampWorld == null ) {
 //            System.out.println( "rampWorld = " + rampWorld );
             return;
         }
@@ -131,7 +130,7 @@ public class ForceArrowGraphic extends PNode {
 //            System.out.println( "forceComponent.getForce() = " + forceComponent.getForce() );
 //        }
 
-        if( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
+        if ( this.lastArrow == null || !this.lastArrow.equals( forceArrow ) ) {
             shapeGraphic.setPathTo( forceArrowShape );
 
             ImmutableVector2D dstVector = force.getInstanceOfMagnitude( force.getMagnitude() + textOffset );
@@ -150,9 +149,9 @@ public class ForceArrowGraphic extends PNode {
 
     private RampWorld getRampWorld() {
         PNode parent = getParent();
-        while( parent != null ) {
-            if( parent instanceof RampWorld ) {
-                return (RampWorld)parent;
+        while ( parent != null ) {
+            if ( parent instanceof RampWorld ) {
+                return (RampWorld) parent;
             }
             parent = parent.getParent();
         }
@@ -163,7 +162,7 @@ public class ForceArrowGraphic extends PNode {
         SurfaceGraphic surfaceGraphic = blockGraphic.getCurrentSurfaceGraphic();
         double viewAngle = surfaceGraphic.getViewAngle();
 //        System.out.println( "viewAngle = " + viewAngle );
-        Point offset = new Point( (int)( Math.sin( viewAngle ) * dy ), (int)( Math.cos( viewAngle ) * dy ) );
+        Point offset = new Point( (int) ( Math.sin( viewAngle ) * dy ), (int) ( Math.cos( viewAngle ) * dy ) );
         return new Point2D.Double( viewCtr.getX() + offset.x, viewCtr.getY() - offset.y );
     }
 

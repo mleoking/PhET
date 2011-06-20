@@ -14,16 +14,17 @@ public class RampObject {
     private boolean interacting;
 
 
-    private static boolean started=false;
+    private static boolean started = false;
+
     public RampObject( double mass, ImmutableVector2D position, ImmutableVector2D v, ImmutableVector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle ) {
         this( mass, position, v, a, staticFrictionCoefficient, kineticFrictionCoefficient, angle, false );
     }
 
     public RampObject( double mass, ImmutableVector2D position, ImmutableVector2D v, ImmutableVector2D a, double staticFrictionCoefficient, double kineticFrictionCoefficient, double angle, boolean interacting ) {
-        if (position.getMagnitude()>0){
-            started=true;
+        if ( position.getMagnitude() > 0 ) {
+            started = true;
         }
-        if (started&&position.getMagnitude()==0){
+        if ( started && position.getMagnitude() == 0 ) {
             System.out.println( "" );
         }
         this.mass = mass;

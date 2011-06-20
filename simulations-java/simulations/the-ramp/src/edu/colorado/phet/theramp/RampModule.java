@@ -3,6 +3,13 @@
 /*  */
 package edu.colorado.phet.theramp;
 
+import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.BaseModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -18,12 +25,6 @@ import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 import edu.colorado.phet.theramp.timeseries.TimeSeriesPlaybackPanel;
 import edu.colorado.phet.theramp.view.FireDog;
 import edu.colorado.phet.theramp.view.RampPanel;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -57,7 +58,7 @@ public class RampModule extends PiccoloModule {
         this.phetFrame = phetFrame;
         setModel( new BaseModel() );
         rampModel = new RampModel( this, clock );
-        rampObjects = new RampObject[]{
+        rampObjects = new RampObject[] {
                 new RampObject( "the-ramp/images/cabinet.gif", TheRampStrings.getString( "object.file-cabinet" ), 0.8, 100, 0.3, 0.3, 0.4 ),
                 new RampObject( "the-ramp/images/fridge.gif", TheRampStrings.getString( "object.refrigerator" ), 0.35, 175, 0.5, 0.5, 0.4 ),
                 new RampObject( "the-ramp/images/piano.png", TheRampStrings.getString( "object.piano" ), 0.8, 225, 0.4, 0.4, 0.6, 20 ),
@@ -119,7 +120,7 @@ public class RampModule extends PiccoloModule {
     }
 
     public void reset() {
-        if( resetDialogOk() ) {
+        if ( resetDialogOk() ) {
             doReset();
         }
     }
@@ -132,7 +133,7 @@ public class RampModule extends PiccoloModule {
         Point loc = getPhetPCanvas().getLocationOnScreen();
         Rectangle2D clearButton = getRampPanel().getClearButtonCanvasRect();
         Point2D.Double offset = new Point2D.Double( clearButton.getMaxX(), clearButton.getY() );
-        dialog.setLocation( (int)( loc.x + offset.x ), (int)( loc.y + offset.y - dialog.getHeight() / 2 ) );
+        dialog.setLocation( (int) ( loc.x + offset.x ), (int) ( loc.y + offset.y - dialog.getHeight() / 2 ) );
 
         dialog.show();
         dialog.dispose();
@@ -155,8 +156,8 @@ public class RampModule extends PiccoloModule {
     public void setObject( RampObject rampObject ) {
         rampModel.setObject( rampObject );
         getRampPanel().setObject( rampObject );
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.objectChanged();
         }
     }
@@ -178,7 +179,7 @@ public class RampModule extends PiccoloModule {
     }
 
     public void cueFirefighter() {
-        if( !firedogInProgress ) {
+        if ( !firedogInProgress ) {
             firedogInProgress = true;
             new FireDog( this ).putOutFire();
         }

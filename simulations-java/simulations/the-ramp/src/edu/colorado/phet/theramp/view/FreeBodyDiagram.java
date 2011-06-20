@@ -3,13 +3,18 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.theramp.RampModule;
@@ -20,11 +25,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 
 /**
  * User: Sam Reid
@@ -162,7 +162,7 @@ public class FreeBodyDiagram extends PNode {
     }
 
     public void updateAll() {
-        if( owner.isVisible() ) {
+        if ( owner.isVisible() ) {
 //        System.out.println( "FreeBodyDiagram.updateAll@"+System.currentTimeMillis() );
             updateXForces();
             updateMG();
@@ -179,7 +179,7 @@ public class FreeBodyDiagram extends PNode {
         private PPath shapeGraphic;
         private HTMLNode textGraphic;
         private FreeBodyDiagram fbd;
-//        private double dx;
+        //        private double dx;
         //        private double dy;
         private String name;
         private Arrow lastArrow;
@@ -217,34 +217,34 @@ public class FreeBodyDiagram extends PNode {
             origin = Vector2D.parseAngleAndMagnitude( verticalOffset, viewAngle ).getNormalVector().getNormalVector().getNormalVector().getDestination( origin );
             Arrow arrow = new Arrow( origin, v.getDestination( origin ), 20, 20, 8, 0.5, true );
             Shape sh = arrow.getShape();
-            if( lastArrow == null || !lastArrow.equals( arrow ) ) {
+            if ( lastArrow == null || !lastArrow.equals( arrow ) ) {
                 shapeGraphic.setPathTo( sh );
             }
             lastArrow = arrow;
 
             Rectangle b = sh.getBounds();
             Point ctr = RectangleUtils.getCenter( b );
-            if( v.getX() > 0 ) {
+            if ( v.getX() > 0 ) {
                 this.textGraphic.setOffset( b.x + b.width + 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getX() < 0 ) {
+            else if ( v.getX() < 0 ) {
                 this.textGraphic.setOffset( b.x - textGraphic.getWidth() - 5, ctr.y - textGraphic.getHeight() / 2 );
                 textGraphic.setVisible( true );
             }
-            else if( v.getY() > 0 ) {
+            else if ( v.getY() > 0 ) {
                 this.textGraphic.setOffset( ctr.x - textGraphic.getWidth() / 2, b.y + b.height );
                 textGraphic.setVisible( true );
 //                System.out.println( name+", y>0" );
             }
-            else if( v.getY() < 0 ) {
+            else if ( v.getY() < 0 ) {
                 this.textGraphic.setOffset( ctr.x - textGraphic.getWidth() / 2, b.y - textGraphic.getHeight() );
                 textGraphic.setVisible( true );
             }
             else {
                 textGraphic.setVisible( false );
             }
-            if( v.getMagnitude() <= 0.05 ) {
+            if ( v.getMagnitude() <= 0.05 ) {
                 setVisible( false );
             }
             else {
@@ -293,12 +293,12 @@ public class FreeBodyDiagram extends PNode {
             Line2D.Double xLine = new Line2D.Double( rect.x, rect.y + rect.height / 2, rect.x + rect.width, rect.y + rect.height / 2 );
             Line2D.Double yLine = new Line2D.Double( rect.x + rect.width / 2, rect.y, rect.x + rect.width / 2, rect.y + rect.height );
 //
-            if( this.xLine == null || !xLine.equals( this.xLine ) ) {
+            if ( this.xLine == null || !xLine.equals( this.xLine ) ) {
                 this.xLine = xLine;
                 xAxis.setPathTo( xLine );
 //                xLabel.setOffset( (int)xLine.getX2() - xLabel.getWidth(), (int)xLine.getY2() );
             }
-            if( this.yLine == null || !yLine.equals( this.yLine ) ) {
+            if ( this.yLine == null || !yLine.equals( this.yLine ) ) {
                 this.yLine = yLine;
                 yAxis.setPathTo( yLine );
 //                yLabel.setOffset( (int)yLine.getX1() + 3, (int)yLine.getY1() );

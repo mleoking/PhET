@@ -3,10 +3,11 @@
 /*  */
 package edu.colorado.phet.theramp.timeseries;
 
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import java.util.ArrayList;
 
 import javax.swing.*;
-import java.util.ArrayList;
+
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 
 /**
  * User: Sam Reid
@@ -49,7 +50,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void setReplayTime( double requestedTime ) {
-        if( requestedTime < 0 || requestedTime > getRecordTime() ) {
+        if ( requestedTime < 0 || requestedTime > getRecordTime() ) {
             return;
         }
         else {
@@ -84,16 +85,16 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void fireReset() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.reset();
         }
     }
 
     private void firePause() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
-            if( mode == recordMode ) {
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
+            if ( mode == recordMode ) {
                 timeSeriesModelListener.recordingPaused();
             }
             else {
@@ -103,15 +104,15 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void firePlaybackFinished() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.playbackFinished();
         }
     }
 
     public void fireFinishedRecording() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.recordingFinished();
         }
     }
@@ -125,23 +126,23 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void setPaused( boolean paused ) {
-        if( paused != this.paused ) {
+        if ( paused != this.paused ) {
             this.paused = paused;
-            if( paused ) {
+            if ( paused ) {
                 firePause();
             }
-            else if( isRecording() ) {
+            else if ( isRecording() ) {
                 fireRecordStarted();
             }
-            else if( isPlayback() ) {
+            else if ( isPlayback() ) {
                 firePlaybackStarted();
             }
         }
     }
 
     private void firePlaybackStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.playbackStarted();
         }
     }
@@ -151,8 +152,8 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     private void fireRecordStarted() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.recordingStarted();
         }
     }
@@ -165,7 +166,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public int getTimeIndex( double requestedTime ) {
-        return (int)( requestedTime / TIME_SCALE );
+        return (int) ( requestedTime / TIME_SCALE );
     }
 
     public boolean isRecordMode() {
@@ -177,7 +178,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void confirmAndApplyReset() {
-        if( confirmReset() ) {
+        if ( confirmReset() ) {
             reset();
         }
     }
@@ -188,7 +189,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
 
     public void setMode( Mode mode ) {
         boolean same = mode == this.mode;
-        if( !same ) {
+        if ( !same ) {
             this.mode = mode;
             this.mode.initialize();
             System.out.println( "Changed mode to: " + mode.getName() );
@@ -196,8 +197,8 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     private void fireRewind() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            TimeSeriesModelListener timeSeriesModelListener = (TimeSeriesModelListener) listeners.get( i );
             timeSeriesModelListener.rewind();
         }
     }
@@ -219,7 +220,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
 
     public void setDynamicTime( boolean dynamicTime ) {
         TimeSeriesModel.dynamicTime = dynamicTime;
-        if( dynamicTime ) {
+        if ( dynamicTime ) {
             TIME_SCALE = 1.0;
         }
         else {
@@ -234,7 +235,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public double getTime() {
-        if( isRecordMode() ) {
+        if ( isRecordMode() ) {
             return getRecordTime();
         }
         else {
@@ -247,7 +248,7 @@ public abstract class TimeSeriesModel extends ClockTickListener {
     }
 
     public void clockTicked( ClockEvent event ) {
-        if( mode != null ) {
+        if ( mode != null ) {
             mode.clockTicked( event );
         }
     }

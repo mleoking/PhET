@@ -3,6 +3,15 @@
 /*  */
 package edu.colorado.phet.theramp;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.AdvancedPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
@@ -14,14 +23,6 @@ import edu.colorado.phet.theramp.view.FreeBodyDiagram;
 import edu.colorado.phet.theramp.view.InitialConditionPanel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.arrows.AbstractArrowSet;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -193,7 +194,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
     class GraphButtonSet extends VerticalLayoutPanel {
         public GraphButtonSet() {
             setBorder( BorderFactory.createTitledBorder( BorderFactory.createRaisedBevelBorder(), TheRampStrings.getString( "display.graphs" ) ) );
-            for( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
+            for ( int i = 0; i < module.getRampPlotSet().numDataUnits(); i++ ) {
                 final RampPlotSet.DataUnit unit = module.getRampPlotSet().dataUnitAt( i );
                 final JCheckBox checkBox = new JCheckBox( unit.getFullName(), true );
 
@@ -212,7 +213,7 @@ public class AdvancedRampControlPanel extends RampControlPanel {
 
     private ModelSlider createMassSlider() {
         final ModelSlider ms = new ModelSlider( TheRampStrings.getString( "property.mass" ), TheRampStrings.getString( "units.abbr.kg" ), 100, 500, 100, new DecimalFormat( "000" ) );
-        ms.setModelTicks( new double[]{100, 500} );
+        ms.setModelTicks( new double[] { 100, 500 } );
         ms.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 double value = ms.getValue();

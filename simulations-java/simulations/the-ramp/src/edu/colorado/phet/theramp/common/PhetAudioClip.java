@@ -3,8 +3,9 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
-import javax.sound.sampled.*;
 import java.net.URL;
+
+import javax.sound.sampled.*;
 
 /**
  * User: Sam Reid
@@ -22,7 +23,7 @@ public class PhetAudioClip {
 
     private static URL toURL( String resourceName ) {
         URL url = Thread.currentThread().getContextClassLoader().getResource( resourceName );
-        if( url == null ) {
+        if ( url == null ) {
             throw new RuntimeException( "Null URL for resource name: " + resourceName );
         }
         return url;
@@ -37,10 +38,10 @@ public class PhetAudioClip {
 
             DataLine.Info info = new DataLine.Info( Clip.class, audioFormat ); // format is an AudioFormat object
             // Obtain and open the line.
-            line = (Clip)AudioSystem.getLine( info );
+            line = (Clip) AudioSystem.getLine( info );
             line.open( AudioSystem.getAudioInputStream( url.openStream() ) );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
             throw new PhetAudioException( e, this );
         }

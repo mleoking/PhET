@@ -3,6 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.Particle;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -11,14 +19,6 @@ import edu.colorado.phet.theramp.RampModule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * User: Sam Reid
@@ -37,7 +37,7 @@ public class FireDog extends PNode {
             newImage = BufferedImageUtils.rescaleYMaintainAspectRatio( newImage, 100 );
             image = new PImage( newImage );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -81,7 +81,7 @@ public class FireDog extends PNode {
         protected void activityStep( long elapsedTime ) {
             super.activityStep( elapsedTime );
             FireDog.this.translate( runToFireSpeed, 0 );
-            if( FireDog.this.getOffset().getX() > FireDog.this.getRampX() - randomInset ) {
+            if ( FireDog.this.getOffset().getX() > FireDog.this.getRampX() - randomInset ) {
                 terminate();
             }
         }
@@ -106,11 +106,11 @@ public class FireDog extends PNode {
             super.activityStep( elapsedTime );
             double dt = lastTime == -1 ? getStepRate() / 1000.0 : ( elapsedTime - lastTime ) / 1000.0;
             dt *= 1.3;
-            for( int i = 0; i < waterDrops.size(); i++ ) {
-                WaterDrop waterDrop = (WaterDrop)waterDrops.get( i );
+            for ( int i = 0; i < waterDrops.size(); i++ ) {
+                WaterDrop waterDrop = (WaterDrop) waterDrops.get( i );
                 waterDrop.propagate( dt );
             }
-            if( waterDrops.size() == 0 ) {
+            if ( waterDrops.size() == 0 ) {
                 getRampPanel().getRoot().getActivityScheduler().removeActivity( this );
             }
             lastTime = elapsedTime;
@@ -147,7 +147,7 @@ public class FireDog extends PNode {
 
         public WalkAway() {
             super( 2500 );
-            image.setImage( BufferedImageUtils.flipX( (BufferedImage)image.getImage() ) );
+            image.setImage( BufferedImageUtils.flipX( (BufferedImage) image.getImage() ) );
         }
 
         protected void activityStep( long elapsedTime ) {
@@ -170,13 +170,13 @@ public class FireDog extends PNode {
 
         public WaterDrop() {
 
-            if( dropImage == null ) {
+            if ( dropImage == null ) {
                 try {
 //                    dropImage = ImageLoader.loadBufferedImage( "the-ramp/images/drop.gif" );
                     dropImage = ImageLoader.loadBufferedImage( "the-ramp/images/drop3.gif" );
 //                    dropImage = BufferedImageUtils.rescaleYMaintainAspectRatio( null, dropImage, 14 );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
             }
@@ -216,7 +216,7 @@ public class FireDog extends PNode {
             double angle = v.getAngle();
 
             rotate( angle - Math.PI / 2 );
-            if( particle.getPosition().getY() > getFloorY() ) {
+            if ( particle.getPosition().getY() > getFloorY() ) {
                 getRampPanel().removeWorldChild( this );
                 waterDrops.remove( this );
                 module.getRampPhysicalModel().clearHeat();

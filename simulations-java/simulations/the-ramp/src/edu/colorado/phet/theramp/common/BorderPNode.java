@@ -3,11 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PPaintContext;
+import java.awt.*;
 
 import javax.swing.border.Border;
-import java.awt.*;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * User: Sam Reid

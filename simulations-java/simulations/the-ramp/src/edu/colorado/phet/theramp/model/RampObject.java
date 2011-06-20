@@ -3,10 +3,10 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 
 /**
  * User: Sam Reid

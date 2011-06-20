@@ -15,7 +15,7 @@ import edu.colorado.phet.theramp.model.Collision;
 
 public class CollisionHandler extends Block.Adapter {
     private RampModule rampModule;
-//    private URL url0;
+    //    private URL url0;
 //    private URL url1;
     //    private URL url2;
     private PhetAudioClip smash0;
@@ -40,14 +40,14 @@ public class CollisionHandler extends Block.Adapter {
 
     private void handleAudio( Collision collision ) {
         double mom = collision.getAbsoluteMomentumChange();
-        if( mom < 50 ) {
+        if ( mom < 50 ) {
             //no audio for soft touches.
         }
-        else if( mom < 2000 ) {
+        else if ( mom < 2000 ) {
             smash0.play();
 //            AudioSourceDataLinePlayer.playNoBlock( url0 );
         }
-        else if( mom < 4000 ) {
+        else if ( mom < 4000 ) {
             smash1.play();
 //            AudioSourceDataLinePlayer.playNoBlock( url1 );
         }

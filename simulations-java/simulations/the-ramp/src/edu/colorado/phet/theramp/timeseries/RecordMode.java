@@ -38,10 +38,10 @@ public class RecordMode extends Mode {
         double dt = event.getSimulationTimeChange();
         double recorderTime = timer.getTime();
         double maxTime = timeSeriesModel.getMaxAllowedTime();
-        if( !timeSeriesModel.isPaused() ) {
+        if ( !timeSeriesModel.isPaused() ) {
 
             double newTime = recorderTime + dt;// * timer.getTimerScale();
-            if( newTime > maxTime ) {
+            if ( newTime > maxTime ) {
                 dt = ( maxTime - recorderTime );// / timer.getTimerScale();
             }
             timer.stepInTime( dt, maxTime );//this could go over the max.

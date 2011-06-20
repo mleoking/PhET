@@ -3,6 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp;
 
+import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.theramp.common.LayoutSet;
 import edu.colorado.phet.theramp.common.Range2D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -14,12 +20,6 @@ import edu.colorado.phet.theramp.view.RampPanel;
 import edu.colorado.phet.theramp.view.plot.TimePlotSuitePNode;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -101,7 +101,7 @@ public class RampPlotSet extends PNode {
     }
 
     public void setPlotOffsetX( int plotOffsetX ) {
-        if( this.plotOffsetX != plotOffsetX ) {
+        if ( this.plotOffsetX != plotOffsetX ) {
             this.plotOffsetX = plotOffsetX;
             invalidateLayout();
             repaint();
@@ -166,11 +166,11 @@ public class RampPlotSet extends PNode {
         }
 
         public void setSize( double size ) {
-            plot.setChartSize( width, (int)size );
+            plot.setChartSize( width, (int) size );
         }
 
         public void setVisible( boolean b ) {
-            if( !b ) {
+            if ( !b ) {
 //                System.out.println( "Chart too small to be shown, needs error handling." );
                 ///todo System.out.println( "Chart too small to be shown, needs error handling." );
             }
@@ -202,10 +202,10 @@ public class RampPlotSet extends PNode {
         super.layoutChildren();
         LayoutSet layoutSet = new LayoutSet();
 
-        int availableWidth = (int)getAvailableWidth();
-        if( availableWidth > 0 ) {
+        int availableWidth = (int) getAvailableWidth();
+        if ( availableWidth > 0 ) {
 //            if( layoutY != getLayoutStartY() || layoutHeight != getAvailableHeight() || layoutWidth != availableWidth )
-            if( true ) {
+            if ( true ) {
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, parallelForcePlot ) );
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, energyPlot ) );
                 layoutSet.addItem( toPlotLayoutItem( availableWidth, workPlot ) );
@@ -223,8 +223,8 @@ public class RampPlotSet extends PNode {
     ArrayList listeners = new ArrayList();
 
     private void notifyLayedOutChildren() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.layoutChanged();
         }
     }
@@ -273,7 +273,7 @@ public class RampPlotSet extends PNode {
 
 
     private LayoutSet.LayoutItem toPlotLayoutItem( int width, TimePlotSuitePNode plot ) {
-        if( plot.isMinimized() ) {
+        if ( plot.isMinimized() ) {
             return new FixedPlotItem( plot, plotOffsetX );
         }
         else {
@@ -358,19 +358,19 @@ public class RampPlotSet extends PNode {
     }
 
     public void updatePlots( RampPhysicalModel state, double recordTime ) {
-        for( int i = 0; i < dataUnits.size(); i++ ) {
-            DataUnit dataUnit = (DataUnit)dataUnits.get( i );
+        for ( int i = 0; i < dataUnits.size(); i++ ) {
+            DataUnit dataUnit = (DataUnit) dataUnits.get( i );
             dataUnit.updatePlot( state, recordTime );
         }
     }
 
     public void reset() {
-        for( int i = 0; i < dataUnits.size(); i++ ) {
+        for ( int i = 0; i < dataUnits.size(); i++ ) {
             dataUnitAt( i ).reset();
         }
     }
 
     public DataUnit dataUnitAt( int i ) {
-        return (DataUnit)dataUnits.get( i );
+        return (DataUnit) dataUnits.get( i );
     }
 }

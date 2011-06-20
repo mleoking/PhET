@@ -60,7 +60,7 @@ public class Block {
     }
 
     public void setSurface( Surface surface ) {
-        if( this.surface != surface ) {
+        if ( this.surface != surface ) {
             this.surface = surface;
             notifySurfaceChanged();
         }
@@ -68,8 +68,8 @@ public class Block {
     }
 
     private void notifySurfaceChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.surfaceChanged();
         }
     }
@@ -145,8 +145,8 @@ public class Block {
     }
 
     private void notifyPositionChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.positionChanged();
         }
     }
@@ -168,14 +168,14 @@ public class Block {
         double origPosition = positionInSurface;
         double origVelocity = velocity;
         double accValue = acceleration;
-        if( Math.abs( accValue ) < 0.0000001 ) {
+        if ( Math.abs( accValue ) < 0.0000001 ) {
             accValue = 0.0;
         }
 //        double origEnergy=rampModel.getTotalEnergy();
         velocity += accValue * dt;
         boolean changedVelSign = changedSign( origVelocity, velocity );
 //        System.out.println( "acc=" + acceleration + ", origVelocity = " + origVelocity + " velocity=" + velocity + " ch=" + changedVelSign );
-        if( changedVelSign ) {
+        if ( changedVelSign ) {
             velocity = 0;
         }
         positionInSurface += velocity * dt;
@@ -187,18 +187,18 @@ public class Block {
         //boundary conditions.
         applyBoundaryConditions( copy, rampPhysicalModel, dt );
 
-        if( positionInSurface != origPosition ) {
+        if ( positionInSurface != origPosition ) {
             notifyPositionChanged();
         }
-        if( velocity != origVelocity ) {
+        if ( velocity != origVelocity ) {
             notifyVelocityChanged();
         }
 //        System.out.println( "positionInSurface = " + positionInSurface );
     }
 
     private void notifyVelocityChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.velocityChanged();
         }
     }
@@ -206,7 +206,7 @@ public class Block {
     private void applyBoundaryConditions( Block copy, RampPhysicalModel rampPhysicalModel, double dt ) {
         this.justCollided = false;
         boolean collided = surface.applyBoundaryConditions( rampPhysicalModel, this );
-        if( collided ) {
+        if ( collided ) {
             Collision collision = new Collision( copy, this, rampPhysicalModel, dt );
             notifyCollision( collision );
             justCollided = true;
@@ -219,8 +219,8 @@ public class Block {
     }
 
     private void notifyCollision( Collision collision ) {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.collisionOccurred( collision );
         }
     }
@@ -239,36 +239,36 @@ public class Block {
     }
 
     private void notifyMassChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.massChanged();
         }
     }
 
     public void setStaticFriction( double staticFriction ) {
-        if( this.staticFriction != staticFriction ) {
+        if ( this.staticFriction != staticFriction ) {
             this.staticFriction = staticFriction;
             notifyStaticFrictionChanged();
         }
     }
 
     private void notifyStaticFrictionChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.staticFrictionChanged();
         }
     }
 
     public void setKineticFriction( double kineticFriction ) {
-        if( this.kineticFriction != kineticFriction ) {
+        if ( this.kineticFriction != kineticFriction ) {
             this.kineticFriction = kineticFriction;
             notifyKineticFrictionChanged();
         }
     }
 
     private void notifyKineticFrictionChanged() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.kineticFrictionChanged();
 
         }
@@ -281,10 +281,10 @@ public class Block {
         private String s;
 
         public static Sign toSign( double value ) {
-            if( value > 0 ) {
+            if ( value > 0 ) {
                 return POSITIVE;
             }
-            else if( value < 0 ) {
+            else if ( value < 0 ) {
                 return NEGATIVE;
             }
             else {
@@ -297,7 +297,7 @@ public class Block {
         }
 
         public boolean equals( Object obj ) {
-            return obj instanceof Sign && ( (Sign)obj ).s.equals( s );
+            return obj instanceof Sign && ( (Sign) obj ).s.equals( s );
         }
     }
 
@@ -314,7 +314,7 @@ public class Block {
 //        if (true)
 //        return 0;
         double N = this.getMass() * gravity * Math.cos( surface.getAngle() );
-        if( this.isMoving() ) {
+        if ( this.isMoving() ) {
             double sign = this.getVelocity() >= 0 ? -1 : 1;
             double kineticFrictionForce = sign * this.getKineticFriction() * N;
             return kineticFrictionForce;
@@ -322,7 +322,7 @@ public class Block {
         else {//this was stationary
             double u = Math.max( this.getKineticFriction(), this.getStaticFriction() );
             double maxStaticFrictionForce = u * N;
-            if( Math.abs( maxStaticFrictionForce ) > Math.abs( otherForces ) ) {
+            if ( Math.abs( maxStaticFrictionForce ) > Math.abs( otherForces ) ) {
                 //this stays at rest, friction balances applied force.
                 return -otherForces;
             }

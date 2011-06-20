@@ -3,6 +3,30 @@
 /*  */
 package edu.colorado.phet.theramp.view.plot;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartRenderingInfo;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.ValueMarker;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
+
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.LinearTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -31,28 +55,6 @@ import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartRenderingInfo;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.ValueMarker;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.MessageFormat;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -101,7 +103,7 @@ public class TimePlotSuitePNode extends PhetPNode {
         this.timeSeriesModel = timeSeriesModel;
         dataset = createDataset();
         chart = createChart( range, dataset, name + " (" + units + ")" );
-        this.plot = (XYPlot)chart.getPlot();
+        this.plot = (XYPlot) chart.getPlot();
         chartGraphic = new PImage();
 //        chartGraphic.setRenderingHint( RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC );//DEC_05
         updateChartBuffer();
@@ -161,10 +163,10 @@ public class TimePlotSuitePNode extends PhetPNode {
                 Point2D out = toLinearFunction().getInverseTransform().transform( new Point2D.Double( viewTime, 0 ), null );
 
                 double t = out.getX();
-                if( t < 0 ) {
+                if ( t < 0 ) {
                     t = 0;
                 }
-                else if( t > timeSeriesModel.getRecordTime() ) {
+                else if ( t > timeSeriesModel.getRecordTime() ) {
                     t = timeSeriesModel.getRecordTime();
                 }
                 timeSeriesModel.setReplayTime( t );
@@ -187,12 +189,12 @@ public class TimePlotSuitePNode extends PhetPNode {
             minButNode.setOffset( 1, 1 );
             addChild( minButNode );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
 
-        JButton maximize = new JButton( MessageFormat.format( TheRampStrings.getString( "readout.graph-name" ), new Object[]{name} ) );
+        JButton maximize = new JButton( MessageFormat.format( TheRampStrings.getString( "readout.graph-name" ), new Object[] { name } ) );
         maximize.setFont( RampFontSet.getFontSet().getNormalButtonFont() );
         minBut.setMargin( new Insets( 2, 2, 2, 2 ) );
         maximize.addActionListener( new ActionListener() {
@@ -234,11 +236,11 @@ public class TimePlotSuitePNode extends PhetPNode {
                 }
             } );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
-        if( useSlider ) {
+        if ( useSlider ) {
             slider = createSlider();
         }
         invalidateLayout();
@@ -253,22 +255,22 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     public void setSeriesFont( Font font ) {
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
             timeSeriesPNode.setFont( font );
         }
     }
 
     public void setSeriesPlotShadow( int dx, int dy ) {
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
             timeSeriesPNode.setShadowOffset( dx, dy );
         }
     }
 
     public void updateReadouts() {
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
             timeSeriesPNode.updateReadout();
         }
     }
@@ -343,10 +345,10 @@ public class TimePlotSuitePNode extends PhetPNode {
                 Point2D result = inverse.transform( pt, null );
 
                 double y = -result.getY();
-                if( y > sliderGraphic.timePlotSuitePNode.getMaxRangeValue() ) {
+                if ( y > sliderGraphic.timePlotSuitePNode.getMaxRangeValue() ) {
                     y = sliderGraphic.timePlotSuitePNode.getMaxRangeValue();
                 }
-                else if( y < sliderGraphic.timePlotSuitePNode.getMinRangeValue() ) {
+                else if ( y < sliderGraphic.timePlotSuitePNode.getMinRangeValue() ) {
                     y = sliderGraphic.timePlotSuitePNode.getMinRangeValue();
                 }
 //                System.out.println( "y = " + y );
@@ -359,17 +361,17 @@ public class TimePlotSuitePNode extends PhetPNode {
                                                               timePlotSuitePNode.getRampModule().getRampPhysicalModel().getAppliedForceScalar() );
             double y = loc.getY();// - thumb.getFullBounds().getHeight() / 2;
 //            System.out.println( "y = " + y );
-            if( y < rect.getY() ) {
+            if ( y < rect.getY() ) {
                 y = rect.getY();
             }
-            else if( y > rect.getMaxY() ) {
+            else if ( y > rect.getMaxY() ) {
                 y = rect.getMaxY();
             }
             thumb.setOffset( rect.getX() + 2, y );
         }
 
         public void dataAreaChanged( Rectangle2D area ) {
-            if( !area.equals( rect ) ) {
+            if ( !area.equals( rect ) ) {
                 int sliderOffsetDX = 30;
                 rect = new Rectangle2D.Double( insetX - sliderOffsetDX, area.getY(), width, area.getHeight() );
                 background.setBorderRectangle( RectangleUtils.toRectangle( rect ) );
@@ -421,10 +423,10 @@ public class TimePlotSuitePNode extends PhetPNode {
         plot.addDomainMarker( new ValueMarker( 15, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 20, Color.lightGray, new BasicStroke( 1 ) ) );
         plot.addDomainMarker( new ValueMarker( 25, Color.lightGray, new BasicStroke( 1 ) ) );
-        for( double y = defaultMaxY / 4; y < plot.getRangeAxis().getRange().getUpperBound(); y += defaultMaxY / 4 ) {
+        for ( double y = defaultMaxY / 4; y < plot.getRangeAxis().getRange().getUpperBound(); y += defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
-        for( double y = -defaultMaxY / 4; y > plot.getRangeAxis().getRange().getLowerBound(); y -= defaultMaxY / 4 ) {
+        for ( double y = -defaultMaxY / 4; y > plot.getRangeAxis().getRange().getLowerBound(); y -= defaultMaxY / 4 ) {
             plot.addRangeMarker( new ValueMarker( y, Color.lightGray, new BasicStroke( 1 ) ) );
         }
     }
@@ -436,11 +438,11 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     public void setMinimized( boolean minimized ) {
-        if( this.minimized != minimized ) {
+        if ( this.minimized != minimized ) {
             this.minimized = minimized;
             setMinimizedState( minimized );
-            for( int i = 0; i < listeners.size(); i++ ) {
-                Listener listener = (Listener)listeners.get( i );
+            for ( int i = 0; i < listeners.size(); i++ ) {
+                Listener listener = (Listener) listeners.get( i );
                 listener.minimizeStateChanged();
             }
         }
@@ -448,10 +450,10 @@ public class TimePlotSuitePNode extends PhetPNode {
 
     private void setHasChild( boolean hasChild, PNode child ) {
 
-        if( hasChild && !this.isAncestorOf( child ) ) {
+        if ( hasChild && !this.isAncestorOf( child ) ) {
             addChild( child );
         }
-        else if( !hasChild && this.isAncestorOf( child ) ) {
+        else if ( !hasChild && this.isAncestorOf( child ) ) {
             removeChild( child );
         }
 
@@ -464,17 +466,17 @@ public class TimePlotSuitePNode extends PhetPNode {
         setHasChild( !minimized, minButNode );
         setHasChild( !minimized, zoomInGraphic );
         setHasChild( !minimized, zoomOutGraphic );
-        if( slider != null ) {
+        if ( slider != null ) {
             setHasChild( !minimized, slider );
         }
 
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode node = (TimeSeriesPNode) series.get( i );
             setHasChild( !minimized, node.getReadoutGraphic() );
         }
         updateCursor();
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode node = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode node = (TimeSeriesPNode) series.get( i );
             node.getReadoutGraphic().setVisible( !minimized );
         }
     }
@@ -499,10 +501,10 @@ public class TimePlotSuitePNode extends PhetPNode {
 
     public void setChartSize( int chartWidth, int chartHeight ) {
 
-        if( !( chartWidth > 0 && chartHeight > 0 ) ) {
+        if ( !( chartWidth > 0 && chartHeight > 0 ) ) {
             throw new RuntimeException( "Illegal chart dimensions: " + chartWidth + ", " + chartHeight );
         }
-        if( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
+        if ( this.chartWidth != chartWidth || this.chartHeight != chartHeight ) {
             this.dataAreaDirty = true;
             this.layoutDirty = true;
             this.chartWidth = chartWidth;
@@ -514,19 +516,19 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     protected void layoutChildren() {
-        if( layoutDirty ) {
+        if ( layoutDirty ) {
             super.layoutChildren();
             dataAreaDirty = true;
-            for( int i = 0; i < series.size() / 2; i++ ) {
-                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            for ( int i = 0; i < series.size() / 2; i++ ) {
+                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
                 PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
                 double readoutDY = -2;
                 readoutGraphic.setOffset( getDataArea().getX() + 5,
                                           getDataArea().getY() + 4 + ( readoutGraphic.getFullBounds().getHeight() + readoutDY ) * i );
             }
 
-            for( int i = series.size() / 2; i < series.size(); i++ ) {
-                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+            for ( int i = series.size() / 2; i < series.size(); i++ ) {
+                TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
                 PNode readoutGraphic = timeSeriesPNode.getReadoutGraphic();
                 double readoutDY = -2;
                 int index = i - series.size() / 2;
@@ -539,10 +541,10 @@ public class TimePlotSuitePNode extends PhetPNode {
 
 //        System.out.println( System.currentTimeMillis() + ", Layout Children" );
             layoutCount++;
-            if( layoutCount > 100 ) {
+            if ( layoutCount > 100 ) {
                 System.out.println( "layoutCount = " + layoutCount );
             }
-            if( slider != null ) {
+            if ( slider != null ) {
                 slider.dataAreaChanged( getDataArea() );
             }
             minButNode.setOffset( getDataArea().getMaxX() - minButNode.getFullBounds().getWidth() - 2, 0 + 2 );
@@ -564,7 +566,7 @@ public class TimePlotSuitePNode extends PhetPNode {
     private void updateChartBuffer() {
         this.layoutDirty = true;
         updateGridlines();
-        if( chartWidth < 2000 && chartHeight < 2000 ) {
+        if ( chartWidth < 2000 && chartHeight < 2000 ) {
             bufferedImage = chart.createBufferedImage( chartWidth, chartHeight );
 //            System.out.println( "TimePlotSuitePNode.updateChartBuffer@" + System.currentTimeMillis() );
             decorateBuffer();
@@ -582,7 +584,7 @@ public class TimePlotSuitePNode extends PhetPNode {
 
     private void drawInPlotAxis() {
         Graphics2D g2 = bufferedImage.createGraphics();
-        for( int t = 2; t < RampModule.MAX_TIME; t += 2 ) {
+        for ( int t = 2; t < RampModule.MAX_TIME; t += 2 ) {
             Point2D imagLoc = toImageLocation( t, 0 );
             PText text = new PText( "" + t );
             text.setOffset( imagLoc.getX() - text.getWidth() / 2, imagLoc.getY() );
@@ -599,7 +601,7 @@ public class TimePlotSuitePNode extends PhetPNode {
 
         chart.setBackgroundPaint( EarthGraphic.earthGreen );
 
-        XYPlot plot = (XYPlot)chart.getPlot();
+        XYPlot plot = (XYPlot) chart.getPlot();
         plot.setBackgroundPaint( Color.white );
         plot.setDomainGridlinesVisible( false );
         plot.setRangeGridlinesVisible( false );
@@ -649,7 +651,7 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     private Rectangle2D getDataArea( XYPlot plot ) {
-        if( savedDataArea == null || dataAreaDirty ) {
+        if ( savedDataArea == null || dataAreaDirty ) {
             BufferedImage image = new BufferedImage( 2, 2, BufferedImage.TYPE_INT_RGB );
             ChartRenderingInfo chartRenderingInfo = new ChartRenderingInfo();
             chart.draw( image.createGraphics(), new Rectangle2D.Double( 0, 0, chartWidth, chartHeight ), chartRenderingInfo );
@@ -670,7 +672,7 @@ public class TimePlotSuitePNode extends PhetPNode {
 
     public Point2D toImageLocation( double x, double y ) {
         Rectangle2D dataArea = getDataArea( plot );
-        if( dataArea == null ) {
+        if ( dataArea == null ) {
             throw new RuntimeException( "Null data area" );
         }
 
@@ -680,15 +682,15 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     public void repaintImage( Rectangle2D bounds ) {
-        if( bounds.intersects( getDataArea() ) ) {
+        if ( bounds.intersects( getDataArea() ) ) {
             chartGraphic.repaintFrom( new PBounds( bounds ), chartGraphic );
         }
     }
 
     public void repaintAll() {
         reset();
-        for( int i = 0; i < series.size(); i++ ) {
-            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode)series.get( i );
+        for ( int i = 0; i < series.size(); i++ ) {
+            TimeSeriesPNode timeSeriesPNode = (TimeSeriesPNode) series.get( i );
             timeSeriesPNode.repaintAll();
         }
     }
@@ -702,7 +704,7 @@ public class TimePlotSuitePNode extends PhetPNode {
     }
 
     public double getVisibleHeight() {
-        if( isMinimized() ) {
+        if ( isMinimized() ) {
             return getButtonHeight();
         }
         else {

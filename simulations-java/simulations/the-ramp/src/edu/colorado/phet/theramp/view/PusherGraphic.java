@@ -3,6 +3,11 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
@@ -13,11 +18,6 @@ import edu.colorado.phet.theramp.common.PhetAudioClip;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -55,7 +55,7 @@ public class PusherGraphic extends PImage {
         standingStill = ImageLoader.loadBufferedImage( "the-ramp/images/standing-man.png" );
         animation = new FrameSequence( "the-ramp/images/pusher-leaner-png/pusher-leaning-2", "png", 15 );
         BufferedImage[] flipped = new BufferedImage[animation.getNumFrames()];
-        for( int i = 0; i < flipped.length; i++ ) {
+        for ( int i = 0; i < flipped.length; i++ ) {
             flipped[i] = BufferedImageUtils.flipX( animation.getFrame( i ) );
         }
         flippedAnimation = new FrameSequence( flipped );
@@ -78,10 +78,10 @@ public class PusherGraphic extends PImage {
         runOver = new ModelElement() {
             public void stepInTime( double dt ) {
                 double dx = getBlockDx();
-                if( getAppliedForce() == 0 && lastAppliedForce == 0 && signDiffers( dx, lastDX ) && !crushed ) {
+                if ( getAppliedForce() == 0 && lastAppliedForce == 0 && signDiffers( dx, lastDX ) && !crushed ) {
                     crushMan();
                 }
-                else if( crushed && timeSinceCrush() > 1000 ) {
+                else if ( crushed && timeSinceCrush() > 1000 ) {
                     standUp();
                 }
                 lastDX = dx;
@@ -101,18 +101,18 @@ public class PusherGraphic extends PImage {
     }
 
     private void standUp() {
-        if( getAppliedForce() == 0 ) {
+        if ( getAppliedForce() == 0 ) {
             setImage( standingStill );
         }
         crushed = false;
     }
 
     private Image getCrushedManImage() {
-        if( crushedManImage == null ) {
+        if ( crushedManImage == null ) {
             try {
                 crushedManImage = ImageLoader.loadBufferedImage( "the-ramp/images/crushedman.png" );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -145,14 +145,14 @@ public class PusherGraphic extends PImage {
 
     private BufferedImage getFrame( boolean facingRight ) {
         double appliedForce = Math.abs( getAppliedForce() );
-        int index = (int)( animation.getNumFrames() * appliedForce / max );
-        if( index >= animation.getNumFrames() ) {
+        int index = (int) ( animation.getNumFrames() * appliedForce / max );
+        if ( index >= animation.getNumFrames() ) {
             index = animation.getNumFrames() - 1;
         }
-        if( getAppliedForce() == 0 ) {
+        if ( getAppliedForce() == 0 ) {
             return standingStill;
         }
-        if( facingRight ) {
+        if ( facingRight ) {
             return animation.getFrame( index );
         }
         else {
@@ -172,12 +172,12 @@ public class PusherGraphic extends PImage {
     private void syncWithBlock() {
         boolean facingRight = true;
         double app = getAppliedForce();
-        if( app < 0 ) {
+        if ( app < 0 ) {
             facingRight = false;
         }
         BufferedImage frame = getFrame( facingRight );
-        if( frame != getImage() ) {
-            if( app == 0 && crushed && timeSinceCrush() < CRUSH_TIME ) {}//stay crushed
+        if ( frame != getImage() ) {
+            if ( app == 0 && crushed && timeSinceCrush() < CRUSH_TIME ) {}//stay crushed
             else {
                 setImage( frame );
             }
@@ -187,7 +187,7 @@ public class PusherGraphic extends PImage {
         double modelWidthLeaner = rampWorld.getModelWidth( frame.getWidth() );
 
         double leanerX = 0;
-        if( facingRight ) {
+        if ( facingRight ) {
             leanerX = getBlockLocation() - ( modelWidthLeaner + modelWidthObject ) / 2;
         }
         else {
@@ -196,7 +196,7 @@ public class PusherGraphic extends PImage {
 //        System.out.println( "rampPanel.getBlockGraphic().getBlock().getPosition() = " + rampPanel.getBlockGraphic().getBlock().getPosition() );
 //        System.out.println( "modelWidthObject = " + modelWidthObject );
 //        System.out.println( "leanerX = " + leanerX );
-        if( app == 0 ) {
+        if ( app == 0 ) {
             //stay where you just were.
         }
         else {
@@ -211,13 +211,13 @@ public class PusherGraphic extends PImage {
     private void updateTransform() {
         double positionInSurface = getPositionInSurface();
         AffineTransform tx = getSurfaceGraphic().createTransform( positionInSurface, new Dimension( getFrame().getWidth( null ), getFrame().getHeight( null ) ) );
-        if( !getTransform().equals( tx ) ) {
+        if ( !getTransform().equals( tx ) ) {
             setTransform( tx );//!!working
         }
     }
 
     private double getPositionInSurface() {
-        if( getSurfaceGraphic() == rampWorld.getGroundGraphic() ) {
+        if ( getSurfaceGraphic() == rampWorld.getGroundGraphic() ) {
             return modelLocation;
         }
         else {

@@ -3,14 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PPath;
-
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
  * User: Sam Reid
@@ -25,7 +25,7 @@ public class RampTickSetGraphic extends PNode {
     public RampTickSetGraphic( SurfaceGraphic surfaceGraphic ) {
         super();
         this.surfaceGraphic = surfaceGraphic;
-        for( int i = 0; i <= surfaceGraphic.getSurface().getLength(); i++ ) {
+        for ( int i = 0; i <= surfaceGraphic.getSurface().getLength(); i++ ) {
             double x = i;
             addTickGraphic( x );
         }
@@ -39,8 +39,8 @@ public class RampTickSetGraphic extends PNode {
     }
 
     public void update() {
-        for( int i = 0; i < tickGraphics.size(); i++ ) {
-            TickGraphic tickGraphic = (TickGraphic)tickGraphics.get( i );
+        for ( int i = 0; i < tickGraphics.size(); i++ ) {
+            TickGraphic tickGraphic = (TickGraphic) tickGraphics.get( i );
             tickGraphic.update();
         }
     }

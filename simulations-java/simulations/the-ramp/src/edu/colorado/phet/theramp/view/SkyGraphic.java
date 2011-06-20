@@ -3,10 +3,10 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

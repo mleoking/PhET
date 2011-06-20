@@ -3,12 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp.model;
 
+import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
-
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -54,7 +54,7 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public void setAngle( double angle ) {
-        if( this.angle != angle ) {
+        if ( this.angle != angle ) {
             this.angle = angle;
             notifyObservers();
         }
@@ -97,8 +97,8 @@ public abstract class Surface extends SimpleObservable {
     }
 
     public void notifyCollision() {
-        for( int i = 0; i < collisionListeners.size(); i++ ) {
-            CollisionListener collisionListener = (CollisionListener)collisionListeners.get( i );
+        for ( int i = 0; i < collisionListeners.size(); i++ ) {
+            CollisionListener collisionListener = (CollisionListener) collisionListeners.get( i );
             collisionListener.collided( this );
         }
     }

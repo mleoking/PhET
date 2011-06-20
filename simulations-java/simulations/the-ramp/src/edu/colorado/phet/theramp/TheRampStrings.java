@@ -13,11 +13,12 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 
 public class TheRampStrings {
-    
+
     private static final PhetResources RESOURCES = new PhetResources( TheRampConstants.PROJECT_NAME );
 
     /* not intended for instantiation */
-    private TheRampStrings() {}
+    private TheRampStrings() {
+    }
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;

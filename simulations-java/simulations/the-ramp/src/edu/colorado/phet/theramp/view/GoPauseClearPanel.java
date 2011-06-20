@@ -3,18 +3,19 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampTimeSeriesModel;
 import edu.colorado.phet.theramp.timeseries.TimeSeriesModel;
 import edu.colorado.phet.theramp.timeseries.TimeSeriesModelListenerAdapter;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -46,7 +47,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
             pauseIcon = new ImageIcon( ImageLoader.loadBufferedImage( "the-ramp/images/stop-20.png" ) );
             goPauseButton.setIcon( goIcon );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         final ActionListener goHandler = new ActionListener() {
@@ -57,7 +58,7 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         };
         goPauseButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                if( itsAGoButton ) {
+                if ( itsAGoButton ) {
                     goHandler.actionPerformed( e );
                 }
                 else {
@@ -100,13 +101,13 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
     }
 
     private void setButtons( boolean record, boolean pause, boolean reset ) {
-        if( pause && record ) {
+        if ( pause && record ) {
 
         }
-        else if( !pause && !record ) {
+        else if ( !pause && !record ) {
 
         }
-        if( pause ) {
+        if ( pause ) {
             goPauseButton.setText( TheRampStrings.getString( "time.pause" ) );
 //            goPauseButton.setText( "" );
             goPauseButton.setIcon( pauseIcon );
@@ -132,9 +133,9 @@ public class GoPauseClearPanel extends VerticalLayoutPanel {
         goPauseButton.repaint();
         clearButton.repaint();
         clearButton.repaint( 0, 0, clearButton.getWidth(), clearButton.getHeight() );
-        if( module instanceof RampTimeSeriesModel ) {
-            RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel)module;
-            if( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
+        if ( module instanceof RampTimeSeriesModel ) {
+            RampTimeSeriesModel rampTimeSeriesModel = (RampTimeSeriesModel) module;
+            if ( rampTimeSeriesModel.getRampModule() != null && rampTimeSeriesModel.getRampModule().getRampPanel() != null ) {
 //                System.out.println( "rampTimeSeriesModel = " + rampTimeSeriesModel );
                 rampTimeSeriesModel.getRampModule().getRampPanel().repaint();
             }

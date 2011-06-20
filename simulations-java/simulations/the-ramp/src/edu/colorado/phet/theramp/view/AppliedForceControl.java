@@ -3,18 +3,19 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.text.DecimalFormat;
+
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -31,7 +32,7 @@ public class AppliedForceControl extends PNode {
         this.rampPanel = rampPanel;
         double maxValue = 3000;
         final ModelSlider modelSlider = new ModelSlider( TheRampStrings.getString( "forces.applied-force" ), TheRampStrings.getString( "units.newtons" ), -maxValue, maxValue, 0, new DecimalFormat( "0.00" ) );
-        modelSlider.setModelTicks( new double[]{-maxValue, 0, maxValue} );
+        modelSlider.setModelTicks( new double[] { -maxValue, 0, maxValue } );
         PSwing pSwing = new PSwing( modelSlider );
         addChild( pSwing );
         modelSlider.addChangeListener( new ChangeListener() {

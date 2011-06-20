@@ -14,7 +14,7 @@ public class RampModel {
     }
 
     public String toString() {
-        return "interacting="+isInteracting()+", tracks=" + tracks + ", objects=" + objects;
+        return "interacting=" + isInteracting() + ", tracks=" + tracks + ", objects=" + objects;
     }
 
     private RampModel( ArrayList tracks, ArrayList objects ) {

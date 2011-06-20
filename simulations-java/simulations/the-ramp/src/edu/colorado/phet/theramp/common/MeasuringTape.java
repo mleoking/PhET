@@ -3,6 +3,11 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
+import java.awt.*;
+import java.awt.geom.*;
+import java.io.IOException;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -16,11 +21,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
-
-import java.awt.*;
-import java.awt.geom.*;
-import java.io.IOException;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -63,7 +63,7 @@ public class MeasuringTape extends PNode {
             try {
                 imageGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/tape.gif" ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             addChild( imageGraphic );
@@ -119,7 +119,7 @@ public class MeasuringTape extends PNode {
 
         double modelDistance = new Vector2D( modelSrc, modelDst ).getMagnitude();
         readoutGraphic.setDistance( modelDistance );
-        readoutGraphic.setOffset( viewSrc.x, (int)( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
+        readoutGraphic.setOffset( viewSrc.x, (int) ( viewSrc.y + readoutGraphic.getHeight() * 1.2 + 7 ) );
     }
 
     class TapeGraphic extends PNode {

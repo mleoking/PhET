@@ -3,13 +3,13 @@
 /*  */
 package edu.colorado.phet.theramp.view.arrows;
 
+import java.awt.*;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.view.BlockGraphic;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -49,19 +49,19 @@ public class AbstractArrowSet extends PNode {
     }
 
     public void updateGraphics() {
-        if( getVisible() ) {
-            for( int i = 0; i < graphics.size(); i++ ) {
-                ForceArrowGraphic forceArrowGraphic = (ForceArrowGraphic)graphics.get( i );
+        if ( getVisible() ) {
+            for ( int i = 0; i < graphics.size(); i++ ) {
+                ForceArrowGraphic forceArrowGraphic = (ForceArrowGraphic) graphics.get( i );
                 forceArrowGraphic.update();
             }
         }
     }
 
     public void setForceVisible( String force, boolean selected ) {
-        for( int i = 0; i < graphics.size(); i++ ) {
-            ForceArrowGraphic forceArrowGraphic = (ForceArrowGraphic)graphics.get( i );
+        for ( int i = 0; i < graphics.size(); i++ ) {
+            ForceArrowGraphic forceArrowGraphic = (ForceArrowGraphic) graphics.get( i );
             String name = forceArrowGraphic.getName();
-            if( name.toLowerCase().indexOf( force.toLowerCase() ) >= 0 ) {
+            if ( name.toLowerCase().indexOf( force.toLowerCase() ) >= 0 ) {
 //                forceArrowGraphic.setVisible( selected );
                 forceArrowGraphic.setUserVisible( selected );
             }

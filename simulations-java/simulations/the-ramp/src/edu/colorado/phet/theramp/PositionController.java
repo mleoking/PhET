@@ -3,13 +3,13 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-import edu.colorado.phet.theramp.model.Block;
-import edu.colorado.phet.theramp.model.Ramp;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
+import edu.colorado.phet.theramp.model.Block;
+import edu.colorado.phet.theramp.model.Ramp;
 
 /**
  * User: Sam Reid
@@ -34,7 +34,7 @@ public class PositionController {
                 setBlockPosition();
             }
         } );
-        modelSlider.setModelTicks( new double[]{-getGroundLength(), 0, rampModule.getRampPhysicalModel().getRamp().getLength()} );
+        modelSlider.setModelTicks( new double[] { -getGroundLength(), 0, rampModule.getRampPhysicalModel().getRamp().getLength() } );
     }
 
     private double getGroundLength() {
@@ -42,7 +42,7 @@ public class PositionController {
     }
 
     private void setBlockPosition() {
-        if( modelSlider.getValue() >= 0 ) {
+        if ( modelSlider.getValue() >= 0 ) {
             rampModule.getBlock().setSurface( rampModule.getRampPhysicalModel().getRamp() );
             rampModule.getBlock().setPositionInSurface( modelSlider.getValue() );
         }
@@ -56,7 +56,7 @@ public class PositionController {
 
     private double getBlockPosition() {
         double val = rampModule.getRampPhysicalModel().getBlock().getPositionInSurface();
-        if( rampModule.getBlock().getSurface() instanceof Ramp ) {
+        if ( rampModule.getBlock().getSurface() instanceof Ramp ) {
             return val;
         }
         else {

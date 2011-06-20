@@ -3,14 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -30,7 +30,7 @@ public abstract class BarrierGraphic extends PNode {
         try {
             imageGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/barrier2.jpg" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         addChild( imageGraphic );
@@ -43,7 +43,7 @@ public abstract class BarrierGraphic extends PNode {
     }
 
     private AffineTransform createTransform( double position, double scaleX, double fracSize ) {
-        return surfaceGraphic.createTransform( position, new Dimension( (int)( imageGraphic.getImage().getWidth( null ) * scaleX ), (int)( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
+        return surfaceGraphic.createTransform( position, new Dimension( (int) ( imageGraphic.getImage().getWidth( null ) * scaleX ), (int) ( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
     }
 
     private void update() {

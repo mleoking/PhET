@@ -3,6 +3,18 @@
 /*  */
 package edu.colorado.phet.theramp.view.bars;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -20,17 +32,6 @@ import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -87,17 +88,17 @@ public class BarGraphSet extends PNode {
         this.barChartHeight = baselineY;
         xAxis.setBarChartHeight( baselineY );
         yAxis.setBarChartHeight( baselineY );
-        for( int i = 0; i < barGraphics.size(); i++ ) {
-            BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+        for ( int i = 0; i < barGraphics.size(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D) barGraphics.get( i );
             barGraphic2D.setBarHeight( baselineY );
         }
     }
 
     private void setHasChild( boolean hasChild, PNode child ) {
-        if( hasChild && !this.isAncestorOf( child ) ) {
+        if ( hasChild && !this.isAncestorOf( child ) ) {
             addChild( child );
         }
-        else if( !hasChild && this.isAncestorOf( child ) ) {
+        else if ( !hasChild && this.isAncestorOf( child ) ) {
             removeChild( child );
         }
     }
@@ -116,7 +117,7 @@ public class BarGraphSet extends PNode {
             minButNode.setOffset( 5, topY + 10 );
             addChild( minButNode );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         titleNode.setOffset( minButNode.getFullBounds().getMaxX() + 2, topY + 10 );
@@ -129,8 +130,8 @@ public class BarGraphSet extends PNode {
         setHasChild( !minimized, this.background );
         setHasChild( !minimized, this.xAxis );
         setHasChild( !minimized, this.yAxis );
-        for( int i = 0; i < barGraphics.size(); i++ ) {
-            BarGraphic2D barGraphic2D = (BarGraphic2D)barGraphics.get( i );
+        for ( int i = 0; i < barGraphics.size(); i++ ) {
+            BarGraphic2D barGraphic2D = (BarGraphic2D) barGraphics.get( i );
             setHasChild( !minimized, barGraphic2D );
         }
         setHasChild( !minimized, this.minButNode );
@@ -184,7 +185,7 @@ public class BarGraphSet extends PNode {
                 GeneralPath shape = arrow.getShape();
                 return shape;
             }
-            catch( RuntimeException re ) {
+            catch ( RuntimeException re ) {
                 re.printStackTrace();
                 return new GeneralPath();
             }
@@ -200,7 +201,7 @@ public class BarGraphSet extends PNode {
     }
 
     public double getMaxDisplayableEnergy() {//TODO! trace dependencies on this (nondynamic ones)
-        return Math.abs( transform1D.viewToModelDifferential( (int)( barChartHeight - topY ) ) );
+        return Math.abs( transform1D.viewToModelDifferential( (int) ( barChartHeight - topY ) ) );
     }
 
     protected void addClockListener( ClockListener clockTickListener ) {
@@ -220,11 +221,11 @@ public class BarGraphSet extends PNode {
 
         yAxis = new YAxis();
         addChild( yAxis );
-        for( int i = 0; i < workAccess.length; i++ ) {
+        for ( int i = 0; i < workAccess.length; i++ ) {
             final ValueAccessor accessor = workAccess[i];
             final BarGraphic2D barGraphic = new BarGraphic2D( accessor.getName(), transform1D,
-                                                              accessor.getValue( rampPhysicalModel ), (int)( i * sep + dw ), (int)barWidth,
-                                                              (int)barChartHeight, dx, dy, accessor.getColor() );
+                                                              accessor.getValue( rampPhysicalModel ), (int) ( i * sep + dw ), (int) barWidth,
+                                                              (int) barChartHeight, dx, dy, accessor.getColor() );
             addClockListener( new ClockAdapter() {
                 public void clockTicked( ClockEvent event ) {
                     barGraphic.setValue( accessor.getValue( rampPhysicalModel ) );

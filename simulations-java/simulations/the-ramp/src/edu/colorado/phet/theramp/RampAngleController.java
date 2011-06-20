@@ -3,12 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.view.ModelSlider;
-
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 
 /**
  * User: Sam Reid
@@ -35,7 +35,7 @@ public class RampAngleController {
                 rampModule.getRampPhysicalModel().getRamp().setAngle( val * Math.PI * 2 / 360 );
             }
         } );
-        modelSlider.setModelTicks( new double[]{0, 30, 60, 90} );
+        modelSlider.setModelTicks( new double[] { 0, 30, 60, 90 } );
     }
 
     public JComponent getComponent() {
