@@ -16,7 +16,6 @@ import org.jmol.api.JmolViewer;
 import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -32,9 +31,7 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -230,29 +227,6 @@ public class WaterCanvas extends PhetPCanvas {
 
             addSugarToBucket( waterModel, transform );
         }
-
-        //Add the "remove salt and sugar" buttons
-        addChild( new RemoveSoluteControlNode( new ISugarAndSaltModel() {
-            public ObservableProperty<Boolean> isAnySaltToRemove() {
-                return waterModel.isAnySaltToRemove();
-            }
-
-            public ObservableProperty<Boolean> isAnySugarToRemove() {
-                return waterModel.isAnySugarToRemove();
-            }
-
-            public void removeSalt() {
-                waterModel.removeSalt();
-                addSaltToBucket( waterModel, transform );
-            }
-
-            public void removeSugar() {
-                waterModel.removeSugar();
-                addSugarToBucket( waterModel, transform );
-            }
-        } ) {{
-            setOffset( particleWindowNode.getFullBounds().getMaxX() - getFullBounds().getWidth() - MacroCanvas.INSET, particleWindowNode.getFullBounds().getMaxY() - getFullBounds().getHeight() - MacroCanvas.INSET );
-        }} );
 
         waterModel.addResetListener( new VoidFunction0() {
             public void apply() {
