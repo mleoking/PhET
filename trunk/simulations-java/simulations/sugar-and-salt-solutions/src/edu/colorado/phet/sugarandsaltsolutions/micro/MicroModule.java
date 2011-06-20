@@ -14,12 +14,6 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.solublesalts.SolubleSaltsApplication.SolubleSaltsClock;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig;
-import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
-import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
-import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon;
@@ -40,18 +34,7 @@ public class MicroModule extends Module {
     private MicroModel model;
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
-        this( configuration, new MicroModel( new SolubleSaltsModel( new SolubleSaltsClock(), new ISolubleSaltsModelContainer() {
-            public Calibration getCalibration() {
-                return new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
-            }
-
-            public void addResetListener( ResetListener resetListener ) {
-            }
-
-            public double getMinimumFluidVolume() {
-                return MicroModel.MIN_FLUID_VOLUME;
-            }
-        } ), new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 ) ) );
+        this( configuration, new MicroModel() );
     }
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration, MicroModel model ) {
