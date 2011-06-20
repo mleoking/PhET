@@ -114,9 +114,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     @Override public void addMacroSalt( MacroSalt salt ) {
         super.addMacroSalt( salt );
         //The shaker has to be reset between shakes, then shake it up and down to produce a crystal
-        getSolubleSaltsModel().getShaker().reset();
-        getSolubleSaltsModel().getShaker().shake( 10 );
-        getSolubleSaltsModel().getShaker().shake( -10 );
+        getSolubleSaltsModel().getShaker().shakeCrystal();
     }
 
     public void reset() {

@@ -1,3 +1,4 @@
+Factored out Shaker.shakeCrystal
 Refactored model to not depend on module
 Made the faucet slider knobs bigger
 Minor cleanup

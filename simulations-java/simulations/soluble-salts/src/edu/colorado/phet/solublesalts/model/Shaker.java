@@ -106,18 +106,25 @@ public class Shaker extends Particle {
             return;
         }
 
-        int count = 0;
-
         // Set the shaker's position
         setPosition( getPosition().getX(), getPosition().getY() + dy );
 
-        Ion ion = null;
+        // If the shaker moved downward, shake out a crystal
+        if ( !done && dy > 0 ) {
+            done = true;
 
+            shakeCrystal();
+        }
+    }
+
+    private Vector2D getCrystalVelocity() {
         double theta = Math.PI / 2 + ( random.nextDouble() * Math.PI / 6 * MathUtil.nextRandomSign() );
-        Vector2D v = new Vector2D( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
-        v.rotate( theta );
-        double l = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
+        Vector2D velocity = new Vector2D( SolubleSaltsConfig.DEFAULT_LATTICE_SPEED, 0 );
+        velocity.rotate( theta );
+        return velocity;
+    }
 
+    private int getNumLatticeUnits() {
         int minUnits = 3;
         int maxUnits = 10;
         int numLatticeUnits = random.nextInt( maxUnits - minUnits ) + minUnits;
@@ -131,36 +138,40 @@ public class Shaker extends Particle {
         if ( getCurrentSalt() instanceof ISugarMolecule ) {
             numLatticeUnits = random.nextDouble() < 0.5 ? 3 : 4;
         }
+        return numLatticeUnits;
+    }
 
-        // If the shaker moved downward, shake out a crystal
-        while ( !done && dy > 0 ) {
-            done = true;
+    public void shakeCrystal() {
+        double dist = random.nextDouble() * openingLength * MathUtil.nextRandomSign() - openingLength / 2;
+        Vector2D velocity = getCrystalVelocity();
+        int numLatticeUnits = getNumLatticeUnits();
+        double y = getPosition().getY() + dist * Math.sin( orientation );
+        IonFactory ionFactory = new IonFactory();
 
-            double y = getPosition().getY() + l * Math.sin( orientation );
-            IonFactory ionFactory = new IonFactory();
+        int numCrystals = ( getCurrentSalt() instanceof StrontiumPhosphate ) ? 2 : 1;
 
-            int numCrystals = ( getCurrentSalt() instanceof StrontiumPhosphate ) ? 2 : 1;
+        Ion ion = null;
+        int count = 0;
+        for ( int n = 0; n < numCrystals; n++ ) {
+            ArrayList<Ion> ions = new ArrayList<Ion>();
 
-            for ( int n = 0; n < numCrystals; n++ ) {
-                ArrayList<Ion> ions = new ArrayList<Ion>();
+            // Attempt to get Sr3(PO)2 to look more dense
+            dist += count * 35;
+            count++;
 
-                // Attempt to get Sr3(PO)2 to look more dense
-                l += count * 35;
-                count++;
+            double x = getPosition().getX() + dist * Math.cos( orientation );
+            Point2D p = new Point2D.Double( x, y );
 
-                double x = getPosition().getX() + l * Math.cos( orientation );
-                Point2D p = new Point2D.Double( x, y );
-
-                for ( int j = 0; j < numLatticeUnits; j++ ) {
-                    for ( Component component : currentSalt.getComponents() ) {
-                        for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
-                            ion = ionFactory.create( component.getIonClass(), p, v, new Vector2D() );
-                            ions.add( ion );
-                        }
+            for ( int j = 0; j < numLatticeUnits; j++ ) {
+                for ( Component component : currentSalt.getComponents() ) {
+                    for ( int i = 0; i < component.getLatticeUnitFraction().intValue(); i++ ) {
+                        ion = ionFactory.create( component.getIonClass(), p, velocity, new Vector2D() );
+                        ions.add( ion );
                     }
                 }
+            }
 
-                // DEBUG: code for creating custom crystals
+            // DEBUG: code for creating custom crystals
 //            ions.clear();
 //            ion = ionFactory.create( Bromine.class, p, v, new Vector2D.Double() );
 //            ions.add( ion );
@@ -169,18 +180,17 @@ public class Shaker extends Particle {
 //            ion = ionFactory.create( Bromine.class, p, v, new Vector2D.Double() );
 //            ions.add( ion );
 
-                // Position the ions
-                for ( int i = 0; i < ions.size(); i++ ) {
-                    Ion ion1 = ions.get( i );
-                    ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
-                                      this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.1 ) );
-                    model.addModelElement( ion1 );
-                }
-
-                // Create the crystal
-                Crystal crystal = new Crystal( model, currentSalt.getLattice(), ions );
-                crystal.setVelocity( v );
+            // Position the ions
+            for ( int i = 0; i < ions.size(); i++ ) {
+                Ion ion1 = ions.get( i );
+                ion1.setPosition( this.getPosition().getX() + ion.getRadius() * random.nextDouble() * ( random.nextBoolean() ? 1 : -1 ),
+                                  this.getPosition().getY() - ion.getRadius() * ( random.nextDouble() + 0.1 ) );
+                model.addModelElement( ion1 );
             }
+
+            // Create the crystal
+            Crystal crystal = new Crystal( model, currentSalt.getLattice(), ions );
+            crystal.setVelocity( velocity );
         }
     }
 
