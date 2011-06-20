@@ -228,39 +228,6 @@ public class AdvancedRampControlPanel extends RampControlPanel {
         return ms;
     }
 
-
-    private ModelSlider createKineticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider kineticFriction = new ModelSlider( TheRampStrings.getString( "forces.kinetic-friction" ), "", 0, 1.5, 0.5 );
-        kineticFriction.setModelTicks( ticks );
-        kineticFriction.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.getRampPhysicalModel().getBlock().setKineticFriction( kineticFriction.getValue() );
-            }
-        } );
-        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
-            public void kineticFrictionChanged() {
-                kineticFriction.setValue( module.getRampPhysicalModel().getBlock().getKineticFriction() );
-            }
-        } );
-        return kineticFriction;
-    }
-
-    private ModelSlider createStaticSlider( double[] ticks, final RampModule module ) {
-        final ModelSlider staticFriction = new ModelSlider( TheRampStrings.getString( "forces.static-friction" ), "", 0, 1.5, 0.5 );
-        staticFriction.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                module.getRampPhysicalModel().getBlock().setStaticFriction( staticFriction.getValue() );
-            }
-        } );
-        module.getRampPhysicalModel().getBlock().addListener( new Block.Adapter() {
-            public void staticFrictionChanged() {
-                staticFriction.setValue( module.getRampPhysicalModel().getBlock().getStaticFriction() );
-            }
-        } );
-        staticFriction.setModelTicks( ticks );
-        return staticFriction;
-    }
-
     public void setup( RampObject rampObject ) {
         module.setObject( rampObject );
     }

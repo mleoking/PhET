@@ -13,7 +13,6 @@ import javax.sound.sampled.*;
  * Time: 1:13:42 AM
  */
 public class AudioSourceDataLinePlayer {
-    //    private static final int EXTERNAL_BUFFER_SIZE = 128000;
     private static final int EXTERNAL_BUFFER_SIZE = 4000;
     private static boolean audioEnabled = true;
     private static ArrayList listeners = new ArrayList();
@@ -133,30 +132,5 @@ public class AudioSourceDataLinePlayer {
             line.drain();
             line.close();
         }
-    }
-
-    public static void playNoBlock( final String preyURL ) {
-        URL url = AudioSourceDataLinePlayer.class.getResource( preyURL );
-        if ( url == null ) {
-            throw new RuntimeException( "No url for name=" + preyURL );
-        }
-        playNoBlock( url );
-    }
-
-    public static void playNoBlock( final URL url ) {
-        Thread t = new Thread( new Runnable() {
-            public void run() {
-                try {
-                    play( url );
-                }
-                catch ( IOException e ) {
-                    e.printStackTrace();
-                }
-                catch ( UnsupportedAudioFileException e ) {
-                    e.printStackTrace();
-                }
-            }
-        } );
-        t.start();
     }
 }

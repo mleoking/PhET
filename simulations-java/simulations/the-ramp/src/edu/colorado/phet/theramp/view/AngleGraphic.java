@@ -57,23 +57,8 @@ public class AngleGraphic extends PNode {
         Arc2D.Double arc = new Arc2D.Double( ellipseBounds, 0, extent, Arc2D.OPEN );
         phetShapeGraphic.setPathTo( arc );
 
-        //todo PICCOLO
         label.setOffset( arc.getBounds().getMaxX(), arc.getBounds().getY() + arc.getBounds().getHeight() / 2 + 20 );
-//        label.setLocation( RectangleUtils.getRightCenter( phetShapeGraphic.getBoundsInAncestor( getRampWorld() ) ) );
-//        label.setLocation( label.getLocation().x, label.getLocation().y + surfaceGraphic.getImageHeight() + 5 );
         label.setHTML( "" + getAngleMessage() );
-
-    }
-
-    private RampWorld getRampWorld() {
-        PNode parent = getParent();
-        while ( parent != null ) {
-            if ( parent instanceof RampWorld ) {
-                return (RampWorld) parent;
-            }
-            parent = parent.getParent();
-        }
-        return null;
     }
 
     private String getAngleMessage() {

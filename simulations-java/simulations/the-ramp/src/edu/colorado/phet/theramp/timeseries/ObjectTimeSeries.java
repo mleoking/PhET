@@ -55,25 +55,12 @@ public class ObjectTimeSeries {
         return ( (ObjectTimePoint) pts.get( i ) );
     }
 
-    public boolean indexInBounds( int index ) {
-        return index >= 0 && index < pts.size();
-    }
-
     public void addObserver( Observer observer ) {
         observers.add( observer );
     }
 
     public int numPoints() {
         return pts.size();
-    }
-
-    public double getLastTime() {
-        if ( numPoints() == 0 ) {
-            return 0;
-        }
-        else {
-            return getLastPoint().getTime();
-        }
     }
 
     public ObjectTimePoint getValueForTime( double time ) {

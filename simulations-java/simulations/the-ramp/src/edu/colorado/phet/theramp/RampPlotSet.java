@@ -260,17 +260,8 @@ public class RampPlotSet extends PNode {
         Point2D point = rampPanel.getRampWorld().getEarthGraphic().getGlobalFullBounds().getOrigin();
         globalToLocal( point );
         localToParent( point );
-//        point = new Point2D.Double( point.getX(), point.getY() + 80 );
-//        rampPanel.getCamera().getViewTransform().transform( point, point );
         return point.getY() + 80;
     }
-
-    private double getLayoutStartYWithCameras() {
-        Point2D point = rampPanel.getRampWorld().getEarthGraphic().getGlobalFullBounds().getOrigin();
-        rampPanel.getCamera().getViewTransform().transform( point, point );
-        return point.getY() + 80;
-    }
-
 
     private LayoutSet.LayoutItem toPlotLayoutItem( int width, TimePlotSuitePNode plot ) {
         if ( plot.isMinimized() ) {

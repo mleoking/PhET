@@ -10,9 +10,6 @@ package edu.colorado.phet.theramp.model;
  */
 
 public class Ground extends Surface {
-    public Ground( double angle, double length ) {
-        super( angle, length );
-    }
 
     public Ground( double angle, double length, double x0, double y0, double distanceOffset ) {
         super( angle, length, x0, y0, distanceOffset );

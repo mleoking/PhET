@@ -306,12 +306,4 @@ public class FreeBodyDiagram extends PNode {
 
         }
     }
-
-    public boolean isUserClicked() {
-        return userClicked;
-    }
-
-    public void resetUserClicked() {
-        this.userClicked = false;
-    }
 }

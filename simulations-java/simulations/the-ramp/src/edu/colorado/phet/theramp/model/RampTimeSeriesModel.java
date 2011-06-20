@@ -48,20 +48,9 @@ public class RampTimeSeriesModel extends TimeSeriesModel {
         else {
             rampModule.updateReadouts();
         }
-//        System.out.println( "series.numPoints() = " + series.numPoints() + ", running Time=" + clockEvent.getClock().getRunningTime() );
-    }
-
-    public Object getModelState() {
-        RampPhysicalModel state = rampModule.getRampPhysicalModel().getState();
-        return state;
-    }
-
-    protected void setModelState( Object v ) {
-        rampModule.getRampPhysicalModel().setState( (RampPhysicalModel) v );
     }
 
     public void setReplayTime( double requestedTime ) {
-//        System.out.println( "RampTimeSeriesModel.setReplayTime: " + requestedTime );
         super.setReplayTime( requestedTime );
 
         ObjectTimePoint value = series.getValueForTime( requestedTime );

@@ -30,7 +30,6 @@ public class AppliedForceSimpleControl extends PNode {
         this.rampPanel = rampPanel;
         double maxValue = 3000;
         HorizontalLayoutPanel horizontalLayoutPanel = new HorizontalLayoutPanel();
-//        horizontalLayoutPanel.add( new JLabel( "Applied Force (N)" ) );
 
         VerticalLayoutPanel verticalLayoutPanel = new VerticalLayoutPanel();
         verticalLayoutPanel.add( new JLabel( TheRampStrings.getString( "forces.applied.n" ) ) );

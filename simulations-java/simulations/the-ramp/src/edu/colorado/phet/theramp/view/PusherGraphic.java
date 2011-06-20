@@ -160,10 +160,6 @@ public class PusherGraphic extends PImage {
         }
     }
 
-    public void screenSizeChanged() {
-        updateTransform();
-    }
-
     private void update() {
         syncWithBlock();
         updateTransform();

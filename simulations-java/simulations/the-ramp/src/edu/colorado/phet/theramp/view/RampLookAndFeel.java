@@ -80,18 +80,6 @@ public class RampLookAndFeel {
         return normalColor;
     }
 
-    public Color getAccelerationColor() {
-        return accelColor;
-    }
-
-    public Color getVelocityColor() {
-        return velColor;
-    }
-
-    public Color getPositionColor() {
-        return positionColor;
-    }
-
     public Color getWallForceColor() {
         return wallForceColor;
     }

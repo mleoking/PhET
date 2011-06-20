@@ -210,10 +210,6 @@ public class RampWorld extends PNode {
         return leftBarrierGraphic;
     }
 
-    public RightBarrierGraphic getRightBarrierGraphic() {
-        return rightBarrierGraphic;
-    }
-
     public SurfaceGraphic getSurfaceGraphic( double modelLocation ) {
         return getSurfaceGraphic( module.getRampPhysicalModel().getSurfaceGraphic( modelLocation ) );
     }
@@ -258,10 +254,6 @@ public class RampWorld extends PNode {
 
     public EarthGraphic getEarthGraphic() {
         return earthGraphic;
-    }
-
-    public PotentialEnergyZeroGraphic getPotentialEnergyZeroGraphic() {
-        return potentialEnergyZeroGraphic;
     }
 
     public void setPotentialEnergyZeroGraphicVisible( boolean visible ) {

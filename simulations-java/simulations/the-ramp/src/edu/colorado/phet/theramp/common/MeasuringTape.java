@@ -76,7 +76,7 @@ public class MeasuringTape extends PNode {
             } );
 
             int crossHairLength = 10;
-            CrossHairGraphic crossHairGraphic = new CrossHairGraphic( getComponent(), crossHairLength );
+            CrossHairGraphic crossHairGraphic = new CrossHairGraphic( crossHairLength );
             addChild( crossHairGraphic );
             crossHairGraphic.setOffset( imageGraphic.getWidth() - crossHairLength / 2, imageGraphic.getHeight() - crossHairLength / 2 );
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
@@ -156,7 +156,7 @@ public class MeasuringTape extends PNode {
             addInputEventListener( new CursorHandler( Cursor.HAND_CURSOR ) );
 
             int crossHairSize = 10;
-            CrossHairGraphic crossHairGraphic = new CrossHairGraphic( getComponent(), crossHairSize );
+            CrossHairGraphic crossHairGraphic = new CrossHairGraphic( crossHairSize );
             crossHairGraphic.setPaint( Color.yellow );
             addChild( crossHairGraphic );
 
@@ -206,10 +206,7 @@ public class MeasuringTape extends PNode {
     }
 
     static class CrossHairGraphic extends PNode {
-        private int length;
-
-        public CrossHairGraphic( Component component, int length ) {
-            this.length = length;
+        public CrossHairGraphic( int length ) {
 
             PPath verticalStroke = new PPath( new Line2D.Double( length / 2, 0, length / 2, length ) );
             verticalStroke.setStroke( new BasicStroke( 2 ) );

@@ -12,6 +12,5 @@ public class RampSimPanel extends PhetPCanvas {
         PDebug.debugRegionManagement = true;
         RampModelView rampModelView = new RampModelView( module );
         addScreenChild( rampModelView );
-
     }
 }
