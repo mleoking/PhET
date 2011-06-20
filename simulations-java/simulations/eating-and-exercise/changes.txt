@@ -1,3 +1,4 @@
+Fixed: Height is quantized to be 1 or 2 meters in countries that use comma for decimal place, resolves #2644
 # 1.03.01 (49348) Mar 1, 2011
 Removed unused references to RulerNode, see #2678
 1/28/10 clean up ScaleNode to investigate #2141
