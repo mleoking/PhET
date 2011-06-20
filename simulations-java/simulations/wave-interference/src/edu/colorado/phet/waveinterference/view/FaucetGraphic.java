@@ -46,7 +46,7 @@ public class FaucetGraphic extends PhetPNode {
     private CursorHandler cursorHandler;
 
     public FaucetGraphic( WaveModel waveModel, Oscillator oscillator, LatticeScreenCoordinates latticeScreenCoordinates ) {
-        this( waveModel, oscillator, latticeScreenCoordinates, new MSFaucetData2() );
+        this( waveModel, oscillator, latticeScreenCoordinates, new FaucetImageData() );
     }
 
     public FaucetGraphic( WaveModel waveModel, final Oscillator oscillator, final LatticeScreenCoordinates latticeScreenCoordinates, FaucetData faucetData ) {
