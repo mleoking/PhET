@@ -110,7 +110,7 @@ public class AdvancedPanel extends VerticalLayoutPanel {
         parent.repaint();
     }
 
-    private void hideAdvanced() {
+    public void hideAdvanced() {
         hideButton.setVisible( false );
         controls.setVisible( false );
         showButton.setVisible( true );

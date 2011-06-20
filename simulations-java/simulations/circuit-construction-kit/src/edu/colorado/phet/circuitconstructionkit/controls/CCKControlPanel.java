@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.servicemanager.InputStreamFileContents;
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.*;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
@@ -395,6 +396,13 @@ public class CCKControlPanel extends ControlPanel {
             close.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     dialog.setVisible( false );
+                }
+            } );
+
+            //When the simulation is reset, minimize the advanced control panel
+            module.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    hideAdvanced();
                 }
             } );
         }
