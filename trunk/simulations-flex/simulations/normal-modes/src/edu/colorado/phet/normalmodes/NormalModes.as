@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes {
+import edu.colorado.phet.normalmodes.view.MainView;
+
 import mx.containers.Canvas;
 
 public class NormalModes extends Canvas {
