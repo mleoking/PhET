@@ -35,15 +35,29 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  *
  * @author Sam Reid
  */
-public class MicroModule extends Module implements ISolubleSaltsModelContainer {
+public class MicroModule extends Module {
 
     private MicroModel model;
-    private final Calibration calibration = new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
-        super( "Micro", new SolubleSaltsClock() );
+        this( configuration, new MicroModel( new SolubleSaltsModel( new SolubleSaltsClock(), new ISolubleSaltsModelContainer() {
+            public Calibration getCalibration() {
+                return new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
+            }
 
-        model = new MicroModel( new SolubleSaltsModel( getClock(), this ), getCalibration() );
+            public void addResetListener( ResetListener resetListener ) {
+            }
+
+            public double getMinimumFluidVolume() {
+                return MicroModel.MIN_FLUID_VOLUME;
+            }
+        } ), new SolubleSaltsConfig.Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 ) ) );
+    }
+
+    public MicroModule( SugarAndSaltSolutionsColorScheme configuration, MicroModel model ) {
+        super( "Micro", model.clock );
+
+        this.model = model;
 
         //Don't use the entire south panel for the clock controls
         setClockControlPanel( null );
@@ -73,17 +87,6 @@ public class MicroModule extends Module implements ISolubleSaltsModelContainer {
             rotate( Math.random() * Math.PI * 2 );
         }};
         return (BufferedImage) sucroseNode.toImage();
-    }
-
-    public Calibration getCalibration() {
-        return calibration;
-    }
-
-    public void addResetListener( ResetListener resetListener ) {
-    }
-
-    public double getMinimumFluidVolume() {
-        return MicroModel.MIN_FLUID_VOLUME;
     }
 
     @Override public void reset() {

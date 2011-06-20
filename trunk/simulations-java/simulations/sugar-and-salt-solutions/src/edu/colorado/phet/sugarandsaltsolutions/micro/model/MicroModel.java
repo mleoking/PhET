@@ -19,6 +19,7 @@ import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
@@ -30,6 +31,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSuga
  */
 public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
     //Model for the concentration in SI (moles/m^3)
+    //Shadows parent values of sugarConcentration and saltConcentration
     public final DoubleProperty sugarConcentration = new DoubleProperty( 0.0 );
     public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );
 
@@ -46,6 +48,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public MicroModel( final SolubleSaltsModel solubleSaltsModel, Calibration calibration ) {
         this.solubleSaltsModel = solubleSaltsModel;
         this.calibration = calibration;
+
         //When the user selects a different solute, update the dispenser type
         dispenserType.addObserver( new SimpleObserver() {
             public void update() {
@@ -85,6 +88,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         } );
     }
 
+    @Override public void addMacroSalt( MacroSalt salt ) {
+        super.addMacroSalt( salt );
+        getSolubleSaltsModel().getShaker().shake( 10 );
+    }
+
     public void reset() {
         super.reset();
         sugarConcentration.reset();
@@ -96,6 +104,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {
         return numSaltIons.greaterThan( 0.0 );
+    }
+
+    public SolubleSaltsModel getSolubleSaltsModel() {
+        return solubleSaltsModel;
     }
 
     public ObservableProperty<Boolean> isAnySugarToRemove() {
