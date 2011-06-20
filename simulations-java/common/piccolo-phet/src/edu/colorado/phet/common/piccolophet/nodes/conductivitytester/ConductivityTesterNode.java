@@ -24,6 +24,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
+
 /**
  * Visual representation of the conductivity tester.
  * A simple circuit with a battery and a light bulb, and a probe at each end of the circuit.
@@ -52,7 +54,12 @@ public class ConductivityTesterNode extends PhetPNode {
 
     // light bulb properties
     private static final double PERCENT_LIGHT_BULB_ATTACHMENT = 0.12; // percent of light bulb's full height, from bottom of bulb, determines where to attach the probe wire
-    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION = new LinearFunction( 0, 1, 0.85, 1 ); // alpha of the bulb
+
+    // alpha of the bulb when used against a dark background.  This is clamped after evaluation to keep it within the range [0,1]
+    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_DARK_BACKGROUND = new LinearFunction( 0, 1, 0.3, 2 );
+
+    // alpha of the bulb against a light background.
+    private static final LinearFunction BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_LIGHT_BACKGROUND = new LinearFunction( 0, 1, 0.85, 1 );
     private static final LinearFunction BRIGHTNESS_TO_INTENSITY_FUNCTION = new LinearFunction( 0, 1, 0, 1 ); // intensity of the light rays
 
     // probe properties
@@ -71,6 +78,9 @@ public class ConductivityTesterNode extends PhetPNode {
     private static final int POSITIVE_WIRE_CONTROL_POINT_DY = -100;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DX = -POSITIVE_WIRE_CONTROL_POINT_DX;
     private static final int NEGATIVE_WIRE_CONTROL_POINT_DY = POSITIVE_WIRE_CONTROL_POINT_DY;
+
+    //The mapping from model brightness value to the opacity of the light bulb
+    private LinearFunction bulbBrightnessFunction = BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_LIGHT_BACKGROUND;
 
     private final ModelViewTransform transform;
     private final IConductivityTester tester;
@@ -266,9 +276,27 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     private void updateBrightness() {
-        lightBulbNode.setGlassTransparency( (float) BRIGHTNESS_TO_ALPHA_FUNCTION.evaluate( tester.getBrightness() ) );
+        lightBulbNode.setGlassTransparency( clamp( 0, bulbBrightnessFunction.evaluate( tester.getBrightness() ), 1 ) );
         lightRaysNode.setIntensity( BRIGHTNESS_TO_INTENSITY_FUNCTION.evaluate( tester.getBrightness() ) );
         valueNode.setValue( tester.getBrightness() );
+    }
+
+    /**
+     * Makes the ConductivityTesterNode work well against a dark background, changing the bulb brightness function and mask usage.
+     */
+    public void setAgainstDarkBackground() {
+        bulbBrightnessFunction = BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_DARK_BACKGROUND;
+        lightBulbNode.setMaskVisible( false );
+        updateBrightness();
+    }
+
+    /**
+     * Makes the ConductivityTesterNode work well against a light background (as it is by default), changing the bulb brightness function and mask usage.
+     */
+    public void setAgainstWhiteBackground() {
+        bulbBrightnessFunction = BRIGHTNESS_TO_ALPHA_FUNCTION_AGAINST_LIGHT_BACKGROUND;
+        lightBulbNode.setMaskVisible( true );
+        updateBrightness();
     }
 
     /*
@@ -277,12 +305,13 @@ public class ConductivityTesterNode extends PhetPNode {
     private static class LightBulbNode extends PComposite {
 
         private final PImage glassNode;
+        private PNode maskNode;
 
         public LightBulbNode() {
 
             PNode baseNode = new PImage( LIGHT_BULB_BASE );
             glassNode = new PImage( LIGHT_BULB_GLASS );
-            PNode maskNode = new PImage( LIGHT_BULB_GLASS_MASK );
+            maskNode = new PImage( LIGHT_BULB_GLASS_MASK );
 
             // rendering order
             addChild( maskNode );
@@ -299,8 +328,13 @@ public class ConductivityTesterNode extends PhetPNode {
             maskNode.setOffset( glassNode.getOffset() );
         }
 
-        public void setGlassTransparency( float transparency ) {
-            glassNode.setTransparency( transparency );
+        public void setGlassTransparency( double transparency ) {
+            glassNode.setTransparency( (float) transparency );
+        }
+
+        //Sets whether the mask is visible--the mask is used against a white background to make sure the bulb dims and lights up well
+        public void setMaskVisible( boolean visible ) {
+            maskNode.setVisible( visible );
         }
     }
 

@@ -35,6 +35,11 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         super( conductivityTester, transform, Color.lightGray, Color.lightGray, Color.lightGray, Color.red, Color.green, Color.black, Color.black, false );
         this.conductivityTester = conductivityTester;
         this.transform = transform;
+
+        //Set up the ConductivityTesterNode to work well against a black background
+        setAgainstDarkBackground();
+
+        //Make it visible when the model shows the conductivity tester to be visible (i.e. enabled)
         conductivityTester.visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
