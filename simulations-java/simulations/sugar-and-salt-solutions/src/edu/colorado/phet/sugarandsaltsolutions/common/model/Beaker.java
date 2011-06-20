@@ -29,7 +29,7 @@ public class Beaker {
     private final double depth;
 
     //Width of the beaker
-    public float wallWidth = 0.0075f;
+    public float wallWidth = 0.0050f;
 
     //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
     //This value was sampled by trial and error at runtime
@@ -37,6 +37,8 @@ public class Beaker {
 
     //Since we decided not to have solutes take up volume, we have no extension
     private final double topExtension = 0.0;
+
+    private final double topDelta = wallWidth * 1.2;
 
     public Beaker( double x, double y, double width, double height, double depth ) {
         this.x = x;
@@ -61,15 +63,26 @@ public class Beaker {
         //Stroke (in model coordinates) that will be used to create the walls
         BasicStroke wallStroke = new BasicStroke( wallWidth );
 
-        //Create a GeneralPath representing the walls as a U-shape, starting from the top left
-        Shape wallShape = wallStroke.createStrokedShape( new DoubleGeneralPath( x, y + height + topExtension ) {{
+        //Create a Shape representing the walls as a U-shape, starting from the top left
+        Shape wallShape = wallStroke.createStrokedShape( getWallPath( topDelta ).getGeneralPath() );
+
+        //Since the stroke goes on both sides of the line, subtract out the main area so that the water won't overlap with the edges
+        return new Area( wallShape ) {{
+            subtract( new Area( getWallPath( topDelta * 2 ).getGeneralPath() ) );
+        }};
+    }
+
+    //Gets the path that represents the walls of the beaker, with the delta indicating the x and y dimensions of the beaker opening at the top.
+    //It is a parameter since we need to extend it for subtracting out the middle in getWallShape, so the water doesn't overlap the edges.
+    //Without this, the top part of the beaker (its opening) would be twice as thick as the walls of the rectangular part of the beaker
+    private DoubleGeneralPath getWallPath( final double delta ) {
+        return new DoubleGeneralPath( x - delta, y + height + topExtension + delta ) {{
+            lineTo( x, y + height + topExtension );
             lineTo( x, y );
             lineTo( x + width, y );
             lineTo( x + width, y + height + topExtension );
-        }}.getGeneralPath() );
-
-        //Since the stroke goes on both sides of the line, subtract out the main area so that the water won't overlap with the edges
-        return new Area( wallShape ) {{subtract( new Area( toRectangle() ) );}};
+            lineTo( x + width + delta, y + height + topExtension + delta );
+        }};
     }
 
     //Returns a rectangle of the bounds of the beaker

@@ -1,3 +1,4 @@
+Macro tab: Added angled sides for the beaker opening
 Macro tab: Made the beaker glass thicker and brighter
 Macro tab: Added a text label above the light bulb that indicates if the conductivity tester is short circuit (by having a bulb, wire or battery submerged)
 Water tab: Added 3D view for sucrose
