@@ -61,6 +61,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
         };
         solubleSaltsModel = new SolubleSaltsModel( clock, container );
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
+                solubleSaltsModel.update( clockEvent );
+            }
+        } );
 
         //When the user selects a different solute, update the dispenser type
         dispenserType.addObserver( new SimpleObserver() {
