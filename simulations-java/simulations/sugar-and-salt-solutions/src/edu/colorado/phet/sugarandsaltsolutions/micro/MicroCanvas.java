@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
+import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
@@ -13,5 +14,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
     public MicroCanvas( final MicroModel model, SugarAndSaltSolutionsColorScheme configuration ) {
         super( model, configuration );
+
+        model.addIonListener( new IonGraphicManager( getRootNode() ) );
     }
 }
