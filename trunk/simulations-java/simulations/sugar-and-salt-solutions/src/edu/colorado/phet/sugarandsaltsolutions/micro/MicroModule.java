@@ -92,7 +92,7 @@ public class MicroModule extends SolubleSaltsModule {
         //Show a control that lets the user choose different solutes (salt/sugar) just below the bar chart
         getFullScaleCanvasNode().addChild( new SoluteControlPanelNode( model.dispenserType ) {{
             scale( CONTROL_SCALE_FACTOR );
-            setOffset( stageSize.width - getFullBounds().getWidth(), barChartNode.getFullBounds().getMaxY() + INSET );
+            setOffset( barChartNode.getFullBounds().getX() - getFullBounds().getWidth() - MacroCanvas.INSET, barChartNode.getFullBounds().getY() );
         }} );
 
         //Add the reset all button
