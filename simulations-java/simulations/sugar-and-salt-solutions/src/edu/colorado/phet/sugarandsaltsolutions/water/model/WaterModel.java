@@ -12,6 +12,7 @@ import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -96,6 +97,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel implements IS
     private double timeSinceSaltAdded = 0;
 
     public WaterModel() {
+        super( new ConstantDtClock( 30 ) );
         //Set the bounds of the physics engine.  The docs say things should be mostly between 0.1 and 10 units
         AABB worldAABB = new AABB();
         worldAABB.lowerBound = new Vec2( -200, -200 );

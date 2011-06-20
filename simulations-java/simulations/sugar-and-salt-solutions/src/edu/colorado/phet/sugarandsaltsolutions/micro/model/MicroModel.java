@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
+import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -47,7 +48,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private DoubleProperty numSugarMolecules = new DoubleProperty( 0.0 );
     private ISolubleSaltsModelContainer container;
 
+    private static final double framesPerSecond = 30;
+
     public MicroModel() {
+        //SolubleSalts clock runs much faster than wall time
+        super( new ConstantDtClock( (int) ( 1000 / framesPerSecond ), 1 / framesPerSecond * 10 ) );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
