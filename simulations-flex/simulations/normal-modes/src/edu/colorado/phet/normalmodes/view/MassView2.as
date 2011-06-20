@@ -5,7 +5,10 @@
  * Time: 9:08 AM
  * To change this template use File | Settings | File Templates.
  */
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.normalmodes.*;
+import edu.colorado.phet.normalmodes.model.Model2;
+
 import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.events.MouseEvent;

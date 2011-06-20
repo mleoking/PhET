@@ -1,6 +1,8 @@
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.model {
+import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.flexcommon.AboutDialog;
 import edu.colorado.phet.normalmodes.*;
+import edu.colorado.phet.normalmodes.view.View1;
 
 //model of 1D array of coupled masses and springs
 

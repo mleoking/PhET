@@ -1,4 +1,6 @@
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.normalmodes.model.Model1;
+
 import flash.display.*;
 
 //view for Model1, a 1-dimensional array of masses and springs

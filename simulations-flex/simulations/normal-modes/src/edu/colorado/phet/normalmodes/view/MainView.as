@@ -6,7 +6,15 @@
  * Time: 3:06 PM
  * To change this template use File | Settings | File Templates.
  */
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.normalmodes.*;
+import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
+import edu.colorado.phet.normalmodes.control.ControlPanel;
+import edu.colorado.phet.normalmodes.control.PlayPauseButtons;
+import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
+import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.model.Model2;
+
 import flash.display.Sprite;
 
 import mx.containers.Canvas;

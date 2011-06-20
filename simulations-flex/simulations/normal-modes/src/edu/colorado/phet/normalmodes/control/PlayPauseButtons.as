@@ -5,10 +5,12 @@
  * Time: 12:48 PM
  * To change this template use File | Settings | File Templates.
  */
-package edu.colorado.phet.normalmodes {
+package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.normalmodes.*;
 
 import edu.colorado.phet.flexcommon.FlexSimStrings;
+import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Graphics;
 import flash.display.LineScaleMode;
