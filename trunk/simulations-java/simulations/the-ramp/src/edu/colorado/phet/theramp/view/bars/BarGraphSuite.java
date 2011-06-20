@@ -3,14 +3,14 @@
 /*  */
 package edu.colorado.phet.theramp.view.bars;
 
+import java.awt.*;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.view.RampPanel;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
 
 /**
  * User: Sam Reid

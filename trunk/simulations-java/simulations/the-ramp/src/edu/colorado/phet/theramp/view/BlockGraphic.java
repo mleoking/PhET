@@ -3,6 +3,11 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
 import edu.colorado.phet.common.phetcommon.view.util.MakeDuotoneImageOp;
@@ -17,11 +22,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  * User: Sam Reid
@@ -56,7 +56,7 @@ public class BlockGraphic extends PNode {
         try {
             wheelGraphic = new PImage( ImageLoader.loadBufferedImage( "the-ramp/images/skateboard.png" ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -124,8 +124,8 @@ public class BlockGraphic extends PNode {
         transform.concatenate( AffineTransform.getScaleInstance( scale, sy ) );
         transform.concatenate( AffineTransform.getTranslateInstance( 0, getOffsetYPlease() ) );
         imageGraphic.setTransform( transform );
-        if( isFrictionless() ) {
-            if( !isAncestorOf( wheelGraphic ) ) {
+        if ( isFrictionless() ) {
+            if ( !isAncestorOf( wheelGraphic ) ) {
                 addChild( 0, wheelGraphic );
             }
             wheelGraphic.setVisible( true );
@@ -136,7 +136,7 @@ public class BlockGraphic extends PNode {
 //            this.graphic.setVisible( false );
         }
         else {
-            if( isAncestorOf( wheelGraphic ) ) {
+            if ( isAncestorOf( wheelGraphic ) ) {
                 removeChild( wheelGraphic );
             }
 //            wheelGraphic.setVisible( false );
@@ -150,7 +150,7 @@ public class BlockGraphic extends PNode {
     }
 
     private double getOffsetYPlease() {
-        if( isFrictionless() ) {
+        if ( isFrictionless() ) {
             return rampObject.getYOffset() - getSkateboardHeight();
         }
         else {
@@ -163,12 +163,12 @@ public class BlockGraphic extends PNode {
     }
 
     private AffineTransform createTransform( double x, double scaleX, double fracSize, int imageWidth, int imageHeight ) {
-        return getCurrentSurfaceGraphic().createTransform( x, new Dimension( (int)( imageWidth * scaleX ), (int)( imageHeight * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( x, new Dimension( (int) ( imageWidth * scaleX ), (int) ( imageHeight * fracSize ) ) );
     }
 
     private AffineTransform createTransform( double scaleX, double fracSize ) {
 //        return rampGraphic.createTransform( block.getPosition(), new Dimension( (int)( graphic.getImage().getWidth() * scaleX ), (int)( graphic.getImage().getHeight() * fracSize ) ) );
-        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int)( imageGraphic.getImage().getWidth( null ) * scaleX ), (int)( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
+        return getCurrentSurfaceGraphic().createTransform( block.getPositionInSurface(), new Dimension( (int) ( imageGraphic.getImage().getWidth( null ) * scaleX ), (int) ( imageGraphic.getImage().getHeight( null ) * fracSize ) ) );
     }
 
     private void setImage( BufferedImage image ) {
@@ -177,7 +177,7 @@ public class BlockGraphic extends PNode {
     }
 
     public int getObjectWidthView() {
-        return (int)( imageGraphic.getImage().getWidth( null ) * rampObject.getScale() );//TODO scaling will hurt this.
+        return (int) ( imageGraphic.getImage().getWidth( null ) * rampObject.getScale() );//TODO scaling will hurt this.
     }
 
     public Block getBlock() {
@@ -189,14 +189,14 @@ public class BlockGraphic extends PNode {
         try {
             setImage( rampObject.getImage() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         updateBlock();
     }
 
     public SurfaceGraphic getCurrentSurfaceGraphic() {
-        if( block.getSurface() instanceof Ramp ) {
+        if ( block.getSurface() instanceof Ramp ) {
             return rampGraphic;
         }
         else {
@@ -215,7 +215,7 @@ public class BlockGraphic extends PNode {
     public void paintRed() {
         System.out.println( "BlockGraphic.paintRed" );
         MakeDuotoneImageOp duotone = new MakeDuotoneImageOp( Color.red );
-        BufferedImage dest = duotone.filter( (BufferedImage)imageGraphic.getImage(), null );
+        BufferedImage dest = duotone.filter( (BufferedImage) imageGraphic.getImage(), null );
         imageGraphic.setImage( dest );
     }
 
@@ -224,7 +224,7 @@ public class BlockGraphic extends PNode {
         try {
             setImage( rampObject.getImage() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

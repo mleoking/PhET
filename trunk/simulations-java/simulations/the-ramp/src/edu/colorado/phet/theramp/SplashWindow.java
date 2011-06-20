@@ -71,7 +71,7 @@ public class SplashWindow extends Window {
         try {
             mt.waitForID( 0 );
         }
-        catch( InterruptedException ie ) {}
+        catch ( InterruptedException ie ) {}
 
         // Center the window on the screen
         int imgWidth = image.getWidth( this );
@@ -91,7 +91,7 @@ public class SplashWindow extends Window {
                 // This is necessary because the mouse click may
                 // occur before the contents of the window
                 // has been painted.
-                synchronized( SplashWindow.this ) {
+                synchronized ( SplashWindow.this ) {
                     SplashWindow.this.paintCalled = true;
                     SplashWindow.this.notifyAll();
                 }
@@ -122,9 +122,9 @@ public class SplashWindow extends Window {
         // has been painted.
         // Note: To improve performance we do not enter
         // the synchronized block unless we have to.
-        if( !paintCalled ) {
+        if ( !paintCalled ) {
             paintCalled = true;
-            synchronized( this ) { notifyAll(); }
+            synchronized ( this ) { notifyAll(); }
         }
     }
 
@@ -134,7 +134,7 @@ public class SplashWindow extends Window {
      * @param image The splash image.
      */
     public static void splash( Image image ) {
-        if( instance == null && image != null ) {
+        if ( instance == null && image != null ) {
             Frame f = new Frame();
 
             // Create the splash image
@@ -148,12 +148,12 @@ public class SplashWindow extends Window {
             // called at least once by the AWT event dispatcher thread.
             // If more than one processor is available, we don't wait,
             // and maximize CPU throughput instead.
-            if( !EventQueue.isDispatchThread()
-                && Runtime.getRuntime().availableProcessors() == 1 ) {
-                synchronized( instance ) {
-                    while( !instance.paintCalled ) {
+            if ( !EventQueue.isDispatchThread()
+                 && Runtime.getRuntime().availableProcessors() == 1 ) {
+                synchronized ( instance ) {
+                    while ( !instance.paintCalled ) {
                         try { instance.wait(); }
-                        catch( InterruptedException e ) {}
+                        catch ( InterruptedException e ) {}
                     }
                 }
             }
@@ -166,7 +166,7 @@ public class SplashWindow extends Window {
      * @param imageURL The url of the splash image.
      */
     public static void splash( URL imageURL ) {
-        if( imageURL != null ) {
+        if ( imageURL != null ) {
             splash( Toolkit.getDefaultToolkit().createImage( imageURL ) );
         }
         else {
@@ -178,7 +178,7 @@ public class SplashWindow extends Window {
      * Closes the splash window.
      */
     public static void disposeSplash() {
-        if( instance != null ) {
+        if ( instance != null ) {
             instance.getOwner().dispose();
             instance = null;
         }
@@ -192,10 +192,10 @@ public class SplashWindow extends Window {
     public static void invokeMain( String className, String[] args ) {
         try {
             Class.forName( className )
-                    .getMethod( "main", new Class[]{String[].class} )
-                    .invoke( null, new Object[]{args} );
+                    .getMethod( "main", new Class[] { String[].class } )
+                    .invoke( null, new Object[] { args } );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             InternalError error = new InternalError( "Failed to invoke main method" );
             error.initCause( e );
             throw error;

@@ -21,8 +21,8 @@ public class ObjectTimeSeries {
     }
 
     private void notifyAdded() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.dataAdded( this );
         }
     }
@@ -41,8 +41,8 @@ public class ObjectTimeSeries {
     }
 
     private void notifyCleared() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.cleared( this );
         }
     }
@@ -52,7 +52,7 @@ public class ObjectTimeSeries {
     }
 
     public ObjectTimePoint pointAt( int i ) {
-        return ( (ObjectTimePoint)pts.get( i ) );
+        return ( (ObjectTimePoint) pts.get( i ) );
     }
 
     public boolean indexInBounds( int index ) {
@@ -68,7 +68,7 @@ public class ObjectTimeSeries {
     }
 
     public double getLastTime() {
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return 0;
         }
         else {
@@ -77,7 +77,7 @@ public class ObjectTimeSeries {
     }
 
     public ObjectTimePoint getValueForTime( double time ) {
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return new ObjectTimePoint( null, 0 );
         }
         ObjectTimePoint[] n = getNeighborsForTime( time, 0, numPoints() - 1, 0 );
@@ -86,7 +86,7 @@ public class ObjectTimeSeries {
 
         double lowerDist = Math.abs( lowerBound.getTime() - time );
         double upperDist = Math.abs( upperSample.getTime() - time );
-        if( lowerDist <= upperDist ) {
+        if ( lowerDist <= upperDist ) {
             return new ObjectTimePoint( lowerBound.getValue(), time );
         }
         else {
@@ -95,20 +95,20 @@ public class ObjectTimeSeries {
     }
 
     private ObjectTimePoint[] getNeighborsForTime( double time, int minIndex, int maxIndex, int debugDepth ) {
-        return new ObjectTimePoint[]{getLowerSample( time, minIndex, maxIndex, 0 ), getUpperSample( time, minIndex, maxIndex, 0 )};
+        return new ObjectTimePoint[] { getLowerSample( time, minIndex, maxIndex, 0 ), getUpperSample( time, minIndex, maxIndex, 0 ) };
     }
 
     private ObjectTimePoint getLowerSample( double time, int min, int max, int depth ) {
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new ObjectTimePoint( null, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( min );
         }
         int midIndex = ( max + min ) / 2;
         ObjectTimePoint mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getLowerSample( time, min, midIndex, depth + 1 );
         }
         else {
@@ -117,16 +117,16 @@ public class ObjectTimeSeries {
     }
 
     private ObjectTimePoint getUpperSample( double time, int min, int max, int depth ) {
-        if( depth > 1000 ) {
+        if ( depth > 1000 ) {
             new RuntimeException( "Lower Sample recursed 1000 times." ).printStackTrace();
             return new ObjectTimePoint( null, 0 );
         }
-        if( min == max || min == max - 1 ) {
+        if ( min == max || min == max - 1 ) {
             return pointAt( max );
         }
         int midIndex = ( max + min ) / 2;
         ObjectTimePoint mid = pointAt( midIndex );
-        if( mid.getTime() > time ) {
+        if ( mid.getTime() > time ) {
             return getUpperSample( time, min, midIndex, depth + 1 );
         }
         else {

@@ -3,12 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.math.ModelViewTransform1D;
 import edu.colorado.phet.theramp.view.RampFontSet;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid
@@ -54,15 +54,15 @@ public class BarGraphic2D extends PNode {
         int height = computeHeight();
         Rectangle rect = new Rectangle( x, y - height, width, height );
 //        label.setOffset( rect.x + 7 - labelWidth, (int)( 5 + y + labelHeight ) );
-        label.setOffset( rect.x + 2 - labelWidth, (int)( 5 + y + labelHeight ) );
+        label.setOffset( rect.x + 2 - labelWidth, (int) ( 5 + y + labelHeight ) );
 //        label.setOffset( rect.x + 7 - labelWidth, (int)( y + labelHeight ) );
         rectangle3DGraphic.setPathTo( rect );
     }
 
     public void setValue( double value ) {
-        if( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
+        if ( value != this.value && Math.abs( value ) != Math.abs( this.value ) ) {
             this.value = value;
-            if( value < 0 ) {
+            if ( value < 0 ) {
                 rectangle3DGraphic.setOffset( 0, -computeHeight() );//a big hack to make negative values work.
             }
             else {
@@ -78,7 +78,7 @@ public class BarGraphic2D extends PNode {
     }
 
     public void setBarHeight( double baselineY ) {
-        this.y = (int)baselineY;
+        this.y = (int) baselineY;
         updateBar();
     }
 }

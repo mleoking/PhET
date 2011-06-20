@@ -3,18 +3,19 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.theramp.model.RampObject;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.MessageFormat;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.theramp.model.RampObject;
 
 /**
  * User: Sam Reid
@@ -31,20 +32,20 @@ public class ObjectSelectionPanel extends JPanel {
         setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
         ButtonGroup bg = new ButtonGroup();
         final JRadioButton[] jRadioButtons = new JRadioButton[imageElements.length];
-        for( int i = 0; i < imageElements.length; i++ ) {
+        for ( int i = 0; i < imageElements.length; i++ ) {
             final RampObject imageElement = imageElements[i];
             BufferedImage image = null;
             try {
                 image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
             image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
             ImageIcon icon = new ImageIcon( image );
             JRadioButton jRadioButton = new JRadioButton( getIconText( imageElement ), icon );
             jRadioButtons[i] = jRadioButton;
-            if( i == 0 ) {
+            if ( i == 0 ) {
                 jRadioButton.setSelected( true );
                 jRadioButton.setFont( selectedFont );
             }
@@ -57,9 +58,9 @@ public class ObjectSelectionPanel extends JPanel {
                 public void actionPerformed( ActionEvent e ) {
 
                     rampModule.setObject( imageElement );
-                    for( int j = 0; j < jRadioButtons.length; j++ ) {
+                    for ( int j = 0; j < jRadioButtons.length; j++ ) {
                         JRadioButton radioButton = jRadioButtons[j];
-                        if( j == i1 ) {
+                        if ( j == i1 ) {
                             radioButton.setFont( selectedFont );
                         }
                         else {
@@ -77,7 +78,7 @@ public class ObjectSelectionPanel extends JPanel {
     private String getIconText( final RampObject imageElement ) {
 //        char muChar = '\u00F6';
         char muChar = '\u03BC';
-        return MessageFormat.format( TheRampStrings.getString( "readout.object-mass" ), new Object[]{imageElement.getName(), new Double( imageElement.getMass() ), new Character( muChar ), new Double( imageElement.getStaticFriction() )} );
+        return MessageFormat.format( TheRampStrings.getString( "readout.object-mass" ), new Object[] { imageElement.getName(), new Double( imageElement.getMass() ), new Character( muChar ), new Double( imageElement.getStaticFriction() ) } );
 //        return "<html>HELLO<sub>2</html>";
 //        return imageElement.getName() + " (" + imageElement.getMass() + " kg)";
     }

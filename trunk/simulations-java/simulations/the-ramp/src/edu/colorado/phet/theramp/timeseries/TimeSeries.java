@@ -21,8 +21,8 @@ public class TimeSeries {
     }
 
     private void notifyAdded() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.dataAdded();
         }
     }
@@ -41,8 +41,8 @@ public class TimeSeries {
     }
 
     private void notifyCleared() {
-        for( int i = 0; i < observers.size(); i++ ) {
-            Observer observer = (Observer)observers.get( i );
+        for ( int i = 0; i < observers.size(); i++ ) {
+            Observer observer = (Observer) observers.get( i );
             observer.cleared();
         }
     }
@@ -52,7 +52,7 @@ public class TimeSeries {
     }
 
     public TimePoint pointAt( int i ) {
-        return ( (TimePoint)pts.get( i ) );
+        return ( (TimePoint) pts.get( i ) );
     }
 
     public boolean indexInBounds( int index ) {
@@ -68,7 +68,7 @@ public class TimeSeries {
     }
 
     public double getLastTime() {
-        if( numPoints() == 0 ) {
+        if ( numPoints() == 0 ) {
             return 0;
         }
         else {

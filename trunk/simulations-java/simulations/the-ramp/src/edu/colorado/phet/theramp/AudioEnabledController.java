@@ -3,11 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
-
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+import edu.colorado.phet.theramp.common.AudioSourceDataLinePlayer;
 
 /**
  * User: Sam Reid

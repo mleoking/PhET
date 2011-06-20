@@ -3,6 +3,15 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.MessageFormat;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -21,14 +30,6 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.*;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.MessageFormat;
 
 /**
  * User: Sam Reid
@@ -63,7 +64,7 @@ public class SurfaceGraphic extends PNode {
         try {
             surfaceGraphic = new PImage( loadRampImage() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 //        floorGraphic = new PhetShapeGraphic( getComponent(), null, stroke, Color.black );
@@ -175,7 +176,7 @@ public class SurfaceGraphic extends PNode {
 //            System.out.println( "texture = " + texture );
             return new TexturePaint( texture, new Rectangle2D.Double( rampEnd.x - texture.getWidth() / 2, rampEnd.y, texture.getWidth(), texture.getHeight() ) );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }
@@ -191,8 +192,8 @@ public class SurfaceGraphic extends PNode {
     }
 
     public void paintRed() {
-        if( RampPanel.redRampEnabled ) {
-            surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255, 0, 0, 32 ) ).filter( (BufferedImage)surfaceGraphic.getImage(), null ) );
+        if ( RampPanel.redRampEnabled ) {
+            surfaceGraphic.setImage( new MakeDuotoneImageOp( new Color( 255, 0, 0, 32 ) ).filter( (BufferedImage) surfaceGraphic.getImage(), null ) );
         }
     }
 
@@ -200,7 +201,7 @@ public class SurfaceGraphic extends PNode {
         try {
             surfaceGraphic.setImage( loadRampImage() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -241,7 +242,7 @@ public class SurfaceGraphic extends PNode {
         Point p2 = new Point( viewDst.x, viewOrigin.y );
         Line2D.Double floor = new Line2D.Double( viewOrigin, p2 );
         Rectangle jackShape = createJackArea();
-        if( lastJackShape == null || !jackShape.equals( lastJackShape ) ) {
+        if ( lastJackShape == null || !jackShape.equals( lastJackShape ) ) {
             bookStackGraphic.setPathTo( jackShape );
             bookStackGraphic.setPaint( createBookFill() );
             bookStackGraphic.setVisible( ramp.getAngle() * 360 / 2 / Math.PI < 85 );
@@ -254,12 +255,12 @@ public class SurfaceGraphic extends PNode {
         path.closePath();
         filledShapeGraphic.setPathTo( path.getGeneralPath() );
 
-        heightReadoutGraphic.setOffset( (int)( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y + jackShape.getBounds().height / 2 );
+        heightReadoutGraphic.setOffset( (int) ( jackShape.getBounds().getMaxX() + 5 ), jackShape.getBounds().y + jackShape.getBounds().height / 2 );
 
         PBounds bounds = heightReadoutGraphic.getGlobalFullBounds();
         globalToLocal( bounds );
 
-        heightExtentGraphic.setPathToPolyline( new Point2D[]{
+        heightExtentGraphic.setPathToPolyline( new Point2D[] {
                 new Point2D.Double( bounds.getCenterX() - 5, floor.getP2().getY() ),
                 new Point2D.Double( bounds.getCenterX() + 5, floor.getP2().getY() ),
                 new Point2D.Double( bounds.getCenterX(), floor.getP2().getY() ),
@@ -270,7 +271,7 @@ public class SurfaceGraphic extends PNode {
         heightExtentGraphic.setVisible( ramp.getHeight() > 0.4 );
         double height = ramp.getHeight();
         String heightStr = new DecimalFormat( "0.0" ).format( height );
-        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height-meters" ), new Object[]{heightStr} ) );
+        heightReadoutGraphic.setText( MessageFormat.format( TheRampStrings.getString( "indicator.height-meters" ), new Object[] { heightStr } ) );
 
         rampTickSetGraphic.update();
         angleGraphic.update();
@@ -281,7 +282,7 @@ public class SurfaceGraphic extends PNode {
         Point rampStart = getViewLocation( ramp.getLocation( 0 ) );
         Point rampEnd = getViewLocation( ramp.getLocation( ramp.getLength() ) );
 
-        return new Rectangle( rampEnd.x - texture.getWidth() / 2, (int)( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
+        return new Rectangle( rampEnd.x - texture.getWidth() / 2, (int) ( rampEnd.y + surfaceGraphic.getImage().getHeight( null ) * 0.75 ), texture.getWidth(), rampStart.y - rampEnd.y );
     }
 
     GeneralPath createJackLine() {

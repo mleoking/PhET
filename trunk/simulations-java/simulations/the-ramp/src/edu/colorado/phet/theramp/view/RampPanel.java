@@ -3,6 +3,12 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.PDebugKeyHandler;
@@ -17,13 +23,7 @@ import edu.colorado.phet.theramp.view.bars.BarGraphSuite;
 import edu.colorado.phet.theramp.view.plot.TimeSeriesPNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
-import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -85,7 +85,7 @@ public class RampPanel extends PhetPCanvas {
 //                System.out.println( "<********RampPanel.stepFinished" );
 //                System.out.println( "getRampModule().getRampPhysicalModel().getThermalEnergy() = " + getRampModule().getRampPhysicalModel().getThermalEnergy() );
 //                System.out.println( "getOverheatEnergy() = " + getOverheatEnergy() );
-                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
+                if ( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
                     //colorize heat.
                     rampWorld.setHeatColor( true );
                 }
@@ -96,7 +96,7 @@ public class RampPanel extends PhetPCanvas {
         } );
         getRampModule().getTimeSeriesModel().addPlaybackTimeChangeListener( new TimeSeriesModel.PlaybackTimeListener() {
             public void timeChanged() {
-                if( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
+                if ( getRampModule().getRampPhysicalModel().getThermalEnergy() >= getOverheatEnergy() ) {
                     //colorize heat.
                     rampWorld.setHeatColor( true );
                 }
@@ -166,12 +166,12 @@ public class RampPanel extends PhetPCanvas {
     }
 
     private void layoutChildren() {
-        if( !recursing ) {
+        if ( !recursing ) {
             recursing = true;
             double yOrig = rampPlotSet.getFullBounds().getY() - goPauseClear.getFullBounds().getHeight() - 2;
             double gopY = getChartTopY() - goPauseClear.getFullBounds().getHeight() - 2;
             double sliderY = getChartTopY() - appliedForceControl.getFullBounds().getHeight() - 2;
-            if( gopY <= 0 ) {
+            if ( gopY <= 0 ) {
                 gopY = yOrig;
             }
             int insetX = 2;
@@ -179,14 +179,14 @@ public class RampPanel extends PhetPCanvas {
             goPauseClear.setOffset( insetX, sliderY + appliedForceControl.getFullBounds().getHeight() );
 
             double max = Math.max( appliedForceControl.getFullBounds().getMaxX(), goPauseClear.getFullBounds().getMaxX() );
-            rampPlotSet.setPlotOffsetX( (int)( max + 5 ) );
+            rampPlotSet.setPlotOffsetX( (int) ( max + 5 ) );
 
             barGraphSuite.setOffset( getWidth() - barGraphSuite.getFullBounds().getWidth() - 5, gopY - 5 );
             double maxY = ( getHeight() - barGraphSuite.getOffset().getY() ) * 0.8;
             try {
                 barGraphSuite.setBarChartHeight( maxY );
             }
-            catch( RuntimeException r ) {
+            catch ( RuntimeException r ) {
                 r.printStackTrace();//todo sometimes fails drawing arrow.
             }
             rampPlotSet.layoutChildren();
@@ -358,7 +358,7 @@ public class RampPanel extends PhetPCanvas {
 
     public double getChartLayoutMaxX() {
         int insetX = 3;
-        if( barGraphSuite.areBothMinimized() && false ) {
+        if ( barGraphSuite.areBothMinimized() && false ) {
             return getSize().width - insetX;
         }
         else {
@@ -368,7 +368,7 @@ public class RampPanel extends PhetPCanvas {
 
     public double getChartLayoutMaxXORIG() {
         int insetX = 3;
-        if( barGraphSuite.areBothMinimized() ) {
+        if ( barGraphSuite.areBothMinimized() ) {
             return getSize().width - insetX;
         }
         else {
@@ -388,8 +388,8 @@ public class RampPanel extends PhetPCanvas {
 
     public void graphLayoutChanged() {
         layoutAll();
-        if( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
-            if( allThreeGraphsUp() ) {
+        if ( Toolkit.getDefaultToolkit().getScreenSize().width <= 1024 && RampModule.MINIMIZE_READOUT_TEXT_FOR_SMALL_SCREEN ) {
+            if ( allThreeGraphsUp() ) {
                 rampPlotSet.setTimeSeriesPlotFont( new PhetFont( 9, true, false ) );
                 rampPlotSet.setTimeSeriesPlotShadow( 0, 0 );
             }
@@ -410,7 +410,7 @@ public class RampPanel extends PhetPCanvas {
     }
 
     public void setWorldScale( double scale ) {
-        if( scale > 0 ) {
+        if ( scale > 0 ) {
             super.setWorldScale( scale );
         }
     }
@@ -423,13 +423,13 @@ public class RampPanel extends PhetPCanvas {
         //this workaround ensures that the layout of objects is set properly, if this is called immediately,
         //the pointer graphic shows up in the wrong place
         //todo: remove the need for this workaround
-        wiggleMeTimer = new Timer( 10000,new ActionListener() {
+        wiggleMeTimer = new Timer( 10000, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 wiggleMe.animateTo( getBlockGraphic().getObjectGraphic() );
                 wiggleMeTimer.stop();
             }
         } );
-        wiggleMeTimer.setInitialDelay( 1000);
+        wiggleMeTimer.setInitialDelay( 1000 );
         wiggleMeTimer.start();
     }
 }

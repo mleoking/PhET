@@ -34,11 +34,11 @@ public class PlaybackMode extends Mode {
 
     public void clockTicked( ClockEvent event ) {
         double dt = event.getSimulationTimeChange();
-        if( !timeSeriesModel.isPaused() ) {
+        if ( !timeSeriesModel.isPaused() ) {
             timeSeriesModel.getPlaybackTimer().stepInTime( dt * playbackSpeed, timeSeriesModel.getRecordTimer().getTime() );
             double playTime = timeSeriesModel.getPlaybackTimer().getTime();
             double recTime = timeSeriesModel.getRecordTimer().getTime();
-            if( playTime < recTime ) {
+            if ( playTime < recTime ) {
                 timeSeriesModel.setReplayTime( playTime );
             }
             else {

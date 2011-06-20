@@ -23,16 +23,16 @@ public class Ground extends Surface {
     }
 
     public boolean applyBoundaryConditions( RampPhysicalModel rampPhysicalModel, Block block ) {
-        if( block.getPositionInSurface() < 0 ) {
+        if ( block.getPositionInSurface() < 0 ) {
             block.setPositionInSurface( 0 );
             block.setVelocity( 0 );
             super.notifyCollision();
             return true;
         }
-        else if( block.getPositionInSurface() > getLength() ) {
+        else if ( block.getPositionInSurface() > getLength() ) {
             block.setSurface( rampPhysicalModel.getRamp() );
             double overshoot = block.getPositionInSurface() - getLength();
-            if( overshoot > rampPhysicalModel.getRamp().getLength() ) {
+            if ( overshoot > rampPhysicalModel.getRamp().getLength() ) {
                 overshoot = rampPhysicalModel.getRamp().getLength();
             }
             block.setPositionInSurface( overshoot );
@@ -42,7 +42,7 @@ public class Ground extends Surface {
 
 
     public double getWallForce( double sumOtherForces, Block block ) {
-        if( block.getPositionInSurface() == 0.0 && sumOtherForces < 0 ) {
+        if ( block.getPositionInSurface() == 0.0 && sumOtherForces < 0 ) {
             return -sumOtherForces;
         }
         else {

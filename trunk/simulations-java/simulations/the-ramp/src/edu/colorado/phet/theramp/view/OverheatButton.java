@@ -3,6 +3,13 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
@@ -11,12 +18,6 @@ import edu.colorado.phet.theramp.TheRampStrings;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.geom.Rectangle2D;
 
 /**
  * User: Sam Reid
@@ -63,7 +64,7 @@ public class OverheatButton extends PNode {
 //        System.out.println( "rampPhysicalModel.getThermalEnergy() = " + rampPhysicalModel.getThermalEnergy() );
 //        System.out.println( "max=" + max );
 //        System.out.println( "" );
-        if( rampPhysicalModel.getThermalEnergy() >= max && !getVisible() && module.numMaximizedBarGraphs() > 0 ) {
+        if ( rampPhysicalModel.getThermalEnergy() >= max && !getVisible() && module.numMaximizedBarGraphs() > 0 ) {
             setVisible( true );
             setPickable( true );
             setChildrenPickable( true );
@@ -78,7 +79,7 @@ public class OverheatButton extends PNode {
 //            setOffset( rampPanel.getBarGraphSuite().getXOffset(), rampPanel.getBarGraphSuite().getYOffset() + 100 );
             setOffset( r.getX() + 20, rampPanel.getHeight() / 2 );
         }
-        else if( rampPhysicalModel.getThermalEnergy() < max ) {
+        else if ( rampPhysicalModel.getThermalEnergy() < max ) {
             setVisible( false );
             setPickable( false );
             setChildrenPickable( false );

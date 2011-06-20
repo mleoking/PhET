@@ -21,7 +21,7 @@ public class LiveMode extends Mode {
 
     public void clockTicked( ClockEvent event ) {
         TimeSeriesModel timeSeriesModel = getTimeSeriesModel();
-        if( !timeSeriesModel.isPaused() ) {
+        if ( !timeSeriesModel.isPaused() ) {
             timeSeriesModel.updateModel( event );
         }
     }

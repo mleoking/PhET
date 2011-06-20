@@ -3,10 +3,10 @@
 /*  */
 package edu.colorado.phet.theramp.common;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
 
 /**
  * User: Sam Reid

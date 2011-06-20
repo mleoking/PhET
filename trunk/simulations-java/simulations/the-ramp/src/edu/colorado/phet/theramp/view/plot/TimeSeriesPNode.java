@@ -3,8 +3,15 @@
 /*  */
 package edu.colorado.phet.theramp.view.plot;
 
-import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
+import java.awt.*;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowHTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.theramp.model.RampPhysicalModel;
@@ -13,13 +20,6 @@ import edu.colorado.phet.theramp.timeseries.TimePoint;
 import edu.colorado.phet.theramp.timeseries.TimeSeries;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-
-import java.awt.*;
-import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.text.DecimalFormat;
 
 /**
  * User: Sam Reid
@@ -142,7 +142,7 @@ public class TimeSeriesPNode {
     }
 
     private void updateReadout( double value ) {
-        if( lastUpdateValue != value ) {
+        if ( lastUpdateValue != value ) {
             this.lastUpdateValue = value;
 
 //        readoutGraphic.setText( "" + valueAccessor.getName() + " = " + decimalFormat.format( value ) + " " + valueAccessor.getUnitsAbbreviation() );
@@ -171,8 +171,8 @@ public class TimeSeriesPNode {
 
         Point2D screenPoint = plotSuite.toImageLocation( at.getTime(), at.getValue() );
 
-        if( lastScreenPoint != null ) {
-            if( visible ) {
+        if ( lastScreenPoint != null ) {
+            if ( visible ) {
                 Line2D.Double screenLine = new Line2D.Double( lastScreenPoint, screenPoint );
                 graphics2D.setColor( transparentColor );
                 graphics2D.setClip( plotSuite.getDataArea() );
@@ -201,9 +201,9 @@ public class TimeSeriesPNode {
     }
 
     public void repaintAll() {
-        if( visible ) {
+        if ( visible ) {
             lastScreenPoint = null;
-            for( int i = 0; i < series.numPoints(); i++ ) {
+            for ( int i = 0; i < series.numPoints(); i++ ) {
                 addPoint( series.pointAt( i ) );
             }
         }

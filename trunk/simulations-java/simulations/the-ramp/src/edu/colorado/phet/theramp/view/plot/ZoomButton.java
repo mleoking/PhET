@@ -3,15 +3,16 @@
 /*  */
 package edu.colorado.phet.theramp.view.plot;
 
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
-
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+
+import javax.swing.*;
+
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 
 /**
  * User: Sam Reid
@@ -65,15 +66,15 @@ public class ZoomButton extends JButton {
             value += dz;
             System.out.println( "value = " + value );
             value = MathUtil.clamp( min, value, max );
-            if( origValue != value ) {
+            if ( origValue != value ) {
                 notifyListeners();
             }
         }
     }
 
     private void notifyListeners() {
-        for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+        for ( int i = 0; i < listeners.size(); i++ ) {
+            Listener listener = (Listener) listeners.get( i );
             listener.zoomChanged();
         }
     }
@@ -102,10 +103,10 @@ public class ZoomButton extends JButton {
         }
 
         public void mouseReleased( MouseEvent e ) {
-            if( timer != null ) {
+            if ( timer != null ) {
                 timer.stop();
                 long time = System.currentTimeMillis();
-                if( time - pressTime < initDelay ) {
+                if ( time - pressTime < initDelay ) {
                     discrete.actionPerformed( null );
                 }
             }

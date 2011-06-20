@@ -3,10 +3,10 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
-import edu.colorado.phet.theramp.RampModule;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import edu.colorado.phet.theramp.RampModule;
 
 /**
  * User: Sam Reid

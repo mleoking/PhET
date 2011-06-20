@@ -3,19 +3,20 @@
 /*  */
 package edu.colorado.phet.theramp;
 
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
 import edu.colorado.phet.common.phetcommon.view.ControlPanel;
 import edu.colorado.phet.common.phetcommon.view.ModelSlider;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.theramp.model.Block;
 import edu.colorado.phet.theramp.view.GoPauseClearPanel;
-
-import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * User: Sam Reid
@@ -52,7 +53,7 @@ public class RampControlPanel extends ControlPanel {
                 getModule().clearHeat();
             }
         } );
-        double[] ticks = new double[]{0, 0.5, 1.0, 1.5};
+        double[] ticks = new double[] { 0, 0.5, 1.0, 1.5 };
         this.frictionSlider = createFrictionSlider( ticks, rampModule );
 
 //        addWorkEnergyBarGraphControls( );
@@ -73,7 +74,7 @@ public class RampControlPanel extends ControlPanel {
 
 
     private void setFrictionEnabled( boolean enabled ) {
-        if( enabled ) {
+        if ( enabled ) {
             setFriction( frictionSlider.getValue() );
         }
         else {

@@ -26,10 +26,10 @@ public class LayoutSet {
 
     public int getFixedSize() {
         int size = 0;
-        for( int i = 0; i < items.size(); i++ ) {
-            LayoutItem layoutItem = (LayoutItem)items.get( i );
-            if( layoutItem instanceof FixedLayoutItem ) {
-                FixedLayoutItem fixedLayoutItem = (FixedLayoutItem)layoutItem;
+        for ( int i = 0; i < items.size(); i++ ) {
+            LayoutItem layoutItem = (LayoutItem) items.get( i );
+            if ( layoutItem instanceof FixedLayoutItem ) {
+                FixedLayoutItem fixedLayoutItem = (FixedLayoutItem) layoutItem;
                 size += fixedLayoutItem.getSize();
             }
         }
@@ -37,19 +37,19 @@ public class LayoutSet {
     }
 
     public void hideVariableItems() {
-        for( int i = 0; i < items.size(); i++ ) {
-            LayoutItem layoutItem = (LayoutItem)items.get( i );
-            if( layoutItem instanceof VariableLayoutItem ) {
-                ( (VariableLayoutItem)layoutItem ).setVisible( false );
+        for ( int i = 0; i < items.size(); i++ ) {
+            LayoutItem layoutItem = (LayoutItem) items.get( i );
+            if ( layoutItem instanceof VariableLayoutItem ) {
+                ( (VariableLayoutItem) layoutItem ).setVisible( false );
             }
         }
     }
 
     public double numVariableItems() {
         int num = 0;
-        for( int i = 0; i < items.size(); i++ ) {
-            LayoutItem layoutItem = (LayoutItem)items.get( i );
-            if( layoutItem instanceof VariableLayoutItem ) {
+        for ( int i = 0; i < items.size(); i++ ) {
+            LayoutItem layoutItem = (LayoutItem) items.get( i );
+            if ( layoutItem instanceof VariableLayoutItem ) {
                 num++;
             }
         }
@@ -58,15 +58,15 @@ public class LayoutSet {
 
     public void layoutForVariableItemSize( double origValue, double size ) {
         double y = origValue;
-        for( int i = 0; i < items.size(); i++ ) {
-            LayoutItem layoutItem = (LayoutItem)items.get( i );
+        for ( int i = 0; i < items.size(); i++ ) {
+            LayoutItem layoutItem = (LayoutItem) items.get( i );
             layoutItem.setOffset( y );
-            if( layoutItem instanceof VariableLayoutItem ) {
-                ( (VariableLayoutItem)layoutItem ).setSize( size );
+            if ( layoutItem instanceof VariableLayoutItem ) {
+                ( (VariableLayoutItem) layoutItem ).setSize( size );
                 y += size;
             }
-            else if( layoutItem instanceof FixedLayoutItem ) {
-                FixedLayoutItem item = (FixedLayoutItem)layoutItem;
+            else if ( layoutItem instanceof FixedLayoutItem ) {
+                FixedLayoutItem item = (FixedLayoutItem) layoutItem;
                 y += item.getSize();
             }
         }
@@ -75,7 +75,7 @@ public class LayoutSet {
 
     public void layout( double origValue, double totalSpace ) {
         double availableRemainder = totalSpace - getFixedSize();
-        if( availableRemainder <= 0 ) {
+        if ( availableRemainder <= 0 ) {
             hideVariableItems();
         }
         else {//share equally

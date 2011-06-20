@@ -3,6 +3,13 @@
 /*  */
 package edu.colorado.phet.theramp.view;
 
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
+import java.awt.geom.Point2D;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.theramp.RampModule;
 import edu.colorado.phet.theramp.common.MeasuringTape;
@@ -10,13 +17,6 @@ import edu.colorado.phet.theramp.model.RampPhysicalModel;
 import edu.colorado.phet.theramp.model.Surface;
 import edu.colorado.phet.theramp.view.arrows.*;
 import edu.umd.cs.piccolo.PNode;
-
-import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.NoninvertibleTransformException;
-import java.awt.geom.Point2D;
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * User: Sam Reid
@@ -89,7 +89,7 @@ public class RampWorld extends PNode {
             pusherGraphic = new PusherGraphic( rampPanel, blockGraphic.getObjectGraphic(), this );
             addChild( pusherGraphic );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 
@@ -104,8 +104,8 @@ public class RampWorld extends PNode {
     }
 
     void updateArrowSetGraphics() {
-        for( int i = 0; i < arrowSets.size(); i++ ) {
-            AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
+        for ( int i = 0; i < arrowSets.size(); i++ ) {
+            AbstractArrowSet arrowSet = (AbstractArrowSet) arrowSets.get( i );
             arrowSet.updateGraphics();
         }
     }
@@ -174,8 +174,8 @@ public class RampWorld extends PNode {
     }
 
     public void setForceVisible( String force, boolean selected ) {
-        for( int i = 0; i < arrowSets.size(); i++ ) {
-            AbstractArrowSet arrowSet = (AbstractArrowSet)arrowSets.get( i );
+        for ( int i = 0; i < arrowSets.size(); i++ ) {
+            AbstractArrowSet arrowSet = (AbstractArrowSet) arrowSets.get( i );
             arrowSet.setForceVisible( force, selected );
         }
     }
@@ -191,10 +191,10 @@ public class RampWorld extends PNode {
         try {
             out = affineTransform.inverseTransform( screenPt, null );//todo ignores registration point.
         }
-        catch( NoninvertibleTransformException e ) {
+        catch ( NoninvertibleTransformException e ) {
             e.printStackTrace();
         }
-        return new Point( (int)out.getX(), (int)out.getY() );
+        return new Point( (int) out.getX(), (int) out.getY() );
     }
 
     public void setMeasureTapeVisible( boolean visible ) {
@@ -219,7 +219,7 @@ public class RampWorld extends PNode {
     }
 
     private SurfaceGraphic getSurfaceGraphic( Surface surface ) {
-        if( surface == groundGraphic.getSurface() ) {
+        if ( surface == groundGraphic.getSurface() ) {
             return groundGraphic;
         }
         else {
@@ -228,12 +228,12 @@ public class RampWorld extends PNode {
     }
 
     public void setHeatColor( boolean heatColor ) {
-        if( heatColor == this.heatColor ) {
+        if ( heatColor == this.heatColor ) {
             return;
         }
         else {
             this.heatColor = heatColor;
-            if( !heatColor ) {
+            if ( !heatColor ) {
                 restoreOriginalImages();
             }
             else {
@@ -243,7 +243,7 @@ public class RampWorld extends PNode {
     }
 
     private void paintImagesRed() {
-        if( RampPanel.redRampEnabled ) {
+        if ( RampPanel.redRampEnabled ) {
             blockGraphic.paintRed();
             rampGraphic.paintRed();
         }
@@ -265,10 +265,10 @@ public class RampWorld extends PNode {
     }
 
     public void setPotentialEnergyZeroGraphicVisible( boolean visible ) {
-        if( !visible && isPotentialEnergyZeroGraphicVisible() ) {
+        if ( !visible && isPotentialEnergyZeroGraphicVisible() ) {
             removeChild( potentialEnergyZeroGraphic );
         }
-        else if( visible && !isPotentialEnergyZeroGraphicVisible() ) {
+        else if ( visible && !isPotentialEnergyZeroGraphicVisible() ) {
             addChild( potentialEnergyZeroGraphic );
         }
     }

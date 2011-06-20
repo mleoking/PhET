@@ -3,18 +3,19 @@
 /*  */
 package edu.colorado.phet.theramp;
 
-import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
-import edu.colorado.phet.theramp.model.RampObject;
-
-import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.text.MessageFormat;
+
+import javax.swing.*;
+import javax.swing.border.Border;
+
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
+import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;
+import edu.colorado.phet.theramp.model.RampObject;
 
 /**
  * User: Sam Reid
@@ -46,14 +47,14 @@ public class ObjectComboBox extends JComboBox {
 
     private static ImageIcon[] toLabelArray( RampObject[] imageElements, Component component ) {
         ImageIcon[] lab = new ImageIcon[imageElements.length];
-        for( int i = 0; i < lab.length; i++ ) {
+        for ( int i = 0; i < lab.length; i++ ) {
             try {
                 BufferedImage image = ImageLoader.loadBufferedImage( imageElements[i].getLocation() );
                 image = BufferedImageUtils.rescaleYMaintainAspectRatio( image, 35 );
                 lab[i] = new ImageIcon( image );
-                lab[i].setDescription( MessageFormat.format( TheRampStrings.getString( "readout.mass" ), new Object[]{imageElements[i].getName(), new Double( imageElements[i].getMass() )} ) );
+                lab[i].setDescription( MessageFormat.format( TheRampStrings.getString( "readout.mass" ), new Object[] { imageElements[i].getName(), new Double( imageElements[i].getMass() ) } ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -72,9 +73,9 @@ public class ObjectComboBox extends JComboBox {
                                                        int index,
                                                        boolean isSelected,
                                                        boolean cellHasFocus ) {
-            DefaultListCellRenderer component = (DefaultListCellRenderer)super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
+            DefaultListCellRenderer component = (DefaultListCellRenderer) super.getListCellRendererComponent( list, value, index, isSelected, cellHasFocus );
 
-            ImageIcon icon = (ImageIcon)value;
+            ImageIcon icon = (ImageIcon) value;
             setText( icon.getDescription() );
             setIcon( icon );
 //            setFont( font );
