@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
@@ -26,6 +27,8 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
+
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -50,9 +53,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     private static final double framesPerSecond = 30;
 
+    //Soluble salts model only works in well in its predefined coordinate frame, so map its model coordinates to our model coordinates
+    public final ModelViewTransform solubleSaltsTransform;
+
+    //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
+    int stepsOfAddingSalt = 0;
+
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
-        super( new ConstantDtClock( (int) ( 1000 / framesPerSecond ), 1 / framesPerSecond * 10 ) );
+        super( new ConstantDtClock( framesPerSecond ) );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
@@ -66,9 +75,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
         };
         solubleSaltsModel = new SolubleSaltsModel( clock, container );
+
+        //When the clock ticks, update the soluble salt model, but run it much faster since it runs at a different rate than the sugar and salt solutions model
         clock.addClockListener( new ClockAdapter() {
-            @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
-                solubleSaltsModel.update( clockEvent );
+            @Override public void simulationTimeChanged( final ClockEvent clockEvent ) {
+                solubleSaltsModel.update( new ClockEvent( clock ) {
+                    @Override public double getSimulationTimeChange() {
+                        return clockEvent.getSimulationTimeChange() * 20;
+                    }
+                } );
             }
         } );
 
@@ -92,6 +107,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
         } );
 
+        //Create the mapping from soluble salt model coordinates to our coordinates
+        solubleSaltsTransform = createRectangleInvertedYMapping( getSolubleSaltsModel().getVessel().getShape(), beaker.getWallShape().getBounds2D() );
+
         //Update ion counts and concentration when ions leave/enter
         solubleSaltsModel.addIonListener( new IonListener() {
             public void ionAdded( IonEvent event ) {
@@ -111,10 +129,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         } );
     }
 
+    //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
     @Override public void addMacroSalt( MacroSalt salt ) {
-        super.addMacroSalt( salt );
-//        getSolubleSaltsModel().getShaker().setPosition( salt.position.get().getX(), salt.position.get().getY() );
-        getSolubleSaltsModel().getShaker().shakeCrystal();
+        //Don't call super here, instead create a micro crystal
+        stepsOfAddingSalt++;
+        if ( stepsOfAddingSalt % 10 == 0 ) {
+            //Set the location of the shaker in the soluble salts model
+            getSolubleSaltsModel().getShaker().setPosition( solubleSaltsTransform.viewToModel( salt.position.get() ).toPoint2D() );
+
+            //Create a microscopic crystal at the shaker's new location
+            getSolubleSaltsModel().getShaker().shakeCrystal();
+        }
     }
 
     public void reset() {

@@ -4,6 +4,7 @@ package edu.colorado.phet.solublesalts.view;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author Ron LeMaster
  */
-public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeListener */ {
+public class IonGraphic extends PNode implements SimpleObserver {
 
     //----------------------------------------------------------------
     // Class fields and methods
@@ -37,7 +38,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     //----------------------------------------------------------------
 
     private Ion ion;
-    private PImage pImage;
+    protected PImage pImage;
     private PText pText;
     private PPath pDebugPath;
 
@@ -78,8 +79,7 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
     }
 
     public void update() {
-        this.setOffset( ion.getPosition().getX() - pImage.getWidth() / 2,
-                        ion.getPosition().getY() - pImage.getHeight() / 2 );
+        updateOffset( ion.getPosition() );
 
         // Draws a mark on the ion if it's bound
         if ( showBondIndicators && ion.isBound() /* && pDebugPath == null */ ) {
@@ -102,6 +102,11 @@ public class IonGraphic extends PNode implements SimpleObserver /*, Ion.ChangeLi
             removeChild( pDebugPath );
             pDebugPath = null;
         }
+    }
+
+    protected void updateOffset( final Point2D position ) {
+        setOffset( position.getX() - pImage.getWidth() / 2,
+                   position.getY() - pImage.getHeight() / 2 );
     }
 
     public void setColor( Color color ) {
