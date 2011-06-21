@@ -19,6 +19,7 @@ public class View extends Sprite{
     var curve:Sprite;		//displayed curve of function
     var curveGraphics:Graphics;
     var canvasGraphics:Graphics;
+	var zoomControl:ZoomControl;
     var magnifyButton:Sprite;
     var deMagnifyButton:Sprite;
     //var currentYScale:Number;	//indicates magnification of y-scale
@@ -163,6 +164,13 @@ public class View extends Sprite{
     }//end of initialize
 
     public function initializeZoomControls():void {
+		//new code
+		this.zoomControl = new ZoomControl();
+		this.canvas.addChild( this.zoomControl );
+		this.zoomControl.magnifyButton.addEventListener(MouseEvent.CLICK, magnifyCurve);
+        this.zoomControl.demagnifyButton.addEventListener(MouseEvent.CLICK, demagnifyCurve);
+		//end new code
+		
         this.magnifyButton = new MagnifyButton();
         this.deMagnifyButton = new DeMagnifyButton();
         //this.currentYScale = 1.0;
@@ -176,6 +184,12 @@ public class View extends Sprite{
     }
 
     public function positionZoomControls():void {
+		
+		//new code
+		this.zoomControl.x = this.originX - 25;
+        this.zoomControl.y = this.originY;
+		//end new code
+		
         this.magnifyButton.scaleX = this.magnifyButton.scaleY = 0.4;
         this.deMagnifyButton.scaleX = this.deMagnifyButton.scaleY = 0.4;
         this.magnifyButton.x = this.originX - 10;
