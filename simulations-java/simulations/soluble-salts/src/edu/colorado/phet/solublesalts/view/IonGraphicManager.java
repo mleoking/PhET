@@ -75,8 +75,13 @@ public class IonGraphicManager implements IonListener {
         imageMap.put( clazz, image );
     }
 
-    static private IonGraphic createPImage( Ion ion ) {
-        return new IonGraphic( ion, imageMap.get( ion.getClass() ) );
+    protected IonGraphic createPImage( Ion ion ) {
+        final BufferedImage image = imageMap.get( ion.getClass() );
+        return createImage( ion, image );
+    }
+
+    protected IonGraphic createImage( Ion ion, BufferedImage image ) {
+        return new IonGraphic( ion, image );
     }
 
     //----------------------------------------------------------------

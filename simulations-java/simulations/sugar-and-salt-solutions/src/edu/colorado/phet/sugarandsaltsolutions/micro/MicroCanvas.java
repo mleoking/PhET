@@ -13,6 +13,8 @@ import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.solublesalts.model.ion.Ion;
+import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
@@ -30,7 +32,19 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
     public MicroCanvas( final MicroModel model, SugarAndSaltSolutionsColorScheme configuration ) {
         super( model, configuration );
 
-        model.addIonListener( new IonGraphicManager( getRootNode() ) );
+        model.addIonListener( new IonGraphicManager( getRootNode() ) {
+            @Override protected IonGraphic createImage( Ion ion, BufferedImage image ) {
+                return new IonGraphic( ion, image ) {
+                    @Override protected void updateOffset( Point2D ionPosition ) {
+                        //Map the soluble salts model coordinates through sugar and salt solution model coordinates to canvas coordinates
+                        Point2D sugarModelPosition = model.solubleSaltsTransform.modelToView( ionPosition );
+                        Point2D viewLocation = new Point2D.Double( transform.modelToView( sugarModelPosition ).getX() - pImage.getWidth() / 2,
+                                                                   transform.modelToView( sugarModelPosition ).getY() - pImage.getHeight() / 2 );
+                        setOffset( viewLocation );
+                    }
+                };
+            }
+        } );
     }
 
     //Create an image for sucrose using the same code as in the water tab to keep representations consistent
