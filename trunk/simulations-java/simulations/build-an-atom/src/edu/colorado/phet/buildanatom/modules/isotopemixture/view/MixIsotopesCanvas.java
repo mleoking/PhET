@@ -14,6 +14,7 @@ import javax.swing.*;
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
+import edu.colorado.phet.buildanatom.IsotopesAndAtomicMassApplication;
 import edu.colorado.phet.buildanatom.model.MonoIsotopeParticleBucket;
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.view.IsotopeSliderNode;
@@ -25,6 +26,7 @@ import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -175,10 +177,23 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
         // Add the test chamber into and out of which the individual isotopes
         // will be moved. As with all elements in this model, the shape and
         // position are considered to be two separate things.
-        final PhetPPath testChamberNode = new PhetPPath( Color.BLACK ) {{
+        final PhetPPath testChamberNode = new PhetPPath( new BasicStroke( 1 ), Color.BLACK ) {{
             setPathTo( mvt.modelToView( model.getIsotopeTestChamber().getTestChamberRect() ) );
         }};
         chamberLayer.addChild( testChamberNode );
+
+        // Hook up the test chamber to the boolean property that can be used
+        // to make it white (for easier printing and photocopying), see #2925.
+        IsotopesAndAtomicMassApplication.whiteBackgroundProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean whiteBackground ) {
+                if ( whiteBackground ) {
+                    testChamberNode.setPaint( Color.WHITE );
+                }
+                else {
+                    testChamberNode.setPaint( Color.BLACK );
+                }
+            }
+        } );
 
         // Add the periodic table node that will allow the user to set the
         // current isotope.
