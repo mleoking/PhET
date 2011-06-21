@@ -2,9 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.List;
@@ -35,7 +33,7 @@ public class AverageAtomicMassIndicator extends PNode {
     private double massSpan = 3; // In amu.
     private double minMass = 0; // In amu.
 
-    public AverageAtomicMassIndicator( final MixIsotopesModel model ){
+    public AverageAtomicMassIndicator( final MixIsotopesModel model ) {
         // Root node onto which all other nodes are added.  This is done so
         // so that the root node can be offset at the end of construction in
         // such a way that the (0,0) location will be in the upper left corner.
@@ -43,10 +41,10 @@ public class AverageAtomicMassIndicator extends PNode {
         addChild( rootNode );
 
         // Add the bar that makes up "spine" of the indicator.
-        final double barOffsetY =  0;
+        final double barOffsetY = 0;
         DoubleGeneralPath barShape = new DoubleGeneralPath( 0, 0 );
         barShape.lineTo( INDICATOR_WIDTH, 0 );
-        final PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke(3), Color.BLACK );
+        final PNode barNode = new PhetPPath( barShape.getGeneralPath(), new BasicStroke( 3 ), Color.BLACK );
         rootNode.addChild( barNode );
 
         // Add the layer where the tick marks will be maintained.
@@ -58,11 +56,11 @@ public class AverageAtomicMassIndicator extends PNode {
         model.getPossibleIsotopesProperty().addObserver( new SimpleObserver() {
             public void update() {
                 tickMarkLayer.removeAllChildren();
-                List< ImmutableAtom > possibleIsotopeList = model.getPossibleIsotopesProperty().get();
+                List<ImmutableAtom> possibleIsotopeList = model.getPossibleIsotopesProperty().get();
                 double lightestIsotopeMass = Double.POSITIVE_INFINITY;
                 double heaviestIsotopeMass = 0;
                 minMass = Double.POSITIVE_INFINITY;
-                for ( ImmutableAtom isotope : possibleIsotopeList ){
+                for ( ImmutableAtom isotope : possibleIsotopeList ) {
                     if ( isotope.getAtomicMass() > heaviestIsotopeMass ) {
                         heaviestIsotopeMass = isotope.getAtomicMass();
                     }
@@ -71,16 +69,16 @@ public class AverageAtomicMassIndicator extends PNode {
                     }
                 }
                 massSpan = heaviestIsotopeMass - lightestIsotopeMass;
-                if ( massSpan < 2 ){
+                if ( massSpan < 2 ) {
                     massSpan = 2; // Mass span must be at least 2 or the spacing doesn't look good.
                 }
                 // Adjust the span so that there is some space at the ends of the line.
                 massSpan *= 1.2;
                 // Set the low end of the mass range, needed for positioning on line.
-                minMass = (heaviestIsotopeMass + lightestIsotopeMass) / 2 - massSpan / 2;
+                minMass = ( heaviestIsotopeMass + lightestIsotopeMass ) / 2 - massSpan / 2;
 
                 // Add the new tick marks.
-                for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ){
+                for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ) {
                     IsotopeTickMark tickMark = new IsotopeTickMark( isotope );
                     tickMark.setOffset( calcXOffsetFromAtomicMass( isotope.getAtomicMass() ), barOffsetY );
                     tickMarkLayer.addChild( tickMark );
@@ -97,15 +95,15 @@ public class AverageAtomicMassIndicator extends PNode {
         // corresponds to the average atomic mass.
         model.getIsotopeTestChamber().addAverageAtomicMassPropertyListener( new SimpleObserver() {
             public void update() {
-                if ( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 ){
-                    readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMass() ), barOffsetY  );
+                if ( model.getIsotopeTestChamber().getTotalIsotopeCount() > 0 ) {
+                    readoutPointer.setOffset( calcXOffsetFromAtomicMass( model.getIsotopeTestChamber().getAverageAtomicMass() ), barOffsetY );
                     readoutPointer.setVisible( true );
                 }
-                else{
+                else {
                     readoutPointer.setVisible( false );
                 }
             }
-        });
+        } );
 
         // Set the root node's offset so that the (0,0) location for this node
         // is in the upper left.
@@ -119,7 +117,7 @@ public class AverageAtomicMassIndicator extends PNode {
      * @param atomicMass
      * @return
      */
-    private double calcXOffsetFromAtomicMass( double atomicMass ){
+    private double calcXOffsetFromAtomicMass( double atomicMass ) {
         return Math.max( ( atomicMass - minMass ) / massSpan * INDICATOR_WIDTH, 0 );
     }
 
@@ -135,14 +133,14 @@ public class AverageAtomicMassIndicator extends PNode {
         private static final double TICK_MARK_LABEL_HEIGHT = OVERALL_HEIGHT - TICK_MARK_LINE_HEIGHT;
         private static final Stroke TICK_MARK_STROKE = new BasicStroke( 5 );
 
-        public IsotopeTickMark( ImmutableAtom isotopeConfig ){
+        public IsotopeTickMark( ImmutableAtom isotopeConfig ) {
             // Create the tick mark itself.  It is positioned such that
             // (0,0) is the center of the mark.
             DoubleGeneralPath shape = new DoubleGeneralPath( 0, -TICK_MARK_LINE_HEIGHT / 2 );
             shape.lineTo( 0, TICK_MARK_LINE_HEIGHT / 2 );
-            addChild( new PhetPPath(shape.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK));
+            addChild( new PhetPPath( shape.getGeneralPath(), TICK_MARK_STROKE, Color.BLACK ) );
             // Create the label that goes above the tick mark.
-            HTMLNode label = new HTMLNode( "<html><sup>" + isotopeConfig.getMassNumber() + "</sup>" + isotopeConfig.getSymbol() + "</html>" ){{
+            HTMLNode label = new HTMLNode( "<html><sup>" + isotopeConfig.getMassNumber() + "</sup>" + isotopeConfig.getSymbol() + "</html>" ) {{
                 setFont( new PhetFont( 14 ) );
                 setScale( TICK_MARK_LABEL_HEIGHT / getFullBoundsReference().height );
                 setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height - TICK_MARK_LINE_HEIGHT / 2 );
@@ -156,7 +154,7 @@ public class AverageAtomicMassIndicator extends PNode {
      * that contains a textual indication of the average atomic mass and
      * also has a pointer on the top that can be used to indicate the position
      * on a linear scale.
-     *
+     * <p/>
      * This node is set up such that the (0,0) point is at the top center of
      * the node, which is where the point of the pointer exists.  This is done
      * to make it easy to position the node under the mass indication line.
@@ -173,11 +171,11 @@ public class AverageAtomicMassIndicator extends PNode {
         private final PText textualReadout;
         private final PNode readoutBackgroundNode;
 
-        public ReadoutPointer ( MixIsotopesModel model ){
+        public ReadoutPointer( MixIsotopesModel model ) {
             this.model = model;
             // Add the triangular pointer.  This is created such that the
             // point of the triangle is at (0,0) for this node.
-            DoubleGeneralPath pointerShape = new DoubleGeneralPath(0, 0);
+            DoubleGeneralPath pointerShape = new DoubleGeneralPath( 0, 0 );
             pointerShape.lineTo( -TRIANGULAR_POINTER_WIDTH / 2, TRIANGULAR_POINTER_HEIGHT );
             pointerShape.lineTo( TRIANGULAR_POINTER_WIDTH / 2, TRIANGULAR_POINTER_HEIGHT );
             pointerShape.closePath();
@@ -185,10 +183,10 @@ public class AverageAtomicMassIndicator extends PNode {
             addChild( triangularPointerNode );
 
             readoutBackgroundNode = new PhetPPath( new RoundRectangle2D.Double( -SIZE.getWidth() / 2,
-                    TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5), Color.WHITE, new BasicStroke( 1 ), Color.BLACK );
+                                                                                TRIANGULAR_POINTER_HEIGHT, SIZE.getWidth(), SIZE.getHeight(), 5, 5 ), Color.WHITE, new BasicStroke( 1 ), Color.BLACK );
             addChild( readoutBackgroundNode );
 
-            textualReadout = new PText(){{
+            textualReadout = new PText() {{
                 setFont( new PhetFont( 18 ) );
             }};
             addChild( textualReadout );
@@ -199,32 +197,32 @@ public class AverageAtomicMassIndicator extends PNode {
                 public void update() {
                     updateReadout();
                 }
-            });
+            } );
             // Observe whether the user's mix or nature's mix is being
             // portrayed and update the readout when this changes.
             model.getShowingNaturesMixProperty().addObserver( new SimpleObserver() {
                 public void update() {
                     updateReadout();
                 }
-            });
+            } );
         }
 
-        private void updateReadout(){
+        private void updateReadout() {
             double weight;
             int numDecimalPlacesToDisplay;
-            if ( model.getShowingNaturesMixProperty().get() ){
-                weight = AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getPreciseValue();
+            if ( model.getShowingNaturesMixProperty().get() ) {
+                weight = AtomIdentifier.getStandardAtomicMassPrecisionDecimal( model.getAtom().getNumProtons() ).getPreciseValue();
                 numDecimalPlacesToDisplay = Math.min(
-                        AtomIdentifier.getStandardAtomicMassPrecionDecimal( model.getAtom().getNumProtons() ).getNumberOfDecimalPlaces(),
+                        AtomIdentifier.getStandardAtomicMassPrecisionDecimal( model.getAtom().getNumProtons() ).getNumberOfDecimalPlaces(),
                         5 ); // Max of 5 decimal places of resolution.
             }
-            else{
+            else {
                 weight = model.getIsotopeTestChamber().getAverageAtomicMass();
                 numDecimalPlacesToDisplay = DECIMAL_PLACES_FOR_USERS_MIX;
             }
             textualReadout.setText( VariablePrecisionNumberFormat.format( weight, numDecimalPlacesToDisplay ) + BuildAnAtomStrings.UNITS_AMU );
             textualReadout.setScale( 1 );
-            if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ){
+            if ( textualReadout.getFullBoundsReference().width >= readoutBackgroundNode.getFullBoundsReference().getWidth() * 0.95 ) {
                 textualReadout.setScale( readoutBackgroundNode.getFullBoundsReference().width / textualReadout.getFullBoundsReference().width * 0.95 );
             }
             textualReadout.centerFullBoundsOnPoint(
