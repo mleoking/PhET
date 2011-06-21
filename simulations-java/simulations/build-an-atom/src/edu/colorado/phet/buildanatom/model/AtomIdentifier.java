@@ -26,6 +26,10 @@ import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
  */
 public class AtomIdentifier {
 
+    // An arbitrary value used to signify a 'trace' abundance, meaning that
+    // a very small amount of this isotope is present on Earth.
+    private static final double TRACE_ABUNDANCE = 0.000000000001;
+
     // This data structure maps the atomic number (i.e. the number of protons
     // in the nucleus) to the translatable element name.  Only element names
     // displayed in the simulation are translatable.
@@ -57,67 +61,66 @@ public class AtomIdentifier {
 
     // This data structure lists the isotopes that are considered stable for
     // the purposes of this simulation.  This means that their half life is
-    // less than the age of the universe.  The table only goes up as high as
-    // needed for the sim.  This is taken from the table at
-    // https://docs.google.com/document/edit?id=1VGGhLUetiwijbDneU-U6BPrjRlkI0rt939zk8Y4AuA4&authkey=CMLM4ZUC&hl=en#
-    private static final ArrayList<Isotope> STABLE_ISOTOPES = new ArrayList<Isotope>() {
+    // less than the age of the universe.  This table was put together from
+    // information gathered at the NIST web site.
+    private static final List<IsotopeKey> STABLE_ISOTOPES = new ArrayList<IsotopeKey>() {
         {
             //H
-            add( new Isotope( 1, 0 ) );
-            add( new Isotope( 2, 1 ) );
+            add( new IsotopeKey( 1, 0 ) );
+            add( new IsotopeKey( 2, 1 ) );
             //He
-            add( new Isotope( 3, 1 ) );
-            add( new Isotope( 4, 2 ) );
+            add( new IsotopeKey( 3, 1 ) );
+            add( new IsotopeKey( 4, 2 ) );
             //Li
-            add( new Isotope( 6, 3 ) );
-            add( new Isotope( 7, 4 ) );
+            add( new IsotopeKey( 6, 3 ) );
+            add( new IsotopeKey( 7, 4 ) );
             //Be
-            add( new Isotope( 9, 5 ) );
+            add( new IsotopeKey( 9, 5 ) );
             //B
-            add( new Isotope( 10, 5 ) );
-            add( new Isotope( 11, 6 ) );
+            add( new IsotopeKey( 10, 5 ) );
+            add( new IsotopeKey( 11, 6 ) );
             //C
-            add( new Isotope( 12, 6 ) );
-            add( new Isotope( 13, 7 ) );
+            add( new IsotopeKey( 12, 6 ) );
+            add( new IsotopeKey( 13, 7 ) );
             //N
-            add( new Isotope( 14, 7 ) );
-            add( new Isotope( 15, 8 ) );
+            add( new IsotopeKey( 14, 7 ) );
+            add( new IsotopeKey( 15, 8 ) );
             //O
-            add( new Isotope( 16, 8 ) );
-            add( new Isotope( 17, 9 ) );
-            add( new Isotope( 18, 10 ) );
+            add( new IsotopeKey( 16, 8 ) );
+            add( new IsotopeKey( 17, 9 ) );
+            add( new IsotopeKey( 18, 10 ) );
             //F
-            add( new Isotope( 19, 10 ) );
+            add( new IsotopeKey( 19, 10 ) );
             //Ne
-            add( new Isotope( 20, 10 ) );
-            add( new Isotope( 21, 11 ) );
-            add( new Isotope( 22, 12 ) );
+            add( new IsotopeKey( 20, 10 ) );
+            add( new IsotopeKey( 21, 11 ) );
+            add( new IsotopeKey( 22, 12 ) );
             // Na
-            add( new Isotope( 23, 12 ) );
+            add( new IsotopeKey( 23, 12 ) );
             // Mg
-            add( new Isotope( 24, 12 ) );
-            add( new Isotope( 25, 13 ) );
-            add( new Isotope( 26, 14 ) );
+            add( new IsotopeKey( 24, 12 ) );
+            add( new IsotopeKey( 25, 13 ) );
+            add( new IsotopeKey( 26, 14 ) );
             // Al
-            add( new Isotope( 27, 14 ) );
+            add( new IsotopeKey( 27, 14 ) );
             // Si
-            add( new Isotope( 28, 14 ) );
-            add( new Isotope( 29, 15 ) );
-            add( new Isotope( 30, 16 ) );
+            add( new IsotopeKey( 28, 14 ) );
+            add( new IsotopeKey( 29, 15 ) );
+            add( new IsotopeKey( 30, 16 ) );
             // P
-            add( new Isotope( 31, 16 ) );
+            add( new IsotopeKey( 31, 16 ) );
             // S
-            add( new Isotope( 32, 16 ) );
-            add( new Isotope( 33, 17 ) );
-            add( new Isotope( 34, 18 ) );
-            add( new Isotope( 36, 20 ) );
+            add( new IsotopeKey( 32, 16 ) );
+            add( new IsotopeKey( 33, 17 ) );
+            add( new IsotopeKey( 34, 18 ) );
+            add( new IsotopeKey( 36, 20 ) );
             // Cl
-            add( new Isotope( 35, 18 ) );
-            add( new Isotope( 37, 20 ) );
+            add( new IsotopeKey( 35, 18 ) );
+            add( new IsotopeKey( 37, 20 ) );
             // Ar
-            add( new Isotope( 36, 18 ) );
-            add( new Isotope( 38, 20 ) );
-            add( new Isotope( 40, 22 ) );
+            add( new IsotopeKey( 36, 18 ) );
+            add( new IsotopeKey( 38, 20 ) );
+            add( new IsotopeKey( 40, 22 ) );
         }
     };
 
@@ -376,22 +379,20 @@ public class AtomIdentifier {
             "Cn", // 112, UNUNBIUM
     };
 
-    // CSV-formatted table representing isotopes and atomic masses.  This was
-    // obtained from:
+    // CSV-formatted table containing information about various attributes of
+    // isotopes.  This was obtained from the National Institute of Standards and
+    // Technology (NIST) at the URL
     //
     // http://physics.nist.gov/cgi-bin/Compositions/stand_alone.pl?ele=&ascii=html&isotype=some
     //
     // ...though some minor manual post-processing was necessary to get it
-    // into the format below.  In order to minimize initialization time, this
-    // table was processed by routines below into a data structure that is then
-    // used at run time.  It is retained here in this file for maintenance
-    // purposes.
+    // into the format below.
     private static final String RAW_ISOTOPE_INFORMATION_TABLE_STR =
             // Format:
             // Atomic number (empty if same as previous), Symbol, mass number, atomic mass, abundance.
             "1,H,1,1.00782503207,0.999885\n" +
             ",D,2,2.0141017778,0.000115\n" +
-            ",T,3,3.0160492777,0.000000000001\n" +         // I (jblanco) made up the abundance, since Wikipedia just says "trace".
+            ",T,3,3.0160492777," + TRACE_ABUNDANCE + "\n" +    // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state abundance.
             "2,He,3,3.0160293191,0.00000134\n" +
             ",,4,4.00260325415,0.99999866\n" +
             "3,Li,6,6.015122795,0.0759\n" +
@@ -401,7 +402,7 @@ public class AtomIdentifier {
             ",,11,11.0093054,0.801\n" +
             "6,C,12,12.0000000,0.9893\n" +
             ",,13,13.0033548378,0.0107\n" +
-            ",,14,14.003241989,0.000000000001\n" +         // I (jblanco) made up the abundance, since Wikipedia just says "trace".
+            ",,14,14.003241989," + TRACE_ABUNDANCE + "\n" +     // Use trace abundance, since Wikipedia just says "trace" and the NIST table contained it but didn't state abundance.
             "7,N,14,14.0030740048,0.99636\n" +
             ",,15,15.0001088982,0.00364\n" +
             "8,O,16,15.99491461956,0.99757\n" +
@@ -1993,7 +1994,7 @@ public class AtomIdentifier {
      * @param atomicNumber
      * @return
      */
-    public static PrecisionDecimal getStandardAtomicMassPrecionDecimal( int atomicNumber ) {
+    public static PrecisionDecimal getStandardAtomicMassPrecisionDecimal( int atomicNumber ) {
         PrecisionDecimal precisionDecimal = new PrecisionDecimal( 0, 5 ); // Default value.
         if ( MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.containsKey( atomicNumber ) ) {
             String massString = MAP_ATOMIC_NUMBER_TO_AVERAGE_MASS.get( atomicNumber );
@@ -2098,7 +2099,9 @@ public class AtomIdentifier {
      * routine, and then its output is cut from the console and pasted into
      * this source code file to define the needed run-time data.
      */
-    private void generateIsotopeInfoTable() {
+    private static void generateIsotopeInfoTable() {
+        long entryTime = System.currentTimeMillis();
+        System.out.println( "Entry, time = " + entryTime );
         Map<IsotopeKey, IsotopeInfo> isotopeInfoMap = new HashMap<IsotopeKey, IsotopeInfo>();
 
         System.out.println( "   // Automatically generated, see routines in this class." );
@@ -2124,20 +2127,79 @@ public class AtomIdentifier {
             isotopeInfoMap.put( isotopeKey, isotopeInfo );
         }
 
-        // Add the element names for the elements that can be translated.
+        // Add the translatable element names.  Only those element names that
+        // are shown in the sim are translatable.
+        setIsotopeName( 0, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_NONE_NAME );
+        setIsotopeName( 1, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_HYDROGEN_NAME );
+        setIsotopeName( 2, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_HELIUM_NAME );
+        setIsotopeName( 3, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_LITHIUM_NAME );
+        setIsotopeName( 4, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_BERYLLIUM_NAME );
+        setIsotopeName( 5, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_BORON_NAME );
+        setIsotopeName( 6, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_CARBON_NAME );
+        setIsotopeName( 7, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_NITROGEN_NAME );
+        setIsotopeName( 8, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_OXYGEN_NAME );
+        setIsotopeName( 9, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_FLUORINE_NAME );
+        setIsotopeName( 10, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_NEON_NAME );
+        setIsotopeName( 11, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_SODIUM_NAME );
+        setIsotopeName( 12, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_MAGNESIUM_NAME );
+        setIsotopeName( 13, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_ALUMINUM_NAME );
+        setIsotopeName( 14, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_SILICON_NAME );
+        setIsotopeName( 15, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_PHOSPHORUS_NAME );
+        setIsotopeName( 16, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_SULFUR_NAME );
+        setIsotopeName( 17, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_CALCIUM_NAME );
+        setIsotopeName( 18, isotopeInfoMap, BuildAnAtomStrings.ELEMENT_ARGON_NAME );
 
-        // Add the stability information.
+        for ( IsotopeKey key : isotopeInfoMap.keySet() ) {
+            // Add the chemical symbols for each element.
+            isotopeInfoMap.get( key ).setElementSymbol( key.getNumProtons() < ELEMENT_SYMBOL_TABLE.length ? ELEMENT_SYMBOL_TABLE[key.getNumProtons()] : BuildAnAtomStrings.ELEMENT_NONE_SYMBOL );
+            // Add the stability information for each element.
+            isotopeInfoMap.get( key ).setStable( STABLE_ISOTOPES.contains( key ) );
+        }
+
+        System.out.println( "Table created, time to create = " + ( System.currentTimeMillis() - entryTime ) );
 
         // TODO: How fast is it to create this at init time?  If reasonably fast, just do it.
         // Print this data as a structure that will declare and initialize a
         // the same structure but without all the processing.
+        System.out.println( "Testing Hydrogen-1..." );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 0 ) ).getElementName() );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 0 ) ).getAbundance() );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 0 ) ).isStable() );
+        System.out.println( "Testing Hydrogen-3..." );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 2 ) ).getElementName() );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 2 ) ).getAbundance() );
+        System.out.println( isotopeInfoMap.get( new IsotopeKey( 1, 2 ) ).isStable() );
+    }
 
+    /**
+     * Extract a list of all isotopes within the supplied map that match the
+     * supplied atomic number.
+     */
+    private static List<IsotopeInfo> getMatchingIsotopes( int atomicNumber, Map<IsotopeKey, IsotopeInfo> isotopeInfoMap ) {
+        List<IsotopeInfo> matchingIsotopes = new ArrayList<IsotopeInfo>();
+        for ( IsotopeKey key : isotopeInfoMap.keySet() ) {
+            if ( key.getNumProtons() == atomicNumber ) {
+                matchingIsotopes.add( isotopeInfoMap.get( key ) );
+            }
+        }
+        return matchingIsotopes;
+    }
+
+    /**
+     * Set the name for all isotopes within the supplied map that matches the
+     * specified atomic number.
+     */
+    private static void setIsotopeName( int atomicNumber, Map<IsotopeKey, IsotopeInfo> isotopeInfoMap, String name ) {
+        for ( IsotopeInfo isotopeInfo : getMatchingIsotopes( atomicNumber, isotopeInfoMap ) ) {
+            isotopeInfo.setElementName( name );
+        }
     }
 
     public static void main( String[] args ) {
         // Uncomment the needed method if you need to regenerate one of the tables.
 //        generateIsotopeInfoTable();
-        generateMapOfAtomicNumberToMass();
+//        generateMapOfAtomicNumberToMass();
 //        generateSymbolTable();
+        generateIsotopeInfoTable();
     }
 }
