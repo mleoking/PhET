@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObservable;
 public class ObservableDouble extends SimpleObservable {
     private double value;
 
-    public ObservableDouble(double value) {
+    public ObservableDouble( double value ) {
         this.value = value;
     }
 
@@ -19,7 +19,7 @@ public class ObservableDouble extends SimpleObservable {
 
     //Not all clients should be able to mutate the ObservableDouble, only specific instances, so don't make this part of its public interface
 
-    protected void setValue(double value) {
+    protected void setValue( double value ) {
         this.value = value;
         notifyObservers();
     }

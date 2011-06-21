@@ -18,20 +18,20 @@ public class MovingMan {
     }
 
     public void resetAll() {
-        setPosition(0.0);
-        setVelocity(0.0);
-        setAcceleration(0.0);
+        setPosition( 0.0 );
+        setVelocity( 0.0 );
+        setAcceleration( 0.0 );
         setPositionDriven();
     }
 
-    public void setPosition(double x) {
+    public void setPosition( double x ) {
         this.position = x;
 //        System.out.println("x = " + x);
         notifyListeners();
     }
 
-    public void addListener(Listener listener) {
-        listeners.add(listener);
+    public void addListener( Listener listener ) {
+        listeners.add( listener );
     }
 
     public double getPosition() {
@@ -42,18 +42,18 @@ public class MovingMan {
         return velocity;
     }
 
-    public void setVelocity(double velocity) {
+    public void setVelocity( double velocity ) {
         this.velocity = velocity;
         notifyListeners();
     }
 
     private void notifyListeners() {
-        for (Listener listener : listeners) {
+        for ( Listener listener : listeners ) {
             listener.changed();
         }
     }
 
-    public void setAcceleration(double value) {
+    public void setAcceleration( double value ) {
         this.acceleration = value;
         notifyListeners();
     }
@@ -90,17 +90,17 @@ public class MovingMan {
     }
 
     public ManState getState() {
-        return new ManState(position, velocity, acceleration, motionStrategy);
+        return new ManState( position, velocity, acceleration, motionStrategy );
     }
 
-    public void setState(ManState manState) {
-        setPosition(manState.getPosition());
-        setVelocity(manState.getVelocity());
-        setAcceleration(manState.getAcceleration());
-        setMotionStrategy(manState.getMotionStrategy());//todo: could bundle listener notifications for performance improvements, if necessary
+    public void setState( ManState manState ) {
+        setPosition( manState.getPosition() );
+        setVelocity( manState.getVelocity() );
+        setAcceleration( manState.getAcceleration() );
+        setMotionStrategy( manState.getMotionStrategy() );//todo: could bundle listener notifications for performance improvements, if necessary
     }
 
-    private void setMotionStrategy(MotionStrategy motionStrategy) {
+    private void setMotionStrategy( MotionStrategy motionStrategy ) {
         this.motionStrategy = motionStrategy;
         notifyListeners();
     }
@@ -117,11 +117,11 @@ public class MovingMan {
      * Mostly used as an object ID for type purposes, but can be used to configure the MovingMan
      */
     public static interface MotionStrategy {
-        void apply(MovingMan man);
+        void apply( MovingMan man );
     }
 
     public static MotionStrategy POSITION_DRIVEN = new MotionStrategy() {
-        public void apply(MovingMan man) {
+        public void apply( MovingMan man ) {
             man.setPositionDriven();
         }
 
@@ -132,7 +132,7 @@ public class MovingMan {
 
 
     public static MotionStrategy VELOCITY_DRIVEN = new MotionStrategy() {
-        public void apply(MovingMan man) {
+        public void apply( MovingMan man ) {
             man.setVelocityDriven();
         }
 
@@ -142,7 +142,7 @@ public class MovingMan {
     };
 
     public static MotionStrategy ACCELERATION_DRIVEN = new MotionStrategy() {
-        public void apply(MovingMan man) {
+        public void apply( MovingMan man ) {
             man.setAccelerationDriven();
         }
 

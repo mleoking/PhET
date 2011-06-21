@@ -3,7 +3,6 @@ package edu.colorado.phet.movingman.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.motion.charts.TemporalChart;
 import edu.colorado.phet.common.motion.charts.TextBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
@@ -20,7 +19,7 @@ public class MovingManChartControl extends PNode {
     public static final PhetFont TEXT_BOX_FONT = new PhetFont( 14 );
     private static final PhetFont UNITS_FONT = TEXT_BOX_FONT;
 
-    public MovingManChartControl(String title, Color color, TextBoxListener textBoxDecorator, String units) {
+    public MovingManChartControl( String title, Color color, TextBoxListener textBoxDecorator, String units ) {
         PText titleNode = new PText( title );
         {
             titleNode.setFont( TITLE_FONT );

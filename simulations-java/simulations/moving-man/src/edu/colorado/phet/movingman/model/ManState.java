@@ -13,7 +13,7 @@ public class ManState {
     private final double acceleration;
     private final MovingMan.MotionStrategy motionStrategy;
 
-    public ManState(double position, double velocity, double acceleration, MovingMan.MotionStrategy motionStrategy) {
+    public ManState( double position, double velocity, double acceleration, MovingMan.MotionStrategy motionStrategy ) {
         this.position = position;
         this.velocity = velocity;
         this.acceleration = acceleration;
