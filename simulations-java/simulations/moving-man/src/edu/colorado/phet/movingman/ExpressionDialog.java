@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingman.model.ExpressionEvaluator;
 import edu.colorado.phet.common.motion.charts.GoButton;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,7 +31,7 @@ public class ExpressionDialog extends JDialog {
     protected final JLabel errorLabel;
     protected JDialog helpDialog;
 
-    public ExpressionDialog(PhetFrame frame, MovingManModule module) {
+    public ExpressionDialog(PhetFrame frame, final MovingManModule module) {
         super(frame, EXPRESSIONS_TITLE);
         this.module = module;
         VerticalLayoutPanel contentPane = new VerticalLayoutPanel();
@@ -57,6 +59,14 @@ public class ExpressionDialog extends JDialog {
             PhetPCanvas goButtonCanvas = new PhetPCanvas();//The go button is a PNode, so we must be embedded in a phetpcanvas 
             {
                 GoButton goButton = new GoButton(module.recordAndPlaybackModel, new BooleanProperty( true ) );
+                goButton.addInputEventListener( new PBasicInputEventHandler(){
+                    @Override public void mouseReleased( PInputEvent event ) {
+
+                        //Make the simulation go into position driven mode when the go button is pressed.  Otherwise, it could use constant velocity or constant acceleration instead of the expression
+                        module.getMovingManModel().getMovingMan().setPositionDriven();
+                        setExpressionToModule();
+                    }
+                } );
                 goButtonCanvas.addScreenChild(goButton);
                 Dimension buttonDim = new Dimension((int) goButton.getFullBounds().getWidth(), (int) goButton.getFullBounds().getHeight());
                 goButtonCanvas.setPreferredSize(buttonDim);

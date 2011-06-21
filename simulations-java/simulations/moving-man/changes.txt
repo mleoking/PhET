@@ -1,3 +1,4 @@
+Make the simulation go into position driven mode when the go button is pressed.  Otherwise, it could use constant velocity or constant acceleration instead of the expression
 > Fixed: the play button in the expression evaluator only shows sometimes, resolves #2892
 Added credits, resolves #2719
 # 2.02.00 (52289) May 21, 2011
