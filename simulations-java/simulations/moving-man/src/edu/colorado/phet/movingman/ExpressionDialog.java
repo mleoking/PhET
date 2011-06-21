@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.movingman.model.ExpressionEvaluator;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -103,7 +102,10 @@ public class ExpressionDialog extends JDialog {
         }
         setContentPane( contentPane );
         pack();
-        SwingUtils.centerDialogInParent( this );
+
+        //Move the dialog to the bottom right of the parent window.  This gets it out of the way of other readouts and controls, and seems to resolve a crash problem #2670
+        setLocation( (int) ( frame.getBounds().getMaxX() - getWidth() ),
+                     (int) ( frame.getBounds().getMaxY() - getHeight() ) );
     }
 
     private void showHelp() {
