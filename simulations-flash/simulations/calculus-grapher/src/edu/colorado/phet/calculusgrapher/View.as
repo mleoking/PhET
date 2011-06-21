@@ -20,8 +20,8 @@ public class View extends Sprite{
     var curveGraphics:Graphics;
     var canvasGraphics:Graphics;
 	var zoomControl:ZoomControl;
-    var magnifyButton:Sprite;
-    var deMagnifyButton:Sprite;
+    //var magnifyButton:Sprite;
+    //var deMagnifyButton:Sprite;
     //var currentYScale:Number;	//indicates magnification of y-scale
     var curveType:String;	//curveType is "original", "derivative", or "integral"
     var handles:Array;		//array of "handles" for grabbing points on the curve
@@ -40,7 +40,10 @@ public class View extends Sprite{
     var viewHeight:int;		//height in pixels of this view
     var xOffset:Number;		//offset to shift derivative curve by half-step
     var yScale:Number;		//used to scale y Axis
+	private var _yScaleFactor:Number;//overall factor to set initial magnification
+	
 	var gridScale:Number;	//used to adjust grid spacing during zoom
+	var zoomPosition:int;	//0 if no zoom, +1 for each magnify, -1 for each demagnify
     var originX:Number;		//x-position of origin in pixels
     var originY:Number;		//y-position of origin in pixels
 
@@ -95,9 +98,9 @@ public class View extends Sprite{
         this.myModel.registerView(this);
         this.originX = 40;
         this.originY = this.viewHeight / 2;
-        this.curve.y = originY;
-        this.yScale = 1;
+        this.curve.y = originY;	
 		this.gridScale = 1;
+		this.zoomPosition = 0;
         this.initializeZoomControls();
         this.grid.visible = false;
 
@@ -107,7 +110,7 @@ public class View extends Sprite{
                 this.curve_arr = myModel.y_arr;
                 this.yAxisLabel.text = "f(x)";
                 this.curveColor = 0x0000ff;
-                this.yScale = 1;
+                this._yScaleFactor = 1;
                 //trace("original");
                 break;
             case "derivative":
@@ -116,13 +119,13 @@ public class View extends Sprite{
                 //trace("derivative");
                 this.xOffset = 0.5;
                 this.curveColor = 0xff0000;
-                this.yScale = 10;
+                this._yScaleFactor = 10;
                 break;
             case "integral":
                 this.curve_arr = myModel.integ_arr;
                 this.yAxisLabel.text = "";
                 this.curveColor = 0x00aa00;
-                this.yScale = 0.02;
+                this._yScaleFactor = 0.02;
                 this.yAxisIntegralLabel = new IntegralLabel();
                 addChild(this.yAxisIntegralLabel);
                 //this.yAxisIntegralLabel.scaleX = this.yAxisIntegralLabel.scaleY = 0.25;
@@ -130,7 +133,9 @@ public class View extends Sprite{
                 break;
             default:
                 trace("ERROR: curveType is wrong string in View.");
-        }
+        }//end switch
+		
+		this.yScale = this._yScaleFactor * 1;
         this.yAxisLabel.selectable = false;
         this.xAxisLabel.selectable = false;
         this.yAxisLabel.mouseEnabled = false;
@@ -165,54 +170,34 @@ public class View extends Sprite{
 
     public function initializeZoomControls():void {
 		//new code
-		this.zoomControl = new ZoomControl();
+		this.zoomControl = new ZoomControl( setMagnification );
 		this.canvas.addChild( this.zoomControl );
-		this.zoomControl.magnifyButton.addEventListener(MouseEvent.CLICK, magnifyCurve);
-        this.zoomControl.demagnifyButton.addEventListener(MouseEvent.CLICK, demagnifyCurve);
-		//end new code
-		
-        this.magnifyButton = new MagnifyButton();
-        this.deMagnifyButton = new DeMagnifyButton();
-        //this.currentYScale = 1.0;
-        this.canvas.addChild(this.magnifyButton);
-        this.canvas.addChild(this.deMagnifyButton);
-        this.magnifyButton.addEventListener(MouseEvent.CLICK, magnifyCurve);
-        this.deMagnifyButton.addEventListener(MouseEvent.CLICK, demagnifyCurve);
-        this.magnifyButton.buttonMode = true;
-        this.deMagnifyButton.buttonMode = true;
         this.positionZoomControls();
     }
 
     public function positionZoomControls():void {
-		
-		//new code
-		this.zoomControl.x = this.originX - 25;
+		this.zoomControl.x = this.originX - 15;
         this.zoomControl.y = this.originY;
-		//end new code
-		
-        this.magnifyButton.scaleX = this.magnifyButton.scaleY = 0.4;
-        this.deMagnifyButton.scaleX = this.deMagnifyButton.scaleY = 0.4;
-        this.magnifyButton.x = this.originX - 10;
-        this.magnifyButton.y = this.originY - 25;
-        this.deMagnifyButton.x = this.originX - 10;
-        this.deMagnifyButton.y = this.originY + 25;
+		this.zoomControl.scaleX = this.zoomControl.scaleY = 0.4;
     }
 
-    public function magnifyCurve( evt:MouseEvent ):void {
-        this.yScale *= 2;
-		this.gridScale *= 2;
+    public function magnifyCurve():void {
+		this.zoomPosition += 1;
+		this.setMagnification (this.zoomPosition );
+    }
+
+    public function demagnifyCurve():void {
+		this.zoomPosition -= 1;
+		this.setMagnification ( this.zoomPosition );
+    }
+	
+	public function setMagnification( zoomPosition:int ):void{
+		this.zoomPosition = zoomPosition;
+		this.yScale = this._yScaleFactor * Math.pow( 2, zoomPosition );
+		this.gridScale = Math.pow( 2, zoomPosition );
 		this.drawGrid();
-        //this.currentYScale = this.yScale;
-        this.update();
-    }
-
-    public function demagnifyCurve( evt:MouseEvent ):void {
-        this.yScale /= 2;
-		this.gridScale /= 2;
-        this.drawGrid();
-        //this.currentYScale = this.yScale;
-        this.update();
-    }
+		this.update();
+	}
 
     public function makeHandleDraggable( target:Sprite ):void {
         target.addEventListener(MouseEvent.MOUSE_DOWN, startTargetDrag);
