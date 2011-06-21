@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -14,8 +16,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
-import edu.colorado.phet.solublesalts.model.Vessel.ChangeEvent;
-import edu.colorado.phet.solublesalts.model.Vessel.ChangeListener;
+import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.*;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
@@ -58,6 +59,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
     int stepsOfAddingSalt = 0;
+    private Box2D myWaterBox = new Box2D();
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -74,7 +76,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 return MicroModel.MIN_FLUID_VOLUME;
             }
         };
-        solubleSaltsModel = new SolubleSaltsModel( clock, container );
+
+        //Create a soluble salts model, but use our own coordinates for the vessel fluid, so it will match up with the shape of the water in our model
+        solubleSaltsModel = new SolubleSaltsModel( clock, container ) {
+            @Override protected Vessel newVessel() {
+                return new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this ) {
+                    @Override public Box2D getWater() {
+                        return myWaterBox;
+                    }
+                };
+            }
+        };
 
         //When the clock ticks, update the soluble salt model, but run it much faster since it runs at a different rate than the sugar and salt solutions model
         clock.addClockListener( new ClockAdapter() {
@@ -100,15 +112,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
         } );
 
-        //Update concentration when fluid volume changes
-        solubleSaltsModel.getVessel().addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent event ) {
-                updateConcentrations();
-            }
-        } );
-
         //Create the mapping from soluble salt model coordinates to our coordinates
         solubleSaltsTransform = createRectangleInvertedYMapping( getSolubleSaltsModel().getVessel().getShape(), beaker.getWallShape().getBounds2D() );
+
+        //Update concentration when fluid volume changes
+        waterVolume.addObserver( new SimpleObserver() {
+            public void update() {
+                updateConcentrations();
+
+                //Update the bounds of the water
+                final Rectangle2D bounds = solubleSaltsTransform.viewToModel( beaker.getWaterShape( 0, waterVolume.get() ) ).getBounds2D();
+                myWaterBox.setBounds( bounds.getX(), bounds.getY(), bounds.getX() + bounds.getWidth(), bounds.getY() + bounds.getHeight() );
+            }
+        } );
 
         //Update ion counts and concentration when ions leave/enter
         solubleSaltsModel.addIonListener( new IonListener() {

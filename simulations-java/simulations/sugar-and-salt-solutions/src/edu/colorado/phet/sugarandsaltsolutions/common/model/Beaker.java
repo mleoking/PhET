@@ -149,4 +149,9 @@ public class Beaker {
     public Line2D.Double getFloor() {
         return new Double( x, y, x + width, y );
     }
+
+    //Get the rectangular shape water would occupy given the y-value (in case there are solutes below it) and volume
+    public Rectangle2D.Double getWaterShape( double y, double volume ) {
+        return new Rectangle2D.Double( getX(), getY() + y, getWidth(), getHeightForVolume( volume ) );
+    }
 }
