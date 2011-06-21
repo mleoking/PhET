@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -21,7 +20,7 @@ public class Solution {
     //Get the shape this water takes in its containing beaker
     public final ObservableProperty<Shape> shape;
 
-    public Solution( DoubleProperty waterVolume,
+    public Solution( final DoubleProperty waterVolume,
                      final Beaker beaker,
                      //The y-location of the base of the solution (0 if sitting on the base of the beaker, or >0 if sitting on a solid precipitate).
                      final ObservableProperty<Double> y,
@@ -36,7 +35,7 @@ public class Solution {
         shape = new CompositeProperty<Shape>( new Function0<Shape>() {
             public Shape apply() {
                 //Assumes the beaker is rectangular
-                return new Rectangle2D.Double( beaker.getX(), beaker.getY() + y.get(), beaker.getWidth(), beaker.getHeightForVolume( volume.get() ) );
+                return beaker.getWaterShape( y.get(), waterVolume.get() );
             }
         }, volume, y );
     }

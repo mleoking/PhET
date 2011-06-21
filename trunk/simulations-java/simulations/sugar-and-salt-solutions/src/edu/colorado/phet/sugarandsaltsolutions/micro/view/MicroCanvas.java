@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro;
+package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -10,9 +12,11 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
@@ -29,9 +33,12 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  * @author Sam Reid
  */
 public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
+    private final boolean debug = false;
+
     public MicroCanvas( final MicroModel model, SugarAndSaltSolutionsColorScheme configuration ) {
         super( model, configuration );
 
+        //Add graphics for each ion.  Overriden here to map from soluble salts model coordinates -> sugar and salt model coordinates -> sugar and salt canvas coordinates
         model.addIonListener( new IonGraphicManager( getRootNode() ) {
             @Override protected IonGraphic createImage( Ion ion, BufferedImage image ) {
                 return new IonGraphic( ion, image ) {
@@ -45,6 +52,24 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
                 };
             }
         } );
+
+        //Show a debug path for the fluid volume, to help make sure the coordinate frames are correct
+        if ( debug ) {
+            addChild( new PhetPPath( new Color( 255, 0, 0, 128 ) ) {{
+                final SimpleObserver updatePath = new SimpleObserver() {
+                    public void update() {
+                        setPathTo( transform.modelToView( model.solubleSaltsTransform.modelToView( model.getSolubleSaltsModel().getVessel().getWater().getBounds() ) ) );
+                    }
+                };
+                //Update the path continuously in case the mode changed it for any reason that we couldn't observe
+                new javax.swing.Timer( 100, new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        updatePath.update();
+                    }
+                } ).start();
+                model.waterVolume.addObserver( updatePath );
+            }} );
+        }
     }
 
     //Create an image for sucrose using the same code as in the water tab to keep representations consistent

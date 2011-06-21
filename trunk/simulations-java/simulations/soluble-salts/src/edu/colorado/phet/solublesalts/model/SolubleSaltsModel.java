@@ -56,11 +56,11 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
 
     // The vessel
     private Vessel vessel;
-    private Point2D vesselLoc = new Point2D.Double( SolubleSaltsConfig.VESSEL_ULC.getX() * scale,
-                                                    SolubleSaltsConfig.VESSEL_ULC.getY() * scale );
-    private double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth() * scale;
-    private double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight() * scale;
-    private double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS * scale;
+    protected Point2D vesselLoc = new Point2D.Double( SolubleSaltsConfig.VESSEL_ULC.getX() * scale,
+                                                      SolubleSaltsConfig.VESSEL_ULC.getY() * scale );
+    protected double vesselWidth = SolubleSaltsConfig.VESSEL_SIZE.getWidth() * scale;
+    protected double vesselDepth = SolubleSaltsConfig.VESSEL_SIZE.getHeight() * scale;
+    protected double vesselWallThickness = SolubleSaltsConfig.VESSEL_WALL_THICKNESS * scale;
 
     // The faucet and drain
     private WaterSource waterSource;
@@ -98,7 +98,8 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
         Crystal.addInstanceLifetimeListener( crystalTracker );
 
         // Create a vessel
-        vessel = new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
+        vessel = newVessel();
+
         vessel.setWaterLevel( calibration.defaultWaterLevel / calibration.volumeCalibrationFactor );
         addModelElement( vessel );
 
@@ -143,6 +144,10 @@ public class SolubleSaltsModel extends BaseModel implements SolubleSaltsModule.R
                 vessel.setWaterLevel( SolubleSaltsModel.this.calibration.defaultWaterLevel / SolubleSaltsModel.this.calibration.volumeCalibrationFactor );
             }
         } );
+    }
+
+    protected Vessel newVessel() {
+        return new Vessel( vesselWidth, vesselDepth, vesselWallThickness, vesselLoc, this );
     }
 
     public void update( ClockEvent event ) {

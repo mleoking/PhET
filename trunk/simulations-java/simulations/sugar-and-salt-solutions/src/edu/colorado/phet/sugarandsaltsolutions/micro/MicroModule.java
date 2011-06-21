@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
 
 /**
  * Micro tab that shows the NaCl ions and Sucrose molecules.
