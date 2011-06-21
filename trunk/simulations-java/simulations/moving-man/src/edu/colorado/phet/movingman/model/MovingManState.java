@@ -12,7 +12,7 @@ public class MovingManState {
     private final ManState manState;//The state of the man character
     private final boolean walls;//true if the walls are enabled at this point in time
 
-    public MovingManState(double time, ManState manState, boolean walls) {
+    public MovingManState( double time, ManState manState, boolean walls ) {
         this.time = time;
         this.manState = manState;
         this.walls = walls;

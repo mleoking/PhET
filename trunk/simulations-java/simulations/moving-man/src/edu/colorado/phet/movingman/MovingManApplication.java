@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.movingman;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.application.ModuleEvent;
 import edu.colorado.phet.common.phetcommon.application.ModuleObserver;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -28,52 +28,52 @@ import static edu.colorado.phet.movingman.MovingManStrings.INTRODUCTION_MODULE_T
 public class MovingManApplication extends PiccoloPhetApplication {
     //This state is handled in the MovingManApplication since the SpecialFeaturesMenu is a singleton, but should
     //be able to handle all modules independently.  This value must get propagated to the menu and to the modules.
-    private BooleanProperty positiveToTheRight = new BooleanProperty(true);//True if positive coordinates are to the right.
+    private BooleanProperty positiveToTheRight = new BooleanProperty( true );//True if positive coordinates are to the right.
 
-    public MovingManApplication(PhetApplicationConfig config) {
-        super(config);
+    public MovingManApplication( PhetApplicationConfig config ) {
+        super( config );
 
-        final IntroModule introModule = new IntroModule(getPhetFrame());
+        final IntroModule introModule = new IntroModule( getPhetFrame() );
         {
-            introModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
+            introModule.getPositiveToTheRight().addObserver( new SimpleObserver() {
                 public void update() {
-                    if (getActiveModule() == introModule) {
+                    if ( getActiveModule() == introModule ) {
                         positiveToTheRight.set( introModule.getPositiveToTheRight().get() );
                     }
                 }
-            });
+            } );
         }
-        addModule(introModule);
+        addModule( introModule );
 
-        final ChartingModule chartingModule = new ChartingModule(getPhetFrame());
+        final ChartingModule chartingModule = new ChartingModule( getPhetFrame() );
         {
-            chartingModule.getPositiveToTheRight().addObserver(new SimpleObserver() {
+            chartingModule.getPositiveToTheRight().addObserver( new SimpleObserver() {
                 public void update() {
-                    if (getActiveModule() == chartingModule) {
+                    if ( getActiveModule() == chartingModule ) {
                         positiveToTheRight.set( chartingModule.getPositiveToTheRight().get() );
                     }
                 }
-            });
+            } );
         }
-        addModule(chartingModule);
+        addModule( chartingModule );
 
-        addModuleObserver(new ModuleObserver() {
-            public void moduleAdded(ModuleEvent event) {
+        addModuleObserver( new ModuleObserver() {
+            public void moduleAdded( ModuleEvent event ) {
             }
 
-            public void activeModuleChanged(ModuleEvent event) {
+            public void activeModuleChanged( ModuleEvent event ) {
                 positiveToTheRight.set( getActiveMovingManModule().getPositiveToTheRight().get() );
             }
 
-            public void moduleRemoved(ModuleEvent event) {
+            public void moduleRemoved( ModuleEvent event ) {
             }
-        });
-        getPhetFrame().addMenu(new SpecialFeaturesMenu(this));
+        } );
+        getPhetFrame().addMenu( new SpecialFeaturesMenu( this ) );
         positiveToTheRight.addObserver( new SimpleObserver() {
-            public void update() {
-                getActiveMovingManModule().setPositiveToTheRight( positiveToTheRight.get() );
-            }
-        }, false );
+                                            public void update() {
+                                                getActiveMovingManModule().setPositiveToTheRight( positiveToTheRight.get() );
+                                            }
+                                        }, false );
     }
 
     private MovingManModule getActiveMovingManModule() {
@@ -85,33 +85,33 @@ public class MovingManApplication extends PiccoloPhetApplication {
     }
 
     private class IntroModule extends MovingManModule {
-        private IntroModule(PhetFrame frame) {
-            super(frame, INTRODUCTION_MODULE_TITLE);
+        private IntroModule( PhetFrame frame ) {
+            super( frame, INTRODUCTION_MODULE_TITLE );
         }
 
-        protected MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-            return new MovingManSimulationPanelWithPlayAreaSliders(model, recordAndPlaybackModel, positiveToTheRight);
+        protected MovingManSimulationPanel createSimulationPanel( MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel ) {
+            return new MovingManSimulationPanelWithPlayAreaSliders( model, recordAndPlaybackModel, positiveToTheRight );
         }
     }
 
     private class ChartingModule extends MovingManModule {
 
-        public ChartingModule(PhetFrame frame) {
-            super(frame, CHARTS_MODULE_TITLE);
+        public ChartingModule( PhetFrame frame ) {
+            super( frame, CHARTS_MODULE_TITLE );
         }
 
-        protected MovingManSimulationPanel createSimulationPanel(MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel) {
-            return new MovingManSimulationPanelWithCharts(model, recordAndPlaybackModel, positiveToTheRight);
+        protected MovingManSimulationPanel createSimulationPanel( MovingManModel model, RecordAndPlaybackModel<MovingManState> recordAndPlaybackModel ) {
+            return new MovingManSimulationPanelWithCharts( model, recordAndPlaybackModel, positiveToTheRight );
         }
 
         protected RecordAndPlaybackControlPanel<MovingManState> createRecordAndPlaybackPanel() {
             RecordAndPlaybackControlPanel<MovingManState> panel = super.createRecordAndPlaybackPanel();
-            panel.setTimelineNodeVisible(false);//Hide timeline panel in chart panel, since it is redundant with in-chart cursor bar
+            panel.setTimelineNodeVisible( false );//Hide timeline panel in chart panel, since it is redundant with in-chart cursor bar
             return panel;
         }
     }
 
-    public static void main(String[] args) {
-        new PhetApplicationLauncher().launchSim(args, "moving-man", MovingManApplication.class);
+    public static void main( String[] args ) {
+        new PhetApplicationLauncher().launchSim( args, "moving-man", MovingManApplication.class );
     }
 }
