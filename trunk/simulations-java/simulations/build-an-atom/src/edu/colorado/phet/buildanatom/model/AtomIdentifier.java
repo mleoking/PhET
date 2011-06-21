@@ -776,7 +776,9 @@ public class AtomIdentifier {
     public static ArrayList<ImmutableAtom> getAllIsotopesOfElement( int atomicNumber ) {
         ArrayList<ImmutableAtom> isotopeList = new ArrayList<ImmutableAtom>();
         for ( IsotopeKey key : ISOTOPE_INFO_MAP.keySet() ) {
-            isotopeList.add( new ImmutableAtom( key.getNumProtons(), key.getNumNeutrons(), key.getNumProtons() ) );
+            if ( atomicNumber == key.getNumProtons() ) {
+                isotopeList.add( new ImmutableAtom( key.getNumProtons(), key.getNumNeutrons(), key.getNumProtons() ) );
+            }
         }
         return isotopeList;
     }
@@ -793,8 +795,8 @@ public class AtomIdentifier {
         ArrayList<ImmutableAtom> isotopeList = getAllIsotopesOfElement( atomicNumber );
         ArrayList<ImmutableAtom> stableIsotopeList = new ArrayList<ImmutableAtom>();
         for ( ImmutableAtom isotope : isotopeList ) {
-            if ( !isStable( isotope ) ) {
-                stableIsotopeList.remove( isotope );
+            if ( isStable( isotope ) ) {
+                stableIsotopeList.add( isotope );
             }
         }
         return stableIsotopeList;
