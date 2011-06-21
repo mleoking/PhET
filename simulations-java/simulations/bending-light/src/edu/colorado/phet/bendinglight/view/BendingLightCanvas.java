@@ -4,7 +4,6 @@ package edu.colorado.phet.bendinglight.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -18,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
@@ -26,20 +24,20 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.BufferedPhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static java.awt.image.BufferedImage.TYPE_INT_RGB;
-
 /**
  * Base class for Bending Light canvases.
+ * Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
  *
  * @author Sam Reid
  */
-public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas implements ToolboxCanvas {
+public class BendingLightCanvas<T extends BendingLightModel> extends BufferedPhetPCanvas implements ToolboxCanvas {
     public static final PhetFont labelFont = new PhetFont( 16 );//Font for labels in controls
     private PNode rootNode;
     public final BooleanProperty showNormal;
@@ -261,32 +259,6 @@ public class BendingLightCanvas<T extends BendingLightModel> extends PhetPCanvas
         return model;
     }
 
-    //Using BufferedPhetPCanvas prevents a jittering problem on the 2nd tab, see #2786 -- but only apply this solution on Windows since it causes problem on Mac and mac has no jitter problem
-    //This code is copied from BufferedPhetPCanvas
-    public void paintComponent( Graphics g ) {
-        if ( PhetUtilities.isMacintosh() ) {
-            super.paintComponent( g );
-        }
-        //Apply the workaround on windows and linux since they have similar behavior
-        else {
-            //Create a new buffer if the old one is wrong size or doesn't exist
-            if ( ( bufferedImage == null || bufferedImage.getWidth() != getWidth() || bufferedImage.getHeight() != getHeight() ) ) {
-                bufferedImage = new BufferedImage( getWidth(), getHeight(), TYPE_INT_RGB );
-            }
-            //Draw into the buffer
-            Graphics2D bufferedGraphics = bufferedImage.createGraphics();
-            bufferedGraphics.setClip( g.getClipBounds() );
-            super.paintComponent( bufferedGraphics );
-
-            //Draw the buffer into this canvas
-            ( (Graphics2D) g ).drawRenderedImage( bufferedImage, new AffineTransform() );
-
-            //Dispose for memory
-            bufferedGraphics.dispose();
-        }
-    }
-
-    //Returns a function that maps from proposed model point to allowed model point (i.e. within visible bounds), for use with RelativeDragHandler
     public Function1<Point2D, Point2D> getBoundedConstraint() {
         return new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D proposedModelPoint ) {
