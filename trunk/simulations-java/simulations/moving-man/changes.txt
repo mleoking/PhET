@@ -1,3 +1,4 @@
+> Move the dialog to the bottom right of the parent window.  This gets it out of the way of other readouts and controls, and prevents a scenario that crashes the sim, see #2670
 Make the simulation go into position driven mode when the go button is pressed.  Otherwise, it could use constant velocity or constant acceleration instead of the expression
 > Fixed: the play button in the expression evaluator only shows sometimes, resolves #2892
 Added credits, resolves #2719
