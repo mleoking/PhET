@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -32,15 +33,18 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class BodyNode extends PNode {
     private final Property<ModelViewTransform> modelViewTransform;
     private final Body body;
+    private final Property<Boolean> whiteBackgroundProperty;
     private final BodyRenderer bodyRenderer;
 
     public BodyNode( final Body body,
                      final Property<ModelViewTransform> modelViewTransform,
                      final Property<ImmutableVector2D> mousePosition,//Keep track of the mouse position in case a body moves underneath a stationary mouse (in which case the mouse should become a hand cursor)
                      final PComponent parentComponent,
-                     final double labelAngle ) {//Angle at which to show the name label, different for different BodyNodes so they don't overlap too much
+                     final double labelAngle,//Angle at which to show the name label, different for different BodyNodes so they don't overlap too much
+                     final Property<Boolean> whiteBackgroundProperty ) {
         this.modelViewTransform = modelViewTransform;
         this.body = body;
+        this.whiteBackgroundProperty = whiteBackgroundProperty;
         body.getCollidedProperty().addObserver( new SimpleObserver() {
             public void update() {
                 setVisible( !body.getCollidedProperty().get() );
@@ -127,7 +131,11 @@ public class BodyNode extends PNode {
             }} );
             addChild( new PText( body.getName() ) {{
                 setOffset( tail.getX() - getFullBounds().getWidth() / 2 - 5, tail.getY() - getFullBounds().getHeight() - 10 );
-                setTextPaint( Color.white );
+                whiteBackgroundProperty.addObserver( new VoidFunction1<Boolean>() {
+                    public void apply( Boolean whiteBackground ) {
+                        setTextPaint( whiteBackground ? Color.black : Color.white );
+                    }
+                } );
                 setFont( new PhetFont( 18, true ) );
             }} );
             final PropertyChangeListener updateVisibility = new PropertyChangeListener() {
