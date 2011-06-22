@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,8 @@ public class ManualGeneExpressionModel {
     //------------------------------------------------------------------------
 
     public ManualGeneExpressionModel() {
-        modelObjects.add( new TestSquare() );
+        modelObjects.add( new TestSquare( 0, 0, 20, Color.BLUE ) );
+        modelObjects.add( new TestSquare( 200, 0, 20, Color.RED ) );
     }
 
     //------------------------------------------------------------------------
