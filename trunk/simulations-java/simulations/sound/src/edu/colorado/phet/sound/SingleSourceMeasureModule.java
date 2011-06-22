@@ -16,8 +16,7 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.JDialog;
-import javax.swing.JRootPane;
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
@@ -29,6 +28,8 @@ import edu.colorado.phet.sound.view.ClockPanelLarge;
 import edu.colorado.phet.sound.view.MeasureControlPanel;
 import edu.colorado.phet.sound.view.MeterStickGraphic;
 import edu.colorado.phet.sound.view.VerticalGuideline;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
  * Provides a single speaker and instruments for making measurements on waves.
@@ -48,11 +49,23 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
         this.clock = getClock();
 
-        ApparatusPanel apparatusPanel = (ApparatusPanel)getSimulationPanel();
+        ApparatusPanel apparatusPanel = (ApparatusPanel) getSimulationPanel();
 
         // Add the ruler
         try {
-            BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
+
+            //To provide internationalization, use the same image that was provided with the sim to ensure measurements are correct
+            //Then draw on top of it with a translatable PText
+            final BufferedImage bi = ImageLoader.loadBufferedImage( SoundConfig.METER_STICK_IMAGE_FILE );
+            PText unitsLabel = new PText( SoundResources.getString( "Units.Meters" ) ) {{
+
+                //Right justify with the last number in the image, and move the baseline down a little bit so it lines up with the image in English
+                setOffset( 245, bi.getHeight() / 2 - getFullBounds().getHeight() / 2 + 2 );
+            }};
+            Graphics2D g2 = bi.createGraphics();
+            unitsLabel.fullPaint( new PPaintContext( g2 ) );
+            g2.dispose();
+
             PhetImageGraphic ruler = new PhetImageGraphic( apparatusPanel, bi );
             ruler.setLocation( SoundConfig.s_meterStickBaseX, SoundConfig.s_meterStickBaseY );
             MeterStickGraphic meterStickGraphic = new MeterStickGraphic( apparatusPanel,
@@ -77,7 +90,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
             help2.setForegroundColor( Color.white );
             addHelpItem( help2 );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
 
         }
@@ -87,7 +100,7 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         apparatusPanel.addGraphic( guideline2, 10 );
 
         // Control Panel
-        setControlPanel( new MeasureControlPanel( this) );
+        setControlPanel( new MeasureControlPanel( this ) );
 
         // Stopwatch window
         stopwatchDlg = new JDialog( application.getPhetFrame(), "Stopwatch", false );
@@ -105,19 +118,19 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         // Avoid creating a point with each mousePressed() call
 
         //see http://www.ibm.com/developerworks/java/library/j-mer0717/
-        stopwatchDlg.addMouseListener(new MouseAdapter() {
-          public void mousePressed( MouseEvent e) {
-            dragPoint.x = e.getX();
-            dragPoint.y = e.getY();
-          }
-        });
-        stopwatchDlg.addMouseMotionListener(new MouseMotionAdapter() {
-          public void mouseDragged(MouseEvent e) {
-            Point p = stopwatchDlg.getLocation();
-            stopwatchDlg.setLocation( p.x + e.getX() - dragPoint.x, p.y + e.getY() - dragPoint.y);
-          }
-        });
-        clockPanel.setCursor( Cursor.getPredefinedCursor(Cursor.HAND_CURSOR ));
+        stopwatchDlg.addMouseListener( new MouseAdapter() {
+            public void mousePressed( MouseEvent e ) {
+                dragPoint.x = e.getX();
+                dragPoint.y = e.getY();
+            }
+        } );
+        stopwatchDlg.addMouseMotionListener( new MouseMotionAdapter() {
+            public void mouseDragged( MouseEvent e ) {
+                Point p = stopwatchDlg.getLocation();
+                stopwatchDlg.setLocation( p.x + e.getX() - dragPoint.x, p.y + e.getY() - dragPoint.y );
+            }
+        } );
+        clockPanel.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
 
     }
 
@@ -141,11 +154,10 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
     public void clearWaves() {
         resetWaveMediumGraphic();
-        
+
         //if the sim is paused, needs to sync.  This small change in time shows up on the stopwatch,
         // but hopefully is not too disturbing.  This line is necessary to update the graphics while the sim is paused.
-        if (clock.isPaused())
-            clock.stepClockWhilePaused();
+        if ( clock.isPaused() ) { clock.stepClockWhilePaused(); }
     }
 
     //-----------------------------------------------------------
@@ -159,9 +171,9 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
         }
 
         public void clockPaneEventOccurred( ClockPanelLarge.ClockPanelEvent event ) {
-            if( event.isReset() ) {
+            if ( event.isReset() ) {
                 module.resetWaveMediumGraphic();
-                if( !clock.isPaused() ) {
+                if ( !clock.isPaused() ) {
                     clock.pause();
                 }
                 clock.stepClockWhilePaused();
@@ -172,10 +184,10 @@ public class SingleSourceMeasureModule extends SingleSourceModule {
 
             }
             else {
-                if( event.isRunning() && clock.isPaused() ) {
+                if ( event.isRunning() && clock.isPaused() ) {
                     SingleSourceMeasureModule.this.clock.start();
                 }
-                else if( !clock.isPaused() ) {
+                else if ( !clock.isPaused() ) {
                     SingleSourceMeasureModule.this.clock.pause();
                 }
             }
