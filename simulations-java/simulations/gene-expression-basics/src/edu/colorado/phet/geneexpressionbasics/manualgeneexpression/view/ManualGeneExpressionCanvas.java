@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ModelObject;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -33,8 +34,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.34 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.82 ) ),
-                150 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.5 ) ),
+                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
         setBackground( Color.CYAN );
@@ -42,5 +43,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // Set up a root node for our scene graph.
         final PNode rootNode = new PNode();
         addWorldChild( rootNode );
+
+        // TODO: Testing and prototyping, remove eventually.
+        for ( ModelObject modelObject : model.getModelObjects() ) {
+            rootNode.addChild( new ModelObjectNode( mvt, modelObject, Color.RED ) );
+        }
     }
 }
