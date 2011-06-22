@@ -15,9 +15,7 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -42,6 +40,11 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     protected SingleSourceWithBoxModule() {
         super( SoundResources.getString( "ModuleTitle.SingelSourceWithBox" ) );
         init();
+    }
+
+    //There is only one help item in this module and it was incorrect, so don't show the help button at all
+    @Override public boolean hasHelp() {
+        return false;
     }
 
     private void init() {
@@ -84,7 +87,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         getApparatusPanel().addGraphic( pressureGauge, 5 );
 
         // Control Panel
-        SoundControlPanel controlPanel = (SoundControlPanel)getControlPanel();
+        SoundControlPanel controlPanel = (SoundControlPanel) getControlPanel();
         controlPanel.addPanel( new BoxAirDensityControlPanel( attenuationFunction ) );
 
         // Make the listener the audio source
@@ -109,7 +112,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         float x0 = SoundConfig.s_wavefrontBaseX - b;
         float y0 = SoundConfig.s_wavefrontBaseY - boxHeight / 2;
         double alpha = Math.atan( ( boxHeight / 2 ) / ( boxWidth - b ) );
-        float d = (float)( boxWidth + ( boxHeight / 2 ) * Math.tan( alpha ) );
+        float d = (float) ( boxWidth + ( boxHeight / 2 ) * Math.tan( alpha ) );
         box.moveTo( x0, y0 );
         box.lineTo( x0 + boxWidth, y0 );
         box.quadTo( x0 + d * 0.85f, SoundConfig.s_wavefrontBaseY,
@@ -121,8 +124,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
 
     public int rgbAt( int x, int y ) {
         // todo: figure out how to get rid of the hard-coded 80.
-        if( boxInteriorGraphic.contains( SoundConfig.s_wavefrontBaseX + 80 + x,
-                                         SoundConfig.s_wavefrontBaseY + y ) ) {
+        if ( boxInteriorGraphic.contains( SoundConfig.s_wavefrontBaseX + 80 + x,
+                                          SoundConfig.s_wavefrontBaseY + y ) ) {
             return boxInteriorGraphic.getGrayLevel();
         }
         else {
@@ -135,7 +138,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
     }
 
     private void showBoxAndGauge( boolean show ) {
-        if( show ) {
+        if ( show ) {
             getApparatusPanel().addGraphic( boxGraphic, 8 );
             getApparatusPanel().addGraphic( boxInteriorGraphic, 6 );
             getApparatusPanel().addGraphic( pressureGauge, 5 );
@@ -156,7 +159,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         private int grayLevel;
 
         static {
-            for( int i = 0; i < 256; i++ ) {
+            for ( int i = 0; i < 256; i++ ) {
                 grayLevels[i] = new Color( i, i, i );
             }
         }
@@ -168,7 +171,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         void setAirDensity( double density ) {
             // This gives a background that is black when the air is completely evacuated from the
             // box. To get a white background instead, use the second, commented line.
-            grayLevel = (int)( 128 * density );
+            grayLevel = (int) ( 128 * density );
 //            grayLevel = 255 - (int)( 128 * density );
             this.setPaint( grayLevels[grayLevel] );
         }
@@ -214,7 +217,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
             JButton resetBtn = new JButton( SoundResources.getString( "ClockPanelLarge.Reset" ) );
             resetBtn.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    if( boxEvacuator != null ) {
+                    if ( boxEvacuator != null ) {
                         boxEvacuator.kill();
                     }
                 }
@@ -242,7 +245,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         private void setAirDensity( final JSlider densitySlider, final int maxValue, final VariableWaveMediumAttenuationFunction attenuationFunction ) {
-            airDensity = ( (double)densitySlider.getValue() ) / maxValue;
+            airDensity = ( (double) densitySlider.getValue() ) / maxValue;
             attenuationFunction.setVariableRegionAttenuation( airDensity );
             boxInteriorGraphic.setAirDensity( airDensity );
             airDensityObservable.notifyObservers();
@@ -278,7 +281,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                     int incr = evacuateToggle ? -1 : 1;
                     int value = evacuateToggle ? maxValue : minValue;
                     int stop = evacuateToggle ? minValue : maxValue;
-                    while( value != stop ) {
+                    while ( value != stop ) {
 
                         value += incr;
                         densitySlider.setValue( value );
@@ -286,8 +289,8 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                         Thread.sleep( 100 );
 
                         // Check to see if we got a kill message
-                        synchronized( kill ) {
-                            if( kill.booleanValue() ) {
+                        synchronized ( kill ) {
+                            if ( kill.booleanValue() ) {
                                 return;
                             }
                         }
@@ -299,7 +302,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
                     airButton.setEnabled( true );
                     airButton.setBackground( buttonBackground );
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
@@ -341,7 +344,7 @@ public class SingleSourceWithBoxModule extends SingleSourceListenModule {
         }
 
         public double getAttenuation( double x, double y ) {
-            if( variableRegion != null && variableRegion.contains( x + SoundConfig.s_speakerBaseX, y + 201 ) ) {
+            if ( variableRegion != null && variableRegion.contains( x + SoundConfig.s_speakerBaseX, y + 201 ) ) {
                 return variableRegionAttenuation;
             }
             else {

@@ -1,3 +1,4 @@
+> Removed the help button from the last tab since it was providing incorrect instructions, resolves #2685
 > Internationalized the ruler, resolves #2684
 Removed unused images
 > Improved graphics scaling for low resolution screens, see #2860
