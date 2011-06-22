@@ -50,6 +50,7 @@ public class IsotopeSliderNode extends PNode {
             setFont( new PhetFont( Font.PLAIN, 14 ) );
             setSliderWidth( (int) SIZE.getWidth() );
             setValue( 0 );
+            getSlider().setPaintTicks( true );
             addChangeListener( new ChangeListener() {
                 public void stateChanged( ChangeEvent e ) {
                     modelControl.setIsotopeQuantity( (int) Math.round( getValue() ) );

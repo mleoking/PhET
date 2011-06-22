@@ -38,7 +38,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
-        setBackground( Color.CYAN );
+        setBackground( new Color( 190, 231, 251 ) );
 
         // Set up a root node for our scene graph.
         final PNode rootNode = new PNode();
