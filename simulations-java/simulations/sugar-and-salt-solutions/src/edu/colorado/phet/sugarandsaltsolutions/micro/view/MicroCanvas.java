@@ -24,6 +24,8 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 
@@ -34,6 +36,12 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
  */
 public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
     private final boolean debug = false;
+
+    //Enable the IonGraphicManager to create graphics for sucrose molecules
+    static {
+        IonGraphicManager.putImage( NegativeSugarIon.class, getSucroseImage() );
+        IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
+    }
 
     public MicroCanvas( final MicroModel model, SugarAndSaltSolutionsColorScheme configuration ) {
         super( model, configuration );
