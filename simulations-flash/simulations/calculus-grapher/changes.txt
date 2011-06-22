@@ -1,3 +1,5 @@
+# 2.05.00 (53362) Jun 22, 2011
+6/22/11 > New zoom control added.
 # 2.04.01 (53361) Jun 22, 2011
 6/22/11 New zoom control added.
 # 2.04.00 (52654) Jun 5, 2011
