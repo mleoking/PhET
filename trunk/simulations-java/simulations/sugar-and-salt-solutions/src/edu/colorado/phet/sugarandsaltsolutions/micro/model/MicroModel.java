@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.collision.Box2D;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -18,6 +19,7 @@ import edu.colorado.phet.solublesalts.SolubleSaltsConfig.Calibration;
 import edu.colorado.phet.solublesalts.model.SolubleSaltsModel;
 import edu.colorado.phet.solublesalts.model.Vessel;
 import edu.colorado.phet.solublesalts.model.ion.*;
+import edu.colorado.phet.solublesalts.model.salt.Salt;
 import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
@@ -25,6 +27,7 @@ import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
@@ -58,7 +61,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ModelViewTransform solubleSaltsTransform;
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
-    int stepsOfAddingSalt = 0;
+    private final Property<Integer> stepsOfAddingSalt = new Property<Integer>( 0 );
+    private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
     private Box2D myWaterBox = new Box2D();
 
     public MicroModel() {
@@ -147,13 +151,23 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
     @Override public void addMacroSalt( MacroSalt salt ) {
+        shakeMicroCrystal( stepsOfAddingSalt, salt.position.get(), new SodiumChloride() );
+    }
+
+    //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
+    @Override public void addMacroSugar( MacroSugar sugar ) {
+        shakeMicroCrystal( stepsOfAddingSugar, sugar.position.get(), new SugarCrystal() );
+    }
+
+    private void shakeMicroCrystal( Property<Integer> stepsTowardAdding, ImmutableVector2D position, Salt crystal ) {
         //Don't call super here, instead create a micro crystal
-        stepsOfAddingSalt++;
-        if ( stepsOfAddingSalt % 10 == 0 ) {
+        stepsTowardAdding.set( stepsTowardAdding.get() + 1 );
+        if ( stepsTowardAdding.get() % 10 == 0 ) {
             //Set the location of the shaker in the soluble salts model
-            getSolubleSaltsModel().getShaker().setPosition( solubleSaltsTransform.viewToModel( salt.position.get() ).toPoint2D() );
+            getSolubleSaltsModel().getShaker().setPosition( solubleSaltsTransform.viewToModel( position ).toPoint2D() );
 
             //Create a microscopic crystal at the shaker's new location
+            getSolubleSaltsModel().getShaker().setCurrentSalt( crystal );
             getSolubleSaltsModel().getShaker().shakeCrystal();
         }
     }
