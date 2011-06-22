@@ -3,7 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ModelObject;
@@ -16,13 +17,13 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ModelObjectNode extends PNode {
-    public ModelObjectNode( final ModelViewTransform mvt, final ModelObject modelObject, Paint paint ) {
+    public ModelObjectNode( final Property<ModelViewTransform> mvtProperty, final ModelObject modelObject, Paint paint ) {
         addChild( new PhetPPath( paint, new BasicStroke( 1 ), Color.BLACK ) {{
-            modelObject.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
-                public void apply( Shape shape ) {
-                    setPathTo( mvt.modelToView( shape ) );
+            new RichSimpleObserver() {
+                @Override public void update() {
+                    setPathTo( mvtProperty.get().modelToView( modelObject.getShape() ) );
                 }
-            } );
+            }.observe( modelObject.getShapeProperty(), mvtProperty );
         }} );
     }
 }

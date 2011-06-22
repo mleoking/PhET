@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 /**
@@ -10,10 +11,19 @@ import java.awt.geom.Rectangle2D;
  * @author John Blanco
  */
 public class TestSquare extends ModelObject {
+
+    private final Color color;
+
+
     /**
      * Constructor.
      */
-    public TestSquare() {
-        super( new Rectangle2D.Double( -10, -10, 20, 20 ) );
+    public TestSquare( double xCenter, double yCenter, double width, Color color ) {
+        super( new Rectangle2D.Double( xCenter - width / 2, yCenter - width / 2, width, width ) );
+        this.color = color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 }
