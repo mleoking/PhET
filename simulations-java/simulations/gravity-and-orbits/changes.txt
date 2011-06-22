@@ -1,3 +1,4 @@
+> Fixed: "moon" text label is invisible when the background is switched to white, see #2948
 # 2.02.00 (53172) Jun 15, 2011
 # 2.01.02 (53171) Jun 15, 2011
 Fixed: velocity vectors still show after collision occurs

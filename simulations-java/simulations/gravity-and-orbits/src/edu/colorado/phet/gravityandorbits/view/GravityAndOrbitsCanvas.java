@@ -91,7 +91,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
         //Add graphics for each of the bodies (including BodyNode, mass readout and wire up 'return object' button).
         ArrayList<Property<Boolean>> returnable = new ArrayList<Property<Boolean>>();//Use canvas coordinates to determine whether something has left the visible area
         for ( final Body body : model.getBodies() ) {
-            final BodyNode bodyNode = new BodyNode( body, mode.transform, mousePositionProperty, this, body.getLabelAngle() );
+            final BodyNode bodyNode = new BodyNode( body, mode.transform, mousePositionProperty, this, body.getLabelAngle(), module.whiteBackgroundProperty );
             addChild( bodyNode );
             returnable.add( new Property<Boolean>( false ) {{
                 final SimpleObserver updateReturnable = new SimpleObserver() {
