@@ -451,6 +451,24 @@ public class MathUtil {
         return value;
     }
 
+    /**
+     * Clamps a value to a specified range.
+     *
+     * @param min   the minimum value
+     * @param value the value to be clamped
+     * @param max   the maximum value
+     * @return the clamped value
+     */
+    public static int clamp( int min, int value, int max ) {
+        if ( value < min ) {
+            return min;
+        }
+        else if ( value > max ) {
+            return max;
+        }
+        return value;
+    }
+
     public static double clamp( double value, DoubleRange range ) {
         return clamp( range.getMin(), value, range.getMax() );
     }
