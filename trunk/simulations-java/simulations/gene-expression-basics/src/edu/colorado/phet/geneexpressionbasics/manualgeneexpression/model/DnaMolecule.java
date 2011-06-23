@@ -27,7 +27,7 @@ public class DnaMolecule {
      */
     public DnaMolecule() {
         strand1 = generateDnaStrand( 0, LENGTH_PER_TWIST * 100, true );
-        strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.2, LENGTH_PER_TWIST * 100, true );
+        strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.2, LENGTH_PER_TWIST * 100, false );
     }
 
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
