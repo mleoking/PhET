@@ -74,6 +74,10 @@ public class DnaMolecule {
         return genes;
     }
 
+    public Gene getLastGene() {
+        return genes.get( genes.size() - 1 );
+    }
+
     /**
      * This class defines a segment of the DNA strand.  It is needed because
      * the DNA molecule needs to look like it is 3D, but we are only modeling
