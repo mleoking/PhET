@@ -1,7 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+
+import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
 /**
  * Primary model for the manual gene expression tab.
@@ -31,6 +36,9 @@ public class ManualGeneExpressionModel {
     // its transcription, and where a lot of the action takes place.
     private final DnaMolecule dnaStrand = new DnaMolecule();
 
+    //The gene that the user is focusing on, other gene activity is suspended.  Start with the 0th gene in the dna (leftmost)
+    public final Property<Gene> activeGene = new Property<Gene>( dnaStrand.getGenes().get( 0 ) );
+
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
@@ -48,5 +56,19 @@ public class ManualGeneExpressionModel {
 
     public DnaMolecule getDnaMolecule() {
         return dnaStrand;
+    }
+
+    public void previousGene() {
+        switchToGeneRelative( -1 );
+    }
+
+    public void nextGene() {
+        switchToGeneRelative( +1 );
+    }
+
+    private void switchToGeneRelative( int i ) {
+        final ArrayList<Gene> genes = dnaStrand.getGenes();
+        int index = clamp( 0, genes.indexOf( activeGene.get() ) + i, genes.size() - 1 );
+        activeGene.set( genes.get( index ) );
     }
 }

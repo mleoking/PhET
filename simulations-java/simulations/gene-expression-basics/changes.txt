@@ -1,1 +1,3 @@
+Added genes to the model
+Improved panning behavior
 Made DNA strands curved instead of linear
