@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -27,10 +26,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        // Set up the model-canvas transform.  The test chamber is centered
-        // at (0, 0) in model space, and this transform is set up to place
-        // the chamber where we want it on the canvas.
-        //
+        // Set up the model-canvas transform.
         // IMPORTANT NOTES: The multiplier factors for the 2nd point can be
         // adjusted to shift the center right or left, and the scale factor
         // can be adjusted to zoom in or out (smaller numbers zoom out, larger
@@ -39,8 +35,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 new Point2D.Double( 0, 0 ),
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
-
-        final Property<ModelViewTransform> mvtProperty = new Property<ModelViewTransform>( mvt );
 
         // Set the background color.
         setBackground( new Color( 190, 231, 251 ) );
@@ -57,19 +51,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
         // Add the representation of the DNA strand.
         // TODO: Using the general ModelObjectNode for now, will probably need a specific node soon.
-        final PNode dnaStrandNode = new ModelObjectNode( mvtProperty, model.getDnaStrand(), Color.BLACK );
+        final PNode dnaStrandNode = new ModelObjectNode( mvt, model.getDnaStrand(), Color.BLACK );
         modelRootNode.addChild( dnaStrandNode );
-
-
-        // TODO: Testing and prototyping, remove eventually.  Adds simple objects to canvas.
-//        for ( ModelObject modelObject : model.getModelObjects() ) {
-//            if ( modelObject instanceof TestSquare ) {
-//                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, ( (TestSquare) modelObject ).getColor() ) );
-//            }
-//            else {
-//                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, Color.RED ) );
-//            }
-//        }
 
         // Add buttons for moving to next and previous genes.
         controlsRootNode.addChild( new TextButtonNode( "Next Gene ->" ) {{

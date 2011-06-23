@@ -1,10 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
@@ -35,16 +31,11 @@ public class ManualGeneExpressionModel {
     // its transcription, and where a lot of the action takes place.
     private final DnaStrand dnaStrand = new DnaStrand();
 
-    // Model objects.  TODO: Improve this comment if this is kept.
-    private static final List<ModelObject> modelObjects = new ArrayList<ModelObject>();
-
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
     public ManualGeneExpressionModel() {
-        modelObjects.add( new TestSquare( 0, 0, 20, Color.BLUE ) );
-        modelObjects.add( new TestSquare( 200, 0, 20, Color.RED ) );
     }
 
     //------------------------------------------------------------------------
@@ -53,10 +44,6 @@ public class ManualGeneExpressionModel {
 
     public ConstantDtClock getClock() {
         return clock;
-    }
-
-    public List<ModelObject> getModelObjects() {
-        return modelObjects;
     }
 
     public DnaStrand getDnaStrand() {
