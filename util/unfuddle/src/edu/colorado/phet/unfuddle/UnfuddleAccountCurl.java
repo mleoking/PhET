@@ -3,6 +3,8 @@ package edu.colorado.phet.unfuddle;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -19,6 +21,15 @@ import edu.colorado.phet.unfuddle.process.MyProcess;
  * @author Sam Reid
  */
 public class UnfuddleAccountCurl implements IUnfuddleAccount {
+
+    //Support for logging
+    private final static Logger LOGGER = Logger.getLogger( UnfuddleEmailNotifier.class.getName() );
+
+    static {
+        // get rid of this to log all of the resource messages
+        LOGGER.setLevel( Level.INFO );
+    }
+
     UnfuddleCurl curl;
     HashMap<Integer, IUnfuddlePerson> people = new HashMap<Integer, IUnfuddlePerson>();
     HashMap<Integer, String> components = new HashMap<Integer, String>();
@@ -50,6 +61,10 @@ public class UnfuddleAccountCurl implements IUnfuddleAccount {
         if ( !components.containsKey( id ) ) {
             try {
                 String component = curl.execProjectCommand( "components/{" + id + "}" );
+                if ( component == null ) {
+                    LOGGER.warning( "Null component for ID = " + id );
+                    throw new RuntimeException( "Null component for ID: " + id );
+                }
                 XMLObject object = new XMLObject( component );
                 final String name = new UnfuddleAccountDump.UnfuddleComponent( object.getNode() ).getName();
                 components.put( id, name );
