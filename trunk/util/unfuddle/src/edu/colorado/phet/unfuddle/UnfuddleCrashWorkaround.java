@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.unfuddle;
 
+import java.util.logging.Logger;
+
 import edu.colorado.phet.unfuddle.UnfuddleEmailNotifier.Listener;
 
 /**
@@ -10,6 +12,7 @@ import edu.colorado.phet.unfuddle.UnfuddleEmailNotifier.Listener;
  * @author Sam Reid
  */
 public class UnfuddleCrashWorkaround {
+    private final static Logger LOGGER = UnfuddleLogger.getLogger( UnfuddleAccountCurl.class );
     private long lastBatchCompleteTime = System.currentTimeMillis();
 
     public UnfuddleCrashWorkaround( final UnfuddleEmailNotifier emailNotifier ) {
@@ -28,10 +31,10 @@ public class UnfuddleCrashWorkaround {
                         e.printStackTrace();
                     }
                     long timeSinceLastBatch = System.currentTimeMillis() - lastBatchCompleteTime;
-                    System.out.println( "Minutes since last batch complete: " + timeSinceLastBatch / 1000.0 / 60.0 );
+                    LOGGER.info( "Minutes since last batch complete: " + timeSinceLastBatch / 1000.0 / 60.0 );
                     if ( timeSinceLastBatch > emailNotifier.getTimerDelay() * 2.5 ) {//missed 2 or so
-                        System.out.println( "It's been a long time since the email notifier finished a batch; perhaps it has halted" );
-                        System.out.println( "Shutting down the process" );
+                        LOGGER.info( "It's been a long time since the email notifier finished a batch; perhaps it has halted" );
+                        LOGGER.info( "Shutting down the process" );
                         System.exit( 0 );
                     }
                 }
@@ -41,6 +44,6 @@ public class UnfuddleCrashWorkaround {
     }
 
     public void start() {
-        System.out.println( "Started Unfuddle Crash Workaround" );
+        LOGGER.info( "Started Unfuddle Crash Workaround" );
     }
 }
