@@ -192,7 +192,7 @@ public class PoolNode extends PNode {
     }
 
     private static int clamp( int min, int value, int max ) {
-        return (int) MathUtil.clamp( min, value, max );
+        return MathUtil.clamp( min, value, max );
     }
 
 }
