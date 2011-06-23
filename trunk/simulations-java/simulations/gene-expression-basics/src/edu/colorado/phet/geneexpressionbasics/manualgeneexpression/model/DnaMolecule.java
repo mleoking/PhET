@@ -31,9 +31,9 @@ public class DnaMolecule {
         strand1 = generateDnaStrand( 0, LENGTH_PER_TWIST * 100, true );
         strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.3, LENGTH_PER_TWIST * 100, false );
 
-        genes.add( new Gene( new Rectangle2D.Double( 0, -100, 1200, 200 ), new Color( 0, 0, 255, 200 ) ) );
-        genes.add( new Gene( new Rectangle2D.Double( 10000, -100, 1600, 200 ), new Color( 0, 255, 0, 200 ) ) );
-        genes.add( new Gene( new Rectangle2D.Double( 20000, -100, 900, 200 ), new Color( 255, 0, 0, 200 ) ) );
+        genes.add( new Gene( new Rectangle2D.Double( 5000, -200, 2400, 400 ), new Color( 255, 165, 79, 150 ) ) );
+        genes.add( new Gene( new Rectangle2D.Double( 15000, -200, 3200, 400 ), new Color( 240, 246, 143, 150 ) ) );
+        genes.add( new Gene( new Rectangle2D.Double( 25000, -200, 4000, 400 ), new Color( 205, 255, 112, 150 ) ) );
     }
 
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {

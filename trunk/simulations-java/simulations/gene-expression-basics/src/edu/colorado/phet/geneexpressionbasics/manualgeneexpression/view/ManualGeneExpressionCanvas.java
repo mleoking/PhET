@@ -63,6 +63,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         modelRootNode.addChild( dnaMoleculeNode );
 
         // Add buttons for moving to next and previous genes.
+        // TODO: i18n
         controlsRootNode.addChild( new HTMLImageButtonNode( "Next Gene", RESOURCES.getImage( "gray-arrow.png" ) ) {{
             setTextPosition( TextPosition.LEFT );
             setFont( new PhetFont( 20 ) );
@@ -74,6 +75,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 }
             } );
         }} );
+        // TODO: i18n
         controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( RESOURCES.getImage( "gray-arrow.png" ) ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );

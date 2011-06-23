@@ -24,7 +24,7 @@ public class DnaMoleculeNode extends PNode {
     // Layers for supporting the 3D look by allowing the "twist" to be depicted.
     private PNode backLayer = new PNode();
 
-    //The middle layer can be used to show the base pairs, since they go between the strands
+    // The middle layer can be used to show the base pairs, since they go between the strands
     private PNode middleLayer = new PNode();
 
     private PNode frontLayer = new PNode();
