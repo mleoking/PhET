@@ -51,12 +51,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
         // Add the representation of the DNA strand.
         // TODO: Using the general ModelObjectNode for now, will probably need a specific node soon.
-        final PNode dnaStrandNode = new ModelObjectNode( mvt, model.getDnaStrand(), Color.BLACK );
-        modelRootNode.addChild( dnaStrandNode );
+        final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
+        modelRootNode.addChild( dnaMoleculeNode );
 
         // Add buttons for moving to next and previous genes.
         controlsRootNode.addChild( new TextButtonNode( "Next Gene ->" ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaStrandNode.getFullBoundsReference().getMaxY() + 20 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -65,7 +65,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             } );
         }} );
         controlsRootNode.addChild( new TextButtonNode( "<- Prev Gene" ) {{
-            setOffset( 20, dnaStrandNode.getFullBoundsReference().getMaxY() + 20 );
+            setOffset( 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
