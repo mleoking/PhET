@@ -37,7 +37,7 @@ public class BuildAMoleculeStrings {
     public static final String ATOM_BROMINE = BuildAMoleculeResources.getString( "atom.bromine" );
 
     public static final String KIT_LABEL = BuildAMoleculeResources.getString( "kit.label" );
-    public static final String KIT_RESET = BuildAMoleculeResources.getString( "kit.resetKit" );
+    public static final String KIT_REFILL = BuildAMoleculeResources.getString( "kit.resetKit" );
 
     public static final String JMOL_3D_SPACE_FILLING = BuildAMoleculeResources.getString( "3d.spaceFilling" );
     public static final String JMOL_3D_BALL_AND_STICK = BuildAMoleculeResources.getString( "3d.ballAndStick" );

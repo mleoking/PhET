@@ -79,10 +79,10 @@ public class KitPanel extends PNode {
         } );
 
         /*---------------------------------------------------------------------------*
-        * reset kit
+        * refill kit
         *----------------------------------------------------------------------------*/
 
-        addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.KIT_RESET, new PhetFont( Font.BOLD, 12 ), Color.ORANGE ) {
+        addChild( new HTMLImageButtonNode( BuildAMoleculeStrings.KIT_REFILL, new PhetFont( Font.BOLD, 12 ), Color.ORANGE ) {
             private SimpleObserver observer; // makes sure that we are enabled or disabled whenever the current kit is
 
             {
