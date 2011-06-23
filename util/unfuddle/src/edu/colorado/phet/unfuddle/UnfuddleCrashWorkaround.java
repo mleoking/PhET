@@ -25,14 +25,16 @@ public class UnfuddleCrashWorkaround {
             public void run() {
                 while ( true ) {
                     try {
-                        Thread.sleep( 10000 );
+                        Thread.sleep( 60000 );
                     }
                     catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
                     long timeSinceLastBatch = System.currentTimeMillis() - lastBatchCompleteTime;
                     LOGGER.info( "Minutes since last batch complete: " + timeSinceLastBatch / 1000.0 / 60.0 );
-                    if ( timeSinceLastBatch > emailNotifier.getTimerDelay() * 2.5 ) {//missed 2 or so
+
+                    //If it is 25% over the anticipated batch time, then kill this process and allow the outer loop to restart the UnfuddleEmailNotifierAgain
+                    if ( timeSinceLastBatch > emailNotifier.getTimerDelay() * 1.25 ) {
                         LOGGER.info( "It's been a long time since the email notifier finished a batch; perhaps it has halted" );
                         LOGGER.info( "Shutting down the process" );
                         System.exit( 0 );
