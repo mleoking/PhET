@@ -9,14 +9,16 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * An basic object in the model.  The main thing that this model object does
- * is to define the shape of the object.  Note that the shape also defines the
- * position, and no separate position information exists.
+ * An object in the model that changes shape and/or position.  Note that the
+ * shape also defines the position, and no separate position information
+ * exists, just a "position handle".  An object of this type can therefore
+ * move in model space by changing its shape, even though what people
+ * normally think of as the shape (e.g. rectangle) may not change at all.
  *
  * @author John Blanco
  * @author Sam Reid
  */
-public abstract class ModelObject {
+public abstract class ShapeChangingModelObject {
     private final Property<Shape> shapeProperty;
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
@@ -34,7 +36,7 @@ public abstract class ModelObject {
      *
      * @param shape The shape of the model object.
      */
-    public ModelObject( Shape shape ) {
+    public ShapeChangingModelObject( Shape shape ) {
         this.shapeProperty = new Property<Shape>( shape );
         // Set the position handle, which in this sim is always the center
         // bottom of the shape.

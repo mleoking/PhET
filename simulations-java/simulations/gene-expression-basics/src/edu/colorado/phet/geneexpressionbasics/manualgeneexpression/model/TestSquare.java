@@ -10,7 +10,7 @@ import java.awt.geom.Rectangle2D;
  *
  * @author John Blanco
  */
-public class TestSquare extends ModelObject {
+public class TestSquare extends ShapeChangingModelObject {
 
     private final Color color;
 

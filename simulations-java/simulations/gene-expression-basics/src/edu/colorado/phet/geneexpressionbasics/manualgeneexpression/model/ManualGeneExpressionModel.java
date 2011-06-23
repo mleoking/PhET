@@ -29,7 +29,7 @@ public class ManualGeneExpressionModel {
 
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    private final DnaStrand dnaStrand = new DnaStrand();
+    private final DnaMolecule dnaStrand = new DnaMolecule();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -46,7 +46,7 @@ public class ManualGeneExpressionModel {
         return clock;
     }
 
-    public DnaStrand getDnaStrand() {
+    public DnaMolecule getDnaMolecule() {
         return dnaStrand;
     }
 }
