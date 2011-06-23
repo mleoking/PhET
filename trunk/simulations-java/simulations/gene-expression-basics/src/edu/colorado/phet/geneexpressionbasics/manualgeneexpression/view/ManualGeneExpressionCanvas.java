@@ -7,12 +7,19 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsApplication.RESOURCES;
 
 /**
  * @author John Blanco
@@ -20,6 +27,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ManualGeneExpressionCanvas extends PhetPCanvas {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
+    private PTransformActivity activity;
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -55,24 +63,37 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         modelRootNode.addChild( dnaMoleculeNode );
 
         // Add buttons for moving to next and previous genes.
-        controlsRootNode.addChild( new TextButtonNode( "Next Gene ->" ) {{
+        controlsRootNode.addChild( new HTMLImageButtonNode( "Next Gene", RESOURCES.getImage( "gray-arrow.png" ) ) {{
+            setTextPosition( TextPosition.LEFT );
+            setFont( new PhetFont( 20 ) );
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    modelRootNode.animateToPositionScaleRotation( -200, 0, 1, 0, 1000 );
+                    model.nextGene();
                 }
             } );
         }} );
-        controlsRootNode.addChild( new TextButtonNode( "<- Prev Gene" ) {{
+        controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( RESOURCES.getImage( "gray-arrow.png" ) ) ) {{
+            setTextPosition( TextPosition.RIGHT );
+            setFont( new PhetFont( 20 ) );
             setOffset( 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    modelRootNode.animateToPositionScaleRotation( 200, 0, 1, 0, 1000 );
+                    model.previousGene();
                 }
             } );
         }} );
+
+        model.activeGene.addObserver( new VoidFunction1<Gene>() {
+            public void apply( Gene gene ) {
+                if ( activity != null ) {
+                    activity.terminate( 0 );
+                }
+                activity = modelRootNode.animateToPositionScaleRotation( -mvt.modelToViewX( gene.getRect().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0, 1, 0, 1000 );
+            }
+        } );
 
         //Uncomment this line to add zoom on right mouse click drag
 //        addInputEventListener( getZoomEventHandler() );

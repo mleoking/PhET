@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,7 @@ public class DnaMolecule {
 
     private DnaStrand strand1;
     private DnaStrand strand2;
+    private ArrayList<Gene> genes = new ArrayList<Gene>();
 
     /**
      * Constructor.
@@ -28,6 +30,10 @@ public class DnaMolecule {
     public DnaMolecule() {
         strand1 = generateDnaStrand( 0, LENGTH_PER_TWIST * 100, true );
         strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.3, LENGTH_PER_TWIST * 100, false );
+
+        genes.add( new Gene( new Rectangle2D.Double( 0, -100, 1200, 200 ), new Color( 0, 0, 255, 200 ) ) );
+        genes.add( new Gene( new Rectangle2D.Double( 10000, -100, 1600, 200 ), new Color( 0, 255, 0, 200 ) ) );
+        genes.add( new Gene( new Rectangle2D.Double( 20000, -100, 900, 200 ), new Color( 255, 0, 0, 200 ) ) );
     }
 
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
@@ -62,6 +68,10 @@ public class DnaMolecule {
 
     public DnaStrand getStrand2() {
         return strand2;
+    }
+
+    public ArrayList<Gene> getGenes() {
+        return genes;
     }
 
     /**

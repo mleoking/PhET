@@ -2,12 +2,12 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -30,6 +30,10 @@ public class DnaMoleculeNode extends PNode {
     private PNode frontLayer = new PNode();
 
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
+        for ( Gene gene : dnaMolecule.getGenes() ) {
+            addChild( new PhetPPath( mvt.modelToView( gene.getRect() ), gene.getColor() ) );
+        }
+
         addChild( backLayer );
         addChild( middleLayer );
         addChild( frontLayer );
@@ -42,8 +46,6 @@ public class DnaMoleculeNode extends PNode {
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2() ) {
             addStrand( mvt, dnaStrandSegment, STRAND_2_COLOR );
         }
-
-        addChild( new PhetPPath( mvt.modelToView( new Rectangle2D.Double( 0, -100, 400, 200 ) ), new Color( 0, 0, 255, 128 ) ) );
     }
 
     private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Color color ) {
