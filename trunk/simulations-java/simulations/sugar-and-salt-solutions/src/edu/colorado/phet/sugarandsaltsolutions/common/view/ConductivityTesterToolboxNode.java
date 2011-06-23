@@ -12,6 +12,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ToolNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -36,7 +37,7 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                 }
             };
             //Add title and a spacer below it
-            addChild( new PText( "Conductivity" ) {{setFont( TITLE_FONT );}} );
+            addChild( new PText( SugarAndSaltSolutionsResources.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
 
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {

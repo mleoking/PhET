@@ -9,6 +9,7 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -23,7 +24,7 @@ public class EvaporationSlider extends WhiteControlPanelNode {
     public EvaporationSlider( final SettableProperty<Integer> evaporationRate ) {
         super( new HBox(
                 //Add a label
-                new PText( "Evaporation" ) {{setFont( CONTROL_FONT );}},
+                new PText( SugarAndSaltSolutionsResources.EVAPORATION ) {{setFont( CONTROL_FONT );}},
 
                 //Add the slider
                 new PSwing( new PropertySlider( 0, 100, evaporationRate ) {{
@@ -33,8 +34,8 @@ public class EvaporationSlider extends WhiteControlPanelNode {
                     //Show none and lots labels at the extrema
                     setPaintLabels( true );
                     setLabelTable( new Hashtable() {{
-                        put( 0, new JLabel( "none" ) {{setFont( CONTROL_FONT );}} );
-                        put( 100, new JLabel( "lots" ) {{setFont( CONTROL_FONT );}} );
+                        put( 0, new JLabel( SugarAndSaltSolutionsResources.NONE ) {{setFont( CONTROL_FONT );}} );
+                        put( 100, new JLabel( SugarAndSaltSolutionsResources.LOTS ) {{setFont( CONTROL_FONT );}} );
                     }} );
                     addMouseListener( new MouseAdapter() {
                         @Override public void mouseReleased( MouseEvent e ) {

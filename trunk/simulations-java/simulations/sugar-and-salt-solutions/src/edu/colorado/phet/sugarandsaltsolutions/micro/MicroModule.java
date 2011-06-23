@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
 
@@ -24,7 +25,7 @@ public class MicroModule extends Module {
     }
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration, MicroModel model ) {
-        super( "Micro", model.clock );
+        super( SugarAndSaltSolutionsResources.MICRO, model.clock );
 
         this.model = model;
 

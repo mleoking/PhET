@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -34,7 +35,7 @@ public class MinimizedConcentrationBarChart extends PNode {
         final double totalWidth = 220;
 
         //Show the title
-        final PText title = new PText( "Concentration" ) {{
+        final PText title = new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
             setFont( TITLE_FONT );
         }};
 

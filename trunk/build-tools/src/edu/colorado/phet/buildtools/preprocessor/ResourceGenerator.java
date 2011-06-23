@@ -10,6 +10,7 @@ import java.util.*;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import static edu.colorado.phet.common.phetcommon.util.FileUtils.filter;
+import static java.lang.String.format;
 
 /**
  * Automatically generates resource files for strings provided in the English translation file, and for images in the image directory.
@@ -58,7 +59,8 @@ public class ResourceGenerator {
                     //Skip the simulation name, it is loaded through reflection
                 }
                 else {
-                    final String JAVA_FIELD_NAME = propertyName.
+                    final String JAVA_FIELD_NAME = splitCamelCase( propertyName ).
+                            replace( ' ', '-' ).
                             toUpperCase().
                             replace( '.', '_' ).//Careful, not invertible
                             replace( '-', '_' );
@@ -99,6 +101,14 @@ public class ResourceGenerator {
         FileUtils.writeString( destination, filtered );
 
         System.out.println( "Wrote to dest: " + destination.getAbsolutePath() );
+    }
+
+    //Copied from http://stackoverflow.com/questions/2559759/how-do-i-convert-camelcase-into-human-readable-names-in-java
+    public static String splitCamelCase( String s ) {
+        return s.replaceAll( format( "%s|%s|%s",
+                                     "(?<=[A-Z])(?=[A-Z][a-z])",
+                                     "(?<=[^A-Z])(?=[A-Z])",
+                                     "(?<=[A-Za-z])(?=[^A-Za-z])" ), " " );
     }
 
     class MyStringBuilder {

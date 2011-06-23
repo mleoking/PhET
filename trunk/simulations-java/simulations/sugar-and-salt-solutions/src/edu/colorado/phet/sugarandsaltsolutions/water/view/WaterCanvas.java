@@ -30,13 +30,14 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 
 /**
  * Canvas for the Water tab
@@ -135,7 +136,7 @@ public class WaterCanvas extends PhetPCanvas {
                 }},
 
                 //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
-                new PSwing( new PropertyCheckBox( "Show sugar atoms", waterModel.showSugarAtoms ) {{
+                new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.SHOW_SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
                     setFont( new PhetFont( 16 ) );
 //                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
 //                        public void apply( Boolean enabled ) {
@@ -166,12 +167,12 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
                 }} : new PNode(),
 
-                new TextButtonNode( "Show Sugar in 3D" ) {{
+                new TextButtonNode( SugarAndSaltSolutionsResources.SHOW_SUGAR_IN_3_D ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             JmolDialog.displayMolecule3D( state.frame, new Molecule() {
                                                               public String getDisplayName() {
-                                                                  return "Sugar";
+                                                                  return SugarAndSaltSolutionsResources.SUGAR;
                                                               }
 
                                                               public int getCID() {
@@ -209,7 +210,7 @@ public class WaterCanvas extends PhetPCanvas {
         if ( useBuckets ) {
             final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
 
-            saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, "Salt" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+            saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, SugarAndSaltSolutionsResources.SALT ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
             addChild( saltBucket.getHoleNode() );
 
             saltBucketParticleLayer = new PNode();
@@ -218,7 +219,7 @@ public class WaterCanvas extends PhetPCanvas {
 
             addSaltToBucket( waterModel, transform );
 
-            sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, "Sugar" ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+            sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
             addChild( sugarBucket.getHoleNode() );
 
             sugarBucketParticleLayer = new PNode();
@@ -238,7 +239,7 @@ public class WaterCanvas extends PhetPCanvas {
 
     private String readPDB() {
         try {
-            BufferedReader structureReader = new BufferedReader( new InputStreamReader( SugarAndSaltSolutionsApplication.RESOURCES.getResourceAsStream( "sucrose.pdb" ) ) );
+            BufferedReader structureReader = new BufferedReader( new InputStreamReader( RESOURCES.getResourceAsStream( "sucrose.pdb" ) ) );
             String s = "";
             String line = structureReader.readLine();
             while ( line != null ) {

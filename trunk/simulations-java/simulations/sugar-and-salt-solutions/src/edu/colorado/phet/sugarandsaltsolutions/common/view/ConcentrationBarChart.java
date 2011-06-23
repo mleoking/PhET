@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -57,17 +58,17 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Salt concentration bar
-        addChild( new Bar( white, "Salt", saltConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( white, SugarAndSaltSolutionsResources.SALT, saltConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( white, "Sugar", sugarConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( white, SugarAndSaltSolutionsResources.SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH + 25, abscissaY );
         }} );
 
         //Show the title
-        addChild( new PText( "Concentration" ) {{
+        addChild( new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
             setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
@@ -101,7 +102,7 @@ public class ConcentrationBarChart extends PNode {
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
         //This is in a VBox in case we need to add other controls later
         addChild( new VBox() {{
-            addChild( new PSwing( new PropertyCheckBox( "Show values", showValues ) {{
+            addChild( new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.SHOW_VALUES, showValues ) {{
                 setFont( CONTROL_FONT );
                 setBackgroundDeep( this, WATER_COLOR );
             }} ) );
