@@ -1,3 +1,4 @@
+# 2.03.00 (53422) Jun 23, 2011
 # 2.02.01 (53349) Jun 22, 2011
 > Fixed: "moon" text label is invisible when the background is switched to white, see #2948
 # 2.02.00 (53172) Jun 15, 2011
