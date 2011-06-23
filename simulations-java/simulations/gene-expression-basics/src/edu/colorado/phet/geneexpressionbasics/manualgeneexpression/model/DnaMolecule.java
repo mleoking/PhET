@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -19,18 +20,34 @@ public class DnaMolecule {
     private static final double STRAND_WIDTH = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final double BASE_PAIRS_PER_TWIST = 10; // In picometers.
+    private static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
+    private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
     private ArrayList<Gene> genes = new ArrayList<Gene>();
+    private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
 
     /**
      * Constructor.
      */
     public DnaMolecule() {
+        // Create the two strands that comprise the DNA "backbone".
         strand1 = generateDnaStrand( 0, LENGTH_PER_TWIST * 100, true );
-        strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.3, LENGTH_PER_TWIST * 100, false );
+        strand2 = generateDnaStrand( INTER_STRAND_OFFSET, LENGTH_PER_TWIST * 100, false );
 
+        // Add in the base pairs between the strands.
+        double basePairXPos = INTER_STRAND_OFFSET;
+        while ( basePairXPos < strand2.get( strand2.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
+            double height = Math.abs( ( Math.sin( ( basePairXPos - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
+                                        Math.sin( basePairXPos / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_WIDTH / 2;
+            double basePairYPos = ( Math.sin( ( basePairXPos - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
+                                    Math.sin( basePairXPos / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_WIDTH / 2;
+            basePairs.add( new BasePair( new Point2D.Double( basePairXPos, basePairYPos ), height ) );
+            basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
+        }
+
+        // Add the genes.
         genes.add( new Gene( new Rectangle2D.Double( 5000, -200, 2400, 400 ), new Color( 255, 165, 79, 150 ) ) );
         genes.add( new Gene( new Rectangle2D.Double( 15000, -200, 3200, 400 ), new Color( 240, 246, 143, 150 ) ) );
         genes.add( new Gene( new Rectangle2D.Double( 25000, -200, 4000, 400 ), new Color( 205, 255, 112, 150 ) ) );
@@ -76,6 +93,10 @@ public class DnaMolecule {
 
     public Gene getLastGene() {
         return genes.get( genes.size() - 1 );
+    }
+
+    public ArrayList<BasePair> getBasePairs() {
+        return basePairs;
     }
 
     /**

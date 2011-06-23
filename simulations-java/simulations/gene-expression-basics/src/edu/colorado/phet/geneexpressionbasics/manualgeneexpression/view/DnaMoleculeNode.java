@@ -5,6 +5,7 @@ import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
@@ -30,10 +31,12 @@ public class DnaMoleculeNode extends PNode {
     private PNode frontLayer = new PNode();
 
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
+        // Put the genes behind everything.
         for ( Gene gene : dnaMolecule.getGenes() ) {
             addChild( new PhetPPath( mvt.modelToView( gene.getRect() ), gene.getColor() ) );
         }
 
+        // Add the layers onto which the DNA backbone and base pairs will be placed.
         addChild( backLayer );
         addChild( middleLayer );
         addChild( frontLayer );
@@ -45,6 +48,10 @@ public class DnaMoleculeNode extends PNode {
         // Add the other strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2() ) {
             addStrand( mvt, dnaStrandSegment, STRAND_2_COLOR );
+        }
+        // Add the base pairs.
+        for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
+            addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.BLACK ) );
         }
     }
 
