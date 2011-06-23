@@ -28,7 +28,7 @@ public class SugarDispenser extends Dispenser {
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
     public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
-        super( x, y, 1.2, beaker, moreAllowed );
+        super( x, y, 1.2, beaker, moreAllowed, "Sugar" );
     }
 
     @Override public void translate( Dimension2D delta ) {

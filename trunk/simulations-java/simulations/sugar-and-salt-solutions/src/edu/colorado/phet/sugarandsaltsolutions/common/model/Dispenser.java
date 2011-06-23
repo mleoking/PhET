@@ -28,9 +28,13 @@ public class Dispenser {
     //True if the user is allowed to add more solute, false if the limit has been reached (10 moles per solute).
     public final ObservableProperty<Boolean> moreAllowed;
 
-    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
+    //The name of the dispenser contents, to be displayed on the side of the dispenser node
+    public final String name;
+
+    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name ) {
         this.beaker = beaker;
         this.moreAllowed = moreAllowed;
+        this.name = name;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
     }

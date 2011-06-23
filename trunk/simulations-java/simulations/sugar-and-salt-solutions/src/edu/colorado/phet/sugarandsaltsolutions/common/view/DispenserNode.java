@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -18,6 +19,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
 import static java.lang.Double.POSITIVE_INFINITY;
@@ -30,13 +32,23 @@ public class DispenserNode<T extends Dispenser> extends PNode {
     protected PImage imageNode;
     private final ModelViewTransform transform;
     private final T model;
+    private PNode textLabel;
 
     public DispenserNode( final ModelViewTransform transform, final T model ) {
         this.transform = transform;
         this.model = model;
-        //Show the image of the shaker
+        //Show the image of the shaker, with the text label on the side of the dispenser
         imageNode = new PImage();
         addChild( imageNode );
+
+        //Text label that shows "Sugar" or "Salt" along the axis of the dispenser.  It is a child of the image node so it will move and rotate with the image node.
+        textLabel = new PNode() {{
+            addChild( new PText( model.name ) {{
+                setFont( new PhetFont( 30 ) );
+                rotateInPlace( Math.PI / 2 );
+            }} );
+        }};
+        imageNode.addChild( textLabel );
 
         //Update the AffineTransform for the image when the model changes
         new RichSimpleObserver() {
@@ -87,5 +99,8 @@ public class DispenserNode<T extends Dispenser> extends PNode {
 
         //Center on the view point
         imageNode.centerFullBoundsOnPoint( viewPoint.x, viewPoint.y );
+
+        //Update the location of the text label to remain centered in the image since the image could have changed size
+        textLabel.setOffset( imageNode.getWidth() / 2 - textLabel.getFullBounds().getWidth() / 2, imageNode.getHeight() / 2 - textLabel.getFullBounds().getWidth() / 2 );
     }
 }
