@@ -1,3 +1,4 @@
+Improved the size and coloration of the prototype genes.
 Added genes to the model
 Improved panning behavior
 Made DNA strands curved instead of linear
