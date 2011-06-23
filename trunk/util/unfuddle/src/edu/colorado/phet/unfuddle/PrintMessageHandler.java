@@ -7,6 +7,6 @@ package edu.colorado.phet.unfuddle;
 public class PrintMessageHandler implements IMessageHandler {
     public String handleMessage( IMessage m ) {
         System.out.println( "<<<<<<<<\n" + m + "\n>>>>>>>" );
-        return "displayed message: "+m.getEmailSubject();
+        return "displayed message: " + m.getEmailSubject();
     }
 }

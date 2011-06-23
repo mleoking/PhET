@@ -18,10 +18,10 @@ public class TestThread {
             String out = myProcess.invoke( command );
             System.out.println( "out=" + out );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
             e.printStackTrace();
         }
     }

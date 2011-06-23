@@ -38,7 +38,7 @@ public class IgnoreDuplicatesMessageHandler implements IMessageHandler {
             s += "\n" + m.getHashID();
             FileUtils.writeString( file, s );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -48,7 +48,7 @@ public class IgnoreDuplicatesMessageHandler implements IMessageHandler {
             ArrayList h = getHandledList();
             return h.contains( m.getHashID() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return false;

@@ -103,7 +103,7 @@ public class UnfuddleEmailNotifier {
         timer.setInitialDelay( 0 );
     }
 
-    private int getTimerDelay() {
+    public int getTimerDelay() {
         final double v = Double.parseDouble( minutes.getText() );
 //        System.out.println( "changed delay to = " + v + " minutes" );
         return (int) ( 60 * 1000 * v );
@@ -118,13 +118,13 @@ public class UnfuddleEmailNotifier {
         try {
             processChanges( sendMail );
         }
-        catch( IOException e1 ) {
+        catch ( IOException e1 ) {
             e1.printStackTrace();
         }
-        catch( SAXException e1 ) {
+        catch ( SAXException e1 ) {
             e1.printStackTrace();
         }
-        catch( ParserConfigurationException e1 ) {
+        catch ( ParserConfigurationException e1 ) {
             e1.printStackTrace();
         }
     }
@@ -132,16 +132,16 @@ public class UnfuddleEmailNotifier {
     private void processChanges( boolean sendMail ) throws IOException, SAXException, ParserConfigurationException {
         System.out.println( "Started update at " + new Date() );
         final int limit = 20;
-        final String[] recent = new String[]{null};
+        final String[] recent = new String[] { null };
         Thread t = new Thread( new Runnable() {
             public void run() {
                 try {
                     recent[0] = unfuddleCurl.execProjectCommand( "activity.xml?limit=" + limit );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
@@ -154,7 +154,7 @@ public class UnfuddleEmailNotifier {
             try {
                 Thread.sleep( 5000 );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
         }
@@ -183,7 +183,7 @@ public class UnfuddleEmailNotifier {
                         String result = mh.handleMessage( new TicketCommentMessage( comment, unfuddleAccount, unfuddleCurl ) );
                         results.add( result );
                     }
-                    catch( MessagingException e1 ) {
+                    catch ( MessagingException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -198,7 +198,7 @@ public class UnfuddleEmailNotifier {
                         String result = mh.handleMessage( new TicketNewMessage( ticket, unfuddleAccount ) );
                         results.add( result );
                     }
-                    catch( MessagingException e1 ) {
+                    catch ( MessagingException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -212,7 +212,7 @@ public class UnfuddleEmailNotifier {
                         String result = mh.handleMessage( new TicketResolvedMessage( ticket, unfuddleAccount, resolvedPerson, recordID ) );
                         results.add( result );
                     }
-                    catch( MessagingException e1 ) {
+                    catch ( MessagingException e1 ) {
                         e1.printStackTrace();
                     }
                 }
@@ -237,59 +237,18 @@ public class UnfuddleEmailNotifier {
                 try {
                     UnfuddleEmailNotifier emailNotifier = new UnfuddleEmailNotifier( programArgs );
                     emailNotifier.start();
-                    new UnfuddleCrashWorkaround( args, emailNotifier ).start();
+                    new UnfuddleCrashWorkaround( emailNotifier ).start();
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( SAXException e ) {
+                catch ( SAXException e ) {
                     e.printStackTrace();
                 }
-                catch( ParserConfigurationException e ) {
+                catch ( ParserConfigurationException e ) {
                     e.printStackTrace();
                 }
             }
         } );
-
-    }
-
-    private static class UnfuddleCrashWorkaround {
-        private String[] args;
-        private UnfuddleEmailNotifier emailNotifier;
-        private long lastBatchCompleteTime = System.currentTimeMillis();
-
-        public UnfuddleCrashWorkaround( String[] args, final UnfuddleEmailNotifier emailNotifier ) {
-            this.args = args;
-            this.emailNotifier = emailNotifier;
-            emailNotifier.addListener( new Listener() {
-                public void batchComplete() {
-                    lastBatchCompleteTime = System.currentTimeMillis();
-                }
-            } );
-            Thread thread = new Thread( new Runnable() {
-                public void run() {
-                    while ( true ) {
-                        try {
-                            Thread.sleep( 10000 );
-                        }
-                        catch( InterruptedException e ) {
-                            e.printStackTrace();
-                        }
-                        long timeSinceLastBatch = System.currentTimeMillis() - lastBatchCompleteTime;
-                        System.out.println( "Minutes since last batch complete: " + timeSinceLastBatch/1000.0/60.0 );
-                        if ( timeSinceLastBatch > emailNotifier.getTimerDelay() * 2.5 ) {//missed 2 or so
-                            System.out.println( "It's been a long time since the email notifier finished a batch; perhaps it has halted" );
-                            System.out.println( "Shutting down the process" );
-                            System.exit( 0 );
-                        }
-                    }
-                }
-            } );
-            thread.start();
-        }
-
-        public void start() {
-            System.out.println( "Started Unfuddle Crash Workaround" );
-        }
     }
 }

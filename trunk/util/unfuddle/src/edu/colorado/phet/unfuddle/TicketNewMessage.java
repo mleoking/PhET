@@ -30,7 +30,7 @@ public class TicketNewMessage implements IMessage {
             final int id = Integer.parseInt( ticket.getTextContent( "component-id" ) );
             return unfuddleAccount.getComponentForID( id );
         }
-        catch( NumberFormatException nfe ) {
+        catch ( NumberFormatException nfe ) {
             return "";
         }
     }
@@ -64,12 +64,12 @@ public class TicketNewMessage implements IMessage {
         return "new";
     }
 
-    public static String getEmailSubjectPrefix(){
+    public static String getEmailSubjectPrefix() {
         return "uf:";
     }
-    
+
     public static String toEmailSubject( String component, int ticketNumber, String summary, String type ) {
-        return getEmailSubjectPrefix()+" "+component + " #" + ticketNumber + ": " + summary;
+        return getEmailSubjectPrefix() + " " + component + " #" + ticketNumber + ": " + summary;
     }
 
     public String getEmailBody() {
@@ -116,13 +116,13 @@ public class TicketNewMessage implements IMessage {
             return "<not-assigned>";
         }
         else {
-            if (unfuddleAccount==null){
+            if ( unfuddleAccount == null ) {
                 throw new RuntimeException( "Unfuddle account was null" );
             }
             final int id = Integer.parseInt( s );
-            if (unfuddleAccount.getPersonForID( id) ==null){
-                System.err.println("Person not found for ID: "+id+", perhaps the dump.xml needs to be updated?");
-                return "<PhET Team Member ID:"+id+" (name not found, perhaps dump.xml needs to be updated?)>";//Return the ID and a message if the team member name cannot be found
+            if ( unfuddleAccount.getPersonForID( id ) == null ) {
+                System.err.println( "Person not found for ID: " + id + ", perhaps the dump.xml needs to be updated?" );
+                return "<PhET Team Member ID:" + id + " (name not found, perhaps dump.xml needs to be updated?)>";//Return the ID and a message if the team member name cannot be found
             }
             return unfuddleAccount.getPersonForID( id ).getName();
         }

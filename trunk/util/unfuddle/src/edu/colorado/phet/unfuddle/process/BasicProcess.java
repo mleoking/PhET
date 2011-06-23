@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 /**
  * Created by: Sam
-* May 14, 2008 at 7:31:17 PM
-*/
+ * May 14, 2008 at 7:31:17 PM
+ */
 public class BasicProcess implements MyProcess {
     public String invoke( String cmd ) throws IOException {
         Process p = Runtime.getRuntime().exec( cmd );

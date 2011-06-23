@@ -67,7 +67,7 @@ public class ViewTickets {
                 DateFormat d = new SimpleDateFormat( "yyyy-MM-dd-hh:mm:ss" );
                 return d.parse( value.replace( 'T', '-' ) );
             }
-            catch( ParseException e ) {
+            catch ( ParseException e ) {
                 e.printStackTrace();
                 return null;
             }
