@@ -51,7 +51,7 @@ public class DnaMoleculeNode extends PNode {
         }
         // Add the base pairs.
         for ( BasePair basePair : dnaMolecule.getBasePairs() ) {
-            addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.BLACK ) );
+            addChild( new PhetPPath( mvt.modelToView( basePair.getShape() ), Color.DARK_GRAY ) );
         }
     }
 

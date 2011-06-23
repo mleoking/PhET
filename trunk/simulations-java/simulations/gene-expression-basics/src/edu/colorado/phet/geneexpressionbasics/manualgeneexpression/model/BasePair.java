@@ -11,7 +11,7 @@ import java.awt.geom.RoundRectangle2D;
  * @author John Blanco
  */
 public class BasePair {
-    private static final double BASE_PAIR_WIDTH = 20; // In picometers.  Not sure if this is close to real life, chosen to look decent in view.
+    private static final double BASE_PAIR_WIDTH = 13; // In picometers.  Not sure if this is close to real life, chosen to look decent in view.
 
     private final Shape shape;
 
