@@ -6,7 +6,6 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
@@ -19,8 +18,6 @@ import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
-    public static final String NAME = "sugar-and-salt-solutions";
-    public static final PhetResources RESOURCES = new PhetResources( NAME );
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
     public static Random random = new Random();
 
@@ -47,6 +44,6 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, NAME, SugarAndSaltSolutionsApplication.class );
+        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsApplication.class );
     }
 }
