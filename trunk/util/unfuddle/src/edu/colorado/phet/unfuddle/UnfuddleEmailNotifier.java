@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
 import javax.swing.*;
@@ -13,6 +15,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.unfuddle.process.BasicProcess;
 import edu.colorado.phet.unfuddle.process.MyProcess;
 import edu.colorado.phet.unfuddle.process.ThreadProcess;
@@ -24,6 +27,15 @@ import edu.colorado.phet.unfuddle.process.ThreadProcess;
  * Feb 21, 2008 at 7:30:51 AM
  */
 public class UnfuddleEmailNotifier {
+
+    //Support for logging
+    public static final Logger LOGGER = LoggingUtils.getLogger( UnfuddleEmailNotifier.class.getCanonicalName() );
+
+    static {
+        // get rid of this to log all of the resource messages
+        LOGGER.setLevel( Level.INFO );
+    }
+
     private static final boolean SHOW_JFRAME = false;
 
     private final ProgramArgs args;
@@ -230,6 +242,7 @@ public class UnfuddleEmailNotifier {
     }
 
     public static void main( final String[] args ) throws IOException {
+        LOGGER.info( "Started unfuddle email notifier" );
         final ProgramArgs programArgs = new ProgramArgs( args );
 
         SwingUtilities.invokeLater( new Runnable() {
