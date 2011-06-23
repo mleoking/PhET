@@ -1,3 +1,4 @@
+# 2.03.01 (53435) Jun 23, 2011
 1/24/11 #2608, change ruler fix to work with fixed RulerNode superclass
 1/18/11 #2608, fix play area ruler, not horizontally aligned with laser origin
 # 2.03.00 (38019) Jan 11, 2010
