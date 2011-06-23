@@ -15,7 +15,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.unfuddle.process.BasicProcess;
 import edu.colorado.phet.unfuddle.process.MyProcess;
 import edu.colorado.phet.unfuddle.process.ThreadProcess;
@@ -29,7 +28,7 @@ import edu.colorado.phet.unfuddle.process.ThreadProcess;
 public class UnfuddleEmailNotifier {
 
     //Support for logging
-    public static final Logger LOGGER = LoggingUtils.getLogger( UnfuddleEmailNotifier.class.getCanonicalName() );
+    private final static Logger LOGGER = Logger.getLogger( UnfuddleEmailNotifier.class.getName() );
 
     static {
         // get rid of this to log all of the resource messages
