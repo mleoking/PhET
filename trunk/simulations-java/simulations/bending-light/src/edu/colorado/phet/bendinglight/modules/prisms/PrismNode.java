@@ -118,7 +118,7 @@ public class PrismNode extends PNode {
                     //Make the border color darker than the fill color
                     Function1<Integer, Integer> darker = new Function1<Integer, Integer>() {
                         public Integer apply( Integer value ) {
-                            return (int) MathUtil.clamp( 0, value - 28, 255 );
+                            return MathUtil.clamp( 0, value - 28, 255 );
                         }
                     };
                     setStrokePaint( new Color( darker.apply( color.getRed() ), darker.apply( color.getGreen() ), darker.apply( color.getBlue() ) ) );

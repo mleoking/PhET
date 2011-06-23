@@ -82,7 +82,7 @@ public class ColorIntensitySlider extends GraphicLayerSet {
     public void setValue( int value ) {
 
         // Silently clamp the value to the allowed range.
-        _value = (int) MathUtil.clamp( MIN, value, MAX );
+        _value = MathUtil.clamp( MIN, value, MAX );
 
         // Fire a ChangeEvent to notify listeners that the value has changed.
         fireChangeEvent( new ChangeEvent( this ) );

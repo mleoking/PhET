@@ -138,7 +138,7 @@ public class SpectrumSlider extends GraphicLayerSet {
     public void setValue( int value ) {
 
         // Silently clamp the value to the allowed range.
-        _value = (int) MathUtil.clamp( _minimum, value, _maximum );
+        _value = MathUtil.clamp( _minimum, value, _maximum );
 
         // Fire a ChangeEvent to notify listeners that the value has changed.
         fireChangeEvent( new ChangeEvent( this ) );

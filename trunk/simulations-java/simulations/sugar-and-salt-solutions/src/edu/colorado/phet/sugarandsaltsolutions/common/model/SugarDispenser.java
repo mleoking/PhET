@@ -92,7 +92,7 @@ public class SugarDispenser extends Dispenser {
         if ( enabled.get() && translating && angle.get() > Math.PI / 2 && moreAllowed.get() ) {
 
             //Then emit a number of crystals proportionate to the amount the dispenser was rotated so that vigorous rotation emits more, but clamping it so there can't be too many
-            int numCrystals = (int) MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
+            int numCrystals = MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the sugar should come out
                 final ImmutableVector2D outputPoint = center.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.03, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
