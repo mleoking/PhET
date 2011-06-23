@@ -80,6 +80,7 @@ public class ResourceGenerator {
             for ( File imageFile : imageFiles ) {
                 String JAVA_FIELD_NAME = imageFile.getName().
                         substring( 0, imageFile.getName().lastIndexOf( '.' ) ).
+                        replace( '-', '_' ).
                         toUpperCase();
                 append( TAB + "public static final BufferedImage " + JAVA_FIELD_NAME + " = RESOURCES.getImage( \"" + imageFile.getName() + "\" );\n" );
             }
