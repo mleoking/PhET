@@ -4,8 +4,8 @@ import java.io.IOException;
 
 /**
  * Created by: Sam
-* May 14, 2008 at 7:31:27 PM
-*/
+ * May 14, 2008 at 7:31:27 PM
+ */
 public class ThreadProcess implements MyProcess {
     private MyProcess p;
     private long timeout;
@@ -23,10 +23,10 @@ public class ThreadProcess implements MyProcess {
                     String value = p.invoke( cmd );
                     dummy[0] = value;
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
             }
@@ -37,7 +37,7 @@ public class ThreadProcess implements MyProcess {
             try {
                 Thread.sleep( 100 );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
         }

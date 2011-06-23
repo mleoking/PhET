@@ -114,7 +114,7 @@ public class ProgramArgs {
                 xmlDumpPath = st.nextToken();
                 sendMailEnabled = Boolean.parseBoolean( st.nextToken() );
             }
-            catch( NoSuchElementException e ) {
+            catch ( NoSuchElementException e ) {
                 throw new IOException( "file is missing one or more args" );
             }
             //TODO remove '\n' on end of last token in Unix files

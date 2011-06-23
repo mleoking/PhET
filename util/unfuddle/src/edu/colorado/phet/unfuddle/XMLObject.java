@@ -62,13 +62,13 @@ public class XMLObject {
 //        else {
 //            return getNode( child ).node.getFirstChild().getNodeValue();
 //        }
-        
+
 //        System.out.println("################");
 //        System.out.println("trying to get text content for child = " + child);
 //        System.out.println("getNode(child) = " + getNode(child));
-        
+
         //ignore elements with the wrong formatting, see #2353
-        if (getNode(child)==null){
+        if ( getNode( child ) == null ) {
 //            System.out.println("Found a child that has no text content, see #2353");
 //            printTree(0);
             return "";
@@ -78,13 +78,13 @@ public class XMLObject {
         return getNode( child ).node.getTextContent();
     }
 
-    private void printTree(int level) {
+    private void printTree( int level ) {
         NodeList ch = node.getChildNodes();
-        for (int i=0;i<level;i++)System.out.print("\t");
+        for ( int i = 0; i < level; i++ ) { System.out.print( "\t" ); }
         for ( int i = 0; i < ch.getLength(); i++ ) {
             final Node node = ch.item( i );
-            System.out.println(node.getNodeName()+": "+node.getNodeValue());
-            new XMLObject( node ).printTree(level  +1);
+            System.out.println( node.getNodeName() + ": " + node.getNodeValue() );
+            new XMLObject( node ).printTree( level + 1 );
         }
     }
 
@@ -133,11 +133,12 @@ public class XMLObject {
     }
 
     public int getTextContentAsInt( String s ) {
-        try{
+        try {
             return Integer.parseInt( getTextContent( s ) );
-        }catch (Exception d){
-            System.out.println("Error: Expected a non-zero length string.  This may");
-            System.out.println("have been caused by a category value of \'none\'");
+        }
+        catch ( Exception d ) {
+            System.out.println( "Error: Expected a non-zero length string.  This may" );
+            System.out.println( "have been caused by a category value of \'none\'" );
             d.printStackTrace();
             return -1;
         }

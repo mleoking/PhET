@@ -57,45 +57,45 @@ public class UnfuddleCurl {
 
     //fails for dump (timeout)
     public String execProjectCommand( String readARG ) throws IOException, InterruptedException {
-        return execV1Command( "projects/" + accountID + "/" + readARG);
+        return execV1Command( "projects/" + accountID + "/" + readARG );
     }
 
     public String execV1Command( String v1Command ) throws IOException, InterruptedException {
 //        String curl = "C:\\Users\\Sam\\Downloads\\curl-7.21.0-win64-ssl-sspi\\curl.exe";
 //        String curl = svnTrunk + "\\util\\unfuddle\\contrib\\curl\\curl.exe"; //TODO this is Windows specific, users should have curl in their path
-        String curl="curl";
+        String curl = "curl";
 
-        String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/"+v1Command;
+        String cmd = curl + " -k -i -u " + username + ":" + password + " -X GET -H \"Accept: application/xml\" https://phet.unfuddle.com/api/v1/" + v1Command;
         System.out.println( "cmd = " + cmd );
         return execCommand( cmd );
     }
 
     public String execCommand( String cmd ) throws IOException, InterruptedException {
-    	System.out.println(getClass().getName() + " - DBG: Entering execCommand method, about to execute command:");
-    	System.out.println("    " + cmd);
-    	String retVal = null;
+        System.out.println( getClass().getName() + " - DBG: Entering execCommand method, about to execute command:" );
+        System.out.println( "    " + cmd );
+        String retVal = null;
         String s = myProcess.invoke( cmd );
-    	System.out.println(getClass().getName() + " - Length of returned string is " + s.length());
-    	if (s.length() <= 256){
-        	System.out.println(getClass().getName() + " - Return string = " + s);
-    	}
-    	else{
-        	System.out.println(getClass().getName() + " - First portion of returned string = " + s.substring(0, 255));
-    	}
-    	int indexOfXmlTag = s.indexOf( "<?xml" );
-    	if (indexOfXmlTag >= 0){
-    		// The response contains the desired string.
-    		retVal = s.substring( s.indexOf( "<?xml" ) );
-    	}
-    	else{
-    		// The tag does not exist - output a warning.
-        	System.out.println(getClass().getName() + " - Warning: Response does not contain xml tag." + s.substring(0, 255));
-        	if (s.contains("Authorization")){
-        		System.out.println(getClass().getName() + " - Response contained \"Authorization\" string - check that password is correct");
-        	}
-    	}
-    	
-    	return retVal;
+        System.out.println( getClass().getName() + " - Length of returned string is " + s.length() );
+        if ( s.length() <= 256 ) {
+            System.out.println( getClass().getName() + " - Return string = " + s );
+        }
+        else {
+            System.out.println( getClass().getName() + " - First portion of returned string = " + s.substring( 0, 255 ) );
+        }
+        int indexOfXmlTag = s.indexOf( "<?xml" );
+        if ( indexOfXmlTag >= 0 ) {
+            // The response contains the desired string.
+            retVal = s.substring( s.indexOf( "<?xml" ) );
+        }
+        else {
+            // The tag does not exist - output a warning.
+            System.out.println( getClass().getName() + " - Warning: Response does not contain xml tag." + s.substring( 0, 255 ) );
+            if ( s.contains( "Authorization" ) ) {
+                System.out.println( getClass().getName() + " - Response contained \"Authorization\" string - check that password is correct" );
+            }
+        }
+
+        return retVal;
     }
 
     public static void main( String[] args ) throws IOException, ParserConfigurationException, SAXException, InterruptedException {

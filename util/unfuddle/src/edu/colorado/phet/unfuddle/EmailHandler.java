@@ -38,16 +38,16 @@ public class EmailHandler implements IMessageHandler {
         try {
             to = getTo( m.getComponent() );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
-        catch( SAXException e ) {
+        catch ( SAXException e ) {
             e.printStackTrace();
         }
-        catch( ParserConfigurationException e ) {
+        catch ( ParserConfigurationException e ) {
             e.printStackTrace();
         }
-        catch( InterruptedException e ) {
+        catch ( InterruptedException e ) {
             e.printStackTrace();
         }
         if ( sendMail ) {

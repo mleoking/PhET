@@ -53,7 +53,7 @@ public class EmailAccount {
             //Send the message
             Transport.send( msg );
         }
-        catch( MessagingException mex ) {
+        catch ( MessagingException mex ) {
             // Prints all nested (chained) exceptions as well
             mex.printStackTrace();
             throw mex;
@@ -68,6 +68,6 @@ public class EmailAccount {
         String from = args[0];
         String to = args[1];
         String host = args[2];
-        sendEmail( from, new String[]{to}, host, "Hello self email body", "Hello self subject", args[3], args[4] );
+        sendEmail( from, new String[] { to }, host, "Hello self email body", "Hello self subject", args[3], args[4] );
     }
 }//End of class

@@ -9,6 +9,7 @@ import javax.mail.MessagingException;
 public interface IMessageHandler {
     /**
      * Handles the specified message
+     *
      * @param m the message to handle
      * @return a human-readable string signifying the action taken, if any
      * @throws MessagingException
