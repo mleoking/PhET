@@ -27,7 +27,7 @@ public class DnaMolecule {
      */
     public DnaMolecule() {
         strand1 = generateDnaStrand( 0, LENGTH_PER_TWIST * 100, true );
-        strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.2, LENGTH_PER_TWIST * 100, false );
+        strand2 = generateDnaStrand( LENGTH_PER_TWIST * 0.3, LENGTH_PER_TWIST * 100, false );
     }
 
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
@@ -39,12 +39,15 @@ public class DnaMolecule {
             GeneralPath segmentShape = new GeneralPath();
             segmentShape.moveTo( offset, 0 );
             if ( curveUp ) {
-                segmentShape.lineTo( offset + LENGTH_PER_TWIST / 4, STRAND_WIDTH / 2 );
+                segmentShape.quadTo( offset + LENGTH_PER_TWIST / 4, STRAND_WIDTH / 2 * 2.0,
+                                     offset + LENGTH_PER_TWIST / 2, 0 );
             }
             else {
-                segmentShape.lineTo( offset + LENGTH_PER_TWIST / 4, -STRAND_WIDTH / 2 );
+                segmentShape.quadTo( offset + LENGTH_PER_TWIST / 4, -STRAND_WIDTH / 2 * 2.0,
+                                     offset + LENGTH_PER_TWIST / 2, 0 );
             }
-            segmentShape.lineTo( offset + LENGTH_PER_TWIST / 2, 0 );
+
+            //Close
             dnaStrand.add( new DnaStrandSegment( segmentShape, inFront ) );
             curveUp = !curveUp;
             inFront = !inFront;

@@ -2,11 +2,11 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrand;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
 import edu.umd.cs.piccolo.PNode;
 
@@ -23,7 +23,10 @@ public class DnaMoleculeNode extends PNode {
 
     // Layers for supporting the 3D look by allowing the "twist" to be depicted.
     private PNode backLayer = new PNode();
+
+    //The middle layer can be used to show the base pairs, since they go between the strands
     private PNode middleLayer = new PNode();
+
     private PNode frontLayer = new PNode();
 
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
@@ -33,27 +36,23 @@ public class DnaMoleculeNode extends PNode {
 
         // Add the first strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand1() ) {
-            PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape() ), STRAND_STROKE, STRAND_1_COLOR );
-            if ( dnaStrandSegment.inFront ) {
-                frontLayer.addChild( segmentNode );
-            }
-            else {
-                backLayer.addChild( segmentNode );
-            }
+            addStrand( mvt, dnaStrandSegment, STRAND_1_COLOR );
         }
         // Add the other strand.
         for ( DnaStrandSegment dnaStrandSegment : dnaMolecule.getStrand2() ) {
-            PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape() ), STRAND_STROKE, STRAND_2_COLOR );
-            if ( dnaStrandSegment.inFront ) {
-                frontLayer.addChild( segmentNode );
-            }
-            else {
-                backLayer.addChild( segmentNode );
-            }
+            addStrand( mvt, dnaStrandSegment, STRAND_2_COLOR );
         }
+
+        addChild( new PhetPPath( mvt.modelToView( new Rectangle2D.Double( 0, -100, 400, 200 ) ), new Color( 0, 0, 255, 128 ) ) );
     }
 
-    private void addStrand( DnaStrand dnaStrand, Color color ) {
-
+    private void addStrand( ModelViewTransform mvt, DnaStrandSegment dnaStrandSegment, Color color ) {
+        PNode segmentNode = new PhetPPath( mvt.modelToView( dnaStrandSegment.getShape() ), STRAND_STROKE, color );
+        if ( dnaStrandSegment.inFront ) {
+            frontLayer.addChild( segmentNode );
+        }
+        else {
+            backLayer.addChild( segmentNode );
+        }
     }
 }
