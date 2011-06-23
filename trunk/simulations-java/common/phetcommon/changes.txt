@@ -1,5 +1,5 @@
-6/23/11 Added Math.clamp(int,int,int)
-6/9/11 #2936, added Math.clamp(double,DoubleRange)
+6/23/11 Added MathUtil.clamp(int,int,int)
+6/9/11 #2936, added MathUtil.clamp(double,DoubleRange)
 6/7/11 Moved Dimension2DDouble to be a top-level class, see #123
 6/7/11 Added docs to ModelViewTransform, see #123
 5/23/11 Added getMax() functions to ImmutableRectangle2D
