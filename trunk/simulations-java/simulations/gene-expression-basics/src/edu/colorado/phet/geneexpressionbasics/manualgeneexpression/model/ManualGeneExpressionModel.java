@@ -9,6 +9,12 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 
 /**
  * Primary model for the manual gene expression tab.
+ * <p/>
+ * Dimensions in this model (and all sub-elements of the model) are in nano-
+ * meters, i.e. 10E-9 meters.
+ * <p/>
+ * The point (0,0) in model space is at the leftmost edge of the DNA strand,
+ * and at the vertical center of the strand.
  *
  * @author John Blanco
  */
@@ -24,6 +30,10 @@ public class ManualGeneExpressionModel {
 
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
+
+    // DNA strand, which is where the genes reside, where the polymerase does
+    // its transcription, and where a lot of the action takes place.
+    private final DnaStrand dnaStrand = new DnaStrand();
 
     // Model objects.  TODO: Improve this comment if this is kept.
     private static final List<ModelObject> modelObjects = new ArrayList<ModelObject>();
@@ -47,5 +57,9 @@ public class ManualGeneExpressionModel {
 
     public List<ModelObject> getModelObjects() {
         return modelObjects;
+    }
+
+    public DnaStrand getDnaStrand() {
+        return dnaStrand;
     }
 }
