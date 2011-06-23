@@ -1,3 +1,4 @@
+# 1.09.02 (53443) Jun 23, 2011
 # 1.09.01 (53286) Jun 20, 2011
 Improved faucet image and metrics
 Improved translations for plural strings "One Speaker/Two Speakers" and "One Light/Two Lights", see #2880
