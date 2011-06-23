@@ -1,3 +1,4 @@
+Internationalized
 Added a text label that shows "Sugar" or "Salt" along the axis of the dispenser
 # 0.00.56 (53346) Jun 21, 2011
 Micro tab: Added back sugar

@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.macro;
 
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
@@ -19,7 +20,7 @@ public class MacroModule extends SugarAndSaltSolutionsModule {
     }
 
     private MacroModule( MacroModel model, SugarAndSaltSolutionsColorScheme config ) {
-        super( "Macro", model.clock );
+        super( SugarAndSaltSolutionsResources.MACRO, model.clock );
         this.model = model;
         setSimulationPanel( new MacroCanvas( this.model, config ) );
     }

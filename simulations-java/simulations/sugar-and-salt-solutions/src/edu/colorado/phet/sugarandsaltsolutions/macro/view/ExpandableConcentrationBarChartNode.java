@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.MinimizedConcentrationBarChart;
 import edu.umd.cs.piccolo.PNode;
@@ -27,7 +28,7 @@ public class ExpandableConcentrationBarChartNode extends PNode {
         //Layout maximize button next to "concentration" label
         HBox contentPane = new HBox(
                 //Title for the control
-                new PText( "Concentration" ) {{
+                new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
                     setFont( MacroCanvas.TITLE_FONT );
                 }},
                 //Button that maximizes the bar chart

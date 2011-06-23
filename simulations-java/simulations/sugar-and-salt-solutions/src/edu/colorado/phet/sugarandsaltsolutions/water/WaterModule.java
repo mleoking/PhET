@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.water;
 
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.WaterCanvas;
@@ -18,7 +19,7 @@ public class WaterModule extends SugarAndSaltSolutionsModule {
     }
 
     public WaterModule( final WaterModel model, GlobalState state ) {
-        super( "Water", model.clock );
+        super( SugarAndSaltSolutionsResources.WATER, model.clock );
         setSimulationPanel( new WaterCanvas( model, state ) );
     }
 }
