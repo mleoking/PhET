@@ -1,3 +1,4 @@
+# 1.08.02 (53442) Jun 23, 2011
 # 1.08.01 (53441) Jun 23, 2011
 # 1.08.00 (38036) Jan 11, 2010
 1/11/10 public version for milestone "full redeploy, 2010 Q1"
