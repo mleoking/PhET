@@ -3,7 +3,6 @@ package edu.colorado.phet.unfuddle;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,13 +21,7 @@ import edu.colorado.phet.unfuddle.process.MyProcess;
  */
 public class UnfuddleAccountCurl implements IUnfuddleAccount {
 
-    //Support for logging
-    private final static Logger LOGGER = Logger.getLogger( UnfuddleEmailNotifier.class.getName() );
-
-    static {
-        // get rid of this to log all of the resource messages
-        LOGGER.setLevel( Level.INFO );
-    }
+    private final static Logger LOGGER = UnfuddleLogger.getLogger( UnfuddleAccountCurl.class );
 
     UnfuddleCurl curl;
     HashMap<Integer, IUnfuddlePerson> people = new HashMap<Integer, IUnfuddlePerson>();

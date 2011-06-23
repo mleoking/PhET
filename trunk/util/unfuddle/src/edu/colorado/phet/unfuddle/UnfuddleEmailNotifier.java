@@ -6,7 +6,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.mail.MessagingException;
@@ -27,13 +26,7 @@ import edu.colorado.phet.unfuddle.process.ThreadProcess;
  */
 public class UnfuddleEmailNotifier {
 
-    //Support for logging
-    private final static Logger LOGGER = Logger.getLogger( UnfuddleEmailNotifier.class.getName() );
-
-    static {
-        // get rid of this to log all of the resource messages
-        LOGGER.setLevel( Level.INFO );
-    }
+    private final static Logger LOGGER = UnfuddleLogger.getLogger( UnfuddleEmailNotifier.class );
 
     private static final boolean SHOW_JFRAME = false;
 
