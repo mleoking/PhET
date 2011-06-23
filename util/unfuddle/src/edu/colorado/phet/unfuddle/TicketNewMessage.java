@@ -1,10 +1,13 @@
 package edu.colorado.phet.unfuddle;
 
+import java.util.logging.Logger;
+
 /**
  * Created by: Sam
  * Feb 21, 2008 at 1:12:31 PM
  */
 public class TicketNewMessage implements IMessage {
+    private final static Logger LOGGER = UnfuddleLogger.getLogger( TicketNewMessage.class );
     private XMLObject ticket;
     private IUnfuddleAccount unfuddleAccount;
 
@@ -28,9 +31,14 @@ public class TicketNewMessage implements IMessage {
     public String getComponent() {
         try {
             final int id = Integer.parseInt( ticket.getTextContent( "component-id" ) );
+            if ( id == -1 ) {
+                LOGGER.warning( "ID was -1 for component-id in ticket: " + toString() );
+                return "";
+            }
             return unfuddleAccount.getComponentForID( id );
         }
         catch ( NumberFormatException nfe ) {
+            LOGGER.warning( "Number format exception for component-id in ticket: " + toString() );
             return "";
         }
     }
