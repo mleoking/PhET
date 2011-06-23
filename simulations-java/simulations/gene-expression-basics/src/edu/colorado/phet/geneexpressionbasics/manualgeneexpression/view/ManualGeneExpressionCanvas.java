@@ -12,8 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ModelObject;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TestSquare;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -39,8 +37,8 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.5 ) ),
-                1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
+                0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         final Property<ModelViewTransform> mvtProperty = new Property<ModelViewTransform>( mvt );
 
@@ -57,19 +55,25 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         final PNode modelRootNode = new PNode();
         addWorldChild( modelRootNode );
 
-        // TODO: Testing and prototyping, remove eventually.
-        for ( ModelObject modelObject : model.getModelObjects() ) {
-            if ( modelObject instanceof TestSquare ) {
-                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, ( (TestSquare) modelObject ).getColor() ) );
-            }
-            else {
-                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, Color.RED ) );
-            }
-        }
+        // Add the representation of the DNA strand.
+        // TODO: Using the general ModelObjectNode for now, will probably need a specific node soon.
+        final PNode dnaStrandNode = new ModelObjectNode( mvtProperty, model.getDnaStrand(), Color.BLACK );
+        modelRootNode.addChild( dnaStrandNode );
+
+
+        // TODO: Testing and prototyping, remove eventually.  Adds simple objects to canvas.
+//        for ( ModelObject modelObject : model.getModelObjects() ) {
+//            if ( modelObject instanceof TestSquare ) {
+//                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, ( (TestSquare) modelObject ).getColor() ) );
+//            }
+//            else {
+//                modelRootNode.addChild( new ModelObjectNode( mvtProperty, modelObject, Color.RED ) );
+//            }
+//        }
 
         // Add buttons for moving to next and previous genes.
         controlsRootNode.addChild( new TextButtonNode( "Next Gene ->" ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, 500 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaStrandNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -78,7 +82,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             } );
         }} );
         controlsRootNode.addChild( new TextButtonNode( "<- Prev Gene" ) {{
-            setOffset( 20, 500 );
+            setOffset( 20, dnaStrandNode.getFullBoundsReference().getMaxY() + 20 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
