@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
@@ -36,8 +37,13 @@ public class ManualGeneExpressionModel {
     // its transcription, and where a lot of the action takes place.
     private final DnaMolecule dnaStrand = new DnaMolecule();
 
-    //The gene that the user is focusing on, other gene activity is suspended.  Start with the 0th gene in the dna (leftmost)
+    // The gene that the user is focusing on, other gene activity is
+    // suspended.  Start with the 0th gene in the DNA (leftmost).
     public final Property<Gene> activeGene = new Property<Gene>( dnaStrand.getGenes().get( 0 ) );
+
+    // Properties that keep track of whether the
+    public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaStrand.getGenes().get( 0 ) );
+    public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
 
     //------------------------------------------------------------------------
     // Constructor

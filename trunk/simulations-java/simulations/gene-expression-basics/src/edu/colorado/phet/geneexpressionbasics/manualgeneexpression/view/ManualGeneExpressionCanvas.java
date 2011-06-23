@@ -74,6 +74,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                     model.nextGene();
                 }
             } );
+            model.isLastGeneActive.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean lastGeneActive ) {
+                    setEnabled( !lastGeneActive );
+                }
+            } );
         }} );
         // TODO: i18n
         controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( RESOURCES.getImage( "gray-arrow.png" ) ) ) {{
@@ -84,6 +89,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.previousGene();
+                }
+            } );
+            model.isFirstGeneActive.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean firstGeneActive ) {
+                    setEnabled( !firstGeneActive );
                 }
             } );
         }} );
