@@ -8,11 +8,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import java.awt.event.{MouseEvent, ActionEvent, MouseAdapter, ActionListener}
-import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D, Dimension2D}
+import java.awt.geom.{Rectangle2D, Ellipse2D, Point2D}
 import java.awt.{Rectangle, Dimension, Color}
 import javax.swing._
-import javax.swing.event.MouseInputAdapter
 import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.colorado.phet.ladybugmotion2d.model.Ladybug
@@ -72,34 +70,37 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     arrowNode.setPaint(color)
     private var _dragging = false
 
-    def dragging_=(d: Boolean) = {
+    def dragging_=(d: Boolean) {
       _dragging = d
     }
 
     def dragging = _dragging
 
-    def updateArrow() = {
-      val doUpdate = (!dragging && (RemoteControl.this._mode eq this) && LadybugDefaults.remoteIsIndicator)
-      if (doUpdate) {
+    def updateArrow() {
+      val doUpdate = ( !dragging && ( RemoteControl.this._mode eq this ) && LadybugDefaults.remoteIsIndicator )
+      if ( doUpdate ) {
         _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(getter(model.ladybug)), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       }
     }
+
     model.ladybug.addListener(() => {
-      updateArrow
+      updateArrow()
     })
-    updateArrow
-    def setDestination(pt: Point2D) = {
+    updateArrow()
+
+    def setDestination(pt: Point2D) {
       _mode.arrowNode.setTipAndTailLocations(_mode.transform.modelToView(pt), _mode.transform.modelToView(new Point2D.Double(0, 0)))
       setLadybugState(pt)
     }
 
     def setLadybugState(pt: Point2D) //template method
   }
-  def resetAll() = {
+
+  def resetAll() {
     mode = positionMode
   }
 
-  def mode_=(m: RemoteMode) = {
+  def mode_=(m: RemoteMode) {
     _mode.dragging = false
     _mode = m
     _mode.dragging = false
@@ -108,13 +109,13 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     notifyListeners()
   }
 
-  def isInteractive() = {model.readyForInteraction}
+  def isInteractive = model.readyForInteraction
 
   class RemoteControlCanvas extends PhetPCanvas(new PDimension(CANVAS_WIDTH, CANVAS_HEIGHT)) {
     val w = 8.5
 
-    def handleMouseDragged(event: PInputEvent) = {
-      if (isInteractive()) {
+    def handleMouseDragged(event: PInputEvent) {
+      if ( isInteractive ) {
         _mode.dragging = true
         setMotionManual()
         _mode.setDestination(_mode.transform.viewToModel(event.getCanvasPosition.getX, event.getCanvasPosition.getY))
@@ -123,11 +124,11 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
     val centerDot = new PhetPPath(new Ellipse2D.Double(-w / 2, -w / 2, w, w), Color.black)
     centerDot.addInputEventListener(new PBasicInputEventHandler() {
-      override def mousePressed(event: PInputEvent) = {
+      override def mousePressed(event: PInputEvent) {
         _mode.setDestination(new Vector2D(0, 0))
       }
 
-      override def mouseDragged(event: PInputEvent) = {
+      override def mouseDragged(event: PInputEvent) {
         handleMouseDragged(event)
       }
     })
@@ -135,8 +136,8 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
     val backgroundNode = new PhetPPath(new Rectangle(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT), Color.white)
 
     backgroundNode.addInputEventListener(new PBasicInputEventHandler() {
-      override def mousePressed(event: PInputEvent) = {
-        if (isInteractive()) {
+      override def mousePressed(event: PInputEvent) {
+        if ( isInteractive ) {
           _mode.dragging = true
           //                    model.setPenDown(true)
           setMotionManual()
@@ -144,11 +145,11 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
         }
       }
 
-      override def mouseReleased(event: PInputEvent) = {
-        if (isInteractive()) {
+      override def mouseReleased(event: PInputEvent) {
+        if ( isInteractive ) {
           _mode.dragging = false
           setMotionManual()
-          if (!LadybugDefaults.vaSticky && (_mode == velocityMode || _mode == accelerationMode)) {
+          if ( !LadybugDefaults.vaSticky && ( _mode == velocityMode || _mode == accelerationMode ) ) {
             _mode.setDestination(new Vector2D(0, 0))
           }
           //                    model.setPenDown(false)
@@ -156,14 +157,18 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
       }
 
-      override def mouseDragged(event: PInputEvent) = {
+      override def mouseDragged(event: PInputEvent) {
         handleMouseDragged(event)
       }
     })
-    addInputEventListener(new ToggleListener(new CursorHandler, isInteractive))
+    addInputEventListener(new ToggleListener(new CursorHandler, () => isInteractive))
     modeChanged()
-    def modeChanged() = centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
+
+    def modeChanged() {
+      centerDot.setOffset(_mode.transform.modelToView(0, 0).getX, _mode.transform.modelToView(0, 0).getY)
+    }
   }
+
   val label = new JLabel(getLocalizedString("controls.remote"))
   label.setFont(new PhetFont(14, true))
   add(label)
@@ -173,20 +178,22 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
 
   val node = new PNode
   canvas.addWorldChild(node)
-  def updateNode = {
-    node.removeAllChildren
+
+  def updateNode() {
+    node.removeAllChildren()
     node.addChild(canvas.backgroundNode)
     node.addChild(_mode.arrowNode)
     node.addChild(canvas.centerDot)
   }
-  updateNode
+
+  updateNode()
 
   addListener(() => {
-    updateNode
+    updateNode()
   })
   add(new MyRadioButton(getLocalizedString("model.position"), mode = positionMode, mode == positionMode, this.addListener))
   add(new MyRadioButton(getLocalizedString("model.velocity"), mode = velocityMode, mode == velocityMode, this.addListener))
   add(new MyRadioButton(getLocalizedString("model.acceleration"), mode = accelerationMode, mode == accelerationMode, this.addListener))
-  setFillNone
+  setFillNone()
 
 }

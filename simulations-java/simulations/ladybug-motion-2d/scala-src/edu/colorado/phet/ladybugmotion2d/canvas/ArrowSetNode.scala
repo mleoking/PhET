@@ -16,6 +16,7 @@ import controlpanel.VectorVisibilityModel
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 
 class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisibilityModel: VectorVisibilityModel) extends PNode {
+
   class LabeledArrowNode(color: Color, name: String) extends PNode {
     val arrowWidth = 90.0 * 0.25;
     val arrowNode = new ArrowNode(new Point2D.Double(0, 0), new Point2D.Double(200, 200), arrowWidth, arrowWidth, arrowWidth * 2.0 / 3.0, 2, true)
@@ -32,7 +33,7 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
     def setTipAndTailLocations(a: Vector2D, b: Vector2D) = {
       arrowNode.setTipAndTailLocations(a, b)
       labelNode.setOffset(a)
-      labelNode.setVisible(labelNode.getFullBounds.width < (a - b).magnitude * 5)
+      labelNode.setVisible(labelNode.getFullBounds.width < ( a - b ).magnitude * 5)
     }
   }
 

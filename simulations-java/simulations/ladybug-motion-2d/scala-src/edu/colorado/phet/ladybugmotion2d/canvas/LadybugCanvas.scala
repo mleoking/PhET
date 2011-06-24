@@ -2,15 +2,9 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.PhetPCanvas
-import java.awt.event.{ComponentAdapter, ComponentEvent}
-import java.awt.geom.{AffineTransform, Rectangle2D, Point2D}
+import java.awt.geom.{Rectangle2D, Point2D}
 import java.awt.{Rectangle, Dimension, Color}
-import javax.swing.JComponent
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.RenderingSizeStrategy
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.TransformStrategy
-import edu.colorado.phet.common.piccolophet.PhetPCanvas.ViewportStrategy
-import edu.umd.cs.piccolo.util.PDimension
 import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
 import edu.colorado.phet.ladybugmotion2d.controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
@@ -24,12 +18,13 @@ class LadybugCanvas(model: LadybugModel,
         extends PhetPCanvas(new Dimension(1024, 768)) {
   setWorldTransformStrategy(new CenteredBoxStrategy(768, 768, this))
   val transform: ModelViewTransform2D = new ModelViewTransform2D(new Rectangle2D.Double(-modelWidth / 2, -modelHeight / 2, modelWidth, modelHeight),
-    new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
+                                                                 new Rectangle(0, 0, 768, 768), LadybugDefaults.POSITIVE_Y_IS_UP)
   val constructed = true
   updateWorldScale
 
   val worldNode = new PNode
   addWorldChild(worldNode)
+
   def addNode(node: PNode) = worldNode.addChild(node)
 
   def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
@@ -42,7 +37,9 @@ class LadybugCanvas(model: LadybugModel,
   addNode(dotTrace)
   val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
   addNode(fadeTrace)
-  addNode(new ReturnLadybugButton(model, this)) //todo: perhaps this should be a screen child
+  addNode(new ReturnLadybugButton(model, this))
+
+  //todo: perhaps this should be a screen child
 
   def clearTrace() = {
     dotTrace.clearTrace
@@ -53,7 +50,8 @@ class LadybugCanvas(model: LadybugModel,
 
   override def updateWorldScale = {
     super.updateWorldScale
-    if (constructed) { //make sure we aren't in the call from superclass
+    if ( constructed ) {
+      //make sure we aren't in the call from superclass
       //to go from pixels to model, must go backwards through canvas transform and modelviewtransform
       val topLeft = new Point2D.Double(0, 0)
       val bottomRight = new Point2D.Double(getWidth, getHeight)

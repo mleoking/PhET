@@ -5,7 +5,7 @@ import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
 import java.awt.{BasicStroke, Color}
 import java.text.DecimalFormat
 import edu.colorado.phet.scalacommon.Predef._
-import edu.umd.cs.piccolo.nodes.{PText, PPath}
+import edu.umd.cs.piccolo.nodes.PText
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 
@@ -28,7 +28,7 @@ class DigitalTimer(model: LadybugModel) extends PNode {
    */
 
   val update = defineInvokeAndPass(model.addListenerByName) {
-    text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")
-  }
+                                                              text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")
+                                                            }
 
 }
