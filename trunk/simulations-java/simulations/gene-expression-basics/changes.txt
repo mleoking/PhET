@@ -1,3 +1,4 @@
+Added base pairs to DNA molecule
 Improved the size and coloration of the prototype genes.
 Added genes to the model
 Improved panning behavior
