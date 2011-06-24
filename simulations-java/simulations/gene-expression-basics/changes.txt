@@ -1,3 +1,4 @@
+# 0.00.02 (53472) Jun 24, 2011
 # 0.00.01 (53471) Jun 24, 2011
 6/24/11 Publishing snapshot to dev for review of DNA navigation.
 Added base pairs to DNA molecule
