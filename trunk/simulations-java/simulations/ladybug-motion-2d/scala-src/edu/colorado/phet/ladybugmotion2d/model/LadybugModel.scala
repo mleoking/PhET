@@ -15,7 +15,7 @@ import edu.colorado.phet.scalacommon.util.Observable
  * The smoothing of motion is done by leading the ladybug (with an abstraction called the pen),
  * and using the same model as Motion2D for interpolation.
  */
-class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults.timelineLengthSeconds / LadybugDefaults.defaultDT).toInt) with Observable {
+class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefaults.timelineLengthSeconds / LadybugDefaults.defaultDT ).toInt) with Observable {
   def step(simulationTimeChange: Double) = stepRecord(LadybugDefaults.defaultDT)
 
   val ladybug = new Ladybug
@@ -32,6 +32,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   //samples inputted from the user that will be used to determine the path of the object
   //imagine as a pen on the canvas that leads the ladybug
   case class PenSample(time: Double, location: Vector2D)
+
   val penPath = new ArrayBuffer[PenSample]
   private var penPoint = new Vector2D //current sample point
   private var penDown = false
@@ -39,9 +40,9 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   def isFrictionless = frictionless
 
   def setFrictionless(f: Boolean) = {
-    if (frictionless != f) {
+    if ( frictionless != f ) {
       frictionless = f
-      if (!frictionless) {
+      if ( !frictionless ) {
         //todo: make bug come to a smooth stop
         //todo: maybe easiest way is to refactor friction implementation to be more physical and less architectural
         clearSampleHistory
@@ -70,15 +71,18 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
     bounds.setRect(b.getX, b.getY, b.getWidth, b.getHeight)
   }
 
-  def getLadybugMotionModel() = ladybugMotionModel
+  def getLadybugMotionModel = ladybugMotionModel
 
   abstract class UpdateMode {def update(dt: Double): Unit}
+
   object PositionMode extends UpdateMode {def update(dt: Double) = positionMode(dt)}
+
   object VelocityMode extends UpdateMode {def update(dt: Double) = velocityMode(dt)}
+
   object AccelerationMode extends UpdateMode {def update(dt: Double) = accelerationMode(dt)}
 
   def setUpdateModePosition() = {
-    if (updateMode != PositionMode) {
+    if ( updateMode != PositionMode ) {
       updateMode = PositionMode
       clearSampleHistory
       resetMotion2DModel
@@ -86,7 +90,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   }
 
   def setUpdateModeVelocity() = {
-    if (updateMode != VelocityMode) {
+    if ( updateMode != VelocityMode ) {
       updateMode = VelocityMode
     }
   }
@@ -100,21 +104,21 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   //  println("t\tx\tvx\tax")
   def positionMode(dt: Double) = {
     //    println("pendown=" + penDown)
-    if (frictionless && !penDown) {
+    if ( frictionless && !penDown ) {
       velocityMode(dt)
-      if (penPath.length > 2) {
+      if ( penPath.length > 2 ) {
         penPoint = ladybug.getPosition
         penPath += new PenSample(getTime, penPoint)
         motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
       }
     }
     else {
-      if (penPath.length > 2) {
+      if ( penPath.length > 2 ) {
         motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
         ladybug.setPosition(new Vector2D(motion2DModel.getAvgXMid, motion2DModel.getAvgYMid))
         //added fudge factors for getting the scale right with current settings of motion2d model
         //used spreadsheet to make sure model v and a are approximately correct.
-        val vscale = (1.0 / dt) / 10
+        val vscale = ( 1.0 / dt ) / 10
         val ascale = vscale * vscale * 3.835
         ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * vscale)
         ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * ascale)
@@ -124,7 +128,8 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
         //      0+1
         //      println("y="+ladybug.getPosition.y)
 
-      } else {
+      }
+      else {
         ladybug.setVelocity(new Vector2D)
         ladybug.setAcceleration(new Vector2D)
       }
@@ -133,13 +138,15 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
   }
 
   def pointInDirectionOfMotion() = {
-    if (estimateVelocity(modelHistory.length - 1).magnitude > 1E-6)
+    if ( estimateVelocity(modelHistory.length - 1).magnitude > 1E-6 ) {
       ladybug.setAngle(estimateAngle())
+    }
   }
 
   def velocityMode(dt: Double) = {
-    if (penPath.length > 0)
+    if ( penPath.length > 0 ) {
       motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
+    }
     ladybug.translate(ladybug.getVelocity * dt)
 
     var accelEstimate = average(modelHistory.length - 15, modelHistory.length - 1, estimateAcceleration)
@@ -147,38 +154,40 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
     pointInDirectionOfMotion()
   }
 
-  def accelerationMode(dt: Double) = {
+  def accelerationMode(dt: Double) {
     ladybug.translate(ladybug.getVelocity * dt)
     ladybug.setVelocity(ladybug.getVelocity + ladybug.getAcceleration * dt)
     pointInDirectionOfMotion()
   }
 
-  def setPlaybackState(state: LadybugState) = ladybug.setState(state)
+  def setPlaybackState(state: LadybugState) {
+    ladybug.setState(state)
+  }
 
   def stepRecord(dt: Double) = {
     tickListeners.foreach(_())
-    if (isRecord()) {
+    if ( isRecord() ) {
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(getTime, ladybug.getState)
       //      addRecordedPoint(new DataPoint(time, ladybug.getState))
       penPath += new PenSample(getTime, penPoint)
 
-      while (modelHistory.length > 100) {
+      while ( modelHistory.length > 100 ) {
         modelHistory.remove(0)
       }
-      while (penPath.length > 100) {
+      while ( penPath.length > 100 ) {
         penPath.remove(0)
       }
 
-      while (getNumRecordedPoints > getMaxRecordPoints) {
+      while ( getNumRecordedPoints > getMaxRecordPoints ) {
         //decide whether to remove end of path or beginning of path.
         //          recordHistory.remove(recordHistory.length - 1)
         removeHistoryPoint(0)
       }
 
-      if (!ladybugMotionModel.isExclusive()) {
-        if (penDown) {
+      if ( !ladybugMotionModel.isExclusive ) {
+        if ( penDown ) {
           PositionMode.update(dt)
         }
         else {
@@ -197,7 +206,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   def readyForInteraction(): Boolean = {
     val recording = isRecord
-    val isDonePlayback = (getTime >= getMaxRecordedTime - 1) && isPaused
+    val isDonePlayback = ( getTime >= getMaxRecordedTime - 1 ) && isPaused
     recording || isDonePlayback
   }
 
@@ -207,10 +216,14 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   def estimateVelocity(index: Int): Vector2D = {
     val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
-    val tx = for (item <- h) yield new TimeData(item.getState.position.x, item.getTime)
+    val tx = for ( item <- h ) yield {
+      new TimeData(item.getState.position.x, item.getTime)
+    }
     val vx = MotionMath.estimateDerivative(tx.toArray)
 
-    val ty = for (item <- h) yield new TimeData(item.getState.position.y, item.getTime)
+    val ty = for ( item <- h ) yield {
+      new TimeData(item.getState.position.y, item.getTime)
+    }
     val vy = MotionMath.estimateDerivative(ty.toArray)
 
     new Vector2D(vx, vy)
@@ -218,10 +231,14 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   def estimateAcceleration(index: Int): Vector2D = {
     val h = modelHistory.slice(modelHistory.length - 6, modelHistory.length)
-    val tx = for (item <- h) yield new TimeData(item.getState.velocity.x, item.getTime)
+    val tx = for ( item <- h ) yield {
+      new TimeData(item.getState.velocity.x, item.getTime)
+    }
     val ax = MotionMath.estimateDerivative(tx.toArray)
 
-    val ty = for (item <- h) yield new TimeData(item.getState.velocity.y, item.getTime)
+    val ty = for ( item <- h ) yield {
+      new TimeData(item.getState.velocity.y, item.getTime)
+    }
     val ay = MotionMath.estimateDerivative(ty.toArray)
 
     new Vector2D(ax, ay)
@@ -229,39 +246,41 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
   def average(start: Int, end: Int, function: Int => Vector2D): Vector2D = {
     var sum = new Vector2D
-    for (i <- start until end) {
+    for ( i <- start until end ) {
       sum = sum + function(i)
     }
-    sum / (end - start)
+    sum / ( end - start )
   }
 
   override def handleRecordStartedDuringPlayback() {
-    if (ladybug != null) { //null check since called from super's constructor
+    if ( ladybug != null ) {
+      //null check since called from super's constructor
       ladybug.setVelocity(new Vector2D)
       ladybug.setAcceleration(new Vector2D)
     }
   }
 
-  override def clearHistoryRemainder() = {
+  override def clearHistoryRemainder() {
     super.clearHistoryRemainder()
-    if (modelHistory != null) { //Null check since this method is called during super constructor
+    if ( modelHistory != null ) {
+      //Null check since this method is called during super constructor
       val earlyEnough = modelHistory.filter(_.getTime < getTime)
-      modelHistory.clear
+      modelHistory.clear()
       modelHistory.appendAll(earlyEnough)
 
       clearSampleHistory()
-      resetMotion2DModel
+      resetMotion2DModel()
     }
   }
 
-  override def startRecording() = {
+  override def startRecording() {
     super.startRecording()
     getLadybugMotionModel.motion = LadybugMotionModel.MANUAL
   }
 
-  override def resetAll() = {
+  override def resetAll() {
     super.resetAll()
-    if (modelHistory != null) {
+    if ( modelHistory != null ) {
       modelHistory.clear()
       penPath.clear()
 
@@ -269,15 +288,19 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState]((LadybugDefaults
 
       ladybug.resetAll()
       frictionless = false
-      resetMotion2DModel
+      resetMotion2DModel()
 
       notifyObservers()
     }
   }
 
-  override def clearHistory() = {
-    if (modelHistory != null) modelHistory.clear() //have to do null check since this is called from super constructor
-    if (penPath != null) penPath.clear()
+  override def clearHistory() {
+    if ( modelHistory != null ) {
+      modelHistory.clear()
+    } //have to do null check since this is called from super constructor
+    if ( penPath != null ) {
+      penPath.clear()
+    }
 
     super.clearHistory() //do super last to call notifyListeners
   }
