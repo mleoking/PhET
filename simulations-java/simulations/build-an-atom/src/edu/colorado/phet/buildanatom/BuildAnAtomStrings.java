@@ -14,7 +14,8 @@ public class BuildAnAtomStrings {
     public static final String ATOM_ISOTOPE_NAME_PATTERN = getString( "pattern.0element.1massNumber" );
 
     /* not intended for instantiation */
-    private BuildAnAtomStrings() {}
+    private BuildAnAtomStrings() {
+    }
 
     public static final String ELECTRONS_NAME = getString( "electrons.name" );
     public static final String ELECTRONS_READOUT = getString( "electrons.readout" );
@@ -78,7 +79,7 @@ public class BuildAnAtomStrings {
     public static final String GAME_ANSWER_THE_PROTON_COUNT_QUESTION = getString( "game.howManyProtons" );
     public static final String GAME_NEUTRAL_ATOM = getString( "game.neutralAtom" );
     public static final String GAME_ION = getString( "game.ion" );
-    public static final String IS_IT = getString( "game.isIt");
+    public static final String IS_IT = getString( "game.isIt" );
 
     public static final String TITLE_BUILD_ATOM_MODULE = getString( "title.buildAtomModule" );
     public static final String TITLE_GAME_MODULE = getString( "title.gameModule" );
@@ -88,7 +89,7 @@ public class BuildAnAtomStrings {
     public static final String ABUNDANCE_IN_NATURE = getString( "abundanceInNature" );
     public static final String THIS_ISOTOPE = getString( "thisIsotope" );
     public static final String VERY_SMALL = getString( "verySmall" );
-    
+
     public static final String MASS_NUMBER = getString( "massNumber" );
     public static final String ATOMIC_MASS = getString( "atomicMass" );
     public static final String MY_ISOTOPE = getString( "myIsotope" );
@@ -102,4 +103,6 @@ public class BuildAnAtomStrings {
     public static final String CLEAR_BOX = getString( "clearBox" );
     public static final String OTHER = getString( "other" );
     public static final String ISOTOPES = getString( "isotopes" );
+
+    public static final String WHITE_ISOTOPE_BOX = getString( "whiteIsotopeBox" );
 }

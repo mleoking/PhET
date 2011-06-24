@@ -26,7 +26,7 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
     // Class Data
     //----------------------------------------------------------------------------
 
-    public static final BooleanProperty whiteBackgroundProperty = new BooleanProperty( false );
+    public static final BooleanProperty whiteIsotopeBoxProperty = new BooleanProperty( false );
 
     //----------------------------------------------------------------------------
     // Instance Data
@@ -69,7 +69,14 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
         // Options menu
         OptionsMenu optionsMenu = new OptionsMenu();
         // add menu items here, or in a subclass on OptionsMenu
-        optionsMenu.addWhiteBackgroundCheckBoxMenuItem( whiteBackgroundProperty );
+        final JCheckBoxMenuItem whiteIsotopeBoxCheckBox = new JCheckBoxMenuItem( BuildAnAtomStrings.WHITE_ISOTOPE_BOX ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    whiteIsotopeBoxProperty.set( isSelected() );
+                }
+            } );
+        }};
+        optionsMenu.add( whiteIsotopeBoxCheckBox );
         if ( optionsMenu.getMenuComponentCount() > 0 ) {
             frame.addMenu( optionsMenu );
         }
@@ -91,7 +98,7 @@ public class IsotopesAndAtomicMassApplication extends PiccoloPhetApplication {
     }
 
     //----------------------------------------------------------------------------
-    // main
+    // Main Entry Point
     //----------------------------------------------------------------------------
 
     public static void main( final String[] args ) throws ClassNotFoundException {
