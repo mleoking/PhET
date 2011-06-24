@@ -1,3 +1,5 @@
+# 0.00.03 (53475) Jun 24, 2011
+6/24/11 Deploy to dev for review of DNA appearance and navigation
 Added base pairs to DNA molecule
 Improved the size and coloration of the prototype genes.
 Added genes to the model
