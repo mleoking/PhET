@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplication
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig
 import edu.colorado.phet.scalacommon.ScalaClock
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
-import edu.colorado.phet.recordandplayback.model.RecordAndPlaybackModel
 
 object DevLauncher {
   def main(args: Array[String]) = {
@@ -44,28 +43,29 @@ object DevLauncher {
 
     contentPane.add(timelineLengthTextField)
 
-//    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModel.pauseAtEndOfPlayback)
-//    pauseEnd.addActionListener(new ActionListener() {
-//      def actionPerformed(e: ActionEvent) = {
-//        RecordModel.pauseAtEndOfPlayback = pauseEnd.isSelected
-//      }
-//    })
-//    contentPane.add(pauseEnd)
-//
-//    val recEnd = new JCheckBox("Record at end of playback", RecordModel.recordAtEndOfPlayback)
-//    recEnd.addActionListener(new ActionListener() {
-//      def actionPerformed(e: ActionEvent) = {
-//        RecordModel.recordAtEndOfPlayback = recEnd.isSelected
-//      }
-//    })
-//    contentPane.add(recEnd)
+    //    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModel.pauseAtEndOfPlayback)
+    //    pauseEnd.addActionListener(new ActionListener() {
+    //      def actionPerformed(e: ActionEvent) = {
+    //        RecordModel.pauseAtEndOfPlayback = pauseEnd.isSelected
+    //      }
+    //    })
+    //    contentPane.add(pauseEnd)
+    //
+    //    val recEnd = new JCheckBox("Record at end of playback", RecordModel.recordAtEndOfPlayback)
+    //    recEnd.addActionListener(new ActionListener() {
+    //      def actionPerformed(e: ActionEvent) = {
+    //        RecordModel.recordAtEndOfPlayback = recEnd.isSelected
+    //      }
+    //    })
+    //    contentPane.add(recEnd)
 
 
     val jButton: JButton = new JButton("Launch")
     jButton.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) = {
         val clock = new ScalaClock(30, 30 / 1000.0)
-        new Thread(new Runnable() { //put into thread so it can call invokeAndWait
+        new Thread(new Runnable() {
+          //put into thread so it can call invokeAndWait
           def run = {
             dialog.dispose
             new PhetApplicationLauncher().launchSim(

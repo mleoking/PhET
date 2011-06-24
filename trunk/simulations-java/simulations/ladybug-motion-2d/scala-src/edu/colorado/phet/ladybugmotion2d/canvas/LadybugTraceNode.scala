@@ -1,14 +1,12 @@
 package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import java.awt.geom.{GeneralPath, Point2D}
-import java.awt.{BasicStroke, Color}
+import java.awt.Color
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.scalacommon.util.Observable
 
-abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, 
+abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
                                 shouldBeVisible: () => Boolean, observable: Observable) extends PNode {
   var clearPt = 0
   setPickable(false)
@@ -21,14 +19,14 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   model.addListener(doUpdate)
 
   def doUpdate() = {
-    if (shouldBeVisible()) {
+    if ( shouldBeVisible() ) {
       update()
     }
   }
 
   def update()
 
-  def clamp(a: Double, value: Double, c: Double) = (a max value) min c
+  def clamp(a: Double, value: Double, c: Double) = ( a max value ) min c
 
   def toColor(dt: Double, maxFade: Double) = {
     val c = clamp(0, dt / 3.0, maxFade).toFloat

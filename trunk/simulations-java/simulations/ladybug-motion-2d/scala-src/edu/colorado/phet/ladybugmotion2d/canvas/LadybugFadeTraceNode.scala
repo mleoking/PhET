@@ -2,8 +2,8 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import java.awt.geom.{Line2D, GeneralPath, Point2D}
-import java.awt.{Point, BasicStroke, Color}
+import java.awt.geom.{Line2D, Point2D}
+import java.awt.BasicStroke
 import java.lang.Math._
 import edu.colorado.phet.ladybugmotion2d.model.{LadybugModel, LadybugState}
 import edu.colorado.phet.scalacommon.util.Observable
@@ -28,10 +28,11 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
       }
     }
   }
+
   update()
 
   def update() = {
-    if (segmentCache != null) {
+    if ( segmentCache != null ) {
 
       implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.getState.position.x.toFloat, dataPoint.getState.position.y.toFloat)
 
@@ -39,10 +40,10 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
 
       var unusedKeys = scala.collection.mutable.Set.empty[Key]
       unusedKeys ++= segmentCache.keySet.elements
-      if (historyToShow.size >= 2) {
+      if ( historyToShow.size >= 2 ) {
 
         val t = transform.modelToView(historyToShow.get(0))
-        for (i <- 0 to (historyToShow.size - 2)) {
+        for ( i <- 0 to ( historyToShow.size - 2 ) ) {
           val a = transform.modelToView(historyToShow.get(i))
           val b = transform.modelToView(historyToShow.get(i + 1))
 
@@ -54,7 +55,8 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
           try {
             //cache checks are very expensive, only do it once
             segmentCache(key).setStrokePaint(color)
-          } catch {
+          }
+          catch {
             case e: NoSuchElementException => {
               val segment = new PhetPPath(new Line2D.Double(a, b), stroke, color)
               segmentCache(key) = segment
@@ -65,7 +67,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
         }
 
       }
-      for (a <- unusedKeys) {
+      for ( a <- unusedKeys ) {
         removeChild(segmentCache(a))
       }
       segmentCache --= unusedKeys

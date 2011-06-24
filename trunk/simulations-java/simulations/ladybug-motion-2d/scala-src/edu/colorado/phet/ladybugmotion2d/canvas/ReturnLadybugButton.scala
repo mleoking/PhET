@@ -2,12 +2,10 @@ package edu.colorado.phet.ladybugmotion2d.canvas
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.PhetPNode
-import java.awt.event.{ActionEvent, ComponentAdapter, ComponentEvent, ActionListener}
-import java.awt.geom.Point2D
-import java.awt.{Rectangle, Graphics2D, Graphics}
+import java.awt.event.{ComponentAdapter, ComponentEvent}
+import java.awt.Rectangle
 import javax.swing.JButton
 import edu.colorado.phet.scalacommon.Predef._
-import java.awt.Color._
 import edu.umd.cs.piccolox.pswing.PSwing
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
@@ -33,6 +31,6 @@ class ReturnLadybugButton(model: LadybugModel, canvas: LadybugCanvas) extends Ph
 
   def shouldBeVisible() = {
     val globalPosition = canvas.ladybugNode.localToGlobal(canvas.ladybugNode.getLadybugCenter)
-    !(new Rectangle(0, 0, canvas.getWidth, canvas.getHeight).contains(globalPosition))
+    !( new Rectangle(0, 0, canvas.getWidth, canvas.getHeight).contains(globalPosition) )
   }
 }

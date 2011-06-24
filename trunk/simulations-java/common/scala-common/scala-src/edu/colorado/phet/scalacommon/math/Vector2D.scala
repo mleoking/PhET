@@ -1,6 +1,7 @@
 package edu.colorado.phet.scalacommon.math
 
 import java.awt.geom.{Point2D, Line2D}
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D
 
 /**
  * Immutable Vector class for simplified vector arithmetic.
@@ -30,7 +31,7 @@ class Vector2D(val x: Double, val y: Double) {
 
   def /(scale: Double) = new Vector2D(x / scale, y / scale)
 
-  def rotate(angle: Double) = new Vector2D(this.angle + angle)*magnitude
+  def rotate(angle: Double) = new Vector2D(this.angle + angle) * magnitude
 
   def dot(vector: Vector2D) = x * vector.x + y * vector.y
 
@@ -38,24 +39,26 @@ class Vector2D(val x: Double, val y: Double) {
   lazy val magnitude = java.lang.Math.sqrt(x * x + y * y)
   lazy val normalize = this / this.magnitude
   override lazy val toString = "x=" + x + ", y=" + y
-  override lazy val hashCode = new Point2D.Double(x,y).hashCode
+  override lazy val hashCode = new Point2D.Double(x, y).hashCode
+
+  def toImmutableVector2D = new ImmutableVector2D(x, y)
 
   override def equals(obj: Any) = {
     obj match {
-      case a:Vector2D => a.x==x && a.y==y
+      case a: Vector2D => a.x == x && a.y == y
       case _ => false
     }
   }
 }
 
 object TestVector2D {
-  def main(args: Array[String]) = { 
+  def main(args: Array[String]) = {
     val a = new Vector2D(3, 2)
     val b = new Vector2D(5, 5)
-    val c = new Vector2D(60.0.toRadians)*10
-    println("a: "+a)
-    println("a -b: "+(a - b))
-    println("C: "+c)
-    println((a - b) / c.magnitude)
+    val c = new Vector2D(60.0.toRadians) * 10
+    println("a: " + a)
+    println("a -b: " + ( a - b ))
+    println("C: " + c)
+    println(( a - b ) / c.magnitude)
   }
 }

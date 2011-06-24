@@ -6,12 +6,9 @@ import edu.colorado.phet.ladybugmotion2d.model.LadybugMotionModel._
 import edu.colorado.phet.common.phetcommon.view.ControlPanel
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
-import javax.swing.border.TitledBorder
 import scala.swing._
-import scala.swing.event.ButtonClicked
 import java.awt.Dimension
-import java.awt.event.{ActionEvent, ActionListener}
-import javax.swing.{Box, JButton, JRadioButton, JLabel}
+import javax.swing.Box
 import edu.colorado.phet.scalacommon.Predef._
 import java.awt.GridBagConstraints._
 import edu.colorado.phet.ladybugmotion2d.LadybugModule
@@ -21,6 +18,7 @@ import edu.colorado.phet.scalacommon.util.Observable
 
 class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {
   val myModule = module;
+
   def createBox = Box.createRigidArea(new Dimension(10, 4))
 
   class VectorControlPanel(m: VectorVisibilityModel) extends BoxPanel(Orientation.Vertical) {
@@ -28,56 +26,50 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
     contents += new MyRadioButton(getLocalizedString("show.velocity.vector"), {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = false
-    }
-      , m.velocityVectorVisible && !m.accelerationVectorVisible,
-      m.addListener)
+    }, m.velocityVectorVisible && !m.accelerationVectorVisible, m.addListener)
 
     contents += new MyRadioButton(getLocalizedString("show.acceleration.vector"), {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = true
-    }
-      , !m.velocityVectorVisible && m.accelerationVectorVisible,
-      m.addListener)
+    }, !m.velocityVectorVisible && m.accelerationVectorVisible, m.addListener)
 
     contents += new MyRadioButton(getLocalizedString("show.both"), {
       m.velocityVectorVisible = true
       m.accelerationVectorVisible = true
-    }
-      , m.velocityVectorVisible && m.accelerationVectorVisible,
-      m.addListener)
+    }, m.velocityVectorVisible && m.accelerationVectorVisible, m.addListener)
 
     contents += new MyRadioButton(getLocalizedString("hide.vectors"), {
       m.velocityVectorVisible = false
       m.accelerationVectorVisible = false
-    }
-      , !m.velocityVectorVisible && !m.accelerationVectorVisible,
-      m.addListener)
+    }, !m.velocityVectorVisible && !m.accelerationVectorVisible, m.addListener)
   }
+
   getContentPanel.setAnchor(WEST)
-  getContentPanel.setFillNone
+  getContentPanel.setFillNone()
 
   addControl(new VectorControlPanel(module.vectorVisibilityModel))
 
   class MotionControlPanel(m: LadybugMotionModel) extends BoxPanel(Orientation.Vertical) {
     contents += new Label(getLocalizedString("choose.motion")) {font = new PhetFont(14, true)}
 
-    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: (() => Unit) => Unit, shouldBeEnabled: () => Boolean, enableObservable: Observable) extends MyRadioButton(text, actionListener, getter, addListener) {
+    class MyRadioButtonWithEnable(text: String, actionListener: => Unit, getter: => Boolean, addListener: ( () => Unit ) => Unit, shouldBeEnabled: () => Boolean, enableObservable: Observable) extends MyRadioButton(text, actionListener, getter, addListener) {
       enableObservable.addListener(() => peer.setEnabled(shouldBeEnabled()))
     }
 
-    def rec = {
+    def rec() {
       module.model.setPaused(false)
       module.model.setRecord(true)
     }
-    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.manual"), {m.motion = MANUAL; rec}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.linear"), {m.motion = LINEAR; rec}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.circular"), {m.motion = CIRCULAR; rec}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
-    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.ellipse"), {m.motion = ELLIPSE; rec}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
+
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.manual"), {m.motion = MANUAL; rec()}, m.motion == MANUAL, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.linear"), {m.motion = LINEAR; rec()}, m.motion == LINEAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.circular"), {m.motion = CIRCULAR; rec()}, m.motion == CIRCULAR, m.addListener, () => module.model.readyForInteraction, module.model)
+    contents += new MyRadioButtonWithEnable(getLocalizedString("motion.ellipse"), {m.motion = ELLIPSE; rec()}, m.motion == ELLIPSE, m.addListener, () => module.model.readyForInteraction, module.model)
   }
+
   val motionControlPanel = new MotionControlPanel(module.getLadybugMotionModel)
   addControl(motionControlPanel)
   addControl(createBox)
-
 
 
   class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
@@ -85,22 +77,16 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
     contents += new MyRadioButton(getLocalizedString("trace.line"), {
       m.allOff()
       m.fadeVisible = true
-    }
-      , m.fadeVisible,
-      m.addListener)
+    }, m.fadeVisible, m.addListener)
     contents += new MyRadioButton(getLocalizedString("trace.dots"), {
       m.allOff()
       m.dotsVisible = true
-    }
-      , m.dotsVisible,
-      m.addListener)
+    }, m.dotsVisible, m.addListener)
 
 
     contents += new MyRadioButton(getLocalizedString("trace.off"), {
       m.allOff()
-    }
-      , !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible,
-      m.addListener)
+    }, !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible, m.addListener)
   }
 
 
@@ -114,13 +100,15 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
   addControl(remoteControl)
   addControl(createBox)
   val resetAllButton = new ResetAllButton(new Resettable() {
-    def reset = {module.resetAll()}
+    def reset() {
+      module.resetAll()
+    }
   }, this)
 
   getContentPanel.setAnchor(CENTER)
   addControl(resetAllButton)
 
-  def resetAll() = {
+  def resetAll() {
     remoteControl.resetAll()
   }
 }

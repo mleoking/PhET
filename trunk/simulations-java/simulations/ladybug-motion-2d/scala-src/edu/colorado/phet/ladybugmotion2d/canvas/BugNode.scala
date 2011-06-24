@@ -1,18 +1,12 @@
 package edu.colorado.phet.ladybugmotion2d.canvas
 
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
-import _root_.edu.colorado.phet.common.piccolophet.nodes.PhetPPath
-import _root_.edu.colorado.phet.ladybugmotion2d.aphidmaze.Aphid
 import java.awt.image.BufferedImage
-import java.awt.{BasicStroke, Color}
 import edu.umd.cs.piccolo.nodes.PImage
 import _root_.edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils
 import _root_.edu.colorado.phet.common.phetcommon.view.graphics.transforms.TransformListener
-import _root_.edu.colorado.phet.common.piccolophet.event.CursorHandler
 import java.awt.geom.AffineTransform
-import edu.umd.cs.piccolo.event.PInputEvent
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.scalacommon.Predef._
 import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
 import edu.colorado.phet.ladybugmotion2d.model.Bug
 import edu.colorado.phet.scalacommon.math.Vector2D
@@ -37,7 +31,7 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
     pimage.setTransform(new AffineTransform)
 
     val modelPosition = bug.getPosition
-    val viewPosition = transform.modelToView(modelPosition)
+    val viewPosition = transform.modelToView(modelPosition.toImmutableVector2D)
     val dx = new Vector2D(pimage.getImage.getWidth(null), pimage.getImage.getHeight(null))
 
     //todo: why is scale factor 4 here?
@@ -46,8 +40,8 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
     pimage.translate(viewPosition.x - dx.x / 2 * scale, viewPosition.y - dx.y / 2 * scale)
     pimage.scale(scale)
     pimage.rotateAboutPoint(bug.getAngleInvertY,
-      pimage.getFullBounds.getCenter2D.getX - (viewPosition.x - dx.x / 2),
-      pimage.getFullBounds.getCenter2D.getY - (viewPosition.y - dx.y / 2))
+                            pimage.getFullBounds.getCenter2D.getX - ( viewPosition.x - dx.x / 2 ),
+                            pimage.getFullBounds.getCenter2D.getY - ( viewPosition.y - dx.y / 2 ))
 
     //    boundsPPath.setPathTo(transform.getAffineTransform.createTransformedShape(bug.getBounds))
   }

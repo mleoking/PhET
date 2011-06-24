@@ -4,7 +4,6 @@ import _root_.edu.colorado.phet.common.phetcommon.math.MathUtil
 import _root_.edu.colorado.phet.common.phetcommon.view.util.RectangleUtils
 import java.awt.geom.{Line2D, Rectangle2D}
 import edu.colorado.phet.scalacommon.Predef._
-import java.lang.Math._
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.ladybugmotion2d.model.Ladybug
 import collection.mutable.ArrayBuffer
@@ -18,12 +17,16 @@ class BarrierSet extends Observable {
   def getDim = _dim
 
   def getBounds = {
-    val lineBounds = for (line <- lines) yield line.getBounds2D
+    val lineBounds = for ( line <- lines ) yield {
+      line.getBounds2D
+    }
     val bounds = RectangleUtils.union(lineBounds.toArray)
-    if (bounds != null)
+    if ( bounds != null ) {
       bounds
-    else
+    }
+    else {
       new Rectangle2D.Double(0, 0, 1, 1)
+    }
   }
 
   def update(ladybug: Ladybug) = {
@@ -45,15 +48,16 @@ class BarrierSet extends Observable {
   def containsPoint(pt: Vector2D) = {
     rectangles.foldLeft(false)((value: Boolean, cur: Rectangle2D) => cur.contains(pt) || value)
   }
+
   setDim(10)
 
   def setDim(dim: Int) = {
-    if (dim != _dim) {
+    if ( dim != _dim ) {
       lines.clear()
 
       val mg = new MazeGenerator(dim)
 
-      for (w <- mg.walls) {
+      for ( w <- mg.walls ) {
         lines += toLine(w)
       }
       _dim = dim
