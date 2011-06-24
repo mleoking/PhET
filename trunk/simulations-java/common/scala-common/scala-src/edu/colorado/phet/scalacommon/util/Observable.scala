@@ -5,18 +5,26 @@ import scala.collection.mutable.ArrayBuffer
 trait Observable {
   private val listeners = new ArrayBuffer[() => Unit]
 
-  def notifyListeners() = listeners.foreach(_())
+  def notifyListeners() {
+    listeners.foreach(_())
+  }
 
   //TODO: consider calling the callback function immediately, to avoid the need for things like defineAndInvoke
   //TODO: this would only work for state based (idempotent) notifications, not event based notifications, so maybe shouldn't add callbacks
   //TODO: or maybe should only use this class for idempotent notifications
-  def addListener(listener: () => Unit): Unit = listeners += listener
+  def addListener(listener: () => Unit) {
+    listeners += listener
+  }
 
-  def addListenerByName(listener: => Unit): Unit = {
+  def addListenerByName(listener: => Unit) {
     addListener(() => {listener})
   }
 
-  def removeListener(listener: () => Unit):Unit = listeners -= listener
+  def removeListener(listener: () => Unit) {
+    listeners -= listener
+  }
 
-  def removeAllListeners() = listeners.clear()
+  def removeAllListeners() {
+    listeners.clear()
+  }
 }

@@ -83,7 +83,6 @@ class MazeGenerator(dim: Int) {
       new Wall(Math.max(a.x, b.x), a.y, 0, dy)
     }
     else {
-      println("points should have been adjacent")
       new Wall(Math.min(a.x, b.x), a.y, Math.min(a.x, b.x) + dx, a.y)
     }
   }

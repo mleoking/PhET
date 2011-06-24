@@ -54,8 +54,14 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
         resetMotion2DModel()
         penPoint = ladybug.getPosition
       }
-      notifyObservers()
+      notifyObserversAndListeners()
     }
+  }
+
+  //LadybugModel extends both SimpleObservable and Observable, so both listener types should be notified about changes
+  def notifyObserversAndListeners() {
+    notifyObservers()
+    notifyListeners()
   }
 
   def setSamplePoint(pt: Point2D) {
@@ -170,11 +176,8 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
     tickListeners.foreach(_())
     if ( isRecord ) {
       ladybugMotionModel.update(dt, this)
-
       modelHistory += new DataPoint(getTime, ladybug.getState)
-      //      addRecordedPoint(new DataPoint(time, ladybug.getState))
       penPath += new PenSample(getTime, penPoint)
-
       while ( modelHistory.length > 100 ) {
         modelHistory.remove(0)
       }
@@ -182,9 +185,8 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
         penPath.remove(0)
       }
 
+      //decide whether to remove end of path or beginning of path.
       while ( getNumRecordedPoints > getMaxRecordPoints ) {
-        //decide whether to remove end of path or beginning of path.
-        //          recordHistory.remove(recordHistory.length - 1)
         removeHistoryPoint(0)
       }
 
@@ -196,7 +198,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
           updateMode.update(dt)
         }
       }
-      notifyObservers()
+      notifyObserversAndListeners()
     }
     ladybug.getState
   }
@@ -292,7 +294,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
       frictionless = false
       resetMotion2DModel()
 
-      notifyObservers()
+      notifyObserversAndListeners()
     }
   }
 
@@ -322,11 +324,11 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
     penPath.clear()
     setSamplePoint(ladybug.getPosition)
     resetMotion2DModel()
-    notifyObservers()
+    notifyObserversAndListeners()
   }
 
   def setPenDown(p: Boolean) {
     penDown = p
-    notifyObservers()
+    notifyObserversAndListeners()
   }
 }

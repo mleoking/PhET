@@ -67,7 +67,5 @@ object DevLauncher {
     dialog.pack()
     SwingUtils.centerWindowOnScreen(dialog)
     dialog.setVisible(true)
-
-    println("finished")
   }
 }

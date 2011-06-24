@@ -18,7 +18,7 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
       doUpdate()
     }
   })
-  model.addListener(doUpdate)
+  model.addListener(() => doUpdate())
 
   def doUpdate() {
     if ( visible.get ) {
