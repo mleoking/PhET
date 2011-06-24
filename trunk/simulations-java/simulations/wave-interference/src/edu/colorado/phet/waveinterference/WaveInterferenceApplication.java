@@ -25,7 +25,9 @@ public class WaveInterferenceApplication extends PiccoloPhetApplication {
         LightModule lightModule = new LightModule();
         addModule( lightModule );
         menu.add( new ColorizeCheckBoxMenuItem( lightModule ) );
-        getPhetFrame().addMenu( menu );
+        if ( config.isDev() ) {
+            getPhetFrame().addMenu( menu );
+        }
         if ( getModules().length > 1 ) {
             for ( int i = 0; i < getModules().length; i++ ) {
                 getModule( i ).setLogoPanelVisible( false );

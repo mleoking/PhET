@@ -1,3 +1,4 @@
+> Removed extraneous "Options" menu, see #2971
 > Fixed: view angle slider doesn't always snap to max or min on Mac OS X, see #2969
 > Fixed: "reset all" does not remove walls that were added, see #540
 # 1.09.02 (53443) Jun 23, 2011
