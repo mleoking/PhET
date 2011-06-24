@@ -55,6 +55,7 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
     private PhetPNode screenNodeContainer;
     private PhetPNode expandableScreenChartGraphicContainer;
     private PhetPNode playAreaReducedScreenControlPanelContainer;
+    private CompositeWallPotentialGraphic wallPotentialGraphic;
 
     public LightSimulationPanel( LightModule lightModule ) {
         this.lightModule = lightModule;
@@ -85,7 +86,8 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         addScreenChild( screenNodeContainer );
 
         addScreenChild( rotationWaveGraphic );
-        addScreenChild( new CompositeWallPotentialGraphic( this, lightModule.getWallPotentials(), getLatticeScreenCoordinates(), rotationWaveGraphic ) );
+        wallPotentialGraphic = new CompositeWallPotentialGraphic( this, lightModule.getWallPotentials(), getLatticeScreenCoordinates(), rotationWaveGraphic );
+        addScreenChild( wallPotentialGraphic );
 
         primaryLaserGraphic = new LightSourceGraphic( lightModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         addScreenChild( primaryLaserGraphic );
@@ -293,5 +295,6 @@ public class LightSimulationPanel extends WaveInterferenceCanvas implements Mode
         expandableScreenChartGraphic.reset();
         playAreaReducedScreenControlPanel.reset();
         waveChartGraphic.reset();
+        wallPotentialGraphic.reset();
     }
 }
