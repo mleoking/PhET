@@ -120,8 +120,10 @@ class ForceGraphsApplication(config: PhetApplicationConfig) extends PiccoloPhetA
  * Main application for The Ramp simulation.
  * @author Sam Reid
  */
-object RampForcesAndMotionApplication extends App {
-  new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampForcesAndMotionApplication])
+object RampForcesAndMotionApplication {
+  def main(args: Array[String]) {
+    new PhetApplicationLauncher().launchSim(args, "motion-series".literal, "ramp-forces-and-motion".literal, classOf[RampForcesAndMotionApplication])
+  }
 }
 
 /**
