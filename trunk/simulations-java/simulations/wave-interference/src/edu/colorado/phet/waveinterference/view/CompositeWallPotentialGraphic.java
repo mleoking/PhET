@@ -51,6 +51,10 @@ public class CompositeWallPotentialGraphic extends PNode {
         setVisible( rotationWaveGraphic.getRotation() == 0 );
     }
 
+    public void reset() {
+        removeAllChildren();
+    }
+
     private void update() {
         removeAllChildren();
         for ( int i = 0; i < wallPotentialGraphic.numPotentials(); i++ ) {

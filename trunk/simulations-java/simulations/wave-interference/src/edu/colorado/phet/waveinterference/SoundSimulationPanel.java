@@ -46,6 +46,7 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
     private RotationGlyph rotationGlyph;
     private CrossSectionGraphic crossSectionGraphic;
     private WaveInterferenceScreenUnits screenUnits;
+    private CompositeWallPotentialGraphic wallPotentialGraphic;
 
     public SoundSimulationPanel( SoundModule soundModule ) {
         this.soundModule = soundModule;
@@ -82,7 +83,8 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         } );
 //
         addScreenChild( rotationWaveGraphic );
-        addScreenChild( new CompositeWallPotentialGraphic( this, soundModule.getWallPotentials(), getLatticeScreenCoordinates(), rotationWaveGraphic ) );
+        wallPotentialGraphic = new CompositeWallPotentialGraphic( this, soundModule.getWallPotentials(), getLatticeScreenCoordinates(), rotationWaveGraphic );
+        addScreenChild( wallPotentialGraphic );
 
         primarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getPrimaryOscillator(), getLatticeScreenCoordinates() );
         secondarySpeaker = new OscillatingSpeakerGraphic( this, soundModule.getSecondaryOscillator(), getLatticeScreenCoordinates() );
@@ -268,5 +270,6 @@ public class SoundSimulationPanel extends WaveInterferenceCanvas implements Mode
         multiOscillator.reset();
         measurementToolSet.reset();
         soundWaveGraphic.reset();
+        wallPotentialGraphic.reset();
     }
 }

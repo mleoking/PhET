@@ -120,6 +120,7 @@ public class WaveInterferenceModel implements ModelElement {
         time = 0;
         primaryOscillator.reset();
         secondaryOscillator.reset();
+        wallPotentials.clear();
     }
 
     public void setInitialConditions() {
