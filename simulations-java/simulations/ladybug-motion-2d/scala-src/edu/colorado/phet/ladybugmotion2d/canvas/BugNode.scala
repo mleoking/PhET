@@ -21,12 +21,12 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
   updateBug()
 
   transform.addTransformListener(new TransformListener() {
-    def transformChanged(mvt: ModelViewTransform2D) = {
+    def transformChanged(mvt: ModelViewTransform2D) {
       updateBug()
     }
   })
 
-  def updateBug(): Unit = {
+  def updateBug() {
 
     pimage.setTransform(new AffineTransform)
 

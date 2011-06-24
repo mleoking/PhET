@@ -31,7 +31,7 @@ class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
 
   update()
 
-  def update() = {
+  def update() {
     if ( segmentCache != null ) {
 
       implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.getState.position.x.toFloat, dataPoint.getState.position.y.toFloat)

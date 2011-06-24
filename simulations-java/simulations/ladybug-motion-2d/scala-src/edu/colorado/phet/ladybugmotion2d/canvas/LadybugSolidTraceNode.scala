@@ -15,7 +15,7 @@ class LadybugSolidTraceNode(model: LadybugModel, transform: ModelViewTransform2D
 
   update()
 
-  def update() = {
+  def update() {
     val p = new GeneralPath
     implicit def historyToPoint(dataPoint: DataPoint[LadybugState]) = new Point2D.Float(dataPoint.getState.position.x.toFloat, dataPoint.getState.position.y.toFloat)
 

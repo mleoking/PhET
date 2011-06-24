@@ -39,35 +39,33 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
 
   def isFrictionless = frictionless
 
-  def setFrictionless(f: Boolean) = {
+  def setFrictionless(f: Boolean) {
     if ( frictionless != f ) {
       frictionless = f
       if ( !frictionless ) {
         //todo: make bug come to a smooth stop
         //todo: maybe easiest way is to refactor friction implementation to be more physical and less architectural
-        clearSampleHistory
-        resetMotion2DModel
+        clearSampleHistory()
+        resetMotion2DModel()
         penPoint = ladybug.getPosition
       }
       else {
-        clearSampleHistory
-        resetMotion2DModel
+        clearSampleHistory()
+        resetMotion2DModel()
         penPoint = ladybug.getPosition
       }
       notifyObservers()
     }
   }
 
-  def setSamplePoint(pt: Point2D) = {
+  def setSamplePoint(pt: Point2D) {
     this.penPoint = pt
     //todo: send notification?
   }
 
-  def getBounds: Rectangle2D = {
-    return new Rectangle2D.Double(bounds.getX, bounds.getY, bounds.getWidth, bounds.getHeight) //defensive copy
-  }
+  def getBounds: Rectangle2D = new Rectangle2D.Double(bounds.getX, bounds.getY, bounds.getWidth, bounds.getHeight) //defensive copy
 
-  def setBounds(b: Rectangle2D) = {
+  def setBounds(b: Rectangle2D) {
     bounds.setRect(b.getX, b.getY, b.getWidth, b.getHeight)
   }
 
@@ -75,34 +73,46 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
 
   abstract class UpdateMode {def update(dt: Double): Unit}
 
-  object PositionMode extends UpdateMode {def update(dt: Double) = positionMode(dt)}
-
-  object VelocityMode extends UpdateMode {def update(dt: Double) = velocityMode(dt)}
-
-  object AccelerationMode extends UpdateMode {def update(dt: Double) = accelerationMode(dt)}
-
-  def setUpdateModePosition() = {
-    if ( updateMode != PositionMode ) {
-      updateMode = PositionMode
-      clearSampleHistory
-      resetMotion2DModel
+  object PositionMode extends UpdateMode {
+    def update(dt: Double) {
+      positionMode(dt)
     }
   }
 
-  def setUpdateModeVelocity() = {
+  object VelocityMode extends UpdateMode {
+    def update(dt: Double) {
+      velocityMode(dt)
+    }
+  }
+
+  object AccelerationMode extends UpdateMode {
+    def update(dt: Double) {
+      accelerationMode(dt)
+    }
+  }
+
+  def setUpdateModePosition() {
+    if ( updateMode != PositionMode ) {
+      updateMode = PositionMode
+      clearSampleHistory()
+      resetMotion2DModel()
+    }
+  }
+
+  def setUpdateModeVelocity() {
     if ( updateMode != VelocityMode ) {
       updateMode = VelocityMode
     }
   }
 
-  def setUpdateModeAcceleration() = {
+  def setUpdateModeAcceleration() {
     updateMode = AccelerationMode
   }
 
   private def getLastSamplePoint = penPath(penPath.length - 1)
 
   //  println("t\tx\tvx\tax")
-  def positionMode(dt: Double) = {
+  def positionMode(dt: Double) {
     //    println("pendown=" + penDown)
     if ( frictionless && !penDown ) {
       velocityMode(dt)
@@ -137,13 +147,13 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
     }
   }
 
-  def pointInDirectionOfMotion() = {
+  def pointInDirectionOfMotion() {
     if ( estimateVelocity(modelHistory.length - 1).magnitude > 1E-6 ) {
       ladybug.setAngle(estimateAngle())
     }
   }
 
-  def velocityMode(dt: Double) = {
+  def velocityMode(dt: Double) {
     if ( penPath.length > 0 ) {
       motion2DModel.addPointAndUpdate(getLastSamplePoint.location.x, getLastSamplePoint.location.y)
     }
@@ -166,7 +176,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
 
   def stepRecord(dt: Double) = {
     tickListeners.foreach(_())
-    if ( isRecord() ) {
+    if ( isRecord ) {
       ladybugMotionModel.update(dt, this)
 
       modelHistory += new DataPoint(getTime, ladybug.getState)
@@ -199,12 +209,12 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
     ladybug.getState
   }
 
-  def initManual = {
-    resetMotion2DModel
-    penPath.clear
+  def initManual() {
+    resetMotion2DModel()
+    penPath.clear()
   }
 
-  def readyForInteraction(): Boolean = {
+  def readyForInteraction = {
     val recording = isRecord
     val isDonePlayback = ( getTime >= getMaxRecordedTime - 1 ) && isPaused
     recording || isDonePlayback
@@ -305,23 +315,25 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
     super.clearHistory() //do super last to call notifyListeners
   }
 
-  def clearSampleHistory() = penPath.clear()
+  def clearSampleHistory() {
+    penPath.clear()
+  }
 
-  def resetMotion2DModel() = {
+  def resetMotion2DModel() {
     motion2DModel.reset(ladybug.getPosition.x, ladybug.getPosition.y)
     resetListeners.foreach(_())
   }
 
-  def returnLadybug() = {
+  def returnLadybug() {
     ladybug.setPosition(LadybugDefaults.defaultLocation)
     ladybug.setVelocity(new Vector2D)
     penPath.clear()
     setSamplePoint(ladybug.getPosition)
-    resetMotion2DModel
+    resetMotion2DModel()
     notifyObservers()
   }
 
-  def setPenDown(p: Boolean) = {
+  def setPenDown(p: Boolean) {
     penDown = p
     notifyObservers()
   }

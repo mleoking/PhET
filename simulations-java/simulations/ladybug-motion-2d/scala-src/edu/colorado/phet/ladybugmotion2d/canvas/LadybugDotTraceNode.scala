@@ -33,7 +33,9 @@ class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
     setVisible(index % 2 == 0)
 
     //only paint every other node
-    def setDT(dt: Double) = path.setPaint(toColor(dt, maxFade))
+    def setDT(dt: Double) {
+      path.setPaint(toColor(dt, maxFade))
+    }
   }
 
   def update() = {
