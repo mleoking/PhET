@@ -36,27 +36,27 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
   val arrowTailWidth = 20
   setBorder(new BevelBorder(BevelBorder.RAISED))
   val positionMode = new RemoteMode(LadybugColorSet.position, 20, _.getPosition) {
-    def setLadybugState(pt: Point2D) = {
+    def setLadybugState(pt: Point2D) {
       model.setSamplePoint(pt)
-      model.setUpdateModePosition
+      model.setUpdateModePosition()
     }
 
-    override def dragging_=(d: Boolean) = {
+    override def dragging_=(d: Boolean) {
       super.dragging_=(d)
       model.setPenDown(d)
     }
   }
   val vectorScale = 14
   val velocityMode = new RemoteMode(LadybugColorSet.velocity, vectorScale, _.getVelocity) {
-    def setLadybugState(pt: Point2D) = {
+    def setLadybugState(pt: Point2D) {
       model.ladybug.setVelocity(pt)
-      model.setUpdateModeVelocity
+      model.setUpdateModeVelocity()
     }
   }
   val accelerationMode = new RemoteMode(LadybugColorSet.acceleration, vectorScale / LadybugDefaults.ACCEL_VECTOR_SCALE, _.getAcceleration) {
-    def setLadybugState(pt: Point2D) = {
+    def setLadybugState(pt: Point2D) {
       model.ladybug.setAcceleration(pt)
-      model.setUpdateModeAcceleration
+      model.setUpdateModeAcceleration()
     }
   }
   var _mode: RemoteMode = positionMode;

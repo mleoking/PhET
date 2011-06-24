@@ -25,9 +25,13 @@ class LadybugCanvas(model: LadybugModel,
   val worldNode = new PNode
   addWorldChild(worldNode)
 
-  def addNode(node: PNode) = worldNode.addChild(node)
+  def addNode(node: PNode) {
+    worldNode.addChild(node)
+  }
 
-  def addNode(index: Int, node: PNode) = worldNode.addChild(index, node)
+  def addNode(index: Int, node: PNode) {
+    worldNode.addChild(index, node)
+  }
 
   setBackground(new Color(200, 255, 240))
 
@@ -41,15 +45,17 @@ class LadybugCanvas(model: LadybugModel,
 
   //todo: perhaps this should be a screen child
 
-  def clearTrace() = {
-    dotTrace.clearTrace
-    fadeTrace.clearTrace
+  def clearTrace() {
+    dotTrace.clearTrace()
+    fadeTrace.clearTrace()
   }
 
-  def setLadybugDraggable(draggable: Boolean) = ladybugNode.setDraggable(draggable)
+  def setLadybugDraggable(draggable: Boolean) {
+    ladybugNode.setDraggable(draggable)
+  }
 
-  override def updateWorldScale = {
-    super.updateWorldScale
+  override def updateWorldScale() {
+    super.updateWorldScale()
     if ( constructed ) {
       //make sure we aren't in the call from superclass
       //to go from pixels to model, must go backwards through canvas transform and modelviewtransform

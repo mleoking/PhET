@@ -16,7 +16,7 @@ object LadybugMotionModel {
     def update(dt: Double, model: LadybugModel) {}
 
     override def init(model: LadybugModel) {
-      model.initManual
+      model.initManual()
     }
   }
   val LINEAR = new MotionType("linear") {
@@ -38,11 +38,11 @@ object LadybugMotionModel {
       //      val proposedPoint=new Vector2D(model.ladybug.getVelocity.getAngle) * speed+lastSample
 
 
-      def step() = {
+      def step() {
         model.ladybug.setVelocity(new Vector2D(model.ladybug.getVelocity.angle) * speed)
         model.ladybug.translate(model.ladybug.getVelocity * dt)
       }
-      step
+      step()
       var x = model.ladybug.getPosition.x
       var y = model.ladybug.getPosition.y
       var vx = model.ladybug.getVelocity.x
@@ -82,7 +82,7 @@ object LadybugMotionModel {
     }
   }
   val CIRCULAR = new MotionType("circular") {
-    def update(dt: Double, model: LadybugModel) = {
+    def update(dt: Double, model: LadybugModel) {
       val distFromCenter = model.ladybug.getPosition.magnitude
       val radius = 6
       val distFromRing = abs(distFromCenter - radius)
@@ -120,8 +120,6 @@ object LadybugMotionModel {
         model.ladybug.setAcceleration(accel)
         model.setSamplePoint(model.ladybug.getPosition)
       }
-
-
     }
 
     override def init(model: LadybugModel) {

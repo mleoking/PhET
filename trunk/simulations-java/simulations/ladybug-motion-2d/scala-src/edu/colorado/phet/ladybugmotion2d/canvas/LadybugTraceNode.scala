@@ -18,7 +18,7 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
   setVisible(shouldBeVisible())
   model.addListener(doUpdate)
 
-  def doUpdate() = {
+  def doUpdate() {
     if ( shouldBeVisible() ) {
       update()
     }
@@ -34,7 +34,7 @@ abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransfo
     color
   }
 
-  def clearTrace = {
+  def clearTrace() {
     clearPt = model.getNumRecordedPoints
     update()
   }

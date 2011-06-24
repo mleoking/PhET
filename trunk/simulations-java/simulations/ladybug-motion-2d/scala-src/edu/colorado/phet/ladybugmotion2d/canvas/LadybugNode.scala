@@ -19,7 +19,7 @@ class LadybugNode(model: LadybugModel,
   var draggable = true
   model.addListenerByName(updateInteractive())
 
-  def updateInteractive() = {
+  def updateInteractive() {
     interactive = model.readyForInteraction
   }
 
@@ -29,11 +29,11 @@ class LadybugNode(model: LadybugModel,
 
   //todo: insert before pimage in super class
 
-  def getLadybugCenter() = pimage.getFullBounds.getCenter2D
+  def getLadybugCenter = pimage.getFullBounds.getCenter2D
 
   addInputEventListener(new ToggleListener(new CursorHandler, () => draggable && interactive))
 
-  private def recordPoint(event: PInputEvent) = {
+  private def recordPoint(event: PInputEvent) {
     model.startRecording()
     model.setPenDown(true)
     model.setSamplePoint(transform.viewToModel(event.getPositionRelativeTo(getParent)))
@@ -41,28 +41,30 @@ class LadybugNode(model: LadybugModel,
   }
 
   val inputHandler = new PBasicInputEventHandler() {
-    override def mouseDragged(event: PInputEvent) = {
+    override def mouseDragged(event: PInputEvent) {
       recordPoint(event)
 
       if ( LadybugDefaults.HIDE_MOUSE_DURING_DRAG && draggable ) {
-        event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit().createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
+        event.getComponent.pushCursor(java.awt.Toolkit.getDefaultToolkit.createCustomCursor(new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB), new Point(0, 0), "invisibleCursor"))
       }
     }
 
-    override def mousePressed(event: PInputEvent) = {
+    override def mousePressed(event: PInputEvent) {
       recordPoint(event)
     }
 
-    override def mouseReleased(event: PInputEvent) = {
+    override def mouseReleased(event: PInputEvent) {
       model.setPenDown(false)
     }
 
-    override def mouseExited(event: PInputEvent) = {
+    override def mouseExited(event: PInputEvent) {
       model.setPenDown(false)
     }
   }
   addInputEventListener(new ToggleListener(inputHandler, () => draggable && interactive))
   updateInteractive()
 
-  def setDraggable(d: Boolean) = this.draggable = d;
+  def setDraggable(d: Boolean) {
+    this.draggable = d
+  };
 }

@@ -17,18 +17,5 @@ class DigitalTimer(model: LadybugModel) extends PNode {
   addChild(background)
   addChild(text)
 
-  /*
-    Non-Control Structure way of doing this, we are prone to forget:
-     (a) to call the first update or (b) to attach listener to the model
-     Using a control structure ensures everything will happen
-  m.addListenerByName(update())
-  update
-  def update()= {
-  text.setText(new DecimalFormat("0.00").format(m.getTime)+" sec")
-   */
-
-  val update = defineInvokeAndPass(model.addListenerByName) {
-                                                              text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")
-                                                            }
-
+  val update = defineInvokeAndPass(model.addListenerByName) {text.setText(new DecimalFormat("0.00").format(model.getTime) + " sec")}
 }

@@ -30,7 +30,7 @@ class ArrowSetNode(ladybug: Ladybug, transform: ModelViewTransform2D, vectorVisi
     addChild(arrowNode)
     addChild(labelNode)
 
-    def setTipAndTailLocations(a: Vector2D, b: Vector2D) = {
+    def setTipAndTailLocations(a: Vector2D, b: Vector2D) {
       arrowNode.setTipAndTailLocations(a, b)
       labelNode.setOffset(a)
       labelNode.setVisible(labelNode.getFullBounds.width < ( a - b ).magnitude * 5)
