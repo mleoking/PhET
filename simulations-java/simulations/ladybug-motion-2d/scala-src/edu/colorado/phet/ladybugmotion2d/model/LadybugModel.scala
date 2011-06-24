@@ -111,9 +111,7 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
 
   private def getLastSamplePoint = penPath(penPath.length - 1)
 
-  //  println("t\tx\tvx\tax")
   def positionMode(dt: Double) {
-    //    println("pendown=" + penDown)
     if ( frictionless && !penDown ) {
       velocityMode(dt)
       if ( penPath.length > 2 ) {
@@ -132,12 +130,6 @@ class LadybugModel extends RecordAndPlaybackModel[LadybugState](( LadybugDefault
         val ascale = vscale * vscale * 3.835
         ladybug.setVelocity(new Vector2D(motion2DModel.getXVel, motion2DModel.getYVel) * vscale)
         ladybug.setAcceleration(new Vector2D(motion2DModel.getXAcc, motion2DModel.getYAcc) * ascale)
-
-        //      def debug = {println(time + "\t" + ladybug.getPosition.x + "\t" + ladybug.getVelocity.x + "\t" + ladybug.getAcceleration.x)}
-        //      debug
-        //      0+1
-        //      println("y="+ladybug.getPosition.y)
-
       }
       else {
         ladybug.setVelocity(new Vector2D)

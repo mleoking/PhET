@@ -67,13 +67,6 @@ object LadybugMotionModel {
         y = bounds.getMinY
       }
 
-      //      model.addSamplePoint(model.ladybug.getPosition+new Vector2D(vx,vy)*dt)
-      //      model.setSamplePoint(new Vector2D(x,y))
-      //      model.ladybug.setVelocity(new Vector2D(vx,vy))
-      //      model.positionMode(dt)
-      //      model.ladybug.setVelocity(new Vector2D(vx,vy))
-
-
       model.ladybug.setPosition(new Vector2D(x, y))
       model.ladybug.setVelocity(new Vector2D(vx, vy))
       model.ladybug.setAngle(model.ladybug.getVelocity.angle)
@@ -97,7 +90,6 @@ object LadybugMotionModel {
                                                                                else {
                                                                                  1
                                                                                } )
-        //        model.ladybug.translate(velocity)
         model.setPenDown(true)
         model.setSamplePoint(model.ladybug.getPosition + velocity / dt)
         model.positionMode(dt)

@@ -5,10 +5,9 @@ import collection.mutable.ArrayBuffer
 
 case class Wall(x: Double, y: Double, dx: Double, dy: Double)
 
+//see http://www.mazeworks.com/mazegen/mazetut/index.htm
+//see http://en.wikipedia.org/wiki/Maze_generation_algorithm
 class MazeGenerator(dim: Int) {
-
-  //see http://www.mazeworks.com/mazegen/mazetut/index.htm
-  //see http://en.wikipedia.org/wiki/Maze_generation_algorithm
 
   case class Location(x: Double, y: Double) {
     def distance(other: Location) = {
