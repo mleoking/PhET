@@ -43,23 +43,6 @@ object DevLauncher {
 
     contentPane.add(timelineLengthTextField)
 
-    //    val pauseEnd = new JCheckBox("Pause at end of playback", RecordModel.pauseAtEndOfPlayback)
-    //    pauseEnd.addActionListener(new ActionListener() {
-    //      def actionPerformed(e: ActionEvent) = {
-    //        RecordModel.pauseAtEndOfPlayback = pauseEnd.isSelected
-    //      }
-    //    })
-    //    contentPane.add(pauseEnd)
-    //
-    //    val recEnd = new JCheckBox("Record at end of playback", RecordModel.recordAtEndOfPlayback)
-    //    recEnd.addActionListener(new ActionListener() {
-    //      def actionPerformed(e: ActionEvent) = {
-    //        RecordModel.recordAtEndOfPlayback = recEnd.isSelected
-    //      }
-    //    })
-    //    contentPane.add(recEnd)
-
-
     val jButton: JButton = new JButton("Launch")
     jButton.addActionListener(new ActionListener() {
       def actionPerformed(e: ActionEvent) {

@@ -24,8 +24,6 @@ class LadybugDeveloperControl[M <: LadybugModel](module: LadybugModule[M]) exten
       LadybugDefaults.HIDE_MOUSE_DURING_DRAG = throwBox.isSelected
     }
   })
-  //  add(checkBox)
-
 
   val throwBox = new JCheckBox("Frictionless", module.model.isFrictionless)
   throwBox.addActionListener(new ActionListener() {
@@ -34,6 +32,4 @@ class LadybugDeveloperControl[M <: LadybugModel](module: LadybugModule[M]) exten
     }
   })
   module.model.addListenerByName(throwBox.setSelected(module.model.isFrictionless))
-  //  add(throwBox)
-
 }

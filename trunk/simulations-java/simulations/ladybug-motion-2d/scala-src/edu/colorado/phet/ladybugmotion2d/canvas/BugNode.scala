@@ -14,9 +14,6 @@ import edu.colorado.phet.scalacommon.math.Vector2D
 class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: BufferedImage) extends PNode {
   val pimage = new PImage(BufferedImageUtils.multiScale(bufferedImage, LadybugDefaults.LADYBUG_SCALE))
   addChild(pimage)
-  //  val boundsPPath=new PhetPPath(new BasicStroke(0.1f),Color.blue)  //for debugging bounds
-  //  addChild(boundsPPath)
-
   bug.addListener(updateBug)
   updateBug()
 
@@ -42,8 +39,6 @@ class BugNode(bug: Bug, transform: ModelViewTransform2D, bufferedImage: Buffered
     pimage.rotateAboutPoint(bug.getAngleInvertY,
                             pimage.getFullBounds.getCenter2D.getX - ( viewPosition.x - dx.x / 2 ),
                             pimage.getFullBounds.getCenter2D.getY - ( viewPosition.y - dx.y / 2 ))
-
-    //    boundsPPath.setPathTo(transform.getAffineTransform.createTransformedShape(bug.getBounds))
   }
 
 }

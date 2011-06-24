@@ -30,10 +30,6 @@ class BarrierSet extends Observable {
   }
 
   def update(ladybug: Ladybug) = {
-    //    lines.foreach((line:Line2D.Double)=>{
-    //      line.x1 =line.x1+Math.random*0.01
-    //      line.y1 =line.y1+Math.random*0.01
-    //    })
   }
 
   def crossedBarrier(start: Vector2D, end: Vector2D): Boolean = {

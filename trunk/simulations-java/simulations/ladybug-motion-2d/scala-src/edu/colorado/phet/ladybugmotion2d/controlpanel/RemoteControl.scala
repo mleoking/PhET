@@ -139,7 +139,6 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
       override def mousePressed(event: PInputEvent) {
         if ( isInteractive ) {
           _mode.dragging = true
-          //                    model.setPenDown(true)
           setMotionManual()
           _mode.setDestination(_mode.transform.viewToModel(event.getCanvasPosition.getX, event.getCanvasPosition.getY))
         }
@@ -152,9 +151,7 @@ class RemoteControl(model: LadybugModel, setMotionManual: () => Unit) extends Ve
           if ( !LadybugDefaults.vaSticky && ( _mode == velocityMode || _mode == accelerationMode ) ) {
             _mode.setDestination(new Vector2D(0, 0))
           }
-          //                    model.setPenDown(false)
         }
-
       }
 
       override def mouseDragged(event: PInputEvent) {
