@@ -6,9 +6,9 @@ import java.awt.geom.{Rectangle2D, Point2D}
 import java.awt.{Rectangle, Dimension, Color}
 import edu.umd.cs.piccolo.PNode
 import edu.colorado.phet.ladybugmotion2d.LadybugDefaults
-import edu.colorado.phet.ladybugmotion2d.controlpanel.{PathVisibilityModel, VectorVisibilityModel}
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.colorado.phet.scalacommon.CenteredBoxStrategy
+import edu.colorado.phet.ladybugmotion2d.controlpanel.{Line, Dots, PathVisibilityModel, VectorVisibilityModel}
 
 class LadybugCanvas(model: LadybugModel,
                     vectorVisibilityModel: VectorVisibilityModel,
@@ -37,9 +37,9 @@ class LadybugCanvas(model: LadybugModel,
 
   val ladybugNode = new LadybugNode(model, model.ladybug, transform, vectorVisibilityModel)
   addNode(ladybugNode)
-  val dotTrace = new LadybugDotTraceNode(model, transform, () => pathVisibilityModel.dotsVisible, pathVisibilityModel, 0.7)
+  val dotTrace = new LadybugDotTraceNode(model, transform, pathVisibilityModel.pathType.valueEquals(Dots), 0.7)
   addNode(dotTrace)
-  val fadeTrace = new LadybugFadeTraceNode(model, transform, () => pathVisibilityModel.fadeVisible, pathVisibilityModel, 0.7)
+  val fadeTrace = new LadybugFadeTraceNode(model, transform, pathVisibilityModel.pathType.valueEquals(Line), 0.7)
   addNode(fadeTrace)
   addNode(new ReturnLadybugButton(model, this))
 

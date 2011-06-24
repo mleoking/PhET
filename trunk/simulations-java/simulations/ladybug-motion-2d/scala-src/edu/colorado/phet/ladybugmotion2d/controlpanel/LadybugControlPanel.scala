@@ -3,8 +3,6 @@ package edu.colorado.phet.ladybugmotion2d.controlpanel
 import _root_.edu.colorado.phet.ladybugmotion2d.model.{LadybugMotionModel, LadybugModel}
 import edu.colorado.phet.common.phetcommon.model.Resettable
 import edu.colorado.phet.ladybugmotion2d.model.LadybugMotionModel._
-import edu.colorado.phet.common.phetcommon.view.ControlPanel
-import edu.colorado.phet.common.phetcommon.view.ResetAllButton
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import scala.swing._
 import java.awt.Dimension
@@ -15,6 +13,8 @@ import edu.colorado.phet.ladybugmotion2d.LadybugModule
 import edu.colorado.phet.ladybugmotion2d.LadybugMotion2DResources._
 import edu.colorado.phet.scalacommon.swing.MyRadioButton
 import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton
+import edu.colorado.phet.common.phetcommon.view.{VerticalLayoutPanel, ControlPanel, ResetAllButton}
 
 class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends ControlPanel(module) {
   val myModule = module;
@@ -71,28 +71,15 @@ class LadybugControlPanel[M <: LadybugModel](module: LadybugModule[M]) extends C
   addControl(motionControlPanel)
   addControl(createBox)
 
-
-  class TraceControlPanel(m: PathVisibilityModel) extends BoxPanel(Orientation.Vertical) {
-    contents += new Label(getLocalizedString("controls.trace")) {font = new PhetFont(14, true)}
-    contents += new MyRadioButton(getLocalizedString("trace.line"), {
-      m.allOff()
-      m.fadeVisible = true
-    }, m.fadeVisible, m.addListener)
-    contents += new MyRadioButton(getLocalizedString("trace.dots"), {
-      m.allOff()
-      m.dotsVisible = true
-    }, m.dotsVisible, m.addListener)
-
-
-    contents += new MyRadioButton(getLocalizedString("trace.off"), {
-      m.allOff()
-    }, !m.lineVisible && !m.dotsVisible && !m.fadeVisible && !m.fadeFullVisible, m.addListener)
+  class TraceControlPanel(m: PathVisibilityModel) extends VerticalLayoutPanel {
+    add(new Label(getLocalizedString("controls.trace")) {font = new PhetFont(14, true)})
+    add(new PropertyRadioButton(getLocalizedString("trace.line"), m.pathType, Line))
+    add(new PropertyRadioButton(getLocalizedString("trace.dots"), m.pathType, Dots))
+    add(new PropertyRadioButton(getLocalizedString("trace.off"), m.pathType, None))
   }
-
 
   addControl(new TraceControlPanel(module.pathVisibilityModel))
   addControl(createBox)
-
 
   addControl(new LadybugDeveloperControl(module))
 
