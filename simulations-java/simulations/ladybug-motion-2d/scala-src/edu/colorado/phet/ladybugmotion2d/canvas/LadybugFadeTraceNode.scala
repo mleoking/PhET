@@ -6,11 +6,11 @@ import java.awt.geom.{Line2D, Point2D}
 import java.awt.BasicStroke
 import java.lang.Math._
 import edu.colorado.phet.ladybugmotion2d.model.{LadybugModel, LadybugState}
-import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.recordandplayback.model.DataPoint
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty
 
 //This class is computationally demanding and therefore contains several optimizations
-class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double) extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugFadeTraceNode(model: LadybugModel, transform: ModelViewTransform2D, visible: ObservableProperty[java.lang.Boolean], maxFade: Double) extends LadybugTraceNode(model, transform, visible) {
   val stroke = new BasicStroke(6, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1.0f)
 
   val segmentCache = scala.collection.mutable.Map.empty[Key, PhetPPath]

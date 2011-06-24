@@ -1,52 +1,19 @@
 package edu.colorado.phet.ladybugmotion2d.controlpanel
 
-import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.phetcommon.model.property.Property
 
-class PathVisibilityModel extends Observable {
-  private var _lineVisible = false
-  private var _dotsVisible = false
-  private var _fadeVisible = true
-  private var _fadeFullVisible = false
+class PathType {}
 
-  def lineVisible: Boolean = _lineVisible
+object Line extends PathType
 
-  def dotsVisible: Boolean = _dotsVisible
+object Dots extends PathType
 
-  def fadeVisible: Boolean = _fadeVisible
+object None extends PathType
 
-  def fadeFullVisible: Boolean = _fadeFullVisible
-
-  def lineVisible_=(x: Boolean) {
-    _lineVisible = x
-    notifyListeners()
-  }
-
-  def allOff() {
-    lineVisible = false
-    dotsVisible = false
-    fadeVisible = false
-    fadeFullVisible = false
-  }
-
-  def dotsVisible_=(x: Boolean) {
-    _dotsVisible = x
-    notifyListeners()
-  }
-
-  def fadeVisible_=(x: Boolean) {
-    _fadeVisible = x
-    notifyListeners()
-  }
-
-  def fadeFullVisible_=(x: Boolean) {
-    _fadeFullVisible = x
-    notifyListeners()
-  }
+class PathVisibilityModel {
+  val pathType = new Property[PathType](Line)
 
   def resetAll() {
-    lineVisible = false
-    dotsVisible = false
-    fadeVisible = true
-    fadeFullVisible = false
+    pathType.set(Line)
   }
 }

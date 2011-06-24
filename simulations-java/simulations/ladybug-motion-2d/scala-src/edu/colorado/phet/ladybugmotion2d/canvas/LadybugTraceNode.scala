@@ -4,22 +4,24 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import java.awt.Color
 import edu.colorado.phet.ladybugmotion2d.model.LadybugModel
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.scalacommon.util.Observable
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty
+import java.lang.Boolean
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver
 
-abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
-                                shouldBeVisible: () => Boolean, observable: Observable) extends PNode {
+abstract class LadybugTraceNode(model: LadybugModel, transform: ModelViewTransform2D, visible: ObservableProperty[Boolean]) extends PNode {
   var clearPt = 0
   setPickable(false)
   setChildrenPickable(false)
-  observable.addListener(() => {
-    setVisible(shouldBeVisible())
-    doUpdate()
+  visible.addObserver(new SimpleObserver {
+    def update() {
+      setVisible(visible.get)
+      doUpdate()
+    }
   })
-  setVisible(shouldBeVisible())
   model.addListener(doUpdate)
 
   def doUpdate() {
-    if ( shouldBeVisible() ) {
+    if ( visible.get ) {
       update()
     }
   }

@@ -8,12 +8,12 @@ import edu.colorado.phet.ladybugmotion2d.model.{LadybugState, LadybugModel}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.Predef._
 import edu.umd.cs.piccolo.PNode
-import edu.colorado.phet.scalacommon.util.Observable
 import edu.colorado.phet.recordandplayback.model.DataPoint
+import java.lang.Boolean
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty
 
-class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D,
-                          shouldBeVisible: () => Boolean, observable: Observable, maxFade: Double)
-        extends LadybugTraceNode(model, transform, shouldBeVisible, observable) {
+class LadybugDotTraceNode(model: LadybugModel, transform: ModelViewTransform2D, visible: ObservableProperty[Boolean], maxFade: Double)
+        extends LadybugTraceNode(model, transform, visible) {
   val node = new PNode
   addChild(node)
 

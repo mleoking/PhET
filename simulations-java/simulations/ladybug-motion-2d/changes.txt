@@ -1,3 +1,4 @@
+Refactored to use Property<T> for path types
 reformatted according to PhetStyle intellij format, and minor cleanup
 # 1.01.01 (53434) Jun 23, 2011
 record-and-playback: 6/13/2010 Layout improvements for RecordAndPlaybackControlPanel
