@@ -258,6 +258,7 @@ public class MixIsotopesModel implements Resettable, IConfigurableAtomModel {
         testChamber.setState( modelState.getIsotopeTestChamberState() );
         for ( MovableAtom isotope : testChamber.getContainedIsotopes() ) {
             isotope.addListener( isotopeGrabbedListener );
+            isotope.addedToModel();
             notifyIsotopeInstanceAdded( isotope );
         }
 
