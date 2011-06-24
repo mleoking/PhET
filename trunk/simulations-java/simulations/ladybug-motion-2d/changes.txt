@@ -1,3 +1,4 @@
+# 1.01.01 (53454) Jun 24, 2011
 Fixed: the traces do not appear in real time, see #2973
 Refactored to use Property<T> for path types
 reformatted according to PhetStyle intellij format, and minor cleanup
