@@ -23,7 +23,6 @@ class AphidMazeModel extends LadybugModel {
     val newPosition = ladybug.getPosition
 
     if ( maze.crossedBarrier(prevPosition, newPosition) ) {
-      println("hit barrier")
       ladybug.setPosition(prevPosition)
       ladybug.setVelocity(new Vector2D)
       ladybug.setAcceleration(new Vector2D)
@@ -38,7 +37,6 @@ class AphidMazeModel extends LadybugModel {
 
   def handleCollision(a: Aphid) {
     if ( ladybug.getEllipse.intersects(a.getBounds) ) {
-      println(" hit aphid, ladybug=" + ladybug.getEllipse.getBounds2D + ", aphid=" + a.getBounds)
       eatAphid(a)
     }
   }
