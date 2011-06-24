@@ -184,7 +184,7 @@ public class MixIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Hook up the test chamber to the boolean property that can be used
         // to make it white (for easier printing and photocopying), see #2925.
-        IsotopesAndAtomicMassApplication.whiteBackgroundProperty.addObserver( new VoidFunction1<Boolean>() {
+        IsotopesAndAtomicMassApplication.whiteIsotopeBoxProperty.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean whiteBackground ) {
                 if ( whiteBackground ) {
                     testChamberNode.setPaint( Color.WHITE );
