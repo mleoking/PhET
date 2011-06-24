@@ -5,7 +5,6 @@ package edu.colorado.phet.waveinterference.view;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Hashtable;
 
 import javax.swing.*;
@@ -39,45 +38,43 @@ public class WaveRotateControl extends HorizontalLayoutPanel {
         rotate.setTextFieldVisible( false );
         rotate.setModelLabels( modelLabels );
 
-        rotate.getSlider().addMouseListener(new MouseAdapter() {
-
-            @Override
-            public void mouseReleased(MouseEvent mouseEvent) {
-//                super.mouseReleased(mouseEvent);    //To change body of overridden methods use File | Settings | File Templates.
-                 System.out.println("MR: rotate.getSlider().getValueIsAdjusting() = " + rotate.getSlider().getValueIsAdjusting());
-                if (!rotate.getSlider().getValueIsAdjusting()) {
-                    SwingUtilities.invokeLater(new Runnable() {
+        //On Mac OS X, clicking in the middle of the slider fails to snap it back to a correct value.
+        //This is workaround code to make sure the slider snaps back when the knob is released at an intermediate value (releasing from knob drag is handled elsewhere)
+        rotate.getSlider().addMouseListener( new MouseAdapter() {
+            @Override public void mouseReleased( MouseEvent mouseEvent ) {
+                SwingUtilities.invokeLater( new Runnable() {
+                    public void run() {
+                        double halfway = ( rotate.getMaximumModelValue() + rotate.getMinimumModelValue() ) / 2;
+                        if ( rotate.getValue() < halfway ) {
+                            rotate.setValue( rotate.getMinimumModelValue() + 0.1 );
+                            rotate.setValue( rotate.getMinimumModelValue() );
+                        }
+                        else {
+                            rotate.setValue( rotate.getMaximumModelValue() - 0.1 );
+                            rotate.setValue( rotate.getMaximumModelValue() );
+                        }
+                    }
+                } );
+            }
+        } );
+        rotate.getSlider().addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                System.out.println( "rotate.getSlider().getValueIsAdjusting() = " + rotate.getSlider().getValueIsAdjusting() );
+                if ( !rotate.getSlider().getValueIsAdjusting() ) {
+                    SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
-                            double halfway = (rotate.getMaximumModelValue() + rotate.getMinimumModelValue()) / 2;
-                            if (rotate.getValue() < halfway) {
-                                rotate.setValue(rotate.getMinimumModelValue()+0.1);
-                                rotate.setValue(rotate.getMinimumModelValue());
-                            } else {
-                                rotate.setValue(rotate.getMaximumModelValue()-0.1);
-                                rotate.setValue(rotate.getMaximumModelValue());
+                            double halfway = ( rotate.getMaximumModelValue() + rotate.getMinimumModelValue() ) / 2;
+                            if ( rotate.getValue() < halfway ) {
+                                rotate.setValue( rotate.getMinimumModelValue() );
+                            }
+                            else {
+                                rotate.setValue( rotate.getMaximumModelValue() );
                             }
                         }
-                    });
+                    } );
                 }
             }
-        });
-        rotate.getSlider().addChangeListener(new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
-                System.out.println("rotate.getSlider().getValueIsAdjusting() = " + rotate.getSlider().getValueIsAdjusting());
-                if (!rotate.getSlider().getValueIsAdjusting()) {
-                    SwingUtilities.invokeLater(new Runnable() {
-                        public void run() {
-                            double halfway = (rotate.getMaximumModelValue() + rotate.getMinimumModelValue()) / 2;
-                            if (rotate.getValue() < halfway) {
-                                rotate.setValue(rotate.getMinimumModelValue());
-                            } else {
-                                rotate.setValue(rotate.getMaximumModelValue());
-                            }
-                        }
-                    });
-                }
-            }
-        });
+        } );
         rotationWaveGraphic.addListener( new RotationWaveGraphic.Listener() {
             public void rotationChanged() {
                 rotate.setValue( rotationWaveGraphic.getRotation() );
