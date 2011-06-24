@@ -18,6 +18,13 @@ import edu.colorado.phet.common.phetcommon.util.PrecisionDecimal;
  * themselves so that clients of the atom classes can get the needed
  * information from directly from them, rather than using this class as a sort
  * of "3rd party expert".
+ * <p/>
+ * Information used within this class was gathered from a number of sources,
+ * but the bulk came from the National Institute of Standards Technology
+ * (NIST) web site.  The original data is preserved in a set of data
+ * structures, and the various information is pulled from them either at run
+ * time or is pre-processed into a more rapidly accessible format at init
+ * time.
  *
  * @author John Blanco
  */
