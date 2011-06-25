@@ -88,7 +88,7 @@ public class ResourceGenerator {
                     append( TAB + TAB + "public static final String " + JAVA_FIELD_NAME + " = RESOURCES.getLocalizedString( \"" + propertyName + "\" );\n" );
                 }
             }
-        }}.toString();
+        }}.toStringWithoutLastCharacter();
 
         //Find the image files under the data/simname/images directory
         final File[] imageFiles = new File( simDir, "data/" + simDir.getName() + "/images" ).listFiles( new FilenameFilter() {
@@ -106,7 +106,7 @@ public class ResourceGenerator {
                         toUpperCase();
                 append( TAB + TAB + "public static final BufferedImage " + JAVA_FIELD_NAME + " = RESOURCES.getImage( \"" + imageFile.getName() + "\" );\n" );
             }
-        }}.toString();
+        }}.toStringWithoutLastCharacter();
 
         //Construct the class name for the generated file
         final String fullClassName = className + "Resources";
@@ -149,6 +149,11 @@ public class ResourceGenerator {
 
         public String toString() {
             return s;
+        }
+
+        //Returns the string excluding the last character for strings that were appended with a separator that shouldn't appear at the end
+        public String toStringWithoutLastCharacter() {
+            return s.substring( 0, s.length() - 1 );
         }
     }
 

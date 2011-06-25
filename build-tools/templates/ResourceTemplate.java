@@ -15,9 +15,11 @@ public class @fullclassname@ {
 
     //Strings
     public static class Strings {
-@strings@    }
+@strings@
+    }
 
     //Images
     public static class Images {
-@images@    }
+@images@
+    }
 }
