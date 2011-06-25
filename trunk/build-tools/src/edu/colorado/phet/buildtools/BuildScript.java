@@ -14,6 +14,7 @@ import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.buildtools.util.SvnUtils;
@@ -226,6 +227,17 @@ public class BuildScript {
             throw new RuntimeException( "Jarsigner credentials must be specified for a deploy." );
         }
         clean();
+
+        //If the project specifies that it should use ResourceGenerator to make its resource loading files, generate them now.
+        //If this created any changes, the next step will flag an svn out of date error so that the changes can be committed before deploy.
+        if ( project.getBuildPropertiesFileObject().getGenerateResourceFile() ) {
+            try {
+                new ResourceGenerator( trunk ).generateResources( project.getProjectDir() );
+            }
+            catch ( IOException e ) {
+                throw new RuntimeException( e );
+            }
+        }
 
         //Update any project files before SVN status update check, to make sure everything's in sync
         //Currently only used for synchronizing the software agreement with flash
