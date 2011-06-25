@@ -16,6 +16,7 @@ import org.apache.tools.ant.types.Path;
 
 import edu.colorado.phet.buildtools.*;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
@@ -57,6 +58,9 @@ public abstract class JavaProject extends PhetProject {
     }
 
     public boolean build() throws Exception {
+        if ( getBuildPropertiesFileObject().getGenerateResourceFile() ) {
+            boolean changed = new ResourceGenerator( getTrunk() ).generateResources( getProjectDir() );
+        }
         new JavaBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
             public boolean accept( File pathname ) {

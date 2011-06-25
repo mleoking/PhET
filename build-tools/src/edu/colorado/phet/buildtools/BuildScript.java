@@ -233,11 +233,20 @@ public class BuildScript {
         //Similarly, if the user has manually modified the resource file and committed that, this will revert it to the auto-generated form and flag as an svn discrepancy
         if ( project.getBuildPropertiesFileObject().getGenerateResourceFile() ) {
             try {
-                new ResourceGenerator( trunk ).generateResources( project.getProjectDir() );
+                boolean changed = new ResourceGenerator( trunk ).generateResources( project.getProjectDir() );
+                if ( changed ) {
+                    System.out.println( "Warning: Automatically generate resource file changed.  If this is during a deploy, this change should halt deploy durning SVN update check" );
+                }
+                else {
+                    System.out.println( "No changes necessary in the automatically generated resource file" );
+                }
             }
             catch ( IOException e ) {
                 throw new RuntimeException( e );
             }
+        }
+        else {
+            System.out.println( "Skipping automatic resource generation" );
         }
 
         //Update any project files before SVN status update check, to make sure everything's in sync
