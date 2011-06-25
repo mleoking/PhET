@@ -235,10 +235,7 @@ public class BuildScript {
             try {
                 boolean changed = new ResourceGenerator( trunk ).generateResources( project.getProjectDir() );
                 if ( changed ) {
-                    System.out.println( "Warning: Automatically generate resource file changed.  If this is during a deploy, this change should halt deploy durning SVN update check" );
-                }
-                else {
-                    System.out.println( "No changes necessary in the automatically generated resource file" );
+                    notifyError( project, "Automatically generated resource file changed.  Please review the changed and revert or commit before proceeding." );
                 }
             }
             catch ( IOException e ) {
