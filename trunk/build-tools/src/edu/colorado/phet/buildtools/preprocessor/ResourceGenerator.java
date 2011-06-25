@@ -45,7 +45,8 @@ public class ResourceGenerator {
     }
 
     //Generate resources for the simulation at the specified absolute location
-    public void generateResources( final File simDir ) throws IOException {
+    //Return true if the file contents changed
+    public boolean generateResources( final File simDir ) throws IOException {
         final File englishFile = new File( simDir, "data/" + simDir.getName() + "/localization/" + simDir.getName() + "-strings.properties" );
 
         //Load and sort the english string keys alphabetically
@@ -114,22 +115,33 @@ public class ResourceGenerator {
         final String fullClassName = className + "Resources";
 
         //Filter the template to create the .java source file
-        String filtered = filter( new HashMap<String, String>() {{
-                                      put( "packagename", packagename );
-                                      put( "classname", className );
-                                      put( "simname", simDir.getName() );
-                                      put( "generator", ResourceGenerator.class.getName() );
-                                      put( "strings", strings );
-                                      put( "fullclassname", fullClassName );
-                                      put( "images", images );
-                                  }}, template ).trim();
+        String resourceFileString = filter( new HashMap<String, String>() {{
+                                                put( "packagename", packagename );
+                                                put( "classname", className );
+                                                put( "simname", simDir.getName() );
+                                                put( "generator", ResourceGenerator.class.getName() );
+                                                put( "strings", strings );
+                                                put( "fullclassname", fullClassName );
+                                                put( "images", images );
+                                            }}, template ).trim();
 
         //Store the filtered strings in the java source directory for usage at compile time
         final File destination = new File( simDir, "src/edu/colorado/phet/" + packagename + "/" + fullClassName + ".java" );
-        FileUtils.writeString( destination, filtered );
 
-        //Signify that the file was written, and list the path so the user can easily find it.
-        System.out.println( "Wrote to dest: " + destination.getAbsolutePath() );
+        final String originalValue = FileUtils.loadFileAsString( destination );
+        if ( !originalValue.equals( resourceFileString ) ) {
+            FileUtils.writeString( destination, resourceFileString );
+            //Log that the file was written, and list the path so the user can easily find it.
+            System.out.println( "Automatically generated resource file changed, wrote to: " + destination.getAbsolutePath() );
+
+            //Signify changes
+            return true;
+        }
+        else {
+            System.out.println( "No changes to automatically generated resource file, skipping generation" );
+            //Signify no changes
+            return false;
+        }
     }
 
     // Tokenizes a string that is in camel case representation
