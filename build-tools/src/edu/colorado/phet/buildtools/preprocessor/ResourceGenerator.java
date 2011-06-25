@@ -39,11 +39,13 @@ public class ResourceGenerator {
         }
     }
 
-    //Generate resources for the specified simulation
-    private void generateResources( final String simPath ) throws IOException {
+    //Generate resources for the simulation specified with a path relative to trunk
+    public void generateResources( final String simPath ) throws IOException {
+        generateResources( new File( trunk, simPath ) );
+    }
 
-        //Identify the working directories
-        final File simDir = new File( trunk, simPath );
+    //Generate resources for the simulation at the specified absolute location
+    public void generateResources( final File simDir ) throws IOException {
         final File englishFile = new File( simDir, "data/" + simDir.getName() + "/localization/" + simDir.getName() + "-strings.properties" );
 
         //Load and sort the english string keys alphabetically

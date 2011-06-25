@@ -123,4 +123,15 @@ public class BuildPropertiesFile extends AbstractPropertiesFile {
     public static File getBuildPropertiesFile( File dir ) {
         return new File( dir, dir.getName() + "-build.properties" );
     }
+
+    /**
+     * Determines whether a simulation has specified to generate a resource loading file
+     *
+     * @return true if resource file should be generated
+     * @see edu.colorado.phet.buildtools.preprocessor.ResourceGenerator
+     */
+    public boolean getGenerateResourceFile() {
+        final String generateResourceFileProperty = getProperty( "generateResourceFile" );
+        return generateResourceFileProperty != null && generateResourceFileProperty.equals( "true" );
+    }
 }
