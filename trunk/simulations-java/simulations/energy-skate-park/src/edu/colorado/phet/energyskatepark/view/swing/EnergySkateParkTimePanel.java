@@ -24,12 +24,6 @@ public class EnergySkateParkTimePanel extends JPanel {
     public EnergySkateParkTimePanel( final EnergySkateParkModule module, final Clock clock ) {
         this.module = module;
         final SimSpeedControl timeSpeedSlider = new SimSpeedControl( EnergySkateParkApplication.SIMULATION_TIME_DT / 4.0, EnergySkateParkApplication.SIMULATION_TIME_DT, (ConstantDtClock)clock );
-        timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                clock.setTimingStrategy( new TimingStrategy.Constant( timeSpeedSlider.getValue() ) );
-            }
-        } );
-//        add( new JLabel( new ImageIcon( PhetCommonResources.getInstance().getImage( PhetCommonResources.IMAGE_CLOCK ) ) ) );
         add( timeSpeedSlider );
         PiccoloClockControlPanel controlPanel = new PiccoloClockControlPanel( clock );
         controlPanel.addTimeControlListener( new TimeControlAdapter() {

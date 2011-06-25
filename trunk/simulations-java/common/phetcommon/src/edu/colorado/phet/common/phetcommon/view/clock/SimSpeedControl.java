@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.Hashtable;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -16,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.SliderOnlyLayoutStrategy;
 
 /**
- * Simulation speed slider.
+ * Simulation speed slider.  The slider changes the dt on a ConstantDtClock and updates when the clock dt changes by other means.
  *
  * @author Sam Reid
  */
@@ -60,10 +61,13 @@ public class SimSpeedControl extends JPanel {
         c.anchor = GridBagConstraints.CENTER;
         add( titleLabel, c );
         add( linearSlider, c );
-    }
 
-    public void addChangeListener( ChangeListener ch ) {
-        linearSlider.addChangeListener( ch );
+        //As of 6-25-2011, automatically add a change listener to set the clock dt when the slider is dragged, see #2798
+        linearSlider.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent e ) {
+                defaultClock.setDt( getValue() );
+            }
+        } );
     }
 
     private void update( ConstantDtClock defaultClock ) {
