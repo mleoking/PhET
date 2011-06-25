@@ -230,6 +230,7 @@ public class BuildScript {
 
         //If the project specifies that it should use ResourceGenerator to make its resource loading files, generate them now.
         //If this created any changes, the next step will flag an svn out of date error so that the changes can be committed before deploy.
+        //Similarly, if the user has manually modified the resource file and committed that, this will revert it to the auto-generated form and flag as an svn discrepancy
         if ( project.getBuildPropertiesFileObject().getGenerateResourceFile() ) {
             try {
                 new ResourceGenerator( trunk ).generateResources( project.getProjectDir() );
