@@ -1,3 +1,4 @@
+6/25/11 Automatically update the ConstantDTClock in SimSpeedControl instead of duplicating listener code in many places, see #2798
 6/23/11 Added MathUtil.clamp(int,int,int)
 6/9/11 #2936, added MathUtil.clamp(double,DoubleRange)
 6/7/11 Moved Dimension2DDouble to be a top-level class, see #123

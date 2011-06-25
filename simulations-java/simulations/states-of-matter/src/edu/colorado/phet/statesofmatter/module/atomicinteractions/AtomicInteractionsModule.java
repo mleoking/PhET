@@ -60,11 +60,6 @@ public class AtomicInteractionsModule extends PiccoloModule {
     	final SimSpeedControl timeSpeedSlider = new SimSpeedControl(AtomicInteractionDefaults.CLOCK_DT / 5,
     			AtomicInteractionDefaults.CLOCK_DT, (ConstantDtClock)getClock(),
     			StatesOfMatterStrings.CLOCK_SPEED_CONTROL_CAPTION);
-        timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
-            }
-        } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
         setClockControlPanel( clockControlPanel );
 

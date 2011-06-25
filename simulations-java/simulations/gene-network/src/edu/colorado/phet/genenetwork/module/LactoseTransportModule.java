@@ -56,11 +56,6 @@ public class LactoseTransportModule extends PiccoloModule {
     	PiccoloClockControlPanel clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final SimSpeedControl timeSpeedSlider = new SimSpeedControl(LacOperonDefaults.CLOCK_DT / 5,
     			LacOperonDefaults.CLOCK_DT * 2, (ConstantDtClock)getClock(), null);
-        timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
-            }
-        } );
     	clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
         JPanel clockPanelWithResetButton = new JPanel();
         clockPanelWithResetButton.add(clockControlPanel);

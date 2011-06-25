@@ -40,11 +40,6 @@ public class TimeSeriesControlPanel extends JPanel {
         this.timeSeriesModel = timeSeriesModel;
 
         timeSpeedSlider = new SimSpeedControl( minDT, maxDT, clock );
-        timeSpeedSlider.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent e ) {
-                clock.setDt( timeSpeedSlider.getValue() );
-            }
-        } );
         clock.addConstantDtClockListener( new ConstantDtClock.ConstantDtClockAdapter() {
             public void dtChanged( ConstantDtClock.ConstantDtClockEvent event ) {
                 timeSpeedSlider.setValue( clock.getDt() );

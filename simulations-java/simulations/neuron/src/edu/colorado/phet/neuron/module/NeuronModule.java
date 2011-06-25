@@ -59,11 +59,6 @@ public class NeuronModule extends PiccoloModule {
         clockControlPanel = new PiccoloClockControlPanel( getClock() );
     	final SimSpeedControl timeSpeedSlider = new SimSpeedControl(NeuronDefaults.MIN_ACTION_POTENTIAL_CLOCK_DT,
     			NeuronDefaults.MAX_ACTION_POTENTIAL_CLOCK_DT, (ConstantDtClock)getClock(), PhetCommonResources.getString( "Common.sim.speed" ));
-        timeSpeedSlider.addChangeListener( new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-                ((ConstantDtClock)getClock()).setDt( timeSpeedSlider.getValue() );
-			}
-        } );
         clockControlPanel.addBetweenTimeDisplayAndButtons(timeSpeedSlider);
 
         // Enable the "Step Back" button.
