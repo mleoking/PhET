@@ -11,6 +11,8 @@ import java.util.*;
 import javax.swing.*;
 
 import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.RevisionStrategy.ConstantRevisionStrategy;
+import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashCommonProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
@@ -244,14 +246,15 @@ public class MiscMenu extends JMenu {
                         for ( Locale locale : project.getLocales() ) {
                             Simulation[] simulations = project.getSimulations();
                             String version = "?";
-                            try{
-                                version =project.getVersion().toString();
-                            }catch(Exception ex){
+                            try {
+                                version = project.getVersion().toString();
+                            }
+                            catch ( Exception ex ) {
 
                             }
 
-                            str.append( project.getName() + "\t" + version +"\t"+simulations.length + "\t" );
-                            str.append( project.getLocales().length + "\t"+locale+"\t" );
+                            str.append( project.getName() + "\t" + version + "\t" + simulations.length + "\t" );
+                            str.append( project.getLocales().length + "\t" + locale + "\t" );
                             boolean first = true;
                             for ( Simulation simulation : simulations ) {
                                 str.append( ( first ? "" : "\t" ) + simulation.getName() );
@@ -334,7 +337,7 @@ public class MiscMenu extends JMenu {
 
     private void batchDeploy( PhetProject[] projects, DeployStrategy deployStrategy ) {
         OldPhetServer.showReminder = false;
-        int svnVersion = new BuildScript( trunk, projects[0] ).getRevisionOnTrunkREADME();
+        int svnVersion = new DynamicRevisionStrategy( trunk ).getRevision();
         String message = JOptionPane.showInputDialog( "Deploying all sims to dev/.  Make sure you've update your working copy.\n" +
                                                       "Assuming you've updated already, the revision number will be: " + svnVersion + "\n" +
                                                       "Enter a message to add to the change log for all sims\n" +
@@ -368,7 +371,7 @@ public class MiscMenu extends JMenu {
             BuildScript buildScript = new BuildScript( trunk, projects[i] );
 
             //Use the same revision number for everything
-            buildScript.setRevisionStrategy( new BuildScript.ConstantRevisionStrategy( svnVersion ) );
+            buildScript.setRevisionStrategy( new ConstantRevisionStrategy( svnVersion ) );
             //Skip status checks, so that a commit during batch deploy won't cause errors
             buildScript.setDebugSkipStatus( true );
             BuildScript.setGenerateJARs( generateJARs );

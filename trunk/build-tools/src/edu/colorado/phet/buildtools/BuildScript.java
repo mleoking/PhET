@@ -10,10 +10,10 @@ import java.util.StringTokenizer;
 
 import javax.swing.*;
 
+import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
-import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
 import edu.colorado.phet.buildtools.util.SvnUtils;
@@ -35,7 +35,7 @@ public class BuildScript {
     private final ArrayList<Listener> listeners;
 
     private String batchMessage;
-    private RevisionStrategy revisionStrategy = new DynamicRevisionStrategy();
+    private RevisionStrategy revisionStrategy;
 
     //TODO: refactor to not be public static
     public static boolean generateJARs = true;//AND'ed with project setting
@@ -50,38 +50,12 @@ public class BuildScript {
         debugSkipBuild = this.buildLocalProperties.getDebugSkipBuild();
         debugSkipStatus = this.buildLocalProperties.getDebugSkipStatus();
         debugSkipCommit = this.buildLocalProperties.getDebugSkipCommit();
+
+        revisionStrategy = new DynamicRevisionStrategy( trunk );
     }
 
     public static void setGenerateJARs( boolean _generateJARs ) {
         generateJARs = _generateJARs;
-    }
-
-    public static interface RevisionStrategy {
-
-        int getRevision();
-
-    }
-
-    public class DynamicRevisionStrategy implements RevisionStrategy {
-
-        public int getRevision() {
-            return getRevisionOnTrunkREADME();
-        }
-
-    }
-
-    public static class ConstantRevisionStrategy implements RevisionStrategy {
-
-        private int revision;
-
-        public ConstantRevisionStrategy( int revision ) {
-            this.revision = revision;
-        }
-
-        public int getRevision() {
-            return revision;
-        }
-
     }
 
     public void setRevisionStrategy( RevisionStrategy revisionStrategy ) {
@@ -93,11 +67,9 @@ public class BuildScript {
     }
 
     public static interface Listener {
-
         void deployFinished( BuildScript buildScript, PhetProject project, String codebase );
 
         void deployErrorOccurred( BuildScript buildScript, PhetProject project, String error );
-
     }
 
     public void setDebugSkipStatus( boolean debugSkipStatus ) {
@@ -114,17 +86,7 @@ public class BuildScript {
     }
 
     static interface Task {
-
         boolean invoke();
-
-    }
-
-    static class NullTask implements Task {
-
-        public boolean invoke() {
-            return true;
-        }
-
     }
 
     public void deploy( Task preDeployTask, OldPhetServer server,
@@ -424,31 +386,6 @@ public class BuildScript {
             }
         }
         return true;
-    }
-
-    public int getRevisionOnTrunkREADME() {
-        AuthenticationInfo auth = buildLocalProperties.getRespositoryAuthenticationInfo();
-        File readmeFile = new File( trunk, "README.txt" );
-        if ( !readmeFile.exists() ) {
-            throw new RuntimeException( "Readme file doesn't exist, need to get version info some other way" );
-        }
-        String[] args = new String[] { "svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), readmeFile.getAbsolutePath() };
-        ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
-        StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
-        while ( st.hasMoreTokens() ) {
-            String token = st.nextToken();
-            String key = "Status against revision:";
-            if ( token.toLowerCase().startsWith( key.toLowerCase() ) ) {
-                String suffix = token.substring( key.length() ).trim();
-                return Integer.parseInt( suffix );
-            }
-        }
-        String cmd = "";
-        for ( String arg : args ) {
-            cmd += " " + arg;
-        }
-//        System.out.println("Failed on command: "+cmd.trim());
-        throw new RuntimeException( "No svn version information found: " + output.getOut() );
     }
 
     public boolean build() {
