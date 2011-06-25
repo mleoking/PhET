@@ -25,7 +25,7 @@ public class MicroModule extends Module {
     }
 
     public MicroModule( SugarAndSaltSolutionsColorScheme configuration, MicroModel model ) {
-        super( SugarAndSaltSolutionsResources.MICRO, model.clock );
+        super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock );
 
         this.model = model;
 

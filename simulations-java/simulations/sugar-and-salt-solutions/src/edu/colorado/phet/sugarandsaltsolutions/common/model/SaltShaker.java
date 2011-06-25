@@ -30,7 +30,7 @@ public class SaltShaker extends Dispenser {
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
     public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
-        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, SugarAndSaltSolutionsResources.SALT );
+        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, SugarAndSaltSolutionsResources.Strings.SALT );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions

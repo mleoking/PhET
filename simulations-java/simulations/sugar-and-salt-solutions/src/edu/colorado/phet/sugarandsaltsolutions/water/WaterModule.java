@@ -19,7 +19,7 @@ public class WaterModule extends SugarAndSaltSolutionsModule {
     }
 
     public WaterModule( final WaterModel model, GlobalState state ) {
-        super( SugarAndSaltSolutionsResources.WATER, model.clock );
+        super( SugarAndSaltSolutionsResources.Strings.WATER, model.clock );
         setSimulationPanel( new WaterCanvas( model, state ) );
     }
 }

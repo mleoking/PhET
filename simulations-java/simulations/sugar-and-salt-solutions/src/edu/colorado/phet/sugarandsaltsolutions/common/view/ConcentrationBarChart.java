@@ -26,6 +26,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.setBackgroundDeep;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CONCENTRATION;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static java.awt.Color.white;
 
@@ -58,17 +59,17 @@ public class ConcentrationBarChart extends PNode {
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Add a Salt concentration bar
-        addChild( new Bar( white, SugarAndSaltSolutionsResources.SALT, saltConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( white, SugarAndSaltSolutionsResources.Strings.SALT, saltConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
         }} );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( white, SugarAndSaltSolutionsResources.SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( white, SugarAndSaltSolutionsResources.Strings.SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
             setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH + 25, abscissaY );
         }} );
 
         //Show the title
-        addChild( new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
+        addChild( new PText( CONCENTRATION ) {{
             setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
@@ -102,7 +103,7 @@ public class ConcentrationBarChart extends PNode {
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
         //This is in a VBox in case we need to add other controls later
         addChild( new VBox() {{
-            addChild( new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.SHOW_VALUES, showValues ) {{
+            addChild( new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.Strings.SHOW_VALUES, showValues ) {{
                 setFont( CONTROL_FONT );
                 setBackgroundDeep( this, WATER_COLOR );
             }} ) );

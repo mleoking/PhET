@@ -85,7 +85,7 @@ public class ResourceGenerator {
                             toUpperCase().
                             replace( '.', '_' ).//Careful, not invertible
                             replace( '-', '_' );
-                    append( TAB + "public static final String " + JAVA_FIELD_NAME + " = RESOURCES.getLocalizedString( \"" + propertyName + "\" );\n" );
+                    append( TAB + TAB + "public static final String " + JAVA_FIELD_NAME + " = RESOURCES.getLocalizedString( \"" + propertyName + "\" );\n" );
                 }
             }
         }}.toString();
@@ -104,7 +104,7 @@ public class ResourceGenerator {
                         substring( 0, imageFile.getName().lastIndexOf( '.' ) ).
                         replace( '-', '_' ).
                         toUpperCase();
-                append( TAB + "public static final BufferedImage " + JAVA_FIELD_NAME + " = RESOURCES.getImage( \"" + imageFile.getName() + "\" );\n" );
+                append( TAB + TAB + "public static final BufferedImage " + JAVA_FIELD_NAME + " = RESOURCES.getImage( \"" + imageFile.getName() + "\" );\n" );
             }
         }}.toString();
 

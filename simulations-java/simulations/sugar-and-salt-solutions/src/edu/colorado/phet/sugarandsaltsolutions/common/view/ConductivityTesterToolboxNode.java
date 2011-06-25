@@ -37,7 +37,7 @@ public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
                 }
             };
             //Add title and a spacer below it
-            addChild( new PText( SugarAndSaltSolutionsResources.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
+            addChild( new PText( SugarAndSaltSolutionsResources.Strings.CONDUCTIVITY ) {{setFont( TITLE_FONT );}} );
 
             //Factory that creates the ConductivityTesterToolNode and positions it where the mouse is
             NodeFactory conductivityNodeMaker = new NodeFactory() {

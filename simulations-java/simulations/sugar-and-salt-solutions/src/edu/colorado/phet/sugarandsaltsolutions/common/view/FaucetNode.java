@@ -22,10 +22,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET;
 
 /**
  * Faucet node for showing and controlling water flowing into and out of the beaker.
@@ -44,7 +45,7 @@ public class FaucetNode extends PNode {
                        final Point2D offset//Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker
     ) {
         setOffset( offset );
-        PImage imageNode = new PImage( SugarAndSaltSolutionsResources.FAUCET ) {{
+        PImage imageNode = new PImage( FAUCET ) {{
             //Scale and offset so that the slider will fit into the tap control component
             setScale( 0.75 );
             setOffset( -27, 0 );

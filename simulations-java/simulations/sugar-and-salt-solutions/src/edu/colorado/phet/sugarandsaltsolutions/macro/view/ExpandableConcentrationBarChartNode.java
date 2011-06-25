@@ -28,7 +28,7 @@ public class ExpandableConcentrationBarChartNode extends PNode {
         //Layout maximize button next to "concentration" label
         HBox contentPane = new HBox(
                 //Title for the control
-                new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
+                new PText( SugarAndSaltSolutionsResources.Strings.CONCENTRATION ) {{
                     setFont( MacroCanvas.TITLE_FONT );
                 }},
                 //Button that maximizes the bar chart
