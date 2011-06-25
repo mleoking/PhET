@@ -5,7 +5,7 @@
     <option name="MAIN_CLASS" value="edu.colorado.phet.vseprtest.VseprTest" />
     <option name="OUTPUT_FILE_NAME" value="vsepr_test.swf" />
     <option name="TARGET_PLAYER_VERSION" value="9.0.124" />
-    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network" />
+    <option name="ADDITIONAL_COMPILER_OPTIONS" value="-use-network -optimize -strict" />
     <option name="VERSION" value="3" />
   </component>
   <component name="NewModuleRootManager" inherit-compiler-output="true">
