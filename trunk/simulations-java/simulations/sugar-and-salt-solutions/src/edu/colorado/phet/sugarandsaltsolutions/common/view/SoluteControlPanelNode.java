@@ -25,11 +25,11 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 public class SoluteControlPanelNode extends WhiteControlPanelNode {
     public SoluteControlPanelNode( final Property<DispenserType> dispenserType ) {
         super( new VBox(
-                new PText( SugarAndSaltSolutionsResources.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}},
+                new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}},
                 new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ),//spacer
                 new PSwing( new VerticalLayoutPanel() {{
-                    add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.SALT, dispenserType, SALT ) {{setFont( CONTROL_FONT );}} );
-                    add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.SUGAR, dispenserType, SUGAR ) {{setFont( CONTROL_FONT );}} );
+                    add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.Strings.SALT, dispenserType, SALT ) {{setFont( CONTROL_FONT );}} );
+                    add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.Strings.SUGAR, dispenserType, SUGAR ) {{setFont( CONTROL_FONT );}} );
                 }} ) )
         );
     }

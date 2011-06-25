@@ -35,7 +35,7 @@ public class MinimizedConcentrationBarChart extends PNode {
         final double totalWidth = 220;
 
         //Show the title
-        final PText title = new PText( SugarAndSaltSolutionsResources.CONCENTRATION ) {{
+        final PText title = new PText( SugarAndSaltSolutionsResources.Strings.CONCENTRATION ) {{
             setFont( TITLE_FONT );
         }};
 

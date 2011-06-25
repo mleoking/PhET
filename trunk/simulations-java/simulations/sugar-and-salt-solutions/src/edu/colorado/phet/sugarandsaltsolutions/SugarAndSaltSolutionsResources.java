@@ -14,27 +14,31 @@ public class SugarAndSaltSolutionsResources {
     public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     //Strings
-    public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
-    public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
-    public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
-    public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
-    public static final String MACRO = RESOURCES.getLocalizedString( "macro" );
-    public static final String MICRO = RESOURCES.getLocalizedString( "micro" );
-    public static final String NONE = RESOURCES.getLocalizedString( "none" );
-    public static final String SALT = RESOURCES.getLocalizedString( "salt" );
-    public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
-    public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
-    public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
-    public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
-    public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
-    public static final String WATER = RESOURCES.getLocalizedString( "water" );
+    public static class Strings {
+        public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
+        public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
+        public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
+        public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
+        public static final String MACRO = RESOURCES.getLocalizedString( "macro" );
+        public static final String MICRO = RESOURCES.getLocalizedString( "micro" );
+        public static final String NONE = RESOURCES.getLocalizedString( "none" );
+        public static final String SALT = RESOURCES.getLocalizedString( "salt" );
+        public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
+        public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
+        public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
+        public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
+        public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
+        public static final String WATER = RESOURCES.getLocalizedString( "water" );
+    }
 
     //Images
-    public static final BufferedImage FAUCET = RESOURCES.getImage( "faucet.png" );
-    public static final BufferedImage SALT_1 = RESOURCES.getImage( "salt_1.png" );
-    public static final BufferedImage SALT_EMPTY = RESOURCES.getImage( "salt_empty.png" );
-    public static final BufferedImage SUGAR_CLOSED = RESOURCES.getImage( "sugar_closed.png" );
-    public static final BufferedImage SUGAR_EMPTY_CLOSED = RESOURCES.getImage( "sugar_empty_closed.png" );
-    public static final BufferedImage SUGAR_EMPTY_OPEN = RESOURCES.getImage( "sugar_empty_open.png" );
-    public static final BufferedImage SUGAR_OPEN = RESOURCES.getImage( "sugar_open.png" );
+    public static class Images {
+        public static final BufferedImage FAUCET = RESOURCES.getImage( "faucet.png" );
+        public static final BufferedImage SALT_1 = RESOURCES.getImage( "salt_1.png" );
+        public static final BufferedImage SALT_EMPTY = RESOURCES.getImage( "salt_empty.png" );
+        public static final BufferedImage SUGAR_CLOSED = RESOURCES.getImage( "sugar_closed.png" );
+        public static final BufferedImage SUGAR_EMPTY_CLOSED = RESOURCES.getImage( "sugar_empty_closed.png" );
+        public static final BufferedImage SUGAR_EMPTY_OPEN = RESOURCES.getImage( "sugar_empty_open.png" );
+        public static final BufferedImage SUGAR_OPEN = RESOURCES.getImage( "sugar_open.png" );
+    }
 }

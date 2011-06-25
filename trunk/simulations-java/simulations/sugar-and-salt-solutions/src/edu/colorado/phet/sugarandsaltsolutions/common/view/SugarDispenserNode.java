@@ -6,10 +6,10 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.*;
 
 /**
  * Sugar dispenser which can be rotated to pour out an endless supply of sugar.
@@ -18,11 +18,11 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  */
 public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
 
-    private static final BufferedImage openFull = multiScaleToHeight( SugarAndSaltSolutionsResources.SUGAR_OPEN, 250 );
-    private static final BufferedImage closedFull = multiScaleToHeight( SugarAndSaltSolutionsResources.SUGAR_CLOSED, 250 );
+    private static final BufferedImage openFull = multiScaleToHeight( SUGAR_OPEN, 250 );
+    private static final BufferedImage closedFull = multiScaleToHeight( SUGAR_CLOSED, 250 );
 
-    private static final BufferedImage openEmpty = multiScaleToHeight( SugarAndSaltSolutionsResources.SUGAR_EMPTY_OPEN, 250 );
-    private static final BufferedImage closedEmpty = multiScaleToHeight( SugarAndSaltSolutionsResources.SUGAR_EMPTY_CLOSED, 250 );
+    private static final BufferedImage openEmpty = multiScaleToHeight( SUGAR_EMPTY_OPEN, 250 );
+    private static final BufferedImage closedEmpty = multiScaleToHeight( SUGAR_EMPTY_CLOSED, 250 );
 
     public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model ) {
         super( transform, model );
