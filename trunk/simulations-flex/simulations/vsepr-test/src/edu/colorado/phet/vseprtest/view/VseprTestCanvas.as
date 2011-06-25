@@ -3,6 +3,8 @@ package edu.colorado.phet.vseprtest.view {
 import away3d.containers.ObjectContainer3D;
 import away3d.core.math.Number3D;
 import away3d.materials.PhongColorMaterial;
+import away3d.materials.PhongColorMaterialCache;
+import away3d.materials.ShadingColorMaterial;
 import away3d.primitives.Cylinder;
 import away3d.primitives.Sphere;
 
@@ -38,9 +40,21 @@ public class VseprTestCanvas extends Canvas {
 
         const bondSegmentsW: Number = 8;
 
+        function createSphere( color: int, x: Number = 0, y: Number = 0, z: Number = 0 ): Sphere {
+            return new Sphere( {
+                                   x:x,
+                                   y:y,
+                                   z:z,
+                                   radius:atomRadius,
+                                   segmentsW:initialSegments + 2,
+                                   segmentsH:initialSegments,
+                                   material:new PhongColorMaterial( color )}
+            );
+        }
+
         // add center atom
         var atomRadius: Number = 50;
-        var mainAtom: Sphere = new Sphere( {radius:atomRadius,segmentsW:initialSegments + 2,segmentsH:initialSegments,material:new PhongColorMaterial( 0x999999, {} )} );
+        var mainAtom: Sphere = createSphere( 0x999999 );
         spheres.push( mainAtom );
         moleculeHolder.addChild( mainAtom );
 
@@ -76,7 +90,7 @@ public class VseprTestCanvas extends Canvas {
 
             holder.rotate( crossProduct, dir.getAngle( buildAxis ) * 180 / Math.PI ); // getAngle is radians, parameter needs degrees
 
-            var otherAtom: Sphere = new Sphere( {x:dir.x,y:dir.y,z:dir.z,radius:atomRadius,segmentsW:initialSegments + 2,segmentsH:initialSegments,material:new PhongColorMaterial( 0xFFFFFF, {} )} );
+            var otherAtom: Sphere = createSphere( 0xFFFFFF, dir.x, dir.y, dir.z );
             spheres.push( otherAtom );
             moleculeHolder.addChild( otherAtom );
         }
