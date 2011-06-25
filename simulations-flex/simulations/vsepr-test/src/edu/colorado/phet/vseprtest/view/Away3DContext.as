@@ -55,10 +55,10 @@ public class Away3DContext {
         camera.hover();
 
         // alternative renderers
-        //        renderer = Renderer.BASIC;
-        //        renderer = Renderer.CORRECT_Z_ORDER;
+        _renderer = Renderer.BASIC;
+//        _renderer = Renderer.CORRECT_Z_ORDER;
         //        renderer = new QuadrantRenderer();
-        _renderer = Renderer.INTERSECTING_OBJECTS;
+//        _renderer = Renderer.INTERSECTING_OBJECTS;
 
         _view = new View3D( {scene:scene, camera:camera, renderer:renderer} );
     }
