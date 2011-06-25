@@ -59,7 +59,10 @@ public abstract class JavaProject extends PhetProject {
 
     public boolean build() throws Exception {
         if ( getBuildPropertiesFileObject().getGenerateResourceFile() ) {
-            boolean changed = new ResourceGenerator( getTrunk() ).generateResources( getProjectDir() );
+            new ResourceGenerator( getTrunk() ).generateResources( getProjectDir() );
+        }
+        else {
+            System.out.println( "Skipping automatic resource generation during build" );
         }
         new JavaBuildCommand( this, new MyAntTaskRunner(), isShrink(), this.getDefaultDeployJar() ).execute();
         File[] f = getDeployDir().listFiles( new FileFilter() {
