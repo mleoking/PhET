@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.ConductivityTesterNode;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -98,7 +99,7 @@ public class SugarAndSaltSolutionsConductivityTesterNode extends ConductivityTes
         } );
 
         //Add a text label above the light bulb that indicates if the conductivity tester is short circuit (by having a bulb, wire or battery submerged)
-        addChild( new ControlPanelNode( new PText( "Short circuited" ) {{
+        addChild( new ControlPanelNode( new PText( SugarAndSaltSolutionsResources.Strings.SHORT_CIRCUIT ) {{
             setFont( new PhetFont( 18, true ) );
         }}, Color.yellow ) {{
             conductivityTester.shortCircuited.addObserver( new VoidFunction1<Boolean>() {

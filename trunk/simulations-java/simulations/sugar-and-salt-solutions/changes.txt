@@ -1,3 +1,4 @@
+Macro tab: Changed "Short circuited" to read "Short circuit! and internationalized
 Water tab: JMol window remembers its location if you close and open it (without resetting)
 Water tab: Fixed: JMol window should close if you reset
 Water tab: Fixed: If you reset when the salt and/or sugar are in the water, you do not get them back in the bucket.
