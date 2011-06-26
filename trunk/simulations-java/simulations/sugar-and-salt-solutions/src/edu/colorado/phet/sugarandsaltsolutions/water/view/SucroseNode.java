@@ -20,6 +20,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.hydrogenRadius;
@@ -66,8 +67,10 @@ public class SucroseNode extends PNode {
         }
         addChild( childLayer );
 
-        addChild( new HTMLNode( "C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>" ) {{
-            setFont( new PhetFont( 16, true ) );
+        //Show the chemical formula for sugar, buffer it so that it doesn't jitter (probably caused by HTMLNode font/rendering problems)
+        addChild( new PImage( new HTMLNode( "C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>" ) {{
+            setFont( new PhetFont( 20, true ) );
+        }}.toImage() ) {{
             childLayer.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     setOffset( childLayer.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, childLayer.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
