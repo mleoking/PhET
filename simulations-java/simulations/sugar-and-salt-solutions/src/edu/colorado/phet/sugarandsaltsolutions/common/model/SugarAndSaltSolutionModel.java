@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
@@ -146,7 +147,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     private Rectangle2D outFlowShape = new Rectangle();
 
     //Model for the salt shaker
-    public final SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed ) {{
+    public final SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName() ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {
@@ -155,8 +156,18 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         } );
     }};
 
+    //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
+    protected String getSaltShakerName() {
+        return SugarAndSaltSolutionsResources.Strings.SALT;
+    }
+
+    //Method to give the name displayed on the side of the sugar dispenser, necessary since it says e.g. "sugar" in macro tab and "sucrose" in micro tab
+    protected String getSugarDispenserName() {
+        return SugarAndSaltSolutionsResources.Strings.SUGAR;
+    }
+
     //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed ) {{
+    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName() ) {{
         //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
         dispenserType.addObserver( new VoidFunction1<DispenserType>() {
             public void apply( DispenserType dispenserType ) {

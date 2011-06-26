@@ -26,7 +26,9 @@ public class SugarAndSaltSolutionsResources {
         public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
         public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
+        public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
+        public static final String SUCROSE = RESOURCES.getLocalizedString( "sucrose" );
         public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
         public static final String WATER = RESOURCES.getLocalizedString( "water" );
     }
