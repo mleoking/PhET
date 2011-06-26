@@ -36,6 +36,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.jmolphet.JmolDialog.displayMolecule3D;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 
@@ -61,6 +62,7 @@ public class WaterCanvas extends PhetPCanvas {
     private BucketView sugarBucket;
     private PNode saltBucketParticleLayer;
     private PNode sugarBucketParticleLayer;
+    private JmolDialog jmolDialog;
 
     public WaterCanvas( final WaterModel waterModel, final GlobalState state ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -170,22 +172,27 @@ public class WaterCanvas extends PhetPCanvas {
                 new TextButtonNode( SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_IN_3_D ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            JmolDialog.displayMolecule3D( state.frame, new Molecule() {
-                                                              public String getDisplayName() {
-                                                                  return SugarAndSaltSolutionsResources.Strings.SUGAR;
-                                                              }
+                            if ( jmolDialog == null ) {
+                                jmolDialog = displayMolecule3D( state.frame, new Molecule() {
+                                                                    public String getDisplayName() {
+                                                                        return SugarAndSaltSolutionsResources.Strings.SUGAR;
+                                                                    }
 
-                                                              public int getCID() {
-                                                                  return 5988;
-                                                              }
+                                                                    public int getCID() {
+                                                                        return 5988;
+                                                                    }
 
-                                                              public String getCmlData() {
-                                                                  return readPDB();
-                                                              }
+                                                                    public String getCmlData() {
+                                                                        return readPDB();
+                                                                    }
 
-                                                              public void fixJmolColors( JmolViewer viewer ) {
-                                                              }
-                                                          }, "Space fill", "Ball and stick", "Loading..." );
+                                                                    public void fixJmolColors( JmolViewer viewer ) {
+                                                                    }
+                                                                }, "Space fill", "Ball and stick", "Loading..." );
+                            }
+                            else {
+                                jmolDialog.setVisible( true );
+                            }
                         }
                     } );
                 }},
@@ -199,6 +206,12 @@ public class WaterCanvas extends PhetPCanvas {
                             //When the module is reset, but the salt and sugar back in the buckets
                             addSaltToBucket( waterModel, transform );
                             addSugarToBucket( waterModel, transform );
+
+                            //When the module is reset, close the jmol dialog if it is open
+                            if ( jmolDialog != null ) {
+                                jmolDialog.setVisible( false );
+                                jmolDialog = null;//Set it to null so that when it is opened again it will be in the startup location instead of saved location
+                            }
                         }
                     } );
                 }}
