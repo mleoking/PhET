@@ -23,6 +23,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String MICRO = RESOURCES.getLocalizedString( "micro" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String SALT = RESOURCES.getLocalizedString( "salt" );
+        public static final String SHORT_CIRCUIT = RESOURCES.getLocalizedString( "shortCircuit" );
         public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
         public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
