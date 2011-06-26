@@ -195,6 +195,10 @@ public class WaterCanvas extends PhetPCanvas {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             waterModel.reset();
+
+                            //When the module is reset, but the salt and sugar back in the buckets
+                            addSaltToBucket( waterModel, transform );
+                            addSugarToBucket( waterModel, transform );
                         }
                     } );
                 }}

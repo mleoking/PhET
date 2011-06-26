@@ -1,3 +1,4 @@
+Water tab: Fixed: If you reset when the salt and/or sugar are in the water, you do not get them back in the bucket.
 Water tab: Fixed: sucrose formula jitters
 Micro tab: Added "Sodium Chloride" and "Sucrose" on the side of the shakers
 Internationalized the text in the sim
