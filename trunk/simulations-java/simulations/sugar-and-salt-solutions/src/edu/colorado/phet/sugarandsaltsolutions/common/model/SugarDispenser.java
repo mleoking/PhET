@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 
 /**
@@ -28,8 +27,8 @@ public class SugarDispenser extends Dispenser {
     private boolean translating = false;
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
-        super( x, y, 1.2, beaker, moreAllowed, SugarAndSaltSolutionsResources.Strings.SUGAR );
+    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName ) {
+        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName );
     }
 
     @Override public void translate( Dimension2D delta ) {

@@ -8,7 +8,6 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -29,8 +28,8 @@ public class SaltShaker extends Dispenser {
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed ) {
-        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, SugarAndSaltSolutionsResources.Strings.SALT );
+    public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name ) {
+        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions

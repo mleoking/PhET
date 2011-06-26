@@ -33,6 +33,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSuga
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -262,5 +264,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public void addIonListener( IonGraphicManager ionGraphicManager ) {
         solubleSaltsModel.addIonListener( ionGraphicManager );
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override protected String getSaltShakerName() {
+        return SODIUM_CHLORIDE;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    @Override protected String getSugarDispenserName() {
+        return SUCROSE;
     }
 }

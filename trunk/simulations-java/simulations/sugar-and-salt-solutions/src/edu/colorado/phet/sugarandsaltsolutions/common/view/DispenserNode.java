@@ -13,18 +13,20 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 /**
+ * Base class for Piccolo nodes for sugar or salt shakers.
+ *
  * @author Sam Reid
  */
 public class DispenserNode<T extends Dispenser> extends PNode {
@@ -43,7 +45,7 @@ public class DispenserNode<T extends Dispenser> extends PNode {
 
         //Text label that shows "Sugar" or "Salt" along the axis of the dispenser.  It is a child of the image node so it will move and rotate with the image node.
         textLabel = new PNode() {{
-            addChild( new PText( model.name ) {{
+            addChild( new HTMLNode( model.name ) {{
                 setFont( new PhetFont( 30 ) );
                 rotateInPlace( Math.PI / 2 );
             }} );
