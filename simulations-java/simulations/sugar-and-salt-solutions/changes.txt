@@ -1,3 +1,4 @@
+Macro tab: Moved the short circuit message in front of salt/sugar dispensers
 Macro tab: For the short circuit message, use bold yellow text with no box
 Water tab: added bond information for sucrose in 3D
 Macro tab: Changed "Short circuited" to read "Short circuit! and internationalized

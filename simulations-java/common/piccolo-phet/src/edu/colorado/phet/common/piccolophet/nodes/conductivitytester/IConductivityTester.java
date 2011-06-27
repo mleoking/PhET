@@ -76,4 +76,18 @@ public interface IConductivityTester {
         //Called when the location of the unit (light bulb + battery) changes
         void locationChanged();
     }
+
+    public static class ConductivityTesterChangeAdapter implements ConductivityTesterChangeListener {
+        public void brightnessChanged() {
+        }
+
+        public void positiveProbeLocationChanged() {
+        }
+
+        public void negativeProbeLocationChanged() {
+        }
+
+        public void locationChanged() {
+        }
+    }
 }
