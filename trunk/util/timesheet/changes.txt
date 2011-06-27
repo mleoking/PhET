@@ -1,3 +1,4 @@
+6-27-2011: Improved control panel
 5-8-2011: improved frame icon
 3-19-2011: Updated application icons
 3-9-2011: Improved error reporting and handling of duplicate categories

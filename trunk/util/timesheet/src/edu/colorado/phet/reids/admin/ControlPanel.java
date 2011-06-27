@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  * @author Sam Reid
  */
 public class ControlPanel extends JPanel {
-    private JLabel totalTimeLabel;
     private JLabel timeTodayLabel;
     private TimesheetModel timesheetModel;
     private JLabel remainingInTarget;
@@ -37,7 +36,7 @@ public class ControlPanel extends JPanel {
         } );
         add( clockOut );
 
-        JButton generateReport = new JButton( "Report on Selection" );
+        JButton generateReport = new JButton( "Basic Report" );
         generateReport.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 ReportFrame reportFrame = new ReportFrame( selectionModel.getSelection( timesheetModel ) );
@@ -46,7 +45,7 @@ public class ControlPanel extends JPanel {
         } );
         add( generateReport );
 
-        JButton filteredReport = new JButton( "Filtered Report" );
+        JButton filteredReport = new JButton( "Monthly Report" );
         filteredReport.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 OrderedReportFrame reportFrame = new OrderedReportFrame( new MonthlyReportFilter().filter( selectionModel.getSelection( timesheetModel ) ) );
@@ -68,15 +67,6 @@ public class ControlPanel extends JPanel {
             }
         } );
         save.setEnabled( timesheetModel.isDirty() );
-
-        totalTimeLabel = new JLabel();
-        add( totalTimeLabel );
-        updateTimeReadout();
-        timesheetModel.addTimeListener( new TimesheetModel.TimeListener() {
-            public void timeChanged() {
-                updateTimeReadout();
-            }
-        } );
 
         timeTodayLabel = new JLabel();
         add( timeTodayLabel );
@@ -124,10 +114,6 @@ public class ControlPanel extends JPanel {
         double elapsed = timesheetModel.getTotalTimeSeconds();
         double remaining = sec - elapsed;
         remainingInTarget.setText( "Remaining: " + Util.secondsToElapsedTimeString( (long) remaining ) );
-    }
-
-    private void updateTimeReadout() {
-        totalTimeLabel.setText( "Total: " + Util.secondsToElapsedTimeString( timesheetModel.getTotalTimeSeconds() ) );
     }
 
     private void updateTimeTodayReadout() {
