@@ -12,7 +12,7 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author Sam Reid
  */
 public class ConductivityTesterToolNode extends ToolNode {
-    private final SugarAndSaltSolutionsConductivityTesterNode node;
+    public final SugarAndSaltSolutionsConductivityTesterNode node;
 
     //Reuse the same ConductivityTesterNode instead of creating new ones each time we drag out of the toolbox.
     public ConductivityTesterToolNode( SugarAndSaltSolutionsConductivityTesterNode node ) {

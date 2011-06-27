@@ -221,7 +221,7 @@ public class ConductivityTesterNode extends PhetPNode {
     }
 
     // for subclasses that need to attach node listeners
-    protected PNode getLightBulbNode() {
+    public PNode getLightBulbNode() {
         return lightBulbNode;
     }
 
