@@ -15,31 +15,31 @@ import edu.umd.cs.piccolo.PNode;
 /**
  * Node that goes in the membrane channel tool box and allows users to add
  * potassium leak channels to the membrane.
- * 
+ *
  * @author John Blanco
  */
 public class PotassiumLeakageChannelToolBoxNode extends MembraneChannelToolBoxNode {
 
-	public PotassiumLeakageChannelToolBoxNode(MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas) {
-		super(model, mvt, canvas);
-	}
+    public PotassiumLeakageChannelToolBoxNode( MembraneChannelsModel model, ModelViewTransform2D mvt, PhetPCanvas canvas ) {
+        super( model, mvt, canvas );
+    }
 
     @Override
     protected void initializeSelectionNode() {
-        PNode representation = new MembraneChannelNode(MembraneChannel.createChannel( 
-                MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL, 
-                getModel(), 
+        PNode representation = new MembraneChannelNode( MembraneChannel.createChannel(
+                MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL,
+                getModel(),
                 MembraneChannelOpennessStrategy.CHANNEL_ALWAYS_OPEN ),
-                SCALING_MVT);
-        setSelectionNode(representation);
+                                                        SCALING_MVT );
+        setSelectionNode( representation );
     }
-    
+
     /* (non-Javadoc)
-     * @see edu.colorado.phet.membranechannels.view.ToolBoxItem#addElementToModel(java.awt.geom.Point2D)
-     */
+    * @see edu.colorado.phet.membranechannels.view.WeightBoxItem#addElementToModel(java.awt.geom.Point2D)
+    */
     @Override
     protected void addElementToModel( Point2D positionInModelSpace ) {
         membraneChannel = getModel().createUserControlledMembraneChannel( MembraneChannelTypes.POTASSIUM_LEAKAGE_CHANNEL,
-                positionInModelSpace );
+                                                                          positionInModelSpace );
     }
 }
