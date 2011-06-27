@@ -1,3 +1,4 @@
+Macro tab: For the short circuit message, use bold yellow text with no box
 Water tab: added bond information for sucrose in 3D
 Macro tab: Changed "Short circuited" to read "Short circuit! and internationalized
 Water tab: JMol window remembers its location if you close and open it (without resetting)
