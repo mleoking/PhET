@@ -22,6 +22,7 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ConductivityTesterToolboxNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.PrecipitateNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;

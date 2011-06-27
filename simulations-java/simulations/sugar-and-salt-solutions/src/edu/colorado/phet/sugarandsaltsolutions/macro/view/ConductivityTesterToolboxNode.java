@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.view;
+package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -14,6 +14,9 @@ import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.ShortCircuitTextNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
