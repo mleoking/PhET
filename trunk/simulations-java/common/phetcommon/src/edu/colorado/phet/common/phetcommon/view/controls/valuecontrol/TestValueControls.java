@@ -221,6 +221,16 @@ public class TestValueControls extends JFrame {
     }
 
     public static void main( String[] args ) {
+        try {
+            // Set the look and feel to match the one used by PhET sims.
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName() );
+        }
+        catch ( Exception e ) {
+            System.out.println( "Exception while setting look and feel." );
+            e.printStackTrace();
+        }
+
         TestValueControls test = new TestValueControls();
         test.show();
     }
