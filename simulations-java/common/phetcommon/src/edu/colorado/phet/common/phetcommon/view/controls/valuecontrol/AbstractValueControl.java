@@ -95,6 +95,7 @@ public abstract class AbstractValueControl extends JPanel {
         super();
 
         _slider = slider;
+        _slider.setPaintTicks( true ); // Needed to make the knob reasonably large, see #2979.
 
         _majorTickSpacing = _slider.getModelRange(); // default is major tick marks at min and max
         _minorTickSpacing = 0;
@@ -665,11 +666,24 @@ public abstract class AbstractValueControl extends JPanel {
         final double max = getMaximum();
 
         // Slider properties related to ticks
-        _slider.setMajorTickSpacing( _slider.modelToSlider( min + _majorTickSpacing ) );
-        if ( _minorTickSpacing > 0 ) {
+        if ( _majorTicksVisible && _majorTickSpacing > 0 ) {
+            _slider.setMajorTickSpacing( _slider.modelToSlider( min + _majorTickSpacing ) );
+        }
+        else {
+            // The tick spacing is set to 0 to hide the ticks rather than
+            // using setPaintTicks.  This is done in order to avoid the "tiny
+            // knob problem" on Win 7, see #2979.
+            _slider.setMajorTickSpacing( 0 );
+        }
+        if ( _minorTicksVisible && _minorTickSpacing > 0 ) {
             _slider.setMinorTickSpacing( _slider.modelToSlider( min + _minorTickSpacing ) );
         }
-        _slider.setPaintTicks( _minorTicksVisible || _majorTicksVisible );
+        else {
+            // The tick spacing is set to 0 to hide the ticks rather than
+            // using setPaintTicks.  This is done in order to avoid the "tiny
+            // knob problem" on Win 7, see #2979.
+            _slider.setMinorTickSpacing( 0 );
+        }
         _slider.setPaintLabels( ( _minorTicksVisible || _majorTicksVisible ) && _paintTickLabels );
 
         if ( _labelTable != null ) {
