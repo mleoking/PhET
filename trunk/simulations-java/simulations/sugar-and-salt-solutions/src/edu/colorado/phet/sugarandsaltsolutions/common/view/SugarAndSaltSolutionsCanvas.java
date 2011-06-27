@@ -66,7 +66,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     private boolean debug = false;
 
     //For nodes that should look like they go into the water, such as the conductivity tester probes
-    protected final PNode submergedInWaterNode = new PNode();
+    public final PNode submergedInWaterNode = new PNode();
 
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();

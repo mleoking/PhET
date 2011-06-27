@@ -1,3 +1,4 @@
+Water tab: Close the 3D sugar view if the user clicks anywhere else
 Macro tab: Moved the short circuit message in front of salt/sugar dispensers
 Macro tab: For the short circuit message, use bold yellow text with no box
 Water tab: added bond information for sucrose in 3D
