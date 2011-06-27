@@ -78,6 +78,8 @@ public class LinearValueControl extends AbstractValueControl {
             public void run() {
                 new JFrame( "Test: " + LinearValueControl.class.getName() ) {{
                     LinearValueControl control = new LinearValueControl( 0, 10, "test", "0.0", "units" );
+                    control.setMajorTicksVisible( false );
+                    control.setMinorTicksVisible( false );
                     setContentPane( control );
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     pack();
