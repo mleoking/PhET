@@ -9,10 +9,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
-import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
-import static java.awt.Color.lightGray;
 import static java.awt.Color.white;
 
 /**
@@ -20,9 +18,9 @@ import static java.awt.Color.white;
  *
  * @author Sam Reid
  */
-public class BeakerNode extends PNode {
+public class BeakerNode extends BeakerNodeWithoutTicks {
     public BeakerNode( ModelViewTransform transform, Beaker beaker ) {
-        addChild( new PhetPPath( transform.modelToView( beaker.getWallShape() ), lightGray ) );
+        super( transform, beaker );
 
         //Add Tick marks and labels
         double viewX = transform.modelToViewX( beaker.getX() - beaker.getWallWidth() / 2 );

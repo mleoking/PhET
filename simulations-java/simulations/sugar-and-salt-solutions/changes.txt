@@ -1,3 +1,4 @@
+Water tab: Made the mini beaker graphic half as big, reduced thickness of its walls and removed liter ticks and labels
 Water tab: Close the 3D sugar view if the user clicks anywhere else
 Macro tab: Moved the short circuit message in front of salt/sugar dispensers
 Macro tab: For the short circuit message, use bold yellow text with no box

@@ -4,7 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNodeWithoutTicks;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SolutionNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
@@ -24,11 +24,11 @@ public class MiniBeakerNode extends PNode {
         final ModelViewTransform transform = SugarAndSaltSolutionsCanvas.createTransform( model );
 
         //Add the beaker and water graphics, and increase the wall thickness to make it more visible
-        model.beaker.setWallWidth( model.beaker.wallWidth * 3 );
-        addChild( new BeakerNode( transform, model.beaker ) );
+        model.beaker.setWallWidth( model.beaker.wallWidth );
+        addChild( new BeakerNodeWithoutTicks( transform, model.beaker ) );
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 255 ) ) );
 
         //Make it smaller so it will fit on the screen
-        scale( 0.34 );
+        scale( 0.34 * 0.5 );
     }
 }
