@@ -15,7 +15,9 @@ import static java.lang.String.format;
 /**
  * Automatically generates resource files for strings provided in the English translation file, and for images in the image directory.
  * This uses the template in trunk/build-tools/templates/ResourceTemplate.java and outputs in the java source path of the specified simulation
- * for use at compile time.  See #2967
+ * for use at compile time.  Guarantees that no access is attempted for non-existing strings or images, and helps you identify unused images and strings.
+ * Another advantage is that it defines and enforces a convention for string key names.
+ * See #2967
  *
  * @author Sam Reid
  */
