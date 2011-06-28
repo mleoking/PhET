@@ -6,6 +6,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
@@ -24,14 +25,12 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
         super( config );
 
-        //Create a shared configuration for changing colors in all tabs
-        final SugarAndSaltSolutionsColorScheme colorScheme = new SugarAndSaltSolutionsColorScheme();
-
-        final GlobalState globalState = new GlobalState( colorScheme, config, getPhetFrame() );
+        //Create a shared configuration for changing colors or state in all tabs
+        final GlobalState globalState = new GlobalState( new SugarAndSaltSolutionsColorScheme(), config, getPhetFrame() );
 
         //Create the modules
-        addModule( new MacroModule( colorScheme ) );
-        addModule( new MicroModule( colorScheme ) );
+        addModule( new MacroModule( globalState ) );
+        addModule( new MicroModule( globalState ) );
         addModule( new WaterModule( globalState ) );
 
         if ( config.isDev() ) {
@@ -39,8 +38,10 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         }
 
         //Add developer menus for changing the color of background and salt
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", colorScheme.backgroundColor ) );
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", colorScheme.saltColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor ) );
+
+        getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( globalState.whiteBackground );}} );
     }
 
     public static void main( String[] args ) {
