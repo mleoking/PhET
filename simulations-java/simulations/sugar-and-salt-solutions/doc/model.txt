@@ -1,0 +1,26 @@
+Model description for Sugar and Salt Solutions
+Sam Reid 6-28-2011
+
+Macro Tab:
+
+When salt is shaken out the shaker, each grain contains 0.2 grams.  Each sugar grain contains 0.4 grams of sugar.  The molar masses are given below:
+
+salt molar mass = 58.4425 g/mol
+sugar molar mass = 342.23134 g/mol
+
+Displaced volume due to dissolved solutes is ignored in the simulation; it is a small value, but would be non-negligible if we chose to model it.
+
+The conductivity tester brightness is a function of salt concentration, whether the probes are touching saline solution and whether the
+conductivity tester is shorted out by having the battery or bulb touch water.
+
+Micro Tab:
+
+TODO: This section needs to be written after we finish writing that model
+
+Water Tab:
+
+Water is modeled using the 3-site model described here: http://en.wikipedia.org/wiki/Water_model
++1/-1 point charges are put on each of the hydrogen/oxygen atoms in Sucrose
+Na+ and Cl- have charges of +1/-1
+Box2d is used to model the rigid body physics + coulomb interactions
+Run the development version and show the developer controls to show all model parameters
