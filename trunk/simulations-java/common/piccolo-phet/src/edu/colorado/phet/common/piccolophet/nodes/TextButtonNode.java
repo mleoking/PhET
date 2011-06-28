@@ -41,9 +41,21 @@ public class TextButtonNode extends ButtonNode {
      * @param font the font to use for the button text
      */
     public TextButtonNode( String text, final Font font ) {
+        this( text, font, Color.gray );
+    }
+
+    /**
+     * Creates a text button with the specified text and font and background color
+     *
+     * @param text       the text to show in the button
+     * @param font       the font to use for the button text
+     * @param background background color for the button
+     */
+    public TextButtonNode( String text, Font font, Color background ) {
         super( text, new ContentNode( text, font, Color.black ), new ContentNode( text, font, Color.gray ) );
         this.text = text;
         this.font = font;
+        setBackground( background );
         updateContentNodes();
     }
 
