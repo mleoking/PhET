@@ -14,6 +14,7 @@
       <module fileurl="file://$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" filepath="$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
     </modules>
   </component>
 </project>
