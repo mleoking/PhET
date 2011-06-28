@@ -16,7 +16,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="piccolo-phet" exported="" />
   </component>
 </module>
 
