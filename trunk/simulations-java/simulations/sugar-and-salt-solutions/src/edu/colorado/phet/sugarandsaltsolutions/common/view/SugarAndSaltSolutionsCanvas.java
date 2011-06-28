@@ -89,9 +89,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addWorldChild( rootNode );
 
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
-        globalState.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
+        globalState.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
-                setBackground( globalState.colorScheme.backgroundColor.get() );
+                setBackground( color );
             }
         } );
 

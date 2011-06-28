@@ -68,7 +68,7 @@ public class WaterCanvas extends PhetPCanvas {
 
     public WaterCanvas( final WaterModel waterModel, final GlobalState state ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
-        state.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
+        state.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
                 setBackground( color );
             }
