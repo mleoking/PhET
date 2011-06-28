@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/phet-reduced.iml" filepath="$PROJECT_DIR$/phet-reduced.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
+    </modules>
+  </component>
+</project>
+
