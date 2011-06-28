@@ -1,6 +1,7 @@
 package edu.colorado.phet.unfuddle;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -11,6 +12,7 @@ import org.xml.sax.SAXException;
  * Feb 21, 2008 at 1:52:26 PM
  */
 public class TicketCommentMessage implements IMessage {
+    private final static Logger LOGGER = UnfuddleLogger.getLogger( TicketCommentMessage.class );
     private XMLObject comment;
     private IUnfuddleAccount unfuddleAccount;
     private UnfuddleCurl curl;
@@ -54,6 +56,10 @@ public class TicketCommentMessage implements IMessage {
     public String getComponent() {
         if ( component == null ) {
             int componentid = getTicketXML().getTextContentAsInt( "component-id" );
+            if ( componentid == -1 ) {
+                LOGGER.warning( "ID was -1 for component-id in ticket: " + toString() );
+                return "";
+            }
             component = unfuddleAccount.getComponentForID( componentid );
         }
         return component;
