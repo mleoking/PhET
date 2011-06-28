@@ -1,3 +1,6 @@
+Improved layout for block control panel
+Added title to block control panel
+Added "previous/next" buttons to control panel
 Added handling for the removal of weights (currently on brick stacks) from the model, and made it so that stacks are removed if they are ever released anywhere other than over the plank.
 Added bricks and weights and got them working.
 Added fulcrum and plank
