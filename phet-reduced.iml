@@ -28,7 +28,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/scala-common/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/JSci" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/Jama/src" isTestSource="false" />
@@ -55,7 +54,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/faraday/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/fluid-pressure-and-flow/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab/scala-src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/forces-1d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/fourier/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-network/src" isTestSource="false" />
