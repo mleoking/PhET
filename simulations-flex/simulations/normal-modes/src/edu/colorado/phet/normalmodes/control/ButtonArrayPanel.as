@@ -1,3 +1,4 @@
+
 /**
  * Created by IntelliJ IDEA.
  * User: General User
@@ -8,6 +9,7 @@
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Sprite;
@@ -28,6 +30,7 @@ public class ButtonArrayPanel extends UIComponent{
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
     private var label_txt: TextField;        //Label for array
+    private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     private var tFormat: TextFormat;         //format for label
     private var modesNxNy_str: String;      //text of Label
     private var button_arr:Array;           //N x N array of pushbuttons
@@ -42,6 +45,10 @@ public class ButtonArrayPanel extends UIComponent{
         this.maxContainerWidth = 250;
         this.container = new Sprite();
         this.label_txt = new TextField();
+        this.arrowGraphic = new TwoHeadedArrow();
+        this.arrowGraphic.scaleX = 0.5;
+        this.arrowGraphic.scaleY = 0.5;
+        this.arrowGraphic.setRegistrationPointAtCenter( true );
         this.tFormat = new TextFormat();
         this.initializeStrings();
         this.createLabel();
@@ -61,6 +68,7 @@ public class ButtonArrayPanel extends UIComponent{
         }
         this.addChild( this.container );
         this.addChild( this.label_txt );
+        this.addChild( this.arrowGraphic );
         this.setNbrButtons( );
 
     } //end constructor
@@ -77,6 +85,15 @@ public class ButtonArrayPanel extends UIComponent{
         this.tFormat.align = TextFormatAlign.LEFT;
         this.label_txt.setTextFormat( this.tFormat );
         //this.label_txt.y = - this.label_txt.height;
+    }
+
+    public function setArrowVertical( tOrF:Boolean ):void{
+       if( tOrF ){
+           this.arrowGraphic.rotation = 90;
+       }else{
+
+           this.arrowGraphic.rotation = 0;
+       }
     }
 
     //resets all buttons to zero state
@@ -112,6 +129,8 @@ public class ButtonArrayPanel extends UIComponent{
         }
         this.label_txt.x = xOffset;
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
+        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 0.7*arrowGraphic.width;
+        this.arrowGraphic.y = label_txt.y + 1.0*this.arrowGraphic.height;
     }
 } //end class
 } //end package

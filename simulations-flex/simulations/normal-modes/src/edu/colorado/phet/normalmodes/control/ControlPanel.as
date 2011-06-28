@@ -299,10 +299,12 @@ public class ControlPanel extends Canvas {
         if ( val == 1 ) {
             this.myModel1.setTorL( "L" );
             this.myModel2.xModes = true;
+            this.myMainView.myButtonArrayPanel.setArrowVertical( false );
         }
         else {
             this.myModel1.setTorL( "T" );
             this.myModel2.xModes =  false;
+            this.myMainView.myButtonArrayPanel.setArrowVertical( true );
         }
     }
 

@@ -96,7 +96,7 @@ public class View2 extends Sprite {
             }
         }
 
-        //this.positionGraphics();
+        //this.showMasses();
         this.addChild(this.walls);
 
         this.initializeControls();
@@ -163,7 +163,7 @@ public class View2 extends Sprite {
         g.lineTo(this._topLeftCornerX, this._topLeftCornerY);
     }
 
-    private function positionGraphics():void{
+    private function showMasses():void{
         var N:int = this.myModel2.N;            //N x N = number of visible masses
         var nMax:int = this.myModel2.nMax;      //nMax x nMax = max possible number of visible masses
         var separationInPix:Number = this._LinPix/(N + 1);   //center-to-center separation of mobile masses in row or column
@@ -180,11 +180,11 @@ public class View2 extends Sprite {
                 this.mass_arr[i][j].visible = true;
             }
         }
-    } //end positionGraphics()
+    } //end showMasses()
 
     public function setNbrMasses():void{
         this.drawSprings();
-        this.positionGraphics();
+        this.showMasses();
     }
 
     public function set springsVisible( tOrF: Boolean):void{

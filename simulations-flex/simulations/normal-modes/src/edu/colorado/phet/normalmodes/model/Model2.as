@@ -130,7 +130,7 @@ public class Model2 {
         var oneDLength:int = this._N + 2;                       //length of one row or one column in square array
         for(var i:int = 0; i < oneDLength; i++){
             for (var j: int = 0; j < oneDLength; j++){
-                //trace("i = " + i + "   j = " + j);
+                //Note that (i, j) is (row, column) is (y, x)
                 this.x0_arr[i][j] = j*this._L/(this._N + 1);  //space masses evenly between x = 0 and x = L
                 this.y0_arr[i][j] = i*this._L/(this._N + 1);  //space masses evenly between y = 0 and y = L
                 this.sx_arr[i][j] = 0;
