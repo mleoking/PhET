@@ -34,7 +34,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         addModule( new WaterModule( globalState ) );
 
         if ( config.isDev() ) {
-            setStartModule( moduleAt( 2 ) );
+            setStartModule( moduleAt( 1 ) );
         }
 
         //Add developer menus for changing the color of background and salt
