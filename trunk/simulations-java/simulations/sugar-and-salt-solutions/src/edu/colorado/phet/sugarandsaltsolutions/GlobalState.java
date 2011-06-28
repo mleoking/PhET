@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 
 /**
@@ -14,7 +13,6 @@ public class GlobalState {
     public final SugarAndSaltSolutionsColorScheme colorScheme;
     public final PhetApplicationConfig config;
     public final PhetFrame frame;
-    public final Property<Boolean> whiteBackground = new Property<Boolean>( false );
 
     public GlobalState( SugarAndSaltSolutionsColorScheme colorScheme, PhetApplicationConfig config, PhetFrame frame ) {
         this.colorScheme = colorScheme;
