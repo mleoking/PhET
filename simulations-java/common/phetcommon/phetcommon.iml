@@ -34,6 +34,7 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="think-tank-maths" exported="" />
   </component>
 </module>
 

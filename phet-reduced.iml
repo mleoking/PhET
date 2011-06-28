@@ -128,7 +128,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/build-a-molecule/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/think-tank-maths/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/torque/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-expression-basics/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
