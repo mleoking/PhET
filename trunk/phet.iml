@@ -151,6 +151,7 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/jmol-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/build-tools/contrib/packload/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-expression-basics/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/molecule-shapes/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1813,6 +1814,15 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/gene-expression-basics/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/simulations-java/simulations/molecule-shapes/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
