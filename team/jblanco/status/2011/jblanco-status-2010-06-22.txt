@@ -1,0 +1,50 @@
+PhET Weekly Progress Report
+John Blanco
+June 22nd, 2011
+
+Time period covered: June 9th through June 22nd (two weeks due to vacation)
+
+Isotopes
+
+•	Addressed all code review comments, see #2905.
+
+Gene Expression Basics
+
+•	Modified spec such that users will be collecting proteins, similar to what was done in Build a Molecule.
+•	Added screen shots of prior art to spec.
+•	Added text for several sections in preparation for showing it to Tom P, who will be helping with development of the model for the 3rd tab.
+•	Reviewed changes made by Mike K.
+•	Set up the initial project.
+•	Prototyped the capability needed for moving back and forth along the DNA strand (in collaboration with Sam R).
+
+Membrane Channels
+
+•	Wrote section about model assumptions for the Tips for Teachers document, reviewed with Trish L and Noah P.
+
+Atomic Interactions
+
+•	Started working on the model assumptions section for the Tips for Teachers document.
+
+Installers
+
+•	Incorporated recent changes for creating an installer with activities into the automated build, tested.
+•	Provided Trish L with a recent version of the installer with activities (dated June 22) for taking to the ISTE conference.
+
+Meetings, Email, and Other Administrative Overhead
+
+•	Weekly PhET status meeting (2 over this period).
+•	Weekly status report.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 56 hrs
+
+•	Was out on vacation from June 10th through June 20th.
+•	Planning vacation from July 1st through July 7th.
+
+What’s Next
+
+•	Continue working on Gene Expression simulation.
+•	Continue working on Balance & Torque simulation.
+•	Finish testing installer with activities, once it is on the web site.
+
