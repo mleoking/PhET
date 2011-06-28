@@ -1,3 +1,4 @@
+All tabs: Internationalized reset all button
 All tabs: Improved colors against white background
 All tabs: Added option for white background
 # 0.00.57 (53534) Jun 27, 2011

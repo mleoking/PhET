@@ -32,6 +32,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
@@ -105,7 +107,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addChild( soluteControlPanelNode );
 
         //Add the reset all button
-        addChild( new HTMLImageButtonNode( "Reset All", BUTTON_COLOR ) {{
+        addChild( new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ), BUTTON_COLOR ) {{
             setFont( CONTROL_FONT );
 
             //Have to set the offset after changing the font since it changes the size of the node
