@@ -1,3 +1,4 @@
+Fixed StackOverFlowException in logger output
 Improved error handling for id=-1 in TicketCommentMessage
 Kill the process sooner if a crash/halt is expected
 Improved error handling in UnfuddleAccountCurl

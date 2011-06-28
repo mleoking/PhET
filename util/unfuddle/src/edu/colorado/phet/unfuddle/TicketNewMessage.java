@@ -32,13 +32,14 @@ public class TicketNewMessage implements IMessage {
         try {
             final int id = Integer.parseInt( ticket.getTextContent( "component-id" ) );
             if ( id == -1 ) {
-                LOGGER.warning( "ID was -1 for component-id in ticket: " + toString() );
+                //Don't use toString in the warning or it will be a stackoverflow error
+                LOGGER.warning( "ID was -1 for component-id in ticket: " + ticket );
                 return "";
             }
             return unfuddleAccount.getComponentForID( id );
         }
         catch ( NumberFormatException nfe ) {
-            LOGGER.warning( "Number format exception for component-id in ticket: " + toString() );
+            LOGGER.warning( "Number format exception for component-id in ticket: " + ticket );
             return "";
         }
     }

@@ -57,7 +57,8 @@ public class TicketCommentMessage implements IMessage {
         if ( component == null ) {
             int componentid = getTicketXML().getTextContentAsInt( "component-id" );
             if ( componentid == -1 ) {
-                LOGGER.warning( "ID was -1 for component-id in ticket: " + toString() );
+                //Don't use toString in the warning or it will be a stackoverflow error
+                LOGGER.warning( "ID was -1 for component-id in ticket with comment : " + comment );
                 return "";
             }
             component = unfuddleAccount.getComponentForID( componentid );
