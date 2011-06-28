@@ -19,6 +19,9 @@ public class TestSliderKnob {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 // Set the look and feel to the value used for PhET sims.
+                // This is important, because the problem does not show up
+                // when using the "Metal" (which is the default cross-
+                // platform) look and feel.
                 try {
                     UIManager.setLookAndFeel(
                             UIManager.getSystemLookAndFeelClassName() );
