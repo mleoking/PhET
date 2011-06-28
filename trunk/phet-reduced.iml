@@ -129,7 +129,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/torque/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/gene-expression-basics/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
@@ -1739,15 +1738,6 @@
         <SOURCES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/slf4j/slf4j-log4j12-1.6.0-sources.jar!/" />
         </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/gene-expression-basics/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="phetcommon" exported="" />

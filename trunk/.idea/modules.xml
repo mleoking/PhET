@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" filepath="$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
