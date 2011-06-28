@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="phetcommon" />
+    <orderEntry type="module" module-name="phetcommon" exported="" />
   </component>
 </module>
 

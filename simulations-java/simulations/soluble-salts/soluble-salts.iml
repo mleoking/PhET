@@ -16,6 +16,9 @@
         <SOURCES />
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="collision" exported="" />
+    <orderEntry type="module" module-name="phetcommon" exported="" />
+    <orderEntry type="module" module-name="piccolo-phet" exported="" />
   </component>
 </module>
 

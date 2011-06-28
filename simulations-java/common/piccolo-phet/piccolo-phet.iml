@@ -17,7 +17,7 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="piccolo2d" exported="" />
-    <orderEntry type="module" module-name="phetcommon" />
+    <orderEntry type="module" module-name="phetcommon" exported="" />
   </component>
 </module>
 

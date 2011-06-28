@@ -1756,8 +1756,15 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="phetcommon" exported="" />
-    <orderEntry type="module" module-name="piccolo2d" />
-    <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="piccolo2d" exported="" />
+    <orderEntry type="module" module-name="piccolo-phet" exported="" />
+    <orderEntry type="module" module-name="chemistry" exported="" />
+    <orderEntry type="module" module-name="collision" exported="" />
+    <orderEntry type="module" module-name="jmol" exported="" />
+    <orderEntry type="module" module-name="jmol-phet" exported="" />
+    <orderEntry type="module" module-name="mechanics" exported="" />
+    <orderEntry type="module" module-name="soluble-salts" exported="" />
+    <orderEntry type="module" module-name="sugar-and-salt-solutions" exported="" />
   </component>
 </module>
 
