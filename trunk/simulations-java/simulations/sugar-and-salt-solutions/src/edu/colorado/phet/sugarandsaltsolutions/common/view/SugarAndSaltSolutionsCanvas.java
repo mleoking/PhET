@@ -143,14 +143,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<MacroSalt>( transform, crystalLayer, new Function1<MacroSalt, PNode>() {
             public PNode apply( MacroSalt salt ) {
-                return new SaltNode( transform, salt, globalState.colorScheme.saltColor );
+                return new SaltNode( transform, salt, globalState.colorScheme.saltColor.color );
             }
         } ) );
 
         //Add sugar crystals graphics when sugar crystals are added to the model
         model.sugarAdded.addListener( new CrystalMaker<MacroSugar>( transform, crystalLayer, new Function1<MacroSugar, PNode>() {
             public PNode apply( MacroSugar sugar ) {
-                return new SugarNode( transform, sugar, globalState.colorScheme.saltColor );
+                return new SugarNode( transform, sugar, globalState.colorScheme.saltColor.color );
             }
         } ) );
 

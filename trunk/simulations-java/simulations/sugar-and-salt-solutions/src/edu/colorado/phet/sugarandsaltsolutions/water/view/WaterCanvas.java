@@ -18,6 +18,8 @@ import org.jmol.api.JmolViewer;
 import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
@@ -100,7 +102,11 @@ public class WaterCanvas extends PhetPCanvas {
         addChild( miniBeakerNode );
 
         //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
-        addChild( new ZoomIndicatorNode( miniBeakerNode, particleWindowNode ) );
+        addChild( new ZoomIndicatorNode( new CompositeProperty<Color>( new Function0<Color>() {
+            public Color apply() {
+                return state.colorScheme.whiteBackground.get() ? Color.blue : Color.yellow;
+            }
+        }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
 
         //Control panel
         addChild( new ControlPanelNode( new VBox(
