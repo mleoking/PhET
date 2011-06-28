@@ -4,11 +4,11 @@ June 22nd, 2011
 
 Time period covered: June 9th through June 22nd (two weeks due to vacation)
 
-Isotopes
+Isotopes - 6.5
 
 •	Addressed all code review comments, see #2905.
 
-Gene Expression Basics
+Gene Expression Basics - 5.0
 
 •	Modified spec such that users will be collecting proteins, similar to what was done in Build a Molecule.
 •	Added screen shots of prior art to spec.
@@ -17,20 +17,20 @@ Gene Expression Basics
 •	Set up the initial project.
 •	Prototyped the capability needed for moving back and forth along the DNA strand (in collaboration with Sam R).
 
-Membrane Channels
+Membrane Channels - 1.5 hrs
 
 •	Wrote section about model assumptions for the Tips for Teachers document, reviewed with Trish L and Noah P.
 
-Atomic Interactions
+Atomic Interactions - 1.0 hrs
 
 •	Started working on the model assumptions section for the Tips for Teachers document.
 
-Installers
+Installers - 2 hrs
 
 •	Incorporated recent changes for creating an installer with activities into the automated build, tested.
 •	Provided Trish L with a recent version of the installer with activities (dated June 22) for taking to the ISTE conference.
 
-Meetings, Email, and Other Administrative Overhead
+Meetings, Email, and Other Administrative Overhead - 8 hrs
 
 •	Weekly PhET status meeting (2 over this period).
 •	Weekly status report.
