@@ -6,7 +6,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
-    <orderEntry type="module" module-name="phet-reduced" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module-library">
       <library>
@@ -18,6 +17,18 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../contrib/jbox2d/jbox2d-2.0.1-library-only.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module" module-name="chemistry" />
+    <orderEntry type="module" module-name="soluble-salts" />
+    <orderEntry type="module" module-name="jmol-phet" />
   </component>
 </module>
 

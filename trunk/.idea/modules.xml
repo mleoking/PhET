@@ -2,8 +2,16 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
       <module fileurl="file://$PROJECT_DIR$/phet-reduced.iml" filepath="$PROJECT_DIR$/phet-reduced.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
     </modules>
   </component>
