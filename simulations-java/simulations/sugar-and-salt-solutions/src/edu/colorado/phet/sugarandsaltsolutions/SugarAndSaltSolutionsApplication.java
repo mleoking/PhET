@@ -38,10 +38,10 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         }
 
         //Add developer menus for changing the color of background and salt
-        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColor ) );
+        getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.userSelectedBackgroundColor ) );
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Salt Color...", globalState.colorScheme.saltColor ) );
 
-        getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( globalState.whiteBackground );}} );
+        getPhetFrame().addMenu( new OptionsMenu() {{addWhiteBackgroundCheckBoxMenuItem( globalState.colorScheme.whiteBackground );}} );
     }
 
     public static void main( String[] args ) {
