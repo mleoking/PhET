@@ -20,7 +20,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon;
@@ -43,8 +43,8 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
         IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
     }
 
-    public MicroCanvas( final MicroModel model, SugarAndSaltSolutionsColorScheme configuration ) {
-        super( model, configuration );
+    public MicroCanvas( final MicroModel model, GlobalState globalState ) {
+        super( model, globalState );
 
         //Add graphics for each ion.  Overriden here to map from soluble salts model coordinates -> sugar and salt model coordinates -> sugar and salt canvas coordinates
         model.addIonListener( new IonGraphicManager( getRootNode() ) {

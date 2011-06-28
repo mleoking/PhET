@@ -2,7 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
@@ -20,11 +20,11 @@ public class MicroModule extends Module {
 
     private MicroModel model;
 
-    public MicroModule( SugarAndSaltSolutionsColorScheme configuration ) {
-        this( configuration, new MicroModel() );
+    public MicroModule( GlobalState globalState ) {
+        this( globalState, new MicroModel() );
     }
 
-    public MicroModule( SugarAndSaltSolutionsColorScheme configuration, MicroModel model ) {
+    public MicroModule( GlobalState globalState, MicroModel model ) {
         super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock );
 
         this.model = model;
@@ -32,7 +32,7 @@ public class MicroModule extends Module {
         //Don't use the entire south panel for the clock controls
         setClockControlPanel( null );
 
-        setSimulationPanel( new MicroCanvas( model, configuration ) );
+        setSimulationPanel( new MicroCanvas( model, globalState ) );
     }
 
     @Override public void reset() {

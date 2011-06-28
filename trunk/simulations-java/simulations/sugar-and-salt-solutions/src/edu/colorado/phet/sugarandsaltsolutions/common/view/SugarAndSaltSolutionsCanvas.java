@@ -18,7 +18,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsColorScheme;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
@@ -74,7 +74,7 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
     //Color for reset and remove buttons
     public static final Color BUTTON_COLOR = new Color( 255, 153, 0 );
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final SugarAndSaltSolutionsColorScheme config ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width,
@@ -89,9 +89,9 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         addWorldChild( rootNode );
 
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
-        config.backgroundColor.addObserver( new VoidFunction1<Color>() {
+        globalState.colorScheme.backgroundColor.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
-                setBackground( config.backgroundColor.get() );
+                setBackground( globalState.colorScheme.backgroundColor.get() );
             }
         } );
 
@@ -143,14 +143,14 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<MacroSalt>( transform, crystalLayer, new Function1<MacroSalt, PNode>() {
             public PNode apply( MacroSalt salt ) {
-                return new SaltNode( transform, salt, config.saltColor );
+                return new SaltNode( transform, salt, globalState.colorScheme.saltColor );
             }
         } ) );
 
         //Add sugar crystals graphics when sugar crystals are added to the model
         model.sugarAdded.addListener( new CrystalMaker<MacroSugar>( transform, crystalLayer, new Function1<MacroSugar, PNode>() {
             public PNode apply( MacroSugar sugar ) {
-                return new SugarNode( transform, sugar, config.saltColor );
+                return new SugarNode( transform, sugar, globalState.colorScheme.saltColor );
             }
         } ) );
 
