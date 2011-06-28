@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class BrickStack extends Weight {
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
-    private static final double BRICK_MASS = 20; // In kg.  Yeah, it's one heavy brick.
+    public static final double BRICK_MASS = 20; // In kg.  Yeah, it's one heavy brick.
 
     int numBricks = 1;
 

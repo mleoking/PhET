@@ -62,8 +62,6 @@ public abstract class WeightBoxItem extends PComposite {
         this.model = model;
         this.mvt = mvt;
         this.canvas = canvas;
-        initializeSelectionNode();
-        updateLayout();
 
         // Set up handling of mouse events.
         addInputEventListener( cursorHandler );
@@ -75,7 +73,6 @@ public abstract class WeightBoxItem extends PComposite {
                 Point2D mouseWorldPos = new Point2D.Double( mouseCanvasPos.getX(), mouseCanvasPos.getY() );
                 canvas.getPhetRootNode().screenToWorld( mouseWorldPos );
                 Point2D mouseModelPos = mvt.viewToModel( mouseWorldPos );
-
                 modelElement = addElementToModel( mouseModelPos );
             }
 
@@ -103,12 +100,6 @@ public abstract class WeightBoxItem extends PComposite {
     //----------------------------------------------------------------------------
 
     /**
-     * Method overridden by subclasses to set up the node that users will
-     * click on in order to add the corresponding model element to the model.
-     */
-    protected abstract void initializeSelectionNode();
-
-    /**
      * Method overriden by subclasses to add the element that they represent
      * to the model.
      *
@@ -120,12 +111,14 @@ public abstract class WeightBoxItem extends PComposite {
         assert this.selectionNode == null; // Currently doesn't support setting this multiple times.
         this.selectionNode = selectionNode;
         addChild( selectionNode );
+        updateLayout();
     }
 
     protected void setCaption( String captionString ) {
         caption = new PText( captionString );
         caption.setFont( LABEL_FONT );
         addChild( caption );
+        updateLayout();
     }
 
     private void updateLayout() {

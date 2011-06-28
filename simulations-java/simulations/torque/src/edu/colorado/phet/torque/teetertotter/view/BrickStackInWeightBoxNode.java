@@ -18,17 +18,19 @@ import edu.colorado.phet.torque.teetertotter.model.weights.BrickStack;
  */
 public class BrickStackInWeightBoxNode extends WeightBoxItem {
 
-    public BrickStackInWeightBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
-        super( model, mvt, canvas );
-    }
+    private final int numBricks;
 
-    @Override protected void initializeSelectionNode() {
-        setSelectionNode( new BrickNode( SCALING_MVT, new BrickStack( 1, new Point2D.Double( 0, 0 ) ) ) );
-        setCaption( "10 kg" );
+    public BrickStackInWeightBoxNode( int numBricks, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+        super( model, mvt, canvas );
+        this.numBricks = numBricks;
+        setSelectionNode( new BrickNode( SCALING_MVT, new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ) ) );
+        // TODO: i18n (units too)
+        setCaption( BrickStack.BRICK_MASS * numBricks + " kg" );
     }
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
-        BrickStack brickStack = new BrickStack( 1, position );
+        BrickStack brickStack = new BrickStack( numBricks, position );
+        brickStack.userControlled.set( true );
         model.addWeight( brickStack );
         return brickStack;
     }
