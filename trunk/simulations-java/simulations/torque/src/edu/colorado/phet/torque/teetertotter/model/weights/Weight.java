@@ -4,13 +4,14 @@ package edu.colorado.phet.torque.teetertotter.model.weights;
 import java.awt.*;
 
 import edu.colorado.phet.torque.teetertotter.model.ModelObject;
+import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
 
 /**
  * Base class for all objects that can be placed on the balance.
  *
  * @author John Blanco
  */
-public abstract class Weight extends ModelObject {
+public abstract class Weight extends ModelObject implements UserMovableModelElement {
     private final double mass;
     protected double rotationAngle;
 
@@ -34,5 +35,12 @@ public abstract class Weight extends ModelObject {
     public void setRotationAngle( double angle ) {
         rotationAngle = angle;
         // Override to implement the updates to the shape.
+    }
+
+    /**
+     * The user has released this weight.
+     */
+    public void release() {
+        userControlled.set( false );
     }
 }

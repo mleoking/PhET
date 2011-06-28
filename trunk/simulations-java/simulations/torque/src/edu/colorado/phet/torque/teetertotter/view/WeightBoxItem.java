@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -15,9 +16,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the model elements that appear in the weight box.  This class
- * handles the common functionality, and subclasses implement the needed
- * unique behavior.
+ * Base class for the Piccolo nodes that appear in the weight box and that can
+ * be clicked on by the user in order to add model elements to the model.
  *
  * @author John Blanco
  */
@@ -30,18 +30,23 @@ public abstract class WeightBoxItem extends PComposite {
     // Fixed transform for setting the size of the items in the tool box,
     // which may not be exactly what it is in the model.
     protected static final ModelViewTransform SCALING_MVT =
-            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1 );
+            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 150 );
 
     private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 
     // Font to use for labels.
-    private static final Font LABEL_FONT = new PhetFont( 20 );
+    private static final Font LABEL_FONT = new PhetFont( 16 );
+
+    // Element in the model that is being moved by the user.  Only exists if
+    // the user performed some action that caused this to be created, such as
+    // clicking on this node.
+    UserMovableModelElement modelElement = null;
 
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
-    private final TeeterTotterTorqueModel model;
+    protected final TeeterTotterTorqueModel model;
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
     private PNode selectionNode = null;
@@ -71,7 +76,7 @@ public abstract class WeightBoxItem extends PComposite {
                 canvas.getPhetRootNode().screenToWorld( mouseWorldPos );
                 Point2D mouseModelPos = mvt.viewToModel( mouseWorldPos );
 
-                addElementToModel( mouseModelPos );
+                modelElement = addElementToModel( mouseModelPos );
             }
 
             @Override
@@ -81,14 +86,14 @@ public abstract class WeightBoxItem extends PComposite {
                 Point2D mouseWorldPos = new Point2D.Double( mouseCanvasPos.getX(), mouseCanvasPos.getY() );
                 canvas.getPhetRootNode().screenToWorld( mouseWorldPos );
                 Point2D mouseModelPos = mvt.viewToModel( mouseWorldPos );
-
-                setModelElementPosition( mouseModelPos );
+                modelElement.setPosition( mouseModelPos );
             }
 
             @Override
             public void mouseReleased( PInputEvent event ) {
                 // The user has released this node.
-                releaseModelElement();
+                modelElement.release();
+                modelElement = null;
             }
         } );
     }
@@ -97,17 +102,9 @@ public abstract class WeightBoxItem extends PComposite {
     // Methods
     //----------------------------------------------------------------------------
 
-    protected TeeterTotterTorqueModel getModel() {
-        return model;
-    }
-
-    protected PhetPCanvas getCanvas() {
-        return canvas;
-    }
-
     /**
      * Method overridden by subclasses to set up the node that users will
-     * click on in order to add one to the model.
+     * click on in order to add the corresponding model element to the model.
      */
     protected abstract void initializeSelectionNode();
 
@@ -117,21 +114,7 @@ public abstract class WeightBoxItem extends PComposite {
      *
      * @param position
      */
-    protected abstract void addElementToModel( Point2D position );
-
-    /**
-     * Method overridden by subclasses that sets the position of the
-     * corresponding model element, if there is one.
-     *
-     * @param position
-     */
-    protected abstract void setModelElementPosition( Point2D position );
-
-    /**
-     * Method overridden by subclasses that commands them to release the model
-     * element that they were presumably controlling.
-     */
-    protected abstract void releaseModelElement();
+    protected abstract UserMovableModelElement addElementToModel( Point2D position );
 
     protected void setSelectionNode( PNode selectionNode ) {
         assert this.selectionNode == null; // Currently doesn't support setting this multiple times.

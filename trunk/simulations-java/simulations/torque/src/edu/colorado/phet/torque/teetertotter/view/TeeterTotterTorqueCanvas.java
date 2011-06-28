@@ -55,7 +55,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         //Function for adding graphics for the weights to the canvas
         final VoidFunction1<Weight> addWeightNode = new VoidFunction1<Weight>() {
             public void apply( Weight weight ) {
-                rootNode.addChild( new WeightNode( mvt, weight ) );
+                rootNode.addChild( new BrickNode( mvt, weight ) );
             }
         };
 
@@ -92,7 +92,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
         // Add the weight box, which is the place where the user will get the
         // objects that can be placed on the balance.
-        rootNode.addChild( new WeightBoxNode( mvt ) {{
+        rootNode.addChild( new WeightBoxNode( model, mvt, this ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, mvt.modelToViewY( 0 ) - getFullBoundsReference().height - 10 );
         }} );
     }

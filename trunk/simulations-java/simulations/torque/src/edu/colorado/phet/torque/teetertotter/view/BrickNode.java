@@ -12,13 +12,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
- * A node that represents a weight in the view.
+ * A node that represents a brick in the view.
  *
  * @author John Blanco
  */
-public class WeightNode extends ModelObjectNode {
-    public WeightNode( final ModelViewTransform mvt, final Weight weight ) {
-        // TODO: Temp - at this point, all weights are bricks, but this obviously won't work long term.
+public class BrickNode extends ModelObjectNode {
+    public BrickNode( final ModelViewTransform mvt, final Weight weight ) {
         super( mvt, weight, new Color( 205, 38, 38 ) );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
