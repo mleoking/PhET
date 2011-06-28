@@ -34,6 +34,22 @@ public class WeightBoxNode extends PNode {
                                              Color.BLACK );
         addChild( backgroundBox );
 
-        backgroundBox.addChild( new BrickStackInWeightBoxNode( model, mvt, canvas ) );
+        // Add the brick stacks to the weight box.
+        BrickStackInWeightBoxNode oneBrickStack = new BrickStackInWeightBoxNode( 1, model, mvt, canvas ) {{
+            setOffset( SIZE.width * 0.25, SIZE.height / 2 );
+        }};
+        backgroundBox.addChild( oneBrickStack );
+        BrickStackInWeightBoxNode twoBrickStack = new BrickStackInWeightBoxNode( 2, model, mvt, canvas ) {{
+            setOffset( SIZE.width * .75, SIZE.height / 2 );
+        }};
+        backgroundBox.addChild( twoBrickStack );
+        BrickStackInWeightBoxNode threeBrickStack = new BrickStackInWeightBoxNode( 3, model, mvt, canvas ) {{
+            setOffset( SIZE.width * 0.25, SIZE.height * 0.75 );
+        }};
+        backgroundBox.addChild( threeBrickStack );
+        BrickStackInWeightBoxNode fourBrickStack = new BrickStackInWeightBoxNode( 4, model, mvt, canvas ) {{
+            setOffset( SIZE.width * 0.75, SIZE.height * 0.75 );
+        }};
+        backgroundBox.addChild( fourBrickStack );
     }
 }
