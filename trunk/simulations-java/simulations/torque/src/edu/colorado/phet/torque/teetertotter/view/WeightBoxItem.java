@@ -4,6 +4,7 @@ package edu.colorado.phet.torque.teetertotter.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -52,6 +53,7 @@ public abstract class WeightBoxItem extends PComposite {
     private PNode selectionNode = null;
     private PText caption = null;
     private RestoreDefaultOnReleaseCursorHandler cursorHandler = new RestoreDefaultOnReleaseCursorHandler( Cursor.HAND_CURSOR );
+    private final Vector2D positioningOffset = new Vector2D( 0, 0 ); // In view coordinate system.
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -68,22 +70,12 @@ public abstract class WeightBoxItem extends PComposite {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-                // Figure out the correspondence between this press event and model space.
-                Point2D mouseCanvasPos = event.getCanvasPosition();
-                Point2D mouseWorldPos = new Point2D.Double( mouseCanvasPos.getX(), mouseCanvasPos.getY() );
-                canvas.getPhetRootNode().screenToWorld( mouseWorldPos );
-                Point2D mouseModelPos = mvt.viewToModel( mouseWorldPos );
-                modelElement = addElementToModel( mouseModelPos );
+                modelElement = addElementToModel( getModelPosition( event.getCanvasPosition() ) );
             }
 
             @Override
             public void mouseDragged( PInputEvent event ) {
-                // Figure out the correspondence between this drag event and model space.
-                Point2D mouseCanvasPos = event.getCanvasPosition();
-                Point2D mouseWorldPos = new Point2D.Double( mouseCanvasPos.getX(), mouseCanvasPos.getY() );
-                canvas.getPhetRootNode().screenToWorld( mouseWorldPos );
-                Point2D mouseModelPos = mvt.viewToModel( mouseWorldPos );
-                modelElement.setPosition( mouseModelPos );
+                modelElement.setPosition( getModelPosition( event.getCanvasPosition() ) );
             }
 
             @Override
@@ -114,11 +106,30 @@ public abstract class WeightBoxItem extends PComposite {
         updateLayout();
     }
 
+    protected PNode getSelectionNode() {
+        return selectionNode;
+    }
+
     protected void setCaption( String captionString ) {
         caption = new PText( captionString );
         caption.setFont( LABEL_FONT );
         addChild( caption );
         updateLayout();
+    }
+
+    protected void setPositioningOffset( double x, double y ) {
+        positioningOffset.setComponents( x, y );
+    }
+
+    /**
+     * Convert the canvas position to the corresponding location in the model.
+     */
+    private Point2D getModelPosition( Point2D canvasPos ) {
+        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
+        canvas.getPhetRootNode().screenToWorld( worldPos );
+        worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
+        Point2D modelPos = mvt.viewToModel( worldPos );
+        return modelPos;
     }
 
     private void updateLayout() {
