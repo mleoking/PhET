@@ -19,7 +19,7 @@ TODO: This section needs to be written after we finish writing that model
 
 Water Tab:
 
-Water is modeled using the 3-site model described here: http://en.wikipedia.org/wiki/Water_model
+Water is modeled using the 3-site model described here: http://en.wikipedia.org/wiki/Water_model but ignoring the Lennard-Jones terms
 +1/-1 point charges are put on each of the hydrogen/oxygen atoms in Sucrose
 Na+ and Cl- have charges of +1/-1
 Box2d is used to model the rigid body physics + coulomb interactions
