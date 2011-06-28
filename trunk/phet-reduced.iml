@@ -32,7 +32,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/phetcommon/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/phetgraphics/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/piccolo-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/scala-common/scala-src" isTestSource="false" />
@@ -423,15 +422,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/electric-hockey/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/piccolo-phet/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
