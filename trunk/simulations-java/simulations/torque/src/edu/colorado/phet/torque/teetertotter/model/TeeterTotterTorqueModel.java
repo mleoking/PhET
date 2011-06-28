@@ -92,9 +92,8 @@ public class TeeterTotterTorqueModel implements Resettable {
                         plank.addWeightToSurface( weight );
                     }
                     else {
-                        // Put the weight on the ground.
-                        // TODO: Once tool box nodes exist, this will cause the weight to return to the tool box.
-                        weight.setPosition( weight.getPosition().getX(), 0 );
+                        // Not above the plank, so remove it from the model.
+                        removeWeight( weight );
                     }
                 }
             }

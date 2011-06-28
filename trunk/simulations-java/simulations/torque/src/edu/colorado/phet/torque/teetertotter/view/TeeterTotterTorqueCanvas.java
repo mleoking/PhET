@@ -52,15 +52,21 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        //Function for adding graphics for the weights to the canvas
-        final VoidFunction1<Weight> addWeightNode = new VoidFunction1<Weight>() {
-            public void apply( Weight weight ) {
-                rootNode.addChild( new BrickNode( mvt, weight ) );
-            }
-        };
-
         // Whenever a weight is added to the model, create a graphic for it
-        model.addWeightAddedListener( addWeightNode );
+        model.addWeightAddedListener( new VoidFunction1<Weight>() {
+            public void apply( final Weight weight ) {
+                final BrickNode brickNode = new BrickNode( mvt, weight );
+                // Add the removal listener for if and when this weight is removed from the model.
+                model.addWeightRemovedListener( new VoidFunction1<Weight>() {
+                    public void apply( Weight w ) {
+                        if ( w == weight ) {
+                            rootNode.removeChild( brickNode );
+                        }
+                    }
+                } );
+                rootNode.addChild( brickNode );
+            }
+        } );
 
         // Add graphics for the plank, fulcrum, and columns.
         rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
