@@ -1737,6 +1737,11 @@
     <orderEntry type="module" module-name="mechanics" exported="" />
     <orderEntry type="module" module-name="soluble-salts" exported="" />
     <orderEntry type="module" module-name="sugar-and-salt-solutions" exported="" />
+    <orderEntry type="module" module-name="build-tools" />
+    <orderEntry type="module" module-name="flash-launcher" />
+    <orderEntry type="module" module-name="licensing" />
+    <orderEntry type="module" module-name="scala-common" />
+    <orderEntry type="module" module-name="think-tank-maths" />
   </component>
 </module>
 
