@@ -41,6 +41,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.jmolphet.JmolDialog.displayMolecule3D;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
 
@@ -214,7 +216,7 @@ public class WaterCanvas extends PhetPCanvas {
                 }},
 
                 //Add a reset all button that resets this tab
-                new HTMLImageButtonNode( "Reset All" ) {{
+                new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ) ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             waterModel.reset();
