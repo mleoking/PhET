@@ -1,3 +1,4 @@
+All tabs: Improved colors against white background
 All tabs: Added option for white background
 # 0.00.57 (53534) Jun 27, 2011
 Water tab: Made the mini beaker graphic half as big, reduced thickness of its walls and removed liter ticks and labels
