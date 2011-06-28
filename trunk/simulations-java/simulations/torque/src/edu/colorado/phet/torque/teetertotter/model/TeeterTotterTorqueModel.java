@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.torque.teetertotter.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,8 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.torque.teetertotter.model.weights.BrickStack;
-import edu.colorado.phet.torque.teetertotter.model.weights.SittingHuman;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -22,7 +19,6 @@ public class TeeterTotterTorqueModel implements Resettable {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------
-
 
     //------------------------------------------------------------------------
     // Instance Data
@@ -144,11 +140,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         for ( Weight weight : new ArrayList<Weight>( weights ) ) {
             removeWeight( weight );
         }
-        // Add initial weights.
-        addWeight( new BrickStack( 1, new Point2D.Double( 2.6, 0 ) ) );
-        addWeight( new BrickStack( 2, new Point2D.Double( 3.0, 0 ) ) );
-        addWeight( new BrickStack( 4, new Point2D.Double( 3.4, 0 ) ) );
-        addWeight( new SittingHuman( new Point2D.Double( 4, 0 ) ) );
     }
 
     //------------------------------------------------------------------------
