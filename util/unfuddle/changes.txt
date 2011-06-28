@@ -1,3 +1,4 @@
+Improved error handling for id=-1 in TicketCommentMessage
 Kill the process sooner if a crash/halt is expected
 Improved error handling in UnfuddleAccountCurl
 Created IUnfuddleAccount, which provides information lookup based on using Curl dynamically, it is provided as an alternative to the previous version which relied on a dump.xml
