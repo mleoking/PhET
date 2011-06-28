@@ -85,7 +85,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     }
 
     // Adds a weight to the model and notifies registered listeners
-    public void addWeight( final Weight weight ) {
+    public UserMovableModelElement addWeight( final Weight weight ) {
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
@@ -108,6 +108,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
             weightAddedListener.apply( weight );
         }
+        return weight;
     }
 
     // Removes a weight from the model and notifies listeners.
