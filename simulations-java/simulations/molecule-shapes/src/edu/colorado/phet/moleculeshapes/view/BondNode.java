@@ -43,8 +43,8 @@ public class BondNode extends PNode implements MSNode {
         ImmutableVector3D bSpot = bPos.plus( aToB.times( bond.b.radius * Math.sqrt( 1 - ( bondRadius / bond.b.radius ) * ( bondRadius / bond.b.radius ) ) ).negated() );
 
         // 2d coordinates of the cylinder start and end
-        ImmutableVector2D a = Projection.project( aSpot );
-        ImmutableVector2D b = Projection.project( bSpot );
+        final ImmutableVector2D a = Projection.project( aSpot );
+        final ImmutableVector2D b = Projection.project( bSpot );
 
         // basic joint
         addChild( new PhetPPath( new java.awt.geom.Line2D.Double( a.getX(), a.getY(), b.getX(), b.getY() ) ) {{
@@ -52,18 +52,37 @@ public class BondNode extends PNode implements MSNode {
             setStrokePaint( color );
         }} );
 
-        // ellipses for added emphasis
+        // ellipses for added emphasis (at the base of each bond-atom intersection)
         try {
-            double ellipseHeight = 2 * Math.abs( Projection.project( aToB.cross( new ImmutableVector3D( 1, 0, 0 ) ).normalized().times( bondRadius ) ).getY() );
-            double ellipseWidth = 2 * Math.abs( Projection.project( aToB.cross( new ImmutableVector3D( 0, 1, 0 ) ).normalized().times( bondRadius ) ).getX() );
+            // TODO: remove this dependency on the particular orthographic projection!
 
-            addChild( new PhetPPath( new Ellipse2D.Double( a.getX() - ellipseWidth / 2, a.getY() - ellipseHeight / 2, ellipseWidth, ellipseHeight ) ) {{
-                setStroke( null );
-                setPaint( color );
+            // unit vector which in view space is perpendicular to the bond. also in the XY plane
+            ImmutableVector3D perpAToB = new ImmutableVector3D( aToB.getY(), -aToB.getX(), 0 ).normalized();
+
+            // unit vector in the direction of the minor axis of our ellipse
+            ImmutableVector3D minorAxisVector = perpAToB.cross( aToB ).normalized();
+
+            // angle (in radians) of the minor axis of the ellipse on the screen
+            final double angle = Projection.project( minorAxisVector ).getAngle();
+
+            final double minorRadius = Projection.project( minorAxisVector.times( bondRadius ) ).getMagnitude();
+
+            // TODO share code
+            addChild( new PNode() {{
+                addChild( new PhetPPath( new Ellipse2D.Double( -minorRadius, -bondRadius, minorRadius * 2, bondRadius * 2 ) ) {{
+                    rotate( angle );
+                    setStroke( null );
+                    setPaint( color );
+                }} );
+                setOffset( a.getX(), a.getY() );
             }} );
-            addChild( new PhetPPath( new Ellipse2D.Double( b.getX() - ellipseWidth / 2, b.getY() - ellipseHeight / 2, ellipseWidth, ellipseHeight ) ) {{
-                setStroke( null );
-                setPaint( color );
+            addChild( new PNode() {{
+                addChild( new PhetPPath( new Ellipse2D.Double( -minorRadius, -bondRadius, minorRadius * 2, bondRadius * 2 ) ) {{
+                    rotate( angle );
+                    setStroke( null );
+                    setPaint( color );
+                }} );
+                setOffset( b.getX(), b.getY() );
             }} );
         }
         catch ( Exception e ) {
