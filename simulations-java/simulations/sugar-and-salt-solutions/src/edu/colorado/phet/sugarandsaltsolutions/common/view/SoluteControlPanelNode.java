@@ -1,36 +1,27 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import java.awt.*;
+
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PComboBox;
-import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * This control panel lets the user choose between solute dispenser types (i.e. sugar vs salt)
+ * Base class for controls that allow the user to select from different solutes.
+ * This general part of the code provides layout and a title, and relies on constructor parameter for the tab-specific control
  *
+ * @author John Blanco
  * @author Sam Reid
  */
-public class SoluteControlPanelNode extends AbstractSoluteControlPanelNode {
-    public SoluteControlPanelNode( final Property<DispenserType> dispenserType, PSwingCanvas canvas ) {
-        super( new SoluteComboBox( canvas )
-               /*
-               new PSwing( new VerticalLayoutPanel() {{
-                   add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.Strings.SALT, dispenserType, SALT ) {{setFont( CONTROL_FONT );}} );
-                   add( new PropertyRadioButton<DispenserType>( SugarAndSaltSolutionsResources.Strings.SUGAR, dispenserType, SUGAR ) {{setFont( CONTROL_FONT );}} );
-               }} ) )
-               */
-        );
-    }
-
-    static class SoluteComboBox extends PNode {
-        SoluteComboBox( PSwingCanvas canvas ) {
-            PComboBox comboBox = new PComboBox( new String[] { "Sodium Chloride", "Sucrose", "Sodium Nitrate", "Calcium Chloride", "Ethanol" } );
-            PSwing comboBoxPSwing = new PSwing( comboBox );
-            comboBox.setEnvironment( comboBoxPSwing, canvas );
-            addChild( new PSwing( comboBox ) );
-        }
+public class SoluteControlPanelNode extends WhiteControlPanelNode {
+    public SoluteControlPanelNode( PNode soluteSelector ) {
+        super( new VBox(
+                new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}},
+                new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ),//spacer
+                soluteSelector
+        ) );
     }
 }

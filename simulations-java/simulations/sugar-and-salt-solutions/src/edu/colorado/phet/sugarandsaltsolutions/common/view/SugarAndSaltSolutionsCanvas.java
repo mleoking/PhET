@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
@@ -42,7 +43,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
+public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
     //Root node that shows the nodes in the stage coordinate frame
     private final PNode rootNode;
 
@@ -101,9 +102,8 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Create the control panel for choosing sugar vs salt
-        soluteControlPanelNode = new SoluteControlPanelNode( model.dispenserType, this ) {{
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, 150 );
-        }};
+        soluteControlPanelNode = createSoluteControlPanelNode( model, this, stageSize );
+        soluteControlPanelNode.setOffset( stageSize.getWidth() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, 150 );
         addChild( soluteControlPanelNode );
 
         //Add the reset all button
@@ -225,6 +225,10 @@ public class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxC
         //Show the precipitate as the sum of salt and sugar
         submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
     }
+
+    //Create the component used to choose between different solutes.
+    //Called from the constructor, should only use arguments passed in
+    protected abstract SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize );
 
     //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab
     public static ModelViewTransform createTransform( SugarAndSaltSolutionModel model ) {
