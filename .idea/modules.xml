@@ -2,11 +2,13 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" />
       <module fileurl="file://$PROJECT_DIR$/build-tools/build-tools.iml" filepath="$PROJECT_DIR$/build-tools/build-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" filepath="$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/games/games.iml" filepath="$PROJECT_DIR$/simulations-java/common/games/games.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" />
