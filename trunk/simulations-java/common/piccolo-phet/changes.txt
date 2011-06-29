@@ -1,3 +1,4 @@
+6/29/11 Added a ComboBoxNode, see #2982
 6/19/11 Moved SliderNode from eating & exercise to piccolo-phet
 6/6/11 added TextButtonNode.setText, for buttons that change their text when pressed
 5/24/11 Changed ResetAllButtonNode to use TextButtonNode instead of HTML version, see #2902

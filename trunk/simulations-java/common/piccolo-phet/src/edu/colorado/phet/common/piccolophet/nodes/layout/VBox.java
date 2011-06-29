@@ -56,6 +56,35 @@ public class VBox extends Box {
         );
     }
 
+    //Creates a VBox which lays out nodes vertically, aligned against the left (regardless of the flag setting).  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
+    public VBox( int spacing,
+                 //This flag is ignored, it is just to allow usage of this constructor
+                 boolean leftAlignedFlagIgnored,
+                 PNode... children//List of children to be added on initialization
+    ) {
+        super( spacing,
+               //Specify the width of the node which is used in determining the overall width of the VBox
+               new Function1<PBounds, Double>() {
+                   public Double apply( PBounds bounds ) {
+                       return bounds.getWidth();
+                   }
+               },
+               //Specify the height of the node, for spacing the nodes vertically
+               new Function1<PBounds, Double>() {
+                   public Double apply( PBounds bounds ) {
+                       return bounds.getHeight();
+                   }
+               },
+               //Determine the position to place the node, given its center line, bounds and spaced position.  This left-aligns the nodes
+               new PositionStrategy() {
+                   public Point2D getRelativePosition( PNode node, double maxSize, double location ) {
+                       return new Point2D.Double( 0, location );
+                   }
+               },
+               children
+        );
+    }
+
     //Test
     public static void main( String[] args ) {
         new JFrame() {{
