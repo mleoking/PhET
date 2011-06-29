@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
@@ -41,15 +43,25 @@ public class ManualGeneExpressionModel {
     // suspended.  Start with the 0th gene in the DNA (leftmost).
     public final Property<Gene> activeGene = new Property<Gene>( dnaStrand.getGenes().get( 0 ) );
 
-    // Properties that keep track of whether the
+    // Properties that keep track of whether the first or last gene is
+    // currently active, which means that the user is viewing it.
     public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaStrand.getGenes().get( 0 ) );
     public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
+
+    // List of RNA polymerase in the model.
+    private final List<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
 
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
 
     public ManualGeneExpressionModel() {
+        // TODO: Temporary initialization to make it look like some polymerase is around.
+        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 5000, 300 ) ) );
+        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 7000, 500 ) ) );
+        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 17000, 1000 ) ) );
+        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 24000, 2000 ) ) );
+        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 27000, 900 ) ) );
     }
 
     //------------------------------------------------------------------------
@@ -76,5 +88,9 @@ public class ManualGeneExpressionModel {
         final ArrayList<Gene> genes = dnaStrand.getGenes();
         int index = clamp( 0, genes.indexOf( activeGene.get() ) + i, genes.size() - 1 );
         activeGene.set( genes.get( index ) );
+    }
+
+    public List<RnaPolymerase> getRnaPolymeraseList() {
+        return rnaPolymeraseList;
     }
 }

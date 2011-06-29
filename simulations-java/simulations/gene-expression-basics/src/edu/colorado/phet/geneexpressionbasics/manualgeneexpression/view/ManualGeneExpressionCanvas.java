@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -58,9 +59,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         addWorldChild( modelRootNode );
 
         // Add the representation of the DNA strand.
-        // TODO: Using the general ModelObjectNode for now, will probably need a specific node soon.
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
         modelRootNode.addChild( dnaMoleculeNode );
+
+        // Add the RNA polymerase - TODO temp for demo.
+        for ( RnaPolymerase rnaPolymerase : model.getRnaPolymeraseList() ) {
+            modelRootNode.addChild( new ModelObjectNode( mvt, rnaPolymerase, rnaPolymerase.getPaint() ) );
+        }
 
         // Add buttons for moving to next and previous genes.
         // TODO: i18n
