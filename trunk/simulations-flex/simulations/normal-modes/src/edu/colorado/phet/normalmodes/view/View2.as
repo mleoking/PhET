@@ -254,7 +254,7 @@ public class View2 extends Sprite {
                     this.springH_arr[i][j].x = xInPix;
                     this.springH_arr[i][j].y = yInPix;
 
-                    //position right of horizontal springs; this requires rotation
+                    //position right edge of horizontal springs; this requires rotation
                     var sprLX:Number = (this.myModel2.getXY(i + 1, j+1)[0] - this.myModel2.getXY(i + 1, j)[0])*this.pixPerMeter;
                     var sprLY:Number = (this.myModel2.getXY(i + 1, j+1)[1] - this.myModel2.getXY(i + 1, j)[1])*this.pixPerMeter;
                     springLengthInPix = Math.sqrt( sprLX*sprLX + sprLY*sprLY );
