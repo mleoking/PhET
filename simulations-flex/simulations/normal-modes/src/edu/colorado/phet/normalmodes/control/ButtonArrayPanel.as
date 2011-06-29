@@ -129,8 +129,8 @@ public class ButtonArrayPanel extends UIComponent{
         }
         this.label_txt.x = xOffset;
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
-        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 0.7*arrowGraphic.width;
-        this.arrowGraphic.y = label_txt.y + 1.0*this.arrowGraphic.height;
+        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 20;
+        this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
     }
 } //end class
 } //end package

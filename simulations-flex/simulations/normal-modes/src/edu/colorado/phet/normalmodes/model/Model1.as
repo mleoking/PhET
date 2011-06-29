@@ -291,7 +291,7 @@ public class Model1 {
             nu[ r-1 ] = 0;
             for (var i:int = 1; i <= N; i++ ){
                 mu[ r-1 ] += ((2)/(N+1))*s_arr[i]*Math.sin(i*r*Math.PI/(N+1));
-                nu[ r-1 ] += (2/(this.modeOmega_arr[r-1]*(N+1)))*v_arr[i]*Math.sin(i*r*Math.PI/(N+1));
+                nu[ r-1 ] += (-2/(this.modeOmega_arr[r-1]*(N+1)))*v_arr[i]*Math.sin(i*r*Math.PI/(N+1));
             }
             this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
             this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;

@@ -45,7 +45,8 @@ public class Model2 {
     private var ayPre_arr:Array;    //array of y-accelerations in previous time step, needed for velocity verlet
        
     private var modeOmega_arr:Array; //2D array of normal mode angular frequencies, omega = 2*pi*f array size is N*N
-    private var modeAmpli_arr:Array; //2D array of normal mode amplitudes
+    private var modeAmpliX_arr:Array; //2D array of normal mode amplitudes for x-polarization
+    private var modeAmpliY_arr:Array; //2D array of normal mode amplitudes for y-polarization
     private var modePhase_arr:Array; //2D array of normal mode phases
     private var _grabbedMassIndices:Array;    //i, j indices of mass grabbed by mouse
     //private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
@@ -75,9 +76,10 @@ public class Model2 {
         this.axPre_arr = new Array(_nMax + 2);
         this.ayPre_arr = new Array(_nMax + 2);
         this._grabbedMassIndices = new Array( 2 );
-        this.modeOmega_arr = new Array( _nMax );
-        this.modeAmpli_arr = new Array( _nMax );
-        this.modePhase_arr = new Array( _nMax );
+        this.modeOmega_arr = new Array( _nMax + 1 );   //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
+        this.modeAmpliX_arr = new Array( _nMax + 1 );
+        this.modeAmpliY_arr = new Array( _nMax + 1 );
+        this.modePhase_arr = new Array( _nMax + 1 );
         for(var i:int = 0; i < _nMax+2; i++){
             x0_arr[i] = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
             y0_arr[i] = new Array(_nMax + 2);
@@ -90,7 +92,8 @@ public class Model2 {
             axPre_arr[i] = new Array(_nMax + 2);
             ayPre_arr[i] = new Array(_nMax + 2);
             modeOmega_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
-            modeAmpli_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
+            modeAmpliX_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
+            modeAmpliY_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
             modePhase_arr[i] = new Array( _nMax + 1 );  //1st row and column elements are dummies, so mode 1,1 is element i=1, j=1
         }
         
@@ -148,7 +151,8 @@ public class Model2 {
     private function initializeModeArrays():void{
         for(var i:int = 0; i < _nMax; i++){
             for(var j:int = 0; j < _nMax; j++){
-                modeAmpli_arr[i][j] = 0;
+                modeAmpliX_arr[i][j] = 0;
+                modeAmpliY_arr[i][j] = 0;
                 modePhase_arr[i][j] = 0;
             }
         }
@@ -172,7 +176,8 @@ public class Model2 {
     public function zeroModeArrays():void{
         for(var i:int = 0; i <= _nMax; i++){
             for(var j:int = 0; j <= _nMax; j++){
-                modeAmpli_arr[i][j] = 0;
+                modeAmpliX_arr[i][j] = 0;
+                modeAmpliY_arr[i][j] = 0;
                 modePhase_arr[i][j] = 0;
             }
         }
@@ -258,14 +263,15 @@ public class Model2 {
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
         //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
         this._verletOn = false;
-        this.modeAmpli_arr[ modeNbrR ][ modeNbrS ] = A;
+        this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
+        this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modesChanged = true;
         updateView();
         this.modesChanged = false;
     }
 
     public function getModeAmpli( modeNbrR:int, modeNbrS:int ):Number{
-        return this.modeAmpli_arr[ modeNbrR ][ modeNbrS ] ;
+        return this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] ;
     }
 
 /*    public function setModePhase( modeNbr:int,  phase:Number ):void{
@@ -328,26 +334,45 @@ public class Model2 {
         this.singleStep();
         evt.updateAfterEvent();
     }
-/*
+
     public function computeModeAmplitudesAndPhases():void{
         var N:int  = this._N;
-        var mu:Array = new Array( this._N );
-        var nu:Array = new Array( this._N );
-        for (var r:int = 1; r <= N; r++ ){
-            mu[ r-1 ] = 0;
-            nu[ r-1 ] = 0;
-            for (var i:int = 1; i <= N; i++ ){
-                mu[ r-1 ] += ((2)/(N+1))*s_arr[i]*Math.sin(i*r*Math.PI/(N+1));
-                nu[ r-1 ] += (2/(this.modeOmega_arr[r-1]*(N+1)))*v_arr[i]*Math.sin(i*r*Math.PI/(N+1));
-            }
-            this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
-            this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
+        var muX:Array = new Array( N + 1 );
+        var nuX:Array = new Array( N + 1 );
+        var muY:Array = new Array( N + 1 );
+        var nuY:Array = new Array( N + 1 );
+        for(var r:int = 0; r <= N; r++ ){
+            muX[ r ] = new Array( N + 1);
+            nuX[ r ] = new Array( N + 1);
+            muY[ r ] = new Array( N + 1);
+            nuY[ r ] = new Array( N + 1);
         }
-        this.modesChanged = true;
-        this.updateView();
-        this.modesChanged = false;
+        for ( r = 1; r <= N; r++ ){
+            for ( var s:int = 1; s <= N; s++ ){
+                muX[r][s] = 0;
+                nuX[r][s] = 0;
+                muY[r][s] = 0;
+                nuY[r][s] = 0;
+                for (var i:int = 1; i <= N; i++ ){
+                    for ( var j:int = 1; j <= N; j++){
+                        var sineProduct:Number = Math.sin(i*r*Math.PI/(N+1))*Math.sin(j*s*Math.PI/(N+1));
+                        muX[r][s] += (4/((N+1)*(N+1)))*sx_arr[i][j]*sineProduct
+                        nuX[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vx_arr[i][j]*sineProduct
+                        muY[r][s] += (4/((N+1)*(N+1)))*sy_arr[i][j]*sineProduct
+                        nuY[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vy_arr[i][j]*sineProduct
+                    }//end for j loop
+                } //end for i loop
+                this.modeAmpliX_arr[r][s] = Math.sqrt( muX[r][s]*muX[r][s] + nuX[r][s]*nuX[r][s] );
+                this.modeAmpliY_arr[r][s] = Math.sqrt( muY[r][s]*muY[r][s] + nuY[r][s]*nuY[r][s] );
+                //this.modePhase_arr[r] = Math.atan2( -nu[ r ], mu[ r ]) ;
+            }//end for s loop
+
+        } //end for r
+        //this.modesChanged = true;
+        //this.updateView();
+        //this.modesChanged = false;
     }//computeModeAmplitudesAndPhases();
-*/
+
 
     private function singleStep():void{
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
@@ -417,9 +442,9 @@ public class Model2 {
                 for( var r:int = 1; r <= this._N; r++ ){
                     for(var s:int =1; s <= this._N; s++ ){
                         if(this._xModes){
-                            this.sx_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                            this.sx_arr[i][j] += modeAmpliX_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
                         }else{
-                            this.sy_arr[i][j] += modeAmpli_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                            this.sy_arr[i][j] += modeAmpliY_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
                         }
                     }//end for s
                 }//end for r
