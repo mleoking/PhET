@@ -14,6 +14,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/phet-reduced.iml" filepath="$PROJECT_DIR$/phet-reduced.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
