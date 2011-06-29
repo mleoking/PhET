@@ -301,7 +301,9 @@ public class ControlPanel extends Canvas {
 
 
     private function onHitEnter( keyEvt: KeyboardEvent ):void{
-        this.setSelectedResonatorNbr();
+        if(keyEvt.keyCode == 13){       //13 is keyCode for Enter key
+            this.setSelectedResonatorNbr();
+        }
     }
 
     private function onFocusOut( focusEvt: FocusEvent ):void{
