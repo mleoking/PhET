@@ -5,9 +5,9 @@ import java.awt.*;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
-import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.common.piccolophet.nodes.ComboBoxNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
 import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
@@ -45,6 +45,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsApplication.class );
+//        new PhetApplicationLauncher().launchSim( args, SugarAndSaltSolutionsResources.NAME, SugarAndSaltSolutionsApplication.class );
+        ComboBoxNode.main( args );
     }
 }
