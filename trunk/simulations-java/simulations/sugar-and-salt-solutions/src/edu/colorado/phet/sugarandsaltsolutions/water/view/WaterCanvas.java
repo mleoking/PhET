@@ -4,8 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
@@ -199,14 +197,6 @@ public class WaterCanvas extends PhetPCanvas {
                                                                     public void fixJmolColors( JmolViewer viewer ) {
                                                                     }
                                                                 }, "Space fill", "Ball and stick", "Loading..." );
-                                jmolDialog.addWindowFocusListener( new WindowFocusListener() {
-                                    public void windowGainedFocus( WindowEvent e ) {
-                                    }
-
-                                    public void windowLostFocus( WindowEvent e ) {
-                                        jmolDialog.setVisible( false );
-                                    }
-                                } );
                             }
                             else {
                                 jmolDialog.setVisible( true );
