@@ -29,7 +29,11 @@ public class ImageModelElementNode extends PNode {
             public void apply( BufferedImage image ) {
                 imageNode.setScale( 1 );
                 imageNode.setImage( image );
-                imageNode.scale( mvt.modelToViewY( imageWeight.getHeight() ) / imageNode.getFullBoundsReference().height );
+                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( imageWeight.getHeight() ) ) / imageNode.getFullBoundsReference().height;
+                if ( scalingFactor > 2 || scalingFactor < 0.5 ) {
+                    System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
+                }
+                imageNode.setScale( scalingFactor );
                 updatePosition( imageWeight.getPosition() );
             }
         } );
