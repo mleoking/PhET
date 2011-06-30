@@ -89,8 +89,8 @@ public class ShowMolecule extends SimpleApplication {
         mesh.setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
         TangentBinormalGenerator.generate( mesh );           // for lighting effect
         Material mat_lit = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" );
-        mat_lit.setTexture( "DiffuseMap", assetManager.loadTexture( "Textures/Terrain/Pond/Pond.png" ) );
-        mat_lit.setTexture( "NormalMap", assetManager.loadTexture( "Textures/Terrain/Pond/Pond_normal.png" ) );
+        mat_lit.setTexture( "DiffuseMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond.png" ) );
+        mat_lit.setTexture( "NormalMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond_normal.png" ) );
         mat_lit.setFloat( "Shininess", 5f ); // [0,128]
         shiny_rock.setMaterial( mat_lit );
         shiny_rock.setLocalTranslation( x, y, z ); // Move it a bit
@@ -109,18 +109,10 @@ public class ShowMolecule extends SimpleApplication {
         }
     }
 
-
     public static void main( String[] args ) throws IOException {
 
-//This runs the application in another JVM
-//            //extract natives to user's .phet-natives directory.
-//            //copy this jar file so it can be unzipped while it's being read?
-//            String[] cmdArray = new String[]{PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath()};
-////        log("Starting updater bootstrap with cmdArray=" + Arrays.asList(cmdArray).toString());
-//            Runtime.getRuntime().exec(cmdArray);
-
+        //add natives to path
         if ( FileUtils.isJarCodeSource() ) {
-            //add natives to path
             File jarFile = FileUtils.getCodeSource();
             File tempDir = new File( System.getProperty( "java.io.tmpdir" ), jarFile.getName() );
             LibraryPathUtils.copyTo( jarFile, tempDir );
@@ -133,6 +125,14 @@ public class ShowMolecule extends SimpleApplication {
             LibraryPathUtils.addDir( new File( unzipDir, "native/solaris" ).getAbsolutePath() );
         }
 
+        //If flagged, run the application in another JVM
+        //extract natives to user's .phet-natives directory.
+        //copy this jar file so it can be unzipped while it's being read?
+//            String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
+//        log("Starting updater bootstrap with cmdArray=" + Arrays.asList(cmdArray).toString());
+//            Runtime.getRuntime().exec( cmdArray );
+
+        //Launch the application
         ShowMolecule app = new ShowMolecule();
         app.start();
     }
