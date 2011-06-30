@@ -116,6 +116,7 @@ public class Plank extends ShapeModelElement {
     public void addWeightToSurface( final Weight weight ) {
         weightsOnSurface.add( weight );
         weight.setPosition( getClosestOpenLocation( weight.getPosition() ) );
+        weight.setOnPlank( true );
         mapWeightToDistFromCenter.put( weight, ( weight.getPosition().getX() - positionHandle.getX() ) / Math.cos( tiltAngle ) );
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
@@ -124,11 +125,11 @@ public class Plank extends ShapeModelElement {
                     // on the surface.
                     weightsOnSurface.remove( weight );
                     weight.setRotationAngle( 0 );
+                    weight.setOnPlank( false );
                     updateTorqueDueToWeights();
                 }
             }
-        }
-        );
+        } );
         updateWeightPositions();
         updateTorqueDueToWeights();
     }
