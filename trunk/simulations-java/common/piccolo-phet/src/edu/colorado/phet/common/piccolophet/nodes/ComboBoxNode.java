@@ -5,7 +5,6 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 
 import javax.swing.*;
 
@@ -18,6 +17,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PComponent;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -27,7 +28,6 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWin
 
 /**
  * Piccolo combo box.  This is written as a pure piccolo component since the PComboBox + PSwing was awkward to use and not rendering the pop-up in the correct location. See #2982
- * TODO: We still need to find a way to make the popup disappear when the user clicks outside of the popup (whether on the parent JComponent background or on another PNode).
  *
  * @author Sam Reid
  */
@@ -42,16 +42,17 @@ public class ComboBoxNode<T> extends PNode {
     private final PhetFont itemFont;
 
     //Node to show the selected item, with a triangle for a drop-down box.  Clicking anywhere in this node will show the popup
+    //Not final because the instance is re-created and changed when the selected item changes
     private PNode selectedItemNode;
 
     //Node to show for the popup
-    private PNode popup;
+    private final PNode popup;
 
-    //Nodes that we are listening to for dismissing the popup, so that if the user clicks away from the shown popup, it will hide
-    private ArrayList<PNode> listened = new ArrayList<PNode>();
+    //Canvases that can be clicked on to dismiss the popup dialog, discovered in the event that shows the popup dialog
+    private final ArrayList<PCanvas> listeningTo = new ArrayList<PCanvas>();
 
-    //Listener that will hide the popup when the user clicks away from it
-    private PBasicInputEventHandler popupHider = new PBasicInputEventHandler() {
+    //Method that hides the popup when the user clicks away from it
+    final PBasicInputEventHandler dismissPopup = new PBasicInputEventHandler() {
         @Override public void mousePressed( PInputEvent event ) {
             hidePopup();
         }
@@ -144,15 +145,6 @@ public class ComboBoxNode<T> extends PNode {
 
                 setPickable( isVisible );
                 setChildrenPickable( isVisible );
-
-                //Listen to other nodes so that if the user clicks away from the shown popup, it will hide
-                if ( isVisible ) {
-                    SwingUtilities.invokeLater( new Runnable() {
-                        public void run() {
-                            listenForClicks( getRoot() );
-                        }
-                    } );
-                }
             }
         };
 
@@ -171,28 +163,13 @@ public class ComboBoxNode<T> extends PNode {
         popup.setOffset( 0, selectedItemNode.getFullBounds().getHeight() + 2 );
     }
 
-    //Recursively listen to the specified node and its subtree, so that when the user clicks away from the popup it will hide
-    private void listenForClicks( PNode node ) {
-        if ( node != this && node != popup ) {
-            ListIterator it = node.getChildrenIterator();
-            while ( it.hasNext() ) {
-                PNode next = (PNode) it.next();
-                if ( next.getVisible() && next.getPickable() ) {
-                    next.addInputEventListener( popupHider );
-                    listened.add( next );
-                    listenForClicks( next );
-                }
-            }
-        }
-    }
-
     //Hide the popup and unregister all registered listeners
     private void hidePopup() {
         popup.setVisible( false );
-        for ( PNode pNode : listened ) {
-            pNode.removeInputEventListener( popupHider );
+        for ( PCanvas pComponent : listeningTo ) {
+            pComponent.removeInputEventListener( dismissPopup );
         }
-        listened.clear();
+        listeningTo.clear();
     }
 
     //Create the graphic to use to show the currently selected item, which allows the user to show the popup of other choices
@@ -216,8 +193,23 @@ public class ComboBoxNode<T> extends PNode {
 
             //When clicked, toggle whether the popup is visible
             addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mousePressed( PInputEvent event ) {
+                @Override public void mousePressed( final PInputEvent event ) {
                     popup.setVisible( !popup.getVisible() );
+
+                    //Register a listener that will make the popup disappear when the user clicks away
+                    //Have to schedule this for later or the popup never shows (because of how we are handling dismissing the popup when clicking else where in the canvas).
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            PComponent component = event.getComponent();
+                            if ( component instanceof PCanvas ) {
+                                PCanvas canvas = (PCanvas) component;
+                                if ( !listeningTo.contains( canvas ) ) {
+                                    listeningTo.add( canvas );
+                                    canvas.addInputEventListener( dismissPopup );
+                                }
+                            }
+                        }
+                    } );
                 }
             } );
             addInputEventListener( new CursorHandler() );
