@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
+import edu.colorado.phet.torque.teetertotter.model.weights.AdolescentHuman;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -38,12 +38,6 @@ public class TeeterTotterTorqueModel implements Resettable {
     // Listeners that are notified when a shape-based weight is removed from the model
     private final ArrayList<VoidFunction1<Weight>> weightRemovedListeners = new ArrayList<VoidFunction1<Weight>>();
 
-    // Listeners that are notified when an image-based weight is added to the model
-    private final ArrayList<VoidFunction1<ImageWeight>> imageWeightAddedListeners = new ArrayList<VoidFunction1<ImageWeight>>();
-
-    // Listeners that are notified when an image-based weight is removed from the model
-    private final ArrayList<VoidFunction1<ImageWeight>> imageWeightRemovedListeners = new ArrayList<VoidFunction1<ImageWeight>>();
-
     // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
 
@@ -62,11 +56,6 @@ public class TeeterTotterTorqueModel implements Resettable {
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
-
-    public TeeterTotterTorqueModel() {
-        // TODO: Temp - add a person to the model.
-    }
-
 
     //------------------------------------------------------------------------
     // Methods
@@ -93,22 +82,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         weightRemovedListeners.remove( listener );
     }
 
-    public void addImageWeightAddedListener( VoidFunction1<ImageWeight> listener ) {
-        imageWeightAddedListeners.add( listener );
-    }
-
-    public void removeImageWeightAddedListener( VoidFunction1<ImageWeight> listener ) {
-        imageWeightAddedListeners.remove( listener );
-    }
-
-    public void addImageWeightRemovedListener( VoidFunction1<ImageWeight> listener ) {
-        imageWeightRemovedListeners.add( listener );
-    }
-
-    public void removeImageWeightRemovedListener( VoidFunction1<ImageWeight> listener ) {
-        imageWeightRemovedListeners.remove( listener );
-    }
-
     // Adds a weight to the model and notifies registered listeners
     public UserMovableModelElement addWeight( final Weight weight ) {
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
@@ -128,11 +101,14 @@ public class TeeterTotterTorqueModel implements Resettable {
             }
         } );
         weights.add( weight );
-        // Notify listeners that a new weight has been added.
+        notifyWeightAdded( weight );
+        return weight;
+    }
+
+    private void notifyWeightAdded( Weight weight ) {
         for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
             weightAddedListener.apply( weight );
         }
-        return weight;
     }
 
     // Removes a weight from the model and notifies listeners.
@@ -161,6 +137,10 @@ public class TeeterTotterTorqueModel implements Resettable {
         return supportColumnsActive;
     }
 
+    public List<Weight> getWeights() {
+        return weights;
+    }
+
     public void reset() {
         getClock().resetSimulationTime();
 
@@ -168,6 +148,9 @@ public class TeeterTotterTorqueModel implements Resettable {
         for ( Weight weight : new ArrayList<Weight>( weights ) ) {
             removeWeight( weight );
         }
+
+        // TODO: For testing, stick a weight in.
+        addWeight( new AdolescentHuman() );
     }
 
     //------------------------------------------------------------------------

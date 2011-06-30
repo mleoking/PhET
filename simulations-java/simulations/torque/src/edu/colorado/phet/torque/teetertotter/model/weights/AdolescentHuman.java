@@ -13,13 +13,14 @@ import edu.colorado.phet.torque.TeeterTotterTorqueApplication;
  */
 public class AdolescentHuman extends ImageWeight {
 
+    private static final double MASS = 20; // in kg
     private static final double STANDING_HEIGHT = 1.2; // In meters.
     private static final double SITTING_HEIGHT = 0.6; // In meters.
 
     private static final BufferedImage STANDING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "person standing 01.png" );
     private static final BufferedImage SITTING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "person sitting 01.png" );
 
-    protected AdolescentHuman() {
-        super( STANDING_IMAGE, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
+    public AdolescentHuman() {
+        super( MASS, STANDING_IMAGE, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
     }
 }
