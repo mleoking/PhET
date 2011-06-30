@@ -1,4 +1,3 @@
-//REVIEW move this file to doc directory?
 *** General use
 
 A molecule (electrically neutral of 2+ atoms) is generally called a "complete molecule"
@@ -7,8 +6,7 @@ On the way to constructing a complete molecule, we pass through "molecule struct
 There are two files with data about complete molecules:
     collection-molecules.txt (those that are loaded in the 1st pass and can appear as targets in collection boxes)
     other-molecules.txt (all other molecules that can be built)
-//REVIEW what is a CID number?
-They correspond to compounds in PubChem's Compound database, and have CID numbers so that the PubChem compound can be found from a referenced molecule
+They correspond to compounds in PubChem's Compound database, and have CID (Compound ID) numbers so that the PubChem compound can be found from a referenced molecule
 Additionally, they have the needed 2d/3d data, bonding information, etc.
 
 There also is a file (structures.txt) that contains molecule structures used for quickly testing partial molecules to see if they are a sub-molecule of
