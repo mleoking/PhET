@@ -62,6 +62,15 @@ public class ComboBoxNode<T> extends PNode {
      *
      * @param items the items to show in the combo box
      */
+    public ComboBoxNode( T... items ) {
+        this( Arrays.asList( items ) );
+    }
+
+    /**
+     * Create a CombBoxNode with the specified items, using the toString function to create strings for each item
+     *
+     * @param items the items to show in the combo box
+     */
     public ComboBoxNode( List<T> items ) {
         this( items, new Function1<T, String>() {
             public String apply( T t ) {
