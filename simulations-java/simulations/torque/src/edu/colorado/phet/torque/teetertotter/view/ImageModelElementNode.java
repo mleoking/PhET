@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -20,29 +21,33 @@ import edu.umd.cs.piccolo.nodes.PImage;
 public class ImageModelElementNode extends PNode {
     ModelViewTransform mvt;
 
-    public ImageModelElementNode( final ModelViewTransform mvt, final ImageWeight imageWeight ) {
+    public ImageModelElementNode( final ModelViewTransform mvt, final ImageWeight weight ) {
         this.mvt = mvt;
         final PImage imageNode = new PImage();
         addChild( imageNode );
         // Observe image changes.
-        imageWeight.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
+        weight.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
             public void apply( BufferedImage image ) {
                 imageNode.setScale( 1 );
                 imageNode.setImage( image );
-                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( imageWeight.getHeight() ) ) / imageNode.getFullBoundsReference().height;
+                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( weight.getHeight() ) ) / imageNode.getFullBoundsReference().height;
                 if ( scalingFactor > 2 || scalingFactor < 0.5 ) {
                     System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
                 }
                 imageNode.setScale( scalingFactor );
-                updatePosition( imageWeight.getPosition() );
+                updatePosition( weight.getPosition() );
             }
         } );
         // Observe position changes.
-        imageWeight.addPositionChangeObserver( new VoidFunction1<Point2D>() {
+        weight.addPositionChangeObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D newPosition ) {
                 updatePosition( newPosition );
             }
         } );
+        // Make the cursor change on mouse over.
+        addInputEventListener( new CursorHandler() );
+        // Add the mouse event handler.
+        addInputEventListener( new WeightDragHandler( weight, this, mvt ) );
     }
 
     private void updatePosition( Point2D position ) {
