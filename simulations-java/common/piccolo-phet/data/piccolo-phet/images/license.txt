@@ -1,4 +1,5 @@
-button-template.png source=microsoft
+button-template.png source=PhET notes=NP
+button-template_pressed.png source=PhET notes=NP
 measuringTape.gif source=PhET
 measuringTape.png source=PhET notes=NP
 velocity_left.png author=phet notes=NP
