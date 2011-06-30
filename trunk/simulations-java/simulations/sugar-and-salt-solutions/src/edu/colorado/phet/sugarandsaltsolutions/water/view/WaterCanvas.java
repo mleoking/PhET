@@ -68,6 +68,9 @@ public class WaterCanvas extends PhetPCanvas {
     private PNode sugarBucketParticleLayer;
     private JmolDialog jmolDialog;
 
+    //Flag to indicate whether the JMolDialog should be shown when the user switches to this tab
+    private boolean showJMolDialogOnActivate;
+
     public WaterCanvas( final WaterModel waterModel, final GlobalState state ) {
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         state.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
@@ -260,6 +263,19 @@ public class WaterCanvas extends PhetPCanvas {
                 addSugarToBucket( waterModel, transform );
             }
         } );
+    }
+
+    //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
+    public void moduleActivated() {
+        if ( jmolDialog != null ) {
+            jmolDialog.setVisible( showJMolDialogOnActivate );
+        }
+    }
+
+    //Called when the user switches to another tab.  Stores the state of the jmol dialog so that it can be restored when the user comes back to this tab
+    public void moduleDeactivated() {
+        showJMolDialogOnActivate = jmolDialog.isVisible();
+        jmolDialog.setVisible( false );
     }
 
     private String readPDB() {
