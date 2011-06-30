@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -31,11 +32,17 @@ public class TeeterTotterTorqueModel implements Resettable {
     // TODO: I'm not sure that this is even needed, since we listen to all weights as soon as they are added.  Revist later and decide.
     private final List<Weight> weights = new ArrayList<Weight>();
 
-    // Listeners that are notified when a weight is added to the model
+    // Listeners that are notified when a shape-based weight is added to the model
     private final ArrayList<VoidFunction1<Weight>> weightAddedListeners = new ArrayList<VoidFunction1<Weight>>();
 
-    // Listeners that are notified when a weight is removed from the model
+    // Listeners that are notified when a shape-based weight is removed from the model
     private final ArrayList<VoidFunction1<Weight>> weightRemovedListeners = new ArrayList<VoidFunction1<Weight>>();
+
+    // Listeners that are notified when an image-based weight is added to the model
+    private final ArrayList<VoidFunction1<ImageWeight>> imageWeightAddedListeners = new ArrayList<VoidFunction1<ImageWeight>>();
+
+    // Listeners that are notified when an image-based weight is removed from the model
+    private final ArrayList<VoidFunction1<ImageWeight>> imageWeightRemovedListeners = new ArrayList<VoidFunction1<ImageWeight>>();
 
     // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
@@ -56,6 +63,11 @@ public class TeeterTotterTorqueModel implements Resettable {
     // Constructor(s)
     //------------------------------------------------------------------------
 
+    public TeeterTotterTorqueModel() {
+        // TODO: Temp - add a person to the model.
+    }
+
+
     //------------------------------------------------------------------------
     // Methods
     //------------------------------------------------------------------------
@@ -64,6 +76,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         return clock;
     }
 
+    // TODO: The next block of code is for listening for weights being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
     public void addWeightAddedListener( VoidFunction1<Weight> listener ) {
         weightAddedListeners.add( listener );
     }
@@ -78,6 +91,22 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     public void removeWeightRemovedListener( VoidFunction1<Weight> listener ) {
         weightRemovedListeners.remove( listener );
+    }
+
+    public void addImageWeightAddedListener( VoidFunction1<ImageWeight> listener ) {
+        imageWeightAddedListeners.add( listener );
+    }
+
+    public void removeImageWeightAddedListener( VoidFunction1<ImageWeight> listener ) {
+        imageWeightAddedListeners.remove( listener );
+    }
+
+    public void addImageWeightRemovedListener( VoidFunction1<ImageWeight> listener ) {
+        imageWeightRemovedListeners.add( listener );
+    }
+
+    public void removeImageWeightRemovedListener( VoidFunction1<ImageWeight> listener ) {
+        imageWeightRemovedListeners.remove( listener );
     }
 
     // Adds a weight to the model and notifies registered listeners

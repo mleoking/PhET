@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.torque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -16,12 +19,28 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author John Blanco
  */
 public class ImageModelElementNode extends PNode {
-    public ImageModelElementNode( ImageWeight imageWeight ) {
+    ModelViewTransform mvt;
+
+    public ImageModelElementNode( ModelViewTransform mvt, final ImageWeight imageWeight ) {
+        this.mvt = mvt;
+        // Observe image changes.
         final PImage imageNode = new PImage();
-        imageWeight.imageProperty.addObserver( new VoidFunction1<Image>() {
-            public void apply( Image image ) {
-                imageNode.setImage( image );
+        imageWeight.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
+            public void apply( BufferedImage image ) {
+                imageNode.setImage( BufferedImageUtils.multiScale( image, imageWeight.getHeight() ) );
+                updatePosition( imageWeight.getPosition() );
             }
         } );
+        // Observe position changes.
+        imageWeight.addPositionChangeObserver( new VoidFunction1<Point2D>() {
+            public void apply( Point2D newPosition ) {
+                updatePosition( newPosition );
+            }
+        } );
+    }
+
+    private void updatePosition( Point2D position ) {
+        setOffset( mvt.modelToViewX( position.getX() ) - getFullBoundsReference().width / 2,
+                   mvt.modelToViewY( position.getY() ) - getFullBoundsReference().height );
     }
 }
