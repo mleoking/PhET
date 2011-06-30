@@ -88,6 +88,7 @@ public class MoleculePreprocessing {
         System.out.println( "Sorting " + serializedStructures.size() );
         Collections.sort( serializedStructures );
         for ( String serializedStructure : serializedStructures ) {
+            //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
             builder.append( serializedStructure + "\n" );
         }
         try {
