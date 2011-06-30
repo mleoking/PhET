@@ -1,7 +1,7 @@
 package ideatest;
 
 /**
- * In IntelliJ IDEA 10.5 #IU-107.105 the "addChild" in VerticalPanel's super call is underlined in red,
+ * In IntelliJ IDEA 10.5.1 #IU-107.322 the "addChild" in VerticalPanel's super call is underlined in red,
  * with the mouseover message "Cannot reference "Component.addChild" before supertype constructor has been called"
  */
 //Parent class with an overrideable method
