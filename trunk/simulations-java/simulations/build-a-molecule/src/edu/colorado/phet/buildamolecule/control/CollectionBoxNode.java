@@ -1,3 +1,4 @@
+//REVIEW some class files (including this one) are missing copyright headers, add them
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
@@ -249,39 +250,39 @@ public class CollectionBoxNode extends GeneralLayoutNode {
 
         blinkTimer = new Timer();
         blinkTimer.schedule( new TimerTask() {
-                                 @Override
-                                 public void run() {
-                                     // decrement and check
-                                     counts.set( counts.get() - 1 );
-                                     assert ( counts.get() >= 0 );
+            @Override
+            public void run() {
+                // decrement and check
+                counts.set( counts.get() - 1 );
+                assert ( counts.get() >= 0 );
 
-                                     if ( counts.get() == 0 ) {
-                                         // set up our normal graphics (border/background)
-                                         updateBoxGraphics();
+                if ( counts.get() == 0 ) {
+                    // set up our normal graphics (border/background)
+                    updateBoxGraphics();
 
-                                         // make sure we don't get called again
-                                         blinkTimer.cancel();
-                                         blinkTimer = null;
-                                     }
-                                     else {
-                                         // toggle state
-                                         on.set( !on.get() );
+                    // make sure we don't get called again
+                    blinkTimer.cancel();
+                    blinkTimer = null;
+                }
+                else {
+                    // toggle state
+                    on.set( !on.get() );
 
-                                         // draw graphics
-                                         if ( on.get() ) {
-                                             blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
-                                             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
-                                         }
-                                         else {
-                                             blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND );
-                                             blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
-                                         }
+                    // draw graphics
+                    if ( on.get() ) {
+                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND_BLINK );
+                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BORDER_BLINK );
+                    }
+                    else {
+                        blackBox.setPaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BOX_BACKGROUND );
+                        blackBox.setStrokePaint( BuildAMoleculeConstants.MOLECULE_COLLECTION_BACKGROUND );
+                    }
 
-                                         // make sure this paint happens immediately
-                                         blackBox.repaint();
-                                     }
-                                 }
-                             }, 0, blinkDelayInMs );
+                    // make sure this paint happens immediately
+                    blackBox.repaint();
+                }
+            }
+        }, 0, blinkDelayInMs );
     }
 
     private void cancelBlinksInProgress() {
