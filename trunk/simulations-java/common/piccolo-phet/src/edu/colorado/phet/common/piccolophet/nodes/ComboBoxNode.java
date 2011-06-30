@@ -172,6 +172,20 @@ public class ComboBoxNode<T> extends PNode {
         listeningTo.clear();
     }
 
+    /**
+     * This node shows the triangular icon that points down and indicates the user can press for a popup (though they can press anywhere on the selected item or icon to get the popup)
+     */
+    private static class TriangleNode extends PNode {
+        private TriangleNode() {
+            addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 20, 20 ), Color.lightGray ) );
+            addChild( new PhetPPath( new DoubleGeneralPath( 2, 8 ) {{
+                lineToRelative( 8, 8 );
+                lineToRelative( 8, -8 );
+                closePath();
+            }}.getGeneralPath(), Color.darkGray ) );
+        }
+    }
+
     //Create the graphic to use to show the currently selected item, which allows the user to show the popup of other choices
     private class SelectedItemNode extends ControlPanelNode {
         public SelectedItemNode( String text, double maxWidth ) {
@@ -181,14 +195,7 @@ public class ComboBoxNode<T> extends PNode {
                     }}, maxWidth ),
 
                     //Show the triangle that looks customary for ComboBoxes
-                    new PNode() {{
-                        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, 20, 20 ), Color.lightGray ) );
-                        addChild( new PhetPPath( new DoubleGeneralPath( 2, 8 ) {{
-                            lineToRelative( 8, 8 );
-                            lineToRelative( 8, -8 );
-                            closePath();
-                        }}.getGeneralPath(), Color.darkGray ) );
-                    }}
+                    new TriangleNode()
             ), Color.white, new BasicStroke( 1 ), Color.black, 3, 5, false );
 
             //When clicked, toggle whether the popup is visible
