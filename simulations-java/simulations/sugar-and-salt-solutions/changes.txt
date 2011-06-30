@@ -1,3 +1,4 @@
+Water tab: Fixed: When clicking into the play area, 3d sucrose shouldn't disappear
 Micro tab: Improved the combo box for solute selection
 # 0.00.58 (53588) Jun 29, 2011
 Switched to use combo box example as main for temporary testing
