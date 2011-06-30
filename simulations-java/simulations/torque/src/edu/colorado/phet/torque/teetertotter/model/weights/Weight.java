@@ -31,6 +31,13 @@ public abstract class Weight implements UserMovableModelElement {
 
     public abstract Point2D getPosition();
 
+    public void setOnPlank( boolean onPlank ) {
+        // Handle any changes that need to happen when added to the plank,
+        // such as changes to shape or image.  Be default, this does nothing.
+    }
+
+    ;
+
     /**
      * Set the angle of rotation.  The point of rotation is the position
      * handle.  For a weight, that means that this method can be used to make

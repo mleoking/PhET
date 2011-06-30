@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public abstract class ImageWeight extends Weight {
 
     // Property that contains the current image.
-    final private Property<BufferedImage> imageProperty;
+    final protected Property<BufferedImage> imageProperty;
 
     // Property the contains the position in model space.  By convention for
     // this simulation, the position of a weight is the center bottom of the
@@ -30,7 +30,7 @@ public abstract class ImageWeight extends Weight {
     // image is expected to be maintained, so the model element's width can be
     // derived from a combination of its height and the the aspect ratio of
     // the image that represents it.
-    private double height;
+    protected double height;
 
     /**
      * Constructor.
