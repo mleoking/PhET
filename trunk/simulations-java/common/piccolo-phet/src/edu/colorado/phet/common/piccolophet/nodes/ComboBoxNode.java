@@ -133,8 +133,19 @@ public class ComboBoxNode<T> extends PNode {
             //Make it so the node is not pickable when invisible
             @Override public void setVisible( boolean isVisible ) {
                 super.setVisible( isVisible );
+
+                //Add and remove the popup from the scene so that ComboBoxNode.getFullBounds() won't account for the invisible popup box
+                if ( isVisible && !ComboBoxNode.this.getChildrenReference().contains( popup ) ) {
+                    ComboBoxNode.this.addChild( popup );
+                }
+                else if ( !isVisible && ComboBoxNode.this.getChildrenReference().contains( popup ) ) {
+                    ComboBoxNode.this.removeChild( popup );
+                }
+
                 setPickable( isVisible );
                 setChildrenPickable( isVisible );
+
+                //Listen to other nodes so that if the user clicks away from the shown popup, it will hide
                 if ( isVisible ) {
                     SwingUtilities.invokeLater( new Runnable() {
                         public void run() {
@@ -144,7 +155,6 @@ public class ComboBoxNode<T> extends PNode {
                 }
             }
         };
-        addChild( popup );
 
         //When the selected item changes, show the new selected item.  This is done by discarding the old selected item node and replacing it with a new one.
         //Since this uses automatic callbacks in observer binding, this also creates the selected item node on initialization
