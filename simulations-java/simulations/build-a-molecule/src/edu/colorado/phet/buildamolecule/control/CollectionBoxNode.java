@@ -1,4 +1,4 @@
-//REVIEW some class files (including this one) are missing copyright headers, add them
+//  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildamolecule.control;
 
 import java.awt.*;
