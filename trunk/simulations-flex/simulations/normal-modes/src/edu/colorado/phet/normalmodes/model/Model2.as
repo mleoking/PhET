@@ -336,6 +336,8 @@ public class Model2 {
     }
 
     public function computeModeAmplitudesAndPhases():void{
+        //var counter:int = 0;         //for testing
+        //var t0:Number = getTimer();
         var N:int  = this._N;
         var muX:Array = new Array( N + 1 );
         var nuX:Array = new Array( N + 1 );
@@ -360,18 +362,23 @@ public class Model2 {
                         nuX[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vx_arr[i][j]*sineProduct
                         muY[r][s] += (4/((N+1)*(N+1)))*sy_arr[i][j]*sineProduct
                         nuY[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vy_arr[i][j]*sineProduct
+                        //counter += 1;     //testing only
                     }//end for j loop
                 } //end for i loop
                 this.modeAmpliX_arr[r][s] = Math.sqrt( muX[r][s]*muX[r][s] + nuX[r][s]*nuX[r][s] );
                 this.modeAmpliY_arr[r][s] = Math.sqrt( muY[r][s]*muY[r][s] + nuY[r][s]*nuY[r][s] );
                 //this.modePhase_arr[r] = Math.atan2( -nu[ r ], mu[ r ]) ;
             }//end for s loop
-
         } //end for r
-        //this.modesChanged = true;
-        //this.updateView();
+        this.modesChanged = true;
+        this.updateView();
         //this.modesChanged = false;
-    }//computeModeAmplitudesAndPhases();
+
+        //for testing only: test shows takes 0.024 s to loop through 10000 times with no sine function calc. T
+        //Takes only 0.031 s with sine function calc.
+        //var t:Number = (getTimer() - t0)/1000;
+        //trace("Model2.computeAmplitudesAndPhases. Counter = "+ counter+"   time is "+ t + " s");
+    }//end computeModeAmplitudesAndPhases();
 
 
     private function singleStep():void{
@@ -473,6 +480,10 @@ public class Model2 {
         if( modesZeroed ){
             this.myMainView.myButtonArrayPanel.setNbrButtons();
             this.modesZeroed = false;
+        }
+        if( modesChanged ){
+            this.myMainView.myButtonArrayPanel.setButtonColors();
+            this.modesChanged = false;
         }
         this.view.update();
     }//end updateView()
