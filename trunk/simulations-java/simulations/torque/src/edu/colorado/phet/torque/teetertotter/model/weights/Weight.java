@@ -3,7 +3,7 @@ package edu.colorado.phet.torque.teetertotter.model.weights;
 
 import java.awt.*;
 
-import edu.colorado.phet.torque.teetertotter.model.ModelElement;
+import edu.colorado.phet.torque.teetertotter.model.ShapeModelElement;
 import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
 
 /**
@@ -11,7 +11,7 @@ import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
  *
  * @author John Blanco
  */
-public abstract class Weight extends ModelElement implements UserMovableModelElement {
+public abstract class Weight extends ShapeModelElement implements UserMovableModelElement {
     private final double mass;
     protected double rotationAngle;
 
