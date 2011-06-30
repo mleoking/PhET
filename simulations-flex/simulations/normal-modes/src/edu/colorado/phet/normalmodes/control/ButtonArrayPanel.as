@@ -131,6 +131,15 @@ public class ButtonArrayPanel extends UIComponent{
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
         this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 20;
         this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
-    }
+    }//end setNbrButtons()
+
+    //color buttons to indicate amplitude of mode
+    public function setButtonColors():void{
+        for(var i: int = 1; i <= this.nMax; i++ ){
+            for( var j: int = 1; j <= this.nMax; j++ ){
+                //this.button_arr[i][j].visible = false;
+            }
+        }
+    }//end setButtonColors();
 } //end class
 } //end package

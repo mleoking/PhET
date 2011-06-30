@@ -25,6 +25,8 @@ public class ModeButton extends Sprite{
     private var jIndex:int;
     private var sizeInPix:Number;
     private var buttonColor:Number;
+    private var modeXColor:Number;
+    private var modeYColor:Number;
     private var label_txt; TextField;
     private var tFormat: TextFormat;
     private var _activated:Boolean;      //true if button pressed once, false is pressed again
