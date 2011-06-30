@@ -29,8 +29,10 @@ public class ButtonArrayPanel extends UIComponent{
     private var container: Sprite;          //sprite container for array of buttons
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
+    private var color_arr:Array;            //array of possible button colors
     private var label_txt: TextField;        //Label for array
     private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
+    private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
     private var modesNxNy_str: String;      //text of Label
     private var button_arr:Array;           //N x N array of pushbuttons
@@ -43,6 +45,9 @@ public class ButtonArrayPanel extends UIComponent{
         this.myModel2 = myModel2;
         this.nMax = this.myModel2.nMax;
         this.maxContainerWidth = 250;
+        this.color_arr = new Array( 10 );    //8 colors from white to dark green
+        this.makeColorArray();
+        this.verticalPolarization = false;
         this.container = new Sprite();
         this.label_txt = new TextField();
         this.arrowGraphic = new TwoHeadedArrow();
@@ -77,6 +82,19 @@ public class ButtonArrayPanel extends UIComponent{
         this.modesNxNy_str = "Modes nx, ny";
     }
 
+    private function makeColorArray():void{
+        this.color_arr[ 0 ] = 0xffffff;
+        this.color_arr[ 1 ] = 0xddffdd;
+        this.color_arr[ 2 ] = 0xbbffbb;
+        this.color_arr[ 3 ] = 0x99ff99;
+        this.color_arr[ 4 ] = 0x77ff77;
+        this.color_arr[ 5 ] = 0x55ff55;
+        this.color_arr[ 6 ] = 0x33ff33;
+        this.color_arr[ 7 ] = 0x00ff00;
+        this.color_arr[ 8 ] = 0x00dd00;
+        this.color_arr[ 9 ] = 0x00bb00;
+    }
+
     private function createLabel():void{
         this.label_txt.text = this.modesNxNy_str;
         this.label_txt.autoSize = TextFieldAutoSize.LEFT;
@@ -87,12 +105,15 @@ public class ButtonArrayPanel extends UIComponent{
         //this.label_txt.y = - this.label_txt.height;
     }
 
-    public function setArrowVertical( tOrF:Boolean ):void{
+    public function showVerticalPolarization( tOrF:Boolean ):void{
        if( tOrF ){
            this.arrowGraphic.rotation = 90;
+           this.verticalPolarization = true;
+           this.setButtonColors();
        }else{
-
            this.arrowGraphic.rotation = 0;
+           this.verticalPolarization = false;
+           this.setButtonColors();
        }
     }
 
@@ -120,7 +141,7 @@ public class ButtonArrayPanel extends UIComponent{
                 yOffset = xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
-                this.button_arr[i][j].drawButton( 0xffffff );
+                this.button_arr[i][j].changeColor( 0xffffff );
                 this.button_arr[i][j].pushedIn = false;
                 this.button_arr[i][j].activated = false;
                 this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
@@ -137,7 +158,17 @@ public class ButtonArrayPanel extends UIComponent{
     public function setButtonColors():void{
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
-                //this.button_arr[i][j].visible = false;
+                var Xamplitude = this.myModel2.getModeAmpliX( i, j );
+                var Yamplitude = this.myModel2.getModeAmpliY( i, j );
+                var colorX:int = Math.round( 9 * Math.min( 1, Xamplitude/0.03 ));
+                var colorY:int = Math.round( 9 * Math.min( 1, Yamplitude/0.03 ));
+                if(!this.verticalPolarization){
+                    this.button_arr[i][j].setLabel( colorX.toString());
+                    this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
+                }else if( verticalPolarization ) {
+                    this.button_arr[i][j].setLabel( colorY.toString());
+                    this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
+                }
             }
         }
     }//end setButtonColors();

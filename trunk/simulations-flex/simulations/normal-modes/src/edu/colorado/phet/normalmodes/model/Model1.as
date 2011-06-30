@@ -154,6 +154,7 @@ public class Model1 {
     public function setX(i:int, xPos:Number):void{
         var sPos:Number = xPos - this.x0_arr[i];
         this.s_arr[i] = sPos;
+        this.updateView();   //needed in case that sim is paused
     }
 
     public function getX(i:int):Number{
@@ -168,11 +169,12 @@ public class Model1 {
 
     //used when in transverse mode
     public function setY(i:int, yPos:Number):void{
-       if(!_longitudinalMode){
-         this.s_arr[i] = yPos;
-       } else{
-          //do nothing
-       }
+        if(!_longitudinalMode){
+            this.s_arr[i] = yPos;
+            this.updateView();   //needed in case that sim is paused
+        } else{
+            //do nothing
+        }
     }
 
     public function getY(i:int):Number{

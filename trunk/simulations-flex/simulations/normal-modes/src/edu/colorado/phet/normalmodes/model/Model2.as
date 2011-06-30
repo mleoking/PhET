@@ -234,6 +234,7 @@ public class Model2 {
         var vY:Number = (syPos - previousSy)/realDt;
         this.vx_arr[i][j] = vX;
         this.vy_arr[i][j] = vY;
+        this.updateView();  //needed in case sim is paused
         //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
         //trace("Model1.setXY i = " + i +"   j = " + j + "   sxPos = "+ sxPos +"    syPos = "+syPos);
     }
@@ -260,6 +261,10 @@ public class Model2 {
         this._xModes = tOrF;
     }
 
+    public function get xModes():Boolean{
+        return this._xModes;
+    }
+
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
         //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
         this._verletOn = false;
@@ -270,8 +275,12 @@ public class Model2 {
         this.modesChanged = false;
     }
 
-    public function getModeAmpli( modeNbrR:int, modeNbrS:int ):Number{
+    public function getModeAmpliX( modeNbrR:int, modeNbrS:int ):Number{
         return this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] ;
+    }
+
+    public function getModeAmpliY( modeNbrR:int, modeNbrS:int ):Number{
+        return this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] ;
     }
 
 /*    public function setModePhase( modeNbr:int,  phase:Number ):void{

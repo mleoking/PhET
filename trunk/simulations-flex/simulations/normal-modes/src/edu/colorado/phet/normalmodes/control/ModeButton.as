@@ -13,6 +13,7 @@ import flash.display.Graphics;
 import flash.display.PixelSnapping;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
+import flash.geom.ColorTransform;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
@@ -23,10 +24,13 @@ public class ModeButton extends Sprite{
     private var myModel2; Model2;
     private var iIndex:int;
     private var jIndex:int;
+    private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
+    private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;
     private var buttonColor:Number;
-    private var modeXColor:Number;
-    private var modeYColor:Number;
+    private var myColorTransform:ColorTransform;   //to change color of colorLayer
+    private var modeXColor:Number;                 //color corresponding to x-polarization mode
+    private var modeYColor:Number;                 //color corresponding to y-polarization mode
     private var label_txt; TextField;
     private var tFormat: TextFormat;
     private var _activated:Boolean;      //true if button pressed once, false is pressed again
@@ -37,28 +41,35 @@ public class ModeButton extends Sprite{
         this.iIndex = iIndx;
         this.jIndex = jIndx;
         this.sizeInPix = sizeInPix;
-        this.buttonColor = 0xffffff ;
+        this.buttonColor = 0xffffff ;      //default color
+        myColorTransform = new ColorTransform();
         this._activated = false;
         this._pushedIn = false;
+        this.colorLayer = new Sprite();
+        this.trimAndLabelLayer = new Sprite();
         this.label_txt = new TextField();
-        this.addChild(this.label_txt);
         this.tFormat = new TextFormat();
         this.drawButton( this.buttonColor );
         this.makeLabel();
         this.activateButton();
-
+        this.addChild( this.colorLayer );
+        this.addChild( this.trimAndLabelLayer );
+        this.trimAndLabelLayer.addChild(this.label_txt);
     }//end constructor
 
     public function drawButton( backgroundColor:Number ):void{
-        this.buttonColor = backgroundColor;
-        var g:Graphics = this.graphics;
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
-        g.clear();
-        g.lineStyle( 2, 0x0000ff, 1 );
-        g.beginFill( backgroundColor, 1);
-        g.drawRoundRect( 0, 0, w,  h,  w/2 );
-        g.endFill();
+        var gT:Graphics = this.trimAndLabelLayer.graphics;
+        gT.clear();
+        gT.lineStyle( 2, 0x0000ff, 1 );
+        gT.drawRoundRect( 0, 0, w,  h,  w/2 );
+
+        var gC:Graphics = this.colorLayer.graphics;
+        gC.clear();
+        gC.beginFill( backgroundColor );
+        gC.drawRoundRect( 0, 0, w,  h,  w/2 );
+        gC.endFill();
         this.positionLabel();
     }
 
@@ -71,15 +82,20 @@ public class ModeButton extends Sprite{
     }
 
     private function setBorderThickness( borderThickness:Number ):void{
-        var g:Graphics = this.graphics;
+        var gT:Graphics = this.trimAndLabelLayer.graphics;
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
-        g.clear();
-        g.lineStyle( borderThickness, 0x0000ff, 1 );
-        g.beginFill( this.buttonColor, 1);
-        g.drawRoundRect( 0, 0, w,  h,  w/2 );
-        g.endFill();
+        gT.clear();
+        gT.lineStyle( borderThickness, 0x0000ff, 1 );
+        //gT.beginFill( this.buttonColor, 1);
+        gT.drawRoundRect( 0, 0, w,  h,  w/2 );
+        //gT.endFill();
         this.positionLabel();
+    }//setBorderThickness()
+
+    public function changeColor( inputColor:uint ):void{
+        this.myColorTransform.color = inputColor;
+        this.colorLayer.transform.colorTransform = this.myColorTransform;
     }
 
     private function makeLabel():void{
@@ -89,6 +105,12 @@ public class ModeButton extends Sprite{
         this.tFormat.size = 12;
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.label_txt.border = true;    //for testing only
+        this.label_txt.setTextFormat( this.tFormat);
+    }
+
+    //for testing only
+    public function setLabel( input_str:String ):void{
+        this.label_txt.text = input_str;
         this.label_txt.setTextFormat( this.tFormat);
     }
 
@@ -128,11 +150,11 @@ public class ModeButton extends Sprite{
                     localRef._activated = true;
                     //Note (i, j) = (row, column) = (y,x).  Mode r pairs with x=j, mode s pairs with y=i
                     localRef.myModel2.setModeAmpli( localRef.jIndex, localRef.iIndex, 0.03  );
-                    localRef.drawButton( 0x00ff00 );
+                    localRef.changeColor( 0x00ff00 );
                 }else if(localRef._activated){
                     localRef._activated = false;
                     localRef.myModel2.setModeAmpli( localRef.jIndex, localRef.iIndex, 0  );
-                    localRef.drawButton( 0xffffff );
+                    localRef.changeColor( 0xffffff );
                 }
 
                 //trace("evt.name:"+evt.type);
@@ -153,7 +175,7 @@ public class ModeButton extends Sprite{
                     localRef._pushedIn = false;
                 }
                 if(!localRef._activated) {
-                   localRef.drawButton( 0xffffff );
+                   localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
                 }
                 //localRef.myModel2.;
             } else if ( evt.type == "mouseOut" ) {
@@ -166,7 +188,7 @@ public class ModeButton extends Sprite{
                     localRef._pushedIn = false;
                 }
                 if(!localRef._activated){
-                    localRef.drawButton( 0xffffff );
+                    //localRef.changeColor( 0xffffff );
                 }
                 localRef.setBorderThickness( 2 );
             }
