@@ -4,7 +4,7 @@ package edu.colorado.phet.torque.teetertotter.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.torque.teetertotter.model.ModelObject;
+import edu.colorado.phet.torque.teetertotter.model.ModelElement;
 
 /**
  * Graphic for the fulcrum, a triangle that the plank pivots about.
@@ -12,7 +12,7 @@ import edu.colorado.phet.torque.teetertotter.model.ModelObject;
  * @author Sam Reid
  */
 public class PlankNode extends ModelObjectNode {
-    public PlankNode( final ModelViewTransform mvt, final ModelObject plank ) {
+    public PlankNode( final ModelViewTransform mvt, final ModelElement plank ) {
         super( mvt, plank, new Color( 243, 203, 127 ) );
     }
 }
