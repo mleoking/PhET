@@ -1,3 +1,4 @@
+//REVIEW move this file to doc directory?
 Molecules grabbed from pubchem (http://pubchem.ncbi.nlm.nih.gov/). See molecule-data-readme.txt for more info
 
 Units for distance: picometers in general, however the molecules pulled from pubchem have 2d / 3d distance in Angstroms.

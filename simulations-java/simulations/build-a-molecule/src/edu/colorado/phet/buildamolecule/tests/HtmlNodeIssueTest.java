@@ -11,6 +11,8 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+//REVIEW Move to piccolo-phet/tests and reference in #2780?
+
 /**
  * See #2780.
  * Resizing of HTMLNodes is jittery, very much like Flex text.

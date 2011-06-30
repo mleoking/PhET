@@ -89,6 +89,7 @@ public class ShowMolecule3DButtonNode extends PNode {
                 // if the 3D dialog is not shown, show it
                 if ( dialog.get().isNone() ) {
                     // set our reference to it ("disables" this button)
+                    //REVIEW instead of using getPhetFrame, consider using the parentFrame arg provided to your modules. But this way is OK, too.
                     dialog.set( new Option.Some<JmolDialog>( JmolDialog.displayMolecule3D( PhetApplication.getInstance().getPhetFrame(), completeMolecule, BuildAMoleculeStrings.JMOL_3D_SPACE_FILLING, BuildAMoleculeStrings.JMOL_3D_BALL_AND_STICK, BuildAMoleculeStrings.JMOL_3D_LOADING ) ) );
 
                     // listen to when it closes so we can re-enable the button

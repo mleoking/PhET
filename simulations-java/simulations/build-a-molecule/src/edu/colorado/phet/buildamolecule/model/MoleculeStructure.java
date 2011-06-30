@@ -14,6 +14,7 @@ import edu.colorado.phet.chemistry.utils.ChemUtils;
  * either explicit casting or wrapper functions.
  */
 public class MoleculeStructure<AtomT extends Atom> {
+    //REVIEW comments below indicate that ordering is important. Describe why ordering is significant.
     private final ArrayList<AtomT> atoms; // NOTE: don't mess with the order
     private final ArrayList<Bond<AtomT>> bonds; // NOTE: don't mess with the order
 

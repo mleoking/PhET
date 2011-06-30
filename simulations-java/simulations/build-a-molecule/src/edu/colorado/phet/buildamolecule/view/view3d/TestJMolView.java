@@ -9,6 +9,8 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.jmolphet.JmolPanel;
 
+//REVIEW move to tests package
+
 /**
  * @author Sam Reid
  */

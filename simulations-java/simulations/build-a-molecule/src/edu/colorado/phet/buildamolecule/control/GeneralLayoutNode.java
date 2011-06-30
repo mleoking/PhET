@@ -12,6 +12,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PBounds;
 
+//REVIEW this looks like it might be generally useful. Consider migration to phetcommon?
+
 /**
  * A container that allows flexible layout generation.
  * <p/>
