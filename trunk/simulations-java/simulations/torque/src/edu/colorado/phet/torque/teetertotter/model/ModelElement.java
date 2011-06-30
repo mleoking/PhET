@@ -9,12 +9,13 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * An object in the model for the torque sim.  The shape contains its location.
+ * An element in the model for the torque sim that has a shape.  Most model
+ * elements do have a shape, but some are defined instead by images.
  *
  * @author John Blanco
  * @author Sam Reid
  */
-public abstract class ModelObject {
+public abstract class ModelElement {
     private final Property<Shape> shapeProperty;
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
@@ -32,7 +33,7 @@ public abstract class ModelObject {
      *
      * @param shape The shape of the model object.
      */
-    public ModelObject( Shape shape ) {
+    public ModelElement( Shape shape ) {
         this.shapeProperty = new Property<Shape>( shape );
         // Set the position handle, which in this sim is always the center
         // bottom of the shape.

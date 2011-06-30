@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  *
  * @author Sam Reid
  */
-public class Fulcrum extends ModelObject {
+public class Fulcrum extends ModelElement {
     //Distance from the base of the fulcrum to its top
     private static final double HEIGHT = 0.6;
 

@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
  *
  * @author John Blanco
  */
-public class SupportColumn extends ModelObject {
+public class SupportColumn extends ModelElement {
 
     // Length of the base of the column
     private static final double WIDTH = 0.35;

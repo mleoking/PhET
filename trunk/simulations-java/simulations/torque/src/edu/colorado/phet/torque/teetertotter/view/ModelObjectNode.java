@@ -6,7 +6,7 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.torque.teetertotter.model.ModelObject;
+import edu.colorado.phet.torque.teetertotter.model.ModelElement;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ModelObjectNode extends PNode {
-    public ModelObjectNode( final ModelViewTransform mvt, final ModelObject modelObject, Paint paint ) {
+    public ModelObjectNode( final ModelViewTransform mvt, final ModelElement modelObject, Paint paint ) {
         addChild( new PhetPPath( paint, new BasicStroke( 1 ), Color.BLACK ) {{
             modelObject.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
