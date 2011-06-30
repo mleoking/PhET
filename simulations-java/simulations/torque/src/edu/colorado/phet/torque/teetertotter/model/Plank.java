@@ -218,8 +218,8 @@ public class Plank extends ShapeModelElement {
             vectorToCenterAbovePivot.rotate( tiltAngle );
             Vector2D vectorToWeight = new Vector2D( mapWeightToDistFromCenter.get( weight ), 0 );
             vectorToWeight.rotate( tiltAngle );
-            weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
             weight.setRotationAngle( tiltAngle );
+            weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
         }
     }
 

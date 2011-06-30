@@ -14,15 +14,17 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  *
  * @author John Blanco
  */
-public class BrickStack extends Weight {
+public class BrickStack extends ShapeWeight {
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 20; // In kg.  Yeah, it's one heavy brick.
 
-    int numBricks = 1;
+    private int numBricks = 1;
+    private Point2D position = new Point2D.Double( 0, 0 );
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( generateShape( numBricks, initialCenterBottom, 0 ), numBricks * BRICK_MASS );
+        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0 ) );
+        position.setLocation( initialCenterBottom );
         this.numBricks = numBricks;
     }
 
@@ -33,7 +35,7 @@ public class BrickStack extends Weight {
         // Create a path that represents a stack of bricks.
         DoubleGeneralPath brickPath = new DoubleGeneralPath();
         for ( int i = 0; i < numBricks; i++ ) {
-            // Draw the brick.
+            // Draw an individual brick.
             brickPath.moveTo( brickOrigin.getX(), brickOrigin.getY() );
             brickPath.lineTo( brickOrigin.getX() + BRICK_WIDTH / 2, brickOrigin.getY() );
             brickPath.lineTo( brickOrigin.getX() + BRICK_WIDTH / 2, brickOrigin.getY() + BRICK_HEIGHT );
@@ -48,39 +50,33 @@ public class BrickStack extends Weight {
         return translatedShape;
     }
 
-//    private static Shape generateShape( int numBricks, Point2D centerBottom, double rotationAngle ) {
-//        Point2D brickOrigin = new Point2D.Double( 0, 0 );
-//        // Draw the brick.
-//        GeneralPath brickPath = new GeneralPath();
-//        brickPath.moveTo( brickOrigin.getX(), brickOrigin.getY() );
-//        brickPath.lineTo( brickOrigin.getX() + BRICK_WIDTH / 2, brickOrigin.getY() );
-//        brickPath.lineTo( brickOrigin.getX() + BRICK_WIDTH / 2, brickOrigin.getY() + BRICK_HEIGHT );
-//        brickPath.lineTo( brickOrigin.getX() - BRICK_WIDTH / 2, brickOrigin.getY() + BRICK_HEIGHT );
-//        brickPath.lineTo( brickOrigin.getX() - BRICK_WIDTH / 2, brickOrigin.getY() );
-//        brickPath.lineTo( brickOrigin.getX(), brickOrigin.getY() );
-//        brickPath.closePath();
-//        // Move the origin to the next brick.
-//        Shape rotatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( brickPath );
-//        Shape translatedShape = AffineTransform.getTranslateInstance( centerBottom.getX(), centerBottom.getY() ).createTransformedShape( rotatedShape );
-//        return translatedShape;
-//    }
-
-    @Override public void translate( ImmutableVector2D modelDelta ) {
-        positionHandle.setLocation( modelDelta.getAddedInstance( positionHandle.getX(), positionHandle.getY() ).toPoint2D() );
+    public void setPosition( double x, double y ) {
+        position.setLocation( x, y );
         updateShape();
     }
 
-    @Override public void setPosition( double x, double y ) {
-        positionHandle.setLocation( x, y );
-        updateShape();
+    public void setPosition( Point2D p ) {
+        setPosition( p.getX(), p.getY() );
     }
 
-    private void updateShape() {
-        setShapeProperty( generateShape( numBricks, positionHandle, rotationAngle ) );
+    @Override public Point2D getPosition() {
+        return new Point2D.Double( position.getX(), position.getY() );
+    }
+
+    @Override public void translate( double x, double y ) {
+        setPosition( position.getX() + x, position.getY() + y );
+    }
+
+    @Override public void translate( ImmutableVector2D delta ) {
+        translate( delta.getX(), delta.getY() );
     }
 
     @Override public void setRotationAngle( double angle ) {
         super.setRotationAngle( angle );
         updateShape();
+    }
+
+    private void updateShape() {
+        shapeProperty.set( generateShape( numBricks, position, rotationAngle ) );
     }
 }
