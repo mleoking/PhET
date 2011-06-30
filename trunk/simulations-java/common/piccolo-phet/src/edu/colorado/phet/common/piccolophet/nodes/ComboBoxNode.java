@@ -2,8 +2,10 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.*;
 
@@ -31,7 +33,9 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWin
  */
 public class ComboBoxNode<T> extends PNode {
 
-    //Property that can be used to view or set the currently selected item.  Note that the selected item does not need to be in the list of available items
+    /**
+     * Property that can be used to view or set the currently selected item.  Note that the selected item does not need to be in the list of available items
+     */
     public final Property<T> selectedItem;
 
     //Font to use for showing the selected item as well as the list of available items
@@ -43,7 +47,21 @@ public class ComboBoxNode<T> extends PNode {
     //Node to show for the popup
     private PNode popup;
 
-    //Create a CombBoxNode with the specified items, using the toString function to create strings for each item
+    //Nodes that we are listening to for dismissing the popup, so that if the user clicks away from the shown popup, it will hide
+    private ArrayList<PNode> listened = new ArrayList<PNode>();
+
+    //Listener that will hide the popup when the user clicks away from it
+    private PBasicInputEventHandler popupHider = new PBasicInputEventHandler() {
+        @Override public void mousePressed( PInputEvent event ) {
+            hidePopup();
+        }
+    };
+
+    /**
+     * Create a CombBoxNode with the specified items, using the toString function to create strings for each item
+     *
+     * @param items the items to show in the combo box
+     */
     public ComboBoxNode( List<T> items ) {
         this( items, new Function1<T, String>() {
             public String apply( T t ) {
@@ -52,7 +70,12 @@ public class ComboBoxNode<T> extends PNode {
         } );
     }
 
-    //Create a ComboBoxNode with the specified items and specified way to convert the items to strings
+    /**
+     * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
+     *
+     * @param items            items the items to show in the combo box
+     * @param toStringFunction the function to use to convert the T items to strings
+     */
     public ComboBoxNode( final List<T> items, final Function1<T, String> toStringFunction ) {
         itemFont = new PhetFont( 18 );
 
@@ -103,6 +126,13 @@ public class ComboBoxNode<T> extends PNode {
                 super.setVisible( isVisible );
                 setPickable( isVisible );
                 setChildrenPickable( isVisible );
+                if ( isVisible ) {
+                    SwingUtilities.invokeLater( new Runnable() {
+                        public void run() {
+                            listenForClicks( getRoot() );
+                        }
+                    } );
+                }
             }
         };
         addChild( popup );
@@ -120,6 +150,30 @@ public class ComboBoxNode<T> extends PNode {
 
         //Show the popup beneath the selected item displayer
         popup.setOffset( 0, selectedItemNode.getFullBounds().getHeight() + 2 );
+    }
+
+    //Recursively listen to the specified node and its subtree, so that when the user clicks away from the popup it will hide
+    private void listenForClicks( PNode node ) {
+        if ( node != this && node != popup ) {
+            ListIterator it = node.getChildrenIterator();
+            while ( it.hasNext() ) {
+                PNode next = (PNode) it.next();
+                if ( next.getVisible() && next.getPickable() ) {
+                    next.addInputEventListener( popupHider );
+                    listened.add( next );
+                    listenForClicks( next );
+                }
+            }
+        }
+    }
+
+    //Hide the popup and unregister all registered listeners
+    private void hidePopup() {
+        popup.setVisible( false );
+        for ( PNode pNode : listened ) {
+            pNode.removeInputEventListener( popupHider );
+        }
+        listened.clear();
     }
 
     //Create the graphic to use to show the currently selected item, which allows the user to show the popup of other choices
@@ -152,7 +206,7 @@ public class ComboBoxNode<T> extends PNode {
     }
 
     //Shows a text with an optional background.  This makes it so the PText fills the specified width and so that the entire background highlights when moused over.
-    public static class TextWithBackground extends PNode {
+    private static class TextWithBackground extends PNode {
         private PhetPPath background;
 
         public TextWithBackground( PText text, double width ) {
