@@ -26,7 +26,7 @@ import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
  *
  * @author John Blanco
  */
-public class Plank extends ModelElement {
+public class Plank extends ShapeModelElement {
 
     //------------------------------------------------------------------------
     // Class Data
