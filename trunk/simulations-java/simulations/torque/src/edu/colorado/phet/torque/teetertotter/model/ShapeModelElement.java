@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author John Blanco
  * @author Sam Reid
  */
-public abstract class ModelElement {
+public abstract class ShapeModelElement {
     private final Property<Shape> shapeProperty;
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
@@ -33,7 +33,7 @@ public abstract class ModelElement {
      *
      * @param shape The shape of the model object.
      */
-    public ModelElement( Shape shape ) {
+    public ShapeModelElement( Shape shape ) {
         this.shapeProperty = new Property<Shape>( shape );
         // Set the position handle, which in this sim is always the center
         // bottom of the shape.
