@@ -9,6 +9,8 @@ import java.util.*;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.chemistry.model.Atom;
 
+//REVIEW use logging instead of System.out throughout, since this happens at startup in production product.
+
 /**
  * Has functions relating to lists of molecules (e.g. is a molecule or submolecule allowed?) Uses static initialization to load in a small fraction
  * of molecules from collection-molecules.txt, and then in a separate thread loads the rest of the molecules + the allowed structures. The 1st

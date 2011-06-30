@@ -6,6 +6,7 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 
+//REVIEW add javadoc if this is something that's potentially useful for future maintenance.
 public class DuplicateMoleculeNameCheck {
     public static void main( String[] args ) {
         List<CompleteMolecule> molecules = MoleculeList.getMasterInstance().getAllCompleteMolecules();

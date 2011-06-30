@@ -4,6 +4,8 @@ package edu.colorado.phet.buildamolecule.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.umd.cs.piccolo.util.PBounds;
 
+//REVIEW elaborate on usefulness as a type alias (if it's important), I don't understand.
+
 /**
  * Represents a "Build a Molecule" molecule. Also useful as a type alias
  */

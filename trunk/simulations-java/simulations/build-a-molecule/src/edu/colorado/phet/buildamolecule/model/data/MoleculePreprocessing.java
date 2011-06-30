@@ -54,6 +54,8 @@ public class MoleculePreprocessing {
         }
     }
 
+    //REVIEW Is this main important to future sim maintenance? Is this something that I'd need to run if the inputs changed? Describe inputs and outputs.
+
     /**
      * This generates a list of allowed "structures" that are not complete molecules. Since this takes about 10 minutes, we need to precompute the
      * majority of it.

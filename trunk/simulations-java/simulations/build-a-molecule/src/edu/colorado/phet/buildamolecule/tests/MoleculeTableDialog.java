@@ -18,6 +18,8 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+//REVIEW javadoc, mention if useful to during future sim maintenance
+
 /**
  * @author Sam Reid
  * @author Jon Olson

@@ -22,6 +22,7 @@ public abstract class AbstractBuildAMoleculeModule extends PiccoloModule {
 
     private static Random random = new Random( System.currentTimeMillis() );
 
+    //REVIEW parentFrame is unused. How are you parenting the 3D molecule dialog?
     public AbstractBuildAMoleculeModule( Frame parentFrame, String name, LayoutBounds bounds ) {
         super( name, new ConstantDtClock( 30 ) );
         this.bounds = bounds;

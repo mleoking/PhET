@@ -7,6 +7,7 @@ public class MoleculeFile {
     public final int cid;
     public final String content;
 
+    //REVIEW describe the cid param
     public MoleculeFile( int cid, String content ) {
         this.cid = cid;
         this.content = content;
