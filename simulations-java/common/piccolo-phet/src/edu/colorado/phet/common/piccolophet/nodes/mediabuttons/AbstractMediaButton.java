@@ -39,7 +39,9 @@ public class AbstractMediaButton extends PNode {
         normalImage = createImage();
         disabledImage = new MyRescaleOp( getDisabledImageRescaleOpScale(), -100 ).filter( createImage(), null );
         mouseEnteredImage = new MyRescaleOp( 1.2, 0 ).filter( createImage(), null );
-        armedImage = new MyRescaleOp( 0.9, 0 ).filter( createImage(), null );
+
+        //Use the image that shows the button as "pressed in" when it is pressed
+        armedImage = createImage( "button-template_pressed.png" );
 
         buttonImageNode = new PImage( normalImage );
         addChild( buttonImageNode );
@@ -155,7 +157,11 @@ public class AbstractMediaButton extends PNode {
     }
 
     protected BufferedImage createImage() {
-        BufferedImage image = new PhetResources( "piccolo-phet" ).getImage( "button-template.png" );
+        return createImage( "button-template.png" );
+    }
+
+    private BufferedImage createImage( String resourceName ) {
+        BufferedImage image = new PhetResources( "piccolo-phet" ).getImage( resourceName );
         return BufferedImageUtils.multiScaleToHeight( image, buttonHeight );
     }
 

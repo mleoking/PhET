@@ -1,3 +1,4 @@
+6/29/11 Show the button as pressed when the user pressed it
 6/29/11 Removed unused code
 6/29/11 Added button images from Noah, replacing microsoft images, resolves #2983
 6/29/11 Made it so the ComboBoxNode popup disappears when the user clicks away, see #2982

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventAdapter;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
-import edu.umd.cs.piccolo.util.PDimension;
 
 
 public class PlayPauseButton extends IconButton {
@@ -47,12 +46,7 @@ public class PlayPauseButton extends IconButton {
     }
 
     private void update() {
-        super.setIconPath( isPlaying() ? buttonIconSet.createPauseIconShape() : buttonIconSet.createPlayIconShape() );
-        PDimension buttonDimension = getButtonDimension();
-        pauseLabel.setScale( 1 );
-        pauseLabel.setScale( buttonDimension.width / pauseLabel.getFullBounds().width );
-        pauseLabel.setOffset( ( buttonDimension.width / 2 ) - ( pauseLabel.getFullBounds().width / 2 ), 0 );
-        pauseLabel.setVisible( !isPlaying() );
+        setIconPath( isPlaying() ? buttonIconSet.createPauseIconShape() : buttonIconSet.createPlayIconShape() );
     }
 
     public static interface Listener {
