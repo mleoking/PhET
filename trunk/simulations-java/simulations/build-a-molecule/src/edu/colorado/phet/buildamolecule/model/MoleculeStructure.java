@@ -677,15 +677,18 @@ public class MoleculeStructure<AtomT extends Atom> {
         StringBuilder builder = new StringBuilder();
 
         // write header: # of atoms
+        //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
         builder.append( getAtoms().size() + "|" + getBonds().size() );
         for ( int i = 0; i < getAtoms().size(); i++ ) {
             AtomT atom = getAtoms().get( i );
+            //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
             builder.append( "|" + atom.toString() );
             for ( Bond<AtomT> bond : bonds ) {
                 if ( bond.contains( atom ) ) {
                     AtomT otherAtom = bond.getOtherAtom( atom );
                     int index = getAtoms().indexOf( otherAtom );
                     if ( index < i ) {
+                        //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
                         builder.append( "," + bond.toSerial2( index ) );
                     }
                 }
