@@ -62,8 +62,8 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                     // TODO: Always bricks right now, may have to change in the future.
                     weightNode = new BrickStackNode( mvt, (ShapeWeight) weight );
                 }
-                else {
-                    // TODO: Add handling of non-shape nodes.
+                else if ( weight instanceof ImageWeight ) {
+                    weightNode = new ImageModelElementNode( mvt, (ImageWeight) weight );
                 }
                 // Add the removal listener for if and when this weight is removed from the model.
                 final PNode finalWeightNode = weightNode;
@@ -75,21 +75,6 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                     }
                 } );
                 rootNode.addChild( weightNode );
-            }
-        } );
-
-        model.addImageWeightAddedListener( new VoidFunction1<ImageWeight>() {
-            public void apply( final ImageWeight weight ) {
-                final ImageModelElementNode imageModelElementNode = new ImageModelElementNode( mvt, weight );
-                // Add the removal listener for if and when this weight is removed from the model.
-                model.addImageWeightRemovedListener( new VoidFunction1<ImageWeight>() {
-                    public void apply( ImageWeight w ) {
-                        if ( w == weight ) {
-                            rootNode.removeChild( imageModelElementNode );
-                        }
-                    }
-                } );
-                rootNode.addChild( imageModelElementNode );
             }
         } );
 
