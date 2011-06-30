@@ -1,9 +1,6 @@
 package edu.colorado.phet.moleculeshapes.reid;
 
-import java.io.File;
 import java.io.IOException;
-
-import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.light.DirectionalLight;
@@ -111,19 +108,20 @@ public class ShowMolecule extends SimpleApplication {
 
     public static void main( String[] args ) throws IOException {
 
+        //Commented out for Feasibility test for skipping java.library.path modification
         //add natives to path
-        if ( FileUtils.isJarCodeSource() ) {
-            File jarFile = FileUtils.getCodeSource();
-            File tempDir = new File( System.getProperty( "java.io.tmpdir" ), jarFile.getName() );
-            LibraryPathUtils.copyTo( jarFile, tempDir );
-            File unzipDir = new File( tempDir.getParentFile(), "phet-unzipped" );
-            LibraryPathUtils.unzip( tempDir, unzipDir );
-            System.out.println( "DensityApplication.main, unzip dir=" + unzipDir.getAbsolutePath() );
-            LibraryPathUtils.addDir( new File( unzipDir, "native/windows" ).getAbsolutePath() );
-            LibraryPathUtils.addDir( new File( unzipDir, "native/linux" ).getAbsolutePath() );
-            LibraryPathUtils.addDir( new File( unzipDir, "native/macosx" ).getAbsolutePath() );
-            LibraryPathUtils.addDir( new File( unzipDir, "native/solaris" ).getAbsolutePath() );
-        }
+//        if ( FileUtils.isJarCodeSource() ) {
+//            File jarFile = FileUtils.getCodeSource();
+//            File tempDir = new File( System.getProperty( "java.io.tmpdir" ), jarFile.getName() );
+//            LibraryPathUtils.copyTo( jarFile, tempDir );
+//            File unzipDir = new File( tempDir.getParentFile(), "phet-unzipped" );
+//            LibraryPathUtils.unzip( tempDir, unzipDir );
+//            System.out.println( "DensityApplication.main, unzip dir=" + unzipDir.getAbsolutePath() );
+//            LibraryPathUtils.addDir( new File( unzipDir, "native/windows" ).getAbsolutePath() );
+//            LibraryPathUtils.addDir( new File( unzipDir, "native/linux" ).getAbsolutePath() );
+//            LibraryPathUtils.addDir( new File( unzipDir, "native/macosx" ).getAbsolutePath() );
+//            LibraryPathUtils.addDir( new File( unzipDir, "native/solaris" ).getAbsolutePath() );
+//        }
 
         //If flagged, run the application in another JVM
         //extract natives to user's .phet-natives directory.
