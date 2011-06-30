@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.*;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler.ButtonEventAdapter;
-import edu.colorado.phet.common.piccolophet.nodes.ShadowPText;
 import edu.colorado.phet.common.piccolophet.test.PiccoloTestFrame;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -18,18 +15,10 @@ public class PlayPauseButton extends IconButton {
     private boolean playing;
     private ButtonIconSet buttonIconSet;
     private ArrayList listeners = new ArrayList();
-    private ShadowPText pauseLabel;
 
     public PlayPauseButton( int buttonHeight ) {
         super( buttonHeight );
-
         buttonIconSet = new ButtonIconSet( buttonHeight, buttonHeight );
-
-        pauseLabel = new ShadowPText( "Paused" ); // TODO: Make this translatable.
-        pauseLabel.setTextPaint( Color.RED );
-        pauseLabel.setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
-        //Wendy recommends to interview without pause label first, 9-18-2008
-//        addChild( pauseLabel );
 
         // this handler ensures that the button won't fire unless the mouse is released while inside the button
         ButtonEventHandler handler = new ButtonEventHandler();
