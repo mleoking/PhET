@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.torque.teetertotter.model.weights;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 
-import edu.colorado.phet.torque.teetertotter.model.ShapeModelElement;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
 
 /**
@@ -11,12 +12,12 @@ import edu.colorado.phet.torque.teetertotter.model.UserMovableModelElement;
  *
  * @author John Blanco
  */
-public abstract class Weight extends ShapeModelElement implements UserMovableModelElement {
+public abstract class Weight implements UserMovableModelElement {
+    public final BooleanProperty userControlled = new BooleanProperty( false );
+    protected double rotationAngle = 0;
     private final double mass;
-    protected double rotationAngle;
 
-    public Weight( Shape shape, double mass ) {
-        super( shape );
+    public Weight( double mass ) {
         this.mass = mass;
     }
 
@@ -24,6 +25,11 @@ public abstract class Weight extends ShapeModelElement implements UserMovableMod
         return mass;
     }
 
+    public abstract void translate( double x, double y );
+
+    public abstract void translate( ImmutableVector2D delta );
+
+    public abstract Point2D getPosition();
 
     /**
      * Set the angle of rotation.  The point of rotation is the position

@@ -4,9 +4,12 @@ package edu.colorado.phet.torque.teetertotter.view;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.torque.teetertotter.model.weights.ShapeWeight;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -16,9 +19,15 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class BrickNode extends ModelObjectNode {
-    public BrickNode( final ModelViewTransform mvt, final Weight weight ) {
-        super( mvt, weight, new Color( 205, 38, 38 ) );
+public class BrickStackNode extends PNode {
+    public BrickStackNode( final ModelViewTransform mvt, final ShapeWeight weight ) {
+        addChild( new PhetPPath( Color.RED, new BasicStroke( 1 ), Color.BLACK ) {{
+            weight.shapeProperty.addObserver( new VoidFunction1<Shape>() {
+                public void apply( Shape shape ) {
+                    setPathTo( mvt.modelToView( shape ) );
+                }
+            } );
+        }} );
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new PDragEventHandler() {
             @Override protected void startDrag( PInputEvent event ) {

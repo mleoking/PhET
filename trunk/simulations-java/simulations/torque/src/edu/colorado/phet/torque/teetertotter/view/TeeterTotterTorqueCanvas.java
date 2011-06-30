@@ -15,6 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNo
 import edu.colorado.phet.torque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.torque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
+import edu.colorado.phet.torque.teetertotter.model.weights.ShapeWeight;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -53,20 +54,27 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        // Whenever a shape-based weight is added to the model, create a graphic for it
+        // Whenever a weight is added to the model, create a graphic for it
         model.addWeightAddedListener( new VoidFunction1<Weight>() {
             public void apply( final Weight weight ) {
-                // TODO: Always bricks right now, may have to change in the future.
-                final BrickNode brickNode = new BrickNode( mvt, weight );
+                PNode weightNode = null;
+                if ( weight instanceof ShapeWeight ) {
+                    // TODO: Always bricks right now, may have to change in the future.
+                    weightNode = new BrickStackNode( mvt, (ShapeWeight) weight );
+                }
+                else {
+                    // TODO: Add handling of non-shape nodes.
+                }
                 // Add the removal listener for if and when this weight is removed from the model.
+                final PNode finalWeightNode = weightNode;
                 model.addWeightRemovedListener( new VoidFunction1<Weight>() {
                     public void apply( Weight w ) {
                         if ( w == weight ) {
-                            rootNode.removeChild( brickNode );
+                            rootNode.removeChild( finalWeightNode );
                         }
                     }
                 } );
-                rootNode.addChild( brickNode );
+                rootNode.addChild( weightNode );
             }
         } );
 

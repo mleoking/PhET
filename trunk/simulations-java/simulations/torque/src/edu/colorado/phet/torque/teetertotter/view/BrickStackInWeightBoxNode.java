@@ -23,7 +23,7 @@ public class BrickStackInWeightBoxNode extends WeightBoxItem {
     public BrickStackInWeightBoxNode( int numBricks, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.numBricks = numBricks;
-        setSelectionNode( new BrickNode( SCALING_MVT, new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ) ) );
+        setSelectionNode( new BrickStackNode( SCALING_MVT, new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ) ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
         // TODO: i18n (units too)
         setCaption( BrickStack.BRICK_MASS * numBricks + " kg" );
