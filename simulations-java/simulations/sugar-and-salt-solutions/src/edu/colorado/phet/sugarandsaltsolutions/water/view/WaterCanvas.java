@@ -274,8 +274,10 @@ public class WaterCanvas extends PhetPCanvas {
 
     //Called when the user switches to another tab.  Stores the state of the jmol dialog so that it can be restored when the user comes back to this tab
     public void moduleDeactivated() {
-        showJMolDialogOnActivate = jmolDialog.isVisible();
-        jmolDialog.setVisible( false );
+        showJMolDialogOnActivate = jmolDialog != null && jmolDialog.isVisible();
+        if ( jmolDialog != null ) {
+            jmolDialog.setVisible( false );
+        }
     }
 
     private String readPDB() {
