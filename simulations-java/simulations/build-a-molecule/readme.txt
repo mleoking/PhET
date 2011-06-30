@@ -28,6 +28,7 @@ BuildAMoleculeCanvas: view for each tab (collection list). if the tab has collec
             CollectionBoxNode: Shows label and black area for one collection box. Either Single or Multiple subclasses.
 
 
+//REVIEW comment in this section should be in appropriate class javadoc, if they're not already
 Notes useful for code review (or if you need to edit the sim):
 
 * Some layout in the model is calculated based on the view layout:
