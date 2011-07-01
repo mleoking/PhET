@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * This class represents the atom in the model.  It supplies static
@@ -526,6 +527,17 @@ public class Atom implements IDynamicAtom {
 
     public int getNumProtons() {
         return protons.size();
+    }
+
+    public void addAtomListener( final VoidFunction0 voidFunction0 ) {
+        addAtomListener( new AtomListener() {
+            public void configurationChanged() {
+                voidFunction0.apply();
+            }
+
+            public void postitionChanged() {
+            }
+        } );
     }
 
     public int getNumNeutrons() {

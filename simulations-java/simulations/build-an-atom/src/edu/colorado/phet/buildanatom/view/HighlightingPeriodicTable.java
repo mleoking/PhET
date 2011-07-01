@@ -19,8 +19,7 @@ public class HighlightingPeriodicTable extends PeriodicTableNode {
         super( atom, backgroundColor );
     }
 
-    @Override
-    protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+    @Override protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
         // Create a cell that highlights when its configuration matches that
         // of the atom being watched.
         return new HighlightingElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );

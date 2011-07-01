@@ -3,13 +3,15 @@
 package edu.colorado.phet.buildanatom.model;
 
 
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode.PeriodicTableAtom;
+
 /**
  * Interface for atoms that can change their configuration, e.g. can gain an
  * electron.
  *
  * @author John Blanco
  */
-public interface IDynamicAtom extends IAtom {
+public interface IDynamicAtom extends IAtom, PeriodicTableAtom {
 
     /**
      * Register for notifications of changes to this atom's configuration,
