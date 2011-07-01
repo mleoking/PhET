@@ -1,4 +1,4 @@
-package edu.colorado.phet.moleculeshapes.reid;
+package edu.colorado.phet.moleculeshapes.jme;
 
 import java.io.IOException;
 
