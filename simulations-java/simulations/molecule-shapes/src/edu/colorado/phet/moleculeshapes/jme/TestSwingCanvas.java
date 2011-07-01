@@ -1,6 +1,7 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.io.File;
 import java.util.concurrent.Callable;
 
 import javax.swing.*;
@@ -17,6 +18,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
+import com.jme3.system.Natives;
 
 //Copied from http://code.google.com/p/jmonkeyengine/source/browse/trunk/engine/src/test/jme3test/awt/TestCanvas.java
 public class TestSwingCanvas extends PiccoloPhetApplication {
@@ -28,6 +30,14 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
+        final File tempDir = new File( System.getProperty( "system.io.tmpdir" ), "phet-" + System.currentTimeMillis() );
+        tempDir.mkdirs();
+        final String path = tempDir.getAbsolutePath();
+        System.out.println( "Extracting native JME3 libraries to: " + path );
+        Natives.setExtractionDir( path );
+        tempDir.deleteOnExit();
+
+        //TODO: check write permissions on the temp folder.  If no permission, search out another place or inform the user
         new PhetApplicationLauncher().launchSim( args, "molecule-shapes", TestSwingCanvas.class );
     }
 
@@ -69,6 +79,8 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
             }} );
 
             setSimulationPanel( new JPanel( new BorderLayout() ) {{add( canvas, BorderLayout.CENTER );}} );
+
+
         }
     }
 }
