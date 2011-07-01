@@ -19,13 +19,9 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/charts/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/controls/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/java-version-checker/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/jfreechart-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/JSci" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/Jama/src" isTestSource="false" />
@@ -116,7 +112,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/balancing-chemical-equations/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bending-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/molecules-and-light/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/photon-absorption/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/idea-tests/src" isTestSource="false" />
@@ -148,15 +143,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/self-driven-particle-model/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/controls/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -489,15 +475,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/charts/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/ideal-gas/data" />
         </CLASSES>
         <JAVADOC />
@@ -624,15 +601,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jfreechart/lib/jcommon.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/junit/junit.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -646,17 +614,6 @@
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jfreechart/lib/jfreechart.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/jfreechart/jfreechart-src.zip!/" />
-        </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
@@ -1202,15 +1159,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/advanced-acid-base-solutions/data" />
         </CLASSES>
         <JAVADOC />
@@ -1347,15 +1295,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/molecules-and-light/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/photon-absorption/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1711,6 +1650,14 @@
     <orderEntry type="module" module-name="scala-common" exported="" />
     <orderEntry type="module" module-name="think-tank-maths" exported="" />
     <orderEntry type="module" module-name="games" exported="" />
+    <orderEntry type="module" module-name="charts" exported="" />
+    <orderEntry type="module" module-name="controls" exported="" />
+    <orderEntry type="module" module-name="jfreechart" exported="" />
+    <orderEntry type="module" module-name="jfreechart-phet" exported="" />
+    <orderEntry type="module" module-name="jme3" exported="" />
+    <orderEntry type="module" module-name="phetgraphics" exported="" />
+    <orderEntry type="module" module-name="photon-absorption" exported="" />
+    <orderEntry type="module" module-name="record-and-playback" exported="" />
   </component>
 </module>
 
