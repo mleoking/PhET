@@ -1,3 +1,4 @@
+Launch the jme canvas within a tabbed PiccoloPhetApplication
 Launch the jme application within a PhetFrame, adding the file and help-> about menus
 Launch the jme application within a swing window
 Removed unused code for skipping java.library.path modification
