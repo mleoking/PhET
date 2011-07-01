@@ -24,7 +24,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/java-version-checker/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/jfreechart-phet/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/phetgraphics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/record-and-playback/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
@@ -347,15 +346,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/signal-circuit/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/phetgraphics/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
