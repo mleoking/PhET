@@ -1,1 +1,0 @@
-phet-credits lead-design=Noah Podolefsky software-development=Jonathan Olson design-team=Noah Podolefsky, Jonathan Olson, Wendy Adams, Carl Wieman

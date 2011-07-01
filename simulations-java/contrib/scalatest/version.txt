@@ -1,1 +1,0 @@
-scalatest-1.4.1 for Scala 2.9 on 5/12/2011

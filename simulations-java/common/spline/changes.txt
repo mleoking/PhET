@@ -1,1 +1,0 @@
-Moved spline computations from phetcommon to common/spline since it depends on Jama

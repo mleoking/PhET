@@ -1,1 +1,0 @@
-aswing-a2 license=Apache-style licensefile=LICENSE.txt name=aswing-a2 description=AsWing A2

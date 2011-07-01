@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_fr.xml created Fri Oct 23 20:20:23 CEST 2009 using: friction 2.00.00 (30671), translation-utility 2.02.00 (34911) sept. 9, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Frotter les atomes jaunes \ncontre les verts"/>
-<string key="physics" value="Physique"/>
-<string key="reset" value="R.a.z."/>
-<string key="simTitle" value="Friction"/>
-<string key="chemistry" value="Chimie"/>
-</SimStrings>

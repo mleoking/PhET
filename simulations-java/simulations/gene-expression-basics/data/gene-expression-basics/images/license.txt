@@ -1,1 +1,0 @@
-gray-arrow.png source=PhET

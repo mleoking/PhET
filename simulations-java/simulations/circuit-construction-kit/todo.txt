@@ -1,1 +1,0 @@
-Keep track of the dt from each time step to the next to avoid work where possible.

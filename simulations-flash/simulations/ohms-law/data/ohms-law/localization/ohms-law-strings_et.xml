@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_et.xml created Sun Dec 20 16:40:49 EET 2009 using: ohms-law 2.01.00 (37318), translation-utility 2.03.00 (36202) Okt 29, 2009-->
-<SimStrings>
-<string key="currentEq" value="vool ="/>
-<string key="resistance" value="takistus"/>
-<string key="simTitle" value="Ohmi seadus"/>
-<string key="sound" value="heli"/>
-<string key="voltage" value="pinge"/>
-</SimStrings>

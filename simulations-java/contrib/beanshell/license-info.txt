@@ -1,1 +1,0 @@
-beanshell license=Sun Public License + GPL/LGPL licensefile=src/License.txt notes=lib/servlet.jar is inluded in compile path, but probably thrown out by proguard and/or has compatible licensing name=BeanShell description=Lightweight scripting for Java copyright=http://www.beanshell.org/ website=http://www.beanshell.org/

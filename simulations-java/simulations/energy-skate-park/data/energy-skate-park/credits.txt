@@ -1,1 +1,0 @@
-phet-credits lead-design=Sam Reid software-development=Sam Reid design-team=Wendy Adams, Michael Dubson, Trish Loeblein, Kathy Perkins, Carl Wieman interviews=Danielle Harlow

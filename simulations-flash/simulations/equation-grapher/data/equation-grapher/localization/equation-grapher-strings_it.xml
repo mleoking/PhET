@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_it.xml created Fri Feb 18 17:18:40 CET 2011 using: equation-grapher 2.01.00 (37298), translation-utility 2.10.00 (48775) feb 9, 2011-->
-<SimStrings>
-<string key="showYEq" value="Mostra y ="/>
-<string key="erase" value="cancella"/>
-<string key="save" value="salva"/>
-<string key="simTitle" value="Disegna una curva"/>
-<string key="translation.credits" value="&lt;html&gt;Vito Garganese&lt;br&gt;&#10;vito.garganese@alice.it&lt;br&gt;&#10;&lt;html&gt;"/>
-</SimStrings>

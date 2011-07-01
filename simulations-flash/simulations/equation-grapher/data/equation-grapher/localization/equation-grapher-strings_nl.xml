@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--equation-grapher-strings_nl.xml created Mon May 04 10:14:57 CEST 2009 using: equation-grapher 2.00.00 (30671), translation-utility 2.00.00 (31012) apr 28, 2009-->
-<SimStrings>
-<string key="showYEq" value="Toon y="/>
-<string key="erase" value="Wissen"/>
-<string key="zero" value="Nul"/>
-<string key="simTitle" value="Grafieken van vergelijkingen tekenen"/>
-</SimStrings>

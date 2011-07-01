@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_fa.xml created Tue Oct 19 20:40:36 IRST 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.09.00 (44031) Sep 14, 2010-->
-<SimStrings>
-<string key="currentEq" value="جريان هوا"/>
-<string key="resistance" value="مقاومت"/>
-<string key="simTitle" value="حرکت پرتابه"/>
-<string key="sound" value="صدا"/>
-<string key="voltage" value="ولتاژ"/>
-</SimStrings>

@@ -1,1 +1,0 @@
-phet-credits lead-design=Archie Paulson software-development=Chris Malley design-team=Wendy Adams, Bob Anderson, Andrea Blair, Kathy Perkins, Dylan Ward interviews=Archie Paulson

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--ohms-law-strings_mk.xml created Wed Feb 10 18:48:53 CET 2010 using: ohms-law 2.01.00 (37318), translation-utility 2.06.00 (37959) јан. 8, 2010-->
-<SimStrings>
-<string key="currentEq" value="Струја="/>
-<string key="resistance" value="Отпорност"/>
-<string key="simTitle" value="Омов закон"/>
-<string key="sound" value="звук"/>
-<string key="voltage" value="Напон"/>
-</SimStrings>

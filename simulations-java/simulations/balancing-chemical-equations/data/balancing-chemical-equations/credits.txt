@@ -1,1 +1,0 @@
-phet-credits lead-design=Kelly Lancaster software-development=Chris Malley design-team=Patricia Loeblein, Emily Moore, Robert Parson, Kathy Perkins

@@ -1,2 +1,0 @@
-linear-regression name=Linear Regression description=Linear regression copyright=2004, Robert Sedgewick and Kevin Wayne website=http://www.cs.princeton.edu/introcs/97data/LinearRegression.java.html
-dsweb name=DSWeb description=This simulation was designed as a tutorial for DSWeb copyright=DSWeb and Sam Reid website=http://www.dynamicalsystems.org/

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--equation-grapher-strings_eu.xml created Sat Feb 12 20:35:20 CET 2011 using: equation-grapher 2.01.00 (37298), translation-utility 2.10.00 (48775) feb 9, 2011-->
-<SimStrings>
-<string key="showYEq" value="Erakutsi y="/>
-<string key="erase" value="Ezabatu"/>
-<string key="save" value="Gorde"/>
-<string key="zero" value="Berrabiarazi"/>
-<string key="simTitle" value="Funtzioen grafiko sortzailea"/>
-</SimStrings>

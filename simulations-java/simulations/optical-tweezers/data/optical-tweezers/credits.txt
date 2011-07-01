@@ -1,1 +1,0 @@
-phet-credits lead-design=Kathy Perkins software-development=Chris Malley design-team=Wendy Adams, Meredith Betterton (JILA), Mike Dubson, Tom Perkins (JILA) interviews=Archie Paulson

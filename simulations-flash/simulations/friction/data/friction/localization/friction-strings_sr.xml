@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--friction-strings_sr.xml created Tue Aug 25 16:27:37 CEST 2009 using: friction 2.00.00 (30671), translation-utility 2.01.00 (31673) мај 14, 2009-->
-<SimStrings>
-<string key="rubYellowAtoms" value="Трљај жуте атоме \nо зелене"/>
-<string key="physics" value="ФИЗИКА"/>
-<string key="reset" value="ОТПОЧЕТКА"/>
-<string key="simTitle" value="Трење (концепт)"/>
-<string key="chemistry" value="ХЕМИЈА"/>
-</SimStrings>

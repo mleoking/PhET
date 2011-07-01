@@ -1,5 +1,0 @@
-arrow_double.png source=PhET
-arrow_single.png source=PhET
-maximizeButton.png source=PhET
-minimizeButton.png source=PhET
-tear_off_icon.png source=PhET
