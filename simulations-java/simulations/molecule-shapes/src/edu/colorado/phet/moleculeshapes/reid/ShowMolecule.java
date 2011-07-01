@@ -106,32 +106,9 @@ public class ShowMolecule extends SimpleApplication {
         }
     }
 
+    //Main
     public static void main( String[] args ) throws IOException {
-
-        //Commented out for Feasibility test for skipping java.library.path modification
-        //add natives to path
-//        if ( FileUtils.isJarCodeSource() ) {
-//            File jarFile = FileUtils.getCodeSource();
-//            File tempDir = new File( System.getProperty( "java.io.tmpdir" ), jarFile.getName() );
-//            LibraryPathUtils.copyTo( jarFile, tempDir );
-//            File unzipDir = new File( tempDir.getParentFile(), "phet-unzipped" );
-//            LibraryPathUtils.unzip( tempDir, unzipDir );
-//            System.out.println( "DensityApplication.main, unzip dir=" + unzipDir.getAbsolutePath() );
-//            LibraryPathUtils.addDir( new File( unzipDir, "native/windows" ).getAbsolutePath() );
-//            LibraryPathUtils.addDir( new File( unzipDir, "native/linux" ).getAbsolutePath() );
-//            LibraryPathUtils.addDir( new File( unzipDir, "native/macosx" ).getAbsolutePath() );
-//            LibraryPathUtils.addDir( new File( unzipDir, "native/solaris" ).getAbsolutePath() );
-//        }
-
-        //If flagged, run the application in another JVM
-        //extract natives to user's .phet-natives directory.
-        //copy this jar file so it can be unzipped while it's being read?
-//            String[] cmdArray = new String[] { PhetUtilities.getJavaPath(), "-jar", updaterBootstrap.getAbsolutePath(), src.getAbsolutePath(), dst.getAbsolutePath() };
-//        log("Starting updater bootstrap with cmdArray=" + Arrays.asList(cmdArray).toString());
-//            Runtime.getRuntime().exec( cmdArray );
-
         //Launch the application
-        ShowMolecule app = new ShowMolecule();
-        app.start();
+        new ShowMolecule().start();
     }
 }
