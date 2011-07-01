@@ -5,14 +5,14 @@ import edu.colorado.phet.common.phetcommon.application.{PhetApplicationLauncher,
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
-import java.awt.{Color}
+import java.awt.Color
 import edu.colorado.phet.scalacommon.Predef._
 import javax.swing.{JButton, BoxLayout, JPanel}
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.colorado.phet.scalacommon.util.Observable
 import edu.umd.cs.piccolo.nodes.PText
-import edu.colorado.phet.common.piccolophet.{PiccoloPhetApplication}
-import edu.colorado.phet.scalacommon.{ScalaClock}
+import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication
+import edu.colorado.phet.scalacommon.ScalaClock
 
 class BlockState(val position: Vector2D, val velocity: Vector2D) {
   def translate(delta: Vector2D) = new BlockState(position + delta, velocity)
@@ -47,7 +47,7 @@ class TestModel {
   def update(dt: Double) = {
     blocks.foreach(b => {
       b.translate(b.velocity * dt)
-      if (b.x > 500) {
+      if ( b.x > 500 ) {
         remove(b)
       }
     })
@@ -69,8 +69,8 @@ class BlockNode(b: Block, transform: ModelViewTransform2D) extends PText("Block"
   addInputEventListener(new CursorHandler)
   setFont(new PhetFont(24, true))
   defineInvokeAndPass(b.addListenerByName) {
-    setOffset(b.position)
-  }
+                                             setOffset(b.position)
+                                           }
 }
 
 class TestCanvas(model: TestModel) extends DefaultCanvas(20, 20) {
@@ -80,10 +80,11 @@ class TestCanvas(model: TestModel) extends DefaultCanvas(20, 20) {
   def createNodeForBlock(b: Block) = {
     val newNode = new BlockNode(b, transform)
     addNode(newNode)
-    b.removalListeners += (() => {
+    b.removalListeners += ( () => {
       removeNode(newNode)
-    })
+    } )
   }
+
   model.blockAddListeners += createNodeForBlock
 }
 
@@ -105,9 +106,11 @@ class TestApplication(config: PhetApplicationConfig) extends PiccoloPhetApplicat
   addModule(new TestModule(new ScalaClock(30, 30 / 1000.0)))
 }
 
+object ScalaSimTemplate
+
 //Current IntelliJ plugin has trouble finding main for classes with a companion object, so we use a different name
 object TestApplicationMain {
-  def main(args: Array[String]) = {
+  def main(args: Array[String]) {
     new PhetApplicationLauncher().launchSim(args, "scala-sim-template", classOf[TestApplication])
   }
 }

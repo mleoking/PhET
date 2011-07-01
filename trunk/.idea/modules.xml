@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" />
       <module fileurl="file://$PROJECT_DIR$/build-tools/build-tools.iml" filepath="$PROJECT_DIR$/build-tools/build-tools.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/charts/charts.iml" filepath="$PROJECT_DIR$/simulations-java/common/charts/charts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
@@ -34,6 +35,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" filepath="$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" />
       <module fileurl="file://$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" filepath="$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
