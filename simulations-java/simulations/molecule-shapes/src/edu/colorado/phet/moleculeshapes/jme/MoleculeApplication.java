@@ -18,7 +18,7 @@ import com.jme3.util.TangentBinormalGenerator;
 /**
  * Use jme3 to show a rotating molecule
  */
-public class ShowMolecule extends SimpleApplication {
+public class MoleculeApplication extends SimpleApplication {
 
     //The molecule to display and rotate
     private Node molecule;
@@ -55,6 +55,9 @@ public class ShowMolecule extends SimpleApplication {
         rootNode.addLight( sun );
 
         cam.setLocation( new Vector3f( cam.getLocation().getX(), cam.getLocation().getY(), cam.getLocation().getZ() + 30 ) );
+
+        setDisplayFps( false );
+        setDisplayStatView( false );
     }
 
     @Override public void simpleUpdate( final float tpf ) {
@@ -109,6 +112,6 @@ public class ShowMolecule extends SimpleApplication {
     //Main
     public static void main( String[] args ) throws IOException {
         //Launch the application
-        new ShowMolecule().start();
+        new MoleculeApplication().start();
     }
 }
