@@ -266,7 +266,7 @@ public class Model2 {
     }
 
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
-        //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
+        trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
         this._verletOn = false;
         this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;
@@ -367,9 +367,10 @@ public class Model2 {
                 for (var i:int = 1; i <= N; i++ ){
                     for ( var j:int = 1; j <= N; j++){
                         var sineProduct:Number = Math.sin(i*r*Math.PI/(N+1))*Math.sin(j*s*Math.PI/(N+1));
-                        muX[r][s] += (4/((N+1)*(N+1)))*sx_arr[i][j]*sineProduct
+                        //switch of i, j is intentional
+                        muX[r][s] += (4/((N+1)*(N+1)))*sx_arr[j][i]*sineProduct
                         nuX[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vx_arr[i][j]*sineProduct
-                        muY[r][s] += (4/((N+1)*(N+1)))*sy_arr[i][j]*sineProduct
+                        muY[r][s] += (4/((N+1)*(N+1)))*sy_arr[j][i]*sineProduct
                         nuY[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vy_arr[i][j]*sineProduct
                         //counter += 1;     //testing only
                     }//end for j loop
