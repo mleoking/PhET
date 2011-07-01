@@ -1,3 +1,4 @@
+# 0.00.07 (53655) Jun 30, 2011
 Updated main to use PhetFrame
 Launch the jme canvas within a tabbed PiccoloPhetApplication
 Launch the jme application within a PhetFrame, adding the file and help-> about menus
