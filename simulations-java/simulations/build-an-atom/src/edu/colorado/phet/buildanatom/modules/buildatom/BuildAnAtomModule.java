@@ -25,8 +25,8 @@ public class BuildAnAtomModule extends PiccoloModule {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAnAtomModule( ) {
-        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock( ) );
+    public BuildAnAtomModule() {
+        super( BuildAnAtomStrings.TITLE_BUILD_ATOM_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Model

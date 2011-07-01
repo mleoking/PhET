@@ -4,11 +4,7 @@ package edu.colorado.phet.buildanatom.modules.isotopemixture.model;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -40,11 +36,11 @@ public class IsotopeTestChamber {
     // set up so that the center of the test chamber is at (0, 0) in model
     // space.
     private static final Rectangle2D TEST_CHAMBER_RECT =
-        new Rectangle2D.Double(
-                -SIZE.getWidth() / 2,
-                -SIZE.getHeight() / 2,
-                SIZE.getWidth(),
-                SIZE.getHeight() );
+            new Rectangle2D.Double(
+                    -SIZE.getWidth() / 2,
+                    -SIZE.getHeight() / 2,
+                    SIZE.getWidth(),
+                    SIZE.getHeight() );
 
     // Random number generator for generating positions.
     private static final Random RAND = new Random();
@@ -72,7 +68,7 @@ public class IsotopeTestChamber {
     // Constructor(s)
     // ------------------------------------------------------------------------
 
-    IsotopeTestChamber( MixIsotopesModel model ){
+    IsotopeTestChamber( MixIsotopesModel model ) {
         this.model = model;
     }
 
@@ -87,7 +83,7 @@ public class IsotopeTestChamber {
      * @param isotopeConfig
      * @return
      */
-    public int getIsotopeCount( ImmutableAtom isotopeConfig ){
+    public int getIsotopeCount( ImmutableAtom isotopeConfig ) {
         assert isotopeConfig.getNumProtons() == isotopeConfig.getNumElectrons(); // Should always be neutral atom.
         int isotopeCount = 0;
         for ( MovableAtom isotope : containedIsotopes ) {
@@ -106,10 +102,11 @@ public class IsotopeTestChamber {
      * Test whether an isotope is within the chamber.  This is strictly
      * a 2D test that looks as the isotopes center position and determines
      * if it is within the bounds of the chamber rectangle.
+     *
      * @param isotope
      * @return
      */
-    public boolean isIsotopePositionedOverChamber( MovableAtom isotope ){
+    public boolean isIsotopePositionedOverChamber( MovableAtom isotope ) {
         return TEST_CHAMBER_RECT.contains( isotope.getPosition().toPoint2D() );
     }
 
@@ -121,7 +118,7 @@ public class IsotopeTestChamber {
      * @param isotope
      * @return
      */
-    public boolean isIsotopeContained( MovableAtom isotope ){
+    public boolean isIsotopeContained( MovableAtom isotope ) {
         return containedIsotopes.contains( isotope );
     }
 
@@ -132,12 +129,12 @@ public class IsotopeTestChamber {
      *
      * @param isotope
      */
-    public void addIsotopeToChamber( MovableAtom isotope ){
+    public void addIsotopeToChamber( MovableAtom isotope ) {
         addIsotopeToChamber( isotope, true );
     }
 
-    public void bulkAddIsotopesToChamber( List<MovableAtom> isotopeList ){
-        for ( MovableAtom isotope : isotopeList ){
+    public void bulkAddIsotopesToChamber( List<MovableAtom> isotopeList ) {
+        for ( MovableAtom isotope : isotopeList ) {
             addIsotopeToChamber( isotope, false );
         }
         updateCountProperty();
@@ -148,46 +145,46 @@ public class IsotopeTestChamber {
      * Add the specified isotope to the chamber.  This method requires
      * that the position of the isotope be within the chamber rectangle,
      * or the isotope will not be added.
-     *
+     * <p/>
      * In cases where an isotope is in a position where the center is
      * within the chamber but the edges are not, the isotope will be moved
      * so that it is fully contained within the chamber.
      *
-     * @param isotope - Isotope to add.
+     * @param isotope        - Isotope to add.
      * @param performUpdates - Flag that can be set be used to suppress updates.
-     * This is generally done for performance reasons when adding a large
-     * number of isotopes at once.
+     *                       This is generally done for performance reasons when adding a large
+     *                       number of isotopes at once.
      */
-    private void addIsotopeToChamber( MovableAtom isotope, boolean performUpdates ){
-        if ( isIsotopePositionedOverChamber( isotope ) ){
+    private void addIsotopeToChamber( MovableAtom isotope, boolean performUpdates ) {
+        if ( isIsotopePositionedOverChamber( isotope ) ) {
             containedIsotopes.add( isotope );
             // If the edges of the isotope are outside of the container,
             // move it to be fully inside.
             double protrusion = isotope.getPosition().getX() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxX();
-            if (protrusion >= 0){
+            if ( protrusion >= 0 ) {
                 isotope.setPositionAndDestination( isotope.getPosition().getX() - protrusion,
-                        isotope.getPosition().getY() );
+                                                   isotope.getPosition().getY() );
             }
-            else{
-                protrusion = TEST_CHAMBER_RECT.getMinX() - (isotope.getPosition().getX() - isotope.getRadius());
-                if (protrusion >= 0){
+            else {
+                protrusion = TEST_CHAMBER_RECT.getMinX() - ( isotope.getPosition().getX() - isotope.getRadius() );
+                if ( protrusion >= 0 ) {
                     isotope.setPositionAndDestination( isotope.getPosition().getX() + protrusion,
-                            isotope.getPosition().getY() );
+                                                       isotope.getPosition().getY() );
                 }
             }
             protrusion = isotope.getPosition().getY() + isotope.getRadius() - TEST_CHAMBER_RECT.getMaxY();
-            if (protrusion >= 0){
+            if ( protrusion >= 0 ) {
                 isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                        isotope.getPosition().getY() - protrusion );
+                                                   isotope.getPosition().getY() - protrusion );
             }
-            else{
-                protrusion = TEST_CHAMBER_RECT.getMinY() - (isotope.getPosition().getY() - isotope.getRadius());
-                if (protrusion >= 0){
+            else {
+                protrusion = TEST_CHAMBER_RECT.getMinY() - ( isotope.getPosition().getY() - isotope.getRadius() );
+                if ( protrusion >= 0 ) {
                     isotope.setPositionAndDestination( isotope.getPosition().getX(),
-                            isotope.getPosition().getY() + protrusion );
+                                                       isotope.getPosition().getY() + protrusion );
                 }
             }
-            if ( performUpdates ){
+            if ( performUpdates ) {
                 // Update the isotope count.
                 updateCountProperty();
                 // Update the average atomic mass.
@@ -196,21 +193,21 @@ public class IsotopeTestChamber {
                                                isotopeCountProperty.get() );
             }
         }
-        else{
+        else {
             // This isotope is not positioned correctly.
-            System.err.println(getClass().getName() + " - Warning: Ignoring attempt to add incorrectly located isotope to test chamber.");
+            System.err.println( getClass().getName() + " - Warning: Ignoring attempt to add incorrectly located isotope to test chamber." );
         }
     }
 
-    public void removeIsotopeFromChamber( MovableAtom isotope ){
+    public void removeIsotopeFromChamber( MovableAtom isotope ) {
         containedIsotopes.remove( isotope );
         updateCountProperty();
         // Update the average atomic mass.
-        if ( isotopeCountProperty.get() > 0 ){
+        if ( isotopeCountProperty.get() > 0 ) {
             averageAtomicMassProperty.set( ( averageAtomicMassProperty.get() * ( isotopeCountProperty.get() + 1 )
                                              - isotope.getAtomConfiguration().getAtomicMass() ) / isotopeCountProperty.get() );
         }
-        else{
+        else {
             averageAtomicMassProperty.set( 0.0 );
         }
     }
@@ -219,15 +216,15 @@ public class IsotopeTestChamber {
      * Remove an isotope from the chamber that matches the specified atom
      * configuration.  Note that electrons are ignored.
      */
-    public MovableAtom removeIsotopeMatchingConfig( ImmutableAtom isotopeConfig ){
+    public MovableAtom removeIsotopeMatchingConfig( ImmutableAtom isotopeConfig ) {
         // Argument checking.
-        if (isotopeConfig.getCharge() != 0){
+        if ( isotopeConfig.getCharge() != 0 ) {
             throw new IllegalArgumentException( "Isotope must be neutral" );
         }
         // Locate and remove a matching isotope.
         MovableAtom removedIsotope = null;
-        for ( MovableAtom isotope : containedIsotopes ){
-            if ( isotope.getAtomConfiguration().equals( isotopeConfig )){
+        for ( MovableAtom isotope : containedIsotopes ) {
+            if ( isotope.getAtomConfiguration().equals( isotopeConfig ) ) {
                 removedIsotope = isotope;
                 break;
             }
@@ -236,10 +233,10 @@ public class IsotopeTestChamber {
         return removedIsotope;
     }
 
-    public void removeAllIsotopes( boolean removeFromModel ){
+    public void removeAllIsotopes( boolean removeFromModel ) {
         List<MovableAtom> containedIsotopesCopy = new ArrayList<MovableAtom>( containedIsotopes );
         containedIsotopes.clear();
-        if ( removeFromModel ){
+        if ( removeFromModel ) {
             for ( MovableAtom isotope : containedIsotopesCopy ) {
                 isotope.removeListener( model.isotopeGrabbedListener );
                 isotope.removedFromModel();
@@ -259,37 +256,37 @@ public class IsotopeTestChamber {
     /**
      * Get a count of the total number of isotopes in the chamber.
      */
-    public int getTotalIsotopeCount(){
+    public int getTotalIsotopeCount() {
         return isotopeCountProperty.get();
     }
 
 
-    public void addTotalCountChangeObserver( SimpleObserver so ){
+    public void addTotalCountChangeObserver( SimpleObserver so ) {
         isotopeCountProperty.addObserver( so );
     }
 
-    private void updateCountProperty(){
+    private void updateCountProperty() {
         isotopeCountProperty.set( containedIsotopes.size() );
     }
 
     private void updateAverageAtomicMassProperty() {
-        if ( containedIsotopes.size() > 0 ){
+        if ( containedIsotopes.size() > 0 ) {
             double totalMass = 0;
-            for ( MovableAtom isotope : containedIsotopes ){
+            for ( MovableAtom isotope : containedIsotopes ) {
                 totalMass += isotope.getAtomConfiguration().getAtomicMass();
             }
             averageAtomicMassProperty.set( totalMass / containedIsotopes.size() );
         }
-        else{
+        else {
             averageAtomicMassProperty.set( 0.0 );
         }
     }
 
-    public void addAverageAtomicMassPropertyListener( SimpleObserver so ){
+    public void addAverageAtomicMassPropertyListener( SimpleObserver so ) {
         averageAtomicMassProperty.addObserver( so );
     }
 
-    public double getAverageAtomicMass(){
+    public double getAverageAtomicMass() {
         return averageAtomicMassProperty.get();
     }
 
@@ -299,19 +296,19 @@ public class IsotopeTestChamber {
      * ignored.
      *
      * @param isotopeConfig - Atom representing the configuration in
-     * question, MUST BE NEUTRAL.
+     *                      question, MUST BE NEUTRAL.
      * @return
      */
-    public double getIsotopeProportion( ImmutableAtom isotopeConfig ){
+    public double getIsotopeProportion( ImmutableAtom isotopeConfig ) {
         assert isotopeConfig.getCharge() == 0;
         double isotopeProportion = 0;
         int isotopeCount = 0;
-        for ( MovableAtom isotope : containedIsotopes ){
-            if ( isotopeConfig.equals( isotope.getAtomConfiguration() )){
+        for ( MovableAtom isotope : containedIsotopes ) {
+            if ( isotopeConfig.equals( isotope.getAtomConfiguration() ) ) {
                 isotopeCount++;
             }
         }
-        isotopeProportion = (double)isotopeCount / (double)containedIsotopes.size();
+        isotopeProportion = (double) isotopeCount / (double) containedIsotopes.size();
         return isotopeProportion;
     }
 
@@ -321,43 +318,43 @@ public class IsotopeTestChamber {
      * the chamber.  Using it in cases where there are a lost of particles
      * could take a very long time.
      */
-    public void adjustForOverlap(){
+    public void adjustForOverlap() {
         // Bounds checking.  The threshold is pretty much arbitrary.
-        if ( getTotalIsotopeCount() > 100 ){
-            System.out.println(getClass().getName() + " - Warning: Ignoring request to adjust for overlap - too many particles in the chamber for that.");
+        if ( getTotalIsotopeCount() > 100 ) {
+            System.out.println( getClass().getName() + " - Warning: Ignoring request to adjust for overlap - too many particles in the chamber for that." );
             return;
         }
 
         // Check for overlap and adjust particle positions until none exists.
         int maxIterations = 10000;
-        for ( int i = 0; checkForParticleOverlap() && i < maxIterations; i++ ){
+        for ( int i = 0; checkForParticleOverlap() && i < maxIterations; i++ ) {
             // Adjustment factors for the repositioning algorithm.
             double interParticleForceConst = 2000;
             double wallForceConst = interParticleForceConst * 10;
             double minInterParticleDistance = 0.0001;
             Map<MovableAtom, Vector2D> mapIsotopesToForces = new HashMap<MovableAtom, Vector2D>();
-            for ( MovableAtom isotope1 : containedIsotopes ){
-                Vector2D totalForce = new Vector2D(0, 0);
+            for ( MovableAtom isotope1 : containedIsotopes ) {
+                Vector2D totalForce = new Vector2D( 0, 0 );
                 // Calculate the forces due to other isotopes.
-                for ( MovableAtom isotope2: containedIsotopes ){
-                    if ( isotope1 == isotope2 ){
+                for ( MovableAtom isotope2 : containedIsotopes ) {
+                    if ( isotope1 == isotope2 ) {
                         // Same one, so skip it.
                         continue;
                     }
-                    Vector2D forceFromIsotope = new Vector2D(0, 0);
+                    Vector2D forceFromIsotope = new Vector2D( 0, 0 );
                     double distanceBetweenIsotopes = isotope1.getPosition().getDistance( isotope2.getPosition() );
-                    if ( distanceBetweenIsotopes == 0 ){
+                    if ( distanceBetweenIsotopes == 0 ) {
                         // These isotopes are sitting right on top of one
                         // another.  Add the max amount of inter-particle
                         // force in a random direction.
-                        forceFromIsotope.setMagnitude( interParticleForceConst / (minInterParticleDistance * minInterParticleDistance) );
+                        forceFromIsotope.setMagnitude( interParticleForceConst / ( minInterParticleDistance * minInterParticleDistance ) );
                         forceFromIsotope.setAngle( RAND.nextDouble() * 2 * Math.PI );
                     }
-                    else if ( distanceBetweenIsotopes < isotope1.getRadius() + isotope2.getRadius() ){
+                    else if ( distanceBetweenIsotopes < isotope1.getRadius() + isotope2.getRadius() ) {
                         // Calculate the repulsive force based on the distance.
                         forceFromIsotope.setComponents(
                                 isotope1.getPosition().getX() - isotope2.getPosition().getX(),
-                                isotope1.getPosition().getY() - isotope2.getPosition().getY());
+                                isotope1.getPosition().getY() - isotope2.getPosition().getY() );
                         double distance = Math.max( forceFromIsotope.getMagnitude(), minInterParticleDistance );
                         forceFromIsotope.normalize();
                         forceFromIsotope.scale( interParticleForceConst / ( distance * distance ) );
@@ -367,45 +364,45 @@ public class IsotopeTestChamber {
                 // Calculate the force due to the walls.  This prevents
                 // particles from being pushed out of the bounds of the
                 // chamber.
-                if (isotope1.getPosition().getX() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxX()){
+                if ( isotope1.getPosition().getX() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxX() ) {
                     double distanceFromRightWall = TEST_CHAMBER_RECT.getMaxX() - isotope1.getPosition().getX();
-                    totalForce.add( new ImmutableVector2D( -wallForceConst / (distanceFromRightWall * distanceFromRightWall), 0 ) );
+                    totalForce.add( new ImmutableVector2D( -wallForceConst / ( distanceFromRightWall * distanceFromRightWall ), 0 ) );
                 }
-                else if (isotope1.getPosition().getX() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinX()){
+                else if ( isotope1.getPosition().getX() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinX() ) {
                     double distanceFromLeftWall = isotope1.getPosition().getX() - TEST_CHAMBER_RECT.getMinX();
-                    totalForce.add( new ImmutableVector2D( wallForceConst / (distanceFromLeftWall * distanceFromLeftWall), 0 ) );
+                    totalForce.add( new ImmutableVector2D( wallForceConst / ( distanceFromLeftWall * distanceFromLeftWall ), 0 ) );
                 }
-                if (isotope1.getPosition().getY() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxY()){
+                if ( isotope1.getPosition().getY() + isotope1.getRadius() >= TEST_CHAMBER_RECT.getMaxY() ) {
                     double distanceFromTopWall = TEST_CHAMBER_RECT.getMaxY() - isotope1.getPosition().getY();
-                    totalForce.add( new ImmutableVector2D( 0, -wallForceConst / (distanceFromTopWall * distanceFromTopWall) ) );
+                    totalForce.add( new ImmutableVector2D( 0, -wallForceConst / ( distanceFromTopWall * distanceFromTopWall ) ) );
                 }
-                else if (isotope1.getPosition().getY() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinY()){
+                else if ( isotope1.getPosition().getY() - isotope1.getRadius() <= TEST_CHAMBER_RECT.getMinY() ) {
                     double distanceFromBottomWall = isotope1.getPosition().getY() - TEST_CHAMBER_RECT.getMinY();
-                    totalForce.add( new ImmutableVector2D( 0, wallForceConst / (distanceFromBottomWall * distanceFromBottomWall) ) );
+                    totalForce.add( new ImmutableVector2D( 0, wallForceConst / ( distanceFromBottomWall * distanceFromBottomWall ) ) );
                 }
 
                 // Put the calculated repulsive force into the map.
-                mapIsotopesToForces.put(isotope1, totalForce);
+                mapIsotopesToForces.put( isotope1, totalForce );
             }
             // Adjust the particle positions based on forces.
-            for ( MovableAtom isotope : mapIsotopesToForces.keySet() ){
+            for ( MovableAtom isotope : mapIsotopesToForces.keySet() ) {
                 isotope.setPositionAndDestination( mapIsotopesToForces.get( isotope ).getDestination( isotope.getPosition().toPoint2D() ) );
             }
-            if ( i == maxIterations - 1){
-                System.out.println(getClass().getName() + " - Warning: Hit max iterations of repositioning algorithm.");
+            if ( i == maxIterations - 1 ) {
+                System.out.println( getClass().getName() + " - Warning: Hit max iterations of repositioning algorithm." );
             }
         }
     }
 
-    private boolean checkForParticleOverlap(){
-        for ( MovableAtom isotope1 : containedIsotopes ){
-            for ( MovableAtom isotope2 : containedIsotopes ){
-                if ( isotope1 == isotope2 ){
+    private boolean checkForParticleOverlap() {
+        for ( MovableAtom isotope1 : containedIsotopes ) {
+            for ( MovableAtom isotope2 : containedIsotopes ) {
+                if ( isotope1 == isotope2 ) {
                     // Same isotope, so skip it.
                     continue;
                 }
                 double distance = isotope1.getPosition().getDistance( isotope2.getPosition() );
-                if ( distance < isotope1.getRadius() + isotope2.getRadius()){
+                if ( distance < isotope1.getRadius() + isotope2.getRadius() ) {
                     return true;
                 }
             }
@@ -415,22 +412,23 @@ public class IsotopeTestChamber {
 
     /**
      * Generate a random location within the test chamber.
+     *
      * @return
      */
-    public Point2D generateRandomLocation(){
+    public Point2D generateRandomLocation() {
         return new Point2D.Double(
                 TEST_CHAMBER_RECT.getMinX() + RAND.nextDouble() * TEST_CHAMBER_RECT.getWidth(),
                 TEST_CHAMBER_RECT.getMinY() + RAND.nextDouble() * TEST_CHAMBER_RECT.getHeight() );
     }
 
-    public State getState(){
+    public State getState() {
         return new State( this );
     }
 
     /**
      * Restore a previously captured state.
      */
-    public void setState( State state ){
+    public void setState( State state ) {
         removeAllIsotopes( true );
         bulkAddIsotopesToChamber( state.getContainedIsotopes() );
     }
@@ -442,7 +440,7 @@ public class IsotopeTestChamber {
     public static class State {
         private final List<MovableAtom> containedIsotopes;
 
-        public State( IsotopeTestChamber isotopeTestChamber ){
+        public State( IsotopeTestChamber isotopeTestChamber ) {
             this.containedIsotopes = new ArrayList<MovableAtom>( isotopeTestChamber.getContainedIsotopes() );
         }
 

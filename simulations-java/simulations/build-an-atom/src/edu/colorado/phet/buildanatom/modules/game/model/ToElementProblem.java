@@ -5,6 +5,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 
 /**
  * Abstract superclass for game problems in which the user is asked to predict which element is represented.
+ *
  * @author Sam Reid
  * @author John Blanco
  */

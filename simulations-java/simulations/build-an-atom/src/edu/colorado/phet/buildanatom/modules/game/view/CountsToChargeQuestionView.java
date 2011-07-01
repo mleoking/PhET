@@ -25,7 +25,7 @@ public class CountsToChargeQuestionView extends CountsToQuestionView {
         // Cause positive charge to be colored red, negative to be blue.
         getQuestion().setValueColorFunction( new ChargeColorFunction( getGuessProperty() ) );
 
-        if ( problem.getAnswer().isNeutral() ){
+        if ( problem.getAnswer().isNeutral() ) {
             // If the atom is neutral, the user should be able to press the
             // guess button right away.  The intent is to avoid this situation
             // if possible, but it may come up at some point that neutral
@@ -48,10 +48,10 @@ public class CountsToChargeQuestionView extends CountsToQuestionView {
         // nothing else.  So basically, if the charge value is correct, we
         // return the matching atom, and if not, we return a null atom.
         ImmutableAtom answer = null;
-        if ( getProblem().getAnswer().getCharge() == getGuessProperty().get() ){
+        if ( getProblem().getAnswer().getCharge() == getGuessProperty().get() ) {
             answer = getProblem().getAnswer();
         }
-        else{
+        else {
             answer = new ImmutableAtom( 0, 0, 0 );
         }
         return answer;

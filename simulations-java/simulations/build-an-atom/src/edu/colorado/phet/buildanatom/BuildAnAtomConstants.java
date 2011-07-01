@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.buildanatom;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
@@ -17,7 +16,8 @@ public class BuildAnAtomConstants {
     public static final Font ITEM_FONT = new PhetFont( 16, true );
 
     /* Not intended for instantiation. */
-    private BuildAnAtomConstants() {}
+    private BuildAnAtomConstants() {
+    }
 
     //----------------------------------------------------------------------------
     // Debugging
@@ -43,7 +43,7 @@ public class BuildAnAtomConstants {
     //----------------------------------------------------------------------------
 
     // Color of the "play area"
-    public static final Color CANVAS_BACKGROUND = new Color(255, 255, 153);
+    public static final Color CANVAS_BACKGROUND = new Color( 255, 255, 153 );
 
     //----------------------------------------------------------------------------
     // Images

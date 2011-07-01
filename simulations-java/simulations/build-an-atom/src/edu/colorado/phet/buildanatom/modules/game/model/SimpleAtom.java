@@ -4,11 +4,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 
 import java.util.HashSet;
 
-import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.AtomListener;
-import edu.colorado.phet.buildanatom.model.IAtom;
-import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.buildanatom.model.ImmutableAtom;
+import edu.colorado.phet.buildanatom.model.*;
 
 /**
  * An atom that simply tracks the quantities of the various subatomic
@@ -25,12 +21,12 @@ public class SimpleAtom implements IDynamicAtom {
     private int numElectrons = 0;
 
     // Collection of registered listeners.
-    private final HashSet<AtomListener> listeners =new HashSet<AtomListener>( );
+    private final HashSet<AtomListener> listeners = new HashSet<AtomListener>();
 
     /**
      * Default constructor.
      */
-    public SimpleAtom(){
+    public SimpleAtom() {
         // Use the default values.
     }
 
@@ -43,7 +39,7 @@ public class SimpleAtom implements IDynamicAtom {
         this.numElectrons = numElectrons;
     }
 
-    public SimpleAtom( ImmutableAtom atomConfig ){
+    public SimpleAtom( ImmutableAtom atomConfig ) {
         this( atomConfig.getNumProtons(), atomConfig.getNumNeutrons(), atomConfig.getNumElectrons() );
     }
 
@@ -56,7 +52,7 @@ public class SimpleAtom implements IDynamicAtom {
     }
 
     public void setNumNeutrons( int numNeutrons ) {
-        if ( this.numNeutrons != numNeutrons ){
+        if ( this.numNeutrons != numNeutrons ) {
             this.numNeutrons = numNeutrons;
             notifyConfigurationChanged();
         }
@@ -67,7 +63,7 @@ public class SimpleAtom implements IDynamicAtom {
     }
 
     public void setNumElectrons( int numElectrons ) {
-        if ( this.numElectrons != numElectrons ){
+        if ( this.numElectrons != numElectrons ) {
             this.numElectrons = numElectrons;
             notifyConfigurationChanged();
         }
@@ -98,15 +94,15 @@ public class SimpleAtom implements IDynamicAtom {
     }
 
     public String getFormattedCharge() {
-        if (getCharge() <= 0){
+        if ( getCharge() <= 0 ) {
             return "" + getCharge();
         }
-        else{
+        else {
             return "+" + getCharge();
         }
     }
 
-    public String getSymbol(){
+    public String getSymbol() {
         return getSymbol( getNumProtons() );
     }
 
@@ -118,7 +114,7 @@ public class SimpleAtom implements IDynamicAtom {
         return AtomIdentifier.isStable( this );
     }
 
-    public void addAtomListener(AtomListener listener) {
+    public void addAtomListener( AtomListener listener ) {
         listeners.add( listener );
     }
 
@@ -127,10 +123,10 @@ public class SimpleAtom implements IDynamicAtom {
     }
 
     public ImmutableAtom toImmutableAtom() {
-        return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons());
+        return new ImmutableAtom( getNumProtons(), getNumNeutrons(), getNumElectrons() );
     }
 
-    public double getAtomicMass(){
+    public double getAtomicMass() {
         return AtomIdentifier.getAtomicMass( this );
     }
 
@@ -138,8 +134,8 @@ public class SimpleAtom implements IDynamicAtom {
         return AtomIdentifier.getNaturalAbundance( this );
     }
 
-    private void notifyConfigurationChanged(){
-        for (AtomListener listener : listeners ){
+    private void notifyConfigurationChanged() {
+        for ( AtomListener listener : listeners ) {
             listener.configurationChanged();
         }
     }

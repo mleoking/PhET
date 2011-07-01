@@ -2,15 +2,15 @@
 
 package edu.colorado.phet.buildanatom.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.SphereBucket;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -54,11 +54,11 @@ public class BuildAnAtomModel implements Resettable {
 
     // The buckets which can hold the subatomic particles.
     private final SphereBucket<SphericalParticle> electronBucket = new SphereBucket<SphericalParticle>( ELECTRON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
+                                                                                                        BUCKET_SIZE, Color.blue, BuildAnAtomStrings.ELECTRONS_NAME, Electron.RADIUS, 0.6, -Electron.RADIUS / 2 );
     private final SphereBucket<SphericalParticle> protonBucket = new SphereBucket<SphericalParticle>( PROTON_BUCKET_POSITION,
-            BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
+                                                                                                      BUCKET_SIZE, PhetColorScheme.RED_COLORBLIND, BuildAnAtomStrings.PROTONS_NAME, Proton.RADIUS );
     private final SphereBucket<SphericalParticle> neutronBucket = new SphereBucket<SphericalParticle>( NEUTRON_BUCKET_POSITION,
-            BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
+                                                                                                       BUCKET_SIZE, Color.gray, BuildAnAtomStrings.NEUTRONS_NAME, Neutron.RADIUS );
 
     //----------------------------------------------------------------------------
     // Constructor(s)
@@ -97,7 +97,7 @@ public class BuildAnAtomModel implements Resettable {
                     // enough to the shell, and there is room, send it there.
                     // Otherwise send it to its bucket.
                     if ( atom.getRemainingElectronCapacity() > 0 && electron.getPosition().getDistance( atom.getPosition() ) < ELECTRON_CAPTURE_DISTANCE ) {
-                        atom.addElectron( electron , false );
+                        atom.addElectron( electron, false );
                     }
                     else {
                         electronBucket.addParticleNearestOpen( electron, false );
@@ -162,7 +162,7 @@ public class BuildAnAtomModel implements Resettable {
         initializeBuckets();
     }
 
-    private void initializeBuckets(){
+    private void initializeBuckets() {
         // Put all the particles into their respective buckets.
         for ( Electron electron : electrons ) {
             electronBucket.addParticleFirstOpen( electron, true );
@@ -195,31 +195,33 @@ public class BuildAnAtomModel implements Resettable {
         return neutronBucket;
     }
 
-    public static<T> ArrayList<T> reverse(ArrayList<T>list){
+    public static <T> ArrayList<T> reverse( ArrayList<T> list ) {
         ArrayList<T> t = new ArrayList<T>( list );
         Collections.reverse( t );
         return t;
     }
 
     public Proton getFreeProton() {
-        for ( Proton proton : reverse(protons )) {
-            if (!getAtom().containsProton(proton )){
+        for ( Proton proton : reverse( protons ) ) {
+            if ( !getAtom().containsProton( proton ) ) {
                 return proton;
             }
         }
         return null;
     }
+
     public Neutron getFreeNeutron() {
-        for ( Neutron neutron : reverse(neutrons ) ) {
-            if (!getAtom().containsNeutron(neutron )){
+        for ( Neutron neutron : reverse( neutrons ) ) {
+            if ( !getAtom().containsNeutron( neutron ) ) {
                 return neutron;
             }
         }
         return null;
     }
+
     public Electron getFreeElectron() {
-        for ( Electron electron : reverse(electrons )) {
-            if (!getAtom().containsElectron(electron )){
+        for ( Electron electron : reverse( electrons ) ) {
+            if ( !getAtom().containsElectron( electron ) ) {
                 return electron;
             }
         }

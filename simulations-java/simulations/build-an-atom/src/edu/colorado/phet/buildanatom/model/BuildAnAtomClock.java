@@ -16,7 +16,7 @@ public class BuildAnAtomClock extends ConstantDtClock {
     // Constructors
     //----------------------------------------------------------------------------
 
-    public BuildAnAtomClock( ) {
-        super( 1000/BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT);
+    public BuildAnAtomClock() {
+        super( 1000 / BuildAnAtomDefaults.CLOCK_FRAME_RATE, BuildAnAtomDefaults.CLOCK_DT );
     }
 }

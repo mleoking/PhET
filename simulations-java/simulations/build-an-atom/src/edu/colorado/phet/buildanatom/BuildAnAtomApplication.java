@@ -7,8 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JMenu;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.developer.DeveloperConfiguration;
 import edu.colorado.phet.buildanatom.developer.ProblemTypeSelectionDialog;
@@ -42,8 +41,7 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
      *
      * @param config the configuration for this application
      */
-    public BuildAnAtomApplication( PhetApplicationConfig config )
-    {
+    public BuildAnAtomApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -82,18 +80,18 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
         developerMenu.add( problemDialogVisibleControl );
         problemDialogVisibleControl.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                setProblemTypeDialogVisible( problemDialogVisibleControl.isSelected());
+                setProblemTypeDialogVisible( problemDialogVisibleControl.isSelected() );
             }
         } );
 
         // Add a listener that will clear the check mark if the user closes
         // the problem selection dialog directly.
-        problemTypeSelectionDialog.addWindowListener(new WindowAdapter() {
+        problemTypeSelectionDialog.addWindowListener( new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent e){
-                problemDialogVisibleControl.setSelected(false);
+            public void windowClosing( WindowEvent e ) {
+                problemDialogVisibleControl.setSelected( false );
             }
-        });
+        } );
 
         // Add an item for controlling whether unstable nuclei are animated.
         final JCheckBoxMenuItem animateNucleusCheckBox = new JCheckBoxMenuItem( "Animate Unstable Nucleus" ) {{
@@ -125,6 +123,6 @@ public class BuildAnAtomApplication extends PiccoloPhetApplication {
          * create your own PhetApplicationConfig and use one of the other launchSim methods
          */
         new PhetApplicationLauncher().launchSim( args, BuildAnAtomConstants.PROJECT_NAME,
-                BuildAnAtomConstants.FLAVOR_NAME_BUILD_AN_ATOM, BuildAnAtomApplication.class );
+                                                 BuildAnAtomConstants.FLAVOR_NAME_BUILD_AN_ATOM, BuildAnAtomApplication.class );
     }
 }

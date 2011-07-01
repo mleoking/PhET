@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Arc2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -35,7 +32,7 @@ public class ChargeIndicatorNode extends PNode {
     public ChargeIndicatorNode( final IDynamicAtom atom ) {
         final PImage chargeMeterImageNode = new PImage( BuildAnAtomResources.getImage( "atom_builder_charge_meter_no_window.png" ) );
         chargeMeterImageNode.setScale( WIDTH / chargeMeterImageNode.getFullBoundsReference().width );
-        addChild ( chargeMeterImageNode );
+        addChild( chargeMeterImageNode );
 
         // Add the pie node now so it is on top of the image.
         final int arcInsetDX = 2;
@@ -51,10 +48,10 @@ public class ChargeIndicatorNode extends PNode {
             addChild( blueSide );
 
             //Workaround because CircularGradientPaint (or our usage of it) seems to be off by a pixel or so
-            double seamPaintWidth=2;
-            Rectangle2D.Double fixPaint = new Rectangle2D.Double( pieHalfWidth / 2 - seamPaintWidth/2, 0, seamPaintWidth, BOX_DIMENSION/2 );
-            addChild( new PhetPPath( fixPaint, Color.white) );//Paint over the seam, couldn't get it fixed in CircularGradientPaint yet, only problematic on large window sizes and/or under 1.6
-            final PhetPPath pieBorder = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 0, 180, Arc2D.PIE ), new BasicStroke(2f), Color.GRAY );
+            double seamPaintWidth = 2;
+            Rectangle2D.Double fixPaint = new Rectangle2D.Double( pieHalfWidth / 2 - seamPaintWidth / 2, 0, seamPaintWidth, BOX_DIMENSION / 2 );
+            addChild( new PhetPPath( fixPaint, Color.white ) );//Paint over the seam, couldn't get it fixed in CircularGradientPaint yet, only problematic on large window sizes and/or under 1.6
+            final PhetPPath pieBorder = new PhetPPath( new Arc2D.Double( 0, 0, pieHalfWidth, BOX_DIMENSION, 0, 180, Arc2D.PIE ), new BasicStroke( 2f ), Color.GRAY );
             addChild( pieBorder );
         }};
 
@@ -65,14 +62,14 @@ public class ChargeIndicatorNode extends PNode {
         addChild( pieNode );
 
         // Add the numeric indicator, which consists of a background and some text.
-        addChild( new PhetPPath(Color.WHITE, new BasicStroke( 2f), Color.LIGHT_GRAY){{
+        addChild( new PhetPPath( Color.WHITE, new BasicStroke( 2f ), Color.LIGHT_GRAY ) {{
             Shape shape = new RoundRectangle2D.Double(
                     0,
                     0,
                     pieNode.getFullBoundsReference().width * 0.6,
-                    (chargeMeterImageNode.getFullBoundsReference().getMaxY() - pieNode.getFullBoundsReference().getMaxY()) * 0.7,
+                    ( chargeMeterImageNode.getFullBoundsReference().getMaxY() - pieNode.getFullBoundsReference().getMaxY() ) * 0.7,
                     4,
-                    4);
+                    4 );
             setPathTo( shape );
             setOffset(
                     pieNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
@@ -86,7 +83,7 @@ public class ChargeIndicatorNode extends PNode {
             public void configurationChanged() {
                 textNode.setText( atom.getFormattedCharge() );
                 textNode.setOffset( pieNode.getFullBounds().getCenterX() - textNode.getFullBounds().getWidth() / 2,
-                        ( pieNode.getFullBounds().getMaxY() + chargeMeterImageNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
+                                    ( pieNode.getFullBounds().getMaxY() + chargeMeterImageNode.getFullBounds().getMaxY() ) / 2 - textNode.getFullBounds().getHeight() / 2 );
                 textNode.setTextPaint( getTextPaint( atom ) );
             }
         };
@@ -123,10 +120,10 @@ public class ChargeIndicatorNode extends PNode {
 
         // Add the node that stacks charge icons horizontally next to one
         // another.
-        addChild( new ChargePairingGraphNode( atom ){{
-            setOffset(chargeMeterImageNode.getFullBoundsReference().getMaxX() + 15,
-                    chargeMeterImageNode.getFullBoundsReference().getCenterY() - 5);
-        }});
+        addChild( new ChargePairingGraphNode( atom ) {{
+            setOffset( chargeMeterImageNode.getFullBoundsReference().getMaxX() + 15,
+                       chargeMeterImageNode.getFullBoundsReference().getCenterY() - 5 );
+        }} );
     }
 
     private Paint getTextPaint( IAtom atom ) {

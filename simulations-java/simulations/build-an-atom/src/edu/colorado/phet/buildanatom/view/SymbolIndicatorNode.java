@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomListener;
@@ -42,10 +39,10 @@ public class SymbolIndicatorNode extends PNode {
     /**
      * Creates a SymbolIndicatorNode with the default font.
      *
-     * @param atom - The atom whose attributes are being depicted in the
-     * symbol.
+     * @param atom            - The atom whose attributes are being depicted in the
+     *                        symbol.
      * @param showElementName - A flag that determines whether the name of
-     * the element (e.g. Hydrogen) is shown beneath the symbol.
+     *                        the element (e.g. Hydrogen) is shown beneath the symbol.
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName ) {
         this( atom, showElementName, true );
@@ -55,13 +52,13 @@ public class SymbolIndicatorNode extends PNode {
      * Primary constructor.  This contains several flags that control various
      * aspects of the symbol's appearance and behavior.
      *
-     * @param atom - The atom whose attributes are being depicted in the
-     * symbol.
+     * @param atom            - The atom whose attributes are being depicted in the
+     *                        symbol.
      * @param showElementName - A flag that determines whether the name of
-     * the element (e.g. Hydrogen) is shown beneath the symbol.
-     * @param showCharge - A flag the determines whether the charge number is
-     * depicted. This is often used in cases where the symbol will always be
-     * neutral.
+     *                        the element (e.g. Hydrogen) is shown beneath the symbol.
+     * @param showCharge      - A flag the determines whether the charge number is
+     *                        depicted. This is often used in cases where the symbol will always be
+     *                        neutral.
      */
     public SymbolIndicatorNode( final IDynamicAtom atom, boolean showElementName, boolean showCharge ) {
 
@@ -78,7 +75,7 @@ public class SymbolIndicatorNode extends PNode {
         } );
 
         boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, width, height ), Color.white,
-                new BasicStroke( 1 ), Color.black );
+                                     new BasicStroke( 1 ), Color.black );
         addChild( boundingBox );
 
         textContent = new PNode();
@@ -103,8 +100,8 @@ public class SymbolIndicatorNode extends PNode {
 
         // Charge value indicator.
         chargeNode = new PText();
-        chargeNode.setFont(NUMBER_FONT);
-        if (showCharge){
+        chargeNode.setFont( NUMBER_FONT );
+        if ( showCharge ) {
             textContent.addChild( chargeNode );
         }
 
@@ -112,55 +109,55 @@ public class SymbolIndicatorNode extends PNode {
         elementName = new PText();
         elementName.setFont( DEFAULT_ELEMENT_NAME_FONT );
         elementName.setTextPaint( Color.RED );
-        if ( showElementName ){
+        if ( showElementName ) {
             addChild( elementName );
         }
 
         updateSymbol();
     }
 
-    private void updateSymbol(){
+    private void updateSymbol() {
         symbol.setText( atom.getSymbol() );
         symbol.setOffset( boundingBox.getFullBoundsReference().getCenterX() - symbol.getFullBoundsReference().width / 2,
-                boundingBox.getFullBoundsReference().getCenterY() - symbol.getFullBoundsReference().height / 2 );
-        protonCount.setText( atom.getNumProtons()==0?"":"" + atom.getNumProtons() );
+                          boundingBox.getFullBoundsReference().getCenterY() - symbol.getFullBoundsReference().height / 2 );
+        protonCount.setText( atom.getNumProtons() == 0 ? "" : "" + atom.getNumProtons() );
         final double OFFSET_FRACTION = 0.65;
         final double TEXT_INSET = 2;
         protonCount.setOffset( symbol.getFullBoundsReference().getMinX() - protonCount.getFullBoundsReference().width,
-                symbol.getFullBoundsReference().getMaxY()-protonCount.getFullBounds().getHeight()* (1-OFFSET_FRACTION) );
+                               symbol.getFullBoundsReference().getMaxY() - protonCount.getFullBounds().getHeight() * ( 1 - OFFSET_FRACTION ) );
 
-        if (chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX()){
-            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth(),chargeNode.getOffset().getY() );
+        if ( chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX() ) {
+            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX() - chargeNode.getFullBounds().getWidth(), chargeNode.getOffset().getY() );
         }
-        if (protonCount.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
-            protonCount.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,protonCount.getFullBoundsReference().getY() );
+        if ( protonCount.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX() ) {
+            protonCount.setOffset( boundingBox.getFullBounds().getMinX() + TEXT_INSET, protonCount.getFullBoundsReference().getY() );
         }
 
-        massNumberNode.setText( atom.getMassNumber()==0?"":"" + atom.getMassNumber());
+        massNumberNode.setText( atom.getMassNumber() == 0 ? "" : "" + atom.getMassNumber() );
         massNumberNode.setOffset( symbol.getFullBoundsReference().getMinX() - massNumberNode.getFullBoundsReference().width,
-                symbol.getFullBoundsReference().getMinY()-massNumberNode.getFullBounds().getHeight()* OFFSET_FRACTION );
-        if (massNumberNode.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX()){
-            massNumberNode.setOffset( boundingBox.getFullBounds().getMinX()+TEXT_INSET,massNumberNode.getFullBoundsReference().getY() );
+                                  symbol.getFullBoundsReference().getMinY() - massNumberNode.getFullBounds().getHeight() * OFFSET_FRACTION );
+        if ( massNumberNode.getFullBounds().getMinX() < boundingBox.getFullBounds().getMinX() ) {
+            massNumberNode.setOffset( boundingBox.getFullBounds().getMinX() + TEXT_INSET, massNumberNode.getFullBoundsReference().getY() );
         }
 
-        chargeNode.setText( atom.getMassNumber()==0?"":atom.getFormattedCharge() );
+        chargeNode.setText( atom.getMassNumber() == 0 ? "" : atom.getFormattedCharge() );
         Paint chargePaint = Color.BLACK;
-        if (atom.getCharge() > 0){
+        if ( atom.getCharge() > 0 ) {
             chargePaint = Color.RED;
         }
-        else if ( atom.getCharge() < 0){
+        else if ( atom.getCharge() < 0 ) {
             chargePaint = Color.BLUE;
         }
         chargeNode.setTextPaint( chargePaint );
         chargeNode.setOffset( symbol.getFullBoundsReference().getMaxX(),
-                symbol.getFullBoundsReference().getMinY()-chargeNode.getFullBounds().getHeight()* OFFSET_FRACTION );
+                              symbol.getFullBoundsReference().getMinY() - chargeNode.getFullBounds().getHeight() * OFFSET_FRACTION );
 
-        if (chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX()){
-            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX()-chargeNode.getFullBounds().getWidth()-TEXT_INSET,chargeNode.getOffset().getY() );
+        if ( chargeNode.getFullBounds().getMaxX() > boundingBox.getFullBounds().getMaxX() ) {
+            chargeNode.setOffset( boundingBox.getFullBounds().getMaxX() - chargeNode.getFullBounds().getWidth() - TEXT_INSET, chargeNode.getOffset().getY() );
         }
 
         elementName.setText( atom.getName() );
-        if (elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width){
+        if ( elementName.getFullBoundsReference().width > boundingBox.getFullBoundsReference().width ) {
             // Make sure the caption is not wider than the bounding box and,
             // if it is, scale it to fit.
             elementName.setScale( boundingBox.getFullBoundsReference().width / elementName.getFullBoundsReference().width );

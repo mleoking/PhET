@@ -14,5 +14,6 @@ package edu.colorado.phet.buildanatom.model;
  */
 public interface IConfigurableAtomModel {
     IDynamicAtom getAtom();
+
     void setAtomConfiguration( IAtom atom );
 }

@@ -8,11 +8,12 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
  * Game problem where the user is shown the neutron/proton/electron counts and is asked to predict the mass.
+ *
  * @author John Blanco
  */
-public class CountsToMassQuestionProblem extends ToElementProblem{
+public class CountsToMassQuestionProblem extends ToElementProblem {
     public CountsToMassQuestionProblem( BuildAnAtomGameModel model, ImmutableAtom atomValue ) {
-        super(model, atomValue );
+        super( model, atomValue );
     }
 
     @Override

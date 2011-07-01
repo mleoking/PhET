@@ -8,11 +8,12 @@ import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 
 /**
  * Game problem where the user is shown the schematic view of an atom and is asked to fill in the symbol.
+ *
  * @author Sam Reid
  */
 public class SchematicToSymbolProblem extends ToSymbolProblem {
     public SchematicToSymbolProblem( BuildAnAtomGameModel model, ImmutableAtom atomValue, boolean configurableProtonCount,
-            boolean configurableMass, boolean configurableCharge ) {
+                                     boolean configurableMass, boolean configurableCharge ) {
         super( model, atomValue, configurableProtonCount, configurableMass, configurableCharge );
     }
 

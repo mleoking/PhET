@@ -100,7 +100,7 @@ public class CircularGradientPaint implements Paint {
                 for ( int i = 0; i < w; i++ ) {
                     double angle = new Vector2D( _point, new Point2D.Double( x + i, y + j ) ).getAngle();
                     double ratio = angle;
-                    ratio = Math.abs( ratio / Math.PI )*2;
+                    ratio = Math.abs( ratio / Math.PI ) * 2;
 
                     int base = ( j * w + i ) * 4;
                     data[base + 0] = (int) ( _color1.getRed() + ratio * ( _color2.getRed() - _color1.getRed() ) );
@@ -121,13 +121,13 @@ public class CircularGradientPaint implements Paint {
                     super.paintComponent( g );
                     Graphics2D g2 = (Graphics2D) g;
 
-                    Arc2D.Double ellipse2 = new Arc2D.Double( 0, 0, 200, 200, 0,90, Arc2D.PIE );
-                    CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( 100,100), Color.red, Color.white);
+                    Arc2D.Double ellipse2 = new Arc2D.Double( 0, 0, 200, 200, 0, 90, Arc2D.PIE );
+                    CircularGradientPaint rgp2 = new CircularGradientPaint( new Point2D.Double( 100, 100 ), Color.red, Color.white );
                     g2.setPaint( rgp2 );
                     g2.fill( ellipse2 );
 
-                    Arc2D.Double ellipse = new Arc2D.Double( 0, 0, 200,200, 90, 90, Arc2D.PIE );
-                    CircularGradientPaint rgp = new CircularGradientPaint( new Point2D.Double( 100,100 ), Color.white, Color.blue);
+                    Arc2D.Double ellipse = new Arc2D.Double( 0, 0, 200, 200, 90, 90, Arc2D.PIE );
+                    CircularGradientPaint rgp = new CircularGradientPaint( new Point2D.Double( 100, 100 ), Color.white, Color.blue );
                     g2.setPaint( rgp );
                     g2.fill( ellipse );
 

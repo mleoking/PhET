@@ -16,7 +16,7 @@ public class Electron extends SphericalParticle {
         super( RADIUS, x, y, clock );
     }
 
-    public Electron(ConstantDtClock clock) {
+    public Electron( ConstantDtClock clock ) {
         this( clock, 0, 0 );
     }
 }

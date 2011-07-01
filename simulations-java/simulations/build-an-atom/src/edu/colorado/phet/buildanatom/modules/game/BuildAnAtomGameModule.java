@@ -24,7 +24,7 @@ public class BuildAnAtomGameModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     public BuildAnAtomGameModule() {
-        super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock( ) );
+        super( BuildAnAtomStrings.TITLE_GAME_MODULE, new BuildAnAtomClock() );
         setClockControlPanel( null );
 
         // Canvas

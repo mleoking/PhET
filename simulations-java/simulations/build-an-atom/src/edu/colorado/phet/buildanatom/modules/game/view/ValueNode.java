@@ -14,8 +14,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -42,7 +42,7 @@ public class ValueNode extends PNode {
     private Function0<Color> colorFunction;
 
     public ValueNode( final Property<Integer> numericProperty, final int minimum, final int maximum, int stepSize,
-            final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
+                      final Property<Boolean> editable, final NumberFormat numberFormat, final Function0<Color> colorFunction ) {
         this.colorFunction = colorFunction;
         spinner = new JSpinner( new SpinnerNumberModel( numericProperty.get().intValue(), minimum, maximum, stepSize ) ) {
             {
@@ -100,7 +100,7 @@ public class ValueNode extends PNode {
                     public void run() {
                         numberEditor.getTextField().selectAll();
                     }
-                });
+                } );
             }
         } );
 

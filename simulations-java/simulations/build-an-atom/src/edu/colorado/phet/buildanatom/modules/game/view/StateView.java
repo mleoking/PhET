@@ -57,7 +57,7 @@ public abstract class StateView {
         gameCanvas.getRootNode().removeChild( child );
     }
 
-    protected BuildAnAtomGameModel getModel(){
+    protected BuildAnAtomGameModel getModel() {
         return model;
     }
 }

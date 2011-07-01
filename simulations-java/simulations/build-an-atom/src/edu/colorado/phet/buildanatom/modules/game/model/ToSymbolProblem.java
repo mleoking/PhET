@@ -14,6 +14,7 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 public abstract class ToSymbolProblem extends Problem {
 
     private final boolean configurableProtonCount;
+
     public boolean isConfigurableProtonCount() {
         return configurableProtonCount;
     }
@@ -30,7 +31,7 @@ public abstract class ToSymbolProblem extends Problem {
     private final boolean configurableCharge;
 
     public ToSymbolProblem( BuildAnAtomGameModel model, ImmutableAtom atomValue, boolean configurableProtonCount,
-            boolean configurableMass, boolean configurableCharge ){
+                            boolean configurableMass, boolean configurableCharge ) {
         super( model, atomValue );
         this.configurableProtonCount = configurableProtonCount;
         this.configurableMass = configurableMass;
