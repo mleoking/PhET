@@ -20,10 +20,6 @@
     <exclude-output />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/java-version-checker/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/motion/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/quantum/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/timeseries/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/JSci" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/Jama/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/beanshell/asm/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/beanshell/src" isTestSource="false" />
@@ -57,15 +53,11 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/hydrogen-atom/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ideal-gas/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/inside-magnets/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/scala-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/lasers/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/maze-game/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/membrane-channels/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/microwaves/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-2d/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/scala-src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mri/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/mvc-example/src" isTestSource="false" />
@@ -178,25 +170,7 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/motion/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/mri/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/motion-series/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -448,15 +422,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/timeseries/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/hydrogen-atom/data" />
         </CLASSES>
         <JAVADOC />
@@ -476,15 +441,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/ideal-gas/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/common/quantum/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -629,15 +585,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/simulations-java/contrib/nanoxml/nanoxml.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/simulations-java/contrib/JSci/classes/jsci-core.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1043,24 +990,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-jai.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/ladybug-motion-2d/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/force-law-lab/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -1658,6 +1587,10 @@
     <orderEntry type="module" module-name="phetgraphics" exported="" />
     <orderEntry type="module" module-name="photon-absorption" exported="" />
     <orderEntry type="module" module-name="record-and-playback" exported="" />
+    <orderEntry type="module" module-name="quantum" exported="" />
+    <orderEntry type="module" module-name="timeseries" exported="" />
+    <orderEntry type="module" module-name="JSci" exported="" />
+    <orderEntry type="module" module-name="motion" exported="" />
   </component>
 </module>
 
