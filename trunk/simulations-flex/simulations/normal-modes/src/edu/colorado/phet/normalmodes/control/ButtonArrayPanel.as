@@ -163,10 +163,10 @@ public class ButtonArrayPanel extends UIComponent{
                 var colorX:int = Math.round( 9 * Math.min( 1, Xamplitude/0.03 ));
                 var colorY:int = Math.round( 9 * Math.min( 1, Yamplitude/0.03 ));
                 if(!this.verticalPolarization){
-                    this.button_arr[i][j].setLabel( colorX.toString());
+                    //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
                 }else if( verticalPolarization ) {
-                    this.button_arr[i][j].setLabel( colorY.toString());
+                    //this.button_arr[i][j].setLabel( colorY.toString());
                     this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
                 }
             }
