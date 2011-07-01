@@ -16,7 +16,9 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
 import edu.colorado.phet.solublesalts.view.IonGraphic;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
@@ -82,6 +84,16 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
                 model.waterVolume.addObserver( updatePath );
             }} );
         }
+
+        addChild( new TextButtonNode( "Show in Periodic Table" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    PeriodicTableDialog periodicTableDialog = new PeriodicTableDialog();
+                    periodicTableDialog.setVisible( true );
+                    SwingUtils.centerDialog( periodicTableDialog, MicroCanvas.this );
+                }
+            } );
+        }} );
     }
 
     //Create an image for sucrose using the same code as in the water tab to keep representations consistent
