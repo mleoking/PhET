@@ -9,6 +9,8 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import com.jme3.app.Application;
@@ -58,9 +60,13 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
                 }
 
                 public void deactivated() {
-//                    app.stop(  );
                 }
             } );
+
+            setControlPanel( new VerticalLayoutPanel() {{
+                JComponent parent = this;
+                add( new ResetAllButton( parent ) );
+            }} );
 
             setSimulationPanel( new JPanel( new BorderLayout() ) {{add( canvas, BorderLayout.CENTER );}} );
         }
