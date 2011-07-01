@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" />
       <module fileurl="file://$PROJECT_DIR$/build-tools/build-tools.iml" filepath="$PROJECT_DIR$/build-tools/build-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/charts/charts.iml" filepath="$PROJECT_DIR$/simulations-java/common/charts/charts.iml" />
@@ -17,15 +18,19 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jmol/jmol.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jmol-phet/jmol-phet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ladybug-motion-2d/ladybug-motion-2d.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ladybug-motion-2d/ladybug-motion-2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/motion/motion.iml" filepath="$PROJECT_DIR$/simulations-java/common/motion/motion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" />
       <module fileurl="file://$PROJECT_DIR$/phet-reduced.iml" filepath="$PROJECT_DIR$/phet-reduced.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" filepath="$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" filepath="$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" />
       <module fileurl="file://$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" filepath="$USER_HOME$/IdeaProjects/samreid-unfuddle/samreid-unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
@@ -33,6 +38,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
