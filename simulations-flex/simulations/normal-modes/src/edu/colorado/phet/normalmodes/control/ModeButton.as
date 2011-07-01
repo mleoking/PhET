@@ -22,8 +22,8 @@ import mx.utils.object_proxy;
 
 public class ModeButton extends Sprite{
     private var myModel2; Model2;
-    private var iIndex:int;
-    private var jIndex:int;
+    private var rIndex:int;
+    private var sIndex:int;
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;
@@ -38,8 +38,8 @@ public class ModeButton extends Sprite{
 
     public function ModeButton( myModel2:Model2, iIndx:int, jIndx:int, sizeInPix:Number) {
         this.myModel2 = myModel2;
-        this.iIndex = iIndx;
-        this.jIndex = jIndx;
+        this.rIndex = iIndx;
+        this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
         this.buttonColor = 0xffffff ;      //default color
         myColorTransform = new ColorTransform();
@@ -99,7 +99,7 @@ public class ModeButton extends Sprite{
     }
 
     private function makeLabel():void{
-        var label_str:String = iIndex.toString() + "," + jIndex.toString();
+        var label_str:String = rIndex.toString() + "," + sIndex.toString();
         this.label_txt.text = label_str;
         this.tFormat.font = "Arial";
         this.tFormat.size = 12;
@@ -149,11 +149,11 @@ public class ModeButton extends Sprite{
                 if(!localRef._activated){
                     localRef._activated = true;
                     //Note (i, j) = (row, column) = (y,x).  Mode r pairs with x=j, mode s pairs with y=i
-                    localRef.myModel2.setModeAmpli( localRef.jIndex, localRef.iIndex, 0.03  );
+                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0.03  );
                     localRef.changeColor( 0x00ff00 );
                 }else if(localRef._activated){
                     localRef._activated = false;
-                    localRef.myModel2.setModeAmpli( localRef.jIndex, localRef.iIndex, 0  );
+                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0  );
                     localRef.changeColor( 0xffffff );
                 }
 

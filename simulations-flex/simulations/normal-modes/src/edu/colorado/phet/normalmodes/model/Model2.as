@@ -226,7 +226,8 @@ public class Model2 {
         var syPos:Number = yPos - this.y0_arr[i][j];
         this.sx_arr[i][j] = sxPos;
         this.sy_arr[i][j] = syPos;
-
+        //following code allows user to throw mass with mass
+        //give mass initial velocity by releasing mouse while moving it
         var currentTime:Number = getTimer() / 1000;              //flash.utils.getTimer()
         var realDt: Number = 0.01; //currentTime - this.lastTime;
         this.lastTimeDuringMouseDrag = currentTime;
@@ -257,6 +258,7 @@ public class Model2 {
         this.b = b;
     }
 
+    //set polarization in x-direction or y-direction
     public function set xModes( tOrF:Boolean ):void{
         this._xModes = tOrF;
     }
@@ -369,9 +371,9 @@ public class Model2 {
                         var sineProduct:Number = Math.sin(i*r*Math.PI/(N+1))*Math.sin(j*s*Math.PI/(N+1));
                         //switch of i, j is intentional
                         muX[r][s] += (4/((N+1)*(N+1)))*sx_arr[j][i]*sineProduct
-                        nuX[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vx_arr[i][j]*sineProduct
+                        nuX[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vx_arr[j][i]*sineProduct
                         muY[r][s] += (4/((N+1)*(N+1)))*sy_arr[j][i]*sineProduct
-                        nuY[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vy_arr[i][j]*sineProduct
+                        nuY[r][s] += (4/(this.modeOmega_arr[r][s]*(N+1)*(N+1)))*vy_arr[j][i]*sineProduct
                         //counter += 1;     //testing only
                     }//end for j loop
                 } //end for i loop
@@ -459,9 +461,9 @@ public class Model2 {
                 for( var r:int = 1; r <= this._N; r++ ){
                     for(var s:int =1; s <= this._N; s++ ){
                         if(this._xModes){
-                            this.sx_arr[i][j] += modeAmpliX_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                            this.sx_arr[i][j] += modeAmpliX_arr[r][s]*Math.sin( j*r*pi/(_N+1))*Math.sin(i*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
                         }else{
-                            this.sy_arr[i][j] += modeAmpliY_arr[r][s]*Math.sin( i*r*pi/(_N+1))*Math.sin(j*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
+                            this.sy_arr[i][j] += modeAmpliY_arr[r][s]*Math.sin( j*r*pi/(_N+1))*Math.sin(i*s*pi/(_N+1))*Math.cos(modeOmega_arr[r][s]*this.t - modePhase_arr[r][s]);
                         }
                     }//end for s
                 }//end for r
