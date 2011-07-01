@@ -5,8 +5,7 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.AtomListener;
-import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -38,6 +37,12 @@ public class PeriodicTableNode extends PNode {
 
     public final Color backgroundColor;
 
+    public static interface PeriodicTableAtom {
+        int getNumProtons();
+
+        void addAtomListener( VoidFunction0 voidFunction0 );
+    }
+
     // ------------------------------------------------------------------------
     // Constructor(s)
     // ------------------------------------------------------------------------
@@ -45,7 +50,7 @@ public class PeriodicTableNode extends PNode {
     /**
      * Constructor.
      */
-    public PeriodicTableNode( final IDynamicAtom atom, Color backgroundColor ) {
+    public PeriodicTableNode( final PeriodicTableAtom atom, Color backgroundColor ) {
         this.backgroundColor = backgroundColor;
         //See http://www.ptable.com/
         final PNode table = new PNode();
@@ -78,11 +83,11 @@ public class PeriodicTableNode extends PNode {
      * Create a cell for an individual element.  Override this to create cells
      * that look different or implement some unique behavior.
      */
-    protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+    protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
         return new BasicElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
     }
 
-    private void addElement( final IDynamicAtom atom, final PNode table, int atomicNumber ) {
+    private void addElement( final PeriodicTableAtom atom, final PNode table, int atomicNumber ) {
         ElementCell elementCell = createCellForElement( atom, atomicNumber, backgroundColor );
         final Point gridPoint = getPeriodicTableGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
@@ -166,9 +171,9 @@ public class PeriodicTableNode extends PNode {
      */
     public static abstract class ElementCell extends PNode {
         private final int atomicNumber;
-        private final IDynamicAtom atom;
+        private final PeriodicTableAtom atom;
 
-        public ElementCell( IDynamicAtom atom, int atomicNumber ) {
+        public ElementCell( PeriodicTableAtom atom, int atomicNumber ) {
             this.atom = atom;
             this.atomicNumber = atomicNumber;
         }
@@ -177,7 +182,7 @@ public class PeriodicTableNode extends PNode {
             return atomicNumber;
         }
 
-        protected IDynamicAtom getAtom() {
+        protected PeriodicTableAtom getAtom() {
             return atom;
         }
     }
@@ -190,7 +195,7 @@ public class PeriodicTableNode extends PNode {
         private final PText text;
         private final PhetPPath box;
 
-        public BasicElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+        public BasicElementCell( final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber );
 
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
@@ -220,11 +225,10 @@ public class PeriodicTableNode extends PNode {
      * matches its configuration.
      */
     public static class HighlightingElementCell extends BasicElementCell {
-        public HighlightingElementCell( final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+        public HighlightingElementCell( final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber, backgroundColor );
-            getAtom().addAtomListener( new AtomListener.Adapter() {
-                @Override
-                public void configurationChanged() {
+            getAtom().addAtomListener( new VoidFunction0() {
+                public void apply() {
                     boolean match = getAtom().getNumProtons() == atomicNumber;
                     getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {

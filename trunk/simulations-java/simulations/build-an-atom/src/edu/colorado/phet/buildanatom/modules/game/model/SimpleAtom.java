@@ -5,6 +5,7 @@ package edu.colorado.phet.buildanatom.modules.game.model;
 import java.util.HashSet;
 
 import edu.colorado.phet.buildanatom.model.*;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 
 /**
  * An atom that simply tracks the quantities of the various subatomic
@@ -71,6 +72,17 @@ public class SimpleAtom implements IDynamicAtom {
 
     public int getNumProtons() {
         return numProtons;
+    }
+
+    public void addAtomListener( final VoidFunction0 voidFunction0 ) {
+        addAtomListener( new AtomListener() {
+            public void configurationChanged() {
+                voidFunction0.apply();
+            }
+
+            public void postitionChanged() {
+            }
+        } );
     }
 
     public void setNumProtons( int numProtons ) {

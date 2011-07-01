@@ -11,11 +11,11 @@ import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.buildanatom.modules.game.model.SimpleAtom;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode;
 import edu.colorado.phet.buildanatom.view.PeriodicTableNode.HighlightingElementCell;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode.PeriodicTableAtom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -39,7 +39,6 @@ public class GamePeriodicTable extends PNode {
 
     private static enum ChargeGuess {UNANSWERED, NEUTRAL_ATOM, ION}
 
-    ;
     private final SimpleAtom atom = new SimpleAtom();
     private final Property<GamePeriodicTable.ChargeGuess> chargeGuessProperty = new Property<GamePeriodicTable.ChargeGuess>( ChargeGuess.UNANSWERED );
     private final PNode selectNeutralOrIonTypeNode;
@@ -104,8 +103,7 @@ public class GamePeriodicTable extends PNode {
 
         // Create and add the periodic table.
         PNode periodicTableNode = new PeriodicTableNode( atom, BuildAnAtomConstants.CANVAS_BACKGROUND ) {
-            @Override
-            protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+            @Override protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
                 return new SelectableElementCell( GamePeriodicTable.this, atomBeingWatched, atomicNumberOfCell, backgroundColor );
             }
         };
@@ -161,7 +159,7 @@ public class GamePeriodicTable extends PNode {
      * configuration.
      */
     private static class SelectableElementCell extends HighlightingElementCell {
-        public SelectableElementCell( final GamePeriodicTable table, final IDynamicAtom atom, final int atomicNumber, final Color backgroundColor ) {
+        public SelectableElementCell( final GamePeriodicTable table, final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
             super( atom, atomicNumber, backgroundColor );
             addInputEventListener( new CursorHandler() );
 

@@ -5,9 +5,10 @@ import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
-import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IConfigurableAtomModel;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.buildanatom.view.PeriodicTableNode.PeriodicTableAtom;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
@@ -52,7 +53,7 @@ public class PeriodicTableControlNode extends PNode {
         IDynamicAtom atom = model.getAtom();
         PNode periodicTableNode = new PeriodicTableNode( atom, backgroundColor ) {
             @Override
-            protected ElementCell createCellForElement( IDynamicAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+            protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
                 if ( atomicNumberOfCell <= maxSettableAtomicNumber ) {
                     // Create an interactive cell, i.e. one that looks like a
                     // button and allows the user to press it to select an
@@ -92,7 +93,7 @@ public class PeriodicTableControlNode extends PNode {
         private final PPath buttonNode;
         private final PText text;
 
-        public ButtonElementCell( final IDynamicAtom atom, final int atomicNumber, final IConfigurableAtomModel model ) {
+        public ButtonElementCell( final PeriodicTableAtom atom, final int atomicNumber, final IConfigurableAtomModel model ) {
             super( atom, atomicNumber );
             addInputEventListener( new CursorHandler() );
 
@@ -160,9 +161,8 @@ public class PeriodicTableControlNode extends PNode {
             text.centerFullBoundsOnPoint( buttonDimension / 2, buttonDimension / 2 );
             buttonNode.addChild( text );
 
-            atom.addAtomListener( new AtomListener.Adapter() {
-                @Override
-                public void configurationChanged() {
+            atom.addAtomListener( new VoidFunction0() {
+                public void apply() {
                     updateSelected();
                 }
             } );
