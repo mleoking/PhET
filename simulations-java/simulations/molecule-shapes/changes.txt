@@ -1,3 +1,4 @@
+Launch the jme application within a swing window
 Removed unused code for skipping java.library.path modification
 # 0.00.06 (53639) Jun 30, 2011
 Feasibility test for skipping java.library.path modification
