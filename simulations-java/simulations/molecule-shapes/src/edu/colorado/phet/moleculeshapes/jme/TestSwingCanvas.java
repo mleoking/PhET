@@ -29,14 +29,6 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
         new PhetApplicationLauncher().launchSim( args, "molecule-shapes", TestSwingCanvas.class );
     }
 
-    public static void main2() {
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                JPopupMenu.setDefaultLightWeightPopupEnabled( false );
-            }
-        } );
-    }
-
     private class JMEModule extends Module {
         public JMEModule( String name ) {
             super( name, new ConstantDtClock( 30.0 ) );
