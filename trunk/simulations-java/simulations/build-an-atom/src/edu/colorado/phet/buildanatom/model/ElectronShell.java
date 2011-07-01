@@ -21,7 +21,7 @@ public class ElectronShell extends SimpleObservable {
     private final double radius;
     private final HashMap<Point2D, Electron> shellLocations = new HashMap<Point2D, Electron>();
     private final int electronCapacity;
-    private final Point2D centerLocation = new Point2D.Double(0, 0);
+    private final Point2D centerLocation = new Point2D.Double( 0, 0 );
 
     /**
      * Constructor.
@@ -71,7 +71,7 @@ public class ElectronShell extends SimpleObservable {
      *
      * @param point2d
      * @return - A reference to the closest electron, null if there are no
-     * electrons in the shell.
+     *         electrons in the shell.
      */
     public Electron getClosestElectron( Point2D point2d ) {
         Electron closestElectron = null;
@@ -94,7 +94,7 @@ public class ElectronShell extends SimpleObservable {
      * to hold an electron but currently do not contain one.
      *
      * @return - List of open locations, which will be empty if the shell is
-     * completely full.
+     *         completely full.
      */
     public ArrayList<Point2D> getOpenShellLocations() {
         ArrayList<Point2D> list = new ArrayList<Point2D>();
@@ -106,15 +106,15 @@ public class ElectronShell extends SimpleObservable {
         return list;
     }
 
-    public int getNumElectrons(){
+    public int getNumElectrons() {
         return shellLocations.size() - getOpenShellLocations().size();
     }
 
-    public int getNumOpenLocations(){
+    public int getNumOpenLocations() {
         return getOpenShellLocations().size();
     }
 
-    public int getElectronCapacity(){
+    public int getElectronCapacity() {
         return electronCapacity;
     }
 
@@ -122,16 +122,16 @@ public class ElectronShell extends SimpleObservable {
         return radius;
     }
 
-    public void setCenterLocation( double x, double y){
+    public void setCenterLocation( double x, double y ) {
         centerLocation.setLocation( x, y );
         notifyObservers();
     }
 
-    public void setCenterLocation( Point2D newLocation ){
+    public void setCenterLocation( Point2D newLocation ) {
         centerLocation.setLocation( newLocation.getX(), newLocation.getY() );
     }
 
-    public Point2D getCenterLocation(){
+    public Point2D getCenterLocation() {
         return new Point2D.Double( centerLocation.getX(), centerLocation.getY() );
     }
 
@@ -147,7 +147,7 @@ public class ElectronShell extends SimpleObservable {
      * Remove all electrons from this shell.
      */
     protected void reset() {
-        if (getNumElectrons() > 0){
+        if ( getNumElectrons() > 0 ) {
             for ( Electron electron : shellLocations.values() ) {
                 if ( electron != null ) {
                     // This prevents memory leaks and incorrect notifications.
@@ -164,14 +164,14 @@ public class ElectronShell extends SimpleObservable {
     /**
      * Add the supplied electron to this electron shell.
      *
-     * @param electronToAdd - Reference to the newly added electron.
+     * @param electronToAdd   - Reference to the newly added electron.
      * @param moveImmediately - Flag that indicates whether to move the
-     * electron right away, or to start moving the electron continuously to
-     * the target location, which results in an animation effect.
+     *                        electron right away, or to start moving the electron continuously to
+     *                        the target location, which results in an animation effect.
      */
     protected void addElectron( final Electron electronToAdd, boolean moveImmediately ) {
         Point2D shellLocation = findClosestOpenLocation( electronToAdd.getPosition().toPoint2D() );
-        if (shellLocation == null){
+        if ( shellLocation == null ) {
             System.err.println( getClass().getName() + " - Error: No space in shell." );
         }
         assert shellLocation != null;
@@ -195,13 +195,13 @@ public class ElectronShell extends SimpleObservable {
     public Electron removeElectron( Electron electronToRemove ) {
         assert shellLocations.containsValue( electronToRemove );
         assert electronToRemove != null;
-        if ( shellLocations.containsValue( electronToRemove ) ){
+        if ( shellLocations.containsValue( electronToRemove ) ) {
             shellLocations.put( getKey( electronToRemove ), null );
             electronToRemove.removeListener( particleRemovalListener );
             notifyObservers();
             return electronToRemove;
         }
-        else{
+        else {
             return null;
         }
     }
@@ -242,6 +242,7 @@ public class ElectronShell extends SimpleObservable {
 
     /**
      * Automatically synchronize added observers with our state.
+     *
      * @param observer
      */
     @Override

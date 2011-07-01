@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
@@ -15,6 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Textual indicator, showing whether an atom is a + ion, - ion or neutral.
+ *
  * @author Sam Reid
  */
 public class IonIndicatorNode extends PNode {
@@ -51,7 +51,7 @@ public class IonIndicatorNode extends PNode {
                 public void update() {
                     atomConfigListener.configurationChanged();
                 }
-            });
+            } );
         }} );
     }
 }

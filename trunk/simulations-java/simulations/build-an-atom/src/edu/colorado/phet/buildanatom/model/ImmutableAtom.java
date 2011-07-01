@@ -75,15 +75,15 @@ public class ImmutableAtom implements IAtom {
     }
 
     public int getCharge() {
-        return protons-electrons;
+        return protons - electrons;
     }
 
     public boolean isNeutral() {
-        return getCharge()==0;
+        return getCharge() == 0;
     }
 
     @Override
-    public String toString (){
+    public String toString() {
         return new String( "protons: " + protons + ", neutrons: " + neutrons + ", electrons: " + electrons + ", charge: " + getCharge() );
     }
 
@@ -91,10 +91,10 @@ public class ImmutableAtom implements IAtom {
      * @see edu.colorado.phet.buildanatom.model.IAtom#getFormattedCharge()
      */
     public String getFormattedCharge() {
-        if (getCharge() <= 0){
+        if ( getCharge() <= 0 ) {
             return "" + getCharge();
         }
-        else{
+        else {
             return "+" + getCharge();
         }
     }

@@ -12,15 +12,15 @@ import edu.colorado.phet.buildanatom.modules.game.model.Problem;
  *
  * @author Sam Reid
  */
-public class CountsToElementView extends ToElementView{
+public class CountsToElementView extends ToElementView {
     private final ParticleCountNode atomConfigurationText;
 
     public CountsToElementView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem ) {
         super( model, gameCanvas, problem );
         atomConfigurationText = new ParticleCountNode( problem.getAnswer().getNumProtons(),
-                problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
+                                                       problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
         atomConfigurationText.setOffset(
-                BuildAnAtomDefaults.STAGE_SIZE.width /4 - atomConfigurationText.getFullBounds().getWidth() / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.width / 4 - atomConfigurationText.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - atomConfigurationText.getFullBounds().getHeight() / 2 );
     }
 

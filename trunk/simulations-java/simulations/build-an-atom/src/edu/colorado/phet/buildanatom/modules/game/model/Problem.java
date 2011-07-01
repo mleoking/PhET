@@ -9,15 +9,15 @@ import edu.colorado.phet.buildanatom.model.ImmutableAtom;
  * The problems are generally ones where the user needs to venture a guess
  * about an atom's configuration.
  *
- *  @author John Blanco
- *  @author Sam Reid
+ * @author John Blanco
+ * @author Sam Reid
  */
 public abstract class Problem extends State {
 
     private final ImmutableAtom atom;
     private int numGuesses = 0;
     private int score = 0;
-    private boolean solvedCorrectly =false;
+    private boolean solvedCorrectly = false;
 
     public Problem( BuildAnAtomGameModel model, ImmutableAtom atom ) {
         super( model );
@@ -28,9 +28,9 @@ public abstract class Problem extends State {
         return atom.equals( guess );
     }
 
-    public void processGuess(ImmutableAtom guess) {
+    public void processGuess( ImmutableAtom guess ) {
         numGuesses++;
-        if ( isGuessCorrect(guess ) ) {
+        if ( isGuessCorrect( guess ) ) {
             solvedCorrectly = true;
             if ( numGuesses == 1 ) {
                 score = 2;
@@ -53,7 +53,7 @@ public abstract class Problem extends State {
         return score;
     }
 
-    public ImmutableAtom getAnswer(){
+    public ImmutableAtom getAnswer() {
         return atom;
     }
 }

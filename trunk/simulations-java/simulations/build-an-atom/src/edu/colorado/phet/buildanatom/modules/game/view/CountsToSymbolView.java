@@ -17,9 +17,9 @@ public class CountsToSymbolView extends ToSymbolProblemView {
     public CountsToSymbolView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, ToSymbolProblem problem ) {
         super( model, canvas, problem );
         particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),
-                problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
+                                                   problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
         particleCountNode.setOffset(
-                BuildAnAtomDefaults.STAGE_SIZE.width /4 - particleCountNode.getFullBounds().getWidth() / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.width / 4 - particleCountNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - particleCountNode.getFullBounds().getHeight() / 2 );
     }
 

@@ -29,7 +29,7 @@ public class ToSymbolProblemView extends ProblemView {
         super( model, canvas, problem );
 
         interactiveSymbolNode = new InteractiveSymbolNode( problem.getAnswer(), problem.isConfigurableProtonCount(),
-                problem.isConfigurableMass(), problem.isConfigurableCharge() );
+                                                           problem.isConfigurableMass(), problem.isConfigurableCharge() );
         interactiveSymbolNode.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 enableCheckButton();
@@ -41,16 +41,16 @@ public class ToSymbolProblemView extends ProblemView {
 
         // Set up the problem description based upon which of the fields need
         // to be filled in.
-        if ( problem.isConfigurableProtonCount() && problem.isConfigurableMass() && problem.isConfigurableCharge() ){
+        if ( problem.isConfigurableProtonCount() && problem.isConfigurableMass() && problem.isConfigurableCharge() ) {
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_ALL );
         }
-        else if ( problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && !problem.isConfigurableCharge() ){
+        else if ( problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && !problem.isConfigurableCharge() ) {
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_PROTON_COUNT );
         }
-        else if ( !problem.isConfigurableProtonCount() && problem.isConfigurableMass() && !problem.isConfigurableCharge() ){
+        else if ( !problem.isConfigurableProtonCount() && problem.isConfigurableMass() && !problem.isConfigurableCharge() ) {
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_MASS );
         }
-        else if ( !problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && problem.isConfigurableCharge() ){
+        else if ( !problem.isConfigurableProtonCount() && !problem.isConfigurableMass() && problem.isConfigurableCharge() ) {
             description = new ProblemDescriptionNode( BuildAnAtomStrings.GAME_COMPLETE_THE_SYMBOL_CHARGE );
         }
         else {
@@ -87,7 +87,7 @@ public class ToSymbolProblemView extends ProblemView {
 
     @Override
     protected void displayAnswer( ImmutableAtom answer ) {
-        interactiveSymbolNode.displayAnswer(answer);
+        interactiveSymbolNode.displayAnswer( answer );
     }
 
     @Override

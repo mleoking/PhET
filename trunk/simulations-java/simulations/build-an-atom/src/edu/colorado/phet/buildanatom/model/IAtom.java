@@ -11,27 +11,35 @@ package edu.colorado.phet.buildanatom.model;
  */
 public interface IAtom {
     int getNumProtons();
+
     int getNumNeutrons();
+
     int getNumElectrons();
+
     int getCharge();
+
     int getMassNumber();
+
     double getAtomicMass();
+
     String getSymbol();
+
     String getName();
+
     String getFormattedCharge();
 
     /**
      * Get the natural abundance for this particular isotope.
      *
      * @return - value from 0 to 1, inclusive, representing the proportion of
-     * this isotope that occurs in nature versus other isotopes with the same
-     * atomic number.
+     *         this isotope that occurs in nature versus other isotopes with the same
+     *         atomic number.
      */
     double getNaturalAbundance();
 
     /**
      * @return - True if the half life of this atom is greater than the age of the
-     * universe, false if not.
+     *         universe, false if not.
      */
     boolean isStable();
 }

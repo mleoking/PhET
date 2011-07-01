@@ -6,7 +6,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Default settings that are common to 2 or more modules.
- *
+ * <p/>
  * NOTE! This class is package private, and values herein should only be referenced
  * by the "defaults" classes for each module.  Classes that are module-specific should
  * use the class that corresponds to their module.

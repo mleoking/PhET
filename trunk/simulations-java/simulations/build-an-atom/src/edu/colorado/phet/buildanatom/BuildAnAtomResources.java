@@ -18,14 +18,15 @@ public class BuildAnAtomResources {
     private static final PhetResources RESOURCES = new PhetResources( BuildAnAtomConstants.PROJECT_NAME );
 
     /* not intended for instantiation */
-    private BuildAnAtomResources() {}
+    private BuildAnAtomResources() {
+    }
 
     public static final PhetResources getResourceLoader() {
         return RESOURCES;
     }
 
     public static final String getString( String name ) {
-        return RESOURCES.getLocalizedString( name  );
+        return RESOURCES.getLocalizedString( name );
     }
 
     public static final char getChar( String name, char defaultValue ) {

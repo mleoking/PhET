@@ -26,7 +26,7 @@ public abstract class ToQuestionView extends ProblemView {
      * Constructor.
      */
     public ToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
-            String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
+                           String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
 
         super( model, gameCanvas, problem );
 
@@ -42,7 +42,7 @@ public abstract class ToQuestionView extends ProblemView {
 
         question = new EntryPanel( questionText, guessProperty, minValue, maxValue, numberFormat );
         question.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - question.getFullBounds().getWidth() / 2,
-                BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
+                            BuildAnAtomDefaults.STAGE_SIZE.height / 2 - question.getFullBounds().getHeight() / 2 );
     }
 
     @Override
@@ -63,11 +63,11 @@ public abstract class ToQuestionView extends ProblemView {
         question.setChildrenPickable( guessEditable );
     }
 
-    protected EntryPanel getQuestion(){
+    protected EntryPanel getQuestion() {
         return question;
     }
 
-    protected Property<Integer> getGuessProperty(){
+    protected Property<Integer> getGuessProperty() {
         return guessProperty;
     }
 }

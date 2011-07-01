@@ -2,10 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Paint;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -32,7 +29,7 @@ public class ChargePairingGraphNode extends PNode {
     private static final double HORIZONTAL_INTER_ICON_SPACING = 3;
     private static final double THICKNESS_FACTOR = 0.3;
 
-    private static final PPath chargeCancellationEnclosingBox = new PhetPPath( (Paint)null, new BasicStroke(1f), Color.BLACK );
+    private static final PPath chargeCancellationEnclosingBox = new PhetPPath( (Paint) null, new BasicStroke( 1f ), Color.BLACK );
 
     private final ArrayList<PositiveChargeIconNode> positiveChargeIconList = new ArrayList<PositiveChargeIconNode>();
     private final ArrayList<NegativeChargeIconNode> negativeChargeIconList = new ArrayList<NegativeChargeIconNode>();

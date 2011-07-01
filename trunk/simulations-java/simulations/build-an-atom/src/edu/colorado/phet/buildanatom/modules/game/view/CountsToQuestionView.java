@@ -23,12 +23,12 @@ public abstract class CountsToQuestionView extends ToQuestionView {
      * Constructor.
      */
     public CountsToQuestionView( final BuildAnAtomGameModel model, BuildAnAtomGameCanvas gameCanvas, final Problem problem,
-            String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
+                                 String questionText, int minValue, int maxValue, NumberFormat numberFormat ) {
         super( model, gameCanvas, problem, questionText, minValue, maxValue, numberFormat );
         particleCountNode = new ParticleCountNode( problem.getAnswer().getNumProtons(),
-                problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
+                                                   problem.getAnswer().getNumNeutrons(), problem.getAnswer().getNumElectrons() );
         particleCountNode.setOffset(
-                BuildAnAtomDefaults.STAGE_SIZE.width /4 - particleCountNode.getFullBounds().getWidth() / 2,
+                BuildAnAtomDefaults.STAGE_SIZE.width / 4 - particleCountNode.getFullBounds().getWidth() / 2,
                 BuildAnAtomDefaults.STAGE_SIZE.height / 2 - particleCountNode.getFullBounds().getHeight() / 2 );
 
         // For this type of problem view, the check button is enabled right away.

@@ -16,7 +16,7 @@ public class Proton extends SphericalParticle {
         super( RADIUS, x, y, clock );
     }
 
-    public Proton(ConstantDtClock clock) {
+    public Proton( ConstantDtClock clock ) {
         this( clock, 0, 0 );
     }
 }

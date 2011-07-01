@@ -16,7 +16,7 @@ public class Neutron extends SphericalParticle {
         super( RADIUS, x, y, clock );
     }
 
-    public Neutron(ConstantDtClock clock) {
+    public Neutron( ConstantDtClock clock ) {
         this( clock, 0, 0 );
     }
 }

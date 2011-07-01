@@ -2,12 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.RoundRectangle2D;
@@ -48,17 +43,17 @@ class IsotopeProprotionsPieChart extends PNode {
         addChild( labelLayer );
         // Create and add the pie chart itself.  Initial color is arbitrary.
         final PieChartNode pieChart = new PieChartNode( new PieValue[] { new PieValue( 100, Color.yellow ) },
-                new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {{
-                setOffset( 0, 0 );
-            }};
-            addChild( pieChart );
+                                                        new Rectangle( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ) ) {{
+            setOffset( 0, 0 );
+        }};
+        addChild( pieChart );
         // Create and add the node that will be shown when there is nothing
         // in the chamber, since showing a pie chart would make no sense.
         final PNode emptyPieChart = new PhetPPath(
                 new Ellipse2D.Double( -PIE_CHART_DIAMETER / 2, -PIE_CHART_DIAMETER / 2, PIE_CHART_DIAMETER, PIE_CHART_DIAMETER ),
-                new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 4}, 0), Color.black ){{
-                    setOffset( 0, 0 );
-                }};
+                new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 5, 4 }, 0 ), Color.black ) {{
+            setOffset( 0, 0 );
+        }};
         addChild( emptyPieChart );
         // Add the observer that will update the pie chart when the contents
         // of the test chamber change.
@@ -76,10 +71,10 @@ class IsotopeProprotionsPieChart extends PNode {
                     ArrayList<IsotopePieValue> pieSlices = new ArrayList<IsotopePieValue>();
                     for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ) {
                         PrecisionDecimal proportion;
-                        if ( model.getShowingNaturesMixProperty().get() ){
-                            proportion = AtomIdentifier.getNaturalAbundancePrecisionDecimal( isotope ) ;
+                        if ( model.getShowingNaturesMixProperty().get() ) {
+                            proportion = AtomIdentifier.getNaturalAbundancePrecisionDecimal( isotope );
                         }
-                        else{
+                        else {
                             // The chemists requested that we just show one
                             // decimal place of precision when showing the
                             // user's mix.  Since the proportion is multiplied
@@ -88,7 +83,7 @@ class IsotopeProprotionsPieChart extends PNode {
                             proportion = new PrecisionDecimal( model.getIsotopeTestChamber().getIsotopeProportion( isotope ), 3 );
                         }
                         // Only add non-zero values.
-                        if ( proportion.getPreciseValue() > 0 ){
+                        if ( proportion.getPreciseValue() > 0 ) {
                             pieSlices.add( new IsotopePieValue( isotope, proportion, model.getColorForIsotope( isotope ) ) );
                         }
                     }
@@ -103,12 +98,12 @@ class IsotopeProprotionsPieChart extends PNode {
                     // while to make sure that it doesn't come back.  If the
                     // errors from this haven't been seen for a while, it can
                     // probably be safely removed.  jblanco, mid-March 2011.
-                    if ( pieSlices.size() == 0){
-                        System.out.println("No pie slices, aborting update of chart.");
-                        System.out.println("Prototype isotope = " + model.getAtom().toImmutableAtom());
-                        System.out.println("Possible Isotopes: ");
-                        for (ImmutableAtom isotope : model.getPossibleIsotopesProperty().get()){
-                            System.out.println("   " + isotope);
+                    if ( pieSlices.size() == 0 ) {
+                        System.out.println( "No pie slices, aborting update of chart." );
+                        System.out.println( "Prototype isotope = " + model.getAtom().toImmutableAtom() );
+                        System.out.println( "Possible Isotopes: " );
+                        for ( ImmutableAtom isotope : model.getPossibleIsotopesProperty().get() ) {
+                            System.out.println( "   " + isotope );
                         }
                         return;
                     }
@@ -128,9 +123,9 @@ class IsotopeProprotionsPieChart extends PNode {
                         Point2D centerEdgeOfPieSlice = pieChart.getCenterEdgePtForSlice( i );
                         boolean labelOnLeft = centerEdgeOfPieSlice.getX() < 0;
                         labelNode = new SliceLabel( pieSlices.get( i ).getIsotopeConfig(),
-                                pieSlices.get( i ).getValue() / pieChart.getTotal() * 100,
-                                pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces()-2,//Reduce precision by 2 since we multiplied by 2 orders of magnitude
-                                labelOnLeft );
+                                                    pieSlices.get( i ).getValue() / pieChart.getTotal() * 100,
+                                                    pieSlices.get( i ).getPrecisionDecimal().getNumberOfDecimalPlaces() - 2,//Reduce precision by 2 since we multiplied by 2 orders of magnitude
+                                                    labelOnLeft );
                         labelLayer.addChild( labelNode );
                         sliceLabels.add( labelNode );
 
@@ -149,22 +144,22 @@ class IsotopeProprotionsPieChart extends PNode {
                         double minY = -OVERALL_HEIGHT / 2 + labelNode.getFullBoundsReference().height / 2;
                         double maxY = OVERALL_HEIGHT / 2 - labelNode.getFullBoundsReference().height / 2;
                         double xSign = labelOnLeft ? -1 : 1;
-                        if ( positionVector.getY() < minY ){
+                        if ( positionVector.getY() < minY ) {
                             positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - minY * minY ) );
                             positionVector.setY( minY );
                         }
-                        else if ( positionVector.getY() > maxY ){
+                        else if ( positionVector.getY() > maxY ) {
                             positionVector.setX( xSign * Math.sqrt( positionVector.getMagnitudeSq() - maxY * maxY ) );
                             positionVector.setY( maxY );
                         }
 
                         // Position the label.
-                        if ( labelOnLeft ){
+                        if ( labelOnLeft ) {
                             labelNode.setOffset(
                                     positionVector.getX() - labelNode.getFullBoundsReference().width,
                                     positionVector.getY() - labelNode.getFullBoundsReference().height / 2 );
                         }
-                        else{
+                        else {
                             // Label on right.
                             labelNode.setOffset(
                                     positionVector.getX(),
@@ -180,16 +175,16 @@ class IsotopeProprotionsPieChart extends PNode {
                     // The labels should now be all in reasonable positions,
                     // so draw a line from the edge of the label to the pie
                     // slice to which it corresponds.
-                    for (int i = 0; i < sliceLabels.size(); i++){
+                    for ( int i = 0; i < sliceLabels.size(); i++ ) {
                         PNode label = sliceLabels.get( i );
                         Point2D labelConnectPt = new Point2D.Double();
-                        if (label.getFullBoundsReference().getCenterX() > pieChart.getFullBoundsReference().getCenterX()){
+                        if ( label.getFullBoundsReference().getCenterX() > pieChart.getFullBoundsReference().getCenterX() ) {
                             // Label is on right, so connect point should be on left.
                             labelConnectPt.setLocation(
                                     label.getFullBoundsReference().getMinX(),
                                     label.getFullBoundsReference().getCenterY() );
                         }
-                        else{
+                        else {
                             // Label is on left, so connect point should be on right.
                             labelConnectPt.setLocation(
                                     label.getFullBoundsReference().getMaxX(),
@@ -202,7 +197,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         // the slice.  Note that these calculations assume
                         // that the center of the pie chart is at (0,0).
                         DoubleGeneralPath connectingLineShape = new DoubleGeneralPath( sliceConnectPt );
-                        if ( sliceConnectPt.getY() > OVERALL_HEIGHT * 0.25 || sliceConnectPt.getY() < -OVERALL_HEIGHT * 0.25 ){
+                        if ( sliceConnectPt.getY() > OVERALL_HEIGHT * 0.25 || sliceConnectPt.getY() < -OVERALL_HEIGHT * 0.25 ) {
                             // Add a "bend point" so that the line doesn't go
                             // under the pie chart.
                             double additionalLength = OVERALL_HEIGHT / PIE_CHART_DIAMETER - 1;
@@ -214,7 +209,7 @@ class IsotopeProprotionsPieChart extends PNode {
                         }
                         connectingLineShape.lineTo( labelConnectPt );
                         labelLayer.addChild( new PhetPPath( connectingLineShape.getGeneralPath(),
-                                CONNECTING_LINE_STROKE, Color.BLACK) );
+                                                            CONNECTING_LINE_STROKE, Color.BLACK ) );
                     }
                 }
             }
@@ -229,20 +224,20 @@ class IsotopeProprotionsPieChart extends PNode {
      */
     private void adjustLabelPositionsForOverlap( ArrayList<SliceLabel> sliceLabels, double minY, double maxY ) {
         double rotationIncrement = Math.PI / 200; // Empirically chosen.
-        for (int i = 1; i < 50; i++ ){ // Number of iterations empirically chosen.
+        for ( int i = 1; i < 50; i++ ) { // Number of iterations empirically chosen.
             boolean overlapDetected = false;
             for ( SliceLabel label : sliceLabels ) {
                 boolean moveUp = false;
                 boolean moveDown = false;
                 for ( SliceLabel comparisonLabel : sliceLabels ) {
-                    if ( label == comparisonLabel ){
+                    if ( label == comparisonLabel ) {
                         // Same label, so ignore.
                         continue;
                     }
-                    if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() )){
+                    if ( label.fullIntersects( comparisonLabel.getFullBoundsReference() ) ) {
                         // These labels overlap.
                         overlapDetected = true;
-                        if ( label.getUnconstrainedPosRef().getY() > comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMaxY() < maxY ){
+                        if ( label.getUnconstrainedPosRef().getY() > comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMaxY() < maxY ) {
                             moveUp = true;
                         }
                         else if ( label.getUnconstrainedPosRef().getY() < comparisonLabel.getUnconstrainedPosRef().getY() && label.getFullBoundsReference().getMinY() > minY ) {
@@ -256,39 +251,39 @@ class IsotopeProprotionsPieChart extends PNode {
                 // overlap with a label that has a higher unconstrained
                 // location, move down.  If there is only overlap with a label
                 // with a lower unconstrained location, move down.
-                if ( moveUp && !moveDown ){
-                    if ( isLabelOnRight( label ) ){
+                if ( moveUp && !moveDown ) {
+                    if ( isLabelOnRight( label ) ) {
                         Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
                         label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
-                    else{
+                    else {
                         Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
                         label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                 }
-                else if ( moveDown && !moveUp ){
-                    if ( isLabelOnRight( label ) ){
+                else if ( moveDown && !moveUp ) {
+                    if ( isLabelOnRight( label ) ) {
                         Vector2D posVector = new Vector2D( label.getOffset().getX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( -rotationIncrement );
                         label.setOffset( posVector.getX(), posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
-                    else{
+                    else {
                         Vector2D posVector = new Vector2D( label.getFullBoundsReference().getMaxX(), label.getOffset().getY() + label.getFullBoundsReference().height / 2 );
                         posVector.rotate( rotationIncrement );
                         label.setOffset( posVector.getX() - label.getFullBoundsReference().width, posVector.getY() - label.getFullBoundsReference().height / 2 );
                     }
                 }
             }
-            if (!overlapDetected){
+            if ( !overlapDetected ) {
                 // No overlap for any of the labels, so we are done.
                 break;
             }
         }
     }
 
-    private boolean isLabelOnRight( SliceLabel label ){
+    private boolean isLabelOnRight( SliceLabel label ) {
         return ( label.getFullBoundsReference().getCenterX() > 0 );
     }
 
@@ -305,27 +300,27 @@ class IsotopeProprotionsPieChart extends PNode {
         // lower bounds of the pie chart and didn't have to worry about
         // avoiding overlap with other labels.  It is used for arbitrating
         // how labels move when handling overlap.
-        private final Point2D unconstrainedPos = new Point2D.Double(0, 0);
+        private final Point2D unconstrainedPos = new Point2D.Double( 0, 0 );
 
-        public SliceLabel( ImmutableAtom isotopeConfig, double isotopePercentage, int decimalDigitsToShow, boolean labelOnLeft ){
+        public SliceLabel( ImmutableAtom isotopeConfig, double isotopePercentage, int decimalDigitsToShow, boolean labelOnLeft ) {
             final ChemSymbolWithNumbers symbol = new ChemSymbolWithNumbers( isotopeConfig );
             addChild( symbol );
             final PText readoutText = new PText( VariablePrecisionNumberFormat.format( isotopePercentage,
-                                                                                Math.min( 4,//limit to 4 decimal points to be consistent with the front panel (and to protect the user from too many digits), even though we may know higher precision
-                                                                                          decimalDigitsToShow  )
-            ) + " %"){{
-               setFont(READOUT_FONT);
+                                                                                       Math.min( 4,//limit to 4 decimal points to be consistent with the front panel (and to protect the user from too many digits), even though we may know higher precision
+                                                                                                 decimalDigitsToShow )
+            ) + " %" ) {{
+                setFont( READOUT_FONT );
             }};
-            PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ){{
+            PNode readoutBox = new PhetPPath( Color.WHITE, new BasicStroke( 1 ), Color.BLACK ) {{
                 Shape readoutBoxShape = new RoundRectangle2D.Double( 0, 0, readoutText.getFullBoundsReference().width * 1.2,
-                        readoutText.getFullBoundsReference().height * 1.1, 4, 4);
+                                                                     readoutText.getFullBoundsReference().height * 1.1, 4, 4 );
                 setPathTo( readoutBoxShape );
                 readoutText.centerFullBoundsOnPoint( getFullBoundsReference().getCenterX(), getFullBoundsReference().getCenterY() );
                 addChild( readoutText );
             }};
             // Make the two portions of the label line up on the horizontal
             // axis.
-            if ( symbol.getFullBoundsReference().height > readoutBox.getFullBoundsReference().height ){
+            if ( symbol.getFullBoundsReference().height > readoutBox.getFullBoundsReference().height ) {
                 readoutBox.setOffset(
                         readoutBox.getOffset().getX(),
                         symbol.getFullBoundsReference().getCenterY() - readoutBox.getFullBoundsReference().height / 2 );
@@ -337,19 +332,19 @@ class IsotopeProprotionsPieChart extends PNode {
             }
             // Position the elements of the overall label.
             addChild( readoutBox );
-            if ( labelOnLeft ){
-                readoutBox.setOffset(symbol.getFullBoundsReference().getMaxX() + 5, readoutBox.getOffset().getY() );
+            if ( labelOnLeft ) {
+                readoutBox.setOffset( symbol.getFullBoundsReference().getMaxX() + 5, readoutBox.getOffset().getY() );
             }
-            else{
-                symbol.setOffset(readoutBox.getFullBoundsReference().getMaxX() + 5, symbol.getOffset().getY() );
+            else {
+                symbol.setOffset( readoutBox.getFullBoundsReference().getMaxX() + 5, symbol.getOffset().getY() );
             }
         }
 
-        protected void setUnconstrainedPos( double x, double y) {
+        protected void setUnconstrainedPos( double x, double y ) {
             unconstrainedPos.setLocation( x, y );
         }
 
-        protected Point2D getUnconstrainedPosRef(){
+        protected Point2D getUnconstrainedPosRef() {
             return unconstrainedPos;
         }
     }
@@ -365,20 +360,20 @@ class IsotopeProprotionsPieChart extends PNode {
         private static final Font SUPERSCRIPT_SUBSCRIPT_FONT = new PhetFont( 14 );
         private static final double DISTANCE_FROM_NUMBERS_TO_SYMBOL = 2; // In screen coords, close to pixels.
 
-        public ChemSymbolWithNumbers( ImmutableAtom chemical ){
-            final PText massNumber = new PText( Integer.toString( chemical.getMassNumber() ) ){{
+        public ChemSymbolWithNumbers( ImmutableAtom chemical ) {
+            final PText massNumber = new PText( Integer.toString( chemical.getMassNumber() ) ) {{
                 setFont( SUPERSCRIPT_SUBSCRIPT_FONT );
                 setOffset( 0, 0 );
             }};
             addChild( massNumber );
-            final PText symbol = new PText( chemical.getSymbol() ){{
+            final PText symbol = new PText( chemical.getSymbol() ) {{
                 setFont( CHEMICAL_SYMBOL_FONT );
                 setOffset(
                         massNumber.getFullBoundsReference().getMaxX() + DISTANCE_FROM_NUMBERS_TO_SYMBOL,
                         massNumber.getFullBoundsReference().height * 0.4 );
             }};
             addChild( symbol );
-            PText atomicNumber = new PText( Integer.toString( chemical.getNumProtons() ) ){{
+            PText atomicNumber = new PText( Integer.toString( chemical.getNumProtons() ) ) {{
                 setFont( SUPERSCRIPT_SUBSCRIPT_FONT );
                 setOffset(
                         symbol.getFullBoundsReference().getMinX() - DISTANCE_FROM_NUMBERS_TO_SYMBOL - getFullBoundsReference().width,

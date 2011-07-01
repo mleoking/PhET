@@ -34,7 +34,7 @@ public class ProblemSet {
      * problem set.  They are created randomly based on the constraints of the
      * current level selection and the "pool" of potential problems for the
      * level.
-     *
+     * <p/>
      * IMPORTANT NOTE: The existence of the developer dialog that allows
      * PhET users to disable various problem types makes it possible for this
      * problem set to end up empty.  Users of this class need to handle this
@@ -49,17 +49,17 @@ public class ProblemSet {
         // Now add problems of any type to the problem set.
         for ( int i = problems.size(); i < numProblems; i++ ) {
             Problem problem = generateProblem( model, atomValueList );
-            if ( problem != null ){
+            if ( problem != null ) {
                 addProblem( problem );
             }
         }
 
-        if (problems.size() == 0){
+        if ( problems.size() == 0 ) {
             System.err.println( getClass().getName() + " - Warning: Empty problem set, probably due to developer dialog settings." );
         }
     }
 
-    private void addProblem( Problem problem) {
+    private void addProblem( Problem problem ) {
         problems.add( problem );
     }
 
@@ -71,12 +71,12 @@ public class ProblemSet {
         return problems.size();
     }
 
-    public Problem getCurrentProblem(){
+    public Problem getCurrentProblem() {
         return problems.get( currentProblemIndex );
     }
 
     public boolean isLastProblem() {
-        return currentProblemIndex == problems.size() -1;
+        return currentProblemIndex == problems.size() - 1;
     }
 
     /**
@@ -124,11 +124,11 @@ public class ProblemSet {
     };
 
     // Data structure that maps lists of problem types to the various game levels.
-    private static final HashMap<Integer, ArrayList<ProblemType>> mapLevelToProbTypes = new HashMap<Integer, ArrayList<ProblemType>>(){{
-        put(1, LEVEL_1_ALLOWED_PROB_TYPES);
-        put(2, LEVEL_2_ALLOWED_PROB_TYPES);
-        put(3, LEVEL_3_ALLOWED_PROB_TYPES);
-        put(4, LEVEL_4_ALLOWED_PROB_TYPES);
+    private static final HashMap<Integer, ArrayList<ProblemType>> mapLevelToProbTypes = new HashMap<Integer, ArrayList<ProblemType>>() {{
+        put( 1, LEVEL_1_ALLOWED_PROB_TYPES );
+        put( 2, LEVEL_2_ALLOWED_PROB_TYPES );
+        put( 3, LEVEL_3_ALLOWED_PROB_TYPES );
+        put( 4, LEVEL_4_ALLOWED_PROB_TYPES );
     }};
 
     /**
@@ -138,11 +138,11 @@ public class ProblemSet {
      * @param problemTypesIn
      * @return Problem types allowed based on the developer dialog settings.
      */
-    private ArrayList<ProblemType> filterProblemTypes( ArrayList<ProblemType> problemTypesIn ){
+    private ArrayList<ProblemType> filterProblemTypes( ArrayList<ProblemType> problemTypesIn ) {
         ArrayList<ProblemType> problemTypesOut = new ArrayList<ProblemType>();
         ProblemTypeSelectionDialog allowedProbsDlg = ProblemTypeSelectionDialog.getInstance();
-        for ( ProblemType problemType : problemTypesIn ){
-            if ( allowedProbsDlg.isProblemTypeAllowed( problemType )){
+        for ( ProblemType problemType : problemTypesIn ) {
+            if ( allowedProbsDlg.isProblemTypeAllowed( problemType ) ) {
                 problemTypesOut.add( problemType );
             }
         }
@@ -160,7 +160,7 @@ public class ProblemSet {
      */
     private Problem generateProblem( BuildAnAtomGameModel model, AtomValuePool availableAtomValues ) {
 
-        if ( availableProblemTypes.size() == 0 ){
+        if ( availableProblemTypes.size() == 0 ) {
             // Reload the list of available problems with all possible problem
             // types for the current level.
             availableProblemTypes.addAll( mapLevelToProbTypes.get( model.getLevel() ) );
@@ -195,13 +195,13 @@ public class ProblemSet {
         int minProtonCount = 0;
         int maxProtonCount = Integer.MAX_VALUE;
         boolean requireCharged = false;
-        if ( isSchematicProbType( problemType )){
+        if ( isSchematicProbType( problemType ) ) {
             maxProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS;
         }
         else {
             minProtonCount = MAX_PROTON_NUMBER_FOR_SCHEMATIC_PROBS + 1;
         }
-        if ( isChargeProbType( problemType )){
+        if ( isChargeProbType( problemType ) ) {
             // If the problem is asking about the charge, at least 50% of the
             // time we want a charged atom.
             requireCharged = RAND.nextBoolean();
@@ -218,58 +218,58 @@ public class ProblemSet {
      */
     private Problem createProblem( BuildAnAtomGameModel model, ProblemType problemType, ImmutableAtom atomValue ) {
         Problem problem = null;
-        switch ( problemType ) {
-        case COUNTS_TO_ELEMENT:
-            problem = new CountsToElementProblem( model, atomValue );
-            break;
-        case COUNTS_TO_CHARGE_QUESTION:
-            problem = new CountsToChargeQuestionProblem( model, atomValue );
-            break;
-        case COUNTS_TO_MASS_QUESTION:
-            problem = new CountsToMassQuestionProblem( model, atomValue );
-            break;
-        case COUNTS_TO_SYMBOL_ALL:
-            problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
-            break;
-        case COUNTS_TO_SYMBOL_CHARGE:
-            problem = new CountsToSymbolProblem( model, atomValue, false, false, true );
-            break;
-        case COUNTS_TO_SYMBOL_MASS:
-            problem = new CountsToSymbolProblem( model, atomValue, false, true, false );
-            break;
-        case COUNTS_TO_SYMBOL_PROTON_COUNT:
-            problem = new CountsToSymbolProblem( model, atomValue, true, false, false );
-            break;
-        case SCHEMATIC_TO_ELEMENT:
-            problem = new SchematicToElementProblem( model, atomValue );
-            break;
-        case SCHEMATIC_TO_CHARGE_QUESTION:
-            problem = new SchematicToChargeQuestionProblem( model, atomValue );
-            break;
-        case SCHEMATIC_TO_MASS_QUESTION:
-            problem = new SchematicToMassQuestionProblem( model, atomValue );
-            break;
-        case SCHEMATIC_TO_SYMBOL_ALL:
-            problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
-            break;
-        case SCHEMATIC_TO_SYMBOL_CHARGE:
-            problem = new SchematicToSymbolProblem( model, atomValue, false, false, true );
-            break;
-        case SCHEMATIC_TO_SYMBOL_MASS:
-            problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
-            break;
-        case SCHEMATIC_TO_SYMBOL_PROTON_COUNT:
-            problem = new SchematicToSymbolProblem( model, atomValue, true, false, false );
-            break;
-        case SYMBOL_TO_COUNTS:
-            problem = new SymbolToCountsProblem( model, atomValue );
-            break;
-        case SYMBOL_TO_SCHEMATIC:
-            problem = new SymbolToSchematicProblem( model, atomValue );
-            break;
-        default:
-            System.err.println( getClass().getName() + " - Error: Request to create unknown problem type." );
-            break;
+        switch( problemType ) {
+            case COUNTS_TO_ELEMENT:
+                problem = new CountsToElementProblem( model, atomValue );
+                break;
+            case COUNTS_TO_CHARGE_QUESTION:
+                problem = new CountsToChargeQuestionProblem( model, atomValue );
+                break;
+            case COUNTS_TO_MASS_QUESTION:
+                problem = new CountsToMassQuestionProblem( model, atomValue );
+                break;
+            case COUNTS_TO_SYMBOL_ALL:
+                problem = new CountsToSymbolProblem( model, atomValue, true, true, true );
+                break;
+            case COUNTS_TO_SYMBOL_CHARGE:
+                problem = new CountsToSymbolProblem( model, atomValue, false, false, true );
+                break;
+            case COUNTS_TO_SYMBOL_MASS:
+                problem = new CountsToSymbolProblem( model, atomValue, false, true, false );
+                break;
+            case COUNTS_TO_SYMBOL_PROTON_COUNT:
+                problem = new CountsToSymbolProblem( model, atomValue, true, false, false );
+                break;
+            case SCHEMATIC_TO_ELEMENT:
+                problem = new SchematicToElementProblem( model, atomValue );
+                break;
+            case SCHEMATIC_TO_CHARGE_QUESTION:
+                problem = new SchematicToChargeQuestionProblem( model, atomValue );
+                break;
+            case SCHEMATIC_TO_MASS_QUESTION:
+                problem = new SchematicToMassQuestionProblem( model, atomValue );
+                break;
+            case SCHEMATIC_TO_SYMBOL_ALL:
+                problem = new SchematicToSymbolProblem( model, atomValue, true, true, true );
+                break;
+            case SCHEMATIC_TO_SYMBOL_CHARGE:
+                problem = new SchematicToSymbolProblem( model, atomValue, false, false, true );
+                break;
+            case SCHEMATIC_TO_SYMBOL_MASS:
+                problem = new SchematicToSymbolProblem( model, atomValue, false, true, false );
+                break;
+            case SCHEMATIC_TO_SYMBOL_PROTON_COUNT:
+                problem = new SchematicToSymbolProblem( model, atomValue, true, false, false );
+                break;
+            case SYMBOL_TO_COUNTS:
+                problem = new SymbolToCountsProblem( model, atomValue );
+                break;
+            case SYMBOL_TO_SCHEMATIC:
+                problem = new SymbolToSchematicProblem( model, atomValue );
+                break;
+            default:
+                System.err.println( getClass().getName() + " - Error: Request to create unknown problem type." );
+                break;
         }
         return problem;
     }
@@ -281,7 +281,7 @@ public class ProblemSet {
      * @param problemType
      * @return
      */
-    private boolean isSchematicProbType( ProblemType problemType ){
+    private boolean isSchematicProbType( ProblemType problemType ) {
         return ( problemType == ProblemType.SCHEMATIC_TO_ELEMENT ||
                  problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ||
                  problemType == ProblemType.SCHEMATIC_TO_MASS_QUESTION ||
@@ -299,12 +299,12 @@ public class ProblemSet {
      * @param problemType
      * @return
      */
-    private boolean isChargeProbType( ProblemType problemType ){
+    private boolean isChargeProbType( ProblemType problemType ) {
         return ( problemType == ProblemType.SCHEMATIC_TO_CHARGE_QUESTION ||
                  problemType == ProblemType.COUNTS_TO_CHARGE_QUESTION ||
                  problemType == ProblemType.COUNTS_TO_SYMBOL_CHARGE ||
                  problemType == ProblemType.SCHEMATIC_TO_SYMBOL_CHARGE
-                 );
+        );
     }
 
     /**
@@ -319,7 +319,7 @@ public class ProblemSet {
         private final ArrayList<ImmutableAtom> remainingAtomValues;
         private final ArrayList<ImmutableAtom> usedAtomValues = new ArrayList<ImmutableAtom>();
 
-        public AtomValuePool(BuildAnAtomGameModel model) {
+        public AtomValuePool( BuildAnAtomGameModel model ) {
             remainingAtomValues = new ArrayList<ImmutableAtom>( model.getLevelPool() );
         }
 
@@ -329,15 +329,15 @@ public class ProblemSet {
          * @param atomValueToRemove
          * @return true if value found, false if not.
          */
-        public boolean markAtomAsUsed( ImmutableAtom atomValueToRemove ){
-            if ( remainingAtomValues.remove( atomValueToRemove ) ){
+        public boolean markAtomAsUsed( ImmutableAtom atomValueToRemove ) {
+            if ( remainingAtomValues.remove( atomValueToRemove ) ) {
                 usedAtomValues.add( atomValueToRemove );
                 return true;
             }
             return false; // Didn't find the value on the list.
         }
 
-        public ImmutableAtom getRandomAtomValue( final int minProtonCount, final int maxProtonCount, final boolean requireCharged ){
+        public ImmutableAtom getRandomAtomValue( final int minProtonCount, final int maxProtonCount, final boolean requireCharged ) {
             return getRandomAtomValue( new Function1<ImmutableAtom, Boolean>() {
                 // Define the function that will decide if a given atom is acceptable.
                 public Boolean apply( ImmutableAtom av ) {
@@ -367,17 +367,17 @@ public class ProblemSet {
 
             // Make a list of the atoms that are small enough.
             ArrayList<ImmutableAtom> allowableAtomValues = new ArrayList<ImmutableAtom>();
-            for ( ImmutableAtom av : remainingAtomValues ){
-                if (atomValueCriteria.apply( av)){
+            for ( ImmutableAtom av : remainingAtomValues ) {
+                if ( atomValueCriteria.apply( av ) ) {
                     allowableAtomValues.add( av );
                 }
             }
-            if ( allowableAtomValues.size() == 0){
+            if ( allowableAtomValues.size() == 0 ) {
                 // There were none available on the list of unused atoms, so
                 // add them from the list of used atoms instead.
                 System.err.println( getClass().getName() + " - Warning: No remaining atoms values that meet the criteria." );
-                for ( ImmutableAtom av : usedAtomValues ){
-                    if (atomValueCriteria.apply( av)){
+                for ( ImmutableAtom av : usedAtomValues ) {
+                    if ( atomValueCriteria.apply( av ) ) {
                         allowableAtomValues.add( av );
                     }
                 }
@@ -385,10 +385,10 @@ public class ProblemSet {
 
             // Choose a value from the list.
             ImmutableAtom atomValue = null;
-            if ( allowableAtomValues.size() > 0 ){
+            if ( allowableAtomValues.size() > 0 ) {
                 atomValue = allowableAtomValues.get( AVP_RAND.nextInt( allowableAtomValues.size() ) );
             }
-            else{
+            else {
                 System.err.println( getClass().getName() + " - Error: No atoms found below specified size threshold." );
             }
             return atomValue;

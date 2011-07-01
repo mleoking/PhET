@@ -2,17 +2,12 @@
 
 package edu.colorado.phet.buildanatom.developer;
 
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.modules.game.model.ProblemType;
 import edu.colorado.phet.common.phetcommon.application.PaintImmediateDialog;
@@ -50,30 +45,30 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
      * Constructor.  This class is a singleton, so the constructor is not
      * intended for direct invocation.
      */
-    private ProblemTypeSelectionDialog(Frame parent) {
+    private ProblemTypeSelectionDialog( Frame parent ) {
         super( parent, "Select Allowed Problem Types" );
 
         setDefaultCloseOperation( JFrame.HIDE_ON_CLOSE );
 
         setLayout( new GridLayout( checkBoxList.size() + 1, 1 ) );
-        for ( JCheckBox checkBox : checkBoxList ){
+        for ( JCheckBox checkBox : checkBoxList ) {
             add( checkBox );
         }
         JPanel buttonPanel = new JPanel( new FlowLayout() );
-        buttonPanel.add( new JButton( "Check All" ){{
+        buttonPanel.add( new JButton( "Check All" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setAllSelected();
                 }
-            });
-        }});
-        buttonPanel.add( new JButton( "Clear All" ){{
+            } );
+        }} );
+        buttonPanel.add( new JButton( "Clear All" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     setNoneSelected();
                 }
-            });
-        }});
+            } );
+        }} );
         add( buttonPanel );
         pack();
         setLocation( parent.getX(), parent.getHeight() / 2 + parent.getY() - getHeight() / 2 );
@@ -81,45 +76,46 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
 
     // Get the instance of this singleton.
     static ProblemTypeSelectionDialog instance = null;
-    public static ProblemTypeSelectionDialog getInstance(){
+
+    public static ProblemTypeSelectionDialog getInstance() {
         assert instance != null; // Must be explicitly created before this can be called.
         return instance;
     }
 
-    public static ProblemTypeSelectionDialog createInstance(Frame parent){
-        if (instance == null){
+    public static ProblemTypeSelectionDialog createInstance( Frame parent ) {
+        if ( instance == null ) {
             instance = new ProblemTypeSelectionDialog( parent );
         }
-        else{
+        else {
             System.err.println( "Warning: Multiple attempts to create this singleton." );
         }
         return instance;
     }
 
-    public boolean isProblemTypeAllowed( ProblemType problemType ){
+    public boolean isProblemTypeAllowed( ProblemType problemType ) {
         ProblemTypeCheckBox problemTypeCheckBox = null;
-        for (ProblemTypeCheckBox checkBox : checkBoxList ){
-            if ( problemType == checkBox.getProblemType() ){
+        for ( ProblemTypeCheckBox checkBox : checkBoxList ) {
+            if ( problemType == checkBox.getProblemType() ) {
                 // Found the check box for the corresponding prob type.
                 problemTypeCheckBox = checkBox;
                 break;
             }
         }
-        if (problemTypeCheckBox == null){
+        if ( problemTypeCheckBox == null ) {
             System.err.println( getClass().getName() + " - Error: No check box found for problem type " + problemType );
             return false;
         }
         return problemTypeCheckBox.isSelected();
     }
 
-    public void setAllSelected(){
-        for ( JCheckBox checkBox : checkBoxList){
+    public void setAllSelected() {
+        for ( JCheckBox checkBox : checkBoxList ) {
             checkBox.setSelected( true );
         }
     }
 
-    private void setNoneSelected(){
-        for ( JCheckBox checkBox : checkBoxList){
+    private void setNoneSelected() {
+        for ( JCheckBox checkBox : checkBoxList ) {
             checkBox.setSelected( false );
         }
     }
@@ -132,12 +128,12 @@ public class ProblemTypeSelectionDialog extends PaintImmediateDialog {
     private static class ProblemTypeCheckBox extends JCheckBox {
         private final ProblemType problemType;
 
-        public ProblemTypeCheckBox ( String text, ProblemType problemType ){
+        public ProblemTypeCheckBox( String text, ProblemType problemType ) {
             super( text, true );
             this.problemType = problemType;
         }
 
-        public ProblemType getProblemType(){
+        public ProblemType getProblemType() {
             return problemType;
         }
     }

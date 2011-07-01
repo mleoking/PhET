@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.buildanatom.model.SphericalParticle;
@@ -40,10 +39,10 @@ public class SubatomicParticleNode extends PNode {
         // Create a gradient that gives the particles a 3D look.  The numbers
         // used were empirically determined.
         Paint particlePaint = new RoundGradientPaint( -radius / 1.5, -radius / 1.5,
-                ColorUtils.brighterColor( baseColor, 0.8 ), new Point2D.Double( radius, radius ),
-                baseColor );
+                                                      ColorUtils.brighterColor( baseColor, 0.8 ), new Point2D.Double( radius, radius ),
+                                                      baseColor );
         sphericalNode = new SphericalNode( mvt.modelToViewDeltaX( subatomicParticle.getDiameter() ),
-                particlePaint, false );
+                                           particlePaint, false );
         addChild( sphericalNode );
 
         updatePosition();

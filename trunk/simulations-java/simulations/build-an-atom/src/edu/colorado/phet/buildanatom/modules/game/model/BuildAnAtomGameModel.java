@@ -10,8 +10,8 @@ import edu.colorado.phet.buildanatom.modules.game.view.GameOverStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.GameSettingsStateView;
 import edu.colorado.phet.buildanatom.modules.game.view.StateView;
 import edu.colorado.phet.common.games.GameSettings;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
@@ -36,16 +36,16 @@ public class BuildAnAtomGameModel {
     // ------------------------------------------------------------------------
 
     private final ArrayList<GameModelListener> listeners = new ArrayList<GameModelListener>();
-    private final State gameSettingsState = new State( this ){
+    private final State gameSettingsState = new State( this ) {
         @Override
         public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
-            return new GameSettingsStateView(gameCanvas, BuildAnAtomGameModel.this );
+            return new GameSettingsStateView( gameCanvas, BuildAnAtomGameModel.this );
         }
     };
-    private final State gameOverState = new State( this ){
+    private final State gameOverState = new State( this ) {
         @Override
         public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
-            return new GameOverStateView(gameCanvas, BuildAnAtomGameModel.this );
+            return new GameOverStateView( gameCanvas, BuildAnAtomGameModel.this );
         }
 
         @Override
@@ -58,10 +58,10 @@ public class BuildAnAtomGameModel {
     /**
      * Null state, useful for avoiding use of null values.
      */
-    private final State nullState = new State( this ){
+    private final State nullState = new State( this ) {
         @Override
         public StateView createView( BuildAnAtomGameCanvas gameCanvas ) {
-            throw new RuntimeException("Not implemented.");
+            throw new RuntimeException( "Not implemented." );
         }
     };
 
@@ -322,10 +322,10 @@ public class BuildAnAtomGameModel {
     public void startGame() {
 
         problemSet = new ProblemSet( this, PROBLEMS_PER_SET );
-        if ( problemSet.getTotalNumProblems() > 0 ){
+        if ( problemSet.getTotalNumProblems() > 0 ) {
             setState( problemSet.getCurrentProblem() );
         }
-        else{
+        else {
             // No problems generated, go directly to Game Over state.
             setState( gameOverState );
         }
@@ -339,8 +339,8 @@ public class BuildAnAtomGameModel {
         getGameClock().stop();
 
         // Update the best time value if appropriate.
-        if ( isTimerEnabled() ){
-            if ( !mapLevelToBestTime.containsKey( getLevel() ) || getGameClock().getSimulationTime() < mapLevelToBestTime.get( getLevel() ) ){
+        if ( isTimerEnabled() ) {
+            if ( !mapLevelToBestTime.containsKey( getLevel() ) || getGameClock().getSimulationTime() < mapLevelToBestTime.get( getLevel() ) ) {
                 mapLevelToBestTime.put( getLevel(), getGameClock().getSimulationTime() );
             }
         }
@@ -360,6 +360,7 @@ public class BuildAnAtomGameModel {
 
     /**
      * Check the user's guess and update the state of the model accordingly.
+     *
      * @param guess
      */
     public void processGuess( ImmutableAtom guess ) {
@@ -374,7 +375,7 @@ public class BuildAnAtomGameModel {
     /**
      * Get the pool of possible problems for the current level setting.
      */
-    public ArrayList<ImmutableAtom> getLevelPool( ) {
+    public ArrayList<ImmutableAtom> getLevelPool() {
         return levelPools.get( getLevel() );
     }
 
@@ -431,10 +432,10 @@ public class BuildAnAtomGameModel {
      */
     public long getBestTime( int level ) {
         assert level > 0 && level <= MAX_LEVELS;
-        return (long) (mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Long.MAX_VALUE );
+        return (long) ( mapLevelToBestTime.containsKey( level ) ? mapLevelToBestTime.get( level ).doubleValue() : Long.MAX_VALUE );
     }
 
-    public boolean isNewBestTime(){
+    public boolean isNewBestTime() {
         return getTime() == getBestTime( getLevel() ) && isTimerEnabled();
     }
 
@@ -445,7 +446,7 @@ public class BuildAnAtomGameModel {
      *
      * @return
      */
-    public boolean isBestTimeRecorded( int level ){
+    public boolean isBestTimeRecorded( int level ) {
         return mapLevelToBestTime.containsKey( level );
     }
 }

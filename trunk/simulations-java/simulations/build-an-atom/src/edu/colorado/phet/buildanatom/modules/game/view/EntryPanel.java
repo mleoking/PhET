@@ -2,8 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -37,7 +36,7 @@ public class EntryPanel extends PNode {
 
     public EntryPanel( String labelText, final Property<Integer> property, int min, int max, NumberFormat numberFormat ) {
 
-        label = new HTMLNode("Dummy Text") {{
+        label = new HTMLNode( "Dummy Text" ) {{
             setFont( FONT );
         }};
         double spinnerHeight = label.getFullBoundsReference().getHeight() * 0.9;
@@ -48,7 +47,7 @@ public class EntryPanel extends PNode {
         valueNode = new ValueNode( property, min, max, 1, editable, numberFormat, ValueNode.DEFAULT_COLOR_FUNCTION );
         valueNode.setScale( spinnerHeight / valueNode.getFullBoundsReference().height * 0.9 );
         valueNode.setOffset( label.getFullBoundsReference().width + 15,
-                label.getFullBounds().getHeight() - valueNode.getFullBounds().getHeight() );
+                             label.getFullBounds().getHeight() - valueNode.getFullBounds().getHeight() );
         addChild( valueNode );
     }
 
@@ -78,7 +77,7 @@ public class EntryPanel extends PNode {
      *
      * @param colorFunction
      */
-    public void setValueColorFunction( Function0<Color> colorFunction ){
+    public void setValueColorFunction( Function0<Color> colorFunction ) {
         // Just pass this through to the value node.
         valueNode.setColorFunction( colorFunction );
     }

@@ -2,13 +2,10 @@
 
 package edu.colorado.phet.buildanatom.modules.isotopemixture.view;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Paint;
+import java.awt.*;
 import java.awt.geom.Point2D;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
+import javax.swing.*;
 
 import edu.colorado.phet.buildanatom.modules.isotopemixture.model.MovableAtom;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -59,12 +56,12 @@ public class LabeledIsotopeNode extends PNode {
         addChild( sphericalNode );
 
         // Create, scale, and add the label, assuming the isotope is large enough.
-        if ( transformedRadius > MIN_RADIUS_FOR_LABEL ){
-            HTMLNode labelNode = new HTMLNode(){{
+        if ( transformedRadius > MIN_RADIUS_FOR_LABEL ) {
+            HTMLNode labelNode = new HTMLNode() {{
                 setHTML( "<sup>" + isotope.getAtomConfiguration().getMassNumber() + "</sup>" + isotope.getAtomConfiguration().getSymbol() );
-                setFont( new PhetFont(12, true) );
+                setFont( new PhetFont( 12, true ) );
                 setScale( sphericalNode.getFullBoundsReference().width * 0.65 / getFullBoundsReference().width );
-                if ( 0.30 * baseColor.getRed() + 0.59 * baseColor.getGreen() + 0.11 * baseColor.getBlue() < 125 ){
+                if ( 0.30 * baseColor.getRed() + 0.59 * baseColor.getGreen() + 0.11 * baseColor.getBlue() < 125 ) {
                     setHTMLColor( Color.WHITE );
                 }
                 setOffset( -getFullBoundsReference().width / 2, -getFullBoundsReference().height / 2 );
@@ -74,11 +71,11 @@ public class LabeledIsotopeNode extends PNode {
 
         // Add the code for moving this node when the model element's position
         // changes.
-        isotope.addPositionListener( new SimpleObserver(){
+        isotope.addPositionListener( new SimpleObserver() {
             public void update() {
                 sphericalNode.setOffset( mvt.modelToView( isotope.getPosition().toPoint2D() ) );
             }
-        });
+        } );
 
         // Add a cursor handler to signal to the user that this is movable.
         addInputEventListener( new CursorHandler() );
@@ -98,7 +95,7 @@ public class LabeledIsotopeNode extends PNode {
                 PDimension delta = event.getDeltaRelativeTo( getParent() );
                 ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( delta.width, delta.height ) );
                 isotope.setPositionAndDestination( isotope.getPosition().getX() + modelDelta.getX(),
-                        isotope.getPosition().getY() + modelDelta.getY() );
+                                                   isotope.getPosition().getY() + modelDelta.getY() );
             }
 
             @Override
@@ -117,7 +114,7 @@ public class LabeledIsotopeNode extends PNode {
 
         // Add the item being testing.
         LabeledIsotopeNode isotopeNode = new LabeledIsotopeNode( ModelViewTransform.createIdentity(),
-                new MovableAtom(1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock()), Color.RED );
+                                                                 new MovableAtom( 1, 0, 20, new Point2D.Double( 0, 0 ), new ConstantDtClock() ), Color.RED );
         isotopeNode.setOffset( 100, 100 );
         canvas.addWorldChild( isotopeNode );
 

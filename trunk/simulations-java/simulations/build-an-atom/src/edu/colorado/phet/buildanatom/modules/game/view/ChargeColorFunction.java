@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -19,16 +19,16 @@ public class ChargeColorFunction implements Function0<Color> {
 
     private final Property<Integer> chargeProperty;
 
-    public ChargeColorFunction( Property<Integer> chargeProperty ){
+    public ChargeColorFunction( Property<Integer> chargeProperty ) {
         this.chargeProperty = chargeProperty;
     }
 
     public Color apply() {
         Color color;
-        if ( chargeProperty.get() > 0 ){
+        if ( chargeProperty.get() > 0 ) {
             color = PhetColorScheme.RED_COLORBLIND;
         }
-        else if ( chargeProperty.get() < 0 ){
+        else if ( chargeProperty.get() < 0 ) {
             color = Color.BLUE;
         }
         else {

@@ -1,9 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
 import javax.swing.event.ChangeListener;
@@ -11,9 +9,9 @@ import javax.swing.event.ChangeListener;
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
 import edu.colorado.phet.buildanatom.model.ImmutableAtom;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.SignedIntegerFormat;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -49,7 +47,8 @@ public class InteractiveSymbolNode extends PNode {
 
     /**
      * Primary constructor.
-     * @param atomValue - Atom that is being portrayed.
+     *
+     * @param atomValue              - Atom that is being portrayed.
      * @param interactiveProtonCount
      * @param interactiveMass
      * @param interactiveCharge
@@ -64,19 +63,19 @@ public class InteractiveSymbolNode extends PNode {
         // interactive or to the correct value if it is not.
         protonCountProperty = new Property<Integer>( interactiveProtonCount ? 0 : atomValue.getNumProtons() );
         massProperty = new Property<Integer>( interactiveMass ? 0 : atomValue.getMassNumber() );
-        chargeProperty = new Property<Integer>( interactiveCharge ? 0 :atomValue.getCharge() );
+        chargeProperty = new Property<Integer>( interactiveCharge ? 0 : atomValue.getCharge() );
 
         final PhetPPath boundingBox = new PhetPPath( new Rectangle2D.Double( 0, 0, WIDTH, WIDTH ), Color.white,
-                new BasicStroke( 3 ), Color.black );
+                                                     new BasicStroke( 3 ), Color.black );
         addChild( boundingBox );
         final PText symbol = new PText() {{
-                setFont( SYMBOL_FONT );
+            setFont( SYMBOL_FONT );
         }};
         addChild( symbol );
 
         final PText elementName = new PText() {{
-                setFont( ELEMENT_NAME_FONT );
-                setTextPaint( PhetColorScheme.RED_COLORBLIND );
+            setFont( ELEMENT_NAME_FONT );
+            setTextPaint( PhetColorScheme.RED_COLORBLIND );
         }};
         addChild( elementName );
 
@@ -99,13 +98,13 @@ public class InteractiveSymbolNode extends PNode {
         } );
 
         final ValueNode massValueNode = new ValueNode( massProperty, 0, 50, 1, interactiveMassProperty,
-                ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
+                                                       ValueNode.DEFAULT_NUMBER_FORMAT, new Function0.Constant<Color>( Color.black ) );
         massValueNode.setScale( SPINNER_HEIGHT / massValueNode.getFullBoundsReference().height );
         massValueNode.setOffset( SPINNER_EDGE_OFFSET, SPINNER_EDGE_OFFSET );
         addChild( massValueNode );
 
         ValueNode chargeValueNode = new ValueNode( chargeProperty, -20, 20, 1, interactiveChargeProperty, new SignedIntegerFormat(), new Function0<Color>() {
-                public Color apply() {
+            public Color apply() {
                 //Set the color based on the value
                 //Positive numbers are red and appear with a + sign
                 //Negative numbers are blue with a - sign
@@ -122,13 +121,12 @@ public class InteractiveSymbolNode extends PNode {
                     color = Color.black;
                 }
                 return color;
-                }
-                } )
-        {
+            }
+        } ) {
             {
                 setScale( SPINNER_HEIGHT / getFullBoundsReference().height );
                 double xOffset = WIDTH - getFullBoundsReference().width - SPINNER_EDGE_OFFSET;
-                if ( xOffset < massValueNode.getFullBoundsReference().getMaxX()){
+                if ( xOffset < massValueNode.getFullBoundsReference().getMaxX() ) {
                     // Prevent overlap of the value nodes by shifting this one
                     // to the right.  Note that this could potentially push
                     // this node partially outside of the bounding box.
@@ -142,6 +140,7 @@ public class InteractiveSymbolNode extends PNode {
 
     /**
      * Determines the particle counts given the proton count, mass number and charge.
+     *
      * @return the guess
      */
     public ImmutableAtom getGuess() {

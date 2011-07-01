@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * This Piccolo node shows a textual label to indicate whether the atom is
  * stable or unstable.
- *
+ * <p/>
  * So that it is easier to position, the center of this node is at offset
  * (0,0), rather than the more common upper left edge.
  *
@@ -33,9 +33,10 @@ public class StabilityIndicator extends PNode {
             @Override
             public void configurationChanged() {
                 setVisible( showLabels.get() && atom.getMassNumber() > 0 );
-                if (atom.isStable()){
+                if ( atom.isStable() ) {
                     stabilityText.setText( BuildAnAtomStrings.STABLE );
-                }else{
+                }
+                else {
                     stabilityText.setText( BuildAnAtomStrings.UNSTABLE );
                 }
                 // Adjust the offset so that the center of this node is at (0,0).
@@ -45,8 +46,8 @@ public class StabilityIndicator extends PNode {
             }
         };
         atom.addAtomListener( updateText );
-        showLabels.addObserver( new SimpleObserver(){
-            public void update(){
+        showLabels.addObserver( new SimpleObserver() {
+            public void update() {
                 updateText.configurationChanged();
             }
         } );

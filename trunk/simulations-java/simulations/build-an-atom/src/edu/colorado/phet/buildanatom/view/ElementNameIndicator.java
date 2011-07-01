@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
@@ -42,18 +42,18 @@ public class ElementNameIndicator extends PNode {
             }
         } );
 
-        showLabels.addObserver( new SimpleObserver(){
+        showLabels.addObserver( new SimpleObserver() {
             public void update() {
                 updateElementName();
             }
-        });
+        } );
     }
 
-    private void updateElementName(){
-        if ( atom.getNumProtons() > 0 ){
+    private void updateElementName() {
+        if ( atom.getNumProtons() > 0 ) {
             elementName.setText( atom.getName() + ( showMassNumber ? "-" + atom.getMassNumber() : "" ) );
         }
-        else{
+        else {
             // Can't set to a 0-length string or it can mess up layout in canvas.
             elementName.setText( " " );
         }
@@ -61,11 +61,11 @@ public class ElementNameIndicator extends PNode {
         elementName.setVisible( showLabels.get() );
     }
 
-    public void setColor( Color color ){
+    public void setColor( Color color ) {
         elementName.setTextPaint( color );
     }
 
-    public void setFont( PhetFont font ){
+    public void setFont( PhetFont font ) {
         elementName.setFont( font );
     }
 }

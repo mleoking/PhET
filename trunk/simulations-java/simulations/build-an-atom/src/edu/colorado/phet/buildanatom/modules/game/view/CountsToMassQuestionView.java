@@ -38,10 +38,10 @@ public class CountsToMassQuestionView extends CountsToQuestionView {
         // nothing else.  So basically, if the mass value is correct, we
         // return the matching atom, and if not, we return a null atom.
         ImmutableAtom answer = null;
-        if ( getProblem().getAnswer().getMassNumber() == getGuessProperty().get() ){
+        if ( getProblem().getAnswer().getMassNumber() == getGuessProperty().get() ) {
             answer = getProblem().getAnswer();
         }
-        else{
+        else {
             answer = new ImmutableAtom( 0, 0, 0 );
         }
         return answer;

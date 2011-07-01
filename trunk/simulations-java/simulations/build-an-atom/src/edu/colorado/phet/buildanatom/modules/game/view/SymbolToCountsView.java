@@ -17,6 +17,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Game problem in which the user is shown the symbol view of an atom and is asked to fill in the proton/neutron/electron counts.
+ *
  * @author Sam Reid
  */
 public class SymbolToCountsView extends ProblemView {
@@ -28,34 +29,34 @@ public class SymbolToCountsView extends ProblemView {
 
     public SymbolToCountsView( BuildAnAtomGameModel model, BuildAnAtomGameCanvas canvas, SymbolToCountsProblem howManyParticlesProblem ) {
         super( model, canvas, howManyParticlesProblem );
-        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom(getClock()), true);
+        symbolIndicatorNode = new SymbolIndicatorNode( howManyParticlesProblem.getAnswer().toAtom( getClock() ), true );
         symbolIndicatorNode.scale( 2.25 );
         symbolIndicatorNode.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width / 4 - symbolIndicatorNode.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - symbolIndicatorNode.getFullBounds().getHeight() / 2 );
 
-        multiEntryPanel = new MultiEntryPanel(  );
-        multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width *3/ 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
-        multiEntryPanel.addChangeListener(new ChangeListener(){
+        multiEntryPanel = new MultiEntryPanel();
+        multiEntryPanel.setOffset( BuildAnAtomDefaults.STAGE_SIZE.width * 3 / 4 - multiEntryPanel.getFullBounds().getWidth() / 2, BuildAnAtomDefaults.STAGE_SIZE.height / 2 - multiEntryPanel.getFullBounds().getHeight() / 2 );
+        multiEntryPanel.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent e ) {
                 enableCheckButton();
             }
-        });
+        } );
 
-        description.centerAbove(multiEntryPanel);
+        description.centerAbove( multiEntryPanel );
 
         // For this problem view, the check button is enabled right away.
         enableCheckButton();
     }
 
-    public static class MultiEntryPanel extends PNode{
+    public static class MultiEntryPanel extends PNode {
         private final EntryPanel protonEntryPanel;
         private final EntryPanel neutronEntryPanel;
         private final EntryPanel electronEntryPanel;
 
-        public Property<Integer> protonGuess = new Property<Integer>(0);
-        public Property<Integer> neutronGuess = new Property<Integer>(0);
-        public Property<Integer> electronGuess = new Property<Integer>(0);
+        public Property<Integer> protonGuess = new Property<Integer>( 0 );
+        public Property<Integer> neutronGuess = new Property<Integer>( 0 );
+        public Property<Integer> electronGuess = new Property<Integer>( 0 );
 
-        public MultiEntryPanel(  ) {
+        public MultiEntryPanel() {
             protonEntryPanel = new EntryPanel( BuildAnAtomStrings.PROTONS_READOUT, protonGuess );
             addChild( protonEntryPanel );
             neutronEntryPanel = new EntryPanel( BuildAnAtomStrings.NEUTRONS_READOUT, neutronGuess );
@@ -70,7 +71,7 @@ public class SymbolToCountsView extends ProblemView {
             electronEntryPanel.setSpinnerX( spinnerX );
 
             final double verticalSpacing = 20;
-            protonEntryPanel.setOffset( 0,0);
+            protonEntryPanel.setOffset( 0, 0 );
             neutronEntryPanel.setOffset( protonEntryPanel.getFullBounds().getX(), protonEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
             electronEntryPanel.setOffset( neutronEntryPanel.getFullBounds().getX(), neutronEntryPanel.getFullBounds().getMaxY() + verticalSpacing );
         }
@@ -85,7 +86,7 @@ public class SymbolToCountsView extends ProblemView {
             neutronGuess.set( answer.getNumNeutrons() );
             protonEntryPanel.setEditable( false );
             neutronEntryPanel.setEditable( false );
-            electronEntryPanel.setEditable(false);
+            electronEntryPanel.setEditable( false );
         }
 
         public void addChangeListener( final ChangeListener changeListener ) {
@@ -107,7 +108,7 @@ public class SymbolToCountsView extends ProblemView {
 
     @Override
     protected void displayAnswer( ImmutableAtom answer ) {
-        multiEntryPanel.displayAnswer(answer);
+        multiEntryPanel.displayAnswer( answer );
     }
 
     @Override

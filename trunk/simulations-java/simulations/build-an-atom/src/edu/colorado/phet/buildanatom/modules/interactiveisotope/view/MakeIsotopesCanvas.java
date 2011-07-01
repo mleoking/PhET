@@ -2,14 +2,7 @@
 
 package edu.colorado.phet.buildanatom.modules.interactiveisotope.view;
 
-import static edu.colorado.phet.buildanatom.BuildAnAtomDefaults.STAGE_SIZE;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Stroke;
+import java.awt.*;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
@@ -23,12 +16,7 @@ import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
 import edu.colorado.phet.buildanatom.model.AtomListener;
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.buildanatom.modules.interactiveisotope.model.MakeIsotopesModel;
-import edu.colorado.phet.buildanatom.view.ElementNameIndicator;
-import edu.colorado.phet.buildanatom.view.MaximizeControlNode;
-import edu.colorado.phet.buildanatom.view.ParticleCountLegend;
-import edu.colorado.phet.buildanatom.view.PeriodicTableControlNode;
-import edu.colorado.phet.buildanatom.view.StabilityIndicator;
-import edu.colorado.phet.buildanatom.view.SymbolIndicatorNode;
+import edu.colorado.phet.buildanatom.view.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -38,14 +26,16 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode;
-import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PieChartNode.PieValue;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.nodes.PLine;
 import edu.umd.cs.piccolox.util.LineShape;
 import edu.umd.cs.piccolox.util.XYArray;
+
+import static edu.colorado.phet.buildanatom.BuildAnAtomDefaults.STAGE_SIZE;
 
 /**
  * Canvas for the tab where the user makes isotopes of a given element by
@@ -117,18 +107,18 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Create the node that represents the scale upon which the atom sits.
         scaleNode = new AtomScaleNode( model.getAtom() ) {{
-                // The scale needs to sit just below the atom, and there are some
-                // "tweak factors" needed to get it looking right.
-                setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2, 530 );
+            // The scale needs to sit just below the atom, and there are some
+            // "tweak factors" needed to get it looking right.
+            setOffset( mvt.modelToViewX( 0 ) - getFullBoundsReference().width / 2, 530 );
         }};
 
         // Create the node that contains both the atom and the neutron bucket.
         Point2D topCenterOfScale = new Point2D.Double( scaleNode.getFullBoundsReference().getCenterX(),
-                scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 );
+                                                       scaleNode.getFullBoundsReference().getMinY() + scaleNode.getWeighPlateTopProjectedHeight() / 2 );
         final InteractiveIsotopeNode atomAndBucketNode = new InteractiveIsotopeNode( model, mvt, topCenterOfScale );
 
         // Add the "My Isotope" label.
-        final PText myIsotopeLabel = new PText(BuildAnAtomStrings.MY_ISOTOPE){{
+        final PText myIsotopeLabel = new PText( BuildAnAtomStrings.MY_ISOTOPE ) {{
             setFont( new PhetFont( 24, true ) );
             setTextPaint( Color.DARK_GRAY );
             setOffset(
@@ -141,10 +131,10 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
                 // Position the "My Isotope" indicator to be just above the
                 // electron cloud.
                 myIsotopeLabel.setOffset(
-                        mvt.modelToViewX( model.getAtom().getPosition().getX()) - myIsotopeLabel.getFullBoundsReference().width / 2,
-                        mvt.modelToViewY( model.getAtom().getPosition().getY() ) - atomAndBucketNode.getCloudRadius() - myIsotopeLabel.getFullBoundsReference().height - 4);
+                        mvt.modelToViewX( model.getAtom().getPosition().getX() ) - myIsotopeLabel.getFullBoundsReference().width / 2,
+                        mvt.modelToViewY( model.getAtom().getPosition().getY() ) - atomAndBucketNode.getCloudRadius() - myIsotopeLabel.getFullBoundsReference().height - 4 );
             }
-        });
+        } );
 
         // Add the scale followed by the atom so that the layering effect is
         // correct.
@@ -152,7 +142,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         atomLayer.addChild( atomAndBucketNode );
 
         // Add indicator that shows the name of the element.
-        final ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ){{
+        final ElementNameIndicator elementNameIndicator = new ElementNameIndicator( model.getAtom(), new BooleanProperty( true ), true ) {{
             setFont( new PhetFont( 20, true ) );
             setColor( Color.BLACK );
             setOffset( mvt.modelToViewX( 0 ), myIsotopeLabel.getFullBoundsReference().getMaxY() + getFullBoundsReference().height );
@@ -165,16 +155,18 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
 
         // Add functionality to position the labels based on the location of
         // the nucleus.
-        model.getAtom().addAtomListener( new AtomListener.Adapter(){
+        model.getAtom().addAtomListener( new AtomListener.Adapter() {
             @Override
-            public void postitionChanged(){
+            public void postitionChanged() {
                 updateLabelPositions();
             }
+
             @Override
             public void configurationChanged() {
                 updateLabelPositions();
             }
-            private void updateLabelPositions(){
+
+            private void updateLabelPositions() {
                 double centerX = model.getAtom().getPosition().getX();
                 double centerY = model.getAtom().getPosition().getY();
                 elementNameIndicator.setOffset(
@@ -184,7 +176,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
                         mvt.modelToViewX( centerX ),
                         mvt.modelToViewY( centerY ) + elementNameIndicator.getFullBounds().height + 20 );
             }
-        });
+        } );
 
         // Add the interactive periodic table that allows the user to select
         // the current element.
@@ -212,13 +204,13 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         final PNode abundanceIndicatorNode = new AbundanceIndicatorNode( model.getAtom() );
         abundanceIndicatorNode.setOffset(
                 abundanceWindowSize.getWidth() / 2 + 40,    // Tweak factor empirically determined.
-                abundanceWindowSize.getHeight() / 2 + 10);  // Tweak factor empirically determined.
+                abundanceWindowSize.getHeight() / 2 + 10 );  // Tweak factor empirically determined.
         abundanceWindow = new MaximizeControlNode( BuildAnAtomStrings.ABUNDANCE_IN_NATURE, abundanceWindowSize, abundanceIndicatorNode, true );
         abundanceWindow.setOffset( indicatorWindowPosX, symbolWindow.getFullBoundsReference().getMaxY() + 30 );
         indicatorLayer.addChild( abundanceWindow );
 
         // Add the "Reset All" button.
-        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) ){{
+        ResetAllButtonNode resetButtonNode = new ResetAllButtonNode( this, this, 16, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
         }};
         double desiredResetButtonWidth = 100;
@@ -269,7 +261,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
         private static final Font READOUT_FONT = new PhetFont( 20 );
         private static final int PIE_CHART_DIAMETER = 100; // In screen coords, which is close to pixels.
         private static final int CONNECTING_LINE_LEGNTH = 40; // In screen coords, which is close to pixels.
-        private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke(2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{5, 3}, 0);
+        private static final Stroke CONNECTING_LINE_STROKE = new BasicStroke( 2, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[] { 5, 3 }, 0 );
         private final int RECTANGLE_INSET_X = 6;
 
         public AbundanceIndicatorNode( final IDynamicAtom atom ) {
@@ -277,7 +269,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
             // Add the line that connects the indicator to the pie chart.
             // This must be added first because it goes behind the other
             // nodes.
-            LineShape lineShape = new LineShape( new XYArray( new double[]{0, 0, 0, 0} ) );
+            LineShape lineShape = new LineShape( new XYArray( new double[] { 0, 0, 0, 0 } ) );
             final PLine connectingLine = new PLine( lineShape, CONNECTING_LINE_STROKE );
             addChild( connectingLine );
 
@@ -292,39 +284,39 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
             addChild( value );
 
             // Add the caption for the numerical readout.
-            final PText readoutCaption = new PText( BuildAnAtomStrings.THIS_ISOTOPE ){{
+            final PText readoutCaption = new PText( BuildAnAtomStrings.THIS_ISOTOPE ) {{
                 setFont( new PhetFont( 18 ) );
                 valueBackground.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
                     public void propertyChange( PropertyChangeEvent evt ) {
-                          centerFullBoundsOnPoint(
-                                  valueBackground.getFullBoundsReference().getCenterX(),
-                                  valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 2 );
+                        centerFullBoundsOnPoint(
+                                valueBackground.getFullBoundsReference().getCenterX(),
+                                valueBackground.getFullBoundsReference().getMinY() - getFullBoundsReference().height / 2 - 2 );
                     }
-                });
+                } );
             }};
             addChild( readoutCaption );
 
             // Add the pie chart.
             final TwoItemPieChartNode pieChart = new TwoItemPieChartNode( PIE_CHART_DIAMETER,
-                    atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
+                                                                          atom.getNaturalAbundance(), 1 - atom.getNaturalAbundance() );
             addChild( pieChart );
 
             // Add caption for right side of pie chart.  This caption labels
             // the section of the pie chart the refers to other isotopes.
-            final HTMLNode otherIsotopesCaption = new HTMLNode(){{
+            final HTMLNode otherIsotopesCaption = new HTMLNode() {{
                 setFont( new PhetFont( 18 ) );
                 atom.addAtomListener( new AtomListener.Adapter() {
                     @Override
                     public void configurationChanged() {
                         String caption = "<center>" + BuildAnAtomStrings.OTHER + "<br>" + atom.getName() + "<br>" +
-                            BuildAnAtomStrings.ISOTOPES + "</center>";
+                                         BuildAnAtomStrings.ISOTOPES + "</center>";
                         setHTML( caption );
                         setOffset(
                                 pieChart.getFullBoundsReference().getMaxX() + 4,
                                 pieChart.getFullBoundsReference().getCenterY() - getFullBoundsReference().height / 2 );
                         setVisible( atom.getNaturalAbundance() < 1.0 ); // Don't show if no other isotopes exist.
                     }
-                });
+                } );
             }};
 
             addChild( otherIsotopesCaption );
@@ -353,7 +345,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
 
                     // Update the connecting line.  Don't display if pie chart isn't there.
                     connectingLine.setPoint( 0, valueBackground.getFullBoundsReference().getMaxX(), valueBackground.getFullBoundsReference().getCenterY() );
-                    connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getCenterX(), valueBackground.getFullBoundsReference().getCenterY()  );
+                    connectingLine.setPoint( 1, pieChart.getFullBoundsReference().getCenterX(), valueBackground.getFullBoundsReference().getCenterY() );
                     connectingLine.setVisible( atom.getNaturalAbundance() > 0 );
                 }
             };
@@ -371,7 +363,7 @@ public class MakeIsotopesCanvas extends PhetPCanvas implements Resettable {
      * rotated in such a way that the first specified portion is always on
      * the left side.  The intent is that the user can place a label on the
      * left side of the chart that will represent the value.
-     *
+     * <p/>
      * IMPORTANT: The behavior of this node has some important dependencies
      * on the particular behaviors of the PieChartNode.  Specifically, the
      * way this rotates depends on the way the PieChartNode draws itself as

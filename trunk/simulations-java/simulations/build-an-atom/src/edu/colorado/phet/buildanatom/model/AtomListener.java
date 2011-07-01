@@ -23,7 +23,10 @@ public interface AtomListener {
      * Adapter for easier implementation of listeners.
      */
     static class Adapter implements AtomListener {
-        public void configurationChanged() {}
-        public void postitionChanged() {}
+        public void configurationChanged() {
+        }
+
+        public void postitionChanged() {
+        }
     }
 }

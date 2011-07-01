@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomDefaults;
-import edu.colorado.phet.buildanatom.modules.game.model.*;
+import edu.colorado.phet.buildanatom.modules.game.model.BuildAnAtomGameModel;
+import edu.colorado.phet.buildanatom.modules.game.model.State;
 import edu.colorado.phet.common.games.GameScoreboardNode;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -96,11 +97,11 @@ public class BuildAnAtomGameCanvas extends PhetPCanvas {
         model.addListener( new BuildAnAtomGameModel.GameModelListener() {
             public void stateChanged( State oldState, State newState ) {
                 currentView.teardown();
-                currentView = createView(newState);
+                currentView = createView( newState );
                 currentView.init();
             }
         } );
-        currentView = createView(model.getState() );
+        currentView = createView( model.getState() );
         currentView.init();
     }
 

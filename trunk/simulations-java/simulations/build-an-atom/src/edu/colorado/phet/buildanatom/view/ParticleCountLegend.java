@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.beans.PropertyChangeEvent;
@@ -10,11 +9,7 @@ import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
-import edu.colorado.phet.buildanatom.model.AtomListener;
-import edu.colorado.phet.buildanatom.model.Electron;
-import edu.colorado.phet.buildanatom.model.IDynamicAtom;
-import edu.colorado.phet.buildanatom.model.Neutron;
-import edu.colorado.phet.buildanatom.model.Proton;
+import edu.colorado.phet.buildanatom.model.*;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
@@ -43,7 +38,7 @@ public class ParticleCountLegend extends PNode {
      * Constructor that uses default transparent background color.
      */
     public ParticleCountLegend( final IDynamicAtom atom ) {
-        this( atom, new Color( 0, 0, 0, 0 ));
+        this( atom, new Color( 0, 0, 0, 0 ) );
     }
 
     /**
@@ -65,7 +60,8 @@ public class ParticleCountLegend extends PNode {
             public PNode createNode() {
                 return new ProtonNode( NO_TRANSFORM, new Proton( NO_CLOCK ) );//creates a dummy particle so we can reuse graphics code
             }
-        } );
+        }
+        );
         final ReadoutLegendItem neutronItem = new ReadoutLegendItem( BuildAnAtomStrings.NEUTRONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumNeutrons();
@@ -74,7 +70,8 @@ public class ParticleCountLegend extends PNode {
             public PNode createNode() {
                 return new NeutronNode( NO_TRANSFORM, new Neutron( NO_CLOCK ) );
             }
-        } );
+        }
+        );
         final ReadoutLegendItem electronItem = new ReadoutLegendItem( BuildAnAtomStrings.ELECTRONS_READOUT, atom, new Getter() {
             public int get() {
                 return atom.getNumElectrons();
@@ -83,7 +80,8 @@ public class ParticleCountLegend extends PNode {
             public PNode createNode() {
                 return new ElectronNode( NO_TRANSFORM, new Electron( NO_CLOCK ) );
             }
-        } );
+        }
+        );
 
         foregroundLayer.addChild( protonItem );
         foregroundLayer.addChild( neutronItem );
