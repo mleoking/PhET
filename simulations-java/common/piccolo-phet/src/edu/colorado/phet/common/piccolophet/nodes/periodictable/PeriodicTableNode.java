@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory.Default;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -38,6 +39,7 @@ public class PeriodicTableNode extends PNode {
     // ------------------------------------------------------------------------
 
     public final Color backgroundColor;
+    private final CellFactory cellFactory;
 
     public static interface PeriodicTableAtom {
         int getNumProtons();
@@ -52,22 +54,23 @@ public class PeriodicTableNode extends PNode {
     /**
      * Constructor.
      */
-    public PeriodicTableNode( final PeriodicTableAtom atom, Color backgroundColor ) {
+    public PeriodicTableNode( Color backgroundColor, CellFactory cellFactory ) {
         this.backgroundColor = backgroundColor;
+        this.cellFactory = cellFactory;
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
-            addElement( atom, table, i );
+            addElement( table, i );
         }
         // Add in a single entry to represent the lanthanide series.
-        addElement( atom, table, 57 );
+        addElement( table, 57 );
         for ( int i = 72; i <= 88; i++ ) {
-            addElement( atom, table, i );
+            addElement( table, i );
         }
         // Add in a single entry to represent the actinide series.
-        addElement( atom, table, 89 );
+        addElement( table, 89 );
         for ( int i = 104; i <= 112; i++ ) {
-            addElement( atom, table, i );
+            addElement( table, i );
         }
 
         addChild( table );
@@ -85,12 +88,12 @@ public class PeriodicTableNode extends PNode {
      * Create a cell for an individual element.  Override this to create cells
      * that look different or implement some unique behavior.
      */
-    protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
-        return new BasicElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
+    protected final ElementCell createCellForElement( int atomicNumberOfCell, Color backgroundColor ) {
+        return new BasicElementCell( atomicNumberOfCell, backgroundColor );
     }
 
-    private void addElement( final PeriodicTableAtom atom, final PNode table, int atomicNumber ) {
-        ElementCell elementCell = createCellForElement( atom, atomicNumber, backgroundColor );
+    private void addElement( final PNode table, int atomicNumber ) {
+        ElementCell elementCell = cellFactory.createCellForElement( atomicNumber, backgroundColor );
         final Point gridPoint = getPeriodicTableGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
         double y = ( gridPoint.getX() - 1 ) * CELL_DIMENSION;
@@ -173,19 +176,13 @@ public class PeriodicTableNode extends PNode {
      */
     public static abstract class ElementCell extends PNode {
         private final int atomicNumber;
-        private final PeriodicTableAtom atom;
 
-        public ElementCell( PeriodicTableAtom atom, int atomicNumber ) {
-            this.atom = atom;
+        public ElementCell( int atomicNumber ) {
             this.atomicNumber = atomicNumber;
         }
 
         public int getAtomicNumber() {
             return atomicNumber;
-        }
-
-        protected PeriodicTableAtom getAtom() {
-            return atom;
         }
     }
 
@@ -197,8 +194,8 @@ public class PeriodicTableNode extends PNode {
         private final PText text;
         private final PhetPPath box;
 
-        public BasicElementCell( final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
-            super( atom, atomicNumber );
+        public BasicElementCell( final int atomicNumber, final Color backgroundColor ) {
+            super( atomicNumber );
 
             box = new PhetPPath( new Rectangle2D.Double( 0, 0, CELL_DIMENSION, CELL_DIMENSION ),
                                  backgroundColor, new BasicStroke( 1 ), Color.black );
@@ -228,10 +225,10 @@ public class PeriodicTableNode extends PNode {
      */
     public static class HighlightingElementCell extends BasicElementCell {
         public HighlightingElementCell( final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
-            super( atom, atomicNumber, backgroundColor );
-            getAtom().addAtomListener( new VoidFunction0() {
+            super( atomicNumber, backgroundColor );
+            atom.addAtomListener( new VoidFunction0() {
                 public void apply() {
-                    boolean match = getAtom().getNumProtons() == atomicNumber;
+                    boolean match = atom.getNumProtons() == atomicNumber;
                     getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
                     if ( match ) {
                         getBox().setStroke( new BasicStroke( 2 ) );
@@ -256,14 +253,7 @@ public class PeriodicTableNode extends PNode {
      */
     public static class HighlightedElementCell extends BasicElementCell {
         public HighlightedElementCell( final int atomicNumber, final Color backgroundColor ) {
-            super( new PeriodicTableAtom() {
-                public int getNumProtons() {
-                    return 0;
-                }
-
-                public void addAtomListener( VoidFunction0 voidFunction0 ) {
-                }
-            }, atomicNumber, backgroundColor );
+            super( atomicNumber, backgroundColor );
             getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
             getBox().setStroke( new BasicStroke( 2 ) );
             getBox().setStrokePaint( PhetColorScheme.RED_COLORBLIND );
@@ -282,19 +272,7 @@ public class PeriodicTableNode extends PNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new PeriodicTableNode( new PeriodicTableAtom() {
-                    public int getNumProtons() {
-                        return 3;
-                    }
-
-                    public void addAtomListener( VoidFunction0 voidFunction0 ) {
-                        voidFunction0.apply();
-                    }
-                }, Color.yellow ) {
-                    @Override protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
-                        return new HighlightingElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
-                    }
-                } );
+                addScreenChild( new PeriodicTableNode( Color.yellow, new Default() ) );
                 setZoomEventHandler( getZoomEventHandler() );
                 setPanEventHandler( getPanEventHandler() );
             }} );

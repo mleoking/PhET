@@ -13,7 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.PeriodicTableAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -51,24 +53,23 @@ public class PeriodicTableControlNode extends PNode {
      * @param backgroundColor
      */
     public PeriodicTableControlNode( final IConfigurableAtomModel model, final int maxSettableAtomicNumber, Color backgroundColor ) {
-        IDynamicAtom atom = model.getAtom();
-        PNode periodicTableNode = new PeriodicTableNode( atom, backgroundColor ) {
-            @Override
-            protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+        final IDynamicAtom atom = model.getAtom();
+        PNode periodicTableNode = new PeriodicTableNode( backgroundColor, new CellFactory() {
+            public ElementCell createCellForElement( int atomicNumberOfCell, Color backgroundColor ) {
                 if ( atomicNumberOfCell <= maxSettableAtomicNumber ) {
                     // Create an interactive cell, i.e. one that looks like a
                     // button and allows the user to press it to select an
                     // element.
-                    return new ButtonElementCell( atomBeingWatched, atomicNumberOfCell, model );
+                    return new ButtonElementCell( atom, atomicNumberOfCell, model );
                 }
                 else {
                     // This atomic number is larger than the specified max for
                     // interactive cells, so use the basic cell from the base
                     // class.
-                    return super.createCellForElement( atomBeingWatched, atomicNumberOfCell, backgroundColor );
+                    return new Default().createCellForElement( atomicNumberOfCell, backgroundColor );
                 }
             }
-        };
+        } );
         addChild( periodicTableNode );
     }
 
@@ -93,9 +94,11 @@ public class PeriodicTableControlNode extends PNode {
 
         private final PPath buttonNode;
         private final PText text;
+        private PeriodicTableAtom atom;
 
         public ButtonElementCell( final PeriodicTableAtom atom, final int atomicNumber, final IConfigurableAtomModel model ) {
-            super( atom, atomicNumber );
+            super( atomicNumber );
+            this.atom = atom;
             addInputEventListener( new CursorHandler() );
 
             // Create the node that will act as the button, receiving events
@@ -171,7 +174,7 @@ public class PeriodicTableControlNode extends PNode {
         }
 
         public void updateSelected() {
-            boolean match = getAtom().getNumProtons() == getAtomicNumber();
+            boolean match = atom.getNumProtons() == getAtomicNumber();
             text.setFont( new PhetFont( PhetFont.getDefaultFontSize(), match ) );
             if ( match ) {
                 buttonNode.setPaint( SELECTED_PAINT );

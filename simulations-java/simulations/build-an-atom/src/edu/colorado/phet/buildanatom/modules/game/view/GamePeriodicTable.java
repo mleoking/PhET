@@ -17,7 +17,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.HighlightingElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.PeriodicTableAtom;
 import edu.umd.cs.piccolo.PNode;
@@ -102,11 +104,11 @@ public class GamePeriodicTable extends PNode {
         selectNeutralOrIonTypeNode.setVisible( false );
 
         // Create and add the periodic table.
-        PNode periodicTableNode = new PeriodicTableNode( atom, BuildAnAtomConstants.CANVAS_BACKGROUND ) {
-            @Override protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
-                return new SelectableElementCell( GamePeriodicTable.this, atomBeingWatched, atomicNumberOfCell, backgroundColor );
+        PNode periodicTableNode = new PeriodicTableNode( BuildAnAtomConstants.CANVAS_BACKGROUND, new CellFactory() {
+            public ElementCell createCellForElement( int atomicNumberOfCell, Color backgroundColor ) {
+                return new SelectableElementCell( GamePeriodicTable.this, atom, atomicNumberOfCell, backgroundColor );
             }
-        };
+        } );
         addChild( periodicTableNode );
 
         // Layout.
