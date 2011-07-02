@@ -1,3 +1,4 @@
+Micro tab: Fixed: some nodes (Oxygen in sodium nitrate in sugar-and-salt solutions) get clipped
 Micro tab: Synchronize periodic table with the selected solute
 Micro tab: Added periodic table
 Water tab: Listen for when the user changes tabs so the JMolDialog can be hidden when switching away and shown when switching to this tab (if it was already shown)
