@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -35,6 +34,8 @@ import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
+
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
  *
@@ -49,7 +50,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
         IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
     }
 
-    public MicroCanvas( final MicroModel model, GlobalState globalState ) {
+    public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState );
 
         //Add graphics for each ion.  Overriden here to map from soluble salts model coordinates -> sugar and salt model coordinates -> sugar and salt canvas coordinates
@@ -85,14 +86,16 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
             }} );
         }
 
+        //Add a button that shows the periodic table when pressed
         addChild( new TextButtonNode( "Show in Periodic Table" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    PeriodicTableDialog periodicTableDialog = new PeriodicTableDialog();
-                    periodicTableDialog.setVisible( true );
-                    SwingUtils.centerDialog( periodicTableDialog, MicroCanvas.this );
+                    new PeriodicTableDialog( model.dispenserType, globalState.colorScheme, globalState.frame ) {{
+                        centerInParent( this );
+                    }}.setVisible( true );
                 }
             } );
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
     }
 
