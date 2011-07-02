@@ -1,3 +1,4 @@
+Micro tab: Synchronize periodic table with the selected solute
 Micro tab: Added periodic table
 Water tab: Listen for when the user changes tabs so the JMolDialog can be hidden when switching away and shown when switching to this tab (if it was already shown)
 Water tab: Fixed: When clicking into the play area, 3d sucrose shouldn't disappear
