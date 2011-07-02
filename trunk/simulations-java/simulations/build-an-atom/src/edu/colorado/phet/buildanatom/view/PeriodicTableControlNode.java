@@ -57,15 +57,11 @@ public class PeriodicTableControlNode extends PNode {
         PNode periodicTableNode = new PeriodicTableNode( backgroundColor, new CellFactory() {
             public ElementCell createCellForElement( int atomicNumberOfCell, Color backgroundColor ) {
                 if ( atomicNumberOfCell <= maxSettableAtomicNumber ) {
-                    // Create an interactive cell, i.e. one that looks like a
-                    // button and allows the user to press it to select an
-                    // element.
+                    // Create an interactive cell, i.e. one that looks like a button and allows the user to press it to select an element.
                     return new ButtonElementCell( atom, atomicNumberOfCell, model );
                 }
                 else {
-                    // This atomic number is larger than the specified max for
-                    // interactive cells, so use the basic cell from the base
-                    // class.
+                    // This atomic number is larger than the specified max for interactive cells, so use the default cell type
                     return new Default().createCellForElement( atomicNumberOfCell, backgroundColor );
                 }
             }
