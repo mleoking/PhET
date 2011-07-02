@@ -274,7 +274,13 @@ public class PeriodicTableNode extends PNode {
         //Wait until others are added so that moving to front will actually work, otherwise 2 sides would be clipped by nodes added after this
         @Override public void tableInitComplete() {
             super.tableInitComplete();
-            moveToFront();
+
+            //For unknown reasons, some nodes (Oxygen in sodium nitrate in sugar-and-salt solutions) get clipped if you don't schedule this for later
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    moveToFront();
+                }
+            } );
         }
     }
 
