@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory.Default;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory.HighlightElements;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -73,6 +73,13 @@ public class PeriodicTableNode extends PNode {
             addElement( table, i );
         }
 
+        //Notify the cells that the rest of the table is complete.  This is so they highlighted or larger cells can move in front if necessary, to prevent clipping
+        for ( int i = 0; i < table.getChildrenCount(); i++ ) {
+            PNode child = table.getChild( i );
+            if ( child instanceof ElementCell ) {
+                ( (ElementCell) child ).tableInitComplete();
+            }
+        }
         addChild( table );
     }
 
@@ -184,6 +191,10 @@ public class PeriodicTableNode extends PNode {
         public int getAtomicNumber() {
             return atomicNumber;
         }
+
+        //Callback that allows nodes to update after the table has been built.  This is used so that highlighted or larger cells can move themselves to the front so they aren't clipped on 2 sides
+        public void tableInitComplete() {
+        }
     }
 
     /**
@@ -258,13 +269,12 @@ public class PeriodicTableNode extends PNode {
             getBox().setStroke( new BasicStroke( 2 ) );
             getBox().setStrokePaint( PhetColorScheme.RED_COLORBLIND );
             getBox().setPaint( Color.white );
+        }
 
-            //Wait until others are added so that moving to front will actually work
-            SwingUtilities.invokeLater( new Runnable() {
-                public void run() {
-                    moveToFront();
-                }
-            } );
+        //Wait until others are added so that moving to front will actually work, otherwise 2 sides would be clipped by nodes added after this
+        @Override public void tableInitComplete() {
+            super.tableInitComplete();
+            moveToFront();
         }
     }
 
@@ -272,7 +282,7 @@ public class PeriodicTableNode extends PNode {
     public static void main( String[] args ) {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
-                addScreenChild( new PeriodicTableNode( Color.yellow, new Default() ) );
+                addScreenChild( new PeriodicTableNode( Color.yellow, new HighlightElements( 1, 3, 7, 12 ) ) );
                 setZoomEventHandler( getZoomEventHandler() );
                 setPanEventHandler( getPanEventHandler() );
             }} );
