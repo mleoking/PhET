@@ -250,6 +250,34 @@ public class PeriodicTableNode extends PNode {
         }
     }
 
+    /**
+     * Cell that watches the atom and highlights itself if the atomic number
+     * matches its configuration.
+     */
+    public static class HighlightedElementCell extends BasicElementCell {
+        public HighlightedElementCell( final int atomicNumber, final Color backgroundColor ) {
+            super( new PeriodicTableAtom() {
+                public int getNumProtons() {
+                    return 0;
+                }
+
+                public void addAtomListener( VoidFunction0 voidFunction0 ) {
+                }
+            }, atomicNumber, backgroundColor );
+            getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );
+            getBox().setStroke( new BasicStroke( 2 ) );
+            getBox().setStrokePaint( PhetColorScheme.RED_COLORBLIND );
+            getBox().setPaint( Color.white );
+
+            //Wait until others are added so that moving to front will actually work
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    moveToFront();
+                }
+            } );
+        }
+    }
+
     //Test Application that displays the PeriodicTableNode
     public static void main( String[] args ) {
         new JFrame() {{
