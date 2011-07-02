@@ -91,6 +91,7 @@ public class Model1 {
             this.a_arr[i] = 0;                      //initial accelerations = 0
             this.aPre_arr[i] = 0;
         }
+        //this.computeModeAmplitudesAndPhases();
     }//end initializeKinematicArrays()
 
     private function initializeModeArrays():void{
@@ -378,9 +379,9 @@ public class Model1 {
         if( modesChanged ){
             this.view.myMainView.mySliderArrayPanel.resetSliders();
             this.modesChanged = false;
-   }
-   this.view.update();
-   }//end updateView()
+        }
+        this.view.update();
+    }//end updateView()
 
 }//end of class
 }//end of package
