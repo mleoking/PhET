@@ -1,13 +1,15 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildanatom.view;
+package edu.colorado.phet.common.piccolophet.nodes.periodictable;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.buildanatom.model.AtomIdentifier;
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -75,7 +77,7 @@ public class PeriodicTableNode extends PNode {
     // Methods
     // ------------------------------------------------------------------------
 
-    protected static double getCellDimension() {
+    public static double getCellDimension() {
         return CELL_DIMENSION;
     }
 
@@ -202,7 +204,7 @@ public class PeriodicTableNode extends PNode {
                                  backgroundColor, new BasicStroke( 1 ), Color.black );
             addChild( box );
 
-            String abbreviation = AtomIdentifier.getSymbol( atomicNumber );
+            String abbreviation = SymbolTable.getSymbol( atomicNumber );
             text = new PText( abbreviation ) {{
                 setFont( LABEL_FONT );
             }};
@@ -246,5 +248,30 @@ public class PeriodicTableNode extends PNode {
                 }
             } );
         }
+    }
+
+    //Test Application that displays the PeriodicTableNode
+    public static void main( String[] args ) {
+        new JFrame() {{
+            setContentPane( new PhetPCanvas() {{
+                addScreenChild( new PeriodicTableNode( new PeriodicTableAtom() {
+                    public int getNumProtons() {
+                        return 3;
+                    }
+
+                    public void addAtomListener( VoidFunction0 voidFunction0 ) {
+                        voidFunction0.apply();
+                    }
+                }, Color.yellow ) {
+                    @Override protected ElementCell createCellForElement( PeriodicTableAtom atomBeingWatched, int atomicNumberOfCell, Color backgroundColor ) {
+                        return new HighlightingElementCell( atomBeingWatched, atomicNumberOfCell, backgroundColor );
+                    }
+                } );
+                setZoomEventHandler( getZoomEventHandler() );
+                setPanEventHandler( getPanEventHandler() );
+            }} );
+            setDefaultCloseOperation( EXIT_ON_CLOSE );
+            setSize( 1024, 768 );
+        }}.setVisible( true );
     }
 }
