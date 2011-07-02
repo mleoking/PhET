@@ -1,3 +1,4 @@
+7/1/11 Fixed: highlighted cells are clipped on 2 sides, see #2944
 7/1/11 Removed the assumption that one item will be selected from PeriodicTableNoede, see #2994
 7/1/11 Removed unused classes
 7/1/11 Moved PeriodicTableNode from build-an-atom to piccolo-phet, see #2994
