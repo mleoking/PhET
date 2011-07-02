@@ -1,3 +1,4 @@
+7/1/11 Moved PeriodicTableNode from build-an-atom to piccolo-phet, see #2994
 6/30/11 Refactored combo box to avoid errors in IntelliJ presentation compiler, see #2982
 6/30/11 Made it so the ComboBoxNode popup disappears when the user clicks elsewhere using a canvas-listening strategy instead of node-listening strategy
 6/29/11 Add and remove the popup from the scene so that ComboBoxNode.getFullBounds() won't account for the invisible popup box, see #2982

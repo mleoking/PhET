@@ -5,6 +5,7 @@ package edu.colorado.phet.buildanatom.view;
 import java.awt.*;
 
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
 
 /**
  * A version of the periodic table that highlights the cell that matches the
