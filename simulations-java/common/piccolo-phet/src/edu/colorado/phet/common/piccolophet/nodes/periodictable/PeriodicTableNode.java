@@ -263,6 +263,7 @@ public class PeriodicTableNode extends PNode {
      * matches its configuration.
      */
     public static class HighlightedElementCell extends BasicElementCell {
+
         public HighlightedElementCell( final int atomicNumber, final Color backgroundColor ) {
             super( atomicNumber, backgroundColor );
             getText().setFont( new PhetFont( PhetFont.getDefaultFontSize(), true ) );

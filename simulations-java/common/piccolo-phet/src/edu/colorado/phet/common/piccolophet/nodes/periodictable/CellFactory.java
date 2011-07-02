@@ -41,7 +41,9 @@ public interface CellFactory {
 
         //If the cell should be highlighted, return a highlighted node instead of a regular one
         public ElementCell createCellForElement( int atomicNumberOfCell, Color backgroundColor ) {
-            return highlightRule.apply( atomicNumberOfCell ) ? new HighlightedElementCell( atomicNumberOfCell, backgroundColor ) : new BasicElementCell( atomicNumberOfCell, backgroundColor );
+            return highlightRule.apply( atomicNumberOfCell ) ?
+                   new HighlightedElementCell( atomicNumberOfCell, backgroundColor ) :
+                   new BasicElementCell( atomicNumberOfCell, backgroundColor );
         }
     }
 }

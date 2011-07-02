@@ -1,3 +1,4 @@
+Micro tab: Improved highlighting in periodic table
 Micro tab: Fixed: some nodes (Oxygen in sodium nitrate in sugar-and-salt solutions) get clipped
 Micro tab: Synchronize periodic table with the selected solute
 Micro tab: Added periodic table

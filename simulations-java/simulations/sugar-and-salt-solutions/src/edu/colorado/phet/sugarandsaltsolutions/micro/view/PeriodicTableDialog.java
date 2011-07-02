@@ -23,7 +23,7 @@ public class PeriodicTableDialog extends JDialog {
     public PeriodicTableDialog( final Property<DispenserType> dispenser, final SugarAndSaltSolutionsColorScheme colorScheme, PhetFrame parentFrame ) {
         super( parentFrame );
         setContentPane( new PhetPCanvas() {
-            PNode root = new PNode();
+            private final PNode root = new PNode();
 
             {
                 addScreenChild( root );
@@ -38,12 +38,15 @@ public class PeriodicTableDialog extends JDialog {
                 //On init, and when the dispenser type changes, show the periodic table for the specified DispenserType
                 dispenser.addObserver( new VoidFunction1<DispenserType>() {
                     public void apply( DispenserType dispenserType ) {
-                        final PeriodicTableNode node = new PeriodicTableNode( Color.white, new HighlightElements( dispenser.get().getElementAtomicMasses() ) ) {{
+                        //inset is necessary since the periodic table bounds doesn't account for the stroke width so the top and left would be truncated without this.
+                        final int inset = 2;
+                        final PeriodicTableNode node = new PeriodicTableNode( Color.lightGray, new HighlightElements( dispenser.get().getElementAtomicMasses() ) ) {{
                             scale( 1.5 );
+                            setOffset( inset, inset );
                         }};
                         root.removeAllChildren();
                         root.addChild( node );
-                        setPreferredSize( new Dimension( (int) node.getFullBounds().getWidth(), (int) node.getFullBounds().getHeight() ) );
+                        setPreferredSize( new Dimension( (int) node.getFullBounds().getWidth() + inset * 2, (int) node.getFullBounds().getHeight() + inset * 2 ) );
                     }
                 } );
             }
