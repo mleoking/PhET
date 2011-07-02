@@ -7,10 +7,18 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  * @author Sam Reid
  */
 public class DispenserType {
-    public static DispenserType SALT = new DispenserType();
-    public static DispenserType SUGAR = new DispenserType();
+    public static DispenserType SALT = new DispenserType( 11, 17 );
+    public static DispenserType SUGAR = new DispenserType( 6, 1, 8 );
+
+    //List of elements comprising the solute
+    private final Integer[] elements;
 
     //Enum pattern, so no other instances should be created
-    private DispenserType() {
+    private DispenserType( Integer... elements ) {
+        this.elements = elements;
+    }
+
+    public Integer[] getElementAtomicMasses() {
+        return elements;
     }
 }
