@@ -12,6 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,8 +42,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInP
  *
  * @author Sam Reid
  */
-public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
+public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener {
     private final boolean debug = false;
+    private PeriodicTableDialog periodicTableDialog;
+    private boolean dialogVisibleOnActivate;
 
     //Enable the IonGraphicManager to create graphics for sucrose molecules
     static {
@@ -90,11 +93,18 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
         addChild( new TextButtonNode( "Show in Periodic Table" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    new PeriodicTableDialog( model.dispenserType, globalState.colorScheme, globalState.frame ) {{
-                        centerInParent( this );
-                    }}.setVisible( true );
+                    //Only create the periodic table dialog once
+                    if ( periodicTableDialog == null ) {
+                        periodicTableDialog = new PeriodicTableDialog( model.dispenserType, globalState.colorScheme, globalState.frame ) {{
+                            centerInParent( this );
+                        }};
+                    }
+
+                    //Show the dialog window with the periodic table
+                    periodicTableDialog.setVisible( true );
                 }
             } );
+            //Put the button near the other controls, on the right side of the screen
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
     }
@@ -131,5 +141,20 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
     //Create a user interface element that lets the user choose solutes from a drop-down box
     @Override protected SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize ) {
         return new ComboBoxSoluteControlPanelNode( model.dispenserType );
+    }
+
+    //If the periodic table dialog was showing when the user switched away from this tab, restore it
+    public void activated() {
+        if ( periodicTableDialog != null && dialogVisibleOnActivate ) {
+            periodicTableDialog.setVisible( true );
+        }
+    }
+
+    //When the user switches to another tab, remember whether the periodic table dialog was showing so it can be restored if necessary.
+    public void deactivated() {
+        if ( periodicTableDialog != null ) {
+            dialogVisibleOnActivate = periodicTableDialog.isVisible();
+            periodicTableDialog.setVisible( false );
+        }
     }
 }

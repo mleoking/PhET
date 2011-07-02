@@ -32,7 +32,9 @@ public class MicroModule extends Module {
         //Don't use the entire south panel for the clock controls
         setClockControlPanel( null );
 
-        setSimulationPanel( new MicroCanvas( model, globalState ) );
+        setSimulationPanel( new MicroCanvas( model, globalState ) {{
+            addListener( this );
+        }} );
     }
 
     @Override public void reset() {
