@@ -66,6 +66,7 @@ public class MassView1 extends Sprite{
             thisObject.myModel1.grabbedMass = 0;
             //thisObject.myModel1.computeModeAmplitudesAndPhases();
             //thisObject.myModel1.justReleased = true;
+            thisObject.myModel1.computeModeAmplitudesAndPhases();
             thisObject.myModel1.nbrStepsSinceRelease = 0;
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );

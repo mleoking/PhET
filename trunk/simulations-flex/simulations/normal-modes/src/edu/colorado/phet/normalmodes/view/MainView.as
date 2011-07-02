@@ -49,6 +49,7 @@ public class MainView extends Canvas {
         this.oneDMode = true;       //start up in 1D mode
 
         this.myModel1 = new Model1( ) ;
+        //this.myModel1.stopMotion();
         this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
         this.myView1 = new View1( this, myModel1 );

@@ -268,7 +268,7 @@ public class Model2 {
     }
 
     public function setModeAmpli( modeNbrR:int, modeNbrS:int, A:Number ):void{
-        trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
+        //trace("Model2.setModeAmpli  r = " + modeNbrR + "    s = "+modeNbrS );
         this._verletOn = false;
         this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;

@@ -148,13 +148,12 @@ public class ModeButton extends Sprite{
 
                 if(!localRef._activated){
                     localRef._activated = true;
-                    //Note (i, j) = (row, column) = (y,x).  Mode r pairs with x=j, mode s pairs with y=i
                     localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0.03  );
-                    localRef.changeColor( 0x00ff00 );
+                    //localRef.changeColor( 0x00ff00 );
                 }else if(localRef._activated){
                     localRef._activated = false;
                     localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0  );
-                    localRef.changeColor( 0xffffff );
+                    //localRef.changeColor( 0xffffff );
                 }
 
                 //trace("evt.name:"+evt.type);
