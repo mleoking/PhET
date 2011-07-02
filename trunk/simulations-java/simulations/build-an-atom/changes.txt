@@ -1,3 +1,4 @@
+Refactored to accommodate changes to piccolo-phet PeriodicTableNode, see #2994
 Reformatted according to IntelliJ PhetStyle, see #2994
 # 3.00.00 (51913) May 13, 2011
 5/13/11 >Initial publication of the Isotopes and Atomic Mass simulation.
