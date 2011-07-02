@@ -1,3 +1,4 @@
+# 0.00.59 (53687) Jul 2, 2011
 Micro tab: Periodic table should hide/restore when switching tabs
 Micro tab: Improved highlighting in periodic table
 Micro tab: Fixed: some nodes (Oxygen in sodium nitrate in sugar-and-salt solutions) get clipped
