@@ -130,6 +130,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas {
 
     //Create a user interface element that lets the user choose solutes from a drop-down box
     @Override protected SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize ) {
-        return new ComboBoxSoluteControlPanelNode( model.dispenserType, canvas );
+        return new ComboBoxSoluteControlPanelNode( model.dispenserType );
     }
 }
