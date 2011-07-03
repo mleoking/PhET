@@ -43,6 +43,7 @@ public class ButtonArrayPanel extends UIComponent{
     public function ButtonArrayPanel(  myMainView: MainView, myModel2: Model2) {
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
+        this.myModel2.registerView( this );
         this.nMax = this.myModel2.nMax;
         this.maxContainerWidth = 250;
         this.color_arr = new Array( 10 );    //8 colors from white to dark green
@@ -172,5 +173,19 @@ public class ButtonArrayPanel extends UIComponent{
             }
         }
     }//end setButtonColors();
+
+    public function update():void{
+        if( this.myModel2.nChanged || this.myModel2.modesZeroed ){
+            this.setNbrButtons();
+            this.myModel2.nChanged = false;
+            this.myModel2.modesZeroed = false;
+        }
+        if( this.myModel2.modesChanged ){
+            this.setButtonColors();
+            this.myModel2.modesChanged = false;
+        }
+
+    }//end update()
+
 } //end class
 } //end package

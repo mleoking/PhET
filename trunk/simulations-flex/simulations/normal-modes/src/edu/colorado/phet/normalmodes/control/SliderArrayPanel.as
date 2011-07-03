@@ -31,9 +31,9 @@ public class SliderArrayPanel extends UIComponent {
     private var container: Sprite;
     private var leftEdgeX;
     private var ampliSlider_arr:Array;   //array of verticalSliders for setting amplitude of mode.
-    private var phaseSlider_arr:Array   //array of vertical Sliders for setting phase of mode
-    private var nMax:int;               //maximum number of mobile masses = max nbr of normal modes
-    private var phasesShown:Boolean;    //true if phases sliders are visible
+    private var phaseSlider_arr:Array    //array of vertical Sliders for setting phase of mode
+    private var nMax:int;                //maximum number of mobile masses = max nbr of normal modes
+    private var phasesShown:Boolean;     //true if phases sliders are visible
     private var modeLabel_txt: TextField
     private var amplitudeLabel_txt:TextField;
     private var phaseLabel_txt:TextField;
@@ -50,6 +50,7 @@ public class SliderArrayPanel extends UIComponent {
     public function SliderArrayPanel( myMainView: MainView, myModel1: Model1) {
         this.myMainView = myMainView;
         this.myModel1 = myModel1;
+        this.myModel1.registerView( this );
         this.container = new Sprite();
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
         this.nMax = this.myModel1.nMax;
@@ -200,7 +201,7 @@ public class SliderArrayPanel extends UIComponent {
             amplitude = this.myModel1.getModeAmpli( j );
             phase = this.myModel1.getModePhase( j );
             this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
-            this.phaseSlider_arr[j - 1 ].setSliderWithoutAction( phase );
+            this.phaseSlider_arr[ j - 1 ].setSliderWithoutAction( phase );
         }
     }
 
@@ -229,6 +230,14 @@ public class SliderArrayPanel extends UIComponent {
         for ( i = nbrMasses; i < this.nMax; i++ ){
             this.phaseSlider_arr[i].visible = false;
         }
+    }
+
+    public function update():void{
+        if( this.myModel1.modesChanged ){
+            this.resetSliders();
+            this.myModel1.modesChanged = false;
+        }
+
     }
 }//end class
 }//end package

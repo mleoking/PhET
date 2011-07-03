@@ -11,7 +11,8 @@ import flash.utils.*;
 
 public class Model1 {
 
-    public var view: View1;          //view associated with this model
+    //public var view: View1;         //view associated with this model
+    public var views_arr:Array;     //views associated with this model
     //physical variables
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
     private var k:Number;           //spring constant in N/m of each spring in array (all springs equal)
@@ -19,8 +20,8 @@ public class Model1 {
     private var _L:Number;          //distance between fixed walls in meters
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
-    private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
-    private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
+    private var _nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
+    private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
     public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
@@ -44,6 +45,7 @@ public class Model1 {
     private var msTimer: Timer;	    //millisecond timer
 
     public function Model1( ) {
+        this.views_arr = new Array();
         this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
         this.y0_arr = new Array(_nMax + 2);
         this.s_arr = new Array(_nMax + 2);
@@ -59,8 +61,8 @@ public class Model1 {
     private function initialize():void{
         this._nMax = 10;             //maximum of 10 mobile masses in array
         this._N = 5;                 //start with 5 mobile masses
-        this.nChanged = false;
-        this.modesChanged = false;
+        this._nChanged = false;
+        this._modesChanged = false;
         this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
@@ -91,6 +93,8 @@ public class Model1 {
             this.a_arr[i] = 0;                      //initial accelerations = 0
             this.aPre_arr[i] = 0;
         }
+        //reset time
+        this.t = 0;
         //this.computeModeAmplitudesAndPhases();
     }//end initializeKinematicArrays()
 
@@ -115,9 +119,9 @@ public class Model1 {
             modeAmpli_arr[i] = 0;
             modePhase_arr[i] = 0;
         }
-        this.modesChanged = true;
+        this._modesChanged = true;
         updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }
 
     //SETTERS and GETTERS
@@ -135,7 +139,7 @@ public class Model1 {
         trace("Model1.setN called N = " + this._N);
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
-        this.nChanged = true;
+        this._nChanged = true;
         this.updateView();
     }//end setN
 
@@ -149,6 +153,26 @@ public class Model1 {
 
     public function get nMax():int {
         return this._nMax;
+    }
+
+    public function getTime():Number{
+        return this.t;
+    }
+
+    public function get modesChanged():Boolean{
+        return this._modesChanged;
+    }
+
+    public function set modesChanged( tOrF: Boolean ):void{
+        this._modesChanged = tOrF;
+    }
+
+    public function get nChanged():Boolean{
+        return this._nChanged;
+    }
+
+    public function set nChanged( tOrF: Boolean ):void{
+        this._nChanged = tOrF;
     }
 
     //called from MassView dragTarget
@@ -216,9 +240,10 @@ public class Model1 {
 
     public function setModeAmpli( modeNbr:int, A:Number ):void{
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
-        this.modesChanged = true;
+        this.setExactPositions();
+        this._modesChanged = true;
         updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }
 
     public function getModeAmpli( modeNbr:int ):Number{
@@ -227,9 +252,10 @@ public class Model1 {
 
     public function setModePhase( modeNbr:int,  phase:Number ):void{
         this.modePhase_arr[ modeNbr - 1 ] = phase;
-        this.modesChanged = true;
+        this.setExactPositions();
+        this._modesChanged = true;
         updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }
 
     public function getModePhase( modeNbr:int ):Number{
@@ -299,9 +325,9 @@ public class Model1 {
             this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
             this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
         }
-        this.modesChanged = true;
+        this._modesChanged = true;
         this.updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }//computeModeAmplitudesAndPhases();
 
     private function singleStep(): void {
@@ -319,21 +345,21 @@ public class Model1 {
         this.t += this.dt;
 
         if(this._grabbedMassIndex != 0 ){     //if user has grabbed some mass with mouse
-            this.singleStepVerlet();
+            this.setVerletPositions();
         }else if( this._grabbedMassIndex == 0 && this.nbrStepsSinceRelease < 2 ){   //run Verlet for 2 steps after releasing mouse, to establish correct velocity before switching to exact algorithm
-            this.singleStepVerlet();
+            this.setVerletPositions();
             this.nbrStepsSinceRelease += 1;
             if(this.nbrStepsSinceRelease == 2){
                 this.t = 0;
                 this.computeModeAmplitudesAndPhases();
             }
         }else {
-           this.singleStepExact();
+           this.setExactPositions();
         }
         this.updateView();
     } //end singleStep()
 
-    private function singleStepVerlet():void{       //velocity verlet algorithm
+    private function setVerletPositions():void{       //velocity verlet algorithm
         for(var i:int = 1; i <= this._N; i++){      //loop thru all mobile masses  (masses on ends always stationary)
             if(i != this._grabbedMassIndex ){            //grabbed mass position determined by mouse, not by this algorithm
                 s_arr[i] = s_arr[i] + v_arr[i] * dt + (1 / 2) * a_arr[i] * dt * dt;
@@ -350,7 +376,7 @@ public class Model1 {
         }//end 2nd for loop
     }
 
-    private function singleStepExact():void{
+    private function setExactPositions():void{
         for(var i:int = 1; i <= this._N; i++){          //step thru N mobile masses
             s_arr[i] = 0
             for( var r:int = 1; r <= this._N; r++){     //step thru N normal modes
@@ -367,20 +393,24 @@ public class Model1 {
         updateView();
     }
 
-    public function registerView( view: View1 ): void {
-        this.view = view;    //only one view, so far
+    public function registerView( view: Object ): void {
+        //this.view = view;    //only one view, so far
+        this.views_arr.push( view );
+    }
+
+    public function unregisterView( view: Object ):void{
+        var indexLocation:int = -1;
+        indexLocation = this.views_arr.indexOf( view );
+        if( indexLocation != -1 ){
+            this.views_arr.splice( indexLocation, 1 )
+        }
     }
 
     public function updateView(): void {
-        if(nChanged){
-            this.view.setNbrMasses();
-            this.nChanged = false;
+        for(var i:int = 0; i < this.views_arr.length; i++){
+           this.views_arr[ i ].update();
         }
-        if( modesChanged ){
-            this.view.myMainView.mySliderArrayPanel.resetSliders();
-            this.modesChanged = false;
-        }
-        this.view.update();
+        //this.view.update();
     }//end updateView()
 
 }//end of class
