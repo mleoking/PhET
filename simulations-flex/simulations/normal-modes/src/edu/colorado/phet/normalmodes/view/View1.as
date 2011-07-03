@@ -164,6 +164,7 @@ public class View1 extends Sprite {
     }
 
     public function update(): void {
+        //trace("view1.update called");
         var xInMeters:Number;
         var yInMeters:Number;
         var xInPix:Number;
@@ -207,6 +208,10 @@ public class View1 extends Sprite {
             }//end for loop
         } //end if(_springsVisible)
 
+        if( this.myModel1.nChanged ){
+            this.setNbrMasses();
+            this.myModel1.nChanged = false;
+        }
     }//end update()
 
 }//end of class

@@ -19,7 +19,8 @@ import flash.utils.getTimer;
 public class Model2 {
 
     public var myMainView: MainView;
-    public var view: View2;          //view associated with this model
+    //public var view: View2;          //view associated with this model
+    public var views_arr:Array;     //views associated with this model;
     //physical variables
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
     private var k:Number;           //spring constant in N/m of each spring in array (all springs equal)
@@ -27,9 +28,9 @@ public class Model2 {
     private var _L:Number;          //1D distance between fixed walls in meters, masses are in LxL box
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array, number of mobile masses in 2D array is nMax*nMax
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
-    private var nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
-    private var modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed
-    private var modesZeroed:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must clear buttonArrayPanel
+    private var _nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
+    private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed
+    private var _modesZeroed:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must clear buttonArrayPanel
     private var _verletOn:Boolean;  //true is using Verlet algorithm, false is using exact algorithm
     private var _xModes:Boolean;     //true if x-motion modes only; false if y-motion modes only
     public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
@@ -63,6 +64,7 @@ public class Model2 {
 
     public function Model2( myMainView: MainView ) {
         this.myMainView = myMainView;
+        this.views_arr = new Array();
         //all 2D arrays are in row-column format, x (column) increases to right; y (row) increases down
         this._nMax = 10;      //maximum of 10*10 mobile masses in 2D array
         this.x0_arr = new Array(_nMax + 2);     //_nMax = max nbr of mobile masses, +2 virtual stationary masses at ends
@@ -102,9 +104,9 @@ public class Model2 {
 
     private function initialize():void{
         this._N = 5;                 //start with 5*5  mobile masses
-        this.nChanged = false;
-        this.modesChanged = false;
-        this.modesZeroed = false;
+        this._nChanged = false;
+        this._modesChanged = false;
+        this._modesZeroed = false;
         this._xModes = true;
         this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this._verletOn = true;
@@ -146,6 +148,8 @@ public class Model2 {
                 this.ayPre_arr[i][j] = 0;
             }
         }
+        //reset time
+        this.t = 0;
     }//end initializeKinematicArrays()
 
     private function initializeModeArrays():void{
@@ -181,7 +185,7 @@ public class Model2 {
                 modePhase_arr[i][j] = 0;
             }
         }
-        this.modesZeroed = true;
+        this._modesZeroed = true;
         updateView();
     }
 
@@ -198,12 +202,36 @@ public class Model2 {
         }
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
-        this.nChanged = true;
+        this._nChanged = true;
         this.updateView();
     }//end setN
 
     public function get N():int {
         return this._N;
+    }
+
+    public function get nChanged():Boolean{
+        return this._nChanged;
+    }
+
+    public function set nChanged( tOrF:Boolean ):void{
+        this._nChanged = tOrF;
+    }
+
+    public function get modesChanged():Boolean{
+        return this._modesChanged;
+    }
+
+    public function set modesChanged( tOrF:Boolean ):void{
+        this._modesChanged = tOrF;
+    }
+
+    public function get modesZeroed():Boolean{
+        return this._modesZeroed;
+    }
+
+    public function set modesZeroed( tOrF:Boolean ):void{
+        this._modesZeroed = tOrF;
     }
 
     public function get L():Number{
@@ -216,6 +244,10 @@ public class Model2 {
 
     public function set verletOn(tOrF:Boolean):void{
         this._verletOn = tOrF;
+    }
+
+    public function getTime():Number{
+        return this.t;
     }
 
 
@@ -272,9 +304,9 @@ public class Model2 {
         this._verletOn = false;
         this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;
-        this.modesChanged = true;
+        this._modesChanged = true;
         updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }
 
     public function getModeAmpliX( modeNbrR:int, modeNbrS:int ):Number{
@@ -287,9 +319,9 @@ public class Model2 {
 
 /*    public function setModePhase( modeNbr:int,  phase:Number ):void{
         this.modePhase_arr[ modeNbr - 1 ] = phase;
-        this.modesChanged = true;
+        this._modesChanged = true;
         updateView();
-        this.modesChanged = false;
+        this._modesChanged = false;
     }
 
     public function getModePhase( modeNbr:int ):Number{
@@ -382,9 +414,9 @@ public class Model2 {
                 //this.modePhase_arr[r] = Math.atan2( -nu[ r ], mu[ r ]) ;
             }//end for s loop
         } //end for r
-        this.modesChanged = true;
+        this._modesChanged = true;
         this.updateView();
-        //this.modesChanged = false;
+        //this._modesChanged = false;
 
         //for testing only: test shows takes 0.024 s to loop through 10000 times with no sine function calc. T
         //Takes only 0.031 s with sine function calc.
@@ -479,25 +511,37 @@ public class Model2 {
         updateView();
     }
 
-    public function registerView( view: View2 ): void {
-        this.view = view;    //only one view, so far
+    public function registerView( view: Object ): void {
+        this.views_arr.push( view );    
+    }
+
+    public function unregisterView( view: Object ):void{
+        var indexLocation:int = -1;
+        indexLocation = this.views_arr.indexOf( view );
+        if( indexLocation != -1 ){
+            this.views_arr.splice( indexLocation, 1 )
+        }
     }
 
     public function updateView(): void {
-        if(nChanged){
+        /*
+        if(_nChanged){
             this.view.setNbrMasses();
             this.myMainView.myButtonArrayPanel.setNbrButtons()
-            this.nChanged = false;
+            this._nChanged = false;
         }
-        if( modesZeroed ){
+        if( _modesZeroed ){
             this.myMainView.myButtonArrayPanel.setNbrButtons();
-            this.modesZeroed = false;
+            this._modesZeroed = false;
         }
-        if( modesChanged ){
+        if( _modesChanged ){
             this.myMainView.myButtonArrayPanel.setButtonColors();
-            this.modesChanged = false;
+            this._modesChanged = false;
         }
-        this.view.update();
+        */
+        for( var i:int = 0; i < this.views_arr.length; i++ ){
+            this.views_arr[i].update();
+        }
     }//end updateView()
 
 }

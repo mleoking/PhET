@@ -290,6 +290,11 @@ public class View2 extends Sprite {
             }//end for i loop
         }//end if(_springsVisible)
 
+        if( this.myModel2.nChanged ){
+            this.setNbrMasses();
+            this.myModel2.nChanged = false;
+        }
+
     }//end update()
 
 }//end of class

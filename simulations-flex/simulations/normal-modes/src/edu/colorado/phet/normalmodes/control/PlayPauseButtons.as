@@ -27,13 +27,14 @@ import mx.core.UIComponent;
 public class PlayPauseButtons extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
-    private var myModel: Object; //Model1;
+    private var myModel: Object; //Model1 or Model1, can change with setModel();
     private var timeRateSlider:HSlider;
     private var playPauseButton: Sprite;
     private var stepButton: Sprite;
     private var playIcon: Sprite;                //overlayed on playPauseButton
     private var pauseIcon: Sprite;              //overlayed on playPauseButton
     //private var stepIcon:Sprite;                //overlayed on stepButton
+    private var currentTime_txt:TextField;
     private var simSpeed_txt:TextField;
     private var slow_txt:TextField;
     private var normal_txt:TextField;
@@ -47,6 +48,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var paused: Boolean;
 
     //public var playSlashPause_str: String;
+    public var timeEquals_str:String;
+    //public var timeInSec_str:String;
     public var simSpeed_str:String;
     public var slow_str:String;
     public var normal_str:String;
@@ -57,17 +60,19 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public var singleStep_str: String;
 
 
-    public function PlayPauseButtons( myMainView: MainView, myModel: Model1 ) {
+    public function PlayPauseButtons( myMainView: MainView, myModel: Object ) {
 
         this.initializeStrings();
 
         this.myMainView = myMainView;
         this.myModel = myModel;
+        this.myModel.registerView( this );
         this.timeRateSlider = new HSlider();
         this.playPauseButton = new Sprite();
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
         this.pauseIcon = new Sprite();
+        this.currentTime_txt = new TextField();
         this.simSpeed_txt = new TextField();
         this.slow_txt = new TextField();
         this.normal_txt = new TextField();
@@ -89,6 +94,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.addChild(this.canvas);
         this.playPauseButton.addChild( this.playIcon );
         this.playPauseButton.addChild( this.pauseIcon );
+        this.addChild( this.currentTime_txt );
         this.addChild(this.simSpeed_txt);
         this.addChild(this.slow_txt);
         this.addChild(this.normal_txt);
@@ -103,6 +109,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }  //end of constructor
 
     public function initializeStrings(): void {
+        this.timeEquals_str = "time = ";  //this string set by setTimeLabel() but need initial string to make height for positionLabels()
         this.simSpeed_str = FlexSimStrings.get("simSpeed", "Sim Speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
@@ -247,7 +254,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }//end initializeControls
 
     public function setModel( currentModel: Object ):void{
+        this.myModel.unregisterView( this );
         this.myModel = currentModel;
+        this.myModel.registerView( this );
     }
 
     public function unPauseExternally(): void {
@@ -279,6 +288,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
         this.setTextField( this.sloMo_txt );
+        this.currentTime_txt.text = timeEquals_str;
+        this.currentTime_txt.selectable = false;
+        this.currentTime_txt.autoSize = TextFieldAutoSize.LEFT;
         this.simSpeed_txt.text = this.simSpeed_str;
         this.slow_txt.text = this.slow_str;
         this.normal_txt.text = this.normal_str;
@@ -301,7 +313,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat2.font = "Arial";
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
-        this.tFormat2.size = 95;
+        this.tFormat2.size = 25;
+        this.currentTime_txt.defaultTextFormat = this.tFormat0;
         this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.slow_txt.setTextFormat( this.tFormat0 );
         this.normal_txt.setTextFormat( this.tFormat0 );
@@ -342,6 +355,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.timeRateSlider.x = -1.5*this.timeRateSlider.width;
         this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
         this.simSpeed_txt.x = -this.timeRateSlider.width - 0.5*this.simSpeed_txt.width;
+        this.currentTime_txt.x = this.timeRateSlider.x;
+        this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
         this.slow_txt.x =  this.timeRateSlider.x;
         this.slow_txt.y = 3;
         this.normal_txt.x = 0.5*this.timeRateSlider.x;
@@ -350,14 +365,25 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
-        this.paused_txt.y = -550;
+        this.paused_txt.y = 1.0 * this.paused_txt.height;
         this.sloMo_txt.x = -0.5 * this.sloMo_txt.width;
-        this.sloMo_txt.y = -630;
+        this.sloMo_txt.y = 2.0 * this.paused_txt.height;
 
         this.stepButton.x = 2.5 * this.stepButton.width;
         this.stepButton.y = 0;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
         this.singleStep_txt.y = 0.5 * this.stepButton.height;
+    }
+
+    public function setTimeLabel():void{
+        var timeInSec:Number = this.myModel.getTime();
+        var timeInSec_str:String = timeInSec.toFixed( 2 );
+        //this.timeEquals_str =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
+        this.currentTime_txt.text =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
+    }
+
+    public function update():void{
+        this.setTimeLabel();
     }
 
 } //end of class
