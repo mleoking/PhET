@@ -186,11 +186,12 @@ public class Model2 {
             }
         }
         this._modesZeroed = true;
-        updateView();
+        updateViews();
     }
 
     //SETTERS and GETTERS
     public function setN(nbrMobileMassesInRow:int):void{
+        //trace( "Model2.setN called.  NbrMobleMasses in Row = " + nbrMobileMassesInRow );
         if(nbrMobileMassesInRow > this._nMax){
             this._N = this._nMax;
             trace("ERROR: nbr of masses too high");
@@ -203,7 +204,10 @@ public class Model2 {
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
         this._nChanged = true;
-        this.updateView();
+        //trace("Model.2.setN() called. Before updateViews(),  nChanged = "+this.nChanged );
+        this.updateViews();
+        this._nChanged = false;
+        //trace("Model.2.setN() called.  After updateViews() nChanged = "+this.nChanged );
     }//end setN
 
     public function get N():int {
@@ -267,7 +271,7 @@ public class Model2 {
         var vY:Number = (syPos - previousSy)/realDt;
         this.vx_arr[i][j] = vX;
         this.vy_arr[i][j] = vY;
-        this.updateView();  //needed in case sim is paused
+        this.updateViews();  //needed in case sim is paused
         //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
         //trace("Model1.setXY i = " + i +"   j = " + j + "   sxPos = "+ sxPos +"    syPos = "+syPos);
     }
@@ -305,7 +309,7 @@ public class Model2 {
         this.modeAmpliX_arr[ modeNbrR ][ modeNbrS ] = A;
         this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;
         this._modesChanged = true;
-        updateView();
+        updateViews();
         this._modesChanged = false;
     }
 
@@ -320,7 +324,7 @@ public class Model2 {
 /*    public function setModePhase( modeNbr:int,  phase:Number ):void{
         this.modePhase_arr[ modeNbr - 1 ] = phase;
         this._modesChanged = true;
-        updateView();
+        updateViews();
         this._modesChanged = false;
     }
 
@@ -415,7 +419,7 @@ public class Model2 {
             }//end for s loop
         } //end for r
         this._modesChanged = true;
-        this.updateView();
+        this.updateViews();
         //this._modesChanged = false;
 
         //for testing only: test shows takes 0.024 s to loop through 10000 times with no sine function calc. T
@@ -444,7 +448,7 @@ public class Model2 {
         }else{
             this.singleStepExact();
         }
-        this.updateView();
+        this.updateViews();
     }
 
     private function singleStepVerlet():void{       //velocity verlet algorithm
@@ -508,7 +512,7 @@ public class Model2 {
         this.dt = this.tRate * 0.02;
         this.t += this.dt;
         this.singleStepVerlet( );
-        updateView();
+        updateViews();
     }
 
     public function registerView( view: Object ): void {
@@ -523,7 +527,7 @@ public class Model2 {
         }
     }
 
-    public function updateView(): void {
+    public function updateViews(): void {
         /*
         if(_nChanged){
             this.view.setNbrMasses();
@@ -542,7 +546,7 @@ public class Model2 {
         for( var i:int = 0; i < this.views_arr.length; i++ ){
             this.views_arr[i].update();
         }
-    }//end updateView()
+    }//end updateViews()
 
 }
 }

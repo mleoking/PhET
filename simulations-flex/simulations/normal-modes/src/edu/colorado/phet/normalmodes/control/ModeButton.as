@@ -25,9 +25,14 @@ public class ModeButton extends Sprite{
     private var rIndex:int;
     private var sIndex:int;
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
+    private var colorLayerMask:Sprite;      //mask for colorLayer.  mask is shape of rounded rect button
+    //private var colorLayer_arr:Array;      //array of color layers
+    private var nMax;                      //number of different color layers
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;
     private var buttonColor:Number;
+    private var fullColor:Number;
+    private var emptyColor:Number;
     private var myColorTransform:ColorTransform;   //to change color of colorLayer
     private var modeXColor:Number;                 //color corresponding to x-polarization mode
     private var modeYColor:Number;                 //color corresponding to y-polarization mode
@@ -41,23 +46,31 @@ public class ModeButton extends Sprite{
         this.rIndex = iIndx;
         this.sIndex = jIndx;
         this.sizeInPix = sizeInPix;
-        this.buttonColor = 0xffffff ;      //default color
+        //this.buttonColor = 0xffffff ;      //default color
+        this.fullColor = 0x00ff00;
+        this.emptyColor = 0xffffff;
         myColorTransform = new ColorTransform();
+        this.nMax = 16
+        //this.colorLayer_arr = new Array( nMax );
         this._activated = false;
         this._pushedIn = false;
         this.colorLayer = new Sprite();
+        this.colorLayerMask = new Sprite();
         this.trimAndLabelLayer = new Sprite();
         this.label_txt = new TextField();
         this.tFormat = new TextFormat();
-        this.drawButton( this.buttonColor );
+        //this.createColorLayerArray();
+        this.drawEmptyButton();
+
         this.makeLabel();
         this.activateButton();
         this.addChild( this.colorLayer );
+        this.addChild( this.colorLayerMask );
         this.addChild( this.trimAndLabelLayer );
         this.trimAndLabelLayer.addChild(this.label_txt);
     }//end constructor
 
-    public function drawButton( backgroundColor:Number ):void{
+    public function drawEmptyButton():void{
         var w:int = this.sizeInPix;       //width and height of button in pixels
         var h:int = this.sizeInPix;
         var gT:Graphics = this.trimAndLabelLayer.graphics;
@@ -65,13 +78,45 @@ public class ModeButton extends Sprite{
         gT.lineStyle( 2, 0x0000ff, 1 );
         gT.drawRoundRect( 0, 0, w,  h,  w/2 );
 
+        var gM:Graphics = this.colorLayerMask.graphics;
+        gM.clear();
+        gM.beginFill( 0xff0000 );
+        gM.drawRoundRect( 0, 0, w,  h,  w/2 );
+
+        this.colorLayer.mask = this.colorLayerMask;
+        //this.colorLayer = this.colorLayer_arr[0];
+        /*
         var gC:Graphics = this.colorLayer.graphics;
         gC.clear();
-        gC.beginFill( backgroundColor );
+        gC.beginFill( emptyColor );
         gC.drawRoundRect( 0, 0, w,  h,  w/2 );
         gC.endFill();
+        */
         this.positionLabel();
     }
+
+    /*
+    private function createColorLayerArray():void{
+        //var nMax:int = 16;  //number of color layers in array
+        //this.buttonColor = 0x00ff00;
+        var w:int = this.sizeInPix;       //width and height of button in pixels
+        var hMax:int = this.sizeInPix;
+        var h:Number;
+        for( var i :int; i < this.nMax; i++ ){
+            this.colorLayer_arr[ i ] = new Sprite();
+            var gC:Graphics = this.colorLayer_arr[i].graphics;
+            gC.clear();
+            //gC.lineStyle( 1, 0x000000, 1 );
+            //h = i*hMax/(nMax-1);
+           // gC.moveTo( 0, hMax - h );
+           // gC.lineTo( w, hMax - h );
+            gC.beginFill( this.fullColor );
+            //var h:Number = i*hMax/(nMax-1);
+            gC.drawRoundRect( 0, 0,  w,  hMax,  w/2 );
+            gC.endFill();
+        }
+    }
+    */
 
     public function set pushedIn( tOrF:Boolean ):void{
         this._pushedIn = tOrF;
@@ -93,9 +138,26 @@ public class ModeButton extends Sprite{
         this.positionLabel();
     }//setBorderThickness()
 
+    //unused
     public function changeColor( inputColor:uint ):void{
         this.myColorTransform.color = inputColor;
-        this.colorLayer.transform.colorTransform = this.myColorTransform;
+        //this.colorLayer.transform.colorTransform = this.myColorTransform;
+    }
+
+    public function changeBackgroundHeight( inputHeight:int ):void{
+        //this.colorLayer = this.colorLayer_arr[ inputHeight ];
+        var w:int = this.sizeInPix;
+        var hMax:int = this.sizeInPix;
+        var h:Number = inputHeight*hMax/this.nMax;
+        var gC:Graphics = this.colorLayer.graphics;
+        gC.clear();
+        gC.beginFill( this.fullColor );
+        gC.drawRect( 0, hMax - h, w, h)
+        gC.endFill();
+        gC.beginFill( this.emptyColor );
+        gC.drawRect( 0, 0, w, hMax - h)
+        gC.endFill();
+        //trace("ModeButton.changeBackgroundColor. color = " + this.fullColor.toString(16));
     }
 
     private function makeLabel():void{
@@ -103,6 +165,7 @@ public class ModeButton extends Sprite{
         this.label_txt.text = label_str;
         this.tFormat.font = "Arial";
         this.tFormat.size = 12;
+        this.tFormat.color = 0x000000;
         this.label_txt.autoSize = TextFieldAutoSize.CENTER;
         //this.label_txt.border = true;    //for testing only
         this.label_txt.setTextFormat( this.tFormat);
@@ -121,7 +184,7 @@ public class ModeButton extends Sprite{
 
     public function setSize( sizeInPix: Number):void{
         this.sizeInPix = sizeInPix;
-        this.drawButton( 0xffffff );
+        this.drawEmptyButton( );
     }
 
     private function activateButton(): void {
