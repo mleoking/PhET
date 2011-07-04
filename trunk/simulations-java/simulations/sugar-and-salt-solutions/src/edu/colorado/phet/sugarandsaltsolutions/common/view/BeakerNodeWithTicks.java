@@ -23,7 +23,7 @@ public class BeakerNodeWithTicks extends BeakerNode {
         super( transform, beaker );
 
         //Add Tick marks and labels
-        double viewX = transform.modelToViewX( beaker.getX() - beaker.getWallWidth() / 2 );
+        double viewX = transform.modelToViewX( beaker.getX() - beaker.getWallThickness() / 2 );
 
         //only show labels (and tick marks) for 0 L, 1 L, and 2 L, and tick marks for 0.5 L and 1.5 L
 

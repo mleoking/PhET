@@ -20,6 +20,9 @@ public class BeakerDimension {
     //Depth is z-direction z-depth (into the screen)
     public final double depth;
 
+    //Width of the wall
+    public final double wallThickness;
+
     //Create a beaker dimension with a standardized aspect ratio, where the height and depth are half the width, and centered around x=0
     //This constructor is here because Micro and Macro tabs use the same aspect ratio of beaker dimensions
     public BeakerDimension( double width ) {
@@ -34,5 +37,8 @@ public class BeakerDimension {
 
         //Set the x-position so the middle of the beaker will be centered at x=0
         this.x = -width / 2;
+
+        //Thickness of the walls
+        this.wallThickness = width / 40.0;
     }
 }
