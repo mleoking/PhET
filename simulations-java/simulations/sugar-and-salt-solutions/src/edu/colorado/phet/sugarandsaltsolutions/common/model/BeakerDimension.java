@@ -2,7 +2,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 /**
  * Beaker dimensions and location in meters, public so other classes can use them for layout.
- * This class exists so the dimensions can be passed together as a parameter when constructing model instances.
+ * This class exists so the dimensions can be passed together as a parameter when constructing model instances, and so it can encode default assumptions
+ * like the beaker is centered around x=0 and has a certain aspect ratio.
  *
  * @author Sam Reid
  */
