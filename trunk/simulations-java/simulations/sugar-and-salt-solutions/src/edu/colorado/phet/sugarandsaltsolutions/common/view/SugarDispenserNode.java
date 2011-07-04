@@ -24,8 +24,8 @@ public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
     private static final BufferedImage openEmpty = multiScaleToHeight( SUGAR_EMPTY_OPEN, 250 );
     private static final BufferedImage closedEmpty = multiScaleToHeight( SUGAR_EMPTY_CLOSED, 250 );
 
-    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model ) {
-        super( transform, model );
+    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model, double beakerHeight ) {
+        super( transform, model, beakerHeight );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
         model.enabled.addObserver( new VoidFunction1<Boolean>() {

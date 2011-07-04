@@ -180,7 +180,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         saltConcentration.reset();
         showConcentrationValues.reset();
         dispenserType.reset();
-        showConcentrationBarChart.reset();
     }
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {

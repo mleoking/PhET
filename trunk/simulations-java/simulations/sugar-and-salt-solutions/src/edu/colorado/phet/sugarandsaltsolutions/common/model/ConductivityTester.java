@@ -11,26 +11,33 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester;
 import edu.umd.cs.piccolo.util.PDimension;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_WIDTH;
-
 /**
  * Conductivity tester that can be dipped in the water to light a light bulb.
  *
  * @author Sam Reid
  */
 public class ConductivityTester implements IConductivityTester {
-    //Locations are in model coordinates (meters).
-    //Note that in the typical usage scenario (dragged out of a toolbox), these values are overriden with other values in SugarAndSaltSolutionsConductivityTesterNode
-    private static final double PROBE_Y = BEAKER_HEIGHT;
-    private static final double NEGATIVE_PROBE_X = -BEAKER_WIDTH / 3;
-    private static final double POSITIVE_PROBE_X = +BEAKER_WIDTH / 3;
-    private static final Point2D.Double DEFAULT_LOCATION = new Point2D.Double( 0, PROBE_Y );
 
-    //Position of the probes, in model coordinates
-    private Point2D.Double negativeProbeLocation = new Point2D.Double( NEGATIVE_PROBE_X, PROBE_Y );
-    private Point2D.Double positiveProbeLocation = new Point2D.Double( POSITIVE_PROBE_X, PROBE_Y );
-    private Point2D.Double location = new Point2D.Double( DEFAULT_LOCATION.getX(), DEFAULT_LOCATION.getY() );
+    private final Point2D.Double negativeProbeLocation;
+    private final Point2D.Double positiveProbeLocation;
+    private final Point2D.Double location;
+    private final double negative_probe_x;
+    private final double positive_probe_x;
+    final double PROBE_Y;
+
+    public ConductivityTester( double BEAKER_HEIGHT, double BEAKER_WIDTH ) {
+        //Locations are in model coordinates (meters).
+        //Note that in the typical usage scenario (dragged out of a toolbox), these values are overriden with other values in SugarAndSaltSolutionsConductivityTesterNode
+        PROBE_Y = BEAKER_HEIGHT;
+        negative_probe_x = -BEAKER_WIDTH / 3;
+        positive_probe_x = +BEAKER_WIDTH / 3;
+        final Point2D.Double DEFAULT_LOCATION = new Point2D.Double( 0, PROBE_Y );
+
+        //Position of the probes, in model coordinates
+        negativeProbeLocation = new Point2D.Double( negative_probe_x, PROBE_Y );
+        positiveProbeLocation = new Point2D.Double( positive_probe_x, PROBE_Y );
+        location = new Point2D.Double( DEFAULT_LOCATION.getX(), DEFAULT_LOCATION.getY() );
+    }
 
     //Listeners
     private final ArrayList<ConductivityTesterChangeListener> conductivityTesterListeners = new ArrayList<ConductivityTesterChangeListener>();
@@ -123,8 +130,8 @@ public class ConductivityTester implements IConductivityTester {
         brightness.reset();
 
         //Reset the location of the probes
-        setNegativeProbeLocation( NEGATIVE_PROBE_X, PROBE_Y );
-        setPositiveProbeLocation( POSITIVE_PROBE_X, PROBE_Y );
+        setNegativeProbeLocation( negative_probe_x, PROBE_Y );
+        setPositiveProbeLocation( positive_probe_x, PROBE_Y );
     }
 
     //Sets the location of the unit (battery + bulb) and notifies listeners

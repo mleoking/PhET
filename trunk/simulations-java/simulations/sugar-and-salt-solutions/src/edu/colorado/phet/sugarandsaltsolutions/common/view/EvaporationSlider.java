@@ -33,7 +33,7 @@ public class EvaporationSlider extends WhiteControlPanelNode {
 
                     //Show none and lots labels at the extrema
                     setPaintLabels( true );
-                    setLabelTable( new Hashtable() {{
+                    setLabelTable( new Hashtable<Integer, JLabel>() {{
                         put( 0, new JLabel( SugarAndSaltSolutionsResources.Strings.NONE ) {{setFont( CONTROL_FONT );}} );
                         put( 100, new JLabel( SugarAndSaltSolutionsResources.Strings.LOTS ) {{setFont( CONTROL_FONT );}} );
                     }} );

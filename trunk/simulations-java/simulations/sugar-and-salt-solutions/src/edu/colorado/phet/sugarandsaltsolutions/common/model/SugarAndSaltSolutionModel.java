@@ -38,27 +38,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
-    //Beaker dimensions and location in meters, public so other classes can use them for layout
-    public static final double BEAKER_WIDTH = 0.2;
-    public static final double BEAKER_X = -BEAKER_WIDTH / 2;
-    public static final double BEAKER_HEIGHT = 0.1;
-    public static final double BEAKER_DEPTH = 0.1;//Depth is z-direction z-depth
-
     //Use the same aspect ratio as the view to minimize insets with blank regions
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
-
-    //Inset so the beaker doesn't touch the edge of the model bounds
-    public final double inset = BEAKER_WIDTH * 0.1;
-    public final double modelWidth = BEAKER_WIDTH + inset * 2;
-
-    //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
-    public final ImmutableRectangle2D visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
-
-    //Beaker and water models
-    public final Beaker beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );//The beaker into which you can add water, salt and sugar.
-
-    //Set a max amount of water that the user can add to the system so they can't overflow it
-    private final double MAX_WATER = beaker.getMaxFluidVolume();
 
     //Model for input and output flows
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
@@ -81,9 +62,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     //Which dispenser the user has selected
     public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );
 
-    //Model for the conductivity tester
-    public final ConductivityTester conductivityTester = new ConductivityTester();
-
     //True if the values should be shown in the user interface
     public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
 
@@ -102,59 +80,52 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public final CompositeDoubleProperty solidVolume = salt.solidVolume.plus( sugar.solidVolume );
 
     //The y value where the solution will sit, it moves up and down with any solid that has precipitated
-    public final CompositeDoubleProperty solutionY = new CompositeDoubleProperty( new Function0<Double>() {
-        public Double apply() {
-            return beaker.getHeightForVolume( solidVolume.get() );
-        }
-    }, solidVolume );
+    public final CompositeDoubleProperty solutionY;
 
     //Rule of thumb for how much volume is occupied by a dissolved solute
     private double litersPerMoleDissolvedSalt = salt.volumePerSolidMole * 0.15;
     private double litersPerMoleDissolvedSugar = sugar.volumePerSolidMole * 0.15;
 
-    //Create the solution, which sits atop the solid precipitate (if any)
-    //TODO: are units correct on this line?
-    public final Solution solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
+    //Beaker model
+    public final Beaker beaker;
+
+    //Solution model, the fluid + any dissolved solutes
+    public final Solution solution;
 
     //The concentration in the liquid in moles / m^3
-    //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
-    //But now the solution.volume = waterVolume so we could move these declarations to sugar and salt SoluteModels
-    public final CompositeDoubleProperty saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
-    public final CompositeDoubleProperty sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
-
-    //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    public final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
-    public final Property<Boolean> showConcentrationBarChart = new Property<Boolean>( true );
-
-    //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
-    //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
-    private final CompositeDoubleProperty airborneSaltGrams = new AirborneCrystalMoles( saltList ).times( salt.gramsPerMole );
-    private final CompositeDoubleProperty airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
-
-    //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-    private ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
-    private ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
-
-    //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-    public final ObservableProperty<Boolean> beakerFull = solution.volume.greaterThanOrEqualTo( MAX_WATER );
-
-    //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
-    //These values were sampled from the model with debug mode.
-    //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
-    public final VerticalRangeContains lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, 0.011746031746031754, 0.026349206349206344 );
+    public final CompositeDoubleProperty saltConcentration;
+    public final CompositeDoubleProperty sugarConcentration;
 
     //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
-    private Rectangle2D outFlowShape = new Rectangle();
+    private Rectangle2D outFlowShape;
 
     //Model for the salt shaker
-    public final SaltShaker saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName() ) {{
-        //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
-        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-            public void apply( DispenserType dispenserType ) {
-                enabled.set( dispenserType == SALT );
-            }
-        } );
-    }};
+    public final SaltShaker saltShaker;
+
+    //Max amount of water before the beaker overflows
+    private double maxWater;
+
+    //Flag to indicate whether there is enough solution to flow through the lower drain.
+    public final VerticalRangeContains lowerFaucetCanDrain;
+
+    //Amounts of sugar and salt in crystal form falling from the dispenser
+    private CompositeDoubleProperty airborneSaltGrams;
+    private CompositeDoubleProperty airborneSugarGrams;
+
+    //Model for the conductivity tester
+    public final ConductivityTester conductivityTester;
+
+    //User setting: whether the concentration bar chart should be shown
+    public final Property<Boolean> showConcentrationBarChart;
+
+    //Part of the model that must be visible within the view
+    public final ImmutableRectangle2D visibleRegion;
+
+    //Observable flag which determines whether the beaker is full of solution, for purposes of preventing overflow
+    public final ObservableProperty<Boolean> beakerFull;
+
+    //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+    public final ObservableProperty<Boolean> anySolutes;
 
     //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
     protected String getSaltShakerName() {
@@ -167,14 +138,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     }
 
     //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName() ) {{
-        //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
-        dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-            public void apply( DispenserType dispenserType ) {
-                enabled.set( dispenserType == SUGAR );
-            }
-        } );
-    }};
+    public final SugarDispenser sugarDispenser;
 
     //Rate at which liquid (but no solutes) leaves the model
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
@@ -182,6 +146,89 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
     public SugarAndSaltSolutionModel( ConstantDtClock clock ) {
         super( clock );
+
+        //Beaker dimensions and location in meters, public so other classes can use them for layout
+        final double BEAKER_WIDTH = 0.2;
+        final double BEAKER_X = -BEAKER_WIDTH / 2;
+        final double BEAKER_HEIGHT = 0.1;
+        final double BEAKER_DEPTH = 0.1;//Depth is z-direction z-depth
+
+        //Inset so the beaker doesn't touch the edge of the model bounds
+        final double inset = BEAKER_WIDTH * 0.1;
+        final double modelWidth = BEAKER_WIDTH + inset * 2;
+
+        //Beaker model
+        beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );
+
+        //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
+        visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
+
+        //Set a max amount of water that the user can add to the system so they can't overflow it
+        maxWater = beaker.getMaxFluidVolume();
+
+        solutionY = new CompositeDoubleProperty( new Function0<Double>() {
+            public Double apply() {
+                return beaker.getHeightForVolume( solidVolume.get() );
+            }
+        }, solidVolume );
+
+        //Create the solution, which sits atop the solid precipitate (if any)
+        //TODO: are units correct on this line?
+        solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
+
+        //Determine the concentration of dissolved solutes
+        //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
+        saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
+        sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
+
+        //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+        anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
+
+        //User setting: whether the concentration bar chart should be shown
+        showConcentrationBarChart = new Property<Boolean>( true );
+
+        //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
+        //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
+        airborneSaltGrams = new AirborneCrystalMoles( saltList ).times( salt.gramsPerMole );
+        airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
+
+        //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
+        ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
+        ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
+
+        //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
+        beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );
+
+        //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
+        //These values were sampled from the model with debug mode.
+        //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
+        lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, 0.011746031746031754, 0.026349206349206344 );
+
+        //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
+        outFlowShape = new Rectangle();
+
+        //Model for the salt shaker
+        saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName() ) {{
+            //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
+            dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+                public void apply( DispenserType dispenserType ) {
+                    enabled.set( dispenserType == SALT );
+                }
+            } );
+        }};
+
+        //Model for the conductivity tester
+        conductivityTester = new ConductivityTester( BEAKER_WIDTH, BEAKER_HEIGHT );
+
+        sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName() ) {{
+            //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
+            dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+                public void apply( DispenserType dispenserType ) {
+                    enabled.set( dispenserType == SUGAR );
+                }
+            } );
+        }};
+
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
         new RichSimpleObserver() {
             @Override public void update() {
@@ -314,8 +361,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         //Compute the new water volume, but making sure it doesn't overflow or underflow
         //TODO: use the solution volume here?
         double newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
-        if ( newVolume > MAX_WATER ) {
-            inputWater = MAX_WATER + drainedWater + evaporatedWater - waterVolume.get();
+        if ( newVolume > maxWater ) {
+            inputWater = maxWater + drainedWater + evaporatedWater - waterVolume.get();
         }
         //Only allow drain to use up all the water if user is draining the liquid
         else if ( newVolume < 0 && outputFlowRate.get() > 0 ) {
@@ -332,7 +379,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
 
         //Turn off the input flow if the beaker would overflow
-        if ( newVolume >= MAX_WATER ) {
+        if ( newVolume >= maxWater ) {
             inputFlowRate.set( 0.0 );
             //TODO: make the cursor drop the slider?
         }
@@ -416,6 +463,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         conductivityTester.reset();
         dispenserType.reset();
         showConcentrationValues.reset();
+        showConcentrationBarChart.reset();
 
         notifyReset();
     }

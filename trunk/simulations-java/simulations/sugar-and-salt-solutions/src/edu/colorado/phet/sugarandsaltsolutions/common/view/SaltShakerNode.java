@@ -17,8 +17,10 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  * @author Sam Reid
  */
 public class SaltShakerNode extends DispenserNode<SaltShaker> {
-    public SaltShakerNode( final ModelViewTransform transform, final SaltShaker model ) {
-        super( transform, model );
+    public SaltShakerNode( final ModelViewTransform transform, final SaltShaker model, double beakerHeight ) {
+        super( transform, model, beakerHeight );
+
+        //Create images to use in each scenario
         final BufferedImage fullImage = multiScaleToHeight( Images.SALT_1, 200 );
         final BufferedImage emptyImage = multiScaleToHeight( SugarAndSaltSolutionsResources.Images.SALT_EMPTY, 200 );
 
@@ -29,6 +31,7 @@ public class SaltShakerNode extends DispenserNode<SaltShaker> {
             }
         } );
 
+        //Switch between the empty and full images based on whether the user is allowed to add more salt
         model.moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean moreAllowed ) {
                 imageNode.setImage( moreAllowed ? fullImage : emptyImage );
