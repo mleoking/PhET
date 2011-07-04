@@ -18,8 +18,8 @@ import static java.awt.Color.white;
  *
  * @author Sam Reid
  */
-public class BeakerNode extends BeakerNodeWithoutTicks {
-    public BeakerNode( ModelViewTransform transform, Beaker beaker ) {
+public class BeakerNodeWithTicks extends BeakerNodeWithoutTicks {
+    public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker ) {
         super( transform, beaker );
 
         //Add Tick marks and labels
