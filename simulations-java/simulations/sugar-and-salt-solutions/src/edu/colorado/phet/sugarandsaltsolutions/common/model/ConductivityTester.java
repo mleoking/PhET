@@ -21,22 +21,23 @@ public class ConductivityTester implements IConductivityTester {
     private final Point2D.Double negativeProbeLocation;
     private final Point2D.Double positiveProbeLocation;
     private final Point2D.Double location;
-    private final double negative_probe_x;
-    private final double positive_probe_x;
-    final double PROBE_Y;
+    private final double negativeProbeX;
+    private final double positiveProbeX;
+    final double defaultProbeY;
 
-    public ConductivityTester( double BEAKER_HEIGHT, double BEAKER_WIDTH ) {
+    public ConductivityTester( double beakerWidth, double beakerHeight ) {
         //Locations are in model coordinates (meters).
         //Note that in the typical usage scenario (dragged out of a toolbox), these values are overriden with other values in SugarAndSaltSolutionsConductivityTesterNode
-        PROBE_Y = BEAKER_HEIGHT;
-        negative_probe_x = -BEAKER_WIDTH / 3;
-        positive_probe_x = +BEAKER_WIDTH / 3;
-        final Point2D.Double DEFAULT_LOCATION = new Point2D.Double( 0, PROBE_Y );
+        defaultProbeY = beakerHeight;
+        negativeProbeX = -beakerWidth / 3;
+        positiveProbeX = +beakerWidth / 3;
 
         //Position of the probes, in model coordinates
-        negativeProbeLocation = new Point2D.Double( negative_probe_x, PROBE_Y );
-        positiveProbeLocation = new Point2D.Double( positive_probe_x, PROBE_Y );
-        location = new Point2D.Double( DEFAULT_LOCATION.getX(), DEFAULT_LOCATION.getY() );
+        negativeProbeLocation = new Point2D.Double( negativeProbeX, defaultProbeY );
+        positiveProbeLocation = new Point2D.Double( positiveProbeX, defaultProbeY );
+
+        //Set the initial position
+        location = new Point2D.Double( 0, defaultProbeY );
     }
 
     //Listeners
@@ -130,8 +131,8 @@ public class ConductivityTester implements IConductivityTester {
         brightness.reset();
 
         //Reset the location of the probes
-        setNegativeProbeLocation( negative_probe_x, PROBE_Y );
-        setPositiveProbeLocation( positive_probe_x, PROBE_Y );
+        setNegativeProbeLocation( negativeProbeX, defaultProbeY );
+        setPositiveProbeLocation( positiveProbeX, defaultProbeY );
     }
 
     //Sets the location of the unit (battery + bulb) and notifies listeners
