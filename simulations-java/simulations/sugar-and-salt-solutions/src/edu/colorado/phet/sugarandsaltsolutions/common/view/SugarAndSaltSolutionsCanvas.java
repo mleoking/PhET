@@ -193,6 +193,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
         addChild( removeSolutesButton );
 
+        //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
         concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
