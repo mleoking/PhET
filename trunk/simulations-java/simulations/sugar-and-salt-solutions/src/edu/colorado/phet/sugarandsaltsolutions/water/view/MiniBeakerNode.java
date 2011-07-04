@@ -6,8 +6,8 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNodeWithoutTicks;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SolutionNode;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
@@ -21,7 +21,7 @@ public class MiniBeakerNode extends PNode {
     public MiniBeakerNode() {
         //Create a whole model, but just for the purpose of making a beaker graphic.  Shouldn't be a memory leak since no listeners are wired up and this is done only once.
         final MacroModel model = new MacroModel();
-        final ModelViewTransform transform = SugarAndSaltSolutionsCanvas.createTransform( model );
+        final ModelViewTransform transform = MacroCanvas.createMacroTransform( model );
 
         //Add the beaker and water graphics, and increase the wall thickness to make it more visible
         model.beaker.setWallWidth( model.beaker.wallWidth );

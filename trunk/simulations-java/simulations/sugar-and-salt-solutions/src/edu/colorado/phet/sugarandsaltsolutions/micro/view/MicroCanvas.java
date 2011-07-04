@@ -5,10 +5,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.solublesalts.model.ion.Ion;
@@ -24,6 +26,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSuga
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseImage.getSucroseImage;
 
@@ -44,7 +47,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     }
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
-        super( model, globalState );
+        super( model, globalState, createMicroTransform( model ) );
 
         //Add graphics for each ion.  Overriden here to map from soluble salts model coordinates -> sugar and salt model coordinates -> sugar and salt canvas coordinates
         model.addIonListener( new IonGraphicManager( getRootNode() ) {
@@ -117,5 +120,21 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             dialogVisibleOnActivate = periodicTableDialog.isVisible();
             periodicTableDialog.setVisible( false );
         }
+    }
+
+    //See docs in MacroCanvas.createMacroTransform, this variant is used to create the transform for the micro tab
+    //TODO: see if code can be consolidated with the macro version
+    public static ModelViewTransform createMicroTransform( SugarAndSaltSolutionModel model ) {
+        double modelScale = 0.75;
+        System.out.println( "model.visibleRegion.toRectangle2D() = " + model.visibleRegion.toRectangle2D() );
+        final ModelViewTransform transform = createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                                              //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                                              // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                                              new Rectangle2D.Double( 20,
+                                                                                                      //y-position: increasing this number moves down the beaker
+                                                                                                      135,
+                                                                                                      canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+        System.out.println( "transform = " + transform );
+        return transform;
     }
 }
