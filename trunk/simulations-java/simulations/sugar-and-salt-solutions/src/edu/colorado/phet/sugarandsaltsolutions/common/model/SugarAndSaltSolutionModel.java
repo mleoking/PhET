@@ -52,7 +52,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
 
     //Flow controls vary between 0 and 1, this scales it down to a good model value
-    private static final double FLOW_SCALE = 0.0005;
+    private final double faucetFlowRate;
 
     //Which dispenser the user has selected
     public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );
@@ -77,7 +77,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     //The y value where the solution will sit, it moves up and down with any solid that has precipitated
     public final CompositeDoubleProperty solutionY;
 
-    //Rule of thumb for how much volume is occupied by a dissolved solute
+    //TODO: I thought we weren't accounting for the volume of dissolved solutes, maybe this should be deleted.
     private double litersPerMoleDissolvedSalt = salt.volumePerSolidMole * 0.15;
     private double litersPerMoleDissolvedSugar = sugar.volumePerSolidMole * 0.15;
 
@@ -131,12 +131,19 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
     //Rate at which liquid (but no solutes) leaves the model
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
-    private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
+
+    //Rate at which liquid evaporates
+    private final double evaporationRateScale;
 
     public SugarAndSaltSolutionModel( ConstantDtClock clock,
                                       //Dimensions of the beaker
-                                      BeakerDimension beakerDimension ) {
+                                      BeakerDimension beakerDimension,
+                                      double faucetFlowRate,
+                                      final double drainPipeBottomY,
+                                      final double drainPipeTopY ) {
         super( clock );
+        this.faucetFlowRate = faucetFlowRate;
+        this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
 
         //Inset so the beaker doesn't touch the edge of the model bounds
         final double inset = beakerDimension.width * 0.1;
@@ -185,9 +192,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );
 
         //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
-        //These values were sampled from the model with debug mode.
         //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
-        lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, 0.011746031746031754, 0.026349206349206344 );
+        lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, drainPipeBottomY, drainPipeTopY );
 
         //Model for the salt shaker
         saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName() ) {{
@@ -276,9 +282,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         saltShaker.updateModel( this );
 
         //Change the water volume based on input and output flow
-        double inputWater = dt * inputFlowRate.get() * FLOW_SCALE;
-        double drainedWater = dt * outputFlowRate.get() * FLOW_SCALE;
-        double evaporatedWater = dt * evaporationRate.get() * EVAPORATION_SCALE;
+        double inputWater = dt * inputFlowRate.get() * faucetFlowRate;
+        double drainedWater = dt * outputFlowRate.get() * faucetFlowRate;
+        double evaporatedWater = dt * evaporationRate.get() * evaporationRateScale;
 
         //Compute the new water volume, but making sure it doesn't overflow or underflow
         //TODO: use the solution volume here?

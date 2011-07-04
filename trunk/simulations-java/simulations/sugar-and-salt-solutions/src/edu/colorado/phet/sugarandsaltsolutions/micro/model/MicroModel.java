@@ -77,7 +77,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                //In the macro tab, the dimension is new BeakerDimension( x = -0.1, width = 0.2, height = 0.1, depth = 0.1 )
                //So if it is to have the same shape is as the previous tab then we use width*height*depth = 2E-23 and width = 2*height = 2*depth
                //Solving for width, we have: 2E-23 = width * width/2 * depth / 2 => 8E-23 = width^3.  Therefore width = sqrt(8E-23)
-               new BeakerDimension( sqrt( 8E-23 ) ) );
+               new BeakerDimension( sqrt( 8E-23 ) ),
+
+               //Flow rate must be slowed since the beaker is so small.  TODO: compute this factor analytically so that it will match the first tab perfectly?  Factor out numbers?
+               0.0005 * 1E-31,
+
+               //Values sampled at runtime using a debugger
+               5.195833333333284E-13, 1.1824999999999597E-12 );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
