@@ -74,6 +74,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
     //Node that shows the faucet, we need a reference so subclasses can listen to the water flowing out bounds for collision hit testing for the conductivity tester
     protected final FaucetNode drainFaucetNode;
+    public final ExpandableConcentrationBarChartNode concentrationBarChart;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState ) {
 
@@ -192,7 +193,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
         addChild( removeSolutesButton );
 
-        ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
+        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );

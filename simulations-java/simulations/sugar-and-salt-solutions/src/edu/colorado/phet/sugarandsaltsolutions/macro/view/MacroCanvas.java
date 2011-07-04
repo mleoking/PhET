@@ -33,7 +33,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         //Toolbox from which the conductivity tester can be dragged
         conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
             //Set the location of the control panel
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
+            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getMaxY() + INSET );
         }} );
 
         //When the shape of the flowing-out water changes, update the model so we can account for conductivity of the water while it is draining
