@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 /**
@@ -11,6 +12,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
  */
 public class MacroModel extends SugarAndSaltSolutionModel {
     public MacroModel() {
-        super( new ConstantDtClock( 30 ) );
+        super( new ConstantDtClock( 30 ), new BeakerDimension( -0.1, 0.2, 0.1, 0.1 ) );
     }
 }

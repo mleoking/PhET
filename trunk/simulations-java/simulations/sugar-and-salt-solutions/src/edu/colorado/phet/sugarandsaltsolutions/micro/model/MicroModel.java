@@ -24,6 +24,7 @@ import edu.colorado.phet.solublesalts.model.salt.SodiumChloride;
 import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
@@ -69,7 +70,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
-        super( new ConstantDtClock( framesPerSecond ) );
+        super( new ConstantDtClock( framesPerSecond ), new BeakerDimension( -0.1, 0.2, 0.1, 0.1 ) );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );

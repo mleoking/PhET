@@ -144,21 +144,17 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
     private static final double EVAPORATION_SCALE = FLOW_SCALE / 300.0;//Scaled down since the evaporation rate is 100 times bigger than flow scales
 
-    public SugarAndSaltSolutionModel( ConstantDtClock clock ) {
+    public SugarAndSaltSolutionModel( ConstantDtClock clock,
+                                      //Dimensions of the beaker
+                                      BeakerDimension beakerDimension ) {
         super( clock );
 
-        //Beaker dimensions and location in meters, public so other classes can use them for layout
-        final double BEAKER_WIDTH = 0.2;
-        final double BEAKER_X = -BEAKER_WIDTH / 2;
-        final double BEAKER_HEIGHT = 0.1;
-        final double BEAKER_DEPTH = 0.1;//Depth is z-direction z-depth
-
         //Inset so the beaker doesn't touch the edge of the model bounds
-        final double inset = BEAKER_WIDTH * 0.1;
-        final double modelWidth = BEAKER_WIDTH + inset * 2;
+        final double inset = beakerDimension.width * 0.1;
+        final double modelWidth = beakerDimension.width + inset * 2;
 
         //Beaker model
-        beaker = new Beaker( BEAKER_X, 0, BEAKER_WIDTH, BEAKER_HEIGHT, BEAKER_DEPTH );
+        beaker = new Beaker( beakerDimension.x, 0, beakerDimension.width, beakerDimension.height, beakerDimension.depth );
 
         //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
         visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );
@@ -218,7 +214,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         }};
 
         //Model for the conductivity tester
-        conductivityTester = new ConductivityTester( BEAKER_WIDTH, BEAKER_HEIGHT );
+        conductivityTester = new ConductivityTester( beakerDimension.width, beakerDimension.height );
 
         sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName() ) {{
             //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
