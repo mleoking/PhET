@@ -359,8 +359,7 @@ public class ModelViewTransform {
     }
 
     //Machine generated (and fine-tuned) equality test
-    @Override
-    public boolean equals( Object o ) {
+    @Override public boolean equals( Object o ) {
         if ( this == o ) {
             return true;
         }
@@ -375,9 +374,12 @@ public class ModelViewTransform {
         return true;
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return transform.hashCode();
+    }
+
+    @Override public String toString() {
+        return getClass().getName() + ": " + transform.toString();
     }
 
     public ImmutableRectangle2D modelToView( ImmutableRectangle2D modelRect ) {
