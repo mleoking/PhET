@@ -36,6 +36,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSuga
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
+import static java.lang.Math.sqrt;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -70,7 +71,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
-        super( new ConstantDtClock( framesPerSecond ), new BeakerDimension( -0.1, 0.2, 0.1, 0.1 ) );
+        super( new ConstantDtClock( framesPerSecond ),
+
+               //The volume of the micro beaker should be 2E-23L
+               //In the macro tab, the dimension is new BeakerDimension( x = -0.1, width = 0.2, height = 0.1, depth = 0.1 )
+               //So if it is to have the same shape is as the previous tab then we use width*height*depth = 2E-23 and width = 2*height = 2*depth
+               //Solving for width, we have: 2E-23 = width * width/2 * depth / 2 => 8E-23 = width^3.  Therefore width = sqrt(8E-23)
+               new BeakerDimension( sqrt( 8E-23 ) ) );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );

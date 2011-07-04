@@ -12,6 +12,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
  */
 public class MacroModel extends SugarAndSaltSolutionModel {
     public MacroModel() {
-        super( new ConstantDtClock( 30 ), new BeakerDimension( -0.1, 0.2, 0.1, 0.1 ) );
+        super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ) );
     }
 }
