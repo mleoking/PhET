@@ -161,8 +161,8 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( behindShakerNode );
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
-        submergedInWaterNode.addChild( new SaltShakerNode( transform, model.saltShaker ) );
-        submergedInWaterNode.addChild( new SugarDispenserNode( transform, model.sugarDispenser ) );
+        submergedInWaterNode.addChild( new SaltShakerNode( transform, model.saltShaker, model.beaker.getHeight() ) );
+        submergedInWaterNode.addChild( new SugarDispenserNode( transform, model.sugarDispenser, model.beaker.getHeight() ) );
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         submergedInWaterNode.addChild( crystalLayer );

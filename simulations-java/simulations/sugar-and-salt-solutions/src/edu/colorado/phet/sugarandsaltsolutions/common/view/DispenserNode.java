@@ -21,7 +21,6 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel.BEAKER_HEIGHT;
 import static java.lang.Double.POSITIVE_INFINITY;
 
 /**
@@ -36,7 +35,7 @@ public class DispenserNode<T extends Dispenser> extends PNode {
     private final T model;
     private PNode textLabel;
 
-    public DispenserNode( final ModelViewTransform transform, final T model ) {
+    public DispenserNode( final ModelViewTransform transform, final T model, final double beakerHeight ) {
         this.transform = transform;
         this.model = model;
         //Show the image of the shaker, with the text label on the side of the dispenser
@@ -81,7 +80,7 @@ public class DispenserNode<T extends Dispenser> extends PNode {
         // but don't let the shaker be dragged underwater
         addInputEventListener( new RelativeDragHandler( this, transform, model.center, new Function1<Point2D, Point2D>() {
             public Point2D apply( Point2D modelPoint ) {
-                return new Point2D.Double( modelPoint.getX(), MathUtil.clamp( BEAKER_HEIGHT * 1.3, modelPoint.getY(), POSITIVE_INFINITY ) );
+                return new Point2D.Double( modelPoint.getX(), MathUtil.clamp( beakerHeight * 1.3, modelPoint.getY(), POSITIVE_INFINITY ) );
             }
         } ) );
 
