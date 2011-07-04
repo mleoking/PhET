@@ -33,7 +33,6 @@ import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
 /**
@@ -76,14 +75,14 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     protected final FaucetNode drainFaucetNode;
     public final ExpandableConcentrationBarChartNode concentrationBarChart;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width,
                                     (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
-        transform = createTransform( model );
+        this.transform = transform;
 
 //        System.out.println( "transform.getTransform().getScaleX() = " + transform.getTransform().getScaleX() );
         // Root of our scene graph
@@ -158,7 +157,10 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         submergedInWaterNode.addChild( crystalLayer );
 
         //Add beaker node that shows border of the beaker and tick marks
-        addChild( new BeakerNode( transform, model.beaker ) );
+        final BeakerNode node = new BeakerNode( transform, model.beaker );
+        addChild( node );
+
+        System.out.println( "node.getFullBounds() = " + node.getGlobalFullBounds() );
 
         //Debug for showing stage
         if ( debug ) {
@@ -214,17 +216,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Create the component used to choose between different solutes.
     //Called from the constructor, should only use arguments passed in
     protected abstract SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize );
-
-    //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab
-    public static ModelViewTransform createTransform( SugarAndSaltSolutionModel model ) {
-        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
-        return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
-                                                //Manually tuned so that the model part shows up in the left side of the canvas,
-                                                // leaving enough room for controls, labels, and positioning it so it appears near the bottom
-                                                new Rectangle2D.Double( 20,
-                                                                        135,//increasing this number moves down the beaker
-                                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
-    }
 
     public void addChild( PNode node ) {
         rootNode.addChild( node );

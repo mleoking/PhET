@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
@@ -13,6 +14,8 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
+
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 
 /**
  * Canvas for the introductory (macro) tab of sugar and salt solutions
@@ -25,7 +28,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     protected final PNode conductivityToolboxLayer = new PNode();
 
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
-        super( model, globalState );
+        super( model, globalState, createMacroTransform( model ) );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );
@@ -49,5 +52,17 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     //Create a radio-button-based selector for solutes
     @Override protected SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize ) {
         return new RadioButtonSoluteControlPanelNode( model.dispenserType, canvas );
+    }
+
+    //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab
+    public static ModelViewTransform createMacroTransform( SugarAndSaltSolutionModel model ) {
+        double modelScale = 0.75;//Scale the model down so there will be room for control panels.
+        return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                new Rectangle2D.Double( 20,
+                                                                        //y-position: increasing this number moves down the beaker
+                                                                        135,
+                                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
     }
 }
