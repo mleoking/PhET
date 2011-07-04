@@ -157,7 +157,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         submergedInWaterNode.addChild( crystalLayer );
 
         //Add beaker node that shows border of the beaker and tick marks
-        final BeakerNode node = new BeakerNode( transform, model.beaker );
+        final BeakerNode node = new BeakerNodeWithTicks( transform, model.beaker );
         addChild( node );
 
 //        System.out.println( "model.beaker.getWallShape().getBounds2D() = " + model.beaker.getWallShape().getBounds2D() );
