@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -22,7 +21,6 @@ import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.ConductivityTesterToolboxNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.PrecipitateNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
@@ -71,11 +69,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //For nodes that should look like they go into the water, such as the conductivity tester probes
     public final PNode submergedInWaterNode = new PNode();
 
-    //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
-    protected final PNode conductivityToolboxLayer = new PNode();
-
     //Color for reset and remove buttons
     public static final Color BUTTON_COLOR = new Color( 255, 153, 0 );
+
+    //Node that shows the faucet, we need a reference so subclasses can listen to the water flowing out bounds for collision hit testing for the conductivity tester
+    protected final FaucetNode drainFaucetNode;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState ) {
 
@@ -124,22 +122,13 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
                                   //move the top faucet down a little bit, so the slider doesn't go offscreen
                                   new Point2D.Double( 0, 10 ) ) );
 
-        //Add a faucet that drains the beaker
-        addChild( new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
+        //Add a faucet that drains the beaker, note that the value is assigned in the creation
+        addChild( drainFaucetNode = new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
-
-            //When the shape of the flowing-out water changes, update the model so we can account for conductivity of the water while it is draining
-            addListener( new VoidFunction1<Rectangle2D>() {
-                public void apply( Rectangle2D outFlowShape ) {
-                    ImmutableRectangle2D r = new ImmutableRectangle2D( outFlowShape );
-                    Rectangle2D transformed = localToGlobal( r.toRectangle2D() );
-                    model.setOutflowShape( transform.viewToModel( transformed ).getBounds2D() );
-                }
-            } );
         }} );
 
         //Add salt crystals graphics when salt crystals are added to the model
@@ -207,12 +196,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
-
-        //Toolbox from which the conductivity tester can be dragged
-        conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
-            //Set the location of the control panel
-            setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, soluteControlPanelNode.getFullBounds().getMaxY() + INSET );
-        }} );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 

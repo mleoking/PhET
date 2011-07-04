@@ -13,10 +13,10 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.NodeFactory;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolIconNode;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ShortCircuitTextNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
@@ -29,7 +29,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class ConductivityTesterToolboxNode extends WhiteControlPanelNode {
-    public ConductivityTesterToolboxNode( final SugarAndSaltSolutionModel model, final SugarAndSaltSolutionsCanvas canvas ) {
+    public ConductivityTesterToolboxNode( final MacroModel model, final SugarAndSaltSolutionsCanvas canvas ) {
         super( new VBox() {{
 
             //Function for determining whether the conductivity node should get dropped back in the toolbox.
