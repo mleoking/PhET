@@ -292,7 +292,7 @@ public class View2 extends Sprite {
 
         if( this.myModel2.nChanged ){
             this.setNbrMasses();
-            this.myModel2.nChanged = false;
+            //this.myModel2.nChanged = false;
         }
 
     }//end update()

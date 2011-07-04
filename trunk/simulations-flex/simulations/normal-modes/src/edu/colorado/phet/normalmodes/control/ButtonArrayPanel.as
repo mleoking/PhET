@@ -29,7 +29,7 @@ public class ButtonArrayPanel extends UIComponent{
     private var container: Sprite;          //sprite container for array of buttons
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
-    private var color_arr:Array;            //array of possible button colors
+    //private var color_arr:Array;            //array of possible button colors
     private var label_txt: TextField;        //Label for array
     private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     private var verticalPolarization:Boolean;
@@ -46,8 +46,8 @@ public class ButtonArrayPanel extends UIComponent{
         this.myModel2.registerView( this );
         this.nMax = this.myModel2.nMax;
         this.maxContainerWidth = 250;
-        this.color_arr = new Array( 10 );    //8 colors from white to dark green
-        this.makeColorArray();
+        //this.color_arr = new Array();
+        //this.makeColorArray();
         this.verticalPolarization = false;
         this.container = new Sprite();
         this.label_txt = new TextField();
@@ -83,18 +83,41 @@ public class ButtonArrayPanel extends UIComponent{
         this.modesNxNy_str = "Modes nx, ny";
     }
 
+    /*
     private function makeColorArray():void{
-        this.color_arr[ 0 ] = 0xffffff;
-        this.color_arr[ 1 ] = 0xddffdd;
-        this.color_arr[ 2 ] = 0xbbffbb;
-        this.color_arr[ 3 ] = 0x99ff99;
-        this.color_arr[ 4 ] = 0x77ff77;
-        this.color_arr[ 5 ] = 0x55ff55;
-        this.color_arr[ 6 ] = 0x33ff33;
-        this.color_arr[ 7 ] = 0x00ff00;
-        this.color_arr[ 8 ] = 0x00dd00;
-        this.color_arr[ 9 ] = 0x00bb00;
-    }
+        //create color array: red to yellow to green in 2*8 + 1 increments
+        var n:uint = Math.pow(2, 3);         //2^3 = 8 divisions in color space
+        var del:uint = 32;  //color increment
+        var r:uint = 0;        //red color in rgb
+        var g:uint = 0;        //green
+        var b:uint = 0;        //blue
+        var rgb:uint = r*65535 + g*255 + b;  //rgb color
+        //red to yellow
+        r = 255;
+        for (var i:int = 0; i < n; i++){
+            g = i*del;
+            rgb = r*65536 + g*256 + b;
+            trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
+            this.color_arr.push( rgb );
+        }
+        //yellow to green
+        g = 255;
+        for (i = 0; i < n ; i++){
+            r = 255 - i*del
+            rgb = r*65536 + g*256 + b;
+            trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
+            this.color_arr.push( rgb );
+        }
+        //green
+        r = 0; g = 255;
+        rgb = r*65536 + g*256 + b;
+        trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
+        this.color_arr.push( rgb );
+        //for(var j:int = 0; j < color_arr.length; j ++ ){
+            //trace("ButtonArrayPanel.makeColorArray.  j = "+j+"   color = " + color_arr[j].toString(16) );
+        //}
+    }//end makeColorArray()
+    */
 
     private function createLabel():void{
         this.label_txt.text = this.modesNxNy_str;
@@ -126,6 +149,7 @@ public class ButtonArrayPanel extends UIComponent{
             }
         }
         var N:int = this.myModel2.N;
+        trace("ButtonArrayPanel.setNbrButtons called. N = " + N);
         var size:Number = this.maxContainerWidth/N;
         var xOffset:Number;
         var yOffset:Number;
@@ -142,7 +166,8 @@ public class ButtonArrayPanel extends UIComponent{
                 yOffset = xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
-                this.button_arr[i][j].changeColor( 0xffffff );
+                //this.button_arr[i][j].changeColor( 0xffffff );
+                this.button_arr[i][j].changeBackgroundHeight( 0 );
                 this.button_arr[i][j].pushedIn = false;
                 this.button_arr[i][j].activated = false;
                 this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
@@ -161,14 +186,16 @@ public class ButtonArrayPanel extends UIComponent{
             for( var j: int = 1; j <= this.nMax; j++ ){
                 var Xamplitude = this.myModel2.getModeAmpliX( i, j );
                 var Yamplitude = this.myModel2.getModeAmpliY( i, j );
-                var colorX:int = Math.round( 9 * Math.min( 1, Xamplitude/0.03 ));
-                var colorY:int = Math.round( 9 * Math.min( 1, Yamplitude/0.03 ));
+                var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/0.03 ));
+                var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/0.03 ));
                 if(!this.verticalPolarization){
                     //this.button_arr[i][j].setLabel( colorX.toString());
-                    this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
+                    this.button_arr[i][j].changeBackgroundHeight( colorX );
+                    //this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
                 }else if( verticalPolarization ) {
                     //this.button_arr[i][j].setLabel( colorY.toString());
-                    this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
+                    this.button_arr[i][j].changeBackgroundHeight( colorY );
+                    //this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
                 }
             }
         }
@@ -176,8 +203,9 @@ public class ButtonArrayPanel extends UIComponent{
 
     public function update():void{
         if( this.myModel2.nChanged || this.myModel2.modesZeroed ){
+            trace("ButtonArrayPanel.update() called.");
             this.setNbrButtons();
-            this.myModel2.nChanged = false;
+            //this.myModel2.nChanged = false;
             this.myModel2.modesZeroed = false;
         }
         if( this.myModel2.modesChanged ){
