@@ -29,7 +29,7 @@ public class Beaker {
     private final double depth;
 
     //Width of the beaker
-    public float wallWidth = 0.0050f;
+    public double wallThickness;//TODO: can we make this be final?
 
     //Move the top of the beaker sides up since with 2L of water and expanded volume from dissolved solutes, the beaker would overflow
     //This value was sampled by trial and error at runtime
@@ -38,19 +38,21 @@ public class Beaker {
     //Since we decided not to have solutes take up volume, we have no extension
     private final double topExtension = 0.0;
 
-    private final double topDelta = wallWidth * 1.2;
+    private final double topDelta;
 
-    public Beaker( double x, double y, double width, double height, double depth ) {
+    public Beaker( double x, double y, double width, double height, double depth, double wallThickness ) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.depth = depth;
+        this.wallThickness = wallThickness;
+        this.topDelta = wallThickness * 1.2;
     }
 
     //Make the walls bigger for MiniBeakerNode
-    public void setWallWidth( float wallWidth ) {
-        this.wallWidth = wallWidth;
+    public void setWallThickness( double wallThickness ) {
+        this.wallThickness = wallThickness;
     }
 
     //Gets the y-location of the base of the beaker
@@ -61,7 +63,7 @@ public class Beaker {
     //Determines the model shape of the walls of the beaker that can be used to render it in the view
     public Shape getWallShape() {
         //Stroke (in model coordinates) that will be used to create the walls
-        BasicStroke wallStroke = new BasicStroke( wallWidth );
+        BasicStroke wallStroke = new BasicStroke( (float) wallThickness );
 
         //Create a Shape representing the walls as a U-shape, starting from the top left
         Shape wallShape = wallStroke.createStrokedShape( getWallPath( topDelta ).getGeneralPath() );
@@ -126,8 +128,8 @@ public class Beaker {
     }
 
     //Gets the width of the walls (edges) of the container
-    public double getWallWidth() {
-        return wallWidth;
+    public double getWallThickness() {
+        return wallThickness;
     }
 
     public double getMaxX() {

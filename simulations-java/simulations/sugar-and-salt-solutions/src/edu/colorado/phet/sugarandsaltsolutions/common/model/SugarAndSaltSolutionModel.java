@@ -143,7 +143,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         final double modelWidth = beakerDimension.width + inset * 2;
 
         //Beaker model
-        beaker = new Beaker( beakerDimension.x, 0, beakerDimension.width, beakerDimension.height, beakerDimension.depth );
+        beaker = new Beaker( beakerDimension.x, 0, beakerDimension.width, beakerDimension.height, beakerDimension.depth, beakerDimension.wallThickness );
 
         //Visible model region: a bit bigger than the beaker, used to set the stage aspect ratio in the canvas
         visibleRegion = new ImmutableRectangle2D( -modelWidth / 2, -inset, modelWidth, modelWidth / aspectRatio );

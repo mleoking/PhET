@@ -157,10 +157,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         submergedInWaterNode.addChild( crystalLayer );
 
         //Add beaker node that shows border of the beaker and tick marks
-        final BeakerNodeWithTicks node = new BeakerNodeWithTicks( transform, model.beaker );
+        final BeakerNode node = new BeakerNode( transform, model.beaker );
         addChild( node );
 
-        System.out.println( "node.getFullBounds() = " + node.getGlobalFullBounds() );
+//        System.out.println( "model.beaker.getWallShape().getBounds2D() = " + model.beaker.getWallShape().getBounds2D() );
+//        System.out.println( "node.getFullBounds() = " + node.getGlobalFullBounds() );
 
         //Debug for showing stage
         if ( debug ) {
@@ -205,7 +206,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{
-            Point2D point = SugarAndSaltSolutionsCanvas.this.transform.modelToView( 0, -model.beaker.getWallWidth() / 2 );
+            Point2D point = SugarAndSaltSolutionsCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }} );
 
