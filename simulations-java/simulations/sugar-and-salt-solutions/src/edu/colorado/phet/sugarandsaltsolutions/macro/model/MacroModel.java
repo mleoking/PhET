@@ -26,7 +26,9 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     protected Rectangle2D outFlowShape;
 
     public MacroModel() {
-        super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ) );
+        super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ), 0.0005,
+               //These values were sampled from the model with debug mode.
+               0.011746031746031754, 0.026349206349206344 );
 
         //Model for the conductivity tester
         conductivityTester = new ConductivityTester( beaker.getWidth(), beaker.getHeight() );
