@@ -18,7 +18,7 @@ import static java.awt.Color.white;
  *
  * @author Sam Reid
  */
-public class BeakerNodeWithTicks extends BeakerNodeWithoutTicks {
+public class BeakerNodeWithTicks extends BeakerNode {
     public BeakerNodeWithTicks( ModelViewTransform transform, Beaker beaker ) {
         super( transform, beaker );
 

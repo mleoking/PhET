@@ -9,10 +9,12 @@ import edu.umd.cs.piccolo.PNode;
 import static java.awt.Color.lightGray;
 
 /**
+ * This node just shows the walls (sides and bottom) of the beaker
+ *
  * @author Sam Reid
  */
-public class BeakerNodeWithoutTicks extends PNode {
-    public BeakerNodeWithoutTicks( ModelViewTransform transform, Beaker beaker ) {
+public class BeakerNode extends PNode {
+    public BeakerNode( ModelViewTransform transform, Beaker beaker ) {
         addChild( new PhetPPath( transform.modelToView( beaker.getWallShape() ), lightGray ) );
     }
 }
