@@ -39,6 +39,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/greenhouse/greenhouse.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/greenhouse/greenhouse.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/inside-magnets/inside-magnets.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/inside-magnets/inside-magnets.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" />
