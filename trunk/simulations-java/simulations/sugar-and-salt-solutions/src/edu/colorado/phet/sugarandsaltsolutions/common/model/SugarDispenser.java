@@ -63,7 +63,7 @@ public class SugarDispenser extends Dispenser {
         for ( Double speed : speeds ) {
             sum += speed;
         }
-        double avgSpeed = sum / speeds.size() / distanceScale;
+        double avgSpeed = sum / speeds.size() * distanceScale;
 
         //Should be considered to be translating only if it was moving fast enough
         setTranslating( avgSpeed > 1E-5 );
