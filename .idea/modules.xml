@@ -16,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/controls/controls.iml" filepath="$PROJECT_DIR$/simulations-java/common/controls/controls.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/discharge-lamps/discharge-lamps.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/discharge-lamps/discharge-lamps.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" filepath="$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" />
