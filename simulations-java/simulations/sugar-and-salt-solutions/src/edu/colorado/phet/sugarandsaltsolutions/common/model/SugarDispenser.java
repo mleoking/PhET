@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+
 /**
  * Model element for the sugar dispenser, which includes its position and rotation.  Sugar is emitted from the sugar dispenser only
  * while the user is rotating it, and while it is at a good angle (quadrant III).
@@ -94,7 +96,7 @@ public class SugarDispenser extends Dispenser {
             int numCrystals = MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the sugar should come out
-                final ImmutableVector2D outputPoint = center.get().plus( ImmutableVector2D.parseAngleAndMagnitude( 0.03, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( 0.03 / distanceScale, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 //Add the sugar, with some randomness in the velocity
                 sugarAndSaltSolutionModel.addMacroSugar( new MacroSugar( outputPoint, sugarAndSaltSolutionModel.sugar.volumePerSolidMole ) {{
