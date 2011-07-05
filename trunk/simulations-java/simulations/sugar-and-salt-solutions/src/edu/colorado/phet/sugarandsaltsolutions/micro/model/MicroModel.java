@@ -25,7 +25,6 @@ import edu.colorado.phet.solublesalts.module.ISolubleSaltsModelContainer;
 import edu.colorado.phet.solublesalts.module.SolubleSaltsModule.ResetListener;
 import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
@@ -36,6 +35,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSuga
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -133,7 +133,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //When the user selects a different solute, update the dispenser type
         dispenserType.addObserver( new SimpleObserver() {
             public void update() {
-                if ( dispenserType.get() == DispenserType.SALT ) {
+                if ( dispenserType.get() == SALT ) {
                     solubleSaltsModel.setCurrentSalt( new SodiumChloride() );
                 }
                 else {
@@ -260,7 +260,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
     public void updateShakerAllowed() {
-        solubleSaltsModel.getShaker().setEnabledBasedOnMax( dispenserType.get() == DispenserType.SALT ?
+        solubleSaltsModel.getShaker().setEnabledBasedOnMax( dispenserType.get() == SALT ?
                                                             getNumTotalSaltMolecules() < 60 :
                                                             getNumTotalSugarMolecules() < 10 );
     }
