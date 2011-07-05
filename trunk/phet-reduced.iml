@@ -22,7 +22,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/the-ramp/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/travoltage/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/work-energy/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/cmalley/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/jolson/utilities/src" isTestSource="false" />
@@ -91,15 +90,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/lasers/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/wave-interference/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
