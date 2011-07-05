@@ -65,21 +65,17 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     private static final double sugarSaturationPoint = 5.85 * 1000;//5.85 moles per liter, converted to SI
 
     //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
-    public final DoubleProperty waterVolume = new DoubleProperty( 0.001 );
+    public final DoubleProperty waterVolume;
 
     //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-    public final SoluteModel salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0, MacroSalt.molarMass );
-    public final SoluteModel sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
+    public final SoluteModel salt;
+    public final SoluteModel sugar;
 
     //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
-    public final CompositeDoubleProperty solidVolume = salt.solidVolume.plus( sugar.solidVolume );
+    public final CompositeDoubleProperty solidVolume;
 
     //The y value where the solution will sit, it moves up and down with any solid that has precipitated
     public final CompositeDoubleProperty solutionY;
-
-    //TODO: I thought we weren't accounting for the volume of dissolved solutes, maybe this should be deleted.
-    private double litersPerMoleDissolvedSalt = salt.volumePerSolidMole * 0.15;
-    private double litersPerMoleDissolvedSugar = sugar.volumePerSolidMole * 0.15;
 
     //Beaker model
     public final Beaker beaker;
@@ -145,6 +141,16 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         this.faucetFlowRate = faucetFlowRate;
         this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
 
+        //Start the water halfway up the beaker
+        this.waterVolume = new DoubleProperty( beakerDimension.getVolume() / 2 );
+
+        //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
+        salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0, MacroSalt.molarMass );
+        sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
+
+        //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
+        solidVolume = salt.solidVolume.plus( sugar.solidVolume );
+
         //Inset so the beaker doesn't touch the edge of the model bounds
         final double inset = beakerDimension.width * 0.1;
         final double modelWidth = beakerDimension.width + inset * 2;
@@ -166,7 +172,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
         //Create the solution, which sits atop the solid precipitate (if any)
         //TODO: are units correct on this line?
-        solution = new Solution( waterVolume, beaker, solutionY, salt.molesDissolved.times( litersPerMoleDissolvedSalt ), sugar.molesDissolved.times( litersPerMoleDissolvedSugar ) );
+        solution = new Solution( waterVolume, beaker, solutionY );
 
         //Determine the concentration of dissolved solutes
         //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).

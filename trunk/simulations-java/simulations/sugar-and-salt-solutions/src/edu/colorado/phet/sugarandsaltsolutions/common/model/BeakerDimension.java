@@ -43,4 +43,9 @@ public class BeakerDimension {
         //Thickness of the walls
         this.wallThickness = width / 40.0;
     }
+
+    //Get the volume of the beaker, the maximum amount of solution it can hold
+    public double getVolume() {
+        return width * height * depth;
+    }
 }

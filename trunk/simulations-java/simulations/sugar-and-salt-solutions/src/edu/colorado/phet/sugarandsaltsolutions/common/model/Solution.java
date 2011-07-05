@@ -23,9 +23,7 @@ public class Solution {
     public Solution( final DoubleProperty waterVolume,
                      final Beaker beaker,
                      //The y-location of the base of the solution (0 if sitting on the base of the beaker, or >0 if sitting on a solid precipitate).
-                     final ObservableProperty<Double> y,
-                     ObservableProperty<Double> dissolvedSaltVolume,
-                     ObservableProperty<Double> dissolvedSugarVolume ) {
+                     final ObservableProperty<Double> y ) {
 
         //This line would add to the volume based on how many solutes are dissolved
 //        this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
