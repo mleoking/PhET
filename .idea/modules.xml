@@ -82,6 +82,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/reactants-products-and-leftovers/reactants-products-and-leftovers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/reactants-products-and-leftovers/reactants-products-and-leftovers.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/reactions-and-rates/reactions-and-rates.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/reactions-and-rates/reactions-and-rates.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" filepath="$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/rotation/rotation.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/rotation/rotation.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/rutherford-scattering/rutherford-scattering.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/rutherford-scattering/rutherford-scattering.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../samreid-unfuddle/samreid-unfuddle.iml" filepath="$PROJECT_DIR$/../../../samreid-unfuddle/samreid-unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
