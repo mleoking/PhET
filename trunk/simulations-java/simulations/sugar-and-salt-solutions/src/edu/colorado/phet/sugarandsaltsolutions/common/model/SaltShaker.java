@@ -28,12 +28,8 @@ public class SaltShaker extends Dispenser {
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    //The amount to scale model translations so that micro tab emits enough salt.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit salt
-    private final double distanceScale;
-
     public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale ) {
-        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name );
-        this.distanceScale = distanceScale;
+        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions

@@ -214,7 +214,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
             } );
         }};
 
-        sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName() ) {{
+        sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale ) {{
             //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
             dispenserType.addObserver( new VoidFunction1<DispenserType>() {
                 public void apply( DispenserType dispenserType ) {

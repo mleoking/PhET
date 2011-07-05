@@ -31,12 +31,16 @@ public class Dispenser {
     //The name of the dispenser contents, to be displayed on the side of the dispenser node
     public final String name;
 
-    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name ) {
+    //The amount to scale model translations so that micro tab emits solute at the appropriate time.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit solute
+    public final double distanceScale;
+
+    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale ) {
         this.beaker = beaker;
         this.moreAllowed = moreAllowed;
         this.name = name;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
+        this.distanceScale = distanceScale;
     }
 
     //Translate the dispenser by the specified delta in model coordinates
