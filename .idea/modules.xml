@@ -20,6 +20,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/collision/collision.iml" filepath="$PROJECT_DIR$/simulations-java/common/collision/collision.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/color-vision/color-vision.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/conductivity/conductivity.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/conductivity/conductivity.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/controls/controls.iml" filepath="$PROJECT_DIR$/simulations-java/common/controls/controls.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/discharge-lamps/discharge-lamps.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/discharge-lamps/discharge-lamps.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" />
