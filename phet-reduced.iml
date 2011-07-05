@@ -17,7 +17,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/beanshell/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/contrib/jade/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/electric-hockey/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/fluid-pressure-and-flow/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/forces-1d/src" isTestSource="false" />
@@ -145,15 +144,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-java/simulations/signal-circuit/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/electric-hockey/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
