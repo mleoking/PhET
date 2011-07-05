@@ -20,7 +20,14 @@ import edu.colorado.phet.photoelectric.PhotoelectricConfig;
  */
 public class PhotoelectricModelUtil {
 
+    /*
+     * Note: The intensity param is poorly named. It does not vary from 0...100,
+     * it varies from 0...PhotoelectricModel.MAX_PHOTONS_PER_SECOND.  So it's actually
+     * the maximum number of photons for a specific intensity.
+     * Discovered while investigating #2989.
+     */
     public static double intensityToPhotonRate( double intensity, double wavelength ) {
+        System.out.println( "PhotoelectricModelUtil.intensityToPhotonRate intensity=" + intensity + " wavelength=" + wavelength );
         return intensity * wavelength / PhotoelectricConfig.MAX_WAVELENGTH;
     }
 
