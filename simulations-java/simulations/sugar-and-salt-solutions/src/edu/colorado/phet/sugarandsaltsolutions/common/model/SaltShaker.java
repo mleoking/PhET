@@ -8,7 +8,10 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
@@ -102,6 +105,10 @@ public class SaltShaker extends Dispenser {
                 //don't clear the position array here since the user may still be shaking the shaker
             }
         }
+    }
+
+    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
+        return new SaltShakerNode( transform, this, beakerHeight );
     }
 
     @Override public void reset() {

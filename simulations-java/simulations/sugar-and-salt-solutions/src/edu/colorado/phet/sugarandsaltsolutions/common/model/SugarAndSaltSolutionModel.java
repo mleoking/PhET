@@ -87,9 +87,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public final CompositeDoubleProperty saltConcentration;
     public final CompositeDoubleProperty sugarConcentration;
 
-    //Model for the salt shaker
-    public final SaltShaker saltShaker;
-
     //Max amount of water before the beaker overflows
     private double maxWater;
 
@@ -112,6 +109,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public final ObservableProperty<Boolean> anySolutes;
 
+    //Models for dispensers that can be used to add solute to the beaker solution
+    public final ArrayList<Dispenser> dispensers;
+
     //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
     protected String getSaltShakerName() {
         return SugarAndSaltSolutionsResources.Strings.SALT;
@@ -121,9 +121,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     protected String getSugarDispenserName() {
         return SugarAndSaltSolutionsResources.Strings.SUGAR;
     }
-
-    //Model for the sugar dispenser
-    public final SugarDispenser sugarDispenser;
 
     //Rate at which liquid (but no solutes) leaves the model
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
@@ -204,24 +201,28 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
         lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, drainPipeBottomY, drainPipeTopY );
 
+        //Create the list of dispensers
+        dispensers = new ArrayList<Dispenser>();
+
         //Model for the salt shaker
-        saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale ) {{
+        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale ) {{
             //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
             dispenserType.addObserver( new VoidFunction1<DispenserType>() {
                 public void apply( DispenserType dispenserType ) {
                     enabled.set( dispenserType == SALT );
                 }
             } );
-        }};
+        }} );
 
-        sugarDispenser = new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale ) {{
+        //Model for the sugar dispenser
+        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale ) {{
             //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
             dispenserType.addObserver( new VoidFunction1<DispenserType>() {
                 public void apply( DispenserType dispenserType ) {
                     enabled.set( dispenserType == SUGAR );
                 }
             } );
-        }};
+        }} );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
@@ -289,8 +290,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         double initialSugarConcentration = sugarConcentration.get();
 
         //Add any new crystals from the salt & sugar dispensers
-        sugarDispenser.updateModel( this );
-        saltShaker.updateModel( this );
+        for ( Dispenser dispenser : dispensers ) {
+            dispenser.updateModel( this );
+        }
 
         //Change the water volume based on input and output flow
         double inputWater = dt * inputFlowRate.get() * faucetFlowRate;
@@ -397,8 +399,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         waterVolume.reset();
         inputFlowRate.reset();
         outputFlowRate.reset();
-        sugarDispenser.reset();
-        saltShaker.reset();
+        for ( Dispenser dispenser : dispensers ) {
+            dispenser.reset();
+        }
         dispenserType.reset();
         showConcentrationValues.reset();
         showConcentrationBarChart.reset();

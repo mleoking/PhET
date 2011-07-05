@@ -18,6 +18,7 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
@@ -150,8 +151,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( behindShakerNode );
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
-        submergedInWaterNode.addChild( new SaltShakerNode( transform, model.saltShaker, model.beaker.getHeight() ) );
-        submergedInWaterNode.addChild( new SugarDispenserNode( transform, model.sugarDispenser, model.beaker.getHeight() ) );
+        for ( Dispenser dispenser : model.dispensers ) {
+            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight() ) );
+        }
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
         submergedInWaterNode.addChild( crystalLayer );
