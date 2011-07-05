@@ -27,8 +27,8 @@ public class SugarDispenser extends Dispenser {
     private boolean translating = false;
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName ) {
-        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName );
+    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale ) {
+        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName, distanceScale );
     }
 
     @Override public void translate( Dimension2D delta ) {
@@ -63,7 +63,7 @@ public class SugarDispenser extends Dispenser {
         for ( Double speed : speeds ) {
             sum += speed;
         }
-        double avgSpeed = sum / speeds.size();
+        double avgSpeed = sum / speeds.size() / distanceScale;
 
         //Should be considered to be translating only if it was moving fast enough
         setTranslating( avgSpeed > 1E-5 );
