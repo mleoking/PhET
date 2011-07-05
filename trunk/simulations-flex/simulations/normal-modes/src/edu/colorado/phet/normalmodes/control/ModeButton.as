@@ -201,7 +201,8 @@ public class ModeButton extends Sprite{
         var localRef: Object = this;
 
         function buttonBehave( evt: MouseEvent ): void {
-
+            var springLength:Number = 1/(localRef.myModel2.N + 1);
+            var largeAmplitude = 0.3*springLength;
             if ( evt.type == "mouseDown" ) {
                 if( !localRef._pushedIn ){
                     localRef.x += 2;
@@ -211,7 +212,7 @@ public class ModeButton extends Sprite{
 
                 if(!localRef._activated){
                     localRef._activated = true;
-                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0.03  );
+                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, largeAmplitude  );
                     //localRef.changeColor( 0x00ff00 );
                 }else if(localRef._activated){
                     localRef._activated = false;
