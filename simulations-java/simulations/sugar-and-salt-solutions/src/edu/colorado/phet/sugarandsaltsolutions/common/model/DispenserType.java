@@ -7,12 +7,15 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  * @author Sam Reid
  */
 public class DispenserType {
-    public static DispenserType SALT = new DispenserType( "Salt", 11, 17 );
-    public static DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );
 
+    //Name of the solute
     private final String name;
+
     //List of elements comprising the solute
     private final Integer[] elements;
+
+    public static DispenserType SALT = new DispenserType( "Salt", 11, 17 );
+    public static DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );
     public static final DispenserType SODIUM_NITRATE = new DispenserType( "Sodium Nitrate", 11, 7, 8 );
     public static final DispenserType CALCIUM_CHLORIDE = new DispenserType( "Calcium Chloride", 20, 17 );
     public static final DispenserType ETHANOL = new DispenserType( "Ethanol", 6, 8, 1 );
