@@ -55,7 +55,6 @@
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/spline/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bending-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/molecules-and-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/idea-tests/src" isTestSource="false" />
@@ -807,15 +806,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/util/simsharing/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/bending-light/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
