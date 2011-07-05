@@ -65,6 +65,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/translation-utility/translation-utility.iml" filepath="$PROJECT_DIR$/util/translation-utility/translation-utility.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
