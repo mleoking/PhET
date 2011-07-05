@@ -48,6 +48,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/phetgraphics-demo/phetgraphics-demo.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/phetgraphics-demo/phetgraphics-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/photoelectric/photoelectric.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/photoelectric/photoelectric.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" filepath="$PROJECT_DIR$/simulations-java/common/photon-absorption/photon-absorption.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
