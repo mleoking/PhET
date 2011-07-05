@@ -182,12 +182,14 @@ public class ButtonArrayPanel extends UIComponent{
 
     //color buttons to indicate amplitude of mode
     public function setButtonColors():void{
+        var springLength:Number = 1/(this.myModel2.N + 1);
+        var largeAmplitude = 0.3*springLength;
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
                 var Xamplitude = this.myModel2.getModeAmpliX( i, j );
                 var Yamplitude = this.myModel2.getModeAmpliY( i, j );
-                var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/0.03 ));
-                var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/0.03 ));
+                var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
+                var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
                 if(!this.verticalPolarization){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );
