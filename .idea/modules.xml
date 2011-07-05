@@ -88,6 +88,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/self-driven-particle-model/self-driven-particle-model.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/semiconductor/semiconductor.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-example/sim-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-example/sim-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" />
