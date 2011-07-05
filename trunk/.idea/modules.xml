@@ -105,6 +105,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
