@@ -35,6 +35,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-network/gene-network.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-network/gene-network.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gravity-and-orbits/gravity-and-orbits.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gravity-and-orbits/gravity-and-orbits.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/hydrogen-atom/hydrogen-atom.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ideal-gas/ideal-gas.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" />
