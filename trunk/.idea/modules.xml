@@ -60,6 +60,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
