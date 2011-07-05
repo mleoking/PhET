@@ -46,6 +46,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/piccolo-phet/piccolo-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/piccolo2d/piccolo2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" filepath="$PROJECT_DIR$/simulations-java/common/quantum/quantum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/quantum-tunneling/quantum-tunneling.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" filepath="$PROJECT_DIR$/simulations-java/common/record-and-playback/record-and-playback.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../samreid-unfuddle/samreid-unfuddle.iml" filepath="$PROJECT_DIR$/../../../samreid-unfuddle/samreid-unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
