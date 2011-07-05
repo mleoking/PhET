@@ -36,7 +36,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSuga
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
-import static java.lang.Math.sqrt;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -74,16 +73,25 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super( new ConstantDtClock( framesPerSecond ),
 
                //The volume of the micro beaker should be 2E-23L
-               //In the macro tab, the dimension is new BeakerDimension( x = -0.1, width = 0.2, height = 0.1, depth = 0.1 )
-               //So if it is to have the same shape is as the previous tab then we use width*height*depth = 2E-23 and width = 2*height = 2*depth
-               //Solving for width, we have: 2E-23 = width * width/2 * depth / 2 => 8E-23 = width^3.  Therefore width = sqrt(8E-23)
-               new BeakerDimension( sqrt( 8E-23 ) ),
+               //In the macro tab, the dimension is BeakerDimension( width = 0.2, height = 0.1, depth = 0.1 ), each unit in meters
+               //So if it is to have the same shape is as the previous tab then we use
+               // width*height*depth = 2E-23
+               // and
+               // width = 2*height = 2*depth
+               //Solving for width, we have:
+               // 2E-23 = width * width/2 * width/2
+               // =>
+               // 8E-23 = width^3.  Therefore
+               // width = cuberoot(8E-23)
+               new BeakerDimension( Math.pow( 8E-23
+                                              //convert L to meters cubed
+                                              * 0.001, 1 / 3.0 ) ),
 
                //Flow rate must be slowed since the beaker is so small.  TODO: compute this factor analytically so that it will match the first tab perfectly?  Factor out numbers?
-               0.0005 * 1E-31,
+               0.0005 * 2E-23 / 2,
 
-               //Values sampled at runtime using a debugger
-               5.195833333333284E-13, 1.1824999999999597E-12 );
+               //Values sampled at runtime using a debugger using this line in SugarAndSaltSolutionModel.update: System.out.println( "solution.shape.get().getBounds2D().getMaxY() = " + solution.shape.get().getBounds2D().getMaxY() );
+               2.5440282964793075E-10, 5.75234062238494E-10 );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );

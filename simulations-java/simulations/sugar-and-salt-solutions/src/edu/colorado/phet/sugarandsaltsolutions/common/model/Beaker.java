@@ -102,7 +102,7 @@ public class Beaker {
         return new Point2D.Double( x + width, y );
     }
 
-    //Determine how much water could this beaker hold
+    //Determine how much water could this beaker hold in meters cubed
     public double getMaxFluidVolume() {
         return width * height * depth;//Rectangular like a fish tank
     }
