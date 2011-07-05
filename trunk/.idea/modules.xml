@@ -56,6 +56,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" filepath="$PROJECT_DIR$/simulations-java/common/scala-common/scala-common.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/scala-sim-template/scala-sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/think-tank-maths/think-tank-maths.iml" />
