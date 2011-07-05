@@ -105,6 +105,7 @@
       <module fileurl="file://$PROJECT_DIR$/util/translation-utility/translation-utility.iml" filepath="$PROJECT_DIR$/util/translation-utility/translation-utility.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/work-energy/work-energy.iml" />
     </modules>
   </component>
 </project>
