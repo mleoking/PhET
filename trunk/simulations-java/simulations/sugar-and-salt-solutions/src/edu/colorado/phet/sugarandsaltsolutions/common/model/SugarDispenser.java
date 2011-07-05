@@ -9,7 +9,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenserNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
+import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 
@@ -104,6 +107,10 @@ public class SugarDispenser extends Dispenser {
                 }} );
             }
         }
+    }
+
+    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
+        return new SugarDispenserNode( transform, this, beakerHeight );
     }
 
     @Override public void reset() {

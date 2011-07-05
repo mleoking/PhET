@@ -8,13 +8,15 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Base class for sugar and salt dispensers
  *
  * @author Sam Reid
  */
-public class Dispenser {
+public abstract class Dispenser {
     //Start centered above the fluid
     public final Property<ImmutableVector2D> center;
 
@@ -69,4 +71,8 @@ public class Dispenser {
         double anglePastTheHorizontal = angle.get() - Math.PI / 2;
         return directionVector.getInstanceOfMagnitude( 0.2 + 0.3 * Math.sin( anglePastTheHorizontal ) );
     }
+
+    public abstract void updateModel( SugarAndSaltSolutionModel model );
+
+    public abstract PNode createNode( ModelViewTransform transform, double beakerHeight );
 }
