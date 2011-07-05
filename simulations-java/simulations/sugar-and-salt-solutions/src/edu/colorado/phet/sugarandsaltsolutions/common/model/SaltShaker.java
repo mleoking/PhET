@@ -70,7 +70,7 @@ public class SaltShaker extends Dispenser {
                 double dist = Math.abs( sum.dot( parseAngleAndMagnitude( 1, angle.get() + Math.PI / 2 ) ) );//Have to rotate by 90 degrees since for positions 0 degrees is to the right, but for the shaker 0 degrees is up
 
                 //Account for the distance scale so we produce the same amount for micro translations as for macro translations
-                dist = dist / distanceScale;
+                dist = dist * distanceScale;
 
                 //only add to the shake amount if it was vigorous enough
                 if ( dist > 1E-4 ) {
