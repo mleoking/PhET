@@ -183,6 +183,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         shakeMicroCrystal( stepsOfAddingSugar, sugar.position.get(), new SugarCrystal() );
     }
 
+    //Shake the specified crystal into the model.  Note the type of crystal is Salt, because we are currently re-using the "soluble salts" code which considers everything to be a salt (even sugars)
     private void shakeMicroCrystal( Property<Integer> stepsTowardAdding, ImmutableVector2D position, Salt crystal ) {
         //Don't call super here, instead create a micro crystal
         stepsTowardAdding.set( stepsTowardAdding.get() + 1 );
