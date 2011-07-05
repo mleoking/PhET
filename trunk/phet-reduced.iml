@@ -20,7 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/energy-skate-park/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/fluid-pressure-and-flow/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/moving-man/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/natural-selection/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/neuron/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/nuclear-physics/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/quantum-wave-interference/src" isTestSource="false" />
@@ -594,15 +593,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-jai.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/natural-selection/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
