@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import static java.awt.Color.white;
 
 /**
- * Graphical display of the beaker
+ * Graphical display of the beaker, including tick marks and labels along the side
  *
  * @author Sam Reid
  */
