@@ -4,23 +4,25 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  * Beaker dimensions and location in meters, public so other classes can use them for layout.
  * This class exists so the dimensions can be passed together as a parameter when constructing model instances, and so it can encode default assumptions
  * like the beaker is centered around x=0 and has a certain aspect ratio.
+ * <p/>
+ * TODO: see if we can get rid of this class and just use Beaker instead
  *
  * @author Sam Reid
  */
 public class BeakerDimension {
-    //Width of the beaker (x-direction)
+    //Width of the beaker (x-direction) in meters
     public final double width;
 
-    //Height (tallness) of the beaker (y-direction)
+    //Height (tallness) of the beaker (y-direction) in meters
     public final double height;
 
-    //Location of the left side of the beaker
+    //Location of the left side of the beaker in meters
     public final double x;
 
-    //Depth is z-direction z-depth (into the screen)
+    //Depth is z-direction z-depth (into the screen) in meters
     public final double depth;
 
-    //Width of the wall
+    //Width of the wall in meters
     public final double wallThickness;
 
     //Create a beaker dimension with a standardized aspect ratio, where the height and depth are half the width, and centered around x=0

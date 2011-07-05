@@ -273,6 +273,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     //Update the model when the clock ticks
     protected void updateModel( double dt ) {
 
+//        System.out.println( "SugarAndSaltSolutionModel.updateModel: beaker volume = "+beaker.getMaxFluidVolume() );
+
         //Have to record the concentrations before the model updates since the concentrations change if water is added or removed.
         double initialSaltConcentration = saltConcentration.get();
         double initialSugarConcentration = sugarConcentration.get();
