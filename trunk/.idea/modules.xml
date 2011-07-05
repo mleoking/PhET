@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/JSci/JSci.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/Jama/Jama.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/Jama/Jama.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" />
@@ -27,6 +28,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/eating-and-exercise/eating-and-exercise.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/eating-and-exercise/eating-and-exercise.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" filepath="$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/force-law-lab/force-law-lab.iml" />
@@ -97,6 +99,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/common/spline/spline.iml" filepath="$PROJECT_DIR$/simulations-java/common/spline/spline.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" />
