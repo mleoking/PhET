@@ -63,6 +63,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/mvc-example/mvc-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/mvc-example/mvc-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/natural-selection/natural-selection.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/natural-selection/natural-selection.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/neuron/neuron.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/neuron/neuron.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/nuclear-physics/nuclear-physics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/nuclear-physics/nuclear-physics.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/optical-quantum-control/optical-quantum-control.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/optical-quantum-control/optical-quantum-control.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/optical-tweezers/optical-tweezers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/optical-tweezers/optical-tweezers.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ph-scale/ph-scale.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ph-scale/ph-scale.iml" />
