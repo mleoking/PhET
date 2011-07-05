@@ -22,6 +22,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/fourier/fourier.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/games/games.iml" filepath="$PROJECT_DIR$/simulations-java/common/games/games.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/gene-expression-basics/gene-expression-basics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/glaciers/glaciers.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" />
