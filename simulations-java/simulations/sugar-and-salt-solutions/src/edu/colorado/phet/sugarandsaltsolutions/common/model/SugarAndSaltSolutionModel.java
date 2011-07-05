@@ -136,7 +136,10 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
                                       BeakerDimension beakerDimension,
                                       double faucetFlowRate,
                                       final double drainPipeBottomY,
-                                      final double drainPipeTopY ) {
+                                      final double drainPipeTopY,
+
+                                      //Scale to help accommodate micro tab, for Macro tab the scale is 1.0
+                                      double distanceScale ) {
         super( clock );
         this.faucetFlowRate = faucetFlowRate;
         this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
@@ -202,7 +205,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, drainPipeBottomY, drainPipeTopY );
 
         //Model for the salt shaker
-        saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName() ) {{
+        saltShaker = new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale ) {{
             //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
             dispenserType.addObserver( new VoidFunction1<DispenserType>() {
                 public void apply( DispenserType dispenserType ) {

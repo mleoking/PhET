@@ -91,7 +91,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                0.0005 * 2E-23 / 2,
 
                //Values sampled at runtime using a debugger using this line in SugarAndSaltSolutionModel.update: System.out.println( "solution.shape.get().getBounds2D().getMaxY() = " + solution.shape.get().getBounds2D().getMaxY() );
-               2.5440282964793075E-10, 5.75234062238494E-10 );
+               2.5440282964793075E-10, 5.75234062238494E-10,
+
+               //Ratio of length scales in meters
+               Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
         container = new ISolubleSaltsModelContainer() {
             public Calibration getCalibration() {
                 return new Calibration( 1.7342E-25, 5E-23, 1E-23, 0.5E-23 );
