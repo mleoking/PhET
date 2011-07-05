@@ -38,6 +38,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/optical-quantum-control/optical-quantum-control.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/optical-quantum-control/optical-quantum-control.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/optical-tweezers/optical-tweezers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/optical-tweezers/optical-tweezers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/ph-scale/ph-scale.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/ph-scale/ph-scale.iml" />
       <module fileurl="file://$PROJECT_DIR$/phet-reduced.iml" filepath="$PROJECT_DIR$/phet-reduced.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetcommon/phetcommon.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" filepath="$PROJECT_DIR$/simulations-java/common/phetgraphics/phetgraphics.iml" />
