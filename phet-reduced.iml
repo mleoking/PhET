@@ -20,7 +20,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-resistor-circuit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/battery-voltage/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/build-an-atom/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/capacitor-lab/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/circuit-construction-kit/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/color-vision/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/conductivity/src" isTestSource="false" />
@@ -1019,15 +1018,6 @@
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/simulations-flex/simulations/density-and-buoyancy/data" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/capacitor-lab/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
