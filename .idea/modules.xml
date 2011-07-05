@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/bound-states/bound-states.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/bound-states/bound-states.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" />
       <module fileurl="file://$PROJECT_DIR$/build-tools/build-tools.iml" filepath="$PROJECT_DIR$/build-tools/build-tools.iml" />
