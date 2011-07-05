@@ -36,6 +36,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/lasers/lasers.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/licensing/licensing.iml" filepath="$PROJECT_DIR$/util/licensing/licensing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" filepath="$PROJECT_DIR$/simulations-java/common/mechanics/mechanics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/motion/motion.iml" filepath="$PROJECT_DIR$/simulations-java/common/motion/motion.iml" />
