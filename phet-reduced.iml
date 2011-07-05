@@ -76,7 +76,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/spline/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/bending-light/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/molecules-and-light/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/idea-tests/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
@@ -1034,15 +1033,6 @@
       <library>
         <CLASSES>
           <root url="jar://$MODULE_DIR$/util/simsharing/contrib/mongodb/lib/morphia-0.99.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$MODULE_DIR$/simulations-java/simulations/modes-example/data" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
