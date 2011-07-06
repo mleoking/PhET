@@ -4,9 +4,8 @@
 
 package edu.colorado.phet.collisionlab {
 
-import edu.colorado.phet.collisionlab.constants.CLConstants;
-import edu.colorado.phet.collisionlab.control.Tab;
-import edu.colorado.phet.collisionlab.control.TabBar;
+import edu.colorado.phet.flashcommon.controls.Tab;
+import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 import edu.colorado.phet.flashcommon.SimStrings;
 
