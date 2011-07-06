@@ -10,6 +10,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/battery-resistor-circuit/battery-resistor-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/battery-resistor-circuit/battery-resistor-circuit.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/battery-voltage/battery-voltage.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/battery-voltage/battery-voltage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/beanshell/beanshell.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/beanshell/beanshell.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/bending-light/bending-light.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/bending-light/bending-light.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/bound-states/bound-states.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/bound-states/bound-states.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-a-molecule/build-a-molecule.iml" />
@@ -65,6 +66,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/motion/motion.iml" filepath="$PROJECT_DIR$/simulations-java/common/motion/motion.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/motion-2d/motion-2d.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/motion-2d/motion-2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/motion-series/motion-series.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/moving-man/moving-man.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/moving-man/moving-man.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/mri/mri.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/mri/mri.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/mvc-example/mvc-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/mvc-example/mvc-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/natural-selection/natural-selection.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/natural-selection/natural-selection.iml" />
