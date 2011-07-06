@@ -1,3 +1,5 @@
+# 1.02.00 (53820) Jul 6, 2011
+7/6/11 > added new translation credits features
 # 1.01.02 (53456) Jun 24, 2011
 Fixed: the return ladybug button doesn't apper when it should, see #2974
 Fixed: the traces do not appear in real time, see #2973
