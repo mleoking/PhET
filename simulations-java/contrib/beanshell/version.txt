@@ -1,0 +1,2 @@
+bsh-core-2.0b4.jar
+http://www.beanshell.org/download.html
