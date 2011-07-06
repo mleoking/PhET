@@ -32,8 +32,8 @@ public class SugarDispenser extends Dispenser {
     private boolean translating = false;
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale ) {
-        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName, distanceScale );
+    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
+        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName, distanceScale, selectedType, type );
     }
 
     @Override public void translate( Dimension2D delta ) {

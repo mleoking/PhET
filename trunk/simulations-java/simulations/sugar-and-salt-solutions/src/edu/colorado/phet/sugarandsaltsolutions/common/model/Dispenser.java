@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.umd.cs.piccolo.PNode;
 
@@ -36,13 +37,20 @@ public abstract class Dispenser {
     //The amount to scale model translations so that micro tab emits solute at the appropriate time.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit solute
     public final double distanceScale;
 
-    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale ) {
+    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type ) {
         this.beaker = beaker;
         this.moreAllowed = moreAllowed;
         this.name = name;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         this.distanceScale = distanceScale;
+
+        //Wire up the Dispenser so it is enabled when the model has the right type dispenser selected
+        selectedType.addObserver( new VoidFunction1<DispenserType>() {
+            public void apply( DispenserType dispenserType ) {
+                enabled.set( dispenserType == type );
+            }
+        } );
     }
 
     //Translate the dispenser by the specified delta in model coordinates
