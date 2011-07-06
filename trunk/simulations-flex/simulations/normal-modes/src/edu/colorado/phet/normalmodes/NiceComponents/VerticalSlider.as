@@ -183,13 +183,13 @@ public class VerticalSlider extends Sprite{
         //draw knob
         var gK: Graphics = this.knob.graphics;
         gK.clear();
-        var kW: Number = 10; //knob width
-        var kH: Number = 15; //knob height
+        var kW: Number = 15; //knob width
+        var kH: Number = 25; //knob height
         with(gK){
-            lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
+            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             moveTo( 0, 0 );
             beginFill(0x00ff00);
-            drawRect(-0.5*kW, -0.5*kH, kW, kH );
+            drawRoundRect(-0.5*kW, -0.5*kH, kW, kH, kW/2 );
             moveTo( -0.5*kW, 0 );
             lineTo( 0.5*kW, 0 );
             endFill();
@@ -218,7 +218,12 @@ public class VerticalSlider extends Sprite{
         this.tFormat1.align = TextFormatAlign.CENTER ;
         this.label_txt.setTextFormat( this.tFormat1 );
         this.label_txt.x = 0; //-0.5*this.label_txt.width;
-        this.label_txt.y = -0.5 * this.knob.height - this.readout_txt.height - this.label_txt.height;
+
+        if( readoutShown ){
+            this.label_txt.y = -0.5 * this.knob.height - this.readout_txt.height - this.label_txt.height;
+        } else{
+            this.label_txt.y = -0.5 * this.knob.height  - this.label_txt.height;
+        }
         this.addChild( this.label_txt );
         //this.label_txt.border = true;      //for testing only
     }//end createLabel()
