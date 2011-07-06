@@ -18,7 +18,7 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class SphericalParticleNode extends PNode {
     public SphericalParticleNode( final ModelViewTransform transform, final SphericalParticle particle ) {
-        addChild( new ShadedSphereNode( transform.modelToViewDeltaX( particle.radius * 2 ), Color.blue, Color.white, Color.black, true ) {{
+        addChild( new ShadedSphereNode( transform.modelToViewDeltaX( particle.radius * 2 ), particle.color, Color.white, Color.black, true ) {{
             particle.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D position ) {
                     setOffset( transform.modelToView( position ).toPoint2D() );
@@ -30,7 +30,7 @@ public class SphericalParticleNode extends PNode {
     //Test application that draws a particle
     public static void main( String[] args ) {
         new PFrame( SphericalParticleNode.class.getName(), false, new PCanvas() {{
-            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ) );
+            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), Color.red );
             getLayer().addChild( new SphericalParticleNode( ModelViewTransform.createIdentity(), p ) {{
                 setOffset( 100, 100 );
             }} );
