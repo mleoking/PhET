@@ -8,6 +8,11 @@ $ROOT/phet/
 $ROOT/phet/svn
 $ROOT/phet/git
 
+(NOTE: The name of the "phet" directory is unimportant, it can be any directory. Only the relative path between
+website and trunk is pertinent, as it is described in the modules.xml file. The name of the "trunk" directory
+is also unimportant, only that the path from the trunk directory to the website is given as:
+file://$PROJECT_DIR$/../../git/website, see the module.xml file.)
+
 3. Create an SSH Keypair, instructions at: http://unfuddle.com/docs/topics/ssh_keypair
 
 4. Add the SSH Keypair to Unfuddle. Login to Unfuddle, click Personal Settings link (upper right),
