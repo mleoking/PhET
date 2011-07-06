@@ -1,0 +1,45 @@
+Phet IntelliJ setup
+
+1. Decide where you want your files to live. This directory is referred to herein as $ROOT.
+
+2. Create this directory structure on your local machine:
+
+$ROOT/phet/
+$ROOT/phet/svn
+$ROOT/phet/git
+
+3. Create an SSH Keypair, instructions at: http://unfuddle.com/docs/topics/ssh_keypair
+
+4. Add the SSH Keypair to Unfuddle. Login to Unfuddle, click Personal Settings link (upper right),  scroll down to Public Keys and click "New Public Key" link.  Enter the keypair created in step 2.
+
+5. Check out the SVN repository, this creates phet/svn/trunk.
+$ cd $ROOT/phet/svn
+$ svn checkout https://phet.unfuddle.com/svn/phet_svn/trunk trunk --username <your_username> --password <your_password>
+
+6. Clone the git repository, this creates phet/git/website.
+$ cd $ROOT/phet/gits
+$ git clone git@phet.unfuddle.com:phet/website.git
+
+7. Start IntelliJ and create a new project:
+a. File->New Project
+b. select "
+b. project name = phet
+c. project files location = $ROOT/phet/svn/trunk
+d. unselect "Create modules"
+e. press "Finish"
+f. answer "OK" to overwriting .idea directory
+Note that this creates the project files in $ROOT/phet/svn/trunk, so project files will be mixed in with your working copy. If you ever want to Open this project in the future, you'll need to select $ROOT/phet/svn/trunk as the project.
+
+8. Step 7 modifies .idea/modules.xml and makes the project unusable. To fix this:
+$ svn -revert $ROOT/phet/svn/trunk/.idea/modules.xml
+
+9. After step 8, IntelliJ should automatically reload modules.xml. If it doesn't, restart IntelliJ. You may see module and/or facet load errors - ignore them, and (if prompted) choose to Keep All.
+
+10. Increase heap size to 512M. If you don't do this, the Java compiler will fail with OutOfMemoryException.
+File->Settings->Complier->Java Compiler->Max heap size = 512
+
+11. Add default VM and program args.
+Run->Edit Configurations->Defaults->Application
+VM parameters: -ea
+Program parameters: -dev
+
