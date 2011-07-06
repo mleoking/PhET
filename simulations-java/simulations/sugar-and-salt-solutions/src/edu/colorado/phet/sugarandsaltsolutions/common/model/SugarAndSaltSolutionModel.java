@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
@@ -23,8 +22,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
 /**
@@ -204,25 +202,10 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         //Create the list of dispensers
         dispensers = new ArrayList<Dispenser>();
 
-        //Model for the salt shaker
-        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale ) {{
-            //Wire up the SugarDispenser so it is enabled when the model has the SALT type dispenser selected
-            dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-                public void apply( DispenserType dispenserType ) {
-                    enabled.set( dispenserType == SALT );
-                }
-            } );
-        }} );
-
-        //Model for the sugar dispenser
-        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale ) {{
-            //Wire up the SugarDispenser so it is enabled when the model has the SUGAR type dispenser selected
-            dispenserType.addObserver( new VoidFunction1<DispenserType>() {
-                public void apply( DispenserType dispenserType ) {
-                    enabled.set( dispenserType == SUGAR );
-                }
-            } );
-        }} );
+        //Add models for the various dispensers: sugar, salt, etc.
+        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
+        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
