@@ -1,3 +1,5 @@
+# 2.01.00 (53821) Jul 6, 2011
+7/6/11 > added new translation credits features
 # 2.00.06 (53457) Jun 24, 2011
 Removed usage of App trait, see #2877
 # 2.00.05 (53432) Jun 23, 2011
