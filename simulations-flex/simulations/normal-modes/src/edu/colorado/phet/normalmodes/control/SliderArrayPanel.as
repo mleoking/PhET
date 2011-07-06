@@ -12,6 +12,8 @@ import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.view.MainView;
 
+import flash.display.Graphics;
+
 import flash.display.Sprite;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
@@ -73,8 +75,7 @@ public class SliderArrayPanel extends UIComponent {
             this.container.addChild( this.phaseSlider_arr[i] );
         }
         this.createLabels();
-        //this.container.addChild( this.amplitudeLabel_txt );
-        //this.container.addChild( this.phaseLabel_txt );
+        this.createModeIcons();
         this.locateSliders();
 
     } //end constructor
@@ -113,7 +114,7 @@ public class SliderArrayPanel extends UIComponent {
     private function initializeStrings():void{
         this.amplitude_str = "Amplitude:";
         this.phase_str = "Phase:";
-        this.mode_str = "Mode:";
+        this.mode_str = "Normal Mode:";
         this.plusPi_str = "+pi";
         this.minusPi_str = "-pi";
     }
@@ -155,6 +156,33 @@ public class SliderArrayPanel extends UIComponent {
 
     }//end createLabels()
 
+    private function createModeIcons():void{
+        //Sine Wave Icons above each amplitude slider
+        var nI:uint = 10;  //number of icons shown
+        //draw a sine wave with i half-wavelengths
+        for( var i:int = 1; i <= nI; i++ ){
+            var w:Number = 40;  //width of icon in pixels
+            var h:Number = 20;  //height of icon in pixels
+            var iconSprite:Sprite = new Sprite();
+            var iG:Graphics = iconSprite.graphics;
+            iG.clear();
+            iG.lineStyle(2, 0x0000ff, 1 );
+            iG.moveTo( 0, 0 );
+            var nP:int = w;  //number of points on x-axis
+            var delX:Number = w/nP;  // x-distance between points
+            for( var xP:int = 1; xP <= nP; xP++ ){
+                var lambda:Number =  2*w/i;   //i*lambda/2 = w
+                iG.lineTo( xP,  -(h/2)*Math.sin(2*Math.PI*xP/lambda) );
+            }
+            iG.lineStyle( 2, 0x000000, 1 );
+            iG.moveTo( 0, 0 );
+            iG.lineTo( w, 0 );
+            this.ampliSlider_arr[ i - 1 ].addChild( iconSprite );
+            iconSprite.x = - iconSprite.width/2;
+            iconSprite.y = - 45;
+        }
+    }//end createModeIcons
+
     //Arrange the layout of sliders
     public function locateSliders():void{
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
@@ -175,7 +203,7 @@ public class SliderArrayPanel extends UIComponent {
         }
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
-        this.modeLabel_txt.y = -50;
+        this.modeLabel_txt.y = -38;
         this.amplitudeLabel_txt.y = +30
         this.phaseLabel_txt.y = +160;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
