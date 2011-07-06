@@ -10,7 +10,8 @@ $ROOT/phet/git
 
 3. Create an SSH Keypair, instructions at: http://unfuddle.com/docs/topics/ssh_keypair
 
-4. Add the SSH Keypair to Unfuddle. Login to Unfuddle, click Personal Settings link (upper right),  scroll down to Public Keys and click "New Public Key" link.  Enter the keypair created in step 2.
+4. Add the SSH Keypair to Unfuddle. Login to Unfuddle, click Personal Settings link (upper right),
+scroll down to Public Keys and click "New Public Key" link.  Enter the keypair created in step 2.
 
 5. Check out the SVN repository, this creates phet/svn/trunk.
 $ cd $ROOT/phet/svn
@@ -28,12 +29,14 @@ c. project files location = $ROOT/phet/svn/trunk
 d. unselect "Create modules"
 e. press "Finish"
 f. answer "OK" to overwriting .idea directory
-Note that this creates the project files in $ROOT/phet/svn/trunk, so project files will be mixed in with your working copy. If you ever want to Open this project in the future, you'll need to select $ROOT/phet/svn/trunk as the project.
+Note that this creates the project files in $ROOT/phet/svn/trunk, so project files will be mixed in with your working copy.
+If you ever want to Open this project in the future, you'll need to select $ROOT/phet/svn/trunk as the project.
 
 8. Step 7 modifies .idea/modules.xml and makes the project unusable. To fix this:
 $ svn -revert $ROOT/phet/svn/trunk/.idea/modules.xml
 
-9. After step 8, IntelliJ should automatically reload modules.xml. If it doesn't, restart IntelliJ. You may see module and/or facet load errors - ignore them, and (if prompted) choose to Keep All.
+9. After step 8, IntelliJ should automatically reload modules.xml. If it doesn't, restart IntelliJ.
+You may see module and/or facet load errors - ignore them, and (if prompted) choose to Keep All.
 
 10. Increase heap size to 512M. If you don't do this, the Java compiler will fail with OutOfMemoryException.
 File->Settings->Complier->Java Compiler->Max heap size = 512
