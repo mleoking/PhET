@@ -107,6 +107,7 @@ public class SaltShaker extends Dispenser {
         }
     }
 
+    //Create a SaltShakerNode for display and interaction with this model element
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
         return new SaltShakerNode( transform, this, beakerHeight );
     }

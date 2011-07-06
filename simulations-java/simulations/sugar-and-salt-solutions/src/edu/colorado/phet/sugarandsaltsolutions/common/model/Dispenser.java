@@ -72,7 +72,9 @@ public abstract class Dispenser {
         return directionVector.getInstanceOfMagnitude( 0.2 + 0.3 * Math.sin( anglePastTheHorizontal ) );
     }
 
+    //After time has passed, update the model by adding any crystals that should be emitted
     public abstract void updateModel( SugarAndSaltSolutionModel model );
 
+    //Method for creating a PNode such as a SugarDispenserNode or SaltShakerNode to display this Dispenser and allow the user to interact with it
     public abstract PNode createNode( ModelViewTransform transform, double beakerHeight );
 }
