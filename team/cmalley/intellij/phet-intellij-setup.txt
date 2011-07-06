@@ -1,4 +1,4 @@
-Phet IntelliJ setup
+PhET IntelliJ setup
 
 1. Decide where you want your files to live. This directory is referred to herein as $ROOT.
 
