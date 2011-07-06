@@ -119,6 +119,7 @@ public class SaltShaker extends Dispenser {
         positions.clear();
     }
 
+    //Estimate the acceleration at the specified point in the time series using centered difference approximation
     private ImmutableVector2D getSecondDerivative( int i ) {
         ImmutableVector2D x0 = positions.get( positions.size() - 1 - i );
         ImmutableVector2D x1 = positions.get( positions.size() - 2 - i );
