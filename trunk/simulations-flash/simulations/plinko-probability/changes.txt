@@ -1,3 +1,5 @@
+# 2.02.00 (53818) Jul 6, 2011
+7/6/11 > added new translation credits features
 # 2.01.03 (53433) Jun 23, 2011
 # 2.01.02 (50241) Mar 30, 2011
 3/30/11 Version with blue distribution histogram and distribution mean removed
