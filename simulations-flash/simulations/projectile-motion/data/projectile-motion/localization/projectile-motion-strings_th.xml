@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--projectile-motion-strings_th.xml created Mon Oct 19 18:26:35 EDT 2009 using: projectile-motion 2.00.00 (30671), translation-utility 2.02.00 (34911) Sep 9, 2009-->
+<!--projectile-motion-strings_th.xml created Sun Jul 03 22:59:01 GMT-12:00 2011 using: projectile-motion 2.03.00 (52266), translation-utility 2.10.00 (48775) Feb 8, 2011-->
 <SimStrings>
-<string key="dragLabel" value="ค่าคงที่การถ่วง"/>
-<string key="userChoice" value="ตัวเลือก&#10;ของผู้เล่น"/>
-<string key="altitudeLabel" value="ความสูง"/>
+<string key="dragLabel" value="ค่าสัมประสิทธิ์แรงต้านอากาศ"/>
+<string key="userChoice" value="ตัวเลือกวัตถุ"/>
+<string key="altitudeLabel" value="ระดับสูงของอากาศจากพื้น(เมตร)"/>
 <string key="football" value="ลูกอเมริกันฟุตบอล"/>
 <string key="golfball" value="ลูกกอล์ฟ"/>
-<string key="simTitle" value="การเคลื่อนที่แบบโปรเจคไตล์"/>
-<string key="collision" value="ชน!"/>
-<string key="adultHuman" value="ผู้ใหญ่"/>
-<string key="time" value="เวลา (วินาที)"/>
+<string key="simTitle" value="การเคลื่อนที่แบบโปรเจคไทล์"/>
+<string key="collision" value="ชนกัน!"/>
+<string key="adultHuman" value="มนุษย์ผู้ใหญ่"/>
+<string key="time" value="เวลา(วินาที)"/>
 <string key="buick" value="รถยนต์"/>
-<string key="diameter" value="เส้นผ่าศูนย์กลาง"/>
-<string key="initSpeed" value="อัตราเร็วเริ่มต้น (เมตร/วินาที)"/>
-<string key="bowlingball" value="ลูกโบวลิ่ง"/>
+<string key="diameter" value="เส้นผ่าศูนย์กลางของวิถีโค้ง(เมตร)"/>
+<string key="initSpeed" value="อัตราเร็วต้น(เมตร/วินาที)"/>
+<string key="bowlingball" value="ลูกโบว์ลิ่ง"/>
 <string key="piano" value="เปียโน"/>
-<string key="sound" value="เสียง"/>
-<string key="range" value="ความไกล (เมตร)"/>
-<string key="mass" value="มวล (กิโลกรัม)"/>
-<string key="height" value="ความสูง (เมตร)"/>
+<string key="sound" value="เสียงประกอบ"/>
+<string key="range" value="ระยะไกล(เมตร)"/>
+<string key="height" value="ระดับสูง(เมตร)"/>
+<string key="mass" value="มวล(กิโลกรัม)"/>
 <string key="pumpkin" value="ลูกฟักทอง"/>
-<string key="score" value="เข้าเป้า!"/>
-<string key="angle" value="มุม (องศา)"/>
+<string key="score" value="ยิงถูกเป้าหมาย!"/>
+<string key="translation.credits" value="ดร.นิวัฒน์ ศรีสวัสดิ์&#10;สาขาวิทยาศาสตร์ศึกษา คณะศึกษาศาสตร์&#10;มหาวิทยาลัยขอนแก่น"/>
+<string key="angle" value="ค่ามุม(องศา)"/>
 <string key="baseball" value="ลูกเบสบอล"/>
-<string key="airResistance" value="ความต้านทาน&#10;อากาศ"/>
-<string key="fire" value="ยิง"/>
-<string key="erase" value="ลบ"/>
+<string key="airResistance" value="ความต้านอากาศ"/>
+<string key="fire" value="ยิงวัตถุ"/>
+<string key="erase" value="เริ่มต้นใหม่"/>
 <string key="tankshell" value="ลูกปืนใหญ่"/>
 </SimStrings>
