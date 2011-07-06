@@ -1,0 +1,50 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: June 29 - July 5, 2011
+
+Build A Molecule
+- #2912, performed code review
+
+Fourier
+- #2981, investigated wavelength units, reported by Wendy (open)
+
+Optical Quantum Control
+- #2972, resized Cheat popup based on i18n (resolved)
+
+Optical Tweezers
+- #2608, investigated ruler alignment issue on Windows (open)
+
+Polarity
+- status meeting with Robert and Julia
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+- Developer XI meeting, #2932
+
+Build Process
+- #2997, discussed better ways to handle sun-tools/tools.jar
+- created IntelliJ module files for almost all Java simulations
+
+Customer Support
+- #2989, identified algorithm used for photon rate in Photoelectric Effect
+
+WHAT'S NEXT:
+
+- Hydrogen Atom: #2803, "excite me" button
+- KSU: #2783, republish all sims
+- Polarity sim
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 22 - September 2
+- September 28 - October 2
+- October 19-29
+
+--
