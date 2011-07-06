@@ -1,4 +1,4 @@
-package edu.colorado.phet.collisionlab.control {
+package edu.colorado.phet.flashcommon.controls {
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.text.TextField;
