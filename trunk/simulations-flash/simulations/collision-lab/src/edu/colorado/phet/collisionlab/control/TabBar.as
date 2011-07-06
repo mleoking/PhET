@@ -1,11 +1,9 @@
 package edu.colorado.phet.collisionlab.control {
-import edu.colorado.phet.flashcommon.MathUtil;
 
 import flash.display.Sprite;
 import flash.display.GradientType;
 import flash.geom.Matrix;
 import flash.display.SpreadMethod;
-import fl.motion.Color;
 
 public class TabBar extends Sprite {
     private const tabHolder: Sprite = new Sprite();
@@ -50,10 +48,18 @@ public class TabBar extends Sprite {
         //graphics.beginFill( selectedColor );
         var matrix:Matrix = new Matrix();
         matrix.createGradientBox( separatorHeight, separatorHeight, Math.PI / 2, 0, dividingLine );
-        graphics.beginGradientFill( GradientType.LINEAR, [selectedColor, Color.interpolateColor(selectedColor, 0x000000,0.25)], [1,1], [0x00, 0xFF], matrix, SpreadMethod.REPEAT);
+//        graphics.beginGradientFill( GradientType.LINEAR, [selectedColor, Color.interpolateColor(selectedColor, 0x000000,0.25)], [1,1], [0x00, 0xFF], matrix, SpreadMethod.REPEAT);
+        graphics.beginGradientFill( GradientType.LINEAR, [selectedColor, quarterColor(selectedColor,0x000000)], [1,1], [0x00, 0xFF], matrix, SpreadMethod.REPEAT);
 //        graphics.drawRect( 0, 0, 500, 500 );
         graphics.drawRect( -2000, dividingLine, 5000, separatorHeight);
         graphics.endFill();
+    }
+
+    public function quarterColor( fromColor: int, toColor: int ): int {
+        var red: int = 3*(fromColor >> 18) + (toColor >> 18);
+        var green: int = 3*((fromColor & 0xFF00) >> 10) + ((toColor & 0xFF00) >> 10);
+        var blue: int = 3*((fromColor & 0xFF) >> 2) + ((toColor & 0xFF) >> 2);
+        return (red << 16) + (green << 8) + blue;
     }
 
     public function set selectedTab( tab: Tab ): void {
