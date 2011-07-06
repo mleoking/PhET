@@ -1,3 +1,4 @@
+# 2.04.00 (53815) Jul 6, 2011
 # 2.03.01 (53367) Jun 22, 2011
 6/20/11 > fixed text fields so they don't drop accented characters. fixes #2949, improves on #2888
 # 2.03.00 (52284) May 21, 2011
