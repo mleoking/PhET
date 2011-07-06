@@ -39,7 +39,7 @@ $ svn -revert $ROOT/phet/svn/trunk/.idea/modules.xml
 You may see module and/or facet load errors - ignore them, and (if prompted) choose to Keep All.
 
 10. Increase heap size to 512M. If you don't do this, the Java compiler will fail with OutOfMemoryException.
-File->Settings->Complier->Java Compiler->Max heap size = 512
+File->Settings->Compiler->Java Compiler->Max heap size = 512
 
 11. Add default VM and program args.
 Run->Edit Configurations->Defaults->Application
