@@ -168,12 +168,12 @@ public class SliderArrayPanel extends UIComponent {
             iG.clear();
             iG.lineStyle(2, 0x0000ff, 1 );
             iG.moveTo( 0, 0 );
-            var nP:int = w;  //number of points on x-axis
-            var delX:Number = w/nP;  // x-distance between points
+            var nP:int = w;     //number of points on x-axis
             for( var xP:int = 1; xP <= nP; xP++ ){
                 var lambda:Number =  2*w/i;   //i*lambda/2 = w
                 iG.lineTo( xP,  -(h/2)*Math.sin(2*Math.PI*xP/lambda) );
             }
+            //horizontal line at y = 0
             iG.lineStyle( 2, 0x000000, 1 );
             iG.moveTo( 0, 0 );
             iG.lineTo( w, 0 );
