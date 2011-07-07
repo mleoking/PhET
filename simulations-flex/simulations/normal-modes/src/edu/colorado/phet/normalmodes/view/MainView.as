@@ -7,6 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.view {
+import edu.colorado.phet.flashcommon.controls.Tab;
+import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
@@ -23,10 +25,12 @@ import mx.containers.Canvas;
 import mx.controls.sliderClasses.Slider;
 
 public class MainView extends Canvas {
+    private var tabBar: TabBar;
 
     public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
     public var myModel1: Model1;       //model for 1D array of masses and springs
     public var myModel2: Model2;       //model for 2D array of masses and springs
+    public var myNormalModes:NormalModes;  //main canvas for everything
     public var myView1: View1;         //view for Model1
     public var myView2: View2;         //view for Model2
 
@@ -48,12 +52,35 @@ public class MainView extends Canvas {
         this.stageW = stageW;
         this.oneDMode = true;       //start up in 1D mode
 
+        var oneDHolder:Canvas = new Canvas();
+        var twoDHolder:Canvas = new Canvas();
+        addChild( oneDHolder );
+        addChild( twoDHolder  );
+
+        tabBar = new TabBar();
+        var oneDTab: Tab = new Tab( "1 Dimension", tabBar );
+        var twoDTab: Tab = new Tab( "2 Dimension", tabBar );
+        tabBar.addTab( oneDTab );
+        tabBar.addTab( twoDTab );
+
+        tabBar.selectedTab = oneDTab;
+
+        tabBar.addListener( function(): void {
+            if ( tabBar.selectedTab == oneDTab ) {
+                set1DOr2D( 1 );
+
+            }
+            else { // advanced tab
+                set1DOr2D( 2 );
+            }
+        } );
+
+        this.addChild( new SpriteUIComponent( tabBar ));
+
         this.myModel1 = new Model1( ) ;
-        //
-        //
-        // this.myModel1.stopMotion();
         this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
+        this.myNormalModes = new NormalModes( stageW,  stageH );
         this.myView1 = new View1( this, myModel1 );
         this.myView2 = new View2( this, myModel2 );
 
@@ -84,6 +111,7 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
+
         this.addChild( this.myPlayPauseButtons );
 
         this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
@@ -94,6 +122,7 @@ public class MainView extends Canvas {
         this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
+
 
     }//end of constructor
 
