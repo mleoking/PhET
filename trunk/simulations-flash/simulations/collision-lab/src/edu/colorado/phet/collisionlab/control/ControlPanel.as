@@ -65,7 +65,7 @@ public class ControlPanel extends Sprite {
         this.resetButton = new NiceButton( this.sub_resetButton_sp, 80, resetAll );
         //var nbrString:String = String(this.nbrBalls);
         //this.changeNbrBallButtons.nbrReadout.text = nbrString;
-        this.sub_elasticityValueLabel.text = "1.00";
+        this.sub_elasticityValueLabel.text = "100";
         //this.background.border.buttonMode = true;
         //if(this.myModel.nbrBalls == 1){
         //this.changeNbrBallButtons.removeBallButton.visible = false;
@@ -169,9 +169,13 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.timeRate_slider.value = this.myModel.timeRate;
         this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
-        this.sub_elasticityValueLabel.text = this.myModel.e.toFixed( 2 );
+        updateElasticityValueLabel();
 
         myMainView.module.resetAll(); // TODO: convert to where this is the main reset
+    }
+
+    private function updateElasticityValueLabel():void {
+        this.sub_elasticityValueLabel.text = Math.round(this.myModel.e * 100).toString();
     }
 
     public function showVelocityArrows( evt: MouseEvent ): void {
@@ -234,8 +238,9 @@ public class ControlPanel extends Sprite {
     public function setElasticity( evt: SliderEvent ): void {
         trace( "elasticity = " + evt.target.value )
         this.myModel.setElasticity( evt.target.value );
-        var e_str: String = this.myModel.e.toFixed( 2 );//String(evt.target.value);
-        this.sub_elasticityValueLabel.text = e_str;
+        updateElasticityValueLabel();
+//        var e_str: String = this.myModel.e.toFixed( 2 );//String(evt.target.value);
+//        this.sub_elasticityValueLabel.text = e_str;
         //trace("e slider: "+evt.target.value);
     }
 
