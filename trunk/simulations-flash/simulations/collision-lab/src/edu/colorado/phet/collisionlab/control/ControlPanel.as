@@ -206,7 +206,7 @@ public class ControlPanel extends Sprite {
     }
 
     public function showKineticEnergy( visible: Boolean ): void {
-
+        this.myMainView.myTableView.setTotalKEVisible( visible );
     }
 
     public function setBorderExists( visible: Boolean ): void {

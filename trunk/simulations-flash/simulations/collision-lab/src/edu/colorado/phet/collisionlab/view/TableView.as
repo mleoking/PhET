@@ -87,6 +87,9 @@ public class TableView extends Sprite {
         //this.drawBorder();
         //this.ballImageTest = new BallImage(this.myModel, 2, this);
         //this.myModel.startMotion();
+
+        // TODO: put this in reset! Where is that?
+        setTotalKEVisible( false );
     }//end of constructor
 
     public function drawBorder(): void {
@@ -208,6 +211,10 @@ public class TableView extends Sprite {
         this.timeText.defaultTextFormat = tFormat;
         //this.timeText.setTextFormat(tFormat);
         this.canvas.addChild( this.timeText );
+    }
+
+    public function setTotalKEVisible( visible: Boolean ): void {
+        this.totKEText.visible = visible;
     }
 
     public function makeTotKELabel(): void {
