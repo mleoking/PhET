@@ -1,3 +1,4 @@
+> Increased size of the play button
 Elasticity readout changed to percentage
 > Changed "Time Rate" to "Sim Speed"
 Fixed: kgm/s changed to "kg m/s"
