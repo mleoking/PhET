@@ -65,7 +65,7 @@ public class ControlPanel extends Sprite {
         this.resetButton = new NiceButton( this.sub_resetButton_sp, 80, resetAll );
         //var nbrString:String = String(this.nbrBalls);
         //this.changeNbrBallButtons.nbrReadout.text = nbrString;
-        this.sub_elasticityValueLabel.text = "100";
+//        this.sub_elasticityValueLabel.text = "100";
         //this.background.border.buttonMode = true;
         //if(this.myModel.nbrBalls == 1){
         //this.changeNbrBallButtons.removeBallButton.visible = false;
@@ -111,7 +111,8 @@ public class ControlPanel extends Sprite {
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
 
         resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
-        this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
+        updateElasticityValueLabel();
+        //this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
         this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "0%" );
         this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "100%" );
 
@@ -175,7 +176,7 @@ public class ControlPanel extends Sprite {
     }
 
     private function updateElasticityValueLabel():void {
-        this.sub_elasticityValueLabel.text = Math.round(this.myModel.e * 100).toString();
+        this.sub_elasticityLabel.text = SimStrings.get("ControlPanel.elasticityReadout", "Elasticity {0}%", [Math.round(this.myModel.e * 100).toString()]);
     }
 
     public function showVelocityArrows( evt: MouseEvent ): void {
@@ -289,7 +290,7 @@ public class ControlPanel extends Sprite {
 
     public function get sub_sound_label(): TextField { throw new Error( "abstract" ); }
 
-    public function get sub_elasticityValueLabel(): TextField { throw new Error( "abstract" ); }
+    //public function get sub_elasticityValueLabel(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_elasticityLabel(): TextField { throw new Error( "abstract" ); }
 

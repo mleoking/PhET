@@ -41,6 +41,7 @@
     <string key="ControlPanel.showValues" value="Show Values"/>
     <string key="ControlPanel.sound" value="Sound"/>
     <string key="ControlPanel.elasticity" value="Elasticity"/>
+    <string key="ControlPanel.elasticityReadout" value="Elasticity {0}%"/>
     <string key="ControlPanel.zeroPercent" value="0%"/>
     <string key="ControlPanel.oneHundredPercent" value="100%"/>
 

@@ -1,3 +1,4 @@
+Changed elasticity slider readout to separate i18nized string
 > Increased size of the play button
 Elasticity readout changed to percentage
 > Changed "Time Rate" to "Sim Speed"
