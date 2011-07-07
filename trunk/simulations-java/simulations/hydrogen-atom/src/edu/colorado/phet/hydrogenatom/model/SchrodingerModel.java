@@ -143,6 +143,17 @@ public class SchrodingerModel extends DeBroglieModel {
         return _m;
     }
 
+    /**
+     * Does the atom's state match a specified state?
+     * @param n
+     * @param l
+     * @param m
+     * @return
+     */
+    public boolean stateEquals( int n, int l, int m ) {
+        return ( getElectronState() == n ) && ( l == _l ) && ( m == _m );
+    }
+
     //----------------------------------------------------------------------------
     // Superclass overrides
     //----------------------------------------------------------------------------
@@ -523,5 +534,9 @@ public class SchrodingerModel extends DeBroglieModel {
     
     public static String stateToString( int n, int l, int m ) {
         return "(" + n + "," + l + "," + m + ")";
+    }
+
+    public String getStateAsString() {
+        return stateToString( getElectronState(), _l, _m );
     }
 }
