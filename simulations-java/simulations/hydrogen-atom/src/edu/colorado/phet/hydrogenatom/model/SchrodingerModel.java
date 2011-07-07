@@ -6,7 +6,9 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ProbabilisticChooser;
+import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
+import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
@@ -100,6 +102,8 @@ public class SchrodingerModel extends DeBroglieModel {
     private Random _mRandom;
     
     private Point2D _spontaneousEmissionPoint;
+
+    private MetastableHandler _metastableHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -108,8 +112,10 @@ public class SchrodingerModel extends DeBroglieModel {
     /**
      * Constructor.
      * @param position the atom's position in 2D space
+     * @param clock
+     * @param gun
      */
-    public SchrodingerModel( Point2D position ) {
+    public SchrodingerModel( Point2D position, IClock clock, Gun gun ) {
         super( position );
         super.setView( DeBroglieView.BRIGHTNESS_MAGNITUDE ); // use deBroglie "rings" for collision detection
         
@@ -121,6 +127,13 @@ public class SchrodingerModel extends DeBroglieModel {
         _lRandom = new Random();
         _mRandom = new Random();
         _spontaneousEmissionPoint = new Point2D.Double();
+
+        // ...to get us out of (2,0,0) metastable state
+        _metastableHandler = new MetastableHandler( clock, gun, this );
+    }
+
+    @Override public void cleanup() {
+        _metastableHandler.cleanup();
     }
     
     //----------------------------------------------------------------------------

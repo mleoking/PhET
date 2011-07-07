@@ -16,8 +16,6 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
@@ -262,8 +260,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
                 if ( _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;
                     assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
-                    PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
-                    firePhotonAbsorbedEvent( event );
+                    firePhotonAbsorbedEvent( photon );
                     absorbed = true;
                 }
             }
@@ -288,9 +285,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             double speed = HAConstants.PHOTON_INITIAL_SPEED;
             
             // Create and emit a photon
-            Photon photon = new Photon( PHOTON_EMISSION_WAVELENGTH, position, orientation, speed, true /* emitted */ );
-            PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
-            firePhotonEmittedEvent( event );
+            firePhotonEmittedEvent( new Photon( PHOTON_EMISSION_WAVELENGTH, position, orientation, speed, true /* emitted */ ) );
         }
     }
     

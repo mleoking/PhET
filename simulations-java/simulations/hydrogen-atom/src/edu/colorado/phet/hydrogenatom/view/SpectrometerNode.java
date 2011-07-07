@@ -46,8 +46,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
+import edu.colorado.phet.hydrogenatom.event.PhotonListener;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -71,7 +70,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener {
+public class SpectrometerNode extends PhetPNode implements PhotonListener {
 
     //----------------------------------------------------------------------------
     // Debug
@@ -148,7 +147,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     private final double _minWavelength, _maxWavelength;
 
     private boolean _isRunning;
-    private final ArrayList _meterRecords; // array of MeterRecords
+    private final ArrayList<MeterRecord> _meterRecords;
 
     private PImage _panelNode;
     private PNode _displayAreaNode;
@@ -192,7 +191,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
         _maxWavelength = maxWavelength;
 
         _isRunning = false;
-        _meterRecords = new ArrayList();
+        _meterRecords = new ArrayList<MeterRecord>();
 
         // Background panel
         {
@@ -538,20 +537,21 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
     }
 
     //----------------------------------------------------------------------------
-    // PhotonEmittedListener implementation
+    // PhotonListener implementation
     //----------------------------------------------------------------------------
 
-    /**
+    public void photonAbsorbed( Photon photon ) {
+        // not interested
+    }
+
+    /*
      * Called when a photon is emitted.
      * Increments the MeterRecord for the photon's wavelength,
      * or creates a MeterRecord if no record exists.
      * Adds a cell to the display.
-     *
-     * @param event
      */
-    public void photonEmitted( PhotonEmittedEvent event ) {
+    public void photonEmitted( Photon photon ) {
         if ( _isRunning && isVisible() ) {
-            Photon photon = event.getPhoton();
             double wavelength = photon.getWavelength();
             if ( DEBUG_OUTPUT ) {
                 System.out.println( "SpectrometerNode.photonEmitted " + wavelength );
@@ -577,9 +577,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonEmittedListener
      * @return MeterRecord, possibly null
      */
     private MeterRecord getMeterRecord( double wavelength ) {
-        Iterator i = _meterRecords.iterator();
-        while ( i.hasNext() ) {
-            MeterRecord record = (MeterRecord) i.next();
+        for ( MeterRecord record : _meterRecords ) {
             if ( record.wavelength == wavelength ) {
                 return record;
             }

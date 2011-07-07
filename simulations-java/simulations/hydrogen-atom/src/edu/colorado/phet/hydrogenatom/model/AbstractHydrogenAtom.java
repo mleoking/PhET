@@ -1,25 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
-import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedListener;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedListener;
+import edu.colorado.phet.hydrogenatom.event.PhotonListener;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
@@ -54,7 +43,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     // Instance data
     //----------------------------------------------------------------------------
 
-    private EventListenerList _listenerList;
+    private ArrayList<PhotonListener> _photonListeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -68,9 +57,13 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
      */
     public AbstractHydrogenAtom( Point2D position, double orientation ) {
         super( position, orientation );
-        _listenerList = new EventListenerList();
+        _photonListeners = new ArrayList<PhotonListener>();
     }
-    
+
+    public void cleanup() {
+        removeAllPhotonListeners();
+    }
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
@@ -173,76 +166,32 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
-    // PhotonAbsorbedListener
+    // PhotonListener
     //----------------------------------------------------------------------------
 
-    /**
-     * Adds an PhotonAbsorbedListener.
-     *
-     * @param listener the listener
-     */
-    public void addPhotonAbsorbedListener( PhotonAbsorbedListener listener ) {
-        _listenerList.add( PhotonAbsorbedListener.class, listener );
+    public void addPhotonListener( PhotonListener listener ) {
+        _photonListeners.add( listener );
     }
 
-    /**
-     * Removes an PhotonAbsorbedListener.
-     *
-     * @param listener the listener
-     */
-    public void removePhotonAbsorbedListener( PhotonAbsorbedListener listener ) {
-        _listenerList.remove( PhotonAbsorbedListener.class, listener );
+    public void removePhotonListener( PhotonListener listener ) {
+        _photonListeners.remove( listener );
     }
 
-    /*
-     * Fires a PhotonAbsorbedEvent when a photon is absorbed.
-     *
-     * @param event the event
-     */
-    protected void firePhotonAbsorbedEvent( PhotonAbsorbedEvent event ) {
-        assert ( event.getPhoton() != null );
-        Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i += 2 ) {
-            if ( listeners[i] == PhotonAbsorbedListener.class ) {
-                ( (PhotonAbsorbedListener) listeners[i + 1] ).photonAbsorbed( event );
-            }
+    public void removeAllPhotonListeners() {
+        _photonListeners.clear();
+    }
+
+    // Fires when a photon is absorbed.
+    protected void firePhotonAbsorbedEvent( Photon photon ) {
+        for ( PhotonListener listener : new ArrayList<PhotonListener>( _photonListeners ) ) {
+            listener.photonAbsorbed( photon );
         }
     }
 
-    //----------------------------------------------------------------------------
-    // PhotonEmittedListener
-    //----------------------------------------------------------------------------
-
-    /**
-     * Adds a PhotonEmittedListener.
-     *
-     * @param listener the listener
-     */
-    public void addPhotonEmittedListener( PhotonEmittedListener listener ) {
-        _listenerList.add( PhotonEmittedListener.class, listener );
-    }
-
-    /**
-     * Removes a PhotonEmittedListener.
-     *
-     * @param listener the listener
-     */
-    public void removePhotonEmittedListener( PhotonEmittedListener listener ) {
-        _listenerList.remove( PhotonEmittedListener.class, listener );
-    }
-
-    /*
-     * Fires a PhotonEmittedEvent when a photon is emitted.
-     *
-     * @param event the event
-     */
-    protected void firePhotonEmittedEvent( PhotonEmittedEvent event ) {
-        assert ( event.getPhoton() != null );
-        Object[] listeners = _listenerList.getListenerList();
-        for ( int i = 0; i < listeners.length; i += 2 ) {
-            if ( listeners[i] == PhotonEmittedListener.class ) {
-                ( (PhotonEmittedListener) listeners[i + 1] ).photonEmitted( event );
-            }
+    // Fires when a photon is emitted.
+    protected void firePhotonEmittedEvent( Photon photon ) {
+        for ( PhotonListener listener : new ArrayList<PhotonListener>( _photonListeners ) ) {
+            listener.photonEmitted( photon );
         }
     }
 }
