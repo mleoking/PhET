@@ -1,3 +1,4 @@
+Moved Kinetic Energy readout to top middle in Intro tab
 > Increased size of the Kinetic Energy readout
 > Added checkbox to toggle "Kinetic Energy" visibility
 Minor control panel layout changes

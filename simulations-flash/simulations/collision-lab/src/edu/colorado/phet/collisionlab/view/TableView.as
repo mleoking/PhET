@@ -158,8 +158,16 @@ public class TableView extends Sprite {
         this.timeRateText.x = this.timeRate_slider.x + 0.5 * this.timeRate_slider.width / 2;
 
         //positon KE label
-        this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
-        this.totKEText.y = H + 10;
+        if ( myModel.isIntro ) {
+            // intro tab. position KE at top middle
+            totKEText.x = W / 2 - totKEText.width / 2;
+            totKEText.y = -20;
+        }
+        else {
+            // advanced tab
+            this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
+            this.totKEText.y = H + 10;
+        }
         //            this.totKEText.border=true;//to help visualize layout
         this.totKEText.width = 165;//to improve support for i18n
         //trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
