@@ -111,9 +111,6 @@ public class ControlPanel extends Sprite {
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
 
         resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
-        // this.timeLabel.text = SimStrings.get("ControlPanel.timeRate","Time Rate");
-        //this.slowLabel.text = SimStrings.get("ControlPanel.slow","slow");
-        //this.fastLabel.text = SimStrings.get("ControlPanel.fast","fast");
         this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
         this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "0%" );
         this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "100%" );

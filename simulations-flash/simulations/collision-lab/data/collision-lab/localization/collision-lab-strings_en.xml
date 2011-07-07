@@ -45,7 +45,7 @@
     <string key="ControlPanel.oneHundredPercent" value="100%"/>
 
     <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
-	<string key="TableView.timeRate" value="Time Rate"/>
+	<string key="TableView.timeRate" value="Sim Speed"/>
     <string key="TableView.time" value="Time = {0} s"/>
     <string key="TableView.returnBalls" value="Return Balls"/>
 
