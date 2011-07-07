@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.view.manager;
 
 import java.util.ArrayList;
@@ -17,7 +8,6 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.Model;
-import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
 import edu.umd.cs.piccolo.PNode;
 
@@ -27,10 +17,9 @@ import edu.umd.cs.piccolo.PNode;
  * <p/>
  * As indicated in package.html:
  * In hindsight, this is an overly-complex framework, borrowed (and ported to Piccolo)
- * from some of the other particle-based simulations.
+ * from some of the other particle-based simulations. Reuse in other sims in not recommended.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class ModelViewManager implements ModelListener {
 
@@ -48,14 +37,14 @@ public class ModelViewManager implements ModelListener {
     * Maps a ModelElement class to an ArrayList of NodeFactory.
     * Each NodeFactory is the mechanism for creating a view of the ModelElement type.
     */
-    private HashMap _factoriesMap;
+    private HashMap<Class, ArrayList<NodeFactory>> _factoriesMap;
 
     /*
     * Maps a ModelElement instance to an ArrayList of NodeRecord.
     * Each NodeRecord describes how to remove the view of the ModelElement instance
     * from the Piccolo scenegraph.
     */
-    private HashMap _nodeRecordsMap;
+    private HashMap<ModelElement, ArrayList<NodeRecord>> _nodeRecordsMap;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -69,8 +58,8 @@ public class ModelViewManager implements ModelListener {
     public ModelViewManager( Model model ) {
         _model = model;
         _model.addModelListener( this );
-        _factoriesMap = new HashMap();
-        _nodeRecordsMap = new HashMap();
+        _factoriesMap = new HashMap<Class, ArrayList<NodeFactory>>();
+        _nodeRecordsMap = new HashMap<ModelElement, ArrayList<NodeRecord>>();
     }
 
     //----------------------------------------------------------------------------
@@ -87,9 +76,9 @@ public class ModelViewManager implements ModelListener {
      */
     public void addNodeFactory( NodeFactory factory ) {
         Class modelElementClass = factory.getModelElementClass();
-        ArrayList factoryList = (ArrayList) _factoriesMap.get( modelElementClass );
+        ArrayList<NodeFactory> factoryList = _factoriesMap.get( modelElementClass );
         if ( factoryList == null ) {
-            factoryList = new ArrayList();
+            factoryList = new ArrayList<NodeFactory>();
             _factoriesMap.put( modelElementClass, factoryList );
         }
         factoryList.add( factory );
@@ -105,7 +94,7 @@ public class ModelViewManager implements ModelListener {
      */
     public void removeNodeFactory( NodeFactory factory ) {
         Class modelElementClass = factory.getModelElementClass();
-        ArrayList factoryList = (ArrayList) _factoriesMap.get( modelElementClass );
+        ArrayList<NodeFactory> factoryList = _factoriesMap.get( modelElementClass );
         if ( factoryList != null ) {
             factoryList.remove( factory );
             if ( factoryList.size() == 0 ) {
@@ -122,50 +111,35 @@ public class ModelViewManager implements ModelListener {
      * Called when a ModelElement has been added to the model.
      * Adds a view of the ModelElement for each NodeFactory that
      * is registered for the ModelElement's class.
-     *
-     * @param event
      */
-    public void modelElementAdded( ModelEvent event ) {
-
-        ModelElement modelElement = event.getModelElement();
+    public void modelElementAdded( ModelElement modelElement ) {
         Class modelElementClass = modelElement.getClass();
-        ArrayList factoryList = (ArrayList) _factoriesMap.get( modelElementClass );
+        ArrayList<NodeFactory> factoryList = _factoriesMap.get( modelElementClass );
         if ( factoryList != null ) {
-
-            ArrayList nodeRecordList = null;
-
-            Iterator i = factoryList.iterator();
-            while ( i.hasNext() ) {
-                NodeFactory factory = (NodeFactory) i.next();
+            ArrayList<NodeRecord> nodeRecordList = null;
+            for ( NodeFactory factory : new ArrayList<NodeFactory>( factoryList ) ) {
                 if ( nodeRecordList == null ) {
-                    nodeRecordList = new ArrayList();
+                    nodeRecordList = new ArrayList<NodeRecord>();
                 }
                 PNode node = factory.createNode( modelElement );
                 PNode parent = factory.getParent();
                 parent.addChild( node );
                 nodeRecordList.add( new NodeRecord( node, parent ) );
             }
-
             if ( nodeRecordList != null ) {
                 _nodeRecordsMap.put( modelElement, nodeRecordList );
             }
         }
     }
 
-    /**
+    /*
      * Called when a ModelElement has been removed from the model.
      * Removes all views of the ModelElement.
-     *
-     * @param event
      */
-    public void modelElementRemoved( ModelEvent event ) {
-
-        ModelElement modelElement = event.getModelElement();
-        ArrayList nodeRecordList = (ArrayList) _nodeRecordsMap.get( modelElement );
+    public void modelElementRemoved( ModelElement modelElement ) {
+        ArrayList<NodeRecord> nodeRecordList = _nodeRecordsMap.get( modelElement );
         if ( nodeRecordList != null ) {
-            Iterator i = nodeRecordList.iterator();
-            while ( i.hasNext() ) {
-                NodeRecord nodeRecord = (NodeRecord) i.next();
+            for ( NodeRecord nodeRecord : new ArrayList<NodeRecord>( nodeRecordList ) ) {
                 PNode node = nodeRecord.getNode();
                 PNode parent = nodeRecord.getParent();
                 parent.removeChild( node );

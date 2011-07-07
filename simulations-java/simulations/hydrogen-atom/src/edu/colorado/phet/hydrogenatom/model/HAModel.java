@@ -4,10 +4,10 @@ package edu.colorado.phet.hydrogenatom.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
-import edu.colorado.phet.hydrogenatom.event.*;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.AtomListener;
+import edu.colorado.phet.hydrogenatom.model.Gun.GunListener;
 
 /**
  * HAModel is the model for this simulation.
@@ -20,7 +20,7 @@ import edu.colorado.phet.hydrogenatom.event.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAModel extends Model implements GunFiredListener, PhotonListener {
+public class HAModel extends Model implements GunListener, AtomListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -29,9 +29,9 @@ public class HAModel extends Model implements GunFiredListener, PhotonListener {
     private Gun _gun;
     private Space _space;
     private AbstractHydrogenAtom _atom;
-    private ArrayList<Photon> _photons; // array of Photon
-    private ArrayList<AlphaParticle> _alphaParticles; // array of AlphaParticle
-    
+    private ArrayList<Photon> _photons;
+    private ArrayList<AlphaParticle> _alphaParticles;
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
@@ -41,10 +41,10 @@ public class HAModel extends Model implements GunFiredListener, PhotonListener {
         
         _gun = gun;
         _gun.addGunFiredListener( this );
-        super.addModelElement( _gun );
+        addModelElement( _gun );
         
         _space = space;
-        super.addModelElement( _space );
+        addModelElement( _space );
         
         _atom = null;
         _photons = new ArrayList<Photon>();
@@ -69,97 +69,47 @@ public class HAModel extends Model implements GunFiredListener, PhotonListener {
 
     public void setAtom( AbstractHydrogenAtom atom ) {
         if ( _atom != null ) {
+            _atom.cleanup();
             removeModelElement( _atom );
         }
+        _atom = atom;
+        _atom.addAtomListener( this );
         addModelElement( atom );
     }
-    
+
     //----------------------------------------------------------------------------
     // ModelElement management
     //----------------------------------------------------------------------------
-    
-    /**
-     * When a model element is added, also add it to one of 
-     * the lists used for collision detection.
-     * 
-     * @param modelElement
-     */
-    public void addModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof Photon ) {
-            _photons.add( (Photon)modelElement );
-        }
-        else if ( modelElement instanceof AlphaParticle ) {
-            _alphaParticles.add( (AlphaParticle)modelElement );
-        }
-        else if ( modelElement instanceof AbstractHydrogenAtom ) {
-            if ( _atom != null ) {
-                throw new IllegalArgumentException( "model already contains an AbstractHydrogenAtom" );
-            }
-            _atom = (AbstractHydrogenAtom) modelElement;
-            _atom.addPhotonListener( this );
-        }
-        else if ( modelElement instanceof Gun ) {
-            throw new IllegalArgumentException( "Gun must be added in constructor" );
-        }
-        else if ( modelElement instanceof Space ) {
-            throw new IllegalArgumentException( "Space must be added in constructor" );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
-        }
-        super.addModelElement( modelElement );
+
+    public void addPhoton( Photon photon ) {
+        _photons.add( photon );
+        addModelElement( photon );
     }
 
-    /**
-     * When a model element is removed, also remove it from one of 
-     * the lists used for collision detection.
-     * 
-     * @param modelElement
-     */
-    public void removeModelElement( ModelElement modelElement ) {
-        if ( modelElement instanceof Photon ) {
-            _photons.remove( modelElement );
-        }
-        else if ( modelElement instanceof AlphaParticle ) {
-            _alphaParticles.remove( modelElement );
-        }
-        else if ( modelElement == _atom ) {
-            _atom.cleanup();
-            _atom = null;
-        }
-        else if ( modelElement == _gun ) {
-            throw new IllegalArgumentException( "Gun cannot be removed" );
-        }
-        else if ( modelElement == _space ) {
-            throw new IllegalArgumentException( "Space cannot be removed" );
-        }
-        else {
-            throw new IllegalArgumentException( "unsupported modelElement: " + modelElement.getClass().getName() );
-        }
-        super.removeModelElement( modelElement );
+    public void removePhoton( Photon photon ) {
+        _photons.remove( photon );
+        removeModelElement( photon );
     }
-    
-    /**
-     * Removes all photons from the model.
-     */
+
     public void removeAllPhotons() {
-        if ( _photons.size() > 0 ) {
-            Object[] photons = _photons.toArray(); // copy, this operation deletes from list
-            for ( int i = 0; i < photons.length; i++ ) {
-                removeModelElement( (Photon) photons[i] );
-            }
+        for ( Photon photon : new ArrayList<Photon>( _photons ) ) {
+            removePhoton( photon );
         }
     }
-    
-    /**
-     * Removes all alpha particles from the model.
-     */
+
+    public void addAlphaParticle( AlphaParticle alphaParticle ) {
+        _alphaParticles.add( alphaParticle );
+        addModelElement( alphaParticle );
+    }
+
+    public void removeAlphaParticle( AlphaParticle alphaParticle ) {
+        _photons.remove( alphaParticle );
+        removeModelElement( alphaParticle );
+    }
+
     public void removeAllAlphaParticles() {
-        if ( _alphaParticles.size() > 0 ) {
-            Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation deletes from list
-            for ( int i = 0; i < alphaParticles.length; i++ ) {
-                removeModelElement( (AlphaParticle) alphaParticles[i] );
-            }
+        for ( AlphaParticle alphaParticle : new ArrayList<AlphaParticle>( _alphaParticles ) ) {
+            removeAlphaParticle( alphaParticle );
         }
     }
     
@@ -212,53 +162,45 @@ public class HAModel extends Model implements GunFiredListener, PhotonListener {
      * Culls photons and alpha particles that have left the bounds of space.
      */
     private void cullParticles() {
-        
-        if ( _photons.size() > 0 ) {
-            Object[] photons = _photons.toArray(); // copy, this operation may delete from list
-            for ( int i = 0; i < photons.length; i++ ) {
-                Photon photon = (Photon) photons[i];
-                if ( !_space.contains( photon ) ) {
-                    removeModelElement( photon );
-                }
+
+        for ( Photon photon : new ArrayList<Photon>( _photons ) ) {
+            if ( !_space.contains( photon ) ) {
+                removePhoton( photon );
             }
         }
-        
-        if ( _alphaParticles.size() > 0 ) {
-            Object[] alphaParticles = _alphaParticles.toArray(); // copy, this operation may delete from list
-            for ( int i = 0; i < alphaParticles.length; i++ ) {
-                AlphaParticle alphaParticle = (AlphaParticle) alphaParticles[i];
-                if ( !_space.contains( alphaParticle ) ) {
-                    removeModelElement( alphaParticle );
-                }
+
+        for ( AlphaParticle alphaParticle : new ArrayList<AlphaParticle>( _alphaParticles ) ) {
+            if ( !_space.contains( alphaParticle ) ) {
+                removeAlphaParticle( alphaParticle );
             }
         }
-    } 
-    
+    }
+
     //----------------------------------------------------------------------------
-    // GunFiredListener implementation
+    // GunListener implementation
     //----------------------------------------------------------------------------
     
     // When the gun fires a photon, add the photon to the model.
-    public void photonFired( GunFiredEvent event ) {
-        addModelElement( event.getPhoton() );
+    public void photonFired( Photon photon ) {
+        addPhoton( photon );
     }
     
     // When the gun fires an alpha particle, add the alpha particle to the model.
-    public void alphaParticleFired( GunFiredEvent event ) {
-        addModelElement( event.getAlphaParticle() );
+    public void alphaParticleFired( AlphaParticle alphaParticle ) {
+        addAlphaParticle( alphaParticle );
     }
     
     //----------------------------------------------------------------------------
-    // PhotonListener
+    // AtomListener
     //----------------------------------------------------------------------------
 
-    // When a photon is absorbed, remove it from the model.
+    // When a photon is absorbed by the atom, remove it from the model.
     public void photonAbsorbed( Photon photon ) {
-        removeModelElement( photon );
+        removePhoton( photon );
     }
 
-    // When a photon is emitted, add it to the model.
+    // When a photon is emitted by the atom, add it to the model.
     public void photonEmitted( Photon photon ) {
-        addModelElement( photon );
+        addPhoton( photon );
     }
 }

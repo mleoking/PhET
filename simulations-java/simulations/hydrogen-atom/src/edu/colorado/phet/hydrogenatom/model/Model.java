@@ -1,21 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.EventObject;
-
-import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -28,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  * model elements are added or removed.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Model extends ClockAdapter {
 
@@ -36,8 +22,8 @@ public class Model extends ClockAdapter {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ArrayList _modelElements; // array of ModelElement
-    private EventListenerList _listenerList;
+    private ArrayList<ModelElement> _modelElements;
+    private ArrayList<ModelListener> _listeners;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -49,28 +35,19 @@ public class Model extends ClockAdapter {
      */
     public Model( IClock clock ) {
         clock.addClockListener( this );
-        _modelElements = new ArrayList();
-        _listenerList = new EventListenerList();
+        _modelElements = new ArrayList<ModelElement>();
+        _listeners = new ArrayList<ModelListener>();
     }
     
     //----------------------------------------------------------------------------
     // ClockListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * When the clock ticks, call stepInTime for each model element.
-     * 
-     * @param event
-     */
+    // When the clock ticks, call stepInTime for each model element.
     public void clockTicked( ClockEvent event ) {
-        double dt = event.getSimulationTimeChange();
-       
-        if ( _modelElements.size() > 0 ) {
-            Object[] modelElements = _modelElements.toArray(); // copy, this operation may change the list
-            for ( int i = 0; i < modelElements.length; i++ ) {
-                ModelElement modelElement = (ModelElement) modelElements[i];
-                modelElement.stepInTime( dt );
-            }
+        final double dt = event.getSimulationTimeChange();
+        for ( ModelElement modelElement : new ArrayList<ModelElement>( _modelElements ) ) {
+             modelElement.stepInTime( dt );
         }
     }
     
@@ -78,99 +55,42 @@ public class Model extends ClockAdapter {
     // Model Object management
     //----------------------------------------------------------------------------
     
-    /**
-     * Gets the complete set of model elements.
-     * @return array of ModelElement
-     */
-    public ModelElement[] getModelElements() {
-        return (ModelElement[]) _modelElements.toArray( new ModelElement[_modelElements.size()] );
-    }
-    
-    /**
-     * Adds a model element and notifies ModelListeners.
-     * @param modelElement
-     */
-    public void addModelElement( ModelElement modelElement ) {
+    protected void addModelElement( ModelElement modelElement ) {
         _modelElements.add( modelElement );
-        fireModelObjectAdded( new ModelEvent( this, modelElement ) );
+        fireModelElementAdded( modelElement );
     }
 
-    /**
-     * Removes a model element and notifies ModelListeners.
-     * @param modelElement
-     */
-    public void removeModelElement( ModelElement modelElement ) {
+    protected void removeModelElement( ModelElement modelElement ) {
         _modelElements.remove( modelElement );
-        fireModelObjectRemoved( new ModelEvent( this, modelElement ) );
+        fireModelElementRemoved( modelElement );
     }
     
     //----------------------------------------------------------------------------
-    // ModelEvent notification
+    // ModelListener interface
     //----------------------------------------------------------------------------
     
-    /**
-     * ModelListener is the interface implemented by listener who 
-     * wish to be notified of changes to the model.
-     */
-    public static interface ModelListener extends EventListener {
-        public void modelElementAdded( ModelEvent event);
-        public void modelElementRemoved( ModelEvent event);
+    public interface ModelListener {
+        public void modelElementAdded( ModelElement modelElement );
+        public void modelElementRemoved( ModelElement modelElement );
     }
     
-    /**
-     * ModelEvent is the event used to indicate changes to the model.
-     */
-    public class ModelEvent extends EventObject {
-
-        private ModelElement _modelElement;
-
-        public ModelEvent( Object source, ModelElement modelElement ) {
-            super( source );
-            _modelElement = modelElement;
-        }
-
-        public ModelElement getModelElement() {
-            return _modelElement;
-        }
-    }
-    
-    /**
-     * Adds a ModelListener.
-     * @param listener
-     */
     public void addModelListener( ModelListener listener ) {
-        _listenerList.add( ModelListener.class, listener );
+        _listeners.add( listener );
     }
 
-    /**
-     * Removes a ModelListener.
-     * @param listener
-     */
     public void removeModelListener( ModelListener listener ) {
-        _listenerList.remove( ModelListener.class, listener );
+        _listeners.remove( listener );
     }
 
-    /*
-     * Calls modelElementAdded for all ModelListeners.
-     */
-    private void fireModelObjectAdded( ModelEvent event ) {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ModelListener.class ) {
-                ( (ModelListener)listeners[i + 1] ).modelElementAdded( event );
-            }
+    private void fireModelElementAdded( ModelElement modelElement ) {
+        for ( ModelListener listener : new ArrayList<ModelListener>( _listeners ) ) {
+            listener.modelElementAdded( modelElement );
         }
     }
     
-    /*
-     * Calls modelElementRemoved for all ModelListeners.
-     */
-    private void fireModelObjectRemoved( ModelEvent event ) {
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == ModelListener.class ) {
-                ( (ModelListener)listeners[i + 1] ).modelElementRemoved( event );
-            }
+    private void fireModelElementRemoved( ModelElement modelElement ) {
+        for ( ModelListener listener : new ArrayList<ModelListener>( _listeners ) ) {
+            listener.modelElementRemoved( modelElement );
         }
     }
 }

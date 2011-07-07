@@ -20,7 +20,6 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import javax.swing.JCheckBox;
 import javax.swing.event.ChangeEvent;
@@ -703,7 +702,7 @@ public class HAModule extends PiccoloModule {
         }
         assert ( atom != null );
 
-        atom.addPhotonListener( _spectrometerNode );
+        atom.addAtomListener( _spectrometerNode );
         _model.setAtom( atom );
 
         int groundState = atom.getGroundState();
