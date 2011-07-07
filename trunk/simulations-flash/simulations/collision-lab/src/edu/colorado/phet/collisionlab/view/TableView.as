@@ -155,7 +155,7 @@ public class TableView extends Sprite {
 
         //position slider label
         this.timeRateText.y = H + 10;
-        this.timeRateText.x = this.timeRate_slider.x + 0.5 * this.timeRate_slider.width / 2;
+        this.timeRateText.x = this.timeRate_slider.x + (this.timeRate_slider.width / 2) - (this.timeRateText.width / 2);
 
         //positon KE label
         if ( myModel.isIntro ) {
@@ -246,11 +246,13 @@ public class TableView extends Sprite {
         this.timeRateText = new TextField();
         this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Sim Speed" );
         this.timeRateText.selectable = false;
+        this.timeRateText.autoSize = "left";
         //			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
         var tFormat: TextFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.bold = true;
         tFormat.color = 0x000000;
+        tFormat.italic = true;
         tFormat.size = 12;
         this.timeRateText.defaultTextFormat = tFormat;
         //this.timeText.setTextFormat(tFormat);
