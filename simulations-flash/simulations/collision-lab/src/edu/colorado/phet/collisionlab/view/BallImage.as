@@ -29,7 +29,7 @@ public class BallImage extends Sprite {
     public var ballBody:Sprite;
     public var pArrowImage:Arrow;				//momentum arrow, not grabbable
     public var vArrowImage:Arrow;				//velocity arrow, not grabbable
-    public var ballHandle:Sprite;
+    public var ballHandle:Sprite; // this is the "draggable" target for the ball
     private var velocityReadoutText:TextField;
     private var momentumReadoutText:TextField;
     public var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
@@ -38,7 +38,10 @@ public class BallImage extends Sprite {
     public var tFieldBallNbr:TextField;		//label = ball number
     public var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
     public var yEqString:String;				//"y = "
-    public var showValues: Boolean = false;
+    public var showValues:Boolean = false;
+
+    private var mouseOverBallHandle:Boolean = false;
+    private var mouseDownOnArrow:Boolean = false;
 
     public function BallImage( myModel:Model, indx:int, myTableView:TableView ) {
         this.myModel = myModel;
@@ -104,17 +107,15 @@ public class BallImage extends Sprite {
 
         setReadoutsVisible( false ); // don't show them initially
 
-        this.addEventListener( MouseEvent.MOUSE_OVER, function(evt:MouseEvent):void{
-            if( !showValues ) {
-                setReadoutsVisible( true );
-            }
-        });
+        ballHandle.addEventListener( MouseEvent.MOUSE_OVER, function( evt:MouseEvent ):void {
+            mouseOverBallHandle = true;
+            updateShowValuesVisibility();
+        } );
 
-        this.addEventListener( MouseEvent.MOUSE_OUT, function(evt:MouseEvent):void{
-            if( !showValues ) {
-                setReadoutsVisible( false );
-            }
-        });
+        ballHandle.addEventListener( MouseEvent.MOUSE_OUT, function( evt:MouseEvent ):void {
+            mouseOverBallHandle = false;
+            updateShowValuesVisibility();
+        } );
 
         this.tFieldBallNbr.defaultTextFormat = ballLabelTextFormat;
         this.setLayerDepths();
@@ -128,6 +129,13 @@ public class BallImage extends Sprite {
         this.makeBallDraggable();
         this.makeArrowDraggable();
         this.arrowShown = true;
+    }
+
+    private function updateShowValuesVisibility():void {
+        // if showValues == true, it is already visible. don't toggle
+        if ( !showValues ) {
+            setReadoutsVisible( mouseOverBallHandle || mouseDownOnArrow );
+        }
     }
 
     private function setLayerDepths():void {
@@ -174,7 +182,7 @@ public class BallImage extends Sprite {
         momentumReadoutText.visible = visible;
     }
 
-    public function setShowValues( showValues: Boolean ): void {
+    public function setShowValues( showValues:Boolean ):void {
         this.showValues = showValues;
         setReadoutsVisible( showValues );
     }
@@ -381,11 +389,17 @@ public class BallImage extends Sprite {
             clickOffset = new Point( evt.localX, evt.localY );
             //trace("evt.localX: "+evt.localX);
             //trace("evt.localY: "+evt.localY);
+
+            mouseDownOnArrow = true;
+            updateShowValuesVisibility();
         }
 
         function stopTargetDrag( evt:MouseEvent ):void {
             //trace("stop dragging");
             clickOffset = null;
+
+            mouseDownOnArrow = false;
+            updateShowValuesVisibility();
         }
 
         function dragTarget( evt:MouseEvent ):void {
