@@ -1,3 +1,4 @@
+> Advanced tab: slightly reduced vertical size to fit larger play button
 Intro tab: moved data table up higher
 Intro tab: moved More/Less Data button below data table
 Moved Kinetic Energy readout to top middle in Intro tab
