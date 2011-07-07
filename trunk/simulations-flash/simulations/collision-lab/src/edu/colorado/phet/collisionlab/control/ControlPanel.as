@@ -95,6 +95,10 @@ public class ControlPanel extends Sprite {
         //this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
         this.sub_elasticitySlider.addEventListener( SliderEvent.CHANGE, setElasticity );
 
+        kineticEnergyCheckBox.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
+            showKineticEnergy( e.target.selected );
+        });
+
     }
 
 
@@ -115,6 +119,7 @@ public class ControlPanel extends Sprite {
         //this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
         this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "Sticky" );
         this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "Bouncy" );
+        this.kineticEnergyCheckBoxLabel.text = SimStrings.get( "ControlPanel.kineticEnergy", "Kinetic Energy" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
@@ -198,6 +203,10 @@ public class ControlPanel extends Sprite {
             this.myMainView.myTableView.CM.visible = false;
         }
         //trace("this.showCMOn: "+this.showCMOn);
+    }
+
+    public function showKineticEnergy( visible: Boolean ): void {
+
     }
 
     public function setBorderExists( visible: Boolean ): void {
@@ -297,6 +306,10 @@ public class ControlPanel extends Sprite {
     public function get sub_zeroPercentLabel(): TextField { throw new Error( "abstract" ); }
 
     public function get sub_oneHundredPercentLabel(): TextField { throw new Error( "abstract" ); }
+
+    public function get kineticEnergyCheckBox():CheckBox { throw new Error("abstract"); }
+
+    public function get kineticEnergyCheckBoxLabel():TextField { throw new Error("abstract"); }
 
 }//end of class
 }//end of package
