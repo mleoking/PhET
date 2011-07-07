@@ -5,10 +5,10 @@ package edu.colorado.phet.quantumwaveinterference.view.gun;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.quantumwaveinterference.QWIResources;
-import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
 import edu.colorado.phet.quantumwaveinterference.phetcommon.ImagePComboBox;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.colormaps.ColorData;
