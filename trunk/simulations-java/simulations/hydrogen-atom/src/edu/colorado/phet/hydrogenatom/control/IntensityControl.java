@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
 
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 
 /**
@@ -38,7 +39,7 @@ public class IntensityControl extends JPanel {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private ColorIntensitySlider _slider;
+    private IntensitySlider _slider;
     private JFormattedTextField _formattedTextField;
     private JLabel _units;
     private EventListenerList _listenerList;
@@ -61,7 +62,7 @@ public class IntensityControl extends JPanel {
         _eventSource = this;
         EventHandler listener = new EventHandler();
         
-        _slider = new ColorIntensitySlider( Color.RED, ColorIntensitySlider.HORIZONTAL, size );
+        _slider = new IntensitySlider( Color.RED, IntensitySlider.HORIZONTAL, size );
         _slider.addChangeListener( listener );
         
         _formattedTextField = new JFormattedTextField();
