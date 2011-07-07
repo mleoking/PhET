@@ -1,3 +1,4 @@
+Intro tab: moved data table up higher
 Intro tab: moved More/Less Data button below data table
 Moved Kinetic Energy readout to top middle in Intro tab
 > Increased size of the Kinetic Energy readout
