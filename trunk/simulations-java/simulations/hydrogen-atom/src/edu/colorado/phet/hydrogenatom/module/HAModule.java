@@ -43,7 +43,6 @@ import edu.colorado.phet.hydrogenatom.energydiagrams.SchrodingerEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.energydiagrams.SolarSystemEnergyDiagram;
 import edu.colorado.phet.hydrogenatom.enums.AtomicModel;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
-import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
 import edu.colorado.phet.hydrogenatom.model.*;
 import edu.colorado.phet.hydrogenatom.view.*;
 import edu.colorado.phet.hydrogenatom.view.LegendPanel.LegendNode;
@@ -94,7 +93,7 @@ public class HAModule extends PiccoloModule {
     private JCheckBox _spectrometerCheckBox;
     private PSwing _spectrometerCheckBoxNode;
     private SpectrometerNode _spectrometerNode;
-    private ArrayList _spectrometerSnapshotNodes; // list of SpectrometerSnapshotNode
+    private ArrayList<SpectrometerSnapshotNode> _spectrometerSnapshotNodes;
     private int _spectrometerSnapshotsCounter; // incremented each time a spectrometer snapshot is taken
 
     // Energy Diagrams
@@ -113,14 +112,11 @@ public class HAModule extends PiccoloModule {
     private Font _spectrometerFont;
 
     private HAModel _model;
-    private AbstractHydrogenAtom _atomModel;
-    
+
     private DefaultWiggleMe _wiggleMe;
     private boolean _wiggleMeInitialized = false;
     
     private HAModelViewManager _modelViewManager;
-    
-    private MetastableHandler _metastableHandler;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -297,7 +293,7 @@ public class HAModule extends PiccoloModule {
             } );
 
             // List of snapshots
-            _spectrometerSnapshotNodes = new ArrayList();
+            _spectrometerSnapshotNodes = new ArrayList<SpectrometerSnapshotNode>();
         }
 
         // Energy diagrams
@@ -459,7 +455,6 @@ public class HAModule extends PiccoloModule {
     public void updateCanvasLayout() {
 
         Dimension2D worldSize = _canvas.getWorldSize();
-//        System.out.println( "HAModule.updateCanvasLayout worldSize=" + worldSize );//XXX
         if ( worldSize.getWidth() == 0 || worldSize.getHeight() == 0 ) {
             // canvas hasn't been sized, blow off layout
             return;
@@ -665,68 +660,54 @@ public class HAModule extends PiccoloModule {
         _bohrEnergyDiagram.clearAtom();
         _deBroglieEnergyDiagram.clearAtom();
         _schrodingerEnergyDiagram.clearAtom();
-        
-        if ( _metastableHandler != null ) {
-            _metastableHandler.cleanup();
-            _metastableHandler = null;
-        }
-        
-        if ( _atomModel != null ) {
-            _model.removeModelElement( _atomModel );
-            _atomModel.removePhotonEmittedListener( _spectrometerNode );
-            _atomModel = null;
-        }
-        
+
         Point2D position = _model.getSpace().getCenter();
-        
+
+        AbstractHydrogenAtom atom;
         if ( _modeSwitch.isExperimentSelected() ) {
-            ExperimentModel experimentModel = new ExperimentModel( position );
-            _atomModel = experimentModel;
-            // since Experiment is the same as Schrodinger, we need this to get us out of (2,0,0) state
-            _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), experimentModel );
+            ExperimentModel experimentModel = new ExperimentModel( position, getClock(), _model.getGun() );
+            atom = experimentModel;
         }
         else {
             AtomicModel atomicModel = _atomicModelSelector.getSelection();
             if ( atomicModel == AtomicModel.BILLIARD_BALL ) {
-                _atomModel = new BilliardBallModel( position );
+                atom = new BilliardBallModel( position );
             }
             else if ( atomicModel == AtomicModel.PLUM_PUDDING ) {
-                _atomModel = new PlumPuddingModel( position );
+                atom = new PlumPuddingModel( position );
             }
             else if ( atomicModel == AtomicModel.SOLAR_SYSTEM ) {
                 SolarSystemModel solarSystemModel = new SolarSystemModel( position );
-                _atomModel = solarSystemModel;
+                atom = solarSystemModel;
                 _solarSystemEnergyDiagram.setAtom( solarSystemModel );
             }
             else if ( atomicModel == AtomicModel.BOHR ) {
                 BohrModel bohrModel = new BohrModel( position );
-                _atomModel = bohrModel;
+                atom = bohrModel;
                 _bohrEnergyDiagram.setAtom( bohrModel );
             }
             else if ( atomicModel == AtomicModel.DEBROGLIE ) {
                 DeBroglieModel deBroglieModel = new DeBroglieModel( position );
-                _atomModel = deBroglieModel;
+                atom = deBroglieModel;
                 _deBroglieEnergyDiagram.setAtom( deBroglieModel );
                 _deBroglieViewControlWrapper.setVisible( true );
             }
             else if ( atomicModel == AtomicModel.SCHRODINGER ) {
-                SchrodingerModel schrodingerModel = new SchrodingerModel( position );
-                _atomModel = schrodingerModel;
+                SchrodingerModel schrodingerModel = new SchrodingerModel( position, getClock(), _model.getGun() );
+                atom = schrodingerModel;
                 _schrodingerEnergyDiagram.setAtom( schrodingerModel );
-                // ...to get us out of (2,0,0) state
-                _metastableHandler = new MetastableHandler( getClock(), _model.getGun(), schrodingerModel );
             }
             else { 
                 throw new UnsupportedOperationException( "unsupported atom model: " + atomicModel );
             }
         }
-        
-        assert ( _atomModel != null );
-        _model.addModelElement( _atomModel );
-        _atomModel.addPhotonEmittedListener( _spectrometerNode );
-        
-        int groundState = _atomModel.getGroundState();
-        double[] transitionWavelengths = _atomModel.getTransitionWavelengths( groundState );
+        assert ( atom != null );
+
+        atom.addPhotonListener( _spectrometerNode );
+        _model.setAtom( atom );
+
+        int groundState = atom.getGroundState();
+        double[] transitionWavelengths = atom.getTransitionWavelengths( groundState );
         _gunControlPanel.setTransitionWavelengths( transitionWavelengths );
     }
 
@@ -752,9 +733,7 @@ public class HAModule extends PiccoloModule {
     public void handleSpectrometerCheckBox() {
         final boolean visible = _spectrometerCheckBox.isSelected();
         _spectrometerNode.setVisible( visible );
-        Iterator i = _spectrometerSnapshotNodes.iterator();
-        while ( i.hasNext() ) {
-            SpectrometerSnapshotNode snapshotNode = (SpectrometerSnapshotNode) i.next();
+        for ( SpectrometerSnapshotNode snapshotNode : _spectrometerSnapshotNodes ) {
             snapshotNode.setVisible( visible );
         }
     }

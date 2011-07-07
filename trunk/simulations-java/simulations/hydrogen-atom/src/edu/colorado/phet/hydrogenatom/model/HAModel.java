@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.util.ArrayList;
@@ -29,7 +20,7 @@ import edu.colorado.phet.hydrogenatom.event.*;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedListener, PhotonEmittedListener {
+public class HAModel extends Model implements GunFiredListener, PhotonListener {
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -38,8 +29,8 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
     private Gun _gun;
     private Space _space;
     private AbstractHydrogenAtom _atom;
-    private ArrayList _photons; // array of Photon
-    private ArrayList _alphaParticles; // array of AlphaParticle
+    private ArrayList<Photon> _photons; // array of Photon
+    private ArrayList<AlphaParticle> _alphaParticles; // array of AlphaParticle
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -56,8 +47,8 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
         super.addModelElement( _space );
         
         _atom = null;
-        _photons = new ArrayList();
-        _alphaParticles = new ArrayList();
+        _photons = new ArrayList<Photon>();
+        _alphaParticles = new ArrayList<AlphaParticle>();
     }
     
     //----------------------------------------------------------------------------
@@ -75,6 +66,13 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
     public AbstractHydrogenAtom getAtom() {
         return _atom;
     }
+
+    public void setAtom( AbstractHydrogenAtom atom ) {
+        if ( _atom != null ) {
+            removeModelElement( _atom );
+        }
+        addModelElement( atom );
+    }
     
     //----------------------------------------------------------------------------
     // ModelElement management
@@ -88,18 +86,17 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      */
     public void addModelElement( ModelElement modelElement ) {
         if ( modelElement instanceof Photon ) {
-            _photons.add( modelElement );
+            _photons.add( (Photon)modelElement );
         }
         else if ( modelElement instanceof AlphaParticle ) {
-            _alphaParticles.add( modelElement );
+            _alphaParticles.add( (AlphaParticle)modelElement );
         }
         else if ( modelElement instanceof AbstractHydrogenAtom ) {
             if ( _atom != null ) {
                 throw new IllegalArgumentException( "model already contains an AbstractHydrogenAtom" );
             }
             _atom = (AbstractHydrogenAtom) modelElement;
-            _atom.addPhotonAbsorbedListener( this );
-            _atom.addPhotonEmittedListener( this );
+            _atom.addPhotonListener( this );
         }
         else if ( modelElement instanceof Gun ) {
             throw new IllegalArgumentException( "Gun must be added in constructor" );
@@ -127,8 +124,7 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
             _alphaParticles.remove( modelElement );
         }
         else if ( modelElement == _atom ) {
-            _atom.removePhotonAbsorbedListener( this );
-            _atom.removePhotonEmittedListener( this );
+            _atom.cleanup();
             _atom = null;
         }
         else if ( modelElement == _gun ) {
@@ -176,7 +172,7 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
      * 
      * @param event
      */
-    public void clockTicked( ClockEvent event ) {
+    @Override public void clockTicked( ClockEvent event ) {
         final double dt = event.getSimulationTimeChange();
         _gun.stepInTime( dt );
         _atom.stepInTime( dt );
@@ -242,43 +238,27 @@ public class HAModel extends Model implements GunFiredListener, PhotonAbsorbedLi
     // GunFiredListener implementation
     //----------------------------------------------------------------------------
     
-    /**
-     * When the gun fires a photon, add the photon to the model.
-     * @param event
-     */
+    // When the gun fires a photon, add the photon to the model.
     public void photonFired( GunFiredEvent event ) {
         addModelElement( event.getPhoton() );
     }
     
-    /**
-     * When the gun fires an alpha particle, add the alpha particle to the model.
-     * @param event
-     */
+    // When the gun fires an alpha particle, add the alpha particle to the model.
     public void alphaParticleFired( GunFiredEvent event ) {
         addModelElement( event.getAlphaParticle() );
     }
     
     //----------------------------------------------------------------------------
-    // PhotonAbsorbedListener
+    // PhotonListener
     //----------------------------------------------------------------------------
 
-    /**
-     * When a photon is absorbed, remove it from the model.
-     * @param event
-     */
-    public void photonAbsorbed( PhotonAbsorbedEvent event ) {
-        removeModelElement( event.getPhoton() );
+    // When a photon is absorbed, remove it from the model.
+    public void photonAbsorbed( Photon photon ) {
+        removeModelElement( photon );
     }
 
-    //----------------------------------------------------------------------------
-    // PhotonEmittedListener
-    //----------------------------------------------------------------------------
-
-    /**
-     * When a photon is emitted, add it to the model.
-     * @param event
-     */
-    public void photonEmitted( PhotonEmittedEvent event ) {
-        addModelElement( event.getPhoton() );
+    // When a photon is emitted, add it to the model.
+    public void photonEmitted( Photon photon ) {
+        addModelElement( photon );
     }
 }

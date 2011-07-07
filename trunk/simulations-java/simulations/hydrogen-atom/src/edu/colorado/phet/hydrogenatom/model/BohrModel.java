@@ -16,8 +16,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.hydrogenatom.HAConstants;
-import edu.colorado.phet.hydrogenatom.event.PhotonAbsorbedEvent;
-import edu.colorado.phet.hydrogenatom.event.PhotonEmittedEvent;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
@@ -434,7 +432,7 @@ public class BohrModel extends AbstractHydrogenAtom {
     public static double[] getTransitionWavelengths( double minWavelength, double maxWavelength ) {
         
         // Create the set of wavelengths, include only those between min and max.
-        ArrayList wavelengths = new ArrayList();
+        ArrayList<Double> wavelengths = new ArrayList<Double>();
         int n = getNumberOfStates();
         int g = getGroundState();
         for ( int i = g; i < g + n - 1; i++ ) {
@@ -449,7 +447,7 @@ public class BohrModel extends AbstractHydrogenAtom {
         // Convert to double[]
         double[] array = new double[wavelengths.size()];
         for ( int i = 0; i < wavelengths.size(); i++ ) {
-            array[i] = ( (Double) wavelengths.get( i ) ).doubleValue();
+            array[i] = ( wavelengths.get( i ) ).doubleValue();
         }
         return array;
     }
@@ -520,8 +518,7 @@ public class BohrModel extends AbstractHydrogenAtom {
 
                     // absorb photon
                     success = true;
-                    PhotonAbsorbedEvent event = new PhotonAbsorbedEvent( this, photon );
-                    firePhotonAbsorbedEvent( event );
+                    firePhotonAbsorbedEvent( photon );
 
                     if ( DEBUG_OUTPUT_ENABLED ) {
                         System.out.println( "BohrModel: absorbed photon, wavelength=" + photonWavelength );
@@ -623,9 +620,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                     
                     // Create and emit a photon
                     success = true;
-                    Photon emittedPhoton = new Photon( wavelength, position, orientation, speed, true /* emitted */ );
-                    PhotonEmittedEvent event = new PhotonEmittedEvent( this, emittedPhoton );
-                    firePhotonEmittedEvent( event );
+                    firePhotonEmittedEvent( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
                     
                     if ( DEBUG_OUTPUT_ENABLED ) {
                         System.out.println( "BohrModel: stimulated emission of photon, wavelength=" + wavelength );
@@ -698,9 +693,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 
                 // Create and emit a photon
                 success = true;
-                Photon photon = new Photon( wavelength, position, orientation, speed, true /* emitted */ );
-                PhotonEmittedEvent event = new PhotonEmittedEvent( this, photon );
-                firePhotonEmittedEvent( event );
+                firePhotonEmittedEvent( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
                 
                 if ( DEBUG_OUTPUT_ENABLED ) {
                     System.out.println( "BohrModel: spontaneous emission of photon, wavelength=" + wavelength );
