@@ -113,8 +113,8 @@ public class ControlPanel extends Sprite {
         resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
         updateElasticityValueLabel();
         //this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
-        this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "0%" );
-        this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "100%" );
+        this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "Sticky" );
+        this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "Bouncy" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
