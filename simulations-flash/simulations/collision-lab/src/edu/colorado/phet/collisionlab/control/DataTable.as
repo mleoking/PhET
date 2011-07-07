@@ -49,7 +49,6 @@ public class DataTable extends Sprite {
     //following strings must be internationalized, see function initializeStrings() below
     var addBall_str: String;
     var removeBall_str: String;
-    var moreData_str: String;
     var lessData_str: String;
     var ball_str: String;
     var mass_str: String;
@@ -209,9 +208,8 @@ public class DataTable extends Sprite {
         this.removeBall_str = SimStrings.get( "DataTable.removeBall", "Remove Ball" );
         this.addBallButton.setLabel( this.addBall_str );
         this.removeBallButton.setLabel( this.removeBall_str );
-        this.moreData_str = SimStrings.get( "DataTable.moreData", "More Data" );
         this.lessData_str = SimStrings.get( "DataTable.lessData", "Less Data" );
-        this.moreDataButton.setLabel( this.moreData_str );
+        this.moreDataButton.setLabel( SimStrings.get( "DataTable.moreData", "More Data" ) );
         this.lessDataButton.setLabel( this.lessData_str );
         this.ball_str = SimStrings.get( "DataTable.ball", "ball" );
         this.mass_str = SimStrings.get( "DataTable.mass", "mass" );
@@ -309,7 +307,12 @@ public class DataTable extends Sprite {
         this.removeBallButton_sp.x = 0;
         this.removeBallButton_sp.y = -0.75 * this.addBallButton_sp.height;
         this.moreDataButton_sp.x = 0.5 * this.removeBallButton_sp.width + 0.8 * this.moreDataButton_sp.width;
-        this.moreDataButton_sp.y = -0.75 * this.addBallButton_sp.height;
+        if ( myModel.isIntro ) {
+            this.moreDataButton_sp.y = invisibleBorder.height + 15;
+        }
+        else {
+            this.moreDataButton_sp.y = -0.75 * this.addBallButton_sp.height;
+        }
 
         this.lessDataButton_sp.x = moreDataButton_sp.x;
         this.lessDataButton_sp.y = moreDataButton_sp.y;
