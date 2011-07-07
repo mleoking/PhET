@@ -100,6 +100,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             //Put the button near the other controls, on the right side of the screen
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }} );
+
+        //When sodium or chloride ions are added in the model, add graphics for them in the view
+        model.sodiumList.addItemAddedListener( new ParticleNodeFactory( model.sodiumList, transform, this ) );
+        model.chlorideList.addItemAddedListener( new ParticleNodeFactory( model.chlorideList, transform, this ) );
     }
 
     //Create a user interface element that lets the user choose solutes from a drop-down box

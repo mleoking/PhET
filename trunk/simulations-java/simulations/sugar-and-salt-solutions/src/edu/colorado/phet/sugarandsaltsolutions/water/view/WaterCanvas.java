@@ -185,21 +185,21 @@ public class WaterCanvas extends PhetPCanvas {
                         public void actionPerformed( ActionEvent e ) {
                             if ( jmolDialog == null ) {
                                 jmolDialog = displayMolecule3D( state.frame, new Molecule() {
-                                                                    public String getDisplayName() {
-                                                                        return SugarAndSaltSolutionsResources.Strings.SUGAR;
-                                                                    }
+                                    public String getDisplayName() {
+                                        return SugarAndSaltSolutionsResources.Strings.SUGAR;
+                                    }
 
-                                                                    public int getCID() {
-                                                                        return 5988;
-                                                                    }
+                                    public int getCID() {
+                                        return 5988;
+                                    }
 
-                                                                    public String getCmlData() {
-                                                                        return readPDB();
-                                                                    }
+                                    public String getCmlData() {
+                                        return readPDB();
+                                    }
 
-                                                                    public void fixJmolColors( JmolViewer viewer ) {
-                                                                    }
-                                                                }, "Space fill", "Ball and stick", "Loading..." );
+                                    public void fixJmolColors( JmolViewer viewer ) {
+                                    }
+                                }, "Space fill", "Ball and stick", "Loading..." );
                             }
                             else {
                                 jmolDialog.setVisible( true );

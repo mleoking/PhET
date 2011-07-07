@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.angstromsToMeters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.picometersToMeters;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -67,6 +70,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private final Property<Integer> stepsOfAddingSalt = new Property<Integer>( 0 );
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
     private Box2D myWaterBox = new Box2D();
+
+    //List of sodium ions (Na+)
+    public final ItemList<SphericalParticle> sodiumList = new ItemList<SphericalParticle>();
+    public final ItemList<SphericalParticle> chlorideList = new ItemList<SphericalParticle>();
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -178,7 +185,38 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
     @Override public void addMacroSalt( MacroSalt salt ) {
-        shakeMicroCrystal( stepsOfAddingSalt, salt.position.get(), new SodiumChloride() );
+
+        //Only add a crystal every N steps, otherwise there are too many
+        stepsOfAddingSalt.set( stepsOfAddingSalt.get() + 1 );
+        if ( stepsOfAddingSalt.get() % 10 == 0 ) {
+
+            //Create the sodium and chloride ions and add to the model
+            //TODO: create a lattice and set the locations appropriately
+            //TODO: fix colors and sizes
+            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ), salt.position.get(), Color.green );
+            sodiumList.add( sodium );
+            final double chlorideRadius = angstromsToMeters( 1.75 );
+            final SphericalParticle chloride = new SphericalParticle( chlorideRadius, salt.position.get().plus( sodium.radius + chlorideRadius, 0 ), Color.blue );
+            chlorideList.add( chloride );
+        }
+    }
+
+    //When the simulation clock ticks, move the particles
+    @Override protected void updateModel( double dt ) {
+        super.updateModel( dt );
+        updateParticles( dt, sodiumList );
+        updateParticles( dt, chlorideList );
+    }
+
+    //When the simulation clock ticks, move the particles
+    private void updateParticles( double dt, ItemList<SphericalParticle> list ) {
+        for ( SphericalParticle particle : list ) {
+
+            //Accelerate the particle due to gravity and perform an euler integration step
+            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+            double mass = 1E-10;
+            particle.stepInTime( new ImmutableVector2D( 0, -9.8 ).times( mass ), dt );
+        }
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
