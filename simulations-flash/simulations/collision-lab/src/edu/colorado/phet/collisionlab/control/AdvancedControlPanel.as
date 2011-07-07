@@ -27,6 +27,7 @@ public class AdvancedControlPanel extends ControlPanel {
         this.sub_reflectingBorder_cb.selected = true;
         this.sub_showCM_cb.selected = true;
         this.sub_showPaths_cb.selected = false;
+        this.sub_showValues_cb.selected = false;
     }
 
     override public function initializeComponents(): void {
@@ -44,6 +45,9 @@ public class AdvancedControlPanel extends ControlPanel {
 
         this.sub_showPaths_cb.textField.autoSize = TextFieldAutoSize.LEFT;
         this.sub_showPaths_cb.addEventListener( MouseEvent.CLICK, showOrErasePaths );
+
+        this.sub_showValues_cb.textField.autoSize = TextFieldAutoSize.LEFT;
+        this.sub_showValues_cb.addEventListener( MouseEvent.CLICK, showValues );
     }
 
 
@@ -107,5 +111,7 @@ public class AdvancedControlPanel extends ControlPanel {
     override public function get sub_zeroPercentLabel(): TextField { return zeroPercentLabel; }
 
     override public function get sub_oneHundredPercentLabel(): TextField { return oneHundredPercentLabel; }
+
+    public function get sub_showValues_cb(): CheckBox { return showValues_cb; }
 }
 }

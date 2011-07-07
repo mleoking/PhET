@@ -25,6 +25,15 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="flash-adobe" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://C:/Program Files/Adobe/Adobe Flash CS4/Common/Configuration/ActionScript 3.0/libs/flash.swc!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
