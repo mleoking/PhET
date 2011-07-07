@@ -4,11 +4,11 @@
 package edu.colorado.phet.quantumwaveinterference.modules.mandel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
+import edu.colorado.phet.common.phetcommon.view.controls.IntensitySlider;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ConnectorNode;
 import edu.colorado.phet.common.piccolophet.util.PImageFactory;
-import edu.colorado.phet.quantumwaveinterference.controls.IntensitySlider;
 import edu.colorado.phet.quantumwaveinterference.controls.SRRWavelengthSlider;
 import edu.colorado.phet.quantumwaveinterference.view.QWIPanel;
 import edu.colorado.phet.quantumwaveinterference.view.gun.*;
@@ -32,7 +32,7 @@ import java.util.ArrayList;
 public class MandelGun extends PhetPNode {
     private PImage pimage;
     private GunControlPanel gunControlPanel;
-    private ArrayList listeners = new ArrayList();
+    private ArrayList<Listener> listeners = new ArrayList<Listener>();
     private IntensitySlider intensitySlider;
     private SRRWavelengthSlider wavelengthSliderGraphic;
     private boolean on = false;
@@ -92,14 +92,14 @@ public class MandelGun extends PhetPNode {
 
     private void fireColorChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+            Listener listener = listeners.get( i );
             listener.wavelengthChanged();
         }
     }
 
     private void fireIntensityChanged() {
         for( int i = 0; i < listeners.size(); i++ ) {
-            Listener listener = (Listener)listeners.get( i );
+            Listener listener = listeners.get( i );
             listener.intensityChanged();
         }
     }

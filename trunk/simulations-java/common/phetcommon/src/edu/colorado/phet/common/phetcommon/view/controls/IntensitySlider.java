@@ -165,6 +165,8 @@ public class IntensitySlider extends JPanel implements ChangeListener {
      */
     public void setColor( Color color ) {
         this._color = color;
+        revalidate();
+        repaint();
     }
 
     //----------------------------------------------------------------------------
