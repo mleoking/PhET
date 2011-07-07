@@ -58,6 +58,7 @@ public class AdvancedControlPanel extends ControlPanel {
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.2d", "2 Dimensions", sub_twoD_txt, sub_twoD_rb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.reflectingBorder", "Reflecting Border", sub_reflectingBorder_label, sub_reflectingBorder_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showPaths", "Show Paths", sub_showPaths_label, sub_showPaths_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showValues", "Show Values", sub_showValues_label, sub_showValues_cb );
     }
 
     override public function get sub_resetButton_sp(): MovieClip { return resetButton_sp; }
@@ -111,6 +112,8 @@ public class AdvancedControlPanel extends ControlPanel {
     override public function get sub_zeroPercentLabel(): TextField { return zeroPercentLabel; }
 
     override public function get sub_oneHundredPercentLabel(): TextField { return oneHundredPercentLabel; }
+
+    public function get sub_showValues_label(): TextField { return showValues_label; }
 
     public function get sub_showValues_cb(): CheckBox { return showValues_cb; }
 
