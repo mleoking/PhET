@@ -48,4 +48,9 @@
 	<string key="TableView.timeRate" value="Time Rate"/>
     <string key="TableView.time" value="Time = {0} s"/>
     <string key="TableView.returnBalls" value="Return Balls"/>
+
+    <string key="ShowValues.velocityCaption" value="Velocity (m/s)"/>
+    <string key="ShowValues.velocityReadout" value="v = {0}"/>
+    <string key="ShowValues.momentumCaption" value="Momentum (kg m/s)"/>
+    <string key="ShowValues.momentumReadout" value="p = {0}"/>
 </SimStrings>
