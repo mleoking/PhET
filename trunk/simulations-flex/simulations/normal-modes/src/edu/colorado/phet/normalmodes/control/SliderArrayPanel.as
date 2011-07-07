@@ -7,6 +7,7 @@
  */
 //Array of VerticalSliders, two sliders for each mode: amplitude and phase
 package edu.colorado.phet.normalmodes.control {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
 import edu.colorado.phet.normalmodes.model.Model1;
@@ -15,6 +16,7 @@ import edu.colorado.phet.normalmodes.view.MainView;
 import flash.display.Graphics;
 
 import flash.display.Sprite;
+import flash.text.Font;
 import flash.text.TextField;
 import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
@@ -47,8 +49,9 @@ public class SliderArrayPanel extends UIComponent {
     private var tFormat1:TextFormat;
     private var mode_str:String;
     private var amplitude_str:String;
-    private var phase_str:String;
     private var frequency_str:String;
+    private var omega0_str:String;
+    private var phase_str:String;
     private var plusPi_str:String;
     private var minusPi_str:String;
 
@@ -119,6 +122,7 @@ public class SliderArrayPanel extends UIComponent {
         this.mode_str = "Normal Mode:";
         this.amplitude_str = "Amplitude:";
         this.frequency_str = "Frequency:"
+        this.omega0_str = "w";
         this.phase_str = "Phase:";
         this.plusPi_str = "+pi";
         this.minusPi_str = "-pi";
@@ -193,29 +197,39 @@ public class SliderArrayPanel extends UIComponent {
 
     private function createFrequencyLabels():void{
         //label showing frequency of mode at bottom of each amplitude slider
-        var tFormat3 = new TextFormat();
-        tFormat3.align = TextFormatAlign.CENTER;
-        tFormat3.size = 15;
-        tFormat3.font = "Arial";
-        tFormat3.color = 0x000000;
+        var tFormatGreek = new TextFormat();
+        tFormatGreek.align = TextFormatAlign.CENTER;
+        tFormatGreek.font = "Symbol";
+        tFormatGreek.size = 15;
+        tFormatGreek.color = 0x000000;
         for ( var i:int = 0; i < this.myModel1.nMax; i++ ){
             var freq_txt:TextField = new TextField();
             freq_txt.text = this.myModel1.modeOmega_arr[ 0 ].toFixed(2);   //need a height to establish layout
-            freq_txt.autoSize = TextFieldAutoSize.RIGHT;
-            freq_txt.setTextFormat( tFormat3 );
+            freq_txt.autoSize = TextFieldAutoSize.CENTER;
+            freq_txt.setTextFormat( tFormatGreek );
+            freq_txt.defaultTextFormat = tFormatGreek;
             this.ampliSlider_arr[ i ].addChild( freq_txt );
             this.freqLabelIndex = this.ampliSlider_arr[i].getChildIndex( freq_txt );
             freq_txt.x = - freq_txt.width/2;
-            freq_txt.y = this.ampliSlider_arr[ i ].height - this.frequency_txt.height;
+            freq_txt.y = this.ampliSlider_arr[ i ].height - 1.3*this.frequency_txt.height;
         }
     }//end createFrequencyLabels()
 
     private function setFrequencyLabels():void{
         //must be called whenever number of masses is changed
         for ( var i:int = 0; i < this.myModel1.N; i++ ){
-            this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex ).text = this.myModel1.modeOmega_arr[i].toFixed(2);
+            var freq_txt:TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
+            var freqValue_str:String = this.myModel1.modeOmega_arr[i].toFixed(2);
+            freq_txt.text =  FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
+            var tFormatArial:TextFormat = new TextFormat();
+            tFormatArial.font = "Arial";
+            tFormatArial.size = 15;
+            tFormatArial.color = 0x000000;
+            var nbrChars:int = freq_txt.length;
+            freq_txt.setTextFormat( tFormatArial, 0, nbrChars - 1 );
         }
     }
+
 
     //Arrange the layout of sliders, called whenever number of masses is changed
     public function locateSlidersAndLabels():void{
@@ -226,7 +240,7 @@ public class SliderArrayPanel extends UIComponent {
         for(var i:int = 0; i < nbrSliders; i++){
             this.ampliSlider_arr[i].visible = true;
             this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
-            this.phaseSlider_arr[i].y =  1.0*this.ampliSlider_arr[i].height - 20;
+            this.phaseSlider_arr[i].y =  1.0*this.ampliSlider_arr[i].height - 30;
             //this.phaseSlider_arr[i].visible = false;
             this.phaseSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
         }
@@ -240,7 +254,7 @@ public class SliderArrayPanel extends UIComponent {
         this.modeLabel_txt.y = -38;
         this.amplitudeLabel_txt.y = +30
         this.frequency_txt.y = this.phaseSlider_arr[0].height;
-        this.phaseLabel_txt.y = +160;
+        this.phaseLabel_txt.y = +190;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
         this.frequency_txt.x = leftEdgeOfSliders - this.frequency_txt.width;
