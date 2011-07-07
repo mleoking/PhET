@@ -104,7 +104,7 @@ public class AdvancedControlPanel extends ControlPanel {
 
     override public function get sub_sound_label(): TextField { return sound_label; }
 
-    override public function get sub_elasticityValueLabel(): TextField { return elasticityValueLabel; }
+    //override public function get sub_elasticityValueLabel(): TextField { return elasticityValueLabel; }
 
     override public function get sub_elasticityLabel(): TextField { return elasticityLabel; }
 
