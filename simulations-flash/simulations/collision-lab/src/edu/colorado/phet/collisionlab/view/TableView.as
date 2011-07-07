@@ -220,7 +220,7 @@ public class TableView extends Sprite {
         tFormat.font = "Arial";
         tFormat.bold = true;
         tFormat.color = 0x000000;
-        tFormat.size = 12;
+        tFormat.size = 14;
         this.totKEText.defaultTextFormat = tFormat;
         //this.timeText.setTextFormat(tFormat);
         this.canvas.addChild( this.totKEText );

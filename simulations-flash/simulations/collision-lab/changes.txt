@@ -1,3 +1,4 @@
+> Increased size of the Kinetic Energy readout
 > Added checkbox to toggle "Kinetic Energy" visibility
 Minor control panel layout changes
 > Changed 0% and 100% marks on the elasticity slider to "Sticky" and "Bouncy".
