@@ -204,7 +204,7 @@ public class SliderArrayPanel extends UIComponent {
         tFormatGreek.color = 0x000000;
         for ( var i:int = 0; i < this.myModel1.nMax; i++ ){
             var freq_txt:TextField = new TextField();
-            freq_txt.text = this.myModel1.modeOmega_arr[ 0 ].toFixed(2);   //need a height to establish layout
+            freq_txt.text = this.myModel1.freqDividedByOmega_arr[ 0 ].toFixed(2);   //need a height to establish layout
             freq_txt.autoSize = TextFieldAutoSize.CENTER;
             freq_txt.setTextFormat( tFormatGreek );
             freq_txt.defaultTextFormat = tFormatGreek;
@@ -219,7 +219,7 @@ public class SliderArrayPanel extends UIComponent {
         //must be called whenever number of masses is changed
         for ( var i:int = 0; i < this.myModel1.N; i++ ){
             var freq_txt:TextField = this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex );
-            var freqValue_str:String = this.myModel1.modeOmega_arr[i].toFixed(2);
+            var freqValue_str:String = this.myModel1.freqDividedByOmega_arr[i].toFixed(2);
             freq_txt.text =  FlexSimStrings.get("freq omega", "{0}w",[freqValue_str]);
             var tFormatArial:TextFormat = new TextFormat();
             tFormatArial.font = "Arial";

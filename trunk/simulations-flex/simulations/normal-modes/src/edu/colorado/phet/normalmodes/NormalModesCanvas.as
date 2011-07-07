@@ -6,6 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes {
+import edu.colorado.phet.normalmodes.view.MainView;
+
 import flash.events.Event;
 
 import mx.containers.Canvas;
@@ -22,14 +24,18 @@ public class NormalModesCanvas extends Canvas {
         setStyle( "backgroundColor", 0xffff99 );//same color as build an atom
         percentWidth = 100;
         percentHeight = 100;
-        const res: NormalModes = new NormalModes( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
-        addChild( res );
+        //const res: NormalModes = new NormalModes( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
+        const myMainView : MainView = new MainView( RENDER_WIDTH, RENDER_HEIGHT )
+        this.addChild( myMainView );
+       // addChild( res );
         const listener: Function = function( event: Event ): void {
             const sx = stage.stageWidth / RENDER_WIDTH;
             const sy = stage.stageHeight / RENDER_HEIGHT;
 
-            res.scaleX = Math.min( sx, sy );
-            res.scaleY = Math.min( sx, sy );
+            myMainView.scaleX = Math.min( sx, sy );
+            myMainView.scaleY = Math.min( sx, sy );
+            //res.scaleX = Math.min( sx, sy );
+            //res.scaleY = Math.min( sx, sy );
         };
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );

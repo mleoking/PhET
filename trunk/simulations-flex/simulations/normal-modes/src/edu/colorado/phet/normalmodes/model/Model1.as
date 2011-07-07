@@ -29,7 +29,8 @@ public class Model1 {
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
     private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
-    public var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
+    private var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
+    public var freqDividedByOmega_arr:Array;  //frequency coefficients
     private var modeAmpli_arr:Array;//array of normal mode amplitudes
     private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMassIndex:int;      //index of mass grabbed by mouse
@@ -53,6 +54,7 @@ public class Model1 {
         this.a_arr = new Array(_nMax + 2);
         this.aPre_arr = new Array(_nMax + 2);
         this.modeOmega_arr = new Array( _nMax );
+        this.freqDividedByOmega_arr = new Array( _nMax );
         this.modeAmpli_arr = new Array( _nMax );
         this.modePhase_arr = new Array( _nMax );
         this.initialize();
@@ -111,6 +113,7 @@ public class Model1 {
         for(var i:int = 0; i < _N; i++){
             var j:int = i + 1;
             modeOmega_arr[i] = 2*omega0*Math.sin( j*Math.PI/(2*(_N + 1 )));
+            freqDividedByOmega_arr[i] = modeOmega_arr[i]/omega0;
         }
     }
 
@@ -126,7 +129,6 @@ public class Model1 {
 
     //SETTERS and GETTERS
     public function setN(nbrOfMobileMasses:int):void{
-
         if(nbrOfMobileMasses > this._nMax){
             this._N = this._nMax;
             trace("ERROR: nbr of masses too high");
@@ -136,7 +138,7 @@ public class Model1 {
         }else{
            this._N = nbrOfMobileMasses;
         }
-        trace("Model1.setN called N = " + this._N);
+        //trace("Model1.setN called N = " + this._N);
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
         this._nChanged = true;

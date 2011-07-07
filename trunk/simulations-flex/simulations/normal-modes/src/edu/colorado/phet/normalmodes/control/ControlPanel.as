@@ -45,13 +45,13 @@ public class ControlPanel extends Canvas {
 
     //one D or two D radio buttons
     private var innerBckgrnd2: HBox;
-    private var dimensionButtonHBox:HBox;
-    private var oneDtwoDMode_rbg: RadioButtonGroup;
-    private var oneDModeButton: RadioButton;
-    private var twoDModeButton: RadioButton;
-    private var oneDLabel: NiceLabel;
-    private var spacerLabel: NiceLabel;
-    private var twoDLabel: NiceLabel;
+    //private var dimensionButtonHBox:HBox;
+    //private var oneDtwoDMode_rbg: RadioButtonGroup;
+    //private var oneDModeButton: RadioButton;
+    //private var twoDModeButton: RadioButton;
+    //private var oneDLabel: NiceLabel;
+    //private var spacerLabel: NiceLabel;
+    //private var twoDLabel: NiceLabel;
 
     private var innerBckgrnd3:HBox;
     private var showPhasesCheckBox: CheckBox;
@@ -125,6 +125,7 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign" , "left" );
         }
 
+        /*
         this.dimensionButtonHBox = new HBox();
         with (this.dimensionButtonHBox ){
             setStyle( "backgroundColor", 0xdddd00 );
@@ -140,7 +141,7 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingLeft", 8 );
             setStyle( "horizontalGap", 0 );
             setStyle( "horizontalAlign" , "center" );
-        }
+        }  */
 
         this.innerBckgrnd2 = new HBox();
         with ( this.innerBckgrnd1 ) {
@@ -188,6 +189,7 @@ public class ControlPanel extends Canvas {
         this.upDownModeButton.selected = false;
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
 
+        /*
          //1D vs. 2D radio button box
         this.oneDtwoDMode_rbg = new RadioButtonGroup();
         this.oneDModeButton = new RadioButton();
@@ -204,6 +206,7 @@ public class ControlPanel extends Canvas {
         this.oneDLabel = new NiceLabel( 12, oneD_str );
         this.spacerLabel = new NiceLabel(12, "    " );
         this.twoDLabel = new NiceLabel( 12, twoD_str );
+        */
 
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
@@ -222,13 +225,15 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
 
+        /*
         //one D vs. two D radio buttons
-        this.background.addChild( this.dimensionButtonHBox );
+        //this.background.addChild( this.dimensionButtonHBox );
         this.dimensionButtonHBox.addChild( this.oneDModeButton );
         this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.oneDLabel, true ) );
         this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.spacerLabel, true ) );
         this.dimensionButtonHBox.addChild( this.twoDModeButton );
         this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.twoDLabel, true) );
+        */
 
         //Mode type radio buttons
         this.background.addChild( this.innerBckgrnd1 );
@@ -308,6 +313,7 @@ public class ControlPanel extends Canvas {
         }
     }
 
+    /*
     private function click1DOr2D( evt: Event ):void {
        var val: Object = this.oneDtwoDMode_rbg.selectedValue;
         if ( val == 1 ) {
@@ -317,7 +323,7 @@ public class ControlPanel extends Canvas {
             this.myMainView.set1DOr2D( 2 );
         }
         this.oneDMode = this.myMainView.oneDMode;
-    }
+    } */
 
     private function clickShowPhases( evt:Event ):void{
         var shown: Boolean = this.showPhasesCheckBox.selected;
