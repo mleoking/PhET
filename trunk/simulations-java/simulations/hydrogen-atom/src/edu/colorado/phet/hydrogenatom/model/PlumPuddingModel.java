@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Line2D;
@@ -46,6 +37,8 @@ import edu.colorado.phet.hydrogenatom.util.RandomUtils;
  * the electron completes its current oscillation cycles,
  * coming to rest at the atoms center.
  * Alpha particles are not emitted.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PlumPuddingModel extends AbstractHydrogenAtom {
     
@@ -260,7 +253,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
                 if ( _randomAbsorption.nextDouble() < PHOTON_ABSORPTION_PROBABILITY ) {
                     _numberOfPhotonsAbsorbed++;
                     assert( _numberOfPhotonsAbsorbed <= MAX_PHOTONS_ABSORBED );
-                    firePhotonAbsorbedEvent( photon );
+                    firePhotonAbsorbed( photon );
                     absorbed = true;
                 }
             }
@@ -285,7 +278,7 @@ public class PlumPuddingModel extends AbstractHydrogenAtom {
             double speed = HAConstants.PHOTON_INITIAL_SPEED;
             
             // Create and emit a photon
-            firePhotonEmittedEvent( new Photon( PHOTON_EMISSION_WAVELENGTH, position, orientation, speed, true /* emitted */ ) );
+            firePhotonEmitted( new Photon( PHOTON_EMISSION_WAVELENGTH, position, orientation, speed, true /* emitted */ ) );
         }
     }
     

@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.view;
 
 import java.awt.BasicStroke;
@@ -22,7 +13,6 @@ import java.util.*;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.hydrogenatom.model.AlphaParticle;
 import edu.colorado.phet.hydrogenatom.model.Model;
-import edu.colorado.phet.hydrogenatom.model.Model.ModelEvent;
 import edu.colorado.phet.hydrogenatom.model.Model.ModelListener;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -43,7 +33,6 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * is updates and drawn for every alpha particle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class TracesNode extends PhetPNode implements ModelListener, Observer {
 
@@ -65,7 +54,7 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
     //----------------------------------------------------------------------------
     
     private Model _model;
-    private HashMap _pathMap; // maps AlphaParticle to GeneralPath (view coordinates)
+    private HashMap<AlphaParticle, GeneralPath> _pathMap;
     private boolean _enabled;
     
     //----------------------------------------------------------------------------
@@ -82,7 +71,7 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
         setPickable( false );
         setChildrenPickable( false );
         _model = model;
-        _pathMap = new HashMap();
+        _pathMap = new HashMap<AlphaParticle, GeneralPath>();
         _enabled = false;
     }
     
@@ -166,15 +155,12 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
     // ModelListener implementation
     //----------------------------------------------------------------------------
     
-    /**
+    /*
      * When an AlphaParticle is added to the model, this method
      * creates a new GeneralPath for the particle, and starts observing
      * the particle's motion.
-     * 
-     * @param event
      */
-    public void modelElementAdded( ModelEvent event ) {
-        ModelElement modelElement = event.getModelElement();
+    public void modelElementAdded( ModelElement modelElement ) {
         if ( modelElement instanceof AlphaParticle ) {
             AlphaParticle alphaParticle = (AlphaParticle) modelElement;
             alphaParticle.addObserver( this );
@@ -186,13 +172,12 @@ public class TracesNode extends PhetPNode implements ModelListener, Observer {
         }
     }
 
-    /**
+    /*
      * When an AlphaParticle is removed from the model, this method
      * stops observing the particle's motion and (depending on the value
      * of TRACES_PERSIST) removes the particle's GeneralPath.
      */
-    public void modelElementRemoved( ModelEvent event ) {
-        ModelElement modelElement = event.getModelElement();
+    public void modelElementRemoved( ModelElement modelElement ) {
         if ( modelElement instanceof AlphaParticle ) {
             AlphaParticle alphaParticle = (AlphaParticle) modelElement;
             alphaParticle.deleteObserver( this );

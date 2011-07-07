@@ -1,31 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.enums.GunMode;
 import edu.colorado.phet.hydrogenatom.enums.LightType;
-import edu.colorado.phet.hydrogenatom.event.GunFiredEvent;
-import edu.colorado.phet.hydrogenatom.event.GunFiredListener;
 
 /**
  * Gun is the model of a gun that can fire either photons or alpha particles.
@@ -36,7 +23,6 @@ import edu.colorado.phet.hydrogenatom.event.GunFiredListener;
  * When firing alpha particles, it shoots alpha particles with some intensity.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class Gun extends FixedObject implements ModelElement {
     
@@ -87,7 +73,7 @@ public class Gun extends FixedObject implements ModelElement {
     private Random _randomPosition; // random number generator for photon position
     private Random _randomCenterFire; // determines whether to fire from center of gun
     
-    private EventListenerList _listenerList;
+    private ArrayList<GunListener> _listeners;
     
     private AffineTransform _transform; // reusable transform
     
@@ -129,7 +115,7 @@ public class Gun extends FixedObject implements ModelElement {
         _dtSinceGunFired = 0;
         setMaxParticles( 20 );
         
-        _listenerList = new EventListenerList();
+        _listeners = new ArrayList<GunListener>();
         
         _transform = new AffineTransform();
         
@@ -453,12 +439,8 @@ public class Gun extends FixedObject implements ModelElement {
         double orientation = getOrientation();
         double speed = HAConstants.PHOTON_INITIAL_SPEED;
 
-        // Create the photon
-        Photon photon = new Photon( wavelength, position, orientation, speed );
-
-        // Fire the photon
-        GunFiredEvent event = new GunFiredEvent( this, photon );
-        firePhotonFiredEvent( event );
+        // Fire a new photon
+        firePhotonFired( new Photon( wavelength, position, orientation, speed ) );
     }
     
     /*
@@ -480,12 +462,8 @@ public class Gun extends FixedObject implements ModelElement {
             double speed = HAConstants.PHOTON_INITIAL_SPEED;
             double wavelength = getRandomWavelength();
 
-            // Create the photon
-            Photon photon = new Photon( wavelength, position, orientation, speed );
-
-            // Fire the photon
-            GunFiredEvent event = new GunFiredEvent( this, photon );
-            firePhotonFiredEvent( event );
+            // Fire a new photon
+            firePhotonFired( new Photon( wavelength, position, orientation, speed ) );
         }
     }
     
@@ -509,64 +487,41 @@ public class Gun extends FixedObject implements ModelElement {
             
             double speed = HAConstants.ALPHA_PARTICLE_INITIAL_SPEED;
 
-            // Create the alpha particle
-            AlphaParticle alphaParticle = new AlphaParticle( position, orientation, speed );
-
-            // Fire the alpha particle
-            GunFiredEvent event = new GunFiredEvent( this, alphaParticle );
-            fireAlphaParticleFiredEvent( event );
+            // Fire a new alpha particle
+            fireAlphaParticleFired( new AlphaParticle( position, orientation, speed ) );
         }
     }
     
     //----------------------------------------------------------------------------
-    // GunFiredListener
+    // GunListener
     //----------------------------------------------------------------------------
-    
-    /**
-     * Adds a GunFiredListener.
-     *
-     * @param listener the listener
-     */
-    public void addGunFiredListener( GunFiredListener listener ) {
-        _listenerList.add( GunFiredListener.class, listener );
+
+    public interface GunListener {
+
+        public void photonFired( Photon photon );
+
+        public void alphaParticleFired( AlphaParticle alphaParticle );
     }
 
-    /**
-     * Removes a GunFiredListener.
-     *
-     * @param listener the listener
-     */
-    public void removeGunFiredListener( GunFiredListener listener ) {
-        _listenerList.remove( GunFiredListener.class, listener );
+    public void addGunFiredListener( GunListener listener ) {
+        _listeners.add( listener );
     }
 
-    /*
-     * Fires a GunFiredEvent when a photon is fired.
-     *
-     * @param event the event
-     */
-    private void firePhotonFiredEvent( GunFiredEvent event ) {
-        assert( event.getPhoton() != null );
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == GunFiredListener.class ) {
-                ( (GunFiredListener)listeners[i + 1] ).photonFired( event );
-            }
+    public void removeGunFiredListener( GunListener listener ) {
+        _listeners.remove( listener );
+    }
+
+    // Fires when a photon is fired.
+    private void firePhotonFired( Photon photon ) {
+        for ( GunListener listener : new ArrayList<GunListener>( _listeners ) ) {
+            listener.photonFired( photon );
         }
     }
     
-    /*
-     * Fires a GunFiredEvent when an alpha particle is fired.
-     *
-     * @param event the event
-     */
-    private void fireAlphaParticleFiredEvent( GunFiredEvent event ) {
-        assert( event.getAlphaParticle() != null );
-        Object[] listeners = _listenerList.getListenerList();
-        for( int i = 0; i < listeners.length; i += 2 ) {
-            if( listeners[i] == GunFiredListener.class ) {
-                ( (GunFiredListener)listeners[i + 1] ).alphaParticleFired( event );
-            }
+    // Fires when an alpha particle is fired.
+    private void fireAlphaParticleFired( AlphaParticle alphaParticle ) {
+        for ( GunListener listener : new ArrayList<GunListener>( _listeners ) ) {
+            listener.alphaParticleFired( alphaParticle );
         }
     }
 }

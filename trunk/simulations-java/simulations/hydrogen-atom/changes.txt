@@ -1,3 +1,5 @@
+7/7/11 #2803, more simplification of atom and gun listener interfaces
+7/7/11 #2803, add Array<T> to modified files to suppress warnings
 7/7/11 #2803, simplify listener interface for photon absorption and emission
 7/7/11 #2803, make MetaStableHandler a field in SchrodingerModel
 7/7/11 #2803, add logger to MetaStableHandler, replace hardcoded state values with constants

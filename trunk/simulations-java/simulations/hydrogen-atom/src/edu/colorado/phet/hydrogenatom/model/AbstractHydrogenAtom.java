@@ -5,10 +5,7 @@ package edu.colorado.phet.hydrogenatom.model;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import javax.swing.event.EventListenerList;
-
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
-import edu.colorado.phet.hydrogenatom.event.PhotonListener;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
 import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
 
@@ -16,7 +13,6 @@ import edu.colorado.phet.hydrogenatom.view.particle.PhotonNode;
  * AbstractHydrogenAtom is the base class for all hydrogen atom models.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public abstract class AbstractHydrogenAtom extends FixedObject implements ModelElement {
 
@@ -43,7 +39,7 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     // Instance data
     //----------------------------------------------------------------------------
 
-    private ArrayList<PhotonListener> _photonListeners;
+    private ArrayList<AtomListener> _listeners;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -57,11 +53,11 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
      */
     public AbstractHydrogenAtom( Point2D position, double orientation ) {
         super( position, orientation );
-        _photonListeners = new ArrayList<PhotonListener>();
+        _listeners = new ArrayList<AtomListener>();
     }
 
     public void cleanup() {
-        removeAllPhotonListeners();
+        removeAllAtomListeners();
     }
 
     //----------------------------------------------------------------------------
@@ -166,31 +162,38 @@ public abstract class AbstractHydrogenAtom extends FixedObject implements ModelE
     public void stepInTime( double dt ) {}
     
     //----------------------------------------------------------------------------
-    // PhotonListener
+    // AtomListener
     //----------------------------------------------------------------------------
 
-    public void addPhotonListener( PhotonListener listener ) {
-        _photonListeners.add( listener );
+    public interface AtomListener {
+
+        public void photonAbsorbed( Photon photon );
+
+        public void photonEmitted( Photon photon );
     }
 
-    public void removePhotonListener( PhotonListener listener ) {
-        _photonListeners.remove( listener );
+    public void addAtomListener( AtomListener listener ) {
+        _listeners.add( listener );
     }
 
-    public void removeAllPhotonListeners() {
-        _photonListeners.clear();
+    public void removeAtomListener( AtomListener listener ) {
+        _listeners.remove( listener );
+    }
+
+    public void removeAllAtomListeners() {
+        _listeners.clear();
     }
 
     // Fires when a photon is absorbed.
-    protected void firePhotonAbsorbedEvent( Photon photon ) {
-        for ( PhotonListener listener : new ArrayList<PhotonListener>( _photonListeners ) ) {
+    protected void firePhotonAbsorbed( Photon photon ) {
+        for ( AtomListener listener : new ArrayList<AtomListener>( _listeners ) ) {
             listener.photonAbsorbed( photon );
         }
     }
 
     // Fires when a photon is emitted.
-    protected void firePhotonEmittedEvent( Photon photon ) {
-        for ( PhotonListener listener : new ArrayList<PhotonListener>( _photonListeners ) ) {
+    protected void firePhotonEmitted( Photon photon ) {
+        for ( AtomListener listener : new ArrayList<AtomListener>( _listeners ) ) {
             listener.photonEmitted( photon );
         }
     }

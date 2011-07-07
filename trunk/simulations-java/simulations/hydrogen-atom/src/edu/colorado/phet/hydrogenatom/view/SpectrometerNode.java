@@ -46,7 +46,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.hydrogenatom.HAConstants;
 import edu.colorado.phet.hydrogenatom.HAResources;
 import edu.colorado.phet.hydrogenatom.control.CloseButtonNode;
-import edu.colorado.phet.hydrogenatom.event.PhotonListener;
+import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom.AtomListener;
 import edu.colorado.phet.hydrogenatom.model.Photon;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -70,7 +70,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SpectrometerNode extends PhetPNode implements PhotonListener {
+public class SpectrometerNode extends PhetPNode implements AtomListener {
 
     //----------------------------------------------------------------------------
     // Debug
@@ -537,7 +537,7 @@ public class SpectrometerNode extends PhetPNode implements PhotonListener {
     }
 
     //----------------------------------------------------------------------------
-    // PhotonListener implementation
+    // AtomListener implementation
     //----------------------------------------------------------------------------
 
     public void photonAbsorbed( Photon photon ) {

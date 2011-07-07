@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.hydrogenatom.model;
 
 import java.awt.geom.Point2D;
@@ -44,6 +35,8 @@ import edu.colorado.phet.hydrogenatom.util.RandomUtils;
  * the could have been absorbed in a lower state.  In this case, the 
  * colliding photon is not aborbed, but a new photon is emitted with 
  * the same wavelength, and the electron moves to the lower state.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class BohrModel extends AbstractHydrogenAtom {
 
@@ -518,7 +511,7 @@ public class BohrModel extends AbstractHydrogenAtom {
 
                     // absorb photon
                     success = true;
-                    firePhotonAbsorbedEvent( photon );
+                    firePhotonAbsorbed( photon );
 
                     if ( DEBUG_OUTPUT_ENABLED ) {
                         System.out.println( "BohrModel: absorbed photon, wavelength=" + photonWavelength );
@@ -620,7 +613,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                     
                     // Create and emit a photon
                     success = true;
-                    firePhotonEmittedEvent( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
+                    firePhotonEmitted( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
                     
                     if ( DEBUG_OUTPUT_ENABLED ) {
                         System.out.println( "BohrModel: stimulated emission of photon, wavelength=" + wavelength );
@@ -693,7 +686,7 @@ public class BohrModel extends AbstractHydrogenAtom {
                 
                 // Create and emit a photon
                 success = true;
-                firePhotonEmittedEvent( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
+                firePhotonEmitted( new Photon( wavelength, position, orientation, speed, true /* emitted */ ) );
                 
                 if ( DEBUG_OUTPUT_ENABLED ) {
                     System.out.println( "BohrModel: spontaneous emission of photon, wavelength=" + wavelength );
