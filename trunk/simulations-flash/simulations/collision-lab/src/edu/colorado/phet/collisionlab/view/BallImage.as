@@ -173,8 +173,9 @@ public class BallImage extends Sprite {
     }
 
     public function updateReadouts():void {
+        // TODO: i18n
         velocityReadoutText.text = "Velocity (m/s)\nv = " + this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 );
-        momentumReadoutText.text = "Momentum (kgm/s)\np = " + this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 );
+        momentumReadoutText.text = "Momentum (kg m/s)\np = " + this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 );
     }
 
     public function setReadoutsVisible( visible:Boolean ):void {
