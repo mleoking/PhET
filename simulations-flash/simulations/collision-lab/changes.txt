@@ -1,3 +1,4 @@
+Show values checkbox added to advanced tab
 # 1.00.02 (48574) Feb 2, 2011
 Added initial version of velocity and momentum readouts on balls. Available through mouse-over, or "Show Values" on intro tab
 Added ball color behind ball numbers in the data table
