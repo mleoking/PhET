@@ -15,6 +15,8 @@ import edu.colorado.phet.collisionlab.model.Ball;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.TwoVector;
 
+import edu.colorado.phet.flashcommon.SimStrings;
+
 import flash.display.*;
 import flash.events.*;
 import flash.filters.*;
@@ -174,8 +176,12 @@ public class BallImage extends Sprite {
 
     public function updateReadouts():void {
         // TODO: i18n
-        velocityReadoutText.text = "Velocity (m/s)\nv = " + this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 );
-        momentumReadoutText.text = "Momentum (kg m/s)\np = " + this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 );
+        var vCaption = SimStrings.get("ShowValues.velocityCaption", "Velocity (m/s)");
+        var vReadout = SimStrings.get("ShowValues.velocityReadout", "v = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 )]);
+        var pCaption = SimStrings.get("ShowValues.momentumCaption", "Momentum (kg m/s)");
+        var pReadout = SimStrings.get("ShowValues.momentumReadout", "p = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 )]);
+        velocityReadoutText.text = vCaption + "\n" + vReadout;
+        momentumReadoutText.text = pCaption + "\n" + pReadout;
     }
 
     public function setReadoutsVisible( visible:Boolean ):void {
