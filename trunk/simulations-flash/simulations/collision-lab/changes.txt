@@ -1,3 +1,4 @@
+> Changed "Time Rate" to "Sim Speed"
 Fixed: kgm/s changed to "kg m/s"
 Show values if mouse is over ball body OR mouse down on arrow OR "Show Values" is checked
 Show values checkbox added to advanced tab
