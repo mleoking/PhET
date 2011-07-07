@@ -108,18 +108,19 @@ public class ControlPanel extends Sprite {
     //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
+        // hook together the buttons (check boxes in this case) with their labels
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showVelocities", "Velocity Vectors", sub_showVelocities_label, sub_showVelocities_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showMomentumVectors", "Momentum Vectors", sub_showMomentumVectors_label, sub_showMomentumVectors_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.showCenterOfMass", "Center of Mass", sub_showCM_label, sub_showCM_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.momentaDiagram", "Momenta Diagram", sub_showMomenta_label, sub_showMomenta_cb );
         TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.sound", "Sound", sub_sound_label, sub_sound_cb );
+        TextFieldUtils.initLabelButtonI18NLeft( "ControlPanel.kineticEnergy", "Kinetic Energy", kineticEnergyCheckBoxLabel, kineticEnergyCheckBox );
 
         resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
         updateElasticityValueLabel();
         //this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
         this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "Sticky" );
         this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "Bouncy" );
-        this.kineticEnergyCheckBoxLabel.text = SimStrings.get( "ControlPanel.kineticEnergy", "Kinetic Energy" );
 
         //TODO: JO: needs resizing and extracting labels of the components out
     }//end of initializeStrings()
