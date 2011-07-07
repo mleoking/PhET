@@ -113,5 +113,9 @@ public class AdvancedControlPanel extends ControlPanel {
     override public function get sub_oneHundredPercentLabel(): TextField { return oneHundredPercentLabel; }
 
     public function get sub_showValues_cb(): CheckBox { return showValues_cb; }
+
+    override public function get kineticEnergyCheckBox(): CheckBox { return kineticEnergy_cb; }
+
+    override public function get kineticEnergyCheckBoxLabel(): TextField { return kineticEnergy_label; }
 }
 }

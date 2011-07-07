@@ -82,5 +82,9 @@ public class IntroControlPanel extends ControlPanel {
     override public function get sub_zeroPercentLabel(): TextField { return zeroPercentLabel; }
 
     override public function get sub_oneHundredPercentLabel(): TextField { return oneHundredPercentLabel; }
+
+    override public function get kineticEnergyCheckBox(): CheckBox { return kineticEnergy_cb; }
+
+    override public function get kineticEnergyCheckBoxLabel(): TextField { return kineticEnergy_label; }
 }
 }

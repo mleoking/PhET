@@ -44,6 +44,7 @@
     <string key="ControlPanel.elasticityReadout" value="Elasticity {0}%"/>
     <string key="ControlPanel.zeroPercent" value="Sticky"/>
     <string key="ControlPanel.oneHundredPercent" value="Bouncy"/>
+    <string key="ControlPanel.kineticEnergy" value="Kinetic Energy"/>
 
     <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
 	<string key="TableView.timeRate" value="Sim Speed"/>
