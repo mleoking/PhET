@@ -1,3 +1,5 @@
+# 1.10.00 (53833) Jul 6, 2011
+7/6/11 > added new translation credits features
 # 1.09.03 (53468) Jun 24, 2011
 > Removed extraneous "Options" menu, see #2971
 > Fixed: view angle slider doesn't always snap to max or min on Mac OS X, see #2969
