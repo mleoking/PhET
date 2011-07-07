@@ -1,3 +1,5 @@
+Minor control panel layout changes
+> Changed 0% and 100% marks on the elasticity slider to "Sticky" and "Bouncy".
 Changed elasticity slider readout to separate i18nized string
 > Increased size of the play button
 Elasticity readout changed to percentage

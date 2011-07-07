@@ -42,8 +42,8 @@
     <string key="ControlPanel.sound" value="Sound"/>
     <string key="ControlPanel.elasticity" value="Elasticity"/>
     <string key="ControlPanel.elasticityReadout" value="Elasticity {0}%"/>
-    <string key="ControlPanel.zeroPercent" value="0%"/>
-    <string key="ControlPanel.oneHundredPercent" value="100%"/>
+    <string key="ControlPanel.zeroPercent" value="Sticky"/>
+    <string key="ControlPanel.oneHundredPercent" value="Bouncy"/>
 
     <string key="TableView.kineticEnergy" value="Kinetic Energy = {0} J"/>
 	<string key="TableView.timeRate" value="Sim Speed"/>
