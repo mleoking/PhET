@@ -270,7 +270,7 @@ public class ControlPanel extends Canvas {
         var nbrM:Number = this.nbrMassesSlider.getVal();
         if( this.myMainView.oneDMode ){
             this.myModel1.setN( nbrM );
-            this.myMainView.mySliderArrayPanel.locateSliders();
+            this.myMainView.mySliderArrayPanel.locateSlidersAndLabels();
         } else{
             this.myModel2.setN( nbrM );
         }

@@ -38,14 +38,17 @@ public class SliderArrayPanel extends UIComponent {
     private var phasesShown:Boolean;     //true if phases sliders are visible
     private var modeLabel_txt: TextField
     private var amplitudeLabel_txt:TextField;
+    private var frequency_txt:TextField;
+    private var freqLabelIndex:int;
     private var phaseLabel_txt:TextField;
     private var plusPi_txt:TextField;
     private var zero_txt:TextField;
     private var minusPi_txt:TextField;
     private var tFormat1:TextFormat;
+    private var mode_str:String;
     private var amplitude_str:String;
     private var phase_str:String;
-    private var mode_str:String;
+    private var frequency_str:String;
     private var plusPi_str:String;
     private var minusPi_str:String;
 
@@ -75,8 +78,9 @@ public class SliderArrayPanel extends UIComponent {
             this.container.addChild( this.phaseSlider_arr[i] );
         }
         this.createLabels();
+        this.createFrequencyLabels();
         this.createModeIcons();
-        this.locateSliders();
+        this.locateSlidersAndLabels();
 
     } //end constructor
 
@@ -112,9 +116,10 @@ public class SliderArrayPanel extends UIComponent {
     }//end createSliderArray
 
     private function initializeStrings():void{
-        this.amplitude_str = "Amplitude:";
-        this.phase_str = "Phase:";
         this.mode_str = "Normal Mode:";
+        this.amplitude_str = "Amplitude:";
+        this.frequency_str = "Frequency:"
+        this.phase_str = "Phase:";
         this.plusPi_str = "+pi";
         this.minusPi_str = "-pi";
     }
@@ -127,11 +132,13 @@ public class SliderArrayPanel extends UIComponent {
         this.tFormat1.color = 0x000000;
         this.modeLabel_txt = new TextField();
         this.amplitudeLabel_txt = new TextField();
+        this.frequency_txt = new TextField();
         this.phaseLabel_txt = new TextField();
         this.plusPi_txt = new TextField();
         this.zero_txt = new TextField();
         this.minusPi_txt = new TextField();
         this.amplitudeLabel_txt.text = this.amplitude_str;
+        this.frequency_txt.text = this.frequency_str;
         this.phaseLabel_txt.text = this.phase_str;
         this.modeLabel_txt.text = this.mode_str;
         this.plusPi_txt.text = this.plusPi_str;
@@ -143,6 +150,7 @@ public class SliderArrayPanel extends UIComponent {
         //this.phaseLabel_txt.setTextFormat( this.tFormat1 );
         setLabel( this.modeLabel_txt );
         setLabel( this.amplitudeLabel_txt );
+        setLabel( this.frequency_txt );
         setLabel( this.phaseLabel_txt );
         setLabel( this.plusPi_txt );
         setLabel( this.zero_txt );
@@ -183,11 +191,36 @@ public class SliderArrayPanel extends UIComponent {
         }
     }//end createModeIcons
 
-    //Arrange the layout of sliders
-    public function locateSliders():void{
+    private function createFrequencyLabels():void{
+        //label showing frequency of mode at bottom of each amplitude slider
+        var tFormat3 = new TextFormat();
+        tFormat3.align = TextFormatAlign.CENTER;
+        tFormat3.size = 15;
+        tFormat3.font = "Arial";
+        tFormat3.color = 0x000000;
+        for ( var i:int = 0; i < this.myModel1.nMax; i++ ){
+            var freq_txt:TextField = new TextField();
+            freq_txt.text = this.myModel1.modeOmega_arr[ 0 ].toFixed(2);   //need a height to establish layout
+            freq_txt.autoSize = TextFieldAutoSize.RIGHT;
+            freq_txt.setTextFormat( tFormat3 );
+            this.ampliSlider_arr[ i ].addChild( freq_txt );
+            this.freqLabelIndex = this.ampliSlider_arr[i].getChildIndex( freq_txt );
+            freq_txt.x = - freq_txt.width/2;
+            freq_txt.y = this.ampliSlider_arr[ i ].height - this.frequency_txt.height;
+        }
+    }//end createFrequencyLabels()
+
+    private function setFrequencyLabels():void{
+        //must be called whenever number of masses is changed
+        for ( var i:int = 0; i < this.myModel1.N; i++ ){
+            this.ampliSlider_arr[i].getChildAt( this.freqLabelIndex ).text = this.myModel1.modeOmega_arr[i].toFixed(2);
+        }
+    }
+
+    //Arrange the layout of sliders, called whenever number of masses is changed
+    public function locateSlidersAndLabels():void{
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
-
         var horizSpacing:Number = 0.7*lengthBetweenWallsInPix/(nbrSliders + 1);
         var widthOfAllVisibleSliders = ( nbrSliders - 1) * horizSpacing;
         for(var i:int = 0; i < nbrSliders; i++){
@@ -201,13 +234,16 @@ public class SliderArrayPanel extends UIComponent {
             this.ampliSlider_arr[i].visible = false;
             //this.phaseSlider_arr[i].visible = false;
         }
+        this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
         this.modeLabel_txt.y = -38;
         this.amplitudeLabel_txt.y = +30
+        this.frequency_txt.y = this.phaseSlider_arr[0].height;
         this.phaseLabel_txt.y = +160;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
+        this.frequency_txt.x = leftEdgeOfSliders - this.frequency_txt.width;
         this.phaseLabel_txt.x = leftEdgeOfSliders - 1.5*this.phaseLabel_txt.width;
         this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.5* this.phaseLabel_txt.height;
         this.zero_txt.y = this.plusPi_txt.y + 50;
@@ -219,8 +255,6 @@ public class SliderArrayPanel extends UIComponent {
 
         this.container.x = 0;
     } //end positionSliders();
-
-
 
     public function resetSliders():void{
         var amplitude:Number;
@@ -265,7 +299,6 @@ public class SliderArrayPanel extends UIComponent {
             this.resetSliders();
             this.myModel1.modesChanged = false;
         }
-
     }
 }//end class
 }//end package

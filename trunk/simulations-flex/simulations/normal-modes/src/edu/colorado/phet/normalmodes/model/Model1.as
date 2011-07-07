@@ -29,7 +29,7 @@ public class Model1 {
     private var v_arr:Array;        //array of velocities of masses, array length = N+2, elements 0 and N+1 have value zero
     private var a_arr:Array;        //array of accelerations of masses,
     private var aPre_arr:Array;     //array of accelerations in previous time step, needed for velocity verlet
-    private var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
+    public var modeOmega_arr:Array; //array of normal mode angular frequencies, omega = 2*pi*f
     private var modeAmpli_arr:Array;//array of normal mode amplitudes
     private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMassIndex:int;      //index of mass grabbed by mouse
