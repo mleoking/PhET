@@ -28,7 +28,7 @@ Removed background / border when the user has selected no reflecting border
 # 0.00.12 (45008) Oct 12, 2010
 10/12/10 Several fixes including bug fixes in textfields and single stepping mode.
 # 0.00.11 (44651) Oct 4, 2010
-10/4/10 Fixed startup bug in MomentumVeiw.
+10/4/10 Fixed startup bug in MomentumView.
 # 0.00.10 (44632) Oct 4, 2010
 10/4/10 Revisions made,  based on interviews.
 # 0.00.09 (44574) Sep 30, 2010
