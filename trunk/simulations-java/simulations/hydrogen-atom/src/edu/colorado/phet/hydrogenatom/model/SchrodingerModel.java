@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.ProbabilisticChooser;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.hydrogenatom.enums.DeBroglieView;
 import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler;
+import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler.MetastableListener;
 import edu.colorado.phet.hydrogenatom.util.RandomUtils;
 
 /**
@@ -551,5 +552,25 @@ public class SchrodingerModel extends DeBroglieModel {
 
     public String getStateAsString() {
         return stateToString( getElectronState(), _l, _m );
+    }
+
+    //----------------------------------------------------------------------------
+    // Metastable state
+    //----------------------------------------------------------------------------
+
+     public void addMetastableListener( MetastableListener listener ) {
+        _metastableHandler.addMetastableListener( listener );
+    }
+
+    public void removeMetastableListener( MetastableListener listener ) {
+        _metastableHandler.removeMetastableListener( listener );
+    }
+
+    public void fireOneAbsorbablePhoton() {
+        _metastableHandler.fireObviousAbsorbablePhoton();
+    }
+
+    public boolean isMonochromaticLightType() {
+        return _metastableHandler.isMonochromaticLightType();
     }
 }
