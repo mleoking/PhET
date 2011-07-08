@@ -1,5 +1,8 @@
 Refactored to accommodate changes to piccolo-phet PeriodicTableNode, see #2994
 Reformatted according to IntelliJ PhetStyle, see #2994
+> isotopes-and-atomic-mass: Integrated a fix that makes the slider knobs wider on the 2nd tab when using the "More" setting.
+> isotopes-and-atomic-mass: Fixed an issue where atoms could get stuck outside of the test chamber in some circumstances.
+> isotopes-and-atomic-mass: Added ability to set background of test chamber to be white.
 # 3.00.00 (51913) May 13, 2011
 5/13/11 >Initial publication of the Isotopes and Atomic Mass simulation.
 # 2.03.07 (51896) May 13, 2011
