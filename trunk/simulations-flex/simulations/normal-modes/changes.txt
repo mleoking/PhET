@@ -1,3 +1,5 @@
+# 0.00.24 (53881) Jul 8, 2011
+7/8/11 Added tabs for 1D and 2D views
 # 0.00.23 (53813) Jul 6, 2011
 7/6/11 New graphic display of 2D modeButtonArray. New mode icons on 1D slider array.
 # 0.00.22 (53713) Jul 5, 2011
