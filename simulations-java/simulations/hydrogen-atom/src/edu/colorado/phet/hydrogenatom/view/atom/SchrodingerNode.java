@@ -12,6 +12,8 @@
 package edu.colorado.phet.hydrogenatom.view.atom;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -22,7 +24,10 @@ import java.util.Observer;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.hydrogenatom.HAConstants;
+import edu.colorado.phet.hydrogenatom.HAResources;
+import edu.colorado.phet.hydrogenatom.hacks.MetastableHandler.MetastableListener;
 import edu.colorado.phet.hydrogenatom.model.AbstractHydrogenAtom;
 import edu.colorado.phet.hydrogenatom.model.SchrodingerModel;
 import edu.colorado.phet.hydrogenatom.view.particle.ElectronNode;
@@ -59,7 +64,7 @@ import edu.umd.cs.piccolo.util.PPaintContext;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observer {
+public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observer, MetastableListener {
     
     //----------------------------------------------------------------------------
     // Debug
@@ -120,6 +125,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
     private AtomNode _fieldNode;
     // proton node
     private ProtonNode _protonNode;
+    private TextButtonNode _exciteButton;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -131,6 +137,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
      */
     public SchrodingerNode( SchrodingerModel atom ) {
         super();
+        setChildrenPickable( true ); // for Excite button
         
         // many assumptions herein that the smallest value of n is 1
         assert( SchrodingerModel.getGroundState() == 1 );
@@ -141,6 +148,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         
         _atom = atom;
         _atom.addObserver( this );
+        _atom.addMetastableListener( this );
         
         // Atom representation
         _fieldNode = new AtomNode();
@@ -148,7 +156,7 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         // Proton
         _protonNode = new ProtonNode();
         _protonNode.setOffset( BOX_WIDTH / 2, BOX_HEIGHT / 2 );
-        
+
         // Axes, positioned at lower left
         Axes2DNode axesNode = new Axes2DNode( HORIZONTAL_AXIS_LABEL, VERTICAL_AXIS_LABEL );
         double xOffset = AXES_MARGIN;
@@ -156,18 +164,30 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
         axesNode.setOffset( xOffset, yOffset );
 
         // Electron state display, positioned at lower right
-        if ( HAConstants.SHOW_STATE_DISPLAY ) {
-            _stateDisplayNode = new StateDisplayNode();
-            _stateDisplayNode.setState( 6, 5, -5 ); // widest value
-            xOffset = BOX_WIDTH - _stateDisplayNode.getFullBounds().getWidth() - STATE_MARGIN;
-            yOffset = BOX_HEIGHT - _stateDisplayNode.getFullBounds().getHeight() - STATE_MARGIN;
-            _stateDisplayNode.setOffset( xOffset, yOffset );
-        }
+        _stateDisplayNode = new StateDisplayNode();
+        _stateDisplayNode.setVisible( HAConstants.SHOW_STATE_DISPLAY );
+        _stateDisplayNode.setState( 6, 5, -5 ); // widest value
+        xOffset = BOX_WIDTH - _stateDisplayNode.getFullBounds().getWidth() - STATE_MARGIN;
+        yOffset = BOX_HEIGHT - _stateDisplayNode.getFullBounds().getHeight() - STATE_MARGIN;
+        _stateDisplayNode.setOffset( xOffset, yOffset );
+
+        // Excite button, above state display.
+        _exciteButton = new TextButtonNode( HAResources.getString( "button.excite" ), new PhetFont( 18 ), Color.YELLOW );
+        _exciteButton.setVisible( false );
+        xOffset =  _stateDisplayNode.getFullBoundsReference().getMaxX() - _exciteButton.getFullBoundsReference().getWidth() - 5;
+        yOffset =  _stateDisplayNode.getFullBoundsReference().getMinY() - _exciteButton.getFullBoundsReference().getHeight() - 10;
+        _exciteButton.setOffset( xOffset, yOffset );
+        _exciteButton.addActionListener( new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                _atom.fireOneAbsorbablePhoton();
+            }
+        } );
         
         // Layering
         addChild( _fieldNode );
         addChild( _protonNode );
         addChild( axesNode );
+        addChild( _exciteButton );
         if ( _stateDisplayNode != null ) {
             addChild( _stateDisplayNode );
         }
@@ -199,6 +219,21 @@ public class SchrodingerNode extends AbstractHydrogenAtomNode implements Observe
                 //XXX
             }
         }
+    }
+
+    //----------------------------------------------------------------------------
+    // MetastableListener implementation
+    //----------------------------------------------------------------------------
+
+    // #2803, If the gun is firing monochromatic light when we enter the metastable state, make the Excite button visible.
+    public void enteredMetastableState() {
+        if ( _atom.isMonochromaticLightType() ) {
+            _exciteButton.setVisible( true );
+        }
+    }
+
+    public void exitedMetastableState() {
+        _exciteButton.setVisible( false );
     }
     
     //----------------------------------------------------------------------------

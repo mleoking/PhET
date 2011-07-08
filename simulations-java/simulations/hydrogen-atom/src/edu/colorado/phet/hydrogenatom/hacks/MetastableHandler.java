@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.hydrogenatom.hacks;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Random;
@@ -51,14 +52,16 @@ public class MetastableHandler extends ClockAdapter implements Observer {
     // Instance data
     //----------------------------------------------------------------------------
     
-    private IClock _clock; // the clock, for watching how long we're stuck in the metastable state
-    private Gun _gun; // the gun, for firing a photon
-    private SchrodingerModel _atom; // the atom, for observing state changes
+    private final IClock _clock; // the clock, for watching how long we're stuck in the metastable state
+    private final Gun _gun; // the gun, for firing a photon
+    private final SchrodingerModel _atom; // the atom, for observing state changes
     
     private boolean _stuck; // true indicates that the atom is in the metastable state
     private double _stuckTime; // how long the atom has been stuck in the metastable state, in sim time units
     
-    private Random _nRandom; // for generating new values of n (electron state)
+    private final Random _nRandom; // for generating new values of n (electron state)
+
+    private final ArrayList<MetastableListener> _listeners;
     
     //----------------------------------------------------------------------------
     // Constructors
@@ -85,6 +88,8 @@ public class MetastableHandler extends ClockAdapter implements Observer {
         _clock.addClockListener( this );
         _gun.addObserver( this );
         _atom.addObserver( this );
+
+        _listeners = new ArrayList<MetastableListener>();
     }
     
     /**
@@ -94,6 +99,10 @@ public class MetastableHandler extends ClockAdapter implements Observer {
         _clock.removeClockListener( this );
         _gun.deleteObserver( this );
         _atom.deleteObserver( this );
+    }
+
+    public boolean isMonochromaticLightType() {
+        return _gun.isMonochromaticLightType();
     }
 
     //----------------------------------------------------------------------------
@@ -113,7 +122,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
             _stuckTime += event.getSimulationTimeChange();
             if ( _stuckTime >= MAX_STUCK_TIME ) {
                 LOGGER.info( "atom has been stuck for " + _stuckTime + " time units" );
-                fireOneAbsorbablePhoton();
+                fireRandomAbsorbablePhoton();
                 /* 
                  * Restart the timer, but don't clear the stuck flag.
                  * If the photon we fire is not absorbed, we may need to fire another one.
@@ -122,24 +131,38 @@ public class MetastableHandler extends ClockAdapter implements Observer {
             }
         }
     }
-    
+
+    // Fires one absorbable photon at the atom's center, higher state chosen at random.
+    private void fireRandomAbsorbablePhoton() {
+        fireAbsorbablePhoton( METASTABLE_N + 1 + _nRandom.nextInt( SchrodingerModel.getNumberOfStates() - METASTABLE_N ) );
+    }
+
     /*
-     * Fires one absorbable photon at the atom's center.
+     * See #2803.
+     * Fires one absorbable photon at the atom's center, choosing a higher state that will result in
+     * a wavelength that is apt to be visibly obvious to the user.  Specifically, we choose n=3 with
+     * wavelength=656nm, which is a red photon. When we get stuck in the metastable state, the user is
+     * most likely to be exploring the UV end of the spectrum, so firing a red photon should usually make
+     * the photon easy to see. Alternatively we could try to select the higher state that results in the
+     * wavelength that is furthest from the gun's current wavelength, but that would be more complicated.
      */
-    private void fireOneAbsorbablePhoton() {
+    public void fireObviousAbsorbablePhoton() {
+        fireAbsorbablePhoton( METASTABLE_N + 1 );
+    }
+
+    private void fireAbsorbablePhoton( int n ) {
+        assert( n > _atom.getElectronState() );
         // assumes that the centers of the gun and atom are vertically aligned
         if ( _gun.getPositionRef().getX() != _atom.getPositionRef().getX() ) {
             LOGGER.warning( "photon will not hit atom, centers of gun and atom are not vertically aligned!" );
         }
-        // Select a higher electron state (n)
-        int nNew = METASTABLE_N + 1 + _nRandom.nextInt( SchrodingerModel.getNumberOfStates() - METASTABLE_N );
         // Determine the wavelength needed to move the atom to the higher state.
-        double wavelength = SchrodingerModel.getWavelengthAbsorbed( METASTABLE_N, nNew );
-        LOGGER.info( "firing an absorbable photon, nNew=" + nNew + " wavelength=" + wavelength );
+        double wavelength = SchrodingerModel.getWavelengthAbsorbed( METASTABLE_N, n );
+        LOGGER.info( "firing an absorbable photon, n=" + n + " wavelength=" + wavelength );
         // Fire a photon with that wavelength at the atom's center.
         _gun.fireOnePhotonFromCenter( wavelength );
     }
-    
+
     //----------------------------------------------------------------------------
     // Observer implementation
     //----------------------------------------------------------------------------
@@ -157,14 +180,45 @@ public class MetastableHandler extends ClockAdapter implements Observer {
                     _stuck = true;
                     _stuckTime = 0;
                     LOGGER.info( "atom is stuck in metastable state " + _atom.getStateAsString() );
+                    fireEnteredMetastableState();
                 }
                 else if ( _stuck && !_atom.stateEquals( METASTABLE_N, METASTABLE_L, METASTABLE_M ) ) {
                     // we have transitioned out of the metastable state, clear the stuck flag and timer
                     _stuck = false;
                     _stuckTime = 0;
                     LOGGER.info( "atom is unstuck, transitioned to state " + _atom.getStateAsString() );
+                    fireExitedMetastableState();
                 }
             }
+        }
+    }
+
+    //----------------------------------------------------------------------------
+    // MetastableListener interface
+    //----------------------------------------------------------------------------
+
+    public interface MetastableListener {
+        public void enteredMetastableState();
+        public void exitedMetastableState();
+    }
+
+    public void addMetastableListener( MetastableListener listener ) {
+        _listeners.add( listener );
+    }
+
+    public void removeMetastableListener( MetastableListener listener ) {
+        _listeners.remove( listener );
+    }
+
+    private void fireEnteredMetastableState() {
+        for ( MetastableListener listener : new ArrayList<MetastableListener>( _listeners ) ) {
+            listener.enteredMetastableState();
+        }
+    }
+
+    private void fireExitedMetastableState() {
+        for ( MetastableListener listener : new ArrayList<MetastableListener>( _listeners ) ) {
+            listener.exitedMetastableState();
         }
     }
 }
