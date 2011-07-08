@@ -45,7 +45,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
      * simulation time, we will fire an absorbable photon at its center.
      * This is public and non-final because it can be adjusted using a developer control.
      */
-    public static double MAX_STUCK_SIM_TIME = 100; // dt
+    public static double MAX_STUCK_TIME = 100; // dt
     
     //----------------------------------------------------------------------------
     // Instance data
@@ -111,7 +111,7 @@ public class MetastableHandler extends ClockAdapter implements Observer {
     public void clockTicked( ClockEvent event ) {
         if ( _stuck && _gun.isEnabled() && _gun.isPhotonsMode() && _gun.isWhiteLightType() ) {
             _stuckTime += event.getSimulationTimeChange();
-            if ( _stuckTime >= MAX_STUCK_SIM_TIME ) {
+            if ( _stuckTime >= MAX_STUCK_TIME ) {
                 LOGGER.info( "atom has been stuck for " + _stuckTime + " time units" );
                 fireOneAbsorbablePhoton();
                 /* 

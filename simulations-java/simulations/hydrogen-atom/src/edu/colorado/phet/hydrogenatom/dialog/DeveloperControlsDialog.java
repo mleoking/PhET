@@ -242,7 +242,7 @@ public class DeveloperControlsDialog extends PaintImmediateDialog implements Col
 
         // Time that Shcrodinger will be stuck in metastable state before firing absorbable photon
         {
-            double value = MetastableHandler.MAX_STUCK_SIM_TIME;
+            double value = MetastableHandler.MAX_STUCK_TIME;
             int min = 50;
             int max = 500;
             int stepSize = 1;
@@ -429,7 +429,7 @@ public class DeveloperControlsDialog extends PaintImmediateDialog implements Col
     }
 
     private void handleMetastableTimeSpinner() {
-        MetastableHandler.MAX_STUCK_SIM_TIME = _metastableTimeSpinner.getDoubleValue();
+        MetastableHandler.MAX_STUCK_TIME = _metastableTimeSpinner.getDoubleValue();
     }
 
     private void handleSquiggleLifetimeSpinner() {
