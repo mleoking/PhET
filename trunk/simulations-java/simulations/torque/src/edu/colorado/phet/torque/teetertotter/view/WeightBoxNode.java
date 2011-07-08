@@ -29,15 +29,20 @@ public class WeightBoxNode extends ControlPanelNode {
     private final ModelViewTransform mvt;
 
     /**
+     * // TODO: i18n
+     * <p/>
      * Constructor.
      */
     public WeightBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( new VBox(
+                // TODO: i18n
                 new PText( "Weights" ) {{
                     setFont( new PhetFont( 20 ) );
                 }},
                 new HBox(
+                        // TODO: i18n
                         new TextButtonNode( "Previous", BUTTON_FONT, BUTTON_COLOR ),
+                        // TODO: i18n
                         new TextButtonNode( "Next", BUTTON_FONT, BUTTON_COLOR )
                 ),
                 new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
