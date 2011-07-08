@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -80,12 +81,24 @@ public class WeightBoxNode2 extends PNode {
                     activeWeightSet.set( ( activeWeightSet.get() + 1 ) % weightSets.size() );
                 }
             } );
+            // Set up a listener that disables the button if there are no more weight sets.
+            activeWeightSet.valueEquals( weightSets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean atLastWeight ) {
+                    setEnabled( !atLastWeight );
+                }
+            } );
         }};
         // TODO: i18n
         TextButtonNode previousButton = new TextButtonNode( "Previous", BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     activeWeightSet.set( Math.abs( ( activeWeightSet.get() - 1 ) % weightSets.size() ) );
+                }
+            } );
+            // Set up a listener that disables the button if they are looking at the first weight set.
+            activeWeightSet.valueEquals( 0 ).addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean atFirstWeight ) {
+                    setEnabled( !atFirstWeight );
                 }
             } );
         }};
