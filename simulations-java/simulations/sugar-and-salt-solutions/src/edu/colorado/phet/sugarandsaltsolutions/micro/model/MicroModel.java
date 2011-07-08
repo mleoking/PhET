@@ -228,6 +228,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
             final boolean underwater = isUnderwater( lattice );
+
+            //If underwater, lattice should slow down and move at a constant speed
             if ( underwater ) {
                 lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
             }
