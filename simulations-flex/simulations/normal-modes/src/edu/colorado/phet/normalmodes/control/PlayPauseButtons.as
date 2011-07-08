@@ -365,9 +365,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.playPause_txt.x = -0.5 * this.playPause_txt.width;
         this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
-        this.paused_txt.y = 1.0 * this.paused_txt.height;
-        this.sloMo_txt.x = -0.5 * this.sloMo_txt.width;
-        this.sloMo_txt.y = 2.0 * this.paused_txt.height;
+        this.paused_txt.y = -1.3 * this.paused_txt.height;
+        this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;
+        this.sloMo_txt.y = 0.4 * this.sloMo_txt.height;
 
         this.stepButton.x = 2.5 * this.stepButton.width;
         this.stepButton.y = 0;

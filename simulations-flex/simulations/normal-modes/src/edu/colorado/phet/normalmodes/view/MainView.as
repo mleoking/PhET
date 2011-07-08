@@ -30,7 +30,6 @@ public class MainView extends Canvas {
     public var oneDMode:Boolean;       //true if in 1D mode, false if in 2D mode
     public var myModel1: Model1;       //model for 1D array of masses and springs
     public var myModel2: Model2;       //model for 2D array of masses and springs
-    public var myNormalModes:NormalModes;  //main canvas for everything
     public var myView1: View1;         //view for Model1
     public var myView2: View2;         //view for Model2
 
@@ -58,8 +57,8 @@ public class MainView extends Canvas {
         addChild( twoDHolder  );
 
         tabBar = new TabBar();
-        var oneDTab: Tab = new Tab( "1 Dimension", tabBar );
-        var twoDTab: Tab = new Tab( "2 Dimension", tabBar );
+        var oneDTab: Tab = new Tab( "1 Dimension  ", tabBar );
+        var twoDTab: Tab = new Tab( "2 Dimensions  ", tabBar );
         tabBar.addTab( oneDTab );
         tabBar.addTab( twoDTab );
 
@@ -80,7 +79,6 @@ public class MainView extends Canvas {
         this.myModel1 = new Model1( ) ;
         this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
-        this.myNormalModes = new NormalModes( stageW,  stageH );
         this.myView1 = new View1( this, myModel1 );
         this.myView2 = new View2( this, myModel2 );
 
@@ -98,11 +96,11 @@ public class MainView extends Canvas {
         this.mySliderArrayPanel.y = 0.6*stageH;
 
         this.myControlPanel = new ControlPanel( this, myModel1, myModel2 );
-        this.myControlPanel.x = 0.85 * stageW; //- 3 * this.myControlPanel.width;
-        this.myControlPanel.y = 0.05 * stageH;
+        this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
+        this.myControlPanel.y = 0.075 * stageH;
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
-        this.myButtonArrayPanel.x = 0.75*stageW;
+        this.myButtonArrayPanel.x = 0.70*stageW;
         this.myButtonArrayPanel.y = 0.55*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
         this.myButtonArrayPanel.visible = false;
 
@@ -120,7 +118,8 @@ public class MainView extends Canvas {
         this.myView2.visible = false;
         this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
-        this.addChild( new SpriteUIComponent( phetLogo ) );
+        //phetLogo now in tab area
+        //this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
 
 
@@ -137,6 +136,7 @@ public class MainView extends Canvas {
             this.myButtonArrayPanel.visible = false;
             this.myPlayPauseButtons.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
+            this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
             this.myModel1.stopMotion();
@@ -147,6 +147,7 @@ public class MainView extends Canvas {
             this.myButtonArrayPanel.visible = true;
             this.myPlayPauseButtons.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
+            this.myControlPanel.showPhasesVisible( false );
         }
     }//end set1DOr2D
 
@@ -155,6 +156,7 @@ public class MainView extends Canvas {
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 5 );
+        this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }
 

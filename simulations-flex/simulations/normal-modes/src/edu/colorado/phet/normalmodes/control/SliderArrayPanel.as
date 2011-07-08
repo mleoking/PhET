@@ -46,7 +46,7 @@ public class SliderArrayPanel extends UIComponent {
     private var plusPi_txt:TextField;
     private var zero_txt:TextField;
     private var minusPi_txt:TextField;
-    private var tFormat1:TextFormat;
+    //private var tFormat1:TextFormat;
     private var mode_str:String;
     private var amplitude_str:String;
     private var frequency_str:String;
@@ -124,16 +124,16 @@ public class SliderArrayPanel extends UIComponent {
         this.frequency_str = "Frequency:"
         this.omega0_str = "w";
         this.phase_str = "Phase:";
-        this.plusPi_str = "+pi";
-        this.minusPi_str = "-pi";
+        this.plusPi_str = "+p";
+        this.minusPi_str = "-p";
     }
 
     private function createLabels():void{
-        this.tFormat1 = new TextFormat();
-        this.tFormat1.align = TextFormatAlign.RIGHT;
-        this.tFormat1.size = 20;
-        this.tFormat1.font = "Arial";
-        this.tFormat1.color = 0x000000;
+        var tFormat:TextFormat = new TextFormat();
+        tFormat.align = TextFormatAlign.RIGHT;
+        tFormat.size = 20;
+        tFormat.font = "Arial";
+        tFormat.color = 0x000000;
         this.modeLabel_txt = new TextField();
         this.amplitudeLabel_txt = new TextField();
         this.frequency_txt = new TextField();
@@ -148,10 +148,6 @@ public class SliderArrayPanel extends UIComponent {
         this.plusPi_txt.text = this.plusPi_str;
         this.zero_txt.text = "0";
         this.minusPi_txt.text = minusPi_str;
-        //this.amplitudeLabel_txt.setTextFormat( this.tFormat1 );
-        //this.addChild( this.amplitudeLabel_txt );
-        //this.amplitudeLabel_txt.x = -this.amplitudeLabel_txt.width;
-        //this.phaseLabel_txt.setTextFormat( this.tFormat1 );
         setLabel( this.modeLabel_txt );
         setLabel( this.amplitudeLabel_txt );
         setLabel( this.frequency_txt );
@@ -161,11 +157,17 @@ public class SliderArrayPanel extends UIComponent {
         setLabel( this.minusPi_txt );
         function setLabel( txtField:TextField ):void{
             txtField.autoSize = TextFieldAutoSize.RIGHT;
-            txtField.setTextFormat( tFormat1 );
+            txtField.setTextFormat( tFormat );
             addChild( txtField );     //this.addChild( txtField)  throws an error
             //txtField.border = true; //for testing only
         }
-
+        tFormat.size = 16;
+        this.frequency_txt.setTextFormat( tFormat );
+        tFormat.font = "Symbol";
+        tFormat.size = 20;
+        this.plusPi_txt.setTextFormat( tFormat );
+        this.minusPi_txt.setTextFormat( tFormat );
+        //this.plusPi_txt.border = true;    //for testing only
     }//end createLabels()
 
     private function createModeIcons():void{
@@ -253,15 +255,15 @@ public class SliderArrayPanel extends UIComponent {
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
         this.modeLabel_txt.y = -38;
         this.amplitudeLabel_txt.y = +30
-        this.frequency_txt.y = this.phaseSlider_arr[0].height;
+        this.frequency_txt.y = 115;
         this.phaseLabel_txt.y = +190;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
         this.frequency_txt.x = leftEdgeOfSliders - this.frequency_txt.width;
         this.phaseLabel_txt.x = leftEdgeOfSliders - 1.5*this.phaseLabel_txt.width;
-        this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.5* this.phaseLabel_txt.height;
-        this.zero_txt.y = this.plusPi_txt.y + 50;
-        this.minusPi_txt.y = this.plusPi_txt.y + 100;
+        this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.3* this.plusPi_txt.height;
+        this.zero_txt.y = this.phaseSlider_arr[0].y + 0.5*this.phaseSlider_arr[0].height - 0.5*this.zero_txt.height;
+        this.minusPi_txt.y = this.phaseSlider_arr[0].y + this.phaseSlider_arr[0].height - this.plusPi_txt.height;
         var xOffset:Number = 10;
         this.plusPi_txt.x = leftEdgeOfSliders + xOffset - this.plusPi_txt.width;
         this.zero_txt.x = leftEdgeOfSliders + xOffset - this.zero_txt.width;
