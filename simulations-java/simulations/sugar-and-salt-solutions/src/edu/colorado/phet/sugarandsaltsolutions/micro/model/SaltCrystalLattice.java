@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
 /**
  * This lattice for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -14,6 +17,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class SaltCrystalLattice extends Particle implements Iterable<LatticeConstituent> {
     private ArrayList<LatticeConstituent> latticeConstituents = new ArrayList<LatticeConstituent>();
+
+    //The time the lattice entered the water, if any
+    private Option<Double> underwaterTime = new None<Double>();
 
     public SaltCrystalLattice( ImmutableVector2D position, LatticeConstituent... constituents ) {
         super( position );
@@ -51,5 +57,17 @@ public class SaltCrystalLattice extends Particle implements Iterable<LatticeCons
 
     public Iterator<LatticeConstituent> iterator() {
         return latticeConstituents.iterator();
+    }
+
+    public boolean isUnderwater() {
+        return underwaterTime.isSome();
+    }
+
+    public void setUnderWater( double time ) {
+        this.underwaterTime = new Some<Double>( time );
+    }
+
+    public double getUnderWaterTime() {
+        return underwaterTime.get();
     }
 }

@@ -126,6 +126,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     //Rate at which liquid evaporates
     private final double evaporationRateScale;
 
+    //The elapsed running time of the model
+    protected double time;
+
     public SugarAndSaltSolutionModel( ConstantDtClock clock,
                                       //Dimensions of the beaker
                                       BeakerDimension beakerDimension,
@@ -265,6 +268,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
     //Update the model when the clock ticks
     protected void updateModel( double dt ) {
+        time += dt;
 
 //        System.out.println( "SugarAndSaltSolutionModel.updateModel: beaker volume = "+beaker.getMaxFluidVolume() );
 
