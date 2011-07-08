@@ -1,5 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
@@ -8,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author Sam Reid
  */
-public class Particle {
+public abstract class Particle {
     //Interface for setting and observing the position
     public final Property<ImmutableVector2D> position;
 
@@ -25,4 +27,7 @@ public class Particle {
         velocity.set( velocity.get().plus( acceleration.times( dt ) ) );
         position.set( position.get().plus( velocity.get().times( dt ) ) );
     }
+
+    //Get a shape for the particle for purposes of collision detection with beaker solution and beaker walls
+    public abstract Shape getShape();
 }
