@@ -280,7 +280,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 //Accelerate the particle due to gravity and perform an euler integration step
                 //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
                 double mass = 1E-10;
+                ImmutableVector2D initialPosition = particle.position.get();
                 particle.stepInTime( getExternalForce( particle ).times( mass ).times( mass ), dt );
+
+                //Prevent the particles from leaving the solution
+                if ( !solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
+                    particle.position.set( initialPosition );
+                }
             }
         }
     }
