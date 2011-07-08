@@ -1,3 +1,5 @@
+# 3.00.01 (53883) Jul 8, 2011
+7/8/11 Deploying to dev for testing of several recent changes.
 Refactored to accommodate changes to piccolo-phet PeriodicTableNode, see #2994
 Reformatted according to IntelliJ PhetStyle, see #2994
 > isotopes-and-atomic-mass: Integrated a fix that makes the slider knobs wider on the 2nd tab when using the "More" setting.
