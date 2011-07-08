@@ -1,6 +1,9 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.*;
+import java.awt.geom.Area;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -9,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-public class SaltCrystalLattice extends Particle {
+public class SaltCrystalLattice extends Particle implements Iterable<LatticeConstituent> {
     private ArrayList<LatticeConstituent> latticeConstituents = new ArrayList<LatticeConstituent>();
 
     public SaltCrystalLattice( ImmutableVector2D position, LatticeConstituent... constituents ) {
@@ -35,5 +38,18 @@ public class SaltCrystalLattice extends Particle {
         for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
             latticeConstituent.particle.position.set( position.get().plus( latticeConstituent.location ) );
         }
+    }
+
+    //The shape of a lattice is the combined area of its constituents
+    @Override public Shape getShape() {
+        return new Area() {{
+            for ( LatticeConstituent constituent : latticeConstituents ) {
+                add( new Area( constituent.particle.getShape() ) );
+            }
+        }};
+    }
+
+    public Iterator<LatticeConstituent> iterator() {
+        return latticeConstituents.iterator();
     }
 }

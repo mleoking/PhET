@@ -199,9 +199,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Position overwritten by lattice
             final ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
-            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ), zero, Color.green );
+
+            //Scale the ions down from their actual van der waals radii so they don't take up too much space on the screen
+            double sizeScale = 0.3;
+
+            //Create the ions
+            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ) * sizeScale, zero, Color.green );
             sodiumList.add( sodium );
-            final double chlorideRadius = angstromsToMeters( 1.75 );
+            final double chlorideRadius = angstromsToMeters( 1.75 ) * sizeScale;
             final SphericalParticle chloride = new SphericalParticle( chlorideRadius, zero, Color.blue );
             chlorideList.add( chloride );
 
@@ -222,8 +227,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
-            lattice.stepInTime( new ImmutableVector2D( 0, -9.8 ).times( mass ), dt );
+            final boolean underwater = isUnderwater( lattice );
+            if ( underwater ) {
+                lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+            }
+            lattice.stepInTime( new ImmutableVector2D( 0, underwater ? 0 : -9.8 ).times( mass ), dt );
         }
+    }
+
+    //Determine whether the lattice is underwater--when it goes underwater it should slow down and set a timer so it will dissolve soon
+    private boolean isUnderwater( SaltCrystalLattice lattice ) {
+        return lattice.getShape().intersects( solution.shape.get().getBounds2D() );
     }
 
     //When the simulation clock ticks, move the particles
