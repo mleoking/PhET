@@ -1,4 +1,5 @@
 package edu.colorado.phet.normalmodes.control {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.NiceComponents.HorizontalSlider;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceButton2;
 import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
@@ -185,14 +186,14 @@ public class ControlPanel extends Canvas {
     } //end of init()
 
     public function initializeStrings(): void {
-        numberOfMasses_str = "Number of Masses";//FlexSimStrings.get("numberOfResonators", "Number of Resonators");
-        resetPositions_str = "Reset Positions";
-        polarization_str = "Polarizaton:"
-        resetAll_str = "Reset All";
-        oneD_str = "1D";
-        twoD_str = "2D";
-        showPhases_str = "Show Phases";
-        showSprings_str = "Show Springs";
+        numberOfMasses_str = FlexSimStrings.get("numberOfMasses", "Number of Masses");
+        resetPositions_str = FlexSimStrings.get("resetPositions", "Reset Positions");
+        polarization_str = FlexSimStrings.get("polarization:", "Polarizaton:");
+        resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
+        oneD_str = FlexSimStrings.get("oneD", "1D");
+        twoD_str = FlexSimStrings.get("twoD", "2D");
+        showPhases_str = FlexSimStrings.get("showPhases", "Show Phases");
+        showSprings_str = FlexSimStrings.get("showSprings", "Show Springs");
     }
 
     private function setNbrMasses():void{

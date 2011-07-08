@@ -18,7 +18,7 @@ public class View1 extends Sprite {
     private var mass_arr:Array;             //array of massView instances , index 0 = mobile mass 1
     private var spring_arr:Array;           //array of spring sprites
     private var walls:Sprite;               //graphic for the fixed walls
-    private var _springsVisible:Boolean;     //true if springs are shown
+    private var _springsVisible:Boolean;    //true if springs are shown
 
     private var stageW: int;
     private var stageH: int;
@@ -164,12 +164,12 @@ public class View1 extends Sprite {
     }
 
     public function update(): void {
-        //trace("view1.update called");
         var xInMeters:Number;
         var yInMeters:Number;
         var xInPix:Number;
         var yInPix:Number;
         var springLengthInPix:Number;
+
         //position masses
         for(var j:int = 0; j < this.myModel1.N; j++){
             var i:int = j+1;    //index of mobile mass, left mass = 1

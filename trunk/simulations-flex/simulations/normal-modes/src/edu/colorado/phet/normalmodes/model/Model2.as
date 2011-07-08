@@ -528,21 +528,6 @@ public class Model2 {
     }
 
     public function updateViews(): void {
-        /*
-        if(_nChanged){
-            this.view.setNbrMasses();
-            this.myMainView.myButtonArrayPanel.setNbrButtons()
-            this._nChanged = false;
-        }
-        if( _modesZeroed ){
-            this.myMainView.myButtonArrayPanel.setNbrButtons();
-            this._modesZeroed = false;
-        }
-        if( _modesChanged ){
-            this.myMainView.myButtonArrayPanel.setButtonColors();
-            this._modesChanged = false;
-        }
-        */
         for( var i:int = 0; i < this.views_arr.length; i++ ){
             this.views_arr[i].update();
         }
