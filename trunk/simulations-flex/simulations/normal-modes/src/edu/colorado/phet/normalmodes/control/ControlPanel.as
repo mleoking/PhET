@@ -32,6 +32,7 @@ public class ControlPanel extends Canvas {
 //    private var rulerCheckBoxBox: HBox;
     private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;
+    private var resetTimeButton: NiceButton2;
     private var resetPositionsButton: NiceButton2;
 
     //Type of Mode radio buttons
@@ -57,6 +58,7 @@ public class ControlPanel extends Canvas {
 
     //internationalized strings
     public var numberOfMasses_str: String;
+    public var resetTime_str:String;
     public var resetPositions_str: String;
     public var polarization_str: String;
     public var resetAll_str: String;
@@ -119,6 +121,7 @@ public class ControlPanel extends Canvas {
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
+        this.resetTimeButton = new NiceButton2( 120, 30, resetTime_str, resetTime, 0x009900, 0xffffff  )
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
         this.modeTypeLabel = new NiceLabel( 12, polarization_str );
         //Set up rightLeft vs. upDown radio button box
@@ -179,6 +182,7 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd3.addChild( showPhasesCheckBox );
         this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
 
+        this.background.addChild( new SpriteUIComponent( this.resetTimeButton, true ));
         this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
 
         this.oneDMode = this.myMainView.oneDMode;
@@ -187,7 +191,8 @@ public class ControlPanel extends Canvas {
 
     public function initializeStrings(): void {
         numberOfMasses_str = FlexSimStrings.get("numberOfMasses", "Number of Masses");
-        resetPositions_str = FlexSimStrings.get("resetPositions", "Reset Positions");
+        resetTime_str = FlexSimStrings.get( "resetTime", "Set time = 0" );
+        resetPositions_str = FlexSimStrings.get("resetPositions", "Zero Positions");
         polarization_str = FlexSimStrings.get("polarization:", "Polarizaton:");
         resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
         oneD_str = FlexSimStrings.get("oneD", "1D");
@@ -214,6 +219,11 @@ public class ControlPanel extends Canvas {
            this.myModel2.setN( nbrM );
         }
         this.resetPositions();
+    }
+
+    private function resetTime():void{
+        this.myModel1.t = 0;
+        this.myModel2.t = 0;
     }
 
     private function resetPositions():void{

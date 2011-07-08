@@ -212,11 +212,21 @@ public class ModeButton extends Sprite{
 
                 if(!localRef._activated){
                     localRef._activated = true;
-                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, largeAmplitude  );
+                    if( localRef.myModel2.xModes ){
+                       localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, largeAmplitude  );
+                    }else{
+                       localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, largeAmplitude  );
+                    }
+
                     //localRef.changeColor( 0x00ff00 );
                 }else if(localRef._activated){
                     localRef._activated = false;
-                    localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0  );
+                    if( localRef.myModel2.xModes ){
+                       localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, 0  );
+                    }else{
+                       localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, 0  );
+                    }
+                    //localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0  );
                     //localRef.changeColor( 0xffffff );
                 }
 

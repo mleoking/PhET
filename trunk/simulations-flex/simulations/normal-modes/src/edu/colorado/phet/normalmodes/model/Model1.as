@@ -38,7 +38,7 @@ public class Model1 {
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
-    private var t: Number;		    //time in seconds
+    private var _t: Number;		    //time in seconds
     //private var tInt: Number;     //time rounded up to nearest second, for testing only
     private var lastTime: Number;	//time in previous timeStep
     private var tRate: Number;	    //1 = real time; 0.25 = 1/4 of real time, etc.
@@ -76,7 +76,7 @@ public class Model1 {
         this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
         this._paused = false;
-        this.t = 0;
+        this._t = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.01;
         this.tRate = 1;
@@ -96,7 +96,7 @@ public class Model1 {
             this.aPre_arr[i] = 0;
         }
         //reset time
-        this.t = 0;
+        this._t = 0;
         //this.computeModeAmplitudesAndPhases();
     }//end initializeKinematicArrays()
 
@@ -157,9 +157,6 @@ public class Model1 {
         return this._nMax;
     }
 
-    public function getTime():Number{
-        return this.t;
-    }
 
     public function get modesChanged():Boolean{
         return this._modesChanged;
@@ -268,8 +265,13 @@ public class Model1 {
         this.tRate = rate;
     }
 
-    public function getDt(): Number {
-        return this.dt;
+    public function get t(): Number {
+        return this._t;
+    }
+
+    public function set t( time:Number ):void{
+        this._t = time;
+        this.updateView();
     }
 
     public function get paused():Boolean {
@@ -344,7 +346,7 @@ public class Model1 {
         else {
             this.dt = this.tRate * 0.04;
         }
-        this.t += this.dt;
+        this._t += this.dt;
 
         if(this._grabbedMassIndex != 0 ){     //if user has grabbed some mass with mouse
             this.setVerletPositions();
@@ -352,7 +354,7 @@ public class Model1 {
             this.setVerletPositions();
             this.nbrStepsSinceRelease += 1;
             if(this.nbrStepsSinceRelease == 2){
-                this.t = 0;
+                this._t = 0;
                 this.computeModeAmplitudesAndPhases();
             }
         }else {
@@ -383,14 +385,14 @@ public class Model1 {
             s_arr[i] = 0
             for( var r:int = 1; r <= this._N; r++){     //step thru N normal modes
                var j:int = r - 1;
-               this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this.t - modePhase_arr[j]);
+               this.s_arr[i] +=  modeAmpli_arr[j]*Math.sin(i*r*Math.PI/(_N + 1))*Math.cos(modeOmega_arr[j]*this._t - modePhase_arr[j]);
             }
         }
     }
 
     public function singleStepWhenPaused():void{
         this.dt = this.tRate * 0.02;
-        this.t += this.dt;
+        this._t += this.dt;
         this.singleStep( );
         updateView();
     }

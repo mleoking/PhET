@@ -369,14 +369,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;
         this.sloMo_txt.y = 0.4 * this.sloMo_txt.height;
 
-        this.stepButton.x = 2.5 * this.stepButton.width;
+        this.stepButton.x = 2.0 * this.stepButton.width;
         this.stepButton.y = 0;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
         this.singleStep_txt.y = 0.5 * this.stepButton.height;
     }
 
     public function setTimeLabel():void{
-        var timeInSec:Number = this.myModel.getTime();
+        var timeInSec:Number = this.myModel.t;
         var timeInSec_str:String = timeInSec.toFixed( 2 );
         //this.timeEquals_str =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);
         this.currentTime_txt.text =  FlexSimStrings.get("timesEquals", "time = {0} s",[timeInSec_str]);

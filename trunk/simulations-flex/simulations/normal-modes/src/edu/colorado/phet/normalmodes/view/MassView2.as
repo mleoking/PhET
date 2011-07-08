@@ -89,7 +89,9 @@ public class MassView2 extends Sprite{
             //thisObject.myModel2.computeModeAmplitudesAndPhases();
             //thisObject.myModel2.justReleased = true;
             //thisObject.myModel2.nbrStepsSinceRelease = 0;
+            thisObject.myModel2.t = 0;
             thisObject.myModel2.computeModeAmplitudesAndPhases();
+            thisObject.myModel2.verletOn = false;
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
