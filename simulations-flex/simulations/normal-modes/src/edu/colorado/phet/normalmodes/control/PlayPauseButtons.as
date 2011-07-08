@@ -110,7 +110,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
     public function initializeStrings(): void {
         this.timeEquals_str = "time = ";  //this string set by setTimeLabel() but need initial string to make height for positionLabels()
-        this.simSpeed_str = FlexSimStrings.get("simSpeed", "Sim Speed");
+        this.simSpeed_str = FlexSimStrings.get("simSpeed", "sim speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
         this.play_str = FlexSimStrings.get("play", "play");

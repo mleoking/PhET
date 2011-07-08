@@ -119,13 +119,13 @@ public class SliderArrayPanel extends UIComponent {
     }//end createSliderArray
 
     private function initializeStrings():void{
-        this.mode_str = "Normal Mode:";
-        this.amplitude_str = "Amplitude:";
-        this.frequency_str = "Frequency:"
-        this.omega0_str = "w";
-        this.phase_str = "Phase:";
-        this.plusPi_str = "+p";
-        this.minusPi_str = "-p";
+        this.mode_str = FlexSimStrings.get("normalMode:", "Normal Mode:");
+        this.amplitude_str = FlexSimStrings.get("amplitude:", "Amplitude:");
+        this.frequency_str = FlexSimStrings.get("frequency:", "Frequency:");
+        this.omega0_str = FlexSimStrings.get("omega", "w");
+        this.phase_str = FlexSimStrings.get("phase:", "Phase:");
+        this.plusPi_str = FlexSimStrings.get("plusPi:", "+p");
+        this.minusPi_str = FlexSimStrings.get("minusPi", "-p");
     }
 
     private function createLabels():void{

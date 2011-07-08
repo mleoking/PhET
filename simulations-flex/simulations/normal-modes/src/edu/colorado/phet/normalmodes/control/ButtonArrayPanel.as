@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 package edu.colorado.phet.normalmodes.control {
+import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.model.Model2;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
@@ -55,6 +56,7 @@ public class ButtonArrayPanel extends UIComponent{
         this.arrowGraphic.scaleX = 0.5;
         this.arrowGraphic.scaleY = 0.5;
         this.arrowGraphic.setRegistrationPointAtCenter( true );
+        this.arrowGraphic.rotation = 90;
         this.tFormat = new TextFormat();
         this.initializeStrings();
         this.createLabel();
@@ -80,7 +82,7 @@ public class ButtonArrayPanel extends UIComponent{
     } //end constructor
 
     public function initializeStrings():void{
-        this.modesNxNy_str = "Modes nx, ny";
+        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y. Polarization: ");
     }
 
     /*
@@ -176,7 +178,7 @@ public class ButtonArrayPanel extends UIComponent{
         }
         this.label_txt.x = xOffset;
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
-        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 20;
+        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 12;
         this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
     }//end setNbrButtons()
 
