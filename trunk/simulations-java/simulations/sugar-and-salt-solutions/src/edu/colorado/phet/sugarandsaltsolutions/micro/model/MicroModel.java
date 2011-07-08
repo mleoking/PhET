@@ -4,9 +4,11 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.collision.Box2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.ModelElement;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -273,6 +275,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         return particle.getShape().intersects( solution.shape.get().getBounds2D() );
     }
 
+    private final Random random = new Random();
+
     //When the simulation clock ticks, move the particles
     private void updateParticles( double dt, ItemList<SphericalParticle> list ) {
         for ( SphericalParticle particle : list ) {
@@ -283,9 +287,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 ImmutableVector2D initialPosition = particle.position.get();
                 particle.stepInTime( getExternalForce( particle ).times( mass ).times( mass ), dt );
 
+                //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
+                double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
+                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
+
                 //Prevent the particles from leaving the solution
                 if ( !solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
+                    ImmutableVector2D delta = particle.position.get().minus( initialPosition );
                     particle.position.set( initialPosition );
+
+                    //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
+                    particle.velocity.set( ImmutableVector2D.parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
                 }
             }
         }
