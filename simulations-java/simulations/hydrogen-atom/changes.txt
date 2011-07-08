@@ -1,3 +1,4 @@
+# 1.10.01 (53877) Jul 8, 2011
 7/7/11 > added "Excite Atom" button for getting Schrodinger atom out of the (2,0,0) metastable state
 7/7/11 #2803, add Excite Atom button to Schrodinger view
 7/7/11 #2803, more simplification of atom and gun listener interfaces
