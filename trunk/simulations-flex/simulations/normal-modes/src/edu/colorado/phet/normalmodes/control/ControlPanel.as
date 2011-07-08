@@ -43,16 +43,6 @@ public class ControlPanel extends Canvas {
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
 
-    //one D or two D radio buttons
-    private var innerBckgrnd2: HBox;
-    //private var dimensionButtonHBox:HBox;
-    //private var oneDtwoDMode_rbg: RadioButtonGroup;
-    //private var oneDModeButton: RadioButton;
-    //private var twoDModeButton: RadioButton;
-    //private var oneDLabel: NiceLabel;
-    //private var spacerLabel: NiceLabel;
-    //private var twoDLabel: NiceLabel;
-
     private var innerBckgrnd3:HBox;
     private var showPhasesCheckBox: CheckBox;
     private var showPhasesLabel: NiceLabel;
@@ -67,7 +57,7 @@ public class ControlPanel extends Canvas {
     //internationalized strings
     public var numberOfMasses_str: String;
     public var resetPositions_str: String;
-    public var modeType_str: String;
+    public var polarization_str: String;
     public var resetAll_str: String;
     public var oneD_str: String;
     public var twoD_str: String;
@@ -125,46 +115,11 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign" , "left" );
         }
 
-        /*
-        this.dimensionButtonHBox = new HBox();
-        with (this.dimensionButtonHBox ){
-            setStyle( "backgroundColor", 0xdddd00 );
-            percentWidth = 100;
-            //percentHeight = 100;
-            setStyle( "borderStyle", "solid" );
-            setStyle( "borderColor", 0x0000ff );
-            setStyle( "cornerRadius", 6 );
-            setStyle( "borderThickness", 2 );
-            setStyle( "paddingTop", 4 );
-            setStyle( "paddingBottom", 4 );
-            setStyle( "paddingRight", 3 );
-            setStyle( "paddingLeft", 8 );
-            setStyle( "horizontalGap", 0 );
-            setStyle( "horizontalAlign" , "center" );
-        }  */
-
-        this.innerBckgrnd2 = new HBox();
-        with ( this.innerBckgrnd1 ) {
-            setStyle( "backgroundColor", 0xdddd00 );
-            percentWidth = 100;
-            //percentHeight = 100;
-            setStyle( "borderStyle", "solid" );
-            setStyle( "borderColor", 0x0000ff );
-            setStyle( "cornerRadius", 6 );
-            setStyle( "borderThickness", 2 );
-            setStyle( "paddingTop", 0 );
-            setStyle( "paddingBottom", 5 );
-            setStyle( "paddingRight", 3 );
-            setStyle( "paddingLeft", 8 );
-            setStyle( "verticalGap", 0 );
-            setStyle( "horizontalAlign" , "left" );
-        }
-
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
-        this.modeTypeLabel = new NiceLabel( 12, modeType_str );
+        this.modeTypeLabel = new NiceLabel( 12, polarization_str );
         //Set up rightLeft vs. upDown radio button box
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
@@ -185,28 +140,9 @@ public class ControlPanel extends Canvas {
         this.upDownModeButton.group = directionOfMode_rbg;
         this.rightLeftModeButton.value = 1;
         this.upDownModeButton.value = 0;
-        this.rightLeftModeButton.selected = true;
-        this.upDownModeButton.selected = false;
+        this.rightLeftModeButton.selected = false;
+        this.upDownModeButton.selected = true;
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
-
-        /*
-         //1D vs. 2D radio button box
-        this.oneDtwoDMode_rbg = new RadioButtonGroup();
-        this.oneDModeButton = new RadioButton();
-        this.twoDModeButton = new RadioButton();
-        this.twoDModeButton.setStyle( "paddingLeft", -5 );
-        this.oneDModeButton.group = oneDtwoDMode_rbg;
-        this.twoDModeButton.group = oneDtwoDMode_rbg;
-
-        this.oneDModeButton.value = 1;
-        this.twoDModeButton.value = 2;
-        this.oneDModeButton.selected = true;
-        this.twoDModeButton.selected = false;
-        this.oneDtwoDMode_rbg.addEventListener( Event.CHANGE, click1DOr2D );
-        this.oneDLabel = new NiceLabel( 12, oneD_str );
-        this.spacerLabel = new NiceLabel(12, "    " );
-        this.twoDLabel = new NiceLabel( 12, twoD_str );
-        */
 
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
@@ -224,16 +160,6 @@ public class ControlPanel extends Canvas {
         //Layout of components
         this.addChild( this.background );
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
-
-        /*
-        //one D vs. two D radio buttons
-        //this.background.addChild( this.dimensionButtonHBox );
-        this.dimensionButtonHBox.addChild( this.oneDModeButton );
-        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.oneDLabel, true ) );
-        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.spacerLabel, true ) );
-        this.dimensionButtonHBox.addChild( this.twoDModeButton );
-        this.dimensionButtonHBox.addChild( new SpriteUIComponent( this.twoDLabel, true) );
-        */
 
         //Mode type radio buttons
         this.background.addChild( this.innerBckgrnd1 );
@@ -261,9 +187,7 @@ public class ControlPanel extends Canvas {
     public function initializeStrings(): void {
         numberOfMasses_str = "Number of Masses";//FlexSimStrings.get("numberOfResonators", "Number of Resonators");
         resetPositions_str = "Reset Positions";
-        modeType_str = "Mode Type: "
-        //longitudinal_str = "RL";
-        //transverse_str = "UD";
+        polarization_str = "Polarizaton:"
         resetAll_str = "Reset All";
         oneD_str = "1D";
         twoD_str = "2D";
@@ -313,22 +237,14 @@ public class ControlPanel extends Canvas {
         }
     }
 
-    /*
-    private function click1DOr2D( evt: Event ):void {
-       var val: Object = this.oneDtwoDMode_rbg.selectedValue;
-        if ( val == 1 ) {
-            this.myMainView.set1DOr2D( 1 );
-        }
-        else if ( val == 2 ) {
-            this.myMainView.set1DOr2D( 2 );
-        }
-        this.oneDMode = this.myMainView.oneDMode;
-    } */
-
     private function clickShowPhases( evt:Event ):void{
         var shown: Boolean = this.showPhasesCheckBox.selected;
         this.myMainView.mySliderArrayPanel.showPhaseSliders(shown);
         //trace( "ControlPanel.clickShowPhases = " + shown);
+    }
+
+    public function showPhasesVisible( tOrF:Boolean ):void{
+        this.innerBckgrnd3.visible = tOrF;
     }
 
     private function clickShowSprings( evt:Event ):void{

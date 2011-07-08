@@ -46,11 +46,11 @@ public class View2 extends Sprite {
         this.stageW = this.myMainView.stageW;
         this.stageH = this.myMainView.stageH;
         this.LinMeters =  this.myModel2.L;
-        this._LinPix = 0.9*this.stageH;
+        this._LinPix = 0.85*this.stageH;
         this._pixPerMeter = this._LinPix/this.LinMeters;
         this._springsVisible = true;
-        this._topLeftCornerX = 0.05*this.stageW;
-        this._topLeftCornerY = 0.05*this.stageH;
+        this._topLeftCornerX = 0.04*this.stageW;
+        this._topLeftCornerY = 0.095*this.stageH;
         var nMax:int = this.myModel2.nMax;        //maximum number of mobile masses
         //create mass array and graphics
         this.mass_arr = new Array( nMax );
