@@ -44,4 +44,8 @@ public class ItemList<T> implements Iterable<T> {
     public Iterator<T> iterator() {
         return items.iterator();
     }
+
+    public boolean contains( T item ) {
+        return items.contains( item );
+    }
 }

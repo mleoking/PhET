@@ -71,9 +71,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
     private Box2D myWaterBox = new Box2D();
 
-    //List of sodium ions (Na+)
+    //Lists of particles
     public final ItemList<SphericalParticle> sodiumList = new ItemList<SphericalParticle>();
     public final ItemList<SphericalParticle> chlorideList = new ItemList<SphericalParticle>();
+
+    //Lists of lattices
+    public final ItemList<SaltCrystalLattice> saltCrystalLatticeList = new ItemList<SaltCrystalLattice>();
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -193,11 +196,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Create the sodium and chloride ions and add to the model
             //TODO: create a lattice and set the locations appropriately
             //TODO: fix colors and sizes
-            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ), salt.position.get(), Color.green );
+
+            //Position overwritten by lattice
+            final ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
+            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ), zero, Color.green );
             sodiumList.add( sodium );
             final double chlorideRadius = angstromsToMeters( 1.75 );
-            final SphericalParticle chloride = new SphericalParticle( chlorideRadius, salt.position.get().plus( sodium.radius + chlorideRadius, 0 ), Color.blue );
+            final SphericalParticle chloride = new SphericalParticle( chlorideRadius, zero, Color.blue );
             chlorideList.add( chloride );
+
+            //TODO: getPosition is abstract so the particle can query the lattice?
+            //TODO: have the lattice create the particles, then add them to the lists here?
+            saltCrystalLatticeList.add( new SaltCrystalLattice( salt.position.get(),
+                                                                new LatticeConstituent( sodium, 0, 0 ),
+                                                                new LatticeConstituent( chloride, 0, sodium.radius + chlorideRadius ) ) );
         }
     }
 
@@ -206,17 +218,34 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.updateModel( dt );
         updateParticles( dt, sodiumList );
         updateParticles( dt, chlorideList );
+        for ( SaltCrystalLattice lattice : saltCrystalLatticeList ) {
+            //Accelerate the particle due to gravity and perform an euler integration step
+            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+            double mass = 1E-10;
+            lattice.stepInTime( new ImmutableVector2D( 0, -9.8 ).times( mass ), dt );
+        }
     }
 
     //When the simulation clock ticks, move the particles
     private void updateParticles( double dt, ItemList<SphericalParticle> list ) {
         for ( SphericalParticle particle : list ) {
-
-            //Accelerate the particle due to gravity and perform an euler integration step
-            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E-10;
-            particle.stepInTime( new ImmutableVector2D( 0, -9.8 ).times( mass ), dt );
+            if ( !contains( saltCrystalLatticeList, particle ) ) {
+                //Accelerate the particle due to gravity and perform an euler integration step
+                //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+                double mass = 1E-10;
+                particle.stepInTime( new ImmutableVector2D( 0, -9.8 ).times( mass ), dt );
+            }
         }
+    }
+
+    //Determine if the lattice contains the specified particle
+    private boolean contains( ItemList<SaltCrystalLattice> latticeList, SphericalParticle particle ) {
+        for ( SaltCrystalLattice lattice : latticeList ) {
+            if ( lattice.contains( particle ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
