@@ -108,7 +108,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
         // Add the weight box, which is the place where the user will get the
         // objects that can be placed on the balance.
-        rootNode.addChild( new WeightBoxNode( model, mvt, this ) {{
+        rootNode.addChild( new WeightBoxNode2( model, mvt, this ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, mvt.modelToViewY( 0 ) - getFullBoundsReference().height - 10 );
         }} );
     }
