@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--density-and-buoyancy-strings_el.xml created Mon Jan 03 18:22:28 EET 2011 using: density-and-buoyancy 1.04.00 (47280), translation-utility 2.09.00 (44031) Σεπ 14, 2010-->
+<!--density-and-buoyancy-strings_el.xml created Fri Jul 08 23:33:19 EEST 2011 using: density-and-buoyancy 1.05.00 (50250), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
 <SimStrings>
 <string key="buoyancy.tab.intro" value="Εισαγωγή"/>
 <string key="properties.mass" value="Μάζα"/>
 <string key="controlPanel.showVectorValues" value="Τιμές δυνάμεων"/>
-<string key="forceArrows.contact" value="Επαφή"/>
-<string key="mode.objectsOfSameVolume" value="Ίδιιου Όγκου"/>
-<string key="bottle.2L" value="2L"/>
+<string key="forceArrows.contact" value="Επαφής"/>
+<string key="mode.objectsOfSameVolume" value="Ίδιου Όγκου"/>
 <string key="mysteryObject.densityColumnHeader" value="Πυκνότητα ({0})"/>
 <string key="material.aluminum" value="Αλουμίνιο"/>
-<string key="properties.massKilogram" value="κ."/>
+<string key="properties.massKilogram" value="Kg"/>
 <string key="material.air" value="Αέρας"/>
 <string key="material.custom" value="Το αντικείμενο μου"/>
 <string key="material.gasoline" value="Βενζίνη"/>
@@ -17,14 +16,15 @@
 <string key="mode.mysteryObjects" value="Άγνωστα"/>
 <string key="customObject.custom" value="Το αντικείμενό μου"/>
 <string key="material.wood" value="Ξύλο"/>
-<string key="properties.massKilogramValue" value="{0} κ."/>
+<string key="properties.massKilogramValue" value="{0} Kg"/>
 <string key="mode.two" value="Δύο"/>
-<string key="material.styrofoam" value="Αφρός"/>
+<string key="material.styrofoam" value="Φελιζόλ"/>
 <string key="material.honey" value="Μέλι"/>
 <string key="material.apple" value="Μήλο"/>
-<string key="blockName.b" value="Β"/>
-<string key="blockName.a" value="Α"/>
+<string key="blockName.b" value="Σώμα Β"/>
+<string key="blockName.a" value="Σώμα Α"/>
 <string key="material.ice" value="Πάγος"/>
+<string key="translation.credits" value="Kremiotis Thomas, Physicist MSc"/>
 <string key="buoyancy.tab.playground" value="Εργαστήριο άνωσης"/>
 <string key="fluid.controls.intro.label" value="Υγρό"/>
 <string key="mode.mysteryObjects.E" value="Ε"/>
@@ -33,7 +33,7 @@
 <string key="mode.mysteryObjects.B" value="Β"/>
 <string key="material.diamond" value="Διαμάντι"/>
 <string key="mode.mysteryObjects.A" value="Α"/>
-<string key="mode.title" value="Αντικείμενα"/>
+<string key="mode.title" value="Σώματα"/>
 <string key="material.oliveOil" value="Ελαιόλαδο"/>
 <string key="material.lead" value="Μόλυβδος"/>
 <string key="forceArrows.buoyancy" value="Άνωση"/>
@@ -44,22 +44,21 @@
 <string key="material.brick" value="Τούβλο"/>
 <string key="mysteryObject.material" value="Υλικό"/>
 <string key="mysteryObject.table.title" value="Πυκνότητες διαφόρων υλικών"/>
-<string key="properties.weightPoundValue" value="{0} Λίβρες"/>
+<string key="properties.weightPoundValue" value="{0} lb"/>
 <string key="material.oil" value="Λάδι"/>
 <string key="properties.volumeLiterValue" value="{0} L"/>
 <string key="mode.objectsOfSameDensity" value="Ίδιας Πυκνότητας"/>
 <string key="density.simTitle" value="Πυκνότητα"/>
 <string key="controlPanel.readouts" value="Πληροφορίες"/>
 <string key="properties.volumeMilliLiterValue" value="{0} mL"/>
-<string key="forceArrows.fluidDrag" value="Επιβράδυνση υγρού"/>
 <string key="mode.customObject" value="Γνωστά"/>
 <string key="mode.objectsOfSameMass" value="Ίδιας Μάζας"/>
 <string key="application.resetAll" value="Επαναφορά "/>
 <string key="material.gold" value="Χρυσός"/>
-<string key="properties.densityValue" value="{0} κ./λ."/>
+<string key="properties.densityValue" value="{0} Kg/L."/>
 <string key="forceArrowControlPanelTitle" value="Εμφάνιση δυνάμεων"/>
 <string key="properties.weightNewtonValue" value="{0} N"/>
-<string key="customObject.name" value="όνομα"/>
+<string key="customObject.name" value="Όνομα"/>
 <string key="controlPanel.showMasses" value="Μάζες"/>
 <string key="material.water" value="Νερό"/>
 <string key="properties.massGramValue" value="{0} g"/>
@@ -69,6 +68,6 @@
 <string key="mode.one" value="Ένα"/>
 <string key="properties.volume" value="Όγκος"/>
 <string key="buoyancy.simTitle" value="Άνωση"/>
-<string key="properties.kilogramPerLiter" value="κ./λ."/>
-<string key="properties.volumeLiter" value="λ."/>
+<string key="properties.kilogramPerLiter" value="Kg/L"/>
+<string key="properties.volumeLiter" value="L"/>
 </SimStrings>
