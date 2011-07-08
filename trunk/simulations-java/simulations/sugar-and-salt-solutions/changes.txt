@@ -1,3 +1,5 @@
+Micro tab: Increased the size of the insets around the periodic table
+Micro tab: Rewriting model (in progress)
 Micro tab: Added beaker labels and tick marks
 # 0.00.59 (53687) Jul 2, 2011
 Micro tab: Periodic table should hide/restore when switching tabs

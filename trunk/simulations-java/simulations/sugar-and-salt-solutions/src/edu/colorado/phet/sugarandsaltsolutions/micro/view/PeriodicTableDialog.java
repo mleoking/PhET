@@ -39,7 +39,8 @@ public class PeriodicTableDialog extends JDialog {
                 dispenser.addObserver( new VoidFunction1<DispenserType>() {
                     public void apply( DispenserType dispenserType ) {
                         //inset is necessary since the periodic table bounds doesn't account for the stroke width so the top and left would be truncated without this.
-                        final int inset = 2;
+                        //Kelly also requested the inset to be larger than the original value of 2: "I am not sure the idea that "salts are made of atoms on opposite sides of the PT" is clear. Can we add more space around the PT in the popup window?"
+                        final int inset = 26;
                         final PeriodicTableNode node = new PeriodicTableNode( Color.lightGray, new HighlightElements( dispenser.get().getElementAtomicMasses() ) ) {{
                             scale( 1.5 );
                             setOffset( inset, inset );
