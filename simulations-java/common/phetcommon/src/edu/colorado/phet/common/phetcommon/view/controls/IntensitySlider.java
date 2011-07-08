@@ -272,8 +272,8 @@ public class IntensitySlider extends JPanel implements ChangeListener {
             else /* HORIZONTAL */ {
                 // The background shapes.
                 middle = new Rectangle2D.Double( x + trackOffset, y, w - ( 2 * trackOffset ), h );
-                top = new Rectangle2D.Double( middle.getBounds2D().getMaxX(), y,
-                                              ( w - middle.getBounds2D().getWidth() ) / 2, h );
+                top = new Rectangle2D.Double( middle.getBounds2D().getMaxX() - 1, y,
+                                              ( ( w - middle.getBounds2D().getWidth() ) / 2 ) + 1, h );
                 bottom = new Rectangle2D.Double( x, y,
                                                  ( w - middle.getBounds2D().getWidth() ) / 2, h );
                 shape = new Rectangle2D.Double( x, y, w, h );
@@ -289,7 +289,7 @@ public class IntensitySlider extends JPanel implements ChangeListener {
             g2.setPaint( _color );
             g2.fill( top );
             g2.setPaint( gradient );
-            //g2.setPaint( Color.WHITE ); // DEBUG, to see how middle lines up with track ends.
+//            g2.setPaint( Color.WHITE ); // DEBUG, to see how middle lines up with track ends.
             g2.fill( middle );
 
             g2.setStroke( new BasicStroke( 1f ) );
