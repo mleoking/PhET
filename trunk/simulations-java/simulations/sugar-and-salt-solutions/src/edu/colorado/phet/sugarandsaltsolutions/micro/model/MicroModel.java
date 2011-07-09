@@ -76,7 +76,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SphericalParticle> chlorideList = new ItemList<SphericalParticle>();
 
     //Lists of lattices
-    public final ItemList<SaltCrystalLattice> saltCrystalLatticeList = new ItemList<SaltCrystalLattice>();
+    public final ItemList<SaltCrystal> saltCrystalLatticeList = new ItemList<SaltCrystal>();
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -199,7 +199,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: have the lattice create the particles, then add them to the lists here?
 
             //Create a random lattice
-            final SaltCrystalLattice lattice = new SaltCrystalLattice( salt.position.get(), new SaltLattice( 10 ) );
+            final SaltCrystal lattice = new SaltCrystal( salt.position.get(), new SaltLattice( 10 ) );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : lattice ) {
@@ -218,8 +218,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateParticles( dt, chlorideList );
 
         //Keep track of which lattices should dissolve in this time step
-        ArrayList<SaltCrystalLattice> toDissolve = new ArrayList<SaltCrystalLattice>();
-        for ( SaltCrystalLattice lattice : saltCrystalLatticeList ) {
+        ArrayList<SaltCrystal> toDissolve = new ArrayList<SaltCrystal>();
+        for ( SaltCrystal lattice : saltCrystalLatticeList ) {
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
@@ -242,7 +242,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
 
         //Handle dissolving the lattices
-        for ( SaltCrystalLattice saltCrystalLattice : toDissolve ) {
+        for ( SaltCrystal saltCrystalLattice : toDissolve ) {
             dissolve( saltCrystalLattice );
         }
     }
@@ -253,7 +253,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Dissolve the lattice
-    private void dissolve( SaltCrystalLattice lattice ) {
+    private void dissolve( SaltCrystal lattice ) {
         ImmutableVector2D velocity = lattice.velocity.get();
         for ( LatticeConstituent constituent : lattice ) {
             constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
@@ -295,8 +295,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Determine if the lattice contains the specified particle
-    private boolean contains( ItemList<SaltCrystalLattice> latticeList, SphericalParticle particle ) {
-        for ( SaltCrystalLattice lattice : latticeList ) {
+    private boolean contains( ItemList<SaltCrystal> latticeList, SphericalParticle particle ) {
+        for ( SaltCrystal lattice : latticeList ) {
             if ( lattice.contains( particle ) ) {
                 return true;
             }
