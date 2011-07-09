@@ -21,14 +21,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.S
  *
  * @author Sam Reid
  */
-public class SaltCrystalLattice extends Particle implements Iterable<LatticeConstituent> {
+public class SaltCrystal extends Particle implements Iterable<LatticeConstituent> {
     private ArrayList<LatticeConstituent> latticeConstituents = new ArrayList<LatticeConstituent>();
 
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
     private double sizeScale = 0.5;
 
-    public SaltCrystalLattice( ImmutableVector2D position, SaltLattice lattice ) {
+    public SaltCrystal( ImmutableVector2D position, SaltLattice lattice ) {
         super( position );
 
         //Recursive method to traverse the graph and create particles
