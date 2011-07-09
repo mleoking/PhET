@@ -1,7 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.*;
-import java.awt.geom.Area;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -88,13 +88,14 @@ public class SaltCrystal extends Particle implements Iterable<LatticeConstituent
         }
     }
 
-    //The shape of a lattice is the combined area of its constituents
+    //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
     @Override public Shape getShape() {
-        return new Area() {{
-            for ( LatticeConstituent constituent : latticeConstituents ) {
-                add( new Area( constituent.particle.getShape() ) );
-            }
-        }};
+        final Rectangle2D bounds2D = latticeConstituents.get( 0 ).particle.getShape().getBounds2D();
+        Rectangle2D rect = new Rectangle2D.Double( bounds2D.getX(), bounds2D.getY(), bounds2D.getWidth(), bounds2D.getHeight() );
+        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
+            rect = rect.createUnion( latticeConstituent.particle.getShape().getBounds2D() );
+        }
+        return rect;
     }
 
     public Iterator<LatticeConstituent> iterator() {

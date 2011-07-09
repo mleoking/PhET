@@ -306,6 +306,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Determine if the lattice contains the specified particle
+    //TODO: could speed up performance by around 20% if we don't have to do this lookup dynamically
     private boolean contains( ItemList<SaltCrystal> latticeList, SphericalParticle particle ) {
         for ( SaltCrystal lattice : latticeList ) {
             if ( lattice.contains( particle ) ) {
