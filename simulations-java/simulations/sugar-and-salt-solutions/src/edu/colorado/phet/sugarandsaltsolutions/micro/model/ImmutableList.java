@@ -11,10 +11,24 @@ import java.util.Iterator;
 public class ImmutableList<T> implements Iterable<T> {
     private ArrayList<T> elements = new ArrayList<T>();
 
+    //This method is provided to avoid compiler warnings for 0-arg uses of the varargs constructor
+    public ImmutableList() {
+    }
+
     public ImmutableList( T... elm ) {
         for ( T t : elm ) {
             elements.add( t );
         }
+    }
+
+    //Create a list by appending an item to another list
+    public ImmutableList( ImmutableList<T> ions, T ion ) {
+        elements.addAll( ions.elements );
+        elements.add( ion );
+    }
+
+    public T getFirst() {
+        return elements.get( 0 );
     }
 
     public Iterator<T> iterator() {
@@ -23,5 +37,9 @@ public class ImmutableList<T> implements Iterable<T> {
 
     public int size() {
         return elements.size();
+    }
+
+    @Override public String toString() {
+        return elements.toString();
     }
 }

@@ -3,47 +3,127 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SaltLattice.BondType.*;
+
 /**
- * Feasibility test for simplified salt lattice construction and modeling.
+ * Data structures and algorithms for creating and modeling a salt crystal lattice.  Instances are immutable.
+ * TODO: Graph creation does not prevent particles from being placed in the same location (reached by 2 different paths)
  *
  * @author Sam Reid
  */
 public class SaltLattice {
-    private ImmutableList<SodiumIon> sodiumList = new ImmutableList<SodiumIon>();
-    private ImmutableList<ChlorideIon> chlorideList = new ImmutableList<ChlorideIon>();
-    private ImmutableList<Bond> bonds = new ImmutableList<Bond>();
 
+    //List of ions in the salt lattice graph, these are the vertices in the graph representation
+    public final ImmutableList<Ion> ions;
+
+    //List of bonds between ions in the graph, these are the edges in the graph representation
+    public final ImmutableList<Bond> bonds;
+
+    //Create an empty SaltLattice
     public SaltLattice() {
-        this( new ImmutableList<SodiumIon>(), new ImmutableList<ChlorideIon>(), new ImmutableList<Bond>() );
+        this( new ImmutableList<Ion>(), new ImmutableList<Bond>() );
     }
 
-    public SaltLattice( ImmutableList<SodiumIon> sodiumList, ImmutableList<ChlorideIon> chlorideList, ImmutableList<Bond> bonds ) {
-        this.sodiumList = sodiumList;
-        this.chlorideList = chlorideList;
+    //Create a random salt lattice with the specified number of vertices
+    public SaltLattice( int numVertices ) {
+        Random random = new Random();
+        SaltLattice lattice = new SaltLattice();
+        for ( int i = 0; i < numVertices; i++ ) {
+            lattice = lattice.grow( random );
+        }
+        this.ions = lattice.ions;
+        this.bonds = lattice.bonds;
+    }
+
+    //Create a SaltLattice with the specified ions and bonds
+    public SaltLattice( ImmutableList<Ion> ions, ImmutableList<Bond> bonds ) {
+        this.ions = ions;
         this.bonds = bonds;
     }
 
-    static class SodiumIon {
+    static class Ion {
     }
 
-    static class ChlorideIon {
+    static class SodiumIon extends Ion {
+        @Override public String toString() {
+            return "Na";
+        }
     }
 
-    static class Bond {
-        static final Bond UP = new Bond();
-        static final Bond DOWN = new Bond();
-        static final Bond LEFT = new Bond();
-        static final Bond RIGHT = new Bond();
+    static class ChlorideIon extends Ion {
+        @Override public String toString() {
+            return "Cl";
+        }
     }
 
-    public static void main( String[] args ) {
-        final Random random = new Random();
-        new SaltLattice().grow( random );
+    public static class Bond {
+        public final Ion source;
+        public final Ion destination;
+        public final BondType type;
+
+        Bond( Ion source, Ion destination, BondType type ) {
+            this.source = source;
+            this.destination = destination;
+            this.type = type;
+        }
+
+        public Bond reverse() {
+            return new Bond( destination, source, type.reverse() );
+        }
+
+        @Override public String toString() {
+            return source + " --" + type + "--> " + destination;
+        }
+    }
+
+    @Override public String toString() {
+        return "ions: " + ions.toString() + ", bonds: " + bonds;
+    }
+
+    static abstract class BondType {
+        static final BondType UP = new BondType() {
+            @Override public BondType reverse() {
+                return DOWN;
+            }
+
+            @Override public String toString() {
+                return "up";
+            }
+        };
+        static final BondType DOWN = new BondType() {
+            @Override public BondType reverse() {
+                return UP;
+            }
+
+            @Override public String toString() {
+                return "down";
+            }
+        };
+        static final BondType LEFT = new BondType() {
+            @Override public BondType reverse() {
+                return RIGHT;
+            }
+
+            @Override public String toString() {
+                return "left";
+            }
+        };
+        static final BondType RIGHT = new BondType() {
+            @Override public BondType reverse() {
+                return LEFT;
+            }
+
+            @Override public String toString() {
+                return "right";
+            }
+        };
+
+        public abstract BondType reverse();
     }
 
     private SaltLattice grow( Random random ) {
-        if ( sodiumList.size() == 0 && chlorideList.size() == 0 ) {
-            return new SaltLattice( new ImmutableList<SodiumIon>( new SodiumIon() ), new ImmutableList<ChlorideIon>(), new ImmutableList<Bond>() );
+        if ( ions.size() == 0 ) {
+            return new SaltLattice( new ImmutableList<Ion>( new SodiumIon() ), new ImmutableList<Bond>() );
         }
         else {
             //Randomly choose an open site for expansion
@@ -56,12 +136,62 @@ public class SaltLattice {
     }
 
     private ArrayList<OpenSite> getOpenSites() {
-        return new ArrayList<OpenSite>();
+        ArrayList<OpenSite> openSites = new ArrayList<OpenSite>();
+        for ( Ion ion : ions ) {
+            ArrayList<Bond> bonds = getBonds( ion );
+            testAddSite( openSites, ion, bonds, UP );
+            testAddSite( openSites, ion, bonds, DOWN );
+            testAddSite( openSites, ion, bonds, LEFT );
+            testAddSite( openSites, ion, bonds, RIGHT );
+        }
+        return openSites;
     }
 
-    private class OpenSite {
-        public SaltLattice grow( SaltLattice saltLattice ) {
-            return new SaltLattice();
+    private void testAddSite( ArrayList<OpenSite> openSites, Ion ion, ArrayList<Bond> bonds, BondType type ) {
+        if ( !containsBondType( bonds, type ) ) {
+            openSites.add( new OpenSite( ion, type ) );
         }
+    }
+
+    private boolean containsBondType( ArrayList<Bond> bonds, BondType type ) {
+        for ( Bond bond : bonds ) {
+            if ( bond.type == type ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArrayList<Bond> getBonds( Ion ion ) {
+        ArrayList<Bond> ionBonds = new ArrayList<Bond>();
+        for ( Bond bond : bonds ) {
+            if ( bond.source == ion ) {
+                ionBonds.add( bond );
+            }
+            else if ( bond.destination == ion ) {
+                ionBonds.add( bond.reverse() );
+            }
+        }
+        return ionBonds;
+    }
+
+    private static class OpenSite {
+        private final Ion ion;
+        private final BondType type;
+
+        public OpenSite( Ion ion, BondType type ) {
+            this.ion = ion;
+            this.type = type;
+        }
+
+        public SaltLattice grow( SaltLattice saltLattice ) {
+            Ion newIon = ( ion instanceof SodiumIon ) ? new ChlorideIon() : new SodiumIon();
+            return new SaltLattice( new ImmutableList<Ion>( saltLattice.ions, newIon ), new ImmutableList<Bond>( saltLattice.bonds, new Bond( ion, newIon, type ) ) );
+        }
+    }
+
+    public static void main( String[] args ) {
+        SaltLattice lattice = new SaltLattice( 10 );
+        System.out.println( "saltLattice = " + lattice );
     }
 }
