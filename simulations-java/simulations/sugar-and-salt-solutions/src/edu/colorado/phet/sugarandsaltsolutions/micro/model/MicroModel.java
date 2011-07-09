@@ -223,11 +223,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
-            final boolean underwater = isUnderwater( lattice );
 
-            //If underwater, lattice should slow down and move at a constant speed
-            if ( underwater && !lattice.isUnderwater() ) {
+            //If any part touched the water, the lattice should slow down and move at a constant speed
+            if ( isAnyPartUnderwater( lattice ) ) {
                 lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+            }
+
+            //If completely underwater, lattice should prepare to dissolve
+            if ( isCompletelyUnderwater( lattice ) && !lattice.isUnderwater() ) {
                 lattice.setUnderwater( time );
             }
             lattice.stepInTime( getExternalForce( lattice ).times( mass ), dt );
@@ -235,7 +238,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
                 final double timeUnderwater = time - lattice.getUnderWaterTime();
-                if ( timeUnderwater > 1.5 ) {
+                if ( timeUnderwater > 1 ) {
                     toDissolve.add( lattice );
                 }
             }
@@ -249,7 +252,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
     private ImmutableVector2D getExternalForce( Particle particle ) {
-        return new ImmutableVector2D( 0, isUnderwater( particle ) ? 0 : -9.8 );
+        return new ImmutableVector2D( 0, isAnyPartUnderwater( particle ) ? 0 : -9.8 );
     }
 
     //Dissolve the lattice
@@ -261,9 +264,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         saltCrystalLatticeList.remove( lattice );
     }
 
-    //Determine whether the object is underwater--when it goes underwater it should slow down and set a timer so it will dissolve soon
-    private boolean isUnderwater( Particle particle ) {
+    //Determine whether the object is underwater--when it touches the water it should slow down
+    private boolean isAnyPartUnderwater( Particle particle ) {
         return particle.getShape().intersects( solution.shape.get().getBounds2D() );
+    }
+
+    //Determine whether the object is completely underwater--when it goes completely underwater it should dissolve soon
+    private boolean isCompletelyUnderwater( Particle particle ) {
+        return solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() );
     }
 
     private final Random random = new Random();
