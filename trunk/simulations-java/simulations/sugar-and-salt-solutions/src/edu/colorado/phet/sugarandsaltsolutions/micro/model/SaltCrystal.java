@@ -41,6 +41,9 @@ public class SaltCrystal extends Particle implements Iterable<LatticeConstituent
         stepInTime( new ImmutableVector2D(), 0.0 );
     }
 
+    //Put the vectors at the same angle so all crystals don't come out at right angles
+    private final double angle = Math.random() * 2 * Math.PI;
+
     //Recursive method to traverse the graph and create particles
     private void fill( SaltLattice lattice, Ion ion, ArrayList<Ion> handled, ImmutableVector2D relativePosition ) {
         final double chlorideRadius = Units.picometersToMeters( 181 ) * sizeScale;
@@ -56,7 +59,7 @@ public class SaltCrystal extends Particle implements Iterable<LatticeConstituent
         ArrayList<Bond> bonds = lattice.getBonds( ion );
         for ( Bond bond : bonds ) {
             if ( !handled.contains( bond.destination ) ) {
-                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ) ) );
+                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ) );
             }
         }
     }
