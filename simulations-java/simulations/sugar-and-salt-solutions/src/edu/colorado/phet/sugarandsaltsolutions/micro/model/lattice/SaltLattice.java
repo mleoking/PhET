@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Ion.SodiumIon;
 
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.BondType.*;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType.*;
 
 /**
  * Data structures and algorithms for creating and modeling a salt crystal lattice.  Instances are immutable.
@@ -29,10 +30,14 @@ public class SaltLattice {
     //Create a random salt lattice with the specified number of vertices
     public SaltLattice( int numVertices ) {
         Random random = new Random();
+
+        //Iterative algorithm to grow the salt lattice
         SaltLattice lattice = new SaltLattice();
         for ( int i = 0; i < numVertices; i++ ) {
             lattice = lattice.grow( random );
         }
+
+        //Take the components of the grown lattice for this instance
         this.ions = lattice.ions;
         this.bonds = lattice.bonds;
     }
@@ -43,86 +48,11 @@ public class SaltLattice {
         this.bonds = bonds;
     }
 
-    public static class Ion {
-    }
-
-    public static class SodiumIon extends Ion {
-        @Override public String toString() {
-            return "Na";
-        }
-    }
-
-    static class ChlorideIon extends Ion {
-        @Override public String toString() {
-            return "Cl";
-        }
-    }
-
-    public static class Bond {
-        public final Ion source;
-        public final Ion destination;
-        public final BondType type;
-
-        Bond( Ion source, Ion destination, BondType type ) {
-            this.source = source;
-            this.destination = destination;
-            this.type = type;
-        }
-
-        public Bond reverse() {
-            return new Bond( destination, source, type.reverse() );
-        }
-
-        @Override public String toString() {
-            return source + " --" + type + "--> " + destination;
-        }
-    }
-
     @Override public String toString() {
         return "ions: " + ions.toString() + ", bonds: " + bonds;
     }
 
-    public static abstract class BondType {
-        public static final BondType UP = new BondType() {
-            @Override public BondType reverse() {
-                return DOWN;
-            }
-
-            @Override public String toString() {
-                return "up";
-            }
-        };
-        public static final BondType DOWN = new BondType() {
-            @Override public BondType reverse() {
-                return UP;
-            }
-
-            @Override public String toString() {
-                return "down";
-            }
-        };
-        public static final BondType LEFT = new BondType() {
-            @Override public BondType reverse() {
-                return RIGHT;
-            }
-
-            @Override public String toString() {
-                return "left";
-            }
-        };
-        public static final BondType RIGHT = new BondType() {
-            @Override public BondType reverse() {
-                return LEFT;
-            }
-
-            @Override public String toString() {
-                return "right";
-            }
-        };
-
-        public abstract BondType reverse();
-    }
-
+    //Create a new SaltLattice with a new ion
     private SaltLattice grow( Random random ) {
         if ( ions.size() == 0 ) {
             return new SaltLattice( new ImmutableList<Ion>( new SodiumIon() ), new ImmutableList<Bond>() );
@@ -137,24 +67,25 @@ public class SaltLattice {
         }
     }
 
+    //Find the available sites where a new ion might be added
     private ArrayList<OpenSite> getOpenSites() {
         ArrayList<OpenSite> openSites = new ArrayList<OpenSite>();
         for ( Ion ion : ions ) {
-            ArrayList<Bond> bonds = getBonds( ion );
-            testAddSite( openSites, ion, bonds, UP );
-            testAddSite( openSites, ion, bonds, DOWN );
-            testAddSite( openSites, ion, bonds, LEFT );
-            testAddSite( openSites, ion, bonds, RIGHT );
+            for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
+                testAddSite( openSites, ion, getBonds( ion ), bondType );
+            }
         }
         return openSites;
     }
 
+    //Check to see whether the adjacent site is available, if so, add it to the list of open sites
     private void testAddSite( ArrayList<OpenSite> openSites, Ion ion, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             openSites.add( new OpenSite( ion, type ) );
         }
     }
 
+    //Determine whether the list contains a bond of the specified type
     private boolean containsBondType( ArrayList<Bond> bonds, BondType type ) {
         for ( Bond bond : bonds ) {
             if ( bond.type == type ) {
@@ -164,6 +95,7 @@ public class SaltLattice {
         return false;
     }
 
+    //Find all of the bonds originating at the source ion, reverses bonds if necessary so the specified ion is the source
     public ArrayList<Bond> getBonds( Ion ion ) {
         ArrayList<Bond> ionBonds = new ArrayList<Bond>();
         for ( Bond bond : bonds ) {
@@ -177,21 +109,7 @@ public class SaltLattice {
         return ionBonds;
     }
 
-    private static class OpenSite {
-        private final Ion ion;
-        private final BondType type;
-
-        public OpenSite( Ion ion, BondType type ) {
-            this.ion = ion;
-            this.type = type;
-        }
-
-        public SaltLattice grow( SaltLattice saltLattice ) {
-            Ion newIon = ( ion instanceof SodiumIon ) ? new ChlorideIon() : new SodiumIon();
-            return new SaltLattice( new ImmutableList<Ion>( saltLattice.ions, newIon ), new ImmutableList<Bond>( saltLattice.bonds, new Bond( ion, newIon, type ) ) );
-        }
-    }
-
+    //Sample main to test lattice construction
     public static void main( String[] args ) {
         SaltLattice lattice = new SaltLattice( 10 );
         System.out.println( "saltLattice = " + lattice );
