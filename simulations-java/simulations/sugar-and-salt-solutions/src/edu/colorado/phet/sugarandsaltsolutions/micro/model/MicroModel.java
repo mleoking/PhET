@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import java.awt.*;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -39,8 +38,6 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.angstromsToMeters;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.picometersToMeters;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -199,24 +196,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: create a lattice and set the locations appropriately
             //TODO: fix colors and sizes
 
-            //Position overwritten by lattice
-            final ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
-
-            //Scale the ions down from their actual van der waals radii so they don't take up too much space on the screen
-            double sizeScale = 0.3;
-
-            //Create the ions
-            final SphericalParticle sodium = new SphericalParticle( picometersToMeters( 227 ) * sizeScale, zero, Color.green );
-            sodiumList.add( sodium );
-            final double chlorideRadius = angstromsToMeters( 1.75 ) * sizeScale;
-            final SphericalParticle chloride = new SphericalParticle( chlorideRadius, zero, Color.blue );
-            chlorideList.add( chloride );
-
             //TODO: getPosition is abstract so the particle can query the lattice?
             //TODO: have the lattice create the particles, then add them to the lists here?
-            saltCrystalLatticeList.add( new SaltCrystalLattice( salt.position.get(),
-                                                                new LatticeConstituent( sodium, 0, 0 ),
-                                                                new LatticeConstituent( chloride, 0, sodium.radius + chlorideRadius ) ) );
+//            saltCrystalLatticeList.add( SaltCrystalLattice.grow( salt.position.get(), 10 ) );
+//            saltCrystalLatticeList
         }
     }
 
