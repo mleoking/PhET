@@ -1,9 +1,11 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SaltLattice.BondType.*;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.BondType.*;
 
 /**
  * Data structures and algorithms for creating and modeling a salt crystal lattice.  Instances are immutable.
@@ -41,10 +43,10 @@ public class SaltLattice {
         this.bonds = bonds;
     }
 
-    static class Ion {
+    public static class Ion {
     }
 
-    static class SodiumIon extends Ion {
+    public static class SodiumIon extends Ion {
         @Override public String toString() {
             return "Na";
         }
@@ -80,8 +82,8 @@ public class SaltLattice {
         return "ions: " + ions.toString() + ", bonds: " + bonds;
     }
 
-    static abstract class BondType {
-        static final BondType UP = new BondType() {
+    public static abstract class BondType {
+        public static final BondType UP = new BondType() {
             @Override public BondType reverse() {
                 return DOWN;
             }
@@ -90,7 +92,7 @@ public class SaltLattice {
                 return "up";
             }
         };
-        static final BondType DOWN = new BondType() {
+        public static final BondType DOWN = new BondType() {
             @Override public BondType reverse() {
                 return UP;
             }
@@ -99,7 +101,7 @@ public class SaltLattice {
                 return "down";
             }
         };
-        static final BondType LEFT = new BondType() {
+        public static final BondType LEFT = new BondType() {
             @Override public BondType reverse() {
                 return RIGHT;
             }
@@ -108,7 +110,7 @@ public class SaltLattice {
                 return "left";
             }
         };
-        static final BondType RIGHT = new BondType() {
+        public static final BondType RIGHT = new BondType() {
             @Override public BondType reverse() {
                 return LEFT;
             }
