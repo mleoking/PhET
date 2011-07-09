@@ -18,7 +18,10 @@ import edu.umd.cs.piccolox.PFrame;
  */
 public class SphericalParticleNode extends PNode {
     public SphericalParticleNode( final ModelViewTransform transform, final SphericalParticle particle ) {
-        addChild( new ShadedSphereNode( transform.modelToViewDeltaX( particle.radius * 2 ), particle.color, Color.white, Color.black, false ) {{
+        addChild( new ShadedSphereNode( transform.modelToViewDeltaX( particle.radius * 2 ), particle.color, Color.white, Color.black,
+
+                                        //Turn on buffering for improved performance
+                                        true ) {{
             particle.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                 public void apply( ImmutableVector2D position ) {
                     setOffset( transform.modelToView( position ).toPoint2D() );

@@ -26,10 +26,13 @@ public class SaltCrystal extends Particle implements Iterable<LatticeConstituent
 
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
-    private double sizeScale = 0.5;
 
-    public SaltCrystal( ImmutableVector2D position, SaltLattice lattice ) {
+    //The fractional scale by which to multiply the sizes to make them look a good size on the screen
+    private double sizeScale;
+
+    public SaltCrystal( ImmutableVector2D position, SaltLattice lattice, double sizeScale ) {
         super( position );
+        this.sizeScale = sizeScale;
 
         //Recursive method to traverse the graph and create particles
         fill( lattice, lattice.ions.getFirst(), new ArrayList<Ion>(), new ImmutableVector2D() );
