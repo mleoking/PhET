@@ -21,6 +21,39 @@ public class SaltCrystalLattice extends Particle implements Iterable<LatticeCons
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
 
+//    public static SaltCrystalLattice grow( ImmutableVector2D position, int numConstituents ) {
+//        return grow( new SaltCrystalLattice( position ), numConstituents );
+//    }
+
+//    public static SaltCrystalLattice grow( SaltCrystalLattice lattice, int numConstituents ) {
+//        if ( lattice.latticeConstituents.size() >= numConstituents ) {
+//            return lattice;
+//        }
+//        else {
+//            //Scale the ions down from their actual van der waals radii so they don't take up too much space on the screen
+//            double sizeScale = 0.5;
+//
+//            final double sodiumRadius = picometersToMeters( 102 ) * sizeScale;
+//            final SphericalParticle sodium = new SphericalParticle( sodiumRadius, new ImmutableVector2D( 0, 0 ), Color.red );
+//            //new SaltCrystalLattice( position, new LatticeConstituent( sodium, 0, 0 ) );
+//
+//            //Position overwritten by lattice
+//
+//            //Create the ions
+//            //Colors and sizes from the table in https://docs.google.com/document/d/1h6aWxvNMhXUNJiTa2GCMRUqvzUNoiGxN_JEXYjam8Kc/edit?hl=en#
+//
+//
+////        sodiumList.add( sodium );
+////        final double chlorideRadius = picometersToMeters( 181 ) * sizeScale;
+////        final SphericalParticle chloride = new SphericalParticle( chlorideRadius, zero, Color.blue );
+////        chlorideList.add( chloride );
+//
+//            return new
+////        new LatticeConstituent( sodium, 0, 0 ),
+////                new LatticeConstituent( chloride, 0, sodium.radius + chlorideRadius )));
+//        }
+//    }
+
     public SaltCrystalLattice( ImmutableVector2D position, LatticeConstituent... constituents ) {
         super( position );
         for ( LatticeConstituent constituent : constituents ) {
