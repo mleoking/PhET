@@ -47,33 +47,26 @@ public class SaltCrystal extends Particle implements Iterable<LatticeConstituent
         final double sodiumRadius = Units.picometersToMeters( 102 ) * sizeScale;
         final double spacing = chlorideRadius + sodiumRadius;
         if ( ion instanceof SodiumIon ) {
-            final SphericalParticle sodium = new SphericalParticle( sodiumRadius, new ImmutableVector2D( 0, 0 ), Color.red );
-            latticeConstituents.add( new LatticeConstituent( sodium, relativePosition ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( sodiumRadius, new ImmutableVector2D( 0, 0 ), Color.red ), relativePosition ) );
         }
         else {
-            final SphericalParticle chloride = new SphericalParticle( chlorideRadius, new ImmutableVector2D( 0, 0 ), Color.blue );
-            latticeConstituents.add( new LatticeConstituent( chloride, relativePosition ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( chlorideRadius, new ImmutableVector2D( 0, 0 ), Color.blue ), relativePosition ) );
         }
         handled.add( ion );
         ArrayList<Bond> bonds = lattice.getBonds( ion );
         for ( Bond bond : bonds ) {
-            ImmutableVector2D delta = null;
-            if ( bond.type == BondType.LEFT ) {
-                delta = new ImmutableVector2D( -spacing, 0 );
-            }
-            else if ( bond.type == BondType.RIGHT ) {
-                delta = new ImmutableVector2D( spacing, 0 );
-            }
-            else if ( bond.type == BondType.UP ) {
-                delta = new ImmutableVector2D( 0, spacing );
-            }
-            else if ( bond.type == BondType.DOWN ) {
-                delta = new ImmutableVector2D( 0, -spacing );
-            }
             if ( !handled.contains( bond.destination ) ) {
-                fill( lattice, bond.destination, handled, relativePosition.plus( delta ) );
+                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ) ) );
             }
         }
+    }
+
+    private ImmutableVector2D getDelta( double spacing, Bond bond ) {
+        if ( bond.type == BondType.LEFT ) { return new ImmutableVector2D( -spacing, 0 ); }
+        else if ( bond.type == BondType.RIGHT ) { return new ImmutableVector2D( spacing, 0 ); }
+        else if ( bond.type == BondType.UP ) { return new ImmutableVector2D( 0, spacing ); }
+        else if ( bond.type == BondType.DOWN ) { return new ImmutableVector2D( 0, -spacing ); }
+        else { throw new RuntimeException( "Unknown bond type: " + bond ); }
     }
 
     public boolean contains( SphericalParticle particle ) {
