@@ -10,11 +10,11 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Ion;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Ion.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.Bond;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.BondType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.Ion;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice.SodiumIon;
 
 /**
  * This lattice for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
