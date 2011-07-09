@@ -199,7 +199,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: have the lattice create the particles, then add them to the lists here?
 
             //Create a random lattice
-            final SaltCrystal lattice = new SaltCrystal( salt.position.get(), new SaltLattice( 10 ) );
+            final SaltCrystal lattice = new SaltCrystal( salt.position.get(), new SaltLattice( 20 ), 0.35 );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : lattice ) {
@@ -224,8 +224,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
 
+            //Cache the value to improve performance by 30% when number of particles is large
+            final boolean anyPartUnderwater = isAnyPartUnderwater( lattice );
+
             //If any part touched the water, the lattice should slow down and move at a constant speed
-            if ( isAnyPartUnderwater( lattice ) ) {
+            if ( anyPartUnderwater ) {
                 lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
             }
 
@@ -233,7 +236,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             if ( isCompletelyUnderwater( lattice ) && !lattice.isUnderwater() ) {
                 lattice.setUnderwater( time );
             }
-            lattice.stepInTime( getExternalForce( lattice ).times( mass ), dt );
+            lattice.stepInTime( getExternalForce( anyPartUnderwater ).times( mass ), dt );
 
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
@@ -251,8 +254,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
-    private ImmutableVector2D getExternalForce( Particle particle ) {
-        return new ImmutableVector2D( 0, isAnyPartUnderwater( particle ) ? 0 : -9.8 );
+    private ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
+        return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
     }
 
     //Dissolve the lattice
@@ -284,7 +287,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
                 double mass = 1E-10;
                 ImmutableVector2D initialPosition = particle.position.get();
-                particle.stepInTime( getExternalForce( particle ).times( mass ).times( mass ), dt );
+                particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( mass ).times( mass ), dt );
 
                 //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
                 double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
