@@ -193,13 +193,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         if ( stepsOfAddingSalt.get() % 10 == 0 ) {
 
             //Create the sodium and chloride ions and add to the model
-            //TODO: create a lattice and set the locations appropriately
-            //TODO: fix colors and sizes
 
             //TODO: getPosition is abstract so the particle can query the lattice?
             //TODO: have the lattice create the particles, then add them to the lists here?
-//            saltCrystalLatticeList.add( SaltCrystalLattice.grow( salt.position.get(), 10 ) );
-//            saltCrystalLatticeList
+
+            //Create a random lattice
+            final SaltCrystalLattice lattice = new SaltCrystalLattice( salt.position.get(), new SaltLattice( 10 ) );
+
+            //Add the components of the lattice to the model so the graphics will be created
+            for ( LatticeConstituent latticeConstituent : lattice ) {
+
+                //TODO: split up sodium and chloride ions into separate lists
+                sodiumList.add( (SphericalParticle) latticeConstituent.particle );
+            }
+            saltCrystalLatticeList.add( lattice );
         }
     }
 
@@ -220,7 +227,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //If underwater, lattice should slow down and move at a constant speed
             if ( underwater && !lattice.isUnderwater() ) {
                 lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
-                lattice.setUnderWater( time );
+                lattice.setUnderwater( time );
             }
             lattice.stepInTime( getExternalForce( lattice ).times( mass ), dt );
 
