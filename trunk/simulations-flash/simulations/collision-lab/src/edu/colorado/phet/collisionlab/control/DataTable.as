@@ -27,11 +27,10 @@ public class DataTable extends Sprite {
     public var canvas: Sprite;			//canvas holds several rowCanvases, full data table
     public var invisibleBorder: Sprite;	//draggable border
     public var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
-    public var colWidth: int;			//width of column in pix
-    public var rowHeight: int;			//height of row in pix
+    public static const colWidth: int = 60;			//width of column in pix
+    public static const rowHeight: int = 27;			//height of row in pix
     public var rowWidth: int;			//width of row in pix, used to set borderwidth
     public var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
-    //var toggleButton:Button;	//button to toggle full or partial data display
     public var addBallButton: NiceButton;		//button to add ball, originally on Control Panel
     public var removeBallButton: NiceButton; 	//button to remove ball, originally on Control Panel
     public var moreDataButton: NiceButton;//button to toggle full or partial data display
@@ -44,15 +43,12 @@ public class DataTable extends Sprite {
     public var tFormat: TextFormat;
     public var manualUpdating: Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
     public var sliderUpdating: Boolean; //true if use is using mass slider
-    //var testField:TextField;		//for testing purposing
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
-        colWidth = 60;
-        rowHeight = 27;
         rowCanvas_arr = new Array( CLConstants.MAX_BALLS + 1 ); //header row + row for each ball
         text_arr = new Array( CLConstants.MAX_BALLS + 1 );	//rows
         massSlider_arr = new Array( CLConstants.MAX_BALLS + 1 );
