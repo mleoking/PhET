@@ -12,7 +12,6 @@ import edu.colorado.phet.chemistry.model.Element;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.view.SucroseNode;
 
@@ -38,7 +37,7 @@ public class SucroseImage {
             //Scale the graphic so it will be a good size for putting into a crystal lattice, with sizes
             //Just using RADIUS * 2 leaves too much space between particles in the lattice
             double width = getFullBounds().getWidth();
-            scale( SugarIon.RADIUS * 3 / width );
+            scale( 14 * 3 / width );
 
             //Put it a random angle
             rotate( Math.random() * Math.PI * 2 );

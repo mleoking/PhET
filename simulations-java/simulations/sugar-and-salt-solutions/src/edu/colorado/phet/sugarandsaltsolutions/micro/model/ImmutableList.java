@@ -22,9 +22,9 @@ public class ImmutableList<T> implements Iterable<T> {
     }
 
     //Create a list by appending an item to another list
-    public ImmutableList( ImmutableList<T> ions, T ion ) {
-        elements.addAll( ions.elements );
-        elements.add( ion );
+    public ImmutableList( ImmutableList<T> originalValues, T element ) {
+        elements.addAll( originalValues.elements );
+        elements.add( element );
     }
 
     public T getFirst() {

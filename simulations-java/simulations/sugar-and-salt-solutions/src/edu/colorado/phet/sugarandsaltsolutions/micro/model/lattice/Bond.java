@@ -6,11 +6,11 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
  * @author Sam Reid
  */
 public class Bond {
-    public final Ion source;
-    public final Ion destination;
+    public final Component source;
+    public final Component destination;
     public final BondType type;
 
-    public Bond( Ion source, Ion destination, BondType type ) {
+    public Bond( Component source, Component destination, BondType type ) {
         this.source = source;
         this.destination = destination;
         this.type = type;

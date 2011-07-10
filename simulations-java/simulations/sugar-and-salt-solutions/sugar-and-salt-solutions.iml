@@ -27,7 +27,6 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="chemistry" />
-    <orderEntry type="module" module-name="soluble-salts" />
     <orderEntry type="module" module-name="jmol-phet" />
   </component>
 </module>
