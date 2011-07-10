@@ -36,9 +36,14 @@ public class ItemList<T> implements Iterable<T> {
         itemAddedListeners.notifyListeners( item );
     }
 
-    public void remove( T item ) {
+    //TODO: Make this work for subtypes of T
+    public void remove( Object item ) {
         items.remove( item );
-        itemRemovedListeners.notifyListeners( item );
+        itemRemovedListeners.notifyListeners( (T) item );
+    }
+
+    public ArrayList<T> getItems() {
+        return items;
     }
 
     public Iterator<T> iterator() {

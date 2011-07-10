@@ -32,11 +32,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final DoubleProperty sugarConcentration = new DoubleProperty( 0.0 );
     public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );
 
-    public final Property<Integer> evaporationRate = new Property<Integer>( 0 );
-
-    //TODO: Eventually we will want to let the fluid volume go to zero, but to fix bugs for interviews, we limit it now
-    public final static int MIN_FLUID_VOLUME = 60 * 2;//2.0 E-23 L
-
     private DoubleProperty numSaltIons = new DoubleProperty( 0.0 );
     private DoubleProperty numSugarMolecules = new DoubleProperty( 0.0 );
 
@@ -117,7 +112,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SugarCrystal crystal = new SugarCrystal( sugar.position.get(), (SugarLattice) new SugarLattice().grow( 20 ), 0.35 );
+            final SugarCrystal crystal = new SugarCrystal( sugar.position.get(), (SugarLattice) new SugarLattice().grow( 3 ), 0.35 );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
@@ -134,10 +129,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.updateModel( dt );
         updateParticles( dt, sodiumList );
         updateParticles( dt, chlorideList );
+//        updateParticles( dt, sugarList );
 
+        updateCrystals( dt, saltCrystals );
+        updateCrystals( dt, sugarCrystals );
+    }
+
+    //Update the crystals by moving them about and possibly dissolving them
+    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals ) {
         //Keep track of which lattices should dissolve in this time step
-        ArrayList<SaltCrystal> toDissolve = new ArrayList<SaltCrystal>();
-        for ( SaltCrystal lattice : saltCrystals ) {
+        ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
+        for ( Crystal lattice : crystals ) {
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E-10;
@@ -166,8 +168,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
 
         //Handle dissolving the lattices
-        for ( SaltCrystal saltCrystalLattice : toDissolve ) {
-            dissolve( saltCrystalLattice );
+        for ( Crystal saltCrystalLattice : toDissolve ) {
+            dissolve( crystals, saltCrystalLattice );
+            crystals.getItems().remove( saltCrystalLattice );
         }
     }
 
@@ -177,12 +180,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Dissolve the lattice
-    private void dissolve( SaltCrystal lattice ) {
-        ImmutableVector2D velocity = lattice.velocity.get();
-        for ( LatticeConstituent constituent : lattice ) {
+    private void dissolve( ItemList<? extends Crystal> crystals, Crystal crystal ) {
+        ImmutableVector2D velocity = crystal.velocity.get();
+        for ( LatticeConstituent constituent : crystal ) {
             constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
         }
-        saltCrystals.remove( lattice );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down

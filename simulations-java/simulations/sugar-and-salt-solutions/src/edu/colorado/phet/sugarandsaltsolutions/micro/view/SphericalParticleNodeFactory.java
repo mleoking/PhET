@@ -11,12 +11,12 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
  *
  * @author Sam Reid
  */
-public class ParticleNodeFactory implements VoidFunction1<SphericalParticle> {
+public class SphericalParticleNodeFactory implements VoidFunction1<SphericalParticle> {
     private final ItemList<SphericalParticle> list;
     private final ModelViewTransform transform;
     private final MicroCanvas canvas;
 
-    public ParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, MicroCanvas canvas ) {
+    public SphericalParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, MicroCanvas canvas ) {
         this.list = list;
         this.transform = transform;
         this.canvas = canvas;
