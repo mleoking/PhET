@@ -232,6 +232,7 @@ public class BallImage extends Sprite {
         arrowHeadLabel.text = "V";
         arrowHeadLabel.textColor = 0x666666;
         var fmt:TextFormat = new TextFormat();
+        fmt.font = "Arial";
         fmt.size = 20;
         arrowHeadLabel.setTextFormat( fmt );
 
