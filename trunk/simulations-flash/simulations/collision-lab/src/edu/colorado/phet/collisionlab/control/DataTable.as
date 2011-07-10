@@ -33,8 +33,7 @@ public class DataTable extends Sprite {
     private var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
     private var rowWidth: int;			//width of row in pix, used to set borderwidth
 
-    // TODO: remove dependencies from BallImage
-    public var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
+    private var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
     private var addBallButton_sp: Sprite;		//addBallButton sprite
     private var removeBallButton_sp: Sprite;		//removeBallButton sprite
     private var moreDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
@@ -244,9 +243,9 @@ public class DataTable extends Sprite {
         text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
         //if ( !myModel.isIntro ) {  TODO enable if statement
-            text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
-            text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
-            text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
+        text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+        text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
+        text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
         //}
         tFormat.bold = true;
         for ( var row: int = 0; row < MAX_ROWS; row++ ) {
@@ -365,6 +364,28 @@ public class DataTable extends Sprite {
                     }
                 }
             }
+        }
+    }
+
+    public function setPositionHighlight( ballIndex: int, highlighted: Boolean ): void {
+        if ( highlighted ) {
+            text_arr[ballIndex + 1][2].backgroundColor = 0xffff33;
+            text_arr[ballIndex + 1][3].backgroundColor = 0xffff33;
+        }
+        else {
+            text_arr[ballIndex + 1][2].backgroundColor = 0xffffff;
+            text_arr[ballIndex + 1][3].backgroundColor = 0xffffff;
+        }
+    }
+
+    public function setVelocityHighlight( ballIndex: int, highlighted: Boolean ): void {
+        if ( highlighted ) {
+            text_arr[ballIndex + 1][4].backgroundColor = 0xffff33;
+            text_arr[ballIndex + 1][5].backgroundColor = 0xffff33;
+        }
+        else {
+            text_arr[ballIndex + 1][4].backgroundColor = 0xffffff;
+            text_arr[ballIndex + 1][5].backgroundColor = 0xffffff;
         }
     }
 
