@@ -847,6 +847,7 @@
     <orderEntry type="module" module-name="timeseries" exported="" />
     <orderEntry type="module" module-name="JSci" exported="" />
     <orderEntry type="module" module-name="motion" exported="" />
+    <orderEntry type="module" module-name="gravity-and-orbits" exported="" />
   </component>
 </module>
 
