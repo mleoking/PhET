@@ -41,7 +41,6 @@ public class DataTable extends Sprite {
     public var moreDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
     public var lessDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
     public var massSlider_arr: Array;	//array of mass sliders
-    public var nbrColumns: int;			//nbr of columns in full data table
     public var tFormat: TextFormat;
     public var manualUpdating: Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
     public var sliderUpdating: Boolean; //true if use is using mass slider
@@ -52,7 +51,6 @@ public class DataTable extends Sprite {
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
-        nbrColumns = 8;
         colWidth = 60;
         rowHeight = 27;
         rowCanvas_arr = new Array( CLConstants.MAX_BALLS + 1 ); //header row + row for each ball
@@ -66,17 +64,17 @@ public class DataTable extends Sprite {
         //create textfields for full data table and mass sliders for partial data table
         for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {  //header row + row for each ball
             rowCanvas_arr[i] = new Sprite();
-            text_arr[i] = new Array( this.nbrColumns );
+            text_arr[i] = new Array( nbrColumns );
             if ( i > 0 ) {
                 var k: int = i - 1;
                 massSlider_arr[k] = new Slider();
                 massSlider_arr[k].name = k; //label slider with ball number: 0, 1, ..
                 setupSlider( this.massSlider_arr[k] );
             }
-            for ( var j: int = 0; j < this.nbrColumns; j++ ) {
-                text_arr[i][j] = new TextField();
-                text_arr[i][j].defaultTextFormat = tFormat;
-                text_arr[i][j].name = i;  //label textfield with ball number
+            for ( var col: int = 0; col < nbrColumns; col++ ) {
+                text_arr[i][col] = new TextField();
+                text_arr[i][col].defaultTextFormat = tFormat;
+                text_arr[i][col].name = i;  //label textfield with ball number
             }//for(j)
         }//for(i)
         manualUpdating = false;
@@ -136,36 +134,36 @@ public class DataTable extends Sprite {
                 rowCanvas_arr[i].addChild( ballBackground );
             }
 
-            for ( var j: int = 0; j < nbrColumns; j++ ) {
-                if ( i > 0 && j == 0 ) {
+            for ( var col: int = 0; col < nbrColumns; col++ ) {
+                if ( i > 0 && col == 0 ) {
                     var glow: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
                     glow.quality = BitmapFilterQuality.MEDIUM;
-                    text_arr[i][j].textColor = 0xFFFFFF;
-                    text_arr[i][j].filters = [glow];
+                    text_arr[i][col].textColor = 0xFFFFFF;
+                    text_arr[i][col].filters = [glow];
                 }
-                rowCanvas_arr[i].addChild( text_arr[i][j] );
+                rowCanvas_arr[i].addChild( text_arr[i][col] );
                 rowCanvas_arr[i].y = i * rowHeight;
-                text_arr[i][j].x = j * colWidth;
-                text_arr[i][j].y = 0;
-                text_arr[i][j].text = "row" + i;
-                text_arr[i][j].width = colWidth - 5;
-                text_arr[i][j].height = rowHeight - 5;
-                text_arr[i][j].border = false;
+                text_arr[i][col].x = col * colWidth;
+                text_arr[i][col].y = 0;
+                text_arr[i][col].text = "row" + i;
+                text_arr[i][col].width = colWidth - 5;
+                text_arr[i][col].height = rowHeight - 5;
+                text_arr[i][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
                 //0)ball  1)mass  2)x  3)y  4)vx  5)vy  6)px  7)py
-                if ( i == 0 || j == 0 || j == 6 || j == 7 ) {
-                    text_arr[i][j].type = TextFieldType.DYNAMIC;
-                    text_arr[i][j].selectable = false;
+                if ( i == 0 || col == 0 || col == 6 || col == 7 ) {
+                    text_arr[i][col].type = TextFieldType.DYNAMIC;
+                    text_arr[i][col].selectable = false;
                 }
                 else {
-                    if ( j > 0 && j < 4 ) {
-                        dressInputTextField( i, j );
-                        text_arr[i][j].restrict = "0-9.";
+                    if ( col > 0 && col < 4 ) {
+                        dressInputTextField( i, col );
+                        text_arr[i][col].restrict = "0-9.";
                     }
                     else {
-                        if ( j == 4 || j == 5 ) {
-                            dressInputTextField( i, j );
-                            text_arr[i][j].restrict = "0-9.\\-";  //velocities can be negative
+                        if ( col == 4 || col == 5 ) {
+                            dressInputTextField( i, col );
+                            text_arr[i][col].restrict = "0-9.\\-";  //velocities can be negative
                         }
                         else {
                             trace( "ERROR in DataTable.initialize. Invalid value of j" );
@@ -192,6 +190,10 @@ public class DataTable extends Sprite {
         removeBallButton.setLabel( SimStrings.get( "DataTable.removeBall", "Remove Ball" ) );
         moreDataButton.setLabel( SimStrings.get( "DataTable.moreData", "More Data" ) );
         lessDataButton.setLabel( SimStrings.get( "DataTable.lessData", "Less Data" ) );
+    }
+
+    public function get nbrColumns(): int {
+        return 8; // TODO: replace with 5 in Intro tab
     }
 
     public function dressInputTextField( i: int, j: int ): void {
@@ -245,9 +247,9 @@ public class DataTable extends Sprite {
         tFormat.bold = true;
         for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             if ( i != 0 ) {text_arr[i][0].text = i;}
-            for ( var j: int = 0; j < nbrColumns; j++ ) {
-                if ( i == 0 || j == 0 ) {
-                    text_arr[i][j].setTextFormat( tFormat );
+            for ( var col: int = 0; col < nbrColumns; col++ ) {
+                if ( i == 0 || col == 0 ) {
+                    text_arr[i][col].setTextFormat( tFormat );
                 }
             }//end for j
         }//end for i
@@ -317,8 +319,8 @@ public class DataTable extends Sprite {
             if ( i > 0 ) {
                 massSlider_arr[i - 1].visible = tOrF;
             }
-            for ( var j: int = 2; j < nbrColumns; j++ ) {
-                text_arr[i][j].visible = !tOrF;
+            for ( var col: int = 2; col < nbrColumns; col++ ) {
+                text_arr[i][col].visible = !tOrF;
             }//end for j
         }//end for i
     }//end displayPartialDataTable()
@@ -334,33 +336,33 @@ public class DataTable extends Sprite {
     //ball	mass	x	y	vx	vy	px	py
     public function createTextChangeListeners(): void {
         for ( var i: int = 1; i < CLConstants.MAX_BALLS + 1; i++ ) {
-            for ( var j: int = 1; j < nbrColumns; j++ ) {
+            for ( var col: int = 1; col < nbrColumns; col++ ) {
                 //currentBody = i;
-                if ( j == 1 ) {
-                    text_arr[i][j].addEventListener( Event.CHANGE, changeMassListener );
+                if ( col == 1 ) {
+                    text_arr[i][col].addEventListener( Event.CHANGE, changeMassListener );
                 }
                 else {
-                    if ( j == 2 ) {
-                        text_arr[i][j].addEventListener( Event.CHANGE, changeXListener );
+                    if ( col == 2 ) {
+                        text_arr[i][col].addEventListener( Event.CHANGE, changeXListener );
                     }
                     else {
-                        if ( j == 3 ) {
-                            text_arr[i][j].addEventListener( Event.CHANGE, changeYListener );
+                        if ( col == 3 ) {
+                            text_arr[i][col].addEventListener( Event.CHANGE, changeYListener );
                         }
                         else {
-                            if ( j == 4 ) {
-                                text_arr[i][j].addEventListener( Event.CHANGE, changeVXListener );
+                            if ( col == 4 ) {
+                                text_arr[i][col].addEventListener( Event.CHANGE, changeVXListener );
                             }
                             else {
-                                if ( j == 5 ) {
-                                    text_arr[i][j].addEventListener( Event.CHANGE, changeVYListener );
+                                if ( col == 5 ) {
+                                    text_arr[i][col].addEventListener( Event.CHANGE, changeVYListener );
                                 }
                                 else {
-                                    if ( j == 6 ) {
+                                    if ( col == 6 ) {
                                         //do nothing
                                     }
                                     else {
-                                        if ( j == 7 ) {
+                                        if ( col == 7 ) {
                                             //do nothing
                                         }
                                     }
@@ -517,54 +519,54 @@ public class DataTable extends Sprite {
     public function update(): void {
         setNbrDisplayedRows();
         var i: int;
-        var j: int;
+        var col: int;
         var mass: Number;
         //        var nbrPlaces: int = 3  //number of places right of decimal pt displayed
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
             for ( i = 1; i < CLConstants.MAX_BALLS + 1; i++ ) {  //skip header row
-                for ( j = 0; j < nbrColumns; j++ ) {
-                    if ( j == 0 ) {
+                for ( col = 0; col < nbrColumns; col++ ) {
+                    if ( col == 0 ) {
                         //do nothing
                     }
                     else {
-                        if ( j == 1 ) {            //mass in kg
+                        if ( col == 1 ) {            //mass in kg
                             mass = myModel.ball_arr[i - 1].getMass();
-                            text_arr[i][j].text = mass.toFixed( 1 ); //round(mass, 1);
+                            text_arr[i][col].text = mass.toFixed( 1 ); //round(mass, 1);
                             //}else if(j == 2){	//radius in m
                             //var radius:Number = myModel.ball_arr[i-1].getRadius();
                             //text_arr[i][j].text = round(radius, 2);
                         }
                         else {
-                            if ( j == 2 ) {    //x position in m
+                            if ( col == 2 ) {    //x position in m
                                 var xPos: Number = myModel.ball_arr[i - 1].position.getX();
                                 //trace("DataTable, xPos of ball "+ i +" = "+xPos);
-                                text_arr[i][j].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
+                                text_arr[i][col].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
                             }
                             else {
-                                if ( j == 3 ) {    //y position in m
+                                if ( col == 3 ) {    //y position in m
                                     var yPos: Number = myModel.ball_arr[i - 1].position.getY();
-                                    text_arr[i][j].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
+                                    text_arr[i][col].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
                                 }
                                 else {
-                                    if ( j == 4 ) {    //v_x in m/s
+                                    if ( col == 4 ) {    //v_x in m/s
                                         var xVel: Number = myModel.ball_arr[i - 1].velocity.getX();
-                                        text_arr[i][j].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
+                                        text_arr[i][col].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
                                     }
                                     else {
-                                        if ( j == 5 ) {    //v_y in m/s
+                                        if ( col == 5 ) {    //v_y in m/s
                                             var yVel: Number = myModel.ball_arr[i - 1].velocity.getY();
-                                            text_arr[i][j].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
+                                            text_arr[i][col].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
                                         }
                                         else {
-                                            if ( j == 6 ) {    //p_x in kg*m/s
+                                            if ( col == 6 ) {    //p_x in kg*m/s
                                                 //do nothing
                                             }
                                             else {
-                                                if ( j == 7 ) {    //p_y in kg*m/s
+                                                if ( col == 7 ) {    //p_y in kg*m/s
                                                     //do nothing
                                                 }
                                                 else {
-                                                    trace( "ERROR in DataTable. Incorrect column index. j = " + j );
+                                                    trace( "ERROR in DataTable. Incorrect column index. j = " + col );
                                                 }
                                             }
                                         }
@@ -593,15 +595,15 @@ public class DataTable extends Sprite {
             mass = myModel.ball_arr[i - 1].getMass();
             xVel = myModel.ball_arr[i - 1].velocity.getX();
             yVel = myModel.ball_arr[i - 1].velocity.getY();
-            for ( j = 0; j < nbrColumns; j++ ) {
-                if ( j == 6 ) {    //p_x in kg*m/s
+            for ( col = 0; col < nbrColumns; col++ ) {
+                if ( col == 6 ) {    //p_x in kg*m/s
                     var xMom: Number = mass * xVel;
-                    text_arr[i][j].text = xMom.toFixed( 3 ); //round(xMom, nbrPlaces);
+                    text_arr[i][col].text = xMom.toFixed( 3 ); //round(xMom, nbrPlaces);
                 }
                 else {
-                    if ( j == 7 ) {    //p_y in kg*m/s
+                    if ( col == 7 ) {    //p_y in kg*m/s
                         var yMom: Number = mass * yVel;
-                        text_arr[i][j].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
+                        text_arr[i][col].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
                     }
                 }
             }//end for j
