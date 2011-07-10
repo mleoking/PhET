@@ -21,14 +21,16 @@ import flash.filters.*;
  * partial data table has column for ball number, col for mass, and col for mass slider
  */
 public class DataTable extends Sprite {
+    public static const colWidth: int = 60;			//width of column in pix
+    public static const rowHeight: int = 27;			//height of row in pix
+    public static const MAX_ROWS = CLConstants.MAX_BALLS + 1; //header row + row for each ball
+
     public var myModel: Model;
     public var myMainView: MainView;
     public var nbrBalls: int;
     public var canvas: Sprite;			//canvas holds several rowCanvases, full data table
     public var invisibleBorder: Sprite;	//draggable border
     public var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
-    public static const colWidth: int = 60;			//width of column in pix
-    public static const rowHeight: int = 27;			//height of row in pix
     public var rowWidth: int;			//width of row in pix, used to set borderwidth
     public var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
     public var addBallButton: NiceButton;		//button to add ball, originally on Control Panel
@@ -49,16 +51,16 @@ public class DataTable extends Sprite {
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
-        rowCanvas_arr = new Array( CLConstants.MAX_BALLS + 1 ); //header row + row for each ball
-        text_arr = new Array( CLConstants.MAX_BALLS + 1 );	//rows
-        massSlider_arr = new Array( CLConstants.MAX_BALLS + 1 );
+        rowCanvas_arr = new Array( MAX_ROWS ); //header row + row for each ball
+        text_arr = new Array( MAX_ROWS );	//rows
+        massSlider_arr = new Array( MAX_ROWS );
         tFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.size = 14;
         tFormat.align = TextFormatAlign.CENTER;
 
         //create textfields for full data table and mass sliders for partial data table
-        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {  //header row + row for each ball
+        for ( var i: int = 0; i < MAX_ROWS; i++ ) {  //header row + row for each ball
             rowCanvas_arr[i] = new Sprite();
             text_arr[i] = new Array( nbrColumns );
             if ( i > 0 ) {
@@ -108,7 +110,7 @@ public class DataTable extends Sprite {
         myMainView.addChild( this );
 
         //layout textFields in full data table
-        for ( var row: int = 0; row < CLConstants.MAX_BALLS + 1; row++ ) {
+        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             canvas.addChild( rowCanvas_arr[row] );
 
             var ballBackground: Sprite = new Sprite();
@@ -225,7 +227,7 @@ public class DataTable extends Sprite {
         text_arr[0][6].text = SimStrings.get( "DataTable.vx", "Px" );
         text_arr[0][7].text = SimStrings.get( "DataTable.vx", "Py" );
         tFormat.bold = true;
-        for ( var row: int = 0; row < CLConstants.MAX_BALLS + 1; row++ ) {
+        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             if ( row != 0 ) {text_arr[row][0].text = row;}
             for ( var col: int = 0; col < nbrColumns; col++ ) {
                 if ( row == 0 || col == 0 ) {
@@ -284,7 +286,7 @@ public class DataTable extends Sprite {
         }
         drawBorder( nbrBalls );
         //hide all but 1st two columns for partial
-        for ( var row: int = 0; row < CLConstants.MAX_BALLS + 1; row++ ) {
+        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             if ( row > 0 ) {
                 massSlider_arr[row - 1].visible = tOrF;
             }
@@ -297,14 +299,14 @@ public class DataTable extends Sprite {
     public function setNbrDisplayedRows(): void {
         nbrBalls = myModel.nbrBalls;
         drawBorder( nbrBalls );
-        for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
+        for ( var i: int = 0; i < MAX_ROWS; i++ ) {
             rowCanvas_arr[i].visible = i < nbrBalls + 1;
         }
     }
 
     //ball	mass	x	y	vx	vy	px	py
     public function createTextChangeListeners(): void {
-        for ( var row: int = 1; row < CLConstants.MAX_BALLS + 1; row++ ) {
+        for ( var row: int = 1; row < MAX_ROWS; row++ ) {
             for ( var col: int = 1; col < nbrColumns; col++ ) {
                 //currentBody = i;
                 if ( col == 1 ) {
@@ -435,7 +437,7 @@ public class DataTable extends Sprite {
     }
 
     private function resetMassSliders(): void {  //called when reset button on Control panel
-        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
+        for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) { // TODO: not adding +1 to MAX_BALLS. Is this an error?
             massSlider_arr[i].value = myModel.ball_arr[i].getMass();
             myMainView.myTableView.ballImage_arr[i].drawLayer1();  //redraw ballImage for new diameter
             myMainView.myTableView.ballImage_arr[i].drawLayer1a(); //redraw ballImage for new diameter
@@ -487,7 +489,7 @@ public class DataTable extends Sprite {
         var col: int;
         var mass: Number;
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( row = 1; row < CLConstants.MAX_BALLS + 1; row++ ) {  //skip header row
+            for ( row = 1; row < MAX_ROWS; row++ ) {  //skip header row
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == 0 ) {
                         //do nothing
@@ -552,7 +554,7 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( row = 1; row < CLConstants.MAX_BALLS + 1; row++ ) {  //skip header row
+        for ( row = 1; row < MAX_ROWS; row++ ) {  //skip header row
             mass = myModel.ball_arr[row - 1].getMass();
             xVel = myModel.ball_arr[row - 1].velocity.getX();
             yVel = myModel.ball_arr[row - 1].velocity.getY();
