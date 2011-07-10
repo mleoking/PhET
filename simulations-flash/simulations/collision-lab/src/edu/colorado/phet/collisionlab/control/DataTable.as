@@ -57,6 +57,9 @@ public class DataTable extends Sprite {
 
     private const headerRowNbr: int = 0;
 
+    private const highlightColor: int = 0xffff33;
+    private const unhighlightColor: int = 0xffffff;
+
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         myModel.registerView( this );
@@ -155,8 +158,7 @@ public class DataTable extends Sprite {
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
-                //0)ball  1)mass  2)x  3)y  4)vx  5)vy  6)px  7)py
-                if ( row == 0 || col == 0 || col == 6 || col == 7 ) {
+                if ( row == 0 || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
                     text_arr[row][col].type = TextFieldType.DYNAMIC;
                     text_arr[row][col].selectable = false;
                 }
@@ -197,7 +199,7 @@ public class DataTable extends Sprite {
     }
 
     public function get nbrColumns(): int {
-        return 8; // TODO: replace with 5 in Intro tab
+        return myModel.isIntro ? 5 : 8;
     }
 
     public function dressInputTextField( i: int, j: int ): void {
@@ -225,13 +227,11 @@ public class DataTable extends Sprite {
     }
 
     public function get vxColumnNbr(): int {
-        return 4; // TODO: use below version
-//        return myModel.isIntro ? 3 : 4;
+        return myModel.isIntro ? 3 : 4;
     }
 
     public function get pxColumnNbr(): int {
-        return 6; // TODO: use below version
-//        return myModel.isIntro ? 4:6;
+        return myModel.isIntro ? 4 : 6;
     }
 
     //header row is
@@ -242,11 +242,11 @@ public class DataTable extends Sprite {
         text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
-        //if ( !myModel.isIntro ) {  TODO enable if statement
-        text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
-        text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
-        text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
-        //}
+        if ( !myModel.isIntro ) {
+            text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+            text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
+            text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
+        }
         tFormat.bold = true;
         for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             if ( row != 0 ) {text_arr[row][0].text = row;}
@@ -262,9 +262,11 @@ public class DataTable extends Sprite {
         TextFieldUtils.resizeText( text_arr[0][2], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][3], TextFieldAutoSize.CENTER );
         TextFieldUtils.resizeText( text_arr[0][4], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][5], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][6], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][7], TextFieldAutoSize.CENTER );
+        if ( !myModel.isIntro ) {
+            TextFieldUtils.resizeText( text_arr[0][5], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][6], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][7], TextFieldAutoSize.CENTER );
+        }
     }
 
 
@@ -325,42 +327,24 @@ public class DataTable extends Sprite {
         }
     }
 
-    //ball	mass	x	y	vx	vy	px	py
     public function createTextChangeListeners(): void {
         for ( var row: int = 1; row < MAX_ROWS; row++ ) {
             for ( var col: int = 1; col < nbrColumns; col++ ) {
-                //currentBody = i;
-                if ( col == 1 ) {
+                if ( col == massColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeMassListener );
                 }
-                else {
-                    if ( col == 2 ) {
-                        text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
+                if ( col == xColumnNbr ) {
+                    text_arr[row][col].addEventListener( Event.CHANGE, changeXListener );
+                }
+                if ( col == vxColumnNbr ) {
+                    text_arr[row][col].addEventListener( Event.CHANGE, changeVXListener );
+                }
+                if ( !myModel.isIntro ) {
+                    if ( col == yColumnNbr ) {
+                        text_arr[row][col].addEventListener( Event.CHANGE, changeYListener );
                     }
-                    else {
-                        if ( col == 3 ) {
-                            text_arr[row][col].addEventListener( Event.CHANGE, changeYListener );
-                        }
-                        else {
-                            if ( col == 4 ) {
-                                text_arr[row][col].addEventListener( Event.CHANGE, changeVXListener );
-                            }
-                            else {
-                                if ( col == 5 ) {
-                                    text_arr[row][col].addEventListener( Event.CHANGE, changeVYListener );
-                                }
-                                else {
-                                    if ( col == 6 ) {
-                                        //do nothing
-                                    }
-                                    else {
-                                        if ( col == 7 ) {
-                                            //do nothing
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                    if ( col == vyColumnNbr ) {
+                        text_arr[row][col].addEventListener( Event.CHANGE, changeVYListener );
                     }
                 }
             }
@@ -368,24 +352,16 @@ public class DataTable extends Sprite {
     }
 
     public function setPositionHighlight( ballIndex: int, highlighted: Boolean ): void {
-        if ( highlighted ) {
-            text_arr[ballIndex + 1][2].backgroundColor = 0xffff33;
-            text_arr[ballIndex + 1][3].backgroundColor = 0xffff33;
-        }
-        else {
-            text_arr[ballIndex + 1][2].backgroundColor = 0xffffff;
-            text_arr[ballIndex + 1][3].backgroundColor = 0xffffff;
+        text_arr[ballIndex + 1][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        if ( !myModel.isIntro ) {
+            text_arr[ballIndex + 1][yColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         }
     }
 
     public function setVelocityHighlight( ballIndex: int, highlighted: Boolean ): void {
-        if ( highlighted ) {
-            text_arr[ballIndex + 1][4].backgroundColor = 0xffff33;
-            text_arr[ballIndex + 1][5].backgroundColor = 0xffff33;
-        }
-        else {
-            text_arr[ballIndex + 1][4].backgroundColor = 0xffffff;
-            text_arr[ballIndex + 1][5].backgroundColor = 0xffffff;
+        text_arr[ballIndex + 1][vxColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        if ( !myModel.isIntro ) {
+            text_arr[ballIndex + 1][vyColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         }
     }
 
@@ -466,7 +442,7 @@ public class DataTable extends Sprite {
             }
         }
         return outputNumber;
-    }//end textToNumber
+    }
 
     private function massSliderListener( evt: SliderEvent ): void {
         sliderUpdating = true;
@@ -534,51 +510,26 @@ public class DataTable extends Sprite {
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
             for ( row = 1; row < MAX_ROWS; row++ ) {  //skip header row
                 for ( col = 0; col < nbrColumns; col++ ) {
-                    if ( col == 0 ) {
-                        //do nothing
+                    if ( col == massColumnNbr ) { // mass in kg
+                        mass = myModel.ball_arr[row - 1].getMass();
+                        text_arr[row][col].text = mass.toFixed( 1 ); //round(mass, 1);
                     }
-                    else {
-                        if ( col == 1 ) {            //mass in kg
-                            mass = myModel.ball_arr[row - 1].getMass();
-                            text_arr[row][col].text = mass.toFixed( 1 ); //round(mass, 1);
+                    if ( col == xColumnNbr ) { //x position in m
+                        var xPos: Number = myModel.ball_arr[row - 1].position.getX();
+                        text_arr[row][col].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
+                    }
+                    if ( col == vxColumnNbr ) { // v_x in m/s
+                        var xVel: Number = myModel.ball_arr[row - 1].velocity.getX();
+                        text_arr[row][col].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
+                    }
+                    if ( !myModel.isIntro ) { // y position in m
+                        if ( col == yColumnNbr ) {
+                            var yPos: Number = myModel.ball_arr[row - 1].position.getY();
+                            text_arr[row][col].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
                         }
-                        else {
-                            if ( col == 2 ) {    //x position in m
-                                var xPos: Number = myModel.ball_arr[row - 1].position.getX();
-                                //trace("DataTable, xPos of ball "+ i +" = "+xPos);
-                                text_arr[row][col].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
-                            }
-                            else {
-                                if ( col == 3 ) {    //y position in m
-                                    var yPos: Number = myModel.ball_arr[row - 1].position.getY();
-                                    text_arr[row][col].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
-                                }
-                                else {
-                                    if ( col == 4 ) {    //v_x in m/s
-                                        var xVel: Number = myModel.ball_arr[row - 1].velocity.getX();
-                                        text_arr[row][col].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
-                                    }
-                                    else {
-                                        if ( col == 5 ) {    //v_y in m/s
-                                            var yVel: Number = myModel.ball_arr[row - 1].velocity.getY();
-                                            text_arr[row][col].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
-                                        }
-                                        else {
-                                            if ( col == 6 ) {    //p_x in kg*m/s
-                                                //do nothing
-                                            }
-                                            else {
-                                                if ( col == 7 ) {    //p_y in kg*m/s
-                                                    //do nothing
-                                                }
-                                                else {
-                                                    trace( "ERROR in DataTable. Incorrect column index. j = " + col );
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                        if ( col == vyColumnNbr ) { // v_y in m/s
+                            var yVel: Number = myModel.ball_arr[row - 1].velocity.getY();
+                            text_arr[row][col].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
                         }
                     }
                 }
@@ -588,7 +539,7 @@ public class DataTable extends Sprite {
         if ( sliderUpdating ) {
             for ( row = 0; row < CLConstants.MAX_BALLS; row++ ) {
                 mass = myModel.ball_arr[row].getMass();
-                text_arr[row + 1][1].text = round( mass, 1 );
+                text_arr[row + 1][massColumnNbr].text = round( mass, 1 );
             }
         }
 
@@ -601,17 +552,12 @@ public class DataTable extends Sprite {
             mass = myModel.ball_arr[row - 1].getMass();
             xVel = myModel.ball_arr[row - 1].velocity.getX();
             yVel = myModel.ball_arr[row - 1].velocity.getY();
-            for ( col = 0; col < nbrColumns; col++ ) {
-                if ( col == 6 ) {    //p_x in kg*m/s
-                    var xMom: Number = mass * xVel;
-                    text_arr[row][col].text = xMom.toFixed( 3 ); //round(xMom, nbrPlaces);
-                }
-                else {
-                    if ( col == 7 ) {    //p_y in kg*m/s
-                        var yMom: Number = mass * yVel;
-                        text_arr[row][col].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
-                    }
-                }
+
+            var xMom: Number = mass * xVel;
+            text_arr[row][pxColumnNbr].text = xMom.toFixed( 3 );
+            if ( !myModel.isIntro ) {
+                var yMom: Number = mass * yVel;
+                text_arr[row][pyColumnNbr].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
             }
         }
     }
