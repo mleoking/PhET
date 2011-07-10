@@ -51,25 +51,12 @@ public class ControlPanel extends Sprite {
         this.myMainView.addChild( this );
         this.nbrBalls = this.myModel.nbrBalls;
         this.tFormat = new TextFormat();
-        //this.changeNbrBallButtons = new ChangeNbrBallButtons();
         this.initialize();
         this.initializeComponents();
-        //this.initializeStrings();
-    }//end of constructor
+    }
 
     public function initialize(): void {
-        //this.changeNbrBallButtons.addBallButton.addEventListener(MouseEvent.MOUSE_DOWN, addBall);
-        //this.changeNbrBallButtons.removeBallButton.addEventListener(MouseEvent.MOUSE_DOWN, removeBall);
-        //this.changeNbrBallButtons.addBallButton.buttonMode = true;
-        //this.changeNbrBallButtons.removeBallButton.buttonMode = true;
         this.resetButton = new NiceButton( this.sub_resetButton_sp, 80, resetAll );
-        //var nbrString:String = String(this.nbrBalls);
-        //this.changeNbrBallButtons.nbrReadout.text = nbrString;
-//        this.sub_elasticityValueLabel.text = "100";
-        //this.background.border.buttonMode = true;
-        //if(this.myModel.nbrBalls == 1){
-        //this.changeNbrBallButtons.removeBallButton.visible = false;
-        //}
         this.showCMOn = true;
         Util.makePanelDraggableWithBorder( this, this.sub_background.border );
     }
@@ -97,7 +84,7 @@ public class ControlPanel extends Sprite {
 
         kineticEnergyCheckBox.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
             showKineticEnergy( e.target.selected );
-        });
+        } );
 
     }
 
@@ -157,22 +144,11 @@ public class ControlPanel extends Sprite {
         this.sub_showMomentumVectors_cb.selected = false;
         this.myMainView.myTableView.showPArrowsOnBallImages( false );
         this.myMainView.myTableView.CM.visible = true;
-        //this.myModel.setReflectingBorder(true); //done in Model.resetAll();
         this.sub_showMomenta_cb.selected = false;
         this.myMainView.momentumView.visible = false;
         this.myMainView.myTableView.myTrajectories.pathsOff();
         this.sub_sound_cb.selected = false;
         this.myModel.soundOn = false;
-        //var nbrBalls_str:String = String(this.myModel.nbrBalls);
-        //this.changeNbrBallButtons.nbrReadout.text = nbrBalls_str;
-        //this.nbrBalls = this.myModel.nbrBalls;
-        //this.changeNbrBallButtons.addBallButton.visible = true;
-        //if(this.nbrBalls == 1){
-        //this.changeNbrBallButtons.removeBallButton.visible = false;
-        //this.myMainView.myTableView.CM.visible = false;
-        //}
-        //this.timeRateSlider.value = 0.5;
-        //this.myModel.setTimeRate(0.5);
         this.myMainView.myTableView.timeRate_slider.value = this.myModel.timeRate;
         this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
@@ -181,8 +157,8 @@ public class ControlPanel extends Sprite {
         myMainView.module.resetAll(); // TODO: convert to where this is the main reset
     }
 
-    private function updateElasticityValueLabel():void {
-        this.sub_elasticityLabel.text = SimStrings.get("ControlPanel.elasticityReadout", "Elasticity {0}%", [Math.round(this.myModel.e * 100).toString()]);
+    private function updateElasticityValueLabel(): void {
+        this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticityReadout", "Elasticity {0}%", [Math.round( this.myModel.e * 100 ).toString()] );
     }
 
     public function showVelocityArrows( evt: MouseEvent ): void {
@@ -190,7 +166,6 @@ public class ControlPanel extends Sprite {
     }
 
     private function showMomentumArrows( evt: MouseEvent ): void {
-        //trace("show Momentum Arrows is " + evt.target.selected);
         this.myMainView.myTableView.showPArrowsOnBallImages( evt.target.selected );
     }
 
@@ -231,8 +206,8 @@ public class ControlPanel extends Sprite {
     }
 
     public function showValues( evt: MouseEvent ): void {
-        for each ( var ball:BallImage in this.myMainView.myTableView.ballImage_arr ) {
-            ball.setShowValues( evt.target.selected);
+        for each ( var ball: BallImage in this.myMainView.myTableView.ballImage_arr ) {
+            ball.setShowValues( evt.target.selected );
         }
     }
 
@@ -264,53 +239,91 @@ public class ControlPanel extends Sprite {
      * All of these should be implemented by subclasses
      */
 
-    public function get sub_resetButton_sp(): MovieClip { throw new Error( "abstract" ); }
+    public function get sub_resetButton_sp(): MovieClip {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_background(): MovieClip { throw new Error( "abstract" ); }
+    public function get sub_background(): MovieClip {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_cmIcon(): CenterOfMass { throw new Error( "abstract" ); }
+    public function get sub_cmIcon(): CenterOfMass {
+        throw new Error( "abstract" );
+    }
 
     //public function get sub_oneD_rb(): RadioButton { throw new Error( "abstract" ); }
 
     //public function get sub_twoD_rb(): RadioButton { throw new Error( "abstract" ); }
 
-    public function get sub_showVelocities_cb(): CheckBox { throw new Error( "abstract" ); }
+    public function get sub_showVelocities_cb(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showMomentumVectors_cb(): CheckBox { throw new Error( "abstract" ); }
+    public function get sub_showMomentumVectors_cb(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showCM_cb(): CheckBox { throw new Error( "abstract" ); }
+    public function get sub_showCM_cb(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showMomenta_cb(): CheckBox { throw new Error( "abstract" ); }
+    public function get sub_showMomenta_cb(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_sound_cb(): CheckBox { throw new Error( "abstract" ); }
+    public function get sub_sound_cb(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_elasticitySlider(): Slider { throw new Error( "abstract" ); }
+    public function get sub_elasticitySlider(): Slider {
+        throw new Error( "abstract" );
+    }
 
     //public function get sub_oneD_txt(): TextField { throw new Error( "abstract" ); }
 
     //public function get sub_twoD_txt(): TextField { throw new Error( "abstract" ); }
 
-    public function get sub_showVelocities_label(): TextField { throw new Error( "abstract" ); }
+    public function get sub_showVelocities_label(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showMomentumVectors_label(): TextField { throw new Error( "abstract" ); }
+    public function get sub_showMomentumVectors_label(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showCM_label(): TextField { throw new Error( "abstract" ); }
+    public function get sub_showCM_label(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_showMomenta_label(): TextField { throw new Error( "abstract" ); }
+    public function get sub_showMomenta_label(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_sound_label(): TextField { throw new Error( "abstract" ); }
+    public function get sub_sound_label(): TextField {
+        throw new Error( "abstract" );
+    }
 
     //public function get sub_elasticityValueLabel(): TextField { throw new Error( "abstract" ); }
 
-    public function get sub_elasticityLabel(): TextField { throw new Error( "abstract" ); }
+    public function get sub_elasticityLabel(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_zeroPercentLabel(): TextField { throw new Error( "abstract" ); }
+    public function get sub_zeroPercentLabel(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get sub_oneHundredPercentLabel(): TextField { throw new Error( "abstract" ); }
+    public function get sub_oneHundredPercentLabel(): TextField {
+        throw new Error( "abstract" );
+    }
 
-    public function get kineticEnergyCheckBox():CheckBox { throw new Error("abstract"); }
+    public function get kineticEnergyCheckBox(): CheckBox {
+        throw new Error( "abstract" );
+    }
 
-    public function get kineticEnergyCheckBoxLabel():TextField { throw new Error("abstract"); }
+    public function get kineticEnergyCheckBoxLabel(): TextField {
+        throw new Error( "abstract" );
+    }
 
 }//end of class
 }//end of package
