@@ -45,6 +45,8 @@ public class BallImage extends Sprite {
     private var mouseOverBallHandle:Boolean = false;
     private var mouseDownOnArrow:Boolean = false;
 
+    private static const arrowDragRadius: Number = 15; // radius of the arrow "handle" and visible marker is
+
     public function BallImage( myModel:Model, indx:int, myTableView:TableView ) {
         this.myModel = myModel;
         this.myTableView = myTableView;
@@ -222,10 +224,9 @@ public class BallImage extends Sprite {
 
     public function drawLayer3():void {
         var g:Graphics = this.arrowHeadIndicator.graphics;
-        var rInPix:Number = 15;
         g.clear();
         g.lineStyle( 1, 0x666666 );
-        g.drawCircle( 0, 0, rInPix );
+        g.drawCircle( 0, 0, arrowDragRadius );
         this.arrowHeadIndicator.visible = false;
     }
 
@@ -244,14 +245,12 @@ public class BallImage extends Sprite {
         var g:Graphics = this.arrowHeadHandle.graphics;
         var currentColor:uint = 0xffffff;
         var alpha1:Number = 0;
-        var r:Number = 10;
         g.clear();
         g.beginFill( currentColor, alpha1 );
-        //g.lineStyle(1,0x000000);
-        g.drawCircle( 1, 0, r );
+        g.drawCircle( 1, 0, arrowDragRadius );
         g.endFill();
-        this.arrowHeadHandle.x = this.vArrowImage.getHeadCenterX();
-        this.arrowHeadHandle.y = this.vArrowImage.getHeadCenterY();
+        this.arrowHeadHandle.x = this.vArrowImage.getTipX();
+        this.arrowHeadHandle.y = this.vArrowImage.getTipY();
     }
 
 
@@ -534,6 +533,7 @@ public class BallImage extends Sprite {
         var thisArrowImage:Arrow = this.vArrowImage;
         var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL) / (thisArrowImage.lengthInPix + 0.2 * thisArrowImage.headL);
         if ( isNaN( ratio ) ) {ratio = 1;}
+        ratio = 1;
         //trace("on updateVelocityArrow(), ratio is "+ratio);
         this.arrowHeadIndicator.x = scaleFactor * vel.getX() / ratio;
         this.arrowHeadIndicator.y = -scaleFactor * vel.getY() / ratio;
