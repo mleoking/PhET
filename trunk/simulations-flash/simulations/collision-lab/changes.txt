@@ -1,3 +1,4 @@
+> Velocity arrow target position now centered on the tip
 > Velocity arrow color / layering / size changes
 > Advanced tab: slightly reduced vertical size to fit larger play button
 Intro tab: moved data table up higher
