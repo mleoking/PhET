@@ -8,20 +8,16 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.solublesalts.view.IonGraphicManager;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.NegativeSugarIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarIon.PositiveSugarIon;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseImage.getSucroseImage;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
@@ -29,15 +25,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseImage.ge
  * @author Sam Reid
  */
 public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener {
-    private final boolean debug = false;
     private PeriodicTableDialog periodicTableDialog;
     private boolean dialogVisibleOnActivate;
-
-    //Enable the IonGraphicManager to create graphics for sucrose molecules
-    static {
-        IonGraphicManager.putImage( NegativeSugarIon.class, getSucroseImage() );
-        IonGraphicManager.putImage( PositiveSugarIon.class, getSucroseImage() );
-    }
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ) );
