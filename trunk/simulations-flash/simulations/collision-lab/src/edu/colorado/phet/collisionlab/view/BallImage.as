@@ -362,10 +362,7 @@ public class BallImage extends Sprite {
         //var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
 
         function highlightPositionTextFields():void {
-            //trace("BallImage.myTableView.myMainView.myDataTable:"+thisBallImage.myTableView.myMainView.myDataTable);
             var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][2].background = true;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][3].background = true;
             dataTable.text_arr[thisBallImage.ballIndex + 1][2].backgroundColor = 0xffff33;
             dataTable.text_arr[thisBallImage.ballIndex + 1][3].backgroundColor = 0xffff33;
         }
@@ -374,8 +371,6 @@ public class BallImage extends Sprite {
             var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
             dataTable.text_arr[thisBallImage.ballIndex + 1][2].backgroundColor = 0xffffff;
             dataTable.text_arr[thisBallImage.ballIndex + 1][3].backgroundColor = 0xffffff;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][2].background = false;
-            //dataTable.text_arr[thisBallImage.ballIndex+1][3].background = false;
 
         }
 

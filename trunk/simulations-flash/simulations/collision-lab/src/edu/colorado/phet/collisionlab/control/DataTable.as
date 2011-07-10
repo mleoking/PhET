@@ -21,30 +21,33 @@ import flash.filters.*;
  * partial data table has column for ball number, col for mass, and col for mass slider
  */
 public class DataTable extends Sprite {
-    public static const colWidth: int = 60;			//width of column in pix
-    public static const rowHeight: int = 27;			//height of row in pix
-    public static const MAX_ROWS = CLConstants.MAX_BALLS + 1; //header row + row for each ball
+    private static const colWidth: int = 60;			//width of column in pix
+    private static const rowHeight: int = 27;			//height of row in pix
+    private static const MAX_ROWS = CLConstants.MAX_BALLS + 1; //header row + row for each ball
 
-    public var myModel: Model;
-    public var myMainView: MainView;
-    public var nbrBalls: int;
-    public var canvas: Sprite;			//canvas holds several rowCanvases, full data table
-    public var invisibleBorder: Sprite;	//draggable border
-    public var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
-    public var rowWidth: int;			//width of row in pix, used to set borderwidth
+    private var myModel: Model;
+    private var myMainView: MainView;
+    private var nbrBalls: int;
+    private var canvas: Sprite;			//canvas holds several rowCanvases, full data table
+    private var invisibleBorder: Sprite;	//draggable border
+    private var rowCanvas_arr: Array;	//array of Sprites, each holds one row of textFields
+    private var rowWidth: int;			//width of row in pix, used to set borderwidth
+
+    // TODO: remove dependencies from BallImage
     public var text_arr: Array;			//row of textFields, one for each of 9 columns, text must be internationalized
-    public var addBallButton: NiceButton;		//button to add ball, originally on Control Panel
-    public var removeBallButton: NiceButton; 	//button to remove ball, originally on Control Panel
-    public var moreDataButton: NiceButton;//button to toggle full or partial data display
-    public var lessDataButton: NiceButton;//button to toggle full or partial data display
-    public var addBallButton_sp: Sprite;		//addBallButton sprite
-    public var removeBallButton_sp: Sprite;		//removeBallButton sprite
-    public var moreDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
-    public var lessDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
-    public var massSlider_arr: Array;	//array of mass sliders
-    public var tFormat: TextFormat;
-    public var manualUpdating: Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
-    public var sliderUpdating: Boolean; //true if use is using mass slider
+    private var addBallButton_sp: Sprite;		//addBallButton sprite
+    private var removeBallButton_sp: Sprite;		//removeBallButton sprite
+    private var moreDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
+    private var lessDataButton_sp: Sprite;	//moreOrLessDataButton Sprite
+    private var massSlider_arr: Array;	//array of mass sliders
+    private var tFormat: TextFormat;
+    private var manualUpdating: Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
+    private var sliderUpdating: Boolean; //true if use is using mass slider
+
+    private var addBallButton: NiceButton;		//button to add ball, originally on Control Panel
+    private var removeBallButton: NiceButton; 	//button to remove ball, originally on Control Panel
+    private var moreDataButton: NiceButton;//button to toggle full or partial data display
+    private var lessDataButton: NiceButton;//button to toggle full or partial data display
 
     private const ballColumnNbr: int = 0;
     private const massColumnNbr: int = 1;
