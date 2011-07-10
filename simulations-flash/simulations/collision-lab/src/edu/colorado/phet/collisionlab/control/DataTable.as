@@ -240,11 +240,11 @@ public class DataTable extends Sprite {
         text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
-        if ( !myModel.isIntro ) {
+        //if ( !myModel.isIntro ) {  TODO enable if statement
             text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
             text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
             text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
-        }
+        //}
         tFormat.bold = true;
         for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             if ( row != 0 ) {text_arr[row][0].text = row;}
