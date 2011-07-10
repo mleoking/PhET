@@ -11,8 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
  *
  * @author Sam Reid
  */
-public class SugarCrystal2 extends Particle implements Iterable<LatticeConstituent> {
-    public SugarCrystal2( ImmutableVector2D position, SugarLattice sugarLattice, double v ) {
+public class SugarCrystal extends Particle implements Iterable<LatticeConstituent> {
+    public SugarCrystal( ImmutableVector2D position, SugarLattice sugarLattice, double v ) {
         super( position );
     }
 
