@@ -27,7 +27,14 @@ public class SucroseImage {
         final ModelViewTransform transform = ModelViewTransform.createSinglePointScaleMapping( new Point2D.Double(), new Point2D.Double(), 3150 / 6.3E-7 * 400 );
 
         //Create the graphic
-        final SucroseNode sucroseNode = new SucroseNode( transform, new WaterModel().newSugar( 0, 0 ), new VoidFunction1<VoidFunction0>() {
+        final SucroseNode sucroseNode = new SucroseNode( transform,
+
+                                                         // TODO: Creating a new WaterModel to make this happen is too time consuming, make it so you can create sucrose and/or sucrosenode without it
+                                                         new WaterModel() {
+                                                             @Override protected void initModel() {
+                                                                 //Skip creating the water to speed up creation
+                                                             }
+                                                         }.newSugar( 0, 0 ), new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 voidFunction0 ) {
                 voidFunction0.apply();
             }
