@@ -1,6 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -10,12 +11,15 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class SugarMolecule extends Particle {
-    public SugarMolecule( ImmutableVector2D position ) {
+    private final double radius;
+
+    public SugarMolecule( ImmutableVector2D position, double radius ) {
         super( position );
+        this.radius = radius;
     }
 
     //TODO: fix the sugar shape
     @Override public Shape getShape() {
-        return new Rectangle( 0, 0, 10, 10 );
+        return new Ellipse2D.Double( position.get().getX() - radius, position.get().getY() - radius, radius * 2, radius * 2 );
     }
 }
