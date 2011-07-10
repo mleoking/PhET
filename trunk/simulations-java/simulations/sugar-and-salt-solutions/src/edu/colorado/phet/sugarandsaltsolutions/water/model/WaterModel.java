@@ -415,7 +415,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel implements IS
     }
 
     //Set up the initial model state, used on init and after reset
-    private void initModel() {
+    protected void initModel() {
         waterList.clear( world );
         clearSalt();
         clearSugar();
