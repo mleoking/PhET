@@ -129,7 +129,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.updateModel( dt );
         updateParticles( dt, sodiumList );
         updateParticles( dt, chlorideList );
-//        updateParticles( dt, sugarList );
+        updateParticles( dt, sugarList );
 
         updateCrystals( dt, saltCrystals );
         updateCrystals( dt, sugarCrystals );
@@ -200,8 +200,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private final Random random = new Random();
 
     //When the simulation clock ticks, move the particles
-    private void updateParticles( double dt, ItemList<SphericalParticle> list ) {
-        for ( SphericalParticle particle : list ) {
+    private void updateParticles( double dt, ItemList<? extends Particle> list ) {
+        for ( Particle particle : list ) {
             if ( !contains( saltCrystals, particle ) ) {
                 //Accelerate the particle due to gravity and perform an euler integration step
                 //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
@@ -227,7 +227,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Determine if the lattice contains the specified particle
     //TODO: could speed up performance by around 20% if we don't have to do this lookup dynamically
-    private boolean contains( ItemList<SaltCrystal> latticeList, SphericalParticle particle ) {
+    private boolean contains( ItemList<SaltCrystal> latticeList, Particle particle ) {
         for ( SaltCrystal lattice : latticeList ) {
             if ( lattice.contains( particle ) ) {
                 return true;
