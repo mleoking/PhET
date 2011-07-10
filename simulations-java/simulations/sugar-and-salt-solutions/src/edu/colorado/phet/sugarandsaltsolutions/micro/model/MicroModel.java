@@ -191,23 +191,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Only add a crystal every N steps, otherwise there are too many
         stepsOfAddingSalt.set( stepsOfAddingSalt.get() + 1 );
-        if ( stepsOfAddingSalt.get() % 10 == 0 ) {
+        if ( stepsOfAddingSalt.get() % 30 == 0 ) {
+            //TODO: Make getPosition abstract so the particle can query the lattice?
 
-            //Create the sodium and chloride ions and add to the model
-
-            //TODO: getPosition is abstract so the particle can query the lattice?
-            //TODO: have the lattice create the particles, then add them to the lists here?
-
-            //Create a random lattice
-            final SaltCrystal lattice = new SaltCrystal( salt.position.get(), new SaltLattice( 20 ), 0.35 );
+            //Create a random crystal
+            final SaltCrystal crystal = new SaltCrystal( salt.position.get(), new SaltLattice( 20 ), 0.35 );
 
             //Add the components of the lattice to the model so the graphics will be created
-            for ( LatticeConstituent latticeConstituent : lattice ) {
+            for ( LatticeConstituent latticeConstituent : crystal ) {
 
                 //TODO: split up sodium and chloride ions into separate lists
                 sodiumList.add( (SphericalParticle) latticeConstituent.particle );
             }
-            saltCrystalLatticeList.add( lattice );
+            saltCrystalLatticeList.add( crystal );
         }
     }
 
