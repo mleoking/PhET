@@ -200,7 +200,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
 
-                //TODO: split up sodium and chloride ions into separate lists
+                //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
                 sodiumList.add( (SphericalParticle) latticeConstituent.particle );
             }
             saltCrystalLatticeList.add( crystal );
