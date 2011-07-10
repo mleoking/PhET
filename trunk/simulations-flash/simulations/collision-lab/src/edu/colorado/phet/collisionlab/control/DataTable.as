@@ -47,20 +47,6 @@ public class DataTable extends Sprite {
     public var sliderUpdating: Boolean; //true if use is using mass slider
     //var testField:TextField;		//for testing purposing
 
-    //following strings must be internationalized, see function initializeStrings() below
-    public var addBall_str: String;
-    public var removeBall_str: String;
-    public var lessData_str: String;
-    public var ball_str: String;
-    public var mass_str: String;
-    public var x_str: String;
-    public var y_str: String;
-    public var Vx_str: String;
-    public var Vy_str: String;
-    public var Px_str: String;
-    public var Py_str: String;
-
-
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         myModel.registerView( this );
@@ -202,24 +188,11 @@ public class DataTable extends Sprite {
 
     //following function to be altered during internationalization
     public function initializeStrings(): void {
-        addBall_str = SimStrings.get( "DataTable.addBall", "Add Ball" );
-        removeBall_str = SimStrings.get( "DataTable.removeBall", "Remove Ball" );
-        addBallButton.setLabel( addBall_str );
-        removeBallButton.setLabel( removeBall_str );
-        lessData_str = SimStrings.get( "DataTable.lessData", "Less Data" );
+        addBallButton.setLabel( SimStrings.get( "DataTable.addBall", "Add Ball" ) );
+        removeBallButton.setLabel( SimStrings.get( "DataTable.removeBall", "Remove Ball" ) );
         moreDataButton.setLabel( SimStrings.get( "DataTable.moreData", "More Data" ) );
-        lessDataButton.setLabel( lessData_str );
-        ball_str = SimStrings.get( "DataTable.ball", "ball" );
-        mass_str = SimStrings.get( "DataTable.mass", "mass" );
-        x_str = SimStrings.get( "DataTable.x", "x" );
-        y_str = SimStrings.get( "DataTable.y", "y" );
-        Vx_str = SimStrings.get( "DataTable.vx", "Vx" );
-        Vy_str = SimStrings.get( "DataTable.vy", "Vy" );
-        Px_str = SimStrings.get( "DataTable.px", "Px" );
-        Py_str = SimStrings.get( "DataTable.py", "Py" );
-
-
-    }//end of initializeString()
+        lessDataButton.setLabel( SimStrings.get( "DataTable.lessData", "Less Data" ) );
+    }
 
     public function dressInputTextField( i: int, j: int ): void {
         text_arr[i][j].type = TextFieldType.INPUT;
@@ -260,15 +233,15 @@ public class DataTable extends Sprite {
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[0][0].text = ball_str;
-        text_arr[0][1].text = mass_str;
+        text_arr[0][0].text = SimStrings.get( "DataTable.ball", "ball" );
+        text_arr[0][1].text = SimStrings.get( "DataTable.mass", "mass" );
         //text_arr[0][2].text = "radius";
-        text_arr[0][2].text = x_str;
-        text_arr[0][3].text = y_str;
-        text_arr[0][4].text = Vx_str;
-        text_arr[0][5].text = Vy_str;
-        text_arr[0][6].text = Px_str;
-        text_arr[0][7].text = Py_str;
+        text_arr[0][2].text = SimStrings.get( "DataTable.x", "x" );
+        text_arr[0][3].text = SimStrings.get( "DataTable.y", "y" );
+        text_arr[0][4].text = SimStrings.get( "DataTable.vx", "Vx" );
+        text_arr[0][5].text = SimStrings.get( "DataTable.vx", "Vy" );
+        text_arr[0][6].text = SimStrings.get( "DataTable.vx", "Px" );
+        text_arr[0][7].text = SimStrings.get( "DataTable.vx", "Py" );
         tFormat.bold = true;
         for ( var i: int = 0; i < CLConstants.MAX_BALLS + 1; i++ ) {
             if ( i != 0 ) {text_arr[i][0].text = i;}
