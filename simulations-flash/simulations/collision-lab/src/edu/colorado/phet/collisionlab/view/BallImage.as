@@ -358,23 +358,13 @@ public class BallImage extends Sprite {
             }
         }
 
-        //following produced dataTable = null  maybe due to startup order?
-        //var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-
         function highlightPositionTextFields():void {
-            var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][2].backgroundColor = 0xffff33;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][3].backgroundColor = 0xffff33;
+            thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight(thisBallImage.ballIndex, true);
         }
 
         function unHighlightPositionTextFields():void {
-            var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][2].backgroundColor = 0xffffff;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][3].backgroundColor = 0xffffff;
-
+            thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight(thisBallImage.ballIndex, false);
         }
-
-
     }
 
 
@@ -401,8 +391,6 @@ public class BallImage extends Sprite {
             //problem with localX, localY if sprite is rotated.
             thisBallImage.myTableView.canvas.addChild( thisBallImage );
             clickOffset = new Point( evt.localX, evt.localY );
-            //trace("evt.localX: "+evt.localX);
-            //trace("evt.localY: "+evt.localY);
 
             mouseDownOnArrow = true;
             updateShowValuesVisibility();
@@ -451,20 +439,6 @@ public class BallImage extends Sprite {
                     modelRef.setVY( indx, velocityY );
                 }
                 thisBallImage.setVisibilityOfArrowHeadIndicator();
-                /*
-                 var distInPix:Number = Math.sqrt(target.x*target.x + target.y*target.y);
-                 var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
-                 //trace("distInPix: "+distInPix+"   r:"+rInPix);
-                 if(distInPix < rInPix){
-                 //trace("inside");
-                 thisBallImage.arrowHeadIndicator.visible = true;
-                 }else{
-                 //trace("outside");
-                 thisBallImage.arrowHeadIndicator.visible = false;
-                 }
-                 */
-                //trace("velocityX: "+velocityX+"    velocityY: "+velocityY);
-                //modelRef.ball_arr[indx].velocity.setXY(velocityX, velocityY);
                 if ( modelRef.atInitialConfig ) {
                     modelRef.initVel[indx].setXY( velocityX, velocityY );
                 }
@@ -476,17 +450,11 @@ public class BallImage extends Sprite {
 
 
         function showVelocity( evt:MouseEvent ):void {
-            //trace("showVelocity rollover " +indx);
-            var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][4].backgroundColor = 0xffff33;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][5].backgroundColor = 0xffff33;
+            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight(thisBallImage.ballIndex, true);
         }
 
         function unshowVelocity( evt:MouseEvent ):void {
-            //trace("showVelocity rollout" + indx);
-            var dataTable:DataTable = thisBallImage.myTableView.myMainView.myDataTable;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][4].backgroundColor = 0xffffff;
-            dataTable.text_arr[thisBallImage.ballIndex + 1][5].backgroundColor = 0xffffff;
+            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight(thisBallImage.ballIndex, false);
         }
     }
 
