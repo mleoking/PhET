@@ -143,11 +143,11 @@ public class BallImage extends Sprite {
     private function setLayerDepths():void {
         this.myTableView.canvas.addChild( this );
         this.addChild( this.ballBody );
+        this.addChild( this.arrowHeadIndicator );
         this.addChild( this.pArrowImage );
         this.addChild( this.vArrowImage );
         this.addChild( this.tFieldBallNbr );
         this.addChild( this.ballHandle );
-        this.addChild( this.arrowHeadIndicator );
         this.addChild( this.arrowHeadHandle );
         addChild( velocityReadoutText );
         addChild( momentumReadoutText );
@@ -222,9 +222,9 @@ public class BallImage extends Sprite {
 
     public function drawLayer3():void {
         var g:Graphics = this.arrowHeadIndicator.graphics;
-        var rInPix:Number = 10;
+        var rInPix:Number = 15;
         g.clear();
-        g.lineStyle( 1, 0x000000 );
+        g.lineStyle( 1, 0x666666 );
         g.drawCircle( 0, 0, rInPix );
         this.arrowHeadIndicator.visible = false;
     }
@@ -489,7 +489,8 @@ public class BallImage extends Sprite {
         var velInPix:Number = this.vArrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y);
         //var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
         //trace("distInPix: "+distInPix+"   r:"+rInPix);
-        this.arrowHeadIndicator.visible = velInPix < ballRadiusInPix && this.arrowShown;
+        //this.arrowHeadIndicator.visible = velInPix < ballRadiusInPix && this.arrowShown;
+        arrowHeadIndicator.visible = this.arrowShown;
     }
 
     public function showArrow( tOrF:Boolean ):void {
