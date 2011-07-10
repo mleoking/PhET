@@ -46,6 +46,15 @@ public class DataTable extends Sprite {
     public var manualUpdating: Boolean;	//true if user is typing into textField, needed to prevent input-model-output loop
     public var sliderUpdating: Boolean; //true if use is using mass slider
 
+    private const ballColumnNbr: int = 0;
+    private const massColumnNbr: int = 1;
+    private const xColumnNbr: int = 2;
+    private const yColumnNbr: int = 3; // only in intro
+    private const vyColumnNbr: int = 5; // only in intro
+    private const pyColumnNbr: int = 7; // only in intro
+
+    private const headerRowNbr: int = 0;
+
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         myModel.registerView( this );
@@ -60,27 +69,25 @@ public class DataTable extends Sprite {
         tFormat.align = TextFormatAlign.CENTER;
 
         //create textfields for full data table and mass sliders for partial data table
-        for ( var i: int = 0; i < MAX_ROWS; i++ ) {  //header row + row for each ball
-            rowCanvas_arr[i] = new Sprite();
-            text_arr[i] = new Array( nbrColumns );
-            if ( i > 0 ) {
-                var k: int = i - 1;
-                massSlider_arr[k] = new Slider();
-                massSlider_arr[k].name = k; //label slider with ball number: 0, 1, ..
-                setupSlider( this.massSlider_arr[k] );
+        for ( var row: int = 0; row < MAX_ROWS; row++ ) {  //header row + row for each ball
+            rowCanvas_arr[row] = new Sprite();
+            text_arr[row] = new Array( nbrColumns );
+            if ( row != headerRowNbr ) {
+                var ballNum: int = row - 1;
+                massSlider_arr[ballNum] = new Slider();
+                massSlider_arr[ballNum].name = ballNum; //label slider with ball number: 0, 1, ..
+                setupSlider( this.massSlider_arr[ballNum] );
             }
             for ( var col: int = 0; col < nbrColumns; col++ ) {
-                text_arr[i][col] = new TextField();
-                text_arr[i][col].defaultTextFormat = tFormat;
-                text_arr[i][col].name = i;  //label textfield with ball number
-            }//for(j)
-        }//for(i)
+                text_arr[row][col] = new TextField();
+                text_arr[row][col].defaultTextFormat = tFormat;
+                text_arr[row][col].name = row;  //label textfield with ball number
+            }
+        }
         manualUpdating = false;
         initialize(); //initialize full data table
         displayPartialDataTable( true );
-        //this.initialize2(); //initialize partial data table
-
-    }//end of constructor
+    }
 
     //create full data table
     private function initialize(): void {
@@ -215,17 +222,29 @@ public class DataTable extends Sprite {
         gI.drawRect( -del, -del, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del );
     }
 
+    public function get vxColumnNbr(): int {
+        return 4; // TODO: use below version
+//        return myModel.isIntro ? 3 : 4;
+    }
+
+    public function get pxColumnNbr(): int {
+        return 6; // TODO: use below version
+//        return myModel.isIntro ? 4:6;
+    }
+
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[0][0].text = SimStrings.get( "DataTable.ball", "ball" );
-        text_arr[0][1].text = SimStrings.get( "DataTable.mass", "mass" );
-        text_arr[0][2].text = SimStrings.get( "DataTable.x", "x" );
-        text_arr[0][3].text = SimStrings.get( "DataTable.y", "y" );
-        text_arr[0][4].text = SimStrings.get( "DataTable.vx", "Vx" );
-        text_arr[0][5].text = SimStrings.get( "DataTable.vx", "Vy" );
-        text_arr[0][6].text = SimStrings.get( "DataTable.vx", "Px" );
-        text_arr[0][7].text = SimStrings.get( "DataTable.vx", "Py" );
+        text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "ball" );
+        text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
+        text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
+        text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
+        text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
+        if ( !myModel.isIntro ) {
+            text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+            text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
+            text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
+        }
         tFormat.bold = true;
         for ( var row: int = 0; row < MAX_ROWS; row++ ) {
             if ( row != 0 ) {text_arr[row][0].text = row;}
