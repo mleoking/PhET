@@ -45,7 +45,7 @@ public class BallImage extends Sprite {
     private var mouseOverBallHandle:Boolean = false;
     private var mouseDownOnArrow:Boolean = false;
 
-    private static const arrowDragRadius: Number = 15; // radius of the arrow "handle" and visible marker is
+    private static const arrowDragRadius:Number = 15; // radius of the arrow "handle" and visible marker is
 
     public function BallImage( myModel:Model, indx:int, myTableView:TableView ) {
         this.myModel = myModel;
@@ -178,10 +178,10 @@ public class BallImage extends Sprite {
 
     public function updateReadouts():void {
         // TODO: i18n
-        var vCaption = SimStrings.get("ShowValues.velocityCaption", "Velocity (m/s)");
-        var vReadout = SimStrings.get("ShowValues.velocityReadout", "v = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 )]);
-        var pCaption = SimStrings.get("ShowValues.momentumCaption", "Momentum (kg m/s)");
-        var pReadout = SimStrings.get("ShowValues.momentumReadout", "p = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 )]);
+        var vCaption = SimStrings.get( "ShowValues.velocityCaption", "Velocity (m/s)" );
+        var vReadout = SimStrings.get( "ShowValues.velocityReadout", "v = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 )] );
+        var pCaption = SimStrings.get( "ShowValues.momentumCaption", "Momentum (kg m/s)" );
+        var pReadout = SimStrings.get( "ShowValues.momentumReadout", "p = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 )] );
         velocityReadoutText.text = vCaption + "\n" + vReadout;
         momentumReadoutText.text = pCaption + "\n" + pReadout;
     }
@@ -227,6 +227,18 @@ public class BallImage extends Sprite {
         g.clear();
         g.lineStyle( 1, 0x666666 );
         g.drawCircle( 0, 0, arrowDragRadius );
+        var arrowHeadLabel:TextField = new TextField();
+        arrowHeadLabel.autoSize = "left";
+        arrowHeadLabel.text = "V";
+        arrowHeadLabel.textColor = 0x666666;
+        var fmt:TextFormat = new TextFormat();
+        fmt.size = 20;
+        arrowHeadLabel.setTextFormat( fmt );
+
+        // center label
+        arrowHeadLabel.x = -arrowHeadLabel.width / 2;
+        arrowHeadLabel.y = -arrowHeadLabel.height / 2;
+        arrowHeadIndicator.addChild( arrowHeadLabel );
         this.arrowHeadIndicator.visible = false;
     }
 
