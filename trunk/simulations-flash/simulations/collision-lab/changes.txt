@@ -1,3 +1,4 @@
+> Removed Y-related columns in Intro tab
 # 1.00.03 (53912) Jul 10, 2011
 > Added "V" to velocity arrow tip
 > Velocity arrow target position now centered on the tip
