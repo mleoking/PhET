@@ -43,7 +43,7 @@ public class Crystal extends Particle implements Iterable<LatticeConstituent> {
         else { throw new RuntimeException( "Unknown bond type: " + bond ); }
     }
 
-    public boolean contains( SphericalParticle particle ) {
+    public boolean contains( Particle particle ) {
         for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
             if ( latticeConstituent.particle == particle ) {
                 return true;
