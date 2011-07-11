@@ -11,6 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
+ * Represents a single atom in the model, with a box2d representation for physics
+ *
  * @author Sam Reid
  */
 public class Atom {
@@ -20,7 +22,10 @@ public class Atom {
     public final ImmutableVector2D modelOffset;
     public final double radius;
 
-    public Atom( double x, double y, final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final ObservableProperty<Double> charge, final boolean origin ) {
+    public Atom( double x, double y,
+
+                 //The transform between model and box2d coordinates
+                 final ModelViewTransform transform, final double r, final Body body, final double localOffsetX, final double localOffsetY, final ObservableProperty<Double> charge, final boolean origin ) {
         this.radius = r;
         modelOffset = new ImmutableVector2D( localOffsetX, localOffsetY );
         position = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
