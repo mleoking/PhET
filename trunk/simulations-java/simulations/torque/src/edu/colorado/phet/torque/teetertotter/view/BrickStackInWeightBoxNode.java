@@ -18,6 +18,11 @@ import edu.colorado.phet.torque.teetertotter.model.weights.BrickStack;
  */
 public class BrickStackInWeightBoxNode extends WeightBoxItem {
 
+    // Model-view transform for scaling the node used in the weight box.  This
+    // may scale the node differently than what is used in the model.
+    protected static final ModelViewTransform SCALING_MVT =
+            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 150 );
+
     private final int numBricks;
 
     public BrickStackInWeightBoxNode( int numBricks, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {

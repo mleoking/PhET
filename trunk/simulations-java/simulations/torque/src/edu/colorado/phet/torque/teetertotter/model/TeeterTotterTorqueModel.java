@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.torque.teetertotter.model.weights.AdolescentHuman;
 import edu.colorado.phet.torque.teetertotter.model.weights.Weight;
 
 /**
@@ -148,9 +147,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         for ( Weight weight : new ArrayList<Weight>( weights ) ) {
             removeWeight( weight );
         }
-
-        // TODO: For testing, stick a weight in.
-        addWeight( new AdolescentHuman() );
     }
 
     //------------------------------------------------------------------------

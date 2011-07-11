@@ -28,11 +28,6 @@ public abstract class WeightBoxItem extends PComposite {
     // Class Data
     //----------------------------------------------------------------------------
 
-    // Fixed transform for setting the size of the items in the tool box,
-    // which may not be exactly what it is in the model.
-    protected static final ModelViewTransform SCALING_MVT =
-            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 150 );
-
     private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 
     // Font to use for labels.
