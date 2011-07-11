@@ -37,7 +37,8 @@ public class MPStrings {
     public static final String ON = RESOURCES.getLocalizedString( "on" );
     public static final String ONE_ATOM = RESOURCES.getLocalizedString( "oneAtom" );
     public static final String PARTIAL_CHARGES = RESOURCES.getLocalizedString( "partialCharges" );
-    public static final String PATTERN__0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
+    public static final String PATTERN_0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
+    public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
     public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
     public static final String TEST = RESOURCES.getLocalizedString( "test" );
     public static final String TWO_ATOMS = RESOURCES.getLocalizedString( "twoAtoms" );
