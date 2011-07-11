@@ -95,16 +95,21 @@ public class SaltShaker extends Dispenser {
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
                 final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( 0.027 / distanceScale, angle.get() + Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
-                //Add the salt
-                model.addMacroSalt( new MacroSalt( outputPoint, model.salt.volumePerSolidMole ) {{
-                    //Give the salt an appropriate velocity when it comes out so it arcs
-                    velocity.set( getCrystalVelocity( outputPoint ) );
-                }} );
+                //Add the salt to the model
+                addSalt( model, outputPoint, model.salt.volumePerSolidMole, getCrystalVelocity( outputPoint ) );
                 shakeAmount = 0.0;
-
                 //don't clear the position array here since the user may still be shaking the shaker
             }
         }
+    }
+
+    //Adds the salt to the model
+    protected void addSalt( SugarAndSaltSolutionModel model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity ) {
+        //Add the salt
+        model.addMacroSalt( new MacroSalt( outputPoint, volumePerSolidMole ) {{
+            //Give the salt an appropriate velocity when it comes out so it arcs
+            velocity.set( crystalVelocity );
+        }} );
     }
 
     //Create a SaltShakerNode for display and interaction with this model element
