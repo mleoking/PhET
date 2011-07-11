@@ -15,4 +15,8 @@ public class Units {
     public static double picometersToMeters( double picometers ) {
         return picometers * 1E-12;
     }
+
+    public static double nanometersToMeters( double nanometers ) {
+        return nanometers * 1E-9;
+    }
 }

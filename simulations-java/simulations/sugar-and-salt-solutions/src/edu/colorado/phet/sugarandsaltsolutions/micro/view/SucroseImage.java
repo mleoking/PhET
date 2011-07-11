@@ -41,11 +41,6 @@ public class SucroseImage {
         }, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
 //        }, Color.yellow, Color.yellow, Color.yellow ) {{
 
-            //Scale the graphic so it will be a good size for putting into a crystal lattice, with sizes
-            //Just using RADIUS * 2 leaves too much space between particles in the lattice
-            double width = getFullBounds().getWidth();
-            scale( 14 * 3 / width );
-
             //Put it a random angle
             rotate( Math.random() * Math.PI * 2 );
         }};

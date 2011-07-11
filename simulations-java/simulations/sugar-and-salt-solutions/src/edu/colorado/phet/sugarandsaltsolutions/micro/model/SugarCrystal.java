@@ -26,7 +26,7 @@ public class SugarCrystal extends Crystal {
 
     //Recursive method to traverse the graph and create particles
     private void fill( SugarLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
-        final double spacing = Units.picometersToMeters( 200 ) * sizeScale;
+        final double spacing = Units.nanometersToMeters( 1 ) * sizeScale;
         latticeConstituents.add( new LatticeConstituent( new SugarMolecule( new ImmutableVector2D(), spacing ), relativePosition ) );
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
