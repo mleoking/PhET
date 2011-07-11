@@ -21,7 +21,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  *
  * @author Sam Reid
  */
-public class SaltShaker extends Dispenser {
+public class Shaker extends Dispenser {
     //Some randomness in number of generated crystals when shaken
     private final Random random = new Random();
 
@@ -31,13 +31,12 @@ public class SaltShaker extends Dispenser {
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public SaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
+    public Shaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
         super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions
                 if ( !allowed ) {
-//                    System.out.println( "SaltShaker.apply. cleared" );
                     shakeAmount = 0;
                     positions.clear();
                 }

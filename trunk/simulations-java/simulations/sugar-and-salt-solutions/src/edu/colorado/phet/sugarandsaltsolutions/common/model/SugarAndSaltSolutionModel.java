@@ -206,9 +206,9 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         dispensers = new ArrayList<Dispenser>();
 
         //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new Shaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new SaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
+        dispensers.add( new Shaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
