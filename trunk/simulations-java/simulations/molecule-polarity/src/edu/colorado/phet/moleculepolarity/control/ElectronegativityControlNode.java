@@ -216,7 +216,10 @@ public class ElectronegativityControlNode extends PhetPNode {
         }
     }
 
-    // Tick mark, with optional label
+    /*
+     * Tick mark, a vertical line (tick) with optional label below it.
+     * Origin at top center of tick.
+     */
     private static class TickMarkNode extends PComposite {
 
         public TickMarkNode( double length ) {
