@@ -9,7 +9,7 @@ import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 /**
- * Mian class for the "Molecule Polarity" application.
+ * Main class for the "Molecule Polarity" application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
