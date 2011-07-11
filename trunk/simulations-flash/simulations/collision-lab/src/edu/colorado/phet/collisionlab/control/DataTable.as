@@ -47,6 +47,8 @@ public class DataTable extends Sprite {
     private var moreDataButton: NiceButton;//button to toggle full or partial data display
     private var lessDataButton: NiceButton;//button to toggle full or partial data display
 
+    private var showingMore: Boolean = false; // whether we are showing the "more data" instead of sliders
+
     private const ballColumnNbr: int = 0;
     private const massColumnNbr: int = 1;
     private const xColumnNbr: int = 2;
@@ -219,16 +221,20 @@ public class DataTable extends Sprite {
         var g: Graphics = canvas.graphics;
         var bWidth: Number = 5;   //borderWidth
         var del: Number = bWidth / 2;
+
+        // how much we need to chop off the top in the Intro tab when we are not showing more. top row shouldn't be visible
+        var offTopOffset = (!showingMore && myModel.isIntro) ? rowHeight : 0;
+
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
         g.beginFill( 0xffff99 );
-        g.drawRect( -del, -del, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del );
+        g.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
         g.endFill();
 
         var gI: Graphics = invisibleBorder.graphics;
         gI.clear();
         gI.lineStyle( bWidth, 0x000000, 0 );
-        gI.drawRect( -del, -del, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del );
+        gI.drawRect( -del, -del + offTopOffset, rowWidth + 2 * del, nbrRows * rowHeight + 2 * del - offTopOffset );
     }
 
     public function get vxColumnNbr(): int {
@@ -310,7 +316,7 @@ public class DataTable extends Sprite {
         removeBallButton_sp.y = -0.75 * addBallButton_sp.height;
         moreDataButton_sp.x = 0.5 * removeBallButton_sp.width + 0.8 * moreDataButton_sp.width;
         if ( myModel.isIntro ) {
-            moreDataButton_sp.y = invisibleBorder.height + 15;
+            moreDataButton_sp.y = invisibleBorder.height + rowHeight + 15;
         }
         else {
             moreDataButton_sp.y = -0.75 * addBallButton_sp.height;
@@ -331,8 +337,9 @@ public class DataTable extends Sprite {
         mSlider.addEventListener( Event.CHANGE, massSliderListener );
     }
 
-    public function displayPartialDataTable( tOrF: Boolean ): void {
-        if ( tOrF ) {
+    public function displayPartialDataTable( showSliders: Boolean ): void {
+        showingMore = !showSliders;
+        if ( showSliders ) {
             rowWidth = 5.5 * colWidth;
             canvas.x = -rowWidth / 2;
         }
@@ -344,10 +351,10 @@ public class DataTable extends Sprite {
         //hide all but 1st two columns for partial
         for ( var row: int = 0; row < maxRows; row++ ) {
             if ( row > headerRowNbr ) {
-                massSlider_arr[ballNbr( row )].visible = tOrF;
+                massSlider_arr[ballNbr( row )].visible = showSliders;
             }
             for ( var col: int = 2; col < nbrColumns; col++ ) {
-                text_arr[row][col].visible = !tOrF;
+                text_arr[row][col].visible = !showSliders;
             }
         }
     }
