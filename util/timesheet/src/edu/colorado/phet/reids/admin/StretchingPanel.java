@@ -14,7 +14,7 @@ import javax.swing.*;
 public class StretchingPanel extends JPanel {
     StretchingModel model = new StretchingModel();
 
-    public StretchingPanel( final TimesheetModel timesheetModel ) {
+    public StretchingPanel( final TimesheetModel timesheetModel, final File trunk ) {
         add( new JLabel( "Elapsed: MSE" ) );
         final JTextField textField = new JTextField( 8 );
         {
@@ -28,10 +28,10 @@ public class StretchingPanel extends JPanel {
                 if ( timesheetModel.getEntryCount() > 0 ) {
                     if ( model.entryMatches( timesheetModel.getLastEntry() ) && time == (long) ( 4.5 * 60 ) )//TODO: this plays sound during loading CSV
                     {
-                        playNotification( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav" );//todo: take out absolute paths
+                        playNotification( new File( trunk, "simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\cork.wav" ).getAbsolutePath() );
                     }
                     if ( time == 60 * 60 ) {
-                        playNotification( "C:\\workingcopy\\phet\\svn\\trunk\\simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" );
+                        playNotification( new File( trunk, "simulations-java\\simulations\\electric-hockey\\data\\electric-hockey\\audio\\tada.WAV" ).getAbsolutePath() );
                     }
                 }
             }

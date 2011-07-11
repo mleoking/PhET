@@ -50,6 +50,9 @@ public class TimesheetApp {
     private final BufferedImage bufferedIconImage = new BufferedImage( iconImage.getWidth(), iconImage.getHeight(), BufferedImage.TYPE_INT_RGB );
     private AffineTransform identity = new AffineTransform();
 
+    //The location of the svn trunk on the local filesystem, for loading resources.
+    private File trunk;
+
     private void updateIconImage() {
         if ( frame != null && frame.isVisible() ) {
             double fractionComplete = stretchingModel.getTimeSinceBeginningOfLastSession( timesheetModel ) / 3600.0;
@@ -90,7 +93,8 @@ public class TimesheetApp {
         }
     }
 
-    public TimesheetApp() throws IOException {
+    public TimesheetApp( File trunk ) throws IOException {
+        this.trunk = trunk;
         JIntellitypeSupport.init( new Runnable() {
                                       public void run() {
                                           System.out.println( "Clocking in for Work" );
@@ -254,7 +258,7 @@ public class TimesheetApp {
                     e1.printStackTrace();
                 }
             }
-        }
+        }, trunk
         ), BorderLayout.SOUTH );
         frame.setContentPane( contentPane );
         frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -399,11 +403,12 @@ public class TimesheetApp {
         timesheetModel.setClean();
     }
 
-    public static void main( String[] args ) {
+    //Must pass the absolute path of svn trunk as the one and only argument, for loading resources and scanning sim names
+    public static void main( final String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 try {
-                    new TimesheetApp().start();
+                    new TimesheetApp( new File( args[0] ) ).start();
                 }
                 catch ( IOException e ) {
                     e.printStackTrace();

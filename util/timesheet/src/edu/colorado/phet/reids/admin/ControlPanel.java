@@ -2,10 +2,12 @@ package edu.colorado.phet.reids.admin;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.reids.admin.TimesheetApp.SelectionModel;
 
 /**
  * @author Sam Reid
@@ -17,7 +19,7 @@ public class ControlPanel extends JPanel {
     private JTextField targetTextField;
     private MutableInt targetHours;
 
-    ControlPanel( final TimesheetModel timesheetModel, final ActionListener saveAction, final TimesheetApp.SelectionModel selectionModel, final MutableInt targetHours, final ActionListener savePreferences ) {
+    ControlPanel( final TimesheetModel timesheetModel, final ActionListener saveAction, final SelectionModel selectionModel, final MutableInt targetHours, final ActionListener savePreferences, final File trunk ) {
         this.targetHours = targetHours;
         this.timesheetModel = timesheetModel;
         JButton clockIn = new JButton( "Clock In" );
@@ -48,7 +50,7 @@ public class ControlPanel extends JPanel {
         JButton filteredReport = new JButton( "Monthly Report" );
         filteredReport.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                OrderedReportFrame reportFrame = new OrderedReportFrame( new MonthlyReportFilter().filter( selectionModel.getSelection( timesheetModel ) ) );
+                OrderedReportFrame reportFrame = new OrderedReportFrame( new MonthlyReportFilter( trunk ).filter( selectionModel.getSelection( timesheetModel ) ), null );
                 reportFrame.setVisible( true );
             }
         } );
@@ -103,7 +105,7 @@ public class ControlPanel extends JPanel {
         add( remainingInTarget );
         updateRemainingInTarget();
 
-        add( new StretchingPanel( timesheetModel ) );
+        add( new StretchingPanel( timesheetModel, trunk ) );
     }
 
     private void updateRemainingInTarget() {

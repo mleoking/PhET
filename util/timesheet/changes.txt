@@ -1,3 +1,4 @@
+7-11-2011: Factored out trunk argument
 6-27-2011: Improved control panel
 5-8-2011: improved frame icon
 3-19-2011: Updated application icons
