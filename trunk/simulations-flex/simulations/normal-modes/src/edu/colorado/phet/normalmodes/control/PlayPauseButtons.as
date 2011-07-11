@@ -29,7 +29,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var myMainView: MainView;
     private var myModel: Object; //Model1 or Model1, can change with setModel();
     private var timeRateSlider:HSlider;
-    private var playPauseButton: Sprite;
+    //private var playPauseButton: Sprite;
     private var stepButton: Sprite;
     private var playIcon: Sprite;                //overlayed on playPauseButton
     private var pauseIcon: Sprite;              //overlayed on playPauseButton
@@ -66,9 +66,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
         this.myMainView = myMainView;
         this.myModel = myModel;
-        this.myModel.registerView( this );
+        //this.myModel.registerView( this );
         this.timeRateSlider = new HSlider();
-        this.playPauseButton = new Sprite();
+        //this.playPauseButton = new Sprite();
         this.stepButton = new Sprite();
         this.playIcon = new Sprite();
         this.pauseIcon = new Sprite();
@@ -92,14 +92,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
 
         //this.addChild(this.canvas);
-        this.playPauseButton.addChild( this.playIcon );
-        this.playPauseButton.addChild( this.pauseIcon );
+        //this.playPauseButton.addChild( this.playIcon );
+        //this.playPauseButton.addChild( this.pauseIcon );
         this.addChild( this.currentTime_txt );
         this.addChild(this.simSpeed_txt);
         this.addChild(this.slow_txt);
         this.addChild(this.normal_txt);
         this.addChild(this.timeRateSlider);
-        this.addChild( this.playPauseButton );
+        //this.addChild( this.playPauseButton );
         this.addChild( this.playPause_txt );
         this.addChild( this.stepButton );
         this.addChild( this.singleStep_txt );
@@ -122,7 +122,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
     private function drawGraphics(): void {
         //draw button body
-        var g1: Graphics = this.playPauseButton.graphics;
+        //var g1: Graphics = this.playPauseButton.graphics;
         var g2: Graphics = this.pauseIcon.graphics;
         var g3: Graphics = this.playIcon.graphics;
         var g4: Graphics = this.stepButton.graphics;
@@ -130,11 +130,11 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         var bW: Number = 25;    //height of button
 
         //play/pause button body
-        g1.clear();
-        g1.lineStyle( 2.5, 0x777777, 1, true, LineScaleMode.NONE );
-        g1.beginFill( 0xdddddd );
-        g1.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 )
-        g1.endFill();
+        //g1.clear();
+        //g1.lineStyle( 2.5, 0x777777, 1, true, LineScaleMode.NONE );
+        //g1.beginFill( 0xdddddd );
+        //g1.drawRoundRect( -bW / 2, -bH / 2, bW, bH, bH / 2 )
+        //g1.endFill();
         //pause icon
         g2.clear();
         g2.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE )
@@ -178,9 +178,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
     private function initializeControls(): void {
         this.timeRateSlider.value = 1;
-        this.playPauseButton.buttonMode = true;
+        //this.playPauseButton.buttonMode = true;
         this.stepButton.buttonMode = true;
-        this.playPauseButton.mouseChildren = false;
+        //this.playPauseButton.mouseChildren = false;
         this.paused = false;
         //this.myShakerModel.unPauseSim();
         this.playIcon.visible = false;
@@ -188,9 +188,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         var thisObject: PlayPauseButtons = this;
         //this.playPauseButton
         this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
-        this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
-        this.playPauseButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
-        this.playPauseButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
+        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
+        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
+        //this.playPauseButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_DOWN, singleStep );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OVER, buttonBehave );
         this.stepButton.addEventListener( MouseEvent.MOUSE_OUT, buttonBehave );
@@ -232,12 +232,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
             } else if ( evt.type == "mouseOut" ) {
                 thisObject.tFormat1.bold = false;
             }
+            thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 )
+            /*
             if ( evt.target == thisObject.playPauseButton ) {
                 thisObject.playPause_txt.setTextFormat( thisObject.tFormat1 );
             }
             else {
                 thisObject.singleStep_txt.setTextFormat( thisObject.tFormat1 );
-            }
+            }  */
         }//end of buttonBehave
 
         function singleStep( evt: MouseEvent ): void {
@@ -362,8 +364,8 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.normal_txt.x = 0.5*this.timeRateSlider.x;
         this.normal_txt.y = 3;
         this.simSpeed_txt.y = this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
-        this.playPause_txt.x = -0.5 * this.playPause_txt.width;
-        this.playPause_txt.y = 0.5 * this.playPauseButton.height;
+        //this.playPause_txt.x = -0.5 * this.playPause_txt.width;
+        //this.playPause_txt.y = 0.5 * this.playPauseButton.height;
         this.paused_txt.x = -0.5 * this.paused_txt.width;
         this.paused_txt.y = -1.3 * this.paused_txt.height;
         this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;

@@ -35,6 +35,7 @@ public class Model1 {
     private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMassIndex:int;      //index of mass grabbed by mouse
     private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
+    private var _xModes:Boolean;    //true if x-motion modes only; false if y-motion modes only
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
@@ -72,17 +73,18 @@ public class Model1 {
         this._L = 1;                //1 meter between fixed walls
         this._grabbedMassIndex = 0;      //left mass (index 0) is always stationary
         this._longitudinalMode = true;
+        this._xModes = false;
         this.initializeKinematicArrays();
         this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
-        this._paused = false;
+        this._paused = true;
         this._t = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.01;
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
-        this.startMotion();
+        //this.startMotion();
     }//end initialize()
 
     public function initializeKinematicArrays():void{
@@ -123,7 +125,7 @@ public class Model1 {
             modePhase_arr[i] = 0;
         }
         this._modesChanged = true;
-        updateView();
+        updateViews();
         this._modesChanged = false;
     }
 
@@ -142,7 +144,7 @@ public class Model1 {
         this.initializeKinematicArrays();
         this.setResonantFrequencies();
         this._nChanged = true;
-        this.updateView();
+        this.updateViews();
     }//end setN
 
     public function get N():int {
@@ -178,7 +180,7 @@ public class Model1 {
     public function setX(i:int, xPos:Number):void{
         var sPos:Number = xPos - this.x0_arr[i];
         this.s_arr[i] = sPos;
-        this.updateView();   //needed in case that sim is paused
+        this.updateViews();   //needed in case that sim is paused
     }
 
     public function getX(i:int):Number{
@@ -193,9 +195,9 @@ public class Model1 {
 
     //used when in transverse mode
     public function setY(i:int, yPos:Number):void{
-        if(!_longitudinalMode){
+        if(!_xModes){
             this.s_arr[i] = yPos;
-            this.updateView();   //needed in case that sim is paused
+            this.updateViews();   //needed in case that sim is paused
         } else{
             //do nothing
         }
@@ -203,7 +205,7 @@ public class Model1 {
 
     public function getY(i:int):Number{
         var yPos:Number;
-        if(!_longitudinalMode){     //if tranverse mode
+        if(!_xModes){     //if tranverse mode
             yPos = this.s_arr[i];
         }else{
             yPos = 0;
@@ -221,6 +223,11 @@ public class Model1 {
             trace("ERROR: damping constant out of bounds")
         }
         this.b = b;
+    }
+
+        //set polarization in x-direction or y-direction
+    public function set xModes( tOrF:Boolean ):void{
+        this._xModes = tOrF;
     }
 
     public function setTorL( TorL:String ):void{
@@ -241,7 +248,7 @@ public class Model1 {
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
         this.setExactPositions();
         this._modesChanged = true;
-        updateView();
+        updateViews();
         this._modesChanged = false;
     }
 
@@ -253,7 +260,7 @@ public class Model1 {
         this.modePhase_arr[ modeNbr - 1 ] = phase;
         this.setExactPositions();
         this._modesChanged = true;
-        updateView();
+        updateViews();
         this._modesChanged = false;
     }
 
@@ -271,7 +278,8 @@ public class Model1 {
 
     public function set t( time:Number ):void{
         this._t = time;
-        this.updateView();
+        this.setExactPositions();
+        this.updateViews();
     }
 
     public function get paused():Boolean {
@@ -330,7 +338,7 @@ public class Model1 {
             this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
         }
         this._modesChanged = true;
-        this.updateView();
+        this.updateViews();
         this._modesChanged = false;
     }//computeModeAmplitudesAndPhases();
 
@@ -360,7 +368,7 @@ public class Model1 {
         }else {
            this.setExactPositions();
         }
-        this.updateView();
+        this.updateViews();
     } //end singleStep()
 
     private function setVerletPositions():void{       //velocity verlet algorithm
@@ -394,7 +402,7 @@ public class Model1 {
         this.dt = this.tRate * 0.02;
         this._t += this.dt;
         this.singleStep( );
-        updateView();
+        updateViews();
     }
 
     public function registerView( view: Object ): void {
@@ -410,7 +418,7 @@ public class Model1 {
         }
     }
 
-    public function updateView(): void {
+    public function updateViews(): void {
         for(var i:int = 0; i < this.views_arr.length; i++){
            this.views_arr[ i ].update();
         }

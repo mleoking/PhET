@@ -124,7 +124,7 @@ public class Model2 {
         this.initializeKinematicArrays();
         this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
-        this._paused = false;
+        this._paused = true;
         this._t = 0;
         this.tInt = 0;
         //this.tInt = 1;              //testing only

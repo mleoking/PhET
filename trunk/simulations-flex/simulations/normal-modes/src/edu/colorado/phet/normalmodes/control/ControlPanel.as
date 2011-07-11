@@ -25,15 +25,18 @@ import mx.controls.RadioButtonGroup;
 public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
-    private var myModel1: Model1;
-    private var myModel2: Model2;
+    private var myModel:Object; //Model1 or Model1, can change with setModel();
+    //private var myModel1: Model1;
+    //private var myModel2: Model2;
 
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
     private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;
+    private var startStopButton: NiceButton2;
     private var resetTimeButton: NiceButton2;
-    private var resetPositionsButton: NiceButton2;
+    private var paused:Boolean;
+    private var zeroPositionsButton: NiceButton2;
 
     //Type of Mode radio buttons
     private var innerBckgrnd1: VBox;
@@ -61,6 +64,7 @@ public class ControlPanel extends Canvas {
     public var resetTime_str:String;
     public var resetPositions_str: String;
     public var polarization_str: String;
+    public var startStop_str:String;
     public var resetAll_str: String;
     public var oneD_str: String;
     public var twoD_str: String;
@@ -69,11 +73,12 @@ public class ControlPanel extends Canvas {
 
 
 
-    public function ControlPanel( myMainView: MainView, model1: Model1, model2: Model2 ) {
+    public function ControlPanel( myMainView: MainView, model1: Object ) {
         super();
         this.myMainView = myMainView;
-        this.myModel1 = model1;
-        this.myModel2 = model2;
+        this.myModel = model1;
+        //this.myModel1 = model1;
+        //this.myModel2 = model2;
         this.init();
 
     }//end of constructor
@@ -103,7 +108,7 @@ public class ControlPanel extends Canvas {
 
         this.innerBckgrnd1 = new VBox();
         with ( this.innerBckgrnd1 ) {
-            setStyle( "backgroundColor", 0xdddd00 );
+            setStyle( "backgroundColor", 0x66ff66 );   //0xdddd00
             percentWidth = 100;
             //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
@@ -121,8 +126,10 @@ public class ControlPanel extends Canvas {
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
-        this.resetTimeButton = new NiceButton2( 120, 30, resetTime_str, resetTime, 0x009900, 0xffffff  )
-        this.resetPositionsButton = new NiceButton2( 120, 30, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
+        this.paused = true;
+        this.startStopButton = new NiceButton2( 120, 25, startStop_str, startStop, 0x009900, 0xffffff );
+        this.resetTimeButton = new NiceButton2( 120, 25, resetTime_str, resetTime, 0xffff00, 0x000000  )
+        this.zeroPositionsButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
         this.modeTypeLabel = new NiceLabel( 12, polarization_str );
         //Set up rightLeft vs. upDown radio button box
         this.modeTypeHBox = new HBox();
@@ -182,8 +189,9 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd3.addChild( showPhasesCheckBox );
         this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
 
+        this.background.addChild( new SpriteUIComponent( this.startStopButton, true ));
         this.background.addChild( new SpriteUIComponent( this.resetTimeButton, true ));
-        this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
+        this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ));
 
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
@@ -191,7 +199,8 @@ public class ControlPanel extends Canvas {
 
     public function initializeStrings(): void {
         numberOfMasses_str = FlexSimStrings.get("numberOfMasses", "Number of Masses");
-        resetTime_str = FlexSimStrings.get( "resetTime", "Set time = 0" );
+        startStop_str = FlexSimStrings.get( "startStop", "Start/Stop");
+        resetTime_str = FlexSimStrings.get( "resetTime", "Initial Positions" );
         resetPositions_str = FlexSimStrings.get("resetPositions", "Zero Positions");
         polarization_str = FlexSimStrings.get("polarization:", "Polarizaton:");
         resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
@@ -203,47 +212,56 @@ public class ControlPanel extends Canvas {
 
     private function setNbrMasses():void{
         var nbrM:Number = this.nbrMassesSlider.getVal();
+        this.myModel.setN ( nbrM );
         if( this.myMainView.oneDMode ){
-            this.myModel1.setN( nbrM );
             this.myMainView.mySliderArrayPanel.locateSlidersAndLabels();
-        } else{
-            this.myModel2.setN( nbrM );
         }
     }
 
     public function setNbrMassesExternally( nbrM: int ): void {
         this.nbrMassesSlider.setVal( nbrM );
-        if( this.myMainView.oneDMode ){
-           this.myModel1.setN( nbrM );
-        }else{
-           this.myModel2.setN( nbrM );
-        }
+        this.myModel.setN( nbrM );
         this.resetPositions();
     }
 
+    public function setModel( currentModel: Object ):void{
+        this.myModel = currentModel;
+    }
+
+    private function startStop():void{
+        if(this.paused){
+            this.paused = false;
+           this.myModel.unPauseSim();
+        }else{
+           this.paused = true;
+           this.myModel.pauseSim();
+        }
+    }//end startStop()
+
     private function resetTime():void{
-        this.myModel1.t = 0;
-        this.myModel2.t = 0;
+        this.myModel.t = 0;
+        this.myModel.updateViews();
+        this.myModel.pauseSim();
+        this.paused = true;
     }
 
     private function resetPositions():void{
         //Doesn't matter if in 1D or 2D mode, want all modes zeroed.
-        this.myModel1.initializeKinematicArrays();
-        this.myModel1.zeroModeArrays();
-        this.myModel2.initializeKinematicArrays();
-        this.myModel2.zeroModeArrays();
+        this.myModel.initializeKinematicArrays();
+        this.myModel.zeroModeArrays();
+        this.myModel.pauseSim();
     }
 
     private function clickLongOrTrans( evt: Event ): void {
         var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
-            this.myModel1.setTorL( "L" );
-            this.myModel2.xModes = true;
+            //this.myModel1.setTorL( "L" );
+            this.myModel.xModes = true;
             this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
         }
         else {
-            this.myModel1.setTorL( "T" );
-            this.myModel2.xModes =  false;
+            //this.myModel1.setTorL( "T" );
+            this.myModel.xModes =  false;
             this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }

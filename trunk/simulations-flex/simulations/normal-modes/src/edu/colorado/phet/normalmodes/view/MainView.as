@@ -89,13 +89,13 @@ public class MainView extends Canvas {
 
         this.myPlayPauseButtons = new PlayPauseButtons( this, myModel1 );
         this.myPlayPauseButtons.x = 0.9 * stageW ;//- this.myPlayPauseButtons.width ;
-        this.myPlayPauseButtons.y = 0.45 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        this.myPlayPauseButtons.y = 0.50 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
         this.mySliderArrayPanel.y = 0.6*stageH;
 
-        this.myControlPanel = new ControlPanel( this, myModel1, myModel2 );
+        this.myControlPanel = new ControlPanel( this, myModel1 );
         this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.075 * stageH;
 
@@ -128,23 +128,25 @@ public class MainView extends Canvas {
     public function set1DOr2D(oneOrTwo:int):void{
         if(oneOrTwo == 1){
             this.oneDMode = true;
-            this.myModel1.startMotion();
+            this.myModel1.stopMotion();
             this.myModel2.stopMotion();
             this.myView1.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
             this.myButtonArrayPanel.visible = false;
+            this.myControlPanel.setModel( this.myModel1 );
             this.myPlayPauseButtons.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
             this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
             this.myModel1.stopMotion();
-            this.myModel2.startMotion();
+            this.myModel2.stopMotion();
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
             this.myButtonArrayPanel.visible = true;
+            this.myControlPanel.setModel( this.myModel2 );
             this.myPlayPauseButtons.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
             this.myControlPanel.showPhasesVisible( false );
