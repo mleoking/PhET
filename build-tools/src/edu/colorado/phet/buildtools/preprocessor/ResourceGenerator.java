@@ -118,19 +118,19 @@ public class ResourceGenerator {
 
         //Filter the template to create the .java source file
         String resourceFileString = filter( new HashMap<String, String>() {{
-                                                put( "packagename", packagename );
-                                                put( "classname", className );
-                                                put( "simname", simDir.getName() );
-                                                put( "generator", ResourceGenerator.class.getName() );
-                                                put( "strings", strings );
-                                                put( "fullclassname", fullClassName );
-                                                put( "images", images );
-                                            }}, template ).trim();
+            put( "packagename", packagename );
+            put( "classname", className );
+            put( "simname", simDir.getName() );
+            put( "generator", ResourceGenerator.class.getName() );
+            put( "strings", strings );
+            put( "fullclassname", fullClassName );
+            put( "images", images );
+        }}, template ).trim();
 
         //Store the filtered strings in the java source directory for usage at compile time
         final File destination = new File( simDir, "src/edu/colorado/phet/" + packagename + "/" + fullClassName + ".java" );
 
-        final String originalValue = FileUtils.loadFileAsString( destination );
+        final String originalValue = destination.exists() ? FileUtils.loadFileAsString( destination ) : "";
         if ( !originalValue.equals( resourceFileString ) ) {
             FileUtils.writeString( destination, resourceFileString );
             //Log that the file was written, and list the path so the user can easily find it.
@@ -169,7 +169,12 @@ public class ResourceGenerator {
 
         //Returns the string excluding the last character for strings that were appended with a separator that shouldn't appear at the end
         public String toStringWithoutLastCharacter() {
-            return s.substring( 0, s.length() - 1 );
+            if ( s.length() == 0 ) {
+                return "";
+            }
+            else {
+                return s.substring( 0, s.length() - 1 );
+            }
         }
     }
 
