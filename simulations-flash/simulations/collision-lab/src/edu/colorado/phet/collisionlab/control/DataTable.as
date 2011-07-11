@@ -23,7 +23,6 @@ import flash.filters.*;
 public class DataTable extends Sprite {
     private static const colWidth: int = 60;			//width of column in pix
     private static const rowHeight: int = 27;			//height of row in pix
-    private static const MAX_ROWS = CLConstants.MAX_BALLS + 1; //header row + row for each ball
 
     private var myModel: Model;
     private var myMainView: MainView;
@@ -55,8 +54,6 @@ public class DataTable extends Sprite {
     private const vyColumnNbr: int = 5; // only in intro
     private const pyColumnNbr: int = 7; // only in intro
 
-    private const headerRowNbr: int = 0;
-
     private const highlightColor: int = 0xffff33;
     private const unhighlightColor: int = 0xffffff;
 
@@ -65,20 +62,20 @@ public class DataTable extends Sprite {
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
-        rowCanvas_arr = new Array( MAX_ROWS ); //header row + row for each ball
-        text_arr = new Array( MAX_ROWS );	//rows
-        massSlider_arr = new Array( MAX_ROWS );
+        rowCanvas_arr = new Array( maxRows ); //header row + row for each ball
+        text_arr = new Array( maxRows );	//rows
+        massSlider_arr = new Array( maxRows );
         tFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.size = 14;
         tFormat.align = TextFormatAlign.CENTER;
 
         //create textfields for full data table and mass sliders for partial data table
-        for ( var row: int = 0; row < MAX_ROWS; row++ ) {  //header row + row for each ball
+        for ( var row: int = 0; row < maxRows; row++ ) {  //header row + row for each ball
             rowCanvas_arr[row] = new Sprite();
             text_arr[row] = new Array( nbrColumns );
-            if ( row != headerRowNbr ) {
-                var ballNum: int = row - 1;
+            if ( row > headerRowNbr ) {
+                var ballNum: int = ballNbr( row );
                 massSlider_arr[ballNum] = new Slider();
                 massSlider_arr[ballNum].name = ballNum; //label slider with ball number: 0, 1, ..
                 setupSlider( this.massSlider_arr[ballNum] );
@@ -122,20 +119,20 @@ public class DataTable extends Sprite {
         myMainView.addChild( this );
 
         //layout textFields in full data table
-        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
+        for ( var row: int = 0; row < maxRows; row++ ) {
             canvas.addChild( rowCanvas_arr[row] );
 
             var ballBackground: Sprite = new Sprite();
-            if ( row > 0 ) {
-                var k: int = row - 1;
-                rowCanvas_arr[row].addChild( massSlider_arr[k] );
-                massSlider_arr[k].x = 2.2 * colWidth;
-                massSlider_arr[k].y = 0.2 * rowHeight;
-                massSlider_arr[k].visible = false;
+            if ( row > headerRowNbr ) {
+                var ballNum: int = ballNbr( row );
+                rowCanvas_arr[row].addChild( massSlider_arr[ballNum] );
+                massSlider_arr[ballNum].x = 2.2 * colWidth;
+                massSlider_arr[ballNum].y = 0.2 * rowHeight;
+                massSlider_arr[ballNum].visible = false;
 
                 ballBackground.x = 0;
                 ballBackground.y = 0;
-                ballBackground.graphics.beginFill( myMainView.myTableView.ballColor_arr[row - 1] );
+                ballBackground.graphics.beginFill( myMainView.myTableView.ballColor_arr[ballNum] );
                 ballBackground.graphics.lineStyle( 0, 0x000000 );
                 ballBackground.graphics.drawCircle( (colWidth - 5) / 2, (rowHeight - 5) / 2, 10 );
                 ballBackground.graphics.endFill();
@@ -143,7 +140,8 @@ public class DataTable extends Sprite {
             }
 
             for ( var col: int = 0; col < nbrColumns; col++ ) {
-                if ( row > 0 && col == 0 ) {
+                if ( row > headerRowNbr && col == 0 ) {
+                    // outline all ball numbers
                     var glow: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
                     glow.quality = BitmapFilterQuality.MEDIUM;
                     text_arr[row][col].textColor = 0xFFFFFF;
@@ -158,22 +156,22 @@ public class DataTable extends Sprite {
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
-                if ( row == 0 || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
+                if ( row <= headerRowNbr || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
                     text_arr[row][col].type = TextFieldType.DYNAMIC;
                     text_arr[row][col].selectable = false;
                 }
                 else {
-                    if ( col > 0 && col < 4 ) {
+                    if ( col > 0 && col < (myModel.isIntro ? 3 : 4) ) {
                         dressInputTextField( row, col );
                         text_arr[row][col].restrict = "0-9.";
                     }
                     else {
-                        if ( col == 4 || col == 5 ) {
+                        if ( col == vxColumnNbr || (!myModel.isIntro && col == vyColumnNbr) ) {
                             dressInputTextField( row, col );
                             text_arr[row][col].restrict = "0-9.\\-";  //velocities can be negative
                         }
                         else {
-                            trace( "ERROR in DataTable.initialize. Invalid value of j" );
+                            trace( "ERROR in DataTable.initialize. Invalid value of col" );
                         }
                     }
                 }
@@ -202,6 +200,13 @@ public class DataTable extends Sprite {
         return myModel.isIntro ? 5 : 8;
     }
 
+    /**
+     * Maximum number of rows (if all of the balls were included)
+     */
+    private function get maxRows(): int {
+        return CLConstants.MAX_BALLS + headerOffset; //header row + row for each ball
+    }
+
     public function dressInputTextField( i: int, j: int ): void {
         text_arr[i][j].type = TextFieldType.INPUT;
         text_arr[i][j].border = true;
@@ -210,7 +215,7 @@ public class DataTable extends Sprite {
     }
 
     private function drawBorder( nbrBalls: int ): void {
-        var nbrRows: int = nbrBalls + 1;  //one header row + 1 row per ball
+        var nbrRows: int = nbrBalls + headerOffset;  //one header row + 1 row per ball
         var g: Graphics = canvas.graphics;
         var bWidth: Number = 5;   //borderWidth
         var del: Number = bWidth / 2;
@@ -234,22 +239,45 @@ public class DataTable extends Sprite {
         return myModel.isIntro ? 4 : 6;
     }
 
+    /**
+     * Row number of the main header row
+     */
+    public function get headerRowNbr(): int {
+        return myModel.isIntro ? 1 : 0;
+    }
+
+    /**
+     * How many rows are added as "headers" at the top
+     */
+    public function get headerOffset(): int {
+        return headerRowNbr + 1;
+    }
+
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "ball" );
-        text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
-        text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
-        text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
-        text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
-        if ( !myModel.isIntro ) {
-            text_arr[0][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
-            text_arr[0][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
-            text_arr[0][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
+        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "ball" );
+        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
+        text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
+        text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
+        text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
+        if ( myModel.isIntro ) {
+            // add a column above the main header row
+            text_arr[0][ballColumnNbr].text = "";
+            text_arr[0][massColumnNbr].text = "";
+            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
+            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
+            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+        }
+        else {
+            // advanced-only headers
+            text_arr[headerRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+            text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
+            text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
         }
         tFormat.bold = true;
-        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
-            if ( row != 0 ) {text_arr[row][0].text = row;}
+        for ( var row: int = 0; row < maxRows; row++ ) {
+            if ( row > headerRowNbr ) {text_arr[row][0].text = row - headerRowNbr;}
             for ( var col: int = 0; col < nbrColumns; col++ ) {
                 if ( row == 0 || col == 0 ) {
                     text_arr[row][col].setTextFormat( tFormat );
@@ -257,15 +285,20 @@ public class DataTable extends Sprite {
             }
         }
 
-        TextFieldUtils.resizeText( text_arr[0][0], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][1], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][2], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][3], TextFieldAutoSize.CENTER );
-        TextFieldUtils.resizeText( text_arr[0][4], TextFieldAutoSize.CENTER );
-        if ( !myModel.isIntro ) {
-            TextFieldUtils.resizeText( text_arr[0][5], TextFieldAutoSize.CENTER );
-            TextFieldUtils.resizeText( text_arr[0][6], TextFieldAutoSize.CENTER );
-            TextFieldUtils.resizeText( text_arr[0][7], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][ballColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][massColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][xColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][vxColumnNbr], TextFieldAutoSize.CENTER );
+        TextFieldUtils.resizeText( text_arr[headerRowNbr][pxColumnNbr], TextFieldAutoSize.CENTER );
+        if ( myModel.isIntro ) {
+            TextFieldUtils.resizeText( text_arr[0][xColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][vxColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[0][pxColumnNbr], TextFieldAutoSize.CENTER );
+        }
+        else {
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][yColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][vyColumnNbr], TextFieldAutoSize.CENTER );
+            TextFieldUtils.resizeText( text_arr[headerRowNbr][pyColumnNbr], TextFieldAutoSize.CENTER );
         }
     }
 
@@ -309,9 +342,9 @@ public class DataTable extends Sprite {
         }
         drawBorder( nbrBalls );
         //hide all but 1st two columns for partial
-        for ( var row: int = 0; row < MAX_ROWS; row++ ) {
-            if ( row > 0 ) {
-                massSlider_arr[row - 1].visible = tOrF;
+        for ( var row: int = 0; row < maxRows; row++ ) {
+            if ( row > headerRowNbr ) {
+                massSlider_arr[ballNbr( row )].visible = tOrF;
             }
             for ( var col: int = 2; col < nbrColumns; col++ ) {
                 text_arr[row][col].visible = !tOrF;
@@ -322,13 +355,13 @@ public class DataTable extends Sprite {
     public function setNbrDisplayedRows(): void {
         nbrBalls = myModel.nbrBalls;
         drawBorder( nbrBalls );
-        for ( var i: int = 0; i < MAX_ROWS; i++ ) {
-            rowCanvas_arr[i].visible = i < nbrBalls + 1;
+        for ( var i: int = 0; i < maxRows; i++ ) {
+            rowCanvas_arr[i].visible = i < nbrBalls + headerOffset;
         }
     }
 
     public function createTextChangeListeners(): void {
-        for ( var row: int = 1; row < MAX_ROWS; row++ ) {
+        for ( var row: int = 1; row < maxRows; row++ ) {
             for ( var col: int = 1; col < nbrColumns; col++ ) {
                 if ( col == massColumnNbr ) {
                     text_arr[row][col].addEventListener( Event.CHANGE, changeMassListener );
@@ -352,44 +385,45 @@ public class DataTable extends Sprite {
     }
 
     public function setPositionHighlight( ballIndex: int, highlighted: Boolean ): void {
-        text_arr[ballIndex + 1][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        text_arr[rowOfBall( ballIndex )][xColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         if ( !myModel.isIntro ) {
-            text_arr[ballIndex + 1][yColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+            text_arr[rowOfBall( ballIndex )][yColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         }
     }
 
     public function setVelocityHighlight( ballIndex: int, highlighted: Boolean ): void {
-        text_arr[ballIndex + 1][vxColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+        text_arr[rowOfBall( ballIndex )][vxColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         if ( !myModel.isIntro ) {
-            text_arr[ballIndex + 1][vyColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
+            text_arr[rowOfBall( ballIndex )][vyColumnNbr].backgroundColor = highlighted ? highlightColor : unhighlightColor;
         }
     }
 
     private function changeMassListener( evt: Event ): void {
         manualUpdating = true;
         var mass: Number = Number( evt.target.text );
-        var ballNbr: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
-        myModel.setMass( ballNbr - 1, mass );
-        massSlider_arr[ballNbr - 1].value = mass;
-        myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer1();  //redraw ballImage for new diameter
-        myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer1a(); //redraw ballImage for new diameter
-        myMainView.myTableView.ballImage_arr[ballNbr - 1].drawLayer4();  //redraw ballImage for new diameter
+        var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
+        var ballNum: int = ballNbr( row );
+        myModel.setMass( ballNum, mass );
+        massSlider_arr[ballNum].value = mass;
+        myMainView.myTableView.ballImage_arr[ballNum].drawLayer1();  //redraw ballImage for new diameter
+        myMainView.myTableView.ballImage_arr[ballNum].drawLayer1a(); //redraw ballImage for new diameter
+        myMainView.myTableView.ballImage_arr[ballNum].drawLayer4();  //redraw ballImage for new diameter
         manualUpdating = false;
     }
 
     private function changeXListener( evt: Event ): void {
         manualUpdating = true;
         var xPos: Number = evtTextToNumber( evt );
-        var ballNbr: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
-        myModel.setX( ballNbr - 1, xPos );
+        var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
+        myModel.setX( ballNbr( row ), xPos );
         manualUpdating = false;
     }
 
     private function changeYListener( evt: Event ): void {
         manualUpdating = true;
         var yPos: Number = evtTextToNumber( evt );
-        var ballNbr: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
-        myModel.setY( ballNbr - 1, yPos );
+        var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
+        myModel.setY( ballNbr( row ), yPos );
         manualUpdating = false;
     }
 
@@ -397,8 +431,8 @@ public class DataTable extends Sprite {
         manualUpdating = true;
         //var xVel = Number(evt.target.text);
         var xVel: Number = evtTextToNumber( evt );
-        var ballNbr: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
-        myModel.setVX( ballNbr - 1, xVel );
+        var row: Number = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
+        myModel.setVX( ballNbr( row ), xVel );
         manualUpdating = false;
     }
 
@@ -406,8 +440,8 @@ public class DataTable extends Sprite {
         manualUpdating = true;
         //var yVel = Number(evt.target.text);
         var yVel: Number = evtTextToNumber( evt );
-        var ballNbr: int = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
-        myModel.setVY( ballNbr - 1, yVel );
+        var row: int = Number( evt.target.name );  //first ball is ball 1, is Model.ball_arr[0]
+        myModel.setVY( ballNbr( row ), yVel );
         manualUpdating = false;
     }
 
@@ -508,27 +542,28 @@ public class DataTable extends Sprite {
         var col: int;
         var mass: Number;
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( row = 1; row < MAX_ROWS; row++ ) {  //skip header row
+            for ( row = headerRowNbr + 1; row < maxRows; row++ ) {  //skip header row
+                var ballNum: int = ballNbr( row );
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
-                        mass = myModel.ball_arr[row - 1].getMass();
+                        mass = myModel.ball_arr[ballNum].getMass();
                         text_arr[row][col].text = mass.toFixed( 1 ); //round(mass, 1);
                     }
                     if ( col == xColumnNbr ) { //x position in m
-                        var xPos: Number = myModel.ball_arr[row - 1].position.getX();
+                        var xPos: Number = myModel.ball_arr[ballNum].position.getX();
                         text_arr[row][col].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
                     }
                     if ( col == vxColumnNbr ) { // v_x in m/s
-                        var xVel: Number = myModel.ball_arr[row - 1].velocity.getX();
+                        var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
                         text_arr[row][col].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
                     }
                     if ( !myModel.isIntro ) { // y position in m
                         if ( col == yColumnNbr ) {
-                            var yPos: Number = myModel.ball_arr[row - 1].position.getY();
+                            var yPos: Number = myModel.ball_arr[ballNum].position.getY();
                             text_arr[row][col].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
                         }
                         if ( col == vyColumnNbr ) { // v_y in m/s
-                            var yVel: Number = myModel.ball_arr[row - 1].velocity.getY();
+                            var yVel: Number = myModel.ball_arr[ballNum].velocity.getY();
                             text_arr[row][col].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
                         }
                     }
@@ -537,9 +572,10 @@ public class DataTable extends Sprite {
         }
 
         if ( sliderUpdating ) {
+            // WARNING: here, "row" is actually the ball number
             for ( row = 0; row < CLConstants.MAX_BALLS; row++ ) {
                 mass = myModel.ball_arr[row].getMass();
-                text_arr[row + 1][massColumnNbr].text = round( mass, 1 );
+                text_arr[rowOfBall( row )][massColumnNbr].text = round( mass, 1 );
             }
         }
 
@@ -548,10 +584,10 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( row = 1; row < MAX_ROWS; row++ ) {  //skip header row
-            mass = myModel.ball_arr[row - 1].getMass();
-            xVel = myModel.ball_arr[row - 1].velocity.getX();
-            yVel = myModel.ball_arr[row - 1].velocity.getY();
+        for ( row = headerRowNbr + 1; row < maxRows; row++ ) {  //skip header row
+            mass = myModel.ball_arr[ballNbr( row )].getMass();
+            xVel = myModel.ball_arr[ballNbr( row )].velocity.getX();
+            yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
 
             var xMom: Number = mass * xVel;
             text_arr[row][pxColumnNbr].text = xMom.toFixed( 3 );
@@ -560,6 +596,14 @@ public class DataTable extends Sprite {
                 text_arr[row][pyColumnNbr].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
             }
         }
+    }
+
+    private function ballNbr( row: int ) {
+        return row - headerOffset;
+    }
+
+    private function rowOfBall( ballNum: int ) {
+        return ballNum + headerOffset;
     }
 
     //round decimal number to n places; made obsolete by toFixed() Number function
