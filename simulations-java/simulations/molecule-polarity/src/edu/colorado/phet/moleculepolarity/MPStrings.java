@@ -1,0 +1,44 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.moleculepolarity;
+
+import java.awt.image.BufferedImage;
+
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
+
+/**
+ * Strings for "Molecule Polarity", statically loaded to detect missing strings at startup.
+ *
+ * @author Chris Malley (cmalley@pixelzoom.com)
+ */
+public class MPStrings {
+
+    private MPStrings() {}
+
+    private static final PhetResources RESOURCES = new PhetResources( MPConstants.PROJECT_NAME );
+
+    public static final String A = RESOURCES.getLocalizedString( "A" );
+    public static final String B = RESOURCES.getLocalizedString( "B" );
+    public static final String C = RESOURCES.getLocalizedString( "C" );
+    public static final String VIEW = RESOURCES.getLocalizedString( "View" );
+    public static final String BALL_AND_STICK = RESOURCES.getLocalizedString( "ballAndStick" );
+    public static final String BOND_DIPOLES = RESOURCES.getLocalizedString( "bondDipoles" );
+    public static final String BOND_TYPE = RESOURCES.getLocalizedString( "bondType" );
+    public static final String ELECTRIC_FIELD = RESOURCES.getLocalizedString( "electricField" );
+    public static final String ELECTRON_DENSITY = RESOURCES.getLocalizedString( "electronDensity" );
+    public static final String ELECTRONEGATIVITY = RESOURCES.getLocalizedString( "electronegativity" );
+    public static final String ELECTROSTATIC_POTENTIAL = RESOURCES.getLocalizedString( "electrostaticPotential" );
+    public static final String LESS = RESOURCES.getLocalizedString( "less" );
+    public static final String MODEL = RESOURCES.getLocalizedString( "model" );
+    public static final String MOLECULE_DIPOLES = RESOURCES.getLocalizedString( "moleculeDipoles" );
+    public static final String MORE = RESOURCES.getLocalizedString( "more" );
+    public static final String MORE_COVALENT = RESOURCES.getLocalizedString( "moreCovalent" );
+    public static final String MORE_IONIC = RESOURCES.getLocalizedString( "moreIonic" );
+    public static final String OFF = RESOURCES.getLocalizedString( "off" );
+    public static final String ON = RESOURCES.getLocalizedString( "on" );
+    public static final String ONE_ATOM = RESOURCES.getLocalizedString( "oneAtom" );
+    public static final String PARTIAL_CHARGES = RESOURCES.getLocalizedString( "partialCharges" );
+    public static final String PATTERN__0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
+    public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
+    public static final String TEST = RESOURCES.getLocalizedString( "test" );
+    public static final String TWO_ATOMS = RESOURCES.getLocalizedString( "twoAtoms" );
+}
