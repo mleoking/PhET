@@ -1,3 +1,5 @@
+Micro tab: Fixed: Sucrose molecules don't have the right size
+Micro tab: Removed soluble salts model and replaced with new implementation
 Micro tab: Added random walks for particles
 # 0.00.60 (53874) Jul 8, 2011
 Micro tab: Increased the size of the insets around the periodic table

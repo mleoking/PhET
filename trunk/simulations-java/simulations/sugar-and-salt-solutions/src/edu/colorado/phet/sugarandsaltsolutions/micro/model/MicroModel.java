@@ -50,6 +50,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SaltCrystal> saltCrystals = new ItemList<SaltCrystal>();
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
 
+    //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
+    private double sizeScale = 0.35;
+
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
         super( new ConstantDtClock( framesPerSecond ),
@@ -89,7 +92,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SaltCrystal crystal = new SaltCrystal( salt.position.get(), (SaltLattice) new SaltLattice().grow( 20 ), 0.35 );
+            final SaltCrystal crystal = new SaltCrystal( salt.position.get(), (SaltLattice) new SaltLattice().grow( 20 ), sizeScale );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
@@ -112,7 +115,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SugarCrystal crystal = new SugarCrystal( sugar.position.get(), (SugarLattice) new SugarLattice().grow( 3 ), 0.35 );
+            final SugarCrystal crystal = new SugarCrystal( sugar.position.get(), (SugarLattice) new SugarLattice().grow( 3 ), sizeScale );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
