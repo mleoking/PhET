@@ -4,18 +4,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildScript;
+import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.LocaleListPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUIProperties;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 public class JavaSimulationPanel extends JPanel {
@@ -28,7 +33,7 @@ public class JavaSimulationPanel extends JPanel {
     private JRadioButton incrementMinor;
     private JRadioButton incrementMajor;
 
-    public JavaSimulationPanel( File trunk, JavaSimulationProject project) {
+    public JavaSimulationPanel( final File trunk, final JavaSimulationProject project ) {
         super( new BorderLayout() );
 
         this.trunk = trunk;
@@ -46,15 +51,17 @@ public class JavaSimulationPanel extends JPanel {
         simulationList.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
 
         //Provide support for saving/loading the selected sim, see #2336
-        int selected = Arrays.asList(project.getSimulationNames()).indexOf(properties.getSimSelected());
-        if (selected < 0) selected = 0;//just choose the first item if no item was selected or if the name was not found
-        simulationList.setSelectedIndex(selected);
-        simulationList.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                properties.setSimSelected(simulationList.getSelectedValue().toString());
-                System.out.println("Saved sim selection: " + properties.getSimSelected());
+        int selected = Arrays.asList( project.getSimulationNames() ).indexOf( properties.getSimSelected() );
+        if ( selected < 0 ) {
+            selected = 0;//just choose the first item if no item was selected or if the name was not found
+        }
+        simulationList.setSelectedIndex( selected );
+        simulationList.addListSelectionListener( new ListSelectionListener() {
+            public void valueChanged( ListSelectionEvent e ) {
+                properties.setSimSelected( simulationList.getSelectedValue().toString() );
+                System.out.println( "Saved sim selection: " + properties.getSimSelected() );
             }
-        });
+        } );
 
         JScrollPane simulationScrollPane = new JScrollPane( simulationList );
         simulationScrollPane.setBorder( BorderFactory.createTitledBorder( "Simulations" ) );
@@ -78,6 +85,20 @@ public class JavaSimulationPanel extends JPanel {
 
         JButton testButton = new JButton( "Test" );
         testPanel.add( testButton );
+
+        //Add a button that allows the user to generate resources
+        controlPanel.add( new JButton( "Generate Resources" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    try {
+                        new ResourceGenerator( trunk ).generateResources( "simulations-java/simulations/" + simulationList.getSelectedValue() );
+                    }
+                    catch ( IOException ioException ) {
+                        ioException.printStackTrace();
+                    }
+                }
+            } );
+        }} );
 
         controlPanel.add( testPanel );
 
