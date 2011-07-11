@@ -11,13 +11,18 @@ import edu.colorado.phet.torque.teetertotter.model.weights.AdolescentHuman;
 import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
 
 /**
- * This class represents a brick or stack of bricks in the weight box.  When
- * the user clicks on this node, a stack of bricks of the appropriate size is
- * added to the model at the user's mouse location.
+ * This class represents an adolescent human in the weight box.  When
+ * the user clicks on this node, the corresponding model element is added to
+ * the model at the user's mouse location.
  *
  * @author John Blanco
  */
 public class AdolescentHumanInWeightBoxNode extends WeightBoxItem {
+
+    // Model-view transform for scaling the node used in the weight box.  This
+    // may scale the node differently than what is used in the model.
+    protected static final ModelViewTransform SCALING_MVT =
+            ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
     public AdolescentHumanInWeightBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
