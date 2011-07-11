@@ -4,7 +4,7 @@ package edu.colorado.phet.torque.teetertotter.model;
 import java.awt.geom.Point2D;
 
 /**
- * Interface for objects that can be moved about by the user.
+ * Interface for model elements that can be moved about by the user.
  *
  * @author John Blanco
  */
