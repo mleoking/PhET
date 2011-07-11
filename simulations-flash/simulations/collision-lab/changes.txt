@@ -1,3 +1,4 @@
+Intro data table changes height on more/less data for empty extra row
 > Added extra row on Intro tab for annotations
 > Removed Y-related columns in Intro tab
 # 1.00.03 (53912) Jul 10, 2011
