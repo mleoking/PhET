@@ -28,7 +28,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  *
  * @author John Blanco
  */
-public class WeightBoxNode2 extends PNode {
+public class WeightBoxNode extends PNode {
 
     private static final PDimension SIZE = new PDimension( 220, 300 );
     private static final PhetFont BUTTON_FONT = new PhetFont( 16 );
@@ -40,7 +40,7 @@ public class WeightBoxNode2 extends PNode {
     /**
      * Constructor.
      */
-    public WeightBoxNode2( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public WeightBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         // Create a node that contains the set of bricks.  This is a "weight set".
         weightSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
