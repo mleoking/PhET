@@ -37,8 +37,8 @@ f. answer "OK" to overwriting .idea directory
 Note that this creates the project files in $ROOT/phet/svn/trunk, so project files will be mixed in with your working copy.
 If you ever want to Open this project in the future, you'll need to select $ROOT/phet/svn/trunk as the project.
 
-8. Step 7 modifies .idea/modules.xml and makes the project unusable. To fix this:
-$ svn -revert $ROOT/phet/svn/trunk/.idea/modules.xml
+8. Step 7 modifies files in .idea and makes the project unusable. To fix this:
+$ svn -revert $ROOT/phet/svn/trunk/.idea
 
 9. After step 8, IntelliJ should automatically reload modules.xml. If it doesn't, restart IntelliJ.
 You may see module and/or facet load errors - ignore them, and (if prompted) choose to Keep All.
