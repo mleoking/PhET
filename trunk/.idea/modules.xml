@@ -61,6 +61,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/membrane-channels/membrane-channels.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/microwaves/microwaves.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/modes-example/modes-example.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-polarity/molecule-polarity.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-polarity/molecule-polarity.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecule-shapes/molecule-shapes.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/molecules-and-light/molecules-and-light.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/molecules-and-light/molecules-and-light.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/motion/motion.iml" filepath="$PROJECT_DIR$/simulations-java/common/motion/motion.iml" />
