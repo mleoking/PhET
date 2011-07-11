@@ -46,7 +46,7 @@ public class MonthlyReportFilter {
     public static ArrayList<String> getPredefinedCategories() {
         String categorieString =
 //                "Accessibility\n" +
-                "Administrative/Documentation\n" +
+                "Administrative/Documentation\n" +            //includes meetings
                 "Build Process\n" +
                 "Common Code\n" +
                 "Conferences, Workshops and Booths\n" +
@@ -157,6 +157,11 @@ public class MonthlyReportFilter {
         if ( category.equals( "environment" ) ) { return mapCategory( "Environment/Maintenance/Tools" ); }
         if ( category.equals( "dna" ) ) { return mapCategory( "New Sim Investigations" ); }
         if ( category.equals( "interview" ) ) { return mapCategory( "Interviewing" ); }
+        if ( category.equals( "ksu" ) ) { return mapCategory( "KSU Translation Credits" ); }
+        if ( category.equals( "scala" ) ) { return mapCategory( "Miscellaneous" ); }
+        if ( category.equals( "spongelab" ) ) { return mapCategory( "Customer Support" ); }
+        if ( category.equals( "javafx" ) ) { return mapCategory( "Miscellaneous" ); }
+        if ( category.equals( "developer-meeting" ) ) { return mapCategory( "Administrative/Documentation" ); }
 
         System.out.println( "No match found for the category: " + category );
         return "unknown: " + category;
