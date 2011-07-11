@@ -64,14 +64,10 @@ public class WeightBoxNode extends PNode {
 
         // Create a node that contains people.  This is also a "weight set".
         weightSets.add( new SwingLayoutNode( new GridLayout( 2, 1, 20, 20 ) ) {{
-            BrickStackInWeightBoxNode oneBrickStack = new BrickStackInWeightBoxNode( 1, model, mvt, canvas ) {{
+            AdolescentHumanInWeightBoxNode adolescentHumanInWeightBoxNode = new AdolescentHumanInWeightBoxNode( model, mvt, canvas ) {{
                 setOffset( SIZE.width * 0.25, SIZE.height / 2 );
             }};
-            addChild( oneBrickStack );
-            BrickStackInWeightBoxNode twoBrickStack = new BrickStackInWeightBoxNode( 2, model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.75, SIZE.height / 2 );
-            }};
-            addChild( twoBrickStack );
+            addChild( adolescentHumanInWeightBoxNode );
         }} );
 
         // TODO: i18n
