@@ -77,6 +77,6 @@ public class BrickStack extends ShapeWeight {
     }
 
     private void updateShape() {
-        shapeProperty.set( generateShape( numBricks, position, rotationAngle ) );
+        shapeProperty.set( generateShape( numBricks, position, rotationalAngleProperty.get() ) );
     }
 }

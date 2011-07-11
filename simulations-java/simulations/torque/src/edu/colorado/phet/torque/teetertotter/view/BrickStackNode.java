@@ -20,6 +20,10 @@ public class BrickStackNode extends PNode {
         addChild( new PhetPPath( new Color( 205, 38, 38 ), new BasicStroke( 1 ), Color.BLACK ) {{
             weight.shapeProperty.addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
+                    // Set the shape of the node to the scaled shape of the
+                    // model element.  Note that this handles changes to
+                    // position and rotation as well as what we generally
+                    // think of as the "shape".
                     setPathTo( mvt.modelToView( shape ) );
                 }
             } );
