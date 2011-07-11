@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.realmolecules;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 
 /**
@@ -12,7 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 public class RealMoleculesModule extends PiccoloModule {
 
     public RealMoleculesModule() {
-        super( "X", new MPClock() );
+        super( MPStrings.REAL_MOLECULES, new MPClock() );
         setSimulationPanel( new RealMoleculesCanvas() );
     }
 }

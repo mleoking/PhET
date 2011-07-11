@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.oneatom;
 
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 
 /**
@@ -12,7 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 public class OneAtomModule extends PiccoloModule {
 
     public OneAtomModule() {
-        super( "X", new MPClock() );
+        super( MPStrings.ONE_ATOM, new MPClock() );
         setSimulationPanel( new OneAtomCanvas() );
     }
 }
