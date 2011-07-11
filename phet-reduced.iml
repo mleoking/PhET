@@ -192,15 +192,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/build-tools/contrib/sun-tools/tools.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/build-tools/contrib/apache-ant/lib/ant-testutil.jar!/" />
         </CLASSES>
         <JAVADOC />
