@@ -8,6 +8,7 @@ import java.text.MessageFormat;
 
 import javax.swing.*;
 
+import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -31,13 +32,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class ElectronegativityControlNode extends PhetPNode {
 
      // track
-    private static final PDimension TRACK_SIZE = new PDimension( 5, 125 );
+    private static final PDimension TRACK_SIZE = new PDimension( 125, 5 );
     private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
 
     // knob
-    private static final PDimension KNOB_SIZE = new PDimension( 20, 15 );
+    private static final PDimension KNOB_SIZE = new PDimension( 15, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
     private static final Color KNOB_NORMAL_COLOR = Color.GREEN;
     private static final Color KNOB_HIGHLIGHT_COLOR = Color.YELLOW;
@@ -77,11 +78,10 @@ public class ElectronegativityControlNode extends PhetPNode {
             setFont( new PhetFont( 16 ) );
         }};
 
-
         // background, sized to fit around track and knob.
         Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0,
-                                                             knobNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_X_MARGIN ),
-                                                             trackNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_Y_MARGIN ) );
+                                                             trackNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_Y_MARGIN ),
+                                                             knobNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_X_MARGIN ) );
         PPath backgroundNode = new PPath( backgroundRect );
         backgroundNode.setStroke( BACKGROUND_STROKE );
         backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
@@ -105,12 +105,12 @@ public class ElectronegativityControlNode extends PhetPNode {
             y = backgroundNode.getFullBoundsReference().getCenterY() - ( trackNode.getFullBoundsReference().getHeight() / 2 );
             trackNode.setOffset( x, y );
             // knob centered in track
-            x = backgroundNode.getFullBoundsReference().getCenterX() + ( knobNode.getFullBoundsReference().getWidth() / 2 );
-            y = backgroundNode.getFullBoundsReference().getCenterY();
+            x = trackNode.getFullBoundsReference().getCenterX();
+            y = trackNode.getFullBoundsReference().getCenterY() + ( knobNode.getFullBoundsReference().getHeight() / 2 );
             knobNode.setOffset( x, y );
             // label centered above the track
-            x = backgroundNode.getFullBoundsReference().getCenterX() - (labelNode.getFullBoundsReference().getWidth() / 2 );
-            y = backgroundNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 2;
+            x = trackNode.getFullBoundsReference().getCenterX() - (labelNode.getFullBoundsReference().getWidth() / 2 );
+            y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 10;
             labelNode.setOffset( x, y );
             // atom name centered above label
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( atomNameNode.getFullBoundsReference().getWidth() / 2 );
@@ -127,10 +127,10 @@ public class ElectronegativityControlNode extends PhetPNode {
 
     // Updates the control to match the capacitor model.
     private void updateControl() {
-        double electronegativity = atom.electronegativity.get();
         // knob location
-        double x = knobNode.getXOffset();
-        double y = trackNode.getYOffset() + trackNode.getFullBoundsReference().getHeight() * ( ( range.getMax() - electronegativity ) / range.getLength() );
+        LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getXOffset() + trackNode.getFullBoundsReference().getWidth() );
+        double x = f.evaluate( atom.electronegativity.get() );
+        double y = knobNode.getYOffset();
         knobNode.setOffset( x, y );
     }
 
@@ -149,7 +149,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     /*
-     * The slider knob, points to the right.
+     * The slider knob, points down.
      * Origin is at the knob's tip.
      */
     private static class KnobNode extends PPath {
@@ -160,10 +160,10 @@ public class ElectronegativityControlNode extends PhetPNode {
             float h = (float) KNOB_SIZE.getHeight();
             GeneralPath path = new GeneralPath();
             path.moveTo( 0f, 0f );
-            path.lineTo( 0.35f * -w, h / 2f );
-            path.lineTo( -w, h / 2f );
-            path.lineTo( -w, -h / 2f );
-            path.lineTo( 0.35f * -w, -h / 2f );
+            path.lineTo( w / 2f, 0.35f * -h );
+            path.lineTo( w / 2f, -h );
+            path.lineTo( -w / 2f, -h );
+            path.lineTo( -w / 2f, 0.35f * -h );
             path.closePath();
 
             setPathTo( path );
@@ -183,7 +183,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     // Drag handler for the knob, snaps to closet value.
-    private static class KnobDragHandler extends VerticalSliderDragHandler {
+    private static class KnobDragHandler extends HorizontalSliderDragHandler {
 
         private final double snapInterval; // slider snaps to closet model value in this interval
 
