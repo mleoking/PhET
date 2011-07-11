@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class BrickStackNode extends PNode {
     public BrickStackNode( final ModelViewTransform mvt, final ShapeWeight weight ) {
-        addChild( new PhetPPath( Color.RED, new BasicStroke( 1 ), Color.BLACK ) {{
+        addChild( new PhetPPath( new Color( 205, 38, 38 ), new BasicStroke( 1 ), Color.BLACK ) {{
             weight.shapeProperty.addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );
