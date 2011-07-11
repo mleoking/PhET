@@ -33,7 +33,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" exported="" name="scala-library-2.9.0-final" level="application" />
+    <orderEntry type="library" exported="" name="scala-library-2.9.0.1" level="application" />
     <orderEntry type="module" module-name="phetcommon" exported="" />
     <orderEntry type="module" module-name="piccolo-phet" exported="" />
   </component>
