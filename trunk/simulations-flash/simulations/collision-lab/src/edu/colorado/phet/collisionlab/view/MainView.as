@@ -73,7 +73,7 @@ public class MainView extends Sprite {
         else {
             this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
         }
-        this.myDataTable.x = 330; // hardcoded for now, since we have different widths of play areas...
+        this.myDataTable.x = 380; // hardcoded for now, since we have different widths of play areas...
         //this.controlPanel.sub_background.width = 170;
         //this.controlPanel.sub_background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
