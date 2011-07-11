@@ -16,7 +16,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="scala-library-2.9.0-final" level="application" />
+    <orderEntry type="library" name="scala-library-2.9.0.1" level="application" />
     <orderEntry type="module" module-name="jfreechart-phet" />
     <orderEntry type="module" module-name="motion" />
     <orderEntry type="module" module-name="phetcommon" />
