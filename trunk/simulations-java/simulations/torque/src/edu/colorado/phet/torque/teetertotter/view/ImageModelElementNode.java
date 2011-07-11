@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.torque.teetertotter.model.weights.ImageWeight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * This class defines a Piccolo node that represents a model element in the
@@ -19,12 +20,18 @@ import edu.umd.cs.piccolo.nodes.PImage;
  * @author John Blanco
  */
 public class ImageModelElementNode extends PNode {
-    ModelViewTransform mvt;
+    private final ImageWeight weight;
+    private final ModelViewTransform mvt;
+    private PBounds unrotatedBounds = new PBounds();
 
     public ImageModelElementNode( final ModelViewTransform mvt, final ImageWeight weight ) {
+        this.weight = weight;
         this.mvt = mvt;
+
         final PImage imageNode = new PImage();
+        unrotatedBounds.setRect( imageNode.getFullBoundsReference() );
         addChild( imageNode );
+
         // Observe image changes.
         weight.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
             public void apply( BufferedImage image ) {
@@ -35,23 +42,36 @@ public class ImageModelElementNode extends PNode {
                     System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
                 }
                 imageNode.setScale( scalingFactor );
-                updatePosition( weight.getPosition() );
+                unrotatedBounds.setRect( imageNode.getFullBoundsReference() );
+                updatePositionAndAngle();
             }
         } );
-        // Observe position changes.
+
+        // Register for notification of position changes.
         weight.addPositionChangeObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D newPosition ) {
-                updatePosition( newPosition );
+                updatePositionAndAngle();
             }
         } );
+
+        // Register for notifications of rotational angle changes
+        weight.addRotationalAngleChangeObserver( new VoidFunction1<Double>() {
+            public void apply( Double newAngle ) {
+                updatePositionAndAngle();
+            }
+        } );
+
         // Make the cursor change on mouse over.
         addInputEventListener( new CursorHandler() );
+
         // Add the mouse event handler.
         addInputEventListener( new WeightDragHandler( weight, this, mvt ) );
     }
 
-    private void updatePosition( Point2D position ) {
-        setOffset( mvt.modelToViewX( position.getX() ) - getFullBoundsReference().width / 2,
-                   mvt.modelToViewY( position.getY() ) - getFullBoundsReference().height );
+    private void updatePositionAndAngle() {
+        setRotation( 0 );
+        setOffset( mvt.modelToViewX( weight.getPosition().getX() ) - getFullBoundsReference().width / 2,
+                   mvt.modelToViewY( weight.getPosition().getY() ) - getFullBoundsReference().height );
+        rotateAboutPoint( -weight.getRotationAngle(), getFullBoundsReference().getWidth() / 2, getFullBoundsReference().getHeight() );
     }
 }

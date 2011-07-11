@@ -20,7 +20,7 @@ public abstract class ImageWeight extends Weight {
     // Property that contains the current image.
     final protected Property<BufferedImage> imageProperty;
 
-    // Property the contains the position in model space.  By convention for
+    // Property that contains the position in model space.  By convention for
     // this simulation, the position of a weight is the center bottom of the
     // model object.
     final public Property<Point2D> positionProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
@@ -61,6 +61,10 @@ public abstract class ImageWeight extends Weight {
 
     public void setPosition( Point2D p ) {
         setPosition( p.getX(), p.getY() );
+    }
+
+    public void addRotationalAngleChangeObserver( VoidFunction1<Double> changeObserver ) {
+        rotationalAngleProperty.addObserver( changeObserver );
     }
 
     @Override public void translate( double x, double y ) {
