@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.control;
 
 import java.awt.*;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.text.MessageFormat;
 
@@ -23,6 +24,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Slider control for electronegativity.
@@ -43,6 +45,10 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static final Color KNOB_NORMAL_COLOR = Color.GREEN;
     private static final Color KNOB_HIGHLIGHT_COLOR = Color.YELLOW;
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
+
+    // ticks
+    private static final double MAJOR_TICK_LENGTH = 10;
+    private static final double MINOR_TICK_LENGTH = 5;
 
     // background
     private static final double BACKGROUND_X_MARGIN = 3;
@@ -68,7 +74,6 @@ public class ElectronegativityControlNode extends PhetPNode {
         this.atom = atom;
         this.range = range;
 
-        // nodes
         trackNode = new TrackNode();
         knobNode = new KnobNode( this, trackNode, range, snapInterval, atom );
         PText atomNameNode = new PText( MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.name ) ) {{
@@ -77,6 +82,8 @@ public class ElectronegativityControlNode extends PhetPNode {
         PText labelNode = new PText( MPStrings.ELECTRONEGATIVITY ) {{
             setFont( new PhetFont( 16 ) );
         }};
+        TickMarkNode minTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.LESS );
+        TickMarkNode maxTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.MORE );
 
         // background, sized to fit around track and knob.
         Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0,
@@ -91,6 +98,8 @@ public class ElectronegativityControlNode extends PhetPNode {
         addChild( backgroundNode );
         addChild( trackNode );
         addChild( knobNode );
+        addChild( minTickNode );
+        addChild( maxTickNode );
         addChild( labelNode );
         addChild( atomNameNode );
 
@@ -104,6 +113,14 @@ public class ElectronegativityControlNode extends PhetPNode {
             x = backgroundNode.getFullBoundsReference().getCenterX() - ( trackNode.getFullBoundsReference().getWidth() / 2 );
             y = backgroundNode.getFullBoundsReference().getCenterY() - ( trackNode.getFullBoundsReference().getHeight() / 2 );
             trackNode.setOffset( x, y );
+            // min tick at left end of track
+            x = trackNode.getFullBoundsReference().getMinX();
+            y = trackNode.getFullBoundsReference().getMaxY();
+            minTickNode.setOffset( x, y );
+            // max tick at right end of track
+            x = trackNode.getFullBoundsReference().getMaxX();
+            y = trackNode.getFullBoundsReference().getMaxY();
+            maxTickNode.setOffset( x, y );
             // knob centered in track
             x = trackNode.getFullBoundsReference().getCenterX();
             y = trackNode.getFullBoundsReference().getCenterY() + ( knobNode.getFullBoundsReference().getHeight() / 2 );
@@ -196,6 +213,28 @@ public class ElectronegativityControlNode extends PhetPNode {
         // snaps to the closest value
         @Override protected double adjustValue( double value ) {
             return Math.floor( ( value / snapInterval ) + 0.5d ) * snapInterval;
+        }
+    }
+
+    // Tick mark, with optional label
+    private static class TickMarkNode extends PComposite {
+
+        public TickMarkNode( double length ) {
+            this( length, null );
+        }
+
+        public TickMarkNode( double length, String label ) {
+
+            PPath tickNode = new PPath( new Line2D.Double( 0, 0, 0, length ) );
+            addChild( tickNode );
+
+            if ( label != null && label.trim().length() != 0 ) {
+                PText labelNode = new PText( label );
+                addChild( labelNode );
+                double x = tickNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
+                double y = tickNode.getFullBoundsReference().getMaxY() + 2;
+                labelNode.setOffset( x, y );
+            }
         }
     }
 
