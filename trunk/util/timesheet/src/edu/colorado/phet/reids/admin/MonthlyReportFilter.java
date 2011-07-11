@@ -8,11 +8,11 @@ public class MonthlyReportFilter {
     private ArrayList<String> sims;
     private ArrayList<String> allList;
 
-    public MonthlyReportFilter() {
+    public MonthlyReportFilter( File trunk ) {
         ArrayList<String> categories = getPredefinedCategories();
 
         sims = new ArrayList<String>();
-        File[] simRoots = new File[] { new File( "C:\\workingcopy\\phet\\trunk\\simulations-java\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flash\\simulations" ), new File( "C:\\workingcopy\\phet\\trunk\\simulations-flex\\simulations" ) };
+        File[] simRoots = new File[] { new File( trunk, "simulations-java\\simulations" ), new File( trunk, "simulations-flash\\simulations" ), new File( trunk, "simulations-flex\\simulations" ) };
         for ( File simRoot : simRoots ) {
             for ( File dir : simRoot.listFiles() ) {
                 sims.add( dir.getName() );

@@ -1,5 +1,6 @@
 package edu.colorado.phet.reids.admin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -8,7 +9,7 @@ import javax.swing.*;
 public class OrderedReportFrame {
     private JFrame frame = new JFrame();
 
-    public OrderedReportFrame( TimesheetModel selection ) {
+    public OrderedReportFrame( TimesheetModel selection, File trunk ) {
         System.out.println( "Selection time = " + selection.getTotalTimeSeconds() );
         final Hashtable<String, Long> table = new Hashtable<String, Long>();
 //        long sum1 = 0;
@@ -35,7 +36,7 @@ public class OrderedReportFrame {
 
         long totalTime = 0;
         ArrayList<String> keys = new ArrayList<String>( table.keySet() );
-        for ( String key : new MonthlyReportFilter().getAllCategories() ) {
+        for ( String key : new MonthlyReportFilter( trunk ).getAllCategories() ) {
             final Long sec = table.get( key ) == null ? 0L : table.get( key );
 
             final String timeStr = sec == null ? "" : Util.secondsToElapsedTimeDecimal( sec );
