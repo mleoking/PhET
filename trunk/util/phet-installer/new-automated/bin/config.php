@@ -97,12 +97,14 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_PHET_WITH_ACTIVITIES",
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_YF",
@@ -110,6 +112,7 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_KSU_LOCAL_INSTALLER",
@@ -122,6 +125,7 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'newsletters/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/manage-activities'));
     define("PHET_RIPPER_FILTER_KSU_WEB_INSTALLER",
@@ -133,6 +137,7 @@
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'newsletters/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'installer/*').' '.
         CREATE_FILTER_ITEM('+', PHET_HOSTNAME, 'publications/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/subscribe').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/submit-activity').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, ARABIC_LOCALE_STRING.'/for-teachers/manage-activities'));
 
@@ -222,7 +227,14 @@
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/travoltage/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/vector-addition/*').' '.
         CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-interference/*').' '.
-        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-on-a-string/*'));
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'sims/wave-on-a-string/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'files/activities/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'workshops/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'installer/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/get-phet/*').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/subscribe').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/submit-activity').' '.
+        CREATE_FILTER_ITEM('-', PHET_HOSTNAME, 'en/for-teachers/manage-activities'));
 
     // Command-line args for the ripper.
     define("RIPPER_OPTIONS", " -j %q0 -%e0 -r10 -s0 -A10000000000 --disable-security-limits ");
