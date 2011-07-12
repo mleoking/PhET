@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/Jama/Jama.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/Jama/Jama.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/acid-base-solutions/acid-base-solutions.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/advanced-acid-base-solutions/advanced-acid-base-solutions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/torque/balance-and-torque.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/torque/balance-and-torque.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balancing-chemical-equations/balancing-chemical-equations.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/balloons/balloons.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/battery-resistor-circuit/battery-resistor-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/battery-resistor-circuit/battery-resistor-circuit.iml" />
@@ -112,7 +113,6 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/torque/torque.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/translation-utility/translation-utility.iml" filepath="$PROJECT_DIR$/util/translation-utility/translation-utility.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/travoltage/travoltage.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/travoltage/travoltage.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
