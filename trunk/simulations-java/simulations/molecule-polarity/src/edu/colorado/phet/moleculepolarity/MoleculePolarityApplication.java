@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity;
 
+import java.awt.*;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
@@ -17,9 +19,10 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication  {
 
     public MoleculePolarityApplication( PhetApplicationConfig config ) {
         super( config );
-        addModule( new OneAtomModule() );
-        addModule( new TwoAtomsModule() );
-        addModule( new RealMoleculesModule() );
+        Frame parentFrame = getPhetFrame();
+        addModule( new OneAtomModule( parentFrame ) );
+        addModule( new TwoAtomsModule( parentFrame ) );
+        addModule( new RealMoleculesModule( parentFrame ) );
     }
 
     public static void main( final String[] args ) {
