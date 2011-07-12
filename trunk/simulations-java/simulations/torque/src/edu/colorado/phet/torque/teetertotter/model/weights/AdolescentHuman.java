@@ -18,7 +18,7 @@ public class AdolescentHuman extends ImageWeight {
     private static final double STANDING_HEIGHT = 1.2; // In meters.
     private static final double SITTING_HEIGHT = 0.7; // In meters.
 
-    private static final BufferedImage STANDING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "person standing 01.png" );
+    private static final BufferedImage STANDING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "adolescent-standing.png" );
     private static final BufferedImage SITTING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "adolescent-sitting.png" );
 
     public AdolescentHuman() {
