@@ -192,7 +192,7 @@ public class View1 extends Sprite {
                 this.spring_arr[i].x = xInPix;
                 this.spring_arr[i].y = yInPix;
                 //position right end of spring; when in transverse mode, this requires rotation
-                if(this.myModel1.longitudinalMode){
+                if(this.myModel1.xModes){
                     this.spring_arr[i].rotation = 0;
                     springLengthInPix =  (this.myModel1.getX(i+1)-this.myModel1.getX(i))*this.pixPerMeter;
                     this.spring_arr[i].scaleX = springLengthInPix/this.L0Spring;

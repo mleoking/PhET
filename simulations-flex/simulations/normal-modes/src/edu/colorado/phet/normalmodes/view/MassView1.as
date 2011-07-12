@@ -76,11 +76,11 @@ public class MassView1 extends Sprite{
         function dragTarget( evt: MouseEvent ): void {
             var xInPix:Number = thisObject.container.mouseX - clickOffset.x;    //screen coordinates, origin on left edge of stage
             var yInPix:Number = thisObject.container.mouseY - clickOffset.y;    //screen coordinates, origin on left edge of stage
-            if(thisObject.myModel1.longitudinalMode){
+            if(thisObject.myModel1.xModes){
                 var xInMeters:Number = (xInPix - leftEdgeX) / pixPerMeter;
                 thisObject.myModel1.setX( thisObject.index,  xInMeters );
             }else{
-                var yInMeters:Number = -(yInPix - leftEdgeY) / pixPerMeter;   //screen coords vs. cartesian coordinates, hence the minus sign
+                var yInMeters:Number = -(yInPix - leftEdgeY) / pixPerMeter;    //screen coords vs. cartesian coordinates, hence the minus sign
                 thisObject.myModel1.setY( thisObject.index,  yInMeters );
             }
 

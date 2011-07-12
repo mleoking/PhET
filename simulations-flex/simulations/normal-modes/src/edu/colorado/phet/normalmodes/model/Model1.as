@@ -34,7 +34,7 @@ public class Model1 {
     private var modeAmpli_arr:Array;//array of normal mode amplitudes
     private var modePhase_arr:Array;//array of normal mode phases
     private var _grabbedMassIndex:int;      //index of mass grabbed by mouse
-    private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
+    //private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
     private var _xModes:Boolean;    //true if x-motion modes only; false if y-motion modes only
 
     //time variables
@@ -72,7 +72,7 @@ public class Model1 {
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
         this._L = 1;                //1 meter between fixed walls
         this._grabbedMassIndex = 0;      //left mass (index 0) is always stationary
-        this._longitudinalMode = true;
+        //this._longitudinalMode = true;
         this._xModes = false;
         this.initializeKinematicArrays();
         this.initializeModeArrays();
@@ -178,14 +178,19 @@ public class Model1 {
 
     //called from MassView dragTarget
     public function setX(i:int, xPos:Number):void{
-        var sPos:Number = xPos - this.x0_arr[i];
-        this.s_arr[i] = sPos;
-        this.updateViews();   //needed in case that sim is paused
+        if( _xModes ){
+            var sPos:Number = xPos - this.x0_arr[i];
+            this.s_arr[i] = sPos;
+            this.updateViews();
+        }
+        //if( this._paused ){
+        //   this.updateViews();
+        //}
     }
 
     public function getX(i:int):Number{
         var xPos:Number;
-        if(_longitudinalMode){
+        if( _xModes ){
            xPos = this.x0_arr[i] + this.s_arr[i];
         }else{
            xPos = this.x0_arr[i];
@@ -198,8 +203,6 @@ public class Model1 {
         if(!_xModes){
             this.s_arr[i] = yPos;
             this.updateViews();   //needed in case that sim is paused
-        } else{
-            //do nothing
         }
     }
 
@@ -213,9 +216,9 @@ public class Model1 {
         return yPos
     }//end getY()
 
-    public function get longitudinalMode():Boolean{
-        return this._longitudinalMode;
-    }
+//    public function get longitudinalMode():Boolean{
+//        return this._longitudinalMode;
+//    }
 
     //currently unused, because model has no damping
     public function setB(b:Number):void{
@@ -225,11 +228,17 @@ public class Model1 {
         this.b = b;
     }
 
-        //set polarization in x-direction or y-direction
+    //get/set polarization in x-direction or y-direction
+    public function get xModes():Boolean{
+        return this._xModes;
+    }
+
     public function set xModes( tOrF:Boolean ):void{
         this._xModes = tOrF;
     }
 
+    //obsolete function
+    /*
     public function setTorL( TorL:String ):void{
         if(TorL == "L"){
             this._longitudinalMode = true;
@@ -243,6 +252,7 @@ public class Model1 {
             trace("ERROR: incorrect string argument in Model.setTorL().")
         }
     }//end setTorL
+    */
 
     public function setModeAmpli( modeNbr:int, A:Number ):void{
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
