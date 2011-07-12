@@ -5,6 +5,7 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 
@@ -16,7 +17,9 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 public class ViewPanel extends GridPanel {
 
     public ViewPanel( ViewProperties properties ) {
-        setBorder( new TitledBorder( MPStrings.VIEW ) );
+        setBorder( new TitledBorder( MPStrings.VIEW ) {{
+            setTitleFont( MPConstants.TITLED_BORDER_FONT );
+        }}  );
         setGridX( 0 ); // vertical
         setAnchor( Anchor.WEST ); // left justified
         add( new PropertyCheckBox( MPStrings.BOND_DIPOLES, properties.bondDipolesVisible ) );

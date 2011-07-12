@@ -1,1 +1,5 @@
+7/12/11 converted to floating control panels
+7/11/11 created electronegativity control
+7/11/11 created control panels
+7/11/11 set up localized strings
 7/11/11 created project and set up skeleton

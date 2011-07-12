@@ -1,12 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.control;
 
-import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
+import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.ModelRepresentation;
 
@@ -18,7 +18,9 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.ModelRepres
 public class ModelPanel extends GridPanel {
 
     public ModelPanel( Property<ModelRepresentation> modelRepresentation ) {
-        setBorder( new TitledBorder( MPStrings.MODEL ) );
+        setBorder( new TitledBorder( MPStrings.MODEL ) {{
+            setTitleFont( MPConstants.TITLED_BORDER_FONT );
+        }} );
         setGridX( 0 ); // vertical
         setAnchor( Anchor.WEST ); // left justified
         add( new PropertyRadioButton<ModelRepresentation>( MPStrings.BALL_AND_STICK, modelRepresentation, ModelRepresentation.BALL_AND_STICK ) );

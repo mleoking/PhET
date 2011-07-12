@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.model;
 
 import java.awt.*;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -10,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class Atom {
+public class Atom implements Resettable {
 
     public final Property<Double> electronegativity;
 
@@ -21,6 +22,10 @@ public class Atom {
         this.name = name;
         this.color = color;
         this.electronegativity = new Property<Double>( electronegativity );
+    }
+
+    public void reset() {
+        electronegativity.reset();
     }
 
     public String getName() {
