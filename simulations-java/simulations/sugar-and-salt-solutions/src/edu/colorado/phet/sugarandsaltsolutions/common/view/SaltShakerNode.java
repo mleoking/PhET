@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 
@@ -16,8 +17,8 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.m
  *
  * @author Sam Reid
  */
-public class SaltShakerNode extends DispenserNode<Shaker> {
-    public SaltShakerNode( final ModelViewTransform transform, final Shaker model, double beakerHeight ) {
+public class SaltShakerNode<T extends SugarAndSaltSolutionModel> extends DispenserNode<T, Shaker<T>> {
+    public SaltShakerNode( final ModelViewTransform transform, final Shaker<T> model, double beakerHeight ) {
         super( transform, model, beakerHeight );
 
         //Create images to use in each scenario

@@ -22,7 +22,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.*;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
 /**
@@ -51,6 +51,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
     //Flow controls vary between 0 and 1, this scales it down to a good model value
     private final double faucetFlowRate;
+    public final double distanceScale;
 
     //Which dispenser the user has selected
     public final Property<DispenserType> dispenserType = new Property<DispenserType>( SALT );
@@ -109,6 +110,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
     //Models for dispensers that can be used to add solute to the beaker solution
     public final ArrayList<Dispenser> dispensers;
+    public final ObservableProperty<Boolean> moreSaltAllowed;
+    public final ObservableProperty<Boolean> moreSugarAllowed;
 
     //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
     protected String getSaltShakerName() {
@@ -140,6 +143,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
                                       double distanceScale ) {
         super( clock );
         this.faucetFlowRate = faucetFlowRate;
+        this.distanceScale = distanceScale;
         this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
 
         //Start the water halfway up the beaker
@@ -192,8 +196,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
 
         //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-        ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
-        ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
+        moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
+        moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
 
         //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
         beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );
@@ -204,11 +208,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
 
         //Create the list of dispensers
         dispensers = new ArrayList<Dispenser>();
-
-        //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new Shaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
-        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new Shaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution

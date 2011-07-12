@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
@@ -16,7 +17,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  *
  * @author Sam Reid
  */
-public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
+public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends DispenserNode<T, SugarDispenser<T>> {
 
     private static final BufferedImage openFull = multiScaleToHeight( SUGAR_OPEN, 250 );
     private static final BufferedImage closedFull = multiScaleToHeight( SUGAR_CLOSED, 250 );
@@ -24,7 +25,7 @@ public class SugarDispenserNode extends DispenserNode<SugarDispenser> {
     private static final BufferedImage openEmpty = multiScaleToHeight( SUGAR_EMPTY_OPEN, 250 );
     private static final BufferedImage closedEmpty = multiScaleToHeight( SUGAR_EMPTY_CLOSED, 250 );
 
-    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser model, double beakerHeight ) {
+    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model, double beakerHeight ) {
         super( transform, model, beakerHeight );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)

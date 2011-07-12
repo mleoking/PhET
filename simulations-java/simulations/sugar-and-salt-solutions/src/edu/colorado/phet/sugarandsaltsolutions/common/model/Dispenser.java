@@ -17,7 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public abstract class Dispenser {
+public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     //Start centered above the fluid
     public final Property<ImmutableVector2D> center;
 
@@ -81,7 +81,7 @@ public abstract class Dispenser {
     }
 
     //After time has passed, update the model by adding any crystals that should be emitted
-    public abstract void updateModel( SugarAndSaltSolutionModel model );
+    public abstract void updateModel( T model );
 
     //Method for creating a PNode such as a SugarDispenserNode or SaltShakerNode to display this Dispenser and allow the user to interact with it
     public abstract PNode createNode( ModelViewTransform transform, double beakerHeight );

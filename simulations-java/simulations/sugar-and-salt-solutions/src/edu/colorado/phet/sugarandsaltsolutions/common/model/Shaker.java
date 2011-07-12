@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -21,7 +20,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  *
  * @author Sam Reid
  */
-public class Shaker extends Dispenser {
+public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
     //Some randomness in number of generated crystals when shaken
     private final Random random = new Random();
 
@@ -84,7 +83,7 @@ public class Shaker extends Dispenser {
     }
 
     //Called when the model steps in time, and adds any salt crystals to the sim if the dispenser is pouring
-    public void updateModel( SugarAndSaltSolutionModel model ) {
+    public void updateModel( T model ) {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken enough
         if ( enabled.get() && shakeAmount > 0 && moreAllowed.get() ) {
 //            System.out.println( "Emitted salt, shake amount = " + shakeAmount + ", moreAllowed = " + moreAllowed.get() );
@@ -103,13 +102,7 @@ public class Shaker extends Dispenser {
     }
 
     //Adds the salt to the model
-    protected void addSalt( SugarAndSaltSolutionModel model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity ) {
-        //Add the salt
-        model.addMacroSalt( new MacroSalt( outputPoint, volumePerSolidMole ) {{
-            //Give the salt an appropriate velocity when it comes out so it arcs
-            velocity.set( crystalVelocity );
-        }} );
-    }
+    protected abstract void addSalt( T model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity );
 
     //Create a SaltShakerNode for display and interaction with this model element
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {

@@ -22,7 +22,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  *
  * @author Sam Reid
  */
-public class SugarDispenser extends Dispenser {
+public class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
     //True if the flap on the top of the dispenser is open and sugar can flow out
     public final Property<Boolean> open = new Property<Boolean>( false );
 

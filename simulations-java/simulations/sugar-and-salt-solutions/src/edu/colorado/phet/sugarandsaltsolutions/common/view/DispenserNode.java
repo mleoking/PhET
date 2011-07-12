@@ -16,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -28,7 +29,7 @@ import static java.lang.Double.POSITIVE_INFINITY;
  *
  * @author Sam Reid
  */
-public class DispenserNode<T extends Dispenser> extends PNode {
+public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispenser<U>> extends PNode {
     private final boolean debug = false;
     protected PImage imageNode;
     private final ModelViewTransform transform;
