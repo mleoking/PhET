@@ -1,3 +1,5 @@
+# 0.00.25 (53990) Jul 12, 2011
+7/12/11 Reorganized start/stop/reset buttons.
 # 0.00.24 (53881) Jul 8, 2011
 7/8/11 Added tabs for 1D and 2D views
 # 0.00.23 (53813) Jul 6, 2011
