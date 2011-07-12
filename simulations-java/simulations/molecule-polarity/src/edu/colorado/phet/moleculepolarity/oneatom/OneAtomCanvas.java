@@ -10,9 +10,9 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.control.ModelPanel;
-import edu.colorado.phet.moleculepolarity.control.TestPanel;
-import edu.colorado.phet.moleculepolarity.control.ViewPanel;
+import edu.colorado.phet.moleculepolarity.control.ModelControlPanel;
+import edu.colorado.phet.moleculepolarity.control.TestControlPanel;
+import edu.colorado.phet.moleculepolarity.control.ViewControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -31,17 +31,17 @@ public class OneAtomCanvas extends MPCanvas {
         addChild( enControlA );
         addChild( enControlB );
 
-        PNode modelControlsNode = new ControlPanelNode( new PSwing( new ModelPanel( viewProperties.modelRepresentation ) ) );
+        PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
 
-        PNode viewControlsNode = new ControlPanelNode( new PSwing( new ViewPanel( viewProperties ) ) );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties ) );
         addChild( viewControlsNode );
 
-        PNode testControlsNode = new ControlPanelNode( new PSwing( new TestPanel( model.eFieldEnabled ) ) );
+        PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eFieldEnabled ) );
         addChild( testControlsNode );
 
         Resettable[] resettables = new Resettable[] { model, viewProperties };
-        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 20, Color.BLACK, Color.YELLOW );
+        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
         addChild( resetAllButtonNode );
 
         // layout

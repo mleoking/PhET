@@ -17,14 +17,16 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TestPanel extends GridPanel {
+public class TestControlPanel extends MPControlPanel {
 
-    public TestPanel( Property<Boolean> eFieldEnabled ) {
-        setBorder( new TitledBorder( MPStrings.TEST ) {{
-            setTitleFont( MPConstants.TITLED_BORDER_FONT );
+    public TestControlPanel( final Property<Boolean> eFieldEnabled ) {
+        super( MPStrings.TEST );
+        add( new GridPanel() {{
+            setGridY( 0 ); // horizontal
+            setAnchor( Anchor.WEST ); // left justified
+            add( new JLabel( MessageFormat.format( MPStrings.PATTERN_0LABEL, MPStrings.ELECTRIC_FIELD ) ) );
+            add( new PropertyRadioButton<Boolean>( MPStrings.ON, eFieldEnabled, true ) );
+            add( new PropertyRadioButton<Boolean>( MPStrings.OFF, eFieldEnabled, false ) );
         }} );
-        add( new JLabel( MessageFormat.format( MPStrings.PATTERN_0LABEL, MPStrings.ELECTRIC_FIELD ) ) );
-        add( new PropertyRadioButton<Boolean>( MPStrings.ON, eFieldEnabled, true ) );
-        add( new PropertyRadioButton<Boolean>( MPStrings.OFF, eFieldEnabled, false ) );
     }
 }
