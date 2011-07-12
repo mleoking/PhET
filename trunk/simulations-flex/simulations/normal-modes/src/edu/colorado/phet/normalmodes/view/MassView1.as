@@ -32,7 +32,7 @@ public class MassView1 extends Sprite{
         g.clear();
         g.lineStyle(3, 0x0000ff, 1);
         var d:Number = 20;   //edge length of square mass in pixels
-        g.beginFill(0x3333ff, 1);
+        g.beginFill(0x000000, 1);
         g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
         g.endFill();
         //this.mass_arr[i].y = this.leftEdgeY;
