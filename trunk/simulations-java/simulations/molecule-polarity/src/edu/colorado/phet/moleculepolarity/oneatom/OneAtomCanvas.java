@@ -41,7 +41,7 @@ public class OneAtomCanvas extends MPCanvas {
         addChild( testControlsNode );
 
         Resettable[] resettables = new Resettable[] { model, viewProperties };
-        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 24, Color.BLACK, Color.YELLOW );
+        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 20, Color.BLACK, Color.YELLOW );
         addChild( resetAllButtonNode );
 
         // layout
