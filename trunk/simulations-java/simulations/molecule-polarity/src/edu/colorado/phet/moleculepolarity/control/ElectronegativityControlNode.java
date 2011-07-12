@@ -2,9 +2,7 @@
 package edu.colorado.phet.moleculepolarity.control;
 
 import java.awt.*;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
+import java.awt.geom.*;
 import java.text.MessageFormat;
 
 import javax.swing.*;
@@ -18,6 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.umd.cs.piccolo.PNode;
@@ -42,8 +41,8 @@ public class ElectronegativityControlNode extends PhetPNode {
     // knob
     private static final PDimension KNOB_SIZE = new PDimension( 15, 20 );
     private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final Color KNOB_NORMAL_COLOR = Color.GREEN;
-    private static final Color KNOB_HIGHLIGHT_COLOR = Color.YELLOW;
+    private static final Color KNOB_HIGHLIGHT_COLOR = Color.GREEN;
+    private static final Color KNOB_NORMAL_COLOR = KNOB_HIGHLIGHT_COLOR.darker();
     private static final Color KNOB_STROKE_COLOR = Color.BLACK;
 
     // ticks
@@ -51,16 +50,11 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static final double MINOR_TICK_LENGTH = 5;
 
     // background
-    private static final double BACKGROUND_X_MARGIN = 3;
-    private static final double BACKGROUND_Y_MARGIN = ( KNOB_SIZE.getHeight() / 2 ) + 4;
+    private static final double BACKGROUND_X_MARGIN = 10;
+    private static final double BACKGROUND_Y_MARGIN = 5;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color BACKGROUND_FILL_COLOR = Color.WHITE;
-
-    private final Atom atom;
-    private final TrackNode trackNode;
-    private final KnobNode knobNode;
-    private final DoubleRange range;
+    private static final Color BACKGROUND_FILL_COLOR = new Color( 253, 255, 213 ); // pale yellow
 
     /**
      * Constructor
@@ -71,84 +65,136 @@ public class ElectronegativityControlNode extends PhetPNode {
      */
     public ElectronegativityControlNode( final Atom atom, DoubleRange range, double snapInterval ) {
 
-        this.atom = atom;
-        this.range = range;
-
-        trackNode = new TrackNode();
-        knobNode = new KnobNode( this, trackNode, range, snapInterval, atom );
-        PText atomNameNode = new PText( MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.name ) ) {{
-            setFont( new PhetFont( Font.BOLD, 22 ) );
-        }};
-        PText labelNode = new PText( MPStrings.ELECTRONEGATIVITY ) {{
-            setFont( new PhetFont( 16 ) );
-        }};
-        TickMarkNode minTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.LESS );
-        TickMarkNode maxTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.MORE );
-
-        // background, sized to fit around track and knob.
-        Rectangle2D backgroundRect = new Rectangle2D.Double( 0, 0,
-                                                             trackNode.getFullBoundsReference().getWidth() + ( 2 * BACKGROUND_Y_MARGIN ),
-                                                             knobNode.getFullBoundsReference().getHeight() + ( 2 * BACKGROUND_X_MARGIN ) );
-        PPath backgroundNode = new PPath( backgroundRect );
-        backgroundNode.setStroke( BACKGROUND_STROKE );
-        backgroundNode.setStrokePaint( BACKGROUND_STROKE_COLOR );
-        backgroundNode.setPaint( BACKGROUND_FILL_COLOR );
-
-        // rendering order
-        addChild( backgroundNode );
-        addChild( trackNode );
-        addChild( knobNode );
-        addChild( minTickNode );
-        addChild( maxTickNode );
-        addChild( labelNode );
-        addChild( atomNameNode );
-
-        // layout
-        {
-            // background at origin
-            double x = 0;
-            double y = 0;
-            backgroundNode.setOffset( x, y );
-            // track centered in background
-            x = backgroundNode.getFullBoundsReference().getCenterX() - ( trackNode.getFullBoundsReference().getWidth() / 2 );
-            y = backgroundNode.getFullBoundsReference().getCenterY() - ( trackNode.getFullBoundsReference().getHeight() / 2 );
-            trackNode.setOffset( x, y );
-            // min tick at left end of track
-            x = trackNode.getFullBoundsReference().getMinX();
-            y = trackNode.getFullBoundsReference().getMaxY();
-            minTickNode.setOffset( x, y );
-            // max tick at right end of track
-            x = trackNode.getFullBoundsReference().getMaxX();
-            y = trackNode.getFullBoundsReference().getMaxY();
-            maxTickNode.setOffset( x, y );
-            // knob centered in track
-            x = trackNode.getFullBoundsReference().getCenterX();
-            y = trackNode.getFullBoundsReference().getCenterY() + ( knobNode.getFullBoundsReference().getHeight() / 2 );
-            knobNode.setOffset( x, y );
-            // label centered above the track
-            x = trackNode.getFullBoundsReference().getCenterX() - (labelNode.getFullBoundsReference().getWidth() / 2 );
-            y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 10;
-            labelNode.setOffset( x, y );
-            // atom name centered above label
-            x = backgroundNode.getFullBoundsReference().getCenterX() - ( atomNameNode.getFullBoundsReference().getWidth() / 2 );
-            y = labelNode.getFullBoundsReference().getMinY() - atomNameNode.getFullBoundsReference().getHeight() - 2;
-            atomNameNode.setOffset( x, y );
-        }
+        final PanelNode panelNode = new PanelNode( atom, range, snapInterval );
+        String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.name );
+        TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
+        addChild(  backgroundNode );
 
         atom.electronegativity.addObserver( new SimpleObserver() {
             public void update() {
-                updateControl();
+                panelNode.updateControl();
             }
         } );
     }
 
-    // Updates the control to match the capacitor model.
-    private void updateControl() {
-        // knob location
-        LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getXOffset() + trackNode.getFullBoundsReference().getWidth() );
-        double x = f.evaluate( atom.electronegativity.get() );
-        double y = knobNode.getYOffset();
-        knobNode.setOffset( x, y );
+    /*
+     * A titled background for any node.
+     * The title is centered at the top of the background.
+     * If the title is narrower than the node, the title looks like it's in a tab.
+     */
+    private static class TitledBackgroundNode extends PhetPNode {
+
+        private static final double Y_SPACING = 10;
+        private static final double CORNER_RADIUS = 10;
+
+        public TitledBackgroundNode( String title, PNode child, double xMargin, double yMargin ) {
+
+             PText titleNode = new PText( title ) {{
+                 setFont( new PhetFont( 20 ) );
+             }};
+
+            double panelWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), child.getFullBoundsReference().getWidth() ) + ( 2 * xMargin );
+            double panelHeight = ( titleNode.getFullBoundsReference().getHeight() / 2 ) + child.getFullBoundsReference().getHeight() + yMargin;
+            Shape panelShape = new RoundRectangle2D.Double( 0, 0, panelWidth, panelHeight, CORNER_RADIUS, CORNER_RADIUS );
+
+            double titleX = ( panelWidth / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ) - xMargin;
+            double titleY = -( titleNode.getFullBoundsReference().getHeight() / 2 ) - yMargin;
+            double titleWidth = titleNode.getFullBoundsReference().getWidth() + ( 2 * xMargin );
+            double titleHeight = titleNode.getFullBoundsReference().getHeight() + ( 2 * yMargin );
+            Shape titleShape = new RoundRectangle2D.Double( titleX, titleY, titleWidth, titleHeight, CORNER_RADIUS, CORNER_RADIUS );
+
+            Area area = new Area( panelShape );
+            area.add( new Area( titleShape ) );
+
+            PPath backgroundNode = new PPath( area ) {{
+                setStroke( BACKGROUND_STROKE );
+                setStrokePaint( BACKGROUND_STROKE_COLOR );
+                setPaint( BACKGROUND_FILL_COLOR );
+            }};
+
+            addChild( backgroundNode );
+            addChild( child );
+            addChild( titleNode );
+
+            double x = ( panelWidth / 2 ) - ( child.getFullBoundsReference().getWidth() / 2 ) - PNodeLayoutUtils.getOriginXOffset( child );
+            double y = -PNodeLayoutUtils.getOriginYOffset( child ) + ( titleNode.getFullBoundsReference().getHeight() / 2 );
+            child.setOffset( x, y );
+            x = ( panelWidth / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 );
+            y = -( titleNode.getFullBoundsReference().getHeight() / 2 );
+            titleNode.setOffset( x, y );
+        }
+    }
+
+    /*
+     * The panel that contains all of the control's components - the slider and the label.
+     * Origin is at the track's origin.
+     */
+    private static class PanelNode extends PhetPNode {
+
+        private final Atom atom;
+        private final TrackNode trackNode;
+        private final KnobNode knobNode;
+        private final DoubleRange range;
+
+        public PanelNode( final Atom atom, DoubleRange range, double snapInterval ) {
+
+            this.atom = atom;
+            this.range = range;
+
+            trackNode = new TrackNode();
+            knobNode = new KnobNode( this, trackNode, range, snapInterval, atom );
+            PText labelNode = new PText( MPStrings.ELECTRONEGATIVITY ) {{
+                setFont( new PhetFont( 14 ) );
+            }};
+            TickMarkNode minTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.LESS );
+            TickMarkNode maxTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.MORE );
+
+            // rendering order
+            addChild( trackNode );
+            addChild( minTickNode );
+            addChild( maxTickNode );
+            addChild( knobNode );
+            addChild( labelNode );
+
+            // layout
+            {
+                // track at origin
+                double x = 0;
+                double y = 0;
+                trackNode.setOffset( x, y );
+                // min tick at left end of track
+                x = trackNode.getFullBoundsReference().getMinX();
+                y = trackNode.getFullBoundsReference().getMaxY();
+                minTickNode.setOffset( x, y );
+                // max tick at right end of track
+                x = trackNode.getFullBoundsReference().getMaxX() - 1;
+                y = trackNode.getFullBoundsReference().getMaxY();
+                maxTickNode.setOffset( x, y );
+                // knob centered in track
+                x = trackNode.getFullBoundsReference().getCenterX();
+                y = trackNode.getFullBoundsReference().getCenterY() + ( knobNode.getFullBoundsReference().getHeight() / 2 );
+                knobNode.setOffset( x, y );
+                // label centered above the track
+                x = trackNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
+                y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 12;
+                labelNode.setOffset( x, y );
+            }
+
+            atom.electronegativity.addObserver( new SimpleObserver() {
+                public void update() {
+                    updateControl();
+                }
+            } );
+        }
+
+        // Updates the control to match the capacitor model.
+        public void updateControl() {
+            // knob location
+            LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getFullBoundsReference().getMaxX() - 1 );
+            double x = f.evaluate( atom.electronegativity.get() );
+            double y = knobNode.getYOffset();
+            knobNode.setOffset( x, y );
+        }
     }
 
     /*
@@ -257,7 +303,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         controlNode.setOffset( 100, 100 );
 
         PhetPCanvas canvas = new PhetPCanvas();
-        canvas.setPreferredSize( new Dimension( 300, 400 ) );
+        canvas.setPreferredSize( new Dimension( 400, 300 ) );
         canvas.getLayer().addChild( controlNode );
 
         JFrame frame = new JFrame();
