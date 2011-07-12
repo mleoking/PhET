@@ -15,7 +15,7 @@ public class BalanceAndTorqueResources {
 
     //Strings
     public static class Strings {
-        public static final String BALANCING__ACT__NAME = RESOURCES.getLocalizedString( "balancing-act.name" );
+
     }
 
     //Images
