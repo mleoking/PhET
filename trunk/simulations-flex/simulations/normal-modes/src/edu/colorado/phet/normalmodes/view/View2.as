@@ -103,6 +103,7 @@ public class View2 extends Sprite {
     }//end of initialize()
 
     private function drawSprings():void{        //only the visible springs are drawn
+        //trace("View2.drawSprings() called.");
         //var d:Number = 10;                    //radius of each mass in pixels, all distance in this function in pixels
         var nMasses:Number = this.myModel2.N;   //number of mobile masses in 1D chain
         this.L0Spring = ( this._LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
@@ -137,7 +138,7 @@ public class View2 extends Sprite {
                 }//end for k
             }//end for j
         }//end for i
-
+        //this.update();  //in case sim is paused
     }//end drawSprings()
 
     private function makeAllSpringsInvisible():void{
@@ -227,6 +228,11 @@ public class View2 extends Sprite {
         var springLengthInPix:Number;
         var N:int =  this.myModel2.N;
 
+        if( this.myModel2.nChanged ){
+            this.setNbrMasses();
+            //this.myModel2.nChanged = false;
+        }
+
         //position masses
         for(var i:int = 0; i < N; i++){
             for(var j:int = 0; j < N; j++){
@@ -289,12 +295,6 @@ public class View2 extends Sprite {
                 } //end for j loop
             }//end for i loop
         }//end if(_springsVisible)
-
-        if( this.myModel2.nChanged ){
-            this.setNbrMasses();
-            //this.myModel2.nChanged = false;
-        }
-
     }//end update()
 
 }//end of class

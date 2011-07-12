@@ -317,9 +317,10 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
         this.tFormat2.size = 25;
         this.currentTime_txt.defaultTextFormat = this.tFormat0;
-        this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.slow_txt.setTextFormat( this.tFormat0 );
         this.normal_txt.setTextFormat( this.tFormat0 );
+        this.tFormat0.italic = true;
+        this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
@@ -354,14 +355,14 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
     private function positionFields(): void {
 
-        this.timeRateSlider.x = -1.0*this.timeRateSlider.width;
+        this.timeRateSlider.x = -1*this.timeRateSlider.width;
         this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
-        this.simSpeed_txt.x = -this.timeRateSlider.width - 0.5*this.simSpeed_txt.width;
+        this.simSpeed_txt.x = timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*simSpeed_txt.width;
         this.currentTime_txt.x = this.timeRateSlider.x;
         this.currentTime_txt.y = this.timeRateSlider.y - 1.5*this.currentTime_txt.height;
         this.slow_txt.x =  this.timeRateSlider.x;
         this.slow_txt.y = 3;
-        this.normal_txt.x = 0.5*this.timeRateSlider.x;
+        this.normal_txt.x = timeRateSlider.x + timeRateSlider.width - normal_txt.width;
         this.normal_txt.y = 3;
         this.simSpeed_txt.y = this.timeRateSlider.y - 0.5*this.simSpeed_txt.height;
         //this.playPause_txt.x = -0.5 * this.playPause_txt.width;
@@ -371,7 +372,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.sloMo_txt.x = this.timeRateSlider.x + 0.5*timeRateSlider.width - 0.5*this.sloMo_txt.width;
         this.sloMo_txt.y = 0.4 * this.sloMo_txt.height;
 
-        this.stepButton.x = 2.0 * this.stepButton.width;
+        this.stepButton.x = 1.0 * this.stepButton.width;
         this.stepButton.y = 0;
         this.singleStep_txt.x = this.stepButton.x - 0.5 * this.singleStep_txt.width;
         this.singleStep_txt.y = 0.5 * this.stepButton.height;

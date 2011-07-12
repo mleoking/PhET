@@ -153,7 +153,7 @@ public class ControlPanel extends Canvas {
         this.upDownModeButton.value = 0;
         this.rightLeftModeButton.selected = false;
         this.upDownModeButton.selected = true;
-        this.directionOfMode_rbg.addEventListener( Event.CHANGE, clickLongOrTrans );
+        this.directionOfMode_rbg.addEventListener( Event.CHANGE, setPolarization );
 
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
@@ -229,11 +229,11 @@ public class ControlPanel extends Canvas {
     }
 
     private function startStop():void{
-        if(this.paused){
-            this.paused = false;
+        if(this.myModel.paused){
+            //this.paused = false;
             this.myModel.unPauseSim();
         }else{
-            this.paused = true;
+            //this.paused = true;
             this.myModel.pauseSim();
         }
     }//end startStop()
@@ -242,17 +242,17 @@ public class ControlPanel extends Canvas {
         this.myModel.t = 0;
         //this.myModel.updateViews();
         this.myModel.pauseSim();
-        this.paused = true;
+        //this.paused = true;
     }
 
     private function resetPositions():void{
         //Doesn't matter if in 1D or 2D mode, want all modes zeroed.
         this.myModel.initializeKinematicArrays();
         this.myModel.zeroModeArrays();
-        this.myModel.pauseSim();
+        //this.myModel.pauseSim();
     }
 
-    private function clickLongOrTrans( evt: Event ): void {
+    private function setPolarization( evt: Event ): void {
         var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
             //this.myModel1.setTorL( "L" );
