@@ -134,8 +134,10 @@ public class MainView extends Canvas {
     public function set1DOr2D(oneOrTwo:int):void{
         if(oneOrTwo == 1){
             this.oneDMode = true;
-            this.myModel1.stopMotion();
-            this.myModel2.stopMotion();
+            //this.myModel1.stopMotion();
+            //this.myModel2.stopMotion();
+            this.myModel1.pauseSim();
+            this.myModel2.pauseSim();
             this.myView1.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
@@ -147,8 +149,10 @@ public class MainView extends Canvas {
             this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
-            this.myModel1.stopMotion();
-            this.myModel2.stopMotion();
+            //this.myModel1.stopMotion();
+            //this.myModel2.stopMotion();
+            this.myModel1.pauseSim();
+            this.myModel2.pauseSim();
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
