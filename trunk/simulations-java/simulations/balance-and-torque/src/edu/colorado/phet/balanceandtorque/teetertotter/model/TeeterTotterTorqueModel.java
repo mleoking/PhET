@@ -4,11 +4,11 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
 
 /**
  * Primary model class for the tab that depicts torque on a plank, a.k.a. a teeter totter.
@@ -47,7 +47,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     }};
 
     // Property that controls whether the columns are supporting the plank.
-    private final BooleanProperty supportColumnsActive = new BooleanProperty( true );
+    public final BooleanProperty supportColumnsActive = new BooleanProperty( true );
 
     // Plank that objects can be placed on that is (optionally) supported by pillars
     private final Plank plank = new Plank( clock, Fulcrum.getHeight(), supportColumnsActive );
@@ -132,10 +132,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         return supportColumns;
     }
 
-    public BooleanProperty getSupportColumnsActiveProperty() {
-        return supportColumnsActive;
-    }
-
     public List<Weight> getWeights() {
         return weights;
     }
@@ -143,10 +139,16 @@ public class TeeterTotterTorqueModel implements Resettable {
     public void reset() {
         getClock().resetSimulationTime();
 
-        // Remove any existing weights.
+        // Remove weights from the plank.
+        plank.removeAllWeights();
+
+        // Remove this model's references to the weights.
         for ( Weight weight : new ArrayList<Weight>( weights ) ) {
             removeWeight( weight );
         }
+
+        // Set the support columns to their initial state.
+        supportColumnsActive.reset();
     }
 
     //------------------------------------------------------------------------
