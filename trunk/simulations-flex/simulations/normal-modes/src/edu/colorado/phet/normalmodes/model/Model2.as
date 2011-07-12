@@ -390,12 +390,14 @@ public class Model2 {
     public function startMotion(): void {
         //trace("Model.startMotion called.");
         if ( !this._paused ) {
+            this._paused = true;
             this.msTimer.start();
         }
     }
 
     public function stopMotion(): void {
         if ( !this._paused ) {
+            this._paused = false;
             this.msTimer.stop();
         }
     }
