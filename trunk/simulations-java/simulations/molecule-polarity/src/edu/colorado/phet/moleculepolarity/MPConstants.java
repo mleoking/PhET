@@ -26,5 +26,5 @@ public class MPConstants {
 
     // View
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
-    public static final PhetFont TITLED_BORDER_FONT = new PhetFont( Font.BOLD, 18 );
+    public static final PhetFont TITLED_BORDER_FONT = new PhetFont( Font.BOLD, 16 );
 }
