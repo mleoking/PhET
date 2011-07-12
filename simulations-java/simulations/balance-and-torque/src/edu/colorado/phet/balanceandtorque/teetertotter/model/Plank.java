@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -19,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
 
 /**
  * This is the plank upon which weights can be placed.
@@ -123,15 +123,25 @@ public class Plank extends ShapeModelElement {
                 if ( userControlled ) {
                     // The user has picked up this weight, so it is no longer
                     // on the surface.
-                    weightsOnSurface.remove( weight );
-                    weight.setRotationAngle( 0 );
-                    weight.setOnPlank( false );
-                    updateTorqueDueToWeights();
+                    removeWeightFromSurface( weight );
                 }
             }
         } );
         updateWeightPositions();
         updateTorqueDueToWeights();
+    }
+
+    private void removeWeightFromSurface( Weight weight ) {
+        weightsOnSurface.remove( weight );
+        weight.setRotationAngle( 0 );
+        weight.setOnPlank( false );
+        updateTorqueDueToWeights();
+    }
+
+    public void removeAllWeights() {
+        for ( Weight weight : new ArrayList<Weight>( weightsOnSurface ) ) {
+            removeWeightFromSurface( weight );
+        }
     }
 
     // Generate the shape of the plank.  This is static so that it can be used

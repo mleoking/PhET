@@ -5,18 +5,19 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageWeight;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ShapeWeight;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -82,7 +83,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
         rootNode.addChild( new PlankNode( mvt, model.getPlank() ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
-            rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.getSupportColumnsActiveProperty() ) );
+            rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );
         }
 
         // Add the button that will restore the columns if they have been
@@ -93,14 +94,21 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             setOffset( mvt.modelToViewX( 2.5 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    model.getSupportColumnsActiveProperty().set( true );
+                    model.supportColumnsActive.set( true );
                 }
             } );
         }};
         rootNode.addChild( restoreColumnsButton );
 
+        // Add the Reset All button.
+        rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            centerFullBoundsOnPoint( restoreColumnsButton.getFullBoundsReference().getCenterX(),
+                                     restoreColumnsButton.getFullBoundsReference().getMaxY() + 30 );
+            setConfirmationEnabled( false );
+        }} );
+
         // Only show the Restore Columns button when the columns are not active.
-        model.getSupportColumnsActiveProperty().addObserver( new VoidFunction1<Boolean>() {
+        model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean supportColumnsActive ) {
                 restoreColumnsButton.setVisible( !supportColumnsActive );
             }
