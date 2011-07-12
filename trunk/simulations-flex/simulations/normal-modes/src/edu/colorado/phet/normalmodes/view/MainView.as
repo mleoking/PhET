@@ -114,7 +114,6 @@ public class MainView extends Canvas {
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
         this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
 
-
         this.addChild( this.myPlayPauseButtons );
         this.addChild( myPausedSign );
         this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
@@ -170,7 +169,7 @@ public class MainView extends Canvas {
         this.myPlayPauseButtons.unPauseExternally();
         this.myPlayPauseButtons.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 5 );
-        this.myModel1.setTorL( "T" );
+        //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }
 
