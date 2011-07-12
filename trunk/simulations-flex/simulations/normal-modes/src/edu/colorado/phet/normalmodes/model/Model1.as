@@ -296,12 +296,14 @@ public class Model1 {
     public function pauseSim(): void {
         this._paused = true;
         this.msTimer.stop();
+        this.updateViews();
         //this.running = false;
     }
 
     public function unPauseSim(): void {
         this._paused = false;
         this.msTimer.start();
+        this.updateViews();
     }
 
     public function startMotion(): void {

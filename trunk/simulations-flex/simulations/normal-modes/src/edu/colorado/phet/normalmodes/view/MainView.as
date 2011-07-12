@@ -37,6 +37,7 @@ public class MainView extends Canvas {
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
+    public var myPausedSign: PausedSign;
     public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
@@ -101,8 +102,12 @@ public class MainView extends Canvas {
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
         this.myButtonArrayPanel.x = 0.70*stageW;
-        this.myButtonArrayPanel.y = 0.55*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
+        this.myButtonArrayPanel.y = 0.60*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
         this.myButtonArrayPanel.visible = false;
+
+        this.myPausedSign = new PausedSign( this.myModel1 );
+        this.myPausedSign.x = 0.3*stageW;
+        this.myPausedSign.y = 0.4*stageH;
 
         this.phetLogo = new PhetIcon();
 
@@ -118,6 +123,7 @@ public class MainView extends Canvas {
         this.myView2.visible = false;
         this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
+        this.addChild( myPausedSign );
         //phetLogo now in tab area
         //this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
@@ -136,6 +142,7 @@ public class MainView extends Canvas {
             this.myButtonArrayPanel.visible = false;
             this.myControlPanel.setModel( this.myModel1 );
             this.myPlayPauseButtons.setModel( this.myModel1 );
+            this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
             this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
@@ -148,6 +155,7 @@ public class MainView extends Canvas {
             this.myButtonArrayPanel.visible = true;
             this.myControlPanel.setModel( this.myModel2 );
             this.myPlayPauseButtons.setModel( this.myModel2 );
+            this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
             this.myControlPanel.showPhasesVisible( false );
         }

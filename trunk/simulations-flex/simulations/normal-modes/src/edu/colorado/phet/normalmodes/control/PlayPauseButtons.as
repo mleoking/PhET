@@ -53,9 +53,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public var simSpeed_str:String;
     public var slow_str:String;
     public var normal_str:String;
-    public var play_str: String;
-    public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
-    public var paused_str: String;
+    //public var play_str: String;
+    //public var pause_str: String;    //Note well: pause_str and paused_str are two differerent strings
+    //public var paused_str: String;
     public var sloMo_str: String;    //slo-mo = slow-motion
     public var singleStep_str: String;
 
@@ -94,16 +94,16 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.addChild(this.canvas);
         //this.playPauseButton.addChild( this.playIcon );
         //this.playPauseButton.addChild( this.pauseIcon );
-        this.addChild( this.currentTime_txt );
+        //this.addChild( this.currentTime_txt );
         this.addChild(this.simSpeed_txt);
         this.addChild(this.slow_txt);
         this.addChild(this.normal_txt);
         this.addChild(this.timeRateSlider);
         //this.addChild( this.playPauseButton );
-        this.addChild( this.playPause_txt );
+        //this.addChild( this.playPause_txt );
         this.addChild( this.stepButton );
         this.addChild( this.singleStep_txt );
-        this.addChild( this.paused_txt );
+        //this.addChild( this.paused_txt );
         this.addChild( this.sloMo_txt );
 
     }  //end of constructor
@@ -113,9 +113,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.simSpeed_str = FlexSimStrings.get("simSpeed", "sim speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
-        this.play_str = FlexSimStrings.get("play", "play");
-        this.pause_str = FlexSimStrings.get("pause", "pause");
-        this.paused_str = FlexSimStrings.get("paused", "PAUSED");
+        //this.play_str = FlexSimStrings.get("play", "play");
+        //this.pause_str = FlexSimStrings.get("pause", "pause");
+        //this.paused_str = FlexSimStrings.get("paused", "PAUSED");
         this.sloMo_str = FlexSimStrings.get("sloMo", "SLO-MO");
         this.singleStep_str = FlexSimStrings.get("step", "step");
     }
@@ -209,18 +209,18 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         function onMouseClick( evt: MouseEvent ): void {
             if ( thisObject.paused ) {   //unpause sim
                 thisObject.paused = false;
-                thisObject.playIcon.visible = false;
-                thisObject.pauseIcon.visible = true;
-                thisObject.playPause_txt.text = thisObject.pause_str;
-                thisObject.paused_txt.visible = false;
+                //thisObject.playIcon.visible = false;
+                //thisObject.pauseIcon.visible = true;
+                //thisObject.playPause_txt.text = thisObject.pause_str;
+                //thisObject.paused_txt.visible = false;
                 thisObject.myModel.unPauseSim();
             }
             else {                      //pause sim
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
-                thisObject.playPause_txt.text = thisObject.play_str;
-                thisObject.paused_txt.visible = true;
+                //thisObject.playPause_txt.text = thisObject.play_str;
+                //thisObject.paused_txt.visible = true;
                 thisObject.myModel.pauseSim();
             }
         }
@@ -247,7 +247,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
                 thisObject.paused = true;
                 thisObject.playIcon.visible = true;
                 thisObject.pauseIcon.visible = false;
-                thisObject.playPause_txt.text = thisObject.pause_str;
+                //thisObject.playPause_txt.text = thisObject.pause_str;
                 thisObject.paused_txt.visible = true;
                 thisObject.myModel.pauseSim();
             }
@@ -266,7 +266,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
             this.paused = false;
             this.playIcon.visible = false;
             this.pauseIcon.visible = true;
-            this.playPause_txt.text = this.pause_str;
+            //this.playPause_txt.text = this.pause_str;
             this.paused_txt.visible = false;
             this.myModel.unPauseSim();
         }
@@ -296,9 +296,9 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.simSpeed_txt.text = this.simSpeed_str;
         this.slow_txt.text = this.slow_str;
         this.normal_txt.text = this.normal_str;
-        this.playPause_txt.text = this.pause_str;
+        //this.playPause_txt.text = this.pause_str;
         this.singleStep_txt.text = this.singleStep_str;
-        this.paused_txt.text = this.paused_str;
+        //this.paused_txt.text = this.paused_str;
         this.paused_txt.visible = false;
         this.sloMo_txt.text = this.sloMo_str;
         this.sloMo_txt.visible = false;
@@ -354,7 +354,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
 
     private function positionFields(): void {
 
-        this.timeRateSlider.x = -1.5*this.timeRateSlider.width;
+        this.timeRateSlider.x = -1.0*this.timeRateSlider.width;
         this.timeRateSlider.y = -0.5*this.timeRateSlider.height;
         this.simSpeed_txt.x = -this.timeRateSlider.width - 0.5*this.simSpeed_txt.width;
         this.currentTime_txt.x = this.timeRateSlider.x;

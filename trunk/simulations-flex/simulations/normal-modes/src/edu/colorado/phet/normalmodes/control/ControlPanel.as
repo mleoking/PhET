@@ -100,8 +100,8 @@ public class ControlPanel extends Canvas {
             setStyle( "borderThickness", 4 );
             setStyle( "paddingTop", 15 );
             setStyle( "paddingBottom", 15 );
-            setStyle( "paddingRight", 5 );
-            setStyle( "paddingLeft", 5 );
+            setStyle( "paddingRight", 10 );
+            setStyle( "paddingLeft", 10 );
             setStyle( "verticalGap", 10 );
             setStyle( "horizontalAlign", "center" );
         }
@@ -231,16 +231,16 @@ public class ControlPanel extends Canvas {
     private function startStop():void{
         if(this.paused){
             this.paused = false;
-           this.myModel.unPauseSim();
+            this.myModel.unPauseSim();
         }else{
-           this.paused = true;
-           this.myModel.pauseSim();
+            this.paused = true;
+            this.myModel.pauseSim();
         }
     }//end startStop()
 
     private function resetTime():void{
         this.myModel.t = 0;
-        this.myModel.updateViews();
+        //this.myModel.updateViews();
         this.myModel.pauseSim();
         this.paused = true;
     }

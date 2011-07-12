@@ -354,6 +354,12 @@ public class Model2 {
 
     public function set t( time:Number ):void{
         this._t = time;
+        if(_verletOn){
+            this.setVerletPositions();
+        } else{
+            this.setExactPositions();
+        }
+        this.updateViews();
     }
 
     public function get paused():Boolean {
@@ -371,12 +377,14 @@ public class Model2 {
     public function pauseSim(): void {
         this._paused = true;
         this.msTimer.stop();
+        this.updateViews();
         //this.running = false;
     }
 
     public function unPauseSim(): void {
         this._paused = false;
         this.msTimer.start();
+        this.updateViews();
     }
 
     public function startMotion(): void {
@@ -493,17 +501,17 @@ public class Model2 {
         this._t += this.dt;
 
         if( this._verletOn ){
-           this.singleStepVerlet();
+           this.setVerletPositions();
         }else{
-            this.singleStepExact();
+            this.setExactPositions();
         }
         this.updateViews();
     }
 
-    private function singleStepVerlet():void{       //velocity verlet algorithm
+    private function setVerletPositions():void{       //velocity verlet algorithm
         //trace("Model2._t = "+ this._t);
 //        if(this._grabbedMassIndices[0] == 2 && this._grabbedMassIndices[1] == 2) {
-//            trace("Model2.singleStepVerlet.  massView [2,2] grabbed");
+//            trace("Model2.setVerletPositions.  massView [2,2] grabbed");
 //        }
         for(var i:int = 1; i <= this._N; i++){
             for(var j:int = 1; j <= this._N; j++){
@@ -521,7 +529,7 @@ public class Model2 {
 //        if(this._t > this.tInt ){
 //            this.tInt += 1;
 //            trace("i = "+this._grabbedMassIndices[0]+"   j = "+this._grabbedMassIndices[1])
-//            trace("Model2.singleStepVerlet.  _t = "+ this.tInt + "   sx_arr[4][3] = "+ sx_arr[4][3]);
+//            trace("Model2.setVerletPositions.  _t = "+ this.tInt + "   sx_arr[4][3] = "+ sx_arr[4][3]);
 //        }
 
         for(i = 1; i <= this._N; i++){
@@ -534,10 +542,10 @@ public class Model2 {
                 }
             }//end for j loop
         }//end for i loop
-    }//end singleStepVerlet()
+    }//end setVerletPositions()
 
 
-    private function singleStepExact():void{
+    private function setExactPositions():void{
         //var pi:Number = Math.PI;
         for(var i:int = 1; i <= this._N; i++ ){
             for( var j:int = 1; j <= this._N;  j++ ){
@@ -559,13 +567,17 @@ public class Model2 {
                 }//end for r
             }//end for j
         }//end for i
-    }//end singleStepExact()
+    }//end setExactPositions()
 
 
     public function singleStepWhenPaused():void{
         this.dt = this.tRate * 0.02;
         this._t += this.dt;
-        this.singleStepVerlet( );
+        if( _verletOn ){
+            this.setVerletPositions( );
+        } else {
+            this.setExactPositions();
+        }
         updateViews();
     }
 
