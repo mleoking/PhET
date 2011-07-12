@@ -54,7 +54,6 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static final double BACKGROUND_Y_MARGIN = 5;
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
-    private static final Color BACKGROUND_FILL_COLOR = new Color( 253, 255, 213 ); // pale yellow
 
     /**
      * Constructor
@@ -66,8 +65,8 @@ public class ElectronegativityControlNode extends PhetPNode {
     public ElectronegativityControlNode( final Atom atom, DoubleRange range, double snapInterval ) {
 
         final PanelNode panelNode = new PanelNode( atom, range, snapInterval );
-        String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.name );
-        TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
+        String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.getName() );
+        TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, atom.getColor(), panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
         addChild(  backgroundNode );
 
         atom.electronegativity.addObserver( new SimpleObserver() {
@@ -87,14 +86,14 @@ public class ElectronegativityControlNode extends PhetPNode {
         private static final double Y_SPACING = 10;
         private static final double CORNER_RADIUS = 10;
 
-        public TitledBackgroundNode( String title, PNode child, double xMargin, double yMargin ) {
+        public TitledBackgroundNode( String title, final Color fillColor, PNode child, double xMargin, double yMargin ) {
 
              PText titleNode = new PText( title ) {{
                  setFont( new PhetFont( 20 ) );
              }};
 
             double panelWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), child.getFullBoundsReference().getWidth() ) + ( 2 * xMargin );
-            double panelHeight = ( titleNode.getFullBoundsReference().getHeight() / 2 ) + child.getFullBoundsReference().getHeight() + yMargin;
+            double panelHeight = ( titleNode.getFullBoundsReference().getHeight() / 2 ) + child.getFullBoundsReference().getHeight() + Y_SPACING;
             Shape panelShape = new RoundRectangle2D.Double( 0, 0, panelWidth, panelHeight, CORNER_RADIUS, CORNER_RADIUS );
 
             double titleX = ( panelWidth / 2 ) - ( titleNode.getFullBoundsReference().getWidth() / 2 ) - xMargin;
@@ -109,7 +108,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             PPath backgroundNode = new PPath( area ) {{
                 setStroke( BACKGROUND_STROKE );
                 setStrokePaint( BACKGROUND_STROKE_COLOR );
-                setPaint( BACKGROUND_FILL_COLOR );
+                setPaint( fillColor );
             }};
 
             addChild( backgroundNode );
@@ -176,7 +175,7 @@ public class ElectronegativityControlNode extends PhetPNode {
                 knobNode.setOffset( x, y );
                 // label centered above the track
                 x = trackNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
-                y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 12;
+                y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 15;
                 labelNode.setOffset( x, y );
             }
 
@@ -290,7 +289,8 @@ public class ElectronegativityControlNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        final Atom atom = new Atom( "Y", 3 );
+        Color paleYellow =  new Color( 253, 255, 213 );
+        final Atom atom = new Atom( "Y", paleYellow, 3 );
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 System.out.println( "electronegativity=" + value );
