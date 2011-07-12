@@ -1,10 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildtools.preprocessor;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
@@ -84,6 +81,9 @@ public class ResourceGenerator {
                 if ( propertyName.equals( simDir.getName() + ".name" ) ) {
                     //Skip the simulation name, it is loaded through reflection
                 }
+                else if ( isFlavorName( simDir, propertyName ) ) {
+                    //Also skip the flavor names they are loaded with reflection
+                }
                 else {
                     final String JAVA_FIELD_NAME = splitCamelCase( propertyName ).
                             replace( ' ', '-' ).
@@ -144,6 +144,34 @@ public class ResourceGenerator {
             //Signify no changes
             return false;
         }
+    }
+
+    //Checks if the key is flavor name key, if so it is suppressed from generation since
+    //that string is loaded automatically
+    private boolean isFlavorName( final File simDir, String propertyName ) {
+        //Make sure the string matches the flavor name format
+        if ( propertyName.endsWith( ".name" ) ) {
+
+            //Identify the flavor name (if it is a flavor)
+            String possibleFlavorName = propertyName.substring( 0, propertyName.lastIndexOf( '.' ) );
+            String simName = simDir.getName();
+            final File buildPropertiesFile = new File( simDir, simName + "-build.properties" );
+
+            //Load the build properties file to see if it has a matching flavor name
+            Properties p = new Properties() {{
+                try {
+                    load( new FileInputStream( buildPropertiesFile ) );
+                }
+                catch ( IOException e ) {
+                    e.printStackTrace();
+                }
+            }};
+            //If there was a matching key with this form, then exclude from the generated strings file
+            if ( p.containsKey( "project.flavor." + possibleFlavorName + ".mainclass" ) ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Tokenizes a string that is in camel case representation
