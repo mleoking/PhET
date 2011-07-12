@@ -116,14 +116,14 @@ public class MainView extends Canvas {
 
 
         this.addChild( this.myPlayPauseButtons );
-
+        this.addChild( myPausedSign );
         this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
         this.addChild( myControlPanel );
         this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
-        this.addChild( myPausedSign );
+
         //phetLogo now in tab area
         //this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();

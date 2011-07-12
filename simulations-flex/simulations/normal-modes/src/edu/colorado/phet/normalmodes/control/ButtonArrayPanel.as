@@ -151,7 +151,7 @@ public class ButtonArrayPanel extends UIComponent{
             }
         }
         var N:int = this.myModel2.N;
-        trace("ButtonArrayPanel.setNbrButtons called. N = " + N);
+        //trace("ButtonArrayPanel.setNbrButtons called. N = " + N);
         var size:Number = this.maxContainerWidth/N;
         var xOffset:Number;
         var yOffset:Number;
@@ -176,7 +176,7 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
             }
         }
-        this.label_txt.x = xOffset;
+        this.label_txt.x = 0.5*this.container.width - label_txt.width/2;  //xOffset;
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
         this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 12;
         this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
@@ -184,14 +184,16 @@ public class ButtonArrayPanel extends UIComponent{
 
     //color buttons to indicate amplitude of mode
     public function setButtonColors():void{
-        var springLength:Number = 1/(this.myModel2.N + 1);
+        var N:int = this.myModel2.N;
+        var springLength:Number = 1/(N + 1);
         var largeAmplitude = 0.3*springLength;
-        for(var i: int = 1; i <= this.nMax; i++ ){
-            for( var j: int = 1; j <= this.nMax; j++ ){
+        for(var i: int = 1; i <= N; i++ ){
+            for( var j: int = 1; j <= N; j++ ){
                 var Xamplitude = this.myModel2.getModeAmpliX( i, j );
                 var Yamplitude = this.myModel2.getModeAmpliY( i, j );
                 var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
                 var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
+                //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
                 if(!this.verticalPolarization){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );
@@ -207,12 +209,13 @@ public class ButtonArrayPanel extends UIComponent{
 
     public function update():void{
         if( this.myModel2.nChanged || this.myModel2.modesZeroed ){
-            trace("ButtonArrayPanel.update() called.");
+
             this.setNbrButtons();
             //this.myModel2.nChanged = false;
             this.myModel2.modesZeroed = false;
         }
         if( this.myModel2.modesChanged ){
+            //trace("ButtonArrayPanel.update() called.");
             this.setButtonColors();
             this.myModel2.modesChanged = false;
         }
