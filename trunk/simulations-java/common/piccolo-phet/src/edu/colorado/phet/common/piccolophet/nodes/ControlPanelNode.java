@@ -20,6 +20,11 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class ControlPanelNode extends PNode {
+
+    public ControlPanelNode( JComponent jComponent ) {
+        this( new PSwing( jComponent ) );
+    }
+
     public ControlPanelNode( final PNode content ) {
         this( content, new Color( 238, 238, 238 ) );
     }
