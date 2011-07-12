@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
@@ -20,6 +21,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -80,10 +83,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
                //Ratio of length scales in meters
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
+
+        //Add models for the various dispensers: sugar, salt, etc.
+        dispensers.add( new MicroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
+//        dispensers.add( new MacroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
     }
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
-    @Override public void addMacroSalt( MacroSalt salt ) {
+    public void addMicroSalt( MacroSalt salt ) {
 
         //Only add a crystal every N steps, otherwise there are too many
         stepsOfAddingSalt.set( stepsOfAddingSalt.get() + 1 );
@@ -327,5 +335,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
      */
     @Override protected String getSugarDispenserName() {
         return SUCROSE;
+    }
+
+    //TODO: fix this argument to be more sodium-nitrate-esque
+    public void addMicroSodiumNitrate( MacroSalt macroSalt ) {
+
     }
 }

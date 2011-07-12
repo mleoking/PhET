@@ -12,6 +12,10 @@ import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivi
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
+
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * Introductory (macro) model that keeps track of moles of solute dissolved in the liquid.
@@ -33,6 +37,10 @@ public class MacroModel extends SugarAndSaltSolutionModel {
 
                //In macro model scales are already tuned so no additional scaling is needed
                1 );
+
+        //Add models for the various dispensers: sugar, salt, etc.
+        dispensers.add( new MacroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
 
         //Model for the conductivity tester
         conductivityTester = new ConductivityTester( beaker.getWidth(), beaker.getHeight() );
