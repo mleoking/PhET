@@ -25,7 +25,6 @@ public class MPConstants {
     public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.1;
 
     // View
-    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 864 );
+    public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
     public static final PhetFont TITLED_BORDER_FONT = new PhetFont( Font.BOLD, 18 );
-
 }
