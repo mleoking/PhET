@@ -1,0 +1,12 @@
+TODO list for molecule-polarity
+
+HIGH
+- add minor and major ticks to EN control
+
+MEDIUM
+
+LOW
+
+MIGRATE TO PHETCOMMON
+- HorizontalSliderDragHandler
+- VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
