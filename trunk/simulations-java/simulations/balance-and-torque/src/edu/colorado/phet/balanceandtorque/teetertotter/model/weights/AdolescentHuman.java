@@ -2,10 +2,11 @@
 package edu.colorado.phet.balanceandtorque.teetertotter.model.weights;
 
 import java.awt.geom.Point2D;
-import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
-import edu.colorado.phet.balanceandtorque.TeeterTotterTorqueApplication;
+
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images.ADOLESCENT_SITTING;
+import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images.ADOLESCENT_STANDING;
 
 /**
  * Model class that represents a human who is roughly 10 years old.
@@ -18,26 +19,23 @@ public class AdolescentHuman extends ImageWeight {
     private static final double STANDING_HEIGHT = 1.2; // In meters.
     private static final double SITTING_HEIGHT = 0.7; // In meters.
 
-    private static final BufferedImage STANDING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "adolescent-standing.png" );
-    private static final BufferedImage SITTING_IMAGE = TeeterTotterTorqueApplication.RESOURCES.getImage( "adolescent-sitting.png" );
-
     public AdolescentHuman() {
-        super( MASS, STANDING_IMAGE, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
+        super( MASS, ADOLESCENT_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
     }
 
     @Override public void setOnPlank( boolean onPlank ) {
         if ( onPlank ) {
             height = SITTING_HEIGHT;
             if ( getPosition().getX() > 0 ) {
-                imageProperty.set( SITTING_IMAGE );
+                imageProperty.set( ADOLESCENT_SITTING );
             }
             else {
-                imageProperty.set( BufferedImageUtils.flipX( SITTING_IMAGE ) );
+                imageProperty.set( BufferedImageUtils.flipX( ADOLESCENT_SITTING ) );
             }
         }
         else {
             height = STANDING_HEIGHT;
-            imageProperty.set( STANDING_IMAGE );
+            imageProperty.set( ADOLESCENT_STANDING );
         }
     }
 }
