@@ -89,7 +89,7 @@ public class MassView2 extends Sprite{
             //thisObject.myModel2.computeModeAmplitudesAndPhases();
             //thisObject.myModel2.justReleased = true;
             //thisObject.myModel2.nbrStepsSinceRelease = 0;
-           thisObject.myModel2.verletOn = false;
+            thisObject.myModel2.verletOn = false;
             //thisObject.myModel2.t = 0;
             thisObject.myModel2.computeModeAmplitudesAndPhases();
             clickOffset = null;

@@ -314,7 +314,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat1.size = 15;
         this.tFormat2.font = "Arial";
         this.tFormat2.bold = true;
-        this.tFormat2.color = 0xffcc33;   //background is 0xffff99
+        this.tFormat2.color = 0xffff00;   //background is 0xffff99
         this.tFormat2.size = 25;
         this.currentTime_txt.defaultTextFormat = this.tFormat0;
         this.slow_txt.setTextFormat( this.tFormat0 );

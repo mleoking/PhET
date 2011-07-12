@@ -49,7 +49,7 @@ public class ButtonArrayPanel extends UIComponent{
         this.maxContainerWidth = 250;
         //this.color_arr = new Array();
         //this.makeColorArray();
-        this.verticalPolarization = false;
+        this.verticalPolarization = true;
         this.container = new Sprite();
         this.label_txt = new TextField();
         this.arrowGraphic = new TwoHeadedArrow();
@@ -134,10 +134,12 @@ public class ButtonArrayPanel extends UIComponent{
     public function showVerticalPolarization( tOrF:Boolean ):void{
        if( tOrF ){
            this.arrowGraphic.rotation = 90;
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 3;
            this.verticalPolarization = true;
            this.setButtonColors();
        }else{
            this.arrowGraphic.rotation = 0;
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 10;
            this.verticalPolarization = false;
            this.setButtonColors();
        }
@@ -176,9 +178,13 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
             }
         }
-        this.label_txt.x = 0.5*this.container.width - label_txt.width/2;  //xOffset;
+        this.label_txt.x = 0.5*this.container.width - label_txt.width/2 - 10;  //xOffset;
         this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
-        this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 12;
+        if(this.verticalPolarization){
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 3;
+        }else{
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 10;
+        }
         this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
     }//end setNbrButtons()
 
@@ -194,11 +200,12 @@ public class ButtonArrayPanel extends UIComponent{
                 var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
                 var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
                 //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
+                //trace("ButtonArrayPanel.setButtonColors()called. verticalPolarization = "+ this.verticalPolarization);
                 if(!this.verticalPolarization){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
-                }else if( verticalPolarization ) {
+                }else if( this.verticalPolarization ) {
                     //this.button_arr[i][j].setLabel( colorY.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorY );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
