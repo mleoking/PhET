@@ -275,7 +275,7 @@ public class Model2 {
         var vY:Number = (syPos - previousSy)/realDt;
         this.vx_arr[i][j] = vX;
         this.vy_arr[i][j] = vY;
-        this.updateViews();  //needed in case sim is paused
+        if(this._paused){ this.updateViews(); }
         //trace("Model1.setXY  xPos = "+xPos+"    yPos = "+yPos);
         //trace("Model1.setXY i = " + i +"   j = " + j + "   sxPos = "+ sxPos +"    syPos = "+syPos);
     }
@@ -440,6 +440,8 @@ public class Model2 {
     public function computeModeAmplitudesAndPhases():void{
         //var counter:int = 0;         //for testing
         //var t0:Number = getTimer();
+        //Must have t = 0 for this to work
+        this._t = 0;
         var N:int  = this._N;
         var muX:Array = new Array( N + 1 );
         var nuX:Array = new Array( N + 1 );
@@ -476,7 +478,9 @@ public class Model2 {
             }//end for s loop
         } //end for r
         this._modesChanged = true;
+        this.setExactPositions();
         this.updateViews();
+        trace( "Model2.computeModeAmplitudesAndPhases called. time = " + this._t );
         //this._modesChanged = false;
 
         //for testing only: test shows takes 0.024 s to loop through 10000 times with no sine function calc. T
