@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculepolarity.control;
+package edu.colorado.phet.moleculepolarity.common.control;
 
 import java.awt.*;
 import java.awt.geom.*;

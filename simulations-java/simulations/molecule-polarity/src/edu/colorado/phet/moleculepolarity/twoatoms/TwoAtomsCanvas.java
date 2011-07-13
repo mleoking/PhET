@@ -8,14 +8,14 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
+import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
-import edu.colorado.phet.moleculepolarity.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.control.ModelControlPanel;
-import edu.colorado.phet.moleculepolarity.control.TestControlPanel;
-import edu.colorado.phet.moleculepolarity.control.ViewControlPanel;
 import edu.umd.cs.piccolo.PNode;
 
 /**

@@ -1,15 +1,13 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculepolarity.control;
+package edu.colorado.phet.moleculepolarity.common.control;
 
 import java.text.MessageFormat;
 
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
-import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
 /**
