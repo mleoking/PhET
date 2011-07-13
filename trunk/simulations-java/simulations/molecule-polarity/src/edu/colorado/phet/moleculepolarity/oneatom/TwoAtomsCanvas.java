@@ -23,9 +23,9 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OneAtomCanvas extends MPCanvas {
+public class TwoAtomsCanvas extends MPCanvas {
 
-    public OneAtomCanvas( OneAtomModel model, ViewProperties viewProperties, Frame parentFrame ) {
+    public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.getAtomA(), MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

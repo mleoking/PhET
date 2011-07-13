@@ -13,11 +13,11 @@ import edu.colorado.phet.moleculepolarity.common.model.MPModel;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OneAtomModel extends MPModel {
+public class TwoAtomsModel extends MPModel {
 
     private final Atom atomA, atomB;
 
-    public OneAtomModel() {
+    public TwoAtomsModel() {
         atomA = new Atom( MPStrings.A, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
         atomB = new Atom( MPStrings.B, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
     }

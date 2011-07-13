@@ -13,13 +13,13 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class OneAtomModule extends PiccoloModule {
+public class TwoAtomsModule extends PiccoloModule {
 
-    public OneAtomModule( Frame parentFrame ) {
-        super( MPStrings.ONE_ATOM, new MPClock() );
-        OneAtomModel model = new OneAtomModel();
+    public TwoAtomsModule( Frame parentFrame ) {
+        super( MPStrings.TWO_ATOMS, new MPClock() );
+        TwoAtomsModel model = new TwoAtomsModel();
         ViewProperties viewProperties = new ViewProperties();
-        setSimulationPanel( new OneAtomCanvas( model, viewProperties, parentFrame ) );
+        setSimulationPanel( new TwoAtomsCanvas( model, viewProperties, parentFrame ) );
         setClockControlPanel( null );
     }
 }

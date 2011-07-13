@@ -11,9 +11,9 @@ import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsCanvas extends MPCanvas {
+public class ThreeAtomsCanvas extends MPCanvas {
 
-    public TwoAtomsCanvas( Frame parentFrame, Resettable... resettable ) {
+    public ThreeAtomsCanvas( Frame parentFrame, Resettable... resettable ) {
         super( );
     }
 }
