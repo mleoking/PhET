@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.module.phasechanges;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -17,27 +17,30 @@ public class PhaseChangesModule extends PiccoloModule {
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private PhaseChangesCanvas  m_canvas;
+    private PhaseChangesCanvas m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-    
+
     public PhaseChangesModule( Frame parentFrame ) {
-        
-        super(StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE, 
-                new ConstantDtClock(PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT));
+
+        super( StatesOfMatterStrings.TITLE_PHASE_CHANGES_MODULE,
+               new ConstantDtClock( PhaseChangesDefaults.CLOCK_FRAME_DELAY, PhaseChangesDefaults.CLOCK_DT ) );
 
         // Model
-        m_model = new MultipleParticleModel( getClock() );
+        m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
         m_canvas = new PhaseChangesCanvas( m_model );
         setSimulationPanel( m_canvas );
-        
+
         // Control panel
         setControlPanel( new PhaseChangesControlPanel( this, parentFrame ) );
-        
+
+        // Turn off the clock control panel - a floating node is used for clock control.
+        setClockControlPanel( null );
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -46,11 +49,11 @@ public class PhaseChangesModule extends PiccoloModule {
         // Set initial state
         reset();
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    public MultipleParticleModel getMultiParticleModel(){
+    public MultipleParticleModel getMultiParticleModel() {
         return m_model;
     }
     //----------------------------------------------------------------------------
