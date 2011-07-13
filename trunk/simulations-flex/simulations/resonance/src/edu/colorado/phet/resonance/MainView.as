@@ -66,6 +66,7 @@ public class MainView extends Canvas {
     public function setNbrResonators( nbrR: int ): void {
         this.myShakerModel.setNbrResonators( nbrR );
         this.myShakerView.setNbrResonators( nbrR );
+        this.myControlPanel.setSelectedResonatorNbr();  //forces selected resonator number on control panel not to exceed nbr of resonators on shaker
     }
 
     public function initializeAll(): void {

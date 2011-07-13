@@ -39,6 +39,8 @@ public class ShakerView extends Sprite {
     //strings for internationalization
     public var driver_str: String;
     public var onSlashOff_str: String;
+    public var on_str:String;
+    public var off_str:String;
     public var frequency_str: String;
     public var hz_str: String;
     public var cm_str: String;
@@ -73,7 +75,7 @@ public class ShakerView extends Sprite {
         this.springHolder = new Sprite();
         this.createLabel();
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
-        this.onOffButton = new NiceButton2( 70, 30, onSlashOff_str, OnOrOff );
+        this.onOffButton = new NiceButton2( 70, 30, on_str, OnOrOff );
         this.onLight = new Sprite();
         this.glow = new GlowFilter( 0x0000ff, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
@@ -112,6 +114,8 @@ public class ShakerView extends Sprite {
     private function initializeStrings(): void {
         driver_str = FlexSimStrings.get("driver", "DRIVER"); //"DRIVER";
         onSlashOff_str = FlexSimStrings.get("onOrOff","on/off");
+        on_str = FlexSimStrings.get( "on", "ON");
+        off_str = FlexSimStrings.get( "off", "OFF");
         frequency_str = FlexSimStrings.get("frequency","frequency");
         hz_str = FlexSimStrings.get("hz","Hz");
         cm_str = FlexSimStrings.get("cm","cm");
@@ -190,12 +194,18 @@ public class ShakerView extends Sprite {
             //this.model.setResonatorsFreeRunning(true);
             this.model.stopShaker();
             this.drawOnLight( 0x000000 );
+            this.onOffButton.setLabel( on_str );
+            this.onOffButton.setBodyColor( 0x00ff00 );
+            this.onOffButton.setFontColor( 0x000000 );
             //this.model.stopMotion();
         }
         else {
             //this.model.setResonatorsFreeRunning(false);
             this.model.startShaker();
             this.drawOnLight( 0x0000ff );
+            this.onOffButton.setLabel( off_str );
+            this.onOffButton.setBodyColor( 0xff0000 );
+            this.onOffButton.setFontColor( 0xffffff );
             //this.model.startMotion();
         }
         //trace("ShakerVeiw.OnOrOff callled. model.running = "+this.model.getRunning());
