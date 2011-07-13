@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.view.TeeterTotterTorqueCanvas;
+import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
  * Main module for this tab.
@@ -21,7 +21,7 @@ public class TeeterTotterTorqueModule extends Module {
 
     private TeeterTotterTorqueModule( TeeterTotterTorqueModel model ) {
         // TODO: i18n
-        super( "Teeter Totter Torque", model.getClock() );
+        super( "Balance", model.getClock() );
         this.model = model;
         setSimulationPanel( new TeeterTotterTorqueCanvas( model ) );
         reset();
