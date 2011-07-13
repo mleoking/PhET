@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 
 import javax.swing.*;
@@ -20,7 +19,6 @@ import edu.colorado.phet.buildtools.gui.LocaleListPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUIProperties;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
-import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 
 public class JavaSimulationPanel extends JPanel {
@@ -87,18 +85,18 @@ public class JavaSimulationPanel extends JPanel {
         testPanel.add( testButton );
 
         //Add a button that allows the user to generate resources
-        controlPanel.add( new JButton( "Generate Resources" ) {{
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    try {
-                        new ResourceGenerator( trunk ).generateResources( "simulations-java/simulations/" + simulationList.getSelectedValue() );
-                    }
-                    catch ( IOException ioException ) {
-                        ioException.printStackTrace();
-                    }
-                }
-            } );
-        }} );
+//        controlPanel.add( new JButton( "Generate Resources" ) {{
+//            addActionListener( new ActionListener() {
+//                public void actionPerformed( ActionEvent e ) {
+//                    try {
+//                        new ResourceGenerator( trunk ).generateResources( "simulations-java/simulations/" + simulationList.getSelectedValue() );
+//                    }
+//                    catch ( IOException ioException ) {
+//                        ioException.printStackTrace();
+//                    }
+//                }
+//            } );
+//        }} );
 
         controlPanel.add( testPanel );
 
