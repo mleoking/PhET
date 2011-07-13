@@ -82,7 +82,7 @@ public class ButtonArrayPanel extends UIComponent{
     } //end constructor
 
     public function initializeStrings():void{
-        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y. Polarization: ");
+        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y. Polarization:");
     }
 
     /*
@@ -134,12 +134,12 @@ public class ButtonArrayPanel extends UIComponent{
     public function showVerticalPolarization( tOrF:Boolean ):void{
        if( tOrF ){
            this.arrowGraphic.rotation = 90;
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 3;
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 6;
            this.verticalPolarization = true;
            this.setButtonColors();
        }else{
            this.arrowGraphic.rotation = 0;
-           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 10;
+           this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 13;
            this.verticalPolarization = false;
            this.setButtonColors();
        }

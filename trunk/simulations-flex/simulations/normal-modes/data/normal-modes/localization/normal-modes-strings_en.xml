@@ -1,4 +1,20 @@
 <?xml version="1.0" ?>
 <SimStrings>
     <string key="normal-modes.simTitle" value = "Normal Modes"/>
+    <string key="start" value = "START"/>
+    <string key="stop" value = "STOP"/>
+    <string key="resetPositions" value = "Initial Positions"/>
+    <string key="zeroPositions" value = "Zero Positions"/>
+    <string key="polarization:" value = "Polarizaton:"/>
+    <string key="showPhases" value = "Show Phases"/>
+    <string key="showSprings" value = "Show Springs"/>
+    <string key="modeNumbersXY" value = "Mode numbers x, y. Polarization:"/>
+    <string key="normalMode:" value = "Normal Mode:"/>
+    <string key="amplitude:" value = "Amplitude:"/>
+    <string key="frequency:" value = "Frequency:"/>
+    <string key="omega" value = "w"/>
+    <string key="phase:" value = "Phase:"/>
+    <string key="plusPi:" value = "+p"/>
+    <string key="minusPi" value = "-p"/>
+    <string key="paused" value = "PAUSED"/>
 </SimStrings>

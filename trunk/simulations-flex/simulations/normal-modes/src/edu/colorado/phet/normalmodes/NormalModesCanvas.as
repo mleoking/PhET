@@ -21,7 +21,7 @@ public class NormalModesCanvas extends Canvas {
 
     public function init(): void {
         //trace("NormalModesCanvas.init() called");
-        setStyle( "backgroundColor", 0x99ffff );//same color as build an atom   0xffff99
+        setStyle( "backgroundColor", 0xf1f191 );  //build an atom color:  0xffff99
         percentWidth = 100;
         percentHeight = 100;
         //const res: NormalModes = new NormalModes( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util

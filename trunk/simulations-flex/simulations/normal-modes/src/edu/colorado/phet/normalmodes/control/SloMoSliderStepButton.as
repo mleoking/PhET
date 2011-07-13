@@ -24,7 +24,7 @@ import flash.text.TextFormat;
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
-public class PlayPauseButtons extends UIComponent {          //cannot extend Sprite, since contains an HSlider
+public class SloMoSliderStepButton extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
     private var myModel: Object; //Model1 or Model1, can change with setModel();
@@ -38,7 +38,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     private var simSpeed_txt:TextField;
     private var slow_txt:TextField;
     private var normal_txt:TextField;
-    private var playPause_txt: TextField;
+    //private var playPause_txt: TextField;
     private var singleStep_txt: TextField;
     private var sloMo_txt: TextField;
     private var paused_txt: TextField
@@ -60,7 +60,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     public var singleStep_str: String;
 
 
-    public function PlayPauseButtons( myMainView: MainView, myModel: Object ) {
+    public function SloMoSliderStepButton( myMainView: MainView, myModel: Object ) {
 
         this.initializeStrings();
 
@@ -76,7 +76,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.simSpeed_txt = new TextField();
         this.slow_txt = new TextField();
         this.normal_txt = new TextField();
-        this.playPause_txt = new TextField();
+        //this.playPause_txt = new TextField();
         this.paused_txt = new TextField();
         this.sloMo_txt = new TextField();
         this.singleStep_txt = new TextField();
@@ -185,7 +185,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         //this.myShakerModel.unPauseSim();
         this.playIcon.visible = false;
         this.pauseIcon.visible = true;
-        var thisObject: PlayPauseButtons = this;
+        var thisObject: SloMoSliderStepButton = this;
         //this.playPauseButton
         this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
         //this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
@@ -243,13 +243,10 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         }//end of buttonBehave
 
         function singleStep( evt: MouseEvent ): void {
-            if ( !thisObject.paused ) {
-                thisObject.paused = true;
-                thisObject.playIcon.visible = true;
-                thisObject.pauseIcon.visible = false;
-                //thisObject.playPause_txt.text = thisObject.pause_str;
-                thisObject.paused_txt.visible = true;
+            if ( !thisObject.myModel.paused ) {
                 thisObject.myModel.pauseSim();
+                thisObject.myMainView.myControlPanel.initializeStartStopButton();
+                thisObject.paused = true;
             }
             thisObject.myModel.singleStepWhenPaused();
         }
@@ -286,7 +283,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.setTextField( this.simSpeed_txt);
         this.setTextField(this.slow_txt);
         this.setTextField(this.normal_txt);
-        this.setTextField( this.playPause_txt );
+        //this.setTextField( this.playPause_txt );
         this.setTextField( this.singleStep_txt );
         this.setTextField( this.paused_txt );
         this.setTextField( this.sloMo_txt );
@@ -314,18 +311,18 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat1.size = 15;
         this.tFormat2.font = "Arial";
         this.tFormat2.bold = true;
-        this.tFormat2.color = 0xffff00;   //background is 0xffff99
+        this.tFormat2.color = 0xf1c100;   //background is 0xffff99
         this.tFormat2.size = 25;
         this.currentTime_txt.defaultTextFormat = this.tFormat0;
         this.slow_txt.setTextFormat( this.tFormat0 );
         this.normal_txt.setTextFormat( this.tFormat0 );
         this.tFormat0.italic = true;
         this.simSpeed_txt.setTextFormat( this.tFormat0 );
-        this.playPause_txt.setTextFormat( this.tFormat1 );
+        //this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );
         this.sloMo_txt.setTextFormat( this.tFormat2 );
-        this.playPause_txt.defaultTextFormat = this.tFormat1;
+        //this.playPause_txt.defaultTextFormat = this.tFormat1;
         this.singleStep_txt.defaultTextFormat = this.tFormat1;
         this.paused_txt.defaultTextFormat = this.tFormat2;
         this.sloMo_txt.defaultTextFormat = this.tFormat2;

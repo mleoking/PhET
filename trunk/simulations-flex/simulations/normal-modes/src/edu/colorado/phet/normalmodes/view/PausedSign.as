@@ -30,7 +30,7 @@ public class PausedSign extends UIComponent {
         paused_str = FlexSimStrings.get("paused", "PAUSED");
         tFormat.font = "Arial";
         tFormat.size = 80;
-        tFormat.color = 0xffff00;
+        tFormat.color = 0xffcc00;
         paused_txt.text = paused_str;
         paused_txt.selectable = false;
         paused_txt.autoSize = TextFieldAutoSize.CENTER;
