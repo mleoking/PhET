@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculepolarity.twoatoms;
+package edu.colorado.phet.moleculepolarity.threeatoms;
 
 import java.awt.*;
 
@@ -14,6 +14,6 @@ import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 public class ThreeAtomsCanvas extends MPCanvas {
 
     public ThreeAtomsCanvas( Frame parentFrame, Resettable... resettable ) {
-        super( );
+        super();
     }
 }
