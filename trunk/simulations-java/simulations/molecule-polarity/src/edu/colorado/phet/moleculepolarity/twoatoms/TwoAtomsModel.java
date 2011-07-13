@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculepolarity.oneatom;
+package edu.colorado.phet.moleculepolarity.twoatoms;
 
 import java.awt.*;
 

@@ -6,9 +6,9 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.moleculepolarity.oneatom.TwoAtomsModule;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
 import edu.colorado.phet.moleculepolarity.threeatoms.ThreeAtomsModule;
+import edu.colorado.phet.moleculepolarity.twoatoms.TwoAtomsModule;
 
 /**
  * Main class for the "Molecule Polarity" application.
