@@ -1,0 +1,43 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 6-12, 2011
+
+Hydrogen Atom
+- #2803, completed "Excite Atom" feature for Schrodinger metastable state (awaiting verification)
+
+Molecule Polarity
+- design meeting
+- set up project and skeleton in SVN
+- implemented many parts of the "One Atom" tab
+- described 3D requirements for SR and JO
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Common
+- #127, replaced duplicate copies of IntensitySlider
+- #3000, fixed seam in IntensitySlider
+
+Environment
+- investigated problem with Scala plugin in IntelliJ
+
+WHAT'S NEXT:
+
+- Molecule Polarity sim
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 4-9
+- August 22 - September 2
+- September 28 - October 2
+- October 19-29
+
+--
