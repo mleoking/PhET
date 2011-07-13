@@ -39,9 +39,9 @@ public class MassView2 extends Sprite{
     private function drawMass():void{
         var g:Graphics = this.graphics;
         g.clear();
-        g.lineStyle(3, 0xffffff, 1);
+        g.lineStyle(3, 0x0000cc, 1);
         var d:Number = 20;   //edge length of square mass in pixels
-        g.beginFill(0x000000, 1);
+        g.beginFill(0x2222ff, 1);
         //g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
         //g.drawCircle(-d/2, -d/2, d/2)
         g.drawCircle(0, 0, d/2)

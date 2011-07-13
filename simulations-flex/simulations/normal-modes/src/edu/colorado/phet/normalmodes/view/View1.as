@@ -85,7 +85,22 @@ public class View1 extends Sprite {
             }
             var g:Graphics = this.spring_arr[i].graphics;
             g.clear();
-            g.lineStyle( 2, 0xfffe65, 1, true, LineScaleMode.NONE  );
+
+            /*
+            var delY:int = 2;
+            var delX:int = -1;
+            g.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE  );
+            g.moveTo( 0, 0 );
+            g.moveTo(leadL + delX , delY);
+            for(var j:int = 0; j < nTurns; j++){
+                g.lineTo( leadL + j*w + w/4+ delX, r + delY );
+                g.moveTo( leadL + j*w + 3*w/4 + delX , -r + delY );
+                g.lineTo( leadL + j*w + w + delX ,  0 + delY  );
+            }//end for j
+            g.moveTo( this.L0Spring + delX , delY );
+            */
+
+            g.lineStyle( 3, 0xff0000, 1, true, LineScaleMode.NONE  );
             g.moveTo( 0, 0 );
             g.lineTo(leadL, 0);
             for(var j:int = 0; j < nTurns; j++){
@@ -94,6 +109,7 @@ public class View1 extends Sprite {
                 g.lineTo( leadL + j*w + w,  0 );
             }//end for j
             g.lineTo( this.L0Spring, 0 );
+
         }//end for i
     }//end drawSprings()
 

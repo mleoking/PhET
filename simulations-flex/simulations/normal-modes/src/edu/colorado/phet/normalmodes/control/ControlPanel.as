@@ -280,6 +280,9 @@ public class ControlPanel extends Canvas {
         var shown: Boolean = this.showSpringsCheckBox.selected;
         this.myMainView.myView2.springsVisible = shown;
         this.myMainView.myView1.springsVisible = shown;
+        //var nbrM:Number = this.nbrMassesSlider.getVal();
+        //this.myModel.setN ( nbrM );
+        this.myModel.updateViews();
         //trace( "ControlPanel.clickShowSprings = " + shown);
     }
 

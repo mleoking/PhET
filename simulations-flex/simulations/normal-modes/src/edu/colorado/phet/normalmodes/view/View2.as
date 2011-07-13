@@ -126,7 +126,7 @@ public class View2 extends Sprite {
                 for( var k:int = 0; k < 2; k++ ){
                     var g:Graphics = g_arr[k];
                     g.clear();
-                    g.lineStyle( 2, 0xffcc32, 1, true, LineScaleMode.NONE );
+                    g.lineStyle( 3, 0xff0000, 1, true, LineScaleMode.NONE );
                     g.moveTo( 0, 0 );
                     g.lineTo(leadL, 0);
                     for(var t:int = 0; t < nTurns; t++){
