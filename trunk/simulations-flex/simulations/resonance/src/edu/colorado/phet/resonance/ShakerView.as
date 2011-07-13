@@ -75,7 +75,7 @@ public class ShakerView extends Sprite {
         //NiceButton2(myButtonWidth:Number, myButtonHeight:Number, labelText:String, buttonFunction:Function)
         this.onOffButton = new NiceButton2( 70, 30, onSlashOff_str, OnOrOff );
         this.onLight = new Sprite();
-        this.glow = new GlowFilter( 0xff0000, 0.5, 8, 8, 10 );
+        this.glow = new GlowFilter( 0x0000ff, 0.5, 8, 8, 10 );
         this.glow.quality = BitmapFilterQuality.HIGH;
         //RotaryKnob(action:Function, knobDiameter:Number, knobColor:Number, minTurns:Number, maxTurns:Number)
         this.fKnob = new RotaryKnob( changeF, 40, 0x00ff00, 0, 6 );
@@ -195,7 +195,7 @@ public class ShakerView extends Sprite {
         else {
             //this.model.setResonatorsFreeRunning(false);
             this.model.startShaker();
-            this.drawOnLight( 0xff0000 );
+            this.drawOnLight( 0x0000ff );
             //this.model.startMotion();
         }
         //trace("ShakerVeiw.OnOrOff callled. model.running = "+this.model.getRunning());
