@@ -6,7 +6,10 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
+import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.control.ElectronegativityControlNode;
@@ -44,14 +47,26 @@ public class OneAtomCanvas extends MPCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
         addChild( resetAllButtonNode );
 
+        NegativeEFieldPlateNode negativeEFieldPlateNode = new NegativeEFieldPlateNode( model.eField );
+        addChild( negativeEFieldPlateNode );
+
+        PositiveEFieldPlateNode positiveEFieldPlateNode = new PositiveEFieldPlateNode( model.eField );
+        addChild( positiveEFieldPlateNode );
+
         // layout
         {
-            enControlA.setOffset( 100, 100 );
-            enControlB.setOffset( 400, 100 );
-            modelControlsNode.setOffset( 600, 100 );
-            viewControlsNode.setOffset( 600, 250 );
-            testControlsNode.setOffset( 600, 400 );
-            resetAllButtonNode.setOffset( 600, 550 );
+            final double xSpacing = 50;
+            final double ySpacing = 10;
+            negativeEFieldPlateNode.setOffset( 30, 60 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
+            enControlA.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
+            enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
+            positiveEFieldPlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
+            modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
+            viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+
+
         }
     }
 }
