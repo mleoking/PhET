@@ -12,7 +12,7 @@ import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
-import edu.colorado.phet.normalmodes.control.PlayPauseButtons;
+import edu.colorado.phet.normalmodes.control.SloMoSliderStepButton;
 import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
@@ -33,7 +33,7 @@ public class MainView extends Canvas {
     public var myView1: View1;         //view for Model1
     public var myView2: View2;         //view for Model2
 
-    public var myPlayPauseButtons: PlayPauseButtons;
+    public var myPlayPauseButtons: SloMoSliderStepButton;
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
@@ -68,7 +68,6 @@ public class MainView extends Canvas {
         tabBar.addListener( function(): void {
             if ( tabBar.selectedTab == oneDTab ) {
                 set1DOr2D( 1 );
-
             }
             else { // advanced tab
                 set1DOr2D( 2 );
@@ -88,7 +87,7 @@ public class MainView extends Canvas {
         this.myView2.x = 0 * stageW;
         this.myView2.y = 0 * stageH;
 
-        this.myPlayPauseButtons = new PlayPauseButtons( this, myModel1 );
+        this.myPlayPauseButtons = new SloMoSliderStepButton( this, myModel1 );
         this.myPlayPauseButtons.x = 0.93 * stageW ;           // hard-coded, unfortunately
         this.myPlayPauseButtons.y = 0.50 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
@@ -107,7 +106,7 @@ public class MainView extends Canvas {
 
         this.myPausedSign = new PausedSign( this.myModel1 );
         this.myPausedSign.x = 0.32*stageW;
-        this.myPausedSign.y = 0.8*stageH;
+        this.myPausedSign.y = 0.1*stageH;
 
         this.phetLogo = new PhetIcon();
 
@@ -131,12 +130,11 @@ public class MainView extends Canvas {
     }//end of constructor
 
     public function set1DOr2D(oneOrTwo:int):void{
+        this.myModel1.pauseSim();
+        this.myModel2.pauseSim();
+        this.myControlPanel.initializeStartStopButton();
         if(oneOrTwo == 1){
             this.oneDMode = true;
-            //this.myModel1.stopMotion();
-            //this.myModel2.stopMotion();
-            this.myModel1.pauseSim();
-            this.myModel2.pauseSim();
             this.myView1.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
@@ -148,10 +146,6 @@ public class MainView extends Canvas {
             this.myControlPanel.showPhasesVisible( true );
         }else if(oneOrTwo == 2){
             this.oneDMode = false;
-            //this.myModel1.stopMotion();
-            //this.myModel2.stopMotion();
-            this.myModel1.pauseSim();
-            this.myModel2.pauseSim();
             this.myView1.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
@@ -162,6 +156,7 @@ public class MainView extends Canvas {
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
             this.myControlPanel.showPhasesVisible( false );
         }
+
     }//end set1DOr2D
 
     public function initializeAll(): void {

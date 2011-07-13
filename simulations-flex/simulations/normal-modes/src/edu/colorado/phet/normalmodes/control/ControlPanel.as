@@ -40,11 +40,11 @@ public class ControlPanel extends Canvas {
 
     //Type of Mode radio buttons
     private var innerBckgrnd1: VBox;
-    private var modeTypeLabel: NiceLabel;
+    private var polarizationLabel: NiceLabel;
     private var modeTypeHBox: HBox;
     private var directionOfMode_rbg: RadioButtonGroup;
-    private var rightLeftModeButton: RadioButton;
-    private var upDownModeButton: RadioButton;
+    private var horizPolarizationButton: RadioButton;
+    private var vertPolarizationButton: RadioButton;
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
 
@@ -61,26 +61,23 @@ public class ControlPanel extends Canvas {
 
     //internationalized strings
     public var numberOfMasses_str: String;
-    public var resetTime_str:String;
-    public var resetPositions_str: String;
+    public var resetPositions_str:String;
+    public var zeroPositions_str: String;
     public var polarization_str: String;
-    public var startStop_str:String;
-    public var resetAll_str: String;
-    public var oneD_str: String;
-    public var twoD_str: String;
+    public var start_str:String;
+    public var stop_str:String;
+    //public var resetAll_str: String;
+    //public var oneD_str: String;
+    //public var twoD_str: String;
     public var showPhases_str:String;
     public var showSprings_str:String;
-
 
 
     public function ControlPanel( myMainView: MainView, model1: Object ) {
         super();
         this.myMainView = myMainView;
         this.myModel = model1;
-        //this.myModel1 = model1;
-        //this.myModel2 = model2;
         this.init();
-
     }//end of constructor
 
     public function addSprite( s: Sprite ): void {
@@ -93,7 +90,7 @@ public class ControlPanel extends Canvas {
 
         this.background = new VBox();
         with ( this.background ) {
-            setStyle( "backgroundColor", 0x66ff66 );
+            setStyle( "backgroundColor", 0x88ff88 );
             setStyle( "borderStyle", "solid" )
             setStyle( "borderColor", 0x009900 );
             setStyle( "cornerRadius", 10 );
@@ -108,9 +105,8 @@ public class ControlPanel extends Canvas {
 
         this.innerBckgrnd1 = new VBox();
         with ( this.innerBckgrnd1 ) {
-            setStyle( "backgroundColor", 0x66ff66 );   //0xdddd00
+            setStyle( "backgroundColor", 0x88ff88 );   //0xdddd00
             percentWidth = 100;
-            //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
             setStyle( "borderColor", 0x0000ff );
             setStyle( "cornerRadius", 6 );
@@ -120,22 +116,22 @@ public class ControlPanel extends Canvas {
             setStyle( "paddingRight", 3 );
             setStyle( "paddingLeft", 8 );
             setStyle( "verticalGap", 0 );
-            setStyle( "horizontalAlign" , "left" );
+            setStyle( "horizontalAlign" , "center" );
         }
 
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.paused = true;
-        this.startStopButton = new NiceButton2( 120, 25, startStop_str, startStop, 0x009900, 0xffffff );
-        this.resetTimeButton = new NiceButton2( 120, 25, resetTime_str, resetTime, 0xffff00, 0x000000  )
-        this.zeroPositionsButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xff0000, 0xffffff );
-        this.modeTypeLabel = new NiceLabel( 12, polarization_str );
-        //Set up rightLeft vs. upDown radio button box
+        this.startStopButton = new NiceButton2( 100, 25, start_str, startStop, 0x00ff00, 0x000000 );
+        this.resetTimeButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000  )
+        this.zeroPositionsButton = new NiceButton2( 120, 25, zeroPositions_str, zeroPositions, 0xff0000, 0xffffff );
+        this.polarizationLabel = new NiceLabel( 12, polarization_str );
+        //Set up polarization radio button box
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
-        this.rightLeftModeButton = new RadioButton();
-        this.upDownModeButton = new RadioButton();
+        this.horizPolarizationButton = new RadioButton();
+        this.vertPolarizationButton = new RadioButton();
         this.horizArrow = new TwoHeadedArrow();
         this.horizArrow.height = 10;
         this.horizArrow.width = 20;
@@ -147,12 +143,12 @@ public class ControlPanel extends Canvas {
         this.vertArrow.rotation = -90;
         this.vertArrow.x = 5;
 
-        this.rightLeftModeButton.group = directionOfMode_rbg;
-        this.upDownModeButton.group = directionOfMode_rbg;
-        this.rightLeftModeButton.value = 1;
-        this.upDownModeButton.value = 0;
-        this.rightLeftModeButton.selected = false;
-        this.upDownModeButton.selected = true;
+        this.horizPolarizationButton.group = directionOfMode_rbg;
+        this.vertPolarizationButton.group = directionOfMode_rbg;
+        this.horizPolarizationButton.value = 1;
+        this.vertPolarizationButton.value = 0;
+        this.horizPolarizationButton.selected = false;
+        this.vertPolarizationButton.selected = true;
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, setPolarization );
 
         this.innerBckgrnd3 = new HBox();
@@ -170,16 +166,12 @@ public class ControlPanel extends Canvas {
 
         //Layout of components
         this.addChild( this.background );
-        this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
 
-        //Mode type radio buttons
-        this.background.addChild( this.innerBckgrnd1 );
-        this.innerBckgrnd1.addChild( new SpriteUIComponent( this.modeTypeLabel));
-        this.innerBckgrnd1.addChild( this.modeTypeHBox );
-        this.modeTypeHBox.addChild( this.rightLeftModeButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
-        this.modeTypeHBox.addChild( this.upDownModeButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
+        this.background.addChild( new SpriteUIComponent( this.startStopButton, true ));
+        this.background.addChild( new SpriteUIComponent( this.resetTimeButton, true ));
+        this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ));
+
+        this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));
 
         this.background.addChild( innerBckgrnd4 );
         this.innerBckgrnd4.addChild( showSpringsCheckBox );
@@ -189,25 +181,28 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd3.addChild( showPhasesCheckBox );
         this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
 
-        this.background.addChild( new SpriteUIComponent( this.startStopButton, true ));
-        this.background.addChild( new SpriteUIComponent( this.resetTimeButton, true ));
-        this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ));
+        //Mode type radio buttons
+        this.background.addChild( this.innerBckgrnd1 );
+        this.innerBckgrnd1.addChild( new SpriteUIComponent( this.polarizationLabel));
+        this.innerBckgrnd1.addChild( this.modeTypeHBox );
+        this.modeTypeHBox.addChild( this.horizPolarizationButton );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
+        this.modeTypeHBox.addChild( this.vertPolarizationButton );
+        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
 
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
 
     public function initializeStrings(): void {
-        numberOfMasses_str = FlexSimStrings.get("numberOfMasses", "Number of Masses");
-        startStop_str = FlexSimStrings.get( "startStop", "Start/Stop");
-        resetTime_str = FlexSimStrings.get( "resetTime", "Initial Positions" );
-        resetPositions_str = FlexSimStrings.get("resetPositions", "Zero Positions");
-        polarization_str = FlexSimStrings.get("polarization:", "Polarizaton:");
-        resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
-        oneD_str = FlexSimStrings.get("oneD", "1D");
-        twoD_str = FlexSimStrings.get("twoD", "2D");
-        showPhases_str = FlexSimStrings.get("showPhases", "Show Phases");
-        showSprings_str = FlexSimStrings.get("showSprings", "Show Springs");
+        start_str = FlexSimStrings.get( "start", "START" );
+        stop_str = FlexSimStrings.get( "stop", "STOP" );
+        resetPositions_str = FlexSimStrings.get( "resetPositions", "Initial Positions" );
+        zeroPositions_str = FlexSimStrings.get( "zeroPositions", "Zero Positions");
+        numberOfMasses_str = FlexSimStrings.get( "numberOfMasses", "Number of Masses");
+        polarization_str = FlexSimStrings.get( "polarization:", "Polarizaton:");
+        showPhases_str = FlexSimStrings.get( "showPhases", "Show Phases");
+        showSprings_str = FlexSimStrings.get( "showSprings", "Show Springs");
     }
 
     private function setNbrMasses():void{
@@ -221,7 +216,7 @@ public class ControlPanel extends Canvas {
     public function setNbrMassesExternally( nbrM: int ): void {
         this.nbrMassesSlider.setVal( nbrM );
         this.myModel.setN( nbrM );
-        this.resetPositions();
+        this.zeroPositions();
     }
 
     public function setModel( currentModel: Object ):void{
@@ -229,23 +224,44 @@ public class ControlPanel extends Canvas {
     }
 
     private function startStop():void{
-        if(this.myModel.paused){
+        if(this.myModel.paused){     //if paused, unPause sim,
             //this.paused = false;
             this.myModel.unPauseSim();
+            this.startStopButton.setLabel( stop_str );
+            this.startStopButton.setBodyColor( 0xff0000 );  //red
+            this.startStopButton.setFontColor( 0xffffff );  //white
         }else{
             //this.paused = true;
             this.myModel.pauseSim();
+            this.startStopButton.setLabel( start_str );
+            this.startStopButton.setBodyColor( 0x00ff00 );  //green
+            this.startStopButton.setFontColor( 0x000000 );  //black
         }
     }//end startStop()
 
-    private function resetTime():void{
-        this.myModel.t = 0;
-        //this.myModel.updateViews();
-        this.myModel.pauseSim();
-        //this.paused = true;
+    public function initializeStartStopButton():void{
+        if(!this.myModel.paused){     //if not paused, set button to say STOP
+            this.startStopButton.setLabel( stop_str );
+            this.startStopButton.setBodyColor( 0xff0000 );  //red
+            this.startStopButton.setFontColor( 0xffffff );  //white
+        }else{      //else if paused, set button to say START
+            this.startStopButton.setLabel( start_str );
+            this.startStopButton.setBodyColor( 0x00ff00 );  //green
+            this.startStopButton.setFontColor( 0x000000 );  //black
+        }
     }
 
     private function resetPositions():void{
+        this.myModel.t = 0;
+        //this.myModel.updateViews();
+        this.myModel.pauseSim();
+        this.startStopButton.setLabel( start_str );
+        this.startStopButton.setBodyColor( 0x00ff00 );  //green
+        this.startStopButton.setFontColor( 0x000000 );  //black
+        //this.paused = true;
+    }
+
+    private function zeroPositions():void{
         //Doesn't matter if in 1D or 2D mode, want all modes zeroed.
         this.myModel.initializeKinematicArrays();
         this.myModel.zeroModeArrays();

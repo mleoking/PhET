@@ -148,7 +148,7 @@ public class HorizontalSlider extends Sprite {
         var kH: Number = 10; //knob height
         //gK.drawRoundRect(-kW/2, -kH/2, kW, kH, 3);
         with(gK){
-            lineStyle( 1, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
+            lineStyle( 2, 0x0000ff, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
             beginFill(0x00ff00);
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
             moveTo( 0, -0.5*kH);

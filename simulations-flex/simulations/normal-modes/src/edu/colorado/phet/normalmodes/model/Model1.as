@@ -235,6 +235,7 @@ public class Model1 {
 
     public function set xModes( tOrF:Boolean ):void{
         this._xModes = tOrF;
+        this.updateViews();
     }
 
     //obsolete function

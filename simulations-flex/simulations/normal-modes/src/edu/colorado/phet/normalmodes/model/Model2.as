@@ -301,6 +301,7 @@ public class Model2 {
     //set polarization in x-direction or y-direction
     public function set xModes( tOrF:Boolean ):void{
         this._xModes = tOrF;
+        this.updateViews();
     }
 
     public function get xModes():Boolean{
@@ -474,8 +475,8 @@ public class Model2 {
                 } //end for i loop
                 this.modeAmpliX_arr[r][s] = Math.sqrt( muX[r][s]*muX[r][s] + nuX[r][s]*nuX[r][s] );
                 this.modeAmpliY_arr[r][s] = Math.sqrt( muY[r][s]*muY[r][s] + nuY[r][s]*nuY[r][s] );
-                this.modePhaseX_arr[r][s] = Math.atan2( - nuX[r][s],  muX[r][s]);
-                this.modePhaseY_arr[r][s] = Math.atan2( - nuY[r][s],  muY[r][s]);
+                this.modePhaseX_arr[r][s] = Math.atan2(  nuX[r][s],  muX[r][s]);
+                this.modePhaseY_arr[r][s] = Math.atan2(  nuY[r][s],  muY[r][s]);
                 //this.modePhaseX_arr[r] = Math.atan2( -nu[ r ], mu[ r ]) ;
             }//end for s loop
         } //end for r

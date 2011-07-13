@@ -68,6 +68,7 @@ public class NiceButton2 extends Sprite {
 
     public function setFontColor( color:Number ):void{
         this.fontColor = color;
+        this.setTFormat();
     }
 
 //        public function changeLabel(label:String):void{
