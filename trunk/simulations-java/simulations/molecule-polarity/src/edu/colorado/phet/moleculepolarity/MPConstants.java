@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculepolarity;
 import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 
 /**
@@ -26,5 +27,7 @@ public class MPConstants {
 
     // View
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
-    public static final PhetFont TITLED_BORDER_FONT = new PhetFont( Font.BOLD, 16 );
+    public static final Color NEGATIVE_COLOR = Color.BLUE;
+    public static final Color POSITIVE_COLOR = PhetColorScheme.RED_COLORBLIND;
+    public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
 }
