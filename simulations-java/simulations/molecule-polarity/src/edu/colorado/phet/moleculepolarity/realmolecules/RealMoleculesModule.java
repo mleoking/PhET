@@ -17,5 +17,6 @@ public class RealMoleculesModule extends PiccoloModule {
     public RealMoleculesModule( Frame parentFrame ) {
         super( MPStrings.REAL_MOLECULES, new MPClock() );
         setSimulationPanel( new RealMoleculesCanvas( parentFrame ) );
+        setClockControlPanel( null );
     }
 }

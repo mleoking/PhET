@@ -17,5 +17,6 @@ public class TwoAtomsModule extends PiccoloModule {
     public TwoAtomsModule( Frame parentFrame ) {
         super( MPStrings.TWO_ATOMS, new MPClock() );
         setSimulationPanel( new TwoAtomsCanvas( parentFrame ) );
+        setClockControlPanel( null );
     }
 }
