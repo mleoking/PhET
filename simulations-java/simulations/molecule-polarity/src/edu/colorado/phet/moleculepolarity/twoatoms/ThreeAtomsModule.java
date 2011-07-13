@@ -12,11 +12,11 @@ import edu.colorado.phet.moleculepolarity.common.model.MPClock;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsModule extends PiccoloModule {
+public class ThreeAtomsModule extends PiccoloModule {
 
-    public TwoAtomsModule( Frame parentFrame ) {
-        super( MPStrings.TWO_ATOMS, new MPClock() );
-        setSimulationPanel( new TwoAtomsCanvas( parentFrame ) );
+    public ThreeAtomsModule( Frame parentFrame ) {
+        super( MPStrings.THREE_ATOMS, new MPClock() );
+        setSimulationPanel( new ThreeAtomsCanvas( parentFrame ) );
         setClockControlPanel( null );
     }
 }

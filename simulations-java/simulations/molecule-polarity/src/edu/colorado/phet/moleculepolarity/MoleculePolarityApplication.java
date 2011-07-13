@@ -6,9 +6,9 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.moleculepolarity.oneatom.OneAtomModule;
+import edu.colorado.phet.moleculepolarity.oneatom.TwoAtomsModule;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
-import edu.colorado.phet.moleculepolarity.twoatoms.TwoAtomsModule;
+import edu.colorado.phet.moleculepolarity.twoatoms.ThreeAtomsModule;
 
 /**
  * Main class for the "Molecule Polarity" application.
@@ -20,8 +20,8 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication  {
     public MoleculePolarityApplication( PhetApplicationConfig config ) {
         super( config );
         Frame parentFrame = getPhetFrame();
-        addModule( new OneAtomModule( parentFrame ) );
         addModule( new TwoAtomsModule( parentFrame ) );
+        addModule( new ThreeAtomsModule( parentFrame ) );
         addModule( new RealMoleculesModule( parentFrame ) );
     }
 
