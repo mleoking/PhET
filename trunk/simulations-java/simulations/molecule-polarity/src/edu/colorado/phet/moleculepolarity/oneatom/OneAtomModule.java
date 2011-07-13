@@ -20,5 +20,6 @@ public class OneAtomModule extends PiccoloModule {
         OneAtomModel model = new OneAtomModel();
         ViewProperties viewProperties = new ViewProperties();
         setSimulationPanel( new OneAtomCanvas( model, viewProperties, parentFrame ) );
+        setClockControlPanel( null );
     }
 }
