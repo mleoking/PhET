@@ -18,8 +18,8 @@ public class TwoAtomsModel extends MPModel {
     private final Atom atomA, atomB;
 
     public TwoAtomsModel() {
-        atomA = new Atom( MPStrings.A, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
-        atomB = new Atom( MPStrings.B, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
+        atomA = new Atom( MPStrings.A, 30, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
+        atomB = new Atom( MPStrings.B, 30, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
     }
 
     @Override public void reset() {
