@@ -114,7 +114,7 @@ public class VerticalRuler extends Sprite{
             label_txt.setTextFormat( this.tFormat );
             this.ruler.addChild(label_txt);
             label_txt.x = 0.5*this.ruler.width - 0.75*label_txt.width;
-            label_txt.y = 0.05*( 1 + i )*this.pixPerMeter - 0.5*label_txt.height;// - 0.5*label_txt.height;
+            label_txt.y = this.ruler.height - 0.05*( 1 + i )*this.pixPerMeter - 0.5*label_txt.height;
         }
     }
 

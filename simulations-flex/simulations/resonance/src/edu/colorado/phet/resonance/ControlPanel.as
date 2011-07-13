@@ -311,19 +311,18 @@ public class ControlPanel extends Canvas {
         this.setSelectedResonatorNbr();
     }
 
-    private function setSelectedResonatorNbr():void{
-       var maxNbrR:Number = this.nbrResonatorsSlider.getVal();  //number of resonators shown
-       var inputText:String  = this.resonatorNbrLabel.label_txt.text;
-       var inputNumber:Number = Number(inputText);
-       if(inputNumber < 1){
-               inputNumber = 1;
-       }else if (inputNumber > 10){
-               inputNumber = 9;
-      }else if (inputNumber >  maxNbrR){  //user cannot choose resonator unless it is shown
-               inputNumber = maxNbrR;
-      }
-      this.setResonatorIndex( inputNumber )
-
+    public function setSelectedResonatorNbr():void{
+        var maxNbrR:Number = this.nbrResonatorsSlider.getVal();   //number of resonators shown on shaker
+        var inputText:String  = this.resonatorNbrLabel.label_txt.text;
+        var inputNumber:Number = Number(inputText);
+        if(inputNumber < 1){
+            inputNumber = 1;
+        }else if (inputNumber > 10){
+            inputNumber = 9;
+        }else if (inputNumber >  maxNbrR){  //user cannot choose resonator unless it is shown
+            inputNumber = maxNbrR;
+        }
+        this.setResonatorIndex( inputNumber )
     } //end setSelectedResonatorNbr()
 
     private function setFreqLabel(): void {
