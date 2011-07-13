@@ -8,14 +8,14 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculepolarity.oneatom.TwoAtomsModule;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
-import edu.colorado.phet.moleculepolarity.twoatoms.ThreeAtomsModule;
+import edu.colorado.phet.moleculepolarity.threeatoms.ThreeAtomsModule;
 
 /**
  * Main class for the "Molecule Polarity" application.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class MoleculePolarityApplication extends PiccoloPhetApplication  {
+public class MoleculePolarityApplication extends PiccoloPhetApplication {
 
     public MoleculePolarityApplication( PhetApplicationConfig config ) {
         super( config );
