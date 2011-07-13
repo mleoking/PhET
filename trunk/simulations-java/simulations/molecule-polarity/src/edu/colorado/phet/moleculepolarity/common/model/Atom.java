@@ -16,10 +16,12 @@ public class Atom implements Resettable {
     public final Property<Double> electronegativity;
 
     private final String name;
+    private final double diameter;
     private final Color color;
 
-    public Atom( String name, Color color, double electronegativity ) {
+    public Atom( String name, double diameter, Color color, double electronegativity ) {
         this.name = name;
+        this.diameter = diameter;
         this.color = color;
         this.electronegativity = new Property<Double>( electronegativity );
     }
@@ -30,6 +32,10 @@ public class Atom implements Resettable {
 
     public String getName() {
         return name;
+    }
+
+    public double getDiameter() {
+        return diameter;
     }
 
     public Color getColor() {

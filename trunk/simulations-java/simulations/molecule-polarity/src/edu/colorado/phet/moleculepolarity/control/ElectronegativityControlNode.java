@@ -32,7 +32,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ElectronegativityControlNode extends PhetPNode {
 
-     // track
+    // track
     private static final PDimension TRACK_SIZE = new PDimension( 125, 5 );
     private static final Color TRACK_FILL_COLOR = Color.LIGHT_GRAY;
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
@@ -67,7 +67,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         final PanelNode panelNode = new PanelNode( atom, range, snapInterval );
         String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.getName() );
         TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, atom.getColor(), panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
-        addChild(  backgroundNode );
+        addChild( backgroundNode );
 
         atom.electronegativity.addObserver( new SimpleObserver() {
             public void update() {
@@ -88,9 +88,9 @@ public class ElectronegativityControlNode extends PhetPNode {
 
         public TitledBackgroundNode( String title, final Color fillColor, PNode child, double xMargin, double yMargin ) {
 
-             PText titleNode = new PText( title ) {{
-                 setFont( new PhetFont( 20 ) );
-             }};
+            PText titleNode = new PText( title ) {{
+                setFont( new PhetFont( 20 ) );
+            }};
 
             double panelWidth = Math.max( titleNode.getFullBoundsReference().getWidth(), child.getFullBoundsReference().getWidth() ) + ( 2 * xMargin );
             double panelHeight = ( titleNode.getFullBoundsReference().getHeight() / 2 ) + child.getFullBoundsReference().getHeight() + Y_SPACING;
@@ -289,8 +289,8 @@ public class ElectronegativityControlNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        Color paleYellow =  new Color( 253, 255, 213 );
-        final Atom atom = new Atom( "Y", paleYellow, 3 );
+        Color paleYellow = new Color( 253, 255, 213 );
+        final Atom atom = new Atom( "Y", 30, paleYellow, 3 );
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 System.out.println( "electronegativity=" + value );
