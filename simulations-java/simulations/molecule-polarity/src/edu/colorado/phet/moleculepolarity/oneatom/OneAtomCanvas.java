@@ -37,7 +37,7 @@ public class OneAtomCanvas extends MPCanvas {
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties ) );
         addChild( viewControlsNode );
 
-        PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eFieldEnabled ) );
+        PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
         addChild( testControlsNode );
 
         Resettable[] resettables = new Resettable[] { model, viewProperties };
