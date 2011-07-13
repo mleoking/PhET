@@ -17,7 +17,6 @@ import edu.colorado.phet.moleculepolarity.control.ModelControlPanel;
 import edu.colorado.phet.moleculepolarity.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.control.ViewControlPanel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Canvas for the "One Atom" module.
