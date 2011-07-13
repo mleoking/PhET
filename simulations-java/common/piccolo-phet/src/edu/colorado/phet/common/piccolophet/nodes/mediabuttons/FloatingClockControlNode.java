@@ -22,6 +22,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * Shows the play/pause button and step button without a container, useful when the
  * clock control buttons should be displayed in the play area.
+ * <p/>
+ * One important note about this control: It does NOT actually pause or resume
+ * the clock.  This is because doing so directly messes with the functionality
+ * that pauses the clock when a tab (a.k.a. module) is not visible.  So, the
+ * user of this class must provide a boolean property that has an attached
+ * observer that does the pausing and resuming.
  *
  * @author Sam Reid
  */
