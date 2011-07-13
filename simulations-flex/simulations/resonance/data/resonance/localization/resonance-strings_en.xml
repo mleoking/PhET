@@ -2,7 +2,8 @@
 <SimStrings>
     <string key="resonance.simTitle" value = "Resonance"/>
     <string key="driver" value = "DRIVER"/>
-    <string key="onOrOff" value = "on/off"/>
+    <string key="on" value = "ON"/>
+    <string key="off" value = "OFF"/>
     <string key="frequency" value = "frequency" />
     <string key="hz" value = "Hz"/>
     <string key="cm" value = "cm" />

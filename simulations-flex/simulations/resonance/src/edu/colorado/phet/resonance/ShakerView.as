@@ -38,7 +38,7 @@ public class ShakerView extends Sprite {
 
     //strings for internationalization
     public var driver_str: String;
-    public var onSlashOff_str: String;
+    //public var onSlashOff_str: String;
     public var on_str:String;
     public var off_str:String;
     public var frequency_str: String;
@@ -113,7 +113,7 @@ public class ShakerView extends Sprite {
 
     private function initializeStrings(): void {
         driver_str = FlexSimStrings.get("driver", "DRIVER"); //"DRIVER";
-        onSlashOff_str = FlexSimStrings.get("onOrOff","on/off");
+        //onSlashOff_str = FlexSimStrings.get("onOrOff","on/off");
         on_str = FlexSimStrings.get( "on", "ON");
         off_str = FlexSimStrings.get( "off", "OFF");
         frequency_str = FlexSimStrings.get("frequency","frequency");
