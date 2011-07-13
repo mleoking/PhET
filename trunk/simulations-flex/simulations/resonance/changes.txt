@@ -1,3 +1,5 @@
+# 0.00.18 (54042) Jul 13, 2011
+7/13/11 Updated localization file.
 # 0.00.17 (54040) Jul 13, 2011
 7/13/11 On/off button toggles text and color.
 # 0.00.16 (53585) Jun 29, 2011
