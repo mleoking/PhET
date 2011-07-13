@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.statesofmatter.module.solidliquidgas;
 
-import java.awt.Frame;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
@@ -12,38 +12,41 @@ import edu.colorado.phet.statesofmatter.model.MultipleParticleModel;
 
 /**
  * This class is where the model and view classes for the "Solid, Liquid, and
- * Gas" tab of this simulation are created and contained. 
+ * Gas" tab of this simulation are created and contained.
  *
  * @author John Blanco
  */
 public class SolidLiquidGasModule extends PiccoloModule {
-    
+
     //----------------------------------------------------------------------------
     // Instance Data
     //----------------------------------------------------------------------------
 
     private MultipleParticleModel m_model;
-    private SolidLiquidGasCanvas  m_canvas;
+    private SolidLiquidGasCanvas m_canvas;
 
     //----------------------------------------------------------------------------
     // Constructor
     //----------------------------------------------------------------------------
-    
+
     public SolidLiquidGasModule( Frame parentFrame ) {
-        
-        super(StatesOfMatterStrings.TITLE_SOLID_LIQUID_GAS_MODULE, 
-                new ConstantDtClock(SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT));
+
+        super( StatesOfMatterStrings.TITLE_SOLID_LIQUID_GAS_MODULE,
+               new ConstantDtClock( SolidLiquidGasDefaults.CLOCK_FRAME_DELAY, SolidLiquidGasDefaults.CLOCK_DT ) );
 
         // Model
-        m_model = new MultipleParticleModel( getClock() );
+        m_model = new MultipleParticleModel( (ConstantDtClock) getClock() );
 
         // Canvas
         m_canvas = new SolidLiquidGasCanvas( m_model );
         setSimulationPanel( m_canvas );
-        
+
         // Control panel
         setControlPanel( new SolidLiquidGasControlPanel( this, parentFrame ) );
-        
+
+        // Turn off the clock control panel - a floating node is used for clock control.
+        setClockControlPanel( null );
+
         // Help
         if ( hasHelp() ) {
             //XXX add help items
@@ -52,11 +55,11 @@ public class SolidLiquidGasModule extends PiccoloModule {
         // Set initial state
         reset();
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessor Methods
     //----------------------------------------------------------------------------
-    public MultipleParticleModel getMultiParticleModel(){
+    public MultipleParticleModel getMultiParticleModel() {
         return m_model;
     }
     //----------------------------------------------------------------------------
