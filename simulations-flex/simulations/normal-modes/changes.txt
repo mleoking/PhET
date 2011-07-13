@@ -1,3 +1,5 @@
+# 0.00.29 (54038) Jul 13, 2011
+7/13/11 On/off button toggles text and color.
 # 0.00.28 (54025) Jul 13, 2011
 7/13/11 New color backgrd.
 # 0.00.27 (54012) Jul 12, 2011
