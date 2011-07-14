@@ -35,18 +35,17 @@ public class DiscreteAmplitudesChart extends Chart {
     private static final Stroke AXIS_STROKE = new BasicStroke( 1f );
     private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
-    
+
     // Range labels
     private static final boolean RANGE_LABELS_VISIBLE = false;
     private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
-    
+
     // Y axis
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
     private static final Stroke Y_MAJOR_TICK_STROKE = new BasicStroke( 1f );
-    private static final Stroke Y_MINOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font Y_MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
-    
+
     // Gridlines
     private static final boolean MAJOR_GRIDLINES_ENABLED = true;
     private static final boolean MINOR_GRIDLINES_ENABLED = false;
@@ -54,17 +53,17 @@ public class DiscreteAmplitudesChart extends Chart {
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke MAJOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param component
      * @param range
      * @param chartSize
      */
     public DiscreteAmplitudesChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
-        
+
         // X axis
         {
             getXAxis().setStroke( AXIS_STROKE );
@@ -74,7 +73,7 @@ public class DiscreteAmplitudesChart extends Chart {
             PhetTextGraphic xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, xTitle, AXIS_TITLE_COLOR );
             xAxisTitleGraphic.setRegistrationPoint( -2, -xAxisTitleGraphic.getHeight() / 2 ); // left center
             setXAxisTitle( xAxisTitleGraphic );
-            
+
             // No ticks, labels or gridlines
             getHorizontalTicks().setVisible( false );
             getXAxis().setMajorTicksVisible( false );
@@ -84,12 +83,12 @@ public class DiscreteAmplitudesChart extends Chart {
             getVerticalGridlines().setMinorGridlinesVisible( false );
             getVerticalGridlines().setMajorGridlinesVisible( false );
         }
-        
+
         // Y axis
         {
             getYAxis().setStroke( AXIS_STROKE );
             getYAxis().setColor( AXIS_COLOR );
-            
+
             // No ticks or labels on the axis
             getYAxis().setMajorTicksVisible( false );
             getYAxis().setMajorTickLabelsVisible( false );
@@ -99,7 +98,7 @@ public class DiscreteAmplitudesChart extends Chart {
             // Range labels
             getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
             getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
-            
+
             // Major ticks and labels to the left of the chart
             getVerticalTicks().setMajorTicksVisible( true );
             getVerticalTicks().setMajorTickLabelsVisible( true );

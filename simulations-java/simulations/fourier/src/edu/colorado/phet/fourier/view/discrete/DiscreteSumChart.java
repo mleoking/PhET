@@ -60,7 +60,6 @@ public class DiscreteSumChart extends Chart {
     //----------------------------------------------------------------------------
 
     private PhetTextGraphic _xAxisTitleGraphic;
-    private String _xAxisTitleTime, _xAxisTitleSpace;
     private StringLabelTable _spaceLabels1, _spaceLabels2;
     private StringLabelTable _timeLabels1, _timeLabels2;
 
