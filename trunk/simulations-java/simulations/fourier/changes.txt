@@ -1,3 +1,4 @@
+7/14/11 #2981, eliminate duplicate code in GameSumChart by subclassing DiscreteSumChart
 7/14/11 #2981, consolidate duplicate chart code into WaveformChart
 7/14/11 #2981, change x-axes in Games module. leveraging what was done in Discrete module
 7/14/11 #2981, create label tables to map L=1 to actual time and space domain values for x-axis charts in Discrete module (lots of duplicate code)

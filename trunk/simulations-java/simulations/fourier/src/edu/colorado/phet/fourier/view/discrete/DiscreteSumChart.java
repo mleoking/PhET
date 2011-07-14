@@ -17,11 +17,15 @@ public class DiscreteSumChart extends WaveformChart {
     private static final double Y_MINOR_TICK_SPACING = 1.0;
 
     public DiscreteSumChart( Component component, Range2D range, Dimension chartSize ) {
-        super( component, range, chartSize, Y_MAJOR_TICK_SPACING );
+        this( component, range, chartSize, Y_MAJOR_TICK_SPACING, Y_MINOR_TICK_SPACING );
+    }
+
+    public DiscreteSumChart( Component component, Range2D range, Dimension chartSize, double yMajorTickSpacing, double yMinorTickSpacing ) {
+        super( component, range, chartSize, yMajorTickSpacing );
 
         // Horizontal gridlines for minor ticks
         getHorizonalGridlines().setMinorGridlinesVisible( true );
-        getHorizonalGridlines().setMinorTickSpacing( Y_MINOR_TICK_SPACING );
+        getHorizonalGridlines().setMinorTickSpacing( yMinorTickSpacing );
         getHorizonalGridlines().setMinorGridlinesColor( Color.BLACK );
         getHorizonalGridlines().setMinorGridlinesStroke( new BasicStroke( 0.25f ) );
     }
