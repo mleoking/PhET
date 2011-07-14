@@ -1,3 +1,4 @@
+7/14/11 #2981, refactor duplicate code in WaveformChart, improve doc
 7/14/11 #2981, eliminate duplicate code in GameSumChart by subclassing DiscreteSumChart
 7/14/11 #2981, consolidate duplicate chart code into WaveformChart
 7/14/11 #2981, change x-axes in Games module. leveraging what was done in Discrete module
