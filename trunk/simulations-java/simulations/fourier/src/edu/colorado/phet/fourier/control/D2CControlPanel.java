@@ -11,18 +11,14 @@
 
 package edu.colorado.phet.fourier.control;
 
-import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBox;
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -37,11 +33,10 @@ import edu.colorado.phet.fourier.enums.WaveType;
 import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.module.FourierAbstractModule;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
-import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
+import edu.colorado.phet.fourier.view.d2c.D2CComponentsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
-
 
 
 /**
@@ -51,15 +46,15 @@ import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
  * @version $Revision$
  */
 public class D2CControlPanel extends FourierAbstractControlPanel {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Layout parameters
     private static final int LEFT_MARGIN = 30; // pixels
     private static final int SUBPANEL_SPACING = 0;  // pixels
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
@@ -67,7 +62,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
     // Things to be controlled.
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesView _amplitudesView;
-    private D2CHarmonicsView _harmonicsView;
+    private D2CComponentsView _harmonicsView;
     private D2CSumView _sumView;
     private WavePacketSpacingTool _spacingTool;
     private WavePacketPeriodTool _periodTool;
@@ -83,50 +78,50 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
     private JRadioButton _sinesRadioButton;
     private JRadioButton _cosinesRadioButton;
     private JCheckBox _showWidthsCheckBox;
-    
+
     // Choices
     private ArrayList _domainChoices;
-    
+
     private EventListener _listener;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param module
      * @param wavePacket
      * @param amplitudesGraph
      * @param harmonicsGraph
      */
-    public D2CControlPanel( FourierAbstractModule module, 
-            GaussianWavePacket wavePacket, 
-            D2CAmplitudesView amplitudesGraph,
-            D2CHarmonicsView harmonicsGraph,
-            D2CSumView sumGraph,
-            WavePacketSpacingTool spacingTool,
-            WavePacketPeriodTool periodTool ) {
-        
+    public D2CControlPanel( FourierAbstractModule module,
+                            GaussianWavePacket wavePacket,
+                            D2CAmplitudesView amplitudesGraph,
+                            D2CComponentsView harmonicsGraph,
+                            D2CSumView sumGraph,
+                            WavePacketSpacingTool spacingTool,
+                            WavePacketPeriodTool periodTool ) {
+
         super( module );
-        
-        assert( wavePacket != null );
-        assert( amplitudesGraph != null );
-        assert( harmonicsGraph != null );
-        assert( sumGraph != null );
-        assert( spacingTool != null );
-        assert( periodTool != null );
-        
+
+        assert ( wavePacket != null );
+        assert ( amplitudesGraph != null );
+        assert ( harmonicsGraph != null );
+        assert ( sumGraph != null );
+        assert ( spacingTool != null );
+        assert ( periodTool != null );
+
         _wavePacket = wavePacket;
         _amplitudesView = amplitudesGraph;
         _harmonicsView = harmonicsGraph;
         _sumView = sumGraph;
         _spacingTool = spacingTool;
         _periodTool = periodTool;
-        
+
         // Set the control panel's minimum width.
-        int width= FourierResources.getInt( "D2CControlPanel.width",275 );
+        int width = FourierResources.getInt( "D2CControlPanel.width", 275 );
         setMinimumWidth( width );
 
         // Spacing panel
@@ -137,7 +132,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
 
             // amplitudes envelope ("Show continuous...")
             _amplitudesEnvelopeCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.kEnvelope" ) );
-            
+
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -152,13 +147,13 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             spacingPanel.setLayout( new BorderLayout() );
             spacingPanel.add( innerPanel, BorderLayout.WEST );
         }
-        
+
         // Center Point panel
         FourierTitledPanel centerPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.center" ) );
         {
             // center point (k0)
             _centerSlider = new WavePacketCenterSlider();
-             
+
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -172,7 +167,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             centerPanel.setLayout( new BorderLayout() );
             centerPanel.add( innerPanel, BorderLayout.WEST );
         }
-        
+
         // Width panel
         FourierTitledPanel widthPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.widthControls" ) );
         {
@@ -182,7 +177,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             // x-space width
             _xWidthSlider = new WavePacketXWidthSlider();
 
-             // Layout
+            // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
             innerPanel.setLayout( layout );
@@ -196,7 +191,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             widthPanel.setLayout( new BorderLayout() );
             widthPanel.add( innerPanel, BorderLayout.WEST );
         }
-        
+
         FourierTitledPanel graphControlsPanel = new FourierTitledPanel( FourierResources.getString( "D2CControlPanel.graphControls" ) );
         {
             // Domain
@@ -208,21 +203,21 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
                 _domainChoices = new ArrayList();
                 _domainChoices.add( new FourierComboBox.Choice( Domain.SPACE, FourierResources.getString( "domain.space" ) ) );
                 _domainChoices.add( new FourierComboBox.Choice( Domain.TIME, FourierResources.getString( "domain.time" ) ) );
- 
+
                 // Function combo box
                 _domainComboBox = new FourierComboBox( label, _domainChoices );
             }
 
             // Wave Type
             JPanel waveTypePanel = new JPanel();
-            {              
+            {
                 // Radio buttons
                 _sinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.sines" ) );
                 _cosinesRadioButton = new JRadioButton( FourierResources.getString( "waveType.cosines" ) );
                 ButtonGroup group = new ButtonGroup();
                 group.add( _sinesRadioButton );
                 group.add( _cosinesRadioButton );
-                
+
                 // Layout
                 EasyGridBagLayout layout = new EasyGridBagLayout( waveTypePanel );
                 layout.setInsets( DEFAULT_INSETS );
@@ -230,13 +225,13 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
                 layout.addComponent( _sinesRadioButton, 0, 0 );
                 layout.addComponent( _cosinesRadioButton, 0, 1 );
             }
-            
+
             // Sum envelope
             _sumEnvelopeCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.xEnvelope" ) );
-            
+
             // Show widths checkbox
             _showWidthsCheckBox = new JCheckBox( FourierResources.getString( "D2CControlPanel.showWidths" ) );
-            
+
             // Layout
             JPanel innerPanel = new JPanel();
             EasyGridBagLayout layout = new EasyGridBagLayout( innerPanel );
@@ -262,10 +257,10 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
         addFullWidth( widthPanel );
         addVerticalSpace( SUBPANEL_SPACING );
         addFullWidth( graphControlsPanel );
-        
+
         // Set the state of the controls.
         reset();
-        
+
         // Wire up event handling (after setting state with reset).
         {
             _listener = new EventListener();
@@ -284,56 +279,56 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             _domainComboBox.addItemListener( _listener );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     public void setSpacing( double spacing ) {
         _spacingSlider.setValue( spacing );
         handleSpacing();
     }
-    
+
     public double getSpacing() {
         return _spacingSlider.getValue();
     }
-    
+
     public void setAmplitudesEnvelopeEnabled( boolean enabled ) {
         _amplitudesEnvelopeCheckBox.setSelected( enabled );
         handleAmplitudeEnvelope();
     }
-    
+
     public boolean isAmplitudesEnvelopeEnabled() {
         return _amplitudesEnvelopeCheckBox.isSelected();
     }
-    
+
     public void setCenter( double center ) {
         _centerSlider.setValue( center );
         handleCenter();
     }
-    
+
     public double getCenter() {
         return _centerSlider.getValue();
     }
-    
+
     public void setKWidth( double width ) {
         _kWidthSlider.setValue( width );
         handleKWidth();
     }
-    
+
     public double getKWidth() {
         return _kWidthSlider.getValue();
     }
-    
+
     public void setDomain( Domain domain ) {
         _domainComboBox.setSelectedKey( domain );
         handleDomain();
     }
-    
+
     public Domain getDomain() {
         return (Domain) _domainComboBox.getSelectedKey();
     }
-    
+
     public void setWaveType( WaveType waveType ) {
         if ( waveType == WaveType.SINES ) {
             _sinesRadioButton.setSelected( true );
@@ -343,7 +338,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
         }
         handleWaveType();
     }
-    
+
     public WaveType getWaveType() {
         WaveType waveType = null;
         if ( _sinesRadioButton.isSelected() ) {
@@ -354,60 +349,61 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
         }
         return waveType;
     }
-    
+
     public void setSumEnvelopeEnabled( boolean enabled ) {
         _sumEnvelopeCheckBox.setSelected( enabled );
         handleSumEnvelope();
     }
-    
+
     public boolean isSumEnvelopeEnabled() {
         return _sumEnvelopeCheckBox.isSelected();
     }
-    
+
     public void setShowWidthsEnabled( boolean enabled ) {
         _showWidthsCheckBox.setSelected( enabled );
         handleShowWidths();
     }
-    
+
     public boolean isShowWidthsEnabled() {
         return _showWidthsCheckBox.isSelected();
     }
-    
+
     //----------------------------------------------------------------------------
     // FourierControlPanel implementation
     //----------------------------------------------------------------------------
-    
+
     public void reset() {
-        
+
         _amplitudesEnvelopeCheckBox.setSelected( _amplitudesView.isEnvelopeEnabled() );
         _sumEnvelopeCheckBox.setSelected( _sumView.isEnvelopeEnabled() );
-        
+
         _showWidthsCheckBox.setSelected( false );
         _amplitudesView.setKWidthVisible( _showWidthsCheckBox.isSelected() );
-        _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected()  );
-        
+        _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected() );
+
         _domainComboBox.setSelectedKey( Domain.SPACE );
         handleDomain();
-        
+
         _sinesRadioButton.setSelected( true );
-        
+
         _spacingSlider.setValue( _wavePacket.getK1() );
         _centerSlider.setValue( _wavePacket.getK0() );
         _kWidthSlider.setValue( _wavePacket.getDeltaK() );
         _xWidthSlider.setValue( _wavePacket.getDeltaX() );
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /*
-     * EventListener is a nested class that is private to this control panel.
-     * It handles dispatching of all events generated by the controls.
-     */
+    * EventListener is a nested class that is private to this control panel.
+    * It handles dispatching of all events generated by the controls.
+    */
     private class EventListener implements ActionListener, ChangeListener, ItemListener {
 
-        public EventListener() {}
+        public EventListener() {
+        }
 
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _amplitudesEnvelopeCheckBox ) {
@@ -426,7 +422,7 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
                 throw new IllegalArgumentException( "unexpected event: " + event );
             }
         }
-        
+
         public void stateChanged( ChangeEvent event ) {
 
             if ( event.getSource() == _spacingSlider ) {
@@ -455,25 +451,25 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
                     throw new IllegalArgumentException( "unexpected event: " + event );
                 }
             }
-        } 
+        }
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Handles changes to the domain combo box.
-     */
+    * Handles changes to the domain combo box.
+    */
     private void handleDomain() {
         Domain domain = (Domain) _domainComboBox.getSelectedKey();
-        
+
         _amplitudesView.setDomain( domain );
         _harmonicsView.setDomain( domain );
         _sumView.setDomain( domain );
         _spacingTool.setDomain( domain );
         _periodTool.setDomain( domain );
-        
+
         if ( domain == Domain.SPACE ) {
             _spacingSlider.setFormat( FourierResources.getString( "WavePacketSpacingSlider.format.space" ) );
             _centerSlider.setFormat( FourierResources.getString( "WavePacketCenterSlider.format.space" ) );
@@ -494,10 +490,10 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             throw new IllegalArgumentException( "unsupported domain: " + domain );
         }
     }
-    
+
     /*
-     * Handles changes to the wave type combo box.
-     */
+    * Handles changes to the wave type combo box.
+    */
     private void handleWaveType() {
         setWaitCursorEnabled( true );
         WaveType waveType = ( _sinesRadioButton.isSelected() ? WaveType.SINES : WaveType.COSINES );
@@ -505,30 +501,30 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
         _sumView.setWaveType( waveType );
         setWaitCursorEnabled( false );
     }
-    
+
     /*
-     * Handles changes to the k-space envelope check box.
-     */
+    * Handles changes to the k-space envelope check box.
+    */
     private void handleAmplitudeEnvelope() {
         setWaitCursorEnabled( true );
         _amplitudesView.setEnvelopeEnabled( _amplitudesEnvelopeCheckBox.isSelected() );
         setWaitCursorEnabled( false );
     }
-    
+
     /*
-     * Handles changes to the x-space envelope check box.
-     */
+    * Handles changes to the x-space envelope check box.
+    */
     private void handleSumEnvelope() {
         setWaitCursorEnabled( true );
         _sumView.setEnvelopeEnabled( _sumEnvelopeCheckBox.isSelected() );
         setWaitCursorEnabled( false );
     }
-    
+
     /*
-     * Handles changes to the spacing (k1) slider.
-     */
+    * Handles changes to the spacing (k1) slider.
+    */
     private void handleSpacing() {
-        
+
         // Update the wave packet if the user is done dragging the slider.
         if ( !_spacingSlider.isAdjusting() ) {
             setWaitCursorEnabled( true );
@@ -537,10 +533,10 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             setWaitCursorEnabled( false );
         }
     }
-    
+
     /*
-     * Handles changes to the center-point (k0) slider.
-     */
+    * Handles changes to the center-point (k0) slider.
+    */
     private void handleCenter() {
         // Update the wave packet if the user is done dragging the slider.
         if ( !_centerSlider.isAdjusting() ) {
@@ -550,54 +546,54 @@ public class D2CControlPanel extends FourierAbstractControlPanel {
             setWaitCursorEnabled( false );
         }
     }
-    
+
     /*
-     * Handles changes to the k-space width slider.
-     */
+    * Handles changes to the k-space width slider.
+    */
     private void handleKWidth() {
-        
+
         setWaitCursorEnabled( true );
-        
+
         double deltaK = _kWidthSlider.getValue();
-        
+
         // Update the slider.
         _xWidthSlider.removeChangeListener( _listener );
         _xWidthSlider.setValue( 1 / deltaK );
         _xWidthSlider.addChangeListener( _listener );
-        
+
         // Update the wave packet if the user is done dragging the slider.
         if ( !_kWidthSlider.isAdjusting() ) {
             _wavePacket.setDeltaK( deltaK );
         }
-        
+
         setWaitCursorEnabled( false );
     }
-   
+
     /*
-     * Handles changes to the x-space width slider.
-     */
+    * Handles changes to the x-space width slider.
+    */
     private void handleXWidth() {
-        
+
         setWaitCursorEnabled( true );
-        
+
         double deltaX = _xWidthSlider.getValue();
-        
+
         // Update the slider.
         _kWidthSlider.removeChangeListener( _listener );
         _kWidthSlider.setValue( 1 / deltaX );
         _kWidthSlider.addChangeListener( _listener );
-        
+
         // Update the wave packet if the user is done dragging the slider.
         if ( !_xWidthSlider.isAdjusting() ) {
             _wavePacket.setDeltaX( deltaX );
         }
-        
+
         setWaitCursorEnabled( false );
     }
-    
+
     /*
-     * Handles changes to the "Show widths" checkbox.
-     */
+    * Handles changes to the "Show widths" checkbox.
+    */
     private void handleShowWidths() {
         _amplitudesView.setKWidthVisible( _showWidthsCheckBox.isSelected() );
         _sumView.setXWidthVisible( _showWidthsCheckBox.isSelected() );

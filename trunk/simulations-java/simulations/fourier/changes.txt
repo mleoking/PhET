@@ -1,3 +1,4 @@
+7/13/11 #2981, internal rename of Harmonics to Components in Discrete-to-Continuous module, since that's the visible name
 7/13/11 #2981, change space units from mm to m throughout
 7/13/11 #2981, add symbolic constant to FourierConstants for fundamental frequency (A440)
 7/13/11 #2981, added missing i18n of x-axis labels for Sum and Harmonic charts

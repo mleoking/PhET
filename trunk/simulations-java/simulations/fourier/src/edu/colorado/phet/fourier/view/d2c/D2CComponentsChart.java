@@ -28,22 +28,22 @@ import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CHarmonicsChart extends Chart {
+public class D2CComponentsChart extends Chart {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Axis parameter
     private static final Color AXIS_COLOR = Color.BLACK;
     private static final Stroke AXIS_STROKE = new BasicStroke( 0.5f );
     private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
-    
+
     // Range labels
     private static final boolean RANGE_LABELS_VISIBLE = false;
     private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
-    
+
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
@@ -51,7 +51,7 @@ public class D2CHarmonicsChart extends Chart {
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
     private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
-    
+
     // X Axis parameters
     private static final double L = 1;
     private static final double X_MAJOR_TICK_SPACING = 0.5;
@@ -60,29 +60,29 @@ public class D2CHarmonicsChart extends Chart {
     // Y Axis parameters
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
     private static final double Y_MINOR_TICK_SPACING = 0.1;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private PhetTextGraphic _xAxisTitleGraphic;
     private StringLabelTable _spaceLabels1, _spaceLabels2;
     private StringLabelTable _timeLabels1, _timeLabels2;
-    
+
     //----------------------------------------------------------------------------
     // Constructors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param component
      * @param range
      * @param chartSize
      */
-    public D2CHarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
+    public D2CComponentsChart( Component component, Range2D range, Dimension chartSize ) {
         super( component, range, chartSize );
-        
+
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
 
@@ -90,7 +90,7 @@ public class D2CHarmonicsChart extends Chart {
         {
             getXAxis().setStroke( AXIS_STROKE );
             getXAxis().setColor( AXIS_COLOR );
-            
+
             // Title
             _xAxisTitleGraphic = new PhetTextGraphic( component, AXIS_TITLE_FONT, "", AXIS_TITLE_COLOR );
             setXAxisTitle( _xAxisTitleGraphic );
@@ -107,7 +107,7 @@ public class D2CHarmonicsChart extends Chart {
             getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-            
+
             // Minor ticks, no labels below the chart
             getHorizontalTicks().setMinorTicksVisible( true );
             getHorizontalTicks().setMinorTickLabelsVisible( false );
@@ -134,7 +134,7 @@ public class D2CHarmonicsChart extends Chart {
             // Range labels
             getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
             getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
-            
+
             // Major ticks with labels to the left of the chart
             getVerticalTicks().setMajorTicksVisible( true );
             getVerticalTicks().setMajorTickLabelsVisible( true );
@@ -144,7 +144,7 @@ public class D2CHarmonicsChart extends Chart {
 
             // No minor ticks.
             getVerticalTicks().setMinorTicksVisible( false );
-            
+
             // No horizontal gridlines
             getHorizonalGridlines().setMajorGridlinesVisible( false );
             getHorizonalGridlines().setMinorGridlinesVisible( false );
@@ -154,24 +154,24 @@ public class D2CHarmonicsChart extends Chart {
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-   
+
     /**
      * Sets the title on the x axis.
-     * 
+     *
      * @param title
      */
     public void setXAxisTitle( String title ) {
         _xAxisTitleGraphic.setText( title );
         _xAxisTitleGraphic.setRegistrationPoint( -4, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
     }
-    
+
     public void setXAxisTitle( char c ) {
         setXAxisTitle( String.valueOf( c ) );
     }
-    
+
     /**
      * Rescales the Y-axis range, tick marks and gridlines.
-     * 
+     *
      * @param maxY
      */
     public void autoscaleY( double maxY ) {
@@ -179,17 +179,17 @@ public class D2CHarmonicsChart extends Chart {
         double majorSpacing = 0;
         double minorSpacing = 0;
         NumberFormat majorNumberFormat;
-        
+
         /*
-         * Set the tick marks and gridlines based on the max amplitude.
-         * These values were set via trial-&-error.  
-         * Good luck changing them.
-         */
+        * Set the tick marks and gridlines based on the max amplitude.
+        * These values were set via trial-&-error.
+        * Good luck changing them.
+        */
         if ( maxY > 1 ) {
             majorSpacing = 1.0;
             minorSpacing = 0.5;
             majorNumberFormat = new DecimalFormat( "#.#" );
-        }    
+        }
         else if ( maxY > 0.5 ) {
             majorSpacing = 0.2;
             minorSpacing = 0.1;
@@ -212,32 +212,32 @@ public class D2CHarmonicsChart extends Chart {
         }
         else {
             majorSpacing = 0.005;
-            minorSpacing = 0.001; 
+            minorSpacing = 0.001;
             majorNumberFormat = new DecimalFormat( ".###" );
         }
-        
+
         /*
-         * The order in which we change the range, tick marks and gridlines is
-         * important.  If we're not careful, we may end up generating a huge 
-         * number of ticks gridlines based on old/new settings.
-         */
+        * The order in which we change the range, tick marks and gridlines is
+        * important.  If we're not careful, we may end up generating a huge
+        * number of ticks gridlines based on old/new settings.
+        */
         Range2D range = getRange();
         if ( maxY > range.getMaxY() ) {
-            
+
             getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
             getVerticalTicks().setMajorTickSpacing( majorSpacing );
             getVerticalTicks().setMinorTickSpacing( minorSpacing );
             getHorizonalGridlines().setMajorTickSpacing( majorSpacing );
-            
+
             range.setMaxY( maxY );
             range.setMinY( -maxY );
-            setRange( range );    
+            setRange( range );
         }
         else {
             range.setMaxY( maxY );
             range.setMinY( -maxY );
-            setRange( range ); 
-            
+            setRange( range );
+
             getVerticalTicks().setMajorNumberFormat( majorNumberFormat );
             getVerticalTicks().setMajorTickSpacing( majorSpacing );
             getVerticalTicks().setMinorTickSpacing( minorSpacing );
