@@ -1,3 +1,4 @@
+7/14/11 #3008, fix amplitude text field so that there won't be a width issue with Simpified and Traditional Chinese
 # 3.05.02 (54080) Jul 14, 2011
 > charts display wavelength and period values that correspond to the audible fundamental frequency (440 Hz)
 > x-axis units are meters (m) instead of millimeters (mm) for space domains

@@ -3,14 +3,18 @@
 package edu.colorado.phet.fourier.view;
 
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.EventListenerList;
@@ -48,12 +52,12 @@ import edu.colorado.phet.fourier.model.Harmonic;
  * @version $Revision$
  */
 public class AmplitudeSlider extends GraphicLayerSet
-    implements SimpleObserver, HarmonicColorChangeListener {
+        implements SimpleObserver, HarmonicColorChangeListener {
 
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Layers
     private static final double CLICK_ZONE_LAYER = 1;
     private static final double TRACK_LAYER = 2;
@@ -65,10 +69,9 @@ public class AmplitudeSlider extends GraphicLayerSet
     private static final double MAX_AMPLITUDE = FourierConstants.MAX_HARMONIC_AMPLITUDE;
     private static final double VALUE_STEP = 0.01;
     private static final String VALUE_FORMAT = "0.00";
-    private static final int VALUE_COLUMNS = 4;
     private static final Font VALUE_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final int VALUE_Y_OFFSET = 17; // above the maximum height of the slider track
-    
+
     // Label parameters
     private static final Color LABEL_COLOR = Color.BLACK;
     private static final Font LABEL_FONT = new PhetFont( Font.PLAIN, 12 );
@@ -82,11 +85,11 @@ public class AmplitudeSlider extends GraphicLayerSet
     private static final Color DEFAULT_TRACK_COLOR = Color.WHITE;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
     private static final Color TRACK_BORDER_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private Harmonic _harmonic;
     private Dimension _maxSize;
     private HTMLGraphic _labelGraphic;
@@ -102,16 +105,16 @@ public class AmplitudeSlider extends GraphicLayerSet
     private Rectangle _clickZoneRectangle;
     private EventListenerList _listenerList;
     private Point _somePoint;
-    
+
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sole constructor.
-     * 
+     *
      * @param component the parent Component
-     * @param harmonic the model that this slider controls
+     * @param harmonic  the model that this slider controls
      */
     public AmplitudeSlider( Component component, Harmonic harmonic ) {
         super( component );
@@ -140,13 +143,13 @@ public class AmplitudeSlider extends GraphicLayerSet
             _labelGraphic.centerRegistrationPoint();
             _labelGraphic.setLocation( 0, 0 ); // will be set in update
         }
-        
+
         // Value
         {
             _valueFormatter = new DecimalFormat( VALUE_FORMAT );
-            _valueTextField = new JTextField( _valueFormatter.format( 0.0 ) );
+            _valueTextField = new JTextField( "--" + VALUE_FORMAT ); // see #3008
+            _valueTextField.setPreferredSize( _valueTextField.getPreferredSize() ); // see #3008
             _valueTextField.setFont( VALUE_FONT );
-            _valueTextField.setColumns( VALUE_COLUMNS );
             _valueTextField.setHorizontalAlignment( JTextField.RIGHT );
             _valueGraphic = PhetJComponent.newInstance( component, _valueTextField );
             _valueGraphic.setName( "AmplitudeSlider.value" );
@@ -156,15 +159,15 @@ public class AmplitudeSlider extends GraphicLayerSet
 
         // Click Zone
         {
-           _clickZoneGraphic = new PhetShapeGraphic( component );
-           _clickZoneRectangle = new Rectangle( 1, 1, _maxSize.width, _maxSize.height );
-           _clickZoneGraphic.setShape( _clickZoneRectangle );
-           _clickZoneGraphic.setName( "AmplitudeSlider.clickZone" );
-           _clickZoneGraphic.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
-           _clickZoneGraphic.centerRegistrationPoint();
-           _clickZoneGraphic.setLocation( 0, 0 );
+            _clickZoneGraphic = new PhetShapeGraphic( component );
+            _clickZoneRectangle = new Rectangle( 1, 1, _maxSize.width, _maxSize.height );
+            _clickZoneGraphic.setShape( _clickZoneRectangle );
+            _clickZoneGraphic.setName( "AmplitudeSlider.clickZone" );
+            _clickZoneGraphic.setPaint( new Color( 0, 0, 0, 0 ) ); // transparent
+            _clickZoneGraphic.centerRegistrationPoint();
+            _clickZoneGraphic.setLocation( 0, 0 );
         }
-        
+
         // Slider Track
         {
             _trackRectangle = new Rectangle();
@@ -188,22 +191,22 @@ public class AmplitudeSlider extends GraphicLayerSet
             _knobGraphic.centerRegistrationPoint();
             _knobGraphic.setLocation( 0, 0 ); // will be set in update
         }
-        
+
         // Interactivity
         {
             _labelGraphic.setIgnoreMouse( true );
-            
+
             TextFieldEventListener textFieldListener = new TextFieldEventListener();
             _valueTextField.addActionListener( textFieldListener );
             _valueTextField.addFocusListener( textFieldListener );
             _valueTextField.addKeyListener( textFieldListener );
-            
+
             _clickZoneGraphic.setCursorHand();
             _clickZoneGraphic.addMouseInputListener( new ClickZoneEventListener() );
-            
+
             _knobGraphic.setCursorHand();
             _knobGraphic.addMouseInputListener( new KnobEventListener() );
-            
+
             _trackGraphic.setCursorHand();
             _trackGraphic.addMouseInputListener( new TrackEventListener() );
         }
@@ -216,10 +219,10 @@ public class AmplitudeSlider extends GraphicLayerSet
 
         // Interested in changes to harmonic colors.
         HarmonicColors.getInstance().addHarmonicColorChangeListener( this );
-        
+
         update();
     }
-    
+
     /**
      * Call this method prior to releasing all references to an object of this type.
      */
@@ -232,10 +235,10 @@ public class AmplitudeSlider extends GraphicLayerSet
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Sets the harmonic that this slider controls.
-     * 
+     *
      * @param harmonic
      */
     public void setHarmonic( Harmonic harmonic ) {
@@ -247,29 +250,29 @@ public class AmplitudeSlider extends GraphicLayerSet
         _harmonic.addObserver( this );
         update();
     }
-    
+
     /**
      * Gets the harmonic that this slider controls.
-     * 
+     *
      * @return the model
      */
     public Harmonic getHarmonic() {
         return _harmonic;
     }
-    
+
     /**
      * Sets the maximum size of the slider track.
-     * 
+     *
      * @param maxSize the maximum size
      */
     public void setMaxSize( Dimension maxSize ) {
         setMaxSize( maxSize );
     }
-    
+
     /**
      * Sets the maximum size of the slider track.
-     * 
-     * @param width the width
+     *
+     * @param width  the width
      * @param height the height
      */
     public void setMaxSize( int width, int height ) {
@@ -285,23 +288,23 @@ public class AmplitudeSlider extends GraphicLayerSet
 
         update();
     }
-    
+
     /**
      * Gets the maximum size of the slider track.
-     * 
+     *
      * @return the maximum size
      */
     public Dimension getMaxSize() {
         return new Dimension( _maxSize );
     }
-    
+
     //----------------------------------------------------------------------------
     // User input processing
     //----------------------------------------------------------------------------
-    
+
     /**
      * Processes the contents of the value field.
-     * 
+     *
      * @return true if the value is valid, false otherwise
      */
     private boolean processUserInput() {
@@ -338,44 +341,44 @@ public class AmplitudeSlider extends GraphicLayerSet
         }
         return success;
     }
-    
+
     /*
-     * Displays a modal error dialog for invalid user inputs.
-     */
+    * Displays a modal error dialog for invalid user inputs.
+    */
     private void showUserInputErrorDialog() {
         String message = FourierResources.getString( "AmplitudeErrorDialog.message" );
         JOptionPane op = new JOptionPane( message, JOptionPane.ERROR_MESSAGE, JOptionPane.DEFAULT_OPTION );
         op.createDialog( getComponent(), null ).setVisible( true );
     }
-    
+
     //----------------------------------------------------------------------------
     // Event handling
     //----------------------------------------------------------------------------
-    
+
     /**
      * Adds a HarmonicFocusListener.
-     * 
+     *
      * @param listener
      */
     public void addHarmonicFocusListener( HarmonicFocusListener listener ) {
         _listenerList.add( HarmonicFocusListener.class, listener );
     }
-  
+
     /**
      * Removes a HarmonicFocusListener.
-     * 
+     *
      * @param listener
      */
     public void removeHarmonicFocusListener( HarmonicFocusListener listener ) {
         _listenerList.remove( HarmonicFocusListener.class, listener );
     }
-    
+
     /*
-     * Fires an event indicating that the Harmonic associated with this slider
-     * has gained or lost focus.
-     * 
-     * @param hasFocus true or false
-     */
+    * Fires an event indicating that the Harmonic associated with this slider
+    * has gained or lost focus.
+    *
+    * @param hasFocus true or false
+    */
     private void fireHarmonicFocusEvent( boolean hasFocus ) {
         if ( _harmonic.getAmplitude() != 0 ) {
             HarmonicFocusEvent event = new HarmonicFocusEvent( this, _harmonic, hasFocus );
@@ -396,25 +399,25 @@ public class AmplitudeSlider extends GraphicLayerSet
 
     /**
      * Adds a ChangeListener.
-     * 
+     *
      * @param listener
      */
     public void addChangeListener( ChangeListener listener ) {
         _listenerList.add( ChangeListener.class, listener );
     }
-  
+
     /**
      * Removes a ChangeListener.
-     * 
+     *
      * @param listener
      */
     public void removeChangeListenerListener( ChangeListener listener ) {
         _listenerList.remove( ChangeListener.class, listener );
     }
-    
+
     /*
-     * Fires an event indicating that the slider has been moved by the user.
-     */
+    * Fires an event indicating that the slider has been moved by the user.
+    */
     private void fireChangeEvent() {
         ChangeEvent event = new ChangeEvent( this );
         Object[] listeners = _listenerList.getListenerList();
@@ -425,45 +428,45 @@ public class AmplitudeSlider extends GraphicLayerSet
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // HarmonicColorChangeListener implementation
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Update when the color associated with this slider's harmonic changes.
-     */
+    * Update when the color associated with this slider's harmonic changes.
+    */
     public void harmonicColorChanged( HarmonicColorChangeEvent e ) {
-        if ( e.getOrder() == _harmonic.getOrder()  ) {
+        if ( e.getOrder() == _harmonic.getOrder() ) {
             update();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Synchronizes the view with the model.
      */
-    public void update() {       
+    public void update() {
         double amplitude = _harmonic.getAmplitude();
         if ( amplitude == -0 ) { amplitude = 0; }
-        Color color = HarmonicColors.getInstance().getColor( _harmonic );       
+        Color color = HarmonicColors.getInstance().getColor( _harmonic );
         updateSlider( amplitude, color );
     }
-    
+
     /*
-     * Updates the slider.
-     * 
-     * @param amplitude
-     * @param color
-     */
+    * Updates the slider.
+    *
+    * @param amplitude
+    * @param color
+    */
     private void updateSlider( double amplitude, Color color ) {
-        
-         // Label location
+
+        // Label location
         _labelGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + LABEL_Y_OFFSET ) );
-        
+
         // Value
         // WORKAROUND: DecimalFormat uses non-standard rounding, so round ala GameManager.isMatch
         int percent = 0;
@@ -471,12 +474,12 @@ public class AmplitudeSlider extends GraphicLayerSet
             percent = (int) ( 100 * amplitude - 0.005 );
         }
         else {
-            percent = (int) ( 100 * amplitude + 0.005 );    
+            percent = (int) ( 100 * amplitude + 0.005 );
         }
         double roundedAmplitude = percent * 0.01;
         _valueTextField.setText( _valueFormatter.format( roundedAmplitude ) );
         _valueGraphic.setLocation( 0, -( ( _maxSize.height / 2 ) + VALUE_Y_OFFSET ) );
-        
+
         // Track size
         int trackWidth = _maxSize.width;
         int trackHeight = (int) Math.abs( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
@@ -485,66 +488,66 @@ public class AmplitudeSlider extends GraphicLayerSet
         _trackRectangle.setBounds( trackX, trackY, trackWidth, trackHeight );
         _trackGraphic.setShapeDirty();
         _trackGraphic.setPaint( color );
-        
+
         // Knob location
         int knobX = _knobGraphic.getX();
         int knobY = (int) -( ( _maxSize.height / 2 ) * ( amplitude / MAX_AMPLITUDE ) );
         _knobGraphic.setLocation( knobX, knobY );
-        
+
         repaint();
     }
-    
+
     //----------------------------------------------------------------------------
     // Inner classes
     //----------------------------------------------------------------------------
-    
+
     /*
-     * ClickZoneEventListener handles events related to the "click zone".
-     */
+    * ClickZoneEventListener handles events related to the "click zone".
+    */
     private class ClickZoneEventListener extends MouseInputAdapter {
-        
+
         /* Sole constructor */
         public ClickZoneEventListener() {
             super();
         }
-        
+
         /* Sets the harmonic's amplitude as the mouse is dragged. */
         public void mouseDragged( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
-        
+
         /* Sets the harmonic's amplitude when based on where the mouse is pressed. */
         public void mousePressed( MouseEvent event ) {
             setAmplitude( event.getPoint() );
             fireHarmonicFocusEvent( true );
         }
     }
-    
+
     /*
-     * KnobEventListener handles events related to the knob.
-     */
+    * KnobEventListener handles events related to the knob.
+    */
     private class KnobEventListener extends MouseInputAdapter {
-        
+
         public KnobEventListener() {
             super();
         }
-        
+
         /* Sets the harmonic's amplitude as the mouse is dragged. */
         public void mouseDragged( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
-        
+
         /* Harmonic gains focus when the mouse enters the track. */
         public void mouseEntered( MouseEvent event ) {
             fireHarmonicFocusEvent( true );
         }
-        
+
         /* Harmonic loses focus when the mouse exits the track. */
         public void mouseExited( MouseEvent event ) {
             fireHarmonicFocusEvent( false );
         }
     }
-    
+
     /**
      * TrackEventListener handles events related to the slider track.
      *
@@ -552,35 +555,35 @@ public class AmplitudeSlider extends GraphicLayerSet
      * @version $Revision$
      */
     private class TrackEventListener extends MouseInputAdapter {
-        
+
         public TrackEventListener() {
             super();
         }
-        
+
         /* Sets the harmonic's amplitude as the mouse is dragged. */
         public void mouseDragged( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
-        
+
         /* Sets the harmonic's ampltude when based on where the mouse is pressed. */
         public void mousePressed( MouseEvent event ) {
             setAmplitude( event.getPoint() );
         }
-        
+
         /* Harmonic gains focus when the mouse enters the track. */
         public void mouseEntered( MouseEvent event ) {
             fireHarmonicFocusEvent( true );
         }
-        
+
         /* Harmonic loses focus when the mouse exits the track. */
         public void mouseExited( MouseEvent event ) {
             fireHarmonicFocusEvent( false );
         }
     }
-    
+
     /* 
-     * Sets the harmonic's amplitude based on the mouse location.
-     */
+    * Sets the harmonic's amplitude based on the mouse location.
+    */
     private void setAmplitude( Point mousePoint ) {
         double localY = 0;
         try {
@@ -595,40 +598,41 @@ public class AmplitudeSlider extends GraphicLayerSet
         double amplitude = MAX_AMPLITUDE * ( localY / ( _maxSize.height / 2.0 ) );
         amplitude = MathUtil.clamp( -MAX_AMPLITUDE, amplitude, +MAX_AMPLITUDE );
         _harmonic.setAmplitude( amplitude );
-        
+
         fireChangeEvent();
     }
-    
+
     /*
-     * TextFieldEventListener handles events related to the text field.
-     */
+    * TextFieldEventListener handles events related to the text field.
+    */
     private class TextFieldEventListener extends KeyAdapter implements ActionListener, FocusListener {
-        
+
         /* Sole constructor. */
-        public TextFieldEventListener() {}
-        
+        public TextFieldEventListener() {
+        }
+
         /* Processes the input value when the user presses the Enter key. */
         public void actionPerformed( ActionEvent event ) {
             if ( event.getSource() == _valueTextField ) {
                 processUserInput();
-            }        
+            }
         }
-        
+
         /* Selects the contents of the text field when focus is gained. */
         public void focusGained( FocusEvent event ) {
             _valueTextField.selectAll();
         }
-        
+
         /* Processes the input value when focus is lost. */
         public void focusLost( FocusEvent event ) {
-            if ( ! event.isTemporary() ) {
+            if ( !event.isTemporary() ) {
                 boolean success = processUserInput();
                 if ( !success ) {
                     _valueTextField.requestFocus();
                 }
             }
         }
-        
+
         /* Changes the amplitude value using the up/down arrow keys. */
         public void keyPressed( KeyEvent event ) {
             if ( event.getKeyCode() == KeyEvent.VK_UP ) {
@@ -642,7 +646,7 @@ public class AmplitudeSlider extends GraphicLayerSet
                 double amplitude = _harmonic.getAmplitude() - VALUE_STEP;
                 if ( amplitude >= -MAX_AMPLITUDE ) {
                     _harmonic.setAmplitude( amplitude );
-                    fireChangeEvent(); 
+                    fireChangeEvent();
                 }
             }
         }
