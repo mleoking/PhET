@@ -165,21 +165,51 @@ public abstract class WaveformChart extends Chart {
     }
 
     //----------------------------------------------------------------------------
-    // Chart Labels
+    // X-axis Labels, actual values based on fundamental's wavelength and period
     //----------------------------------------------------------------------------
 
-    // Actual x-axis labels for the space domain, these correspond to the actual wavelength of the fundamental.
     public StringLabelTable getActualSpaceLabels1() {
-        DecimalFormat format = new DecimalFormat( "#.###" );
-        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, "#.###", getComponent() );
+    }
+
+    public StringLabelTable getActualSpaceLabels2() {
+        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, "#.###", getComponent() );
+    }
+
+    public StringLabelTable getActualTimeLabels2() {
+        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, "#.###", getComponent() );
+    }
+
+    public StringLabelTable getActualTimeLabels1() {
+        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, "#.###", getComponent() );
+    }
+
+    /*
+    * Creates a label table that maps chart values to actual model values.
+    *
+    * @param multipliers multipliers applied to both the chart reference value and the model reference value
+    * @param chartReferenceValue the arbitrary value of wavelength or period that is used internally by the chart
+    * @param modelReferenceValue the actual value of wavelength or period that corresponds to the fundamental frequency
+    * @param numberFormatPattern specifies how to format the numeric labels
+    * @param component
+    */
+    private static StringLabelTable createLabels( double[] multipliers, double chartReferenceValue, double modelReferenceValue, String numberFormatPattern, Component component ) {
+        DecimalFormat format = new DecimalFormat( numberFormatPattern );
+        StringLabelTable table = new StringLabelTable( component, MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         for ( int i = 0; i < multipliers.length; i++ ) {
-            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_WAVELENGTH ) );
+            table.put( multipliers[i] * chartReferenceValue, format.format( multipliers[i] * modelReferenceValue ) );
         }
         return table;
     }
 
-    // Symbolic x-axis labels for the space domain.
+    //----------------------------------------------------------------------------
+    // X-axis Labels, symbolic values, expressed in terms of "L" and "T"
+    //----------------------------------------------------------------------------
+
     public StringLabelTable getSymbolicSpaceLabels1() {
         StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         table.put( -1.00 * L, "-L" );
@@ -194,18 +224,6 @@ public abstract class WaveformChart extends Chart {
         return table;
     }
 
-    // Actual x-axis labels for the space domain, these correspond to the actual wavelength of the fundamental.
-    public StringLabelTable getActualSpaceLabels2() {
-        DecimalFormat format = new DecimalFormat( "#.###" );
-        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        for ( int i = 0; i < multipliers.length; i++ ) {
-            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_WAVELENGTH ) );
-        }
-        return table;
-    }
-
-    // Symbolic x-axis labels for the space domain, for a different zoom level.
     public StringLabelTable getSymbolicSpaceLabels2() {
         StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         table.put( -2.0 * L, "-2L" );
@@ -220,18 +238,6 @@ public abstract class WaveformChart extends Chart {
         return table;
     }
 
-    // Actual x-axis labels for the time domain, these correspond to the actual period of the fundamental.
-    public StringLabelTable getActualTimeLabels1() {
-        DecimalFormat format = new DecimalFormat( "#.###" );
-        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
-        for ( int i = 0; i < multipliers.length; i++ ) {
-            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_PERIOD ) );
-        }
-        return table;
-    }
-
-    // Symbolic x-axis labels for the space domain, for specific zoom levels.
     public StringLabelTable getSymbolicTimeLabels1() {
         StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         table.put( -1.00 * L, "-T" );
@@ -246,18 +252,6 @@ public abstract class WaveformChart extends Chart {
         return table;
     }
 
-    // Actual x-axis labels for the time domain, these correspond to the actual period of the fundamental.
-    public StringLabelTable getActualTimeLabels2() {
-        DecimalFormat format = new DecimalFormat( "#.###" );
-        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        for ( int i = 0; i < multipliers.length; i++ ) {
-            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_PERIOD ) );
-        }
-        return table;
-    }
-
-    // Symbolic x-axis labels for the space domain, for specific zoom levels.
     public StringLabelTable getSymbolicTimeLabels2() {
         StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
         table.put( -2.0 * L, "-2T" );
