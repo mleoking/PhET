@@ -9,17 +9,14 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteSumChart;
 
 /**
  * GameSumChart is the "Sum" chart in the Game module.
- * It's similar to the "Sum" chart in the Discrete module, but adds an autoscale interface.
+ * Identical to the "Sum" chart in the Discrete module, but adds an autoscale interface.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class GameSumChart extends DiscreteSumChart {
 
-    private static final double Y_MAJOR_TICK_SPACING = 5.0;
-    private static final double Y_MINOR_TICK_SPACING = 1.0;
-
     public GameSumChart( Component component, Range2D range, Dimension chartSize ) {
-        super( component, range, chartSize, Y_MAJOR_TICK_SPACING, Y_MINOR_TICK_SPACING );
+        super( component, range, chartSize );
         autoscaleY( range.getMaxY() );
     }
 

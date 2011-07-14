@@ -14,8 +14,10 @@ import edu.colorado.phet.common.charts.Range2D;
 public class DiscreteHarmonicsChart extends WaveformChart {
 
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
+    private static final double Y_MINOR_TICK_SPACING = 0.1;
 
     public DiscreteHarmonicsChart( Component component, Range2D range, Dimension chartSize ) {
-        super( component, range, chartSize, Y_MAJOR_TICK_SPACING );
+        super( component, range, chartSize, Y_MAJOR_TICK_SPACING, Y_MINOR_TICK_SPACING );
+        getHorizonalGridlines().setMinorGridlinesVisible( false );
     }
 }
