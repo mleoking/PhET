@@ -15,7 +15,7 @@
       <sourceFolder url="file://$MODULE_DIR$/data" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="flex_sdk_3.4.1.10084 (player 9.0)" jdkType="Flex SDK Type" />
+    <orderEntry type="jdk" jdkName="flex-sdk-3.4" jdkType="Flex SDK Type" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="flexcommon" />
     <orderEntry type="module" module-name="box2d" />
