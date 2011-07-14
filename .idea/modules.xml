@@ -21,7 +21,6 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/build-an-atom/build-an-atom.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/build-an-atom/build-an-atom.iml" />
       <module fileurl="file://$PROJECT_DIR$/build-tools/build-tools.iml" filepath="$PROJECT_DIR$/build-tools/build-tools.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/capacitor-lab/capacitor-lab.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/capacitor-lab/capacitor-lab.iml" />
-      <module fileurl="file://$PROJECT_DIR$/simulations-flex/simulations/charges-and-fields-flex/charges-and-fields-flex.iml" filepath="$PROJECT_DIR$/simulations-flex/simulations/charges-and-fields-flex/charges-and-fields-flex.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/charges-and-fields-scala/charges-and-fields-scala.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/charts/charts.iml" filepath="$PROJECT_DIR$/simulations-java/common/charts/charts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" filepath="$PROJECT_DIR$/simulations-java/common/chemistry/chemistry.iml" />
