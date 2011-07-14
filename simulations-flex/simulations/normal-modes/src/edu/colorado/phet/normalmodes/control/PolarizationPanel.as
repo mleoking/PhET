@@ -19,6 +19,7 @@ import mx.containers.HBox;
 import mx.containers.VBox;
 import mx.controls.RadioButton;
 import mx.controls.RadioButtonGroup;
+import mx.core.UIComponent;
 
 public class PolarizationPanel extends Canvas {
     private var myMainView:MainView;
@@ -44,7 +45,7 @@ public class PolarizationPanel extends Canvas {
     }//end constructor
 
     private function init():void{
-        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarizaton:");
+        this.polarization_str = FlexSimStrings.get( "polarization:", "Polarization:");
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
@@ -103,14 +104,12 @@ public class PolarizationPanel extends Canvas {
     private function setPolarization( evt: Event ): void {
         var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
-            //this.myModel1.setTorL( "L" );
             this.myModel.xModes = true;
-            this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
+            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
         }
         else {
-            //this.myModel1.setTorL( "T" );
             this.myModel.xModes =  false;
-            this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
+            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }//end setPolarization();
 

@@ -9,7 +9,10 @@
 package edu.colorado.phet.normalmodes.control {
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
+import edu.colorado.phet.normalmodes.NiceComponents.NiceLabel;
 import edu.colorado.phet.normalmodes.model.Model2;
+import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
+import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 import edu.colorado.phet.normalmodes.view.MainView;
 
@@ -19,19 +22,22 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
+import mx.containers.Canvas;
+
 import mx.core.UIComponent;
 
 import org.aswing.JAccordion;
 
-public class ButtonArrayPanel extends UIComponent{
+public class ButtonArrayPanel extends Canvas{
 
     private var myMainView: MainView;
     private var myModel2: Model2;
     private var container: Sprite;          //sprite container for array of buttons
+    private var myPolarizationPanel: PolarizationPanel;
     private var maxContainerWidth:Number;   //width of container in pixels
     private var containerHeight:Number;     //height of array in pixels
     //private var color_arr:Array;            //array of possible button colors
-    private var label_txt: TextField;        //Label for array
+    private var label_txt: NiceLabel;        //Label for array
     private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
     private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
@@ -42,6 +48,8 @@ public class ButtonArrayPanel extends UIComponent{
     private var nMax:int;
 
     public function ButtonArrayPanel(  myMainView: MainView, myModel2: Model2) {
+        percentWidth = 100;
+        percentHeight = 100;
         this.myMainView = myMainView;
         this.myModel2 = myModel2;
         this.myModel2.registerView( this );
@@ -51,7 +59,8 @@ public class ButtonArrayPanel extends UIComponent{
         //this.makeColorArray();
         this.verticalPolarization = true;
         this.container = new Sprite();
-        this.label_txt = new TextField();
+        this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
+
         this.arrowGraphic = new TwoHeadedArrow();
         this.arrowGraphic.scaleX = 0.5;
         this.arrowGraphic.scaleY = 0.5;
@@ -59,7 +68,8 @@ public class ButtonArrayPanel extends UIComponent{
         this.arrowGraphic.rotation = 90;
         this.tFormat = new TextFormat();
         this.initializeStrings();
-        this.createLabel();
+        this.label_txt = new NiceLabel( 15, this.modesNxNy_str );
+        this.formatLabel();
         var nbrMasses:int = this.myModel2.N;
         //button_arr is nMax+1 x nMax+1,  i = 0 row and j = 0 column are dummies
         //so that button_arr[i][j] corresponds to mode i, j.  Lowest mode is 1,1. Highest mode is nMax,nMax
@@ -74,56 +84,26 @@ public class ButtonArrayPanel extends UIComponent{
                 this.container.addChild(this.button_arr[i][j]);    //don't add i = 0 or j = 0, since these are dummies
             }
         }
-        this.addChild( this.container );
-        this.addChild( this.label_txt );
-        this.addChild( this.arrowGraphic );
+        this.addChild( new SpriteUIComponent(this.label_txt) );
+        //this.addChild( this.myPolarizationPanel );
+        this.addChild( new SpriteUIComponent( this.container) );
+        this.addChild( this.myPolarizationPanel );
+        //this.myPolarizationPanel.setStyle( "horizontalAlign", "right");
+        //this.myPolarizationPanel.setStyle( "right" , 20 );
+        this.myPolarizationPanel.x = 80;
+        this.myPolarizationPanel.y = 0;
+        //this.addChild( new SpriteUIComponent( this.arrowGraphic ) );
         this.setNbrButtons( );
 
     } //end constructor
 
     public function initializeStrings():void{
-        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y. Polarization:");
+        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y");
     }
 
-    /*
-    private function makeColorArray():void{
-        //create color array: red to yellow to green in 2*8 + 1 increments
-        var n:uint = Math.pow(2, 3);         //2^3 = 8 divisions in color space
-        var del:uint = 32;  //color increment
-        var r:uint = 0;        //red color in rgb
-        var g:uint = 0;        //green
-        var b:uint = 0;        //blue
-        var rgb:uint = r*65535 + g*255 + b;  //rgb color
-        //red to yellow
-        r = 255;
-        for (var i:int = 0; i < n; i++){
-            g = i*del;
-            rgb = r*65536 + g*256 + b;
-            trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
-            this.color_arr.push( rgb );
-        }
-        //yellow to green
-        g = 255;
-        for (i = 0; i < n ; i++){
-            r = 255 - i*del
-            rgb = r*65536 + g*256 + b;
-            trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
-            this.color_arr.push( rgb );
-        }
-        //green
-        r = 0; g = 255;
-        rgb = r*65536 + g*256 + b;
-        trace("r = " + r + "   g = " + g + "   b = " + b + "   rgb = " + rgb.toString(16));
-        this.color_arr.push( rgb );
-        //for(var j:int = 0; j < color_arr.length; j ++ ){
-            //trace("ButtonArrayPanel.makeColorArray.  j = "+j+"   color = " + color_arr[j].toString(16) );
-        //}
-    }//end makeColorArray()
-    */
-
-    private function createLabel():void{
-        this.label_txt.text = this.modesNxNy_str;
-        this.label_txt.autoSize = TextFieldAutoSize.LEFT;
+    private function formatLabel():void{
+        //this.label_txt.text = this.modesNxNy_str;
+       // this.label_txt.autoSize = TextFieldAutoSize.LEFT;
         this.tFormat.font = "Arial";
         this.tFormat.size = 16;
         this.tFormat.align = TextFormatAlign.LEFT;
@@ -131,6 +111,7 @@ public class ButtonArrayPanel extends UIComponent{
         //this.label_txt.y = - this.label_txt.height;
     }
 
+    /*
     public function showVerticalPolarization( tOrF:Boolean ):void{
        if( tOrF ){
            this.arrowGraphic.rotation = 90;
@@ -143,10 +124,11 @@ public class ButtonArrayPanel extends UIComponent{
            this.verticalPolarization = false;
            this.setButtonColors();
        }
-    }
+    } */
 
     //resets all buttons to zero state
     public function setNbrButtons( ):void{
+        var ySpacer:int = 55;
         for(var i: int = 1; i <= this.nMax; i++ ){
             for( var j: int = 1; j <= this.nMax; j++ ){
                 this.button_arr[i][j].visible = false;
@@ -167,7 +149,7 @@ public class ButtonArrayPanel extends UIComponent{
                    size =  this.maxContainerWidth/N;
                 }
                 xOffset = this.maxContainerWidth/2 - N*size/2;
-                yOffset = xOffset;
+                yOffset = 0; // xOffset;
                 this.button_arr[i][j].setSize( size );
                 this.button_arr[i][j].visible = true;
                 //this.button_arr[i][j].changeColor( 0xffffff );
@@ -175,17 +157,23 @@ public class ButtonArrayPanel extends UIComponent{
                 this.button_arr[i][j].pushedIn = false;
                 this.button_arr[i][j].activated = false;
                 this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
-                this.button_arr[i][j].y = yOffset + ( i-1 )*(size + 4);
+                this.button_arr[i][j].y = ySpacer + yOffset + ( i-1 )*(size + 4);
             }
         }
-        this.label_txt.x = 0.5*this.container.width - label_txt.width/2 - 10;  //xOffset;
-        this.label_txt.y = yOffset - 1.3 * this.label_txt.height;
+        this.label_txt.x = 0;//0.5*container.width - label_txt.width/2;  //xOffset;
+        this.label_txt.y = ySpacer - 1.1*label_txt.height; //yOffset - 1.3 * label_txt.height;
+        this.myPolarizationPanel.x = label_txt.width + 15;
+
+        //trace( "ButtonArrayPanel.myPolarizationPanel.height = " + myPolarizationPanel.height );
+        //this.myPolarizationPanel.y = 0;//- myPolarizationPanel.height;
+        /*
         if(this.verticalPolarization){
            this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 3;
         }else{
            this.arrowGraphic.x = label_txt.x + 1*label_txt.width + 10;
         }
         this.arrowGraphic.y = label_txt.y + 0.5*label_txt.height;
+        */
     }//end setNbrButtons()
 
     //color buttons to indicate amplitude of mode

@@ -11,6 +11,7 @@ import edu.colorado.phet.flexcommon.FlexSimStrings;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.NiceComponents.VerticalSlider;
 import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 import edu.colorado.phet.normalmodes.view.MainView;
 
 import flash.display.Graphics;
@@ -22,17 +23,20 @@ import flash.text.TextFieldAutoSize;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
 
+import mx.containers.Canvas;
+
 import mx.controls.Text;
 import mx.controls.sliderClasses.Slider;
 
 import mx.core.UIComponent;
 import mx.effects.effectClasses.ActionEffectInstance;
 
-public class SliderArrayPanel extends UIComponent {
+public class SliderArrayPanel extends Canvas {
 
     private var myMainView: MainView;
     private var myModel1: Model1;
     private var container: Sprite;
+    private var myPolarizationPanel: PolarizationPanel;
     private var leftEdgeX;
     private var ampliSlider_arr:Array;   //array of verticalSliders for setting amplitude of mode.
     private var phaseSlider_arr:Array    //array of vertical Sliders for setting phase of mode
@@ -56,10 +60,13 @@ public class SliderArrayPanel extends UIComponent {
     private var minusPi_str:String;
 
     public function SliderArrayPanel( myMainView: MainView, myModel1: Model1) {
+        //percentWidth = 100;
+        //percentHeight = 100;
         this.myMainView = myMainView;
         this.myModel1 = myModel1;
         this.myModel1.registerView( this );
         this.container = new Sprite();
+        this.myPolarizationPanel = new PolarizationPanel( myMainView,  myModel1 );
         this.leftEdgeX = this.myMainView.myView1.leftEdgeX;
         this.nMax = this.myModel1.nMax;
         this.phasesShown = false;
@@ -72,7 +79,7 @@ public class SliderArrayPanel extends UIComponent {
         //vertSlider.setLabelText( "amplitude");
         //this.slider_arr[0] = vertSlider;
 
-        this.addChild( this.container );
+        this.addChild( new SpriteUIComponent ( this.container ) );
         this.initializeSliderArray();
         this.initializeStrings();
 
@@ -85,6 +92,9 @@ public class SliderArrayPanel extends UIComponent {
         this.createModeIcons();
         this.locateSlidersAndLabels();
 
+        this.addChild( this.myPolarizationPanel );
+        this.myPolarizationPanel.x = this.container.width + 20;
+        this.myPolarizationPanel.y = 0;
     } //end constructor
 
     private function initializeSliderArray():void{
@@ -158,7 +168,7 @@ public class SliderArrayPanel extends UIComponent {
         function setLabel( txtField:TextField ):void{
             txtField.autoSize = TextFieldAutoSize.RIGHT;
             txtField.setTextFormat( tFormat );
-            addChild( txtField );     //this.addChild( txtField)  throws an error
+            container.addChild( txtField );     //this.addChild( txtField)  throws an error
             //txtField.border = true; //for testing only
         }
         tFormat.size = 16;
@@ -250,6 +260,7 @@ public class SliderArrayPanel extends UIComponent {
             this.ampliSlider_arr[i].visible = false;
             //this.phaseSlider_arr[i].visible = false;
         }
+        var rightEdgeOfSliders = this.ampliSlider_arr[nbrSliders - 1].x + this.ampliSlider_arr[nbrSliders - 1].width;
         this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
@@ -270,6 +281,7 @@ public class SliderArrayPanel extends UIComponent {
         this.minusPi_txt.x = leftEdgeOfSliders + xOffset - this.minusPi_txt.width;
 
         this.container.x = 0;
+        this.myPolarizationPanel.x = rightEdgeOfSliders;
     } //end positionSliders();
 
     public function resetSliders():void{
