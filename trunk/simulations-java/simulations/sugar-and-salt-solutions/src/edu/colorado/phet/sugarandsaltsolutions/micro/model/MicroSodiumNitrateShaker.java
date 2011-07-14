@@ -9,6 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 
 /**
+ * This shaker adds sodium nitrate to the model when shaken
+ *
  * @author Sam Reid
  */
 public class MicroSodiumNitrateShaker extends Shaker<MicroModel> {
@@ -16,6 +18,7 @@ public class MicroSodiumNitrateShaker extends Shaker<MicroModel> {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
     }
 
+    //TODO: Fix to add sodium nitrate
     @Override protected void addSalt( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity ) {
         //Add the salt
         model.addMicroSodiumNitrate( new MacroSalt( outputPoint, volumePerSolidMole ) {{
