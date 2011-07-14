@@ -26,8 +26,6 @@ public class ControlPanel extends Canvas {
 
     private var myMainView: MainView;
     private var myModel:Object; //Model1 or Model1, can change with setModel();
-    //private var myModel1: Model1;
-    //private var myModel2: Model2;
 
 //    private var radioButtonBox: HBox;
 //    private var rulerCheckBoxBox: HBox;
@@ -38,7 +36,7 @@ public class ControlPanel extends Canvas {
     private var paused:Boolean;
     private var zeroPositionsButton: NiceButton2;
 
-    //Type of Mode radio buttons
+    //Polarization radio buttons
     private var innerBckgrnd1: VBox;
     private var polarizationLabel: NiceLabel;
     private var modeTypeHBox: HBox;
@@ -66,9 +64,6 @@ public class ControlPanel extends Canvas {
     public var polarization_str: String;
     public var start_str:String;
     public var stop_str:String;
-    //public var resetAll_str: String;
-    //public var oneD_str: String;
-    //public var twoD_str: String;
     public var showPhases_str:String;
     public var showSprings_str:String;
 
@@ -127,6 +122,7 @@ public class ControlPanel extends Canvas {
         this.resetTimeButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000  )
         this.zeroPositionsButton = new NiceButton2( 120, 25, zeroPositions_str, zeroPositions, 0xff0000, 0xffffff );
         this.polarizationLabel = new NiceLabel( 12, polarization_str );
+
         //Set up polarization radio button box
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
@@ -142,7 +138,6 @@ public class ControlPanel extends Canvas {
         this.vertArrow.width = 20;
         this.vertArrow.rotation = -90;
         this.vertArrow.x = 5;
-
         this.horizPolarizationButton.group = directionOfMode_rbg;
         this.vertPolarizationButton.group = directionOfMode_rbg;
         this.horizPolarizationButton.value = 1;
@@ -181,8 +176,8 @@ public class ControlPanel extends Canvas {
         this.innerBckgrnd3.addChild( showPhasesCheckBox );
         this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
 
-        //Mode type radio buttons
-        this.background.addChild( this.innerBckgrnd1 );
+        //Polarization type radio buttons
+        //this.background.addChild( this.innerBckgrnd1 );
         this.innerBckgrnd1.addChild( new SpriteUIComponent( this.polarizationLabel));
         this.innerBckgrnd1.addChild( this.modeTypeHBox );
         this.modeTypeHBox.addChild( this.horizPolarizationButton );

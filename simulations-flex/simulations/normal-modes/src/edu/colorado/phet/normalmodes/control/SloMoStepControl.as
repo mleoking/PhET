@@ -24,7 +24,7 @@ import flash.text.TextFormat;
 import mx.controls.HSlider;
 import mx.core.UIComponent;
 
-public class SloMoSliderStepButton extends UIComponent {          //cannot extend Sprite, since contains an HSlider
+public class SloMoStepControl extends UIComponent {          //cannot extend Sprite, since contains an HSlider
     //private var canvas:Sprite;
     private var myMainView: MainView;
     private var myModel: Object; //Model1 or Model1, can change with setModel();
@@ -60,7 +60,7 @@ public class SloMoSliderStepButton extends UIComponent {          //cannot exten
     public var singleStep_str: String;
 
 
-    public function SloMoSliderStepButton( myMainView: MainView, myModel: Object ) {
+    public function SloMoStepControl( myMainView: MainView, myModel: Object ) {
 
         this.initializeStrings();
 
@@ -185,7 +185,7 @@ public class SloMoSliderStepButton extends UIComponent {          //cannot exten
         //this.myShakerModel.unPauseSim();
         this.playIcon.visible = false;
         this.pauseIcon.visible = true;
-        var thisObject: SloMoSliderStepButton = this;
+        var thisObject: SloMoStepControl = this;
         //this.playPauseButton
         this.timeRateSlider.addEventListener(Event.CHANGE, onChangeTimeRate );
         //this.playPauseButton.addEventListener( MouseEvent.MOUSE_UP, onMouseClick );
