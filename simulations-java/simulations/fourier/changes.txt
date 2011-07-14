@@ -1,3 +1,4 @@
+7/14/11 #2981, create label tables to map L=1 to actual time and space domain values for x-axis charts in Discrete module (lots of duplicate code)
 7/14/11 get images for maximize and minimize buttons from phetcommon, delete local copies
 7/13/11 #2981, internal rename of Harmonics to Components in Discrete-to-Continuous module, since that's the visible name
 7/13/11 #2981, change space units from mm to m throughout

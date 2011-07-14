@@ -552,31 +552,25 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private void updateLabelsAndLines() {
 
         // X axis labels
-        if ( _mathGraphic.isVisible() ) {
-            // If math mode is enabled, use symbolic labels.
-            LabelTable labelTable = null;
-            if ( _domain == Domain.TIME ) {
-                if ( _xZoomLevel > -3 ) {
-                    labelTable = _chartGraphic.getTimeLabels1();
-                }
-                else {
-                    labelTable = _chartGraphic.getTimeLabels2();
-                }
+        final boolean mathMode = _mathGraphic.isVisible();
+        LabelTable labelTable;
+        if ( _domain == Domain.TIME ) {
+            if ( _xZoomLevel > -3 ) {
+                labelTable = mathMode ? _chartGraphic.getSymbolicTimeLabels1() : _chartGraphic.getActualTimeLabels1();
             }
-            else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-                if ( _xZoomLevel > -3 ) {
-                    labelTable = _chartGraphic.getSpaceLabels1();
-                }
-                else {
-                    labelTable = _chartGraphic.getSpaceLabels2();
-                }
+            else {
+                labelTable = mathMode ? _chartGraphic.getSymbolicTimeLabels2() : _chartGraphic.getActualTimeLabels2();
             }
-            _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
         }
-        else {
-            // If math mode is disabled, use numeric labels.
-            _chartGraphic.getHorizontalTicks().setMajorLabels( null );
+        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
+            if ( _xZoomLevel > -3 ) {
+                labelTable = mathMode ? _chartGraphic.getSymbolicSpaceLabels1() : _chartGraphic.getActualSpaceLabels1();
+            }
+            else {
+                labelTable = mathMode ? _chartGraphic.getSymbolicSpaceLabels2() : _chartGraphic.getActualSpaceLabels2();
+            }
         }
+        _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
 
         // X axis title
         if ( _domain == Domain.TIME ) {

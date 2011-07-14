@@ -167,82 +167,107 @@ public class DiscreteHarmonicsChart extends Chart {
     // Chart Labels
     //----------------------------------------------------------------------------
 
-    /*
-    * Lazy initialization of the X axis "space" labels.
-    */
-    public StringLabelTable getSpaceLabels1() {
-        if ( _spaceLabels1 == null ) {
-            _spaceLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels1.put( -1.00 * L, "-L" );
-            _spaceLabels1.put( -0.75 * L, "-3L/4" );
-            _spaceLabels1.put( -0.50 * L, "-L/2" );
-            _spaceLabels1.put( -0.25 * L, "-L/4" );
-            _spaceLabels1.put( 0 * L, "0" );
-            _spaceLabels1.put( +0.25 * L, "L/4" );
-            _spaceLabels1.put( +0.50 * L, "L/2" );
-            _spaceLabels1.put( +0.75 * L, "3L/4" );
-            _spaceLabels1.put( +1.00 * L, "L" );
+    // Actual x-axis labels for the space domain, these correspond to the actual wavelength of the fundamental.
+    public StringLabelTable getActualSpaceLabels1() {
+        DecimalFormat format = new DecimalFormat( "#.###" );
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+        for ( int i = 0; i < multipliers.length; i++ ) {
+            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_WAVELENGTH ) );
         }
-        return _spaceLabels1;
+        return table;
     }
 
-    /*
-    * Lazy initialization of the X axis "space" labels.
-    */
-    public StringLabelTable getSpaceLabels2() {
-        if ( _spaceLabels2 == null ) {
-            _spaceLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _spaceLabels2.put( -2.0 * L, "-2L" );
-            _spaceLabels2.put( -1.5 * L, "-3L/2" );
-            _spaceLabels2.put( -1.0 * L, "-L" );
-            _spaceLabels2.put( -0.5 * L, "-L/2" );
-            _spaceLabels2.put( 0 * L, "0" );
-            _spaceLabels2.put( +0.5 * L, "L/2" );
-            _spaceLabels2.put( +1.0 * L, "L" );
-            _spaceLabels2.put( +1.5 * L, "3L/2" );
-            _spaceLabels2.put( +2.0 * L, "2L" );
-        }
-        return _spaceLabels2;
+    // Symbolic x-axis labels for the space domain.
+    public StringLabelTable getSymbolicSpaceLabels1() {
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        table.put( -1.00 * L, "-L" );
+        table.put( -0.75 * L, "-3L/4" );
+        table.put( -0.50 * L, "-L/2" );
+        table.put( -0.25 * L, "-L/4" );
+        table.put( 0 * L, "0" );
+        table.put( +0.25 * L, "L/4" );
+        table.put( +0.50 * L, "L/2" );
+        table.put( +0.75 * L, "3L/4" );
+        table.put( +1.00 * L, "L" );
+        return table;
     }
 
-    /*
-    * Lazy initialization of the X axis "time" labels.
-    */
-    public StringLabelTable getTimeLabels1() {
-        if ( _timeLabels1 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels1 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels1.put( -1.00 * T, "-T" );
-            _timeLabels1.put( -0.75 * T, "-3T/4" );
-            _timeLabels1.put( -0.50 * T, "-T/2" );
-            _timeLabels1.put( -0.25 * T, "-T/4" );
-            _timeLabels1.put( 0 * T, "0" );
-            _timeLabels1.put( +0.25 * T, "T/4" );
-            _timeLabels1.put( +0.50 * T, "T/2" );
-            _timeLabels1.put( +0.75 * T, "3T/4" );
-            _timeLabels1.put( +1.00 * T, "T" );
+    // Actual x-axis labels for the space domain, these correspond to the actual wavelength of the fundamental.
+    public StringLabelTable getActualSpaceLabels2() {
+        DecimalFormat format = new DecimalFormat( "#.###" );
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
+        for ( int i = 0; i < multipliers.length; i++ ) {
+            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_WAVELENGTH ) );
         }
-        return _timeLabels1;
+        return table;
     }
 
-    /*
-    * Lazy initialization of the X axis "time" labels.
-    */
-    public StringLabelTable getTimeLabels2() {
-        if ( _timeLabels2 == null ) {
-            double T = L; // use the same quantity for wavelength and period
-            _timeLabels2 = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
-            _timeLabels2.put( -2.0 * T, "-2T" );
-            _timeLabels2.put( -1.5 * T, "-3T/2" );
-            _timeLabels2.put( -1.0 * T, "-T" );
-            _timeLabels2.put( -0.5 * T, "-T/2" );
-            _timeLabels2.put( 0 * T, "0" );
-            _timeLabels2.put( +0.5 * T, "T/2" );
-            _timeLabels2.put( +1.0 * T, "T" );
-            _timeLabels2.put( +1.5 * T, "3T/2" );
-            _timeLabels2.put( +2.0 * T, "2T" );
-        }
-        return _timeLabels2;
+    // Symbolic x-axis labels for the space domain, for a different zoom level.
+    public StringLabelTable getSymbolicSpaceLabels2() {
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        table.put( -2.0 * L, "-2L" );
+        table.put( -1.5 * L, "-3L/2" );
+        table.put( -1.0 * L, "-L" );
+        table.put( -0.5 * L, "-L/2" );
+        table.put( 0 * L, "0" );
+        table.put( +0.5 * L, "L/2" );
+        table.put( +1.0 * L, "L" );
+        table.put( +1.5 * L, "3L/2" );
+        table.put( +2.0 * L, "2L" );
+        return table;
     }
 
+    // Actual x-axis labels for the time domain, these correspond to the actual period of the fundamental.
+    public StringLabelTable getActualTimeLabels1() {
+        DecimalFormat format = new DecimalFormat( "#.###" );
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+        for ( int i = 0; i < multipliers.length; i++ ) {
+            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_PERIOD ) );
+        }
+        return table;
+    }
+
+    // Symbolic x-axis labels for the space domain, for specific zoom levels.
+    public StringLabelTable getSymbolicTimeLabels1() {
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        table.put( -1.00 * L, "-T" );
+        table.put( -0.75 * L, "-3T/4" );
+        table.put( -0.50 * L, "-T/2" );
+        table.put( -0.25 * L, "-T/4" );
+        table.put( 0 * L, "0" );
+        table.put( +0.25 * L, "T/4" );
+        table.put( +0.50 * L, "T/2" );
+        table.put( +0.75 * L, "3T/4" );
+        table.put( +1.00 * L, "T" );
+        return table;
+    }
+
+    // Actual x-axis labels for the time domain, these correspond to the actual period of the fundamental.
+    public StringLabelTable getActualTimeLabels2() {
+        DecimalFormat format = new DecimalFormat( "#.###" );
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
+        for ( int i = 0; i < multipliers.length; i++ ) {
+            table.put( multipliers[i] * L, format.format( multipliers[i] * FourierConstants.FUNDAMENTAL_PERIOD ) );
+        }
+        return table;
+    }
+
+    // Symbolic x-axis labels for the space domain, for specific zoom levels.
+    public StringLabelTable getSymbolicTimeLabels2() {
+        StringLabelTable table = new StringLabelTable( getComponent(), MAJOR_TICK_FONT, MAJOR_TICK_COLOR );
+        table.put( -2.0 * L, "-2T" );
+        table.put( -1.5 * L, "-3T/2" );
+        table.put( -1.0 * L, "-T" );
+        table.put( -0.5 * L, "-T/2" );
+        table.put( 0 * L, "0" );
+        table.put( +0.5 * L, "T/2" );
+        table.put( +1.0 * L, "T" );
+        table.put( +1.5 * L, "3T/2" );
+        table.put( +2.0 * L, "2T" );
+        return table;
+    }
 }
