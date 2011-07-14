@@ -5,6 +5,7 @@ package edu.colorado.phet.fourier.view.discrete;
 import java.awt.*;
 
 import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.fourier.charts.WaveformChart;
 
 /**
  * DiscreteHarmonicsChart is the "Harmonics" chart in the Discrete module.
