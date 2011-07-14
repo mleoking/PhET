@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.fourier.view.game;
 
 import java.awt.*;
@@ -37,7 +28,6 @@ import edu.colorado.phet.fourier.view.discrete.DiscreteHarmonicsChart;
  * It displays a collection of harmonic waveforms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusListener {
 
