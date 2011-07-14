@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
@@ -41,7 +41,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private static final double framesPerSecond = 30;
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
-    private final Property<Integer> stepsOfAddingSalt = new Property<Integer>( 0 );
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
     //Lists of particles
@@ -54,7 +53,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
-    private double sizeScale = 0.35;
+    public static final double sizeScale = 0.35;
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -87,29 +86,22 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Add models for the various dispensers: sugar, salt, etc.
         dispensers.add( new MicroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-//        dispensers.add( new MacroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, SODIUM_NITRATE ) );
+        dispensers.add( new MicroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
     }
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
-    public void addMicroSalt( MacroSalt salt ) {
+    public void addSaltCrystal( SaltCrystal saltCrystal ) {
+        //Add the components of the lattice to the model so the graphics will be created
+        for ( LatticeConstituent latticeConstituent : saltCrystal ) {
 
-        //Only add a crystal every N steps, otherwise there are too many
-        stepsOfAddingSalt.set( stepsOfAddingSalt.get() + 1 );
-        if ( stepsOfAddingSalt.get() % 30 == 0 ) {
-            //TODO: Make getPosition abstract so the particle can query the lattice?
-
-            //Create a random crystal
-            //TODO: get rid of cast here
-            final SaltCrystal crystal = new SaltCrystal( salt.position.get(), (SaltLattice) new SaltLattice().grow( 20 ), sizeScale );
-
-            //Add the components of the lattice to the model so the graphics will be created
-            for ( LatticeConstituent latticeConstituent : crystal ) {
-
-                //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-                sodiumList.add( (SphericalParticle) latticeConstituent.particle );
-            }
-            saltCrystals.add( crystal );
+            //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
+            sodiumList.add( (SphericalParticle) latticeConstituent.particle );
         }
+        saltCrystals.add( saltCrystal );
+    }
+
+    //TODO: add the sodium nitrate
+    public void addMicroSodiumNitrate( MacroSalt sodiumNitrateCrystal ) {
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
@@ -335,10 +327,5 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
      */
     @Override protected String getSugarDispenserName() {
         return SUCROSE;
-    }
-
-    //TODO: fix this argument to be more sodium-nitrate-esque
-    public void addMicroSodiumNitrate( MacroSalt macroSalt ) {
-
     }
 }
