@@ -37,10 +37,10 @@ import edu.colorado.phet.fourier.event.HarmonicFocusEvent;
 import edu.colorado.phet.fourier.event.HarmonicFocusListener;
 import edu.colorado.phet.fourier.model.FourierSeries;
 import edu.colorado.phet.fourier.model.Harmonic;
-import edu.colorado.phet.fourier.view.HarmonicColors;
-import edu.colorado.phet.fourier.view.HarmonicsEquation;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleEvent;
 import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleListener;
+import edu.colorado.phet.fourier.view.HarmonicColors;
+import edu.colorado.phet.fourier.view.HarmonicsEquation;
 
 
 /**
@@ -76,7 +76,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
     // Chart parameters
-    private static final double L = FourierConstants.L; // do not change!
+    private static final double L = FourierConstants.L;
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -119,7 +119,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     /**
      * Sole constructor.
      *
-     * @param component the parent Component
+     * @param component     the parent Component
      * @param fourierSeries the Fourier series that this view displays
      */
     public DiscreteHarmonicsView( Component component, FourierSeries fourierSeries ) {
@@ -161,7 +161,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
         addGraphic( _minimizeButton, CONTROLS_LAYER );
         _minimizeButton.centerRegistrationPoint();
-        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
+        _minimizeButton.setLocation( ( _minimizeButton.getWidth() / 2 ) + 10, _minimizeButton.getHeight() / 2 + 5 );
 
         // Zoom controls
         {
@@ -253,7 +253,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Gets the horizontal zoom control.
-     * 
+     *
      * @return the horizontal zoom control
      */
     public PhetZoomControl getHorizontalZoomControl() {
@@ -262,7 +262,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Enables things that are related to "math mode".
-     * 
+     *
      * @param enabled true or false
      */
     public void setMathEnabled( boolean enabled ) {
@@ -272,7 +272,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Gets the chart associated with this graphic.
-     * 
+     *
      * @return the chart
      */
     public Chart getChart() {
@@ -281,9 +281,9 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Sets the domain and math form.
-     * Together, these values determines how the chart is 
+     * Together, these values determines how the chart is
      * labeled, and the format of the equation shown above the chart.
-     * 
+     *
      * @param domain
      * @param mathForm
      */
@@ -300,7 +300,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Gets a reference to the "minimize" button.
-     * 
+     *
      * @return minimize button
      */
     public PhetImageGraphic getMinimizeButton() {
@@ -309,7 +309,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Sets the height of this graphic.
-     * 
+     *
      * @param height
      */
     public void setHeight( int height ) {
@@ -331,7 +331,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     public void update() {
 
         if ( isVisible() ) {
-            
+
             int numberOfHarmonics = _fourierSeries.getNumberOfHarmonics();
 
             if ( numberOfHarmonics != _previousNumberOfHarmonics ) {
@@ -380,7 +380,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
 
     /**
      * Invokes when a zoom of the chart has been performed.
-     * 
+     *
      * @param event
      */
     public void zoomPerformed( ZoomEvent event ) {
@@ -506,22 +506,22 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
             // If math mode is disabled, use numeric labels.
             _chartGraphic.getHorizontalTicks().setMajorLabels( null );
         }
-        
+
         // X axis title
         if ( _domain == Domain.TIME ) {
             if ( _mathGraphic.isVisible() ) {
-                _chartGraphic.setXAxisTitle( "t" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t" ) );
             }
             else {
-                _chartGraphic.setXAxisTitle( "t (ms)" ); 
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t.units" ) );
             }
         }
         else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
             if ( _mathGraphic.isVisible() ) {
-                _chartGraphic.setXAxisTitle( "x" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x" ) );
             }
             else {
-                _chartGraphic.setXAxisTitle( "x (mm)" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x.units" ) );
             }
         }
     }
@@ -564,7 +564,7 @@ public class DiscreteHarmonicsView extends GraphicLayerSet implements SimpleObse
     /**
      * Handles animation events.
      * Animates the harmonics by adjusting their phase (aka, start times).
-     * 
+     *
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {

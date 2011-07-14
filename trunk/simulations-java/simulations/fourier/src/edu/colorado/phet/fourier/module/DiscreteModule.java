@@ -11,10 +11,7 @@
 
 package edu.colorado.phet.fourier.module;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputAdapter;
@@ -78,7 +75,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
     private static final Color WIGGLE_ME_COLOR = Color.RED;
 
     // Fourier Components
-    private static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
+    private static final double FUNDAMENTAL_FREQUENCY = FourierConstants.FUNDAMENTAL_FREQUENCY;
     private static final int NUMBER_OF_HARMONICS = FourierConstants.MAX_HARMONICS;
 
     //----------------------------------------------------------------------------
@@ -156,18 +153,18 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
 
         // Wavelength Tool
         _wavelengthTool = new HarmonicWavelengthTool( apparatusPanel,
-                _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
+                                                      _fourierSeries.getHarmonic( 0 ), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _wavelengthTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _wavelengthTool );
 
         // Period Tool
         _periodTool = new HarmonicPeriodTool( apparatusPanel,
-                _fourierSeries.getHarmonic(0), _harmonicsView.getChart() );
+                                              _fourierSeries.getHarmonic( 0 ), _harmonicsView.getChart() );
         apparatusPanel.addGraphic( _periodTool, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodTool );
 
         // Period Display
-        _periodDisplay = new HarmonicPeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic(0) );
+        _periodDisplay = new HarmonicPeriodDisplay( apparatusPanel, _fourierSeries.getHarmonic( 0 ) );
         apparatusPanel.addGraphic( _periodDisplay, TOOLS_LAYER );
         apparatusPanel.addChangeListener( _periodDisplay );
 
@@ -184,9 +181,9 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
 
         // Control Panel
         _controlPanel = new DiscreteControlPanel( this,
-                _fourierSeries, _harmonicsView, _sumView,
-                _wavelengthTool, _periodTool, _periodDisplay,
-                _animationCycleController );
+                                                  _fourierSeries, _harmonicsView, _sumView,
+                                                  _wavelengthTool, _periodTool, _periodDisplay,
+                                                  _animationCycleController );
         _controlPanel.addVerticalSpace( 5 );
         _controlPanel.addResetAllButton( this );
         setControlPanel( _controlPanel );
@@ -213,7 +210,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     _harmonicsMinimizedView.setVisible( true );
                     layoutViews();
                 }
-             } );
+            } );
 
             // Harmonics maximize
             _harmonicsMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -224,7 +221,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     layoutViews();
                     setWaitCursorEnabled( false );
                 }
-             } );
+            } );
 
             // Sum minimize
             _sumView.getMinimizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -233,7 +230,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     _sumMinimizedView.setVisible( true );
                     layoutViews();
                 }
-             } );
+            } );
 
             // Sum maximize
             _sumMinimizedView.getMaximizeButton().addMouseInputListener( new MouseInputAdapter() {
@@ -244,7 +241,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
                     layoutViews();
                     setWaitCursorEnabled( false );
                 }
-             } );
+            } );
         }
 
         //----------------------------------------------------------------------------
@@ -353,9 +350,9 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
 
         if ( _harmonicsView.isVisible() && _sumView.isVisible() ) {
             // Both maximized
-            _harmonicsView.setHeight( availableHeight/2 );
+            _harmonicsView.setHeight( availableHeight / 2 );
             _harmonicsView.setLocation( _amplitudesView.getX(), _amplitudesView.getY() + _amplitudesView.getHeight() );
-            _sumView.setHeight( availableHeight/2 );
+            _sumView.setHeight( availableHeight / 2 );
             _sumView.setLocation( _amplitudesView.getX(), _harmonicsView.getY() + _harmonicsView.getHeight() );
         }
         else if ( _harmonicsView.isVisible() ) {
@@ -442,9 +439,9 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
 
         // Save Fourier series config
         config.setNumberOfHarmonics( _fourierSeries.getNumberOfHarmonics() );
-        double[] amplitudes = new double[ _fourierSeries.getNumberOfHarmonics() ];
+        double[] amplitudes = new double[_fourierSeries.getNumberOfHarmonics()];
         for ( int i = 0; i < amplitudes.length; i++ ) {
-            amplitudes[i] = _fourierSeries.getHarmonic(i).getAmplitude();
+            amplitudes[i] = _fourierSeries.getHarmonic( i ).getAmplitude();
         }
         config.setAmplitudes( amplitudes );
 
@@ -481,7 +478,7 @@ public class DiscreteModule extends FourierAbstractModule implements ApparatusPa
         _fourierSeries.setNumberOfHarmonics( config.getNumberOfHarmonics() );
         double[] amplitudes = config.getAmplitudes();
         for ( int i = 0; i < amplitudes.length; i++ ) {
-            _fourierSeries.getHarmonic(i).setAmplitude( amplitudes[i] );
+            _fourierSeries.getHarmonic( i ).setAmplitude( amplitudes[i] );
         }
     }
 

@@ -96,7 +96,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final double ENVELOPE_STEP = Math.PI / 10; // about one value for every 2 pixels
     private static final Color ENVELOPE_COLOR = Color.LIGHT_GRAY;
     private static final Stroke ENVELOPE_STROKE = new BasicStroke( 4f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND );
-    
+
     // Autoscaling
     private static final double AUTOSCALE_FACTOR = 1.25; // multiple max amplitude by this amount when autoscaling
 
@@ -125,10 +125,11 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
-     * 
-     * @param component the parent Component
+     *
+     * @param component  the parent Component
      * @param wavePacket the Gaussian wave packet being displayed
      */
     public D2CSumView( Component component, GaussianWavePacket wavePacket ) {
@@ -166,7 +167,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
             _xWidthPlot = new WavePacketXWidthPlot( component, _chartGraphic, _wavePacket );
             _chartGraphic.addDataSetGraphic( _xWidthPlot );
-            
+
             int xOffset = 25;
             int yOffset = 25;
             _flattenedChart = new FlattenedChart( component, _chartGraphic, xOffset, yOffset );
@@ -176,7 +177,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         }
 
         // Fourier series
-        _fourierSeries = new FourierSeries( 1, 440 ); //XXX
+        _fourierSeries = new FourierSeries( 1, FourierConstants.FUNDAMENTAL_FREQUENCY );
         _fourierSeries.setPreset( Preset.CUSTOM );
 
         // Fourier sum plot
@@ -266,7 +267,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Gets the horizontal zoom control.
-     * 
+     *
      * @return the horizontal zoom control
      */
     public PhetZoomControl getHorizontalZoomControl() {
@@ -275,7 +276,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Gets a reference to the chart.
-     * 
+     *
      * @return Chart
      */
     public Chart getChart() {
@@ -285,7 +286,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     /**
      * Sets the domain.
      * Changes various labels on the chart, tools, formulas, etc.
-     * 
+     *
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
     public void setDomain( Domain domain ) {
@@ -297,7 +298,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Sets the wave type.
-     * 
+     *
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( WaveType waveType ) {
@@ -310,7 +311,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Gets a reference to the "minimize" button.
-     * 
+     *
      * @return minimize button
      */
     public PhetImageGraphic getMinimizeButton() {
@@ -319,7 +320,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Sets the height of this graphic.
-     * 
+     *
      * @param height
      */
     public void setHeight( int height ) {
@@ -336,7 +337,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Turns the continuous waveform display on and off.
-     * 
+     *
      * @param enabled
      */
     public void setEnvelopeEnabled( boolean enabled ) {
@@ -350,7 +351,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Is the envelope waveform display enabled?
-     * 
+     *
      * @return true or false
      */
     public boolean isEnvelopeEnabled() {
@@ -359,21 +360,21 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
 
     /**
      * Controls the visibility of the x-width plot on the chart.
-     * 
+     *
      * @param visible
      */
     public void setXWidthVisible( boolean visible ) {
         _xWidthPlot.setVisible( visible );
         refreshChart();
     }
-    
+
     //----------------------------------------------------------------------------
     // ZoomListener implementation
     //----------------------------------------------------------------------------
 
     /**
      * Invokes when a zoom of the chart has been performed.
-     * 
+     *
      * @param event
      */
     public void zoomPerformed( ZoomEvent event ) {
@@ -494,12 +495,12 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         else {
             addContinuousPlot();
         }
-        
+
         // Update the envelope last, so that the Fourier series is in-sync with the wave packet
         if ( _envelopeEnabled ) {
             updateEnvelope();
         }
-        
+
         // Re-add the x width plot
         _xWidthPlot.update();
         _chartGraphic.addDataSetGraphic( _xWidthPlot );
@@ -576,7 +577,7 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
         Point2D[] points2;
         if ( _wavePacket.getK1() > 0 ) {
             // Spacing is > 0, so use the Fourier sum data.
-            
+
             // Create a copy of the fourier series that we already have, 
             // but invert the wave type (sines or cosines).
             FourierSeries fourierSeries = new FourierSeries();
@@ -595,31 +596,31 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
                     fourierSeries.setWaveType( WaveType.SINES );
                 }
             }
-            
+
             // Compute the data for the new Fourier series using a FourierPlot.
             FourierSumPlot sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, fourierSeries );
             sumPlot.setPeriod( _sumPlot.getPeriod() );
             sumPlot.setPixelsPerPoint( _sumPlot.getPixelsPerPoint() );
             sumPlot.updateDataSet();
-            
+
             points1 = _sumPlot.getDataSet().getPoints();
             points2 = sumPlot.getDataSet().getPoints();
         }
         else {
             // Spacing is zero, so use the continuous data.
-            
+
             // Create a wave packet plot with inverted wave type (sines or cosines)
             GaussianWavePacketPlot wavePacketPlot = new GaussianWavePacketPlot( getComponent(), _chartGraphic );
             wavePacketPlot.setPixelsPerPoint( _wavePacketPlot.getPixelsPerPoint() );
             wavePacketPlot.setK0( _wavePacket.getK0() );
             wavePacketPlot.setDeltaX( _wavePacket.getDeltaX() );
             if ( _wavePacketPlot.getWaveType() == WaveType.SINES ) {
-                wavePacketPlot.setWaveType( WaveType.COSINES );     
+                wavePacketPlot.setWaveType( WaveType.COSINES );
             }
             else {
                 wavePacketPlot.setWaveType( WaveType.SINES );
             }
-            
+
             points1 = _wavePacketPlot.getDataSet().getPoints();
             points2 = wavePacketPlot.getDataSet().getPoints();
         }
@@ -652,10 +653,10 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
      */
     private void updateAxisTitles() {
         if ( _domain == Domain.SPACE ) {
-            _chartGraphic.setXAxisTitle( "x (mm)" );
+            _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x.units" ) );
         }
         else if ( _domain == Domain.TIME ) {
-            _chartGraphic.setXAxisTitle( "t (ms)" );
+            _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t.units" ) );
         }
         refreshChart();
     }

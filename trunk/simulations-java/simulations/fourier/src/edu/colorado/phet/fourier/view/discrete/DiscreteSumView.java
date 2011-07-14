@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
-import javax.swing.JCheckBox;
+import javax.swing.*;
 
 import edu.colorado.phet.common.charts.*;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -46,11 +46,11 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
  * @version $Revision$
  */
 public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, ZoomListener, AnimationCycleListener {
-    
+
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
@@ -64,14 +64,14 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
-    
+
     // Title parameters
     private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 135 );
-    
+
     // Chart parameters
-    private static final double L = FourierConstants.L; // do not change!
+    private static final double L = FourierConstants.L;
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -80,25 +80,25 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final double Y_RANGE_MAX = 12.0;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 135 );
-    
+
     // Zoom parameters
     private static final int Y_ZOOM_STEP = 2;
-    
+
     // Wave parameters
     private static final Stroke SUM_STROKE = new BasicStroke( 1f );
     private static final Color SUM_COLOR = Color.BLACK;
     private static final double SUM_PIXELS_PER_POINT = 1;
     private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
     private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
-    
+
     // Math parameters
     private static final Font MATH_FONT = new PhetFont( Font.PLAIN, 18 );
     private static final Color MATH_COLOR = Color.BLACK;
-    
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private FourierSeries _fourierSeries;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
@@ -111,30 +111,30 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private PhetZoomControl _horizontalZoomControl, _verticalZoomControl;
     private JCheckBox _autoScaleCheckBox;
     private PhetGraphic _autoScaleGraphic;
-    
+
     private int _xZoomLevel;
     private Domain _domain;
     private MathForm _mathForm;
     private boolean _presetEnabled;
-    
+
     private int _previousNumberOfHarmonics;
     private Preset _previousPreset;
     private WaveType _previousWaveType;
-    
+
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
-    
+
     public DiscreteSumView( Component component, FourierSeries fourierSeries ) {
         super( component );
 
         // Enable antialiasing for all children.
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        
+
         // Model
         _fourierSeries = fourierSeries;
         _fourierSeries.addObserver( this );
-        
+
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
         _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
@@ -143,7 +143,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
         _backgroundGraphic.setLocation( 0, 0 );
-        
+
         // Title
         String title = FourierResources.getString( "DiscreteSumView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
@@ -151,14 +151,14 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _titleGraphic.rotate( -( Math.PI / 2 ) );
         _titleGraphic.setLocation( TITLE_LOCATION );
         addGraphic( _titleGraphic, TITLE_LAYER );
-        
+
         // Chart
         {
             _chartGraphic = new DiscreteSumChart( component, CHART_RANGE, CHART_SIZE );
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 60, 50 );
-            
+
             // Sine/cosine preset plot
             _sineCosinePresetPlot = new SinePlot( getComponent(), _chartGraphic );
             _sineCosinePresetPlot.setAmplitude( 1 );
@@ -168,11 +168,11 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _sineCosinePresetPlot.setBorderColor( PRESET_COLOR );
             _sineCosinePresetPlot.setStartX( 0 );
             _chartGraphic.addDataSetGraphic( _sineCosinePresetPlot );
-            
+
             // Plot for all other presets
             _presetPlot = new LinePlot( getComponent(), _chartGraphic, new DataSet(), PRESET_STROKE, PRESET_COLOR );
             _chartGraphic.addDataSetGraphic( _presetPlot );
-            
+
             // Sum plot
             _sumPlot = new FourierSumPlot( getComponent(), _chartGraphic, _fourierSeries );
             _sumPlot.setPeriod( L );
@@ -181,13 +181,13 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _sumPlot.setBorderColor( SUM_COLOR );
             _chartGraphic.addDataSetGraphic( _sumPlot );
         }
-        
+
         // Close button
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
         addGraphic( _minimizeButton, CONTROLS_LAYER );
         _minimizeButton.centerRegistrationPoint();
-        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
-        
+        _minimizeButton.setLocation( ( _minimizeButton.getWidth() / 2 ) + 10, _minimizeButton.getHeight() / 2 + 5 );
+
         // Zoom controls
         {
             _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
@@ -196,22 +196,22 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             int x = _chartGraphic.getX() + CHART_SIZE.width + 20;
             int y = _chartGraphic.getY();
             _horizontalZoomControl.setLocation( x, y );
-            
+
             _autoScaleCheckBox = new JCheckBox( FourierResources.getString( "DiscreteSumView.autoScale" ) );
             _autoScaleCheckBox.setBackground( new Color( 255, 255, 255, 0 ) );
             _autoScaleGraphic = PhetJComponent.newInstance( component, _autoScaleCheckBox );
             addGraphic( _autoScaleGraphic, CONTROLS_LAYER );
             // Aligned with the bottom of the chart.
-            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
-                    _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
-            
+            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(),
+                                           _chartGraphic.getY() + _chartGraphic.getHeight() - _autoScaleGraphic.getHeight() );
+
             _verticalZoomControl = new PhetZoomControl( component, PhetZoomControl.VERTICAL );
             addGraphic( _verticalZoomControl, CONTROLS_LAYER );
             // Just above the autoscale check box.
-            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
-                    _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
+            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(),
+                                              _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
         }
-  
+
         // Math
         {
             _mathGraphic = new DiscreteSumEquation( component );
@@ -222,19 +222,19 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             int y = 30;
             _mathGraphic.setLocation( x, y );
         }
-        
+
         // Interactivity
         {
             _backgroundGraphic.setIgnoreMouse( true );
             _titleGraphic.setIgnoreMouse( true );
             _chartGraphic.setIgnoreMouse( true );
             _mathGraphic.setIgnoreMouse( true );
-            
+
             _minimizeButton.setCursorHand();
-            
+
             _horizontalZoomControl.addZoomListener( this );
             _verticalZoomControl.addZoomListener( this );
-            
+
             _autoScaleCheckBox.addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent event ) {
                     updateZoomButtons();
@@ -242,10 +242,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 }
             } );
         }
-        
+
         reset();
     }
-    
+
     /**
      * Call this method prior to releasing all references to an object of this type.
      */
@@ -259,7 +259,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     //----------------------------------------------------------------------------
     // Reset
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets to the initial state.
      */
@@ -272,18 +272,18 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _autoScaleCheckBox.setSelected( false );
             updateLabelsAndLines();
             updateZoomButtons();
-            
+
             _presetPlot.setVisible( false );
             _sineCosinePresetPlot.setVisible( false );
         }
-        
+
         _domain = Domain.SPACE;
-        
+
         // Math Mode
         _mathForm = MathForm.WAVE_NUMBER;
         _mathGraphic.setVisible( false );
         updateMath();
-        
+
         // Synchronize with model
         _previousNumberOfHarmonics = 0; // force an update
         _previousPreset = Preset.UNDEFINED;
@@ -291,54 +291,54 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _presetEnabled = false;
         update();
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the horizontal zoom control.
      * Uses to set up linking of zoom controls on different user interfaces.
-     * 
+     *
      * @return the horizontal zoom control
      */
     public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
-    
+
     /**
      * Gets the vertical zoom control.
-     * 
+     *
      * @return the vertical zoom control
      */
     public PhetZoomControl getVerticalZoomControl() {
         return _verticalZoomControl;
     }
-    
+
     /**
      * Gets the auto-scale control.
-     * 
-     * @param the auto-scale control
+     *
+     * @return the auto-scale control
      */
     public PhetGraphic getAutoScaleControl() {
         return _autoScaleGraphic;
     }
-    
+
     /**
      * Enables things that are related to "math mode".
-     * 
+     *
      * @param enabled true or false
      */
     public void setMathEnabled( boolean enabled ) {
         _mathGraphic.setVisible( enabled );
         updateLabelsAndLines();
     }
-    
+
     /**
      * Sets the domain and math form.
-     * Together, these values determines how the chart is 
+     * Together, these values determines how the chart is
      * labeled, and the format of the equation shown above the chart.
-     * 
+     *
      * @param domain
      * @param mathForm
      */
@@ -350,10 +350,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         _previousPreset = Preset.UNDEFINED; // force update
         update();
     }
-    
+
     /**
      * Turns visibility of the infinite preset waveform on/off.
-     * 
+     *
      * @param enabled
      */
     public void setPresetEnabled( boolean enabled ) {
@@ -373,16 +373,16 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
 
     /**
      * Gets a reference to the "minimize" button.
-     * 
+     *
      * @return minimize button
      */
     public PhetImageGraphic getMinimizeButton() {
         return _minimizeButton;
     }
-    
+
     /**
      * Sets the height of this graphic.
-     * 
+     *
      * @param height
      */
     public void setHeight( int height ) {
@@ -390,25 +390,25 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
-            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(), 
-                    _chartGraphic.getY() + (int)_chartGraphic.getChartSize().getHeight() - _autoScaleGraphic.getHeight() + 15 );
-            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(), 
-                    _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
+            _autoScaleGraphic.setLocation( _horizontalZoomControl.getX(),
+                                           _chartGraphic.getY() + (int) _chartGraphic.getChartSize().getHeight() - _autoScaleGraphic.getHeight() + 15 );
+            _verticalZoomControl.setLocation( _horizontalZoomControl.getX(),
+                                              _autoScaleGraphic.getY() - _verticalZoomControl.getHeight() - 5 );
             setBoundsDirty();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Updates the view to match the model.
      */
     public void update() {
-        
+
         if ( isVisible() ) {
-            
+
             _sumPlot.updateDataSet();
 
             // If auto scaling is enabled, adjust the vertical scale to fit the curve.
@@ -450,7 +450,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                     }
                     _presetPlot.getDataSet().addAllPoints( copyPoints );
                 }
-                
+
                 // Preset visibility
                 _sineCosinePresetPlot.setVisible( false );
                 _presetPlot.setVisible( false );
@@ -472,12 +472,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
                 _previousWaveType = waveType;
             }
         }
-    }     
-    
+    }
+
     //----------------------------------------------------------------------------
     // ZoomListener implementation
     //----------------------------------------------------------------------------
-    
+
     public void zoomPerformed( ZoomEvent event ) {
         int zoomType = event.getZoomType();
         if ( zoomType == ZoomEvent.HORIZONTAL_ZOOM_IN || zoomType == ZoomEvent.HORIZONTAL_ZOOM_OUT ) {
@@ -494,12 +494,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     //----------------------------------------------------------------------------
     // Event handlers
     //----------------------------------------------------------------------------
-    
+
     /*
-     * Handles horizontal zooming.
-     * 
-     * @param actionID indicates the type of zoom
-     */
+    * Handles horizontal zooming.
+    *
+    * @param actionID indicates the type of zoom
+    */
     private void handleHorizontalZoom( int zoomType ) {
 
         // Adjust the zoom level.
@@ -509,10 +509,10 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         else {
             _xZoomLevel--;
         }
-        
+
         // Obtuse sqrt(2) zoom factor, immune to numeric precision errors 
         double zoomFactor = Math.pow( 2, Math.abs( _xZoomLevel ) / 2.0 );
-        
+
         // Adjust the chart's horizontal range.
         Range2D range = _chartGraphic.getRange();
         double xRange;
@@ -520,7 +520,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             xRange = X_RANGE_START;
         }
         else if ( _xZoomLevel > 0 ) {
-            xRange = X_RANGE_START / zoomFactor; 
+            xRange = X_RANGE_START / zoomFactor;
         }
         else {
             xRange = X_RANGE_START * zoomFactor;
@@ -532,12 +532,12 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         updateLabelsAndLines();
         updateZoomButtons();
     }
-    
+
     /*
-     * Handles vertical zooming.
-     * 
-     * @param actionID indicates the type of zoom
-     */
+    * Handles vertical zooming.
+    *
+    * @param actionID indicates the type of zoom
+    */
     private void handleVerticalZoom( int zoomType ) {
 
         // Get the chart's vertical range.
@@ -548,7 +548,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         if ( yRange % Y_ZOOM_STEP > 0 ) {
             yRange = ( (int) ( yRange / Y_ZOOM_STEP ) ) * Y_ZOOM_STEP;
         }
-        
+
         // Adjust the scale.
         if ( zoomType == ZoomEvent.VERTICAL_ZOOM_IN ) {
             yRange -= Y_ZOOM_STEP;
@@ -569,14 +569,14 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         range.setMaxY( yRange );
         range.setMinY( -yRange );
         _chartGraphic.setRange( range );
-        
+
         updateLabelsAndLines();
         updateZoomButtons();
     }
-    
+
     /*
-     * Adjusts labels, ticks and gridlines to match the chart range.
-     */
+    * Adjusts labels, ticks and gridlines to match the chart range.
+    */
     private void updateLabelsAndLines() {
 
         // X axis labels
@@ -605,25 +605,25 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             // If math mode is disabled, use numeric labels.
             _chartGraphic.getHorizontalTicks().setMajorLabels( null );
         }
-        
+
         // X axis title
         if ( _domain == Domain.TIME ) {
             if ( _mathGraphic.isVisible() ) {
-                _chartGraphic.setXAxisTitle( "t" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t" ) );
             }
             else {
-                _chartGraphic.setXAxisTitle( "t (ms)" ); 
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t.units" ) );
             }
         }
         else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
             if ( _mathGraphic.isVisible() ) {
-                _chartGraphic.setXAxisTitle( "x" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x" ) );
             }
             else {
-                _chartGraphic.setXAxisTitle( "x (mm)" );
+                _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x.units" ) );
             }
         }
-        
+
         // Y axis ticks and gridlines
         {
             Range2D range = _chartGraphic.getRange();
@@ -641,15 +641,15 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _chartGraphic.getHorizonalGridlines().setMajorTickSpacing( tickSpacing );
         }
     }
-    
+
     /*
-     * Enables and disables zoom buttons based on the current
-     * zoom levels and range of the chart.
-     */
+    * Enables and disables zoom buttons based on the current
+    * zoom levels and range of the chart.
+    */
     private void updateZoomButtons() {
-        
+
         Range2D range = _chartGraphic.getRange();
-        
+
         // Horizontal buttons
         if ( range.getMaxX() >= X_RANGE_MAX ) {
             _horizontalZoomControl.setZoomOutEnabled( false );
@@ -663,7 +663,7 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _horizontalZoomControl.setZoomOutEnabled( true );
             _horizontalZoomControl.setZoomInEnabled( true );
         }
-        
+
         // Vertical buttons
         if ( _autoScaleCheckBox.isSelected() ) {
             _verticalZoomControl.setZoomOutEnabled( false );
@@ -682,33 +682,33 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             _verticalZoomControl.setZoomInEnabled( true );
         }
     }
-    
+
     /*
-     * Updates the math equation that appears above the chart.
-     */
+    * Updates the math equation that appears above the chart.
+    */
     private void updateMath() {
         _mathGraphic.setForm( _domain, _mathForm, _fourierSeries.getNumberOfHarmonics(), _fourierSeries.getWaveType() );
         _mathGraphic.centerRegistrationPoint();
     }
-    
+
     //----------------------------------------------------------------------------
     // AnimationCycleListener implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Handles animation events.
      * Animates the sum waveform by adjusting its phase (aka, start times).
      * Animates the infinite waveform by moving each point by some delta.
-     * 
+     *
      * @param event
      */
     public void animate( AnimationCycleEvent event ) {
         if ( _domain == Domain.SPACE_AND_TIME ) {
-                  
+
             /*
-             * To animate the sum plot, shift its phase based on 
-             * where we are in the animation cycle.
-             */
+            * To animate the sum plot, shift its phase based on
+            * where we are in the animation cycle.
+            */
             double startX = event.getCyclePoint() * L;
             _sumPlot.setStartX( startX );
 
