@@ -64,7 +64,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
     // Chart parameters
-    private static final double L = FourierConstants.L; // do not change!
+    private static final double L = FourierConstants.L;
     private static final double X_RANGE_START = ( L / 2 );
     private static final double X_RANGE_MIN = ( L / 4 );
     private static final double X_RANGE_MAX = ( 2 * L );
@@ -97,7 +97,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
     /**
      * Sole constructor.
      *
-     * @param component the parent Component
+     * @param component     the parent Component
      * @param fourierSeries the Fourier series that this view displays
      */
     public GameHarmonicsView( Component component, FourierSeries fourierSeries ) {
@@ -132,9 +132,9 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
             addGraphic( _chartGraphic, CHART_LAYER );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 60, 50 );
-            _chartGraphic.setXAxisTitle( "x (mm)" ); 
+            _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x.units" ) );
         }
-        
+
         // Harmonics
         _harmonicPlots = new ArrayList();
         for ( int i = _fourierSeries.getNumberOfHarmonics() - 1; i >= 0; i-- ) {
@@ -155,7 +155,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
         addGraphic( _minimizeButton, CONTROLS_LAYER );
         _minimizeButton.centerRegistrationPoint();
-        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
+        _minimizeButton.setLocation( ( _minimizeButton.getWidth() / 2 ) + 10, _minimizeButton.getHeight() / 2 + 5 );
 
         // Interactivity
         {
@@ -173,7 +173,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
 
     /**
      * Gets the chart associated with this graphic.
-     * 
+     *
      * @return the chart
      */
     public Chart getChart() {
@@ -182,7 +182,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
 
     /**
      * Gets a reference to the "minimize" button.
-     * 
+     *
      * @return minimize button
      */
     public PhetImageGraphic getMinimizeButton() {
@@ -191,7 +191,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
 
     /**
      * Sets the height of this graphic.
-     * 
+     *
      * @param height
      */
     public void setHeight( int height ) {
@@ -212,7 +212,7 @@ public class GameHarmonicsView extends GraphicLayerSet implements HarmonicFocusL
             plot.update();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // HarmonicFocusListener implementation
     //----------------------------------------------------------------------------

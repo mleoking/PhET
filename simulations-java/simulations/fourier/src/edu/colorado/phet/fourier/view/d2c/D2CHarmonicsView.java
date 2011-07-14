@@ -45,7 +45,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     //----------------------------------------------------------------------------
     // Class data
     //----------------------------------------------------------------------------
-    
+
     // Layers
     private static final double BACKGROUND_LAYER = 1;
     private static final double TITLE_LAYER = 2;
@@ -53,25 +53,25 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private static final double CHART_LAYER = 4;
     private static final double CONTROLS_LAYER = 5;
     private static final double MATH_LAYER = 6;
-    
+
     // Background parameters
     private static final int MIN_HEIGHT = 150;
     private static final Dimension BACKGROUND_SIZE = new Dimension( 800, MIN_HEIGHT );
     private static final Color BACKGROUND_COLOR = new Color( 215, 215, 215 );
     private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
     private static final Color BACKGROUND_BORDER_COLOR = Color.BLACK;
-    
+
     // Title parameters
     private static final Font TITLE_FONT = new PhetFont( Font.PLAIN, 20 );
     private static final Color TITLE_COLOR = Color.BLUE;
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
-    
+
     // Message parameters
     private static final Font CANNOT_SHOW_MESSAGE_FONT = new PhetFont( Font.PLAIN, 16 );
     private static final Color CANNOT_SHOW_MESSAGE_COLOR = Color.RED;
     private static final Font MINIMIZE_MESSAGE_FONT = new PhetFont( Font.PLAIN, 12 );
     private static final Color MINIMIZE_MESSAGE_COLOR = Color.RED;
-    
+
     // Chart parameters
     public static final double X_RANGE_START = 2;
     public static final double X_RANGE_MIN = 0.5;
@@ -79,16 +79,16 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );
-    
+
     // Harmonics in the chart
     private static final int HARMONIC_DARKEST_GRAY = 0; //dark gray
     private static final int HARMONIC_LIGHTEST_GRAY = 230;  // light gray
-    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f ); 
-    
+    private static final Stroke HARMONIC_STROKE = new BasicStroke( 1f );
+
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
-    
+
     private GaussianWavePacket _wavePacket;
     private PhetShapeGraphic _backgroundGraphic;
     private PhetTextGraphic _titleGraphic;
@@ -106,10 +106,11 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     //----------------------------------------------------------------------------
     // Constructors & finalizers
     //----------------------------------------------------------------------------
+
     /**
      * Sole constructor.
-     * 
-     * @param component the parent Component
+     *
+     * @param component  the parent Component
      * @param wavePacket the Gaussian wave packet being displayed
      */
     public D2CHarmonicsView( Component component, GaussianWavePacket wavePacket ) {
@@ -117,11 +118,11 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
 
         // Enable antialiasing
         setRenderingHints( new RenderingHints( RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON ) );
-        
+
         // Model
         _wavePacket = wavePacket;
         _wavePacket.addObserver( this );
-        
+
         // Background
         _backgroundGraphic = new PhetShapeGraphic( component );
         _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, BACKGROUND_SIZE.height ) );
@@ -130,15 +131,15 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _backgroundGraphic.setBorderColor( BACKGROUND_BORDER_COLOR );
         _backgroundGraphic.setLocation( 0, 0 );
         addGraphic( _backgroundGraphic, BACKGROUND_LAYER );
-        
+
         // Title
         String title = FourierResources.getString( "D2CHarmonicsView.title" );
         _titleGraphic = new PhetTextGraphic( component, TITLE_FONT, title, TITLE_COLOR );
         _titleGraphic.centerRegistrationPoint();
         _titleGraphic.rotate( -( Math.PI / 2 ) );
-        _titleGraphic.setLocation( 40, BACKGROUND_SIZE.height/2 );
+        _titleGraphic.setLocation( 40, BACKGROUND_SIZE.height / 2 );
         addGraphic( _titleGraphic, TITLE_LAYER );
-        
+
         // Flattened Chart
         {
             _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
@@ -152,7 +153,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _flattenedChart.setRegistrationPoint( 0, 0 ); // upper left
             _flattenedChart.setLocation( 60 - xOffset, 50 - yOffset );
         }
-        
+
         // "Cannot show" message 
         String cannotShowMessage = FourierResources.getString( "D2CHarmonicsView.cannotShow" );
         _cannotShowGraphic = new HTMLGraphic( component, CANNOT_SHOW_MESSAGE_FONT, cannotShowMessage, CANNOT_SHOW_MESSAGE_COLOR );
@@ -164,15 +165,15 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _minimizeButton = new PhetImageGraphic( component, FourierConstants.MINIMIZE_BUTTON_IMAGE );
         addGraphic( _minimizeButton, CONTROLS_LAYER );
         _minimizeButton.centerRegistrationPoint();
-        _minimizeButton.setLocation( (_minimizeButton.getWidth()/2) + 10, _minimizeButton.getHeight()/2 + 5 );
-        
+        _minimizeButton.setLocation( ( _minimizeButton.getWidth() / 2 ) + 10, _minimizeButton.getHeight() / 2 + 5 );
+
         // "Minimize" message
         String minimizeMessage = FourierResources.getString( "D2CHarmonicsView.minimize" );
         HTMLGraphic minimizeGraphic = new HTMLGraphic( component, MINIMIZE_MESSAGE_FONT, minimizeMessage, MINIMIZE_MESSAGE_COLOR );
         addGraphic( minimizeGraphic, MESSAGE_LAYER );
         minimizeGraphic.setRegistrationPoint( 0, minimizeGraphic.getHeight() / 2 ); // left center
         minimizeGraphic.setLocation( _minimizeButton.getX() + _minimizeButton.getWidth() / 2 + 10, _minimizeButton.getY() + 5 );
-        
+
         // Zoom controls
         {
             _horizontalZoomControl = new PhetZoomControl( component, PhetZoomControl.HORIZONTAL );
@@ -187,7 +188,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _mathGraphic.centerRegistrationPoint();
             _mathGraphic.setLocation( 330, 28 );
         }
-        
+
         // Interactivity
         {
             _backgroundGraphic.setIgnoreMouse( true );
@@ -196,15 +197,15 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _mathGraphic.setIgnoreMouse( true );
             _cannotShowGraphic.setIgnoreMouse( true );
             minimizeGraphic.setIgnoreMouse( true );
-            
+
             _horizontalZoomControl.addZoomListener( this );
 
             _minimizeButton.setCursorHand();
         }
-        
+
         reset();
     }
-    
+
     /**
      * Call this method prior to releasing all references to an object of this type.
      */
@@ -212,11 +213,11 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         _wavePacket.removeObserver( this );
         _wavePacket = null;
     }
-    
+
     //----------------------------------------------------------------------------
     // Reset
     //----------------------------------------------------------------------------
-    
+
     /**
      * Resets to the initial state.
      */
@@ -230,24 +231,24 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         update();
         _updateRequired = false;
     }
-    
+
     //----------------------------------------------------------------------------
     // Accessors
     //----------------------------------------------------------------------------
-    
+
     /**
      * Gets the horizontal zoom control.
-     * 
+     *
      * @return the horizontal zoom control
      */
     public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
     }
-    
+
     /**
      * Sets the domain.
      * Changes various labels on the chart, tools, formulas, etc.
-     * 
+     *
      * @param domain DOMAIN_SPACE or DOMAIN_TIME
      */
     public void setDomain( Domain domain ) {
@@ -255,10 +256,10 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         updateMath();
         updateAxisTitles();
     }
-    
+
     /**
      * Sets the wave type.
-     * 
+     *
      * @param waveType WAVE_TYPE_SINE or WAVE_TYPE_COSINE
      */
     public void setWaveType( WaveType waveType ) {
@@ -266,19 +267,19 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         update();
         updateMath();
     }
-    
+
     /**
      * Gets a reference to the "minimize" button.
-     * 
+     *
      * @return minimize button
      */
     public PhetImageGraphic getMinimizeButton() {
         return _minimizeButton;
     }
-    
+
     /**
      * Sets the height of this graphic.
-     * 
+     *
      * @param height
      */
     public void setHeight( int height ) {
@@ -286,21 +287,21 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _backgroundGraphic.setShape( new Rectangle( 0, 0, BACKGROUND_SIZE.width, height ) );
             _titleGraphic.setLocation( TITLE_LOCATION.x, height / 2 );
             _cannotShowGraphic.setLocation( 125, height / 2 );
-            
+
             _chartGraphic.setChartSize( CHART_SIZE.width, height - 75 );
             refreshChart();
-            
+
             setBoundsDirty();
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // PhetGraphic overrides
     //----------------------------------------------------------------------------
-    
+
     /**
      * When this graphic becomes visible, update it.
-     * 
+     *
      * @param visible
      */
     public void setVisible( boolean visible ) {
@@ -311,14 +312,14 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // ZoomListener implementation
     //----------------------------------------------------------------------------
 
     /**
      * Invokes when a zoom of the chart has been performed.
-     * 
+     *
      * @param event
      */
     public void zoomPerformed( ZoomEvent event ) {
@@ -330,12 +331,12 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             throw new IllegalArgumentException( "unexpected event: " + event );
         }
     }
-    
+
     /*
-     * Handles horizontal zooming.
-     * 
-     * @param zoomType indicates the type of zoom
-     */
+    * Handles horizontal zooming.
+    *
+    * @param zoomType indicates the type of zoom
+    */
     private void handleHorizontalZoom( int zoomType ) {
 
         // Adjust the zoom level.
@@ -370,20 +371,20 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         if ( xRange > 3 ) {
             _chartGraphic.getHorizontalTicks().setMinorTicksVisible( false );
             _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 1 );
-            
+
             range.setMaxX( xRange );
             range.setMinX( -xRange );
-            _chartGraphic.setRange( range );    
+            _chartGraphic.setRange( range );
         }
         else {
             range.setMaxX( xRange );
             range.setMinX( -xRange );
-            _chartGraphic.setRange( range );  
-            
+            _chartGraphic.setRange( range );
+
             _chartGraphic.getHorizontalTicks().setMinorTicksVisible( true );
             _chartGraphic.getHorizontalTicks().setMajorTickSpacing( 0.5 );
         }
-        
+
         refreshChart();
         updateZoomButtons();
     }
@@ -410,25 +411,25 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             _horizontalZoomControl.setZoomInEnabled( true );
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // SimpleObserver implementation
     //----------------------------------------------------------------------------
-    
+
     /**
      * Synchronizes the view with the model.
      * Called when the wave packet notifies us that it has been changed.
      */
     public void update() {
-        
+
 //        System.out.println( "D2CHarmonicsView.update" ); //XXX
-        
+
         _updateRequired = true;
-        
+
         if ( isVisible() ) {
-            
+
             _updateRequired = false;
-            
+
             // Clean up any existing HarmonicPlots
             DataSetGraphic[] dataSetGraphics = _chartGraphic.getDataSetGraphics();
             for ( int i = 0; i < dataSetGraphics.length; i++ ) {
@@ -436,7 +437,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
                     dataSetGraphics[i].cleanup();
                 }
             }
-            
+
             // Remove all plots from the chart.
             _chartGraphic.removeAllDataSetGraphics();
 
@@ -447,17 +448,17 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             int numberOfHarmonics = _wavePacket.getNumberOfComponents();
 
             if ( numberOfHarmonics < Integer.MAX_VALUE ) {
-                
+
                 _flattenedChart.setVisible( true );
                 _horizontalZoomControl.setVisible( true );
                 _mathGraphic.setVisible( true );
                 _cannotShowGraphic.setVisible( false );
-                
+
                 // Change in grayscale value between bars.
                 int deltaColor = ( HARMONIC_DARKEST_GRAY - HARMONIC_LIGHTEST_GRAY ) / numberOfHarmonics;
 
                 double maxAmplitude = 0;
-                
+
                 double fundamentalPeriod = 2 * Math.PI / k1;
 
                 // Re-populate the chart such that the fundamental's graphic is in the foreground.
@@ -493,7 +494,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
 
                 // Autoscale the vertical axis.
                 _chartGraphic.autoscaleY( maxAmplitude * FourierConstants.AUTOSCALE_PERCENTAGE );
-                
+
                 refreshChart();
             }
             else {
@@ -504,10 +505,10 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
             }
         }
     }
-    
+
     /*
-     * Updates the math equation that appears above the graph.
-     */
+    * Updates the math equation that appears above the graph.
+    */
     private void updateMath() {
         int numberOfHarmonics = _wavePacket.getNumberOfComponents();
         if ( _domain == Domain.SPACE ) {
@@ -518,20 +519,20 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
         }
         _mathGraphic.centerRegistrationPoint();
     }
-    
+
     /*
-     * Update the titles on the axes.
-     */
+    * Update the titles on the axes.
+    */
     private void updateAxisTitles() {
         if ( _domain == Domain.SPACE ) {
-            _chartGraphic.setXAxisTitle( "x (mm)" );
+            _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.x.units" ) );
         }
         else if ( _domain == Domain.TIME ) {
-            _chartGraphic.setXAxisTitle( "t (ms)" );
+            _chartGraphic.setXAxisTitle( FourierResources.getString( "axis.t.units" ) );
         }
         refreshChart();
     }
-    
+
     private void refreshChart() {
         _flattenedChart.flatten();
     }
