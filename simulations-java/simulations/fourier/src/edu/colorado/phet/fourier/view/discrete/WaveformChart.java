@@ -15,10 +15,14 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 /**
  * Base class for charts that display a waveform.
+ * <p/>
+ * The chart has an internal width for the waveform, and all values (actual or symbolic)
+ * are displayed using label tables that map the internal values to labels that
+ * match the wavelength or period of the fundamental frequency.  See #2981.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-/* package private */ abstract class WaveformChart extends Chart {
+public abstract class WaveformChart extends Chart {
 
     //----------------------------------------------------------------------------
     // Class data
