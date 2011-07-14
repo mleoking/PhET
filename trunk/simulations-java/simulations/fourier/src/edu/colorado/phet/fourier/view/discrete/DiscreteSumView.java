@@ -9,14 +9,22 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.LabelTable;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.charts.SinePlot;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetJComponent;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomEvent;
 import edu.colorado.phet.common.phetgraphics.view.phetcomponents.PhetZoomControl.ZoomListener;
-import edu.colorado.phet.common.phetgraphics.view.phetgraphics.*;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetImageGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;
+import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
 import edu.colorado.phet.fourier.FourierResources;
 import edu.colorado.phet.fourier.charts.FourierSumPlot;
@@ -80,10 +88,6 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
     private static final double SUM_PIXELS_PER_POINT = 1;
     private static final Stroke PRESET_STROKE = new BasicStroke( 4f );
     private static final Color PRESET_COLOR = Color.LIGHT_GRAY;
-
-    // Math parameters
-    private static final Font MATH_FONT = new PhetFont( Font.PLAIN, 18 );
-    private static final Color MATH_COLOR = Color.BLACK;
 
     //----------------------------------------------------------------------------
     // Instance data
