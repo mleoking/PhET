@@ -4,7 +4,6 @@ package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
@@ -35,14 +34,11 @@ public abstract class WaveformChart extends Chart {
     private static final Font AXIS_TITLE_FONT = new PhetFont( Font.BOLD, 16 );
     private static final Color AXIS_TITLE_COLOR = Color.BLACK;
 
-    // Range labels
-    private static final boolean RANGE_LABELS_VISIBLE = false;
-    private static final NumberFormat RANGE_LABELS_FORMAT = new DecimalFormat( "0.00" );
-
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
     private static final Color MAJOR_TICK_COLOR = Color.BLACK;
+    private static final String X_TICK_LABEL_PATTERN = "#.##";
 
     // Gridline parameters
     private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;
@@ -100,7 +96,6 @@ public abstract class WaveformChart extends Chart {
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
             getHorizontalTicks().setMajorLabels( getActualSpaceLabels1() );
-            getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.###" ) );
 
             // Vertical gridlines for major ticks.
             getVerticalGridlines().setMajorGridlinesVisible( true );
@@ -125,10 +120,6 @@ public abstract class WaveformChart extends Chart {
             getYAxis().setMajorTickLabelsVisible( false );
             getYAxis().setMinorTicksVisible( false );
             getYAxis().setMinorTickLabelsVisible( false );
-
-            // Range labels
-            getVerticalTicks().setRangeLabelsVisible( RANGE_LABELS_VISIBLE );
-            getVerticalTicks().setRangeLabelsNumberFormat( RANGE_LABELS_FORMAT );
 
             // Major ticks with labels to the left of the chart
             getVerticalTicks().setMajorTicksVisible( true );
@@ -171,22 +162,22 @@ public abstract class WaveformChart extends Chart {
 
     public StringLabelTable getActualSpaceLabels1() {
         double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, "#.###", getComponent() );
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     public StringLabelTable getActualSpaceLabels2() {
         double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, "#.###", getComponent() );
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     public StringLabelTable getActualTimeLabels2() {
         double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, "#.###", getComponent() );
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     public StringLabelTable getActualTimeLabels1() {
         double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, "#.###", getComponent() );
+        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     /*
