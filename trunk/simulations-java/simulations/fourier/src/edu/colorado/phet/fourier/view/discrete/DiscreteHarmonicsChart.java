@@ -58,8 +58,6 @@ public class DiscreteHarmonicsChart extends Chart {
     //----------------------------------------------------------------------------
 
     private PhetTextGraphic _xAxisTitleGraphic;
-    private StringLabelTable _spaceLabels1, _spaceLabels2;
-    private StringLabelTable _timeLabels1, _timeLabels2;
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -99,7 +97,7 @@ public class DiscreteHarmonicsChart extends Chart {
             getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-            getHorizontalTicks().setMajorLabels( _spaceLabels1 );
+            getHorizontalTicks().setMajorLabels( getActualSpaceLabels1() );
             getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.##" ) );
 
             // Vertical gridlines for major ticks.

@@ -99,7 +99,7 @@ public class DiscreteSumChart extends Chart {
             getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-            getHorizontalTicks().setMajorLabels( getSymbolicSpaceLabels1() );
+            getHorizontalTicks().setMajorLabels( getActualSpaceLabels1() );
             getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.###" ) );
 
             // Vertical gridlines for major ticks.
