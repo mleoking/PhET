@@ -268,12 +268,12 @@ public class ControlPanel extends Canvas {
         if ( val == 1 ) {
             //this.myModel1.setTorL( "L" );
             this.myModel.xModes = true;
-            this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
+            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( false );
         }
         else {
             //this.myModel1.setTorL( "T" );
             this.myModel.xModes =  false;
-            this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
+            //this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }
 

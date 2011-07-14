@@ -38,14 +38,14 @@ public class MainView extends Canvas {
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
-    public var myPolarizationPanel:PolarizationPanel;
+    //public var myPolarizationPanel:PolarizationPanel;
     public var myPausedSign: PausedSign;
     public var phetLogo: Sprite;
     public var stageH: Number;
     public var stageW: Number;
 
     //Internalized strings are located at:
-
+    //ControlPanel, PausedSign, SliderArrayPanel, SloMoStepControl, PolarizationPanel, ButtonArrayPanel
 
     public function MainView( stageW: Number, stageH: Number ) {
         percentWidth = 100;
@@ -101,12 +101,12 @@ public class MainView extends Canvas {
         this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.075 * stageH;
 
-        this.myPolarizationPanel = new PolarizationPanel( this, myModel1 );
-        this.locatePolarizationPanel( 1 );
+        //this.myPolarizationPanel = new PolarizationPanel( this, myModel1 );
+        //this.locatePolarizationPanel( 1 );
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
         this.myButtonArrayPanel.x = 0.70*stageW;
-        this.myButtonArrayPanel.y = 0.60*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
+        this.myButtonArrayPanel.y = 0.50*stageH; //this.myControlPanel.y + this.myControlPanel.height + 20;
         this.myButtonArrayPanel.visible = false;
 
         this.myPausedSign = new PausedSign( this.myModel1 );
@@ -120,19 +120,21 @@ public class MainView extends Canvas {
 
         this.addChild( this.mySloMoStepControl );
         this.addChild( myPausedSign );
-        this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
+        this.addChild( mySliderArrayPanel );
+        //this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
         this.addChild( myControlPanel );
-        this.addChild( myPolarizationPanel );
-        this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
+        //this.addChild( myPolarizationPanel );
+        this.addChild( myButtonArrayPanel); //new SpriteUIComponent( myButtonArrayPanel ) );
 
         //phetLogo now in tab area
         this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
     }//end of constructor
 
+    /*
     private function locatePolarizationPanel( oneDOr2D:int ):void{
         if( oneDOr2D == 1 ){
             this.myPolarizationPanel.x = 0.8*stageW;
@@ -142,6 +144,8 @@ public class MainView extends Canvas {
             this.myPolarizationPanel.y = 0.5*stageH;
         }
     }//end locatePolarizationPanel
+    */
+
 
     public function set1DOr2D(oneOrTwo:int):void{
         this.myModel1.pauseSim();
@@ -170,7 +174,6 @@ public class MainView extends Canvas {
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
             this.myControlPanel.showPhasesVisible( false );
         }
-
     }//end set1DOr2D
 
     public function initializeAll(): void {
