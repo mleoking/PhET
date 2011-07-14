@@ -21,12 +21,6 @@ public class FourierConstants {
     }
 
     //----------------------------------------------------------------------------
-    // Debugging switches
-    //----------------------------------------------------------------------------
-
-    public static final boolean ANIMATION_ENABLED = true;
-
-    //----------------------------------------------------------------------------
     // Application
     //----------------------------------------------------------------------------
 
@@ -41,8 +35,6 @@ public class FourierConstants {
     public static final double CLOCK_STEP = 1;
     private static final int CLOCK_FRAME_RATE = 25;  // frames per second
     public static final int CLOCK_DELAY = ( 1000 / FourierConstants.CLOCK_FRAME_RATE ); // milliseconds
-    public static final boolean CLOCK_TIME_STEP_IS_CONSTANT = true;
-    public static final boolean CLOCK_ENABLE_CONTROLS = true;
 
     //----------------------------------------------------------------------------
     // Harmonics
