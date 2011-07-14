@@ -1,6 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 
-package edu.colorado.phet.fourier.view.discrete;
+package edu.colorado.phet.fourier.charts;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -16,9 +16,10 @@ import edu.colorado.phet.fourier.FourierConstants;
 /**
  * Base class for charts that display a waveform.
  * <p/>
- * The chart has an internal width for the waveform, and all values (actual or symbolic)
- * are displayed using label tables that map the internal values to labels that
- * match the wavelength or period of the fundamental frequency.  See #2981.
+ * The chart uses an internal reference width for the waveform, FourierConstants.L.
+ * All tick mark values (actual or symbolic) are displayed using label tables that
+ * map the internal values to labels that match the wavelength or period of the fundamental frequency.
+ * See #2981.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
