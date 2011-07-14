@@ -1,3 +1,4 @@
+# 3.05.02 (54080) Jul 14, 2011
 > charts display wavelength and period values that correspond to the audible fundamental frequency (440 Hz)
 > x-axis units are meters (m) instead of millimeters (mm) for space domains
 > improved internationalization of x-axis labels and units
