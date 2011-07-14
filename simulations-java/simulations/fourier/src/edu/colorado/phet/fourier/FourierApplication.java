@@ -1,17 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.fourier;
 
-import java.awt.Color;
+import java.awt.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
@@ -43,9 +34,7 @@ public class FourierApplication extends PiccoloPhetApplication {
     private DiscreteModule _discreteModule;
     private GameModule _gameModule;
     private D2CModule _d2cModule;
-    
-    // PersistanceManager handles loading/saving application configurations.
-    private XMLPersistenceManager _persistenceManager;
+    private XMLPersistenceManager _persistenceManager; // Save/Load feature
 
     //----------------------------------------------------------------------------
     // Constructors
@@ -54,8 +43,7 @@ public class FourierApplication extends PiccoloPhetApplication {
     /**
      * Sole constructor.
      */
-    public FourierApplication( PhetApplicationConfig config )
-    {
+    public FourierApplication( PhetApplicationConfig config ) {
         super( config );
         initModules();
         initMenubar();
@@ -71,13 +59,13 @@ public class FourierApplication extends PiccoloPhetApplication {
      * @param clock
      */
     private void initModules() {
-        
+
         _discreteModule = new DiscreteModule();
         addModule( _discreteModule );
-        
+
         _gameModule = new GameModule();
         addModule( _gameModule );
-        
+
         _d2cModule = new D2CModule();
         addModule( _d2cModule );
     }
@@ -106,7 +94,7 @@ public class FourierApplication extends PiccoloPhetApplication {
     //----------------------------------------------------------------------------
     // Persistence
     //----------------------------------------------------------------------------
-    
+
     @Override
     public void save() {
 
@@ -118,7 +106,7 @@ public class FourierApplication extends PiccoloPhetApplication {
             appConfig.setGlobalConfig( globalConfig );
 
             // Version & build info
-            globalConfig.setVersionNumber( getSimInfo().getVersion().formatForTitleBar());
+            globalConfig.setVersionNumber( getSimInfo().getVersion().formatForTitleBar() );
 
             // Harmonic colors
             int[] r = new int[HarmonicColors.getInstance().getNumberOfColors()];
@@ -134,7 +122,7 @@ public class FourierApplication extends PiccoloPhetApplication {
             globalConfig.setHarmonicColorsGreen( g );
             globalConfig.setHarmonicColorsBlue( b );
         }
-        
+
         // Modules
         appConfig.setDiscreteConfig( _discreteModule.save() );
         appConfig.setGameConfig( _gameModule.save() );
@@ -142,18 +130,18 @@ public class FourierApplication extends PiccoloPhetApplication {
 
         _persistenceManager.save( appConfig );
     }
-    
+
     @Override
     public void load() {
-        
+
         Object object = _persistenceManager.load();
-        
+
         if ( object != null ) {
-            
+
             if ( object instanceof FourierConfig ) {
-                
+
                 FourierConfig appConfig = (FourierConfig) object;
-                
+
                 // Globals
                 {
                     // Harmonic colors
@@ -164,7 +152,7 @@ public class FourierApplication extends PiccoloPhetApplication {
                         HarmonicColors.getInstance().setColor( i, new Color( r[i], g[i], b[i] ) );
                     }
                 }
-                
+
                 // Modules
                 _discreteModule.load( appConfig.getDiscreteConfig() );
                 _gameModule.load( appConfig.getGameConfig() );
@@ -176,12 +164,12 @@ public class FourierApplication extends PiccoloPhetApplication {
             }
         }
     }
-    
+
     //----------------------------------------------------------------------------
     // main
     //----------------------------------------------------------------------------
-    
+
     public static void main( final String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, FourierConstants.PROJECT_NAME, FourierApplication.class);
+        new PhetApplicationLauncher().launchSim( args, FourierConstants.PROJECT_NAME, FourierApplication.class );
     }
 }
