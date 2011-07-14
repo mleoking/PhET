@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.fourier.view.game;
 
 import java.awt.*;
@@ -21,12 +12,10 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 import edu.colorado.phet.fourier.FourierConstants;
 
-
 /**
  * GameSumChart is the Sum chart in the Game module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class GameSumChart extends Chart {
 

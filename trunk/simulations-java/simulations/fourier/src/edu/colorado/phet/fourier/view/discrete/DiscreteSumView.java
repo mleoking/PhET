@@ -1,14 +1,5 @@
 // Copyright 2002-2011, University of Colorado
 
-/*
- * CVS Info -
- * Filename : $Source$
- * Branch : $Name$
- * Modified by : $Author$
- * Revision : $Revision$
- * Date modified : $Date$
- */
-
 package edu.colorado.phet.fourier.view.discrete;
 
 import java.awt.*;
@@ -43,7 +34,6 @@ import edu.colorado.phet.fourier.view.AnimationCycleController.AnimationCycleLis
  * It displays the sum of a Fourier series.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
- * @version $Revision$
  */
 public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, ZoomListener, AnimationCycleListener {
 
@@ -304,24 +294,6 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
      */
     public PhetZoomControl getHorizontalZoomControl() {
         return _horizontalZoomControl;
-    }
-
-    /**
-     * Gets the vertical zoom control.
-     *
-     * @return the vertical zoom control
-     */
-    public PhetZoomControl getVerticalZoomControl() {
-        return _verticalZoomControl;
-    }
-
-    /**
-     * Gets the auto-scale control.
-     *
-     * @return the auto-scale control
-     */
-    public PhetGraphic getAutoScaleControl() {
-        return _autoScaleGraphic;
     }
 
     /**
