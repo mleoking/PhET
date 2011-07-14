@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.math.TrigCache;
+import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 
 /**
  * FourierConstants contains various global constants.
@@ -77,8 +78,8 @@ public class FourierConstants {
     // Images
     //----------------------------------------------------------------------------
 
-    public static final BufferedImage MAXIMIZE_BUTTON_IMAGE = FourierResources.getImage( "maximizeButton.png" );
-    public static final BufferedImage MINIMIZE_BUTTON_IMAGE = FourierResources.getImage( "minimizeButton.png" );
+    public static final BufferedImage MAXIMIZE_BUTTON_IMAGE = PhetCommonResources.getImage( "buttons/maximizeButton.png" );
+    public static final BufferedImage MINIMIZE_BUTTON_IMAGE = PhetCommonResources.getImage( "buttons/minimizeButton.png" );
     public static final BufferedImage SOUND_MAX_IMAGE = FourierResources.getImage( "soundMax.png" );
     public static final BufferedImage SOUND_MIN_IMAGE = FourierResources.getImage( "soundMin.png" );
 }

@@ -3,7 +3,5 @@
 # Automatically generated on Fri Aug 08 00:08:01 MDT 2008
 ###################################
 
-maximizeButton.png author=PhET notes=chris 
-minimizeButton.png author=PhET notes=chris 
-soundMax.png source=mac control panel author=PhET 
+soundMax.png source=mac control panel author=PhET
 soundMin.png source=mac control panel author=PhET 
