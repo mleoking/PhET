@@ -44,7 +44,7 @@ public class FourierConstants {
     public static final int MAX_HARMONICS = 11;
     public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
 
-    public static final double L = 1; // arbitrary length and period of the fundamental, use internally by the charts, in meters
+    public static final double L = 1; // arbitrary length and period of the fundamental, used internally by the charts, in meters
 
     public static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
     private static final double SPEED_OF_SOUND = 343.2; // meters/second
