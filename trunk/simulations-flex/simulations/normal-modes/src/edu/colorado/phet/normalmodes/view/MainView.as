@@ -12,7 +12,8 @@ import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.control.ButtonArrayPanel;
 import edu.colorado.phet.normalmodes.control.ControlPanel;
-import edu.colorado.phet.normalmodes.control.SloMoSliderStepButton;
+import edu.colorado.phet.normalmodes.control.PolarizationPanel;
+import edu.colorado.phet.normalmodes.control.SloMoStepControl;
 import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
@@ -33,10 +34,11 @@ public class MainView extends Canvas {
     public var myView1: View1;         //view for Model1
     public var myView2: View2;         //view for Model2
 
-    public var myPlayPauseButtons: SloMoSliderStepButton;
+    public var mySloMoStepControl: SloMoStepControl;
     public var mySliderArrayPanel: SliderArrayPanel;
     public var myButtonArrayPanel: ButtonArrayPanel;
     public var myControlPanel: ControlPanel;
+    public var myPolarizationPanel:PolarizationPanel;
     public var myPausedSign: PausedSign;
     public var phetLogo: Sprite;
     public var stageH: Number;
@@ -87,9 +89,9 @@ public class MainView extends Canvas {
         this.myView2.x = 0 * stageW;
         this.myView2.y = 0 * stageH;
 
-        this.myPlayPauseButtons = new SloMoSliderStepButton( this, myModel1 );
-        this.myPlayPauseButtons.x = 0.93 * stageW ;           // hard-coded, unfortunately
-        this.myPlayPauseButtons.y = 0.50 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
+        this.mySloMoStepControl = new SloMoStepControl( this, myModel1 );
+        this.mySloMoStepControl.x = 0.93 * stageW ;           // hard-coded, unfortunately
+        this.mySloMoStepControl.y = 0.42 * stageH; //this.myShakerView.y + this.myPlayPauseButtons.height;
         //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
@@ -98,6 +100,9 @@ public class MainView extends Canvas {
         this.myControlPanel = new ControlPanel( this, myModel1 );
         this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;
         this.myControlPanel.y = 0.075 * stageH;
+
+        this.myPolarizationPanel = new PolarizationPanel( this, myModel1 );
+        this.locatePolarizationPanel( 1 );
 
         this.myButtonArrayPanel =  new ButtonArrayPanel( this, this.myModel2 );
         this.myButtonArrayPanel.x = 0.70*stageW;
@@ -111,23 +116,32 @@ public class MainView extends Canvas {
         this.phetLogo = new PhetIcon();
 
         this.phetLogo.x = stageW - 1.5 * this.phetLogo.width;
-        this.phetLogo.y = stageH - 1.5 * this.phetLogo.height;
+        this.phetLogo.y = 0;// stageH - 1.5 * this.phetLogo.height;
 
-        this.addChild( this.myPlayPauseButtons );
+        this.addChild( this.mySloMoStepControl );
         this.addChild( myPausedSign );
         this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
         this.addChild( myControlPanel );
+        this.addChild( myPolarizationPanel );
         this.addChild( new SpriteUIComponent( myButtonArrayPanel ) );
 
         //phetLogo now in tab area
-        //this.addChild( new SpriteUIComponent( phetLogo ) );
+        this.addChild( new SpriteUIComponent( phetLogo ) );
         this.initializeAll();
-
-
     }//end of constructor
+
+    private function locatePolarizationPanel( oneDOr2D:int ):void{
+        if( oneDOr2D == 1 ){
+            this.myPolarizationPanel.x = 0.8*stageW;
+            this.myPolarizationPanel.y = 0.5*stageH;
+        }else{
+            this.myPolarizationPanel.x = 0.8*stageW;
+            this.myPolarizationPanel.y = 0.5*stageH;
+        }
+    }//end locatePolarizationPanel
 
     public function set1DOr2D(oneOrTwo:int):void{
         this.myModel1.pauseSim();
@@ -140,7 +154,7 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = true;
             this.myButtonArrayPanel.visible = false;
             this.myControlPanel.setModel( this.myModel1 );
-            this.myPlayPauseButtons.setModel( this.myModel1 );
+            this.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
             this.myControlPanel.showPhasesVisible( true );
@@ -151,7 +165,7 @@ public class MainView extends Canvas {
             this.mySliderArrayPanel.visible = false;
             this.myButtonArrayPanel.visible = true;
             this.myControlPanel.setModel( this.myModel2 );
-            this.myPlayPauseButtons.setModel( this.myModel2 );
+            this.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
             this.myControlPanel.showPhasesVisible( false );
@@ -161,8 +175,8 @@ public class MainView extends Canvas {
 
     public function initializeAll(): void {
         this.myView1.initializeControls();
-        this.myPlayPauseButtons.unPauseExternally();
-        this.myPlayPauseButtons.setSliderExternally(1);
+        this.mySloMoStepControl.unPauseExternally();
+        this.mySloMoStepControl.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 5 );
         //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);

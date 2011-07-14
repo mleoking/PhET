@@ -175,7 +175,6 @@ public class View2 extends Sprite {
                 this.mass_arr[i][j].visible = false;
             }
         }
-
         for(var i:int = 0; i <= N - 1; i++){
             for(var j:int = 0; j <= N - 1; j++){
                 this.mass_arr[i][j].visible = true;
