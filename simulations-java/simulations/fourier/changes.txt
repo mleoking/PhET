@@ -1,3 +1,6 @@
+> charts display wavelength and period values that correspond to the audible fundamental frequency (440 Hz)
+> x-axis units are meters (m) instead of millimeters (mm) for space domains
+> improved internationalization of x-axis labels and units
 7/14/11 #2981, refactor duplicate code in WaveformChart, improve doc
 7/14/11 #2981, eliminate duplicate code in GameSumChart by subclassing DiscreteSumChart
 7/14/11 #2981, consolidate duplicate chart code into WaveformChart
