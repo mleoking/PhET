@@ -45,7 +45,10 @@ public class FourierConstants {
     public static final double MAX_HARMONIC_AMPLITUDE = ( 4 / Math.PI );
 
     public static final double FUNDAMENTAL_FREQUENCY = 440.0; // Hz
-    public static final double L = 1; // Arbitrary value for the length (L) of the fundamental
+    public static final double L = 1; // arbitrary wavelength of fundamental, in meters
+//    private static final double SPEED_OF_SOUND = 343.2; // meters/second
+//    public static final double L = SPEED_OF_SOUND / FUNDAMENTAL_FREQUENCY; // wavelength of fundamental, in meters
+//    public static final double T = 1000 / FUNDAMENTAL_FREQUENCY; // period of fundamental, in milliseconds
 
     //----------------------------------------------------------------------------
     // Animation

@@ -36,10 +36,6 @@ public class GameSumChart extends Chart {
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
-    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
-    private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
-    private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
-    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
 
     // Gridline parameters
     private static final Color MAJOR_GRIDLINE_COLOR = Color.BLACK;

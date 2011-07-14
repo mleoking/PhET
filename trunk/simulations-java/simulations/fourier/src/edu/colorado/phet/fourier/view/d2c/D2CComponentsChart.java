@@ -17,7 +17,6 @@ import java.text.NumberFormat;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.Range2D;
-import edu.colorado.phet.common.charts.StringLabelTable;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 
@@ -47,10 +46,8 @@ public class D2CComponentsChart extends Chart {
     // Tick Mark parameter
     private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
     private static final Font MAJOR_TICK_FONT = new PhetFont( Font.BOLD, 12 );
-    private static final Color MAJOR_TICK_COLOR = Color.BLACK;
     private static final Stroke MINOR_TICK_STROKE = MAJOR_TICK_STROKE;
     private static final Font MINOR_TICK_FONT = MAJOR_TICK_FONT;
-    private static final Color MINOR_TICK_COLOR = MAJOR_TICK_COLOR;
 
     // X Axis parameters
     private static final double L = 1;
@@ -59,15 +56,12 @@ public class D2CComponentsChart extends Chart {
 
     // Y Axis parameters
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
-    private static final double Y_MINOR_TICK_SPACING = 0.1;
 
     //----------------------------------------------------------------------------
     // Instance data
     //----------------------------------------------------------------------------
 
     private PhetTextGraphic _xAxisTitleGraphic;
-    private StringLabelTable _spaceLabels1, _spaceLabels2;
-    private StringLabelTable _timeLabels1, _timeLabels2;
 
     //----------------------------------------------------------------------------
     // Constructors
