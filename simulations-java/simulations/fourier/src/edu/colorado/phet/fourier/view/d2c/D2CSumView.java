@@ -75,9 +75,9 @@ public class D2CSumView extends GraphicLayerSet implements SimpleObserver, ZoomL
     private static final Point TITLE_LOCATION = new Point( 40, 115 );
 
     // Chart parameters
-    private static final double X_RANGE_START = D2CHarmonicsView.X_RANGE_START;
-    private static final double X_RANGE_MIN = D2CHarmonicsView.X_RANGE_MIN;
-    private static final double X_RANGE_MAX = D2CHarmonicsView.X_RANGE_MAX;
+    private static final double X_RANGE_START = D2CComponentsView.X_RANGE_START;
+    private static final double X_RANGE_MIN = D2CComponentsView.X_RANGE_MIN;
+    private static final double X_RANGE_MAX = D2CComponentsView.X_RANGE_MAX;
     private static final double Y_RANGE_START = 1;
     private static final Range2D CHART_RANGE = new Range2D( -X_RANGE_START, -Y_RANGE_START, X_RANGE_START, Y_RANGE_START );
     private static final Dimension CHART_SIZE = new Dimension( 540, 100 );

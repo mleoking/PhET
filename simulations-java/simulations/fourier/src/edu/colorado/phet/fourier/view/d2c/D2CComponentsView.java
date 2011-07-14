@@ -40,7 +40,7 @@ import edu.colorado.phet.fourier.view.HarmonicsEquation;
  * @author Chris Malley (cmalley@pixelzoom.com)
  * @version $Revision$
  */
-public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver, ZoomListener {
+public class D2CComponentsView extends GraphicLayerSet implements SimpleObserver, ZoomListener {
 
     //----------------------------------------------------------------------------
     // Class data
@@ -94,7 +94,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
     private PhetTextGraphic _titleGraphic;
     private PhetImageGraphic _minimizeButton;
     private PhetZoomControl _horizontalZoomControl;
-    private D2CHarmonicsChart _chartGraphic;
+    private D2CComponentsChart _chartGraphic;
     private HarmonicsEquation _mathGraphic;
     private Domain _domain;
     private WaveType _waveType;
@@ -113,7 +113,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
      * @param component  the parent Component
      * @param wavePacket the Gaussian wave packet being displayed
      */
-    public D2CHarmonicsView( Component component, GaussianWavePacket wavePacket ) {
+    public D2CComponentsView( Component component, GaussianWavePacket wavePacket ) {
         super( component );
 
         // Enable antialiasing
@@ -142,7 +142,7 @@ public class D2CHarmonicsView extends GraphicLayerSet implements SimpleObserver,
 
         // Flattened Chart
         {
-            _chartGraphic = new D2CHarmonicsChart( component, CHART_RANGE, CHART_SIZE );
+            _chartGraphic = new D2CComponentsChart( component, CHART_RANGE, CHART_SIZE );
             _chartGraphic.setRegistrationPoint( 0, 0 );
             _chartGraphic.setLocation( 0, 0 );
 

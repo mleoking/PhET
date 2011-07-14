@@ -29,7 +29,7 @@ import edu.colorado.phet.fourier.model.GaussianWavePacket;
 import edu.colorado.phet.fourier.persistence.FourierConfig;
 import edu.colorado.phet.fourier.view.MinimizedView;
 import edu.colorado.phet.fourier.view.d2c.D2CAmplitudesView;
-import edu.colorado.phet.fourier.view.d2c.D2CHarmonicsView;
+import edu.colorado.phet.fourier.view.d2c.D2CComponentsView;
 import edu.colorado.phet.fourier.view.d2c.D2CSumView;
 import edu.colorado.phet.fourier.view.tools.WavePacketPeriodTool;
 import edu.colorado.phet.fourier.view.tools.WavePacketSpacingTool;
@@ -74,7 +74,7 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
 
     private GaussianWavePacket _wavePacket;
     private D2CAmplitudesView _amplitudesView;
-    private D2CHarmonicsView _harmonicsView;
+    private D2CComponentsView _harmonicsView;
     private D2CSumView _sumView;
     private MinimizedView _harmonicsMinimizedView;
     private MinimizedView _sumMinimizedView;
@@ -125,7 +125,7 @@ public class D2CModule extends FourierAbstractModule implements ApparatusPanel2.
         apparatusPanel.addGraphic( _amplitudesView, AMPLITUDES_LAYER );
 
         // Harmonics view
-        _harmonicsView = new D2CHarmonicsView( apparatusPanel, _wavePacket );
+        _harmonicsView = new D2CComponentsView( apparatusPanel, _wavePacket );
         apparatusPanel.addGraphic( _harmonicsView, HARMONICS_LAYER );
 
         // Harmonics view (minimized)
