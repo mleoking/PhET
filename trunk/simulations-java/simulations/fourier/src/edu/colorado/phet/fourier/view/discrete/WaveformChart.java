@@ -71,7 +71,7 @@ public abstract class WaveformChart extends Chart {
      * @param range
      * @param chartSize
      */
-    public WaveformChart( Component component, Range2D range, Dimension chartSize, double yMajorTickSpacing ) {
+    public WaveformChart( Component component, Range2D range, Dimension chartSize, double yMajorTickSpacing, double yMinorTickSpacing ) {
         super( component, range, chartSize );
 
         // Enable antialiasing
@@ -141,6 +141,12 @@ public abstract class WaveformChart extends Chart {
             getHorizonalGridlines().setMajorTickSpacing( yMajorTickSpacing );
             getHorizonalGridlines().setMajorGridlinesColor( MAJOR_GRIDLINE_COLOR );
             getHorizonalGridlines().setMajorGridlinesStroke( MAJOR_GRIDLINE_STROKE );
+
+            // Horizontal gridlines for minor ticks
+            getHorizonalGridlines().setMinorGridlinesVisible( true );
+            getHorizonalGridlines().setMinorTickSpacing( yMinorTickSpacing );
+            getHorizonalGridlines().setMinorGridlinesColor( Color.BLACK );
+            getHorizonalGridlines().setMinorGridlinesStroke( new BasicStroke( 0.25f ) );
         }
     }
 
