@@ -15,7 +15,7 @@ import edu.colorado.phet.fourier.FourierConstants;
 
 
 /**
- * DiscreteSumChart is the Sum chart in the Discrete module.
+ * DiscreteSumChart is the "Sum" chart in the Discrete module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -46,12 +46,12 @@ public class DiscreteSumChart extends Chart {
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
 
-    // X axis
+    // X axis parameters
     private static final double L = FourierConstants.L;
     private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
-    // Y axis
+    // Y axis parameters
     private static final double Y_MAJOR_TICK_SPACING = 5.0;
     private static final double Y_MINOR_TICK_SPACING = 1.0;
 

@@ -45,12 +45,12 @@ public class DiscreteHarmonicsChart extends Chart {
     private static final Color MINOR_GRIDLINE_COLOR = Color.BLACK;
     private static final Stroke MINOR_GRIDLINE_STROKE = new BasicStroke( 0.25f );
 
-    // X Axis parameters
+    // X axis parameters
     private static final double L = FourierConstants.L;
     private static final double X_MAJOR_TICK_SPACING = ( L / 4 );
     private static final double X_MINOR_TICK_SPACING = ( L / 8 );
 
-    // Y Axis parameters
+    // Y axis parameters
     private static final double Y_MAJOR_TICK_SPACING = 0.5;
 
     //----------------------------------------------------------------------------
@@ -98,7 +98,7 @@ public class DiscreteHarmonicsChart extends Chart {
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
             getHorizontalTicks().setMajorLabels( getActualSpaceLabels1() );
-            getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.##" ) );
+            getHorizontalTicks().setMajorNumberFormat( new DecimalFormat( "#.###" ) );
 
             // Vertical gridlines for major ticks.
             getVerticalGridlines().setMajorGridlinesVisible( true );
@@ -155,10 +155,6 @@ public class DiscreteHarmonicsChart extends Chart {
     public void setXAxisTitle( String title ) {
         _xAxisTitleGraphic.setText( title );
         _xAxisTitleGraphic.setRegistrationPoint( -4, -_xAxisTitleGraphic.getHeight() / 2 ); // left center
-    }
-
-    public void setXAxisTitle( char c ) {
-        setXAxisTitle( String.valueOf( c ) );
     }
 
     //----------------------------------------------------------------------------
