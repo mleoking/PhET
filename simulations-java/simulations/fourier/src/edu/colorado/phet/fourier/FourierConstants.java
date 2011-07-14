@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.common.phetcommon.math.TrigCache;
 
 /**
- * FourierConstants constains various constants.
+ * FourierConstants contains various global constants.
  * Modify these at your peril ;-)
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
