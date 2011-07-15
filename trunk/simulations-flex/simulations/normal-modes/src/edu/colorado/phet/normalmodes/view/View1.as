@@ -186,6 +186,11 @@ public class View1 extends Sprite {
         var yInPix:Number;
         var springLengthInPix:Number;
 
+        if( this.myModel1.nChanged ){
+            this.setNbrMasses();
+            this.myModel1.nChanged = false;
+        }
+
         //position masses
         for(var j:int = 0; j < this.myModel1.N; j++){
             var i:int = j+1;    //index of mobile mass, left mass = 1
@@ -224,10 +229,7 @@ public class View1 extends Sprite {
             }//end for loop
         } //end if(_springsVisible)
 
-        if( this.myModel1.nChanged ){
-            this.setNbrMasses();
-            this.myModel1.nChanged = false;
-        }
+
     }//end update()
 
 }//end of class
