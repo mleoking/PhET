@@ -55,27 +55,27 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        // Whenever a weight is added to the model, create a graphic for it
-        model.addWeightAddedListener( new VoidFunction1<Mass>() {
-            public void apply( final Mass weight ) {
-                PNode weightNode = null;
-                if ( weight instanceof ShapeMass ) {
+        // Whenever a mass is added to the model, create a graphic for it
+        model.addMassAddedListener( new VoidFunction1<Mass>() {
+            public void apply( final Mass mass ) {
+                PNode massNode = null;
+                if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
-                    weightNode = new BrickStackNode( mvt, (ShapeMass) weight );
+                    massNode = new BrickStackNode( mvt, (ShapeMass) mass );
                 }
-                else if ( weight instanceof ImageMass ) {
-                    weightNode = new ImageModelElementNode( mvt, (ImageMass) weight );
+                else if ( mass instanceof ImageMass ) {
+                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass );
                 }
-                // Add the removal listener for if and when this weight is removed from the model.
-                final PNode finalWeightNode = weightNode;
-                model.addWeightRemovedListener( new VoidFunction1<Mass>() {
+                // Add the removal listener for if and when this mass is removed from the model.
+                final PNode finalMassNode = massNode;
+                model.addMassRemovedListener( new VoidFunction1<Mass>() {
                     public void apply( Mass w ) {
-                        if ( w == weight ) {
-                            rootNode.removeChild( finalWeightNode );
+                        if ( w == mass ) {
+                            rootNode.removeChild( finalMassNode );
                         }
                     }
                 } );
-                rootNode.addChild( weightNode );
+                rootNode.addChild( massNode );
             }
         } );
 
@@ -114,9 +114,9 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             }
         } );
 
-        // Add the weight box, which is the place where the user will get the
+        // Add the mass box, which is the place where the user will get the
         // objects that can be placed on the balance.
-        rootNode.addChild( new WeightBoxNode( model, mvt, this ) {{
+        rootNode.addChild( new MassBoxNode( model, mvt, this ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, mvt.modelToViewY( 0 ) - getFullBoundsReference().height - 10 );
         }} );
     }

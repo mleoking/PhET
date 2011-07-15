@@ -12,13 +12,13 @@ import edu.umd.cs.piccolo.util.PDimension;
 /**
  * @author John Blanco
  */
-public class WeightDragHandler extends PDragEventHandler {
-    private final Mass weight;
+public class MassDragHandler extends PDragEventHandler {
+    private final Mass mass;
     private final PNode pNode;
     private final ModelViewTransform mvt;
 
-    public WeightDragHandler( Mass weight, PNode node, ModelViewTransform mvt ) {
-        this.weight = weight;
+    public MassDragHandler( Mass mass, PNode node, ModelViewTransform mvt ) {
+        this.mass = mass;
         pNode = node;
         this.mvt = mvt;
     }
@@ -26,19 +26,19 @@ public class WeightDragHandler extends PDragEventHandler {
     @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         // The user is moving this, so they have control.
-        weight.userControlled.set( true );
+        mass.userControlled.set( true );
     }
 
     @Override
     public void mouseDragged( PInputEvent event ) {
         PDimension viewDelta = event.getDeltaRelativeTo( pNode.getParent() );
         ImmutableVector2D modelDelta = mvt.viewToModelDelta( new ImmutableVector2D( viewDelta ) );
-        weight.translate( modelDelta );
+        mass.translate( modelDelta );
     }
 
     @Override protected void endDrag( PInputEvent event ) {
         super.endDrag( event );
         // The user is no longer moving this, so they have relinquished control.
-        weight.userControlled.set( false );
+        mass.userControlled.set( false );
     }
 }

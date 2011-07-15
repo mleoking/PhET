@@ -27,15 +27,15 @@ public class TeeterTotterTorqueModel implements Resettable {
     // Clock that drives all time-dependent behavior in this model.
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
-    // A list of all the weights in the model
-    // TODO: I'm not sure that this is even needed, since we listen to all weights as soon as they are added.  Revist later and decide.
-    private final List<Mass> weights = new ArrayList<Mass>();
+    // A list of all the masses in the model
+    // TODO: I'm not sure that this is even needed, since we listen to all masses as soon as they are added.  Revist later and decide.
+    private final List<Mass> masses = new ArrayList<Mass>();
 
-    // Listeners that are notified when a shape-based weight is added to the model
-    private final ArrayList<VoidFunction1<Mass>> weightAddedListeners = new ArrayList<VoidFunction1<Mass>>();
+    // Listeners that are notified when a shape-based mass is added to the model
+    private final ArrayList<VoidFunction1<Mass>> massAddedListeners = new ArrayList<VoidFunction1<Mass>>();
 
-    // Listeners that are notified when a shape-based weight is removed from the model
-    private final ArrayList<VoidFunction1<Mass>> weightRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
+    // Listeners that are notified when a shape-based mass is removed from the model
+    private final ArrayList<VoidFunction1<Mass>> massRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
@@ -64,58 +64,58 @@ public class TeeterTotterTorqueModel implements Resettable {
         return clock;
     }
 
-    // TODO: The next block of code is for listening for weights being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
-    public void addWeightAddedListener( VoidFunction1<Mass> listener ) {
-        weightAddedListeners.add( listener );
+    // TODO: The next block of code is for listening for masses being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
+    public void addMassAddedListener( VoidFunction1<Mass> listener ) {
+        massAddedListeners.add( listener );
     }
 
-    public void removeWeightAddedListener( VoidFunction1<Mass> listener ) {
-        weightAddedListeners.remove( listener );
+    public void removeMassAddedListener( VoidFunction1<Mass> listener ) {
+        massAddedListeners.remove( listener );
     }
 
-    public void addWeightRemovedListener( VoidFunction1<Mass> listener ) {
-        weightRemovedListeners.add( listener );
+    public void addMassRemovedListener( VoidFunction1<Mass> listener ) {
+        massRemovedListeners.add( listener );
     }
 
-    public void removeWeightRemovedListener( VoidFunction1<Mass> listener ) {
-        weightRemovedListeners.remove( listener );
+    public void removeMassRemovedListener( VoidFunction1<Mass> listener ) {
+        massRemovedListeners.remove( listener );
     }
 
-    // Adds a weight to the model and notifies registered listeners
-    public UserMovableModelElement addWeight( final Mass weight ) {
-        weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
+    // Adds a mass to the model and notifies registered listeners
+    public UserMovableModelElement addMass( final Mass mass ) {
+        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
-                    // The user has dropped this weight.
-                    if ( plank.isPointAbovePlank( weight.getPosition() ) ) {
-                        // The weight was dropped above the plank, move it to a
+                    // The user has dropped this mass.
+                    if ( plank.isPointAbovePlank( mass.getPosition() ) ) {
+                        // The mass was dropped above the plank, move it to a
                         // valid location on the plank.
-                        plank.addWeightToSurface( weight );
+                        plank.addMassToSurface( mass );
                     }
                     else {
                         // Not above the plank, so remove it from the model.
-                        removeWeight( weight );
+                        removeMass( mass );
                     }
                 }
             }
         } );
-        weights.add( weight );
-        notifyWeightAdded( weight );
-        return weight;
+        masses.add( mass );
+        notifyMassAdded( mass );
+        return mass;
     }
 
-    private void notifyWeightAdded( Mass weight ) {
-        for ( VoidFunction1<Mass> weightAddedListener : weightAddedListeners ) {
-            weightAddedListener.apply( weight );
+    private void notifyMassAdded( Mass mass ) {
+        for ( VoidFunction1<Mass> massAddedListener : massAddedListeners ) {
+            massAddedListener.apply( mass );
         }
     }
 
-    // Removes a weight from the model and notifies listeners.
-    public void removeWeight( Mass weight ) {
-        if ( weights.contains( weight ) ) {
-            weights.remove( weight );
-            for ( VoidFunction1<Mass> weightRemovedListener : weightRemovedListeners ) {
-                weightRemovedListener.apply( weight );
+    // Removes a mass from the model and notifies listeners.
+    public void removeMass( Mass mass ) {
+        if ( masses.contains( mass ) ) {
+            masses.remove( mass );
+            for ( VoidFunction1<Mass> massRemovedListener : massRemovedListeners ) {
+                massRemovedListener.apply( mass );
             }
         }
     }
@@ -132,19 +132,19 @@ public class TeeterTotterTorqueModel implements Resettable {
         return supportColumns;
     }
 
-    public List<Mass> getWeights() {
-        return weights;
+    public List<Mass> getMasses() {
+        return masses;
     }
 
     public void reset() {
         getClock().resetSimulationTime();
 
-        // Remove weights from the plank.
-        plank.removeAllWeights();
+        // Remove masses from the plank.
+        plank.removeAllMasses();
 
-        // Remove this model's references to the weights.
-        for ( Mass weight : new ArrayList<Mass>( weights ) ) {
-            removeWeight( weight );
+        // Remove this model's references to the masses.
+        for ( Mass mass : new ArrayList<Mass>( masses ) ) {
+            removeMass( mass );
         }
 
         // Set the support columns to their initial state.

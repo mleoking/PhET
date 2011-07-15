@@ -21,7 +21,7 @@ public abstract class ImageMass extends Mass {
     final protected Property<BufferedImage> imageProperty;
 
     // Property that contains the position in model space.  By convention for
-    // this simulation, the position of a weight is the center bottom of the
+    // this simulation, the position of a mass is the center bottom of the
     // model object.
     final public Property<Point2D> positionProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 

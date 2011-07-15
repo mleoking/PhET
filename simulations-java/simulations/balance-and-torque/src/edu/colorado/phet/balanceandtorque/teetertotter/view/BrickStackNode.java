@@ -16,9 +16,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class BrickStackNode extends PNode {
-    public BrickStackNode( final ModelViewTransform mvt, final ShapeMass weight ) {
+    public BrickStackNode( final ModelViewTransform mvt, final ShapeMass mass ) {
         addChild( new PhetPPath( new Color( 205, 38, 38 ), new BasicStroke( 1 ), Color.BLACK ) {{
-            weight.shapeProperty.addObserver( new VoidFunction1<Shape>() {
+            mass.shapeProperty.addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     // Set the shape of the node to the scaled shape of the
                     // model element.  Note that this handles changes to
@@ -29,6 +29,6 @@ public class BrickStackNode extends PNode {
             } );
         }} );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new WeightDragHandler( weight, this, mvt ) );
+        addInputEventListener( new MassDragHandler( mass, this, mvt ) );
     }
 }
