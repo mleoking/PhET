@@ -107,7 +107,7 @@ public class Model2 {
     }//end of constructor
 
     private function initialize():void{
-        this._N = 5;                 //start with 5*5  mobile masses
+        this._N = 3;                 //start with 3*3  mobile masses
         this._nChanged = false;
         this._modesChanged = false;
         this._modesZeroed = false;

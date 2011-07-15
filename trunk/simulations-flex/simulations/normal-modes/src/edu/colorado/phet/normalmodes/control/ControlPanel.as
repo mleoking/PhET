@@ -52,6 +52,7 @@ public class ControlPanel extends Canvas {
     private var innerBckgrnd4:HBox;
     private var showSpringsCheckBox: CheckBox;
     private var showSpringsLabel: NiceLabel;
+    private var indexOfShowPhasesControl:int;
     private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
@@ -175,15 +176,16 @@ public class ControlPanel extends Canvas {
         this.background.addChild( this.innerBckgrnd3 );
         this.innerBckgrnd3.addChild( showPhasesCheckBox );
         this.innerBckgrnd3.addChild( new SpriteUIComponent( showPhasesLabel, true ) );
+        indexOfShowPhasesControl = this.background.getChildIndex( this.innerBckgrnd3 );
 
         //Polarization type radio buttons
         //this.background.addChild( this.innerBckgrnd1 );
-        this.innerBckgrnd1.addChild( new SpriteUIComponent( this.polarizationLabel));
-        this.innerBckgrnd1.addChild( this.modeTypeHBox );
-        this.modeTypeHBox.addChild( this.horizPolarizationButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
-        this.modeTypeHBox.addChild( this.vertPolarizationButton );
-        this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
+        //this.innerBckgrnd1.addChild( new SpriteUIComponent( this.polarizationLabel));
+        //this.innerBckgrnd1.addChild( this.modeTypeHBox );
+        //this.modeTypeHBox.addChild( this.horizPolarizationButton );
+        //this.modeTypeHBox.addChild( new SpriteUIComponent( this.horizArrow, true) );
+        //this.modeTypeHBox.addChild( this.vertPolarizationButton );
+        //this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
 
         this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
@@ -205,6 +207,16 @@ public class ControlPanel extends Canvas {
         this.myModel.setN ( nbrM );
         if( this.myMainView.oneDMode ){
             this.myMainView.mySliderArrayPanel.locateSlidersAndLabels();
+        }
+    }
+
+    public function setShowPhasesControl():void{
+        if( this.myMainView.oneDMode ){
+            //this.background.addChildAt( innerBckgrnd3, indexOfShowPhasesControl );
+            this.background.addChild( innerBckgrnd3 );
+        }else{
+            //this.background.removeChildAt( indexOfShowPhasesControl );
+            this.background.removeChild( innerBckgrnd3 );
         }
     }
 
