@@ -1,3 +1,4 @@
+# 2.18.00 (54089) Jul 14, 2011
 # 2.17.03 (53719) Jul 5, 2011
 Added 'meter' strings from other translated files, see #2684
 # 2.17.02 (53357) Jun 22, 2011
