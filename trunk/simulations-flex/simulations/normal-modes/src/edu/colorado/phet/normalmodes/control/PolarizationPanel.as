@@ -37,10 +37,10 @@ public class PolarizationPanel extends Canvas {
 
     public var polarization_str: String;
 
-    public function PolarizationPanel( myMainView: MainView, model1: Object ) {
+    public function PolarizationPanel( myMainView: MainView, myModel: Object ) {
         super();
         this.myMainView = myMainView;
-        this.myModel = model1;
+        this.myModel = myModel;
         this.init();
     }//end constructor
 
