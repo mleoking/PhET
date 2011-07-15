@@ -178,9 +178,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
 
         //Handle dissolving the lattices
-        for ( Crystal saltCrystalLattice : toDissolve ) {
-            dissolve( crystals, saltCrystalLattice );
-            crystals.getItems().remove( saltCrystalLattice );
+        for ( Crystal crystal : toDissolve ) {
+            dissolve( crystal );
+            crystals.getItems().remove( crystal );
         }
     }
 
@@ -190,7 +190,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Dissolve the lattice
-    private void dissolve( ItemList<? extends Crystal> crystals, Crystal crystal ) {
+    private void dissolve( Crystal crystal ) {
         ImmutableVector2D velocity = crystal.velocity.get();
         for ( LatticeConstituent constituent : crystal ) {
             constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );

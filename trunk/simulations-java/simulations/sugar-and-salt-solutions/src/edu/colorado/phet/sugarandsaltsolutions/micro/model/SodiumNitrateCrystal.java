@@ -44,9 +44,9 @@ public class SodiumNitrateCrystal extends Crystal {
         //Nitrate
         else {
             double delta = nitrogenRadius + oxygenRadius;
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 ) ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 ) ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 ) ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 + angle ) ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 + angle ) ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 + angle ) ) ) );
 
             latticeConstituents.add( new LatticeConstituent( new SphericalParticle( nitrogenRadius, zero, Color.gray ), relativePosition ) );
         }
