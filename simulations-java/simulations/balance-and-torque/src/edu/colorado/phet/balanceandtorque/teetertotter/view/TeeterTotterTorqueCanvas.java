@@ -7,9 +7,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageMass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Mass;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ShapeMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
