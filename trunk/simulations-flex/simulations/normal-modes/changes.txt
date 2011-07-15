@@ -1,3 +1,5 @@
+# 0.00.32 (54113) Jul 15, 2011
+7/15/11 Edited English strings.
 # 0.00.31 (54105) Jul 15, 2011
 7/15/11 All known issues resolved.  Ready to interveiw?
 # 0.00.30 (54047) Jul 13, 2011
