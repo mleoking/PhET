@@ -3,11 +3,11 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.BrickStack;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class represents a brick or stack of bricks in the weight box.  When

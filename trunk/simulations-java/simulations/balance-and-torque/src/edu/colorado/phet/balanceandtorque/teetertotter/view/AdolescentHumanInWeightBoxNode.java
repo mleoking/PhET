@@ -5,8 +5,8 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.AdolescentHuman;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentHuman;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 

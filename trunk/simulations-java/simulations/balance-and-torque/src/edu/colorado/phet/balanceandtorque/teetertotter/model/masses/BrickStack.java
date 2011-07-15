@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.balanceandtorque.teetertotter.model.weights;
+package edu.colorado.phet.balanceandtorque.teetertotter.model.masses;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
