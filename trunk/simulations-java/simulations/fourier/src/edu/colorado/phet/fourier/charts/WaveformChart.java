@@ -171,12 +171,12 @@ public abstract class WaveformChart extends Chart {
     }
 
     public StringLabelTable getActualSpaceLabels2() {
-        double[] multipliers = { -1, -0.5, 0, 0.5, 1 };
+        double[] multipliers = { -1, 0, 1 };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     public StringLabelTable getActualSpaceLabels3() {
-        double[] multipliers = { -2, -1, 0, 1, 2 };
+        double[] multipliers = { -2, 0, 2 };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
@@ -191,12 +191,12 @@ public abstract class WaveformChart extends Chart {
     }
 
     public StringLabelTable getActualTimeLabels2() {
-        double[] multipliers = { -1, -0.5, 0, 0.5, 1 };
+        double[] multipliers = { -1, 0, 1 };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
     public StringLabelTable getActualTimeLabels3() {
-        double[] multipliers = { -2, -1, 0, 1, 2 };
+        double[] multipliers = { -2, 0, 2 };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
