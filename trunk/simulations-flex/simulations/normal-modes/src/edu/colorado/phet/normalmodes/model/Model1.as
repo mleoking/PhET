@@ -337,6 +337,7 @@ public class Model1 {
     }
 
     public function computeModeAmplitudesAndPhases():void{
+        this._t = 0;
         var N:int  = this._N;
         var mu:Array = new Array( this._N );
         var nu:Array = new Array( this._N );
