@@ -1,3 +1,4 @@
+Micro tab: Simplified micro shaker model and started adding sodium nitrate
 # 0.00.61 (54021) Jul 12, 2011
 Micro tab: Fixed: Sucrose molecules don't have the right size
 Micro tab: Removed soluble salts model and replaced with new implementation

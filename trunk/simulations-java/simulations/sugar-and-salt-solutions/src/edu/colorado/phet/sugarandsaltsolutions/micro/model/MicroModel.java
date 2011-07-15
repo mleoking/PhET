@@ -14,7 +14,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
@@ -50,6 +49,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Lists of lattices
     public final ItemList<SaltCrystal> saltCrystals = new ItemList<SaltCrystal>();
+    public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
@@ -101,7 +101,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //TODO: add the sodium nitrate
-    public void addMicroSodiumNitrate( MacroSalt sodiumNitrateCrystal ) {
+    public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
+        //Add the components of the lattice to the model so the graphics will be created
+        for ( LatticeConstituent latticeConstituent : crystal ) {
+
+            //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
+            sodiumList.add( (SphericalParticle) latticeConstituent.particle );
+        }
+        sodiumNitrateCrystals.add( crystal );
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
@@ -134,7 +141,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateParticles( dt, chlorideList );
         updateParticles( dt, sugarList );
 
-        updateCrystals( dt, saltCrystals );
+        updateCrystals( dt, sodiumNitrateCrystals );
         updateCrystals( dt, sugarCrystals );
     }
 
@@ -230,8 +237,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Determine if the lattice contains the specified particle
     //TODO: could speed up performance by around 20% if we don't have to do this lookup dynamically
-    private boolean contains( ItemList<SaltCrystal> latticeList, Particle particle ) {
-        for ( SaltCrystal lattice : latticeList ) {
+    private boolean contains( ItemList<? extends Crystal> latticeList, Particle particle ) {
+        for ( Crystal lattice : latticeList ) {
             if ( lattice.contains( particle ) ) {
                 return true;
             }
