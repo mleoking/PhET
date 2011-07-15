@@ -110,7 +110,7 @@ public class MainView extends Canvas {
         this.myButtonArrayPanel.visible = false;
 
         this.myPausedSign = new PausedSign( this.myModel1 );
-        this.myPausedSign.x = 0.32*stageW;
+        this.myPausedSign.x = 0.36*stageW;
         this.myPausedSign.y = 0.1*stageH;
 
         this.phetLogo = new PhetIcon();
@@ -152,6 +152,7 @@ public class MainView extends Canvas {
         this.myModel2.pauseSim();
         this.myControlPanel.initializeStartStopButton();
         if(oneOrTwo == 1){
+            this.myPausedSign.x = 0.36*stageW;
             this.oneDMode = true;
             this.myView1.visible = true;
             this.myView2.visible = false;
@@ -161,8 +162,10 @@ public class MainView extends Canvas {
             this.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
             this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
-            this.myControlPanel.showPhasesVisible( true );
+            //this.myControlPanel.showPhasesVisible( true );
+            this.myControlPanel.setShowPhasesControl();
         }else if(oneOrTwo == 2){
+            this.myPausedSign.x = 0.31*stageW;
             this.oneDMode = false;
             this.myView1.visible = false;
             this.myView2.visible = true;
@@ -172,7 +175,8 @@ public class MainView extends Canvas {
             this.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
             this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
-            this.myControlPanel.showPhasesVisible( false );
+            //this.myControlPanel.showPhasesVisible( false );
+            this.myControlPanel.setShowPhasesControl();
         }
     }//end set1DOr2D
 
@@ -180,7 +184,7 @@ public class MainView extends Canvas {
         this.myView1.initializeControls();
         this.mySloMoStepControl.unPauseExternally();
         this.mySloMoStepControl.setSliderExternally(1);
-        this.myControlPanel.setNbrMassesExternally( 5 );
+        this.myControlPanel.setNbrMassesExternally( 3 );
         //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }

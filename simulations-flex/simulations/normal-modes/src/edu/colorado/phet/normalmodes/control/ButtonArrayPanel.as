@@ -187,8 +187,7 @@ public class ButtonArrayPanel extends Canvas{
                 var Yamplitude = this.myModel2.getModeAmpliY( i, j );
                 var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
                 var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
-                trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
-                //trace("ButtonArrayPanel.setButtonColors()called. verticalPolarization = "+ this.verticalPolarization);
+                //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
                 if( this.myModel2.xModes ){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );

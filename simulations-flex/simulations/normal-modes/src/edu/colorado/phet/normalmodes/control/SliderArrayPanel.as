@@ -269,7 +269,7 @@ public class SliderArrayPanel extends Canvas {
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
         this.modeLabel_txt.y = yOffset - 38;
         this.amplitudeLabel_txt.y = yOffset + 30;
-        this.frequency_txt.y = yOffset + 115;
+        this.frequency_txt.y = yOffset + 118;
         this.phaseLabel_txt.y = yOffset + 190;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
