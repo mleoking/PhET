@@ -8,7 +8,7 @@
     <string key="polarization:" value = "Polarizaton:"/>
     <string key="showPhases" value = "Show Phases"/>
     <string key="showSprings" value = "Show Springs"/>
-    <string key="modeNumbersXY" value = "Mode numbers x, y. Polarization:"/>
+    <string key="modeNumbersXY" value = "Mode numbers x, y."/>
     <string key="normalMode:" value = "Normal Mode:"/>
     <string key="amplitude:" value = "Amplitude:"/>
     <string key="frequency:" value = "Frequency:"/>
