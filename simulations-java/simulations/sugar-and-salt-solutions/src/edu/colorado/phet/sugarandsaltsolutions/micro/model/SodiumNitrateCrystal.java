@@ -32,7 +32,7 @@ public class SodiumNitrateCrystal extends Crystal {
         final double nitrogenRadius = Units.picometersToMeters( 75 ) * sizeScale;
         final double oxygenRadius = Units.picometersToMeters( 73 ) * sizeScale;
         final double sodiumRadius = Units.picometersToMeters( 102 ) * sizeScale;
-        final double spacing = nitrogenRadius + sodiumRadius + oxygenRadius;
+        final double spacing = nitrogenRadius + sodiumRadius * 2 + oxygenRadius;
         ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
         if ( component instanceof SodiumIon ) {
             latticeConstituents.add( new LatticeConstituent( new SphericalParticle( sodiumRadius, zero, Color.red ), relativePosition ) );
@@ -40,10 +40,10 @@ public class SodiumNitrateCrystal extends Crystal {
         //Nitrate
         else {
             double delta = nitrogenRadius + oxygenRadius;
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.blue ), relativePosition.plus( 0, delta ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( 0, delta ) ) );
             //TODO: fix angles on oxygens
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.blue ), relativePosition.plus( delta / 2, -delta / 2 ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.blue ), relativePosition.plus( -delta / 2, -delta / 2 ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( delta / 2, -delta / 2 ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( -delta / 2, -delta / 2 ) ) );
 
             latticeConstituents.add( new LatticeConstituent( new SphericalParticle( nitrogenRadius, zero, Color.gray ), relativePosition ) );
         }
