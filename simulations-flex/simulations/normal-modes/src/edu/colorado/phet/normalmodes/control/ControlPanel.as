@@ -32,7 +32,7 @@ public class ControlPanel extends Canvas {
     private var background: VBox;
     private var nbrMassesSlider: HorizontalSlider;
     private var startStopButton: NiceButton2;
-    private var resetTimeButton: NiceButton2;
+    private var resetPositionsButton: NiceButton2;
     private var paused:Boolean;
     private var zeroPositionsButton: NiceButton2;
 
@@ -119,7 +119,7 @@ public class ControlPanel extends Canvas {
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.paused = true;
         this.startStopButton = new NiceButton2( 100, 25, start_str, startStop, 0x00ff00, 0x000000 );
-        this.resetTimeButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000  )
+        this.resetPositionsButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000  )
         this.zeroPositionsButton = new NiceButton2( 120, 25, zeroPositions_str, zeroPositions, 0xff0000, 0xffffff );
         this.polarizationLabel = new NiceLabel( 12, polarization_str );
 
@@ -163,7 +163,7 @@ public class ControlPanel extends Canvas {
         this.addChild( this.background );
 
         this.background.addChild( new SpriteUIComponent( this.startStopButton, true ));
-        this.background.addChild( new SpriteUIComponent( this.resetTimeButton, true ));
+        this.background.addChild( new SpriteUIComponent( this.resetPositionsButton, true ));
         this.background.addChild( new SpriteUIComponent( this.zeroPositionsButton, true ));
 
         this.background.addChild( new SpriteUIComponent( this.nbrMassesSlider, true ));

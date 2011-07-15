@@ -31,6 +31,7 @@ import mx.controls.sliderClasses.Slider;
 import mx.core.UIComponent;
 import mx.effects.effectClasses.ActionEffectInstance;
 
+//Array of amplitude and phase sliders which only appear with 1D View
 public class SliderArrayPanel extends Canvas {
 
     private var myMainView: MainView;
@@ -248,11 +249,13 @@ public class SliderArrayPanel extends Canvas {
         var nbrSliders:int = this.myModel1.N;    //number of mobile masses = number normal modes
         var lengthBetweenWallsInPix:Number =  this.myMainView.myView1.LinPix;
         var horizSpacing:Number = 0.7*lengthBetweenWallsInPix/(nbrSliders + 1);
+        var yOffset:int = 60;       //nbr of pixels graphics are shifted down
         var widthOfAllVisibleSliders = ( nbrSliders - 1) * horizSpacing;
         for(var i:int = 0; i < nbrSliders; i++){
             this.ampliSlider_arr[i].visible = true;
             this.ampliSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
-            this.phaseSlider_arr[i].y =  1.0*this.ampliSlider_arr[i].height - 30;
+            this.ampliSlider_arr[i].y = yOffset;
+            this.phaseSlider_arr[i].y =  yOffset + 1.0*this.ampliSlider_arr[i].height - 30;
             //this.phaseSlider_arr[i].visible = false;
             this.phaseSlider_arr[i].x = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders + i*horizSpacing;
         }
@@ -264,17 +267,17 @@ public class SliderArrayPanel extends Canvas {
         this.setFrequencyLabels();
         this.showPhaseSliders( this.phasesShown );
         var leftEdgeOfSliders:Number = this.leftEdgeX + 0.5*lengthBetweenWallsInPix - 0.5*widthOfAllVisibleSliders - 30;   //-30 to put 30 pix of space between label and leftEdge slider
-        this.modeLabel_txt.y = -38;
-        this.amplitudeLabel_txt.y = +30
-        this.frequency_txt.y = 115;
-        this.phaseLabel_txt.y = +190;
+        this.modeLabel_txt.y = yOffset - 38;
+        this.amplitudeLabel_txt.y = yOffset + 30;
+        this.frequency_txt.y = yOffset + 115;
+        this.phaseLabel_txt.y = yOffset + 190;
         this.modeLabel_txt.x = leftEdgeOfSliders - this.modeLabel_txt.width;
         this.amplitudeLabel_txt.x = leftEdgeOfSliders - this.amplitudeLabel_txt.width;
         this.frequency_txt.x = leftEdgeOfSliders - this.frequency_txt.width;
         this.phaseLabel_txt.x = leftEdgeOfSliders - 1.5*this.phaseLabel_txt.width;
-        this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.3* this.plusPi_txt.height;
+        this.plusPi_txt.y = this.phaseSlider_arr[0].y - 0.3*this.plusPi_txt.height;
         this.zero_txt.y = this.phaseSlider_arr[0].y + 0.5*this.phaseSlider_arr[0].height - 0.5*this.zero_txt.height;
-        this.minusPi_txt.y = this.phaseSlider_arr[0].y + this.phaseSlider_arr[0].height - this.plusPi_txt.height;
+        this.minusPi_txt.y = this.phaseSlider_arr[0].y + this.phaseSlider_arr[0].height - this.minusPi_txt.height;
         var xOffset:Number = 10;
         this.plusPi_txt.x = leftEdgeOfSliders + xOffset - this.plusPi_txt.width;
         this.zero_txt.x = leftEdgeOfSliders + xOffset - this.zero_txt.width;
@@ -292,6 +295,7 @@ public class SliderArrayPanel extends Canvas {
             phase = this.myModel1.getModePhase( j );
             this.ampliSlider_arr[ j - 1 ].setSliderWithoutAction( amplitude );
             this.phaseSlider_arr[ j - 1 ].setSliderWithoutAction( phase );
+            //trace("SliderArrayPanel.resetSliders. slider = "+ j + "   phase =" + phase);
         }
     }
 

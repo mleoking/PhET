@@ -348,7 +348,7 @@ public class Model1 {
                 nu[ r-1 ] += (-2/(this.modeOmega_arr[r-1]*(N+1)))*v_arr[i]*Math.sin(i*r*Math.PI/(N+1));
             }
             this.modeAmpli_arr[ r - 1] = Math.sqrt( mu[r-1]*mu[r-1] + nu[r-1]*nu[r-1] );
-            this.modePhase_arr[ r - 1 ] = Math.atan2( -nu[ r-1 ], mu[ r-1 ]) ;
+            this.modePhase_arr[ r - 1 ] = Math.atan2( nu[ r-1 ], mu[ r-1 ]) ;
         }
         this._modesChanged = true;
         this.updateViews();
@@ -371,13 +371,13 @@ public class Model1 {
 
         if(this._grabbedMassIndex != 0 ){     //if user has grabbed some mass with mouse
             this.setVerletPositions();
-        }else if( this._grabbedMassIndex == 0 && this.nbrStepsSinceRelease < 2 ){   //run Verlet for 2 steps after releasing mouse, to establish correct velocity before switching to exact algorithm
-            this.setVerletPositions();
-            this.nbrStepsSinceRelease += 1;
-            if(this.nbrStepsSinceRelease == 2){
-                this._t = 0;
-                this.computeModeAmplitudesAndPhases();
-            }
+        //}else if( this._grabbedMassIndex == 0 && this.nbrStepsSinceRelease < 1 ){   //run Verlet for 2 steps after releasing mouse, to establish correct velocity before switching to exact algorithm
+            //this.setVerletPositions();
+           // this.nbrStepsSinceRelease += 1;
+           // if(this.nbrStepsSinceRelease == 1){
+           //     this._t = 0;
+           //     this.computeModeAmplitudesAndPhases();
+           // }
         }else {
            this.setExactPositions();
         }

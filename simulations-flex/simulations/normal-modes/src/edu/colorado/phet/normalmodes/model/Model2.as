@@ -29,7 +29,7 @@ public class Model2 {
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array, number of mobile masses in 2D array is nMax*nMax
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
     private var _nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
-    private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed
+    private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been changed in some way, requiring modeButtonArray view update
     private var _modesZeroed:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must clear buttonArrayPanel
     private var _verletOn:Boolean;  //true is using Verlet algorithm, false is using exact algorithm
     private var _xModes:Boolean;     //true if x-motion modes only; false if y-motion modes only
@@ -301,7 +301,9 @@ public class Model2 {
     //set polarization in x-direction or y-direction
     public function set xModes( tOrF:Boolean ):void{
         this._xModes = tOrF;
+        this._modesChanged = true;
         this.updateViews();
+        this._modesChanged = false;
     }
 
     public function get xModes():Boolean{

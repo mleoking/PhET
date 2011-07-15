@@ -95,7 +95,7 @@ public class MainView extends Canvas {
         //trace("MainView:  "+this.myPlayPauseButtons.width )
         this.mySliderArrayPanel = new SliderArrayPanel( this, this.myModel1 );
         this.mySliderArrayPanel.x = 0*stageW;
-        this.mySliderArrayPanel.y = 0.6*stageH;
+        this.mySliderArrayPanel.y = 0.5*stageH;
 
         this.myControlPanel = new ControlPanel( this, myModel1 );
         this.myControlPanel.x = 0.83 * stageW; //- 3 * this.myControlPanel.width;

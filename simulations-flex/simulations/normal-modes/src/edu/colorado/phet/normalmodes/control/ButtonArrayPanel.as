@@ -39,7 +39,7 @@ public class ButtonArrayPanel extends Canvas{
     //private var color_arr:Array;            //array of possible button colors
     private var label_txt: NiceLabel;        //Label for array
     private var arrowGraphic: TwoHeadedArrow;//icon showing polarization of mode
-    private var verticalPolarization:Boolean;
+    //private var verticalPolarization:Boolean;
     private var tFormat: TextFormat;         //format for label
     private var modesNxNy_str: String;      //text of Label
     private var button_arr:Array;           //N x N array of pushbuttons
@@ -57,7 +57,7 @@ public class ButtonArrayPanel extends Canvas{
         this.maxContainerWidth = 250;
         //this.color_arr = new Array();
         //this.makeColorArray();
-        this.verticalPolarization = true;
+        //this.verticalPolarization = true;
         this.container = new Sprite();
         this.myPolarizationPanel = new PolarizationPanel( myMainView, myModel2 );
 
@@ -187,13 +187,13 @@ public class ButtonArrayPanel extends Canvas{
                 var Yamplitude = this.myModel2.getModeAmpliY( i, j );
                 var colorX:int = Math.round( 16 * Math.min( 1, Xamplitude/largeAmplitude ));
                 var colorY:int = Math.round( 16 * Math.min( 1, Yamplitude/largeAmplitude ));
-                //trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
+                trace("ButtonArrayPanel.setButtonColors() called. i ="+i+"  j="+j+"  colorX="+colorX+"  colorY="+colorY);
                 //trace("ButtonArrayPanel.setButtonColors()called. verticalPolarization = "+ this.verticalPolarization);
-                if(!this.verticalPolarization){
+                if( this.myModel2.xModes ){
                     //this.button_arr[i][j].setLabel( colorX.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorX );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorX ]);
-                }else if( this.verticalPolarization ) {
+                }else if( !this.myModel2.xModes ) {
                     //this.button_arr[i][j].setLabel( colorY.toString());
                     this.button_arr[i][j].changeBackgroundHeight( colorY );
                     //this.button_arr[i][j].changeColor( this.color_arr[ colorY ]);
