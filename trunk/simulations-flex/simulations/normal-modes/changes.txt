@@ -1,3 +1,5 @@
+# 0.00.33 (54118) Jul 15, 2011
+7/15/11 2D ButtonArrayPanel updates correctly when nbr masses changed.
 # 0.00.32 (54113) Jul 15, 2011
 7/15/11 Edited English strings.
 # 0.00.31 (54105) Jul 15, 2011
