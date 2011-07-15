@@ -53,7 +53,7 @@ public class ControlPanel extends Canvas {
     private var showSpringsCheckBox: CheckBox;
     private var showSpringsLabel: NiceLabel;
     private var indexOfShowPhasesControl:int;
-    private var oneDMode: Boolean;       //true if in 1D mode
+    //private var oneDMode: Boolean;       //true if in 1D mode
 
     private var resetAllButton: NiceButton2;
 //    private var selectedResonatorNbr: int;	//index number of currently selected resonator
@@ -187,7 +187,7 @@ public class ControlPanel extends Canvas {
         //this.modeTypeHBox.addChild( this.vertPolarizationButton );
         //this.modeTypeHBox.addChild( new SpriteUIComponent( this.vertArrow, true) );
 
-        this.oneDMode = this.myMainView.oneDMode;
+        //this.oneDMode = this.myMainView.oneDMode;
         //this.background.addChild( new SpriteUIComponent(this.resetAllButton, true) );
     } //end of init()
 
