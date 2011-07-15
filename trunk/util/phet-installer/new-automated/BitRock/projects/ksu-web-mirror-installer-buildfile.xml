@@ -64,6 +64,9 @@
                             <origin>$RIP_BASE_DIR$/images</origin>
                         </distributionDirectory>
                         <distributionDirectory>
+                            <origin>$RIP_BASE_DIR$/js</origin>
+                        </distributionDirectory>
+                        <distributionDirectory>
                             <origin>$RIP_BASE_DIR$/newsletters</origin>
                         </distributionDirectory>
                         <distributionDirectory>
