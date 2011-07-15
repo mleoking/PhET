@@ -567,18 +567,20 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
             }
         }
         else {
+            double fraction;
             if ( _xZoomLevel > 0 ) {
-                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels0() : _chartGraphic.getActualSpaceLabels0();
+                fraction = 0.25;
             }
             else if ( _xZoomLevel == 0 || _xZoomLevel == -1 ) {
-                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels1() : _chartGraphic.getActualSpaceLabels1();
+                fraction = 0.5;
             }
             else if ( _xZoomLevel == -2 || _xZoomLevel == -3 ) {
-                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels2() : _chartGraphic.getActualSpaceLabels2();
+                fraction = 1.0;
             }
             else {
-                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels3() : _chartGraphic.getActualSpaceLabels3();
+                fraction = 2.0;
             }
+            labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels( fraction ) : _chartGraphic.getActualSpaceLabels( fraction );
         }
         _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
 

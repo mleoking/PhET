@@ -1,9 +1,10 @@
+7/14/11 #2981, revert to [54090], show x-axis tick labels only for leftmost and rightmost major ticks in waveform charts
 # 3.05.04 (54095) Jul 14, 2011
 7/14/11 #2981, restore addition ticks for dev version
 # 3.05.03 (54093) Jul 14, 2011
 7/14/11 #2981, remove addition ticks for dev version
 7/14/11 #2981, add an additional tick label for zoom levels where the number of grid lines is large
-7/14/11 #2981, show x-axis tick labels only for leftmost and rightmost major ticks in waveform charts
+7/14/11 #2981, [54090] show x-axis tick labels only for leftmost and rightmost major ticks in waveform charts
 7/14/11 #2981, change x-axis labels from 3 to 2 decimal places
 7/14/11 #3008, fix amplitude text field so that there won't be a width issue with Simpified and Traditional Chinese
 # 3.05.02 (54080) Jul 14, 2011
