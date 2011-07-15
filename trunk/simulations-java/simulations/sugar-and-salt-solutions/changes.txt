@@ -1,3 +1,4 @@
+Micro tab: Nitrate group remains together when sodium nitrate dissolves
 Micro tab: Fixed the angle and distances for oxygen in sodium nitrate NO3 group
 Micro tab: Simplified micro shaker model and started adding sodium nitrate
 # 0.00.61 (54021) Jul 12, 2011

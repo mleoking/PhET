@@ -19,6 +19,8 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  * @author Sam Reid
  */
 public class SodiumNitrateCrystal extends Crystal {
+    private ArrayList<Nitrate> nitrates = new ArrayList<Nitrate>();
+
     public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice, double sizeScale ) {
         super( position, sizeScale );
 
@@ -44,11 +46,24 @@ public class SodiumNitrateCrystal extends Crystal {
         //Nitrate
         else {
             double delta = nitrogenRadius + oxygenRadius;
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 + angle ) ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 + angle ) ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 + angle ) ) ) );
 
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( nitrogenRadius, zero, Color.gray ), relativePosition ) );
+            SphericalParticle o1 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            ImmutableVector2D o1Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 + angle );
+            latticeConstituents.add( new LatticeConstituent( o1, relativePosition.plus( o1Position ) ) );
+
+            SphericalParticle o2 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            ImmutableVector2D o2Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 + angle );
+            latticeConstituents.add( new LatticeConstituent( o2, relativePosition.plus( o2Position ) ) );
+
+            SphericalParticle o3 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            ImmutableVector2D o3Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 + angle );
+            latticeConstituents.add( new LatticeConstituent( o3, relativePosition.plus( o3Position ) ) );
+
+            SphericalParticle nitrogen = new SphericalParticle( nitrogenRadius, zero, Color.gray );
+            latticeConstituents.add( new LatticeConstituent( nitrogen, relativePosition ) );
+
+            //Keep track of relative positions so the nitrate group won't dissolve
+            addNitrate( new Nitrate( o1, o2, o3, nitrogen, o1Position, o2Position, o3Position ) );
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
@@ -57,5 +72,13 @@ public class SodiumNitrateCrystal extends Crystal {
                 fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ) );
             }
         }
+    }
+
+    private void addNitrate( Nitrate nitrate ) {
+        nitrates.add( nitrate );
+    }
+
+    public ArrayList<Nitrate> getNitrates() {
+        return nitrates;
     }
 }

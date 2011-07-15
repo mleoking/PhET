@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -42,14 +43,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
-    //Lists of particles
+    //List of all spherical particles
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
+
+    //List of all sugar particles
     public final ItemList<SugarMolecule> sugarList = new ItemList<SugarMolecule>();
+
+    //List of all free spherical particles, used to keep track of which particles to move about randomly
+    public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
     //Lists of lattices
     public final ItemList<SaltCrystal> saltCrystals = new ItemList<SaltCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
+    public final ItemList<Crystal> nitrates = new ItemList<Crystal>();
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
@@ -136,16 +143,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
-        updateParticles( dt, sphericalParticles );
+        updateParticles( dt, freeParticles );
         updateParticles( dt, sugarList );
+        updateParticles( dt, nitrates );
 
-        updateCrystals( dt, saltCrystals );
-        updateCrystals( dt, sodiumNitrateCrystals );
-        updateCrystals( dt, sugarCrystals );
+        updateDissolvableCrystals( dt, saltCrystals );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals );
+        updateDissolvableCrystals( dt, sugarCrystals );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
-    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals ) {
+    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal lattice : crystals ) {
@@ -178,8 +186,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Handle dissolving the lattices
         for ( Crystal crystal : toDissolve ) {
-            dissolve( crystal );
-            crystals.getItems().remove( crystal );
+            dissolve( crystals, crystal );
         }
     }
 
@@ -189,10 +196,42 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Dissolve the lattice
-    private void dissolve( Crystal crystal ) {
-        ImmutableVector2D velocity = crystal.velocity.get();
-        for ( LatticeConstituent constituent : crystal ) {
-            constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
+    private void dissolve( ItemList<? extends Crystal> crystals, final Crystal crystal ) {
+        //Todo: Move this differing behavior to callbacks on the crystal
+        if ( crystal instanceof SodiumNitrateCrystal ) {
+            SodiumNitrateCrystal sodiumNitrateCrystal = (SodiumNitrateCrystal) crystal;
+
+            ImmutableVector2D velocity = crystal.velocity.get();
+            for ( LatticeConstituent constituent : crystal ) {
+                constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                SphericalParticle particle = (SphericalParticle) constituent.particle;
+                if ( particle.color.equals( Color.red ) ) {
+                    freeParticles.add( particle );
+                }
+            }
+
+            //add new compounds for the nitrates so they will remain together
+            for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
+                nitrates.add( new NitrateCrystal( nitrate.nitrogen.position.get(), sizeScale ) {{
+                    latticeConstituents.add( new LatticeConstituent( nitrate.nitrogen, new ImmutableVector2D() ) );
+                    latticeConstituents.add( new LatticeConstituent( nitrate.o1, nitrate.o1Position ) );
+                    latticeConstituents.add( new LatticeConstituent( nitrate.o2, nitrate.o2Position ) );
+                    latticeConstituents.add( new LatticeConstituent( nitrate.o3, nitrate.o3Position ) );
+                    velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                }} );
+            }
+
+            crystals.getItems().remove( crystal );
+        }
+
+        //Splits up all constituents in a crystal lattice
+        else {
+            for ( LatticeConstituent constituent : crystal ) {
+                constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                freeParticles.add( constituent.particle );
+            }
+
+            crystals.getItems().remove( crystal );
         }
     }
 
@@ -209,40 +248,27 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private final Random random = new Random();
 
     //When the simulation clock ticks, move the particles
-    private void updateParticles( double dt, ItemList<? extends Particle> list ) {
-        for ( Particle particle : list ) {
-            if ( !contains( saltCrystals, particle ) ) {
-                //Accelerate the particle due to gravity and perform an euler integration step
-                //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-                double mass = 1E-10;
-                ImmutableVector2D initialPosition = particle.position.get();
-                particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( mass ).times( mass ), dt );
+    private void updateParticles( double dt, ItemList<? extends Particle> particles ) {
+        for ( Particle particle : particles ) {
+            //Accelerate the particle due to gravity and perform an euler integration step
+            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+            double mass = 1E-10;
+            ImmutableVector2D initialPosition = particle.position.get();
+            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( mass ).times( mass ), dt );
 
-                //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
-                double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
-                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
+            //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
+            double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
+            particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
 
-                //Prevent the particles from leaving the solution
-                if ( !solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
-                    ImmutableVector2D delta = particle.position.get().minus( initialPosition );
-                    particle.position.set( initialPosition );
+            //Prevent the particles from leaving the solution
+            if ( !solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
+                ImmutableVector2D delta = particle.position.get().minus( initialPosition );
+                particle.position.set( initialPosition );
 
-                    //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-                    particle.velocity.set( ImmutableVector2D.parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
-                }
+                //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
+                particle.velocity.set( ImmutableVector2D.parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
             }
         }
-    }
-
-    //Determine if the lattice contains the specified particle
-    //TODO: could speed up performance by around 20% if we don't have to do this lookup dynamically
-    private boolean contains( ItemList<? extends Crystal> latticeList, Particle particle ) {
-        for ( Crystal lattice : latticeList ) {
-            if ( lattice.contains( particle ) ) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void reset() {
