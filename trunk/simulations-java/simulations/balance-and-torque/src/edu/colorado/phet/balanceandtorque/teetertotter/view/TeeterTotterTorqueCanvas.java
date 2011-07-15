@@ -35,9 +35,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
-        // Set up the model-canvas transform.  The test chamber is centered
-        // at (0, 0) in model space, and this transform is set up to place
-        // the chamber where we want it on the canvas.
+        // Set up the model-canvas transform.
         //
         // IMPORTANT NOTES: The multiplier factors for the 2nd point can be
         // adjusted to shift the center right or left, and the scale factor
