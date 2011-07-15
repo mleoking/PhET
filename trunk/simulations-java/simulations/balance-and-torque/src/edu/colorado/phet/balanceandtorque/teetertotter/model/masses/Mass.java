@@ -44,7 +44,7 @@ public abstract class Mass implements UserMovableModelElement {
 
     /**
      * Set the angle of rotation.  The point of rotation is the position
-     * handle.  For a weight, that means that this method can be used to make
+     * handle.  For a mass, that means that this method can be used to make
      * it appear to sit will on plank.
      *
      * @param angle rotational angle in radians.
@@ -59,7 +59,7 @@ public abstract class Mass implements UserMovableModelElement {
     }
 
     /**
-     * The user has released this weight.
+     * The user has released this mass.
      */
     public void release() {
         userControlled.set( false );

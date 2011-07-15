@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * This class defines a weight in the model that carries with it an associated
+ * This class defines a mass in the model that carries with it an associated
  * image that should be presented in the view.  The image can change at times,
  * such as when it is dropped on the balance.
  *
