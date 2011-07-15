@@ -558,21 +558,29 @@ public class DiscreteSumView extends GraphicLayerSet implements SimpleObserver, 
         // X axis labels
         final boolean mathMode = _mathGraphic.isVisible();
         LabelTable labelTable;
-        if ( _domain == Domain.TIME ) {
+        if ( mathMode ) {
             if ( _xZoomLevel > -3 ) {
-                labelTable = mathMode ? _chartGraphic.getSymbolicTimeLabels1() : _chartGraphic.getActualTimeLabels1();
+                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getSymbolicTimeLabels1() : _chartGraphic.getSymbolicSpaceLabels1();
             }
             else {
-                labelTable = mathMode ? _chartGraphic.getSymbolicTimeLabels2() : _chartGraphic.getActualTimeLabels2();
+                labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getSymbolicTimeLabels2() : _chartGraphic.getSymbolicSpaceLabels2();
             }
         }
-        else { /* DOMAIN_SPACE or DOMAIN_SPACE_AND_TIME */
-            if ( _xZoomLevel > -3 ) {
-                labelTable = mathMode ? _chartGraphic.getSymbolicSpaceLabels1() : _chartGraphic.getActualSpaceLabels1();
+        else {
+            double fraction;
+            if ( _xZoomLevel > 0 ) {
+                fraction = 0.25;
+            }
+            else if ( _xZoomLevel == 0 || _xZoomLevel == -1 ) {
+                fraction = 0.5;
+            }
+            else if ( _xZoomLevel == -2 || _xZoomLevel == -3 ) {
+                fraction = 1.0;
             }
             else {
-                labelTable = mathMode ? _chartGraphic.getSymbolicSpaceLabels2() : _chartGraphic.getActualSpaceLabels2();
+                fraction = 2.0;
             }
+            labelTable = ( _domain == Domain.TIME ) ? _chartGraphic.getActualTimeLabels( fraction ) : _chartGraphic.getActualSpaceLabels( fraction );
         }
         _chartGraphic.getHorizontalTicks().setMajorLabels( labelTable );
 
