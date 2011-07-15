@@ -15,7 +15,7 @@ public class OpenSodiumNitrateSite extends OpenSite<SodiumNitrateLattice> {
     }
 
     @Override public SodiumNitrateLattice grow( SodiumNitrateLattice lattice ) {
-        Component newIon = ( component instanceof SodiumIon ) ? new Component.ChlorideIon() : new SodiumIon();
+        Component newIon = ( component instanceof SodiumIon ) ? new Component.Nitrate() : new SodiumIon();
         return new SodiumNitrateLattice( new ImmutableList<Component>( lattice.components, newIon ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newIon, type ) ) );
     }
 }
