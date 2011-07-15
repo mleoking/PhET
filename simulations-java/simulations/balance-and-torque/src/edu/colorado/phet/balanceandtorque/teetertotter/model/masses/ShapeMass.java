@@ -6,8 +6,8 @@ import java.awt.*;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * This class defines a weight in the model whose appearance is defined by
- * its shape as opposed to, say, and image.
+ * This class defines a mass in the model whose appearance is defined by
+ * its shape as opposed to, say, an image.
  *
  * @author John Blanco
  */
