@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public abstract class ImageWeight extends Weight {
+public abstract class ImageMass extends Mass {
 
     // Property that contains the current image.
     final protected Property<BufferedImage> imageProperty;
@@ -35,7 +35,7 @@ public abstract class ImageWeight extends Weight {
     /**
      * Constructor.
      */
-    public ImageWeight( double mass, BufferedImage image, double height, Point2D initialPosition ) {
+    public ImageMass( double mass, BufferedImage image, double height, Point2D initialPosition ) {
         super( mass );
         this.height = height;
         positionProperty.set( initialPosition );

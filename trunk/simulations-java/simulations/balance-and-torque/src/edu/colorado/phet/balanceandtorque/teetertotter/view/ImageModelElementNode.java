@@ -4,10 +4,10 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageMass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageWeight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PBounds;
@@ -20,11 +20,11 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author John Blanco
  */
 public class ImageModelElementNode extends PNode {
-    private final ImageWeight weight;
+    private final ImageMass weight;
     private final ModelViewTransform mvt;
     private PBounds unrotatedBounds = new PBounds();
 
-    public ImageModelElementNode( final ModelViewTransform mvt, final ImageWeight weight ) {
+    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass weight ) {
         this.weight = weight;
         this.mvt = mvt;
 

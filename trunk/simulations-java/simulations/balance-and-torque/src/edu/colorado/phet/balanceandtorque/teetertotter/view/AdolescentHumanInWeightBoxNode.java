@@ -3,12 +3,12 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.AdolescentHuman;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageWeight;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageMass;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class represents an adolescent human in the weight box.  When
@@ -26,7 +26,7 @@ public class AdolescentHumanInWeightBoxNode extends WeightBoxItem {
 
     public AdolescentHumanInWeightBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
-        ImageWeight adolescentHuman = new AdolescentHuman();
+        ImageMass adolescentHuman = new AdolescentHuman();
         setSelectionNode( new ImageModelElementNode( SCALING_MVT, adolescentHuman ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
         // TODO: i18n (units too)

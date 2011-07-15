@@ -11,10 +11,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  *
  * @author John Blanco
  */
-public abstract class ShapeWeight extends Weight {
+public abstract class ShapeMass extends Mass {
     public final Property<Shape> shapeProperty;
 
-    public ShapeWeight( double mass, Shape shape ) {
+    public ShapeMass( double mass, Shape shape ) {
         super( mass );
         shapeProperty = new Property<Shape>( shape );
     }

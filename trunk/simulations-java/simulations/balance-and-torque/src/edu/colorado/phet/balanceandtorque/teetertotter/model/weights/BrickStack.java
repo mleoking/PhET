@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  *
  * @author John Blanco
  */
-public class BrickStack extends ShapeWeight {
+public class BrickStack extends ShapeMass {
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 2; // In kg.

@@ -4,7 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -29,13 +29,13 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     // A list of all the weights in the model
     // TODO: I'm not sure that this is even needed, since we listen to all weights as soon as they are added.  Revist later and decide.
-    private final List<Weight> weights = new ArrayList<Weight>();
+    private final List<Mass> weights = new ArrayList<Mass>();
 
     // Listeners that are notified when a shape-based weight is added to the model
-    private final ArrayList<VoidFunction1<Weight>> weightAddedListeners = new ArrayList<VoidFunction1<Weight>>();
+    private final ArrayList<VoidFunction1<Mass>> weightAddedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Listeners that are notified when a shape-based weight is removed from the model
-    private final ArrayList<VoidFunction1<Weight>> weightRemovedListeners = new ArrayList<VoidFunction1<Weight>>();
+    private final ArrayList<VoidFunction1<Mass>> weightRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Fulcrum on which the plank pivots
     private final Fulcrum fulcrum = new Fulcrum();
@@ -65,24 +65,24 @@ public class TeeterTotterTorqueModel implements Resettable {
     }
 
     // TODO: The next block of code is for listening for weights being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
-    public void addWeightAddedListener( VoidFunction1<Weight> listener ) {
+    public void addWeightAddedListener( VoidFunction1<Mass> listener ) {
         weightAddedListeners.add( listener );
     }
 
-    public void removeWeightAddedListener( VoidFunction1<Weight> listener ) {
+    public void removeWeightAddedListener( VoidFunction1<Mass> listener ) {
         weightAddedListeners.remove( listener );
     }
 
-    public void addWeightRemovedListener( VoidFunction1<Weight> listener ) {
+    public void addWeightRemovedListener( VoidFunction1<Mass> listener ) {
         weightRemovedListeners.add( listener );
     }
 
-    public void removeWeightRemovedListener( VoidFunction1<Weight> listener ) {
+    public void removeWeightRemovedListener( VoidFunction1<Mass> listener ) {
         weightRemovedListeners.remove( listener );
     }
 
     // Adds a weight to the model and notifies registered listeners
-    public UserMovableModelElement addWeight( final Weight weight ) {
+    public UserMovableModelElement addWeight( final Mass weight ) {
         weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
@@ -104,17 +104,17 @@ public class TeeterTotterTorqueModel implements Resettable {
         return weight;
     }
 
-    private void notifyWeightAdded( Weight weight ) {
-        for ( VoidFunction1<Weight> weightAddedListener : weightAddedListeners ) {
+    private void notifyWeightAdded( Mass weight ) {
+        for ( VoidFunction1<Mass> weightAddedListener : weightAddedListeners ) {
             weightAddedListener.apply( weight );
         }
     }
 
     // Removes a weight from the model and notifies listeners.
-    public void removeWeight( Weight weight ) {
+    public void removeWeight( Mass weight ) {
         if ( weights.contains( weight ) ) {
             weights.remove( weight );
-            for ( VoidFunction1<Weight> weightRemovedListener : weightRemovedListeners ) {
+            for ( VoidFunction1<Mass> weightRemovedListener : weightRemovedListeners ) {
                 weightRemovedListener.apply( weight );
             }
         }
@@ -132,7 +132,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         return supportColumns;
     }
 
-    public List<Weight> getWeights() {
+    public List<Mass> getWeights() {
         return weights;
     }
 
@@ -143,7 +143,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         plank.removeAllWeights();
 
         // Remove this model's references to the weights.
-        for ( Weight weight : new ArrayList<Weight>( weights ) ) {
+        for ( Mass weight : new ArrayList<Mass>( weights ) ) {
             removeWeight( weight );
         }
 
