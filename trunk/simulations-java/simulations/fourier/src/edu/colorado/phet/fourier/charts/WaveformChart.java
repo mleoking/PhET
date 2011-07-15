@@ -95,7 +95,7 @@ public abstract class WaveformChart extends Chart {
             getHorizontalTicks().setMajorTickSpacing( X_MAJOR_TICK_SPACING );
             getHorizontalTicks().setMajorTickStroke( MAJOR_TICK_STROKE );
             getHorizontalTicks().setMajorTickFont( MAJOR_TICK_FONT );
-            getHorizontalTicks().setMajorLabels( getActualSpaceLabels1() );
+            getHorizontalTicks().setMajorLabels( getActualSpaceLabels( 0.5 ) );
 
             // Vertical gridlines for major ticks.
             getVerticalGridlines().setMajorGridlinesVisible( true );
@@ -160,23 +160,13 @@ public abstract class WaveformChart extends Chart {
     // X-axis Labels, actual values based on fundamental's wavelength and period
     //----------------------------------------------------------------------------
 
-    public StringLabelTable getActualSpaceLabels1() {
-        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+    public StringLabelTable getActualSpaceLabels( double fraction ) {
+        double[] multipliers = { -fraction, 0, fraction };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
-    public StringLabelTable getActualSpaceLabels2() {
-        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_WAVELENGTH, X_TICK_LABEL_PATTERN, getComponent() );
-    }
-
-    public StringLabelTable getActualTimeLabels2() {
-        double[] multipliers = { -2.0, -1.5, -1.0, -0.5, 0, 0.5, 1.0, 1.5, 2.0 };
-        return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
-    }
-
-    public StringLabelTable getActualTimeLabels1() {
-        double[] multipliers = { -1.00, -0.75, -0.50, -0.25, 0, 0.25, 0.50, 0.75, 1.00 };
+    public StringLabelTable getActualTimeLabels( double fraction ) {
+        double[] multipliers = { -fraction, 0, fraction };
         return createLabels( multipliers, L, FourierConstants.FUNDAMENTAL_PERIOD, X_TICK_LABEL_PATTERN, getComponent() );
     }
 
