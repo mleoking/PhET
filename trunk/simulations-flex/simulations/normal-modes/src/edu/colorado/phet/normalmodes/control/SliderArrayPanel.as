@@ -281,7 +281,7 @@ public class SliderArrayPanel extends Canvas {
         var xOffset:Number = 10;
         this.plusPi_txt.x = leftEdgeOfSliders + xOffset - this.plusPi_txt.width;
         this.zero_txt.x = leftEdgeOfSliders + xOffset - this.zero_txt.width;
-        this.minusPi_txt.x = leftEdgeOfSliders + xOffset - this.minusPi_txt.width;
+        this.minusPi_txt.x = this.plusPi_txt.x; //leftEdgeOfSliders + xOffset - this.minusPi_txt.width;
 
         this.container.x = 0;
         this.myPolarizationPanel.x = rightEdgeOfSliders;
