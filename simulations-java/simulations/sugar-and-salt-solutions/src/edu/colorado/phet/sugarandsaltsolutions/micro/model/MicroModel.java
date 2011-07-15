@@ -43,8 +43,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
     //Lists of particles
-    public final ItemList<SphericalParticle> sodiumList = new ItemList<SphericalParticle>();
-    public final ItemList<SphericalParticle> chlorideList = new ItemList<SphericalParticle>();
+    public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
     public final ItemList<SugarMolecule> sugarList = new ItemList<SugarMolecule>();
 
     //Lists of lattices
@@ -95,7 +94,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         for ( LatticeConstituent latticeConstituent : saltCrystal ) {
 
             //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-            sodiumList.add( (SphericalParticle) latticeConstituent.particle );
+            sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
         }
         saltCrystals.add( saltCrystal );
     }
@@ -106,7 +105,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         for ( LatticeConstituent latticeConstituent : crystal ) {
 
             //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-            sodiumList.add( (SphericalParticle) latticeConstituent.particle );
+            sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
         }
         sodiumNitrateCrystals.add( crystal );
     }
@@ -137,10 +136,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
-        updateParticles( dt, sodiumList );
-        updateParticles( dt, chlorideList );
+        updateParticles( dt, sphericalParticles );
         updateParticles( dt, sugarList );
 
+        updateCrystals( dt, saltCrystals );
         updateCrystals( dt, sodiumNitrateCrystals );
         updateCrystals( dt, sugarCrystals );
     }

@@ -51,8 +51,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //When sodium or chloride ions are added in the model, add graphics for them in the view
-        model.sodiumList.addItemAddedListener( new SphericalParticleNodeFactory( model.sodiumList, transform, this ) );
-        model.chlorideList.addItemAddedListener( new SphericalParticleNodeFactory( model.chlorideList, transform, this ) );
+        model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this ) );
         model.sugarList.addItemAddedListener( new SugarMoleculeNodeFactory( model.sugarList, transform, this ) );
     }
 
