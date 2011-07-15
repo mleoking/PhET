@@ -204,8 +204,8 @@ public class ButtonArrayPanel extends Canvas{
 
     public function update():void{
         if( this.myModel2.nChanged || this.myModel2.modesZeroed ){
-
             this.setNbrButtons();
+            this.setButtonColors();
             //this.myModel2.nChanged = false;
             this.myModel2.modesZeroed = false;
         }
