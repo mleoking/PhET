@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Mass;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -56,10 +56,10 @@ public class Plank extends ShapeModelElement {
     public final double maxTiltAngle;
 
     // List of the weights that are resting on the surface of this plank.
-    private final List<Weight> weightsOnSurface = new ArrayList<Weight>();
+    private final List<Mass> weightsOnSurface = new ArrayList<Mass>();
 
     // Map of weights to distance from the center of the plank.
-    private final Map<Weight, Double> mapWeightToDistFromCenter = new HashMap<Weight, Double>();
+    private final Map<Mass, Double> mapWeightToDistFromCenter = new HashMap<Mass, Double>();
 
     // Property that indicates whether the suppoort columns are currently
     // active.
@@ -113,7 +113,7 @@ public class Plank extends ShapeModelElement {
      *
      * @param weight
      */
-    public void addWeightToSurface( final Weight weight ) {
+    public void addWeightToSurface( final Mass weight ) {
         weightsOnSurface.add( weight );
         weight.setPosition( getClosestOpenLocation( weight.getPosition() ) );
         weight.setOnPlank( true );
@@ -131,7 +131,7 @@ public class Plank extends ShapeModelElement {
         updateTorqueDueToWeights();
     }
 
-    private void removeWeightFromSurface( Weight weight ) {
+    private void removeWeightFromSurface( Mass weight ) {
         weightsOnSurface.remove( weight );
         weight.setRotationAngle( 0 );
         weight.setOnPlank( false );
@@ -139,7 +139,7 @@ public class Plank extends ShapeModelElement {
     }
 
     public void removeAllWeights() {
-        for ( Weight weight : new ArrayList<Weight>( weightsOnSurface ) ) {
+        for ( Mass weight : new ArrayList<Mass>( weightsOnSurface ) ) {
             removeWeightFromSurface( weight );
         }
     }
@@ -223,7 +223,7 @@ public class Plank extends ShapeModelElement {
     }
 
     private void updateWeightPositions() {
-        for ( Weight weight : weightsOnSurface ) {
+        for ( Mass weight : weightsOnSurface ) {
             Vector2D vectorToPivotPoint = new Vector2D( positionHandle );
             Vector2D vectorToCenterAbovePivot = new Vector2D( 0, THICKNESS );
             vectorToCenterAbovePivot.rotate( tiltAngle );
@@ -279,7 +279,7 @@ public class Plank extends ShapeModelElement {
 
     private void updateTorqueDueToWeights() {
         double netTorqueFromWeights = 0;
-        for ( Weight weight : weightsOnSurface ) {
+        for ( Mass weight : weightsOnSurface ) {
             netTorqueFromWeights += -weight.getPosition().getX() * weight.getMass();
         }
         torqueFromWeights = netTorqueFromWeights;

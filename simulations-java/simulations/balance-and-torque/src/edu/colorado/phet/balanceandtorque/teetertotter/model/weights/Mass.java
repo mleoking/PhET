@@ -3,17 +3,17 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model.weights;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 
 /**
  * Base class for all objects that can be placed on the balance.
  *
  * @author John Blanco
  */
-public abstract class Weight implements UserMovableModelElement {
+public abstract class Mass implements UserMovableModelElement {
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
     // Property that contains the rotational angle, in radians, of the model
@@ -23,7 +23,7 @@ public abstract class Weight implements UserMovableModelElement {
 
     private final double mass;
 
-    public Weight( double mass ) {
+    public Mass( double mass ) {
         this.mass = mass;
     }
 

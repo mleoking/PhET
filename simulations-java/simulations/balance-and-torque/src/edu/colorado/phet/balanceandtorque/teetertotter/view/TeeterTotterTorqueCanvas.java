@@ -7,9 +7,9 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageWeight;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ShapeWeight;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Mass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.ShapeMass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -56,20 +56,20 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
         // Whenever a weight is added to the model, create a graphic for it
-        model.addWeightAddedListener( new VoidFunction1<Weight>() {
-            public void apply( final Weight weight ) {
+        model.addWeightAddedListener( new VoidFunction1<Mass>() {
+            public void apply( final Mass weight ) {
                 PNode weightNode = null;
-                if ( weight instanceof ShapeWeight ) {
+                if ( weight instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
-                    weightNode = new BrickStackNode( mvt, (ShapeWeight) weight );
+                    weightNode = new BrickStackNode( mvt, (ShapeMass) weight );
                 }
-                else if ( weight instanceof ImageWeight ) {
-                    weightNode = new ImageModelElementNode( mvt, (ImageWeight) weight );
+                else if ( weight instanceof ImageMass ) {
+                    weightNode = new ImageModelElementNode( mvt, (ImageMass) weight );
                 }
                 // Add the removal listener for if and when this weight is removed from the model.
                 final PNode finalWeightNode = weightNode;
-                model.addWeightRemovedListener( new VoidFunction1<Weight>() {
-                    public void apply( Weight w ) {
+                model.addWeightRemovedListener( new VoidFunction1<Mass>() {
+                    public void apply( Mass w ) {
                         if ( w == weight ) {
                             rootNode.removeChild( finalWeightNode );
                         }

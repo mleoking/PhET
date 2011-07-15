@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Mass;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.weights.Weight;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PDragEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -13,11 +13,11 @@ import edu.umd.cs.piccolo.util.PDimension;
  * @author John Blanco
  */
 public class WeightDragHandler extends PDragEventHandler {
-    private final Weight weight;
+    private final Mass weight;
     private final PNode pNode;
     private final ModelViewTransform mvt;
 
-    public WeightDragHandler( Weight weight, PNode node, ModelViewTransform mvt ) {
+    public WeightDragHandler( Mass weight, PNode node, ModelViewTransform mvt ) {
         this.weight = weight;
         pNode = node;
         this.mvt = mvt;

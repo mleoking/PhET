@@ -13,7 +13,7 @@ import static edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Image
  *
  * @author John Blanco
  */
-public class AdolescentHuman extends ImageWeight {
+public class AdolescentHuman extends ImageMass {
 
     private static final double MASS = 20; // in kg
     private static final double STANDING_HEIGHT = 1.2; // In meters.
