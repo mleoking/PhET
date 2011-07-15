@@ -20,12 +20,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  * @author John Blanco
  */
 public class ImageModelElementNode extends PNode {
-    private final ImageMass weight;
+    private final ImageMass mass;
     private final ModelViewTransform mvt;
     private PBounds unrotatedBounds = new PBounds();
 
-    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass weight ) {
-        this.weight = weight;
+    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass mass ) {
+        this.mass = mass;
         this.mvt = mvt;
 
         final PImage imageNode = new PImage();
@@ -33,11 +33,11 @@ public class ImageModelElementNode extends PNode {
         addChild( imageNode );
 
         // Observe image changes.
-        weight.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
+        mass.addImageChangeObserver( new VoidFunction1<BufferedImage>() {
             public void apply( BufferedImage image ) {
                 imageNode.setScale( 1 );
                 imageNode.setImage( image );
-                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( weight.getHeight() ) ) / imageNode.getFullBoundsReference().height;
+                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( mass.getHeight() ) ) / imageNode.getFullBoundsReference().height;
                 if ( scalingFactor > 2 || scalingFactor < 0.5 ) {
                     System.out.println( getClass().getName() + " - Warning: Scaling factor is too large or small, drawing size should be adjusted.  Scaling factor = " + scalingFactor );
                 }
@@ -48,14 +48,14 @@ public class ImageModelElementNode extends PNode {
         } );
 
         // Register for notification of position changes.
-        weight.addPositionChangeObserver( new VoidFunction1<Point2D>() {
+        mass.addPositionChangeObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D newPosition ) {
                 updatePositionAndAngle();
             }
         } );
 
         // Register for notifications of rotational angle changes
-        weight.addRotationalAngleChangeObserver( new VoidFunction1<Double>() {
+        mass.addRotationalAngleChangeObserver( new VoidFunction1<Double>() {
             public void apply( Double newAngle ) {
                 updatePositionAndAngle();
             }
@@ -65,13 +65,13 @@ public class ImageModelElementNode extends PNode {
         addInputEventListener( new CursorHandler() );
 
         // Add the mouse event handler.
-        addInputEventListener( new WeightDragHandler( weight, this, mvt ) );
+        addInputEventListener( new MassDragHandler( mass, this, mvt ) );
     }
 
     private void updatePositionAndAngle() {
         setRotation( 0 );
-        setOffset( mvt.modelToViewX( weight.getPosition().getX() ) - getFullBoundsReference().width / 2,
-                   mvt.modelToViewY( weight.getPosition().getY() ) - getFullBoundsReference().height );
-        rotateAboutPoint( -weight.getRotationAngle(), getFullBoundsReference().getWidth() / 2, getFullBoundsReference().getHeight() );
+        setOffset( mvt.modelToViewX( mass.getPosition().getX() ) - getFullBoundsReference().width / 2,
+                   mvt.modelToViewY( mass.getPosition().getY() ) - getFullBoundsReference().height );
+        rotateAboutPoint( -mass.getRotationAngle(), getFullBoundsReference().getWidth() / 2, getFullBoundsReference().getHeight() );
     }
 }

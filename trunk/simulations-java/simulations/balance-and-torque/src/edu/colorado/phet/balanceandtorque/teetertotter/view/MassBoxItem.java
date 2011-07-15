@@ -4,12 +4,12 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.*;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -17,12 +17,12 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the Piccolo nodes that appear in the weight box and that can
+ * Base class for the Piccolo nodes that appear in the mass box and that can
  * be clicked on by the user in order to add model elements to the model.
  *
  * @author John Blanco
  */
-public abstract class WeightBoxItem extends PComposite {
+public abstract class MassBoxItem extends PComposite {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -54,7 +54,7 @@ public abstract class WeightBoxItem extends PComposite {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public WeightBoxItem( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MassBoxItem( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         this.model = model;
         this.mvt = mvt;

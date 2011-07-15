@@ -22,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
- * This is the plank upon which weights can be placed.
+ * This is the plank upon which masses can be placed.
  *
  * @author John Blanco
  */
@@ -50,16 +50,16 @@ public class Plank extends ShapeModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 
-    public double torqueFromWeights = 0;
+    public double torqueFromMasses = 0;
     public double tiltAngle = 0;
     public double angularVelocity = 0; // radians/sec
     public final double maxTiltAngle;
 
-    // List of the weights that are resting on the surface of this plank.
-    private final List<Mass> weightsOnSurface = new ArrayList<Mass>();
+    // List of the masses that are resting on the surface of this plank.
+    private final List<Mass> massesOnSurface = new ArrayList<Mass>();
 
-    // Map of weights to distance from the center of the plank.
-    private final Map<Mass, Double> mapWeightToDistFromCenter = new HashMap<Mass, Double>();
+    // Map of masses to distance from the center of the plank.
+    private final Map<Mass, Double> mapMassToDistFromCenter = new HashMap<Mass, Double>();
 
     // Property that indicates whether the suppoort columns are currently
     // active.
@@ -106,41 +106,41 @@ public class Plank extends ShapeModelElement {
     }
 
     /**
-     * Add a weight (e.g. a brick) to the surface of the plank.  This will
-     * set the position and orientation of the weight.  The plank will then
-     * continue to control the position and orientation of the weight until the
-     * weight is removed from the surface of the plank.
+     * Add a mass (e.g. a brick) to the surface of the plank.  This will
+     * set the position and orientation of the mass.  The plank will then
+     * continue to control the position and orientation of the mass until the
+     * mass is removed from the surface of the plank.
      *
-     * @param weight
+     * @param mass
      */
-    public void addWeightToSurface( final Mass weight ) {
-        weightsOnSurface.add( weight );
-        weight.setPosition( getClosestOpenLocation( weight.getPosition() ) );
-        weight.setOnPlank( true );
-        mapWeightToDistFromCenter.put( weight, ( weight.getPosition().getX() - positionHandle.getX() ) / Math.cos( tiltAngle ) );
-        weight.userControlled.addObserver( new VoidFunction1<Boolean>() {
+    public void addMassToSurface( final Mass mass ) {
+        massesOnSurface.add( mass );
+        mass.setPosition( getClosestOpenLocation( mass.getPosition() ) );
+        mass.setOnPlank( true );
+        mapMassToDistFromCenter.put( mass, ( mass.getPosition().getX() - positionHandle.getX() ) / Math.cos( tiltAngle ) );
+        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
-                    // The user has picked up this weight, so it is no longer
+                    // The user has picked up this mass, so it is no longer
                     // on the surface.
-                    removeWeightFromSurface( weight );
+                    removeMassFromSurface( mass );
                 }
             }
         } );
-        updateWeightPositions();
-        updateTorqueDueToWeights();
+        updateMassPositions();
+        updateTorqueDueToMasses();
     }
 
-    private void removeWeightFromSurface( Mass weight ) {
-        weightsOnSurface.remove( weight );
-        weight.setRotationAngle( 0 );
-        weight.setOnPlank( false );
-        updateTorqueDueToWeights();
+    private void removeMassFromSurface( Mass mass ) {
+        massesOnSurface.remove( mass );
+        mass.setRotationAngle( 0 );
+        mass.setOnPlank( false );
+        updateTorqueDueToMasses();
     }
 
-    public void removeAllWeights() {
-        for ( Mass weight : new ArrayList<Mass>( weightsOnSurface ) ) {
-            removeWeightFromSurface( weight );
+    public void removeAllMasses() {
+        for ( Mass mass : new ArrayList<Mass>( massesOnSurface ) ) {
+            removeMassFromSurface( mass );
         }
     }
 
@@ -190,13 +190,13 @@ public class Plank extends ShapeModelElement {
     private void forceToLevel() {
         tiltAngle = 0;
         updateShape();
-        updateWeightPositions();
+        updateMassPositions();
     }
 
     private void stepInTime( double dt ) {
         if ( !supportColumnsActive.get() ) {
             // Update the angular velocity based on the current torque.
-            angularVelocity += torqueFromWeights / MOMENT_OF_INERTIA;
+            angularVelocity += torqueFromMasses / MOMENT_OF_INERTIA;
         }
         else {
             angularVelocity = 0;
@@ -208,7 +208,7 @@ public class Plank extends ShapeModelElement {
                 angularVelocity = 0;
             }
             updateShape();
-            updateWeightPositions();
+            updateMassPositions();
         }
     }
 
@@ -222,15 +222,15 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    private void updateWeightPositions() {
-        for ( Mass weight : weightsOnSurface ) {
+    private void updateMassPositions() {
+        for ( Mass mass : massesOnSurface ) {
             Vector2D vectorToPivotPoint = new Vector2D( positionHandle );
             Vector2D vectorToCenterAbovePivot = new Vector2D( 0, THICKNESS );
             vectorToCenterAbovePivot.rotate( tiltAngle );
-            Vector2D vectorToWeight = new Vector2D( mapWeightToDistFromCenter.get( weight ), 0 );
-            vectorToWeight.rotate( tiltAngle );
-            weight.setRotationAngle( tiltAngle );
-            weight.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToWeight ) ).toPoint2D() );
+            Vector2D vectorToMass = new Vector2D( mapMassToDistFromCenter.get( mass ), 0 );
+            vectorToMass.rotate( tiltAngle );
+            mass.setRotationAngle( tiltAngle );
+            mass.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToMass ) ).toPoint2D() );
         }
     }
 
@@ -277,17 +277,17 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    private void updateTorqueDueToWeights() {
-        double netTorqueFromWeights = 0;
-        for ( Mass weight : weightsOnSurface ) {
-            netTorqueFromWeights += -weight.getPosition().getX() * weight.getMass();
+    private void updateTorqueDueToMasses() {
+        double netTorqueFromMasses = 0;
+        for ( Mass mass : massesOnSurface ) {
+            netTorqueFromMasses += -mass.getPosition().getX() * mass.getMass();
         }
-        torqueFromWeights = netTorqueFromWeights;
+        torqueFromMasses = netTorqueFromMasses;
     }
 
     /**
      * Get a list of the "snap to" locations on the surface of the plank.
-     * These locations are the only locations where the weights may ba placed,
+     * These locations are the only locations where the masses may ba placed,
      * and locations between these points are not considered valid.  This is
      * done to make it easier to balance things.
      *
