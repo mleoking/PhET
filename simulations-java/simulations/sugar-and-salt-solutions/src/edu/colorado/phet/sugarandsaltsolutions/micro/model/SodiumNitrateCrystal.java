@@ -11,6 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SodiumNitrateLattice;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
  *
@@ -42,10 +44,9 @@ public class SodiumNitrateCrystal extends Crystal {
         //Nitrate
         else {
             double delta = nitrogenRadius + oxygenRadius;
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( 0, delta ) ) );
-            //TODO: fix angles on oxygens
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( delta / 2, -delta / 2 ) ) );
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( -delta / 2, -delta / 2 ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 ) ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 ) ) ) );
+            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( oxygenRadius, zero, Color.gray ), relativePosition.plus( parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 ) ) ) );
 
             latticeConstituents.add( new LatticeConstituent( new SphericalParticle( nitrogenRadius, zero, Color.gray ), relativePosition ) );
         }
