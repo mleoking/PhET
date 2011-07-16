@@ -6,10 +6,13 @@ import java.util.Random;
 /**
  * A lattice represents a set of components (may be elements or molecules) and the bonds between them.
  * TODO: Graph creation does not prevent particles from being placed in the same location (reached by 2 different paths)
+ * <p/>
+ * //Generify to obtain the self type, see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6479372
+ * //or http://passion.forco.de/content/emulating-self-types-using-java-generics-simplify-fluent-api-implementation
  *
  * @author Sam Reid
  */
-public abstract class Lattice {
+public abstract class Lattice<T extends Lattice<T>> {
     //List of ions in the salt lattice graph, these are the vertices in the graph representation
     public final ImmutableList<Component> components;
     //List of bonds between ions in the graph, these are the edges in the graph representation
@@ -26,10 +29,10 @@ public abstract class Lattice {
     }
 
     //Find the available sites where a new component might be added
-    protected abstract ArrayList<OpenSite> getOpenSites();
+    protected abstract ArrayList<OpenSite<T>> getOpenSites();
 
     //Check to see whether the adjacent site is available, if so, add it to the list of open sites for potential bonding
-    protected abstract void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type );
+    protected abstract void testAddSite( ArrayList<OpenSite<T>> openSites, Component component, ArrayList<Bond> bonds, BondType type );
 
     //Determine whether the list contains a bond of the specified type
     protected boolean containsBondType( ArrayList<Bond> bonds, BondType type ) {
@@ -72,7 +75,7 @@ public abstract class Lattice {
     //Create a new Lattice with an additional (new) component
     protected Lattice grow( Random random ) {
         //Randomly choose an open site for expansion
-        ArrayList<OpenSite> sites = getOpenSites();
+        ArrayList<OpenSite<T>> sites = getOpenSites();
         OpenSite selected = sites.get( random.nextInt( sites.size() ) );
 
         //Grow at the selected open site

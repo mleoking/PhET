@@ -13,7 +13,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
  *
  * @author Sam Reid
  */
-public class CalciumChlorideLattice extends Lattice {
+public class CalciumChlorideLattice extends Lattice<CalciumChlorideLattice> {
 
     public CalciumChlorideLattice() {
         //Seed with a chloride since we need 2:1 ratio of chloride to calcium
@@ -24,15 +24,15 @@ public class CalciumChlorideLattice extends Lattice {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<OpenSite<CalciumChlorideLattice>> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             openSites.add( new CalciumChlorideSite( component, type ) );
         }
     }
 
     //Find the available sites where a new component might be added
-    @Override protected ArrayList<OpenSite> getOpenSites() {
-        ArrayList<OpenSite> openSites = new ArrayList<OpenSite>();
+    @Override protected ArrayList<OpenSite<CalciumChlorideLattice>> getOpenSites() {
+        ArrayList<OpenSite<CalciumChlorideLattice>> openSites = new ArrayList<OpenSite<CalciumChlorideLattice>>();
         for ( Component component : components ) {
 
             //Calcium bonds in all 4 directions

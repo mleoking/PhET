@@ -11,7 +11,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
  *
  * @author Sam Reid
  */
-public class SucroseLattice extends Lattice {
+public class SucroseLattice extends Lattice<SucroseLattice> {
 
     public SucroseLattice() {
         super( new ImmutableList<Component>( new SucroseComponent() ), new ImmutableList<Bond>() );
@@ -23,8 +23,8 @@ public class SucroseLattice extends Lattice {
 
     //Find the available sites where a new component might be added
     //TODO: duplicated with salt lattice
-    @Override protected ArrayList<OpenSite> getOpenSites() {
-        ArrayList<OpenSite> openSites = new ArrayList<OpenSite>();
+    @Override protected ArrayList<OpenSite<SucroseLattice>> getOpenSites() {
+        ArrayList<OpenSite<SucroseLattice>> openSites = new ArrayList<OpenSite<SucroseLattice>>();
         for ( Component component : components ) {
             for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
                 testAddSite( openSites, component, getBonds( component ), bondType );
@@ -33,7 +33,7 @@ public class SucroseLattice extends Lattice {
         return openSites;
     }
 
-    @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<OpenSite<SucroseLattice>> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             openSites.add( new SucroseSite( component, type ) );
         }
