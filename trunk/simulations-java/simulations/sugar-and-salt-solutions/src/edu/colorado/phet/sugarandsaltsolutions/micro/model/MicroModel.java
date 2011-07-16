@@ -384,21 +384,30 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Called when water flows out of the output faucet, so that we can move update the particles accordingly
     @Override protected void waterDrained( double outVolume, double initialSaltConcentration, double initialSugarConcentration ) {
         super.waterDrained( outVolume, initialSaltConcentration, initialSugarConcentration );
-
-        double changeInWaterHeight = beaker.getHeightForVolume( outVolume ) - beaker.getHeightForVolume( 0 );
-
-        waterDrained( freeParticles, changeInWaterHeight );
-        waterDrained( sugarCrystals, changeInWaterHeight );
-        waterDrained( nitrates, changeInWaterHeight );
+        updateParticlesDueToWaterLevelDropped( outVolume );
     }
 
-    //When water drains out, move the particles down with the water level.
+    //Iterate over particles that take random walks so they don't move above the top of the water
+    private void updateParticlesDueToWaterLevelDropped( double changeInWaterHeight ) {
+        waterLevelDropped( freeParticles, changeInWaterHeight );
+        waterLevelDropped( sugarCrystals, changeInWaterHeight );
+        waterLevelDropped( nitrates, changeInWaterHeight );
+    }
+
+    //When water level decreases, move the particles down with the water level.
     //Beaker base is at y=0.  Move particles proportionately to how close they are to the top.
-    private void waterDrained( ItemList<? extends Particle> particles, double changeInWaterHeight ) {
+    private void waterLevelDropped( ItemList<? extends Particle> particles, double volumeDropped ) {
+        double changeInWaterHeight = beaker.getHeightForVolume( volumeDropped ) - beaker.getHeightForVolume( 0 );
         for ( Particle particle : particles ) {
             double yLocationInBeaker = particle.position.get().getY();
             double fractionToTop = yLocationInBeaker / beaker.getHeightForVolume( waterVolume.get() );
             particle.position.set( particle.position.get().minus( 0, changeInWaterHeight * fractionToTop ) );
         }
+    }
+
+    //When water evaporates, move the particles so they move down with the water level
+    @Override protected void waterEvaporated( double evaporatedWater ) {
+        super.waterEvaporated( evaporatedWater );
+        updateParticlesDueToWaterLevelDropped( evaporatedWater );
     }
 }

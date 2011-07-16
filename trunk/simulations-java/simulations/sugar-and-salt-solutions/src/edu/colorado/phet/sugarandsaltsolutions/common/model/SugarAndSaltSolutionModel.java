@@ -331,9 +331,19 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
             waterDrained( drainedWater, initialSaltConcentration, initialSugarConcentration );
         }
 
+        //Notify subclasses that water evaporated in case they need to update anything
+        if ( evaporatedWater > 0 ) {
+            waterEvaporated( evaporatedWater );
+        }
+
         //Move about the sugar and salt crystals, and maybe absorb them
         updateCrystals( dt, saltList );
         updateCrystals( dt, sugarList );
+    }
+
+    //Callback when water has evaporated from the solution
+    protected void waterEvaporated( double evaporatedWater ) {
+        //Nothing to do in the base class
     }
 
     //Propagate the sugar and salt crystals, and absorb them if they hit the water
