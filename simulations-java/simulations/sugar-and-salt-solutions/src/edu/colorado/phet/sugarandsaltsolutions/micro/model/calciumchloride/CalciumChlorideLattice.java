@@ -26,7 +26,7 @@ public class CalciumChlorideLattice extends SquareLattice {
 
     @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            openSites.add( new OpenCalciumChlorideSite( component, type ) );
+            openSites.add( new CalciumChlorideSite( component, type ) );
         }
     }
 
