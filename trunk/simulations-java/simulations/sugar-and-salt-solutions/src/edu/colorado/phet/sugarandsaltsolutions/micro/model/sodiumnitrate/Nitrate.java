@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
  * Data structure for a nitrate (NO3) including references to the particles and the locations relative to the central nitrogen.

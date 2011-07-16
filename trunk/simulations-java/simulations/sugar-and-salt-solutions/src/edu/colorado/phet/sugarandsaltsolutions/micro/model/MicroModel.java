@@ -22,6 +22,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.MicroSodiumNitrateShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
