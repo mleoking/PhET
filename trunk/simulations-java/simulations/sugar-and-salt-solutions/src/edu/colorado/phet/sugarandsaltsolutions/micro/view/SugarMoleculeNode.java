@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SugarMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -21,7 +21,7 @@ public class SugarMoleculeNode extends PNode {
 
     private static BufferedImage sucroseImage = SucroseImage.getSucroseImage();
 
-    public SugarMoleculeNode( final ModelViewTransform transform, final SugarMolecule particle ) {
+    public SugarMoleculeNode( final ModelViewTransform transform, final SucroseMolecule particle ) {
         //Show the image that represents the sugar molecule
         addChild( new PImage( sucroseImage ) {{
             particle.position.addObserver( new VoidFunction1<ImmutableVector2D>() {

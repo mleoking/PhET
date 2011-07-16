@@ -14,8 +14,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
  *
  * @author Sam Reid
  */
-public class SugarCrystal extends Crystal {
-    public SugarCrystal( ImmutableVector2D position, SugarLattice lattice, double sizeScale ) {
+public class SucroseCrystal extends Crystal {
+    public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice, double sizeScale ) {
         super( position, sizeScale );
 
         //Recursive method to traverse the graph and create particles
@@ -26,9 +26,9 @@ public class SugarCrystal extends Crystal {
     }
 
     //Recursive method to traverse the graph and create particles
-    private void fill( SugarLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
+    private void fill( SucroseLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
         final double spacing = Units.nanometersToMeters( 1 ) * sizeScale;
-        latticeConstituents.add( new LatticeConstituent( new SugarMolecule( new ImmutableVector2D(), spacing ), relativePosition ) );
+        latticeConstituents.add( new LatticeConstituent( new SucroseMolecule( new ImmutableVector2D(), spacing ), relativePosition ) );
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
         for ( Bond bond : bonds ) {

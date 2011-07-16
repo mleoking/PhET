@@ -11,10 +11,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  *
  * @author Sam Reid
  */
-public class SugarMolecule extends Particle {
+public class SucroseMolecule extends Particle {
     private final double radius;
 
-    public SugarMolecule( ImmutableVector2D position, double radius ) {
+    public SucroseMolecule( ImmutableVector2D position, double radius ) {
         super( position );
         this.radius = radius;
     }
