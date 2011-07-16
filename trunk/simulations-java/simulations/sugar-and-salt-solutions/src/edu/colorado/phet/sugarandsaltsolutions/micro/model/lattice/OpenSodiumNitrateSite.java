@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
 
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Component.SodiumIon;
 
 /**
  * Identifies open (available) bonding site in a Sodium Nitrate crystal

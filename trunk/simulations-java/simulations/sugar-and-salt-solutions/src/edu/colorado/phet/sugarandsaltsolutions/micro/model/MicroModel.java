@@ -17,6 +17,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.MicroCalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
@@ -55,6 +57,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Lists of lattices
     public final ItemList<SaltCrystal> saltCrystals = new ItemList<SaltCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
+    public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
     public final ItemList<Crystal> nitrates = new ItemList<Crystal>();
 
@@ -93,6 +96,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         dispensers.add( new MicroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
         dispensers.add( new MicroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
+        dispensers.add( new MicroCalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Calcium<br>Chloride", distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
     }
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
@@ -106,15 +110,21 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         saltCrystals.add( saltCrystal );
     }
 
-    //TODO: add the sodium nitrate
     public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
-        //Add the components of the lattice to the model so the graphics will be created
-        for ( LatticeConstituent latticeConstituent : crystal ) {
+        addCrystalComponents( crystal );
+        sodiumNitrateCrystals.add( crystal );
+    }
 
-            //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
+    //Add the components of the lattice to the model so the graphics will be created
+    private void addCrystalComponents( Crystal crystal ) {
+        for ( LatticeConstituent latticeConstituent : crystal ) {
             sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
         }
-        sodiumNitrateCrystals.add( crystal );
+    }
+
+    public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
+        addCrystalComponents( calciumChlorideCrystal );
+        calciumChlorideCrystals.add( calciumChlorideCrystal );
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
@@ -149,6 +159,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         updateDissolvableCrystals( dt, saltCrystals );
         updateDissolvableCrystals( dt, sodiumNitrateCrystals );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals );
         updateDissolvableCrystals( dt, sugarCrystals );
     }
 

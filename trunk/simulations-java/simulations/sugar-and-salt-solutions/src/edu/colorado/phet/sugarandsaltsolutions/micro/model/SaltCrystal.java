@@ -5,9 +5,8 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice;
 
 /**
