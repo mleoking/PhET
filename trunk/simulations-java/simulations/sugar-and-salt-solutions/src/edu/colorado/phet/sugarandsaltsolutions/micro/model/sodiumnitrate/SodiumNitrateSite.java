@@ -13,8 +13,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
  *
  * @author Sam Reid
  */
-public class OpenSodiumNitrateSite extends OpenSite<SodiumNitrateLattice> {
-    public OpenSodiumNitrateSite( Component component, BondType type ) {
+public class SodiumNitrateSite extends OpenSite<SodiumNitrateLattice> {
+    public SodiumNitrateSite( Component component, BondType type ) {
         super( component, type );
     }
 

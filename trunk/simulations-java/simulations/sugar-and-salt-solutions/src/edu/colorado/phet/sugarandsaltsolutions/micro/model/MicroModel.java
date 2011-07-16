@@ -22,10 +22,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.MicroSodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
@@ -101,7 +101,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Add models for the various dispensers: sugar, salt, etc.
         dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new MicroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
+        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Calcium<br>Chloride", distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
     }
 

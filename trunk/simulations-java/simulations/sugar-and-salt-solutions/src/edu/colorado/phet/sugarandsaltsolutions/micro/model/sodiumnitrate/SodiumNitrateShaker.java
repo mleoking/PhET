@@ -13,8 +13,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
  *
  * @author Sam Reid
  */
-public class MicroSodiumNitrateShaker extends MicroShaker {
-    public MicroSodiumNitrateShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
+public class SodiumNitrateShaker extends MicroShaker {
+    public SodiumNitrateShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
     }
 
