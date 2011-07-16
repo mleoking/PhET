@@ -3,8 +3,14 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.*;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
 /**
  * Data structures and algorithms for creating and modeling a salt crystal lattice.  Instances are immutable.
