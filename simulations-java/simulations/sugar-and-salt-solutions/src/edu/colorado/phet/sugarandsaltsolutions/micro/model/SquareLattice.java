@@ -1,11 +1,8 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType.*;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
 
 /**
  * The square lattice (used e.g., in salt) makes connections up, down, left or right.

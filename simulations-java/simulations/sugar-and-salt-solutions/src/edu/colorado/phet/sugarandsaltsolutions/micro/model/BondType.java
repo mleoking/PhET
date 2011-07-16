@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 /**
  * Type of bond, for a square lattice it can be up, down, left or right.

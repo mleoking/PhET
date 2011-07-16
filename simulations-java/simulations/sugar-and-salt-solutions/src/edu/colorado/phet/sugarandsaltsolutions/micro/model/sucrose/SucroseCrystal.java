@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
 
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together

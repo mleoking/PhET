@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType;
 
 /**
  * A crystal represents 0 or more (usually 1 or more) constituents which can be put into solution.  It is constructed from a lattice.

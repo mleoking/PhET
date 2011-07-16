@@ -1,6 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
-
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 /**
  * The bond is the edge in the graph representation of the lattice.
