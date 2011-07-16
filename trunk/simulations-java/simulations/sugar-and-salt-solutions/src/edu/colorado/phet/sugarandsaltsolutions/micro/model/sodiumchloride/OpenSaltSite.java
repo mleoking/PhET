@@ -1,8 +1,11 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
 
 /**
  * Identifies open (available) bonding site in a SaltLattice
