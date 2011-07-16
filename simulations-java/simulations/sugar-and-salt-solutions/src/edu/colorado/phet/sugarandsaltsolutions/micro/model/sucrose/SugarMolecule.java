@@ -1,9 +1,10 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * A single molecule of sugar.

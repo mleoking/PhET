@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 

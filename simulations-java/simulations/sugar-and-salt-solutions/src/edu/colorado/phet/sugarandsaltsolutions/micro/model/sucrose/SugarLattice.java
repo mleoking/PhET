@@ -1,9 +1,13 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import java.util.ArrayList;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Lattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType.*;
 
