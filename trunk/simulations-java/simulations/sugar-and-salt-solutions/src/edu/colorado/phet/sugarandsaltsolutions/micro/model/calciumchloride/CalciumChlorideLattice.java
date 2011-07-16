@@ -3,9 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.*;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.*;
 
 /**
  * Data structures and algorithms for creating and modeling a calcium chloride crystal lattice,

@@ -1,6 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
-
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 /**
  * An open site represents a location within a lattice where a new component could be added.  This is used in lattice growing.

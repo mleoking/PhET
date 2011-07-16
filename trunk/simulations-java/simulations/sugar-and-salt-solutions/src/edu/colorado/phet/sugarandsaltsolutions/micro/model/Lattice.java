@@ -1,10 +1,7 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 
 /**
  * A lattice represents a set of components (may be elements or molecules) and the bonds between them.
