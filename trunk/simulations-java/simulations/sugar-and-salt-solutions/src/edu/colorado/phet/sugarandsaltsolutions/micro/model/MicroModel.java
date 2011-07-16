@@ -69,6 +69,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SucroseCrystal> sugarCrystals = new ItemList<SucroseCrystal>();
     public final ItemList<Crystal> nitrates = new ItemList<Crystal>();
 
+    //Randomness for random walks
+    private final Random random = new Random();
+
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
 
@@ -263,8 +266,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private boolean isCompletelyUnderwater( Particle particle ) {
         return solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() );
     }
-
-    private final Random random = new Random();
 
     //When the simulation clock ticks, move the particles
     private void updateParticles( double dt, ItemList<? extends Particle> particles ) {
