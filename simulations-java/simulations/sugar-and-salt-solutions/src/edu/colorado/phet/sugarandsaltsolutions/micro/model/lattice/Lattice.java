@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 
 /**

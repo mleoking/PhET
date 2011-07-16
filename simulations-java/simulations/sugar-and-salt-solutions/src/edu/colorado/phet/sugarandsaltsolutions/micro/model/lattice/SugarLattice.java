@@ -2,6 +2,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondType.*;

@@ -1,5 +1,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice;
 
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 
 /**
