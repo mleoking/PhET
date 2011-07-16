@@ -28,7 +28,7 @@ public abstract class Lattice {
     //Find the available sites where a new component might be added
     protected abstract ArrayList<OpenSite> getOpenSites();
 
-    //Check to see whether the adjacent site is available, if so, add it to the list of open sites
+    //Check to see whether the adjacent site is available, if so, add it to the list of open sites for potential bonding
     protected abstract void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type );
 
     //Determine whether the list contains a bond of the specified type
