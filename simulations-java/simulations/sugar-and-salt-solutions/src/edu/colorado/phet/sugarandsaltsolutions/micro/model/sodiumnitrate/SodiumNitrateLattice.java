@@ -25,7 +25,7 @@ public class SodiumNitrateLattice extends SquareLattice {
 
     @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            openSites.add( new OpenSodiumNitrateSite( component, type ) );
+            openSites.add( new SodiumNitrateSite( component, type ) );
         }
     }
 
