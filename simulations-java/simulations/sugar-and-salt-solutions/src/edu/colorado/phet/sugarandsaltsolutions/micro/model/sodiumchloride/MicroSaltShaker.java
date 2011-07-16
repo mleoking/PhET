@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SaltLattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
 
 /**
  * This salt shaker adds salt (NaCl) crystals to the model when shaken

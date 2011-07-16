@@ -20,6 +20,8 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.MicroSaltShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SaltCrystal;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
