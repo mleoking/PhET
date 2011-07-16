@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.*;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 
 /**
  * Model for growing a calcium chloride lattice, using the same 2d crystal structure as in Soluble Salts.
