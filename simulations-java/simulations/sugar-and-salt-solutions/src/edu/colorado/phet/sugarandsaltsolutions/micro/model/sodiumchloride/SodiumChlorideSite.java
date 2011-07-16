@@ -12,13 +12,13 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
  *
  * @author Sam Reid
  */
-public class OpenSaltSite extends OpenSite<SaltLattice> {
-    public OpenSaltSite( Component component, BondType type ) {
+public class SodiumChlorideSite extends OpenSite<SodiumChlorideLattice> {
+    public SodiumChlorideSite( Component component, BondType type ) {
         super( component, type );
     }
 
-    @Override public SaltLattice grow( SaltLattice lattice ) {
+    @Override public SodiumChlorideLattice grow( SodiumChlorideLattice lattice ) {
         Component newIon = ( component instanceof SodiumIon ) ? new Component.ChlorideIon() : new SodiumIon();
-        return new SaltLattice( new ImmutableList<Component>( lattice.components, newIon ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newIon, type ) ) );
+        return new SodiumChlorideLattice( new ImmutableList<Component>( lattice.components, newIon ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newIon, type ) ) );
     }
 }
