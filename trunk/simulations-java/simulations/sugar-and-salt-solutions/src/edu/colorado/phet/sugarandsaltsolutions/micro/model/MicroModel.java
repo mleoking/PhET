@@ -20,8 +20,8 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.SugarLattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.MicroSaltShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SaltCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
@@ -57,7 +57,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
     //Lists of lattices
-    public final ItemList<SaltCrystal> saltCrystals = new ItemList<SaltCrystal>();
+    public final ItemList<SodiumChlorideCrystal> saltCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
@@ -95,21 +95,21 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
         //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new MicroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
         dispensers.add( new MicroSodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Calcium<br>Chloride", distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
     }
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
-    public void addSaltCrystal( SaltCrystal saltCrystal ) {
+    public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
         //Add the components of the lattice to the model so the graphics will be created
-        for ( LatticeConstituent latticeConstituent : saltCrystal ) {
+        for ( LatticeConstituent latticeConstituent : sodiumChlorideCrystal ) {
 
             //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
             sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
         }
-        saltCrystals.add( saltCrystal );
+        saltCrystals.add( sodiumChlorideCrystal );
     }
 
     public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {

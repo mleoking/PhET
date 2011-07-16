@@ -16,8 +16,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.Bond;
  *
  * @author Sam Reid
  */
-public class SaltCrystal extends Crystal {
-    public SaltCrystal( ImmutableVector2D position, SaltLattice lattice, double sizeScale ) {
+public class SodiumChlorideCrystal extends Crystal {
+    public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice, double sizeScale ) {
         super( position, sizeScale );
 
         //Recursive method to traverse the graph and create particles
@@ -28,7 +28,7 @@ public class SaltCrystal extends Crystal {
     }
 
     //Recursive method to traverse the graph and create particles
-    private void fill( SaltLattice lattice, edu.colorado.phet.sugarandsaltsolutions.micro.model.Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
+    private void fill( SodiumChlorideLattice lattice, edu.colorado.phet.sugarandsaltsolutions.micro.model.Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
         final double chlorideRadius = Units.picometersToMeters( 181 ) * sizeScale;
         final double sodiumRadius = Units.picometersToMeters( 102 ) * sizeScale;
         final double spacing = chlorideRadius + sodiumRadius;

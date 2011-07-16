@@ -13,14 +13,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
  *
  * @author Sam Reid
  */
-public class MicroSaltShaker extends MicroShaker {
+public class SodiumChlorideShaker extends MicroShaker {
 
-    public MicroSaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
+    public SodiumChlorideShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
         super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
     }
 
     //Create a random salt crystal and add it to the model
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
-        model.addSaltCrystal( new SaltCrystal( outputPoint, (SaltLattice) new SaltLattice().grow( 20 ), MicroModel.sizeScale ) );
+        model.addSaltCrystal( new SodiumChlorideCrystal( outputPoint, (SodiumChlorideLattice) new SodiumChlorideLattice().grow( 20 ), MicroModel.sizeScale ) );
     }
 }
