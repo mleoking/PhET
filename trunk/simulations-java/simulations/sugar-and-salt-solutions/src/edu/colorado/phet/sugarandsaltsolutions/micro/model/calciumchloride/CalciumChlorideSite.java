@@ -13,8 +13,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
  *
  * @author Sam Reid
  */
-public class OpenCalciumChlorideSite extends OpenSite {
-    public OpenCalciumChlorideSite( Component component, BondType type ) {
+public class CalciumChlorideSite extends OpenSite {
+    public CalciumChlorideSite( Component component, BondType type ) {
         super( component, type );
     }
 
