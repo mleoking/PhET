@@ -16,13 +16,13 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.BondTy
  *
  * @author Sam Reid
  */
-public class SugarLattice extends Lattice {
+public class SucroseLattice extends Lattice {
 
-    public SugarLattice() {
-        super( new ImmutableList<Component>( new SugarComponent() ), new ImmutableList<Bond>() );
+    public SucroseLattice() {
+        super( new ImmutableList<Component>( new SucroseComponent() ), new ImmutableList<Bond>() );
     }
 
-    public SugarLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+    public SucroseLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
         super( components, bonds );
     }
 
@@ -40,13 +40,13 @@ public class SugarLattice extends Lattice {
 
     @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            openSites.add( new OpenSugarSite( component, type ) );
+            openSites.add( new SucroseSite( component, type ) );
         }
     }
 
     //Sample main to test lattice construction
     public static void main( String[] args ) {
-        Lattice lattice = new SugarLattice().grow( 100 );
+        Lattice lattice = new SucroseLattice().grow( 100 );
         System.out.println( "sugarLattice = " + lattice );
     }
 }

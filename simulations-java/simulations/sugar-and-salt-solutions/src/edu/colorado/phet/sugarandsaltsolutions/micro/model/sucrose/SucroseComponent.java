@@ -7,5 +7,5 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
  *
  * @author Sam Reid
  */
-public class SugarComponent extends Component {
+public class SucroseComponent extends Component {
 }

@@ -25,9 +25,9 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SugarCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SugarLattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SugarMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
@@ -57,7 +57,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
     //List of all sugar particles
-    public final ItemList<SugarMolecule> sugarList = new ItemList<SugarMolecule>();
+    public final ItemList<SucroseMolecule> sugarList = new ItemList<SucroseMolecule>();
 
     //List of all free spherical particles, used to keep track of which particles to move about randomly
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
@@ -66,7 +66,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SodiumChlorideCrystal> saltCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
-    public final ItemList<SugarCrystal> sugarCrystals = new ItemList<SugarCrystal>();
+    public final ItemList<SucroseCrystal> sugarCrystals = new ItemList<SucroseCrystal>();
     public final ItemList<Crystal> nitrates = new ItemList<Crystal>();
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
@@ -146,13 +146,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SugarCrystal crystal = new SugarCrystal( sugar.position.get(), (SugarLattice) new SugarLattice().grow( 3 ), sizeScale );
+            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ), sizeScale );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
 
                 //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-                sugarList.add( (SugarMolecule) latticeConstituent.particle );
+                sugarList.add( (SucroseMolecule) latticeConstituent.particle );
             }
             sugarCrystals.add( crystal );
         }

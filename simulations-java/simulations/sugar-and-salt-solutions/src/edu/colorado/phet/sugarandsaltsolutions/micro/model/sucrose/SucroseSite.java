@@ -12,13 +12,13 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.lattice.OpenSite;
  *
  * @author Sam Reid
  */
-public class OpenSugarSite extends OpenSite {
-    public OpenSugarSite( Component component, BondType type ) {
+public class SucroseSite extends OpenSite {
+    public SucroseSite( Component component, BondType type ) {
         super( component, type );
     }
 
     @Override public Lattice grow( Lattice lattice ) {
-        Component newComponent = new SugarComponent();
-        return new SugarLattice( new ImmutableList<Component>( lattice.components, newComponent ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newComponent, type ) ) );
+        Component newComponent = new SucroseComponent();
+        return new SucroseLattice( new ImmutableList<Component>( lattice.components, newComponent ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newComponent, type ) ) );
     }
 }
