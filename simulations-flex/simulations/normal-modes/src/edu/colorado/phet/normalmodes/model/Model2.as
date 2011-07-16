@@ -19,7 +19,6 @@ import flash.utils.getTimer;
 public class Model2 {
 
     public var myMainView: MainView;
-    //public var view: View2;          //view associated with this model
     public var views_arr:Array;     //views associated with this model;
     //physical variables
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
@@ -52,7 +51,6 @@ public class Model2 {
     private var modePhaseX_arr:Array; //2D array of normal mode phases
     private var modePhaseY_arr:Array;
     private var _grabbedMassIndices:Array;    //i, j indices of mass grabbed by mouse
-    //private var _longitudinalMode:Boolean;  //true if in longitudinal mode, false if in transverse mode
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
@@ -119,7 +117,6 @@ public class Model2 {
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
         this._L = 1;                //1 meter between fixed walls
         this._grabbedMassIndices = [ 0, 0 ];      //top left mass (index 0, 0) is always stationary
-        //this._longitudinalMode = true;
         this.computeSineProducts();
         this.initializeKinematicArrays();
         this.initializeModeArrays();
@@ -132,12 +129,11 @@ public class Model2 {
         this.tRate = 1;
         this.msTimer = new Timer( this.dt * 1000 );   //argument of Timer constructor is time step in ms
         this.msTimer.addEventListener( TimerEvent.TIMER, stepForward );
-        //this.startMotion();
     }//end initialize()
 
     public function initializeKinematicArrays():void{
         this._verletOn = false;
-        var oneDLength:int = this._N + 2;                       //length of one row or one column in square array
+        var oneDLength:int = this._N + 2;                     //length of one row or one column in square array
         for(var i:int = 0; i < oneDLength; i++){
             for (var j: int = 0; j < oneDLength; j++){
                 //Note that (i, j) is (row, column) is (y, x)
