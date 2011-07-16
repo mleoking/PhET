@@ -1,3 +1,4 @@
+Micro tab: Added calcium chloride lattice
 # 0.00.62 (54111) Jul 15, 2011
 Micro tab: Nitrate group remains together when sodium nitrate dissolves
 Micro tab: Fixed the angle and distances for oxygen in sodium nitrate NO3 group
