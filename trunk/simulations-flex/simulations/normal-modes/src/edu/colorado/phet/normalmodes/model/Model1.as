@@ -11,7 +11,6 @@ import flash.utils.*;
 
 public class Model1 {
 
-    //public var view: View1;         //view associated with this model
     public var views_arr:Array;     //views associated with this model
     //physical variables
     private var m:Number;           //mass in kg of each mass in array (all masses equal)
@@ -20,9 +19,9 @@ public class Model1 {
     private var _L:Number;          //distance between fixed walls in meters
     private var _nMax:int;          //maximum possible number of mobile masses in 1D array
     private var _N:int;             //number of mobile masses in 1D array; does not include the 2 virtual stationary masses at wall positions
-    private var _nChanged:Boolean;   //flag to indicate number of mobile masses has changed, so must update view
+    private var _nChanged:Boolean;  //flag to indicate number of mobile masses has changed, so must update view
     private var _modesChanged:Boolean;//flag to indicate that mode amplitudes and phases have been zeroed, so must update Slider positions
-    public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
+    //public var nbrStepsSinceRelease:int; //number of time steps since one of the masses was ungrabbed;
     private var x0_arr:Array;       //array of equilibrium x-positions of masses; array length = N + 2, since 2 stationary masses at x = 0 and x = L
     private var y0_arr:Array;       //array of equilibrium y-positions of masses, all = 0
     private var s_arr:Array;        //array of s-positions of masses, s = distance from equilibrium positions in either x or y-direction
@@ -66,7 +65,7 @@ public class Model1 {
         this._N = 5;                 //start with 5 mobile masses
         this._nChanged = false;
         this._modesChanged = false;
-        this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
+        //this.nbrStepsSinceRelease = 10;  //just needs to be larger than 3
         this.m = 0.1;               //100 gram masses
         this.k = this.m*4*Math.PI*Math.PI;  //k set so that period of motion is about 1 sec
         this.b = 0;                 //initial damping = 0, F_drag = -b*v
@@ -238,23 +237,6 @@ public class Model1 {
         this.updateViews();
     }
 
-    //obsolete function
-    /*
-    public function setTorL( TorL:String ):void{
-        if(TorL == "L"){
-            this._longitudinalMode = true;
-            //this.zeroYPositions();
-            //trace("Model.setTorL(longitudinal)");
-        } else if(TorL == "T"){
-            this._longitudinalMode = false;
-            //this.zeroXPositions();
-            //trace("Model.setTorL(transverse)");
-        } else{
-            trace("ERROR: incorrect string argument in Model.setTorL().")
-        }
-    }//end setTorL
-    */
-
     public function setModeAmpli( modeNbr:int, A:Number ):void{
         this.modeAmpli_arr[ modeNbr - 1 ] = A;
         this.setExactPositions();
@@ -301,14 +283,13 @@ public class Model1 {
     public function set grabbedMass(indx:int){
         this._grabbedMassIndex = indx;
     }
+
+
     //END SETTERS and GETTERS
-
-
     public function pauseSim(): void {
         this._paused = true;
         this.msTimer.stop();
         this.updateViews();
-        //this.running = false;
     }
 
     public function unPauseSim(): void {
@@ -361,7 +342,7 @@ public class Model1 {
         var realDt: Number = currentTime - this.lastTime;
         this.lastTime = currentTime;
         //time step must not exceed 0.04 seconds.
-        //If time step < 0.04 s, then sim uses time-based animation.  Else uses frame-based animation
+        //If time step < 0.04 s, then sim uses time-based animation. Else uses frame-based animation
         if ( realDt < 0.04 ) {
             this.dt = this.tRate * realDt;
         }
@@ -372,13 +353,6 @@ public class Model1 {
 
         if(this._grabbedMassIndex != 0 ){     //if user has grabbed some mass with mouse
             this.setVerletPositions();
-        //}else if( this._grabbedMassIndex == 0 && this.nbrStepsSinceRelease < 1 ){   //run Verlet for 2 steps after releasing mouse, to establish correct velocity before switching to exact algorithm
-            //this.setVerletPositions();
-           // this.nbrStepsSinceRelease += 1;
-           // if(this.nbrStepsSinceRelease == 1){
-           //     this._t = 0;
-           //     this.computeModeAmplitudesAndPhases();
-           // }
         }else {
            this.setExactPositions();
         }

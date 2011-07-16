@@ -56,7 +56,7 @@ public class View1 extends Sprite {
         this.walls = new Sprite();
         this.drawWalls();
 
-        this.positionGraphics();
+        this. setVisiblityGraphics();
 
         for(i = 0; i <= this.myModel1.nMax; i++){
             this.addChild(this.spring_arr[i]);
@@ -70,36 +70,20 @@ public class View1 extends Sprite {
     }//end of initialize()
 
 
-    private function drawSprings():void{        //only the visible springs are drawn
-        //var d:Number = 10;                      //radius of each mass in pixels, all distance in this function in pixels
-        var nMasses:Number = this.myModel1.N;    //number of mobile masses in chain
+    private function drawSprings():void{        //springs drawn horizontal, rotated later as needed
+        var nMasses:Number = this.myModel1.N;   //number of mobile masses in chain ; only the visible springs are drawn
         this.L0Spring = ( this._LinPix )/(nMasses + 1);  //equilibrium length of single spring in pixels
         var leadL:Number = 20;                  //length of each straight end of spring
         var nTurns:Number = 5;                  //number of turns in spring
         var w:Number = (this.L0Spring - 2*leadL)/nTurns;   //width of each turn
         var r:Number = 10;                      //radius of each turn
         this.makeAllSpringsInvisible();         //make sure only drawn springs are visible
-        for(var i:int = 0; i <= nMasses; i++){
+        for(var i:int = 0; i <= nMasses; i++){  //number of springs = nMasses + 1
             if( _springsVisible ){
                 this.spring_arr[i].visible = true;
             }
             var g:Graphics = this.spring_arr[i].graphics;
             g.clear();
-
-            /*
-            var delY:int = 2;
-            var delX:int = -1;
-            g.lineStyle( 1, 0x000000, 1, true, LineScaleMode.NONE  );
-            g.moveTo( 0, 0 );
-            g.moveTo(leadL + delX , delY);
-            for(var j:int = 0; j < nTurns; j++){
-                g.lineTo( leadL + j*w + w/4+ delX, r + delY );
-                g.moveTo( leadL + j*w + 3*w/4 + delX , -r + delY );
-                g.lineTo( leadL + j*w + w + delX ,  0 + delY  );
-            }//end for j
-            g.moveTo( this.L0Spring + delX , delY );
-            */
-
             g.lineStyle( 3, 0xff0000, 1, true, LineScaleMode.NONE  );
             g.moveTo( 0, 0 );
             g.lineTo(leadL, 0);
@@ -109,14 +93,13 @@ public class View1 extends Sprite {
                 g.lineTo( leadL + j*w + w,  0 );
             }//end for j
             g.lineTo( this.L0Spring, 0 );
-
         }//end for i
     }//end drawSprings()
 
     private function makeAllSpringsInvisible():void{
         for(var i:int = 0; i <= this.myModel1.nMax; i++ ){
-                this.spring_arr[i].visible = false;
-                this.spring_arr[i].rotation = 0;        //rotation performed in update
+            this.spring_arr[i].visible = false;
+            this.spring_arr[i].rotation = 0;        //rotation performed in update
         }
     }
 
@@ -131,10 +114,10 @@ public class View1 extends Sprite {
         g.lineTo(this._leftEdgeX + this._LinPix, this._leftEdgeY + h/2);
     }
 
-    private function positionGraphics():void{
+    private function setVisiblityGraphics():void{
         var N:int = this.myModel1.N;            //number of visible, mobile masses
         var nMax:int = this.myModel1.nMax;
-        //Not necessary to position massView graphics or springGraphics,
+        //Not necessary to position massView graphics or springGraphics here,
         //since these are automatically positioned by update();
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
@@ -146,7 +129,7 @@ public class View1 extends Sprite {
 
     public function setNbrMasses():void{
         this.drawSprings();
-        this.positionGraphics();
+        this. setVisiblityGraphics();
     }
 
     public function set springsVisible( tOrF: Boolean):void{
