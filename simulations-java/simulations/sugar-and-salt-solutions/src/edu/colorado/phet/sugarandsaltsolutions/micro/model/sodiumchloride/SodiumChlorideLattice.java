@@ -10,7 +10,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
  *
  * @author Sam Reid
  */
-public class SodiumChlorideLattice extends SquareLattice {
+public class SodiumChlorideLattice extends SquareLattice<SodiumChlorideLattice> {
 
     public SodiumChlorideLattice() {
         super( new ImmutableList<Component>( new SodiumIon() ), new ImmutableList<Bond>() );
@@ -20,7 +20,7 @@ public class SodiumChlorideLattice extends SquareLattice {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<OpenSite> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<OpenSite<SodiumChlorideLattice>> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             openSites.add( new SodiumChlorideSite( component, type ) );
         }

@@ -7,12 +7,12 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.*;
  *
  * @author Sam Reid
  */
-public class SucroseSite extends OpenSite {
+public class SucroseSite extends OpenSite<SucroseLattice> {
     public SucroseSite( Component component, BondType type ) {
         super( component, type );
     }
 
-    @Override public Lattice grow( Lattice lattice ) {
+    @Override public SucroseLattice grow( SucroseLattice lattice ) {
         Component newComponent = new SucroseComponent();
         return new SucroseLattice( new ImmutableList<Component>( lattice.components, newComponent ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newComponent, type ) ) );
     }

@@ -8,12 +8,12 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.*;
  *
  * @author Sam Reid
  */
-public class CalciumChlorideSite extends OpenSite {
+public class CalciumChlorideSite extends OpenSite<CalciumChlorideLattice> {
     public CalciumChlorideSite( Component component, BondType type ) {
         super( component, type );
     }
 
-    @Override public Lattice grow( Lattice lattice ) {
+    @Override public CalciumChlorideLattice grow( CalciumChlorideLattice lattice ) {
         Component newIon = ( component instanceof Component.ChlorideIon ) ? new Component.CalciumIon() : new Component.ChlorideIon();
         return new CalciumChlorideLattice( new ImmutableList<Component>( lattice.components, newIon ), new ImmutableList<Bond>( lattice.bonds, new Bond( component, newIon, type ) ) );
     }
