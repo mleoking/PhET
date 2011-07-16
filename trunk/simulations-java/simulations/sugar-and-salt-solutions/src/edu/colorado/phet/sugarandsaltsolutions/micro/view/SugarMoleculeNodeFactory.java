@@ -3,7 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SugarMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SugarMolecule;
 
 /**
  * This class observes an ItemList and creates a PNode when an item is added to the model list,
