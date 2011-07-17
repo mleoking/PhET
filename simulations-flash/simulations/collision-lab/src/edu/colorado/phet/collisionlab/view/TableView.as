@@ -140,7 +140,7 @@ public class TableView extends Sprite {
 
         this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
         this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
-        this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Sim Speed" );
+        this.timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
 
         //position Time Label
         //this.timeText.width=165;//to improve support for i18n
@@ -244,7 +244,7 @@ public class TableView extends Sprite {
     public function makeTimeRateLabel(): void {
         //following two strings should be set by internationalizer
         this.timeRateText = new TextField();
-        this.timeRateText.text = SimStrings.get( "TableView.timeRate", "Sim Speed" );
+        this.timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
         this.timeRateText.selectable = false;
         this.timeRateText.autoSize = "left";
         //			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
