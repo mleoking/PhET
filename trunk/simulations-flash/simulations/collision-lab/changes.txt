@@ -1,3 +1,4 @@
+Increased thickness of velocity arrow drag handle
 Fixed string bugs in data table
 Intro column width increased, so text fits
 Various text fixes and padding changes
