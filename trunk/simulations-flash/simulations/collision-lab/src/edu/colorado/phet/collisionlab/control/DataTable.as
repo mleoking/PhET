@@ -267,7 +267,7 @@ public class DataTable extends Sprite {
         text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
         text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
-        text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.vx", "Px" );
+        text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
         if ( myModel.isIntro ) {
             // add a column above the main header row
             text_arr[0][ballColumnNbr].text = "";
@@ -279,8 +279,8 @@ public class DataTable extends Sprite {
         else {
             // advanced-only headers
             text_arr[headerRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
-            text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vx", "Vy" );
-            text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.vx", "Py" );
+            text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
+            text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
         }
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
