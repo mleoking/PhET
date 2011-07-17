@@ -21,7 +21,7 @@ import flash.filters.*;
  * partial data table has column for ball number, col for mass, and col for mass slider
  */
 public class DataTable extends Sprite {
-    private static const colWidth: int = 60;			//width of column in pix
+    private var colWidth: int;			//width of column in pix
     private static const rowHeight: int = 27;			//height of row in pix
 
     private var myModel: Model;
@@ -61,6 +61,7 @@ public class DataTable extends Sprite {
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
+        colWidth = myModel.isIntro ? 90 : 60;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
