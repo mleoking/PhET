@@ -9,14 +9,16 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
+
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together
  *
  * @author Sam Reid
  */
 public class SucroseCrystal extends Crystal {
-    public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice, double sizeScale ) {
-        super( position, sizeScale );
+    public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice ) {
+        super( position );
 
         //Recursive method to traverse the graph and create particles
         fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D() );

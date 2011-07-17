@@ -11,14 +11,16 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
+
 /**
  * This crystal for Calcium Chloride salt updates the positions of the molecules to ensure they move as a crystal
  *
  * @author Sam Reid
  */
 public class CalciumChlorideCrystal extends Crystal {
-    public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice, double sizeScale ) {
-        super( position, sizeScale );
+    public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice ) {
+        super( position );
 
         //Recursive method to traverse the graph and create particles
         fill( lattice, lattice.components.getFirst(), new ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component>(), new ImmutableVector2D() );

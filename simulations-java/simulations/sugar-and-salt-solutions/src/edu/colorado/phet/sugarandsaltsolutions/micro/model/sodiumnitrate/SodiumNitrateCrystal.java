@@ -10,9 +10,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -22,8 +24,8 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
 public class SodiumNitrateCrystal extends Crystal {
     private ArrayList<Nitrate> nitrates = new ArrayList<Nitrate>();
 
-    public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice, double sizeScale ) {
-        super( position, sizeScale );
+    public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice ) {
+        super( position );
 
         //Recursive method to traverse the graph and create particles
         fill( lattice, lattice.components.getFirst(), new ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component>(), new ImmutableVector2D() );
@@ -42,7 +44,7 @@ public class SodiumNitrateCrystal extends Crystal {
         final double spacing = nitrogenRadius + sodiumRadius * 2 + oxygenRadius;
         ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
         if ( component instanceof SodiumIon ) {
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( sodiumRadius, zero, Color.red ), relativePosition ) );
+            latticeConstituents.add( new LatticeConstituent( new SodiumIonParticle(), relativePosition ) );
         }
         //Nitrate
         else {

@@ -9,6 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
@@ -17,8 +19,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
  * @author Sam Reid
  */
 public class SodiumChlorideCrystal extends Crystal {
-    public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice, double sizeScale ) {
-        super( position, sizeScale );
+    public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice ) {
+        super( position );
 
         //Recursive method to traverse the graph and create particles
         fill( lattice, lattice.components.getFirst(), new ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component>(), new ImmutableVector2D() );
@@ -29,11 +31,10 @@ public class SodiumChlorideCrystal extends Crystal {
 
     //Recursive method to traverse the graph and create particles
     private void fill( SodiumChlorideLattice lattice, edu.colorado.phet.sugarandsaltsolutions.micro.model.Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
-        final double chlorideRadius = Units.picometersToMeters( 181 ) * sizeScale;
-        final double sodiumRadius = Units.picometersToMeters( 102 ) * sizeScale;
-        final double spacing = chlorideRadius + sodiumRadius;
+        final double chlorideRadius = Units.picometersToMeters( 181 ) * MicroModel.sizeScale;
+        final double spacing = chlorideRadius + SodiumIonParticle.radius;
         if ( component instanceof SodiumIon ) {
-            latticeConstituents.add( new LatticeConstituent( new SphericalParticle( sodiumRadius, new ImmutableVector2D( 0, 0 ), Color.red ), relativePosition ) );
+            latticeConstituents.add( new LatticeConstituent( new SodiumIonParticle(), relativePosition ) );
         }
         else {
             latticeConstituents.add( new LatticeConstituent( new SphericalParticle( chlorideRadius, new ImmutableVector2D( 0, 0 ), Color.blue ), relativePosition ) );
