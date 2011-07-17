@@ -138,7 +138,8 @@ public class BallImage extends Sprite {
     private function updateShowValuesVisibility():void {
         // if showValues == true, it is already visible. don't toggle
         if ( !showValues ) {
-            setReadoutsVisible( mouseOverBallHandle || mouseDownOnArrow );
+            // NOTE: never show readouts unless "Show Values" is on
+            //setReadoutsVisible( mouseOverBallHandle || mouseDownOnArrow );
         }
     }
 
