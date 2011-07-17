@@ -17,9 +17,9 @@ public class Max extends CompositeDoubleProperty {
 
     public Max( final ObservableProperty<Double> a, final ObservableProperty<Double> b ) {
         super( new Function0<Double>() {
-                   public Double apply() {
-                       return Math.max( a.get(), b.get() );
-                   }
-               }, a, b );
+            public Double apply() {
+                return Math.max( a.get(), b.get() );
+            }
+        }, a, b );
     }
 }

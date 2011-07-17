@@ -3,7 +3,12 @@
 package edu.colorado.phet.common.phetcommon.util;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 

@@ -12,10 +12,10 @@ public class Not extends CompositeBooleanProperty {
 
     public Not( final ObservableProperty<Boolean> parent ) {
         super( new Function0<Boolean>() {
-                   public Boolean apply() {
-                       return !parent.get();
-                   }
-               }, parent );
+            public Boolean apply() {
+                return !parent.get();
+            }
+        }, parent );
     }
 
     public static Not not( ObservableProperty<Boolean> p ) {

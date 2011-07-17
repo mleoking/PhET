@@ -10,7 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.JNLPRandomAccessFile;

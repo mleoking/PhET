@@ -4,14 +4,27 @@ package edu.colorado.phet.common.photonabsorption.model;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.EventListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.photonabsorption.model.molecules.*;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CH4;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO;
+import edu.colorado.phet.common.photonabsorption.model.molecules.CO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.H2O;
+import edu.colorado.phet.common.photonabsorption.model.molecules.N2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.NO2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O2;
+import edu.colorado.phet.common.photonabsorption.model.molecules.O3;
 
 /**
  * Primary model for the Photon Absorption tab.  This models photons being

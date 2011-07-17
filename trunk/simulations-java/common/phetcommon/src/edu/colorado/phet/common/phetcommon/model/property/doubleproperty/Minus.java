@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class Minus extends CompositeDoubleProperty {
     public Minus( final ObservableProperty<Double> a, final ObservableProperty<Double> b ) {
         super( new Function0<Double>() {
-                   public Double apply() {
-                       return a.get() - b.get();
-                   }
-               }, a, b );
+            public Double apply() {
+                return a.get() - b.get();
+            }
+        }, a, b );
     }
 }

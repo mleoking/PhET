@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class LessThan extends CompositeBooleanProperty {
     public LessThan( final ObservableProperty<Double> a, final double b ) {
         super( new Function0<Boolean>() {
-                   public Boolean apply() {
-                       return a.get() < b;
-                   }
-               }, a );
+            public Boolean apply() {
+                return a.get() < b;
+            }
+        }, a );
     }
 }
