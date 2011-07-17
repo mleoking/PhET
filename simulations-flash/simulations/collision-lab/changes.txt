@@ -1,3 +1,4 @@
+Fixed string bugs in data table
 Intro column width increased, so text fits
 Various text fixes and padding changes
 # 1.00.04 (53926) Jul 10, 2011
