@@ -1,3 +1,4 @@
+Various text fixes and padding changes
 # 1.00.04 (53926) Jul 10, 2011
 Improved horizontal position of the data table
 Intro data table changes height on more/less data for empty extra row
