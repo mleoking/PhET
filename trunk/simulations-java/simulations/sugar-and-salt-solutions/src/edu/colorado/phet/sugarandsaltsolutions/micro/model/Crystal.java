@@ -21,15 +21,11 @@ public class Crystal extends Particle implements Iterable<LatticeConstituent> {
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
 
-    //The fractional scale by which to multiply the sizes to make them look a good size on the screen
-    protected double sizeScale;
-
     //Put the vectors at the same angle so all crystals don't come out at right angles
     protected final double angle = Math.random() * 2 * Math.PI;
 
-    public Crystal( ImmutableVector2D position, double sizeScale ) {
+    public Crystal( ImmutableVector2D position ) {
         super( position );
-        this.sizeScale = sizeScale;
     }
 
     //Determine a direction to move based on the bond type
@@ -81,5 +77,16 @@ public class Crystal extends Particle implements Iterable<LatticeConstituent> {
 
     public double getUnderWaterTime() {
         return underwaterTime.get();
+    }
+
+    //Count the lattice constituent particles with the specified type, for purposes of computing concentrations
+    public int count( Class<?> particleType ) {
+        int count = 0;
+        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
+            if ( particleType.isInstance( latticeConstituent.particle ) ) {
+                count++;
+            }
+        }
+        return count;
     }
 }

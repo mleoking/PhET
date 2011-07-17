@@ -10,7 +10,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
  * @author Sam Reid
  */
 public class NitrateCrystal extends Crystal {
-    public NitrateCrystal( ImmutableVector2D position, double sizeScale ) {
-        super( position, sizeScale );
+    public NitrateCrystal( ImmutableVector2D position ) {
+        super( position );
     }
 }

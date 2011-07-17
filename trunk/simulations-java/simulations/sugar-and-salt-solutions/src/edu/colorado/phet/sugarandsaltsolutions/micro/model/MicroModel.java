@@ -149,7 +149,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ), sizeScale );
+            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ) );
 
             //Add the components of the lattice to the model so the graphics will be created
             for ( LatticeConstituent latticeConstituent : crystal ) {
@@ -172,6 +172,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateDissolvableCrystals( dt, sodiumNitrateCrystals );
         updateDissolvableCrystals( dt, calciumChlorideCrystals );
         updateDissolvableCrystals( dt, sugarCrystals );
+
+        //Count the number of sodiums
+        int numFreeSodiumIons = freeParticles.count( SodiumIonParticle.class );
+        int numInSaltCrystals = 0;
+        for ( SodiumChlorideCrystal saltCrystal : saltCrystals ) {
+            numInSaltCrystals = numInSaltCrystals + saltCrystal.count( SodiumIonParticle.class );
+        }
+        int numSodiumsForNaCl = numFreeSodiumIons + numInSaltCrystals;
+//        System.out.println( "numSodiumsForNaCl = " + numSodiumsForNaCl );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
@@ -234,7 +243,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //add new compounds for the nitrates so they will remain together
             for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
-                nitrates.add( new NitrateCrystal( nitrate.nitrogen.position.get(), sizeScale ) {{
+                nitrates.add( new NitrateCrystal( nitrate.nitrogen.position.get() ) {{
                     latticeConstituents.add( new LatticeConstituent( nitrate.nitrogen, new ImmutableVector2D() ) );
                     latticeConstituents.add( new LatticeConstituent( nitrate.o1, nitrate.o1Position ) );
                     latticeConstituents.add( new LatticeConstituent( nitrate.o2, nitrate.o2Position ) );
