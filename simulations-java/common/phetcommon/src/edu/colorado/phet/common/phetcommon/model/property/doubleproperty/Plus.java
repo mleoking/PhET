@@ -12,13 +12,13 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class Plus extends CompositeDoubleProperty {
     public Plus( final ObservableProperty<Double>... terms ) {
         super( new Function0<Double>() {
-                   public Double apply() {
-                       double sum = 0.0;
-                       for ( ObservableProperty<Double> term : terms ) {
-                           sum = sum + term.get();
-                       }
-                       return sum;
-                   }
-               }, terms );
+            public Double apply() {
+                double sum = 0.0;
+                for ( ObservableProperty<Double> term : terms ) {
+                    sum = sum + term.get();
+                }
+                return sum;
+            }
+        }, terms );
     }
 }

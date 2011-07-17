@@ -12,7 +12,11 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.image.*;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ColorModel;
+import java.awt.image.PixelGrabber;
 
 import javax.swing.*;
 

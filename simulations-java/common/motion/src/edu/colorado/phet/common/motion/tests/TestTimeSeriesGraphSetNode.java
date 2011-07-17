@@ -6,7 +6,14 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.motion.graphs.*;
+import edu.colorado.phet.common.motion.graphs.ControlGraph;
+import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
+import edu.colorado.phet.common.motion.graphs.GraphSetModel;
+import edu.colorado.phet.common.motion.graphs.GraphSuite;
+import edu.colorado.phet.common.motion.graphs.GraphSuiteSet;
+import edu.colorado.phet.common.motion.graphs.MinimizableControlGraph;
+import edu.colorado.phet.common.motion.graphs.MotionControlGraph;
+import edu.colorado.phet.common.motion.graphs.TimeSeriesGraphSetNode;
 import edu.colorado.phet.common.motion.model.SingleBodyMotionModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;

@@ -27,24 +27,24 @@ public class JmolDialog extends JDialog {
         getContentPane().add( jmolPanel, BorderLayout.CENTER );
 
         getContentPane().add( new JPanel() {{
-                                  final ButtonGroup group = new ButtonGroup();
-                                  add( new JRadioButton( spacefillString, true ) {{ // 50% size
-                                      group.add( this );
-                                      addActionListener( new ActionListener() {
-                                          public void actionPerformed( ActionEvent e ) {
-                                              jmolPanel.setSpaceFill();
-                                          }
-                                      } );
-                                  }} );
-                                  add( new JRadioButton( ballAndStickString, false ) {{
-                                      group.add( this );
-                                      addActionListener( new ActionListener() {
-                                          public void actionPerformed( ActionEvent e ) {
-                                              jmolPanel.setBallAndStick();
-                                          }
-                                      } );
-                                  }} );
-                              }}, BorderLayout.SOUTH );
+            final ButtonGroup group = new ButtonGroup();
+            add( new JRadioButton( spacefillString, true ) {{ // 50% size
+                group.add( this );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        jmolPanel.setSpaceFill();
+                    }
+                } );
+            }} );
+            add( new JRadioButton( ballAndStickString, false ) {{
+                group.add( this );
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        jmolPanel.setBallAndStick();
+                    }
+                } );
+            }} );
+        }}, BorderLayout.SOUTH );
 
         container.paintImmediately( 0, 0, container.getWidth(), container.getHeight() );
 

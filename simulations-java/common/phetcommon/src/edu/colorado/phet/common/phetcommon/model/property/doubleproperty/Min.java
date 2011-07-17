@@ -12,9 +12,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class Min extends CompositeDoubleProperty {
     public Min( final ObservableProperty<Double> a, final ObservableProperty<Double> b ) {
         super( new Function0<Double>() {
-                   public Double apply() {
-                       return Math.min( a.get(), b.get() );
-                   }
-               }, a, b );
+            public Double apply() {
+                return Math.min( a.get(), b.get() );
+            }
+        }, a, b );
     }
 }

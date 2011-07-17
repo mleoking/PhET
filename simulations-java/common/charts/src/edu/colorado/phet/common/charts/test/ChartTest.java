@@ -14,7 +14,12 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.charts.*;
+import edu.colorado.phet.common.charts.Chart;
+import edu.colorado.phet.common.charts.DataSet;
+import edu.colorado.phet.common.charts.DataSetGraphic;
+import edu.colorado.phet.common.charts.LinePlot;
+import edu.colorado.phet.common.charts.Range2D;
+import edu.colorado.phet.common.charts.ScatterPlot;
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.util.BasicGraphicsSetup;
 

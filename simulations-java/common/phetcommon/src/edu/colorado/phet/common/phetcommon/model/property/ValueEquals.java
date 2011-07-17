@@ -15,9 +15,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class ValueEquals<T> extends CompositeBooleanProperty {
     public ValueEquals( final Property<T> property, final T value ) {
         super( new Function0<Boolean>() {
-                   public Boolean apply() {
-                       return property.get().equals( value );
-                   }
-               }, property );
+            public Boolean apply() {
+                return property.get().equals( value );
+            }
+        }, property );
     }
 }

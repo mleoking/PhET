@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.AccessControlException;
 import java.util.Enumeration;
 import java.util.Properties;

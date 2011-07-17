@@ -3,7 +3,11 @@
 package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Dimension2D;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.io.IOException;
 import java.text.DecimalFormat;
 

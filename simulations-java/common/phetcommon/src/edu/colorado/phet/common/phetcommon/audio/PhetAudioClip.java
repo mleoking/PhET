@@ -4,7 +4,12 @@ package edu.colorado.phet.common.phetcommon.audio;
 import java.io.IOException;
 import java.net.URL;
 
-import javax.sound.sampled.*;
+import javax.sound.sampled.AudioFileFormat;
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.SourceDataLine;
 
 /**
  * Reason why PhetAudioClip exists:
