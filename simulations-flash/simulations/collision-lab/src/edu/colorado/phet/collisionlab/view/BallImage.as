@@ -224,8 +224,10 @@ public class BallImage extends Sprite {
 
     public function drawLayer3():void {
         var g:Graphics = this.arrowHeadIndicator.graphics;
+
+        // draw the "Velocity" arrow head label
         g.clear();
-        g.lineStyle( 1, 0x666666 );
+        g.lineStyle( 2, 0x666666 );
         g.drawCircle( 0, 0, arrowDragRadius );
         var arrowHeadLabel:TextField = new TextField();
         arrowHeadLabel.autoSize = "left";
