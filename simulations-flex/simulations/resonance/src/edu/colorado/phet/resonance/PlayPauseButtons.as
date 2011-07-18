@@ -100,7 +100,7 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
     }  //end of constructor
 
     public function initializeStrings(): void {
-        this.simSpeed_str = FlexSimStrings.get("simSpeed", "Sim Speed");
+        this.simSpeed_str = FlexSimStrings.get("simSpeed", "sim speed");
         this.slow_str = FlexSimStrings.get("slow", "slow");
         this.normal_str = FlexSimStrings.get("normal", "normal");
         this.play_str = FlexSimStrings.get("play", "play");
@@ -295,9 +295,10 @@ public class PlayPauseButtons extends UIComponent {          //cannot extend Spr
         this.tFormat2.bold = true;
         this.tFormat2.color = 0xffcc33;   //background is 0xffff99
         this.tFormat2.size = 95;
-        this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.slow_txt.setTextFormat( this.tFormat0 );
         this.normal_txt.setTextFormat( this.tFormat0 );
+        this.tFormat0.italic = true;
+        this.simSpeed_txt.setTextFormat( this.tFormat0 );
         this.playPause_txt.setTextFormat( this.tFormat1 );
         this.singleStep_txt.setTextFormat( this.tFormat1 );
         this.paused_txt.setTextFormat( this.tFormat2 );

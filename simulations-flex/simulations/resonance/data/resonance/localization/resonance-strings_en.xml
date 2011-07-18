@@ -8,7 +8,7 @@
     <string key="hz" value = "Hz"/>
     <string key="cm" value = "cm" />
     <string key= "amplitude" value = "amplitude" />
-    <string key= "simSpeed" value = "Sim Speed" />
+    <string key= "simSpeed" value = "sim speed" />
     <string key= "slow" value = "slow" />
     <string key= "normal" value = "normal" />
     <string key= "play" value = "play" />
