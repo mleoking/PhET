@@ -53,13 +53,13 @@ public class SphericalParticle extends Particle {
 
     public static class NitrogenIonParticle extends SphericalParticle {
         public NitrogenIonParticle() {
-            super( 75, gray, blue );
+            super( 75, blue, blue );
         }
     }
 
     public static class OxygenIonParticle extends SphericalParticle {
         public OxygenIonParticle() {
-            super( 73, gray, red );
+            super( 73, blue, red );
         }
     }
 
