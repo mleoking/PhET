@@ -1,9 +1,13 @@
 TODO list for molecule-polarity
 
 HIGH
-- add minor and major ticks to EN control
+- Jmol source
+- how to create Molecules to load into Jmol viewer
+- Jmol scripting language documentation
+- Jmol integration with Piccolo (PSwing? other options?)
 
 MEDIUM
+- add minor and major ticks to EN control
 
 LOW
 
