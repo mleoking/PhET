@@ -1,3 +1,4 @@
+# 0.00.64 (54187) Jul 18, 2011
 Micro tab: Fixed: Sodium nitrate sodium ions don't move
 Micro tab: Added checkbox to toggle whether the color shown is based on charge or atom identity
 Micro tab: Switched to atom colors
