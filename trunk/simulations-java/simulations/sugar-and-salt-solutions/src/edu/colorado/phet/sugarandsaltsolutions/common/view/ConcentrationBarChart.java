@@ -169,36 +169,4 @@ public class ConcentrationBarChart extends PNode {
             addChild( valueReadout );
         }
     }
-
-    //Vertical axis and tick marks with labels
-    private class VerticalAxis extends PNode {
-        private VerticalAxis( double verticalAxisScale ) {
-
-            //Show the vertical line, like a y-axis
-            addChild( new PhetPPath( new Line2D.Double( 0, 0, 0, -verticalAxisScale * 0.82 ) ) );
-
-            //Show tick marks along the side
-            double[] tickMarks = new double[] { 0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08 };
-
-            //Only label the even tick marks
-            boolean even = false;
-            for ( double tickMark : tickMarks ) {
-
-                //Put it in the chart coordinate frame
-                double y = -tickMark * 10 * verticalAxisScale;
-
-                //Add the tick mark
-                PhetPPath tick = new PhetPPath( new Line2D.Double( 0, y, 4, y ) );
-                addChild( tick );
-
-                //If an even number, show the tick mark
-                if ( even ) {
-                    PText label = new PText( new DecimalFormat( "0.00" ).format( tickMark / 1000.0 ) );
-                    label.setOffset( tick.getFullBounds().getMaxX(), tick.getFullBounds().getCenterY() - label.getFullBounds().getHeight() / 2 );
-                    addChild( label );
-                }
-                even = !even;
-            }
-        }
-    }
 }
