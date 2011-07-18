@@ -215,6 +215,9 @@ public class ShakerView extends Sprite {
     private function shakerOff(): void {    //need this for Reset All function
         this.model.stopShaker();
         this.drawOnLight( 0x000000 );
+        this.onOffButton.setLabel( on_str );
+        this.onOffButton.setBodyColor( 0x00ff00 );
+        this.onOffButton.setFontColor( 0x000000 );
     }
 
     private function changeA(): void {
