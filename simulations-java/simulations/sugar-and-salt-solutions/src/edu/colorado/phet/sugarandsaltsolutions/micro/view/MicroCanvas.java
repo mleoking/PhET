@@ -1,9 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
+
+import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -14,6 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNod
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
@@ -32,7 +36,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         super( model, globalState, createMicroTransform( model ) );
 
         //Add a button that shows the periodic table when pressed
-        addChild( new TextButtonNode( "Show in Periodic Table" ) {{
+        final TextButtonNode periodicTableButton = new TextButtonNode( "Show in Periodic Table" ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //Only create the periodic table dialog once
@@ -48,6 +52,16 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             } );
             //Put the button near the other controls, on the right side of the screen
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
+        }};
+        addChild( periodicTableButton );
+
+        //Checkbox to toggle whether the color shown is based on charge or atom identity
+        addChild( new PSwing( new JCheckBox( "Show Charge" ) {{
+            setBackground( new Color( 0, 0, 0, 0 ) );
+            setFont( CONTROL_FONT );
+            setForeground( Color.white );
+        }} ) {{
+            setOffset( periodicTableButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, periodicTableButton.getFullBounds().getMaxY() + INSET );
         }} );
 
         //When sodium or chloride ions are added in the model, add graphics for them in the view

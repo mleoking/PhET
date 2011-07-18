@@ -1,3 +1,4 @@
+Micro tab: Added checkbox to toggle whether the color shown is based on charge or atom identity
 Micro tab: Switched to atom colors
 Micro tab: Only dissolve salt if below saturation point
 Micro tab: Components move down when water evaporates
