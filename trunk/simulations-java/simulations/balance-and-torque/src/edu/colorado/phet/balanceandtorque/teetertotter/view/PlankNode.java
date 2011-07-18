@@ -3,8 +3,8 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.*;
 
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
+import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
  * Graphic for the fulcrum, a triangle that the plank pivots about.

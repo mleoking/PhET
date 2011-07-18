@@ -3,10 +3,10 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
 import edu.umd.cs.piccolo.PNode;
 
 /**
