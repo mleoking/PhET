@@ -3,6 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.*;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.StandardIconButton.CloseButton;
@@ -10,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.pswing.PSwing;
