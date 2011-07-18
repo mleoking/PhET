@@ -93,7 +93,7 @@ public class TestJmolCanvas extends PhetPCanvas {
 
                 // create a piccolo node (helpful for centering and styling)
                 PText text = new PText( loadingString ) {{
-                    setTextPaint( Color.WHITE ); //XXX this should depend on the background color
+                    setTextPaint( Color.RED ); //XXX this should depend on the background color
                     setFont( new PhetFont( 20 ) );
 
                     // center in the panel
@@ -121,22 +121,23 @@ public class TestJmolCanvas extends PhetPCanvas {
         }
 
         public int getCID() {
-            return 5988; // sucrose
+            return 5988; //XXX this is sucrose, but CID doesn't appear to be used
         }
 
-        // Gets CML (Chemical Markup Language) data
+        // Gets data that describes the molecule
         public String getData() {
-            return readPDB();
+            return readPDB( "jmol/water.pdb" );
         }
 
         public void fixJmolColors( JmolViewer viewer ) {
+            //XXX how to change colors?
         }
 
-        // reads the Protein Database (PDB) file, describes the molecule
-        private String readPDB() {
+        // reads a Protein Database (PDB) file, which describes the molecule
+        private static String readPDB( String resourceName ) {
             try {
                 PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
-                BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( "jmol/sucrose.pdb" ) ) );
+                BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( resourceName ) ) );
                 String s = "";
                 String line = structureReader.readLine();
                 while ( line != null ) {
