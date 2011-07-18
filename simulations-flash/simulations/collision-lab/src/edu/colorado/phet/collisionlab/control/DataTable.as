@@ -61,7 +61,7 @@ public class DataTable extends Sprite {
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
-        colWidth = myModel.isIntro ? 90 : 60;
+        colWidth = myModel.isIntro ? 130 : 70; // was 90 : 60
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
@@ -159,7 +159,7 @@ public class DataTable extends Sprite {
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
-                if ( row <= unitsRowNbr || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
+                if ( row < headerOffset || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
                     text_arr[row][col].type = TextFieldType.DYNAMIC;
                     text_arr[row][col].selectable = false;
                 }
@@ -261,39 +261,31 @@ public class DataTable extends Sprite {
      * How many rows are added as "headers" at the top
      */
     public function get headerOffset(): int {
-        return headerRowNbr + 2; // labels and units
+        return headerRowNbr + 1; // labels and units
     }
 
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "ball" );
-        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
+        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass (kg)" );
         text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
 
-        text_arr[unitsRowNbr][ballColumnNbr].text = "";
-        text_arr[unitsRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
-        text_arr[unitsRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-        text_arr[unitsRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-        text_arr[unitsRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         if ( myModel.isIntro ) {
             // add a column above the main header row
             text_arr[0][ballColumnNbr].text = "";
             text_arr[0][massColumnNbr].text = "";
-            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
-            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
-            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position (m)" );
+            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity (m/s)" );
+            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum (kg m/s)" );
         }
         else {
             // advanced-only headers
             text_arr[headerRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
             text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
             text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
-            text_arr[unitsRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-            text_arr[unitsRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-            text_arr[unitsRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         }
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
