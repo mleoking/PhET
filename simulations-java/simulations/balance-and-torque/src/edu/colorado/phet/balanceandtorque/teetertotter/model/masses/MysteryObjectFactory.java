@@ -19,9 +19,9 @@ public class MysteryObjectFactory {
     // This data structure defines the valid configurations for mystery objects.
     private static final List<MysteryObjectConfig> MYSTERY_OBJECT_CONFIGURATIONS = new ArrayList<MysteryObjectConfig>() {{
         add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.2 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_02, 0.2 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_03, 0.2 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_04, 0.2 ) );
+        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_02, 0.25 ) );
+        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_03, 0.3 ) );
+        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_04, 0.35 ) );
     }};
 
 
