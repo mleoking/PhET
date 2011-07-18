@@ -126,7 +126,7 @@ public class DataTable extends Sprite {
             canvas.addChild( rowCanvas_arr[row] );
 
             var ballBackground: Sprite = new Sprite();
-            if ( row > headerRowNbr ) {
+            if ( row >= headerOffset ) {
                 var ballNum: int = ballNbr( row );
                 rowCanvas_arr[row].addChild( massSlider_arr[ballNum] );
                 massSlider_arr[ballNum].x = 2.2 * colWidth;
@@ -143,7 +143,7 @@ public class DataTable extends Sprite {
             }
 
             for ( var col: int = 0; col < nbrColumns; col++ ) {
-                if ( row > headerRowNbr && col == 0 ) {
+                if ( row >= headerOffset && col == 0 ) {
                     // outline all ball numbers
                     var glow: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 );
                     glow.quality = BitmapFilterQuality.MEDIUM;
@@ -159,7 +159,7 @@ public class DataTable extends Sprite {
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
-                if ( row <= headerRowNbr || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
+                if ( row <= unitsRowNbr || col == 0 || col == pxColumnNbr || col == pyColumnNbr ) {
                     text_arr[row][col].type = TextFieldType.DYNAMIC;
                     text_arr[row][col].selectable = false;
                 }
@@ -253,11 +253,15 @@ public class DataTable extends Sprite {
         return myModel.isIntro ? 1 : 0;
     }
 
+    public function get unitsRowNbr(): int {
+        return myModel.isIntro ? 2 : 1;
+    }
+
     /**
      * How many rows are added as "headers" at the top
      */
     public function get headerOffset(): int {
-        return headerRowNbr + 1;
+        return headerRowNbr + 2; // labels and units
     }
 
     //header row is
@@ -268,6 +272,12 @@ public class DataTable extends Sprite {
         text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
+
+        text_arr[unitsRowNbr][ballColumnNbr].text = "";
+        text_arr[unitsRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
+        text_arr[unitsRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+        text_arr[unitsRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
+        text_arr[unitsRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         if ( myModel.isIntro ) {
             // add a column above the main header row
             text_arr[0][ballColumnNbr].text = "";
@@ -281,10 +291,13 @@ public class DataTable extends Sprite {
             text_arr[headerRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
             text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
             text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
+            text_arr[unitsRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+            text_arr[unitsRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
+            text_arr[unitsRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         }
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
-            if ( row > headerRowNbr ) {text_arr[row][0].text = row - headerRowNbr;}
+            if ( row >= headerOffset ) {text_arr[row][0].text = row - headerOffset + 1;}
             for ( var col: int = 0; col < nbrColumns; col++ ) {
                 if ( row == 0 || col == 0 ) {
                     text_arr[row][col].setTextFormat( tFormat );
@@ -550,7 +563,7 @@ public class DataTable extends Sprite {
         var col: int;
         var mass: Number;
         if ( !manualUpdating ) {   //do not update if user is manually filling textFields
-            for ( row = headerRowNbr + 1; row < maxRows; row++ ) {  //skip header row
+            for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
                 var ballNum: int = ballNbr( row );
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
@@ -592,7 +605,7 @@ public class DataTable extends Sprite {
         }
 
         //update Momenta fields regardless of whether user is manually updating other fields
-        for ( row = headerRowNbr + 1; row < maxRows; row++ ) {  //skip header row
+        for ( row = headerOffset; row < maxRows; row++ ) {  //skip header row
             mass = myModel.ball_arr[ballNbr( row )].getMass();
             xVel = myModel.ball_arr[ballNbr( row )].velocity.getX();
             yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
