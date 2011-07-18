@@ -29,7 +29,7 @@
     <string key="DataTable.units.kilograms" value="kg"/>
     <string key="DataTable.units.meters" value="m"/>
     <string key="DataTable.units.metersPerSecond" value="m/s"/>
-    <string key="DataTable.units.kilogramMetersPerSecond" value="m/s"/>
+    <string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
 
     <string key="MomentumView.momenta" value="Momenta"/>
     <string key="MomentumView.tipToTail" value="tip-to-tail"/>
