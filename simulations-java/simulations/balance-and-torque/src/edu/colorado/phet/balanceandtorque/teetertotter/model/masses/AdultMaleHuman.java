@@ -12,29 +12,29 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
  *
  * @author John Blanco
  */
-public class AdolescentHuman extends ImageMass {
+public class AdultMaleHuman extends ImageMass {
 
-    private static final double MASS = 20; // in kg
-    private static final double STANDING_HEIGHT = 1.2; // In meters.
-    private static final double SITTING_HEIGHT = 0.7; // In meters.
+    private static final double MASS = 80; // in kg
+    private static final double STANDING_HEIGHT = 1.8; // In meters.
+    private static final double SITTING_HEIGHT = 1.8; // In meters.
 
-    public AdolescentHuman() {
-        super( MASS, Images.ADOLESCENT_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
+    public AdultMaleHuman() {
+        super( MASS, Images.ADULT_MAN_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
     }
 
     @Override public void setOnPlank( boolean onPlank ) {
         if ( onPlank ) {
             height = SITTING_HEIGHT;
             if ( getPosition().getX() > 0 ) {
-                imageProperty.set( Images.COMPACT_ADOLESCENT_SITTING );
+                imageProperty.set( Images.ADULT_MAN_STANDING );
             }
             else {
-                imageProperty.set( BufferedImageUtils.flipX( Images.COMPACT_ADOLESCENT_SITTING ) );
+                imageProperty.set( BufferedImageUtils.flipX( Images.ADULT_MAN_STANDING ) );
             }
         }
         else {
             height = STANDING_HEIGHT;
-            imageProperty.set( Images.ADOLESCENT_STANDING );
+            imageProperty.set( Images.ADULT_MAN_STANDING );
         }
     }
 }
