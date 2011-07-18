@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -254,10 +253,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             SodiumNitrateCrystal sodiumNitrateCrystal = (SodiumNitrateCrystal) crystal;
 
             ImmutableVector2D velocity = crystal.velocity.get();
+
+            //Set the sodium ions free
             for ( LatticeConstituent constituent : crystal ) {
                 constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 SphericalParticle particle = (SphericalParticle) constituent.particle;
-                if ( particle.color.equals( Color.red ) ) {
+                if ( particle instanceof SodiumIonParticle ) {
                     freeParticles.add( particle );
                 }
             }
