@@ -18,6 +18,8 @@
     </orderEntry>
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="jmol" />
+    <orderEntry type="module" module-name="jmol-phet" />
   </component>
 </module>
 

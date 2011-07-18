@@ -1,3 +1,4 @@
+7/18/11 add dependencies on Jmol, create test harness for integration of Jmol with Piccolo
 7/13/11 hide clock controls in all modules, this sim has no clock controls
 7/12/11 add rudimentary E-field plates
 7/12/11 converted to floating control panels
