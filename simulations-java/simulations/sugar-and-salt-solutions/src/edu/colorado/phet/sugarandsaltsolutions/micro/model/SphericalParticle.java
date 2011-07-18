@@ -15,11 +15,17 @@ import static java.awt.Color.*;
  */
 public class SphericalParticle extends Particle {
     public final double radius;
+
+    //Color corresponding to the identity of the atom
     public final Color color;
+
+    //Color for the charge of the atom, red = positive, gray = neutral, blue = negative
+    public Color chargeColor;
 
     //This constructor matches the table given in the design doc and to-do doc,
     public SphericalParticle( double radiusInPM, Color chargeColor, Color atomColor ) {
         this( picometersToMeters( radiusInPM ) * MicroModel.sizeScale, ImmutableVector2D.ZERO, atomColor );
+        this.chargeColor = chargeColor;
     }
 
     public SphericalParticle( double radius, ImmutableVector2D position, Color color ) {
