@@ -1,3 +1,4 @@
+> Adding units row into data table
 Updated "Show Values" readouts with Speed and absolute values
 Never show readouts unless "Show Values" is on
 Increased thickness of velocity arrow drag handle
