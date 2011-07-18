@@ -178,11 +178,22 @@ public class BallImage extends Sprite {
     }
 
     public function updateReadouts():void {
-        // TODO: i18n
-        var vCaption = SimStrings.get( "ShowValues.velocityCaption", "Velocity (m/s)" );
-        var vReadout = SimStrings.get( "ShowValues.velocityReadout", "v = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 )] );
-        var pCaption = SimStrings.get( "ShowValues.momentumCaption", "Momentum (kg m/s)" );
-        var pReadout = SimStrings.get( "ShowValues.momentumReadout", "p = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 )] );
+        var vCaption: String;
+        var vReadout: String;
+        var pCaption: String;
+        var pReadout: String;
+        if ( myModel.isIntro ) {
+            vCaption = SimStrings.get( "ShowValues.velocityCaption", "Velocity (m/s)" );
+            vReadout = SimStrings.get( "ShowValues.velocityReadout", "v = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getX().toFixed( 2 )] );
+            pCaption = SimStrings.get( "ShowValues.momentumCaption", "Momentum (kg m/s)" );
+            pReadout = SimStrings.get( "ShowValues.momentumReadout", "p = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getX().toFixed( 2 )] );
+        }
+        else {
+            vCaption = SimStrings.get( "ShowValues.speedCaption", "Speed (m/s)" );
+            vReadout = SimStrings.get( "ShowValues.speedReadout", "| v | = {0}", [this.myModel.ball_arr[this.ballIndex].velocity.getLength().toFixed( 2 )] );
+            pCaption = SimStrings.get( "ShowValues.momentumCaption", "Momentum (kg m/s)" );
+            pReadout = SimStrings.get( "ShowValues.absoluteMomentumReadout", "| p | = {0}", [this.myModel.ball_arr[this.ballIndex].momentum.getLength().toFixed( 2 )] );
+        }
         velocityReadoutText.text = vCaption + "\n" + vReadout;
         momentumReadoutText.text = pCaption + "\n" + pReadout;
     }
