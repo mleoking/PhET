@@ -8,6 +8,7 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
@@ -77,6 +78,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
+    public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time

@@ -6,9 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
-
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
@@ -56,7 +55,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         addChild( periodicTableButton );
 
         //Checkbox to toggle whether the color shown is based on charge or atom identity
-        addChild( new PSwing( new JCheckBox( "Show Charge" ) {{
+        addChild( new PSwing( new PropertyCheckBox( "Show Charge", model.showChargeColor ) {{
             setBackground( new Color( 0, 0, 0, 0 ) );
             setFont( CONTROL_FONT );
             setForeground( Color.white );
@@ -65,7 +64,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //When sodium or chloride ions are added in the model, add graphics for them in the view
-        model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this ) );
+        model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
         model.sugarList.addItemAddedListener( new SugarMoleculeNodeFactory( model.sugarList, transform, this ) );
     }
 
