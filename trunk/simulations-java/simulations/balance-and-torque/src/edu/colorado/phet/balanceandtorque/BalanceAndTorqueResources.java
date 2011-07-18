@@ -22,6 +22,8 @@ public class BalanceAndTorqueResources {
     public static class Images {
         public static final BufferedImage ADOLESCENT_SITTING = RESOURCES.getImage( "adolescent-sitting.png" );
         public static final BufferedImage ADOLESCENT_STANDING = RESOURCES.getImage( "adolescent-standing.png" );
+        public static final BufferedImage ADULT_MAN_STANDING = RESOURCES.getImage( "adult-man-standing.png" );
+        public static final BufferedImage COMPACT_ADOLESCENT_SITTING = RESOURCES.getImage( "compact-adolescent-sitting.png" );
         public static final BufferedImage LEVER_INTO_WHEELBARROW = RESOURCES.getImage( "lever-into-wheelbarrow.png" );
     }
 }

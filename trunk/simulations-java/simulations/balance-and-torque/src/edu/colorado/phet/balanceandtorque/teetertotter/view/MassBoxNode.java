@@ -44,30 +44,28 @@ public class MassBoxNode extends PNode {
 
         // Create a node that contains the set of bricks.  This is a "mass set".
         massesets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
-            BrickStackInMassBoxNode oneBrickStack = new BrickStackInMassBoxNode( 1, model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.25, SIZE.height / 2 );
-            }};
+            BrickStackInMassBoxNode oneBrickStack = new BrickStackInMassBoxNode( 1, model, mvt, canvas );
             addChild( oneBrickStack );
-            BrickStackInMassBoxNode twoBrickStack = new BrickStackInMassBoxNode( 2, model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.75, SIZE.height / 2 );
-            }};
+            BrickStackInMassBoxNode twoBrickStack = new BrickStackInMassBoxNode( 2, model, mvt, canvas );
             addChild( twoBrickStack );
-            BrickStackInMassBoxNode threeBrickStack = new BrickStackInMassBoxNode( 3, model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.25, SIZE.height * 0.75 );
-            }};
+            BrickStackInMassBoxNode threeBrickStack = new BrickStackInMassBoxNode( 3, model, mvt, canvas );
             addChild( threeBrickStack );
-            BrickStackInMassBoxNode fourBrickStack = new BrickStackInMassBoxNode( 4, model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.75, SIZE.height * 0.75 );
-            }};
+            BrickStackInMassBoxNode fourBrickStack = new BrickStackInMassBoxNode( 4, model, mvt, canvas );
             addChild( fourBrickStack );
         }} );
 
         // Create a node that contains people.  This is also a "mass set".
-        massesets.add( new SwingLayoutNode( new GridLayout( 2, 1, 20, 20 ) ) {{
-            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas ) {{
-                setOffset( SIZE.width * 0.25, SIZE.height / 2 );
-            }};
+//        massesets.add( new SwingLayoutNode( new GridLayout( 1, 2, 20, 20 ) ) {{
+//            AdultMaleHumanInMassBoxNode adultMaleHumanInMassBoxNode = new AdultMaleHumanInMassBoxNode( model, mvt, canvas );
+//            addChild( adultMaleHumanInMassBoxNode );
+//            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
+//            addChild( adolescentHumanInMassBoxNode );
+//        }} );
+        massesets.add( new SwingLayoutNode( new FlowLayout() ) {{
+            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
             addChild( adolescentHumanInMassBoxNode );
+            AdultMaleHumanInMassBoxNode adultMaleHumanInMassBoxNode = new AdultMaleHumanInMassBoxNode( model, mvt, canvas );
+            addChild( adultMaleHumanInMassBoxNode );
         }} );
 
         // TODO: i18n
