@@ -1,10 +1,15 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jmolphet;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 
