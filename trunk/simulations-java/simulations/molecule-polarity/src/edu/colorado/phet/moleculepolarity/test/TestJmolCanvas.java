@@ -29,6 +29,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Tests integration of Jmol with a Piccolo canvas.
+ * <p/>
+ * Jmol doc at http://jmol.sourceforge.net/docs
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -36,6 +38,7 @@ public class TestJmolCanvas extends PhetPCanvas {
 
     public TestJmolCanvas() {
         setPreferredSize( new Dimension( 1024, 768 ) );
+        setBackground( Color.LIGHT_GRAY );
 
         JmolNode moleculeNode = new JmolNode( new TestMolecule() );
         getLayer().addChild( moleculeNode );
@@ -79,16 +82,24 @@ public class TestJmolCanvas extends PhetPCanvas {
                     // store reference to this AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
                     JmolPanel.this.viewer = viewer;
 
-                    // set default options, and start the spinning. We need the viewer instance to be set BEFORE these are called
+                    //TODO reverse engineer page source at http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html
+
+                    // working...
                     viewer.script( "wireframe 0.2; spacefill 25%" );
-                    viewer.script( "spin on;" );
+                    viewer.script( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
+                    viewer.script( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
+
+                    // not working...
+//                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
+                    viewer.script( "dipole BONDS on" ); //XXX not working
+                    viewer.script( "dipole MOLECULAR on" ); //XXX not working
+//                    viewer.script( "isosurface" ); //XXX electrostatic potential, need to figure this out, lots of options
 
                     repaint();
                 }
             } );
 
             setPreferredSize( new Dimension( 400, 400 ) );//XXX how to determine this dynamically?
-            setBackground( Color.BLACK );//XXX this doesn't seem to determine the Jmol background
         }
 
         @Override public void paint( Graphics g ) {
@@ -138,6 +149,7 @@ public class TestJmolCanvas extends PhetPCanvas {
 
         public void fixJmolColors( JmolViewer viewer ) {
             //XXX how to change colors?
+//            viewer.script( "select hydrogen; color green" );//XXX this changes hydrogen but makes all other atoms invisible, why?
         }
 
         // reads a Protein Database (PDB) file, which describes the molecule
