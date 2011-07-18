@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
-import java.awt.*;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -10,8 +9,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
@@ -40,9 +41,6 @@ public class SodiumNitrateCrystal extends Crystal {
         final double oxygenRadius = Units.picometersToMeters( 73 ) * sizeScale;
         final double sodiumRadius = Units.picometersToMeters( 102 ) * sizeScale;
 
-        //TODO: fix the spacing
-        final double spacing = nitrogenRadius + sodiumRadius * 2 + oxygenRadius;
-        ImmutableVector2D zero = new ImmutableVector2D( 0, 0 );
         if ( component instanceof SodiumIon ) {
             latticeConstituents.add( new LatticeConstituent( new SodiumIonParticle(), relativePosition ) );
         }
@@ -50,19 +48,19 @@ public class SodiumNitrateCrystal extends Crystal {
         else {
             double delta = nitrogenRadius + oxygenRadius;
 
-            SphericalParticle o1 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            SphericalParticle o1 = new OxygenIonParticle();
             ImmutableVector2D o1Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 0 / 3.0 + angle );
             latticeConstituents.add( new LatticeConstituent( o1, relativePosition.plus( o1Position ) ) );
 
-            SphericalParticle o2 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            SphericalParticle o2 = new OxygenIonParticle();
             ImmutableVector2D o2Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 1 / 3.0 + angle );
             latticeConstituents.add( new LatticeConstituent( o2, relativePosition.plus( o2Position ) ) );
 
-            SphericalParticle o3 = new SphericalParticle( oxygenRadius, zero, Color.gray );
+            SphericalParticle o3 = new OxygenIonParticle();
             ImmutableVector2D o3Position = parseAngleAndMagnitude( delta, Math.PI * 2 * 2 / 3.0 + angle );
             latticeConstituents.add( new LatticeConstituent( o3, relativePosition.plus( o3Position ) ) );
 
-            SphericalParticle nitrogen = new SphericalParticle( nitrogenRadius, zero, Color.gray );
+            SphericalParticle nitrogen = new NitrogenIonParticle();
             latticeConstituents.add( new LatticeConstituent( nitrogen, relativePosition ) );
 
             //Keep track of relative positions so the nitrate group won't dissolve
@@ -70,6 +68,7 @@ public class SodiumNitrateCrystal extends Crystal {
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
+        final double spacing = nitrogenRadius + sodiumRadius * 2 + oxygenRadius;
         for ( Bond bond : bonds ) {
             if ( !handled.contains( bond.destination ) ) {
                 fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ) );
