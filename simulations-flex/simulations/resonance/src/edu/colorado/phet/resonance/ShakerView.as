@@ -131,7 +131,7 @@ public class ShakerView extends Sprite {
         this.label_fmt = new TextFormat();	//format of label
         this.label_fmt.font = "Arial";
         this.label_fmt.color = 0xffffff;
-        this.label_fmt.size = 18;
+        this.label_fmt.size = 24;
         this.label_txt.setTextFormat( this.label_fmt );
         //this.label_txt.x = -0.5 * this.label_txt.width;
         //this.label_txt.y = 1.1 * this.knobRadius;
@@ -319,8 +319,8 @@ public class ShakerView extends Sprite {
 
         this.onOffButton.x = - 0.3 * baseW; // + this.onOffButton.width;
         this.onOffButton.y = floorLevel - 0.50 * baseH;
-        this.label_txt.x = this.onOffButton.x - 0.5 * this.label_txt.width;
-        this.label_txt.y = floorLevel - 1* baseH + 0.8 * this.label_txt.height;
+        this.label_txt.x = this.onOffButton.x - 0.9 * this.label_txt.width;
+        this.label_txt.y = floorLevel - 1* baseH + 0.4 * this.label_txt.height;
         this.onLight.x = this.onOffButton.x;
         this.onLight.y = floorLevel - 0.3 * baseH;
         this.fKnob.x = 0; //-baseW / 2 + 1.5 * this.onOffButton.width + this.fKnob.width;

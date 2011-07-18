@@ -116,6 +116,7 @@ public class ControlPanel extends Canvas {
         }
 
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
+        this.nbrMassesSlider.drawKnob( 0x8888ff, 0x0000cc );
         this.nbrMassesSlider.setLabelText( this.numberOfMasses_str );
         //NiceButton2( myButtonWidth: Number, myButtonHeight: Number, labelText: String, buttonFunction: Function, bodyColor:Number = 0x00ff00 , fontColor:Number = 0x000000)
         this.paused = true;
