@@ -2,6 +2,8 @@
 package edu.colorado.phet.moleculepolarity.test;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 
 import javax.swing.*;
 
@@ -9,8 +11,11 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
+import edu.colorado.phet.common.jmolphet.Molecule;
+import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -24,10 +29,16 @@ public class TestJmolCanvas extends PhetPCanvas {
 
     public TestJmolCanvas() {
         setPreferredSize( new Dimension( 1024, 768 ) );
-        JmolPanel jmolPanel = new JmolPanel();
-        PSwing jmolPSwing = new PSwing( jmolPanel );
-        getLayer().addChild( jmolPSwing );
-        jmolPSwing.setOffset( 100, 100 );
+
+        JmolNode moleculeNode = new JmolNode( new TestMolecule() );
+        getLayer().addChild( moleculeNode );
+        moleculeNode.setOffset( 100, 100 );
+    }
+
+    private static class JmolNode extends PSwing {
+        public JmolNode( Molecule molecule ) {
+            super( new JmolPanel( molecule ) );
+        }
     }
 
     private static class JmolPanel extends JPanel {
@@ -35,9 +46,9 @@ public class TestJmolCanvas extends PhetPCanvas {
         private JmolViewer viewer = null;
         private final String loadingString;
 
-        public JmolPanel() {
+        public JmolPanel( final Molecule molecule ) {
 
-            this.loadingString = "Loading Jmol...";
+            this.loadingString = "Loading Jmol..."; //XXX i18n, and I don't see this rendered
 
             // create the 3D view after we have shown the "loading" text and dialog
             SwingUtilities.invokeLater( new Runnable() {
@@ -50,13 +61,13 @@ public class TestJmolCanvas extends PhetPCanvas {
                     viewer.setBooleanProperty( "antialiasDisplay", true );
                     viewer.setBooleanProperty( "autoBond", false );
 
-//                    String errorString = viewer.openStringInline( molecule.getCmlData() );
-//                    if ( errorString != null ) {
-//                        throw new RuntimeException( "Jmol problem: " + errorString );
-//                    }
-//
-//                    // set the visible colors to our model colors
-//                    molecule.fixJmolColors( viewer );
+                    String errorString = viewer.openStringInline( molecule.getCmlData() );
+                    if ( errorString != null ) {
+                        throw new RuntimeException( "Jmol problem: " + errorString );
+                    }
+
+                    // set the visible colors to our model colors
+                    molecule.fixJmolColors( viewer );
 
                     // store reference to this AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
                     JmolPanel.this.viewer = viewer;
@@ -99,6 +110,43 @@ public class TestJmolCanvas extends PhetPCanvas {
                 Rectangle clipBounds = new Rectangle();
                 g.getClipBounds( clipBounds );
                 viewer.renderScreenImage( g, currentSize, clipBounds );
+            }
+        }
+    }
+
+    private static class TestMolecule implements Molecule {
+
+        public String getDisplayName() {
+            return "Test Molecule";
+        }
+
+        public int getCID() {
+            return 5988;
+        }
+
+        //
+        public String getCmlData() {
+            return readPDB();
+        }
+
+        public void fixJmolColors( JmolViewer viewer ) {
+        }
+
+        // reads the Protein Database (PDB) file, describes the molecule
+        private String readPDB() {
+            try {
+                PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
+                BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( "jmol/sucrose.pdb" ) ) );
+                String s = "";
+                String line = structureReader.readLine();
+                while ( line != null ) {
+                    s = s + line + "\n";
+                    line = structureReader.readLine();
+                }
+                return s;
+            }
+            catch ( Exception e ) {
+                throw new RuntimeException( e );
             }
         }
     }
