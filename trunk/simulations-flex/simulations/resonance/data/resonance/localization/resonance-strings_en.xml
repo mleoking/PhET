@@ -30,7 +30,7 @@
     <string key= "frequencyEqualsXHz" value = "frequency = {0} Hz" />
     <string key= "ruler" value = "Ruler" />
     <string key= "resetAll" value = "Reset All" />
-    <string key= "custom" value = "custom" />
+    <string key= "custom" value = "Select Preset" />
     <string key= "sameMass" value = "same mass m" />
     <string key= "sameSpring" value = "same spring k" />
     <string key= "mixedMAndK" value = "mixed m and k" />
