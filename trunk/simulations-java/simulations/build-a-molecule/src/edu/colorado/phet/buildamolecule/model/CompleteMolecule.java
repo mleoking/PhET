@@ -3,8 +3,11 @@ package edu.colorado.phet.buildamolecule.model;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.jmol.api.JmolViewer;
 
@@ -12,7 +15,29 @@ import edu.colorado.phet.buildamolecule.BuildAMoleculeResources;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule.PubChemAtom;
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;
-import edu.colorado.phet.chemistry.molecules.*;
+import edu.colorado.phet.chemistry.molecules.AtomNode;
+import edu.colorado.phet.chemistry.molecules.C2H2Node;
+import edu.colorado.phet.chemistry.molecules.C2H4Node;
+import edu.colorado.phet.chemistry.molecules.C2H5ClNode;
+import edu.colorado.phet.chemistry.molecules.C2H5OHNode;
+import edu.colorado.phet.chemistry.molecules.C2H6Node;
+import edu.colorado.phet.chemistry.molecules.CH2ONode;
+import edu.colorado.phet.chemistry.molecules.CH3OHNode;
+import edu.colorado.phet.chemistry.molecules.CH4Node;
+import edu.colorado.phet.chemistry.molecules.H2ONode;
+import edu.colorado.phet.chemistry.molecules.H2SNode;
+import edu.colorado.phet.chemistry.molecules.HClNode;
+import edu.colorado.phet.chemistry.molecules.HFNode;
+import edu.colorado.phet.chemistry.molecules.NH3Node;
+import edu.colorado.phet.chemistry.molecules.NO2Node;
+import edu.colorado.phet.chemistry.molecules.OF2Node;
+import edu.colorado.phet.chemistry.molecules.P4Node;
+import edu.colorado.phet.chemistry.molecules.PCl3Node;
+import edu.colorado.phet.chemistry.molecules.PCl5Node;
+import edu.colorado.phet.chemistry.molecules.PF3Node;
+import edu.colorado.phet.chemistry.molecules.PH3Node;
+import edu.colorado.phet.chemistry.molecules.SO2Node;
+import edu.colorado.phet.chemistry.molecules.SO3Node;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.chemistry.molecules.HorizontalMoleculeNode.*;
@@ -105,7 +130,7 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> implements 
     /**
      * @return An XML CML string for our 3D representation
      */
-    public String getCmlData() {
+    public String getData() {
         String ret = "<?xml version=\"1.0\"?>\n" +
                      "<molecule id=\"" + commonName + "\" xmlns=\"http://www.xml-cml.org/schema\">";
         ret += "<name>" + commonName + "</name>";
@@ -265,12 +290,12 @@ public class CompleteMolecule extends MoleculeStructure<PubChemAtom> implements 
         AtomParser<PubChemAtom> atomParser = has3d ? ( has2dAnd3d ? PubChemAtomFull.getAtomParser() : PubChemAtom3d.getAtomParser() ) : PubChemAtom2d.getAtomParser();
 
         return MoleculeStructure.fromSerial2( line.substring( burnedLength ), new MoleculeGenerator<PubChemAtom, CompleteMolecule>() {
-                                                  public CompleteMolecule createMolecule( int atomCount, int bondCount ) {
-                                                      CompleteMolecule molecule = new CompleteMolecule( commonName, molecularFormula, atomCount, bondCount, has2d, has3d );
-                                                      molecule.cid = cid;
-                                                      return molecule;
-                                                  }
-                                              }, atomParser, PubChemBond.getBondParser() );
+            public CompleteMolecule createMolecule( int atomCount, int bondCount ) {
+                CompleteMolecule molecule = new CompleteMolecule( commonName, molecularFormula, atomCount, bondCount, has2d, has3d );
+                molecule.cid = cid;
+                return molecule;
+            }
+        }, atomParser, PubChemBond.getBondParser() );
     }
 
     /*---------------------------------------------------------------------------*

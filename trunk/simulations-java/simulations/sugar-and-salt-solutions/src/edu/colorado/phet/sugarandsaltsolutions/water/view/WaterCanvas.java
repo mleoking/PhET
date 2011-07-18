@@ -193,7 +193,7 @@ public class WaterCanvas extends PhetPCanvas {
                                         return 5988;
                                     }
 
-                                    public String getCmlData() {
+                                    public String getData() {
                                         return readPDB();
                                     }
 

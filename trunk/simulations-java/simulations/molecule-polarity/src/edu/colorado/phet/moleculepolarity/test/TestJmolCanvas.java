@@ -61,7 +61,7 @@ public class TestJmolCanvas extends PhetPCanvas {
                     viewer.setBooleanProperty( "antialiasDisplay", true );
                     viewer.setBooleanProperty( "autoBond", false );
 
-                    String errorString = viewer.openStringInline( molecule.getCmlData() );
+                    String errorString = viewer.openStringInline( molecule.getData() );
                     if ( errorString != null ) {
                         throw new RuntimeException( "Jmol problem: " + errorString );
                     }
@@ -121,11 +121,11 @@ public class TestJmolCanvas extends PhetPCanvas {
         }
 
         public int getCID() {
-            return 5988;
+            return 5988; // sucrose
         }
 
-        //
-        public String getCmlData() {
+        // Gets CML (Chemical Markup Language) data
+        public String getData() {
             return readPDB();
         }
 
