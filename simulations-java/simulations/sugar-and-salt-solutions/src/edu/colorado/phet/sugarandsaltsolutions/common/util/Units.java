@@ -19,4 +19,12 @@ public class Units {
     public static double nanometersToMeters( double nanometers ) {
         return nanometers * 1E-9;
     }
+
+    public static double metersCubedToLiters( double metersCubed ) {
+        return metersCubed * 1000.0;
+    }
+
+    public static double numberToMoles( double number ) {
+        return number / 6.02214179E23;
+    }
 }

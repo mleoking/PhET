@@ -33,6 +33,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -168,11 +170,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateParticles( dt, sugarList );
         updateParticles( dt, nitrates );
 
-        updateDissolvableCrystals( dt, saltCrystals );
+        updateDissolvableCrystals( dt, saltCrystals,
+                                   //Determine whether the concentration is low enough to allow it to dissolve
+                                   getMolesPerLiterSodiumInNaCl() < 6.14 );
         updateDissolvableCrystals( dt, sodiumNitrateCrystals );
         updateDissolvableCrystals( dt, calciumChlorideCrystals );
         updateDissolvableCrystals( dt, sugarCrystals );
+//        System.out.println( "numSodiumsForNaCl = " + numSodiumsForNaCl );
+    }
 
+    //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation (i.e. ignoring Na bound to NO3 since it should not count toward saturation of NaCl)
+    private double getMolesPerLiterSodiumInNaCl() {
         //Count the number of sodiums
         int numFreeSodiumIons = freeParticles.count( SodiumIonParticle.class );
         int numInSaltCrystals = 0;
@@ -180,11 +188,21 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             numInSaltCrystals = numInSaltCrystals + saltCrystal.count( SodiumIonParticle.class );
         }
         int numSodiumsForNaCl = numFreeSodiumIons + numInSaltCrystals;
-//        System.out.println( "numSodiumsForNaCl = " + numSodiumsForNaCl );
+        double molesSodium = numberToMoles( numSodiumsForNaCl );
+        double litersWater = metersCubedToLiters( waterVolume.get() );
+        double molesPerLiterSodiumInNaCl = molesSodium / litersWater;
+//        System.out.println( "number of sodiums: " + numSodiumsForNaCl + ", moles: " + molesSodium + ", litersWater: " + litersWater + ", concentration = " + molesPerLiterSodiumInNaCl + " mol/L" );
+        return molesPerLiterSodiumInNaCl;
     }
 
     //Update the crystals by moving them about and possibly dissolving them
     private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals ) {
+        //No saturation
+        updateDissolvableCrystals( dt, crystals, true );
+    }
+
+    //Update the crystals by moving them about and possibly dissolving them
+    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, boolean belowSaturationPoint ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal lattice : crystals ) {
@@ -209,7 +227,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
                 final double timeUnderwater = time - lattice.getUnderWaterTime();
-                if ( timeUnderwater > 1 ) {
+                if ( timeUnderwater > 1 && belowSaturationPoint ) {
                     toDissolve.add( lattice );
                 }
             }
