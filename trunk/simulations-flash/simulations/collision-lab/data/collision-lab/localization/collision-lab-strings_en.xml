@@ -15,21 +15,17 @@
     <string key="DataTable.removeBall" value="Remove Ball"/>
     <string key="DataTable.moreData" value="More Data"/>
     <string key="DataTable.lessData" value="Less Data"/>
-    <string key="DataTable.ball" value="ball"/>
-    <string key="DataTable.mass" value="mass"/>
+    <string key="DataTable.ball" value="Ball"/>
+    <string key="DataTable.mass" value="Mass (kg)"/>
     <string key="DataTable.x" value="x"/>
     <string key="DataTable.y" value="y"/>
     <string key="DataTable.vx" value="Vx"/>
     <string key="DataTable.vy" value="Vy"/>
     <string key="DataTable.px" value="Px"/>
     <string key="DataTable.py" value="Py"/>
-    <string key="DataTable.position" value="Position"/>
-    <string key="DataTable.velocity" value="Velocity"/>
-    <string key="DataTable.momentum" value="Momentum"/>
-    <string key="DataTable.units.kilograms" value="kg"/>
-    <string key="DataTable.units.meters" value="m"/>
-    <string key="DataTable.units.metersPerSecond" value="m/s"/>
-    <string key="DataTable.units.kilogramMetersPerSecond" value="kg m/s"/>
+    <string key="DataTable.position" value="Position (m)"/>
+    <string key="DataTable.velocity" value="Velocity (m/s)"/>
+    <string key="DataTable.momentum" value="Momentum (kg m/s)"/>
 
     <string key="MomentumView.momenta" value="Momenta"/>
     <string key="MomentumView.tipToTail" value="tip-to-tail"/>
