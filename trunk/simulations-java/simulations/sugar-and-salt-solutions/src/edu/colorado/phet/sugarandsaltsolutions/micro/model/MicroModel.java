@@ -23,7 +23,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCompound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
@@ -70,7 +70,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sugarCrystals = new ItemList<SucroseCrystal>();
-    public final ItemList<Crystal> nitrates = new ItemList<Crystal>();
+    public final ItemList<NitrateCompound> nitrates = new ItemList<NitrateCompound>();
 
     //Randomness for random walks
     private final Random random = new Random();
@@ -265,7 +265,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //add new compounds for the nitrates so they will remain together
             for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
-                nitrates.add( new NitrateCrystal( nitrate.nitrogen.position.get() ) {{
+                nitrates.add( new NitrateCompound( nitrate.nitrogen.position.get() ) {{
                     latticeConstituents.add( new LatticeConstituent( nitrate.nitrogen, new ImmutableVector2D() ) );
                     latticeConstituents.add( new LatticeConstituent( nitrate.o1, nitrate.o1Position ) );
                     latticeConstituents.add( new LatticeConstituent( nitrate.o2, nitrate.o2Position ) );
