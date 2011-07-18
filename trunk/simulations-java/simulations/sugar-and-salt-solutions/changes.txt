@@ -1,3 +1,4 @@
+Micro tab: Only dissolve salt if below saturation point
 Micro tab: Components move down when water evaporates
 Micro tab: Components move down when water flows out through the faucet
 Micro tab: Added type parameters to OpenSite
