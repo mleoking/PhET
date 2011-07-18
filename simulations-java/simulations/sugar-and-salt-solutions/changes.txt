@@ -1,3 +1,4 @@
+Micro tab: Introduced new class Compound for nitrates
 Micro tab: Fixed: The nitrate ion should turn blue (not gray) when "show charge" is checked
 # 0.00.64 (54187) Jul 18, 2011
 Micro tab: Fixed: Sodium nitrate sodium ions don't move
