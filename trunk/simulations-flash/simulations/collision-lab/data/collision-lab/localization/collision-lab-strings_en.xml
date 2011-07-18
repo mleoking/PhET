@@ -56,6 +56,9 @@
 
     <string key="ShowValues.velocityCaption" value="Velocity (m/s)"/>
     <string key="ShowValues.velocityReadout" value="v = {0}"/>
+    <string key="ShowValues.speedCaption" value="Speed (m/s)"/>
+    <string key="ShowValues.speedReadout" value="| v | = {0}"/>
     <string key="ShowValues.momentumCaption" value="Momentum (kg m/s)"/>
     <string key="ShowValues.momentumReadout" value="p = {0}"/>
+    <string key="ShowValues.absoluteMomentumReadout" value="| p | = {0}"/>
 </SimStrings>
