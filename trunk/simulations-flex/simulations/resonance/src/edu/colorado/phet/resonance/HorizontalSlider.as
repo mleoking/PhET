@@ -139,7 +139,9 @@ public class HorizontalSlider extends Sprite {
         gR.drawRoundRect( 0, -2, this.lengthInPix, 3, 3 );
         gR.endFill();
         //draw knob
-        var gK: Graphics = this.knob.graphics;
+        this.drawKnob( 0x00ff00, 0x0000ff )
+        /*var gK: Graphics = this.knob.graphics;
+
         gK.clear();
         var kW: Number = 15; //knob width
         var kH: Number = 10; //knob height
@@ -150,21 +152,9 @@ public class HorizontalSlider extends Sprite {
             drawRect(-0.5*kW, -0.5*kH, kW, kH );
             moveTo( 0, -0.5*kH);
             lineTo(0, 0.5*kH );
-//            moveTo(-0.5*kW, -0.5*kH);
-//            lineTo(0.5*kW, -0.5*kH);
-//            lineTo(0.5*kW, 0.3*kH);
-//            lineStyle( 2, 0x0000cc, 1, true);
-//            curveTo(0, kH, -0.5*kW, 0.3*kH );
-//            lineTo(-0.5*kW, -0.5*kH);
             endFill();
-            //lineStyle( 1.0, 0x000000, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            //moveTo(0,-0.4*kH);
-            // lineTo(0,0.4*kH);
-            //lineStyle( 1, 0xffff00, 1, false, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.ROUND );
-            //moveTo(-0.5, -0.1*kH);
-            //lineTo(-0.5, 0.5*kH);
 
-        }
+        }*/
         //gK.drawRect( -kW / 2, -kH / 2, kW, kH );
         if ( this.detented ) {
             //draw tic marks
@@ -177,6 +167,21 @@ public class HorizontalSlider extends Sprite {
         }//end if
         //trace("drawSlider called." + this.lengthInPix);
     }//end drawSlider()
+
+    public function drawKnob( colorFillKnob:Number, colorStrokeKnob:Number):void{
+        var gK: Graphics = this.knob.graphics;
+        gK.clear();
+        var kW: Number = 15; //knob width
+        var kH: Number = 10; //knob height
+        with(gK){
+            lineStyle( 2, colorStrokeKnob, 1, true, LineScaleMode.NONE, CapsStyle.ROUND, JointStyle.BEVEL );
+            beginFill( colorFillKnob );
+            drawRect(-0.5*kW, -0.5*kH, kW, kH );
+            moveTo( 0, -0.5*kH);
+            lineTo(0, 0.5*kH );
+            endFill();
+        }
+    } //end drawKnob()
 
     private function createLabel(): void {
         this.label_txt = new TextField();	//static label

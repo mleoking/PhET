@@ -112,7 +112,7 @@ public class ControlPanel extends Canvas {
 
         this.innerBckgrnd = new VBox();
         with ( this.innerBckgrnd ) {
-            setStyle( "backgroundColor", 0xdddd00 );
+            setStyle( "backgroundColor", 0xccccff );
             percentWidth = 100;
             //percentHeight = 100;
             setStyle( "borderStyle", "solid" );
@@ -143,9 +143,11 @@ public class ControlPanel extends Canvas {
         //HorizontalSlider(action:Function, lengthInPix:int, minVal:Number, maxVal:Number, textEditable:Boolean = false, detented:Boolean = false, nbrTics:int = 0, readoutShown:Boolean = true)
         this.nbrResonatorsSlider = new HorizontalSlider( setNbrResonators, 150, 1, 10, false, true, 10, false );
         this.nbrResonatorsSlider.setLabelText( this.numberOfResonators_str );
+        this.nbrResonatorsSlider.drawKnob( 0xffff00, 0x0000aa );
         //this.nbrResonatorsSlider.switchLabelAndReadoutPositions();
 
         this.dampingSlider = new HorizontalSlider( setDamping, 150, 0.05, 5, true ); //new HSlider();
+        this.dampingSlider.drawKnob( 0xffff00, 0x0000aa );
         this.dampingSlider.setLabelText( damping_str );
         this.dampingSlider.setUnitsText( dampingUnits_str );
 
@@ -182,10 +184,12 @@ public class ControlPanel extends Canvas {
         this.gravityOnOff_rbg.addEventListener( Event.CHANGE, clickGravity );
 
         this.mSlider = new HorizontalSlider( setMassWithSlider, 120, 0.1, 5.0, true );
+        this.mSlider.drawKnob( 0xffff00, 0x0000dd );
         this.mSlider.setLabelText( mass_str );
         this.mSlider.setUnitsText( massUnits_str );
 
         this.kSlider = new HorizontalSlider( setKWithSlider, 120, 10, 1200, true );
+        this.kSlider.drawKnob( 0xffff00, 0x0000dd );
         this.kSlider.setLabelText( springConstant_str );
         this.kSlider.setUnitsText( springConstantUnits_str );
         this.kSlider.setReadoutPrecision( 0 );
