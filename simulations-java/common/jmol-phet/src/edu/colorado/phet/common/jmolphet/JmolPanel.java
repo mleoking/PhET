@@ -33,7 +33,7 @@ public class JmolPanel extends JPanel {
                 viewer.setBooleanProperty( "antialiasDisplay", true );
                 viewer.setBooleanProperty( "autoBond", false );
 
-                String errorString = viewer.openStringInline( molecule.getCmlData() );
+                String errorString = viewer.openStringInline( molecule.getData() );
                 if ( errorString != null ) {
                     throw new RuntimeException( "Jmol problem: " + errorString );
                 }
