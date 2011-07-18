@@ -34,7 +34,7 @@ public class MassBoxNode extends PNode {
     private static final PhetFont BUTTON_FONT = new PhetFont( 16 );
     private static final Color BUTTON_COLOR = new Color( 50, 205, 50 );
 
-    private ArrayList<PNode> massesets = new ArrayList<PNode>();
+    private ArrayList<PNode> massSets = new ArrayList<PNode>();
     private Property<Integer> activeMasseset = new Property<Integer>( 0 );
 
     /**
@@ -43,15 +43,11 @@ public class MassBoxNode extends PNode {
     public MassBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         // Create a node that contains the set of bricks.  This is a "mass set".
-        massesets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
-            BrickStackInMassBoxNode oneBrickStack = new BrickStackInMassBoxNode( 1, model, mvt, canvas );
-            addChild( oneBrickStack );
-            BrickStackInMassBoxNode twoBrickStack = new BrickStackInMassBoxNode( 2, model, mvt, canvas );
-            addChild( twoBrickStack );
-            BrickStackInMassBoxNode threeBrickStack = new BrickStackInMassBoxNode( 3, model, mvt, canvas );
-            addChild( threeBrickStack );
-            BrickStackInMassBoxNode fourBrickStack = new BrickStackInMassBoxNode( 4, model, mvt, canvas );
-            addChild( fourBrickStack );
+        massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
+            addChild( new BrickStackInMassBoxNode( 1, model, mvt, canvas ) );
+            addChild( new BrickStackInMassBoxNode( 2, model, mvt, canvas ) );
+            addChild( new BrickStackInMassBoxNode( 3, model, mvt, canvas ) );
+            addChild( new BrickStackInMassBoxNode( 4, model, mvt, canvas ) );
         }} );
 
         // Create a node that contains people.  This is also a "mass set".
@@ -61,22 +57,30 @@ public class MassBoxNode extends PNode {
 //            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
 //            addChild( adolescentHumanInMassBoxNode );
 //        }} );
-        massesets.add( new SwingLayoutNode( new FlowLayout() ) {{
+        massSets.add( new SwingLayoutNode( new FlowLayout() ) {{
             AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
             addChild( adolescentHumanInMassBoxNode );
             AdultMaleHumanInMassBoxNode adultMaleHumanInMassBoxNode = new AdultMaleHumanInMassBoxNode( model, mvt, canvas );
             addChild( adultMaleHumanInMassBoxNode );
         }} );
 
+        // Create a node that contains mystery objects.  This is also a "mass set".
+        massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
+            addChild( new MysteryObjectInMassBoxNode( 0, model, mvt, canvas ) );
+            addChild( new MysteryObjectInMassBoxNode( 1, model, mvt, canvas ) );
+            addChild( new MysteryObjectInMassBoxNode( 2, model, mvt, canvas ) );
+            addChild( new MysteryObjectInMassBoxNode( 3, model, mvt, canvas ) );
+        }} );
+
         // TODO: i18n
         TextButtonNode nextButton = new TextButtonNode( "Next", BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    activeMasseset.set( ( activeMasseset.get() + 1 ) % massesets.size() );
+                    activeMasseset.set( ( activeMasseset.get() + 1 ) % massSets.size() );
                 }
             } );
             // Set up a listener that disables the button if there are no more mass sets.
-            activeMasseset.valueEquals( massesets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
+            activeMasseset.valueEquals( massSets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atLastMass ) {
                     setEnabled( !atLastMass );
                 }
@@ -86,7 +90,7 @@ public class MassBoxNode extends PNode {
         TextButtonNode previousButton = new TextButtonNode( "Previous", BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    activeMasseset.set( Math.abs( ( activeMasseset.get() - 1 ) % massesets.size() ) );
+                    activeMasseset.set( Math.abs( ( activeMasseset.get() - 1 ) % massSets.size() ) );
                 }
             } );
             // Set up a listener that disables the button if they are looking at the first mass set.
@@ -109,14 +113,14 @@ public class MassBoxNode extends PNode {
                 // Buttons.
                 new HBox( previousButton, nextButton ),
                 // Mass set.
-                massesets.get( activeMasseset.get() )
+                massSets.get( activeMasseset.get() )
         );
 
         // Hook up a listener that will switch the mass sets when necessary.
         activeMasseset.addObserver( new ChangeObserver<Integer>() {
             public void update( Integer newValue, Integer oldValue ) {
-                contentNode.removeChild( massesets.get( oldValue ) );
-                contentNode.addChild( massesets.get( newValue ) );
+                contentNode.removeChild( massSets.get( oldValue ) );
+                contentNode.addChild( massSets.get( newValue ) );
             }
         } );
 

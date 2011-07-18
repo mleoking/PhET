@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public abstract class ImageMass extends Mass {
+public class ImageMass extends Mass {
 
     // Property that contains the current image.
     final protected Property<BufferedImage> imageProperty;

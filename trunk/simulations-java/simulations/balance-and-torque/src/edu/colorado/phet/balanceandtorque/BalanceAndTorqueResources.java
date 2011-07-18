@@ -25,5 +25,9 @@ public class BalanceAndTorqueResources {
         public static final BufferedImage ADULT_MAN_STANDING = RESOURCES.getImage( "adult-man-standing.png" );
         public static final BufferedImage COMPACT_ADOLESCENT_SITTING = RESOURCES.getImage( "compact-adolescent-sitting.png" );
         public static final BufferedImage LEVER_INTO_WHEELBARROW = RESOURCES.getImage( "lever-into-wheelbarrow.png" );
+        public static final BufferedImage MYSTERY_OBJECT_01 = RESOURCES.getImage( "mystery-object-01.png" );
+        public static final BufferedImage MYSTERY_OBJECT_02 = RESOURCES.getImage( "mystery-object-02.png" );
+        public static final BufferedImage MYSTERY_OBJECT_03 = RESOURCES.getImage( "mystery-object-03.png" );
+        public static final BufferedImage MYSTERY_OBJECT_04 = RESOURCES.getImage( "mystery-object-04.png" );
     }
 }
