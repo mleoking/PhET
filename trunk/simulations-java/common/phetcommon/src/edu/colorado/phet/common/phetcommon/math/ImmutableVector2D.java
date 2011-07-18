@@ -17,6 +17,9 @@ public class ImmutableVector2D implements Serializable {
     private double x;
     private double y;
 
+    //Immutable instance for zero so it doesn't need to be duplicated/re-instantiated in multiple places
+    public static final ImmutableVector2D ZERO = new ImmutableVector2D();
+
     public ImmutableVector2D() {
         this( 0, 0 );
     }
