@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.model.masses;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class BrickStack extends ShapeMass {
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
-    public static final double BRICK_MASS = 2; // In kg.
+    public static final double BRICK_MASS = 5; // In kg.
 
     private int numBricks = 1;
     private Point2D position = new Point2D.Double( 0, 0 );
