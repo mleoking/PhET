@@ -81,7 +81,7 @@ public class JmolViewerNode extends PSwing {
 //                    viewer.script( "color partialCharge" ); // color atoms based on partial charge
 
                     // not working...
-                    viewer.script( "background black" );//XXX how to make this transparent?
+                    viewer.script( "background white" );//XXX how to make this transparent?
 
                     repaint();
                 }
