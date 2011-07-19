@@ -12,6 +12,7 @@ HIGH
 - why does MEP look lumpy for some molecules?
 
 MEDIUM
+- startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 - center scenegraph in the play area
 - Jmol integration with Piccolo (PSwing? other options?)
 - how to set a fully transparent background for Jmol viewer?
