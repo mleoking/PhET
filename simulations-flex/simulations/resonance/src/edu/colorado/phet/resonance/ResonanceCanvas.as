@@ -24,11 +24,20 @@ public class ResonanceCanvas extends Canvas {
         const res: Resonance = new Resonance( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
         addChild( res );
         const listener: Function = function( event: Event ): void {
-            const sx = stage.stageWidth / RENDER_WIDTH;
-            const sy = stage.stageHeight / RENDER_HEIGHT;
+            const sx:Number = stage.stageWidth / RENDER_WIDTH;
+            const sy:Number = stage.stageHeight / RENDER_HEIGHT;
 
-            res.scaleX = Math.min( sx, sy );
-            res.scaleY = Math.min( sx, sy );
+            var scale: Number = Math.min( sx, sy );
+            res.scaleX = scale;
+            res.scaleY = scale;
+
+            if( sx < sy ) {
+                // horizontally limited, so center vertically
+                res.y = stage.stageHeight / 2 - RENDER_HEIGHT * scale / 2;
+            } else {
+                // vertically limited, so center horizontally
+                res.x = stage.stageWidth / 2 - RENDER_WIDTH * scale / 2;
+            }
         };
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
