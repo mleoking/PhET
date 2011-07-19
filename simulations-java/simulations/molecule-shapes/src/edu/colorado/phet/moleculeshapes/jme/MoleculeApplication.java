@@ -39,7 +39,7 @@ public class MoleculeApplication extends BaseApplication {
     private Node molecule;
 
     //The angle about which the molecule should be rotated, changes as a function of time
-    private float horizontalAngle = 0;
+    private Quaternion rotation = new Quaternion();
 
     @Override public void initialize() {
         super.initialize();
@@ -64,10 +64,16 @@ public class MoleculeApplication extends BaseApplication {
                                       public void onAnalog( String name, float value, float tpf ) {
                                           if ( dragging ) {
                                               if ( name.equals( MoleculeApplication.MAP_LEFT ) ) {
-                                                  horizontalAngle -= value * MOUSE_SCALE;
+                                                  rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
                                               }
                                               if ( name.equals( MoleculeApplication.MAP_RIGHT ) ) {
-                                                  horizontalAngle += value * MOUSE_SCALE;
+                                                  rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
+                                              }
+                                              if ( name.equals( MoleculeApplication.MAP_UP ) ) {
+                                                  rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                              }
+                                              if ( name.equals( MoleculeApplication.MAP_DOWN ) ) {
+                                                  rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
                                               }
                                           }
                                       }
@@ -116,10 +122,8 @@ public class MoleculeApplication extends BaseApplication {
     }
 
     @Override public void simpleUpdate( final float tpf ) {
-        horizontalAngle += 0.1 * tpf;
-        final Quaternion quaternion = new Quaternion();
-        quaternion.fromAngles( 0, horizontalAngle, 0 );
-        molecule.setLocalRotation( quaternion );
+        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
+        molecule.setLocalRotation( rotation );
     }
 
     //Attach the two atoms together with a bond and add to the molecule

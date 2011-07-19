@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
 import com.jme3.app.Application;
-import com.jme3.app.SimpleApplication;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 import com.jme3.system.Natives;
@@ -78,8 +77,10 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
                 add( new ResetAllButton( parent ) );
             }} );
 
-            setSimulationPanel( new JPanel( new BorderLayout() ) {{add( canvas, BorderLayout.CENTER );}} );
-
+            setSimulationPanel( new JPanel( new BorderLayout() ) {{
+                add( canvas, BorderLayout.CENTER );
+                setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+            }} );
 
         }
     }
