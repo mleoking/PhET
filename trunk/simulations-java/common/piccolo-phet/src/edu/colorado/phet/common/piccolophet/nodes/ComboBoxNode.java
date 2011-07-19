@@ -2,10 +2,10 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Paint;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -28,6 +28,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerWindowOnScreen;
+import static java.util.Arrays.asList;
 
 /**
  * Piccolo combo box.  This is written as a pure piccolo component since the PComboBox + PSwing was awkward to use and not rendering the pop-up in the correct location. See #2982
@@ -40,9 +41,6 @@ public class ComboBoxNode<T> extends PNode {
      * Property that can be used to view or set the currently selected item.  Note that the selected item does not need to be in the list of available items
      */
     public final Property<T> selectedItem;
-
-    //Font to use for showing the selected item as well as the list of available items
-    private final PhetFont itemFont;
 
     //Node to show the selected item, with a triangle for a drop-down box.  Clicking anywhere in this node will show the popup
     //Not final because the instance is re-created and changed when the selected item changes
@@ -61,57 +59,54 @@ public class ComboBoxNode<T> extends PNode {
         }
     };
 
+    //Default font to use if converting items with the default ToString node generator
+    private static final Font DEFAULT_FONT = new PhetFont( 18 );
+
     /**
      * Create a CombBoxNode with the specified items, using the toString function to create strings for each item
      *
      * @param items the items to show in the combo box
      */
     public ComboBoxNode( T... items ) {
-        this( Arrays.asList( items ) );
+        this( asList( items ) );
     }
 
     /**
-     * Create a CombBoxNode with the specified items, using the toString function to create strings for each item
+     * Create a CombBoxNode with the specified items, using the toString method to create strings for each item using the default font.
      *
      * @param items the items to show in the combo box
      */
     public ComboBoxNode( List<T> items ) {
-        this( items, new Function1<T, String>() {
-            public String apply( T t ) {
-                return t.toString();
-            }
-        } );
+        this( items, new ToString<T>( DEFAULT_FONT ) );
     }
 
     /**
      * Create a ComboBoxNode with the specified items and specified way to convert the items to strings
      *
-     * @param items            items the items to show in the combo box
-     * @param toStringFunction the function to use to convert the T items to strings
+     * @param items         items the items to show in the combo box
+     * @param nodeGenerator the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
      */
-    public ComboBoxNode( final List<T> items, final Function1<T, String> toStringFunction ) {
-        itemFont = new PhetFont( 18 );
-
+    public ComboBoxNode( final List<T> items, final Function1<T, PNode> nodeGenerator ) {
         //Default to use the first item as the selected item
         selectedItem = new Property<T>( items.get( 0 ) );
 
         //Create the text nodes for the drop down box for determining their metrics (so they can all be created with equal widths)
-        PText[] textNodes = new PText[items.size()];
+        PNode[] itemNodes = new PNode[items.size()];
         double maxWidth = 0;
         for ( int i = 0; i < items.size(); i++ ) {
-            textNodes[i] = new PText( toStringFunction.apply( items.get( i ) ) ) {{
-                setFont( itemFont );
-                //Let pick events fall through to the background so the entire width of the ptext is selectable
-                setPickable( false );
-                setChildrenPickable( false );
-            }};
-            maxWidth = Math.max( maxWidth, textNodes[i].getFullBounds().getWidth() );
+
+            //Create the item, and let pick events fall through to the background so the entire width of the node is selectable
+            itemNodes[i] = nodeGenerator.apply( items.get( i ) );
+            itemNodes[i].setPickable( false );
+            itemNodes[i].setChildrenPickable( false );
+
+            maxWidth = Math.max( maxWidth, itemNodes[i].getFullBounds().getWidth() );
         }
 
         //Create the items in the drop down list
         PNode[] choices = new PNode[items.size()];
         for ( int i = 0; i < items.size(); i++ ) {
-            choices[i] = new ListItem<T>( items.get( i ), textNodes[i], maxWidth ) {{
+            choices[i] = new ListItem<T>( items.get( i ), itemNodes[i], maxWidth ) {{
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         selectedItem.set( item );
@@ -157,7 +152,7 @@ public class ComboBoxNode<T> extends PNode {
         selectedItem.addObserver( new VoidFunction1<T>() {
             public void apply( T t ) {
                 removeChild( selectedItemNode );
-                selectedItemNode = new SelectedItemNode( toStringFunction.apply( selectedItem.get() ), finalMaxWidth );
+                selectedItemNode = new SelectedItemNode( nodeGenerator.apply( selectedItem.get() ), finalMaxWidth );
                 addChild( selectedItemNode );
             }
         } );
@@ -191,11 +186,9 @@ public class ComboBoxNode<T> extends PNode {
 
     //Create the graphic to use to show the currently selected item, which allows the user to show the popup of other choices
     private class SelectedItemNode extends ControlPanelNode {
-        public SelectedItemNode( String text, double maxWidth ) {
+        public SelectedItemNode( PNode node, double maxWidth ) {
             super( new HBox(
-                    new TextWithBackground( new PText( text ) {{
-                        setFont( itemFont );
-                    }}, maxWidth ),
+                    new NodeWithBackground( node, maxWidth ),
 
                     //Show the triangle that looks customary for ComboBoxes
                     new TriangleNode()
@@ -226,17 +219,17 @@ public class ComboBoxNode<T> extends PNode {
         }
     }
 
-    //Shows a text with an optional background.  This makes it so the PText fills the specified width and so that the entire background highlights when moused over.
-    private static class TextWithBackground extends PNode {
+    //Shows a selectable (or selected) node with an optional background.  This makes it so the PNode fills the specified width and so that the entire background highlights when moused over.
+    private static class NodeWithBackground extends PNode {
         private PhetPPath background;
 
-        public TextWithBackground( PText text, double width ) {
+        public NodeWithBackground( PNode node, double width ) {
             final Color plainColor = Color.white;
-            background = new PhetPPath( new Rectangle2D.Double( -2, 0, width + 2 + 2, text.getFullBounds().getHeight() ), plainColor );
+            background = new PhetPPath( new Rectangle2D.Double( -2, 0, width + 2 + 2, node.getFullBounds().getHeight() ), plainColor );
             background.setStroke( new BasicStroke( 1 ) );
             background.setStrokePaint( null );
             addChild( background );
-            addChild( text );
+            addChild( node );
         }
 
         public void setStrokePaint( Color color ) {
@@ -254,25 +247,40 @@ public class ComboBoxNode<T> extends PNode {
     private static class ListItem<T> extends PNode {
         public final T item;
 
-        public ListItem( T item, final PText ptext, double width ) {
+        public ListItem( T item, final PNode node, double width ) {
             this.item = item;
-            final TextWithBackground text = new TextWithBackground( ptext, width );
+            final NodeWithBackground nodeWithBackground = new NodeWithBackground( node, width );
             final Color highlightColor = new Color( 84, 226, 243 );
-            addChild( text );
+            addChild( nodeWithBackground );
 
             //Highlight when moused over
             addInputEventListener( new PBasicInputEventHandler() {
                 @Override public void mouseEntered( PInputEvent event ) {
-                    text.setPaint( highlightColor );
-                    text.setStrokePaint( Color.darkGray );
+                    nodeWithBackground.setPaint( highlightColor );
+                    nodeWithBackground.setStrokePaint( Color.darkGray );
                 }
 
                 @Override public void mouseExited( PInputEvent event ) {
-                    text.setPaint( Color.white );
-                    text.setStrokePaint( null );
+                    nodeWithBackground.setPaint( Color.white );
+                    nodeWithBackground.setStrokePaint( null );
                 }
             } );
             addInputEventListener( new CursorHandler() );
+        }
+    }
+
+    //The default strategy for converting T items to PNodes is to show a PText with their toString representation
+    public static class ToString<T> implements Function1<T, PNode> {
+        private final Font font;
+
+        public ToString( Font font ) {
+            this.font = font;
+        }
+
+        public PNode apply( T t ) {
+            return new PText( t.toString() ) {{
+                setFont( font );
+            }};
         }
     }
 
@@ -281,11 +289,21 @@ public class ComboBoxNode<T> extends PNode {
         new JFrame() {{
             setContentPane( new PhetPCanvas() {{
                 setBackground( Color.blue );
-                addScreenChild( new ComboBoxNode<String>( Arrays.asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
+                addScreenChild( new ComboBoxNode<String>( asList( "sugar", "salt", "ethanol", "sodium nitrate" ) ) {{
                     setOffset( 100, 100 );
                 }} );
                 addScreenChild( new TextButtonNode( "Unrelated button" ) {{
                     setOffset( 400, 100 );
+                }} );
+
+                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ), new Function1<Integer, PNode>() {
+                    Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
+
+                    public PNode apply( Integer integer ) {
+                        return new HBox( new HTMLNode( "The number<br><center>" + integer + "</center>" ), new SphericalNode( 20, colors[integer], false ) );
+                    }
+                } ) {{
+                    setOffset( 100, 300 );
                 }} );
                 setZoomEventHandler( getZoomEventHandler() );
             }} );
