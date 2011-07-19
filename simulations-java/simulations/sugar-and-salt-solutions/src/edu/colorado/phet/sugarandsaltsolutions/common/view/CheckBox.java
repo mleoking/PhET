@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
 
 /**
  * A check box that provides style/font for controls in Sugar and Salt Solutions

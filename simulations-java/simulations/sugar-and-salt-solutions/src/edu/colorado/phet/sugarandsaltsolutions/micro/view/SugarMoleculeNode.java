@@ -1,6 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 

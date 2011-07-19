@@ -1,8 +1,9 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;

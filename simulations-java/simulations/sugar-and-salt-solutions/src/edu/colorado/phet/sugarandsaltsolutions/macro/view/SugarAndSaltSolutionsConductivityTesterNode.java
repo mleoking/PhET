@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;

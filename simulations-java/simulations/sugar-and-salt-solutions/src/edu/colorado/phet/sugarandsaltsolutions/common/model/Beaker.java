@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Shape;
 import java.awt.geom.Area;
 import java.awt.geom.Line2D;
 import java.awt.geom.Line2D.Double;

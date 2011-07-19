@@ -1,6 +1,6 @@
 package edu.colorado.phet.sugarandsaltsolutions;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;

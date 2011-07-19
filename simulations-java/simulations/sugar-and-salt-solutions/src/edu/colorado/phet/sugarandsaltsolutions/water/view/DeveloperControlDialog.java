@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
-import java.awt.*;
+import java.awt.Window;
 
-import javax.swing.*;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 
