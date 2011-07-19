@@ -8,7 +8,7 @@
  */
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.Component;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphic;

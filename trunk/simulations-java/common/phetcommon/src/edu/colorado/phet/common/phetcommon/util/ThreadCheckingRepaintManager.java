@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.RepaintManager;
+import javax.swing.SwingUtilities;
 
 /**
  * ThreadCheckingRepaintManager provides an easy way to determine

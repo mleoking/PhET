@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import java.awt.Insets;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import static java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment;
 import static java.awt.Toolkit.getDefaultToolkit;

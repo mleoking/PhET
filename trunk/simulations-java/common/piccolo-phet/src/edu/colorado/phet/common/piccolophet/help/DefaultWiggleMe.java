@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.help;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.umd.cs.piccolo.PCanvas;

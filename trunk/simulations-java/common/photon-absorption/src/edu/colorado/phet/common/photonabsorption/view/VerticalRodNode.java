@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;

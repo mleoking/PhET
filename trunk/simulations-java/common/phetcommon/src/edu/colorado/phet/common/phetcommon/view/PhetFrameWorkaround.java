@@ -11,7 +11,7 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.HeadlessException;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 

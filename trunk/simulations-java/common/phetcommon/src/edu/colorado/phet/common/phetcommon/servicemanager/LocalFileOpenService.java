@@ -10,13 +10,13 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.*;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.FileOpenService;
-import javax.swing.*;
+import javax.swing.JFileChooser;
 
 /**
  * Provides a File Open service that adheres to the JNLP FileOpenService interface

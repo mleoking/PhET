@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.help;
 
-import java.awt.*;
+import java.awt.Component;
 
 import edu.colorado.phet.common.phetgraphics.view.ApparatusPanel;
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.GraphicLayerSet;

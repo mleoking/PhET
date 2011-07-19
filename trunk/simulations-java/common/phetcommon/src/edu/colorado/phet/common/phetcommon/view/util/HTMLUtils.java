@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.text.MessageFormat;
 import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.JEditorPane;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLEditorKit;

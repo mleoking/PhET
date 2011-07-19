@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.mediabuttons;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;

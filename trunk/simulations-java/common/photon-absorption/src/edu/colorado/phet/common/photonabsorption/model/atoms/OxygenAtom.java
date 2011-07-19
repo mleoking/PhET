@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.photonabsorption.model.atoms;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;

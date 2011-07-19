@@ -11,10 +11,13 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
 

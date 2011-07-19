@@ -3,11 +3,13 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.PhetLookAndFeel;
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;

@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.util;
 
-import java.awt.*;
+import java.awt.Color;
 
 public interface ColorFilter {
     public static final ColorFilter NULL = new ColorFilter() {

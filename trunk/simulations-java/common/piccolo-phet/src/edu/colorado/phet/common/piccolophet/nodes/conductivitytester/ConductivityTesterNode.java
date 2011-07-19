@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet.nodes.conductivitytester;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Stroke;
 import java.awt.geom.CubicCurve2D;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Line2D;

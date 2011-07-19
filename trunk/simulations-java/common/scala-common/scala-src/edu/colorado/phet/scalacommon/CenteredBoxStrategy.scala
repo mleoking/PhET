@@ -27,20 +27,21 @@ C:\workingcopy\phet\svn\trunk\simulations-java\simulations\motion-series\scala-s
 val centeredBoxStrategy = new CenteredBoxStrategy(canonicalBounds.width, canonicalBounds.height, this, modelOffsetY)
  */
 class CenteredBoxStrategy(modelWidth: Double,
-          modelHeight: Double,
-          canvas: JComponent,
-          modelOffsetY: Double)
+                          modelHeight: Double,
+                          canvas: JComponent,
+                          modelOffsetY: Double)
         extends PhetPCanvas.TransformStrategy {
   def this(dim: PDimension, canvas: JComponent) = this (dim.width, dim.height, canvas, 0)
 
   def this(modelWidth: Double, modelHeight: Double, canvas: JComponent) = this (modelWidth, modelHeight, canvas, 0.0)
 
   def getTransform(): AffineTransform = {
-    if (canvas.getWidth > 0 && canvas.getHeight > 0) {
+    if ( canvas.getWidth > 0 && canvas.getHeight > 0 ) {
       val mv2d = getModelViewTransform2D
       //println("model dim=" + modelWidth + "x" + modelHeight + ", visible=" + getVisibleModelBounds)
       mv2d.getAffineTransform
-    } else {
+    }
+    else {
       new AffineTransform
     }
   }
@@ -50,19 +51,36 @@ class CenteredBoxStrategy(modelWidth: Double,
   def sy = canvas.getHeight / modelHeight
 
   def getScale = {
-    val preferredScale = if (sx < sy) sx else sy
-    if (preferredScale <= 0) 1.0 else preferredScale
+    val preferredScale = if ( sx < sy ) {
+      sx
+    }
+    else {
+      sy
+    }
+    if ( preferredScale <= 0 ) {
+      1.0
+    }
+    else {
+      preferredScale
+    }
   }
 
   def getModelViewTransform2D: ModelViewTransform2D = {
     //use the smaller
     var scale = getScale
-    scale = if (scale <= 0) sy else scale //if scale is negative or zero, just use scale=sy as a default
+    scale = if ( scale <= 0 ) {
+      sy
+    }
+    else {
+      scale
+    } //if scale is negative or zero, just use scale=sy as a default
     val outputBox =
-    if (scale == sx)
-      new Rectangle2D.Double(0, (canvas.getHeight - canvas.getWidth) / 2.0, canvas.getWidth, canvas.getWidth)
-    else
-      new Rectangle2D.Double((canvas.getWidth - canvas.getHeight) / 2.0, 0, canvas.getHeight, canvas.getHeight)
+      if ( scale == sx ) {
+        new Rectangle2D.Double(0, ( canvas.getHeight - canvas.getWidth ) / 2.0, canvas.getWidth, canvas.getWidth)
+      }
+      else {
+        new Rectangle2D.Double(( canvas.getWidth - canvas.getHeight ) / 2.0, 0, canvas.getHeight, canvas.getHeight)
+      }
     new ModelViewTransform2D(new Rectangle2D.Double(0, modelOffsetY, modelWidth, modelHeight), outputBox, false)
   }
 

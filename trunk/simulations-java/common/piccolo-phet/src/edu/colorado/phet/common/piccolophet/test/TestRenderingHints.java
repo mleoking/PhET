@@ -5,7 +5,7 @@ package edu.colorado.phet.common.piccolophet.test;
 
 import java.awt.geom.Ellipse2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -10,7 +10,7 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;

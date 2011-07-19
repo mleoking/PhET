@@ -1,11 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.updates;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.ISimInfo;

@@ -1,10 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.tests;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 

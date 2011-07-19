@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.tests;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Timer;
 
 /**
  * Demonstrates the problem with using a Swing Timer when events are coalesced.

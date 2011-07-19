@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.*;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * This class aligns a set of AbstractValueControls so that their text boxes, sliders and titles line up.

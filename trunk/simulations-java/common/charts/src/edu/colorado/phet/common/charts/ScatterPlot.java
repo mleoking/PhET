@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Point2D;
 

@@ -10,7 +10,13 @@
  */
 package edu.colorado.phet.common.phetgraphics.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
@@ -24,7 +30,8 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Random;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;

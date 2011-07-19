@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.text.NumberFormat;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;

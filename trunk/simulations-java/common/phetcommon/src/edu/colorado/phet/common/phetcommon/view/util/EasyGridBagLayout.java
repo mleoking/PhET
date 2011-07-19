@@ -4,9 +4,13 @@ package edu.colorado.phet.common.phetcommon.view.util;
 
 // JDK
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 
 /**

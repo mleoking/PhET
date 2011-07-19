@@ -1,6 +1,6 @@
 package edu.colorado.phet.common.piccolophet.nodes.periodictable;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;

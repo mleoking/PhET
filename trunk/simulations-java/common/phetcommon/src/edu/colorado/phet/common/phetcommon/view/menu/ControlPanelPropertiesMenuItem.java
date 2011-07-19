@@ -6,7 +6,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 

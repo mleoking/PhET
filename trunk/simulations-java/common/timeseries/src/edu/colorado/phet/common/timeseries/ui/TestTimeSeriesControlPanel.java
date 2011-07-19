@@ -8,7 +8,7 @@ package edu.colorado.phet.common.timeseries.ui;
  *
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.timeseries.model.TestTimeSeries;

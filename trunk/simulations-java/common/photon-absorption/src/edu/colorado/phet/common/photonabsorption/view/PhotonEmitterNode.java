@@ -3,7 +3,8 @@
 package edu.colorado.phet.common.photonabsorption.view;
 
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

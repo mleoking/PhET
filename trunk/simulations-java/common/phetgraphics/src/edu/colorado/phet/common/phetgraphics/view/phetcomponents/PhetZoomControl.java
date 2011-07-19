@@ -2,11 +2,13 @@
 
 package edu.colorado.phet.common.phetgraphics.view.phetcomponents;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.EventObject;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import javax.swing.event.EventListenerList;
 import javax.swing.event.MouseInputAdapter;
 

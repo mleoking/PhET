@@ -4,7 +4,7 @@ package edu.colorado.phet.common.piccolophet.nodes;
 
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.ComboBoxModel;
 
 import edu.colorado.phet.common.piccolophet.swing.PhetJComboBox;
 import edu.umd.cs.piccolox.pswing.PComboBox;

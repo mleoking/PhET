@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.common.phetgraphics.test;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 

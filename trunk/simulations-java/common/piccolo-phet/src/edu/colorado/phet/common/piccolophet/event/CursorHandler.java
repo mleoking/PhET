@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.event;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

@@ -18,13 +18,15 @@ object Predef {
   implicit def scalaSwingToAWT(component: Component) = component.peer
 
   implicit def fnToActionListener(fn: () => Unit) = new ActionListener() {
-    def actionPerformed(e: ActionEvent) = {fn()}
+    def actionPerformed(e: ActionEvent) = {
+      fn()
+    }
   }
 
   implicit def buttonToMyButton(b: JButton) = new MyButton(b)
 
   /**See docs in usage*/
-  def defineInvokeAndPass(m: (=> Unit) => Unit)(block: => Unit): () => Unit = {
+  def defineInvokeAndPass(m: ( => Unit ) => Unit)(block: => Unit): () => Unit = {
     block
     m(block)
     block _
@@ -50,4 +52,5 @@ object Predef {
       value
     }
   }
+
 }

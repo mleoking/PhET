@@ -10,7 +10,11 @@
  */
 package edu.colorado.phet.common.phetgraphics.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
@@ -20,7 +24,7 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.event.MouseInputListener;
 
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;

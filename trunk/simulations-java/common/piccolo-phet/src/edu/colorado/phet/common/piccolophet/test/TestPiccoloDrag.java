@@ -8,9 +8,10 @@ package edu.colorado.phet.common.piccolophet.test;
  *
  */
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;

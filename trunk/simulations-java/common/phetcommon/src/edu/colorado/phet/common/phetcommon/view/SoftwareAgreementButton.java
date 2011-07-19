@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Dialog;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.application.SoftwareAgreementDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;

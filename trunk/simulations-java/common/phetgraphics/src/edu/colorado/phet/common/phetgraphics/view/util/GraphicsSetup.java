@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import java.awt.*;
+import java.awt.Graphics2D;
 
 /**
  * Operates on a Graphics2D object to prepare for rendering.

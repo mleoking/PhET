@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.test;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;
 import edu.colorado.phet.common.phetcommon.model.BaseModel;

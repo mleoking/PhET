@@ -3,9 +3,10 @@
 /*  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetTestApplication;

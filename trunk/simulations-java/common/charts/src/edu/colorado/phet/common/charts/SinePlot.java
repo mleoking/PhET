@@ -11,7 +11,11 @@
 
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.RenderingHints;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 

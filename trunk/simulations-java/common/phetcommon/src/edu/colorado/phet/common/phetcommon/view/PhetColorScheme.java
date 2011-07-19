@@ -1,10 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridLayout;
 import java.lang.reflect.Field;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

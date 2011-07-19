@@ -1,10 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.recordandplayback.gui;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Hashtable;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

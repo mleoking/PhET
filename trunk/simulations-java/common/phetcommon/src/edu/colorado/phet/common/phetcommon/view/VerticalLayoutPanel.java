@@ -10,9 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 /**
  * VerticalLayoutPanel

@@ -10,11 +10,12 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetcomponents;
 
-import java.awt.*;
+import java.awt.FocusTraversalPolicy;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.SortingFocusTraversalPolicy;
 
 /**
  * Uses setNextFocusableComponent to handle focus.  Doesn't support removal yet.  A later version should use FocusTraversalPolicy.

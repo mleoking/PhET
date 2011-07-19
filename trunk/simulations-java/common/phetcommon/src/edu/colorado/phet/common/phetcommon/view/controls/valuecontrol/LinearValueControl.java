@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

@@ -10,12 +10,13 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 /**
  * User: Sam Reid

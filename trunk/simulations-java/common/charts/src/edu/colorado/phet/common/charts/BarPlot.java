@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;

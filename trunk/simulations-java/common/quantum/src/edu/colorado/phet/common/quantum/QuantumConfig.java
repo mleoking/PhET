@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 

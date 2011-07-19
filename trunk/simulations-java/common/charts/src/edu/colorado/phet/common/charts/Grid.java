@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
+import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetShapeGraphic;

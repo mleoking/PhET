@@ -8,9 +8,9 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
-import java.awt.*;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.motion.graphs.ControlGraphSeries;
 import edu.colorado.phet.common.motion.graphs.GraphTimeControlNode;

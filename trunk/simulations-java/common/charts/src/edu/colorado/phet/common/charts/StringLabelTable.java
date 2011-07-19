@@ -11,7 +11,9 @@
 
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetTextGraphic;
 

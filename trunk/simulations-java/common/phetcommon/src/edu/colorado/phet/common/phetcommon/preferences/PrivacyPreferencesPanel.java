@@ -1,10 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.preferences;
 
-import java.awt.*;
+import java.awt.Dialog;
+import java.awt.Frame;
+import java.awt.Insets;
+import java.awt.Window;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 

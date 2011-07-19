@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.chemistry.model;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Class for actual element properties (symbol, radius, etc.).

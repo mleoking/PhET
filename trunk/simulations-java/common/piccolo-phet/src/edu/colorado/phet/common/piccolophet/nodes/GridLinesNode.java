@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.GeneralPath;
 
 import edu.umd.cs.piccolo.nodes.PPath;

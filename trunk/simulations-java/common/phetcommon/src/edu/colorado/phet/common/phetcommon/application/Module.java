@@ -10,10 +10,12 @@
  */
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Window;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.model.BaseModel;

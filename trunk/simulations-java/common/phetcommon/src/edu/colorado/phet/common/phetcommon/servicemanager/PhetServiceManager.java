@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetcommon.servicemanager;
 
-import java.awt.*;
+import java.awt.Component;
 import java.net.MalformedURLException;
 import java.net.URL;
 

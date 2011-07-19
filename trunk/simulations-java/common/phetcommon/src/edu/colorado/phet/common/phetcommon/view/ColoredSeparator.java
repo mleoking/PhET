@@ -2,9 +2,9 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JSeparator;
 
 /**
  * Convenience class for creating colored separators, useful in control panels
