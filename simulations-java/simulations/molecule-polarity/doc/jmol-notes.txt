@@ -1,0 +1,34 @@
+Notes related to Jmol feasibility tests for molecule-polarity
+
+Feature requirements:
+atoms
+bonds
+ball-and-stick
+bond dipoles
+molecular dipole
+background color (preferably transparent)
+electrostatic potential
+custom surfaces (for KP's electron density view)
+custom colors for atoms, bonds, dipoles, surfaces
+hide watermark
+hide popup menu
+
+Demo that we're trying to reproduce:
+http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html
+No source seems to be available, examine page source.
+
+OpenBabel for chem file format conversion.
+iBabel is the GUI for Mac OS.
+http://openbabel.org/wiki/Get_Open_Babel
+
+Jmol scripting language doc:
+http://chemapps.stolaf.edu/jmol/docs
+
+Jmol surfaces:
+http://jmol.sourceforge.net/docs/surface/
+http://www.callutheran.edu/BioDev/omm/surfaces/surfaces/surfaces.htm
+http://chemapps.stolaf.edu/jmol/docs/examples-11/surfacedemos.htm
+
+Electrostatic Potential requires a PQR file, details in section B of
+http://www.callutheran.edu/BioDev/omm/surfaces/surfaces/surfaces.htm
+PBD to PQR converter: http://kryptonite.nbcr.net/pdb2pqr/
