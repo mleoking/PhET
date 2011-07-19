@@ -25,6 +25,7 @@ public class ViewControlPanel extends MPControlPanel {
             add( new PropertyCheckBox( MPStrings.PARTIAL_CHARGES, properties.partialChargesVisible ) {{
                 setForeground( Color.RED );
             }} );
+            add( new PropertyCheckBox( MPStrings.ATOM_LABELS, properties.atomLabelsVisible ) );
         }} );
     }
 }

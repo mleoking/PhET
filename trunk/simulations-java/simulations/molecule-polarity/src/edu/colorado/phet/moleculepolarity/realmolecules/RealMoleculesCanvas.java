@@ -95,6 +95,12 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
+            viewProperties.atomLabelsVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    viewerNode.setAtomLabelsVisible( visible );
+                }
+            } );
+
             moleculeComboBox.selectedItem.addObserver( new VoidFunction1<Molecule3D>() {
                 public void apply( Molecule3D molecule ) {
                     viewerNode.setMolecule( molecule );
