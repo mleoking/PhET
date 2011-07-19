@@ -9,6 +9,7 @@ molecular dipole
 partial charges
 background color (preferably transparent)
 electrostatic potential
+rotate to align with E-field
 custom surfaces (for KP's electron density view)
 custom colors for atoms, bonds, dipoles, surfaces
 customization of dipoles (arrow size, tail size, scale, position)

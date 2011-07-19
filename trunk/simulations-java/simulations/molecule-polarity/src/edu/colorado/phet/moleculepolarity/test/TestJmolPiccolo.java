@@ -18,7 +18,6 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
-import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -41,14 +40,14 @@ public class TestJmolPiccolo {
             setPreferredSize( new Dimension( 1024, 768 ) );
             setBackground( Color.LIGHT_GRAY );
 
-            TestNode moleculeNode = new TestNode( new TestMolecule() );
+            TestNode moleculeNode = new TestNode( new Ammonia() );
             getLayer().addChild( moleculeNode );
             moleculeNode.setOffset( 100, 100 );
         }
     }
 
     private static class TestNode extends PSwing {
-        public TestNode( Molecule molecule ) {
+        public TestNode( IMolecule molecule ) {
             super( new TestPanel( molecule ) );
         }
     }
@@ -59,7 +58,7 @@ public class TestJmolPiccolo {
         private JmolViewer viewer = null;
         private final String loadingString;
 
-        public TestPanel( final Molecule molecule ) {
+        public TestPanel( final IMolecule molecule ) {
 
             this.loadingString = "Loading Jmol..."; //XXX i18n, and I don't see this rendered
 
@@ -80,7 +79,7 @@ public class TestJmolPiccolo {
                     }
 
                     // set the visible colors to our model colors
-                    molecule.fixJmolColors( viewer );
+                    molecule.adjustColors( viewer );
 
                     // store reference to this AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
                     TestPanel.this.viewer = viewer;
@@ -139,38 +138,39 @@ public class TestJmolPiccolo {
         }
     }
 
-    private static class TestMolecule implements Molecule {
+    private interface IMolecule {
+        public String getSymbol();
+
+        public String getDisplayName();
+
+        public String getData();
+
+        public void adjustColors( JmolViewer viewer );
+    }
+
+    private static class AbstractMolecule implements IMolecule {
+
+        private final String symbol, name, resourceFilename;
+
+        public AbstractMolecule( String symbol, String name, String resourceFilename ) {
+
+            this.symbol = symbol;
+            this.name = name;
+            this.resourceFilename = resourceFilename;
+        }
+
+        public String getSymbol() {
+            return symbol;
+        }
 
         public String getDisplayName() {
-            return "Test Molecule";
+            return name;
         }
 
-        public int getCID() {
-            return 962; //XXX don't care, doesn't appear to be used
-        }
-
-        // Gets data that describes the molecule
         public String getData() {
-            return readFile( "jmol/acetone.smol" ); //WORKS
-//            return readFile( "jmol/ammonia.smol" ); //WORKS
-//            return readFile( "jmol/borontriflouride.smol" ); //WORKS
-//            return readFile( "jmol/formaldehyde.smol" ); //WORKS
-//            return readFile( "jmol/hydrogenflouride.smol" ); //WORKS
-//            return readFile( "jmol/methane.smol" ); //WORKS
-//            return readFile( "jmol/methylflouride.smol" ); //WORKS
-//            return readFile( "jmol/water.smol" ); // does not work, no MEP
-        }
-
-        public void fixJmolColors( JmolViewer viewer ) {
-            //XXX how to change colors?
-//            viewer.script( "select hydrogen; color green" );//XXX this changes hydrogen but makes all other atoms invisible, why?
-        }
-
-        // reads text file that describes the molecule
-        private static String readFile( String resourceName ) {
             try {
                 PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
-                BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( resourceName ) ) );
+                BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( resourceFilename ) ) );
                 String s = "";
                 String line = structureReader.readLine();
                 while ( line != null ) {
@@ -182,6 +182,58 @@ public class TestJmolPiccolo {
             catch ( Exception e ) {
                 throw new RuntimeException( e );
             }
+        }
+
+        public void adjustColors( JmolViewer viewer ) {
+            // default does nothing
+        }
+    }
+
+    private static class Acetone extends AbstractMolecule {
+        public Acetone() {
+            super( "X", "Acetone", "jmol/acetone.smol" );
+        }
+    }
+
+    private static class Ammonia extends AbstractMolecule {
+        public Ammonia() {
+            super( "X", "Ammonia", "jmol/ammonia.smol" );
+        }
+    }
+
+    private static class BoronTriflouride extends AbstractMolecule {
+        public BoronTriflouride() {
+            super( "X", "Boron Triflouride", "jmol/borontriflouride.smol" );
+        }
+    }
+
+    private static class Formaldehyde extends AbstractMolecule {
+        public Formaldehyde() {
+            super( "X", "Formaldehyde", "jmol/formaldehyde.smol" );
+        }
+    }
+
+    private static class HydrogenFlouride extends AbstractMolecule {
+        public HydrogenFlouride() {
+            super( "X", "Hydrogen Flouride", "jmol/hydrogenflouride.smol" );
+        }
+    }
+
+    private static class Methane extends AbstractMolecule {
+        public Methane() {
+            super( "X", "Methane", "jmol/methane.smol" );
+        }
+    }
+
+    private static class Methylflouride extends AbstractMolecule {
+        public Methylflouride() {
+            super( "X", "Methylflouride", "jmol/methylflouride.smol" );
+        }
+    }
+
+    private static class Water extends AbstractMolecule {
+        public Water() {
+            super( "X", "Water", "jmol/water.smol" );
         }
     }
 
