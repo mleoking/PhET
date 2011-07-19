@@ -117,7 +117,7 @@ public class JmolViewerNode extends PhetPNode {
     public void setBondDipolesVisible( boolean visible ) {
         bondDipolesVisible = visible;
         if ( visible ) {
-            doScript( "dipole bonds on" );
+            doScript( "dipole bonds on width 0.05" );
         }
         else {
             doScript( "dipole bonds off" );
@@ -127,7 +127,7 @@ public class JmolViewerNode extends PhetPNode {
     public void setMolecularDipoleVisible( boolean visible ) {
         molecularDipoleVisible = visible;
         if ( visible ) {
-            doScript( "dipole molecular on" );
+            doScript( "dipole molecular on width 0.05" );
         }
         else {
             doScript( "dipole molecular off" );
