@@ -8,6 +8,7 @@ HIGH
 - how to align Jmol molecule with E-Field?
 - how to create a Jmol custom isosurface for KP's electron density view?
 - how to set initial orientation for Jmol viewer?
+- how to change atom colors?
 
 MEDIUM
 - center scenegraph in the play area
