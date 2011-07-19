@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
@@ -20,7 +21,7 @@ import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.flipX;
-import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsApplication.RESOURCES;
+import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResources.Images.GRAY_ARROW;
 
 /**
  * @author John Blanco
@@ -64,12 +65,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
         // Add the RNA polymerase - TODO temp for demo.
         for ( RnaPolymerase rnaPolymerase : model.getRnaPolymeraseList() ) {
-            modelRootNode.addChild( new ModelObjectNode( mvt, rnaPolymerase, rnaPolymerase.getPaint() ) );
+            modelRootNode.addChild( new MobileBiomoleculeNode( mvt, rnaPolymerase ) );
         }
 
         // Add buttons for moving to next and previous genes.
         // TODO: i18n
-        controlsRootNode.addChild( new HTMLImageButtonNode( "Next Gene", RESOURCES.getImage( "gray-arrow.png" ) ) {{
+        controlsRootNode.addChild( new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
             setTextPosition( TextPosition.LEFT );
             setFont( new PhetFont( 20 ) );
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
@@ -86,7 +87,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             } );
         }} );
         // TODO: i18n
-        controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( RESOURCES.getImage( "gray-arrow.png" ) ) ) {{
+        controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
             setOffset( 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
