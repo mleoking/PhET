@@ -89,12 +89,6 @@ public class Molecule3D {
         return outString;
     }
 
-    public static class Acetone extends Molecule3D {
-        public Acetone() {
-            super( "C3H6O", "acetone", "jmol/acetone.smol" );
-        }
-    }
-
     public static class Ammonia extends Molecule3D {
         public Ammonia() {
             super( "NH3", "ammonia", "jmol/ammonia.smol" );

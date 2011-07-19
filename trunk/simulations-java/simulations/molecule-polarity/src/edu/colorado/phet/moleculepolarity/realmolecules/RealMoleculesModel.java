@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Acetone;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Ammonia;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.BoronTrifluoride;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Formaldehyde;
@@ -25,7 +24,6 @@ public class RealMoleculesModel extends MPModel {
 
     public RealMoleculesModel() {
         molecules = new ArrayList<Molecule3D>() {{
-            add( new Acetone() );
             add( new Ammonia() );
             add( new BoronTrifluoride() );
             add( new Formaldehyde() );
