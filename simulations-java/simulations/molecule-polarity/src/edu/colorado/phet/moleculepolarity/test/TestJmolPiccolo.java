@@ -150,7 +150,7 @@ public class TestJmolPiccolo {
 
         // Gets data that describes the molecule
         public String getData() {
-            return readFile( "jmol/water.sdf" );
+            return readFile( "jmol/acetone.smol" );
         }
 
         public void fixJmolColors( JmolViewer viewer ) {
