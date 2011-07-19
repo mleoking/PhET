@@ -1,3 +1,5 @@
+Added the "mystery masses".
+Added adult to masses.
 # 0.00.01 (54036) Jul 13, 2011
 7/13/11 Publishing an early snapshot of this sim to dev.
 Improved layout for block control panel

@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class MassBoxNode extends PNode {
     private static final Color BUTTON_COLOR = new Color( 50, 205, 50 );
 
     private ArrayList<PNode> massSets = new ArrayList<PNode>();
-    private Property<Integer> activeMasseset = new Property<Integer>( 0 );
+    private Property<Integer> activeMassSet = new Property<Integer>( 0 );
 
     /**
      * Constructor.
@@ -76,11 +78,11 @@ public class MassBoxNode extends PNode {
         TextButtonNode nextButton = new TextButtonNode( "Next", BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    activeMasseset.set( ( activeMasseset.get() + 1 ) % massSets.size() );
+                    activeMassSet.set( ( activeMassSet.get() + 1 ) % massSets.size() );
                 }
             } );
             // Set up a listener that disables the button if there are no more mass sets.
-            activeMasseset.valueEquals( massSets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
+            activeMassSet.valueEquals( massSets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atLastMass ) {
                     setEnabled( !atLastMass );
                 }
@@ -90,11 +92,11 @@ public class MassBoxNode extends PNode {
         TextButtonNode previousButton = new TextButtonNode( "Previous", BUTTON_FONT, BUTTON_COLOR ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    activeMasseset.set( Math.abs( ( activeMasseset.get() - 1 ) % massSets.size() ) );
+                    activeMassSet.set( Math.abs( ( activeMassSet.get() - 1 ) % massSets.size() ) );
                 }
             } );
             // Set up a listener that disables the button if they are looking at the first mass set.
-            activeMasseset.valueEquals( 0 ).addObserver( new VoidFunction1<Boolean>() {
+            activeMassSet.valueEquals( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atFirstMass ) {
                     setEnabled( !atFirstMass );
                 }
@@ -113,11 +115,11 @@ public class MassBoxNode extends PNode {
                 // Buttons.
                 new HBox( previousButton, nextButton ),
                 // Mass set.
-                massSets.get( activeMasseset.get() )
+                massSets.get( activeMassSet.get() )
         );
 
         // Hook up a listener that will switch the mass sets when necessary.
-        activeMasseset.addObserver( new ChangeObserver<Integer>() {
+        activeMassSet.addObserver( new ChangeObserver<Integer>() {
             public void update( Integer newValue, Integer oldValue ) {
                 contentNode.removeChild( massSets.get( oldValue ) );
                 contentNode.addChild( massSets.get( newValue ) );
