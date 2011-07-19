@@ -16,7 +16,7 @@ public class AdultMaleHuman extends ImageMass {
 
     private static final double MASS = 80; // in kg
     private static final double STANDING_HEIGHT = 1.8; // In meters.
-    private static final double SITTING_HEIGHT = 1.8; // In meters.
+    private static final double SITTING_HEIGHT = 1.0; // In meters.
 
     public AdultMaleHuman() {
         super( MASS, Images.ADULT_MAN_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
@@ -26,10 +26,11 @@ public class AdultMaleHuman extends ImageMass {
         if ( onPlank ) {
             height = SITTING_HEIGHT;
             if ( getPosition().getX() > 0 ) {
-                imageProperty.set( Images.ADULT_MAN_STANDING );
+                imageProperty.set( Images.ADULT_MAN_SITTING );
             }
             else {
-                imageProperty.set( BufferedImageUtils.flipX( Images.ADULT_MAN_STANDING ) );
+                // Reverse image if on other side of balance.
+                imageProperty.set( BufferedImageUtils.flipX( Images.ADULT_MAN_SITTING ) );
             }
         }
         else {
