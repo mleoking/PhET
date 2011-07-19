@@ -6,11 +6,14 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -79,6 +82,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public static final double sizeScale = 0.35;
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
+    //settable property that indicates whether the clock is running or paused
+    public final Property<Boolean> clockPausedProperty = new Property<Boolean>( false );
+
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
         super( new ConstantDtClock( framesPerSecond ),
@@ -112,6 +118,24 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
         dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Calcium<br>Chloride", distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
+
+        //When the pause button is pressed, pause the clock
+        clockPausedProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean paused ) {
+                clock.setPaused( paused );
+            }
+        } );
+
+        //When the clock pauses or unpauses, update the property
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockPaused( ClockEvent clockEvent ) {
+                clockPausedProperty.set( true );
+            }
+
+            @Override public void clockStarted( ClockEvent clockEvent ) {
+                clockPausedProperty.set( false );
+            }
+        } );
     }
 
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal

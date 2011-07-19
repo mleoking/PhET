@@ -7,9 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
@@ -19,6 +22,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
+import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
 
@@ -66,6 +70,16 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         //When sodium or chloride ions are added in the model, add graphics for them in the view
         model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
         model.sugarList.addItemAddedListener( new SugarMoleculeNodeFactory( model.sugarList, transform, this ) );
+
+        //Add clock controls for pause/play/step
+        addChild( new FloatingClockControlNode( not( model.clockPausedProperty ), new Function1<Double, String>() {
+            public String apply( Double time ) {
+                return "";
+            }
+            //TODO: get rid of clear button if unused
+        }, model.clock, "", new Property<Color>( Color.white ) ) {{
+            setOffset( 0, stageSize.getHeight() - getFullBounds().getHeight() );
+        }} );
     }
 
     //Create a user interface element that lets the user choose solutes from a drop-down box
