@@ -97,7 +97,9 @@ public class TestJmolPiccolo {
                     // not working...
 //                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
 
-//                    viewer.script( "isosurface" ); //XXX electrostatic potential, need to figure this out, lots of options
+                    //XXX electrostatic potential, need to figure this out, lots of options
+//                    viewer.script( "select all;isosurface delete resolution 6 solvent map mep translucent;" );
+                    viewer.script( "isosurface resolution 6 solvent map mep translucent" );
 
                     repaint();
                 }
