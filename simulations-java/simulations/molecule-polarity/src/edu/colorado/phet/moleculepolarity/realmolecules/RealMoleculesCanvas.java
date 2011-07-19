@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.realmolecules;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
@@ -25,10 +26,12 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RealMoleculesCanvas extends MPCanvas {
 
+    private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 400, 400 );
+
     public RealMoleculesCanvas( RealMoleculesModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ) );
+        JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
