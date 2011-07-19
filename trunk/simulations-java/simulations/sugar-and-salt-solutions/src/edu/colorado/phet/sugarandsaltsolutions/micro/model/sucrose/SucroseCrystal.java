@@ -7,10 +7,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.water.model.SucrosePositions;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
@@ -21,6 +17,10 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  * @author Sam Reid
  */
 public class SucroseCrystal extends Crystal {
+
+    //List of sucrose molecules for keeping them together instead of disassociating
+    public final ArrayList<SucroseMolecule> sucroseMolecules = new ArrayList<SucroseMolecule>();
+
     public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice ) {
         super( position );
 
@@ -38,16 +38,10 @@ public class SucroseCrystal extends Crystal {
         //Also, scale everything by the model sizeScale, including distances between atoms
         final double spacing = nanometersToMeters( 0.5 ) * sizeScale;
 
-        //Add the salt molecule atoms in the right locations
-        SucrosePositions sucrosePositions = new SucrosePositions();
-        for ( ImmutableVector2D offset : sucrosePositions.getHydrogenPositions() ) {
-            constituents.add( new Constituent( new HydrogenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
-        }
-        for ( ImmutableVector2D offset : sucrosePositions.getCarbonPositions() ) {
-            constituents.add( new Constituent( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
-        }
-        for ( ImmutableVector2D offset : sucrosePositions.getOxygenPositions() ) {
-            constituents.add( new Constituent( new OxygenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+        SucroseMolecule sucroseMolecule = new SucroseMolecule( relativePosition );
+        sucroseMolecules.add( sucroseMolecule );
+        for ( Constituent atom : sucroseMolecule ) {
+            constituents.add( atom );
         }
 
         handled.add( component );
