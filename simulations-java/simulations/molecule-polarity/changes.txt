@@ -1,3 +1,4 @@
+7/19/11 add dipole offsets, so that dipoles don't intersect atoms and bonds
 7/19/11 add placeholder for periodic table
 7/19/11 add "Molecule" label to combo box control
 7/19/11 render molecule combo box items at HTMLNodes
