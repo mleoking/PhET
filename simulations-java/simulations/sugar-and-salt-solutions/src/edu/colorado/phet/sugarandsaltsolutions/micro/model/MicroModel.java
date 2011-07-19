@@ -26,11 +26,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateCompound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
@@ -69,7 +69,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sugarCrystals = new ItemList<SucroseCrystal>();
-    public final ItemList<NitrateCompound> nitrates = new ItemList<NitrateCompound>();
 
     //Randomness for random walks
     private final Random random = new Random();
@@ -183,7 +182,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
         updateParticles( dt, freeParticles );
-        updateParticles( dt, nitrates );
 
         updateDissolvableCrystals( dt, saltCrystals,
                                    //Determine whether the concentration is low enough to allow it to dissolve
@@ -264,7 +262,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Todo: Move this differing behavior to callbacks on the crystal
         if ( crystal instanceof SodiumNitrateCrystal ) {
             SodiumNitrateCrystal sodiumNitrateCrystal = (SodiumNitrateCrystal) crystal;
-
             ImmutableVector2D velocity = crystal.velocity.get();
 
             //Set the sodium ions free
@@ -278,13 +275,22 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //add new compounds for the nitrates so they will remain together
             for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
-                nitrates.add( new NitrateCompound( nitrate.relativePosition.plus( sodiumNitrateCrystal.position.get() ) ) {{
+                freeParticles.add( new Compound( nitrate.relativePosition.plus( sodiumNitrateCrystal.position.get() ) ) {{
                     constituents.addAll( nitrate.constituents );
                     velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 }} );
             }
+        }
 
-            crystals.getItems().remove( crystal );
+        //Break apart a sucrose crystal
+        else if ( crystal instanceof SucroseCrystal ) {
+            SucroseCrystal sucroseCrystal = (SucroseCrystal) crystal;
+            for ( final SucroseMolecule sucroseMolecule : sucroseCrystal.sucroseMolecules ) {
+                freeParticles.add( new Compound( sucroseCrystal.position.get() ) {{
+                    constituents.addAll( sucroseMolecule.constituents );
+                    velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                }} );
+            }
         }
 
         //Splits up all constituents in a crystal lattice
@@ -293,9 +299,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 freeParticles.add( constituent.particle );
             }
-
-            crystals.getItems().remove( crystal );
         }
+        crystals.getItems().remove( crystal );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down
@@ -432,7 +437,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private void updateParticlesDueToWaterLevelDropped( double changeInWaterHeight ) {
         waterLevelDropped( freeParticles, changeInWaterHeight );
         waterLevelDropped( sugarCrystals, changeInWaterHeight );
-        waterLevelDropped( nitrates, changeInWaterHeight );
     }
 
     //When water level decreases, move the particles down with the water level.
