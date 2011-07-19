@@ -16,6 +16,7 @@ MEDIUM
 - Jmol integration with Piccolo (PSwing? other options?)
 - how to set a fully transparent background for Jmol viewer?
 - add minor and major ticks to EN control
+- hovering over an atom in Jmol viewer displays the atom's name, do we want that?
 
 LOW
 
