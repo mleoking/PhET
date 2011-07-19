@@ -41,7 +41,8 @@ public class ConcentrationBarChart extends PNode {
 
     private final double CHART_HEIGHT = 234;
     protected final int INSET = 5;
-    //Convert from model units (Mols) to stage units
+
+    //Convert from model units (Mols) to stage units by multiplying by this scale factor
     private final double verticalAxisScale;
 
     public ConcentrationBarChart( ObservableProperty<Double> saltConcentration,
