@@ -6,7 +6,6 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
 
@@ -24,27 +23,13 @@ public class Nitrate implements Iterable<Constituent> {
 
     public Nitrate( double nitrogenOxygenSpacing, double angle, ImmutableVector2D relativePosition ) {
         this.relativePosition = relativePosition;
-        SphericalParticle o1 = new OxygenIonParticle();
-        ImmutableVector2D o1Position = parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 0 / 3.0 + angle );
-        constituents.add( new Constituent( o1, o1Position ) );
-
-        SphericalParticle o2 = new OxygenIonParticle();
-        ImmutableVector2D o2Position = parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 1 / 3.0 + angle );
-        constituents.add( new Constituent( o2, o2Position ) );
-
-        SphericalParticle o3 = new OxygenIonParticle();
-        ImmutableVector2D o3Position = parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 2 / 3.0 + angle );
-        constituents.add( new Constituent( o3, o3Position ) );
-
-        SphericalParticle nitrogen = new NitrogenIonParticle();
-        constituents.add( new Constituent( nitrogen, ZERO ) );
+        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 0 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 1 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 2 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new NitrogenIonParticle(), ZERO ) );
     }
 
     public Iterator<Constituent> iterator() {
         return constituents.iterator();
-    }
-
-    public Constituent getConstituent( int i ) {
-        return constituents.get( i );
     }
 }
