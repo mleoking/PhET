@@ -51,8 +51,8 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
             //Improve default camera angle and mouse behavior
             app.enqueue( new Callable<Void>() {
                 public Void call() {
-                    SimpleApplication simpleApp = (SimpleApplication) app;
-                    simpleApp.getFlyByCamera().setDragToRotate( true );
+                    BaseApplication simpleApp = (BaseApplication) app;
+                    //simpleApp.getFlyByCamera().setDragToRotate( true );
                     return null;
                 }
             } );
