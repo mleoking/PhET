@@ -33,6 +33,9 @@ eg sucrose: http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?cid=5988
 Jmol scripting language doc:
 http://chemapps.stolaf.edu/jmol/docs
 
+Demonstration of Jmol dipole features and customization (crashes Firefox 5):
+http://chemapps.stolaf.edu/jmol/docs/examples-11/dipole.htm
+
 Jmol surfaces:
 http://jmol.sourceforge.net/docs/surface/
 http://www.callutheran.edu/BioDev/omm/surfaces/surfaces/surfaces.htm
