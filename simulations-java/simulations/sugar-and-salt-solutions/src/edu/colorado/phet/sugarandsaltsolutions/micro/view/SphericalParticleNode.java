@@ -15,6 +15,7 @@ import edu.umd.cs.piccolox.PFrame;
 
 /**
  * Piccolo node that draws a shaded sphere in the location of the spherical particle.
+ * It switches between showing color for the atomic identity or color for the charge (blue = negative, red = positive, gray = neutral)
  *
  * @author Sam Reid
  */
@@ -39,6 +40,7 @@ public class SphericalParticleNode extends PNode {
             }
         }
 
+        //Show the charge color, if user selected
         addChild( new SimpleSphereNode( particle.chargeColor ) {{
             showChargeColor.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean showChargeColor ) {
@@ -46,6 +48,8 @@ public class SphericalParticleNode extends PNode {
                 }
             } );
         }} );
+
+        //Show the atom color, if user selected
         addChild( new SimpleSphereNode( particle.color ) {{
             showChargeColor.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean showChargeColor ) {
