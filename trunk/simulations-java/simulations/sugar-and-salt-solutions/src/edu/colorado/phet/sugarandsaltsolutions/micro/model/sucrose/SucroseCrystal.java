@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
@@ -41,13 +41,13 @@ public class SucroseCrystal extends Crystal {
         //Add the salt molecule atoms in the right locations
         SucrosePositions sucrosePositions = new SucrosePositions();
         for ( ImmutableVector2D offset : sucrosePositions.getHydrogenPositions() ) {
-            latticeConstituents.add( new LatticeConstituent( new HydrogenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent( new HydrogenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
         for ( ImmutableVector2D offset : sucrosePositions.getCarbonPositions() ) {
-            latticeConstituents.add( new LatticeConstituent( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
         for ( ImmutableVector2D offset : sucrosePositions.getOxygenPositions() ) {
-            latticeConstituents.add( new LatticeConstituent( new OxygenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent( new OxygenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
 
         handled.add( component );
