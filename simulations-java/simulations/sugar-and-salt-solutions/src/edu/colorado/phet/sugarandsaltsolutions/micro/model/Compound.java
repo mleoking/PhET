@@ -17,9 +17,13 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
  * @author Sam Reid
  */
 public class Compound extends Particle implements Iterable<Constituent> {
+
+    //Members in the compound
     protected final ArrayList<Constituent> constituents = new ArrayList<Constituent>();
+
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
+
     //Put the vectors at the same angle so all crystals don't come out at right angles
     protected final double angle = Math.random() * 2 * Math.PI;
 
