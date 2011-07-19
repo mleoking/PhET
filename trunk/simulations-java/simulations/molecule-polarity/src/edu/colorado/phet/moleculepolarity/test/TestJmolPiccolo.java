@@ -93,13 +93,10 @@ public class TestJmolPiccolo {
                     viewer.script( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
                     viewer.script( "dipole bonds on" ); // show bond dipoles
                     viewer.script( "dipole molecular on" ); // show molecular dipole
+                    viewer.script( "isosurface resolution 6 solvent map mep translucent" ); // electrostatic potential map
 
                     // not working...
 //                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
-
-                    //XXX electrostatic potential, need to figure this out, lots of options
-//                    viewer.script( "select all;isosurface delete resolution 6 solvent map mep translucent;" );
-                    viewer.script( "isosurface resolution 6 solvent map mep translucent" );
 
                     repaint();
                 }
@@ -150,7 +147,14 @@ public class TestJmolPiccolo {
 
         // Gets data that describes the molecule
         public String getData() {
-            return readFile( "jmol/acetone.smol" );
+            return readFile( "jmol/acetone.smol" ); //WORKS
+//            return readFile( "jmol/ammonia.smol" ); //WORKS
+//            return readFile( "jmol/borontriflouride.smol" ); //WORKS
+//            return readFile( "jmol/formaldehyde.smol" ); //WORKS
+//            return readFile( "jmol/hydrogenflouride.smol" ); //WORKS
+//            return readFile( "jmol/methane.smol" ); //WORKS
+//            return readFile( "jmol/methylflouride.smol" ); //WORKS
+//            return readFile( "jmol/water.smol" ); // does not work, no MEP
         }
 
         public void fixJmolColors( JmolViewer viewer ) {
