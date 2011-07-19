@@ -1,20 +1,20 @@
 Notes related to Jmol feasibility tests for molecule-polarity
 
 Feature requirements:
-atoms
-bonds
-ball-and-stick
-bond dipoles
-molecular dipole
++1 atoms
++1 bonds
++1 ball-and-stick
++1 bond dipoles
++1 molecular dipole
 partial charges
 background color (preferably transparent)
-electrostatic potential
++1 electrostatic potential
 rotate to align with E-field
 custom surfaces (for KP's electron density view)
 custom colors for atoms, bonds, dipoles, surfaces
 customization of dipoles (arrow size, tail size, scale, position)
-hide watermark
-hide popup menu
++1 hide watermark
++1 hide popup menu
 
 Demo that we're trying to reproduce:
 http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html
