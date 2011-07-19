@@ -1,3 +1,4 @@
+7/19/11 render molecule combo box items at HTMLNodes
 7/19/11 delete acetone, because we should only include real molecules with one central atom
 7/19/11 add hand cursor to Jmol viewer node
 7/19/11 add View control for atom labels
