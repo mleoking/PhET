@@ -6,7 +6,8 @@ HIGH
 - can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
 - how to show partial charges with Jmol?
 - how to align Jmol molecule with E-Field?
-- how to create a Jmol custom isosurface for KP's electron density view
+- how to create a Jmol custom isosurface for KP's electron density view?
+- how to set initial orientation for Jmol viewer?
 
 MEDIUM
 - Jmol integration with Piccolo (PSwing? other options?)
