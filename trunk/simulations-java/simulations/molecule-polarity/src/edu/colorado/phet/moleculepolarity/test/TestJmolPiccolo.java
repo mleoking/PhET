@@ -94,15 +94,18 @@ public class TestJmolPiccolo {
                     viewer.script( "label" ); // label the atoms
                     viewer.script( "dipole bonds on" ); // show bond dipoles
                     viewer.script( "dipole molecular on" ); // show molecular dipole
-                    viewer.script( "isosurface resolution 6 solvent map mep translucent" ); // map electrostatic potential (mep)
+                    viewer.script( "isosurface resolution 6 solvent map mep translucent" ); // molecular electrostatic potential (MEP)
+//                    viewer.script( "color partialCharge" ); // color atoms based on partial charge
 
                     // not working...
-//                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
+                    viewer.script( "background black" );//XXX how to make this transparent?
 
                     repaint();
                 }
             } );
 
+            setOpaque( false );
+            setBackground( new Color( 0, 0, 0, 0 ) );
             setPreferredSize( new Dimension( 400, 400 ) );//XXX how to determine this dynamically?
         }
 
