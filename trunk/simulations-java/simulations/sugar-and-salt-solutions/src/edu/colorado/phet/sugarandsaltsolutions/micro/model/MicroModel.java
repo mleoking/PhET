@@ -31,7 +31,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumN
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
@@ -61,9 +60,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //List of all spherical particles
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
-
-    //List of all sugar particles
-    public final ItemList<SucroseMolecule> sugarList = new ItemList<SucroseMolecule>();
 
     //List of all free spherical particles, used to keep track of which particles to move about randomly
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
@@ -178,13 +174,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Create a random crystal
             //TODO: get rid of cast here
             final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ) );
-
-            //Add the components of the lattice to the model so the graphics will be created
-            for ( LatticeConstituent latticeConstituent : crystal ) {
-
-                //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-                sugarList.add( (SucroseMolecule) latticeConstituent.particle );
-            }
+            addCrystalComponents( crystal );
             sugarCrystals.add( crystal );
         }
     }
@@ -193,7 +183,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
         updateParticles( dt, freeParticles );
-        updateParticles( dt, sugarList );
         updateParticles( dt, nitrates );
 
         updateDissolvableCrystals( dt, saltCrystals,

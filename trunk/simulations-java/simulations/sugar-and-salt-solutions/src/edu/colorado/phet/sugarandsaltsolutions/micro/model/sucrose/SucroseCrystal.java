@@ -3,12 +3,16 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.SucrosePositions;
 
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
 
 /**
@@ -29,8 +33,23 @@ public class SucroseCrystal extends Crystal {
 
     //Recursive method to traverse the graph and create particles
     private void fill( SucroseLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
-        final double spacing = Units.nanometersToMeters( 1 ) * sizeScale;
-        latticeConstituents.add( new LatticeConstituent( new SucroseMolecule( new ImmutableVector2D(), spacing ), relativePosition ) );
+
+        //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
+        //Also, scale everything by the model sizeScale, including distances between atoms
+        final double spacing = nanometersToMeters( 0.5 ) * sizeScale;
+
+        //Add the salt molecule atoms in the right locations
+        SucrosePositions sucrosePositions = new SucrosePositions();
+        for ( ImmutableVector2D offset : sucrosePositions.getHydrogenPositions() ) {
+            latticeConstituents.add( new LatticeConstituent( new HydrogenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+        }
+        for ( ImmutableVector2D offset : sucrosePositions.getCarbonPositions() ) {
+            latticeConstituents.add( new LatticeConstituent( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+        }
+        for ( ImmutableVector2D offset : sucrosePositions.getOxygenPositions() ) {
+            latticeConstituents.add( new LatticeConstituent( new OxygenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+        }
+
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
         for ( Bond bond : bonds ) {

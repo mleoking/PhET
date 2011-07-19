@@ -1,3 +1,4 @@
+Micro tab: Fixed sucrose to use the same model and view as other crystals, also fixes the size of sucrose molecule atoms
 Micro tab: Made calcium a darker shade of green
 Micro tab: Moved oxygen in NO3 closer to the central nitrogen so they will look more bonded
 Micro tab: Added play/pause/step buttons
