@@ -1,3 +1,4 @@
+7/19/11 add combo box for selecting real molecule
 7/19/11 wire up Jmol viewer to controls
 7/19/11 integrate Jmol into "Real Molecules" tab
 7/19/11 remove dependencies on jmol-phet

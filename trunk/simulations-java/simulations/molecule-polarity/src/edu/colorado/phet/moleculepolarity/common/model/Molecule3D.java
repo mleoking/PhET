@@ -29,7 +29,7 @@ public class Molecule3D {
         return symbol;
     }
 
-    public String getDisplayName() {
+    public String getName() {
         return name;
     }
 
@@ -53,6 +53,10 @@ public class Molecule3D {
     //TODO need an example of how to change colors for atoms, dipoles, etc.
     public void adjustColors( JmolViewer viewer ) {
         // default does nothing
+    }
+
+    public String toString() {
+        return getName();
     }
 
     /*
