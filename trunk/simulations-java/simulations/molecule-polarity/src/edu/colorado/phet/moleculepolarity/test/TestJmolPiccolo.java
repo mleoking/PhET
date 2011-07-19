@@ -191,49 +191,49 @@ public class TestJmolPiccolo {
 
     private static class Acetone extends AbstractMolecule {
         public Acetone() {
-            super( "X", "Acetone", "jmol/acetone.smol" );
+            super( "C3H6O", "acetone", "jmol/acetone.smol" );
         }
     }
 
     private static class Ammonia extends AbstractMolecule {
         public Ammonia() {
-            super( "X", "Ammonia", "jmol/ammonia.smol" );
+            super( "NH3", "ammonia", "jmol/ammonia.smol" );
         }
     }
 
-    private static class BoronTriflouride extends AbstractMolecule {
-        public BoronTriflouride() {
-            super( "X", "Boron Triflouride", "jmol/borontriflouride.smol" );
+    private static class BoronTrifluoride extends AbstractMolecule {
+        public BoronTrifluoride() {
+            super( "BF3", "boron trifluoride", "jmol/borontrifluoride.smol" );
         }
     }
 
     private static class Formaldehyde extends AbstractMolecule {
         public Formaldehyde() {
-            super( "X", "Formaldehyde", "jmol/formaldehyde.smol" );
+            super( "CH2O", "formaldehyde", "jmol/formaldehyde.smol" );
         }
     }
 
-    private static class HydrogenFlouride extends AbstractMolecule {
-        public HydrogenFlouride() {
-            super( "X", "Hydrogen Flouride", "jmol/hydrogenflouride.smol" );
+    private static class HydrogenFluoride extends AbstractMolecule {
+        public HydrogenFluoride() {
+            super( "HF", "hydrogen fluoride", "jmol/hydrogenfluoride.smol" );
         }
     }
 
     private static class Methane extends AbstractMolecule {
         public Methane() {
-            super( "X", "Methane", "jmol/methane.smol" );
+            super( "CH4", "methane", "jmol/methane.smol" );
         }
     }
 
-    private static class Methylflouride extends AbstractMolecule {
-        public Methylflouride() {
-            super( "X", "Methylflouride", "jmol/methylflouride.smol" );
+    private static class MethylFluoride extends AbstractMolecule {
+        public MethylFluoride() {
+            super( "CH3F", "methyl fluoride", "jmol/methylfluoride.smol" );
         }
     }
 
     private static class Water extends AbstractMolecule {
         public Water() {
-            super( "X", "Water", "jmol/water.smol" );
+            super( "H2O", "water", "jmol/water.smol" );
         }
     }
 
