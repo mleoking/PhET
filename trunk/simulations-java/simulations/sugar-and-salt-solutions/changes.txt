@@ -1,3 +1,4 @@
+Micro tab: Made calcium a darker shade of green
 Micro tab: Moved oxygen in NO3 closer to the central nitrogen so they will look more bonded
 Micro tab: Added play/pause/step buttons
 Micro tab: Introduced new class Compound for nitrates

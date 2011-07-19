@@ -78,7 +78,8 @@ public class SphericalParticle extends Particle {
 
     public static class CalciumIonParticle extends SphericalParticle {
         public CalciumIonParticle() {
-            super( 100, red, green.darker() );
+            //Calcium should be a dark green
+            super( 100, red, new Color( 6, 98, 23 ) );
         }
     }
 }
