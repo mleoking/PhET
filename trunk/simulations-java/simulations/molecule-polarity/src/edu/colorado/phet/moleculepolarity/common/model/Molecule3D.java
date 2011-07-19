@@ -85,6 +85,7 @@ public class Molecule3D {
         return outString;
     }
 
+    //TODO i18n of molecule names
     public static class Ammonia extends Molecule3D {
         public Ammonia() {
             super( "NH3", "ammonia", "jmol/ammonia.smol" );
