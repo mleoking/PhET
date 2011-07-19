@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
+import java.awt.Color;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
@@ -23,8 +24,12 @@ public class TestControlPanel extends MPControlPanel {
             setGridY( 0 ); // horizontal
             setAnchor( Anchor.WEST ); // left justified
             add( new JLabel( MessageFormat.format( MPStrings.PATTERN_0LABEL, MPStrings.ELECTRIC_FIELD ) ) );
-            add( new PropertyRadioButton<Boolean>( MPStrings.ON, eFieldEnabled, true ) );
-            add( new PropertyRadioButton<Boolean>( MPStrings.OFF, eFieldEnabled, false ) );
+            add( new PropertyRadioButton<Boolean>( MPStrings.ON, eFieldEnabled, true ) {{
+                setForeground( Color.RED );
+            }} );
+            add( new PropertyRadioButton<Boolean>( MPStrings.OFF, eFieldEnabled, false ) {{
+                setForeground( Color.RED );
+            }} );
         }} );
     }
 }
