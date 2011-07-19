@@ -18,12 +18,13 @@ public class MysteryObjectFactory {
 
     // This data structure defines the valid configurations for mystery objects.
     private static final List<MysteryObjectConfig> MYSTERY_OBJECT_CONFIGURATIONS = new ArrayList<MysteryObjectConfig>() {{
+        // Note that the height value needs to be somewhat coordinated with
+        // the image for things to look good.
         add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.2 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_02, 0.25 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_03, 0.3 ) );
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_04, 0.35 ) );
+        add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.23 ) );
+        add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.3 ) );
+        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.35 ) );
     }};
-
 
     /**
      * Create a mystery object of the specified type at the default location.
