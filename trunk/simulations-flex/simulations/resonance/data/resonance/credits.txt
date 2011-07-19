@@ -1,1 +1,1 @@
-Phet-credits lead-design=Mike Dubson software-development=Mike Dubson, Jon Olson, Sam Reid design-team=Kathy Perkins, Jon Olson, Sam Reid interviews=Mindy Gratny
+Phet-credits lead-design=Mike Dubson software-development=Mike Dubson, Jon Olson design-team=Patricia Loeblein, Kathy Perkins interviews=Mindy Gratny
