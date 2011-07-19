@@ -1,3 +1,5 @@
+7/19/11 setForeground(red) for controls that are not implemented
+7/19/11 remove Jmol atom labels
 7/19/11 increase width of dipoles, default is a little difficult to see
 7/19/11 add combo box for selecting real molecule
 7/19/11 wire up Jmol viewer to controls

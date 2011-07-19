@@ -95,7 +95,6 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.setMolecule( molecule );
         // these things need to be reset when the viewer loads a new molecule
         setBallAndStick();
-        setAtomLabelsVisible( true );
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
         setElectrostaticPotentialVisible( electrostaticPotentialVisible );
@@ -103,15 +102,6 @@ public class JmolViewerNode extends PhetPNode {
 
     private void setBallAndStick() {
         doScript( "wireframe 0.2; spacefill 25%" );
-    }
-
-    private void setAtomLabelsVisible( boolean visible ) {
-        if ( visible ) {
-            doScript( "label on" );
-        }
-        else {
-            doScript( "label off" );
-        }
     }
 
     public void setBondDipolesVisible( boolean visible ) {
