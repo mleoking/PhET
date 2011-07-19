@@ -26,44 +26,49 @@ public class JmolPanel extends JPanel {
     private JmolViewer viewer = null;
     private final String loadingString;
 
+    //TODO standardize loadingString by calling PhetCommonResources.getString internally?
     public JmolPanel( final Molecule molecule, String loadingString ) {
         this.loadingString = loadingString;
 
-        // create the 3D view after we have shown the "loading" text
+        //TODO should "Loading" text be optional?
+        // create the 3D view after we have shown the "Loading" text
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                // don't dump everything out into the console
+                // Jmol logger, don't dump everything out into the console
                 Logger.setLogLevel( Logger.LEVEL_WARN );
 
-                // create the 3D view
+                // create the 3D viewer
                 JmolViewer viewer = JmolViewer.allocateViewer( JmolPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
                 viewer.setBooleanProperty( "antialiasDisplay", true );
                 viewer.setBooleanProperty( "autoBond", false );
 
+                // read the molecule data
                 String errorString = viewer.openStringInline( molecule.getData() );
                 if ( errorString != null ) {
+                    //TODO unacceptable error handling for production code
                     throw new RuntimeException( "Jmol problem: " + errorString );
                 }
 
-                // set the visible colors to our model colors
+                // adjust the visible colors to our model colors
                 molecule.fixJmolColors( viewer );
 
-                // store reference to this AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
+                // store reference to the viewer AFTER we have processed the molecule data, so that the "Loading" text shows up until the molecule is loaded
                 JmolPanel.this.viewer = viewer;
 
                 // set default options, and start the spinning. We need the viewer instance to be set BEFORE these are called
                 doScript( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
                 doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
-                setSpaceFill();
-                doScript( "spin on" );
+                setSpaceFill(); //TODO should this be the default?
+                doScript( "spin on" ); //TODO should this be the default?
 
                 repaint();
             }
         } );
 
-        setBackground( Color.BLACK );
+        //TODO this needs to use the same color as the viewer, see "background" script command
+        setBackground( Color.BLACK ); // set this so that "loading" appears on the same background color as the molecule
 
-        setPreferredSize( new Dimension( 400, 400 ) );
+        setPreferredSize( new Dimension( 400, 400 ) ); //TODO this should be configurable
     }
 
     // Executes a Jmol script. Script syntax is described at http://jmol.sourceforge.net/docs
@@ -84,19 +89,19 @@ public class JmolPanel extends JPanel {
         // Jmol's canonical example of embedding in other Java is to override the paint method, so we do it here
 
         if ( viewer == null ) {
-            // if we have no viewer yet, we show the loading text on a black background
+            // if we have no viewer yet, we show the "Loading" text
             super.paint( g );
 
-            // create a piccolo node (helpful for centering and styling)
+            // create a Piccolo node (helpful for centering and styling)
             PText text = new PText( loadingString ) {{
-                setTextPaint( Color.WHITE );
-                setFont( new PhetFont( 20 ) );
+                setTextPaint( Color.WHITE ); //TODO this depends on background color
+                setFont( new PhetFont( 20 ) ); //TODO this should be configurable
 
                 // center in the panel
                 setOffset( ( JmolPanel.this.getWidth() - getFullBounds().getWidth() ) / 2, ( JmolPanel.this.getHeight() - getFullBounds().getHeight() ) / 2 );
             }};
 
-            // paint the piccolo node onto the panel
+            // paint the Piccolo node onto the panel
             text.fullPaint( new PPaintContext( (Graphics2D) g ) );
         }
         else {
