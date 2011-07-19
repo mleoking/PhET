@@ -11,8 +11,10 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.Molecule3DComboBoxNode;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
@@ -30,11 +32,14 @@ public class RealMoleculesCanvas extends MPCanvas {
 
     private static final Dimension JMOL_VIEWER_SIZE = new Dimension( 400, 400 );
 
-    public RealMoleculesCanvas( RealMoleculesModel model, ViewProperties viewProperties, Frame parentFrame ) {
+    public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
         final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
+
+        Molecule3DComboBoxNode moleculeComboBox = new Molecule3DComboBoxNode( model.getMolecules() );
+        addChild( moleculeComboBox );
 
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
@@ -63,6 +68,8 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewerNode.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
             positiveEFieldPlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
             modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
+            moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
+                                        viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
             viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
@@ -85,6 +92,12 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewProperties.modelRepresentation.addObserver( new VoidFunction1<ModelRepresentation>() {
                 public void apply( ModelRepresentation modelRepresentation ) {
                     viewerNode.setElectrostaticPotentialVisible( modelRepresentation == ModelRepresentation.ELECTROSTATIC_POTENTIAL );
+                }
+            } );
+
+            moleculeComboBox.selectedItem.addObserver( new VoidFunction1<Molecule3D>() {
+                public void apply( Molecule3D molecule ) {
+                    viewerNode.setMolecule( molecule );
                 }
             } );
         }

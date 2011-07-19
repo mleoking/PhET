@@ -23,21 +23,18 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
  * Piccolo node that display a Jmol viewer.
+ * Jmol scripting language is documented at http://chemapps.stolaf.edu/jmol/docs
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class JmolViewerNode extends PhetPNode {
 
-    public static enum MoleculeRepresentation {
-        BALL_AND_STICK, SPACE_FILLED
-    }
-
     private final ViewerPanel viewerPanel;
+    private boolean bondDipolesVisible, molecularDipoleVisible, electrostaticPotentialVisible;
 
     public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( molecule, background, size );
         addChild( new PSwing( viewerPanel ) );
-        setMoleculeRepresentation( MoleculeRepresentation.BALL_AND_STICK );
     }
 
     //TODO consider merging this with jmol-phet JmolPanel
@@ -49,13 +46,13 @@ public class JmolViewerNode extends PhetPNode {
         public ViewerPanel( final Molecule3D molecule, Color background, Dimension size ) {
             setPreferredSize( size );
 
-            // configure Jmol's logging so we don't dump lots of stuff to the console
+            // configure Jmol's logging so we don't spew to the console
             Logger.setLogLevel( Logger.LEVEL_WARN );
 
             // create the 3D viewer
             viewer = JmolViewer.allocateViewer( ViewerPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
 
-            // default settings
+            // default settings of the viewer, independent of the molecule displayed
             viewer.setBooleanProperty( "antialiasDisplay", true );
             viewer.setBooleanProperty( "autoBond", false );
             doScript( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
@@ -85,45 +82,65 @@ public class JmolViewerNode extends PhetPNode {
             if ( errorString != null ) {
                 throw new RuntimeException( "Jmol problem: " + errorString ); //TODO improve exception handling
             }
-            doScript( "label" ); // label the atoms
             // adjust colors
             molecule.adjustColors( viewer );
         }
     }
 
-    public void setMoleculeRepresentation( MoleculeRepresentation representation ) {
-        if ( representation == MoleculeRepresentation.BALL_AND_STICK ) {
-            viewerPanel.doScript( "wireframe 0.2; spacefill 25%" );
+    private void doScript( String script ) {
+        viewerPanel.doScript( script );
+    }
+
+    public void setMolecule( Molecule3D molecule ) {
+        viewerPanel.setMolecule( molecule );
+        // these things need to be reset when the viewer loads a new molecule
+        setBallAndStick();
+        setAtomLabelsVisible( true );
+        setBondDipolesVisible( bondDipolesVisible );
+        setMolecularDipoleVisible( molecularDipoleVisible );
+        setElectrostaticPotentialVisible( electrostaticPotentialVisible );
+    }
+
+    private void setBallAndStick() {
+        doScript( "wireframe 0.2; spacefill 25%" );
+    }
+
+    private void setAtomLabelsVisible( boolean visible ) {
+        if ( visible ) {
+            doScript( "label on" );
         }
         else {
-            viewerPanel.doScript( "wireframe off; spacefill 60%" );
+            doScript( "label off" );
         }
     }
 
     public void setBondDipolesVisible( boolean visible ) {
+        bondDipolesVisible = visible;
         if ( visible ) {
-            viewerPanel.doScript( "dipole bonds on" );
+            doScript( "dipole bonds on" );
         }
         else {
-            viewerPanel.doScript( "dipole bonds off" );
+            doScript( "dipole bonds off" );
         }
     }
 
     public void setMolecularDipoleVisible( boolean visible ) {
+        molecularDipoleVisible = visible;
         if ( visible ) {
-            viewerPanel.doScript( "dipole molecular on" );
+            doScript( "dipole molecular on" );
         }
         else {
-            viewerPanel.doScript( "dipole molecular off" );
+            doScript( "dipole molecular off" );
         }
     }
 
     public void setElectrostaticPotentialVisible( boolean visible ) {
+        electrostaticPotentialVisible = visible;
         if ( visible ) {
-            viewerPanel.doScript( "isosurface resolution 6 solvent map mep translucent" );
+            doScript( "isosurface resolution 6 solvent map mep translucent" );
         }
         else {
-            viewerPanel.doScript( "isosurface off" );
+            doScript( "isosurface off" );
         }
     }
 
