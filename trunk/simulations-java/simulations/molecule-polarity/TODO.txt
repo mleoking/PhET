@@ -1,12 +1,16 @@
 TODO list for molecule-polarity
 
 HIGH
-- Jmol source
-- how to create Molecules to load into Jmol viewer
-- Jmol scripting language documentation
-- Jmol integration with Piccolo (PSwing? other options?)
+- why doesn't electrostatic potential work for water.smol?
+- how to create smol files?
+- can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
+- how to show partial charges with Jmol?
+- how to align Jmol molecule with E-Field?
+- how to create a Jmol custom isosurface for KP's electron density view
 
 MEDIUM
+- Jmol integration with Piccolo (PSwing? other options?)
+- how to set a fully transparent background for Jmol viewer?
 - add minor and major ticks to EN control
 
 LOW
