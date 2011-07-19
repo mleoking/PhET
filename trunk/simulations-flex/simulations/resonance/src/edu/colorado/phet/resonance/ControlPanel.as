@@ -264,7 +264,7 @@ public class ControlPanel extends Canvas {
         hz_str = "hz";                            //needed for initial sizing of label in layout
         ruler_str = FlexSimStrings.get("ruler", "Ruler");
         resetAll_str = FlexSimStrings.get("resetAll", "Reset All");
-        custom_str = FlexSimStrings.get("custom", "Select Preset");
+        custom_str = FlexSimStrings.get("selectPreset", "Select Preset");
         sameMass_str = FlexSimStrings.get("sameMass", "same mass m");
         sameSpring_str = FlexSimStrings.get("sameSpring", "same spring k");
         mixedMAndK_str = FlexSimStrings.get("mixedMAndK", "mixed m and k");
