@@ -69,7 +69,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
 
         //When sodium or chloride ions are added in the model, add graphics for them in the view
         model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
-        model.sugarList.addItemAddedListener( new SugarMoleculeNodeFactory( model.sugarList, transform, this ) );
 
         //Add clock controls for pause/play/step
         addChild( new FloatingClockControlNode( not( model.clockPausedProperty ), new Function1<Double, String>() {

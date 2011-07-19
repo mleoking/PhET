@@ -59,10 +59,10 @@ public abstract class Lattice<T extends Lattice<T>> {
     }
 
     //Create a random salt lattice with the specified number of vertices
-    public Lattice grow( int numVertices ) {
+    public Lattice<T> grow( int numVertices ) {
         Random random = new Random();
 
-        Lattice lattice = this;
+        Lattice<T> lattice = this;
         //Iterative algorithm to grow the salt lattice
         for ( int i = 0; i < numVertices; i++ ) {
             lattice = lattice.grow( random );
@@ -73,7 +73,7 @@ public abstract class Lattice<T extends Lattice<T>> {
     }
 
     //Create a new Lattice with an additional (new) component
-    protected Lattice grow( Random random ) {
+    protected Lattice<T> grow( Random random ) {
         //Randomly choose an open site for expansion
         ArrayList<OpenSite<T>> sites = getOpenSites();
         OpenSite selected = sites.get( random.nextInt( sites.size() ) );
