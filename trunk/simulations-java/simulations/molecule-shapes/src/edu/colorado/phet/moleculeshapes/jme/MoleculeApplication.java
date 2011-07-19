@@ -50,9 +50,19 @@ public class MoleculeApplication extends SimpleApplication {
 
         /** Must add a light to make the lit object visible! */
         DirectionalLight sun = new DirectionalLight();
-        sun.setDirection( new Vector3f( 1, 0, -2 ).normalizeLocal() );
-        sun.setColor( ColorRGBA.White );
+        sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
+        sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
         rootNode.addLight( sun );
+
+        DirectionalLight moon = new DirectionalLight();
+        moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
+        moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
+        rootNode.addLight( moon );
+
+        // add ambient light a bit for the background
+//        AmbientLight ambientLight = new AmbientLight();
+//        ambientLight.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
+//        rootNode.addLight( ambientLight );
 
         cam.setLocation( new Vector3f( cam.getLocation().getX(), cam.getLocation().getY(), cam.getLocation().getZ() + 30 ) );
 
@@ -89,9 +99,11 @@ public class MoleculeApplication extends SimpleApplication {
         mesh.setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
         TangentBinormalGenerator.generate( mesh );           // for lighting effect
         Material mat_lit = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" );
-        mat_lit.setTexture( "DiffuseMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond.png" ) );
-        mat_lit.setTexture( "NormalMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond_normal.png" ) );
-        mat_lit.setFloat( "Shininess", 5f ); // [0,128]
+//        mat_lit.setTexture( "DiffuseMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond.png" ) );
+//        mat_lit.setTexture( "NormalMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond_normal.png" ) );
+        mat_lit.setBoolean( "UseMaterialColors", true );
+        mat_lit.setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
+        mat_lit.setFloat( "Shininess", 1f ); // [0,128]
         shiny_rock.setMaterial( mat_lit );
         shiny_rock.setLocalTranslation( x, y, z ); // Move it a bit
         shiny_rock.rotate( 1.6f, 0, 0 );          // Rotate it a bit
