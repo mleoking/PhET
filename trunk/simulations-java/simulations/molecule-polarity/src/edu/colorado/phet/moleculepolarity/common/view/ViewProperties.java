@@ -20,13 +20,13 @@ public class ViewProperties implements Resettable {
 
     public final Property<ModelRepresentation> modelRepresentation = new Property<ModelRepresentation>( ModelRepresentation.BALL_AND_STICK );
     public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
-    public final Property<Boolean> moleculeDipoleVisible = new Property<Boolean>( false );
+    public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
     public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );
 
     public void reset() {
         modelRepresentation.reset();
         bondDipolesVisible.reset();
-        moleculeDipoleVisible.reset();
+        molecularDipoleVisible.reset();
         partialChargesVisible.reset();
     }
 }

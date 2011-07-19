@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -17,6 +18,7 @@ import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEF
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.ModelRepresentation;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -31,7 +33,7 @@ public class RealMoleculesCanvas extends MPCanvas {
     public RealMoleculesCanvas( RealMoleculesModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
+        final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
@@ -64,6 +66,27 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+        }
+
+        // synchronize viewer with view properties
+        {
+            viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    viewerNode.setBondDipolesVisible( visible );
+                }
+            } );
+
+            viewProperties.molecularDipoleVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    viewerNode.setMolecularDipoleVisible( visible );
+                }
+            } );
+
+            viewProperties.modelRepresentation.addObserver( new VoidFunction1<ModelRepresentation>() {
+                public void apply( ModelRepresentation modelRepresentation ) {
+                    viewerNode.setElectrostaticPotentialVisible( modelRepresentation == ModelRepresentation.ELECTROSTATIC_POTENTIAL );
+                }
+            } );
         }
     }
 }
