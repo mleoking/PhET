@@ -1,17 +1,20 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import java.awt.Color;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.PFrame;
+
+import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.getAtomImage;
 
 /**
  * Piccolo node that draws a shaded sphere in the location of the spherical particle.
@@ -26,15 +29,15 @@ public class SphericalParticleNode extends PNode {
                                   final ObservableProperty<Boolean> showChargeColor ) {
 
         //Sphere node used by both charge color and atom identity color
-        class SimpleSphereNode extends ShadedSphereNode {
+        class SimpleSphereNode extends PImage {
             SimpleSphereNode( Color color ) {
-                super( transform.modelToViewDeltaX( particle.radius * 2 ), color, Color.white, Color.black,
 
-                       //Turn on buffering for improved performance
-                       true );
+                //Use a cached image to improve performance for large molecules such as sucrose
+                super( getAtomImage( transform.modelToViewDeltaX( particle.radius * 2 ), color ) );
                 particle.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
                     public void apply( ImmutableVector2D position ) {
-                        setOffset( transform.modelToView( position ).toPoint2D() );
+                        Point2D.Double viewPoint = transform.modelToView( position ).toPoint2D();
+                        setOffset( viewPoint.x - getFullBounds().getWidth() / 2, viewPoint.y - getFullBounds().getHeight() / 2 );
                     }
                 } );
             }
