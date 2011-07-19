@@ -30,7 +30,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class JmolViewerNode extends PhetPNode {
 
     private final ViewerPanel viewerPanel;
-    private boolean bondDipolesVisible, molecularDipoleVisible, electrostaticPotentialVisible;
+    private boolean bondDipolesVisible, molecularDipoleVisible, electrostaticPotentialVisible, atomLabelsVisible;
 
     public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( molecule, background, size );
@@ -95,6 +95,7 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.setMolecule( molecule );
         // these things need to be reset when the viewer loads a new molecule
         setBallAndStick();
+        setAtomLabelsVisible( atomLabelsVisible );
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
         setElectrostaticPotentialVisible( electrostaticPotentialVisible );
@@ -102,6 +103,16 @@ public class JmolViewerNode extends PhetPNode {
 
     private void setBallAndStick() {
         doScript( "wireframe 0.2; spacefill 25%" );
+    }
+
+    public void setAtomLabelsVisible( boolean visible ) {
+        atomLabelsVisible = visible;
+        if ( visible ) {
+            doScript( "label on" );
+        }
+        else {
+            doScript( "label off" );
+        }
     }
 
     public void setBondDipolesVisible( boolean visible ) {

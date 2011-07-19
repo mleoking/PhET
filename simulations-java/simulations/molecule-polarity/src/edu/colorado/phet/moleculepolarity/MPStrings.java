@@ -10,11 +10,13 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class MPStrings {
 
-    private MPStrings() {}
+    private MPStrings() {
+    }
 
     private static final PhetResources RESOURCES = new PhetResources( MPConstants.PROJECT_NAME );
 
     public static final String A = RESOURCES.getLocalizedString( "A" );
+    public static final String ATOM_LABELS = RESOURCES.getLocalizedString( "atomLabels" );
     public static final String B = RESOURCES.getLocalizedString( "B" );
     public static final String C = RESOURCES.getLocalizedString( "C" );
     public static final String VIEW = RESOURCES.getLocalizedString( "View" );
