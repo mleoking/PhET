@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
@@ -22,14 +23,14 @@ public class SodiumChlorideCrystal extends Crystal {
         super( position );
 
         //Recursive method to traverse the graph and create particles
-        fill( lattice, lattice.components.getFirst(), new ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component>(), new ImmutableVector2D() );
+        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D() );
 
         //Update positions so the lattice position overwrites constituent particle positions
         stepInTime( ZERO, 0.0 );
     }
 
     //Recursive method to traverse the graph and create particles
-    private void fill( SodiumChlorideLattice lattice, edu.colorado.phet.sugarandsaltsolutions.micro.model.Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
+    private void fill( SodiumChlorideLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
         final double spacing = new ChlorideIonParticle().radius + new SodiumIonParticle().radius;
         if ( component instanceof SodiumIon ) {
             latticeConstituents.add( new LatticeConstituent( new SodiumIonParticle(), relativePosition ) );
