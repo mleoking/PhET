@@ -142,12 +142,12 @@ public class TestJmolPiccolo {
         }
 
         public int getCID() {
-            return 0; //XXX don't care, doesn't appear to be used
+            return 962; //XXX don't care, doesn't appear to be used
         }
 
         // Gets data that describes the molecule
         public String getData() {
-            return readPDB( "jmol/water.pdb" );
+            return readFile( "jmol/water.sdf" );
         }
 
         public void fixJmolColors( JmolViewer viewer ) {
@@ -155,8 +155,8 @@ public class TestJmolPiccolo {
 //            viewer.script( "select hydrogen; color green" );//XXX this changes hydrogen but makes all other atoms invisible, why?
         }
 
-        // reads a Protein Database (PDB) file, which describes the molecule
-        private static String readPDB( String resourceName ) {
+        // reads text file that describes the molecule
+        private static String readFile( String resourceName ) {
             try {
                 PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
                 BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( resourceName ) ) );
