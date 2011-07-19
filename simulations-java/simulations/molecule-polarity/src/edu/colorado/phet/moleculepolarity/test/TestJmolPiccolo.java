@@ -88,7 +88,7 @@ public class TestJmolPiccolo {
                     //TODO reverse engineer page source at http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html
 
                     // working...
-                    viewer.script( "wireframe 0.2; spacefill 25%" );
+                    viewer.script( "wireframe 0.2; spacefill 25%" ); // ball-and-stick view
                     viewer.script( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
                     viewer.script( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
 
