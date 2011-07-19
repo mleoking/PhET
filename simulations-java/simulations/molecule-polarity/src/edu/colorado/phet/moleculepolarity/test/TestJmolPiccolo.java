@@ -139,6 +139,7 @@ public class TestJmolPiccolo {
     }
 
     private interface IMolecule {
+
         public String getSymbol();
 
         public String getDisplayName();
@@ -154,7 +155,7 @@ public class TestJmolPiccolo {
 
         public AbstractMolecule( String symbol, String name, String resourceFilename ) {
 
-            this.symbol = symbol;
+            this.symbol = toSubscript( symbol );
             this.name = name;
             this.resourceFilename = resourceFilename;
         }
@@ -186,6 +187,36 @@ public class TestJmolPiccolo {
 
         public void adjustColors( JmolViewer viewer ) {
             // default does nothing
+        }
+
+        /*
+        * Handles HTML subscript formatting.
+        * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
+        * For example, "C2H4" is converted to "C<sub>2</sub>H<sub>4</sub>".
+        */
+        private static final String toSubscript( String inString ) {
+            String outString = "";
+            boolean sub = false; // are we in a <sub> tag?
+            for ( int i = 0; i < inString.length(); i++ ) {
+                final char c = inString.charAt( i );
+                if ( !sub && Character.isDigit( c ) ) {
+                    // start the subscript tag when a digit is found
+                    outString += "<sub>";
+                    sub = true;
+                }
+                else if ( sub && !Character.isDigit( c ) ) {
+                    // end the subscript tag when a non-digit is found
+                    outString += "</sub>";
+                    sub = false;
+                }
+                outString += c;
+            }
+            // end the subscript tag if the string ends with a digit
+            if ( sub ) {
+                outString += "</sub>";
+                sub = false;
+            }
+            return outString;
         }
     }
 
