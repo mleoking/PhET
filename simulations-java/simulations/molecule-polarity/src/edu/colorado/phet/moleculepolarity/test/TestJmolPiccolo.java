@@ -91,9 +91,10 @@ public class TestJmolPiccolo {
                     viewer.script( "wireframe 0.2; spacefill 25%" ); // ball-and-stick view
                     viewer.script( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
                     viewer.script( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
+                    viewer.script( "label" ); // label the atoms
                     viewer.script( "dipole bonds on" ); // show bond dipoles
                     viewer.script( "dipole molecular on" ); // show molecular dipole
-                    viewer.script( "isosurface resolution 6 solvent map mep translucent" ); // electrostatic potential map
+                    viewer.script( "isosurface resolution 6 solvent map mep translucent" ); // map electrostatic potential (mep)
 
                     // not working...
 //                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
