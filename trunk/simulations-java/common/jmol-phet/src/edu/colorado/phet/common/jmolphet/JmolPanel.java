@@ -1,8 +1,14 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jmolphet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
@@ -13,16 +19,17 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PPaintContext;
 
 /**
- * Displays a 3D molecule structure that can be rotated
+ * Displays a 3D molecule structure using Jmol.
  */
 public class JmolPanel extends JPanel {
+
     private JmolViewer viewer = null;
     private final String loadingString;
 
     public JmolPanel( final Molecule molecule, String loadingString ) {
         this.loadingString = loadingString;
 
-        // create the 3D view after we have shown the "loading" text and dialog
+        // create the 3D view after we have shown the "loading" text
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 // don't dump everything out into the console
@@ -45,8 +52,10 @@ public class JmolPanel extends JPanel {
                 JmolPanel.this.viewer = viewer;
 
                 // set default options, and start the spinning. We need the viewer instance to be set BEFORE these are called
+                doScript( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
+                doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
                 setSpaceFill();
-                viewer.script( "spin on;" );
+                doScript( "spin on" );
 
                 repaint();
             }
@@ -57,12 +66,17 @@ public class JmolPanel extends JPanel {
         setPreferredSize( new Dimension( 400, 400 ) );
     }
 
+    // Executes a Jmol script. Script syntax is described at http://jmol.sourceforge.net/docs
+    public void doScript( String script ) {
+        viewer.script( script );
+    }
+
     public void setSpaceFill() {
-        viewer.script( "wireframe off; spacefill 60%" );
+        doScript( "wireframe off; spacefill 60%" );
     }
 
     public void setBallAndStick() {
-        viewer.script( "wireframe 0.2; spacefill 25%" );
+        doScript( "wireframe 0.2; spacefill 25%" );
     }
 
     @Override
