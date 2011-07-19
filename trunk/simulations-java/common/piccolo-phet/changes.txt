@@ -1,3 +1,4 @@
+7/19/11 Generalized ComboBoxNode so the client code can specify an arbitrary initial selection, instead of just using the 0th item, resolves #3014
 7/19/11 Generalized ComboBoxNode so that it can show arbitrary nodes, resolves #3010
 7/1/11 Fixed: highlighted cells are clipped on 2 sides, see #2944
 7/1/11 Removed the assumption that one item will be selected from PeriodicTableNoede, see #2994

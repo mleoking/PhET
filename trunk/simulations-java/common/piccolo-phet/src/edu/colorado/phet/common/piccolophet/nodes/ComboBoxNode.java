@@ -77,7 +77,10 @@ public class ComboBoxNode<T> extends PNode {
      * @param items the items to show in the combo box
      */
     public ComboBoxNode( List<T> items ) {
-        this( items, new ToString<T>( DEFAULT_FONT ) );
+        this( items,
+
+              //Default to use the first item as the selected item
+              items.get( 0 ), new ToString<T>( DEFAULT_FONT ) );
     }
 
     /**
@@ -86,9 +89,12 @@ public class ComboBoxNode<T> extends PNode {
      * @param items         items the items to show in the combo box
      * @param nodeGenerator the function to use to convert the T items to PNodes to show in the drop down box or in the selection region
      */
-    public ComboBoxNode( final List<T> items, final Function1<T, PNode> nodeGenerator ) {
-        //Default to use the first item as the selected item
-        selectedItem = new Property<T>( items.get( 0 ) );
+    public ComboBoxNode( final List<T> items, T initialItem, final Function1<T, PNode> nodeGenerator ) {
+
+        //Make sure the initial item is in the list
+        assert items.contains( initialItem );
+
+        selectedItem = new Property<T>( initialItem );
 
         //Create the text nodes for the drop down box for determining their metrics (so they can all be created with equal widths)
         PNode[] itemNodes = new PNode[items.size()];
@@ -296,7 +302,10 @@ public class ComboBoxNode<T> extends PNode {
                     setOffset( 400, 100 );
                 }} );
 
-                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ), new Function1<Integer, PNode>() {
+                addScreenChild( new ComboBoxNode<Integer>( asList( 1, 2, 3, 4 ),
+
+                                                           //Demonstrate starting with a later element, see #3014
+                                                           3, new Function1<Integer, PNode>() {
                     Color[] colors = new Color[] { Color.red, Color.green, Color.blue, Color.yellow, Color.red };
 
                     public PNode apply( Integer integer ) {
