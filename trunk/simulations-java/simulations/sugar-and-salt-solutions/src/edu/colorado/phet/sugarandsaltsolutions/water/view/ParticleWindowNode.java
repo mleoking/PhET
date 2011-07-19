@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 

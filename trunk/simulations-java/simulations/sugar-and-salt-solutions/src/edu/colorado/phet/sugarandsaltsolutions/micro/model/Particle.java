@@ -1,6 +1,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import java.awt.*;
+import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

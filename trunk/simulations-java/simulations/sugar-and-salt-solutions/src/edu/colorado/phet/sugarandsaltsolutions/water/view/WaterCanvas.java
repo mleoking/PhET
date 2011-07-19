@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -9,7 +11,7 @@ import java.awt.geom.Rectangle2D;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import org.jmol.api.JmolViewer;
 

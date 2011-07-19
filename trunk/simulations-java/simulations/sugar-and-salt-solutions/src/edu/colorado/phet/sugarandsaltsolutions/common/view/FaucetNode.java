@@ -3,14 +3,15 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 // Copyright 2002-2011, University of Colorado
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
