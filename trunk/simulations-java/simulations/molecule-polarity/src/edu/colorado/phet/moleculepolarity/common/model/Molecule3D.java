@@ -55,10 +55,6 @@ public class Molecule3D {
         // default does nothing
     }
 
-    public String toString() {
-        return getName();
-    }
-
     /*
     * Handles HTML subscript formatting.
     * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
