@@ -1,4 +1,5 @@
-7/19/10 add "Molecule" label to combo box control
+7/19/11 add placeholder for periodic table
+7/19/11 add "Molecule" label to combo box control
 7/19/11 render molecule combo box items at HTMLNodes
 7/19/11 delete acetone, because we should only include real molecules with one central atom
 7/19/11 add hand cursor to Jmol viewer node
