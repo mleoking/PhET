@@ -15,8 +15,6 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
@@ -30,11 +28,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class JmolViewerNode extends PhetPNode {
 
-    public final Property<MoleculeRepresentation> moleculeRepresentation = new Property<MoleculeRepresentation>( MoleculeRepresentation.BALL_AND_STICK );
-    public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
-    public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
-    public final Property<Boolean> electrostaticPotentialVisible = new Property<Boolean>( false );
-
     public static enum MoleculeRepresentation {
         BALL_AND_STICK, SPACE_FILLED
     }
@@ -44,51 +37,7 @@ public class JmolViewerNode extends PhetPNode {
     public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( molecule, background, size );
         addChild( new PSwing( viewerPanel ) );
-
-        moleculeRepresentation.addObserver( new VoidFunction1<MoleculeRepresentation>() {
-            public void apply( MoleculeRepresentation moleculeRepresentation ) {
-                if ( moleculeRepresentation == MoleculeRepresentation.BALL_AND_STICK ) {
-                    viewerPanel.doScript( "wireframe 0.2; spacefill 25%" );
-                }
-                else {
-                    viewerPanel.doScript( "wireframe off; spacefill 60%" );
-                }
-            }
-        } );
-
-        bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                if ( visible ) {
-                    viewerPanel.doScript( "dipole bonds on" );
-                }
-                else {
-                    viewerPanel.doScript( "dipole bonds off" );
-                }
-            }
-        } );
-
-        molecularDipoleVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                if ( visible ) {
-                    viewerPanel.doScript( "dipole molecular on" );
-                }
-                else {
-                    viewerPanel.doScript( "dipole molecular off" );
-                }
-            }
-        } );
-
-        electrostaticPotentialVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                if ( visible ) {
-                    viewerPanel.doScript( "isosurface resolution 6 solvent map mep translucent" );
-                }
-                else {
-                    viewerPanel.doScript( "isosurface off" );
-                }
-                ;
-            }
-        } );
+        setMoleculeRepresentation( MoleculeRepresentation.BALL_AND_STICK );
     }
 
     //TODO consider merging this with jmol-phet JmolPanel
@@ -126,11 +75,11 @@ public class JmolViewerNode extends PhetPNode {
             viewer.renderScreenImage( g, currentSize, clipBounds );
         }
 
-        private void doScript( String script ) {
+        public void doScript( String script ) {
             viewer.script( script );
         }
 
-        private void setMolecule( Molecule3D molecule ) {
+        public void setMolecule( Molecule3D molecule ) {
             // load the molecule data
             String errorString = viewer.openStringInline( molecule.getData() );
             if ( errorString != null ) {
@@ -139,6 +88,42 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "label" ); // label the atoms
             // adjust colors
             molecule.adjustColors( viewer );
+        }
+    }
+
+    public void setMoleculeRepresentation( MoleculeRepresentation representation ) {
+        if ( representation == MoleculeRepresentation.BALL_AND_STICK ) {
+            viewerPanel.doScript( "wireframe 0.2; spacefill 25%" );
+        }
+        else {
+            viewerPanel.doScript( "wireframe off; spacefill 60%" );
+        }
+    }
+
+    public void setBondDipolesVisible( boolean visible ) {
+        if ( visible ) {
+            viewerPanel.doScript( "dipole bonds on" );
+        }
+        else {
+            viewerPanel.doScript( "dipole bonds off" );
+        }
+    }
+
+    public void setMolecularDipoleVisible( boolean visible ) {
+        if ( visible ) {
+            viewerPanel.doScript( "dipole molecular on" );
+        }
+        else {
+            viewerPanel.doScript( "dipole molecular off" );
+        }
+    }
+
+    public void setElectrostaticPotentialVisible( boolean visible ) {
+        if ( visible ) {
+            viewerPanel.doScript( "isosurface resolution 6 solvent map mep translucent" );
+        }
+        else {
+            viewerPanel.doScript( "isosurface off" );
         }
     }
 
