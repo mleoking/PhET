@@ -71,15 +71,18 @@ public class JmolPanel extends JPanel {
         setPreferredSize( new Dimension( 400, 400 ) ); //TODO this should be configurable
     }
 
+    //TODO this needs to be public or protected, but it should block until viewer exists
     // Executes a Jmol script. Script syntax is described at http://jmol.sourceforge.net/docs
-    public void doScript( String script ) {
+    private void doScript( String script ) {
         viewer.script( script );
     }
 
+    //TODO calling this before viewer exists will cause an exception
     public void setSpaceFill() {
         doScript( "wireframe off; spacefill 60%" );
     }
 
+    //TODO calling this before viewer exists will cause an exception
     public void setBallAndStick() {
         doScript( "wireframe 0.2; spacefill 25%" );
     }
