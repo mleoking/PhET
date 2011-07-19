@@ -23,6 +23,12 @@ OpenBabel for chem file format conversion.
 iBabel is the GUI for Mac OS.
 http://openbabel.org/wiki/Get_Open_Babel
 
+Jmol supported data formats:
+http://jmol.svn.sourceforge.net/viewvc/jmol/trunk/Jmol-datafiles
+
+PubChem molecule database:
+eg sucrose: http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi?cid=5988
+
 Jmol scripting language doc:
 http://chemapps.stolaf.edu/jmol/docs
 
