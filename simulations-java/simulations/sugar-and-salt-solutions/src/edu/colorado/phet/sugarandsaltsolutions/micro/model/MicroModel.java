@@ -137,10 +137,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
     public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
         //Add the components of the lattice to the model so the graphics will be created
-        for ( LatticeConstituent latticeConstituent : sodiumChlorideCrystal ) {
+        for ( Constituent constituent : sodiumChlorideCrystal ) {
 
             //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
-            sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
+            sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
         saltCrystals.add( sodiumChlorideCrystal );
     }
@@ -152,8 +152,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Add the components of the lattice to the model so the graphics will be created
     private void addCrystalComponents( Crystal crystal ) {
-        for ( LatticeConstituent latticeConstituent : crystal ) {
-            sphericalParticles.add( (SphericalParticle) latticeConstituent.particle );
+        for ( Constituent constituent : crystal ) {
+            sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
     }
 
@@ -268,7 +268,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             ImmutableVector2D velocity = crystal.velocity.get();
 
             //Set the sodium ions free
-            for ( LatticeConstituent constituent : crystal ) {
+            for ( Constituent constituent : crystal ) {
                 constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 SphericalParticle particle = (SphericalParticle) constituent.particle;
                 if ( particle instanceof SodiumIonParticle ) {
@@ -278,11 +278,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //add new compounds for the nitrates so they will remain together
             for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
-                nitrates.add( new NitrateCompound( nitrate.nitrogen.position.get() ) {{
-                    latticeConstituents.add( new LatticeConstituent( nitrate.nitrogen, new ImmutableVector2D() ) );
-                    latticeConstituents.add( new LatticeConstituent( nitrate.o1, nitrate.o1Position ) );
-                    latticeConstituents.add( new LatticeConstituent( nitrate.o2, nitrate.o2Position ) );
-                    latticeConstituents.add( new LatticeConstituent( nitrate.o3, nitrate.o3Position ) );
+                nitrates.add( new NitrateCompound( nitrate.relativePosition.plus( sodiumNitrateCrystal.position.get() ) ) {{
+                    constituents.addAll( nitrate.constituents );
                     velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 }} );
             }
@@ -292,7 +289,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Splits up all constituents in a crystal lattice
         else {
-            for ( LatticeConstituent constituent : crystal ) {
+            for ( Constituent constituent : crystal ) {
                 constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
                 freeParticles.add( constituent.particle );
             }

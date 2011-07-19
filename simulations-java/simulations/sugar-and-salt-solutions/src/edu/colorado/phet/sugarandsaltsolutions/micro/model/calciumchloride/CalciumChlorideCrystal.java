@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeConstituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 
@@ -31,11 +31,11 @@ public class CalciumChlorideCrystal extends Crystal {
     private void fill( CalciumChlorideLattice lattice, Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
         //Calcium
         if ( component instanceof edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.CalciumIon ) {
-            latticeConstituents.add( new LatticeConstituent( new CalciumIonParticle(), relativePosition ) );
+            constituents.add( new Constituent( new CalciumIonParticle(), relativePosition ) );
         }
         //Chloride
         else {
-            latticeConstituents.add( new LatticeConstituent( new ChlorideIonParticle(), relativePosition ) );
+            constituents.add( new Constituent( new ChlorideIonParticle(), relativePosition ) );
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );

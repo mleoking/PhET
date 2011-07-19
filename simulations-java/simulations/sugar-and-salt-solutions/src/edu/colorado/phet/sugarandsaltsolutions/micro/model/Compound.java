@@ -16,8 +16,8 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
  *
  * @author Sam Reid
  */
-public class Compound extends Particle implements Iterable<LatticeConstituent> {
-    protected ArrayList<LatticeConstituent> latticeConstituents = new ArrayList<LatticeConstituent>();
+public class Compound extends Particle implements Iterable<Constituent> {
+    protected ArrayList<Constituent> constituents = new ArrayList<Constituent>();
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
     //Put the vectors at the same angle so all crystals don't come out at right angles
@@ -37,8 +37,8 @@ public class Compound extends Particle implements Iterable<LatticeConstituent> {
     }
 
     public boolean contains( Particle particle ) {
-        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
-            if ( latticeConstituent.particle == particle ) {
+        for ( Constituent constituent : constituents ) {
+            if ( constituent.particle == particle ) {
                 return true;
             }
         }
@@ -47,23 +47,23 @@ public class Compound extends Particle implements Iterable<LatticeConstituent> {
 
     @Override public void stepInTime( ImmutableVector2D acceleration, double dt ) {
         super.stepInTime( acceleration, dt );
-        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
-            latticeConstituent.particle.position.set( position.get().plus( latticeConstituent.location ) );
+        for ( Constituent constituent : constituents ) {
+            constituent.particle.position.set( position.get().plus( constituent.location ) );
         }
     }
 
     //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
     @Override public Shape getShape() {
-        final Rectangle2D bounds2D = latticeConstituents.get( 0 ).particle.getShape().getBounds2D();
+        final Rectangle2D bounds2D = constituents.get( 0 ).particle.getShape().getBounds2D();
         Rectangle2D rect = new Rectangle2D.Double( bounds2D.getX(), bounds2D.getY(), bounds2D.getWidth(), bounds2D.getHeight() );
-        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
-            rect = rect.createUnion( latticeConstituent.particle.getShape().getBounds2D() );
+        for ( Constituent constituent : constituents ) {
+            rect = rect.createUnion( constituent.particle.getShape().getBounds2D() );
         }
         return rect;
     }
 
-    public Iterator<LatticeConstituent> iterator() {
-        return latticeConstituents.iterator();
+    public Iterator<Constituent> iterator() {
+        return constituents.iterator();
     }
 
     public boolean isUnderwater() {
@@ -81,8 +81,8 @@ public class Compound extends Particle implements Iterable<LatticeConstituent> {
     //Count the lattice constituent particles with the specified type, for purposes of computing concentrations
     public int count( Class<?> particleType ) {
         int count = 0;
-        for ( LatticeConstituent latticeConstituent : latticeConstituents ) {
-            if ( particleType.isInstance( latticeConstituent.particle ) ) {
+        for ( Constituent constituent : constituents ) {
+            if ( particleType.isInstance( constituent.particle ) ) {
                 count++;
             }
         }
