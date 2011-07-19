@@ -81,7 +81,7 @@ public class Bucket extends SphereBucket<Atom2D> {
         if ( containsParticle( atom ) ) {
             removeParticle( atom );
         }
-        super.addParticleFirstOpen( atom, !false ); //REVIEW replace !false with true
+        super.addParticleFirstOpen( atom, true );
     }
 
     public double getWidth() {
