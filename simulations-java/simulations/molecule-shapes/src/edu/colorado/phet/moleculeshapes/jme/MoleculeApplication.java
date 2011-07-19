@@ -2,7 +2,11 @@ package edu.colorado.phet.moleculeshapes.jme;
 
 import java.io.IOException;
 
-import com.jme3.app.SimpleApplication;
+import com.jme3.input.MouseInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.AnalogListener;
+import com.jme3.input.controls.MouseAxisTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -18,16 +22,57 @@ import com.jme3.util.TangentBinormalGenerator;
 /**
  * Use jme3 to show a rotating molecule
  */
-public class MoleculeApplication extends SimpleApplication {
+public class MoleculeApplication extends BaseApplication {
+
+    public static final String MAP_LEFT = "CameraLeft";
+    public static final String MAP_RIGHT = "CameraRight";
+    public static final String MAP_UP = "CameraUp";
+    public static final String MAP_DOWN = "CameraDown";
+
+    public static final String MAP_DRAG = "CameraDrag";
+
+    private static final float MOUSE_SCALE = 3.0f;
+
+    private boolean dragging = false;
 
     //The molecule to display and rotate
     private Node molecule;
 
     //The angle about which the molecule should be rotated, changes as a function of time
-    float angle = 0;
+    private float horizontalAngle = 0;
 
-    //Initialize the application, creating the molecule and attaching it to the scene
-    @Override public void simpleInitApp() {
+    @Override public void initialize() {
+        super.initialize();
+
+        inputManager.addMapping( MoleculeApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
+        inputManager.addMapping( MoleculeApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
+        inputManager.addMapping( MoleculeApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
+        inputManager.addMapping( MoleculeApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
+
+        inputManager.addMapping( MAP_DRAG, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
+
+        inputManager.addListener( new ActionListener() {
+                                      public void onAction( String name, boolean value, float tpf ) {
+
+                                          // record whether the mouse button is down
+                                          if ( name.equals( MAP_DRAG ) ) {
+                                              dragging = value;
+                                          }
+                                      }
+                                  }, MAP_DRAG );
+        inputManager.addListener( new AnalogListener() {
+                                      public void onAnalog( String name, float value, float tpf ) {
+                                          if ( dragging ) {
+                                              if ( name.equals( MoleculeApplication.MAP_LEFT ) ) {
+                                                  horizontalAngle -= value * MOUSE_SCALE;
+                                              }
+                                              if ( name.equals( MoleculeApplication.MAP_RIGHT ) ) {
+                                                  horizontalAngle += value * MOUSE_SCALE;
+                                              }
+                                          }
+                                      }
+                                  }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_DRAG );
+
         molecule = new Node();
         rootNode.attachChild( molecule );
 
@@ -71,9 +116,9 @@ public class MoleculeApplication extends SimpleApplication {
     }
 
     @Override public void simpleUpdate( final float tpf ) {
-        angle += 2 * tpf;
+        horizontalAngle += 0.1 * tpf;
         final Quaternion quaternion = new Quaternion();
-        quaternion.fromAngles( 0, angle, 0 );
+        quaternion.fromAngles( 0, horizontalAngle, 0 );
         molecule.setLocalRotation( quaternion );
     }
 
