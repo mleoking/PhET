@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.Molecule3DComboBoxNode;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
@@ -38,7 +38,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
-        Molecule3DComboBoxNode moleculeComboBox = new Molecule3DComboBoxNode( model.getMolecules() );
+        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
         addChild( moleculeComboBox );
 
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
@@ -101,7 +101,7 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
-            moleculeComboBox.selectedItem.addObserver( new VoidFunction1<Molecule3D>() {
+            moleculeComboBox.addSelectedItemObserver( new VoidFunction1<Molecule3D>() {
                 public void apply( Molecule3D molecule ) {
                     viewerNode.setMolecule( molecule );
                 }

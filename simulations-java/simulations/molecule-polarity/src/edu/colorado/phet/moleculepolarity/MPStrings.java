@@ -29,6 +29,7 @@ public class MPStrings {
     public static final String ELECTROSTATIC_POTENTIAL = RESOURCES.getLocalizedString( "electrostaticPotential" );
     public static final String LESS = RESOURCES.getLocalizedString( "less" );
     public static final String MODEL = RESOURCES.getLocalizedString( "model" );
+    public static final String MOLECULE = RESOURCES.getLocalizedString( "molecule" );
     public static final String MOLECULE_DIPOLES = RESOURCES.getLocalizedString( "moleculeDipoles" );
     public static final String MORE = RESOURCES.getLocalizedString( "more" );
     public static final String MORE_COVALENT = RESOURCES.getLocalizedString( "moreCovalent" );

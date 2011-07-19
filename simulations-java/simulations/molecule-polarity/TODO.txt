@@ -1,7 +1,7 @@
 TODO list for molecule-polarity
 
 HIGH
-- why doesn't electrostatic potential work for water.smol?
+- why doesn't MEP work for water.smol?
 - how to create smol files?
 - can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
 - how to show partial charges with Jmol?
@@ -9,6 +9,7 @@ HIGH
 - how to create a Jmol custom isosurface for KP's electron density view?
 - how to set initial orientation for Jmol viewer?
 - how to change atom colors?
+- why does MEP look lumpy for some molecules?
 
 MEDIUM
 - center scenegraph in the play area
