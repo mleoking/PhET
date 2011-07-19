@@ -91,11 +91,12 @@ public class TestJmolPiccolo {
                     viewer.script( "wireframe 0.2; spacefill 25%" ); // ball-and-stick view
                     viewer.script( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
                     viewer.script( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
+                    viewer.script( "dipole bonds on" ); // show bond dipoles
+                    viewer.script( "dipole molecular on" ); // show molecular dipole
 
                     // not working...
 //                    viewer.script( "background [255,255,255]" );//XXX how to make this transparent?
-                    viewer.script( "dipole BONDS on" ); //XXX not working
-                    viewer.script( "dipole MOLECULAR on" ); //XXX not working
+
 //                    viewer.script( "isosurface" ); //XXX electrostatic potential, need to figure this out, lots of options
 
                     repaint();
