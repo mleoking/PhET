@@ -1,3 +1,4 @@
+7/19/11 add hand cursor to Jmol viewer node
 7/19/11 add View control for atom labels
 7/19/11 setForeground(red) for controls that are not implemented
 7/19/11 remove Jmol atom labels

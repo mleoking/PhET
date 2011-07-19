@@ -17,6 +17,7 @@ import org.jmol.util.Logger;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Ammonia;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -35,6 +36,7 @@ public class JmolViewerNode extends PhetPNode {
     public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( molecule, background, size );
         addChild( new PSwing( viewerPanel ) );
+        addInputEventListener( new CursorHandler() );
     }
 
     //TODO consider merging this with jmol-phet JmolPanel
