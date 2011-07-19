@@ -13,7 +13,8 @@ package edu.colorado.phet.common.phetcommon.model.clock;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 
 /**
  * This extension of Clock uses a Swing Timer for tick notification.

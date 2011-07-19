@@ -2,7 +2,10 @@
 
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -11,7 +14,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
 
 import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;

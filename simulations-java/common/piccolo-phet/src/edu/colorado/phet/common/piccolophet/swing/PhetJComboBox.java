@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.swing;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ComboBoxModel;
+import javax.swing.JComboBox;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 

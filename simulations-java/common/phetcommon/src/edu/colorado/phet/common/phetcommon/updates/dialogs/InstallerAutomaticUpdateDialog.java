@@ -2,11 +2,11 @@
 
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetInstallerVersion;
 import edu.colorado.phet.common.phetcommon.updates.IAskMeLaterStrategy;

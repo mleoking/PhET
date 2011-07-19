@@ -2,7 +2,9 @@
 
 package edu.colorado.phet.common.photonabsorption.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 

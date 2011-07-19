@@ -10,7 +10,9 @@
  */
 package edu.colorado.phet.common.phetcommon.view.graphics.transforms;
 
-import java.awt.*;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.NoninvertibleTransformException;

@@ -2,13 +2,14 @@
 
 package edu.colorado.phet.common.phetcommon.updates.dialogs;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.dialogs.ErrorDialog;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;

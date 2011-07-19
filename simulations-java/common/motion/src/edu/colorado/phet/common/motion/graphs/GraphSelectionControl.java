@@ -1,11 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.motion.graphs;
 
-import java.awt.*;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.common.motion.util.GraphicsUtil;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;

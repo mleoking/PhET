@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.motion.charts;
 
-import java.awt.*;
+import java.awt.Color;
 import java.io.IOException;
 
 import edu.colorado.phet.common.phetcommon.util.DefaultDecimalFormat;

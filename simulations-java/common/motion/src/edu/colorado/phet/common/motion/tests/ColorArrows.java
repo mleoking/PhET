@@ -1,13 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.motion.tests;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.LookupOp;
 import java.awt.image.LookupTable;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import edu.colorado.phet.common.motion.MotionResources;
 

@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.RenderedImage;
 import java.io.File;
@@ -9,7 +12,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PImage;

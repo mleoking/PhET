@@ -10,9 +10,11 @@
  */
 package edu.colorado.phet.common.phetcommon.tests.utils;
 
-import java.awt.*;
+import java.awt.Image;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * User: Sam Reid

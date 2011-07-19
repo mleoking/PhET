@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.RulerNode;

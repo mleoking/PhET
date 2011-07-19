@@ -8,11 +8,14 @@
  */
 package edu.colorado.phet.common.charts.test;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.GradientPaint;
+import java.awt.Rectangle;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.charts.Chart;
 import edu.colorado.phet.common.charts.DataSet;

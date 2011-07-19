@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;

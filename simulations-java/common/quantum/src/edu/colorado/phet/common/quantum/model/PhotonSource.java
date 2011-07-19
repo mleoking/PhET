@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.quantum.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.util.EventListener;
 import java.util.EventObject;
 

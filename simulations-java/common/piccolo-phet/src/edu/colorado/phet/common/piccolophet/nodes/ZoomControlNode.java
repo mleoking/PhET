@@ -2,11 +2,12 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.view.util.ImageLoader;

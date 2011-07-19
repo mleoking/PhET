@@ -2,10 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Component;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;

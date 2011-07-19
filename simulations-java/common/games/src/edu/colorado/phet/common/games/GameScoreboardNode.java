@@ -2,7 +2,12 @@
 
 package edu.colorado.phet.common.games;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -11,7 +16,7 @@ import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.util.EventListener;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import javax.swing.event.EventListenerList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;

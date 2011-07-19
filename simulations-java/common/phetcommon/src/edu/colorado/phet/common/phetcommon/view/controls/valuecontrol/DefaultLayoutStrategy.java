@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 
-import java.awt.*;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 

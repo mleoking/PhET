@@ -5,7 +5,9 @@ package edu.colorado.phet.common.phetcommon.view.controls.valuecontrol;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.JSlider;
+import javax.swing.KeyStroke;
 
 /**
  * AbstractSlider is the base class for all extensions of JSlider that provide

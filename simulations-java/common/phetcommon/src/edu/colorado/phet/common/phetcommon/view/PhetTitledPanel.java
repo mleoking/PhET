@@ -1,11 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ContainerAdapter;
 import java.awt.event.ContainerEvent;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 

@@ -5,7 +5,8 @@ package edu.colorado.phet.common.jfreechartphet.test;
 import java.io.IOException;
 import java.util.Random;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;

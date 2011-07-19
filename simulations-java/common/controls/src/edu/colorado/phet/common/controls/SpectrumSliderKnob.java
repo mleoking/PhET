@@ -11,7 +11,13 @@
 
 package edu.colorado.phet.common.controls;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.CompositePhetGraphic;

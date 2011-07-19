@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 
 import edu.umd.cs.piccolo.PNode;
 

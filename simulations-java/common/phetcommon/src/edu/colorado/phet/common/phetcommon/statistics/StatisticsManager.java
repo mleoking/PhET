@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.statistics;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;

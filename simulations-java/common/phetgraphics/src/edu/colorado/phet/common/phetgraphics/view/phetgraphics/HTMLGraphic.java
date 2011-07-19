@@ -1,10 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicHTML;
 import javax.swing.text.View;
 

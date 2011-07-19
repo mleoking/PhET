@@ -8,7 +8,7 @@ package edu.colorado.phet.common.piccolophet.test.help;
  *
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.help.MotionHelpBalloon;
 import edu.umd.cs.piccolo.PCanvas;

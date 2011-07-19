@@ -2,9 +2,12 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 

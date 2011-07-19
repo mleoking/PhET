@@ -11,7 +11,9 @@ import java.util.ArrayList;
 
 import javax.jnlp.FileContents;
 import javax.jnlp.UnavailableServiceException;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.servicemanager.PhetServiceManager;
 

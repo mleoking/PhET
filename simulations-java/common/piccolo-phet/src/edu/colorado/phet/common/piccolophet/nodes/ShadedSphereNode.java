@@ -2,10 +2,13 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Paint;
 import java.awt.geom.Point2D;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.TriColorRoundGradientPaint;
 import edu.colorado.phet.common.piccolophet.PhetPNode;

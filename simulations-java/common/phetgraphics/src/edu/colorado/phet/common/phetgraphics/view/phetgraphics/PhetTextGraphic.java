@@ -16,7 +16,13 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.Rectangle;
 
 /**
  * PhetTextGraphic

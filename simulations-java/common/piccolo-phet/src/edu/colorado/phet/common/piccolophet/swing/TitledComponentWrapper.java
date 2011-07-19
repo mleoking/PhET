@@ -1,9 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.swing;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.PhetTitledBorder;

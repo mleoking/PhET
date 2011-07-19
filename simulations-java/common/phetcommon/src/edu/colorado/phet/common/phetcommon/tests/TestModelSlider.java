@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetcommon.tests;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

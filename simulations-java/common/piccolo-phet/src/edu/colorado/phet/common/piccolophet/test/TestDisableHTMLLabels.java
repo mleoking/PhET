@@ -1,11 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.test;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSeparator;
+import javax.swing.WindowConstants;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;

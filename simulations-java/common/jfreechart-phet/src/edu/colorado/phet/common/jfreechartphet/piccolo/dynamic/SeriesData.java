@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.jfreechartphet.piccolo.dynamic;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Stroke;
 import java.util.ArrayList;
 
 import org.jfree.data.xy.XYSeries;

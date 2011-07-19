@@ -10,7 +10,10 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;

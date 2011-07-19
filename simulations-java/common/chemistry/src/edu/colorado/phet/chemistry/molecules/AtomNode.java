@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.chemistry.molecules;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.chemistry.model.Atom;
 import edu.colorado.phet.chemistry.model.Element;

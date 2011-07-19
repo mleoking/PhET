@@ -11,7 +11,8 @@ package edu.colorado.phet.common.piccolophet.test.help;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class TestComponentListener {
     private JFrame frame;

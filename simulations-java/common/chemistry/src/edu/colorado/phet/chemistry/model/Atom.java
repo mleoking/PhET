@@ -1,7 +1,7 @@
 //  Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.chemistry.model;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Represents a single atom of a certain element type.

@@ -10,7 +10,15 @@
  */
 package edu.colorado.phet.common.charts;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Paint;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.text.NumberFormat;
 import java.util.ArrayList;

@@ -13,7 +13,7 @@ package edu.colorado.phet.common.phetcommon.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 /**
  * MvcEventChannel

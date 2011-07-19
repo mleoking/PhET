@@ -5,7 +5,7 @@ package edu.colorado.phet.common.piccolophet.util;
 import java.awt.geom.Point2D;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.SwingConstants;
 
 import edu.umd.cs.piccolo.PNode;
 

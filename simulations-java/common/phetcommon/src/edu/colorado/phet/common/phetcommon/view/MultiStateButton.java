@@ -1,12 +1,15 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.view;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
 
 /**
  * This class represents a button that can change state.  Each state can have its own

@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import java.awt.*;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;

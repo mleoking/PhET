@@ -2,9 +2,11 @@
 
 package edu.colorado.phet.common.piccolophet;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Insets;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;

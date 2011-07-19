@@ -4,7 +4,8 @@ package edu.colorado.phet.common.motion.graphs;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.timeseries.model.TimeSeriesModel;

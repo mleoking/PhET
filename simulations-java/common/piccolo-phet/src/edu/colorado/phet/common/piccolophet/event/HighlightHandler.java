@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.piccolophet.event;
 
-import java.awt.*;
+import java.awt.Image;
+import java.awt.Paint;
 
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;

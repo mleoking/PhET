@@ -10,7 +10,7 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.graphics.mousecontrols.translation;
 
-import java.awt.*;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import javax.swing.event.MouseInputListener;

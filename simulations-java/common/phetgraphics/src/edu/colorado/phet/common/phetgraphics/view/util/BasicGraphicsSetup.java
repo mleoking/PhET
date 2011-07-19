@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import java.awt.*;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 
 /**
  * Convenience class for common rendering options.

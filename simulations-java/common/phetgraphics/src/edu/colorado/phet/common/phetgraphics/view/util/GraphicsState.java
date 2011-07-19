@@ -10,7 +10,14 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.util;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Composite;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetgraphics.view.phetgraphics.PhetGraphics2D;

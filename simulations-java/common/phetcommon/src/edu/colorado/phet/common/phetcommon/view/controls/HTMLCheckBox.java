@@ -2,9 +2,10 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.*;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JCheckBox;
+import javax.swing.UIManager;
 
 import edu.colorado.phet.common.phetcommon.view.util.HTMLUtils;
 

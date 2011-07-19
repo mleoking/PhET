@@ -2,13 +2,15 @@
 
 package edu.colorado.phet.common.phetcommon.util;
 
-import java.awt.*;
+import java.awt.Insets;
 import java.text.FieldPosition;
 import java.text.MessageFormat;
 import java.text.NumberFormat;
 import java.text.ParsePosition;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.view.util.EasyGridBagLayout;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;

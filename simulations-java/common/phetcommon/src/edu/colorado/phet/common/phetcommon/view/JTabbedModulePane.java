@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.common.phetcommon.view;
 
-import javax.swing.*;
+import javax.swing.JComponent;
+import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

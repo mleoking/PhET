@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Stroke;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;

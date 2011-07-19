@@ -1,7 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.GradientPaint;
+import java.awt.Paint;
+import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.umd.cs.piccolo.nodes.PPath;

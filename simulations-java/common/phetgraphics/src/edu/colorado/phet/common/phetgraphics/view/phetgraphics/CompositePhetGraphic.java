@@ -10,7 +10,8 @@
  */
 package edu.colorado.phet.common.phetgraphics.view.phetgraphics;
 
-import java.awt.*;
+import java.awt.Component;
+import java.awt.Point;
 
 /**
  * This is a type of GraphicLayer set that is different from GraphicLayerSet in

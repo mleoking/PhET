@@ -4,7 +4,7 @@ package edu.colorado.phet.common.phetcommon.util;
 
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;

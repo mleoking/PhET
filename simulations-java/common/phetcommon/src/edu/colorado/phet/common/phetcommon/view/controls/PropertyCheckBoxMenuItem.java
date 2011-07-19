@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import javax.swing.*;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

@@ -3,7 +3,7 @@
 /*  */
 package edu.colorado.phet.common.piccolophet.test;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;

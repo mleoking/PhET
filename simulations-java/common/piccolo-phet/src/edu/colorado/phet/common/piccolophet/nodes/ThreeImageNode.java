@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet.nodes;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;

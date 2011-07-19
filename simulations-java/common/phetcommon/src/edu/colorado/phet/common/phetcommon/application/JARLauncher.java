@@ -2,7 +2,11 @@
 
 package edu.colorado.phet.common.phetcommon.application;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Frame;
+import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -21,7 +25,17 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;

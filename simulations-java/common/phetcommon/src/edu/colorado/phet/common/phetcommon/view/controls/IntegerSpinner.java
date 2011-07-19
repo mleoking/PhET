@@ -2,7 +2,7 @@
 
 package edu.colorado.phet.common.phetcommon.view.controls;
 
-import java.awt.*;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -12,7 +12,11 @@ import java.awt.event.KeyEvent;
 import java.text.MessageFormat;
 import java.text.ParseException;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.IntegerRange;

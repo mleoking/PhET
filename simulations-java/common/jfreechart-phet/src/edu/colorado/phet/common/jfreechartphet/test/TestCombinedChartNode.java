@@ -5,9 +5,11 @@ package edu.colorado.phet.common.jfreechartphet.test;
  * See also: http://www.java2s.com/Code/Java/Chart/JFreeChartCombinedXYPlotDemo1.htm
  */
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.annotations.XYTextAnnotation;

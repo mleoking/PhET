@@ -8,7 +8,7 @@ package edu.colorado.phet.common.motion.tests;
  *
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.motion.graphs.ZoomSuiteNode;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
