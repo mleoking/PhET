@@ -22,7 +22,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class VolumeIndicatorNode extends PNode {
-    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Double> solidVolume, final ObservableProperty<Boolean> anySolutes ) {
+    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Boolean> anySolutes ) {
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );

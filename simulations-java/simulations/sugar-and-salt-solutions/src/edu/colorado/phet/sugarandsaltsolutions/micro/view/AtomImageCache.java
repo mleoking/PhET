@@ -32,10 +32,7 @@ public class AtomImageCache {
 
             Key key = (Key) o;
 
-            if ( Double.compare( key.diameter, diameter ) != 0 ) { return false; }
-            if ( !color.equals( key.color ) ) { return false; }
-
-            return true;
+            return Double.compare( key.diameter, diameter ) == 0 && color.equals( key.color );
         }
 
         //Automatically generated (by IDEA)

@@ -122,12 +122,12 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         }} );
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker
-        addChild( new FaucetNode( transform, model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ),
+        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ),
                                   //move the top faucet down a little bit, so the slider doesn't go offscreen
                                   new Point2D.Double( 0, 10 ) ) );
 
         //Add a faucet that drains the beaker, note that the value is assigned in the creation
-        addChild( drainFaucetNode = new FaucetNode( transform, model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
+        addChild( drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
@@ -191,7 +191,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.solidVolume, model.anySolutes ) );
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.anySolutes ) );
 
         //Add a control that allows the user to remove solutes
         final PNode removeSolutesButton = new RemoveSoluteControlNode( model );
