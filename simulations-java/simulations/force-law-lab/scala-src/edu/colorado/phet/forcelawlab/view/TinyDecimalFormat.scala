@@ -1,6 +1,6 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.forcelawlab.view
 
-// Copyright 2002-2011, University of Colorado
 import java.text.{FieldPosition, DecimalFormat}
 
 class TinyDecimalFormat extends DecimalFormat("0.00000000000") {
