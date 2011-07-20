@@ -9,8 +9,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for all biomolecules (i.e. rna polymerase, transciption factors,
@@ -18,22 +16,24 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public class MobileBiomolecule {
-    private final Color baseColor;
-    protected final Property<Shape> shapeProperty;
+public abstract class MobileBiomolecule extends Biomolecule {
+
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
+    // Color to use when displaying this biomolecule to the user.  This is
+    // a bit out of place here, and has nothing to do with the fact that the
+    // molecule moves.  This was just a convenient place to put it (so far).
+    private final Color baseColor;
+
+    /**
+     * Constructor.
+     *
+     * @param initialShape
+     * @param baseColor
+     */
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
+        super( initialShape );
         this.baseColor = baseColor;
-        this.shapeProperty = new Property<Shape>( initialShape );
-    }
-
-    public void addShapeChangeObserver( VoidFunction1<Shape> shapeChangeObserver ) {
-        shapeProperty.addObserver( shapeChangeObserver );
-    }
-
-    public void removeShapeChangeObserver( VoidFunction1<Shape> shapeChangeObserver ) {
-        shapeProperty.removeObserver( shapeChangeObserver );
     }
 
     public void translate( ImmutableVector2D translationVector ) {
