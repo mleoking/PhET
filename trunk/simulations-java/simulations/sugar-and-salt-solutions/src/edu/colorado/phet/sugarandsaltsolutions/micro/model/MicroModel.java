@@ -176,8 +176,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
         //Add the components of the lattice to the model so the graphics will be created
         for ( Constituent constituent : sodiumChlorideCrystal ) {
-
-            //TODO: split up sodium and chloride ions into separate lists?  Or generalize the list
+            //TODO: separate list for NaCl crystals so no cast required here?
             sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
         saltCrystals.add( sodiumChlorideCrystal );
