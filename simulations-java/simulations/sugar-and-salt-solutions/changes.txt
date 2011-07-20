@@ -1,3 +1,4 @@
+Micro tab: Added Na+ and Cl- bars to the bar chart
 Micro tab: Fixed: sucrose molecule disassociates
 Micro tab: Performance improvements for sucrose creation
 Micro tab: Fixed sucrose to use the same model and view as other crystals, also fixes the size of sucrose molecule atoms
