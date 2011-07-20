@@ -1,6 +1,10 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -44,6 +48,10 @@ public class MoleculeApplication extends BaseApplication {
     @Override public void initialize() {
         super.initialize();
 
+        /*---------------------------------------------------------------------------*
+        * input handling
+        *----------------------------------------------------------------------------*/
+
         inputManager.addMapping( MoleculeApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
         inputManager.addMapping( MoleculeApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
         inputManager.addMapping( MoleculeApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
@@ -82,24 +90,34 @@ public class MoleculeApplication extends BaseApplication {
         molecule = new Node();
         rootNode.attachChild( molecule );
 
+        /*---------------------------------------------------------------------------*
+        * atoms
+        *----------------------------------------------------------------------------*/
+
         //Create the central atom
-        double z = 0;
-        final Geometry center = createSphere( 0, 0, z );
+        AtomNode center = new AtomNode( new ElectronPair( new ImmutableVector3D() ), assetManager );
         molecule.attachChild( center );
+
+        List<ElectronPair> pairs = new ArrayList<ElectronPair>();
 
         //Create the atoms that circle about the central atom
         double angle = Math.PI * 2 / 5;
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            attach( center, createSphere( x, y, z ) );
+            pairs.add( new ElectronPair( new ImmutableVector3D( x, y, 0 ) ) );
+        }
+        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ) ) );
+        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, -10 ) ) );
+
+        // construct the other atom nodes
+        for ( ElectronPair pair : pairs ) {
+            attach( center, new AtomNode( pair, assetManager ) );
         }
 
-        //Two more atoms, why not?
-        attach( center, createSphere( 0, 0, z + 10 ) );
-        attach( center, createSphere( 0, 0, z - 10 ) );
-
-        /** Must add a light to make the lit object visible! */
+        /*---------------------------------------------------------------------------*
+        * lights
+        *----------------------------------------------------------------------------*/
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
         sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
@@ -110,11 +128,9 @@ public class MoleculeApplication extends BaseApplication {
         moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
         rootNode.addLight( moon );
 
-        // add ambient light a bit for the background
-//        AmbientLight ambientLight = new AmbientLight();
-//        ambientLight.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
-//        rootNode.addLight( ambientLight );
-
+        /*---------------------------------------------------------------------------*
+        * camera
+        *----------------------------------------------------------------------------*/
         cam.setLocation( new Vector3f( cam.getLocation().getX(), cam.getLocation().getY(), cam.getLocation().getZ() + 30 ) );
 
         setDisplayFps( false );
@@ -133,23 +149,6 @@ public class MoleculeApplication extends BaseApplication {
         Material mat_lit = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" );
         shiny_rock.setMaterial( mat_lit );
         molecule.attachChild( shiny_rock );
-    }
-
-    //Create a sphere at the specified location
-    private Geometry createSphere( final double x, final double y, final double z ) {
-        Sphere mesh = new Sphere( 32, 32, 2f );
-        mesh.setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
-        TangentBinormalGenerator.generate( mesh );           // for lighting effect
-
-        return new Geometry( "Atom", mesh ) {{
-            setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
-                setBoolean( "UseMaterialColors", true );
-                setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
-                setFloat( "Shininess", 1f ); // [0,128]
-            }} );
-            setLocalTranslation( (float) x, (float) y, (float) z ); // Move it a bit
-            rotate( 1.6f, 0, 0 );          // Rotate it a bit
-        }};
     }
 
     //Taken from the forum here: http://jmonkeyengine.org/groups/graphics/forum/topic/creating-a-cylinder-from-one-point-to-another/
