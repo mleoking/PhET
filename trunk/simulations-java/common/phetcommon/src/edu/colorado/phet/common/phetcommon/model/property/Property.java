@@ -79,7 +79,7 @@ public class Property<T> extends SettableProperty<T> {
      * @param <T>   type of the property
      * @return the Property with the specified value
      */
-    public static <T> Property<T> value( T value ) {
+    public static <T> Property<T> property( T value ) {
         return new Property<T>( value );
     }
 }
