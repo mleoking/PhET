@@ -7,6 +7,7 @@ import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -25,6 +26,7 @@ public class MobileBiomoleculeNode extends PNode {
                     setPathTo( mvt.modelToView( shape ) );
                 }
             } );
+            addInputEventListener( new CursorHandler() );
         }} );
     }
 }
