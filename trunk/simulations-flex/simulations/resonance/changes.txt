@@ -1,3 +1,5 @@
+# 2.00.00 (54321) Jul 20, 2011
+7/20/11 Extra space after string "Resonator"
 # 1.00.01 (54320) Jul 20, 2011
 7/20/11 Extra space after "Resonator" in ControlPanel
 # 1.00.00 (54239) Jul 19, 2011
