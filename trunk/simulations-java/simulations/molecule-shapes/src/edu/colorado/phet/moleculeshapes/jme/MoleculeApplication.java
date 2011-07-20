@@ -3,6 +3,8 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.Callable;
 
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
@@ -30,7 +32,10 @@ public class MoleculeApplication extends BaseApplication {
 
     private static final float MOUSE_SCALE = 3.0f;
 
+    private static final Random random = new Random( System.currentTimeMillis() );
+
     private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
+    private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
 
@@ -100,17 +105,10 @@ public class MoleculeApplication extends BaseApplication {
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            pairs.add( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
+            addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
         }
-        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ), true ) );
-        pairs.add( new ElectronPair( new ImmutableVector3D( -7, 0, 7 ), true ) );
-//
-//        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 5, 5 ), false ) );
-
-        // construct the other atom nodes
-        for ( ElectronPair pair : pairs ) {
-            molecule.attachChild( new AtomNode( pair, assetManager ) );
-        }
+        addPair( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ), true ) );
+        addPair( new ElectronPair( new ImmutableVector3D( -7, 0, 7 ), true ) );
 
         rebuildBonds();
 
@@ -136,12 +134,20 @@ public class MoleculeApplication extends BaseApplication {
         setDisplayStatView( false );
     }
 
-    @Override public void simpleUpdate( final float tpf ) {
+    public void testAddAtom( boolean isLonePair ) {
+        ImmutableVector3D initialPosition = new ImmutableVector3D( Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5 ).normalized().times( 7 );
+        addPair( new ElectronPair( initialPosition, isLonePair ) );
+    }
+
+    public void testRemoveAtom() {
+        if ( !pairs.isEmpty() ) {
+            removePair( pairs.get( random.nextInt( pairs.size() ) ) );
+        }
+    }
+
+    @Override public synchronized void simpleUpdate( final float tpf ) {
 //        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
         for ( ElectronPair pair : pairs ) {
-            double scale = 0.1;
-//            pair.position.set( pair.position.get().plus( new ImmutableVector3D( scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ) ) ) );
-
             // run our fake physics
             pair.stepForward( tpf );
             for ( ElectronPair otherPair : pairs ) {
@@ -153,6 +159,34 @@ public class MoleculeApplication extends BaseApplication {
         }
         rebuildBonds();
         molecule.setLocalRotation( rotation );
+    }
+
+    private void addPair( final ElectronPair pair ) {
+        enqueue( new Callable<Object>() {
+            public Object call() throws Exception {
+                pairs.add( pair );
+                AtomNode atomNode = new AtomNode( pair, assetManager );
+                atomNodes.add( atomNode );
+                molecule.attachChild( atomNode );
+                rebuildBonds();
+                return null;
+            }
+        } );
+    }
+
+    private void removePair( final ElectronPair pair ) {
+        enqueue( new Callable<Object>() {
+            public Object call() throws Exception {
+                pairs.remove( pair );
+                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+                    if ( atomNode.pair == pair ) {
+                        atomNodes.remove( atomNode );
+                        molecule.detachChild( atomNode );
+                    }
+                }
+                return null;
+            }
+        } );
     }
 
     private void rebuildBonds() {
