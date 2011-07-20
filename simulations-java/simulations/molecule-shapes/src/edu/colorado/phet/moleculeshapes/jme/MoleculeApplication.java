@@ -34,7 +34,8 @@ public class MoleculeApplication extends BaseApplication {
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
 
-    private ElectronPair centerPair = new ElectronPair( new ImmutableVector3D() );
+    // TODO: this doesn't make sense! convert to particle or something
+    private ElectronPair centerPair = new ElectronPair( new ImmutableVector3D(), false );
 
     private Node molecule; //The molecule to display and rotate
 
@@ -99,10 +100,12 @@ public class MoleculeApplication extends BaseApplication {
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            pairs.add( new ElectronPair( new ImmutableVector3D( x, y, 0 ) ) );
+            pairs.add( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
         }
-        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ) ) );
-        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, -10 ) ) );
+        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ), true ) );
+//        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, -10 ), false ) );
+//
+//        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 5, 5 ), false ) );
 
         // construct the other atom nodes
         for ( ElectronPair pair : pairs ) {
@@ -134,11 +137,19 @@ public class MoleculeApplication extends BaseApplication {
     }
 
     @Override public void simpleUpdate( final float tpf ) {
-        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
+//        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
         for ( ElectronPair pair : pairs ) {
             double scale = 0.1;
-            pair.position.set( pair.position.get().plus( new ImmutableVector3D( scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ) ) ) );
-//            pair.position.set( pair.position.get().plus( new ImmutableVector3D( 0.01, 0.00, 0 ) ) );
+//            pair.position.set( pair.position.get().plus( new ImmutableVector3D( scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ) ) ) );
+
+            // run our fake physics
+            pair.stepForward( tpf );
+            for ( ElectronPair otherPair : pairs ) {
+                if ( otherPair != pair ) {
+                    pair.repulseFrom( otherPair, tpf );
+                }
+            }
+            pair.attractTo( centerPair, tpf );
         }
         rebuildBonds();
         molecule.setLocalRotation( rotation );
