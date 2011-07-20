@@ -93,6 +93,11 @@
 <methods>;
 }
 
+-keep class org.jmol.adapter.readers.quantum.SpartanSmolReader{
+<fields>;
+<methods>;
+}
+
 ##########
 # SimSharing features that use Akka
 # TODO: move this to simsharing build file somehow
