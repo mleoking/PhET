@@ -53,12 +53,6 @@ public class MassBoxNode extends PNode {
         }} );
 
         // Create a node that contains people.  This is also a "mass set".
-//        massesets.add( new SwingLayoutNode( new GridLayout( 1, 2, 20, 20 ) ) {{
-//            AdultMaleHumanInMassBoxNode adultMaleHumanInMassBoxNode = new AdultMaleHumanInMassBoxNode( model, mvt, canvas );
-//            addChild( adultMaleHumanInMassBoxNode );
-//            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
-//            addChild( adolescentHumanInMassBoxNode );
-//        }} );
         massSets.add( new SwingLayoutNode( new FlowLayout() ) {{
             AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
             addChild( adolescentHumanInMassBoxNode );
