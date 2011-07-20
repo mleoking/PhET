@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -19,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 public class MobileBiomolecule {
     private final Color baseColor;
     protected final Property<Shape> shapeProperty;
+    public final BooleanProperty userControlled = new BooleanProperty( false );
 
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
         this.baseColor = baseColor;
@@ -48,5 +50,9 @@ public class MobileBiomolecule {
 
     public Color getBaseColor() {
         return baseColor;
+    }
+
+    public void release() {
+        userControlled.set( false );
     }
 }
