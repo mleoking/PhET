@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.forcelawlab.view
 
-// Copyright 2002-2011, University of Colorado
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform
 import java.awt.Color
 import edu.colorado.phet.common.piccolophet.event.CursorHandler
