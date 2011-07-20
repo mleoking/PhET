@@ -18,7 +18,6 @@
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/team/reids/idea-tests/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/bin" />
       <excludeFolder url="file://$MODULE_DIR$/build-tools/ant_output" />
       <excludeFolder url="file://$MODULE_DIR$/simulations-java/ant_output" />
