@@ -131,7 +131,8 @@ public class ControlPanel extends Canvas {
         this.resonatorNbrBox.setStyle( "horizontalGap", 3 );
         this.resonatorLabel = new NiceLabel();
         this.resonatorNbrLabel = new NiceLabel();
-        this.resonatorLabel.setText( this.resonator_str );  //need text immediately to set size of Label, so flex framework properly positions label
+        var resonatorPlusSpace_str = this.resonator_str + " ";
+        this.resonatorLabel.setText( resonatorPlusSpace_str );  //need text immediately to set size of Label, so flex framework properly positions label
         this.resonatorNbrLabel.setText( "1" );
         this.resonatorNbrLabel.makeEditable( "0-9" );
         this.resonatorNbrLabel.centerText();
