@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+
+import edu.colorado.phet.geneexpressionbasics.common.model.Biomolecule;
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
@@ -53,6 +56,7 @@ public class DnaMolecule {
         genes.add( new Gene( new Rectangle2D.Double( 25000, -200, 4000, 400 ), new Color( 205, 255, 112, 150 ) ) );
     }
 
+    // Generate a single DNA strand, i.e. one side of the double helix.
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
         double offset = initialOffset;
         boolean inFront = initialInFront;
@@ -106,7 +110,7 @@ public class DnaMolecule {
      * two strands, we need to track which segments are in front and which are
      * in back.
      */
-    public class DnaStrandSegment extends ShapeChangingModelObject {
+    public class DnaStrandSegment extends Biomolecule {
         public final boolean inFront;
 
         public DnaStrandSegment( Shape shape, boolean inFront ) {
