@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import edu.colorado.phet.geneexpressionbasics.common.model.Biomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
@@ -110,7 +110,7 @@ public class DnaMolecule {
      * two strands, we need to track which segments are in front and which are
      * in back.
      */
-    public class DnaStrandSegment extends Biomolecule {
+    public class DnaStrandSegment extends ShapeChangingModelElement {
         public final boolean inFront;
 
         public DnaStrandSegment( Shape shape, boolean inFront ) {
