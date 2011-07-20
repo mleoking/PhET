@@ -49,8 +49,12 @@ public class Compound extends Particle implements Iterable<Constituent> {
         return false;
     }
 
-    @Override public void stepInTime( ImmutableVector2D acceleration, double dt ) {
-        super.stepInTime( acceleration, dt );
+    @Override protected void setLocation( ImmutableVector2D location ) {
+        super.setLocation( location );
+        updateConstituentLocations();
+    }
+
+    private void updateConstituentLocations() {
         for ( Constituent constituent : constituents ) {
             constituent.particle.position.set( position.get().plus( constituent.location ) );
         }

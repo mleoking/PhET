@@ -25,7 +25,15 @@ public abstract class Particle {
     //Given the specified acceleration from external forces (such as gravity), perform an Euler integration step to move the particle forward in time
     public void stepInTime( ImmutableVector2D acceleration, double dt ) {
         velocity.set( velocity.get().plus( acceleration.times( dt ) ) );
-        position.set( position.get().plus( velocity.get().times( dt ) ) );
+        setLocation( position.get().plus( velocity.get().times( dt ) ) );
+    }
+
+    protected void setLocation( ImmutableVector2D location ) {
+        position.set( location );
+    }
+
+    public void translate( double dx, double dy ) {
+        setLocation( position.get().plus( dx, dy ) );
     }
 
     //Get a shape for the particle for purposes of collision detection with beaker solution and beaker walls
