@@ -1,3 +1,5 @@
+# 0.00.35 (54319) Jul 20, 2011
+7/20/11 Extra space after "Resonator" in ControlPanel
 # 0.00.34 (54120) Jul 15, 2011
 7/15/11 Bug fix.  In 1D, when masses released, t set to 0, so system responds correctly.
 # 0.00.33 (54118) Jul 15, 2011
