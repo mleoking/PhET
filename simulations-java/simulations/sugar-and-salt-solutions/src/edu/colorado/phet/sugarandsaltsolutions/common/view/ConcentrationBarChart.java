@@ -25,8 +25,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.setBackgroundDeep;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CONCENTRATION;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.TITLE_FONT;
 import static java.awt.Color.white;
 
 /**
@@ -54,19 +55,9 @@ public class ConcentrationBarChart extends PNode {
         final double abscissaY = CHART_HEIGHT - 60;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
-        //Add a Salt concentration bar
-        addChild( new Bar( white, SugarAndSaltSolutionsResources.Strings.SALT, saltConcentration, showValues, verticalAxisScale ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - Bar.WIDTH, abscissaY );
-        }} );
-
-        //Add a Sugar concentration bar
-        addChild( new Bar( white, SugarAndSaltSolutionsResources.Strings.SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + Bar.WIDTH + 25, abscissaY );
-        }} );
-
         //Show the title
         addChild( new PText( CONCENTRATION ) {{
-            setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );
+            setFont( TITLE_FONT );
             setOffset( ConcentrationBarChart.this.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, INSET );
         }} );
 
@@ -96,6 +87,16 @@ public class ConcentrationBarChart extends PNode {
                 setBackgroundDeep( this, WATER_COLOR );
             }} ) );
             setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
+        }} );
+
+        //Add a Salt concentration bar
+        addChild( new Bar( white, SALT, saltConcentration, showValues, verticalAxisScale ) {{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - WIDTH, abscissaY );
+        }} );
+
+        //Add a Sugar concentration bar
+        addChild( new Bar( white, SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
+            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + WIDTH + 25, abscissaY );
         }} );
     }
 }
