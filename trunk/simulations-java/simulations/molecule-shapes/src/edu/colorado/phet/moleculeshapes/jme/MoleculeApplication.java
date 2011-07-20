@@ -12,16 +12,10 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.shape.Cylinder;
-import com.jme3.scene.shape.Sphere;
-import com.jme3.util.TangentBinormalGenerator;
 
 /**
  * Use jme3 to show a rotating molecule
@@ -32,15 +26,17 @@ public class MoleculeApplication extends BaseApplication {
     public static final String MAP_RIGHT = "CameraRight";
     public static final String MAP_UP = "CameraUp";
     public static final String MAP_DOWN = "CameraDown";
-
     public static final String MAP_DRAG = "CameraDrag";
 
     private static final float MOUSE_SCALE = 3.0f;
 
+    private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
+    private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
 
-    //The molecule to display and rotate
-    private Node molecule;
+    private ElectronPair centerPair = new ElectronPair( new ImmutableVector3D() );
+
+    private Node molecule; //The molecule to display and rotate
 
     //The angle about which the molecule should be rotated, changes as a function of time
     private Quaternion rotation = new Quaternion();
@@ -95,10 +91,8 @@ public class MoleculeApplication extends BaseApplication {
         *----------------------------------------------------------------------------*/
 
         //Create the central atom
-        AtomNode center = new AtomNode( new ElectronPair( new ImmutableVector3D() ), assetManager );
+        AtomNode center = new AtomNode( centerPair, assetManager );
         molecule.attachChild( center );
-
-        List<ElectronPair> pairs = new ArrayList<ElectronPair>();
 
         //Create the atoms that circle about the central atom
         double angle = Math.PI * 2 / 5;
@@ -112,8 +106,10 @@ public class MoleculeApplication extends BaseApplication {
 
         // construct the other atom nodes
         for ( ElectronPair pair : pairs ) {
-            attach( center, new AtomNode( pair, assetManager ) );
+            molecule.attachChild( new AtomNode( pair, assetManager ) );
         }
+
+        rebuildBonds();
 
         /*---------------------------------------------------------------------------*
         * lights
@@ -139,26 +135,31 @@ public class MoleculeApplication extends BaseApplication {
 
     @Override public void simpleUpdate( final float tpf ) {
         rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
+        for ( ElectronPair pair : pairs ) {
+            double scale = 0.1;
+            pair.position.set( pair.position.get().plus( new ImmutableVector3D( scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ), scale * ( Math.random() - 0.5 ) ) ) );
+//            pair.position.set( pair.position.get().plus( new ImmutableVector3D( 0.01, 0.00, 0 ) ) );
+        }
+        rebuildBonds();
         molecule.setLocalRotation( rotation );
     }
 
-    //Attach the two atoms together with a bond and add to the molecule
-    private void attach( Geometry center, Geometry newSphere ) {
-        molecule.attachChild( newSphere );
-        final LineCylinder shiny_rock = new LineCylinder( center.getLocalTranslation(), newSphere.getLocalTranslation() );
-        Material mat_lit = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" );
-        shiny_rock.setMaterial( mat_lit );
-        molecule.attachChild( shiny_rock );
+    private void rebuildBonds() {
+        // necessary for now since just updating their geometry shows significant errors
+        for ( BondNode bondNode : bondNodes ) {
+            molecule.detachChild( bondNode );
+        }
+        bondNodes.clear();
+        for ( ElectronPair pair : pairs ) {
+            BondNode bondNode = new BondNode( centerPair, pair, assetManager );
+            molecule.attachChild( bondNode );
+            bondNodes.add( bondNode );
+        }
     }
 
-    //Taken from the forum here: http://jmonkeyengine.org/groups/graphics/forum/topic/creating-a-cylinder-from-one-point-to-another/
-    public class LineCylinder extends Geometry {
-        public LineCylinder( Vector3f start, Vector3f end ) {
-            super( "LineCylinder" );
-            this.mesh = new Cylinder( 4, 8, .5f, start.distance( end ) );
-            setLocalTranslation( FastMath.interpolateLinear( .5f, start, end ) );
-            lookAt( end, Vector3f.UNIT_Y );
-        }
+    public static Vector3f vectorConversion( ImmutableVector3D vec ) {
+        // TODO: move to utilities
+        return new Vector3f( (float) vec.getX(), (float) vec.getY(), (float) vec.getZ() );
     }
 
     public static void main( String[] args ) throws IOException {
