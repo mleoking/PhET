@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -22,7 +23,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 public class Bar extends PNode {
     public static final float WIDTH = 40;
 
-    public Bar( final ObservableProperty<Color> color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
+    public Bar( final ObservableProperty<Color> color, String caption, final Option<PNode> icon, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
         // Create and add the bar itself.
         final PPath bar = new PhetPPath( new BasicStroke( 1f ), Color.BLACK ) {{
             color.addObserver( new VoidFunction1<Color>() {
@@ -52,6 +53,14 @@ public class Bar extends PNode {
             setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
         }};
         addChild( captionNode );
+
+        //If specified, show an icon next to the caption
+        if ( icon.isSome() ) {
+            PNode iconNode = new StandardizedNode( icon.get() );
+            iconNode.setOffset( captionNode.getFullBounds().getMaxX() + 2,
+                                captionNode.getFullBounds().getCenterY() - iconNode.getFullBounds().getHeight() / 2 );
+            addChild( iconNode );
+        }
 
         //Optionally show the readout of the exact value above the bar itself
         PText valueReadout = new PText() {{
