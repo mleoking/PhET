@@ -4,22 +4,21 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.umd.cs.piccolo.PNode;
 
 import static javax.swing.SwingUtilities.invokeLater;
 
 /**
+ * This class is used to create crystals and add them to the model.
+ *
  * @author Sam Reid
  */
 public class CrystalMaker<T extends MacroCrystal> implements VoidFunction1<T> {
-    private final ModelViewTransform transform;
     private final PNode layer;
     private final Function1<T, PNode> createNode;
 
-    public CrystalMaker( ModelViewTransform transform, PNode layer, Function1<T, PNode> createNode ) {
-        this.transform = transform;
+    public CrystalMaker( PNode layer, Function1<T, PNode> createNode ) {
         this.layer = layer;
         this.createNode = createNode;
     }
