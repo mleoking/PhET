@@ -20,7 +20,6 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
