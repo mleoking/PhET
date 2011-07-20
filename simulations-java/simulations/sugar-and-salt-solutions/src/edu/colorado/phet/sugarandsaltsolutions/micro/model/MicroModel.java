@@ -275,6 +275,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
             lattice.stepInTime( getExternalForce( anyPartUnderwater ).times( mass ), dt );
 
+            //Collide with the bottom of the beaker
+            double minY = lattice.getShape().getBounds2D().getMinY();
+            if ( minY < 0 ) {
+                lattice.translate( 0, -minY );
+            }
+
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
                 final double timeUnderwater = time - lattice.getUnderWaterTime();
