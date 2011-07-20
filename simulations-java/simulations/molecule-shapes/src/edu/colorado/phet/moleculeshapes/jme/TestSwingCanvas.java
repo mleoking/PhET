@@ -49,7 +49,7 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
             super( name, new ConstantDtClock( 30.0 ) );
             AppSettings settings = new AppSettings( true );
 
-            final Application app = new MoleculeApplication();
+            final MoleculeApplication app = new MoleculeApplication();
 
             //Improve default camera angle and mouse behavior
             app.enqueue( new Callable<Void>() {
@@ -75,6 +75,8 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
                 public void deactivated() {
                 }
             } );
+
+            setClockControlPanel( null );
 
             setControlPanel( new VerticalLayoutPanel() {{
                 JComponent parent = this;
