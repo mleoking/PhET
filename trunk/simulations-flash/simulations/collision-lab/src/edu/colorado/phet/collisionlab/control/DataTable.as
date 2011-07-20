@@ -267,8 +267,8 @@ public class DataTable extends Sprite {
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "ball" );
-        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "mass" );
+        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
         text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
         text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
         text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );

@@ -15,8 +15,8 @@
     <string key="DataTable.removeBall" value="Remove Ball"/>
     <string key="DataTable.moreData" value="More Data"/>
     <string key="DataTable.lessData" value="Less Data"/>
-    <string key="DataTable.ball" value="ball"/>
-    <string key="DataTable.mass" value="mass"/>
+    <string key="DataTable.ball" value="Ball"/>
+    <string key="DataTable.mass" value="Mass"/>
     <string key="DataTable.x" value="x"/>
     <string key="DataTable.y" value="y"/>
     <string key="DataTable.vx" value="Vx"/>
