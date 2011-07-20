@@ -1,4 +1,4 @@
-package ideatest;
+package edu.colorado.phet.common.phetcommon.tests;
 
 /**
  * In IntelliJ IDEA 10.5.1 #IU-107.322 the "addChild" in VerticalPanel's super call is underlined in red,
