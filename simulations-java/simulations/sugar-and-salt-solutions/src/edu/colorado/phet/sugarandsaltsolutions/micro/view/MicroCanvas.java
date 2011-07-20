@@ -40,13 +40,14 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         super( model, globalState, createMicroTransform( model ) );
 
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
-        //TODO: why is the scale factor 1 here?
         concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart,
                                                                          model.sodiumConcentration,
                                                                          model.sodiumColor,
                                                                          model.chlorideConcentration,
                                                                          model.chlorideColor,
-                                                                         model.showConcentrationValues ) {{
+                                                                         model.showConcentrationValues,
+                                                                         transform,
+                                                                         model.showChargeColor ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
