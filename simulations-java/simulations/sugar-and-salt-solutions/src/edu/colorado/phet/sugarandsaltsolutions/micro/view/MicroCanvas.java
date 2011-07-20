@@ -43,8 +43,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         //TODO: why is the scale factor 1 here?
         concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart,
                                                                          model.sodiumConcentration,
+                                                                         model.sodiumColor,
                                                                          model.chlorideConcentration,
-                                                                         model.showConcentrationValues, 1 ) {{
+                                                                         model.chlorideColor,
+                                                                         model.showConcentrationValues ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );

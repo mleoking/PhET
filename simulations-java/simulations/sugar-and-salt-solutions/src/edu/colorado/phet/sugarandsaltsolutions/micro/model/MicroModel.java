@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
@@ -101,6 +103,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             freeParticles.addItemRemovedListener( listener );
         }
     }
+
+    public class IonColor extends IfElse<Color> {
+        public IonColor( SphericalParticle particle ) {
+            super( showChargeColor, particle.chargeColor, particle.color );
+        }
+    }
+
+    public final ObservableProperty<Color> sodiumColor = new IonColor( new SodiumIonParticle() );
+    public final ObservableProperty<Color> chlorideColor = new IonColor( new ChlorideIonParticle() );
 
     //Free Na+ disassociated from NaCl
     public final ObservableProperty<Double> sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
