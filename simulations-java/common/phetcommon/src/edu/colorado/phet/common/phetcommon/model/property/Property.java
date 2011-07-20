@@ -71,4 +71,15 @@ public class Property<T> extends SettableProperty<T> {
     public ObservableProperty<Boolean> valueEquals( T salt ) {
         return new ValueEquals<T>( this, salt );
     }
+
+    /**
+     * Convenience factory method to allow writing in the form "value(white)" instead of the more verbose "new Property<Color>(white)", to improve readability at usage sites
+     *
+     * @param value the value to wrap in a property
+     * @param <T>   type of the property
+     * @return the Property with the specified value
+     */
+    public static <T> Property<T> value( T value ) {
+        return new Property<T>( value );
+    }
 }
