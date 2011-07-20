@@ -230,20 +230,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 //        System.out.println( "numSodiumsForNaCl = " + numSodiumsForNaCl );
     }
 
-    //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation (i.e. ignoring Na bound to NO3 since it should not count toward saturation of NaCl)
+    //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation
     private double getMolesPerLiterSodiumInNaCl() {
         //Count the number of sodiums
-        int numFreeSodiumIons = freeParticles.count( SodiumIonParticle.class );
-        int numInSaltCrystals = 0;
-        for ( SodiumChlorideCrystal saltCrystal : saltCrystals ) {
-            numInSaltCrystals = numInSaltCrystals + saltCrystal.count( SodiumIonParticle.class );
-        }
-        int numSodiumsForNaCl = numFreeSodiumIons + numInSaltCrystals;
-        double molesSodium = numberToMoles( numSodiumsForNaCl );
+        double molesSodium = numberToMoles( freeParticles.count( SodiumIonParticle.class ) );
         double litersWater = metersCubedToLiters( waterVolume.get() );
-        double molesPerLiterSodiumInNaCl = molesSodium / litersWater;
-//        System.out.println( "number of sodiums: " + numSodiumsForNaCl + ", moles: " + molesSodium + ", litersWater: " + litersWater + ", concentration = " + molesPerLiterSodiumInNaCl + " mol/L" );
-        return molesPerLiterSodiumInNaCl;
+        return molesSodium / litersWater;
     }
 
     //Update the crystals by moving them about and possibly dissolving them
