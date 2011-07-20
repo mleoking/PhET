@@ -7,17 +7,17 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Base class for biomolecules, which includes the DNA strand, polymerase,
- * and most (if not all) of the things that interact with one another in
- * this simulation.
+ * Base class for elements in the model that change shape or move around.
  *
  * @author John Blanco
  */
-public abstract class Biomolecule {
+public abstract class ShapeChangingModelElement {
 
+    // Shape property, which is not public because it should only be changed
+    // by descendants of the class.
     protected final Property<Shape> shapeProperty;
 
-    public Biomolecule( Shape initialShape ) {
+    public ShapeChangingModelElement( Shape initialShape ) {
         this.shapeProperty = new Property<Shape>( initialShape );
     }
 

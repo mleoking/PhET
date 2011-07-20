@@ -16,7 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
  *
  * @author John Blanco
  */
-public abstract class MobileBiomolecule extends Biomolecule {
+public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
