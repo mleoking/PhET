@@ -98,6 +98,41 @@
 <methods>;
 }
 
+-keep class org.jmol.shapespecial.Dipoles{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shapespecial.DipolesRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shapesurface.Isosurface{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shapesurface.IsosurfaceRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shape.Labels{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shape.LabelsRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.quantum.MepCalculation{
+<fields>;
+<methods>;
+}
+
 ##########
 # SimSharing features that use Akka
 # TODO: move this to simsharing build file somehow
