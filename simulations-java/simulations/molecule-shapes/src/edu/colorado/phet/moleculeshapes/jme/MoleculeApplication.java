@@ -103,7 +103,7 @@ public class MoleculeApplication extends BaseApplication {
             pairs.add( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
         }
         pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ), true ) );
-//        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 0, -10 ), false ) );
+        pairs.add( new ElectronPair( new ImmutableVector3D( -7, 0, 7 ), true ) );
 //
 //        pairs.add( new ElectronPair( new ImmutableVector3D( 0, 5, 5 ), false ) );
 

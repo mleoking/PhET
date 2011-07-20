@@ -4,6 +4,8 @@ package edu.colorado.phet.moleculeshapes.jme;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
+import com.jme3.math.ColorRGBA;
+
 public class ElectronPair {
     // TODO: add in developer controls for all of these
     public static final double BONDED_PAIR_DISTANCE = 10.0;
@@ -55,6 +57,19 @@ public class ElectronPair {
 
         // add in a small randomization into position, so we jitter away from unstable positions
         position.set( position.get().plus( new ImmutableVector3D( JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ) ) ) );
+    }
+
+    public ColorRGBA getColor() {
+        // TODO: improve bad back to identify origin atom
+        if ( position.get().equals( new ImmutableVector3D() ) ) {
+            return new ColorRGBA( 1f, 0f, 0f, 1f );
+        }
+        else if ( isLonePair ) {
+            return new ColorRGBA( 1f, 0.5f, 0f, 1f );
+        }
+        else {
+            return new ColorRGBA( 1f, 1f, 1f, 1f );
+        }
     }
 
     private double getIdealDistanceFromCenter() {
