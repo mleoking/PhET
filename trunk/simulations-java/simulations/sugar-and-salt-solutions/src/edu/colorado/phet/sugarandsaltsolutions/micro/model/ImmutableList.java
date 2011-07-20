@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static java.util.Collections.addAll;
+
 /**
  * List whose elements cannot be changed.
  *
@@ -16,9 +18,7 @@ public class ImmutableList<T> implements Iterable<T> {
     }
 
     public ImmutableList( T... elm ) {
-        for ( T t : elm ) {
-            elements.add( t );
-        }
+        addAll( elements, elm );
     }
 
     //Create a list by appending an item to another list

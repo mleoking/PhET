@@ -20,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
@@ -39,8 +38,7 @@ public class FaucetNode extends PNode {
     //Listeners for the shape of the water that flows out of the faucet
     private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
 
-    public FaucetNode( ModelViewTransform transform,
-                       final Property<Double> faucetFlowLevel,
+    public FaucetNode( final Property<Double> faucetFlowLevel,
                        final Option<Double> flowPoint,//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
                        final ObservableProperty<Boolean> allowed,//true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
                        final Point2D offset//Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker

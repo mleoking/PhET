@@ -44,7 +44,7 @@ public class Sucrose extends Molecule {
             hydrogens.add( hydrogen );
             allAtoms.add( hydrogen );
         }
-        initAtoms( allAtoms.toArray( new Atom[0] ) );
+        initAtoms( allAtoms.toArray( new Atom[allAtoms.size()] ) );
     }
 
     public ArrayList<Atom> getHydrogens() {

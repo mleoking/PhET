@@ -39,7 +39,7 @@ public class ConcentrationBarChart extends PNode {
     protected final double abscissaY;
     protected final PNode background;
 
-    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, double scaleFactor ) {
+    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible ) {
         final int INSET = 5;
 
         background = new PhetPPath( new Rectangle2D.Double( 0, 0, 220, 234 ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
