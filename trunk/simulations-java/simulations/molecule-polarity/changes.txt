@@ -1,3 +1,4 @@
+# 0.00.01 (54329) Jul 20, 2011
 7/19/11 dev version to demonstrate Jmol features and integration in "Real Molecules" tab
 7/19/11 add dipole offsets, so that dipoles don't intersect atoms and bonds
 7/19/11 add placeholder for periodic table
