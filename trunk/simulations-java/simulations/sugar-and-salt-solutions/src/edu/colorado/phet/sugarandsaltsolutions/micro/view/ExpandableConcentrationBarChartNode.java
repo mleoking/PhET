@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.MinimizedConcentrationBarChart;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.SodiumChlorideConcentrationBarChart;
 import edu.umd.cs.piccolo.PNode;
 
 /**
