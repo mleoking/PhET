@@ -22,9 +22,15 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 public class Bar extends PNode {
     public static final float WIDTH = 40;
 
-    public Bar( Color color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
+    public Bar( final ObservableProperty<Color> color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
         // Create and add the bar itself.
-        final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
+        final PPath bar = new PhetPPath( new BasicStroke( 1f ), Color.BLACK ) {{
+            color.addObserver( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setPaint( color );
+                }
+            } );
+        }};
         addChild( bar );
         // Wire up the bar to change size based on the observable entity.
         value.addObserver( new VoidFunction1<Double>() {

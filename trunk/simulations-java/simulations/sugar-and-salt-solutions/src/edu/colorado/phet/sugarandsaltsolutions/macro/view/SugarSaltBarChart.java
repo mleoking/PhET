@@ -6,6 +6,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.Bar;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
 
+import static edu.colorado.phet.common.phetcommon.model.property.Property.value;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static java.awt.Color.white;
@@ -23,12 +24,12 @@ public class SugarSaltBarChart extends ConcentrationBarChart {
         final double verticalAxisScale = 160 * 1E-4 * scaleFactor;
 
         //Add a Salt concentration bar
-        addChild( new Bar( white, SALT, saltConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( value( white ), SALT, saltConcentration, showValues, verticalAxisScale ) {{
             setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2 - WIDTH, abscissaY );
         }} );
 
         //Add a Sugar concentration bar
-        addChild( new Bar( white, SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
+        addChild( new Bar( value( white ), SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
             setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2 + WIDTH + 25, abscissaY );
         }} );
     }
