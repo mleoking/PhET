@@ -1,0 +1,69 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 13-19, 2011
+
+Capacitor Lab
+- discussed issues from recent interviews
+- #3012, discussed changes to dipole excess charge view
+- #3013, deferred changes to E-Field Detector probe
+
+Fourier
+- #2981, discussed requirements for relabeling of x axes
+- #2981, implemented fix and change requests
+- published 3.06 to PhET website
+
+Hydrogen Atom
+- published 1.11 to PhET website (#2803, "Excite Atom" button)
+
+Molecule Polarity
+- investigated Jmol features
+- integrated Jmol viewer into the Piccolo play area
+- discussed Jmol use in existing sims with JO and SR
+- published 0.00.01
+
+Molecule Shapes
+- reviewed design document
+- skimmed existing source code
+
+States of Matter
+- #3001, discussed jumpy slider issue
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+- #2995, referred "Tips For Teachers" problem to Trish
+
+Build
+- #2997, verified that removing sun-tools does not cause Mac problems
+- #3004, reported PBG layout problem that made it unusable on Mac, disabled the feature
+- changed Flex iml files to use a symbolic name for the Flex SDK
+- #3006, 3007, 3008, created tickets related to Flash/Flex integration
+- reviewed and contributed changes to PhetStyle.xml (PhET's code style specification)
+
+Environment
+- continued to have problems with the IntelliJ presentation compiler
+
+Unfuddle
+- cleaned up tickets that weren't assigned to a component
+- reported issues with "Color Blind Testing" tickets
+
+WHAT'S NEXT:
+
+- Molecule Polarity sim
+- Capacitor Lab: #3012, change dipole excess charge view
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 4-9
+- August 22 - September 2
+- September 28 - October 2
+- October 19-29
+
+--
