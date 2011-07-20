@@ -25,7 +25,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.PrecipitateNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.umd.cs.piccolo.PNode;
@@ -77,7 +76,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
     //Node that shows the faucet, we need a reference so subclasses can listen to the water flowing out bounds for collision hit testing for the conductivity tester
     protected final FaucetNode drainFaucetNode;
-    public final ExpandableConcentrationBarChartNode concentrationBarChart;
 
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform ) {
 
@@ -88,8 +86,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         this.transform = transform;
 
-//        System.out.println( "transform.getTransform().getScaleX() = " + transform.getTransform().getScaleX() );
-        // Root of our scene graph
+        // Root of the scene graph in stage coordinates (scaled with the window size)
         rootNode = new PNode();
         addWorldChild( rootNode );
 
@@ -200,15 +197,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - INSET - removeSolutesButton.getFullBounds().getWidth(),
                                        transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
         addChild( removeSolutesButton );
-
-        //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
-        //TODO: why is the scale factor 1 here?
-        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
-            setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
-        }};
-        behindShakerNode.addChild( concentrationBarChart );
-
-        soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{

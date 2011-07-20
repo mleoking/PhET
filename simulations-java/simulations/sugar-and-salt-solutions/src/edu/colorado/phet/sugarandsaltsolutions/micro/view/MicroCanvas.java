@@ -17,6 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -34,9 +35,19 @@ import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInP
 public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener {
     private PeriodicTableDialog periodicTableDialog;
     private boolean dialogVisibleOnActivate;
+    private ExpandableConcentrationBarChartNode concentrationBarChart;
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ) );
+
+        //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
+        //TODO: why is the scale factor 1 here?
+        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
+            setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
+        }};
+        behindShakerNode.addChild( concentrationBarChart );
+
+        soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
         //Add a button that shows the periodic table when pressed
         final TextButtonNode periodicTableButton = new TextButtonNode( "Show in Periodic Table" ) {{

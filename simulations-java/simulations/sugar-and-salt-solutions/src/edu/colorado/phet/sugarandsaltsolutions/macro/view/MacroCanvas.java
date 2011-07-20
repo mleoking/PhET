@@ -27,11 +27,22 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     //Separate layer for the conductivity toolbox to make sure the conductivity node shows as submerged in the water, but still goes behind the shaker
     protected final PNode conductivityToolboxLayer = new PNode();
 
+    public final ExpandableConcentrationBarChartNode concentrationBarChart;
+
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
         super( model, globalState, createMacroTransform( model ) );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );
+
+        //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
+        //TODO: why is the scale factor 1 here?
+        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
+            setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
+        }};
+        behindShakerNode.addChild( concentrationBarChart );
+
+        soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
         //Toolbox from which the conductivity tester can be dragged
         conductivityToolboxLayer.addChild( new ConductivityTesterToolboxNode( model, this ) {{
