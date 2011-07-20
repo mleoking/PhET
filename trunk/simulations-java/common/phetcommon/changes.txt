@@ -1,3 +1,4 @@
+7/19/11 Added a convenience static factory method to Property
 7/8/11 #3000, fix seam in IntensitySlider
 6/25/11 Automatically update the ConstantDTClock in SimSpeedControl instead of duplicating listener code in many places, see #2798
 6/23/11 Added MathUtil.clamp(int,int,int)
