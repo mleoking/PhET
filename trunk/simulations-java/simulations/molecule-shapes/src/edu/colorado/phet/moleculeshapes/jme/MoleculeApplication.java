@@ -136,43 +136,33 @@ public class MoleculeApplication extends BaseApplication {
     }
 
     //Create a sphere at the specified location
-    private Geometry createSphere( double x, double y, double z ) {
-        Sphere sphere = new Sphere( 32, 32, 2f );
-        Geometry shiny_rock = createGeometry( (float) x, (float) y, (float) z, sphere );
-        return shiny_rock;
-    }
-
-    //Create a geometry for the specified sphere, uses textures from the auxiliary jar
-    private Geometry createGeometry( float x, float y, float z, Sphere mesh ) {
-        Geometry shiny_rock = new Geometry( "Shiny rock", mesh );
+    private Geometry createSphere( final double x, final double y, final double z ) {
+        Sphere mesh = new Sphere( 32, 32, 2f );
         mesh.setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
         TangentBinormalGenerator.generate( mesh );           // for lighting effect
-        Material mat_lit = new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" );
-//        mat_lit.setTexture( "DiffuseMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond.png" ) );
-//        mat_lit.setTexture( "NormalMap", assetManager.loadTexture( "molecule-shapes/jme3/Textures/Terrain/Pond/Pond_normal.png" ) );
-        mat_lit.setBoolean( "UseMaterialColors", true );
-        mat_lit.setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
-        mat_lit.setFloat( "Shininess", 1f ); // [0,128]
-        shiny_rock.setMaterial( mat_lit );
-        shiny_rock.setLocalTranslation( x, y, z ); // Move it a bit
-        shiny_rock.rotate( 1.6f, 0, 0 );          // Rotate it a bit
-        return shiny_rock;
+
+        return new Geometry( "Atom", mesh ) {{
+            setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
+                setBoolean( "UseMaterialColors", true );
+                setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
+                setFloat( "Shininess", 1f ); // [0,128]
+            }} );
+            setLocalTranslation( (float) x, (float) y, (float) z ); // Move it a bit
+            rotate( 1.6f, 0, 0 );          // Rotate it a bit
+        }};
     }
 
     //Taken from the forum here: http://jmonkeyengine.org/groups/graphics/forum/topic/creating-a-cylinder-from-one-point-to-another/
     public class LineCylinder extends Geometry {
         public LineCylinder( Vector3f start, Vector3f end ) {
             super( "LineCylinder" );
-            Cylinder cyl = new Cylinder( 4, 8, .5f, start.distance( end ) );
-            this.mesh = cyl;
+            this.mesh = new Cylinder( 4, 8, .5f, start.distance( end ) );
             setLocalTranslation( FastMath.interpolateLinear( .5f, start, end ) );
             lookAt( end, Vector3f.UNIT_Y );
         }
     }
 
-    //Main
     public static void main( String[] args ) throws IOException {
-        //Launch the application
         new MoleculeApplication().start();
     }
 }
