@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -35,7 +36,7 @@ public class MobileBiomolecule {
         shapeProperty.removeObserver( shapeChangeObserver );
     }
 
-    public void translate( Vector2D translationVector ) {
+    public void translate( ImmutableVector2D translationVector ) {
         AffineTransform translationTransform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
         shapeProperty.set( translationTransform.createTransformedShape( shapeProperty.get() ) );
     }
