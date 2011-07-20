@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -19,7 +20,17 @@ public class AtomNode extends Geometry {
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
-            setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
+
+            // TODO: remove this hack (used to identify center atom
+            if ( pair.position.get().equals( new ImmutableVector3D() ) ) {
+                setColor( "Diffuse", new ColorRGBA( 1f, 0f, 0f, 1f ) );
+            }
+            else if ( pair.isLonePair ) {
+                setColor( "Diffuse", new ColorRGBA( 1f, 0.5f, 0f, 1f ) );
+            }
+            else {
+                setColor( "Diffuse", new ColorRGBA( 1f, 1f, 1f, 1f ) );
+            }
             setFloat( "Shininess", 1f ); // [0,128]
         }} );
 

@@ -59,4 +59,26 @@ public class ImmutableVector3D {
                 x * v.y - y * v.x
         );
     }
+
+    public double dot( ImmutableVector3D v ) {
+        return x * v.x + y * v.y + z * v.z;
+    }
+
+    @Override public String toString() {
+        return "ImmutableVector3d[" + x + "," + y + "," + z + "]";
+    }
+
+    @Override public int hashCode() {
+        return Double.toHexString( x ).hashCode() + Double.toHexString( y ).hashCode() + Double.toHexString( z ).hashCode();
+    }
+
+    @Override public boolean equals( Object obj ) {
+        if ( obj instanceof ImmutableVector3D ) {
+            ImmutableVector3D v = (ImmutableVector3D) obj;
+            return x == v.x && y == v.y && z == v.z;
+        }
+        else {
+            return false;
+        }
+    }
 }
