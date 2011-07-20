@@ -53,8 +53,7 @@ public class ConcentrationBarChart extends PNode {
 
         verticalAxisScale = 160 * 1E-4 * scaleFactor;
         final double totalWidth = 220;
-        final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ),
-                                                WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
+        final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
         final double abscissaY = CHART_HEIGHT - 60;
