@@ -6,7 +6,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
@@ -21,7 +20,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -84,8 +82,7 @@ public class ConcentrationBarChart extends PNode {
                 }
             } );
             setOffset( background.getFullBounds().getWidth() - getFullBounds().getWidth() - INSET, INSET );
-        }}
-        );
+        }} );
 
         //Only show this bar chart if the user has opted to do so
         visible.addObserver( new VoidFunction1<Boolean>() {
@@ -103,64 +100,5 @@ public class ConcentrationBarChart extends PNode {
             }} ) );
             setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
         }} );
-    }
-
-    // This class represents the bars on the bar chart.  They grow upwards in
-    // the Y direction from a baseline offset of y=0.
-    public static class Bar extends PNode {
-        public static final float WIDTH = 40;
-
-        public Bar( Color color, String caption, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
-            // Create and add the bar itself.
-            final PPath bar = new PhetPPath( color, new BasicStroke( 1f ), Color.BLACK );
-            addChild( bar );
-            // Wire up the bar to change size based on the observable entity.
-            value.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double value ) {
-                    float height = (float) ( value * verticalAxisScale );
-
-                    //Graphics problems occur if you let the bar go too high, so clamp it
-                    float maxBarHeight = 10000f;
-                    if ( height > maxBarHeight || Float.isNaN( height ) || Float.isInfinite( height ) ) {
-                        height = maxBarHeight;
-                    }
-                    bar.setPathToRectangle( 0, -height, WIDTH, height );
-                }
-            } );
-            // Create and add the caption.
-            PText captionNode = new PText( caption ) {{
-                setFont( CONTROL_FONT );
-                // Position so that it is centered under the bar.
-                setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
-            }};
-            addChild( captionNode );
-
-            //Optionally show the readout of the exact value above the bar itself
-            PText valueReadout = new PText() {{
-                setFont( CONTROL_FONT );
-                value.addObserver( new VoidFunction1<Double>() {
-                    public void apply( Double molesPerMeterCubed ) {
-                        //Convert to Moles per Liter from SI
-                        double litersPerCubicMeter = 1000;//See: http://wiki.answers.com/Q/How_many_metres_cubed_are_in_a_litre
-                        double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
-
-                        //Update the text
-                        setText( new DecimalFormat( "0.00" ).format( molesPerLiter ) + " mol/L" );
-
-                        //Show the label centered above the bar, even if bar is zero height
-                        setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
-                                   bar.getFullBounds().getMinY() - getFullBounds().getHeight() );
-                    }
-                } );
-
-                //Only show the readout if the user has opted to do so
-                showValue.addObserver( new VoidFunction1<Boolean>() {
-                    public void apply( Boolean showValue ) {
-                        setVisible( showValue );
-                    }
-                } );
-            }};
-            addChild( valueReadout );
-        }
     }
 }
