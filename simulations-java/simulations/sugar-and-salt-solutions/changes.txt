@@ -1,3 +1,4 @@
+# 0.00.65 (54315) Jul 20, 2011
 Micro tab: Added icons to the bar chart
 Micro tab: Color Na+ and Cl- bars to match with atom colors, and toggle bar colors when "show charge" is toggled
 Micro tab: Added Na+ and Cl- bars to the bar chart
