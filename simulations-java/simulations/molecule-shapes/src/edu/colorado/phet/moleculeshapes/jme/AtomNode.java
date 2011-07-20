@@ -10,11 +10,14 @@ import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
 public class AtomNode extends Geometry {
+    public final ElectronPair pair;
+
     public AtomNode( final ElectronPair pair, AssetManager assetManager ) {
         super( "Atom", new Sphere( 32, 32, 2f ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
         }} );
+        this.pair = pair;
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );

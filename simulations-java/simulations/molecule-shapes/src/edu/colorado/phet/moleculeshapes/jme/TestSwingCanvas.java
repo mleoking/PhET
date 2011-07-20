@@ -1,6 +1,8 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -13,10 +15,8 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
-import com.jme3.app.Application;
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 import com.jme3.system.Natives;
@@ -78,8 +78,30 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
 
             setClockControlPanel( null );
 
-            setControlPanel( new VerticalLayoutPanel() {{
+            setControlPanel( new JPanel() {{
                 JComponent parent = this;
+                setLayout( new BoxLayout( parent, BoxLayout.Y_AXIS ) );
+                add( new JButton( "(Test) Add Atom" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            app.testAddAtom( false );
+                        }
+                    } );
+                }} );
+                add( new JButton( "(Test) Add Lone Pair" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            app.testAddAtom( true );
+                        }
+                    } );
+                }} );
+                add( new JButton( "(Test) Remove Random" ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            app.testRemoveAtom();
+                        }
+                    } );
+                }} );
                 add( new ResetAllButton( parent ) );
             }} );
 
