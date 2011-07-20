@@ -12,14 +12,18 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
+import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.ISugarAndSaltModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
@@ -79,6 +83,30 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //settable property that indicates whether the clock is running or paused
     public final Property<Boolean> clockPausedProperty = new Property<Boolean>( false );
+
+    //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
+    public class IonConcentration extends CompositeDoubleProperty {
+        public IonConcentration( final Class type ) {
+            super( new Function0<Double>() {
+                public Double apply() {
+                    return Units.numberToMoles( freeParticles.count( type ) ) / Units.metersCubedToLiters( waterVolume.get() );
+                }
+            }, waterVolume );
+            VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {
+                public void apply( Particle particle ) {
+                    notifyIfChanged();
+                }
+            };
+            freeParticles.addItemAddedListener( listener );
+            freeParticles.addItemRemovedListener( listener );
+        }
+    }
+
+    //Free Na+ disassociated from NaCl
+    public final ObservableProperty<Double> sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
+
+    //Free Na+ disassociated from NaCl
+    public final ObservableProperty<Double> chlorideConcentration = new IonConcentration( ChlorideIonParticle.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time

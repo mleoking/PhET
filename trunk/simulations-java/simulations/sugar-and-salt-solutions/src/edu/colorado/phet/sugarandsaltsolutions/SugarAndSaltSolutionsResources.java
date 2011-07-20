@@ -15,6 +15,7 @@ public class SugarAndSaltSolutionsResources {
 
     //Strings
     public static class Strings {
+        public static final String CHLORIDE = RESOURCES.getLocalizedString( "chloride" );
         public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
         public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
@@ -27,6 +28,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
         public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
+        public static final String SODIUM = RESOURCES.getLocalizedString( "sodium" );
         public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SUCROSE = RESOURCES.getLocalizedString( "sucrose" );

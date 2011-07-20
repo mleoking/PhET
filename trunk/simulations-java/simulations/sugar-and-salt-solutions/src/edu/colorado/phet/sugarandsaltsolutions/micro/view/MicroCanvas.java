@@ -17,7 +17,6 @@ import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.ExpandableConcentrationBarChartNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -42,7 +41,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
 
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
         //TODO: why is the scale factor 1 here?
-        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
+        concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart,
+                                                                         model.sodiumConcentration,
+                                                                         model.chlorideConcentration,
+                                                                         model.showConcentrationValues, 1 ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
