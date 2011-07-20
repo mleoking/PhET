@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--my-solar-system_cz.properties created Wed Jan 06 21:56:57 CET 2010 using: my-solar-system 2.00.00 (30671), translation-utility 1.09.00 (26682)-->
+<!--my-solar-system-strings_cs.xml created Mon Jul 18 22:46:50 CEST 2011 using: my-solar-system 2.03.00 (52285), translation-utility 2.10.00 (48775) II 9, 2011-->
 <SimStrings>
 <string key="slingshot" value="Gravitační prak"/>
 <string key="binaryStarPlanet" value="Dvojhvězda, planeta"/>
@@ -11,8 +11,12 @@
 <string key="body1" value="těleso 1"/>
 <string key="velocity" value="rychlost"/>
 <string key="doubleDouble" value="Dvě dvojice"/>
+<string key="xVel" value="x"/>
+<string key="translation.credits" value="Miroslav Rapant"/>
 <string key="massEquals" value="hmotnost ="/>
+<string key="yEquals" value="y ="/>
 <string key="hyperbolics" value="Hyperboly"/>
+<string key="xEquals" value="x ="/>
 <string key="help9" value="Copyright Project PHET a University of Colorado at Boulder"/>
 <string key="help8" value="Oproti metodě Runge-Kutta (RK4) zachovává Verletův algoritmus energii v systému oscilátoru a generuje stabilní orbity. Stejně jako další algoritmy s konstantní časovou změnou generuje Verletova metoda fyzikálně nepřesné výsledky, jestliže jsou tělesa příliš blízko a výsledné zrychlení je příliš veliké. Jestliže k této situaci dojde, je vyhodnocena jako srážka těles."/>
 <string key="help6" value="Tato simulace používá Verletův algoritmus s konstantní časovou změnou pro integrování trajektorie:"/>
@@ -20,29 +24,34 @@
 <string key="help5" value="Když je zaškrtnuto políčko Centrovaný systém,  je eliminován posun hmotného středu soustavy."/>
 <string key="help4" value="Pro zjištění okamžité polohy a rychlosti stiskněte tlačítko Stop a přejeďte kurzorem myši nad objektem"/>
 <string key="help3" value="Pro relevantní výsledky nenastavujte hmotnost na víc, než několik tisíc."/>
-<string key="help2" value="Vzdálenost, hmotnost a čas jsou proměnné. Nastavte si je dle libosti!"/>
-<string key="help1" value="Vytvořte si vlastní solární systém. Přidejte objekty a nastavte pomocí symbolu V jejich rychlost. Nebo vše nastavte v tabulce Počáteční hodnoty"/>
-<string key="help0" value="Simulace Sluneční soustavy"/>
+<string key="help2" value="Vzdálenosti, hmotnosti a čas jsou ve fiktivních jednotkách. Pojmenujte si je dle libosti!"/>
+<string key="help1" value="Vytvořte si vlastní sluneční soustavu. Přidejte objekty a nastavte pomocí symbolu V jejich rychlost. Nebo vše nastavte v tabulce Počáteční hodnoty"/>
+<string key="help0" value="Simulace hvězdné soustavy"/>
 <string key="doubleSlingshot" value="Gravitační prak (2x)"/>
+<string key="vYEquals" value="v y ="/>
 <string key="systemCentered" value="Centrovaný systém"/>
+<string key="vXEquals" value="v x ="/>
 <string key="start" value="Start"/>
 <string key="showTraces" value="Zobrazit trajektorii"/>
 <string key="back" value="zpět"/>
-<string key="tapeMeasure" value="Pásmo"/>
-<string key="accurate" value="přesně"/>
+<string key="xPos" value="x"/>
 <string key="help" value="Nápověda"/>
-<string key="selectPreset" value="Vyberte si..."/>
+<string key="accurate" value="přesně"/>
+<string key="tapeMeasure" value="Pásmo"/>
 <string key="showGrid" value="Zobrazit mřížku"/>
+<string key="selectPreset" value="Vyberte si..."/>
+<string key="yVel" value="y"/>
 <string key="timeEquals" value="čas = "/>
 <string key="ellipses" value="Elipsy"/>
-<string key="trojanAsteroids" value="Trojanové asteroidy"/>
+<string key="trojanAsteroids" value="asteroidy &quot;Trojané&quot;"/>
 <string key="fourStarBallet" value="Balet čtyř hvězd"/>
-<string key="position" value="Pozice"/>
+<string key="position" value="Poloha"/>
 <string key="reset" value="Vynulovat"/>
 <string key="mass" value="hmotnost"/>
 <string key="fast" value="rychle"/>
-<string key="simTitle" value="Můj Solární systém"/>
+<string key="simTitle" value="Moje sluneční soustava"/>
 <string key="sunPlanetMoon" value="Slunce, planeta, měsíc"/>
 <string key="initialSettings" value="Počáteční hodnoty"/>
+<string key="yPos" value="y"/>
 <string key="sunPlanetComet" value="Slunce, planeta, kometa"/>
 </SimStrings>
