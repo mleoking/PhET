@@ -20,14 +20,6 @@ public interface Molecule {
     String getDisplayName();
 
     /**
-     * Gets the PubChem Compound ID (CID).
-     * See http://en.wikipedia.org/wiki/PubChem
-     *
-     * @return CID
-     */
-    int getCID();
-
-    /**
      * Gets the molecule description.
      * Jmol supports a large number of formats, and auto detects the format of the String.
      * For a list of supported formats, see http://jmol.svn.sourceforge.net/viewvc/jmol/trunk/Jmol-datafiles/
