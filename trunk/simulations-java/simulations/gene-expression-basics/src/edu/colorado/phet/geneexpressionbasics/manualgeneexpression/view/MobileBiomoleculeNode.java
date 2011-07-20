@@ -26,7 +26,10 @@ public class MobileBiomoleculeNode extends PNode {
                     setPathTo( mvt.modelToView( shape ) );
                 }
             } );
+            // Cursor handling.
             addInputEventListener( new CursorHandler() );
+            // Drag handling.
+            addInputEventListener( new BiomoleculeDragHandler( mobileBiomolecule, this, mvt ) );
         }} );
     }
 }
