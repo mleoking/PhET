@@ -14,7 +14,6 @@
       <sourceFolder url="file://$MODULE_DIR$/simulations-java/common/java-version-checker/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/jolson/utilities/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/team/reids/tracking/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/localization-strings/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
