@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.resources.PhetCommonResources;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -15,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -25,35 +23,30 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.setBackgroundDeep;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CONCENTRATION;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_VALUES;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.TITLE_FONT;
-import static java.awt.Color.white;
 
 /**
- * Optional bar chart that shows concentrations for both salt and sugar (if any)
+ * Optional bar chart that shows bar charts for concentrations in macro and micro tab
  *
  * @author Sam Reid
  * @author John Blanco
  */
 public class ConcentrationBarChart extends PNode {
 
-    public ConcentrationBarChart( ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration,
-                                  final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, double scaleFactor ) {
+    protected final double abscissaY;
+    protected final PNode background;
 
+    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, double scaleFactor ) {
         final int INSET = 5;
 
-        //Convert from model units (Mols) to stage units by multiplying by this scale factor
-        final double verticalAxisScale = 160 * 1E-4 * scaleFactor;
-
-        final double totalWidth = 220;
-        double CHART_HEIGHT = 234;
-
-        final PNode background = new PhetPPath( new Rectangle2D.Double( 0, 0, totalWidth, CHART_HEIGHT ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
+        background = new PhetPPath( new Rectangle2D.Double( 0, 0, 220, 234 ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        final double abscissaY = CHART_HEIGHT - 60;
-        addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, totalWidth - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
+        abscissaY = background.getFullBounds().getHeight() - 60;
+        addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, background.getFullBounds().getWidth() - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Show the title
         addChild( new PText( CONCENTRATION ) {{
@@ -82,21 +75,11 @@ public class ConcentrationBarChart extends PNode {
         //Add a checkbox that lets the user toggle on and off whether actual values are shown
         //This is in a VBox in case we need to add other controls later
         addChild( new VBox() {{
-            addChild( new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.Strings.SHOW_VALUES, showValues ) {{
+            addChild( new PSwing( new PropertyCheckBox( SHOW_VALUES, showValues ) {{
                 setFont( CONTROL_FONT );
                 setBackgroundDeep( this, WATER_COLOR );
             }} ) );
             setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2, background.getHeight() - getFullBounds().getHeight() - INSET );
-        }} );
-
-        //Add a Salt concentration bar
-        addChild( new Bar( white, SALT, saltConcentration, showValues, verticalAxisScale ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 - WIDTH, abscissaY );
-        }} );
-
-        //Add a Sugar concentration bar
-        addChild( new Bar( white, SUGAR, sugarConcentration, showValues, verticalAxisScale ) {{
-            setOffset( totalWidth / 2 - getFullBoundsReference().width / 2 + WIDTH + 25, abscissaY );
         }} );
     }
 }
