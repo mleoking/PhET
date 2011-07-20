@@ -3,6 +3,8 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.awt.*;
 import java.io.File;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.*;
 
@@ -29,6 +31,8 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
+        Logger.getLogger( "de.lessvoid" ).setLevel( Level.SEVERE );
+        Logger.getLogger( "com.jme3" ).setLevel( Level.SEVERE );
         final File tempDir = new File( System.getProperty( "system.io.tmpdir" ), "phet-" + System.currentTimeMillis() );
         tempDir.mkdirs();
         final String path = tempDir.getAbsolutePath();
