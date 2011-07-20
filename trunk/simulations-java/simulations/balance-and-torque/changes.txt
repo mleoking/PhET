@@ -1,3 +1,5 @@
+# 0.00.02 (54292) Jul 19, 2011
+7/19/11 Deploying snapshot to dev
 Added the "mystery masses".
 Added adult to masses.
 # 0.00.01 (54036) Jul 13, 2011
