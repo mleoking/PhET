@@ -23,16 +23,21 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class ControlPanelNode extends PNode {
 
+    public static final int DEFAULT_ARC = 20;
+    public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
+    public static final Color DEFAULT_BORDER_COLOR = Color.gray;
+    public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 2 );
+
     public ControlPanelNode( JComponent jComponent ) {
         this( new PSwing( jComponent ) );
     }
 
     public ControlPanelNode( final PNode content ) {
-        this( content, new Color( 238, 238, 238 ) );
+        this( content, DEFAULT_BACKGROUND_COLOR );
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor ) {
-        this( content, backgroundColor, new BasicStroke( 2 ), Color.gray );
+        this( content, backgroundColor, DEFAULT_STROKE, DEFAULT_BORDER_COLOR );
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor ) {
@@ -40,7 +45,7 @@ public class ControlPanelNode extends PNode {
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset ) {
-        this( content, backgroundColor, borderStroke, borderColor, inset, 20, true );
+        this( content, backgroundColor, borderStroke, borderColor, inset, DEFAULT_ARC, true );
     }
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset, final int arc, boolean transparifySwing ) {
