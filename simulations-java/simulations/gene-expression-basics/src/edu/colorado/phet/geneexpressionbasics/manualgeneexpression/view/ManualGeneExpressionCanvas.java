@@ -127,7 +127,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // Add the tool box from which various biomolecules can be moved into
         // the active area of the sim.
         modelRootNode.addChild( new BiomoleculeBoxNode( model, this, mvt ) {{
-            setOffset( 750, 15 );
+            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getRect().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }} );
 
         //Uncomment this line to add zoom on right mouse click drag

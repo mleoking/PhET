@@ -2,7 +2,6 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
-import java.awt.Paint;
 import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
@@ -10,6 +9,8 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
+ * Class that represents RNA polymerase in the model.
+ *
  * @author John Blanco
  */
 public class RnaPolymerase extends MobileBiomolecule {
@@ -26,10 +27,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     public RnaPolymerase( Point2D position ) {
         super( createShape(), new Color( 34, 139, 34 ) );
         setPosition( position );
-    }
-
-    public Paint getPaint() {
-        return new Color( 0, 200, 40 );
     }
 
     private static Shape createShape() {
