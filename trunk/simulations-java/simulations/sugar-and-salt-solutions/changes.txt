@@ -1,3 +1,5 @@
+Micro tab: Made oxygen atoms in sugar molecule charge color neutral
+Micro tab: Changed color for neutral from gray to yellow
 Micro tab: Fixed: "Show Charge" doesn't reset on "Reset All"
 Micro tab: Hide the periodic table on reset, and make it come up in the default location next time
 Micro tab: Fixed: combo box doesn't reset on "Reset All"

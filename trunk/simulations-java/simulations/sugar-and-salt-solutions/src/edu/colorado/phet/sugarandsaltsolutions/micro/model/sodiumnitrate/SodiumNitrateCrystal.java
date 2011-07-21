@@ -9,8 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
 /**
@@ -36,7 +36,7 @@ public class SodiumNitrateCrystal extends Crystal {
 
         //The distance between nitrogen and oxygen should be the sum of their radii, but the blue background makes it hard to tell that N and O are bonded.
         //Therefore we bring the outer O's closer to the N so there is some overlap.
-        double nitrogenOxygenSpacing = ( new NitrogenIonParticle().radius + new OxygenIonParticle().radius ) * 0.85;
+        double nitrogenOxygenSpacing = ( new NitrogenIonParticle().radius + new FreeOxygenIonParticle().radius ) * 0.85;
 
         if ( component instanceof SodiumIon ) {
             constituents.add( new Constituent( new SodiumIonParticle(), relativePosition ) );

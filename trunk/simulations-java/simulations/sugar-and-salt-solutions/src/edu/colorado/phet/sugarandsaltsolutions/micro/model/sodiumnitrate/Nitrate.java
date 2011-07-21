@@ -6,8 +6,8 @@ import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -23,9 +23,9 @@ public class Nitrate implements Iterable<Constituent> {
 
     public Nitrate( double nitrogenOxygenSpacing, double angle, ImmutableVector2D relativePosition ) {
         this.relativePosition = relativePosition;
-        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 0 / 3.0 + angle ) ) );
-        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 1 / 3.0 + angle ) ) );
-        constituents.add( new Constituent( new OxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 2 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new FreeOxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 0 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new FreeOxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 1 / 3.0 + angle ) ) );
+        constituents.add( new Constituent( new FreeOxygenIonParticle(), parseAngleAndMagnitude( nitrogenOxygenSpacing, Math.PI * 2 * 2 / 3.0 + angle ) ) );
         constituents.add( new Constituent( new NitrogenIonParticle(), ZERO ) );
     }
 
