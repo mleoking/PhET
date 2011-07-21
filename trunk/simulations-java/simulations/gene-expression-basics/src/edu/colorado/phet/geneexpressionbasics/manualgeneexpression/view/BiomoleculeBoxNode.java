@@ -63,7 +63,7 @@ public class BiomoleculeBoxNode extends PNode {
                            return rnaPolymerase;
                        }
                    },
-                   false );
+                   true );
         }
     }
 
@@ -86,7 +86,7 @@ public class BiomoleculeBoxNode extends PNode {
                            return srs;
                        }
                    },
-                   false );
+                   true );
         }
     }
 }
