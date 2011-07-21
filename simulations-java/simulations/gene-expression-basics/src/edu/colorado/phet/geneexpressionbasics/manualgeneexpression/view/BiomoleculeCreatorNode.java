@@ -5,27 +5,39 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
+ * This class defines a node that can be used in the view to create biomolecules
+ * in the model.  It is intended for use in control panels.  It is generalized
+ * so that the parameters allow it to create any sort of biomolecule.
+ *
  * @author John Blanco
  */
-public class BiomoleculeCreatorNode extends PNode {
+public class BiomoleculeCreatorNode extends PComposite {
 
     private MobileBiomolecule biomolecule = null;
     private final ModelViewTransform mvt;
+    private final PhetPCanvas canvas;
 
-    public BiomoleculeCreatorNode( PNode clickToAddNode, ModelViewTransform mvt, final Function1<Point2D, MobileBiomolecule> createMolecule, boolean goInvisibleOnAdd ) {
+    public BiomoleculeCreatorNode( PNode appearanceNode, PhetPCanvas canvas, ModelViewTransform mvt,
+                                   final Function1<Point2D, MobileBiomolecule> moleculeCreator, boolean goInvisibleOnAdd ) {
+        this.canvas = canvas;
         this.mvt = mvt;
-        clickToAddNode.addInputEventListener( new CursorHandler() );
+        // Cursor handler.
+        addInputEventListener( new CursorHandler() );
+        // Add the handler that will add elements to the model when clicked.
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-                biomolecule = createMolecule.apply( getModelPosition( event.getCanvasPosition() ) );
+//                biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
+                biomolecule = moleculeCreator.apply( new Point2D.Double( 6000, 2000 ) );
             }
 
             @Override
@@ -40,7 +52,7 @@ public class BiomoleculeCreatorNode extends PNode {
                 biomolecule = null;
             }
         } );
-        addChild( clickToAddNode );
+        addChild( appearanceNode );
     }
 
     /**
@@ -48,10 +60,8 @@ public class BiomoleculeCreatorNode extends PNode {
      */
     private Point2D getModelPosition( Point2D canvasPos ) {
         Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
-//        canvas.getPhetRootNode().screenToWorld( worldPos );
-//        worldPos = new Vector2D( worldPos ).add( positioningOffset ).toPoint2D();
-//        Point2D modelPos = mvt.viewToModel( worldPos );
-//        return modelPos;
-        return null;
+        canvas.getPhetRootNode().screenToWorld( worldPos );
+        Point2D modelPos = mvt.viewToModel( worldPos );
+        return modelPos;
     }
 }

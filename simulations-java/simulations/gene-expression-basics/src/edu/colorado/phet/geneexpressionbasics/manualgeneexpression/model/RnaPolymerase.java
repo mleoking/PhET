@@ -17,6 +17,12 @@ public class RnaPolymerase extends MobileBiomolecule {
     private static final double WIDTH = 340;
     private static final double HEIGHT = 150;
 
+
+    public RnaPolymerase() {
+        this( new Point2D.Double( 0, 0 ) );
+
+    }
+
     public RnaPolymerase( Point2D position ) {
         super( createShape(), new Color( 34, 139, 34 ) );
         setPosition( position );

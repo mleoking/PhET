@@ -13,9 +13,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -63,10 +63,17 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         final PNode dnaMoleculeNode = new DnaMoleculeNode( model.getDnaMolecule(), mvt );
         modelRootNode.addChild( dnaMoleculeNode );
 
-        // Add the RNA polymerase - TODO temp for demo.
-        for ( RnaPolymerase rnaPolymerase : model.getRnaPolymeraseList() ) {
-            modelRootNode.addChild( new MobileBiomoleculeNode( mvt, rnaPolymerase ) );
+        // Add any initial molecules.
+        for ( MobileBiomolecule biomolecule : model.getMobileBiomoleculeList() ) {
+            modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
         }
+
+        // Watch for comings and goings of molecules in the mode.
+        model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
+            public void apply( MobileBiomolecule biomolecule ) {
+                modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
+            }
+        } );
 
         // Add buttons for moving to next and previous genes.
         // TODO: i18n
@@ -112,6 +119,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 activity = modelRootNode.animateToPositionScaleRotation( -mvt.modelToViewX( gene.getRect().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0, 1, 0, 1000 );
             }
         } );
+
+        // Add the tool box from which various biomolecules can be moved into
+        // the active area of the sim.
+        modelRootNode.addChild( new BiomoleculeBoxNode( model, this, mvt ) {{
+            setOffset( 1000, 15 );
+        }} );
 
         //Uncomment this line to add zoom on right mouse click drag
 //        addInputEventListener( getZoomEventHandler() );
