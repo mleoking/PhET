@@ -8,6 +8,9 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.ObservableList;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
@@ -49,7 +52,11 @@ public class ManualGeneExpressionModel {
     public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
 
     // List of RNA polymerase in the model.
-    private final List<RnaPolymerase> rnaPolymeraseList = new ArrayList<RnaPolymerase>();
+    public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
+
+    // Listeners for notifications of biomolecules coming and going.
+    private final List<VoidFunction1<MobileBiomolecule>> biomoleculeAddedListeners = new ArrayList<VoidFunction1<MobileBiomolecule>>();
+    private final List<VoidFunction1<MobileBiomolecule>> biomoleculeRemovedListeners = new ArrayList<VoidFunction1<MobileBiomolecule>>();
 
     //------------------------------------------------------------------------
     // Constructor
@@ -57,11 +64,11 @@ public class ManualGeneExpressionModel {
 
     public ManualGeneExpressionModel() {
         // TODO: Temporary initialization to make it look like some polymerase is around.
-        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 5000, 300 ) ) );
-        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 7000, 500 ) ) );
-        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 17000, 1000 ) ) );
-        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 24000, 2000 ) ) );
-        rnaPolymeraseList.add( new RnaPolymerase( new Point2D.Double( 27000, 900 ) ) );
+        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 5000, 300 ) ) );
+        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 7000, 500 ) ) );
+        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 17000, 1000 ) ) );
+        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 24000, 2000 ) ) );
+        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 27000, 900 ) ) );
     }
 
     //------------------------------------------------------------------------
@@ -90,7 +97,11 @@ public class ManualGeneExpressionModel {
         activeGene.set( genes.get( index ) );
     }
 
-    public List<RnaPolymerase> getRnaPolymeraseList() {
-        return rnaPolymeraseList;
+    public List<MobileBiomolecule> getMobileBiomoleculeList() {
+        return mobileBiomoleculeList;
+    }
+
+    public void addMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
+        mobileBiomoleculeList.add( mobileBiomolecule );
     }
 }

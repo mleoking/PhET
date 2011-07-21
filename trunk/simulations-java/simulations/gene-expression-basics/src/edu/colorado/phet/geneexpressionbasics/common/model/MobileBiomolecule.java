@@ -39,6 +39,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public void translate( ImmutableVector2D translationVector ) {
         AffineTransform translationTransform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
         shapeProperty.set( translationTransform.createTransformedShape( shapeProperty.get() ) );
+        System.out.println( this + " Translated, now at : " + getShape().getBounds2D().getCenterX() + ", " + getShape().getBounds2D().getCenterY() );
     }
 
     public void setPosition( Point2D newPos ) {
@@ -47,6 +48,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         // other behavior is required.
         translate( new Vector2D( newPos.getX() - shapeProperty.get().getBounds2D().getCenterX(),
                                  newPos.getY() - shapeProperty.get().getBounds2D().getCenterY() ) );
+//        System.out.println(this + "Position set to: " + newPos );
     }
 
     public Color getBaseColor() {
