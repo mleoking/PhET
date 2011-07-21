@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -73,6 +74,16 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             setOffset( stageSize.getWidth() - getFullBounds().getWidth(), stageSize.getHeight() / 2 - getFullBounds().getHeight() / 2 );
         }};
         addChild( periodicTableButton );
+
+        //Hide the periodic table on reset, and set it to null so it will come up in the default location next time
+        model.addResetListener( new VoidFunction0() {
+            public void apply() {
+                if ( periodicTableDialog != null ) {
+                    periodicTableDialog.dispose();
+                    periodicTableDialog = null;
+                }
+            }
+        } );
 
         //Checkbox to toggle whether the color shown is based on charge or atom identity
         addChild( new PSwing( new PropertyCheckBox( "Show Charge", model.showChargeColor ) {{

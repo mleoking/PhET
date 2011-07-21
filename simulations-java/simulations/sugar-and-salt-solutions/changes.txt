@@ -1,3 +1,4 @@
+Micro tab: Hide the periodic table on reset, and make it come up in the default location next time
 Micro tab: Fixed: combo box doesn't reset on "Reset All"
 Micro tab: Fixed: crystals and ions don't clear on "Reset All"
 Micro tab: Fixed: Na+ and Cl- in crystals count towards saturation point
