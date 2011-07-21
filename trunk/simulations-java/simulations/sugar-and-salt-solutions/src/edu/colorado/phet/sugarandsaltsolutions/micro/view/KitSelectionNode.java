@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
@@ -63,8 +64,12 @@ public class KitSelectionNode extends PNode {
             kitBounds = kitBounds.createUnion( kit.getFullBounds() );
         }
 
+        //Add insets so the kits sit within the background instead of protruding off the edge
+        kitBounds = RectangleUtils.expand( kitBounds, 2, 2 );
+
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
-        background = new PhetPPath( new RoundRectangle2D.Double( 0, 0, kitBounds.getWidth(), kitBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC ), DEFAULT_BACKGROUND_COLOR, DEFAULT_STROKE, DEFAULT_BORDER_COLOR );
+        RoundRectangle2D.Double backgroundPath = new RoundRectangle2D.Double( 0, 0, kitBounds.getWidth(), kitBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
+        background = new PhetPPath( backgroundPath, DEFAULT_BACKGROUND_COLOR, DEFAULT_STROKE, DEFAULT_BORDER_COLOR );
         addChild( background );
 
         //Create the layer that contains all the kits, and add the kits side by side spaced by the distance of the background so only 1 kit will be visible at a time
@@ -76,12 +81,12 @@ public class KitSelectionNode extends PNode {
             x += background.getFullBounds().getWidth();
         }
 
-        //Show a clip around the kits so that kits to the side can't be seen or interacted with
+        //Show a clip around the kits so that kits to the side can't be seen or interacted with.  Hide its stroke so it doesn't show a black border
         addChild( new PClip() {{
             setPathTo( background.getPathReference() );
+            setStroke( null );
             addChild( kitLayer );
         }} );
-
 
         //Buttons for scrolling previous/next
         addChild( new TextButtonNode( "Next" ) {{
@@ -110,6 +115,9 @@ public class KitSelectionNode extends PNode {
                 }
             } );
         }} );
+
+        //Repeat the outer stroke over the top (in z-ordering) so that it doesn't get obscured by the individual kits
+        addChild( new PhetPPath( backgroundPath, DEFAULT_STROKE, DEFAULT_BORDER_COLOR ) );
     }
 
     //When the next or previous button is pressed, scroll to the next kit
