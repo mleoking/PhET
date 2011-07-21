@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 
 /**
- * Base class for all biomolecules (i.e. rna polymerase, transciption factors,
+ * Base class for all biomolecules (i.e. rna polymerase, transcription factors,
  * etc.) that move around within the simulation.
  *
  * @author John Blanco

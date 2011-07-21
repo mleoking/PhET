@@ -8,6 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
@@ -32,9 +33,10 @@ public class BiomoleculeBoxNode extends PNode {
         this.canvas = canvas;
         this.mvt = mvt;
         PNode contentNode = new VBox(
+                // TODO: i18n
                 new PText( "Tool Box" ) {{ setFont( LABEL_FONT ); }},
-                new PText( "Nodes go here." ),
-                new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this )
+                // TODO: i18n
+                new HBox( new PText( "RNA Polymerase" ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ) )
         );
         addChild( new ControlPanelNode( contentNode ) );
     }
