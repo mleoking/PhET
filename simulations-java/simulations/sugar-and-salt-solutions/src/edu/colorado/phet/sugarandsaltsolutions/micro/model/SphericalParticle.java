@@ -84,7 +84,6 @@ public class SphericalParticle extends Particle {
         }
     }
 
-
     public static class SodiumIonParticle extends SphericalParticle {
         public SodiumIonParticle() {
             super( 102, SphericalParticle.POSITIVE_COLOR, magenta );

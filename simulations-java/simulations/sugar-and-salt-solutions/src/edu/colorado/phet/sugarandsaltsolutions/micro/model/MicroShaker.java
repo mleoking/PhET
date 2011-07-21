@@ -4,6 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
@@ -31,4 +33,16 @@ public abstract class MicroShaker extends Shaker<MicroModel> {
 
     //This method actually adds the crystal
     protected abstract void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity );
+
+    //Randomly generate crystals until we attain one that matches the desired criteria, such as having a perfect ratio of constituents (1:1 for NaCl or 2:1 for CaCl)
+    public static <T> T generateRandomLattice( Function0<T> newCrystal, Function1<T, Boolean> matches ) {
+        while ( true ) {
+
+            //Number of particles must be odd here so that the sum will be even, to balance out the crystal and make Na = Cl counts
+            T crystal = newCrystal.apply();
+            if ( matches.apply( crystal ) ) {
+                return crystal;
+            }
+        }
+    }
 }
