@@ -1,5 +1,7 @@
+7/19/11 add developer control for entering and executing Jmol scripts
 # 0.00.01 (54332) Jul 20, 2011
 7/19/11 dev version to demonstrate Jmol features and integration in "Real Molecules" tab
+7/19/11 add Jmol classes that are dynamically loaded to proguard-template.pro
 7/19/11 add dipole offsets, so that dipoles don't intersect atoms and bonds
 7/19/11 add placeholder for periodic table
 7/19/11 add "Molecule" label to combo box control
