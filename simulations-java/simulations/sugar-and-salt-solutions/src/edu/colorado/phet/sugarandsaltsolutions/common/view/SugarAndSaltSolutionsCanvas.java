@@ -31,7 +31,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
@@ -54,8 +53,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     public static Font CONTROL_FONT = new PhetFont( 16, true );
     public static Font TITLE_FONT = new PhetFont( 18, true );
     private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
-
-    protected final WhiteControlPanelNode soluteControlPanelNode;
 
     protected final PDimension stageSize;
     protected final ModelViewTransform transform;
@@ -99,11 +96,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
-
-        //Create the control panel for choosing sugar vs salt
-        soluteControlPanelNode = createSoluteControlPanelNode( model, this, stageSize );
-        soluteControlPanelNode.setOffset( stageSize.getWidth() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, 150 );
-        addChild( soluteControlPanelNode );
 
         //Add the reset all button
         addChild( new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ), BUTTON_COLOR ) {{
@@ -207,10 +199,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         //Show the precipitate as the sum of salt and sugar
         submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
     }
-
-    //Create the component used to choose between different solutes.
-    //Called from the constructor, should only use arguments passed in
-    protected abstract SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize );
 
     public void addChild( PNode node ) {
         rootNode.addChild( node );

@@ -38,8 +38,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM_CHLORIDE;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUCROSE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
@@ -150,8 +149,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Add models for the various dispensers: sugar, salt, etc.
         dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Sodium<br>Nitrate", distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
-        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, "Calcium<br>Chloride", distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
+        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
+        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
 
         //When the pause button is pressed, pause the clock
         clockPausedProperty.addObserver( new VoidFunction1<Boolean>() {
@@ -464,7 +463,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
      * @inheritDoc
      */
     @Override protected String getSaltShakerName() {
-        return SODIUM_CHLORIDE;
+        return SODIUM_CHLORIDE_NEW_LINE;
     }
 
     /**

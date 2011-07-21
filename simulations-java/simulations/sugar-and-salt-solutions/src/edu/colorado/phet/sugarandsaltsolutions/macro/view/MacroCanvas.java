@@ -7,15 +7,18 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.DispenserRadioButtonSet;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.Item;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.util.PDimension;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 
 /**
  * Canvas for the introductory (macro) tab of sugar and salt solutions
@@ -28,6 +31,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     protected final PNode conductivityToolboxLayer = new PNode();
 
     public final ExpandableConcentrationBarChartNode concentrationBarChart;
+    private final PNode soluteControlPanelNode;
 
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
         super( model, globalState, createMacroTransform( model ) );
@@ -41,6 +45,11 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
+
+        //Create the control panel for choosing sugar vs salt, use a radio-button-based selector for solutes
+        soluteControlPanelNode = new SoluteControlPanelNode( new DispenserRadioButtonSet( model.dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ) );
+        soluteControlPanelNode.setOffset( stageSize.getWidth() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, 150 );
+        addChild( soluteControlPanelNode );
 
         soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
 
@@ -58,11 +67,6 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
                 model.setOutflowShape( transform.viewToModel( transformed ).getBounds2D() );
             }
         } );
-    }
-
-    //Create a radio-button-based selector for solutes
-    @Override protected SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize ) {
-        return new RadioButtonSoluteControlPanelNode( model.dispenserType, canvas );
     }
 
     //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab

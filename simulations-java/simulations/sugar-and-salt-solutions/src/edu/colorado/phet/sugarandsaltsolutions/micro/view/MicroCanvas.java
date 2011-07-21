@@ -16,12 +16,11 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
-import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
@@ -53,7 +52,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }};
         behindShakerNode.addChild( concentrationBarChart );
 
-        soluteControlPanelNode.setOffset( concentrationBarChart.getFullBounds().getX() - soluteControlPanelNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
+        //Show the kit control node that allows the user to scroll through different kits
+        PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.dispenserType ) );
+        microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
+        addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed
         final TextButtonNode periodicTableButton = new TextButtonNode( "Show in Periodic Table" ) {{
@@ -106,11 +108,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( 0, stageSize.getHeight() - getFullBounds().getHeight() );
         }} );
-    }
-
-    //Create a user interface element that lets the user choose solutes from a drop-down box
-    @Override protected SoluteControlPanelNode createSoluteControlPanelNode( SugarAndSaltSolutionModel model, PSwingCanvas canvas, PDimension stageSize ) {
-        return new ComboBoxSoluteControlPanelNode( model.dispenserType );
     }
 
     //If the periodic table dialog was showing when the user switched away from this tab, restore it
