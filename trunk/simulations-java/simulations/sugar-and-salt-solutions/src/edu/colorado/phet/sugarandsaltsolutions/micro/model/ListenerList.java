@@ -21,7 +21,8 @@ public class ListenerList<T> {
     }
 
     public void notifyListeners( T value ) {
-        for ( VoidFunction1<T> listener : listeners ) {
+        //Iterate on a copy to avoid concurrentmodificationexception
+        for ( VoidFunction1<T> listener : new ArrayList<VoidFunction1<T>>( listeners ) ) {
             listener.apply( value );
         }
     }

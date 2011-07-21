@@ -70,7 +70,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //List of all free spherical particles, used to keep track of which particles to move about randomly
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
-    //Lists of lattices
+    //Lists of compounds
     public final ItemList<SodiumChlorideCrystal> saltCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
@@ -379,6 +379,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         saltConcentration.reset();
         showConcentrationValues.reset();
         dispenserType.reset();
+
+        //Clear particle lists
+        sphericalParticles.clear();
+        freeParticles.clear();
+        saltCrystals.clear();
+        sodiumNitrateCrystals.clear();
+        calciumChlorideCrystals.clear();
+        sugarCrystals.clear();
     }
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {
