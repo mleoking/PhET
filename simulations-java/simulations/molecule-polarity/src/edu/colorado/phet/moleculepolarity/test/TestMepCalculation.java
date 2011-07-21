@@ -25,7 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * Feasibility test to see whether MEP data can be computed with JMol and used productively elsewhere.
+ * Feasibility test to see whether MEP (Molecular Electrostatic Potential) data can be computed with JMol and used productively elsewhere.
  *
  * @author Sam Reid
  */
