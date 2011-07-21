@@ -1,3 +1,4 @@
+Micro tab: Ensure that crystal component ratios are exact (such as 1:1 for NaCl or 2:1 for CaCl)
 Micro tab: Made oxygen atoms in sugar molecule charge color neutral
 Micro tab: Changed color for neutral from gray to yellow
 Micro tab: Fixed: "Show Charge" doesn't reset on "Reset All"

@@ -81,4 +81,15 @@ public abstract class Lattice<T extends Lattice<T>> {
         //Grow at the selected open site
         return selected.grow( this );
     }
+
+    //Count the number of components of the specified type to help ensure that lattices have a perfect 1:1 or 2:1 ratio
+    public int count( Class<? extends Component> c ) {
+        int count = 0;
+        for ( Component component : components ) {
+            if ( c.isInstance( component ) ) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
