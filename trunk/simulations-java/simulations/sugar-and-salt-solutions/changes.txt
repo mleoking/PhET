@@ -1,3 +1,4 @@
+Micro tab: When the user switches kits, clear the solutes
 Micro tab: Kit resets on "reset all"
 Micro tab: Fixed: Kits extend into the border of the kit control panel
 Micro tab: Added kits for different solutes

@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
@@ -86,7 +87,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final Property<Boolean> clockPausedProperty = new Property<Boolean>( false );
 
     //The index of the kit selected by the user
-    public final Property<Integer> selectedKit = new Property<Integer>( 0 );
+    public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
+
+        //When the user switches kits, clear the solutes
+        addObserver( new SimpleObserver() {
+            public void update() {
+                clearSolutes();
+            }
+        } );
+    }};
 
     //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
@@ -377,10 +386,21 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public void reset() {
         super.reset();
-        sugarConcentration.reset();
-        saltConcentration.reset();
+
+        //Clear out solutes, particles, concentration values
+        clearSolutes();
+
+        //Reset model for user settings
         showConcentrationValues.reset();
         dispenserType.reset();
+        showChargeColor.reset();
+        selectedKit.reset();
+    }
+
+    private void clearSolutes() {
+        //Clear concentration values
+        sugarConcentration.reset();
+        saltConcentration.reset();
 
         //Clear particle lists
         sphericalParticles.clear();
@@ -389,10 +409,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         sodiumNitrateCrystals.clear();
         calciumChlorideCrystals.clear();
         sugarCrystals.clear();
-
-        //Reset model for user settings
-        showChargeColor.reset();
-        selectedKit.reset();
     }
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {
