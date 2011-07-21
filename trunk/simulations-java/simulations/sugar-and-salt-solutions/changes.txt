@@ -1,3 +1,4 @@
+Micro tab: Fixed: combo box doesn't reset on "Reset All"
 Micro tab: Fixed: crystals and ions don't clear on "Reset All"
 Micro tab: Fixed: Na+ and Cl- in crystals count towards saturation point
 Micro tab: Fixed: Sometimes crystals fall through the bottom of the beaker

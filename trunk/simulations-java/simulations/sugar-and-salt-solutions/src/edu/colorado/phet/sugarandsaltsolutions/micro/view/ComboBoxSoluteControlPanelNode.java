@@ -23,9 +23,17 @@ public class ComboBoxSoluteControlPanelNode extends SoluteControlPanelNode {
     static class SoluteComboBox extends PNode {
         SoluteComboBox( final Property<DispenserType> dispenserType ) {
             addChild( new ComboBoxNode<DispenserType>( SALT, SUGAR, SODIUM_NITRATE, CALCIUM_CHLORIDE, ETHANOL ) {{
+                //When the model changes, update the view
                 selectedItem.addObserver( new VoidFunction1<DispenserType>() {
                     public void apply( DispenserType dt ) {
                         dispenserType.set( dt );
+                    }
+                } );
+
+                //When the view changes, update the model
+                dispenserType.addObserver( new VoidFunction1<DispenserType>() {
+                    public void apply( DispenserType dt ) {
+                        selectedItem.set( dt );
                     }
                 } );
             }} );
