@@ -3,154 +3,154 @@
 # Automatically generated on Fri Aug 08 00:08:00 MDT 2008
 ###################################
 
-apple.png source=microsoft clip art notes=microsoft clip art
-apple_juice.png source=microsoft clip art
-backpacker.png source=microsoft clip art
-bacon.png source=microsoft clip art
-bagel.png source=microsoft clip art
-balanced.png source=microsoft clip art
-banana.png source=microsoft clip art
-bananasplit.png source=microsoft clip art
-basketball.png source=microsoft clip art
-basketball_nongame.png source=microsoft clip art
-beach_volleyball.png source=microsoft clip art
-beef.png source=microsoft clip art
-beer.png source=microsoft clip art
-beets.png source=microsoft clip art
-bike.png source=microsoft clip art
-bowling.png source=microsoft clip art
-bread_slice.png source=microsoft clip art
-broccoli.png source=microsoft clip art
-brussel_sprouts.png source=microsoft clip art
-burger.png source=microsoft clip art
-burrito.png source=microsoft clip art
-candy_bar.png source=microsoft clip art
-canoe.png source=microsoft clip art
-carbs.png source=microsoft clip art
-carrot.png source=microsoft clip art
-cashews.png source=microsoft clip art
-catch.png source=microsoft clip art
-cauliflower.png source=microsoft clip art
-chicken.png source=microsoft clip art
-class.png source=microsoft clip art
-climber.png source=microsoft clip art
-coffee.png source=microsoft clip art
-cola.png source=microsoft clip art
-corn.png source=microsoft clip art
-corn_flakes.png source=microsoft clip art
-cracked_egg.png source=microsoft clip art
-cream_cheese.png source=microsoft clip art
-cream_filled_cookie.png source=microsoft clip art
-crew.png source=microsoft clip art
-dancing.png source=microsoft clip art
-dancing_ballet.png source=microsoft clip art
-dancing_disco.png source=microsoft clip art
-diet_cola.png source=microsoft clip art
-dog_walker.png source=microsoft clip art
-dude_on_horse.png source=microsoft clip art
-egg.png source=microsoft clip art
-eye.png source=microsoft clip art
-fast-food.png source=microsoft clip art
-fishing_rod.png source=microsoft clip art
+apple.png source=Open Clip Art library notes="Apple"http://www.openclipart.org/detail/28752
+apple_juice.png source= Open Clip Art library notes="Fast Food, Drinks, Juice, Apple", http://www.openclipart.org/detail/9145
+backpacker.png source= Open Clip Art library notes="Architetto -- trekking in montagna", http://www.openclipart.org/detail/34915/architetto----trekking-in-montagna-by-anonymous
+bacon.png source=Wikimedia Commons notes"CookedBacon.jpg", http://commons.wikimedia.org/wiki/File:CookedBacon.jpg
+bagel.png source=Wikimedia Commons notes"Cinnamon-Raisin-Bagel-Alt.jpg", http://commons.wikimedia.org/wiki/File:Cinnamon-Raisin-Bagel-Alt.jpg
+balanced.png source=microsoft clip art NOT IN SIM
+banana.png source= Open Clip Art library notes="Banana", http://www.openclipart.org/detail/34915/architetto----trekking-in-montagna-by-anonymous
+bananasplit.png source=Wikimedia Commons notes"Traditional Banana Boat.jpg", http://en.wikipedia.org/wiki/File:Traditional_Banana_Boat.jpg
+basketball.png source=Wikimedia Commons notes"Košarka.jpg", http://commons.wikimedia.org/wiki/File:Ko%C5%A1arka.jpg
+basketball_nongame.png source=microsoft clip art NOT IN SIM
+beach_volleyball.png source= Open Clip Art library notes="volleyball spike announcement""net", http://www.openclipart.org/detail/144055/volleyball-spike-announcement-by-marcos8acid, http://www.openclipart.org/detail/5164/net-by-biswajyotim
+beef.png source= Open Clip Art library notes="Cow 4", http://www.openclipart.org/detail/40111/cow-4-by-artfavor
+beer.png source=microsoft clip art NOT IN SIM
+beets.png source=microsoft clip art NOT IN SIM
+bike.png source=microsoft clip art NOT IN SIM
+bowling.png source=Wikimedia Commons notes"3l135p4cad.jpg", http://commons.wikimedia.org/wiki/File:3l135p4cad.jpg
+bread_slice.png source=homemade image created by Oliver Nix
+broccoli.png source= Open Clip Art library notes="Broccoli", http://www.openclipart.org/detail/31375/broccoli-by-skarg
+brussel_sprouts.png source=microsoft clip art NOT IN SIM
+burger.png source= Open Clip Art library notes="burger", http://www.openclipart.org/detail/12680/burger-by-anonymous-12680
+burrito.png source= Open Clip Art library notes="Fast Food, Lunch-Dinner, Burrito", http://www.openclipart.org/detail/9074/fast-food-lunch-dinner-burrito-by-gerald_g
+candy_bar.png source=Wikimedia Commons notes"Cadbury-Dairy-Milk-Caramel-Bar.jpg", http://commons.wikimedia.org/wiki/File:Cadbury-Dairy-Milk-Caramel-Bar.jpg
+canoe.png source= Open Clip Art library notes="canoe traveling", http://www.openclipart.org/detail/19248/canoe-traveling-by-johnny_automatic-19248
+carbs.png source= Open Clip Art library notes="spaghetti and meatballs", http://www.openclipart.org/detail/8673/spaghetti-and-meatballs-by-johnny_automatic-8673
+carrot.png source= Open Clip Art library notes="Carrot", http://www.openclipart.org/detail/4778/carrot-by-chrisdesign-4778
+cashews.png source=Wikimedia Commons notes"Cashews 1314.jpg", http://commons.wikimedia.org/wiki/File:Cashews_1314.jpg
+catch.png source= Open Clip Art library notes="making the catch ", http://www.openclipart.org/detail/9391/making-the-catch-by-johnny_automatic
+cauliflower.png source=Wikimedia Commons notes"Cauliflower.JPG", http://commons.wikimedia.org/wiki/File:Cauliflower.JPG
+chicken.png source= Open Clip Art library notes="Chicken", http://www.openclipart.org/detail/27980/chicken-by-davidone
+class.png source=microsoft clip art NOT IN SIM
+climber.png source=Wikimedia Commons notes"A 1st Special Forces Group (Airborne) soldier climbs Castle Rock near Leavenworth Washington.jpg", http://commons.wikimedia.org/wiki/File:A_1st_Special_Forces_Group_%28Airborne%29_soldier_climbs_Castle_Rock_near_Leavenworth_Washington.jpg
+coffee.png source= Open Clip Art library notes="Coffee Cup", http://www.openclipart.org/detail/140275/coffee-cup-by-gsagri04
+cola.png source= Open Clip Art library notes="Cola", http://www.openclipart.org/detail/4815/cola-by-jonata
+corn.png source= Open Clip Art library notes="corn", http://www.openclipart.org/detail/26142/corn-by-johnny_automatic
+corn_flakes.png source= Open Clip Art library notes="Special Flakes", http://www.openclipart.org/detail/87019/special-flakes-by-stevepetmonkey, "NCI Visuals Food Meal Breakfast.jpg", http://commons.wikimedia.org/wiki/File:NCI_Visuals_Food_Meal_Breakfast.jpg
+cracked_egg.png source=microsoft clip art NOT IN SIM
+cream_cheese.png source=Wikimedia Commons notes"Philly cream cheese.jpg", http://commons.wikimedia.org/wiki/File:Philly_cream_cheese.jpg
+cream_filled_cookie.png source=Wikimedia Commons notes"Oreo.jpg", http://commons.wikimedia.org/wiki/File:Oreo.jpg
+crew.png source=Wikimedia Commons notes"Double Sculls USA.JPEG", http://commons.wikimedia.org/wiki/File:Double_Sculls_USA.JPEG
+dancing.png source= Open Clip Art library notes="Dancers with Red dress", http://www.openclipart.org/detail/48805/dancers-with-red-dress-by-gbraad
+dancing_ballet.png source=Wikimedia Commons notes"Iraq-National unity ballet2 600.jpg", http://commons.wikimedia.org/wiki/File:Iraq-National_unity_ballet2_600.jpg
+dancing_disco.png source= Open Clip Art library notes="Disco Dancers", http://www.openclipart.org/detail/19523/disco-dancers-by-eeyrsja
+diet_cola.png source= Open Clip Art library notes="Cola", http://www.openclipart.org/detail/4815/cola-by-jonata
+dog_walker.png source=microsoft clip art NOT IN SIM
+dude_on_horse.png source= Open Clip Art library notes="Horse Riding Lesson", http://www.openclipart.org/detail/142627/horse-riding-lesson-by-olku
+egg.png source= Open Clip Art library notes="Fried egg ""eggs", http://www.openclipart.org/detail/20158/eggs-by-rg1024-20158, http://www.openclipart.org/detail/23677/fried-egg-by-papapishu-23677
+eye.png source= Open Clip Art library notes="Eye", http://www.openclipart.org/detail/2180/eye-by-machovka
+fast-food.png source= Open Clip Art library notes="Fast Food, Menu, Sample Usage", http://www.openclipart.org/detail/9071/fast-food-menu-sample-usage-by-gerald_g-9071
+fishing_rod.png source=Wikimedia Commons notes"Flyfishing.jpg", http://commons.wikimedia.org/wiki/File:Flyfishing.jpg
 food-pyramid.png source=http://www.sciencepages.co.uk/keystage3/year8/module13/m13revision.php
-fries.png source=microsoft clip art
-gardening.png source=microsoft clip art
-golf_cart.png source=microsoft clip art
-golf_walking.png source=microsoft clip art
-grapefruit.png source=microsoft clip art
-grapes.png source=microsoft clip art
-ham.png source=microsoft clip art
-heart.png source=microsoft clip art
-heart2.png source=microsoft clip art
-heavy_truck.png source=microsoft clip art
-hockey_player.png source=microsoft clip art
-hot_chocolate.png source=microsoft clip art
-hot_dog.png source=microsoft clip art
-iced_tea.png source=microsoft clip art
-j0232547.gif source=microsoft clip art
-j0232879.gif source=microsoft clip art
-j0283852.gif source=microsoft clip art
-j0396718.gif source=microsoft clip art
-j0398303.gif source=microsoft clip art
-j0410455.gif source=microsoft clip art
-j0412534.gif source=microsoft clip art
-j0413686.gif source=microsoft clip art
-j0417518.png source=microsoft clip art
-j0424122.gif source=microsoft clip art
-j0429961.gif source=microsoft clip art
-jogger.png source=microsoft clip art
-judo.png source=microsoft clip art
-kayaker.png source=microsoft clip art
-large_milkshake copy.png source=microsoft clip art
-large_milkshake.png source=microsoft clip art
-latte.png source=microsoft clip art
-leisure_bikers.png source=microsoft clip art
-lemonade.png source=microsoft clip art
-milk.png source=microsoft clip art
-milkshake.png source=microsoft clip art
-milk_1.png source=microsoft clip art
-milk_2.png source=microsoft clip art
-milk_skim.png source=microsoft clip art
-mountain_biking.png source=microsoft clip art
-mowing_lawn.png source=microsoft clip art
-oatmeal.png source=microsoft clip art
-orange_juice.png source=microsoft clip art
-pancakes.png source=microsoft clip art
-pasta.png source=microsoft clip art
-pbj.gif source=microsoft clip art
-pizza.png source=microsoft clip art
-pizza_pie.png source=microsoft clip art
-planner.png source=microsoft clip art
-plate-2.png source=microsoft clip art
-plate.png source=microsoft clip art
-platter.png source=microsoft clip art
-pomegranate.png source=microsoft clip art
-pork_chop.png source=microsoft clip art
-potato.png source=microsoft clip art
-potato_chips.png source=microsoft clip art
-potato_chips_handful.png source=microsoft clip art
-quarter_burger.png source=microsoft clip art
-rafting.png source=microsoft clip art
-rice.png source=microsoft clip art
-road_biker.png source=microsoft clip art
-road_biker_1.png source=microsoft clip art
-road_biker_2.png source=microsoft clip art
-road_biker_3.png source=microsoft clip art
-road_racer.png source=microsoft clip art
-running_1.png source=microsoft clip art
-running_2.png source=microsoft clip art
-running_stairs.png source=microsoft clip art
-sailing.png source=microsoft clip art
-salad.png source=microsoft clip art
-salami.png source=microsoft clip art
-sitting_sports.png source=microsoft clip art
-skateboarder.gif source=microsoft clip art
-skier_cross_country.png source=microsoft clip art
-skier_downhill.gif source=microsoft clip art
-soccer.png source=microsoft clip art
-spaghetti.png source=microsoft clip art
-squash_player.png source=microsoft clip art
-steak.png source=microsoft clip art
-stick_butter.png source=microsoft clip art
-strawberry.png source=microsoft clip art
-stroller.png source=microsoft clip art
-sub.png source=microsoft clip art
-surfer_dude.png source=microsoft clip art
-syrup.png source=microsoft clip art
-swim.png source=microsoft clip art
-table_tennis.png source=microsoft clip art
-taco.png source=microsoft clip art
-tennis.png source=microsoft clip art
-tennis_doubles.png source=microsoft clip art
-tofu.png source=microsoft clip art
-ultimate.png source=microsoft clip art
-unicycle.png source=microsoft clip art
-vacuum.png source=microsoft clip art
-volleyball_noncompetitive.png source=microsoft clip art
-walking_pleasure.png source=microsoft clip art
-weightlifter_nonserious.png source=microsoft clip art
-weightlifter_serious.png source=microsoft clip art
-white_rice.png source=microsoft clip art
-wine.png source=microsoft clip art
-yogurt.png source=microsoft clip art
-yogurt_flavored.png source=microsoft clip art
+fries.png source= Open Clip Art library notes="french fries juliane kr r", http://www.openclipart.org/detail/106741/french-fries-juliane-kr-r-by-anonymous
+gardening.png source=Wikimedia Commons notes"Brian Farrell plants", http://commons.wikimedia.org/wiki/File:Brian_Farrell_plants.jpg
+golf_cart.png source= Open Clip Art library notes="golf cart""Golfer", http://www.openclipart.org/detail/1971/golf-cart-by-johnny_automatic, http://www.openclipart.org/detail/28064/golfer-by-davidone-28064
+golf_walking.png source= Open Clip Art library notes="Golf Drive", http://www.openclipart.org/detail/8264/golf-drive-by-gerald_g-8264
+grapefruit.png source= Open Clip Art library notes="Grapefruit", http://www.openclipart.org/detail/131383/grapefruit-by-gnokii
+grapes.png source=Wikimedia Commons notes"GreenGrapes.jpg", http://commons.wikimedia.org/wiki/File:GreenGrapes.jpg
+ham.png source= Open Clip Art library notes="whole ham", http://www.openclipart.org/detail/1023/whole-ham-by-johnny_automatic
+heart.png source= Open Clip Art library notes="Heart Gloss 5", http://www.openclipart.org/detail/80623/heart-gloss-5-by-inky2010
+heart2.png source= Open Clip Art library notes="Heart Gloss 5", http://www.openclipart.org/detail/80623/heart-gloss-5-by-inky2010
+heavy_truck.png source= Open Clip Art library notes="Cistern Truck", http://www.openclipart.org/detail/16862/cistern-truck-by-ivak
+hockey_player.png source=Wikimedia Commons notes"Mike Brown (ice hockey).jpg", http://commons.wikimedia.org/wiki/File:Mike_Brown_%28ice_hockey%29.jpg
+hot_chocolate.png source= Open Clip Art library notes="A cup of tea", http://www.openclipart.org/detail/2941/a-cup-of-tea-by-rau
+hot_dog.png source= Open Clip Art library notes="Hot Dog", http://www.openclipart.org/detail/69763/hot-dog-by-deluge
+iced_tea.png source=Wikimedia Commons notes"NCI iced tea", http://commons.wikimedia.org/wiki/File:NCI_iced_tea.jpg
+j0232547.gif source=microsoft clip art NOT IN SIM
+j0232879.gif source=Wikimedia Commons notes"Bokushi Snowshoe.jpg", http://commons.wikimedia.org/wiki/File:Bokushi_Snowshoe.jpg
+j0283852.gif source= Open Clip Art library notes="Jumping rope", http://www.openclipart.org/detail/719/jumping-rope-by-johnny_automatic
+j0396718.gif source= Open Clip Art library notes="Ski man", http://www.openclipart.org/detail/5225/ski-man-by-biswajyotim-5225
+j0398303.gif source= Open Clip Art library notes="old fashioned skater", http://www.openclipart.org/detail/9254/old-fashioned-skater-by-johnny_automatic
+j0410455.gif source=microsoft clip art NOT IN SIM
+j0412534.gif source= Open Clip Art library notes="Roller Blader", http://www.openclipart.org/detail/8268/roller-blader-by-gerald_g-8268
+j0413686.gif source= Open Clip Art library notes="turkey platter 01 with fruit and vegitables 01", http://www.openclipart.org/detail/90037/turkey-platter-01-with-fruit-and-vegitables-01-by-anonymous
+j0417518.png source= Open Clip Art library notes="Balance Scale", http://www.openclipart.org/detail/544/balance-scale-by-gerald_g
+j0424122.gif source=microsoft clip art NOT IN SIM
+j0429961.gif source= Open Clip Art library notes="Hanumanasana", http://www.openclipart.org/detail/21248/hanumanasana-by-mpuech
+jogger.png source= Open Clip Art library notes="Architetto -- nonno sport", http://www.openclipart.org/detail/32323/architetto----nonno-sport-by-anonymous
+judo.png source= Open Clip Art library notes="Chica karateca", http://www.openclipart.org/detail/141883/chica-karateca-by-latinbooker
+kayaker.png source=Wikimedia Commons notes"Wye Kayaking 2.JPG", http://commons.wikimedia.org/wiki/File:Wye_Kayaking_2.JPG
+large_milkshake copy.png source=Wikimedia Commons notes"Irish Violet Crumble.jpg", http://commons.wikimedia.org/wiki/File:Irish_Violet_Crumble.jpg
+large_milkshake.png source=Wikimedia Commons notes"Irish Violet Crumble.jpg", http://commons.wikimedia.org/wiki/File:Irish_Violet_Crumble.jpg
+latte.png source= Open Clip Art library notes="Latte macchiato", http://www.openclipart.org/detail/4706/latte-macchiato-by-cyrond
+leisure_bikers.png source= Open Clip Art library notes="bike rider", http://www.openclipart.org/detail/4823/bike-rider-by-steren-4823
+lemonade.png source= Open Clip Art library notes="Lemonade glass", http://www.openclipart.org/detail/14858/lemonade-glass-by-nicubunu
+milk.png source= Open Clip Art library notes="milk 02", http://www.openclipart.org/detail/43597/milk-02-by-artfavor
+milkshake.png source=Wikimedia Commons notes"Irish Violet Crumble.jpg", http://commons.wikimedia.org/wiki/File:Irish_Violet_Crumble.jpg
+milk_1.png source=microsoft clip art NOT IN SIM
+milk_2.png source= Open Clip Art library notes="milk 02", http://www.openclipart.org/detail/43597/milk-02-by-artfavor
+milk_skim.png source= Open Clip Art library notes="milk 02", http://www.openclipart.org/detail/43597/milk-02-by-artfavor
+mountain_biking.png source= Open Clip Art library notes="biker", http://www.openclipart.org/detail/2247/biker-by-machovka
+mowing_lawn.png source= Open Clip Art library notes="lawn mower", http://www.openclipart.org/detail/141127/lawn-mower-by-tzunghaor
+oatmeal.png source=microsoft clip art NOT IN SIM
+orange_juice.png source=Wikimedia Commons notes"Orange juice 2.jpg", http://commons.wikimedia.org/wiki/File:Orange_juice_2.jpg
+pancakes.png source=Wikimedia Commons notes"Amerikansk Pannkaka.JPG", http://commons.wikimedia.org/wiki/File:Amerikansk_Pannkaka.JPG
+pasta.png source=Wikimedia Commons notes"Mirácoli noodles with sauce.jpg", http://commons.wikimedia.org/wiki/File:Mir%C3%A1coli_noodles_with_sauce.jpg
+pbj.gif source=Wikimedia Commons notes"Peanut-Butter-Jelly-Sandwich.jpg", http://commons.wikimedia.org/wiki/File:Peanut-Butter-Jelly-Sandwich.jpg
+pizza.png source= Open Clip Art library notes="Fast Food, Snack, Pizza, Pepperoni Mushroom", http://www.openclipart.org/detail/9086/fast-food-snack-pizza-pepperoni-mushroom-by-gerald_g
+pizza_pie.png source=Wikimedia Commons notes"SausagePizza.JPG", http://commons.wikimedia.org/wiki/File:SausagePizza.JPG
+planner.png source= Open Clip Art library notes="Vector Book", http://www.openclipart.org/detail/9086/fast-food-snack-pizza-pepperoni-mushroom-by-gerald_g, "Pen", http://www.openclipart.org/detail/68605/pen-by-dismal_denizen
+plate-2.png source= Open Clip Art library notes="Architetto -- Come si dispongono le posate", http://www.openclipart.org/detail/25540/architetto----come-si-dispongono-le-posate-by-anonymous-25540
+plate.png source=microsoft clip art NOT IN SIM
+platter.png source=microsoft clip art NOT IN SIM
+pomegranate.png source=microsoft clip art NOT IN SIM
+pork_chop.png source=Wikimedia Commons notes"Pork-chops-001.jpg", http://commons.wikimedia.org/wiki/File:Pork-chops-001.jpg
+potato.png source= Open Clip Art library notes="Potato", http://www.openclipart.org/detail/22370/potato-by-nicubunu
+potato_chips.png source=Wikimedia Commons notes"Wasabi-Chips (Migros).JPG", http://commons.wikimedia.org/wiki/File:Wasabi-Chips_%28Migros%29.JPG, "Fast Food, Snack, Potato Chips", http://www.openclipart.org/detail/9087/fast-food-snack-potato-chips-by-gerald_g
+potato_chips_handful.png source=microsoft clip art NOT IN SIM
+quarter_burger.png source= Open Clip Art library notes="burger", http://www.openclipart.org/detail/12680/burger-by-anonymous-12680
+rafting.png source=Wikimedia Commons notes"Rio Salvaje Jalcomulco.jpeg", http://commons.wikimedia.org/wiki/File:Rio_Salvaje_Jalcomulco.jpeg
+rice.png source= Open Clip Art library notes="bowl of rice", http://www.openclipart.org/detail/26154/bowl-of-rice-by-johnny_automatic
+road_biker.png source= Open Clip Art library notes="Cyclist silhouette", http://www.openclipart.org/detail/76015/cyclist-silhouette-by-laobc
+road_biker_1.png source=microsoft clip art NOT IN SIM
+road_biker_2.png source=microsoft clip art NOT IN SIM
+road_biker_3.png source=microsoft clip art NOT IN SIM
+road_racer.png source= Open Clip Art library notes="bike rider", http://www.openclipart.org/detail/4822/bike-rider-by-steren
+running_1.png source= Open Clip Art library notes="Woman Jogging", http://www.openclipart.org/detail/28836/woman-jogging-by-eacousineau
+running_2.png source= Open Clip Art library notes="Woman Jogging", http://www.openclipart.org/detail/28836/woman-jogging-by-eacousineau
+running_stairs.png source=homemade by ON.
+sailing.png source=microsoft clip art NOT IN SIM
+salad.png source=Wikimedia Commons notes"VegSalad.jpg", http://commons.wikimedia.org/wiki/File:VegSalad.jpg
+salami.png source=microsoft clip art NOT IN SIM
+sitting_sports.png source=microsoft clip art NOT IN SIM
+skateboarder.gif source= Open Clip Art library notes="SkateBoardBoy", http://www.openclipart.org/detail/84145/skateboardboy-by-tombrough
+skier_cross_country.png source=Wikimedia Commons notes"Pietro Piller Cottrer.jpg", http://commons.wikimedia.org/wiki/File:Pietro_Piller_Cottrer.jpg
+skier_downhill.gif source= Open Clip Art library notes="Ski man", http://www.openclipart.org/detail/5225/ski-man-by-biswajyotim-5225
+soccer.png source= Open Clip Art library notes="futbolista (soccer player)", http://www.openclipart.org/detail/3754/futbolista-%28soccer-player%29-by-sam_uy
+spaghetti.png source=microsoft clip art NOT IN SIM
+squash_player.png source= Open Clip Art library notes="tennis player", http://www.openclipart.org/detail/424/tennis-player-by-johnny_automatic
+steak.png source=microsoft clip art NOT IN SIM
+stick_butter.png source=Wikimedia Commons notes"Butter and Oil - NCI Visuals Online.jpg", http://commons.wikimedia.org/wiki/File:Butter_and_Oil_-_NCI_Visuals_Online.jpg
+strawberry.png source= Open Clip Art library notes="strawberry", http://www.openclipart.org/detail/23540/strawberry-by-baroquon-23540
+stroller.png source= Open Clip Art library notes="Faceless woman walking", http://www.openclipart.org/detail/78061/faceless-woman-walking-by-laobc
+sub.png source=Wikimedia Commons notes"Submarine sandwich.jpg", http://commons.wikimedia.org/wiki/File:Submarine_sandwich.jpg
+surfer_dude.png source=Wikimedia Commons notes"Surfer.jpg", http://commons.wikimedia.org/wiki/File:Surfer.jpg
+syrup.png source=Wikimedia Commons notes"Maple syrup.jpg", http://commons.wikimedia.org/wiki/File:Maple_syrup.jpg, "Maple Leaf", http://www.openclipart.org/detail/121621/maple-leaf-by-merlin2525
+swim.png source=Wikimedia Commons notes"US Navy 071016-N-9818V-056 Air Force 2nd Lt. Christopher Knaute competes in the 400-meter swim at the 4th Conseil Internationale du Sport Militaire^rsquo,s Military World Games.jpg", http://commons.wikimedia.org/wiki/File:US_Navy_071016-N-9818V-056_Air_Force_2nd_Lt._Christopher_Knaute_competes_in_the_400-meter_swim_at_the_4th_Conseil_Internationale_du_Sport_Militaire%5Ersquo,s_Military_World_Games.jpg
+table_tennis.png source= Open Clip Art library notes="table tennis", http://www.openclipart.org/detail/13232/table-tennis-by-anonymous
+taco.png source=Wikimedia Commons notes"NCI Visuals Food Taco.jpg", http://commons.wikimedia.org/wiki/File:NCI_Visuals_Food_Taco.jpg
+tennis.png source= Open Clip Art library notes="tennis player", http://www.openclipart.org/detail/22753/tennis-player-by-papapishu
+tennis_doubles.png source= Open Clip Art library notes="tennis player", http://www.openclipart.org/detail/22753/tennis-player-by-papapishu
+tofu.png source=microsoft clip art NOT IN SIM
+ultimate.png source=Wikimedia Commons notes"Westenberg.jpg", http://commons.wikimedia.org/wiki/File:Westenberg.jpg
+unicycle.png source= Open Clip Art library notes="Unicycle", http://www.openclipart.org/detail/101605/unicycle-by-bradpitcher
+vacuum.png source= Open Clip Art library notes="Vacuum cleaner", http://www.openclipart.org/detail/2651/vacuum-cleaner-by-liftarn-2651
+volleyball_noncompetitive.png source=Wikimedia Commons notes"US Navy 080112-N-8933S-127 Seaman Wilfredo Jirauruiz blocks a spike during a volleyball game against the Vieille Gloire (Old Glory) team a local Gabonese volleyball team.jpg", http://commons.wikimedia.org/wiki/File:US_Navy_080112-N-8933S-127_Seaman_Wilfredo_Jirauruiz_blocks_a_spike_during_a_volleyball_game_against_the_Vieille_Gloire_%28Old_Glory%29_team_a_local_Gabonese_volleyball_team.jpg
+walking_pleasure.png source=Wikimedia Commons notes"Couple walking dog at Buckingham Fountain.jpg", http://commons.wikimedia.org/wiki/File:Couple_walking_dog_at_Buckingham_Fountain.jpg
+weightlifter_nonserious.png source= Open Clip Art library notes="Architetto -- sport stacco 02", http://www.openclipart.org/detail/34495/architetto----sport-stacco-02-by-anonymous
+weightlifter_serious.png source= Open Clip Art library notes="WeightLifting", http://www.openclipart.org/detail/18412/weightlifting-by-motudo
+white_rice.png source=microsoft clip art NOT IN SIM
+wine.png source=microsoft clip art NOT IN SIM
+yogurt.png source=Wikimedia Commons notes"LG 21.JPG", http://commons.wikimedia.org/wiki/File:LG_21.JPG
+yogurt_flavored.png source=Wikimedia Commons notes"LG 21.JPG", http://commons.wikimedia.org/wiki/File:LG_21.JPG
