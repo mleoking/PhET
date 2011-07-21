@@ -85,6 +85,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //settable property that indicates whether the clock is running or paused
     public final Property<Boolean> clockPausedProperty = new Property<Boolean>( false );
 
+    //The index of the kit selected by the user
+    public final Property<Integer> selectedKit = new Property<Integer>( 0 );
+
     //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
         public IonConcentration( final Class type ) {
@@ -389,6 +392,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Reset model for user settings
         showChargeColor.reset();
+        selectedKit.reset();
     }
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {

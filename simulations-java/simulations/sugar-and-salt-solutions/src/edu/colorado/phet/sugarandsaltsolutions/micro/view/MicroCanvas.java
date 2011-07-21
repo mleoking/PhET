@@ -53,7 +53,13 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         behindShakerNode.addChild( concentrationBarChart );
 
         //Show the kit control node that allows the user to scroll through different kits
-        PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.dispenserType ) );
+        PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
+            model.addResetListener( new VoidFunction0() {
+                public void apply() {
+                    kitSelectionNode.selectedKit.set( 0 );
+                }
+            } );
+        }} );
         microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
         addChild( microKitControlNode );
 
