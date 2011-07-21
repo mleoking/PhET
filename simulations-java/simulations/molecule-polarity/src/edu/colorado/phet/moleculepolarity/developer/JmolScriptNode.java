@@ -26,9 +26,9 @@ public class JmolScriptNode extends PhetPNode {
     public JmolScriptNode( final JmolViewerNode viewerNode ) {
 
         final JTextArea textArea = new JTextArea( 5, 20 ) {{
-            setText( "enter a Jmol script here" );
+            setText( "enter a Jmol script here (dev)" );
             setLineWrap( true );
-            setBorder( BorderFactory.createLineBorder( Color.BLACK ) );
+            setBorder( BorderFactory.createLineBorder( Color.RED ) );
             setBackground( new Color( 245, 245, 245 ) );
         }};
         PSwing textAreaNode = new PSwing( textArea );
