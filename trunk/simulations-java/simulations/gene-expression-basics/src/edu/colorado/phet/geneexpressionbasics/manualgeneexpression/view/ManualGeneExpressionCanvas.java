@@ -8,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -30,6 +32,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
     private PTransformActivity activity;
+    private final Vector2D viewportOffset = new Vector2D( 0, 0 );
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -116,17 +119,22 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 if ( activity != null ) {
                     activity.terminate( 0 );
                 }
-                activity = modelRootNode.animateToPositionScaleRotation( -mvt.modelToViewX( gene.getRect().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0, 1, 0, 1000 );
+                viewportOffset.setComponents( -mvt.modelToViewX( gene.getRect().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
+                activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
             }
         } );
 
         // Add the tool box from which various biomolecules can be moved into
         // the active area of the sim.
         modelRootNode.addChild( new BiomoleculeBoxNode( model, this, mvt ) {{
-            setOffset( 1000, 15 );
+            setOffset( 750, 15 );
         }} );
 
         //Uncomment this line to add zoom on right mouse click drag
 //        addInputEventListener( getZoomEventHandler() );
+    }
+
+    public ImmutableVector2D getViewportOffset() {
+        return new ImmutableVector2D( viewportOffset );
     }
 }

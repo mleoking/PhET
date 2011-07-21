@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -24,9 +23,9 @@ public class BiomoleculeCreatorNode extends PComposite {
 
     private MobileBiomolecule biomolecule = null;
     private final ModelViewTransform mvt;
-    private final PhetPCanvas canvas;
+    private final ManualGeneExpressionCanvas canvas;
 
-    public BiomoleculeCreatorNode( PNode appearanceNode, PhetPCanvas canvas, ModelViewTransform mvt,
+    public BiomoleculeCreatorNode( PNode appearanceNode, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator, boolean goInvisibleOnAdd ) {
         this.canvas = canvas;
         this.mvt = mvt;
@@ -36,8 +35,7 @@ public class BiomoleculeCreatorNode extends PComposite {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-//                biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
-                biomolecule = moleculeCreator.apply( new Point2D.Double( 6000, 2000 ) );
+                biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
             }
 
             @Override
@@ -59,7 +57,7 @@ public class BiomoleculeCreatorNode extends PComposite {
      * Convert the canvas position to the corresponding location in the model.
      */
     private Point2D getModelPosition( Point2D canvasPos ) {
-        Point2D worldPos = new Point2D.Double( canvasPos.getX(), canvasPos.getY() );
+        Point2D worldPos = new Point2D.Double( canvasPos.getX() - canvas.getViewportOffset().getX(), canvasPos.getY() - canvas.getViewportOffset().getY() );
         canvas.getPhetRootNode().screenToWorld( worldPos );
         Point2D modelPos = mvt.viewToModel( worldPos );
         return modelPos;

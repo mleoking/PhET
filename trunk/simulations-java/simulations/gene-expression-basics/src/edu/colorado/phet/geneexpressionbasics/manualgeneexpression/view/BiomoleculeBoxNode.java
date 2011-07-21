@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -25,10 +24,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class BiomoleculeBoxNode extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 20 );
     private final ManualGeneExpressionModel model;
-    private final PhetPCanvas canvas;
+    private final ManualGeneExpressionCanvas canvas;
     private final ModelViewTransform mvt;
 
-    public BiomoleculeBoxNode( ManualGeneExpressionModel model, PhetPCanvas canvas, ModelViewTransform mvt ) {
+    public BiomoleculeBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
         this.model = model;
         this.canvas = canvas;
         this.mvt = mvt;
