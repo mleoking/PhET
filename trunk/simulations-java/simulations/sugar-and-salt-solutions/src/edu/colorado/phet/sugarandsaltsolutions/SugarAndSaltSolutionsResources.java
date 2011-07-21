@@ -15,9 +15,12 @@ public class SugarAndSaltSolutionsResources {
 
     //Strings
     public static class Strings {
+        public static final String CALCIUM_CHLORIDE = RESOURCES.getLocalizedString( "calciumChloride" );
+        public static final String CALCIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "calciumChlorideNewLine" );
         public static final String CHLORIDE = RESOURCES.getLocalizedString( "chloride" );
         public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
         public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
+        public static final String ETHANOL = RESOURCES.getLocalizedString( "ethanol" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String MACRO = RESOURCES.getLocalizedString( "macro" );
@@ -30,6 +33,9 @@ public class SugarAndSaltSolutionsResources {
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
         public static final String SODIUM = RESOURCES.getLocalizedString( "sodium" );
         public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
+        public static final String SODIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "sodiumChlorideNewLine" );
+        public static final String SODIUM_NITRATE = RESOURCES.getLocalizedString( "sodiumNitrate" );
+        public static final String SODIUM_NITRATE_NEW_LINE = RESOURCES.getLocalizedString( "sodiumNitrateNewLine" );
         public static final String SOLUTE = RESOURCES.getLocalizedString( "solute" );
         public static final String SUCROSE = RESOURCES.getLocalizedString( "sucrose" );
         public static final String SUGAR = RESOURCES.getLocalizedString( "sugar" );
