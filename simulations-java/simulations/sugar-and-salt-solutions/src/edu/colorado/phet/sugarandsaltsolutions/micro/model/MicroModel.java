@@ -387,6 +387,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         sodiumNitrateCrystals.clear();
         calciumChlorideCrystals.clear();
         sugarCrystals.clear();
+
+        //Reset model for user settings
+        showChargeColor.reset();
     }
 
     public ObservableProperty<Boolean> isAnySaltToRemove() {
