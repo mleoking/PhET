@@ -74,4 +74,16 @@ public class ItemList<T> implements Iterable<T> {
             }
         } );
     }
+
+    //Remove all items from the list
+    public void clear() {
+        while ( size() > 0 ) {
+            remove( getItems().get( 0 ) );
+        }
+    }
+
+    //Get the number of elements in the list
+    private int size() {
+        return getItems().size();
+    }
 }
