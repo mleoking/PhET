@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_da.xml created Thu Jul 21 19:33:33 CEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="simuleringshastighed"/>
+<string key="sameFrequency" value="samme frekvens"/>
+<string key="sameSpring" value="samme fjeder k"/>
+<string key="slow" value="langsom"/>
+<string key="mixedMAndK" value="mikset m og k"/>
+<string key="numberOfResonators" value="Antal resonatorer"/>
+<string key="kg" value="kg."/>
+<string key="amplitude" value="amplitude"/>
+<string key="frequencyEqualsXHz" value="frekvens = {0} Hz"/>
+<string key="sloMo" value="Slow-motion"/>
+<string key="step" value="trin"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="Vibrator"/>
+<string key="ruler" value="Lineal"/>
+<string key="resonance.simTitle" value="Rosonans"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="fjederkonstant"/>
+<string key="frequency" value="frekvens"/>
+<string key="resetAll" value="Nulstil alt"/>
+<string key="mass" value="vægt"/>
+<string key="sameMass" value="samme vægt m"/>
+<string key="resonator" value="Resonator"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/M"/>
+<string key="play" value="Afspil"/>
+<string key="gravityColon" value="Tiltrækning:"/>
+<string key="paused" value="På pause"/>
+<string key="dampingConstant" value="dæmpningskonstant"/>
+<string key="normal" value="normal"/>
+<string key="selectPreset" value="Vælg indstilling"/>
+</SimStrings>
