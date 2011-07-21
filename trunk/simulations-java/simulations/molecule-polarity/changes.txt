@@ -1,4 +1,5 @@
-7/19/11 add developer control for entering and executing Jmol scripts
+7/21/11 tested .spartan files with Jmol, unrecognized file format and they are binary
+7/20/11 add developer control for entering and executing Jmol scripts
 # 0.00.01 (54332) Jul 20, 2011
 7/19/11 dev version to demonstrate Jmol features and integration in "Real Molecules" tab
 7/19/11 add Jmol classes that are dynamically loaded to proguard-template.pro
