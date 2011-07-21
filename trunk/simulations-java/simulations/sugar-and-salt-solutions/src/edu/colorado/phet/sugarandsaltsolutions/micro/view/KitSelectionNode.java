@@ -23,7 +23,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.PFrame;
 import edu.umd.cs.piccolox.nodes.PClip;
 
-import static edu.colorado.phet.common.phetcommon.model.property.Property.property;
 import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.*;
 
 /**
@@ -33,8 +32,8 @@ import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.*;
  */
 public class KitSelectionNode extends PNode {
 
-    //The currently selected kit
-    private final Property<Integer> kitIndex = property( 0 );
+    //The currently selected kit, public because it can be set and observed by other classes
+    public final Property<Integer> selectedKit;
 
     //Animation activity that scrolls between kits
     private PTransformActivity activity;
@@ -48,9 +47,12 @@ public class KitSelectionNode extends PNode {
     /**
      * Create a KitSelectionNode that uses the specified kits
      *
-     * @param kits
+     * @param selectedKit model for which kit has been selected by the user
+     * @param kits        the list of kits to show
      */
-    public KitSelectionNode( PNode... kits ) {
+    public KitSelectionNode( final Property<Integer> selectedKit, PNode... kits ) {
+
+        this.selectedKit = selectedKit;
 
         //Standardize the nodes, this centers them to simplify the layout
         final ArrayList<PNode> standardizedNodes = new ArrayList<PNode>();
@@ -88,17 +90,23 @@ public class KitSelectionNode extends PNode {
             addChild( kitLayer );
         }} );
 
+        selectedKit.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer kit ) {
+                scrollTo( kit );
+            }
+        } );
+
         //Buttons for scrolling previous/next
         addChild( new TextButtonNode( "Next" ) {{
             setOffset( background.getFullBounds().getMaxX() + 5, background.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    scrollTo( kitIndex.get() + 1 );
+                    selectedKit.set( selectedKit.get() + 1 );
                 }
             } );
-            kitIndex.addObserver( new VoidFunction1<Integer>() {
+            KitSelectionNode.this.selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
-                    setVisible( kitIndex.get() < standardizedNodes.size() - 1 );
+                    setVisible( KitSelectionNode.this.selectedKit.get() < standardizedNodes.size() - 1 );
                 }
             } );
         }} );
@@ -106,12 +114,12 @@ public class KitSelectionNode extends PNode {
             setOffset( background.getFullBounds().getMinX() - 5 - getFullBounds().getWidth(), background.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
-                    scrollTo( kitIndex.get() - 1 );
+                    selectedKit.set( selectedKit.get() - 1 );
                 }
             } );
-            kitIndex.addObserver( new VoidFunction1<Integer>() {
+            KitSelectionNode.this.selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
-                    setVisible( kitIndex.get() > 0 );
+                    setVisible( KitSelectionNode.this.selectedKit.get() > 0 );
                 }
             } );
         }} );
@@ -128,7 +136,7 @@ public class KitSelectionNode extends PNode {
                 //Terminate without finishing the previous activity so the motion doesn't stutter
                 activity.terminate( PActivity.TERMINATE_WITHOUT_FINISHING );
             }
-            kitIndex.set( index );
+            selectedKit.set( index );
             double x = background.getFullBounds().getWidth() * index;
             activity = kitLayer.animateToPositionScaleRotation( -x, 0, 1, 0, 500 );
         }
@@ -140,6 +148,7 @@ public class KitSelectionNode extends PNode {
             public void run() {
                 new PFrame() {{
                     getCanvas().getLayer().addChild( new KitSelectionNode(
+                            new Property<Integer>( 0 ),
                             new PText( "Hello" ),
                             new PText( "There" ),
                             new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ),

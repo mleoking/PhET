@@ -14,12 +14,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
  * @author Sam Reid
  */
 public class MicroKitControlNode extends PNode {
-    public MicroKitControlNode( final Property<DispenserType> dispenserType ) {
-        addChild( new KitSelectionNode(
-                new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ),
-                new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.CALCIUM_CHLORIDE, CALCIUM_CHLORIDE ) ),
-                new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SODIUM_NITRATE, SODIUM_NITRATE ) ),
-                new DispenserRadioButtonSet( dispenserType, new Item( Strings.SUCROSE, SUGAR ), new Item( Strings.ETHANOL, ETHANOL ) )
+    public final KitSelectionNode kitSelectionNode;
+
+    public MicroKitControlNode( final Property<Integer> selectedKit, final Property<DispenserType> dispenserType ) {
+        addChild( kitSelectionNode = new KitSelectionNode( selectedKit,
+                                                           new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ),
+                                                           new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.CALCIUM_CHLORIDE, CALCIUM_CHLORIDE ) ),
+                                                           new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SODIUM_NITRATE, SODIUM_NITRATE ) ),
+                                                           new DispenserRadioButtonSet( dispenserType, new Item( Strings.SUCROSE, SUGAR ), new Item( Strings.ETHANOL, ETHANOL ) )
         ) );
     }
 }
