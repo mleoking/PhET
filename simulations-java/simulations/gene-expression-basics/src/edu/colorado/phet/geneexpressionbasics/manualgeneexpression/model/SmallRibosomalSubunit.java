@@ -15,7 +15,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
  */
 public class SmallRibosomalSubunit extends MobileBiomolecule {
 
-    private static final double WIDTH = 340;   // In nanometers.
+    private static final double WIDTH = 250;   // In nanometers.
     private static final double HEIGHT = 80;  // In nanometers.
 
     public SmallRibosomalSubunit() {
