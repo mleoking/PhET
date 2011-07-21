@@ -25,8 +25,8 @@ public class BiomoleculeCreatorNode extends PComposite {
     private final ModelViewTransform mvt;
     private final ManualGeneExpressionCanvas canvas;
 
-    public BiomoleculeCreatorNode( PNode appearanceNode, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt,
-                                   final Function1<Point2D, MobileBiomolecule> moleculeCreator, boolean goInvisibleOnAdd ) {
+    public BiomoleculeCreatorNode( final PNode appearanceNode, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt,
+                                   final Function1<Point2D, MobileBiomolecule> moleculeCreator, final boolean goInvisibleOnAdd ) {
         this.canvas = canvas;
         this.mvt = mvt;
         // Cursor handler.
@@ -35,6 +35,7 @@ public class BiomoleculeCreatorNode extends PComposite {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
+                appearanceNode.setVisible( !goInvisibleOnAdd );
                 biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
             }
 
