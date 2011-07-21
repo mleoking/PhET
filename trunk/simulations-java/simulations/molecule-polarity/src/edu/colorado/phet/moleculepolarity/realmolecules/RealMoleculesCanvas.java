@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -22,6 +23,7 @@ import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.PeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.ModelRepresentation;
+import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -64,6 +66,11 @@ public class RealMoleculesCanvas extends MPCanvas {
         PeriodicTableNode periodicTableNode = new PeriodicTableNode();
         addChild( periodicTableNode );
 
+        JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
+        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+            addChild( scriptNode );
+        }
+
         // layout
         {
             final double xSpacing = 50;
@@ -71,14 +78,16 @@ public class RealMoleculesCanvas extends MPCanvas {
             negativeEFieldPlateNode.setOffset( 30, 30 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
             viewerNode.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
             positiveEFieldPlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
+            periodicTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( periodicTableNode.getFullBoundsReference().getWidth() / 2 ),
+                                         viewerNode.getFullBoundsReference().getMaxY() + 20 );
             modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
             viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            periodicTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( periodicTableNode.getFullBoundsReference().getWidth() / 2 ),
-                                         viewerNode.getFullBoundsReference().getMaxY() + 20 );
+            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
+
         }
 
         // synchronize viewer with view properties
