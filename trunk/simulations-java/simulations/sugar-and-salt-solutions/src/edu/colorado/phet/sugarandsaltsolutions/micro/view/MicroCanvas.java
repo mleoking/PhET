@@ -22,7 +22,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
 
@@ -106,7 +105,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
 
         //Add clock controls for pause/play/step
-        addChild( new FloatingClockControlNode( not( model.clockPausedProperty ), new Function1<Double, String>() {
+        addChild( new FloatingClockControlNode( model.clockRunning, new Function1<Double, String>() {
             public String apply( Double time ) {
                 return "";
             }

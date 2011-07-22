@@ -90,7 +90,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
     //settable property that indicates whether the clock is running or paused
-    public final Property<Boolean> clockPausedProperty = new Property<Boolean>( false );
+    public final Property<Boolean> clockRunning = new Property<Boolean>( true );
 
     //The index of the kit selected by the user
     public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
@@ -186,20 +186,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSugarAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL ) );
 
         //When the pause button is pressed, pause the clock
-        clockPausedProperty.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean paused ) {
-                clock.setPaused( paused );
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean running ) {
+                clock.setRunning( running );
             }
         } );
 
-        //When the clock pauses or unpauses, update the property
+        //When the clock pauses or starts, update the property
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockPaused( ClockEvent clockEvent ) {
-                clockPausedProperty.set( true );
+                clockRunning.set( false );
             }
 
             @Override public void clockStarted( ClockEvent clockEvent ) {
-                clockPausedProperty.set( false );
+                clockRunning.set( true );
             }
         } );
     }
@@ -429,6 +429,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         dispenserType.reset();
         showChargeColor.reset();
         selectedKit.reset();
+        clockRunning.reset();
     }
 
     private void clearSolutes() {
