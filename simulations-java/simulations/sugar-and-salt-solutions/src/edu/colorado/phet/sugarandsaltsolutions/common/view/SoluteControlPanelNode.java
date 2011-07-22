@@ -23,9 +23,13 @@ public class SoluteControlPanelNode extends WhiteControlPanelNode {
 
                 //Use a smaller spacing so that the content doesn't get too far away from the title in the Micro tab
                 5,
-                new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}},
+                createTitle(),
                 new PhetPPath( new Rectangle( 0, 0, 0, 0 ), new Color( 0, 0, 0, 0 ) ),//spacer
                 soluteSelector
         ) );
+    }
+
+    public static PText createTitle() {
+        return new PText( SugarAndSaltSolutionsResources.Strings.SOLUTE ) {{setFont( SugarAndSaltSolutionsCanvas.TITLE_FONT );}};
     }
 }

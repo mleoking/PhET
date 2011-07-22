@@ -102,9 +102,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         } );
 
         //Buttons for scrolling previous/next
-        //Place the kit "previous" and "next" buttons below the kit to save horizontal space
+        //Place the kit "previous" and "next" buttons above the kit to save horizontal space.  In Sugar and Salt Solution, they are moved up next to the title
         final PNode nextButton = new ForwardButton() {{
-            setOffset( background.getFullBounds().getMaxX() - getFullBounds().getWidth(), background.getFullBounds().getMaxY() + 2 );
+            setOffset( background.getFullBounds().getMaxX() - getFullBounds().getWidth(), background.getFullBounds().getMinY() - getFullBounds().getHeight() );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() + 1 );
@@ -118,7 +118,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         }};
         addChild( nextButton );
         addChild( new BackButton() {{
-            setOffset( background.getFullBounds().getMinX(), background.getFullBounds().getMaxY() + 2 );
+            setOffset( background.getFullBounds().getMinX(), background.getFullBounds().getMinY() - getFullBounds().getHeight() );
 
             //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
             if ( getFullBounds().getMaxX() > nextButton.getFullBounds().getMinX() ) {
@@ -151,6 +151,10 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         }
     }
 
+    public T getKit( Integer index ) {
+        return kits.get( index );
+    }
+
     //Sample main to demonstrate KitSelectionNode
     public static void main( String[] args ) {
         SwingUtilities.invokeLater( new Runnable() {
@@ -171,9 +175,5 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 }}.setVisible( true );
             }
         } );
-    }
-
-    public T getKit( Integer index ) {
-        return kits.get( index );
     }
 }
