@@ -29,15 +29,18 @@ public class EthanolMolecule extends Compound {
             StringTokenizer elements = new StringTokenizer( line, " " );
             char type = elements.nextToken().charAt( 0 );
             ImmutableVector2D location = EthanolPositions.normalize( new ImmutableVector2D( parseDouble( elements.nextToken() ), parseDouble( elements.nextToken() ) ) );
+
+            //Create the Carbon, Hydrogen and Oxygen atoms at the right relative locations, but at an arbitrary angle so the molecules won't all be aligned
+            //It shouldn't look too regular since it is a fluid
             switch( type ) {
                 case 'H':
-                    constituents.add( new Constituent( new HydrogenIonParticle(), location ) );
+                    constituents.add( new Constituent( new HydrogenIonParticle(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'C':
-                    constituents.add( new Constituent( new CarbonIonParticle(), location ) );
+                    constituents.add( new Constituent( new CarbonIonParticle(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'O':
-                    constituents.add( new Constituent( new NeutralOxygenParticle(), location ) );
+                    constituents.add( new Constituent( new NeutralOxygenParticle(), location.getRotatedInstance( angle ) ) );
                     break;
             }
         }
