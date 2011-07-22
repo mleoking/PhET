@@ -1,3 +1,4 @@
+Micro tab: Fixed: Beaker tick labels go offscreen
 Micro tab: Fixed: Pause/playback should reset on "Reset All"
 Micro tab: Fixed: Sugar molecules come out at the center of the sugar dispenser instead of the end
 Micro tab: Fixed: Salts come out at the center of the shaker instead of the end
