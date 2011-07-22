@@ -25,6 +25,20 @@ public class BiomoleculeCreatorNode extends PComposite {
     private final ModelViewTransform mvt;
     private final ManualGeneExpressionCanvas canvas;
 
+    /**
+     * Constructor.
+     *
+     * @param appearanceNode   - Node that represents the appearance of this
+     *                         creator node, generally looks like the thing being created.
+     * @param canvas           - Canvas upon which this node ultimately resides.  This
+     *                         is needed for figuring out where in model space this node exists.
+     * @param mvt              - Model view transform.
+     * @param moleculeCreator  - Function object that knows how to create the
+     *                         model element and add it to the model.
+     * @param goInvisibleOnAdd - Flag that indicates whether this node should
+     *                         disappear when clicked on, which creates a look like the object was
+     *                         dragged out of the tool box.
+     */
     public BiomoleculeCreatorNode( final PNode appearanceNode, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator, final boolean goInvisibleOnAdd ) {
         this.canvas = canvas;
