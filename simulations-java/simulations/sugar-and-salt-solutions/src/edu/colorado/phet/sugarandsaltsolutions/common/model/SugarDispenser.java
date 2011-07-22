@@ -99,7 +99,7 @@ public class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispens
             int numCrystals = MathUtil.clamp( 1, (int) avgSpeed * 5, 5 );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the sugar should come out
-                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( 0.03 / distanceScale, angle.get() + Math.PI / 2 * 1.23 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
                 //Add the sugar, with some randomness in the velocity
                 sugarAndSaltSolutionModel.addMacroSugar( new MacroSugar( outputPoint, sugarAndSaltSolutionModel.sugar.volumePerSolidMole ) {{
