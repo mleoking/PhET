@@ -1,3 +1,5 @@
+Micro tab: Added units to beaker tick mark labels
+Micro tab: Use a smaller font for beaker tick marks
 Micro tab: Switched to arrow buttons for traversing through kits
 Micro tab: Added "Solute" title to kit selection box
 Micro tab: Moved the kit "previous" and "next" buttons below the kit to save horizontal space

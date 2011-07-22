@@ -71,7 +71,7 @@ public class BeakerNodeWithTicks extends BeakerNode {
 
     //Create a text (PText or HTMLNode) node to show the value.  HTML is used for formatting exponentials
     private PNode createLabelNode( final Value tick ) {
-        final PhetFont font = new PhetFont( 26, true );
+        final PhetFont font = new PhetFont( 20 );
         final Color textPaint = white;
         if ( tick.volume == 0 || tick.volume > 1E-20 ) {
             return new PText( tick.formatLiters() + "L" ) {{
@@ -92,7 +92,7 @@ public class BeakerNodeWithTicks extends BeakerNode {
                 exponent = exponent - 1;
             }
 
-            return new HTMLNode( mantissa + "x10<sup>" + exponent + "</sup>" ) {{
+            return new HTMLNode( mantissa + "x10<sup>" + exponent + "</sup> L" ) {{
                 setFont( font );
                 setHTMLColor( textPaint );
             }};
