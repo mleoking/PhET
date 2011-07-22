@@ -41,6 +41,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -98,6 +99,16 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             }
         } );
     }};
+
+    //Add ethanol above the solution at the dropper output location
+    //TODO: ethanol should be nonatomic and multiple molecules
+    public void addEthanol( final ImmutableVector2D location ) {
+        Ethanol ethanol = new Ethanol( 200, Color.yellow, Color.green ) {{
+            setLocation( location );
+        }};
+        freeParticles.add( ethanol );
+        sphericalParticles.add( ethanol );
+    }
 
     //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
@@ -265,7 +276,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         for ( Crystal lattice : crystals ) {
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E-10;
+            double mass = 1E10;
 
             //Cache the value to improve performance by 30% when number of particles is large
             final boolean anyPartUnderwater = isAnyPartUnderwater( lattice );
@@ -279,7 +290,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             if ( isCompletelyUnderwater( lattice ) && !lattice.isUnderwater() ) {
                 lattice.setUnderwater( time );
             }
-            lattice.stepInTime( getExternalForce( anyPartUnderwater ).times( mass ), dt );
+            lattice.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
 
             //Collide with the bottom of the beaker
             double minY = lattice.getShape().getBounds2D().getMinY();
@@ -366,23 +377,35 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When the simulation clock ticks, move the particles
     private void updateParticles( double dt, ItemList<? extends Particle> particles ) {
         for ( Particle particle : particles ) {
+
+            boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
+            ImmutableVector2D initialPosition = particle.position.get();
+
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E-10;
-            ImmutableVector2D initialPosition = particle.position.get();
-            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( mass ).times( mass ), dt );
+            double mass = 1E10;
+            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( 1.0 / mass ), dt );
+
+            boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
+
+            //If the particle entered the water on this step, slow it down to simulate hitting the water
+            if ( !initiallyUnderwater && underwater ) {
+                particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+            }
 
             //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
-            double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
-            particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
+            if ( underwater ) {
+                double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
+                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
+            }
 
-            //Prevent the particles from leaving the solution
-            if ( !solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
+            //Prevent the particles from leaving the solution, but only if they started in the solution
+            if ( initiallyUnderwater && !underwater ) {
                 ImmutableVector2D delta = particle.position.get().minus( initialPosition );
                 particle.position.set( initialPosition );
 
                 //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-                particle.velocity.set( ImmutableVector2D.parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
+                particle.velocity.set( parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
             }
         }
     }
