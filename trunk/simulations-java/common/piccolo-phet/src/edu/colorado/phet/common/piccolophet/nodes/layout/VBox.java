@@ -31,7 +31,7 @@ public class VBox extends Box {
     }
 
     //Creates a VBox which lays out nodes vertically.  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( int spacing,
+    public VBox( double spacing,
                  PNode... children//List of children to be added on initialization
     ) {
         super( spacing,
@@ -58,7 +58,7 @@ public class VBox extends Box {
     }
 
     //Creates a VBox which lays out nodes vertically, aligned against the left (regardless of the flag setting).  This constructor invocation is meant to be read with 'code folding' on and a good healthy right margin (like 200)
-    public VBox( int spacing,
+    public VBox( double spacing,
                  //This flag is ignored, it is just to allow usage of this constructor
                  boolean leftAlignedFlagIgnored,
                  PNode... children//List of children to be added on initialization

@@ -22,13 +22,13 @@ public class Box extends PhetPNode {
     private final Function1<PBounds, Double> getPanelDimension;//Function that determines the layout size to use (e.g. full width or height) of a node.  In the VBox it determines the width of nodes to set the width of the whole vbox
     private final Function1<PBounds, Double> getNodeDimension;//Function that determines the size of a node for purposes of placing nodes next to each other.
     private PositionStrategy positionStrategy;//Compute the Point2D that positions the node in the layout (not accounting for its local origin, which is handled elsewhere)
-    private final int spacing;//distance between nodes in the layout
+    private final double spacing;//distance between nodes in the layout
 
     public Box( Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy ) {
         this( 0, getPanelDimension, getNodeDimension, positionStrategy );
     }
 
-    public Box( int spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy, PNode... children ) {
+    public Box( double spacing, Function1<PBounds, Double> getPanelDimension, Function1<PBounds, Double> getNodeDimension, PositionStrategy positionStrategy, PNode... children ) {
         this.spacing = spacing;
         this.getPanelDimension = getPanelDimension;
         this.getNodeDimension = getNodeDimension;
