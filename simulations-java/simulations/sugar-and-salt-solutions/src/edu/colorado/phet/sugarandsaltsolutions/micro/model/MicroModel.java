@@ -32,6 +32,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sod
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
@@ -47,6 +48,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
+import static java.lang.Math.PI;
+import static java.lang.Math.random;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -103,23 +106,25 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Add ethanol above the solution at the dropper output location
     //TODO: ethanol should be nonatomic and multiple molecules
     public void addEthanol( final ImmutableVector2D location ) {
-        Ethanol ethanol = new Ethanol( 200, Color.yellow, Color.green ) {{
-            setLocation( location );
+        EthanolMolecule ethanol = new EthanolMolecule( location ) {{
             //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
-            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ) );
+            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
+
+                    //Add randomness so they look more fluid-like
+                            plus( parseAngleAndMagnitude( 0.25E-9 / 3, random() * PI ) ) );
         }};
         freeParticles.add( ethanol );
-        sphericalParticles.add( ethanol );
+        addComponents( ethanol );
     }
 
     //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
         public IonConcentration( final Class type ) {
             super( new Function0<Double>() {
-                public Double apply() {
-                    return Units.numberToMoles( freeParticles.count( type ) ) / Units.metersCubedToLiters( waterVolume.get() );
-                }
-            }, waterVolume );
+                       public Double apply() {
+                           return Units.numberToMoles( freeParticles.count( type ) ) / Units.metersCubedToLiters( waterVolume.get() );
+                       }
+                   }, waterVolume );
             VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {
                 public void apply( Particle particle ) {
                     notifyIfChanged();
@@ -210,19 +215,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
-        addCrystalComponents( crystal );
+        addComponents( crystal );
         sodiumNitrateCrystals.add( crystal );
     }
 
-    //Add the components of the lattice to the model so the graphics will be created
-    private void addCrystalComponents( Crystal crystal ) {
-        for ( Constituent constituent : crystal ) {
+    //Add the components of the compound to the model so the graphics will be created
+    private void addComponents( Compound compound ) {
+        for ( Constituent constituent : compound ) {
             sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
     }
 
     public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
-        addCrystalComponents( calciumChlorideCrystal );
+        addComponents( calciumChlorideCrystal );
         calciumChlorideCrystals.add( calciumChlorideCrystal );
     }
 
@@ -238,7 +243,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Create a random crystal
             //TODO: get rid of cast here
             final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ) );
-            addCrystalComponents( crystal );
+            addComponents( crystal );
             sugarCrystals.add( crystal );
         }
     }
@@ -329,7 +334,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Set the sodium ions free
             for ( Constituent constituent : crystal ) {
-                constituent.particle.velocity.set( velocity.getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                constituent.particle.velocity.set( velocity.getRotatedInstance( random() * PI * 2 ) );
                 SphericalParticle particle = (SphericalParticle) constituent.particle;
                 if ( particle instanceof SodiumIonParticle ) {
                     freeParticles.add( particle );
@@ -340,7 +345,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             for ( final Nitrate nitrate : sodiumNitrateCrystal.getNitrates() ) {
                 freeParticles.add( new Compound( nitrate.relativePosition.plus( sodiumNitrateCrystal.position.get() ) ) {{
                     constituents.addAll( nitrate.constituents );
-                    velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                    velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
                 }} );
             }
         }
@@ -351,7 +356,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             for ( final SucroseMolecule sucroseMolecule : sucroseCrystal.sucroseMolecules ) {
                 freeParticles.add( new Compound( sucroseCrystal.position.get() ) {{
                     constituents.addAll( sucroseMolecule.constituents );
-                    velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                    velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
                 }} );
             }
         }
@@ -359,7 +364,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Splits up all constituents in a crystal lattice
         else {
             for ( Constituent constituent : crystal ) {
-                constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( Math.random() * Math.PI * 2 ) );
+                constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
                 freeParticles.add( constituent.particle );
             }
         }
@@ -407,7 +412,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 particle.position.set( initialPosition );
 
                 //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-                particle.velocity.set( parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + Math.PI ) );
+                particle.velocity.set( parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + PI ) );
             }
         }
     }

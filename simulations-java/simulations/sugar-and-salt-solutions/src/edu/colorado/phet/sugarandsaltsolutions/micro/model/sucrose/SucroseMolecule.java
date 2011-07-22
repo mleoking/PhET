@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SucroseOxygenParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygenParticle;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SucrosePositions;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
@@ -32,7 +32,7 @@ public class SucroseMolecule implements Iterable<Constituent> {
             constituents.add( new Constituent( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
         for ( ImmutableVector2D offset : sucrosePositions.getOxygenPositions() ) {
-            constituents.add( new Constituent( new SucroseOxygenParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent( new NeutralOxygenParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
     }
 

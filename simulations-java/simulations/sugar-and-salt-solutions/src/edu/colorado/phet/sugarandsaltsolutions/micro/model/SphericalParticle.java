@@ -77,9 +77,9 @@ public class SphericalParticle extends Particle {
         }
     }
 
-    //When participating in sucrose, oxygen atoms are neutral
-    public static class SucroseOxygenParticle extends OxygenIonParticle {
-        public SucroseOxygenParticle() {
+    //When participating in sucrose or ethanol, oxygen atoms should be shown as neutral
+    public static class NeutralOxygenParticle extends OxygenIonParticle {
+        public NeutralOxygenParticle() {
             super( SphericalParticle.NEUTRAL_COLOR );
         }
     }
