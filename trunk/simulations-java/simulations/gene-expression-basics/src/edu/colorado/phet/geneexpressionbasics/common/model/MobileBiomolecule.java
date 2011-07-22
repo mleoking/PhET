@@ -49,6 +49,12 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
                                  newPos.getY() - shapeProperty.get().getBounds2D().getCenterY() ) );
     }
 
+    public Point2D getPosition() {
+        // Assumes that the center of the shape is the position.  Override if
+        // other behavior is needed.
+        return new Point2D.Double( shapeProperty.get().getBounds2D().getCenterX(), shapeProperty.get().getBounds2D().getCenterY() );
+    }
+
     public Color getBaseColor() {
         return baseColor;
     }

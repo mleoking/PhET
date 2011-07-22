@@ -104,4 +104,8 @@ public class ManualGeneExpressionModel {
     public void addMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
     }
+
+    public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
+        mobileBiomoleculeList.remove( mobileBiomolecule );
+    }
 }
