@@ -8,6 +8,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -19,11 +20,15 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
@@ -40,13 +45,10 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
 
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
         concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart,
-                                                                         model.sodiumConcentration,
-                                                                         model.sodiumColor,
-                                                                         model.chlorideConcentration,
-                                                                         model.chlorideColor,
-                                                                         model.showConcentrationValues,
-                                                                         transform,
-                                                                         model.showChargeColor ) {{
+                                                                         new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
+                                                                         new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
+                                                                         model.showConcentrationValues
+        ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
         behindShakerNode.addChild( concentrationBarChart );
