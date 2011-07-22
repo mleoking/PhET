@@ -1,3 +1,4 @@
+Micro tab: Fixed: Sugar molecules come out at the center of the sugar dispenser instead of the end
 Micro tab: Fixed: Salts come out at the center of the shaker instead of the end
 Micro tab: Added a button to the ethanol dropper
 Micro tab: Fixed: particles get stuck in the floor
