@@ -134,15 +134,13 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     //TODO: see if code can be consolidated with the macro version
     public static ModelViewTransform createMicroTransform( SugarAndSaltSolutionModel model ) {
         double modelScale = 0.75;
-        System.out.println( "model.visibleRegion.toRectangle2D() = " + model.visibleRegion.toRectangle2D() );
-        final ModelViewTransform transform = createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
-                                                                              //Manually tuned so that the model part shows up in the left side of the canvas,
-                                                                              // leaving enough room for controls, labels, and positioning it so it appears near the bottom
-                                                                              new Rectangle2D.Double( 20,
-                                                                                                      //y-position: increasing this number moves down the beaker
-                                                                                                      135,
-                                                                                                      canvasSize.width * modelScale, canvasSize.height * modelScale ) );
-        System.out.println( "transform = " + transform );
-        return transform;
+        return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
+                                                //Manually tuned so that the model part shows up in the left side of the canvas,
+                                                // leaving enough room for controls, labels, and positioning it so it appears near the bottom
+                                                //Must be further to the right than the Macro canvas transform since the beaker labels take up more horizontal space
+                                                new Rectangle2D.Double( 74,
+                                                                        //y-position: increasing this number moves down the beaker
+                                                                        135,
+                                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
     }
 }
