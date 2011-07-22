@@ -37,8 +37,6 @@ public abstract class MicroShaker extends Shaker<MicroModel> {
     //Randomly generate crystals until we attain one that matches the desired criteria, such as having a perfect ratio of constituents (1:1 for NaCl or 2:1 for CaCl)
     public static <T> T generateRandomLattice( Function0<T> newCrystal, Function1<T, Boolean> matches ) {
         while ( true ) {
-
-            //Number of particles must be odd here so that the sum will be even, to balance out the crystal and make Na = Cl counts
             T crystal = newCrystal.apply();
             if ( matches.apply( crystal ) ) {
                 return crystal;
