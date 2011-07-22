@@ -1,3 +1,4 @@
+Micro tab: Fixed: particles get stuck in the floor
 Micro tab: Ethanol molecules appear at different angles
 Micro tab: Added ethanol atomic structure
 Micro tab: Made ethanol particles come out of the tip of the dropper instead of its center
