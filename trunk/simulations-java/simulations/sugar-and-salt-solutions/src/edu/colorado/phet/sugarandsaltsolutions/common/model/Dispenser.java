@@ -37,6 +37,10 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     //The amount to scale model translations so that micro tab emits solute at the appropriate time.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit solute
     public final double distanceScale;
 
+    //The height of the dispenser in meters, for purposes of making sure the crystals come out at the right location relative to the image
+    //This is used since we want to keep the view the same in each module, but to have different actual model dimensions
+    protected double dispenserHeight;
+
     public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type ) {
         this.beaker = beaker;
         this.moreAllowed = moreAllowed;
@@ -85,4 +89,9 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
 
     //Method for creating a PNode such as a SugarDispenserNode or SaltShakerNode to display this Dispenser and allow the user to interact with it
     public abstract PNode createNode( ModelViewTransform transform, double beakerHeight );
+
+    //Set the height of the dispenser, used to emit crystals in the right location relative to the image
+    public void setDispenserHeight( double dispenserHeight ) {
+        this.dispenserHeight = dispenserHeight;
+    }
 }

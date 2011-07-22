@@ -73,6 +73,11 @@ public class DispenserNode<U extends SugarAndSaltSolutionModel, T extends Dispen
         //Translate the shaker when dragged
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
+
+                //Set the model height of the dispenser so the model will be able to emit crystals in the right location (at the output part of the image)
+                model.setDispenserHeight( transform.viewToModelDeltaY( imageNode.getFullBounds().getHeight() ) );
+
+                //Translate the model
                 model.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( DispenserNode.this.getParent() ) ) );
             }
         } );

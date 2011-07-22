@@ -90,8 +90,9 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
             int numCrystals = (int) ( random.nextInt( 2 ) + Math.min( shakeAmount * 4000, 4 ) );
             for ( int i = 0; i < numCrystals; i++ ) {
                 //Determine where the salt should come out
+                //Hand tuned to match up with the image, will need to be re-tuned if the image changes
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
-                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( 0.027 / distanceScale, angle.get() + Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
+                final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
 
                 //Add the salt to the model
                 addSalt( model, outputPoint, model.salt.volumePerSolidMole, getCrystalVelocity( outputPoint ) );
