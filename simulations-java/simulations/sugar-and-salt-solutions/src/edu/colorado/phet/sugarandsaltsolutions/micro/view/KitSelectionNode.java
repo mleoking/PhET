@@ -101,8 +101,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         } );
 
         //Buttons for scrolling previous/next
-        addChild( new TextButtonNode( "Next" ) {{
-            setOffset( background.getFullBounds().getMaxX() + 5, background.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+        //Place the kit "previous" and "next" buttons below the kit to save horizontal space
+        final TextButtonNode nextButton = new TextButtonNode( "Next" ) {{
+            setOffset( background.getFullBounds().getMaxX() - getFullBounds().getWidth(), background.getFullBounds().getMaxY() + 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() + 1 );
@@ -113,9 +114,15 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                     setVisible( KitSelectionNode.this.selectedKit.get() < standardizedNodes.size() - 1 );
                 }
             } );
-        }} );
+        }};
+        addChild( nextButton );
         addChild( new TextButtonNode( "Previous" ) {{
-            setOffset( background.getFullBounds().getMinX() - 5 - getFullBounds().getWidth(), background.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
+            setOffset( background.getFullBounds().getMinX(), background.getFullBounds().getMaxY() + 2 );
+
+            //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
+            if ( getFullBounds().getMaxX() > nextButton.getFullBounds().getMinX() ) {
+                setOffset( nextButton.getFullBounds().getMinX() - 2, getOffset().getY() );
+            }
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     selectedKit.set( selectedKit.get() - 1 );
