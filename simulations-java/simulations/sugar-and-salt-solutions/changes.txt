@@ -1,3 +1,4 @@
+# 0.00.68 (54426) Jul 22, 2011
 Micro tab: Added a legend for the periodic table
 Micro tab: Added pink background for nonmetals
 Micro tab: Moved "next" and "previous" buttons next to the title and made yellow triangles like in Build a Molecule
