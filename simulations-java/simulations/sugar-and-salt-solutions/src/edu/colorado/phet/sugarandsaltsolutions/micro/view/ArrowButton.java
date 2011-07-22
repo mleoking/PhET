@@ -24,6 +24,7 @@ public class ArrowButton extends ImageButtonNode {
     protected static final double ARROW_HEIGHT = 24;
 
     //Create a yellow triangle like the one used in Build a Molecule for switching between kits
+    //An image instead of PNode is used since that makes it easy to flip horizontally, pad inset and translate
     public static final BufferedImage LEFT_ARROW = toBufferedImage( new PhetPPath( new DoubleGeneralPath() {{
         final double arrowWidth = 17;
         moveTo( 0, ARROW_HEIGHT / 2 );
