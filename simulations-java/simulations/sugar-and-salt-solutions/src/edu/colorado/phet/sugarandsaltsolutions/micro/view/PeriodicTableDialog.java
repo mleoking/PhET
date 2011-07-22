@@ -41,13 +41,20 @@ public class PeriodicTableDialog extends JDialog {
                         //inset is necessary since the periodic table bounds doesn't account for the stroke width so the top and left would be truncated without this.
                         //Kelly also requested the inset to be larger than the original value of 2: "I am not sure the idea that "salts are made of atoms on opposite sides of the PT" is clear. Can we add more space around the PT in the popup window?"
                         final int inset = 26;
-                        final PeriodicTableNode node = new PeriodicTableNode( Color.lightGray, new HighlightMetals( dispenser.get().getElementAtomicMasses() ) ) {{
+                        final PeriodicTableNode periodicTableNode = new PeriodicTableNode( Color.lightGray, new HighlightMetals( dispenser.get().getElementAtomicMasses() ) ) {{
                             scale( 1.5 );
                             setOffset( inset, inset );
                         }};
                         root.removeAllChildren();
-                        root.addChild( node );
-                        setPreferredSize( new Dimension( (int) node.getFullBounds().getWidth() + inset * 2, (int) node.getFullBounds().getHeight() + inset * 2 ) );
+                        root.addChild( periodicTableNode );
+
+                        //Show a legend below the periodic table to indicate the coloring scheme for metals vs nonmetals
+                        PeriodicTableLegend legend = new PeriodicTableLegend( periodicTableNode.getFullBounds().getWidth() ) {{
+                            setOffset( inset, periodicTableNode.getFullBounds().getMaxY() + inset );
+                        }};
+                        root.addChild( legend );
+                        setPreferredSize( new Dimension( (int) periodicTableNode.getFullBounds().getWidth() + inset * 2,
+                                                         (int) ( periodicTableNode.getFullBounds().getHeight() + legend.getFullBounds().getHeight() + inset * 3 ) ) );
                     }
                 } );
             }
