@@ -105,6 +105,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public void addEthanol( final ImmutableVector2D location ) {
         Ethanol ethanol = new Ethanol( 200, Color.yellow, Color.green ) {{
             setLocation( location );
+            //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
+            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ) );
         }};
         freeParticles.add( ethanol );
         sphericalParticles.add( ethanol );
