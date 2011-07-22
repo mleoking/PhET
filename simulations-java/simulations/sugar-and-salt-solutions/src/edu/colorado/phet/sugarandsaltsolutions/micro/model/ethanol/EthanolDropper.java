@@ -2,12 +2,16 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.EthanolDropperNode;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.common.phetcommon.model.property.Property.property;
 
 /**
  * Model for the ethanol dropper.
@@ -15,14 +19,20 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class EthanolDropper extends Dispenser<MicroModel> {
+    public Property<Boolean> pressing = property( false );
+
     public EthanolDropper( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type ) {
         super( x, y, angle, beaker, moreAllowed, name, distanceScale, selectedType, type );
     }
 
-    //TODO: implement this method
+    //If the user is pressing the dropper, emit ethanol
     @Override public void updateModel( MicroModel model ) {
+        if ( pressing.get() ) {
+            model.addEthanol( center.get() );
+        }
     }
 
+    //Create the graphic for this model element
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
         return new EthanolDropperNode( transform, this, beakerHeight );
     }

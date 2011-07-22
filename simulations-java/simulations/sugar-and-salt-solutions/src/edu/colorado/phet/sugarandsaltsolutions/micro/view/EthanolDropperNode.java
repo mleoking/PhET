@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol;
+package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import java.awt.image.BufferedImage;
 
@@ -7,6 +7,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.DispenserNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.DROPPER;
@@ -41,5 +44,16 @@ public class EthanolDropperNode extends DispenserNode<MicroModel, EthanolDropper
 
         //Have to update the transform once after the image size changes (since it goes from null to non-null) in the auto-callback above
         updateTransform();
+
+        //Toggle release of the ethanol
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mousePressed( PInputEvent event ) {
+                model.pressing.set( true );
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                model.pressing.set( false );
+            }
+        } );
     }
 }
