@@ -29,7 +29,8 @@ public class SodiumChlorideConcentrationBarChart extends ConcentrationBarChart {
                                                 ObservableProperty<Color> chlorideColor,
                                                 SettableProperty<Boolean> showValues,
                                                 Property<Boolean> visible,
-                                                ModelViewTransform transform, ObservableProperty<Boolean> showChargeColor ) {
+                                                ModelViewTransform transform,
+                                                ObservableProperty<Boolean> showChargeColor ) {
         super( showValues, visible );
 
         //Convert from model units (mol/L) to stage units by multiplying by this scale factor
