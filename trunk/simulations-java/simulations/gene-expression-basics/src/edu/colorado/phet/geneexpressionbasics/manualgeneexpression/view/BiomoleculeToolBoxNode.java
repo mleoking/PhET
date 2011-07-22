@@ -16,6 +16,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.LargeRi
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.SmallRibosomalSubunit;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
@@ -25,13 +26,13 @@ import edu.umd.cs.piccolo.nodes.PText;
  *
  * @author John Blanco
  */
-public class BiomoleculeBoxNode extends PNode {
+public class BiomoleculeToolBoxNode extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 20 );
     protected final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
     protected final ModelViewTransform mvt;
 
-    public BiomoleculeBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
+    public BiomoleculeToolBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
         this.model = model;
         this.canvas = canvas;
         this.mvt = mvt;
@@ -39,11 +40,13 @@ public class BiomoleculeBoxNode extends PNode {
                 // TODO: i18n
                 new PText( "Tool Box" ) {{ setFont( LABEL_FONT ); }},
                 // TODO: i18n
-                new HBox( new PText( "RNA Polymerase" ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeBoxNode.this ) ),
+                new HBox( new PText( "RNA Polymerase" ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
                 // TODO: i18n
-                new HBox( new PText( "Small Ribosomal Subunit" ), new SmallRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ) ),
+                new HBox( new PText( "Transcription Factor" ), new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ),
                 // TODO: i18n
-                new HBox( new PText( "Large Ribosomal Subunit" ), new LargeRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeBoxNode.this ) )
+                new HBox( new PText( "Small Ribosomal Subunit" ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                // TODO: i18n
+                new HBox( new PText( "Large Ribosomal Subunit" ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) )
         );
         addChild( new ControlPanelNode( contentNode ) );
     }
@@ -62,7 +65,7 @@ public class BiomoleculeBoxNode extends PNode {
          * @param biomoleculeBoxNode - Biomolecule box, which is a sort of tool
          *                           box, in which this creator node exists.
          */
-        private RnaPolymeraseCreatorNode( final BiomoleculeBoxNode biomoleculeBoxNode ) {
+        private RnaPolymeraseCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new RnaPolymerase() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
@@ -93,7 +96,7 @@ public class BiomoleculeBoxNode extends PNode {
         private static final double SCALING_FACTOR = 0.1;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
-        private SmallRibosomalSubunitCreatorNode( final BiomoleculeBoxNode biomoleculeBoxNode ) {
+        private SmallRibosomalSubunitCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new SmallRibosomalSubunit() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
@@ -123,7 +126,7 @@ public class BiomoleculeBoxNode extends PNode {
         private static final double SCALING_FACTOR = 0.1;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
-        private LargeRibosomalSubunitCreatorNode( final BiomoleculeBoxNode biomoleculeBoxNode ) {
+        private LargeRibosomalSubunitCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new LargeRibosomalSubunit() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
@@ -132,6 +135,37 @@ public class BiomoleculeBoxNode extends PNode {
                            LargeRibosomalSubunit lrs = new LargeRibosomalSubunit( pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( lrs );
                            return lrs;
+                       }
+                   },
+                   new VoidFunction1<MobileBiomolecule>() {
+                       public void apply( MobileBiomolecule mobileBiomolecule ) {
+                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
+                       }
+                   },
+                   biomoleculeBoxNode,
+                   true
+            );
+        }
+    }
+
+
+    // PNode that, when clicked on, will add a transcription factor to the active area.
+    private static class TranscriptionFactorCreatorNode extends BiomoleculeCreatorNode {
+        // Scaling factor for this node when used as a creator node.  May be
+        // significantly different from the size of the corresponding element
+        // in the model.
+        private static final double SCALING_FACTOR = 0.1;
+        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
+
+        private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
+            super( new MobileBiomoleculeNode( SCALING_MVT, new TranscriptionFactor() ),
+                   biomoleculeBoxNode.canvas,
+                   biomoleculeBoxNode.mvt,
+                   new Function1<Point2D, MobileBiomolecule>() {
+                       public MobileBiomolecule apply( Point2D pos ) {
+                           TranscriptionFactor transcriptionFactor = new TranscriptionFactor( pos );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
+                           return transcriptionFactor;
                        }
                    },
                    new VoidFunction1<MobileBiomolecule>() {
