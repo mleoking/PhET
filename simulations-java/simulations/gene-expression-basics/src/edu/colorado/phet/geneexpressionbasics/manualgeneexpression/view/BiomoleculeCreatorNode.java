@@ -43,7 +43,9 @@ public class BiomoleculeCreatorNode extends PComposite {
      *                             disappear when clicked on, which creates a look like the object was
      *                             dragged out of the tool box.
      */
-    public BiomoleculeCreatorNode( final PNode appearanceNode, ManualGeneExpressionCanvas canvas, final ModelViewTransform mvt,
+    public BiomoleculeCreatorNode( final PNode appearanceNode,
+                                   ManualGeneExpressionCanvas canvas,
+                                   final ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator,
                                    final VoidFunction1<MobileBiomolecule> moleculeDestroyer,
                                    final PNode enclosingToolBoxNode,
