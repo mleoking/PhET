@@ -43,11 +43,15 @@ public class EthanolDropperNode extends DispenserNode<MicroModel, EthanolDropper
         } );
 
         //Have to update the transform once after the image size changes (since it goes from null to non-null) in the auto-callback above
+        //This must be called twice, otherwise it appears at an offset of half its width.
+        //TODO: can we make updateTransform work properly so it doesn't need to be called twice?
+        updateTransform();
         updateTransform();
 
         //Toggle release of the ethanol
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mousePressed( PInputEvent event ) {
+                model.setDropperHeight( transform.viewToModelDeltaY( fullImage.getHeight() ) );
                 model.pressing.set( true );
             }
 
