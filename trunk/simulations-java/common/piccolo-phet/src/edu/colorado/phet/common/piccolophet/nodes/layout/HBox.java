@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PBounds;
 
 /**
- * Layout the nodes in a vertical fashion, centered horizontally with the specified vertical padding between nodes.
+ * Layout the nodes in a horizontal fashion, centered vertically with the specified horizontal padding between nodes.
  * The layout doesn't update when children bounds change, layout is only performed when new children are added (sufficient for bending light usage).
  *
  * @author Sam Reid
