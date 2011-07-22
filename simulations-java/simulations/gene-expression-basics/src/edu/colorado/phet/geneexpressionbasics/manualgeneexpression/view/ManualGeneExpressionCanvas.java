@@ -71,10 +71,18 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
         }
 
-        // Watch for comings and goings of molecules in the mode.
+        // Watch for and handle comings and goings of molecules in the mode.
         model.mobileBiomoleculeList.addElementAddedObserver( new VoidFunction1<MobileBiomolecule>() {
-            public void apply( MobileBiomolecule biomolecule ) {
-                modelRootNode.addChild( new MobileBiomoleculeNode( mvt, biomolecule ) );
+            public void apply( final MobileBiomolecule addedBiomolecule ) {
+                final PNode biomoleculeNode = new MobileBiomoleculeNode( mvt, addedBiomolecule );
+                modelRootNode.addChild( biomoleculeNode );
+                model.mobileBiomoleculeList.addElementRemovedObserver( new VoidFunction1<MobileBiomolecule>() {
+                    public void apply( MobileBiomolecule removedBiomolecule ) {
+                        if ( removedBiomolecule == addedBiomolecule ) {
+                            modelRootNode.removeChild( biomoleculeNode );
+                        }
+                    }
+                } );
             }
         } );
 
