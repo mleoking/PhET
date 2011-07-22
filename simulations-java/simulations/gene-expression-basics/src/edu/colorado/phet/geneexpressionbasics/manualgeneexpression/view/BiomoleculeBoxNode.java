@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -58,8 +59,24 @@ public class BiomoleculeBoxNode extends PNode {
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           RnaPolymerase rnaPolymerase = new RnaPolymerase( pos );
+                           final RnaPolymerase rnaPolymerase = new RnaPolymerase( pos );
+                           System.out.println( "Created biomolecule: " + rnaPolymerase );
                            biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
+                           rnaPolymerase.userControlled.set( true );
+                           rnaPolymerase.userControlled.addObserver( new VoidFunction1<Boolean>() {
+                               public void apply( Boolean userControlled ) {
+                                   System.out.println( rnaPolymerase.userControlled.getClass() + "Notified, user controlled is: " + userControlled );
+                                   if ( !userControlled ) {
+                                       // The user has released this biomolecule.  If it was dropped above the tool
+                                       // box, it should be removed from the model.
+                                       if ( biomoleculeBoxNode.getFullBoundsReference().contains( biomoleculeBoxNode.mvt.modelToView( rnaPolymerase.getPosition() ) ) ) {
+                                           biomoleculeBoxNode.model.removeMobileBiomolecule( rnaPolymerase );
+                                           rnaPolymerase.userControlled.removeObserver( this );
+                                           System.out.println( "Released node." );
+                                       }
+                                   }
+                               }
+                           } );
                            return rnaPolymerase;
                        }
                    },
