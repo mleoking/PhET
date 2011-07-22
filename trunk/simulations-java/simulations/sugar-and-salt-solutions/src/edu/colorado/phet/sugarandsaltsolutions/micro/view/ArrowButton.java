@@ -1,12 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+
+import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.toBufferedImage;
 
 /**
  * Button for moving forward or backward through the kits
@@ -15,6 +21,16 @@ import edu.colorado.phet.common.piccolophet.nodes.ImageButtonNode;
  */
 public class ArrowButton extends ImageButtonNode {
     public static final int inset = 5;
+    protected static final double ARROW_HEIGHT = 24;
+
+    //Create a yellow triangle like the one used in Build a Molecule for switching between kits
+    public static final BufferedImage LEFT_ARROW = toBufferedImage( new PhetPPath( new DoubleGeneralPath() {{
+        final double arrowWidth = 17;
+        moveTo( 0, ARROW_HEIGHT / 2 );
+        lineTo( arrowWidth, 0 );
+        lineTo( arrowWidth, ARROW_HEIGHT );
+        closePath();
+    }}.getGeneralPath(), Color.yellow, new BasicStroke( 1 ), Color.black ).toImage() );
 
     //Create an arrow button for moving forward or background through the kits
     //Create images that translate down and right when pressed so they look like button presses
