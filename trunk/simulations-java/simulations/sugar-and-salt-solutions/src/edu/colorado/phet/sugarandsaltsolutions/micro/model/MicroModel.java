@@ -387,6 +387,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
             ImmutableVector2D initialPosition = particle.position.get();
+            ImmutableVector2D initialVelocity = particle.velocity.get();
 
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
@@ -396,7 +397,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 
             //If the particle entered the water on this step, slow it down to simulate hitting the water
-            if ( !initiallyUnderwater && underwater ) {
+            if ( !initiallyUnderwater && underwater && particle.position.get().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
                 particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
             }
 
@@ -412,7 +413,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 particle.position.set( initialPosition );
 
                 //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-                particle.velocity.set( parseAngleAndMagnitude( particle.velocity.get().getMagnitude(), delta.getAngle() + PI ) );
+                particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), delta.getAngle() + PI ) );
             }
         }
     }
