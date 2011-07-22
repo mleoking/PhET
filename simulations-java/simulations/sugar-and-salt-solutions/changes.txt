@@ -1,3 +1,4 @@
+# 0.00.67 (54416) Jul 22, 2011
 Micro tab: Fixed: Ratio for CaCl2 was incorrect
 Micro tab: Added units to beaker tick mark labels
 Micro tab: Use a smaller font for beaker tick marks
