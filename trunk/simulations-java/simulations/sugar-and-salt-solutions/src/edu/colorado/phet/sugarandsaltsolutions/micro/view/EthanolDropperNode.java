@@ -10,9 +10,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToHeight;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.DROPPER;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.*;
 
 /**
  * Sugar dispenser which can be rotated to pour out an endless supply of sugar.
@@ -27,6 +28,34 @@ public class EthanolDropperNode extends DispenserNode<MicroModel, EthanolDropper
         int height = 250;
         final BufferedImage fullImage = multiScaleToHeight( DROPPER, height );
         final BufferedImage emptyImage = multiScaleToHeight( DROPPER, height );
+
+        //Images for the button on the dropper
+        int buttonHeight = 35;
+        final BufferedImage buttonUnpressed = multiScaleToHeight( BUTTON_UNPRESSED, buttonHeight );
+        final BufferedImage buttonPressed = multiScaleToHeight( BUTTON_PRESSED, buttonHeight );
+
+        imageNode.addChild( new PImage( buttonUnpressed ) {{
+            //Couldn't get PNode centering to work dynamically, so I hard coded it.
+            //TODO: can this be done with setOffset(parent.getWidth/2 - getWidth/2)
+            setOffset( 9, 20 );
+
+            //Toggle release of the ethanol
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mousePressed( PInputEvent event ) {
+                    model.setDropperHeight( transform.viewToModelDeltaY( fullImage.getHeight() ) );
+                    model.startDropping();
+                }
+
+                @Override public void mouseReleased( PInputEvent event ) {
+                    model.pressing.set( false );
+                }
+            } );
+            model.pressing.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean pressed ) {
+                    setImage( pressed ? buttonPressed : buttonUnpressed );
+                }
+            } );
+        }} );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
         model.enabled.addObserver( new VoidFunction1<Boolean>() {
@@ -47,17 +76,5 @@ public class EthanolDropperNode extends DispenserNode<MicroModel, EthanolDropper
         //TODO: can we make updateTransform work properly so it doesn't need to be called twice?
         updateTransform();
         updateTransform();
-
-        //Toggle release of the ethanol
-        addInputEventListener( new PBasicInputEventHandler() {
-            @Override public void mousePressed( PInputEvent event ) {
-                model.setDropperHeight( transform.viewToModelDeltaY( fullImage.getHeight() ) );
-                model.pressing.set( true );
-            }
-
-            @Override public void mouseReleased( PInputEvent event ) {
-                model.pressing.set( false );
-            }
-        } );
     }
 }
