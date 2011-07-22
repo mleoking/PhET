@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
@@ -104,7 +103,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
 
         //Buttons for scrolling previous/next
         //Place the kit "previous" and "next" buttons below the kit to save horizontal space
-        final TextButtonNode nextButton = new TextButtonNode( "Next" ) {{
+        final PNode nextButton = new ForwardButton() {{
             setOffset( background.getFullBounds().getMaxX() - getFullBounds().getWidth(), background.getFullBounds().getMaxY() + 2 );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -118,7 +117,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
             } );
         }};
         addChild( nextButton );
-        addChild( new TextButtonNode( "Previous" ) {{
+        addChild( new BackButton() {{
             setOffset( background.getFullBounds().getMinX(), background.getFullBounds().getMaxY() + 2 );
 
             //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
