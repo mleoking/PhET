@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,15 +60,6 @@ public class ManualGeneExpressionModel {
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
-
-    public ManualGeneExpressionModel() {
-        // TODO: Temporary initialization to make it look like some polymerase is around.
-        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 5000, 300 ) ) );
-        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 7000, 500 ) ) );
-        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 17000, 1000 ) ) );
-        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 24000, 2000 ) ) );
-        mobileBiomoleculeList.add( new RnaPolymerase( new Point2D.Double( 27000, 900 ) ) );
-    }
 
     //------------------------------------------------------------------------
     // Methods
