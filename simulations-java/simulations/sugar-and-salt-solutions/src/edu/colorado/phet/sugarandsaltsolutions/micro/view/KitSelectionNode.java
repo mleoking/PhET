@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.SwingUtilities;
 
@@ -30,7 +31,7 @@ import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.*;
  *
  * @author Sam Reid
  */
-public class KitSelectionNode extends PNode {
+public class KitSelectionNode<T extends PNode> extends PNode {
 
     //The currently selected kit, public because it can be set and observed by other classes
     public final Property<Integer> selectedKit;
@@ -44,14 +45,17 @@ public class KitSelectionNode extends PNode {
     //Border and background, used for layout
     protected PhetPPath background;
 
+    //List of the available kits
+    private final ArrayList<T> kits;
+
     /**
      * Create a KitSelectionNode that uses the specified kits
      *
      * @param selectedKit model for which kit has been selected by the user
      * @param kits        the list of kits to show
      */
-    public KitSelectionNode( final Property<Integer> selectedKit, PNode... kits ) {
-
+    public KitSelectionNode( final Property<Integer> selectedKit, T... kits ) {
+        this.kits = new ArrayList<T>( Arrays.asList( kits ) );
         this.selectedKit = selectedKit;
 
         //Standardize the nodes, this centers them to simplify the layout
@@ -147,7 +151,7 @@ public class KitSelectionNode extends PNode {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 new PFrame() {{
-                    getCanvas().getLayer().addChild( new KitSelectionNode(
+                    getCanvas().getLayer().addChild( new KitSelectionNode<PNode>(
                             new Property<Integer>( 0 ),
                             new PText( "Hello" ),
                             new PText( "There" ),
@@ -162,5 +166,9 @@ public class KitSelectionNode extends PNode {
                 }}.setVisible( true );
             }
         } );
+    }
+
+    public T getKit( Integer index ) {
+        return kits.get( index );
     }
 }
