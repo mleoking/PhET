@@ -26,9 +26,9 @@ import edu.umd.cs.piccolo.nodes.PText;
  */
 public class BiomoleculeBoxNode extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 20 );
-    private final ManualGeneExpressionModel model;
+    protected final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
-    private final ModelViewTransform mvt;
+    protected final ModelViewTransform mvt;
 
     public BiomoleculeBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
         this.model = model;
@@ -53,34 +53,32 @@ public class BiomoleculeBoxNode extends PNode {
         private static final double SCALING_FACTOR = 0.1;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
+        /**
+         * Constructor.
+         *
+         * @param biomoleculeBoxNode - Biomolecule box, which is a sort of tool
+         *                           box, in which this creator node exists.
+         */
         private RnaPolymeraseCreatorNode( final BiomoleculeBoxNode biomoleculeBoxNode ) {
             super( new MobileBiomoleculeNode( SCALING_MVT, new RnaPolymerase() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
+                   new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
                            final RnaPolymerase rnaPolymerase = new RnaPolymerase( pos );
                            System.out.println( "Created biomolecule: " + rnaPolymerase );
                            biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
-                           rnaPolymerase.userControlled.set( true );
-                           rnaPolymerase.userControlled.addObserver( new VoidFunction1<Boolean>() {
-                               public void apply( Boolean userControlled ) {
-                                   System.out.println( rnaPolymerase.userControlled.getClass() + "Notified, user controlled is: " + userControlled );
-                                   if ( !userControlled ) {
-                                       // The user has released this biomolecule.  If it was dropped above the tool
-                                       // box, it should be removed from the model.
-                                       if ( biomoleculeBoxNode.getFullBoundsReference().contains( biomoleculeBoxNode.mvt.modelToView( rnaPolymerase.getPosition() ) ) ) {
-                                           biomoleculeBoxNode.model.removeMobileBiomolecule( rnaPolymerase );
-                                           rnaPolymerase.userControlled.removeObserver( this );
-                                           System.out.println( "Released node." );
-                                       }
-                                   }
-                               }
-                           } );
                            return rnaPolymerase;
                        }
                    },
-                   true );
+                   new VoidFunction1<MobileBiomolecule>() {
+                       public void apply( MobileBiomolecule mobileBiomolecule ) {
+                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
+                       }
+                   },
+                   biomoleculeBoxNode,
+                   true
+            );
         }
     }
 
@@ -103,7 +101,14 @@ public class BiomoleculeBoxNode extends PNode {
                            return srs;
                        }
                    },
-                   true );
+                   new VoidFunction1<MobileBiomolecule>() {
+                       public void apply( MobileBiomolecule mobileBiomolecule ) {
+                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
+                       }
+                   },
+                   biomoleculeBoxNode,
+                   true
+            );
         }
     }
 }
