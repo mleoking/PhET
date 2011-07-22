@@ -61,7 +61,9 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                 }
             } );
         }} );
-        microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getY() );
+
+        //TODO: Why is the -10 needed in the next line?
+        microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET - 10, concentrationBarChart.getFullBounds().getY() );
         addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed

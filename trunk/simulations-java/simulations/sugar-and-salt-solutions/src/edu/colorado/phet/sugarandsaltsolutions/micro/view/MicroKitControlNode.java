@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
@@ -16,6 +17,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
  */
 public class MicroKitControlNode extends PNode {
     public final KitSelectionNode<DispenserRadioButtonSet> kitSelectionNode;
+    public final SoluteControlPanelNode soluteControlPanelNode;
 
     public MicroKitControlNode( final Property<Integer> selectedKit, final Property<DispenserType> dispenserType ) {
 
@@ -31,7 +33,8 @@ public class MicroKitControlNode extends PNode {
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ),
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) )
         );
-        addChild( kitSelectionNode );
+        soluteControlPanelNode = new SoluteControlPanelNode( kitSelectionNode );
+        addChild( soluteControlPanelNode );
 
         //When switching to a new kit, switch to a dispenser that is in the set (if not already selecting it).  If switching from a set that contains NaCl to a new set that also contains NaCl, then keep the selection
         selectedKit.addObserver( new VoidFunction1<Integer>() {

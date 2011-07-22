@@ -1,3 +1,4 @@
+Micro tab: Added "Solute" title to kit selection box
 Micro tab: Moved the kit "previous" and "next" buttons below the kit to save horizontal space
 # 0.00.66 (54407) Jul 21, 2011
 Micro tab: Fixed: Beaker tick labels go offscreen
