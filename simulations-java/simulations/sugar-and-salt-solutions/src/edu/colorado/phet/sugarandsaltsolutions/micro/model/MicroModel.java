@@ -111,7 +111,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
 
                     //Add randomness so they look more fluid-like
-                            plus( parseAngleAndMagnitude( 0.25E-9 / 3, random() * PI ) ) );
+                            plus( parseAngleAndMagnitude( 0.25E-9 / 4, random() * PI ) ) );
         }};
         freeParticles.add( ethanol );
         addComponents( ethanol );
