@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.PFrame;
 import edu.umd.cs.piccolox.nodes.PClip;
 
-import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.*;
+import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.DEFAULT_ARC;
 
 /**
  * Node for showing and scrolling between kits, which can be any PNode.
@@ -75,7 +75,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
 
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
         RoundRectangle2D.Double backgroundPath = new RoundRectangle2D.Double( 0, 0, kitBounds.getWidth(), kitBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
-        background = new PhetPPath( backgroundPath, DEFAULT_BACKGROUND_COLOR, DEFAULT_STROKE, DEFAULT_BORDER_COLOR );
+
+        //Hide the background for embedding in a larger control panel, background is just used for layout purposes
+        background = new PhetPPath( backgroundPath, null, null, null );
         addChild( background );
 
         //Create the layer that contains all the kits, and add the kits side by side spaced by the distance of the background so only 1 kit will be visible at a time
@@ -134,9 +136,6 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 }
             } );
         }} );
-
-        //Repeat the outer stroke over the top (in z-ordering) so that it doesn't get obscured by the individual kits
-        addChild( new PhetPPath( backgroundPath, DEFAULT_STROKE, DEFAULT_BORDER_COLOR ) );
     }
 
     //When the next or previous button is pressed, scroll to the next kit
