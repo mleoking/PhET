@@ -14,6 +14,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.LargeRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRnaDestroyer;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.SmallRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
@@ -46,7 +47,9 @@ public class BiomoleculeToolBoxNode extends PNode {
                 // TODO: i18n
                 new HBox( new PText( "Small Ribosomal Subunit" ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ),
                 // TODO: i18n
-                new HBox( new PText( "Large Ribosomal Subunit" ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) )
+                new HBox( new PText( "Large Ribosomal Subunit" ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                // TODO: i18n
+                new HBox( new PText( "mRNA Destroyer" ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) )
         );
         addChild( new ControlPanelNode( contentNode ) );
     }
@@ -148,7 +151,6 @@ public class BiomoleculeToolBoxNode extends PNode {
         }
     }
 
-
     // PNode that, when clicked on, will add a transcription factor to the active area.
     private static class TranscriptionFactorCreatorNode extends BiomoleculeCreatorNode {
         // Scaling factor for this node when used as a creator node.  May be
@@ -166,6 +168,36 @@ public class BiomoleculeToolBoxNode extends PNode {
                            TranscriptionFactor transcriptionFactor = new TranscriptionFactor( pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
                            return transcriptionFactor;
+                       }
+                   },
+                   new VoidFunction1<MobileBiomolecule>() {
+                       public void apply( MobileBiomolecule mobileBiomolecule ) {
+                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
+                       }
+                   },
+                   biomoleculeBoxNode,
+                   true
+            );
+        }
+    }
+
+    // PNode that, when clicked on, will add an mRNA destroyer to the active area.
+    private static class MessengerRnaDestroyerCreatorNode extends BiomoleculeCreatorNode {
+        // Scaling factor for this node when used as a creator node.  May be
+        // significantly different from the size of the corresponding element
+        // in the model.
+        private static final double SCALING_FACTOR = 0.1;
+        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
+
+        private MessengerRnaDestroyerCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
+            super( new MobileBiomoleculeNode( SCALING_MVT, new MessengerRnaDestroyer() ),
+                   biomoleculeBoxNode.canvas,
+                   biomoleculeBoxNode.mvt,
+                   new Function1<Point2D, MobileBiomolecule>() {
+                       public MobileBiomolecule apply( Point2D pos ) {
+                           MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( pos );
+                           biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer );
+                           return mRnaDestroyer;
                        }
                    },
                    new VoidFunction1<MobileBiomolecule>() {
