@@ -23,20 +23,23 @@ public class CalciumChlorideShaker extends MicroShaker {
     }
 
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
-        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, (CalciumChlorideLattice) new CalciumChlorideLattice().grow( 20 ) ) );
 
-        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint,
-                                                                     generateRandomLattice( new Function0<CalciumChlorideLattice>() {
-                                                                                                public CalciumChlorideLattice apply() {
+        //for a ratio of 2:1, the total number of components must be 3x, but growing it from 1 means we must specify 3x-1 growth steps, such as 2,5,8,...
+        int numComponents = 7;
+        final int numGrowthSteps = 3 * numComponents - 1;
+        CalciumChlorideLattice lattice = generateRandomLattice( new Function0<CalciumChlorideLattice>() {
+                                                                    public CalciumChlorideLattice apply() {
 
-                                                                                                    //TODO: can we get rid of this cast?
-                                                                                                    return (CalciumChlorideLattice) new CalciumChlorideLattice().grow( 19 );
-                                                                                                }
-                                                                                            }, new Function1<CalciumChlorideLattice, Boolean>() {
-                                                                         public Boolean apply( CalciumChlorideLattice lattice ) {
-                                                                             return lattice.count( CalciumIon.class ) == lattice.count( ChlorideIon.class );
-                                                                         }
-                                                                     }
-                                                                     ) ) );
+                                                                        //TODO: can we get rid of this cast?
+                                                                        return (CalciumChlorideLattice) new CalciumChlorideLattice().grow( numGrowthSteps );
+                                                                    }
+                                                                }, new Function1<CalciumChlorideLattice, Boolean>() {
+            public Boolean apply( CalciumChlorideLattice lattice ) {
+                //CaCl2 should have twice as many Cl as Ca
+                return lattice.count( CalciumIon.class ) * 2 == lattice.count( ChlorideIon.class );
+            }
+        }
+        );
+        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, lattice ) );
     }
 }

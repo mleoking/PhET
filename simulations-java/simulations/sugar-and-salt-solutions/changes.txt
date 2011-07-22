@@ -1,3 +1,4 @@
+Micro tab: Fixed: Ratio for CaCl2 was incorrect
 Micro tab: Added units to beaker tick mark labels
 Micro tab: Use a smaller font for beaker tick marks
 Micro tab: Switched to arrow buttons for traversing through kits
