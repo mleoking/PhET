@@ -1,3 +1,4 @@
+Micro tab: Made ethanol particles come out of the tip of the dropper instead of its center
 Micro tab: Added ethanol particles
 Micro tab: Added an image for the ethanol dropper
 Micro tab: Added molecular formulae for all molecules in kits 2-4
