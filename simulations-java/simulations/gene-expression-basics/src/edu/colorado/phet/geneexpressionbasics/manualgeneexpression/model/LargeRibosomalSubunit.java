@@ -9,7 +9,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
- * Class that represents the small ribosomal subunit in the model.
+ * Class that represents the large ribosomal subunit in the model.
  *
  * @author John Blanco
  */
