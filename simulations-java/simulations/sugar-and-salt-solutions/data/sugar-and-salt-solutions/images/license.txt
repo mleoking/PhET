@@ -1,3 +1,5 @@
+button_pressed.png source=PhET
+button_unpressed.png source=PhET
 faucet.png author=PhET
 salt_1.png author=PhET
 sugar_closed.png author=PhET
