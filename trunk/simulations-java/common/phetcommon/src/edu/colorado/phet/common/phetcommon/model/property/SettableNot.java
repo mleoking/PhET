@@ -5,6 +5,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Provides the negation of a Property<Boolean>--this one is settable and propagates the (negation) of the set value back to its parent.
+ * TODO: I noticed on 7/21/2011 that this doesn't look like it is propagating changes from the parent.  This should be investigated, since it could lead to buggy sim behavior.
  *
  * @author Sam Reid
  */
