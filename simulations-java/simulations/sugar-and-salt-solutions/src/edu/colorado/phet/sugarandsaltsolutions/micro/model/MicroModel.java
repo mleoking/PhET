@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleP
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
@@ -30,6 +31,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
@@ -163,6 +165,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
         dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
+        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSugarAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL ) );
 
         //When the pause button is pressed, pause the clock
         clockPausedProperty.addObserver( new VoidFunction1<Boolean>() {
