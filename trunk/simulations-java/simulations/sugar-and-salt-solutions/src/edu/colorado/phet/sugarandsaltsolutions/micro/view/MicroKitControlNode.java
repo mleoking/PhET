@@ -18,11 +18,18 @@ public class MicroKitControlNode extends PNode {
     public final KitSelectionNode<DispenserRadioButtonSet> kitSelectionNode;
 
     public MicroKitControlNode( final Property<Integer> selectedKit, final Property<DispenserType> dispenserType ) {
+
+        //Show the radio buttons on two lines to show scientific name and molecular formula to save horizontal space
+        String sodiumChlorideString = "<html>Sodium Chloride<br>NaCl</html>";
+        String calciumChlorideString = "<html>Calcium Chloride<br>CaCl<sub>2</sub></html>";
+        String sodiumNitrateString = "<html>Sodium Nitrate<br>NaNO<sub>3</sub></html>";
+        String sucroseString = "<html>Sucrose<br>C<sub>12</sub>H<sub>22</sub>O<sub>11</sub></html>";
+        String ethanolString = "<html>Ethanol<br>C<sub>2</sub>H<sub>5</sub>OH</html>";
         kitSelectionNode = new KitSelectionNode<DispenserRadioButtonSet>( selectedKit,
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ),
-                                                                          new DispenserRadioButtonSet( dispenserType, new Item( Strings.SODIUM_CHLORIDE, SALT ), new Item( Strings.CALCIUM_CHLORIDE, CALCIUM_CHLORIDE ) ),
-                                                                          new DispenserRadioButtonSet( dispenserType, new Item( Strings.SODIUM_CHLORIDE, SALT ), new Item( Strings.SODIUM_NITRATE, SODIUM_NITRATE ) ),
-                                                                          new DispenserRadioButtonSet( dispenserType, new Item( Strings.SUCROSE, SUGAR ), new Item( Strings.ETHANOL, ETHANOL ) )
+                                                                          new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( calciumChlorideString, CALCIUM_CHLORIDE ) ),
+                                                                          new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ),
+                                                                          new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) )
         );
         addChild( kitSelectionNode );
 

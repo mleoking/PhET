@@ -1,4 +1,4 @@
-Micro tab: Expanded molecule names for kits 2 and 3 to use Sodium Chloride instead of Salt
+Micro tab: Added molecular formulae for all molecules in kits 2-4
 Micro tab: When changing kits, switch to a new dispenser (unless dispenser exists in new kit)
 Micro tab: When the user switches kits, clear the solutes
 Micro tab: Kit resets on "reset all"
