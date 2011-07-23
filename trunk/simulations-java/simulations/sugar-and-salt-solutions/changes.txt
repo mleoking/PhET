@@ -1,3 +1,4 @@
+Micro tab: Added bar chart bars for all the kits
 Micro tab: Center bar caption icon underneath text since there is more vertical space than horizontal
 Micro tab: Added bar caption icon for sucrose
 Micro tab: In the periodic table, use green instead of yellow highlighting because yellow doesn't show up well against pink

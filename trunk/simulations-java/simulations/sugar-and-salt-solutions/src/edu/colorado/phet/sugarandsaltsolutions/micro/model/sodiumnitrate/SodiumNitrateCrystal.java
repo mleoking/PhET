@@ -19,7 +19,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sod
  * @author Sam Reid
  */
 public class SodiumNitrateCrystal extends Crystal {
-    private ArrayList<Nitrate> nitrates = new ArrayList<Nitrate>();
+    private ArrayList<NitrateMolecule> nitrateMolecules = new ArrayList<NitrateMolecule>();
+
+    //The distance between nitrogen and oxygen should be the sum of their radii, but the blue background makes it hard to tell that N and O are bonded.
+    //Therefore we bring the outer O's closer to the N so there is some overlap.
+    public static final double NITROGEN_OXYGEN_SPACING = ( new NitrogenIonParticle().radius + new FreeOxygenIonParticle().radius ) * 0.85;
 
     public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice ) {
         super( position );
@@ -34,21 +38,17 @@ public class SodiumNitrateCrystal extends Crystal {
     //Recursive method to traverse the graph and create particles at the right locations
     private void fill( SodiumNitrateLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
 
-        //The distance between nitrogen and oxygen should be the sum of their radii, but the blue background makes it hard to tell that N and O are bonded.
-        //Therefore we bring the outer O's closer to the N so there is some overlap.
-        double nitrogenOxygenSpacing = ( new NitrogenIonParticle().radius + new FreeOxygenIonParticle().radius ) * 0.85;
-
         if ( component instanceof SodiumIon ) {
             constituents.add( new Constituent( new SodiumIonParticle(), relativePosition ) );
         }
         //Nitrate
         else {
             //Keep track of relative positions so the nitrate group won't dissolve
-            addNitrate( new Nitrate( nitrogenOxygenSpacing, angle, relativePosition ), relativePosition );
+            addNitrate( new NitrateMolecule( angle, relativePosition ), relativePosition );
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
-        final double spacing = new SodiumIonParticle().radius * 2 + nitrogenOxygenSpacing;
+        final double spacing = new SodiumIonParticle().radius * 2 + NITROGEN_OXYGEN_SPACING;
         for ( Bond bond : bonds ) {
             if ( !handled.contains( bond.destination ) ) {
                 fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ) );
@@ -56,14 +56,14 @@ public class SodiumNitrateCrystal extends Crystal {
         }
     }
 
-    private void addNitrate( Nitrate nitrate, ImmutableVector2D relativePosition ) {
-        nitrates.add( nitrate );
-        for ( Constituent constituent : nitrate ) {
+    private void addNitrate( NitrateMolecule nitrateMolecule, ImmutableVector2D relativePosition ) {
+        nitrateMolecules.add( nitrateMolecule );
+        for ( Constituent constituent : nitrateMolecule ) {
             constituents.add( new Constituent( constituent.particle, constituent.location.plus( relativePosition ) ) );
         }
     }
 
-    public ArrayList<Nitrate> getNitrates() {
-        return nitrates;
+    public ArrayList<NitrateMolecule> getNitrateMolecules() {
+        return nitrateMolecules;
     }
 }

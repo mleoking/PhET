@@ -7,10 +7,12 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -20,8 +22,11 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.umd.cs.piccolo.PNode;
@@ -47,12 +52,34 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
         ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode(
                 model.showConcentrationBarChart,
-                model.showConcentrationValues,
-                new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
-                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
-                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new StandardizedNode( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ) )
+                model.showConcentrationValues
         ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
+            model.selectedKit.addObserver( new VoidFunction1<Integer>() {
+                public void apply( Integer kit ) {
+
+                    //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
+                    if ( kit == 0 ) {
+                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ) );
+                    }
+                    else if ( kit == 1 ) {
+                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, new Some<PNode>( new SphericalParticleNode( transform, new CalciumIonParticle(), model.showChargeColor ) ) ) );
+                    }
+                    else if ( kit == 2 ) {
+                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode( transform, new NitrateMolecule( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) );
+                    }
+                    else if ( kit == 3 ) {
+                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ),
+                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode( transform, new EthanolMolecule( ZERO ), model.showChargeColor ) ) ) );
+                    }
+                }
+            } );
         }};
         behindShakerNode.addChild( concentrationBarChart );
 
