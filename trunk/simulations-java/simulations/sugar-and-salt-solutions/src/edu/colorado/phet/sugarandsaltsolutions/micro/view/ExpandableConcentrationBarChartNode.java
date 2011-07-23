@@ -13,12 +13,11 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ExpandableConcentrationBarChartNode extends PNode {
     public ExpandableConcentrationBarChartNode( final Property<Boolean> showConcentrationBarChart,
-                                                BarItem sodium,
-                                                BarItem chloride,
-                                                SettableProperty<Boolean> showConcentrationValues ) {
+                                                SettableProperty<Boolean> showConcentrationValues,
+                                                BarItem... bars ) {
 
         //The bar chart itself (when toggled to be visible)
-        addChild( new SodiumChlorideConcentrationBarChart( sodium, chloride, showConcentrationValues, showConcentrationBarChart ) );
+        addChild( new MicroConcentrationBarChart( showConcentrationBarChart, showConcentrationValues, bars ) );
 
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
         addChild( new MinimizedConcentrationBarChart( showConcentrationBarChart ) );

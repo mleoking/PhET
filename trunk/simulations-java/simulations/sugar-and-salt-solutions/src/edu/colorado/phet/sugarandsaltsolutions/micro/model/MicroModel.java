@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -47,7 +48,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
+import static java.awt.Color.red;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
@@ -119,7 +121,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
-        public IonConcentration( final Class type ) {
+        public IonConcentration( final Class<? extends Particle> type ) {
             super( new Function0<Double>() {
                        public Double apply() {
                            return Units.numberToMoles( freeParticles.count( type ) ) / Units.metersCubedToLiters( waterVolume.get() );
@@ -143,12 +145,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     public final ObservableProperty<Color> sodiumColor = new IonColor( new SodiumIonParticle() );
     public final ObservableProperty<Color> chlorideColor = new IonColor( new ChlorideIonParticle() );
+    public final ObservableProperty<Color> sucroseColor = new CompositeProperty<Color>( new Function0<Color>() {
+        public Color apply() {
+            return showChargeColor.get() ? NEUTRAL_COLOR : red;
+        }
+    }, showChargeColor );
 
     //Free Na+ disassociated from NaCl
     public final ObservableProperty<Double> sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
 
     //Free Na+ disassociated from NaCl
     public final ObservableProperty<Double> chlorideConcentration = new IonConcentration( ChlorideIonParticle.class );
+
+    //Free Na+ disassociated from NaCl
+    public final ObservableProperty<Double> sucroseConcentration = new IonConcentration( SucroseMolecule.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -232,7 +242,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
-    //TODO: Duplicated code with addMacroSalt
+    //TODO: Create a new separate method for adding sucrose
     @Override public void addMacroSugar( MacroSugar sugar ) {
 
         //Only add a crystal every N steps, otherwise there are too many
@@ -265,7 +275,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation
     private double getMolesPerLiterSodiumInNaCl() {
         //Count the number of sodiums
-        double molesSodium = numberToMoles( freeParticles.count( SodiumIonParticle.class ) );
+        double molesSodium = Units.numberToMoles( freeParticles.count( SodiumIonParticle.class ) );
         double litersWater = metersCubedToLiters( waterVolume.get() );
         return molesSodium / litersWater;
     }
@@ -354,10 +364,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         else if ( crystal instanceof SucroseCrystal ) {
             SucroseCrystal sucroseCrystal = (SucroseCrystal) crystal;
             for ( final SucroseMolecule sucroseMolecule : sucroseCrystal.sucroseMolecules ) {
-                freeParticles.add( new Compound( sucroseCrystal.position.get() ) {{
-                    constituents.addAll( sucroseMolecule.constituents );
-                    velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
-                }} );
+                sucroseMolecule.position.set( sucroseCrystal.position.get() );
+                sucroseMolecule.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
+                freeParticles.add( sucroseMolecule );
             }
         }
 
