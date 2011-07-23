@@ -50,7 +50,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                 model.showConcentrationValues,
                 new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
-                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) )
+                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new StandardizedNode( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ) )
         ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};
