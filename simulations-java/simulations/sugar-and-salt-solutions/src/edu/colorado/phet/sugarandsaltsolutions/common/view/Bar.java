@@ -47,19 +47,18 @@ public class Bar extends PNode {
             }
         } );
         // Create and add the caption.
-        PText captionNode = new PText( caption ) {{
+        final PText captionNode = new PText( caption ) {{
             setFont( CONTROL_FONT );
             // Position so that it is centered under the bar.
             setOffset( WIDTH / 2 - getFullBoundsReference().width / 2, 5 );
         }};
         addChild( captionNode );
 
-        //If specified, show an icon next to the caption
+        //If specified, show an icon below the caption (to save horizontal space)
         if ( icon.isSome() ) {
-            PNode iconNode = new StandardizedNode( icon.get() );
-            iconNode.setOffset( captionNode.getFullBounds().getMaxX() + 2,
-                                captionNode.getFullBounds().getCenterY() - iconNode.getFullBounds().getHeight() / 2 );
-            addChild( iconNode );
+            addChild( new StandardizedNode( icon.get() ) {{
+                setOffset( captionNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, captionNode.getFullBounds().getMaxY() + 2 );
+            }} );
         }
 
         //Optionally show the readout of the exact value above the bar itself
