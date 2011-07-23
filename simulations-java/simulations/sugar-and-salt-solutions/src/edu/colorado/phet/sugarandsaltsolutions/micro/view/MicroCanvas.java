@@ -23,6 +23,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

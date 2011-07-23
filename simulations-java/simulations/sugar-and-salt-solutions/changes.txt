@@ -1,3 +1,4 @@
+Micro tab: In the periodic table, use color squares that are the same size as the element squares
 Micro tab: Created a bar chart bar for sucrose
 # 0.00.68 (54426) Jul 22, 2011
 Micro tab: Added a legend for the periodic table

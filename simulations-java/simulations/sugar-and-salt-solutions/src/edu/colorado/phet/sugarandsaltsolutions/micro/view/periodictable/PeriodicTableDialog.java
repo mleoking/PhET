@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.view;
+package edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,15 +41,16 @@ public class PeriodicTableDialog extends JDialog {
                         //inset is necessary since the periodic table bounds doesn't account for the stroke width so the top and left would be truncated without this.
                         //Kelly also requested the inset to be larger than the original value of 2: "I am not sure the idea that "salts are made of atoms on opposite sides of the PT" is clear. Can we add more space around the PT in the popup window?"
                         final int inset = 26;
+                        final double scale = 1.5;
                         final PeriodicTableNode periodicTableNode = new PeriodicTableNode( Color.lightGray, new HighlightMetals( dispenser.get().getElementAtomicMasses() ) ) {{
-                            scale( 1.5 );
+                            scale( scale );
                             setOffset( inset, inset );
                         }};
                         root.removeAllChildren();
                         root.addChild( periodicTableNode );
 
                         //Show a legend below the periodic table to indicate the coloring scheme for metals vs nonmetals
-                        PeriodicTableLegend legend = new PeriodicTableLegend( periodicTableNode.getFullBounds().getWidth() ) {{
+                        PeriodicTableLegend legend = new PeriodicTableLegend( periodicTableNode.getFullBounds().getWidth(), scale ) {{
                             setOffset( inset, periodicTableNode.getFullBounds().getMaxY() + inset );
                         }};
                         root.addChild( legend );
