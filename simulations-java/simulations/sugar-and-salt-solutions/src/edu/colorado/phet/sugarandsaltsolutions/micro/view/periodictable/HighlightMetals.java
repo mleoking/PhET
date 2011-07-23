@@ -10,10 +10,15 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.BasicElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
+
+import static java.awt.Color.black;
+import static java.awt.Color.pink;
 
 /**
  * Rules for painting metal Elements in the periodic table differently than nonmetals since that is a major learning goal of this tab.
@@ -34,6 +39,9 @@ public class HighlightMetals implements CellFactory {
     //Atoms selected by the user
     private final List<Integer> selectedAtomicMasses;
 
+    //Allow the developer to choose a different highlighter color
+    private boolean debug = false;
+
     public HighlightMetals( Integer[] selectedAtomicMasses ) {
         this.selectedAtomicMasses = Arrays.asList( selectedAtomicMasses );
     }
@@ -41,13 +49,31 @@ public class HighlightMetals implements CellFactory {
     //Create a cell based on metal vs nonmetal and selected vs unselected
     public ElementCell createCellForElement( final int atomicNumberOfCell, Color backgroundColor ) {
         final boolean selected = selectedAtomicMasses.contains( atomicNumberOfCell );
-        final Color background = nonmetals.contains( atomicNumberOfCell ) ? Color.pink : backgroundColor;
+        final Color background = nonmetals.contains( atomicNumberOfCell ) ? pink : backgroundColor;
         final PhetFont font = selected ? new PhetFont( PhetFont.getDefaultFontSize(), true ) : new PhetFont( 12 );
         final Stroke stroke = selected ? new BasicStroke( 3 ) : new BasicStroke( 1 );
-        final Color strokeColor = selected ? Color.yellow : Color.black;
+
+        //Dark green if selected
+        final Color strokeColor = selected ? new Color( 77, 255, 82 ) : black;
 
         return new BasicElementCell( atomicNumberOfCell, background ) {
             {
+
+                //Allow the developer to choose a different highlighter color
+                if ( selected && debug ) {
+                    ColorChooserFactory.showDialog( "", null, strokeColor, new Listener() {
+                                                        public void colorChanged( Color color ) {
+                                                            getBox().setStrokePaint( color );
+                                                        }
+
+                                                        public void ok( Color color ) {
+                                                        }
+
+                                                        public void cancelled( Color originalColor ) {
+                                                        }
+                                                    }, true );
+                }
+
                 getBox().setStroke( stroke );
                 getText().setFont( font );
                 getBox().setPaint( background );
