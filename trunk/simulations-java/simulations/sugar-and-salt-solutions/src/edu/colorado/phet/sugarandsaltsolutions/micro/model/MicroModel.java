@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -29,7 +28,10 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
@@ -61,17 +63,11 @@ import static java.lang.Math.random;
  * @author Sam Reid
  */
 public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
-    //Model for the concentration in SI (moles/m^3)
-    //Shadows parent values of sugarConcentration and saltConcentration
-    public final DoubleProperty sugarConcentration = new DoubleProperty( 0.0 );
-    public final DoubleProperty saltConcentration = new DoubleProperty( 0.0 );
-
-    private DoubleProperty numSaltIons = new DoubleProperty( 0.0 );
-    private DoubleProperty numSugarMolecules = new DoubleProperty( 0.0 );
 
     private static final double framesPerSecond = 30;
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
+    //TODO: should move to the micro salt dispenser
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
     //List of all spherical particles
@@ -91,9 +87,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
+
+    //User setting for whether color should be based on charge or identity
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
-    //settable property that indicates whether the clock is running or paused
+    //Settable property that indicates whether the clock is running or paused
     public final Property<Boolean> clockRunning = new Property<Boolean>( true );
 
     //The index of the kit selected by the user
@@ -166,12 +164,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }, showChargeColor );
 
     //Particle concentrations for all of the dissolved components
-    public final ObservableProperty<Double> sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
-    public final ObservableProperty<Double> chlorideConcentration = new IonConcentration( ChlorideIonParticle.class );
-    public final ObservableProperty<Double> calciumConcentration = new IonConcentration( CalciumIonParticle.class );
-    public final ObservableProperty<Double> sucroseConcentration = new IonConcentration( SucroseMolecule.class );
-    public final ObservableProperty<Double> ethanolConcentration = new IonConcentration( EthanolMolecule.class );
-    public final ObservableProperty<Double> nitrateConcentration = new IonConcentration( NitrateMolecule.class );
+    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
+    public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( ChlorideIonParticle.class );
+    public final CompositeDoubleProperty calciumConcentration = new IonConcentration( CalciumIonParticle.class );
+    public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( SucroseMolecule.class );
+    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( EthanolMolecule.class );
+    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( NitrateMolecule.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -282,7 +280,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateDissolvableCrystals( dt, sodiumNitrateCrystals );
         updateDissolvableCrystals( dt, calciumChlorideCrystals );
         updateDissolvableCrystals( dt, sugarCrystals );
-//        System.out.println( "numSodiumsForNaCl = " + numSodiumsForNaCl );
     }
 
     //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation
@@ -454,10 +451,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     private void clearSolutes() {
-        //Clear concentration values
-        sugarConcentration.reset();
-        saltConcentration.reset();
-
         //Clear particle lists
         sphericalParticles.clear();
         freeParticles.clear();
@@ -467,72 +460,31 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         sugarCrystals.clear();
     }
 
+    //Determine if there is any table salt to remove
     public ObservableProperty<Boolean> isAnySaltToRemove() {
-        return numSaltIons.greaterThan( 0.0 );
+        return sodiumConcentration.greaterThan( 0.0 ).and( chlorideConcentration.greaterThan( 0.0 ) );
     }
 
+    //Determine if there is any sugar that can be removed
     public ObservableProperty<Boolean> isAnySugarToRemove() {
-        return numSugarMolecules.greaterThan( 0.0 );
+        return sucroseConcentration.greaterThan( 0.0 );
     }
 
     public void removeSalt() {
         super.removeSalt();
-        //TODO: remove
+
+        sphericalParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
+        freeParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
+        saltCrystals.clear();
     }
 
     public void removeSugar() {
         super.removeSugar();
-        //TODO: remove
-    }
 
-    public int getNumFreeSugarMolecules() {
-        //TODO
-        return 0;
-    }
-
-    public int getNumFreeSaltMolecules() {
-        // assumes # Na == # Cl
-        //TODO
-        return 0;
-    }
-
-    public int getNumTotalSugarMolecules() {
-        //TODO
-        return 0;
-    }
-
-    public int getNumTotalSaltMolecules() {
-        // assumes # Na == # Cl
-        //TODO
-        return 0;
-    }
-
-    //Change whether the shaker can emit more solutes.  limit the amount of solute you can add - lets try 60 particles of salt (so 60 Na+ and 60 Cl- ions) and 10 particles of sugar
-    public void updateShakerAllowed() {
-        //TODO
-    }
-
-    //Update concentrations and whether the shaker can emit more solutes
-    private void ionCountChanged() {
-        updateShakerAllowed();
-        updateConcentrations();
-    }
-
-    private void updateConcentrations() {
-//        //according to VesselGraphic, the way to get the volume in liters is by multiplying the water height by the volumeCalibrationFactor:
-//        double volumeInLiters = solubleSaltsModel.getVessel().getWaterLevel() * container.getCalibration().volumeCalibrationFactor;
-//
-//        final double molesSugarPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSugarMolecules() / 6.022E23 / volumeInLiters;
-//
-//        //Set sugar concentration in SI (moles per m^3), convert to SI
-//        sugarConcentration.set( molesSugarPerLiter * 1000 );
-//
-//        final double molesSaltPerLiter = volumeInLiters == 0 ? 0 : getNumFreeSaltMolecules() / 6.022E23 / volumeInLiters;
-//        saltConcentration.set( molesSaltPerLiter * 1000 );
-//
-//        numSaltIons.set( solubleSaltsModel.getNumIonsOfType( Sodium.class ) + solubleSaltsModel.getNumIonsOfType( Chlorine.class ) + 0.0 );
-//        numSugarMolecules.set( solubleSaltsModel.getNumIonsOfType( PositiveSugarIon.class ) + solubleSaltsModel.getNumIonsOfType( NegativeSugarIon.class ) + 0.0 );
-        //TODO:
+        //TODO: will need to be more discriminative about which spherical particles to remove when in solution with ethanol
+        sphericalParticles.clear( HydrogenIonParticle.class, CarbonIonParticle.class, OxygenIonParticle.class );
+        freeParticles.clear( SucroseMolecule.class );
+        saltCrystals.clear();
     }
 
     /**

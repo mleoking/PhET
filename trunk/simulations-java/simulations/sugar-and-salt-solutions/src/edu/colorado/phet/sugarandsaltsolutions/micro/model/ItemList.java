@@ -67,12 +67,29 @@ public class ItemList<T> implements Iterable<T> {
     }
 
     //Count the items in the list that are an instance of the specified class
-    public int count( final Class<?> clazz ) {
-        return count( new Function1<T, Boolean>() {
-            public Boolean apply( T t ) {
-                return clazz.isInstance( t );
+    public int count( final Class<? extends T>... clazz ) {
+        return getMatchingItems( clazz ).size();
+    }
+
+    //Remove all instances that match the specified classes
+    public void clear( final Class<? extends T>... clazz ) {
+        for ( T item : getMatchingItems( clazz ) ) {
+            remove( item );
+        }
+    }
+
+    //Determine which items are instances of the specified classes
+    private ArrayList<T> getMatchingItems( final Class<? extends T>... clazz ) {
+        return new ArrayList<T>() {{
+            for ( T item : items ) {
+                for ( Class<? extends T> aClass : clazz ) {
+                    if ( aClass.isInstance( item ) ) {
+                        add( item );
+                        break;
+                    }
+                }
             }
-        } );
+        }};
     }
 
     //Remove all items from the list
