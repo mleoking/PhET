@@ -33,14 +33,17 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
         final double verticalAxisScale = 4;
 
         //Add the bar node for each of the specified bars
-        double barX = -Bar.WIDTH;
+        double spacing = background.getFullBounds().getWidth() / ( bars.length + 1 );
+        double barX = spacing;
         for ( BarItem bar : bars ) {
             final double finalBarX = barX;
-            barLayer.addChild( new Bar( bar.color, bar.caption, bar.icon, bar.concentration, showValues, verticalAxisScale ) {{
-                setOffset( background.getFullBounds().getWidth() / 2 - getFullBoundsReference().width / 2 + finalBarX, abscissaY );
+
+            //Use a StandardizedNodeX here to center the bars on the desired points horizontally so the bars will be equidistant
+            barLayer.addChild( new StandardizedNodeX( new Bar( bar.color, bar.caption, bar.icon, bar.concentration, showValues, verticalAxisScale ) ) {{
+                setOffset( finalBarX - getFullBoundsReference().width / 2, abscissaY );
             }} );
 
-            barX = barX + Bar.WIDTH + 25;
+            barX = barX + spacing;
         }
     }
 }
