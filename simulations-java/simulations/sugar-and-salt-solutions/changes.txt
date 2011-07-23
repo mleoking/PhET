@@ -1,3 +1,4 @@
+Micro tab: Created a bar chart bar for sucrose
 # 0.00.68 (54426) Jul 22, 2011
 Micro tab: Added a legend for the periodic table
 Micro tab: Added pink background for nonmetals

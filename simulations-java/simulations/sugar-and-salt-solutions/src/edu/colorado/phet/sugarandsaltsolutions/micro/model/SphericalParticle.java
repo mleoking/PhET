@@ -24,7 +24,7 @@ public class SphericalParticle extends Particle {
     public Color chargeColor;
 
     //Color to use for neutrally charged objects
-    private static final Color NEUTRAL_COLOR = Color.yellow;
+    public static final Color NEUTRAL_COLOR = Color.yellow;
     private static final Color POSITIVE_COLOR = Color.red;
     private static final Color NEGATIVE_COLOR = Color.blue;
 
