@@ -20,7 +20,10 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
     public MicroConcentrationBarChart( Property<Boolean> visible,
                                        SettableProperty<Boolean> showValues,
                                        BarItem... bars ) {
-        super( showValues, visible );
+        super( showValues, visible,
+
+               //Leave enough space for the captions.  This is hard coded since the computation for the caption heights is difficult to acquire: largest of all (insets + text + insets + caption + insets)
+               35 );
         addChild( barLayer );
         this.showValues = showValues;
         setBars( bars );
