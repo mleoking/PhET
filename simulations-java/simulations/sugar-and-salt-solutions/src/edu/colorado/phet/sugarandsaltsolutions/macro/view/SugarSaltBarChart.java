@@ -20,7 +20,7 @@ import static java.awt.Color.white;
  */
 public class SugarSaltBarChart extends ConcentrationBarChart {
     public SugarSaltBarChart( ObservableProperty<Double> saltConcentration, ObservableProperty<Double> sugarConcentration, final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, double scaleFactor ) {
-        super( showValues, visible );
+        super( showValues, visible, 0 );
 
         //Convert from model units (Mols) to stage units by multiplying by this scale factor
         final double verticalAxisScale = 160 * 1E-4 * scaleFactor;

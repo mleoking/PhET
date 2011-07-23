@@ -1,3 +1,4 @@
+Micro tab: Added more vertical space for the bar chart caption icons
 Micro tab: Spread out the bar chart bars evenly in the x-direction
 Micro tab: Added bar chart bars for all the kits
 Micro tab: Center bar caption icon underneath text since there is more vertical space than horizontal

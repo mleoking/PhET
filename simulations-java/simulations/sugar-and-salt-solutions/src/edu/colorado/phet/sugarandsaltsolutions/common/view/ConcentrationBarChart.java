@@ -39,13 +39,15 @@ public class ConcentrationBarChart extends PNode {
     protected final double abscissaY;
     protected final PNode background;
 
-    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible ) {
+    public ConcentrationBarChart( final SettableProperty<Boolean> showValues, final SettableProperty<Boolean> visible, int verticalSpacingForCaptions ) {
         final int INSET = 5;
 
-        background = new PhetPPath( new Rectangle2D.Double( 0, 0, 220, 234 ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
+        //Background for the bar chart
+        background = new PhetPPath( new Rectangle2D.Double( 0, 0, 220, 234 + verticalSpacingForCaptions ), WATER_COLOR, new BasicStroke( 1f ), Color.BLACK );
         addChild( background );
 
-        abscissaY = background.getFullBounds().getHeight() - 60;
+        //The x-axis, the baseline for the bars
+        abscissaY = background.getFullBounds().getHeight() - 60 - verticalSpacingForCaptions;
         addChild( new PhetPPath( new Line2D.Double( INSET, abscissaY, background.getFullBounds().getWidth() - INSET, abscissaY ), new BasicStroke( 2 ), Color.black ) );
 
         //Show the title
