@@ -183,12 +183,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.anySolutes ) );
 
         //Add a control that allows the user to remove solutes
-        final PNode removeSolutesButton = new RemoveSoluteControlNode( model );
-
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
-        removeSolutesButton.setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - INSET - removeSolutesButton.getFullBounds().getWidth(),
-                                       transform.modelToViewY( model.beaker.getY() ) - removeSolutesButton.getFullBounds().getHeight() - INSET );
-        addChild( removeSolutesButton );
+        addChild( new RemoveSoluteControlNode( model ) {{
+            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
+                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
+        }} );
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{
