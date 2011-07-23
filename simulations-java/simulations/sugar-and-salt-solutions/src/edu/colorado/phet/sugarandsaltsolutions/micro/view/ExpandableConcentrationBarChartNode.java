@@ -12,14 +12,23 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class ExpandableConcentrationBarChartNode extends PNode {
+
+    //The node for the expanded bar chart
+    protected MicroConcentrationBarChart microConcentrationBarChart;
+
     public ExpandableConcentrationBarChartNode( final Property<Boolean> showConcentrationBarChart,
                                                 SettableProperty<Boolean> showConcentrationValues,
                                                 BarItem... bars ) {
 
         //The bar chart itself (when toggled to be visible)
-        addChild( new MicroConcentrationBarChart( showConcentrationBarChart, showConcentrationValues, bars ) );
+        addChild( microConcentrationBarChart = new MicroConcentrationBarChart( showConcentrationBarChart, showConcentrationValues, bars ) );
 
         //Panel that says "concentration" and has a "+" button to expand the concentration bar chart
         addChild( new MinimizedConcentrationBarChart( showConcentrationBarChart ) );
+    }
+
+    //Clear the previous bars and display the specified bars
+    public void setBars( BarItem... bars ) {
+        microConcentrationBarChart.setBars( bars );
     }
 }

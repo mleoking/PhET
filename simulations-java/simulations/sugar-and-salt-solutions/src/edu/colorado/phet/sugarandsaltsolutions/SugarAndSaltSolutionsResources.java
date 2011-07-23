@@ -15,6 +15,7 @@ public class SugarAndSaltSolutionsResources {
 
     //Strings
     public static class Strings {
+        public static final String CALCIUM = RESOURCES.getLocalizedString( "calcium" );
         public static final String CALCIUM_CHLORIDE = RESOURCES.getLocalizedString( "calciumChloride" );
         public static final String CALCIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "calciumChlorideNewLine" );
         public static final String CHLORIDE = RESOURCES.getLocalizedString( "chloride" );
@@ -25,6 +26,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
         public static final String MACRO = RESOURCES.getLocalizedString( "macro" );
         public static final String MICRO = RESOURCES.getLocalizedString( "micro" );
+        public static final String NITRATE = RESOURCES.getLocalizedString( "nitrate" );
         public static final String NONE = RESOURCES.getLocalizedString( "none" );
         public static final String SALT = RESOURCES.getLocalizedString( "salt" );
         public static final String SHORT_CIRCUIT = RESOURCES.getLocalizedString( "shortCircuit" );
