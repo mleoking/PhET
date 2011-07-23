@@ -94,7 +94,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
 
         //TODO: Why is the -10 needed in the next line?
         microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET - 10, concentrationBarChart.getFullBounds().getY() );
-        addChild( microKitControlNode );
+        behindShakerNode.addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed
         final TextButtonNode periodicTableButton = new TextButtonNode( "Show in Periodic Table" ) {{

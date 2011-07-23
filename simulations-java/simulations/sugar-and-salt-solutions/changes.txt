@@ -1,3 +1,4 @@
+Micro tab: Fixed: Shaker should go in front of kit panel
 Micro tab: Added "Remove Sugar" and "Remove Salt" buttons for kit 1
 Micro tab: Added more vertical space for the bar chart caption icons
 Micro tab: Spread out the bar chart bars evenly in the x-direction
