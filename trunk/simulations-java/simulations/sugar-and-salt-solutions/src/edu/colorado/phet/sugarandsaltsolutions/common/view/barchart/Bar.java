@@ -15,6 +15,8 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+import static java.lang.Float.isInfinite;
+import static java.lang.Float.isNaN;
 
 /**
  * This class represents the bars in the bar chart.  They grow upwards in the Y direction from a baseline offset of y=0.
@@ -43,7 +45,7 @@ public class Bar extends PNode {
 
                 //Graphics problems occur if you let the bar go too high, so clamp it
                 float maxBarHeight = 10000f;
-                if ( height > maxBarHeight || Float.isNaN( height ) || Float.isInfinite( height ) ) {
+                if ( height > maxBarHeight || isNaN( height ) || isInfinite( height ) ) {
                     height = maxBarHeight;
                 }
                 bar.setPathToRectangle( 0, -height, WIDTH, height );
@@ -59,8 +61,8 @@ public class Bar extends PNode {
         addChild( captionNode );
 
         //If specified, show an icon below the caption (to save horizontal space)
-        if ( icon.isSome() ) {
-            addChild( new StandardizedNode( icon.get() ) {{
+        for ( PNode element : icon ) {
+            addChild( new StandardizedNode( element ) {{
                 setOffset( captionNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, captionNode.getFullBounds().getMaxY() + 2 );
             }} );
         }

@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.util;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * The option pattern is an alternative to using null return values.
  * See: http://www.codecommit.com/blog/scala/the-option-pattern
@@ -14,7 +17,7 @@ package edu.colorado.phet.common.phetcommon.util;
  *
  * @author Sam Reid
  */
-public abstract class Option<T> {
+public abstract class Option<T> implements Iterable<T> {
     public abstract T get();
 
     public abstract boolean isSome();
@@ -40,6 +43,10 @@ public abstract class Option<T> {
         @Override public String toString() {
             return "None";
         }
+
+        public Iterator<T> iterator() {
+            return new ArrayList<T>().iterator();
+        }
     }
 
     public static class Some<T> extends Option<T> {
@@ -59,6 +66,12 @@ public abstract class Option<T> {
 
         @Override public String toString() {
             return value.toString();
+        }
+
+        public Iterator<T> iterator() {
+            return new ArrayList<T>() {{
+                add( value );
+            }}.iterator();
         }
     }
 }
