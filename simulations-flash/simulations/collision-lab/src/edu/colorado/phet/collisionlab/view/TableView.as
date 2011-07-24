@@ -337,6 +337,9 @@ public class TableView extends Sprite {
             this.myTrajectories.erasePaths();
         }
 
+        for( i = 0; i < myModel.nbrBalls; i++ ) {
+            ballImage_arr[i].setVisibilityOfArrowHeadIndicator();
+        }
 
         var yMax: Number = this.myModel.borderHeight / 2;  //recall origin is set at y = borderHeight/2
         for ( i = 0; i < myModel.nbrBalls; i++ ) {

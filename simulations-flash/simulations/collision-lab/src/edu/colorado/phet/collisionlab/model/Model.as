@@ -268,12 +268,14 @@ public class Model {
         //this.separateAllBalls();  //check if any balls overlapping before starting
         msTimer.start();
         this.atInitialConfig = false;
+        updateViews();
     }//startMotion()
 
     public function stopMotion(): void {
         msTimer.stop();
         this.playing = false;
         this.starting = false;
+        updateViews();
     }
 
     public function setTimeRate( rate: Number ): void {

@@ -479,7 +479,7 @@ public class BallImage extends Sprite {
         //var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
         //trace("distInPix: "+distInPix+"   r:"+rInPix);
         //this.arrowHeadIndicator.visible = velInPix < ballRadiusInPix && this.arrowShown;
-        arrowHeadIndicator.visible = this.arrowShown;
+        arrowHeadIndicator.visible = this.arrowShown && !myModel.playing;
     }
 
     public function showArrow( tOrF:Boolean ):void {
