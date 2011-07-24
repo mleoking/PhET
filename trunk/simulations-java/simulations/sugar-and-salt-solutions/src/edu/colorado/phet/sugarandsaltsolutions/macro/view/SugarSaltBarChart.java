@@ -4,8 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.Bar;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.ConcentrationBarChart;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.barchart.Bar;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.barchart.ConcentrationBarChart;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Property.property;

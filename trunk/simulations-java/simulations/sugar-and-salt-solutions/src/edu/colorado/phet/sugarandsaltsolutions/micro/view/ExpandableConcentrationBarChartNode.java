@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.MinimizedConcentrationBarChart;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.barchart.BarItem;
 import edu.umd.cs.piccolo.PNode;
 
 /**
