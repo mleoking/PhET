@@ -14,11 +14,9 @@ import edu.colorado.phet.buildamolecule.model.*;
 import edu.colorado.phet.buildamolecule.module.LargerMoleculesModule;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
-//REVIEW "3rd tab" may change in the future, reference it by name (Larger Molecules?)
-
 /**
  * Filters a molecule file by removing molecules that could not be made with the
- * kits available in the 3rd tab.
+ * kits available in the Larger Molecules tab.
  */
 public class MoleculeKitFilterer {
     public static final List<ElementHistogram> availableKitHistograms = new LinkedList<ElementHistogram>();

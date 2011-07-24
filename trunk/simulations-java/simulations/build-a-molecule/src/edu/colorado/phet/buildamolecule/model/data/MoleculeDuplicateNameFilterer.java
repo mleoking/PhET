@@ -11,10 +11,10 @@ import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
-//REVIEW what is a "CID value"?
-
 /**
  * Filters out molecules that have duplicate names AND a lower CID value
+ *
+ * CID: PubChem Compound ID
  */
 public class MoleculeDuplicateNameFilterer {
     public static void main( String[] args ) throws IOException {

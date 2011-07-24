@@ -54,11 +54,11 @@ public class MoleculePreprocessing {
         }
     }
 
-    //REVIEW Is this main important to future sim maintenance? Is this something that I'd need to run if the inputs changed? Describe inputs and outputs.
-
     /**
      * This generates a list of allowed "structures" that are not complete molecules. Since this takes about 10 minutes, we need to precompute the
      * majority of it.
+     *
+     * This is a step in the data processing setps. see molecule-data-readme.txt
      *
      * @param args
      */
@@ -88,8 +88,7 @@ public class MoleculePreprocessing {
         System.out.println( "Sorting " + serializedStructures.size() );
         Collections.sort( serializedStructures );
         for ( String serializedStructure : serializedStructures ) {
-            //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
-            builder.append( serializedStructure + "\n" );
+            builder.append( serializedStructure ).append( "\n" );
         }
         try {
             FileOutputStream outputStream = new FileOutputStream( outputFile );
