@@ -21,8 +21,7 @@ public class Kit {
     private final List<Atom2D> atomsInCollectionBox = new LinkedList<Atom2D>(); // atoms in the collection box
     private LewisDotModel lewisDotModel; // lewis-dot connections between atoms on the play area
     private final Set<Molecule> molecules = new HashSet<Molecule>(); // molecule structures in the play area
-    //REVIEW looks like removedMolecules is no longer needed, due to commented out code?
-    private final Set<Pair<Molecule, CollectionBox>> removedMolecules = new HashSet<Pair<Molecule, CollectionBox>>(); // molecule structures that were put into the collection box
+    private final Set<Pair<Molecule, CollectionBox>> removedMolecules = new HashSet<Pair<Molecule, CollectionBox>>(); // molecule structures that were put into the collection box. kept for now, since modifying the reset behavior will be much easier if we retain this
     public final Property<Boolean> visible = new Property<Boolean>( false );
     public final Property<Boolean> hasMoleculesInBoxes = new Property<Boolean>( false ); // we record this so we know when the "reset kit" should be shown
     private LayoutBounds layoutBounds;
