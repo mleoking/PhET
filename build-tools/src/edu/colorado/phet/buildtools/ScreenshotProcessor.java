@@ -45,25 +45,43 @@ public class ScreenshotProcessor {
             }
             else {
                 BufferedImage image = ImageIO.read( imageFile );
-                BufferedImage simPageScreenshot = BufferedImageUtils.multiScaleToWidth( image, 300 );
-                BufferedImage thumbnail = BufferedImageUtils.multiScaleToWidth( image, 130 );
+                BufferedImage simPageScreenshot = highQualityMultiScaleToWidth( image, 300 );
+                BufferedImage thumbnail = highQualityMultiScaleToWidth( image, 130 );
 //                new ImageFrame( thumbnail).setVisible( true );
 //                new ImageFrame( simPageScreenshot).setVisible( true );
                 ImageIO.write( simPageScreenshot, "PNG", new File( project.getDeployDir(), sim + "-screenshot.png" ) );
-//            ImageIO.write( simPageScreenshot, "JPG", new File( project.getDeployDir(), sim + "-screenshot.jpg" ) );
-//            ImageIO.write( thumbnail, "PNG", new File( project.getDeployDir(), sim + "-thumbnail.png" ) );
 
                 //convert to RGB since ImageIO has problems with alpha channel
-                ImageIO.write( toRGB( thumbnail ), "JPEG", new File( project.getDeployDir(), sim + "-thumbnail.jpg" ) );
+                BufferedImage rgbThumbnail = toRGB( thumbnail );
+
+                // write the JPEG thumbnail (for compatibility. recommended to keep since many external image references may use this)
+                writeCompressedJPG( rgbThumbnail, new File( project.getDeployDir(), sim + "-thumbnail.jpg" ), 0.95f );
+
+                // write the (enhanced quality) PNG thumbnail
+                ImageIO.write( thumbnail, "PNG", new File( project.getDeployDir(), sim + "-thumbnail.png" ) );
             }
 
-            //quality = 0.9 looks worse and has larger file size than png for simPageScreenshot, let's leave that as PNG
-//            float quality = 0.9f;
-//            File file = new File( project.getDeployDir(), sim + "-screenshot-" + quality + ".jpg" );
-//
-//            writeCompressedJPG( simPageScreenshot, file, quality );
-
             //See SetSVNIgnoreToDeployDirectories regarding ignoring screenshots and other matter
+        }
+    }
+
+    /**
+     * Scale down an image using bicubic interpolation instead of bilinear.
+     *
+     * @return Scaled down copy of the image
+     */
+    private static BufferedImage highQualityMultiScaleToWidth( BufferedImage image, int width ) {
+        double scale = (double) width / image.getWidth();
+        int w = (int) ( image.getWidth() * scale );
+        int h = (int) ( image.getHeight() * scale );
+        if ( scale < 1 ) {
+            return BufferedImageUtils.getScaledInstance( image, w, h, RenderingHints.VALUE_INTERPOLATION_BICUBIC, true );
+        }
+        else if ( scale == 1 ) {
+            return image;
+        }
+        else {
+            return BufferedImageUtils.rescaleXMaintainAspectRatio( image, w );
         }
     }
 
