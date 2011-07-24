@@ -14,9 +14,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
  * @author Sam Reid
  */
 public class ColorSet {
-    public final Property<Boolean> whiteBackground;
-    public final Color colorForWhiteBackground;
-
     //The background color selected by the user, may not be the displayed color based on whether 'white background' is selected
     public final Property<Color> selectedColor;
 
@@ -24,8 +21,6 @@ public class ColorSet {
     public final ObservableProperty<Color> color;
 
     public ColorSet( Color color, final Property<Boolean> whiteBackground, final Color colorForWhiteBackground ) {
-        this.whiteBackground = whiteBackground;
-        this.colorForWhiteBackground = colorForWhiteBackground;
         this.selectedColor = new Property<Color>( color );
         this.color = new CompositeProperty<Color>( new Function0<Color>() {
             public Color apply() {

@@ -40,6 +40,7 @@ public class Compound extends Particle implements Iterable<Constituent> {
         else { throw new RuntimeException( "Unknown bond type: " + bond ); }
     }
 
+    //TODO: no usages found, can it be deleted?
     public boolean contains( Particle particle ) {
         for ( Constituent constituent : constituents ) {
             if ( constituent.particle == particle ) {
@@ -87,6 +88,7 @@ public class Compound extends Particle implements Iterable<Constituent> {
     }
 
     //Count the lattice constituent particles with the specified type, for purposes of computing concentrations
+    //TODO: no usages found, can it be deleted
     public int count( Class<?> particleType ) {
         int count = 0;
         for ( Constituent constituent : constituents ) {
