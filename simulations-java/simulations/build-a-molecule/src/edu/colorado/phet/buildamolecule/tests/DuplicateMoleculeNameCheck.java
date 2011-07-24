@@ -6,7 +6,10 @@ import java.util.List;
 import edu.colorado.phet.buildamolecule.model.CompleteMolecule;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 
-//REVIEW add javadoc if this is something that's potentially useful for future maintenance.
+/**
+ * Discovers any pairs of complete molecules that have the same common name. This should not happen when other-molecules.txt is in its
+ * complete form, so this provides as a double-check
+ */
 public class DuplicateMoleculeNameCheck {
     public static void main( String[] args ) {
         List<CompleteMolecule> molecules = MoleculeList.getMasterInstance().getAllCompleteMolecules();
