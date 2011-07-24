@@ -1,6 +1,6 @@
 /* Copyright 2002-2011, University of Colorado */
 
-package edu.colorado.phet.sugarandsaltsolutions.common.view;
+package edu.colorado.phet.sugarandsaltsolutions.common.view.barchart;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
