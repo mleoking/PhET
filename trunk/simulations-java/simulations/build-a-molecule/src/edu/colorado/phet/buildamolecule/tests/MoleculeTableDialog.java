@@ -18,9 +18,9 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
-//REVIEW javadoc, mention if useful to during future sim maintenance
-
 /**
+ * Displays a table that shows all of the different possible complete molecules, along with their names and formulas.
+ *
  * @author Sam Reid
  * @author Jon Olson
  */
@@ -37,13 +37,6 @@ public class MoleculeTableDialog extends JDialog {
                 return sizeCompare;
             }
         } );
-
-//        final int[] rowHeights = new int[list.size()];
-//        for ( int row = 0; row < list.size(); row++ ) {
-//            CompleteMolecule molecule = list.get( row );
-//            PNode node = molecule.createPseudo3DNode();
-//            rowHeights[row] = (int) Math.max( 20, node.getHeight() + 10 );
-//        }
 
         JTable table = new JTable( new TableModel() {
             public int getRowCount() {
@@ -74,12 +67,6 @@ public class MoleculeTableDialog extends JDialog {
                     return MoleculeCellRenderer.class;
                 }
                 return JLabel.class;
-//                if ( columnIndex == 0 ) {
-//                    return JLabel.class;
-//                }
-//                else {
-//                    throw new RuntimeException( "unknown column: " + columnIndex );
-//                }
             }
 
             public boolean isCellEditable( int rowIndex, int columnIndex ) {
@@ -113,10 +100,6 @@ public class MoleculeTableDialog extends JDialog {
             {
                 setRowHeight( 75 );
             }
-//            @Override
-//            public int getRowHeight( int row ) {
-//                return rowHeights[row];
-//            }
         };
 
         table.getColumnModel().getColumn( 2 ).setCellRenderer( new MoleculeCellRenderer() );

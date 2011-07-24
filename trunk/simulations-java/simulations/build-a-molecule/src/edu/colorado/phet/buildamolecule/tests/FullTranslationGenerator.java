@@ -17,7 +17,7 @@ public class FullTranslationGenerator {
 
         StringBuilder builder = new StringBuilder();
         for ( CompleteMolecule molecule : MoleculeList.getMasterInstance().getAllCompleteMolecules() ) {
-            //REVIEW if performance is an issue, multiple append calls will provide better performance than string concatenation
+            // performance not an issue
             builder.append( molecule.getStringKey() + "=" + molecule.getCommonName() + "\n" );
         }
 

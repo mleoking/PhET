@@ -32,8 +32,6 @@ public class CollectionBoxHintNode extends PNode {
         final ImmutableVector2D tipTarget = MODEL_VIEW_TRANSFORM.modelToView( new ImmutableVector2D( box.getDropBounds().getMinX() - 20, box.getDropBounds().getCenterY() ) );
 
         final Rectangle2D moleculeViewBounds = MODEL_VIEW_TRANSFORM.modelToViewRectangle( moleculeDestinationBounds );
-        //REVIEW boxViewBounds is never used
-        final Rectangle2D boxViewBounds = MODEL_VIEW_TRANSFORM.modelToView( box.getDropBounds() ).getBounds2D();
 
         PNode labelNode = new PNode() {{
             PText textNode = new PText( BuildAMoleculeStrings.COLLECTION_HINT ) {{
