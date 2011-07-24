@@ -1,5 +1,5 @@
 //  Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.buildamolecule.view.view3d;
+package edu.colorado.phet.buildamolecule.tests;
 
 import java.awt.*;
 
@@ -8,8 +8,6 @@ import javax.swing.*;
 import edu.colorado.phet.buildamolecule.BuildAMoleculeStrings;
 import edu.colorado.phet.buildamolecule.model.MoleculeList;
 import edu.colorado.phet.common.jmolphet.JmolPanel;
-
-//REVIEW move to tests package
 
 /**
  * @author Sam Reid
