@@ -27,4 +27,8 @@ public class Units {
     public static double numberToMoles( double number ) {
         return number / 6.02214179E23;
     }
+
+    public static double litersToMetersCubed( double liters ) {
+        return liters / 1000.0;
+    }
 }

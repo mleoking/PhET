@@ -74,11 +74,10 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Node that shows the faucet, we need a reference so subclasses can listen to the water flowing out bounds for collision hit testing for the conductivity tester
     protected final FaucetNode drainFaucetNode;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform, Function1<Double, String> beakerVolumeReadoutFormat ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
-        stageSize = new PDimension( canvasSize.width,
-                                    (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
+        stageSize = new PDimension( canvasSize.width, (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
 
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         this.transform = transform;
@@ -180,7 +179,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.anySolutes ) );
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.anySolutes, beakerVolumeReadoutFormat ) );
 
         //Add a control that allows the user to remove solutes
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
