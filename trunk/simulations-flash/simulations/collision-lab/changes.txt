@@ -1,3 +1,4 @@
+> Hide arrow head indicators when not paused
 > Capitalizing headers in the data table
 # 1.00.07 (54168) Jul 17, 2011
 Temporary change for units inside headers
