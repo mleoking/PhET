@@ -1,0 +1,2 @@
+The view in Macro and Micro are supposed to look similar (nearly identical), so the view is created first and mapped into
+model coordinates to ensure that measurements and dimensions look the same in the view, while still giving correct model measurements.
