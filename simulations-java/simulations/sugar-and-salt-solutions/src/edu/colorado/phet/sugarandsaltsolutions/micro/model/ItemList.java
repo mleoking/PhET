@@ -103,4 +103,11 @@ public class ItemList<T> implements Iterable<T> {
     private int size() {
         return getItems().size();
     }
+
+    //Add all items from the list
+    public void addAll( ArrayList<? extends T> elements ) {
+        for ( T element : elements ) {
+            add( element );
+        }
+    }
 }

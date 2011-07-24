@@ -9,9 +9,13 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+
+import static java.lang.Math.PI;
+import static java.lang.Math.random;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -65,5 +69,26 @@ public class SodiumNitrateCrystal extends Crystal {
 
     public ArrayList<NitrateMolecule> getNitrateMolecules() {
         return nitrateMolecules;
+    }
+
+    //Dissolves the sodium nitrate crystal, but keeps the structure of the NO3 molecules
+    public ArrayList<? extends Particle> dissolve() {
+        ArrayList<Particle> freeParticles = new ArrayList<Particle>();
+
+        //Set the sodium ions free
+        for ( Constituent constituent : this ) {
+            constituent.particle.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
+            if ( constituent.particle instanceof SodiumIonParticle ) {
+                freeParticles.add( constituent.particle );
+            }
+        }
+
+        //add new compounds for the nitrates so they will remain together
+        for ( final NitrateMolecule nitrateMolecule : getNitrateMolecules() ) {
+            nitrateMolecule.position.set( position.get().plus( nitrateMolecule.position.get() ) );
+            nitrateMolecule.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
+            freeParticles.add( nitrateMolecule );
+        }
+        return freeParticles;
     }
 }

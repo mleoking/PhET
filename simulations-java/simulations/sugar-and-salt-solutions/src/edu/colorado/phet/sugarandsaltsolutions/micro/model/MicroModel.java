@@ -347,45 +347,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Dissolve the lattice
     private void dissolve( ItemList<? extends Crystal> crystals, final Crystal crystal ) {
-        //Todo: Move this differing behavior to callbacks on the crystal
-        if ( crystal instanceof SodiumNitrateCrystal ) {
-            SodiumNitrateCrystal sodiumNitrateCrystal = (SodiumNitrateCrystal) crystal;
-            ImmutableVector2D velocity = crystal.velocity.get();
 
-            //Set the sodium ions free
-            for ( Constituent constituent : crystal ) {
-                constituent.particle.velocity.set( velocity.getRotatedInstance( random() * PI * 2 ) );
-                SphericalParticle particle = (SphericalParticle) constituent.particle;
-                if ( particle instanceof SodiumIonParticle ) {
-                    freeParticles.add( particle );
-                }
-            }
+        //Dissolve the lattice and collect the particles that should move about freely
+        ArrayList<? extends Particle> components = crystal.dissolve();
 
-            //add new compounds for the nitrates so they will remain together
-            for ( final NitrateMolecule nitrateMolecule : sodiumNitrateCrystal.getNitrateMolecules() ) {
-                nitrateMolecule.position.set( crystal.position.get() );
-                nitrateMolecule.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
-                freeParticles.add( nitrateMolecule );
-            }
-        }
+        //Add the free particles to the free particle list so they will be propagated properly
+        freeParticles.addAll( components );
 
-        //Break apart a sucrose crystal
-        else if ( crystal instanceof SucroseCrystal ) {
-            SucroseCrystal sucroseCrystal = (SucroseCrystal) crystal;
-            for ( final SucroseMolecule sucroseMolecule : sucroseCrystal.sucroseMolecules ) {
-                sucroseMolecule.position.set( sucroseCrystal.position.get() );
-                sucroseMolecule.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
-                freeParticles.add( sucroseMolecule );
-            }
-        }
-
-        //Splits up all constituents in a crystal lattice
-        else {
-            for ( Constituent constituent : crystal ) {
-                constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
-                freeParticles.add( constituent.particle );
-            }
-        }
+        //Remove the crystal from the list so it will no longer keep its constituents together
         crystals.getItems().remove( crystal );
     }
 
