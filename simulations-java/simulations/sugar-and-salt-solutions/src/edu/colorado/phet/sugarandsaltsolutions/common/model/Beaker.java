@@ -123,7 +123,7 @@ public class Beaker {
         return height;
     }
 
-    //Gets the leftmost x component of the water-containing part of the beake
+    //Gets the leftmost x component of the water-containing part of the beaker
     public double getX() {
         return x;
     }

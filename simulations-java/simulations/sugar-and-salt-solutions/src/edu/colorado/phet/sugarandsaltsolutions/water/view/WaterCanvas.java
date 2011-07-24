@@ -191,10 +191,6 @@ public class WaterCanvas extends PhetPCanvas {
                                                                         return SugarAndSaltSolutionsResources.Strings.SUGAR;
                                                                     }
 
-                                                                    public int getCID() {
-                                                                        return 5988;
-                                                                    }
-
                                                                     public String getData() {
                                                                         return readPDB();
                                                                     }

@@ -99,8 +99,7 @@ public class FaucetNode extends PNode {
                     double width = flow * 100 * 0.5;
                     double pipeWidth = 56;
                     double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
-                    double topY = imageHeight;
-                    double height = bottomY - topY - offset.getY();
+                    double height = bottomY - imageHeight - offset.getY();
                     final Rectangle2D.Double waterShape = new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height );
                     notifyWaterShapeChanged( waterShape );
                     setPathTo( waterShape );
