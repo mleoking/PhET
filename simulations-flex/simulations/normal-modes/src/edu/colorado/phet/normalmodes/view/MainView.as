@@ -17,7 +17,7 @@ import edu.colorado.phet.normalmodes.control.SloMoStepControl;
 import edu.colorado.phet.normalmodes.control.SliderArrayPanel;
 import edu.colorado.phet.normalmodes.model.Model1;
 import edu.colorado.phet.normalmodes.model.Model2;
-import edu.colorado.phet.normalmodes.util.PhetIcon;
+import edu.colorado.phet.flashcommon.view.PhetIcon;
 import edu.colorado.phet.normalmodes.util.SpriteUIComponent;
 
 import flash.display.Sprite;
