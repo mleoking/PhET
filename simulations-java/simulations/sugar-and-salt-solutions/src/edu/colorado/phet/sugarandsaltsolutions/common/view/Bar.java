@@ -24,6 +24,7 @@ public class Bar extends PNode {
     public static final float WIDTH = 40;
 
     public Bar( final ObservableProperty<Color> color, String caption, final Option<PNode> icon, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
+
         // Create and add the bar itself.
         final PPath bar = new PhetPPath( new BasicStroke( 1f ), Color.BLACK ) {{
             color.addObserver( new VoidFunction1<Color>() {
@@ -33,6 +34,7 @@ public class Bar extends PNode {
             } );
         }};
         addChild( bar );
+
         // Wire up the bar to change size based on the observable entity.
         value.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
@@ -46,6 +48,7 @@ public class Bar extends PNode {
                 bar.setPathToRectangle( 0, -height, WIDTH, height );
             }
         } );
+
         // Create and add the caption.
         final PText captionNode = new PText( caption ) {{
             setFont( CONTROL_FONT );
