@@ -3,16 +3,17 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
-import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 
@@ -22,26 +23,21 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class VolumeIndicatorNode extends PNode {
-    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Boolean> anySolutes ) {
+    public VolumeIndicatorNode( final ModelViewTransform transform, final Solution solution, ObservableProperty<Boolean> visible, final ObservableProperty<Boolean> anySolutes, final Function1<Double, String> formatter ) {
         visible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 setVisible( visible );
             }
         } );
-        addChild( new PText() {{
+        addChild( new HTMLNode() {{
             new RichSimpleObserver() {
                 @Override public void update() {
-                    //Read out one more degree of precision than the tick marks on the side
-                    DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
-                    //Convert to liters for the display
-                    double liters = solution.volume.get() * 1000;
+                    //Convert to liters for the display and apply the context sensitive formatter (e.g., accounting for the module and whether on the side of beaker or continuous readout within the beaker)
+                    String formatted = formatter.apply( metersCubedToLiters( solution.volume.get() ) );
 
-                    //Update the readout
-                    setText( decimalFormat.format( liters ) + "L " +
-
-                             //if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
-                             ( anySolutes.get() ? "solution" : "water" ) );
+                    //if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
+                    setHTML( formatted + "L " + ( anySolutes.get() ? "solution" : "water" ) );
                 }
             }.observe( solution.volume, anySolutes );
 

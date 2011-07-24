@@ -2,8 +2,10 @@
 package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import java.awt.geom.Rectangle2D;
+import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
@@ -34,7 +36,14 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     private final PNode soluteControlPanelNode;
 
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
-        super( model, globalState, createMacroTransform( model ) );
+        super( model, globalState, createMacroTransform( model ), new Function1<Double, String>() {
+            //Read out more precisely than the fine-grained tick marks on the side
+            DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+
+            public String apply( Double liters ) {
+                return decimalFormat.format( liters );
+            }
+        } );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );
