@@ -16,8 +16,15 @@ public class FulcrumAbovePlank extends ShapeModelElement {
     //Distance from the base of the fulcrum to its top
     private static final double LEG_THICKNESS_FACTOR = 0.1;
 
+    private final double height;
+
     public FulcrumAbovePlank( double width, double height ) {
         super( generateShape( width, height ) );
+        this.height = height;
+    }
+
+    public double getHeight() {
+        return height;
     }
 
     private static final Shape generateShape( double width, double height ) {
