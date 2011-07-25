@@ -9,6 +9,8 @@ import edu.colorado.phet.flashcommon.controls.TabBar;
 import edu.colorado.phet.flashcommon.FlashCommonCS4;
 import edu.colorado.phet.flashcommon.SimStrings;
 
+import edu.colorado.phet.flashcommon.view.PhetIcon;
+
 import flash.display.*;
 import flash.events.Event;
 import flash.geom.Rectangle;
@@ -57,6 +59,10 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
             }
         } );
         addChild( tabBar );
+
+        var phetIcon: PhetIcon = new PhetIcon();
+        phetIcon.x = this.stageW - phetIcon.width * 2; // TODO why the extra subtraction? how did the placement happen?
+        addChild( phetIcon );
 
         addFlashCommon();
     }
