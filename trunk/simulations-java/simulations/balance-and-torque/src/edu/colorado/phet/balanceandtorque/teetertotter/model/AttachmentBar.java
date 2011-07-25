@@ -2,6 +2,7 @@
 package edu.colorado.phet.balanceandtorque.teetertotter.model;
 
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -30,8 +31,15 @@ public class AttachmentBar extends ShapeModelElement {
     }
 
     private static Shape generateShape( Point2D pivotPoint, Point2D attachmentPoint ) {
-        DoubleGeneralPath path = new DoubleGeneralPath( pivotPoint );
-        path.lineTo( attachmentPoint );
-        return path.getGeneralPath();
+        double distance = pivotPoint.distance( attachmentPoint );
+        DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
+        path.lineTo( WIDTH / 2, 0 );
+        path.lineTo( WIDTH / 2, distance );
+        path.lineTo( -WIDTH / 2, distance );
+        path.lineTo( -WIDTH / 2, 0 );
+        path.closePath();
+        Shape shape = AffineTransform.getRotateInstance( Math.atan2( attachmentPoint.getY() - pivotPoint.getY(), attachmentPoint.getX() - pivotPoint.getX() ) - Math.PI / 2 ).createTransformedShape( path.getGeneralPath() );
+        shape = AffineTransform.getTranslateInstance( pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( shape );
+        return shape;
     }
 }
