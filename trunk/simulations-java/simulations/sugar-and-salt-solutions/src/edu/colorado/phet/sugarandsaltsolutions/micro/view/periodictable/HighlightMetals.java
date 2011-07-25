@@ -52,9 +52,7 @@ public class HighlightMetals implements CellFactory {
         final Color background = nonmetals.contains( atomicNumberOfCell ) ? pink : backgroundColor;
         final PhetFont font = selected ? new PhetFont( PhetFont.getDefaultFontSize(), true ) : new PhetFont( 12 );
         final Stroke stroke = selected ? new BasicStroke( 3 ) : new BasicStroke( 1 );
-
-        //Dark green if selected
-        final Color strokeColor = selected ? new Color( 77, 255, 82 ) : black;
+        final Color strokeColor = selected ? Color.red : black;
 
         return new BasicElementCell( atomicNumberOfCell, background ) {
             {
