@@ -1,3 +1,5 @@
+Micro tab: Added a - sign after NO3 in the bar chart label
+Micro tab: Moved the positive ions to the left of the negative ions in the bar chart
 # 0.00.69 (54467) Jul 25, 2011
 Micro tab: Changed periodic table highlight color from green to red
 Micro tab: Added saturation points for CaCl2, NaNO3 and sucrose for crystal dissolving
