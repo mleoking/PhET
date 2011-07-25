@@ -21,7 +21,7 @@ public class ViewControlPanel extends MPControlPanel {
             setGridX( 0 ); // vertical
             setAnchor( Anchor.WEST ); // left justified
             add( new PropertyCheckBox( MPStrings.BOND_DIPOLES, properties.bondDipolesVisible ) );
-            add( new PropertyCheckBox( MPStrings.MOLECULAR_DIPOLES, properties.molecularDipoleVisible ) );
+            add( new PropertyCheckBox( MPStrings.MOLECULAR_DIPOLE, properties.molecularDipoleVisible ) );
             add( new PropertyCheckBox( MPStrings.PARTIAL_CHARGES, properties.partialChargesVisible ) {{
                 setForeground( Color.RED );
             }} );

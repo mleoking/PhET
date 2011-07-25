@@ -1,13 +1,23 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
-import java.awt.*;
-import java.awt.geom.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.Area;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
+import java.awt.geom.RoundRectangle2D;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -290,7 +300,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     public static void main( String[] args ) {
 
         Color paleYellow = new Color( 253, 255, 213 );
-        final Atom atom = new Atom( "Y", 30, paleYellow, 3 );
+        final Atom atom = new Atom( "Y", 30, paleYellow, 3, new ImmutableVector2D( 0, 0 ) );
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 System.out.println( "electronegativity=" + value );

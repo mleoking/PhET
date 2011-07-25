@@ -1,12 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.twoatoms;
 
-import java.awt.*;
-
-import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.model.Atom;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
+import edu.colorado.phet.moleculepolarity.common.model.TwoAtomMolecule;
 
 /**
  * Model for the "One Atom" module.
@@ -15,24 +12,15 @@ import edu.colorado.phet.moleculepolarity.common.model.MPModel;
  */
 public class TwoAtomsModel extends MPModel {
 
-    private final Atom atomA, atomB;
+    public final TwoAtomMolecule molecule;
 
     public TwoAtomsModel() {
-        atomA = new Atom( MPStrings.A, 30, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
-        atomB = new Atom( MPStrings.B, 30, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault() );
+        molecule = new TwoAtomMolecule( new ImmutableVector2D( 325, 390 ) );
     }
 
     @Override public void reset() {
         super.reset();
-        atomA.reset();
-        atomB.reset();
+        molecule.reset();
     }
 
-    public Atom getAtomA() {
-        return atomA;
-    }
-
-    public Atom getAtomB() {
-        return atomB;
-    }
 }
