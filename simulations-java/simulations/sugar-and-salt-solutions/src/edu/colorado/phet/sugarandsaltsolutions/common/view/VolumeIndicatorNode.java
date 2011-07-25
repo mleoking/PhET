@@ -13,7 +13,6 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 
@@ -33,8 +32,8 @@ public class VolumeIndicatorNode extends PNode {
             new RichSimpleObserver() {
                 @Override public void update() {
 
-                    //Convert to liters for the display and apply the context sensitive formatter (e.g., accounting for the module and whether on the side of beaker or continuous readout within the beaker)
-                    String formatted = formatter.apply( metersCubedToLiters( solution.volume.get() ) );
+                    //Apply the context sensitive formatter (e.g., accounting for the module and whether on the side of beaker or continuous readout within the beaker)
+                    String formatted = formatter.apply( solution.volume.get() );
 
                     //if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
                     setHTML( formatted + "L " + ( anySolutes.get() ? "solution" : "water" ) );
