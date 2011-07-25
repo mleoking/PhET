@@ -3,12 +3,14 @@ package edu.colorado.phet.moleculepolarity.realmolecules;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Ammonia;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.BoronTrifluoride;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Formaldehyde;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.HydrogenFluoride;
+import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Methane;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.MethylFluoride;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Water;
@@ -31,6 +33,9 @@ public class RealMoleculesModel extends MPModel {
             add( new Methane() );
             add( new MethylFluoride() );
             add( new Water() );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                add( new ImportMolecule() );
+            }
         }};
     }
 
