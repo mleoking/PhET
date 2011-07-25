@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.twoatoms;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -15,6 +16,7 @@ import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.TwoAtomMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.umd.cs.piccolo.PNode;
 
@@ -28,8 +30,11 @@ public class TwoAtomsCanvas extends MPCanvas {
     public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.getAtomA(), MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.getAtomB(), MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        TwoAtomMoleculeNode moleculeNode = new TwoAtomMoleculeNode( model.molecule );
+        addChild( moleculeNode );
+
+        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         addChild( enControlA );
         addChild( enControlB );
 
@@ -56,7 +61,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         {
             final double xSpacing = 50;
             final double ySpacing = 10;
-            negativeEFieldPlateNode.setOffset( 30, 60 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
+            negativeEFieldPlateNode.setOffset( 30, 125 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
             enControlA.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
             positiveEFieldPlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
