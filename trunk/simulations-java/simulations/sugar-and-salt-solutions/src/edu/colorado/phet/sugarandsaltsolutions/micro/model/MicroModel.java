@@ -67,7 +67,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private static final double framesPerSecond = 30;
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
-    //TODO: should move to the micro salt dispenser
+    //TODO: should move to the micro sugar dispenser
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
     //List of all spherical particles
@@ -106,7 +106,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }};
 
     //Add ethanol above the solution at the dropper output location
-    //TODO: ethanol should be nonatomic and multiple molecules
     public void addEthanol( final ImmutableVector2D location ) {
         EthanolMolecule ethanol = new EthanolMolecule( location ) {{
             //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper

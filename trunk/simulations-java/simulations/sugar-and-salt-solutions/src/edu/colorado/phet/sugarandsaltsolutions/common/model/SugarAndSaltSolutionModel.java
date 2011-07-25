@@ -175,7 +175,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         }, solidVolume );
 
         //Create the solution, which sits atop the solid precipitate (if any)
-        //TODO: are units correct on this line?
         solution = new Solution( waterVolume, beaker, solutionY );
 
         //Determine the concentration of dissolved solutes
@@ -284,8 +283,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         double drainedWater = dt * outputFlowRate.get() * faucetFlowRate;
         double evaporatedWater = dt * evaporationRate.get() * evaporationRateScale;
 
-        //Compute the new water volume, but making sure it doesn't overflow or underflow
-        //TODO: use the solution volume here?
+        //Compute the new water volume, but making sure it doesn't overflow or underflow.
+        //If we rewrite the model to account for solute volume displacement, this computation should account for the solution volume, not the water volume
         double newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
         if ( newVolume > maxWater ) {
             inputWater = maxWater + drainedWater + evaporatedWater - waterVolume.get();
@@ -352,7 +351,8 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
             //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
             ImmutableVector2D initialLocation = crystal.position.get();
 
-            //slow the motion down a little bit or it moves too fast//TODO: can this be fixed?
+            //slow the motion down a little bit or it moves too fast
+            //TODO: Why can't this run at full speed?
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor(),
                                 new Line2D.Double( beaker.getFloor().getX1(), solutionY.get(), beaker.getFloor().getX2(), solutionY.get() ) );
 

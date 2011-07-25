@@ -23,8 +23,7 @@ public class MiniBeakerNode extends PNode {
         final MacroModel model = new MacroModel();
         final ModelViewTransform transform = MacroCanvas.createMacroTransform( model );
 
-        //Add the beaker and water graphics, and increase the wall thickness to make it more visible
-        model.beaker.setWallThickness( model.beaker.wallThickness );
+        //Add the beaker and water graphics
         addChild( new BeakerNode( transform, model.beaker ) );
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 255 ) ) );
 
