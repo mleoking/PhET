@@ -25,7 +25,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
-import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
@@ -50,7 +49,8 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPerLiterToMolesPerMeterCubed;
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.awt.Color.red;
@@ -80,7 +80,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SodiumChlorideCrystal> saltCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
-    public final ItemList<SucroseCrystal> sugarCrystals = new ItemList<SucroseCrystal>();
+    public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
 
     //Randomness for random walks
     private final Random random = new Random();
@@ -119,12 +119,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         addComponents( ethanol );
     }
 
-    //Observable property that gives the concentration in mol/L for specific dissolved components (such as Na+ or sucrose)
+    //Observable property that gives the concentration in mol/m^3 for specific dissolved components (such as Na+ or sucrose)
     public class IonConcentration extends CompositeDoubleProperty {
         public IonConcentration( final Class<? extends Particle> type ) {
             super( new Function0<Double>() {
                        public Double apply() {
-                           return Units.numberToMoles( freeParticles.count( type ) ) / Units.metersCubedToLiters( waterVolume.get() );
+                           return numberToMoles( freeParticles.count( type ) ) / waterVolume.get();
                        }
                    }, waterVolume );
             VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {
@@ -265,7 +265,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: get rid of cast here
             final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ) );
             addComponents( crystal );
-            sugarCrystals.add( crystal );
+            sucroseCrystals.add( crystal );
         }
     }
 
@@ -274,20 +274,18 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.updateModel( dt );
         updateParticles( dt, freeParticles );
 
-        updateDissolvableCrystals( dt, saltCrystals,
-                                   //Determine whether the concentration is low enough to allow it to dissolve
-                                   getMolesPerLiterSodiumInNaCl() < 6.14 );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals );
-        updateDissolvableCrystals( dt, sugarCrystals );
-    }
+        //Determine saturation points
+        double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
+        double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
+        double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
+        double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
-    //Compute the concentration of sodium that could contribute to making NaCl for purposes of determining saturation
-    private double getMolesPerLiterSodiumInNaCl() {
-        //Count the number of sodiums
-        double molesSodium = Units.numberToMoles( freeParticles.count( SodiumIonParticle.class ) );
-        double litersWater = metersCubedToLiters( waterVolume.get() );
-        return molesSodium / litersWater;
+        //Dissolve the crystals if they are below the saturation points
+        //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
+        updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.get() < sodiumChlorideSaturationPoint && calciumConcentration.get() < sodiumChlorideSaturationPoint );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumConcentration.get() < calciumChlorideSaturationPoint && chlorideConcentration.get() / 2 < calciumChlorideSaturationPoint );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.get() < sodiumNitrateSaturationPoint && nitrateConcentration.get() < sodiumNitrateSaturationPoint );
+        updateDissolvableCrystals( dt, sucroseCrystals, sucroseConcentration.get() < sucroseSaturationPoint );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
@@ -426,7 +424,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         saltCrystals.clear();
         sodiumNitrateCrystals.clear();
         calciumChlorideCrystals.clear();
-        sugarCrystals.clear();
+        sucroseCrystals.clear();
     }
 
     //Determine if there is any table salt to remove
@@ -479,7 +477,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Iterate over particles that take random walks so they don't move above the top of the water
     private void updateParticlesDueToWaterLevelDropped( double changeInWaterHeight ) {
         waterLevelDropped( freeParticles, changeInWaterHeight );
-        waterLevelDropped( sugarCrystals, changeInWaterHeight );
+        waterLevelDropped( sucroseCrystals, changeInWaterHeight );
     }
 
     //When water level decreases, move the particles down with the water level.
