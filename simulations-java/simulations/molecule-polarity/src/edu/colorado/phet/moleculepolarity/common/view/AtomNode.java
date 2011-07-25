@@ -12,7 +12,7 @@ import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.umd.cs.piccolo.nodes.PText;
 
 /**
- * XXX
+ * Visual representation of an atom.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

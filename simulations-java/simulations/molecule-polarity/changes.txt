@@ -1,3 +1,4 @@
+7/25/11 intermediate implementation of two-atom molecule rotation
 7/25/11 intermediate check-in of two-atom molecule model and view
 # 0.00.02 (54482) Jul 25, 2011
 7/25/11 add "Import from file" option to Molecule combo box, so that non-developers can experiment Jmol file formats, see #3018

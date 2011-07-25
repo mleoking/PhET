@@ -4,7 +4,9 @@ package edu.colorado.phet.moleculepolarity.common.model;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
@@ -15,14 +17,22 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  */
 public class TwoAtomMolecule {
 
-    public final Property<Double> angle;
+    private static final double BOND_LENGTH = 200;
+
+    private final Property<ImmutableVector2D> location;
+    public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
     public final Atom atomA, atomB;
 
     public TwoAtomMolecule( ImmutableVector2D location ) {
-        final double bondLength = 200;
-        atomA = new Atom( MPStrings.A, 150, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.minus( bondLength / 2, 0 ) );
-        atomB = new Atom( MPStrings.B, 150, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.plus( bondLength / 2, 0 ) );
-        angle = new Property<Double>( 0.0 );
+        this.location = new Property<ImmutableVector2D>( location );
+        atomA = new Atom( MPStrings.A, 150, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.minus( BOND_LENGTH / 2, 0 ) );
+        atomB = new Atom( MPStrings.B, 150, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.plus( BOND_LENGTH / 2, 0 ) );
+        angle = new Property<Double>( 0d );
+        angle.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double angle ) {
+                updateAngle( angle );
+            }
+        } );
     }
 
     public void reset() {
@@ -30,7 +40,15 @@ public class TwoAtomMolecule {
         atomB.reset();
     }
 
-    public ImmutableVector2D getBondDipole() {
-        return new ImmutableVector2D( 0, 0 );//XXX
+    private void updateAngle( double angle ) {
+        final double radius = BOND_LENGTH / 2;
+        // atom A
+        double xA = PolarCartesianConverter.getX( radius, angle + Math.PI ) + location.get().getX();
+        double yA = PolarCartesianConverter.getY( radius, angle + Math.PI ) + location.get().getY();
+        atomA.location.set( new ImmutableVector2D( xA, yA ) );
+        // atom B
+        double xB = PolarCartesianConverter.getX( radius, angle ) + location.get().getX();
+        double yB = PolarCartesianConverter.getY( radius, angle ) + location.get().getY();
+        atomB.location.set( new ImmutableVector2D( xB, yB ) );
     }
 }

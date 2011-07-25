@@ -11,7 +11,9 @@ import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
- * XXX
+ * Visual representation of a bond between 2 atoms.
+ * Intended to be rendered before the 2 atoms, so that the atoms cover
+ * the portion of the bond that overlaps the atoms.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
