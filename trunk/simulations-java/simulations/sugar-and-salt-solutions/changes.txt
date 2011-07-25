@@ -1,3 +1,4 @@
+Micro tab: Moved the beaker left so that it doesn't overlap with the control panels
 Micro tab: Added a - sign after NO3 in the bar chart label
 Micro tab: Moved the positive ions to the left of the negative ions in the bar chart
 # 0.00.69 (54467) Jul 25, 2011
