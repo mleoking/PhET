@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.model;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,11 @@ public class TeeterTotterTorqueModel implements Resettable {
     // Property that controls whether the columns are supporting the plank.
     public final BooleanProperty supportColumnsActive = new BooleanProperty( true );
 
-    // Plank that objects can be placed on that is (optionally) supported by pillars
-    private final Plank plank = new Plank( clock, Fulcrum.getHeight(), supportColumnsActive );
+    // Plank upon which the various masses can be placed.
+    private final Plank plank = new Plank( clock,
+                                           new Point2D.Double( 0, Fulcrum.getHeight() ),
+                                           new Point2D.Double( 0, Fulcrum.getHeight() + 0.25 ),
+                                           supportColumnsActive );
 
     //------------------------------------------------------------------------
     // Constructor(s)
