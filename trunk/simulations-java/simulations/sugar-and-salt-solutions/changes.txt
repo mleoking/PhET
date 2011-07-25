@@ -1,3 +1,4 @@
+# 0.00.69 (54467) Jul 25, 2011
 Micro tab: Changed periodic table highlight color from green to red
 Micro tab: Added saturation points for CaCl2, NaNO3 and sucrose for crystal dissolving
 Micro tab: Show the volume readout in exponential notation
