@@ -7,7 +7,7 @@ import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.moleculepolarity.common.model.Atom;
+import edu.colorado.phet.moleculepolarity.common.model.Bond;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -19,27 +19,15 @@ import edu.umd.cs.piccolo.nodes.PPath;
  */
 public class BondNode extends PPath {
 
-    private Atom atomA;
-    private Atom atomB;
-
-    public BondNode( Atom atomA, Atom atomB ) {
+    public BondNode( final Bond bond ) {
         setStrokePaint( Color.BLACK );
         setStroke( new BasicStroke( 12f ) );
-        this.atomA = atomA;
-        this.atomB = atomB;
-        atomA.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
+        VoidFunction1<ImmutableVector2D> updater = new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D immutableVector2D ) {
-                update();
+                setPathTo( new Line2D.Double( bond.endpoint1.get().toPoint2D(), bond.endpoint2.get().toPoint2D() ) );
             }
-        } );
-        atomB.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
-            public void apply( ImmutableVector2D immutableVector2D ) {
-                update();
-            }
-        } );
-    }
-
-    private void update() {
-        setPathTo( new Line2D.Double( atomA.location.get().toPoint2D(), atomB.location.get().toPoint2D() ) );
+        };
+        bond.endpoint1.addObserver( updater );
+        bond.endpoint2.addObserver( updater );
     }
 }

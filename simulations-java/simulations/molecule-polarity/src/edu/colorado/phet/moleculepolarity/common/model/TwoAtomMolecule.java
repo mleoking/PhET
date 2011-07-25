@@ -22,12 +22,14 @@ public class TwoAtomMolecule {
     private final Property<ImmutableVector2D> location;
     public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
     public final Atom atomA, atomB;
+    public final Bond bond;
 
     public TwoAtomMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
-        atomA = new Atom( MPStrings.A, 150, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.minus( BOND_LENGTH / 2, 0 ) );
-        atomB = new Atom( MPStrings.B, 150, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getDefault(), location.plus( BOND_LENGTH / 2, 0 ) );
         angle = new Property<Double>( 0d );
+        atomA = new Atom( MPStrings.A, 150, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );
+        atomB = new Atom( MPStrings.B, 150, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
+        bond = new Bond( atomA, atomB );
         angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
                 updateAngle( angle );

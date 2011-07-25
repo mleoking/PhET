@@ -22,11 +22,12 @@ public class MPCanvas extends PhetPCanvas {
 
     protected MPCanvas() {
         super( MPConstants.CANVAS_RENDERING_SIZE );
+        setBackground( MPConstants.CANVAS_COLOR );
         rootNode = new PNode();
         addWorldChild( rootNode );
     }
 
-     // Adds a child node to the root node.
+    // Adds a child node to the root node.
     protected void addChild( PNode node ) {
         rootNode.addChild( node );
     }
