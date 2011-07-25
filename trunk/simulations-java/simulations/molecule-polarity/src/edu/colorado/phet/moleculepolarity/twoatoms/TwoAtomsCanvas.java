@@ -13,6 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityContro
 import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.view.DipoleNode.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
@@ -32,6 +33,9 @@ public class TwoAtomsCanvas extends MPCanvas {
 
         TwoAtomMoleculeNode moleculeNode = new TwoAtomMoleculeNode( model.molecule );
         addChild( moleculeNode );
+
+        BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
+        addChild( bondDipoleNode );
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

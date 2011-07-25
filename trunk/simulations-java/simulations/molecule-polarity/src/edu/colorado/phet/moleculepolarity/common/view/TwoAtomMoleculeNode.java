@@ -21,7 +21,7 @@ public class TwoAtomMoleculeNode extends PhetPNode {
 
         this.molecule = molecule;
 
-        addChild( new BondNode( molecule.atomA, molecule.atomB ) );
+        addChild( new BondNode( molecule.bond ) );
         addChild( new AtomNode( molecule.atomA ) );
         addChild( new AtomNode( molecule.atomB ) );
 

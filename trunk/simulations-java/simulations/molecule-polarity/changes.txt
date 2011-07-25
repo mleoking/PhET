@@ -1,3 +1,5 @@
+7/25/11 intermediate implementation of bond dipole view (offset and magnitude not functional)
+7/25/11 add Bond to model
 7/25/11 intermediate implementation of two-atom molecule rotation
 7/25/11 intermediate check-in of two-atom molecule model and view
 # 0.00.02 (54482) Jul 25, 2011
