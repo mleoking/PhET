@@ -22,6 +22,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
     private var advancedModule: AdvancedModule = new AdvancedModule();
     private var common: FlashCommonCS4;
     private var tabBar: TabBar;
+    private var phetIcon: PhetIcon;
 
     public function CollisionLab() {
         SimStrings.init( loaderInfo );
@@ -60,7 +61,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         } );
         addChild( tabBar );
 
-        var phetIcon: PhetIcon = new PhetIcon();
+        phetIcon = new PhetIcon();
         phetIcon.x = this.stageW - phetIcon.width - 10; // a bit of padding
         addChild( phetIcon );
 
@@ -86,8 +87,8 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
     protected function positionButtons(): void {
         if ( common.commonButtons != null ) {
             var height:int = common.commonButtons.getPreferredHeight();
-            const x:Number = 5;
-            const y:Number = 700 - height - 5;
+            const x:Number = phetIcon.x - common.commonButtons.width - 20;
+            const y:Number = 1;
             common.commonButtons.setLocationXY( x, y );
         }
         if( tabBar != null && stage != null ) {

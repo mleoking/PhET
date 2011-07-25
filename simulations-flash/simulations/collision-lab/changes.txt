@@ -1,3 +1,4 @@
+> Moved About / Preferences buttons
 > Moved PhET logo to the upper-right
 > Updated control-panel background color to match normal-modes
 > Hide arrow head indicators when not paused
