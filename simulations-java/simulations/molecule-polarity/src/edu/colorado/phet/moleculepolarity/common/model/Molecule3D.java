@@ -2,10 +2,15 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStreamReader;
+
+import javax.swing.JFileChooser;
 
 import org.jmol.api.JmolViewer;
 
+import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 
@@ -125,6 +130,40 @@ public class Molecule3D {
     public static class Water extends Molecule3D {
         public Water() {
             super( "H2O", "water", "jmol/water.smol" );
+        }
+    }
+
+    /*
+     * This molecule's getData method asks the user to select the data file using a JFileChooser.
+     * This is intended for use in developer controls, to speed the process of identifying
+     * suitable Jmol file formats. See #3018.
+     */
+    public static class ImportMolecule extends Molecule3D {
+
+        public ImportMolecule() {
+            super( "Import...", "from file", "" );
+        }
+
+        @Override public String getData() {
+            String s = "";
+            final JFileChooser fc = new JFileChooser();
+            int returnVal = fc.showOpenDialog( PhetApplication.getInstance().getPhetFrame() );
+            if ( returnVal == JFileChooser.APPROVE_OPTION ) {
+                try {
+                    File file = fc.getSelectedFile();
+                    BufferedReader structureReader = new BufferedReader( new FileReader( file ) );
+
+                    String line = structureReader.readLine();
+                    while ( line != null ) {
+                        s = s + line + "\n";
+                        line = structureReader.readLine();
+                    }
+                }
+                catch ( Exception e ) {
+                    throw new RuntimeException( e );
+                }
+            }
+            return s;
         }
     }
 }

@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- add a "read from file" option to Molecule combo box, so that non-developers can experiment with reading files
 - why doesn't MEP work for water.smol?
 - how to create smol files?
 - can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
