@@ -108,6 +108,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
+    //Strategy rule to use for dissolving the crystals
+    private DissolveStrategy dissolveStrategy = new DissolveCompleteCrystals();
+
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
         EthanolMolecule ethanol = new EthanolMolecule( location ) {{
@@ -274,6 +277,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
+
+        //Move the free particles randomly
         updateParticles( dt, freeParticles );
 
         //Determine saturation points
@@ -284,20 +289,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
-        updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.get() < sodiumChlorideSaturationPoint && calciumConcentration.get() < sodiumChlorideSaturationPoint );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumConcentration.get() < calciumChlorideSaturationPoint && chlorideConcentration.get() / 2 < calciumChlorideSaturationPoint );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.get() < sodiumNitrateSaturationPoint && nitrateConcentration.get() < sodiumNitrateSaturationPoint );
-        updateDissolvableCrystals( dt, sucroseCrystals, sucroseConcentration.get() < sucroseSaturationPoint );
+        updateDissolvableCrystals( dt, saltCrystals, sodiumChlorideSaturationPoint );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumChlorideSaturationPoint );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumNitrateSaturationPoint );
+        updateDissolvableCrystals( dt, sucroseCrystals, sucroseSaturationPoint );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
-    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals ) {
-        //No saturation
-        updateDissolvableCrystals( dt, crystals, true );
-    }
-
-    //Update the crystals by moving them about and possibly dissolving them
-    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, boolean belowSaturationPoint ) {
+    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, double saturationPoint ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal lattice : crystals ) {
@@ -328,7 +327,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
                 final double timeUnderwater = time - lattice.getUnderWaterTime();
-                if ( timeUnderwater > 1 && belowSaturationPoint ) {
+                if ( timeUnderwater > 1 ) {
                     toDissolve.add( lattice );
                 }
             }
@@ -336,26 +335,16 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Handle dissolving the lattices
         for ( Crystal crystal : toDissolve ) {
-            dissolve( crystals, crystal );
+            ArrayList<? extends Particle> particles = dissolveStrategy.dissolve( crystals, crystal, saturationPoint );
+
+            //Add the released particles into the set of free particles so they will move with random motion
+            freeParticles.addAll( particles );
         }
     }
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
     private ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
         return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
-    }
-
-    //Dissolve the lattice
-    private void dissolve( ItemList<? extends Crystal> crystals, final Crystal crystal ) {
-
-        //Dissolve the lattice and collect the particles that should move about freely
-        ArrayList<? extends Particle> components = crystal.dissolve();
-
-        //Add the free particles to the free particle list so they will be propagated properly
-        freeParticles.addAll( components );
-
-        //Remove the crystal from the list so it will no longer keep its constituents together
-        crystals.getItems().remove( crystal );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down
