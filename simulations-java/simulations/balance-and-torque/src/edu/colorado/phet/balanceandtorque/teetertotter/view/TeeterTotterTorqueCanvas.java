@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -78,7 +79,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         } );
 
         // Add graphics for the plank, fulcrum, and columns.
-        rootNode.addChild( new FulcrumNode( mvt, model.getFulcrum() ) );
+        rootNode.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         rootNode.addChild( new PlankNode( mvt, model.getPlank() ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );

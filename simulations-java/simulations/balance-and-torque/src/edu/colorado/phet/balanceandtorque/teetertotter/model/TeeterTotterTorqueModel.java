@@ -39,7 +39,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final ArrayList<VoidFunction1<Mass>> massRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Fulcrum on which the plank pivots
-    private final FulcrumBelowPlank fulcrum = new FulcrumBelowPlank();
+    private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, 1 );
 
     // Support columns
     private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
@@ -124,7 +124,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         }
     }
 
-    public FulcrumBelowPlank getFulcrum() {
+    public FulcrumAbovePlank getFulcrum() {
         return fulcrum;
     }
 
