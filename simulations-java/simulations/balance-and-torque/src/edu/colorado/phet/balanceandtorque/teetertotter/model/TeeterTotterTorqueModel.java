@@ -39,12 +39,12 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final ArrayList<VoidFunction1<Mass>> massRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Fulcrum on which the plank pivots
-    private final Fulcrum fulcrum = new Fulcrum();
+    private final FulcrumBelowPlank fulcrum = new FulcrumBelowPlank();
 
     // Support columns
     private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
-        add( new SupportColumn( Fulcrum.getHeight(), -Plank.getLength() * 0.4 ) );
-        add( new SupportColumn( Fulcrum.getHeight(), Plank.getLength() * 0.4 ) );
+        add( new SupportColumn( FulcrumBelowPlank.getHeight(), -Plank.getLength() * 0.4 ) );
+        add( new SupportColumn( FulcrumBelowPlank.getHeight(), Plank.getLength() * 0.4 ) );
     }};
 
     // Property that controls whether the columns are supporting the plank.
@@ -52,8 +52,8 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     // Plank upon which the various masses can be placed.
     private final Plank plank = new Plank( clock,
-                                           new Point2D.Double( 0, Fulcrum.getHeight() ),
-                                           new Point2D.Double( 0, Fulcrum.getHeight() + 0.25 ),
+                                           new Point2D.Double( 0, FulcrumBelowPlank.getHeight() ),
+                                           new Point2D.Double( 0, FulcrumBelowPlank.getHeight() + 0.25 ),
                                            supportColumnsActive );
 
     //------------------------------------------------------------------------
@@ -124,7 +124,7 @@ public class TeeterTotterTorqueModel implements Resettable {
         }
     }
 
-    public Fulcrum getFulcrum() {
+    public FulcrumBelowPlank getFulcrum() {
         return fulcrum;
     }
 
