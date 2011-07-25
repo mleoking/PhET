@@ -95,7 +95,7 @@ public class BeakerNodeWithTicks extends BeakerNode {
         }
     }
 
-    //Get the HTML text that will be used for the specified volume in Meters cubed
+    //Get the HTML text that will be used for the specified volume in meters cubed
     public static String volumeToHTMLString( double volume, String format ) {
         //Convert the number to exponent + mantissa so it can be displayed using HTML like 2 x 10^-24
         // see http://www.thatsjava.com/java-essentials/68687
