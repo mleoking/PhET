@@ -7,6 +7,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivityTester.ConductivityTesterChangeListener;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
@@ -28,6 +29,9 @@ public class MacroModel extends SugarAndSaltSolutionModel {
 
     //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
     protected Rectangle2D outFlowShape;
+
+    //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+    private final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
 
     public MacroModel() {
         super( new ConstantDtClock( 30 ), new BeakerDimension( 0.2 ), 0.0005,
@@ -104,6 +108,10 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         //Use a scale factor that matches up with the limits on saturation (manually sampled at runtime)
         conductivityTester.brightness.set( bothProbesTouching && !shortCircuited ? MathUtil.clamp( 0, saltConcentration.get() * 1.62E-4, 1 ) : 0.0 );
         conductivityTester.shortCircuited.set( shortCircuited );
+    }
+
+    @Override public ObservableProperty<Boolean> getAnySolutes() {
+        return anySolutes;
     }
 
     @Override public void reset() {

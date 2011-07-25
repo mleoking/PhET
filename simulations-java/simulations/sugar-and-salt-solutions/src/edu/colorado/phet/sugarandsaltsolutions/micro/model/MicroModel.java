@@ -105,6 +105,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         } );
     }};
 
+    //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+    private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
+
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
         EthanolMolecule ethanol = new EthanolMolecule( location ) {{
@@ -451,6 +454,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         sphericalParticles.clear( HydrogenIonParticle.class, CarbonIonParticle.class, OxygenIonParticle.class );
         freeParticles.clear( SucroseMolecule.class );
         saltCrystals.clear();
+    }
+
+    @Override public ObservableProperty<Boolean> getAnySolutes() {
+        return anySolutes;
     }
 
     /**

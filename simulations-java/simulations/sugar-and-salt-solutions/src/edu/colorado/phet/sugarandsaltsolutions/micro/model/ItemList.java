@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -15,6 +17,19 @@ public class ItemList<T> implements Iterable<T> {
     private final ArrayList<T> items = new ArrayList<T>();
     private final ListenerList<T> itemAddedListeners = new ListenerList<T>();
     private final ListenerList<T> itemRemovedListeners = new ListenerList<T>();
+
+    //Property that can be used to monitor the number of items in the list.
+    //It is typed as Double since that package provides support for composition (through >, +, etc)
+    //When support is added for IntegerProperty, this should be switched to use IntegerProperty instead of DoubleProperty
+    private final ObservableProperty<Double> _size = new DoubleProperty( 0.0 ) {{
+        VoidFunction1<T> listener = new VoidFunction1<T>() {
+            public void apply( T t ) {
+                set( getItems().size() + 0.0 );
+            }
+        };
+        itemAddedListeners.addListener( listener );
+        itemRemovedListeners.addListener( listener );
+    }};
 
     public void addItemAddedListener( VoidFunction1<T> listener ) {
         itemAddedListeners.addListener( listener );

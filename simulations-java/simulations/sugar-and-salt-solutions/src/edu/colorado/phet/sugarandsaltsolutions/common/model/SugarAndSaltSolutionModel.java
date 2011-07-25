@@ -29,7 +29,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
+public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
     //Use the same aspect ratio as the view to minimize insets with blank regions
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 
@@ -105,7 +105,7 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
     public final ObservableProperty<Boolean> beakerFull;
 
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    public final ObservableProperty<Boolean> anySolutes;
+    public abstract ObservableProperty<Boolean> getAnySolutes();
 
     //Models for dispensers that can be used to add solute to the beaker solution
     public final ArrayList<Dispenser> dispensers;
@@ -181,9 +181,6 @@ public class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsMode
         //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
         saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
         sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
-
-        //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-        anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
 
         //User setting: whether the concentration bar chart should be shown
         showConcentrationBarChart = new Property<Boolean>( true );

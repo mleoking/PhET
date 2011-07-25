@@ -179,7 +179,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.anySolutes, beakerVolumeReadoutFormat ) );
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.getAnySolutes(), beakerVolumeReadoutFormat ) );
 
         //Add a control that allows the user to remove solutes
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
