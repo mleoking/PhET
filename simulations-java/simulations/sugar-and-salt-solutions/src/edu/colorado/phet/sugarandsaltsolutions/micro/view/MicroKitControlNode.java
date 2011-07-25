@@ -8,7 +8,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode.createTitle;
 
@@ -30,7 +29,7 @@ public class MicroKitControlNode extends PNode {
         String sucroseString = "<html>Sucrose<br>C<sub>12</sub>H<sub>22</sub>O<sub>11</sub></html>";
         String ethanolString = "<html>Ethanol<br>C<sub>2</sub>H<sub>5</sub>OH</html>";
         kitSelectionNode = new KitSelectionNode<DispenserRadioButtonSet>( selectedKit,
-                                                                          new DispenserRadioButtonSet( dispenserType, new Item( Strings.SALT, SALT ), new Item( Strings.SUGAR, SUGAR ) ),
+                                                                          new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sucroseString, SUGAR ) ),
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( calciumChlorideString, CALCIUM_CHLORIDE ) ),
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ),
                                                                           new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) )
