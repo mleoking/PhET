@@ -65,6 +65,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                 public void apply( Integer kit ) {
 
                     //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
+                    //Put the positive ions to the left of the negative ions
                     if ( kit == 0 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
                                  new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
@@ -72,8 +73,8 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     }
                     else if ( kit == 1 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
-                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
-                                 new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, new Some<PNode>( new SphericalParticleNode( transform, new CalciumIonParticle(), model.showChargeColor ) ) ) );
+                                 new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, new Some<PNode>( new SphericalParticleNode( transform, new CalciumIonParticle(), model.showChargeColor ) ) ),
+                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ) );
                     }
                     else if ( kit == 2 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
