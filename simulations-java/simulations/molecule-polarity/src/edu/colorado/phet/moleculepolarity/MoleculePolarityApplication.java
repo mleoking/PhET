@@ -26,9 +26,9 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
         addModule( new RealMoleculesModule( parentFrame ) );
 
         // start with a specific module for development
-        if ( config.isDev() ) {
-            setStartModule( getModule( 2 ) );
-        }
+//        if ( config.isDev() ) {
+//            setStartModule( getModule( 2 ) );
+//        }
     }
 
     public static void main( final String[] args ) {
