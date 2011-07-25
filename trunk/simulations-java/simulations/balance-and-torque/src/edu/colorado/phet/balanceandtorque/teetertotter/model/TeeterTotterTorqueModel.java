@@ -21,6 +21,9 @@ public class TeeterTotterTorqueModel implements Resettable {
     // Class Data
     //------------------------------------------------------------------------
 
+    private static final double FULCRUM_HEIGHT = 1.2; // In meters.
+    private static final double PLANK_HEIGHT = 0.75; // In meters.
+
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -39,12 +42,12 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final ArrayList<VoidFunction1<Mass>> massRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
 
     // Fulcrum on which the plank pivots
-    private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, 1 );
+    private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
     // Support columns
     private final List<SupportColumn> supportColumns = new ArrayList<SupportColumn>() {{
-        add( new SupportColumn( FulcrumBelowPlank.getHeight(), -Plank.getLength() * 0.4 ) );
-        add( new SupportColumn( FulcrumBelowPlank.getHeight(), Plank.getLength() * 0.4 ) );
+        add( new SupportColumn( PLANK_HEIGHT, -Plank.getLength() * 0.4 ) );
+        add( new SupportColumn( PLANK_HEIGHT, Plank.getLength() * 0.4 ) );
     }};
 
     // Property that controls whether the columns are supporting the plank.
@@ -52,9 +55,12 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     // Plank upon which the various masses can be placed.
     private final Plank plank = new Plank( clock,
-                                           new Point2D.Double( 0, FulcrumBelowPlank.getHeight() ),
-                                           new Point2D.Double( 0, FulcrumBelowPlank.getHeight() + 0.25 ),
+                                           new Point2D.Double( 0, PLANK_HEIGHT ),
+                                           new Point2D.Double( 0, FULCRUM_HEIGHT ),
                                            supportColumnsActive );
+
+    // Bar that attaches the fulcrum to the pivot point.
+    private final AttachmentBar attachmentBar = new AttachmentBar( plank );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -130,6 +136,10 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     public Plank getPlank() {
         return plank;
+    }
+
+    public AttachmentBar getAttachmentBar() {
+        return attachmentBar;
     }
 
     public List<SupportColumn> getSupportColumns() {

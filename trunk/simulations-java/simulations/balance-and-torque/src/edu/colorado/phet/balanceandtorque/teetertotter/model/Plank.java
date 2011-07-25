@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -50,13 +51,16 @@ public class Plank extends ShapeModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 
-    // The pivot point around which the plank rotates.
+    // The pivot point around which the plank rotates.  This can be changed by
+    // the user if the fulcrum is moved.
     private final Point2D pivotPoint = new Point2D.Double();
 
-    // The offset from the pivot point to the attachment point on the plank
-    // when the plank is level.  This value that does NOT change as the plank
-    // tilts, but does change when the fulcrum is moved.
-    private final Vector2D attachmentPointOffset = new Vector2D( 0, 0 );
+    // Point at which the bar from the pivot point attaches to the plank. When
+    // the plank is sitting on top of the fulcrum, this point will be the same
+    // as the pivot point.  When the pivot point is above the plank, this will
+    // be different.  This is a public property so that it can be monitored
+    // externally, since it changes as the plank tilts.
+    public final Property<Point2D> attachmentPointProperty = new Property<Point2D>( new Point2D.Double() );
 
     // Angle of the plank with respect to the ground.  A value of 0 indicates
     // a level plank.  Value is in radians.
@@ -111,6 +115,8 @@ public class Plank extends ShapeModelElement {
 
         // TODO: This will need to work different once the pivot point is made movable.
         maxTiltAngle = Math.asin( initialLocation.getY() / ( LENGTH / 2 ) );
+
+        attachmentPointProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
 
         // Listen to the support column property.  The plank goes back to the
         // level position whenever the supports become active.
@@ -168,6 +174,10 @@ public class Plank extends ShapeModelElement {
         }
     }
 
+    public Point2D getPivotPoint() {
+        return new Point2D.Double( pivotPoint.getX(), pivotPoint.getY() );
+    }
+
     // Generate the original shape, which is assumed to be level.  This also
     // creates and adds the "tick marks" to the plank.
     private static Shape generateOriginalShape( Point2D position ) {
@@ -196,8 +206,14 @@ public class Plank extends ShapeModelElement {
     // internal variables.
     private void updatePlankPosition() {
         // Rotate the base shape to the appropriate angle using the pivot
-        // point as the anchor point.
+        // point as the rotational anchor point.
         getShapeProperty().set( AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( unrotatedShape ) );
+        // Update the attachment point.
+        assert ( pivotPoint.getY() >= unrotatedShape.getBounds2D().getMinY() ); // Doesn't handle pivot point below plank.
+        Vector2D pivotPointVector = new Vector2D( pivotPoint );
+        Vector2D attachmentBarVector = new Vector2D( 0, unrotatedShape.getBounds2D().getY() - pivotPoint.getY() );
+        attachmentBarVector.rotate( tiltAngle );
+        attachmentPointProperty.set( pivotPointVector.add( attachmentBarVector ).toPoint2D() );
     }
 
     private Point2D getClosestOpenLocation( Point2D p ) {
