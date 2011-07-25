@@ -22,7 +22,6 @@ public class MainView extends Sprite {
     public var module: CollisionLabModule;
     public var returnBallsButtonSprite: Sprite;
     var mySoundMaker: SoundMaker;
-    var phetLogo: Sprite;
     var stageH: Number;
     var stageW: Number;
 
@@ -34,8 +33,6 @@ public class MainView extends Sprite {
     }
 
     public function initialize(): void {
-        this.phetLogo = new PhETLogo();
-        this.addChild( this.phetLogo );
         this.myTableView = new TableView( myModel, this );
         this.myDataTable = new DataTable( myModel, this );
         this.controlPanel = createControlPanel( myModel, this );
@@ -78,8 +75,6 @@ public class MainView extends Sprite {
         //this.controlPanel.sub_background.height = 330;
         this.controlPanel.x = this.stageW - 0.75 * this.controlPanel.width;
         this.controlPanel.y = 30 + paddingForTabs;
-        this.phetLogo.x = 0;
-        this.phetLogo.y = this.stageH - this.phetLogo.height - 35; // our flashcommon buttons now below logo.
         this.momentumView.x = 0;
         this.momentumView.y = 0;
     }
