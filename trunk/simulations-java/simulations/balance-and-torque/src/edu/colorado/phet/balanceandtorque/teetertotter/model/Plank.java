@@ -1,8 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -19,7 +20,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * This is the plank upon which masses can be placed.
@@ -42,7 +42,7 @@ public class Plank extends ShapeModelElement {
     private static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
 
     // The x position (i.e. the position along the horizontal axis) where the
-    // pivot exists.  If and when the fulcrum becomes movable, this will need
+    // pivot point exists.  If and when the fulcrum becomes movable, this will need
     // to become a variable.
     private static final double PIVOT_PT_POS_X = LENGTH / 2;
 
@@ -50,10 +50,23 @@ public class Plank extends ShapeModelElement {
     // Instance Data
     //------------------------------------------------------------------------
 
-    public double torqueFromMasses = 0;
-    public double tiltAngle = 0;
-    public double angularVelocity = 0; // radians/sec
-    public final double maxTiltAngle;
+    // The pivot point around which the plank rotates.
+    private final Point2D pivotPoint = new Point2D.Double();
+
+    // The offset from the pivot point to the attachment point on the plank
+    // when the plank is level.  This value that does NOT change as the plank
+    // tilts, but does change when the fulcrum is moved.
+    private final Vector2D attachmentPointOffset = new Vector2D( 0, 0 );
+
+    // Angle of the plank with respect to the ground.  A value of 0 indicates
+    // a level plank.  Value is in radians.
+    private double tiltAngle = 0;
+
+    // Various variables that need to be retained between time steps in order
+    // to calculate the position at the next time step.
+    private double torqueFromMasses = 0;
+    private double angularVelocity = 0;    // In radians/sec
+    private final double maxTiltAngle;
 
     // List of the masses that are resting on the surface of this plank.
     private final List<Mass> massesOnSurface = new ArrayList<Mass>();
@@ -61,9 +74,12 @@ public class Plank extends ShapeModelElement {
     // Map of masses to distance from the center of the plank.
     private final Map<Mass, Double> mapMassToDistFromCenter = new HashMap<Mass, Double>();
 
-    // Property that indicates whether the suppoort columns are currently
-    // active.
-    BooleanProperty supportColumnsActive;
+    // Property that indicates whether the support columns are currently
+    // active.  When the columns are active, the plank is forced into a level
+    // position regardless of any masses on its surface.
+    private final BooleanProperty supportColumnsActive;
+
+    private final Shape unrotatedShape;
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -71,25 +87,33 @@ public class Plank extends ShapeModelElement {
 
     /**
      * Constructor.  Creates the initial shape of the plank.  This assumes
-     * that the plank is initially sitting with a fulcrum under the center and
-     * that it is initially balanced.
+     * that the plank is initially flat and that the pivot point is under the
+     * center of the plank.
      *
-     * @param clock
-     * @param centerHeight
-     * @param supportColumnsActive
+     * @param clock                - The model clock used to drive time-dependent behavior.
+     * @param initialLocation      - Initial location of the plank.  This is the
+     *                             location of the horizontal center, vertical bottom of the plank.
+     * @param initialPivotPoint
+     * @param supportColumnsActive - Boolean property that can be monitored
      */
-    public Plank( final ConstantDtClock clock, double centerHeight, BooleanProperty supportColumnsActive ) {
-        super( generateShape( centerHeight, 0 ) );
+    public Plank( final ConstantDtClock clock, Point2D initialLocation, Point2D initialPivotPoint, BooleanProperty supportColumnsActive ) {
+        super( generateOriginalShape( initialLocation ) );
+        pivotPoint.setLocation( initialPivotPoint );
+        this.supportColumnsActive = supportColumnsActive;
         clock.addClockListener( new ClockAdapter() {
             @Override public void clockTicked( ClockEvent clockEvent ) {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
-        maxTiltAngle = Math.asin( centerHeight / ( LENGTH / 2 ) );
+        // Keep a copy of the initial, unrotated shape.  This is rotated and
+        // translated based on the masses on the plank's surface.
+        unrotatedShape = generateOriginalShape( initialLocation );
 
-        this.supportColumnsActive = supportColumnsActive;
+        // TODO: This will need to work different once the pivot point is made movable.
+        maxTiltAngle = Math.asin( initialLocation.getY() / ( LENGTH / 2 ) );
+
         // Listen to the support column property.  The plank goes back to the
-        // level position whenever the supports are active.
+        // level position whenever the supports become active.
         supportColumnsActive.addObserver( new SimpleObserver() {
             public void update() {
                 forceToLevel();
@@ -144,11 +168,11 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    // Generate the shape of the plank.  This is static so that it can be used
-    // in the constructor.
-    private static Shape generateShape( final double centerHeight, double tiltAngle ) {
+    // Generate the original shape, which is assumed to be level.  This also
+    // creates and adds the "tick marks" to the plank.
+    private static Shape generateOriginalShape( Point2D position ) {
         // Create the outline shape of the plank.
-        DoubleGeneralPath path = new DoubleGeneralPath();
+        GeneralPath path = new GeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( LENGTH / 2, 0 );
         path.lineTo( LENGTH / 2, THICKNESS );
@@ -164,12 +188,16 @@ public class Plank extends ShapeModelElement {
             path.lineTo( markerXPos, THICKNESS );
             markerXPos += interMarkerDistance;
         }
-        // Rotate the appropriate amount.
-        Shape shape = AffineTransform.getRotateInstance( tiltAngle ).createTransformedShape( path.getGeneralPath() );
-        // Translate to the appropriate height.
-        shape = AffineTransform.getTranslateInstance( 0, centerHeight ).createTransformedShape( shape );
+        // Translate to the initial position.
+        return AffineTransform.getTranslateInstance( position.getX(), position.getY() ).createTransformedShape( path );
+    }
 
-        return shape;
+    // Generate the shape of the plank based on the current state of the
+    // internal variables.
+    private void updatePlankPosition() {
+        // Rotate the base shape to the appropriate angle using the pivot
+        // point as the anchor point.
+        getShapeProperty().set( AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( unrotatedShape ) );
     }
 
     private Point2D getClosestOpenLocation( Point2D p ) {
@@ -189,36 +217,29 @@ public class Plank extends ShapeModelElement {
      */
     private void forceToLevel() {
         tiltAngle = 0;
-        updateShape();
+        updatePlankPosition();
         updateMassPositions();
     }
 
     private void stepInTime( double dt ) {
-        if ( !supportColumnsActive.get() ) {
+        if ( supportColumnsActive.get() ) {
+            tiltAngle = 0;
+            angularVelocity = 0;
+        }
+        else {
             // Update the angular velocity based on the current torque.
             angularVelocity += torqueFromMasses / MOMENT_OF_INERTIA;
         }
-        else {
-            angularVelocity = 0;
-        }
+        // Update the angle of the plank's tilt based on the angular velocity.
         if ( angularVelocity != 0 ) {
             tiltAngle += angularVelocity * dt;
             if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
+                // Limit the angle when once end of the plank is touching the ground.
                 tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
                 angularVelocity = 0;
             }
-            updateShape();
+            updatePlankPosition();
             updateMassPositions();
-        }
-    }
-
-    private void updateShape() {
-        if ( !supportColumnsActive.get() ) {
-            setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
-        }
-        else {
-            // The support columns are in place, so the plank must be flat.
-            setShapeProperty( generateShape( positionHandle.getY(), 0 ) );
         }
     }
 
