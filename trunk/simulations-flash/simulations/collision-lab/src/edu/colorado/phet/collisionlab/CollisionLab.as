@@ -61,7 +61,7 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
         addChild( tabBar );
 
         var phetIcon: PhetIcon = new PhetIcon();
-        phetIcon.x = this.stageW - phetIcon.width * 2; // TODO why the extra subtraction? how did the placement happen?
+        phetIcon.x = this.stageW - phetIcon.width - 10; // a bit of padding
         addChild( phetIcon );
 
         addFlashCommon();

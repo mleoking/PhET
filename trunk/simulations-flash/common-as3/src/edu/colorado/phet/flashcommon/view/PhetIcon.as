@@ -22,7 +22,7 @@ public class PhetIcon extends Sprite {
         this.tFormat.color = 0x0000ff;
         this.tFormat.size = 20;
         this.phet_txt.defaultTextFormat = this.tFormat;
-        this.phet_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.phet_txt.autoSize = TextFieldAutoSize.LEFT;
         this.phet_txt.text = " PhET ";	//need white spaces or autosize border clips italic text
         this.phet_txt.selectable = false;
         this.phet_txt.type = TextFieldType.DYNAMIC;
