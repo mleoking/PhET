@@ -31,4 +31,12 @@ public class Units {
     public static double litersToMetersCubed( double liters ) {
         return liters / 1000.0;
     }
+
+    public static double molesPerMeterCubedToMolesPerLiter( Double molesPerMeterCubed ) {
+        return molesPerMeterCubed / metersCubedToLiters( 1.0 );
+    }
+
+    public static double molesPerLiterToMolesPerMeterCubed( double molesPerLiter ) {
+        return molesPerLiter / litersToMetersCubed( 1.0 );
+    }
 }

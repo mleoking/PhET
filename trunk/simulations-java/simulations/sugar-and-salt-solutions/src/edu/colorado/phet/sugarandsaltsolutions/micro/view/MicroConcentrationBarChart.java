@@ -35,7 +35,7 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
     public void setBars( BarItem... bars ) {
         barLayer.removeAllChildren();
         //Convert from model units (mol/L) to stage units by multiplying by this scale factor
-        final double verticalAxisScale = 4;
+        final double verticalAxisScale = 8 / 1000.0;
 
         //Add the bar node for each of the specified bars
         double spacing = background.getFullBounds().getWidth() / ( bars.length + 1 );
