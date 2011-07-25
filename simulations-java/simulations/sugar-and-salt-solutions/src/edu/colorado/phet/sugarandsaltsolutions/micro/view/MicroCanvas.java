@@ -179,9 +179,13 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                                                 //Manually tuned so that the model part shows up in the left side of the canvas,
                                                 // leaving enough room for controls, labels, and positioning it so it appears near the bottom
                                                 //Must be further to the right than the Macro canvas transform since the beaker labels take up more horizontal space
-                                                new Rectangle2D.Double( 74,
-                                                                        //y-position: increasing this number moves down the beaker
-                                                                        135,
-                                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
+                                                new Rectangle2D.Double(
+
+                                                        //X position.  This number is hand tuned when the font, size location or style of the tick labels on the left of the beaker are changed
+                                                        42,
+
+                                                        //y-position: increasing this number moves down the beaker
+                                                        135,
+                                                        canvasSize.width * modelScale, canvasSize.height * modelScale ) );
     }
 }
