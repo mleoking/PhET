@@ -7,8 +7,10 @@
  */
 package edu.colorado.phet.resonance {
 import flash.events.Event;
+import flash.ui.ContextMenu;
 
 import mx.containers.Canvas;
+import mx.core.Application;
 
 public class ResonanceCanvas extends Canvas {
     public function ResonanceCanvas() {
@@ -17,30 +19,37 @@ public class ResonanceCanvas extends Canvas {
     private var RENDER_WIDTH: int = 1024;
     private var RENDER_HEIGHT: int = 768;
 
-    public function init(): void {
+    public function init( app: * ): void {
         setStyle( "backgroundColor", 0xffff99 );//same color as build an atom
         percentWidth = 100;
         percentHeight = 100;
         const res: Resonance = new Resonance( RENDER_WIDTH, RENDER_HEIGHT );//todo: compare to Util
         addChild( res );
         const listener: Function = function( event: Event ): void {
-            const sx:Number = stage.stageWidth / RENDER_WIDTH;
-            const sy:Number = stage.stageHeight / RENDER_HEIGHT;
+            const sx: Number = stage.stageWidth / RENDER_WIDTH;
+            const sy: Number = stage.stageHeight / RENDER_HEIGHT;
 
             var scale: Number = Math.min( sx, sy );
             res.scaleX = scale;
             res.scaleY = scale;
 
-            if( sx < sy ) {
+            if ( sx < sy ) {
                 // horizontally limited, so center vertically
                 res.y = stage.stageHeight / 2 - RENDER_HEIGHT * scale / 2;
-            } else {
+            }
+            else {
                 // vertically limited, so center horizontally
                 res.x = stage.stageWidth / 2 - RENDER_WIDTH * scale / 2;
             }
         };
         stage.addEventListener( Event.RESIZE, listener );
         listener( null );
+
+//        contextMenu = new ContextMenu();
+//        contextMenu.builtInItems.zoom = true;
+//
+//        var application: Application = app as Application;
+//        application.setStyle( "backgroundColor", 0xffff99 );
     }
 }
 }
