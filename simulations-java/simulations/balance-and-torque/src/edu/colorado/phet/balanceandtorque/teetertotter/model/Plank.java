@@ -36,6 +36,7 @@ public class Plank extends ShapeModelElement {
     public static final double LENGTH = 4;// meters
     public static final double THICKNESS = 0.05; // meters
     public static final int NUM_SNAP_TO_MARKERS = 19;
+    public static final double INTER_MARKER_DISTANCE = LENGTH / ( NUM_SNAP_TO_MARKERS + 1 ); // meters
     public static final double MASS = 200; // kg
 
     // Moment of inertia.
@@ -149,9 +150,10 @@ public class Plank extends ShapeModelElement {
      */
     public void addMassToSurface( final Mass mass ) {
         massesOnSurface.add( mass );
-        mass.setPosition( getClosestOpenLocation( mass.getPosition() ) );
         mass.setOnPlank( true );
-        mapMassToDistFromCenter.put( mass, ( mass.getPosition().getX() - positionHandle.getX() ) / Math.cos( tiltAngle ) );
+        mass.setPosition( getClosestOpenLocation( mass.getPosition() ) );
+        double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) * ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
+        mapMassToDistFromCenter.put( mass, distanceFromCenter );
         mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
@@ -268,14 +270,15 @@ public class Plank extends ShapeModelElement {
 
     private void updateMassPositions() {
         for ( Mass mass : massesOnSurface ) {
-
-            //Compute the vector from the center of the plank's surface to the center of the mass, in meters
+            // Compute the vector from the center of the plank's surface to
+            // the center of the mass, in meters.
             ImmutableVector2D vectorFromCenterToMass = new Vector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
 
-            //Now add the location of the center of the plank's surface to find the absolute location of the mass
+            // Now add the location of the center of the plank's surface to
+            // find the absolute location of the mass.
             ImmutableVector2D massPosition = getPlankSurfaceCenter().plus( vectorFromCenterToMass );
 
-            //Set the position and rotation of the mass
+            // Set the position and rotation of the mass.
             mass.setPosition( massPosition.toPoint2D() );
             mass.setRotationAngle( tiltAngle );
         }
@@ -352,24 +355,15 @@ public class Plank extends ShapeModelElement {
      * @return
      */
     private List<Point2D> getSnapToLocations() {
-        // Find the point that represents the leftmost edge of the surface.
-        ImmutableVector2D vectorFromPivotToCenterSurface = new Vector2D( 0, THICKNESS ).rotate( tiltAngle );
-        ImmutableVector2D vectorToLeftSurfaceEdge = new Vector2D( -PIVOT_PT_POS_X, 0 ).rotate( tiltAngle );
-        Point2D currentPoint = new Vector2D( getBalancePoint() ).add( vectorFromPivotToCenterSurface ).add( vectorToLeftSurfaceEdge ).toPoint2D();
-        // Create a vector for moving one snap-to mark along the plank.
-        ImmutableVector2D incrementVector = new Vector2D( LENGTH / ( NUM_SNAP_TO_MARKERS + 1 ), 0 ).rotate( tiltAngle );
-        // Create the list of locations by starting at the left edge and
-        // stepping to the right edge.
         List<Point2D> snapToLocations = new ArrayList<Point2D>( NUM_SNAP_TO_MARKERS );
+        AffineTransform rotationTransform = AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() );
+        double unrotatedY = unrotatedShape.getBounds2D().getMaxY();
+        double unrotatedMinX = unrotatedShape.getBounds2D().getMinX();
         for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
-            currentPoint = new Vector2D( currentPoint ).add( incrementVector ).toPoint2D();
-            snapToLocations.add( currentPoint );
+            Point2D unrotatedPoint = new Point2D.Double( unrotatedMinX + ( i + 1 ) * INTER_MARKER_DISTANCE, unrotatedY );
+            snapToLocations.add( rotationTransform.transform( unrotatedPoint, null ) );
         }
+
         return snapToLocations;
     }
-
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
-
 }
