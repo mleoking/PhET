@@ -6,10 +6,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
  * @author Sam Reid
  */
 public class ParticleCountTable {
-    //Amounts are given for 1E-23L of water
-    public static final double sodiumChloride = 10.30;
-    public static final double calciumChloride = 5.43;
-    public static final double sodiumNitrate = 7.00;
-    public static final double sucrose = 1.76;
-    public static final double ethanol = 13.07;
+    //Amounts are given for 1E-23L of water, then multiplied by 2 since the max fluid volume is 2E-23L
+    public static final int MAX_SODIUM_CHLORIDE = (int) ( 10.30 * 2 );
+    public static final int MAX_CALCIUM_CHLORIDE = (int) ( 5.43 * 2 );
+    public static final int MAX_SODIUM_NITRATE = (int) ( 7.00 * 2 );
+    public static final int MAX_SUCROSE = (int) ( 1.76 * 2 );
+    public static final int MAX_ETHANOL = (int) ( 13.07 * 2 );
 }
