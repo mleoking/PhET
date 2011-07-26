@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -12,8 +13,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class Bond {
 
-    public final Property<Double> dipoleMagnitude;
-    public final Property<ImmutableVector2D> endpoint1, endpoint2;
+    public final Property<Double> dipoleMagnitude; // positive vector points from atom1 to atom2
+    public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
 
     public Bond( final Atom atom1, final Atom atom2 ) {
 
@@ -36,10 +37,21 @@ public class Bond {
         // update dipole magnitude when electronegativity of either atom changes
         VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
-                dipoleMagnitude.set( atom1.electronegativity.get() - atom2.electronegativity.get() );
+                dipoleMagnitude.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
             }
         };
         atom1.electronegativity.addObserver( electronegativityObserver );
         atom2.electronegativity.addObserver( electronegativityObserver );
+    }
+
+    // gets the center of the bond, using the midpoint formula
+    public ImmutableVector2D getCenter() {
+        return new ImmutableVector2D( ( endpoint1.get().getX() + endpoint2.get().getX() ) / 2, ( endpoint1.get().getY() + endpoint2.get().getY() ) / 2 );
+    }
+
+    // gets the angle of endpoint2 relative to the horizontal
+    public double getAngle() {
+        ImmutableVector2D center = getCenter();
+        return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );
     }
 }
