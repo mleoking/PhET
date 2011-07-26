@@ -70,7 +70,7 @@ public class Plank extends ShapeModelElement {
     // to calculate the position at the next time step.
     private double torqueFromMasses = 0;
     private double angularVelocity = 0;    // In radians/sec
-    private final double maxTiltAngle;
+    private double maxTiltAngle;
 
     // List of the masses that are resting on the surface of this plank.
     private final List<Mass> massesOnSurface = new ArrayList<Mass>();
@@ -113,8 +113,12 @@ public class Plank extends ShapeModelElement {
         // translated based on the masses on the plank's surface.
         unrotatedShape = generateOriginalShape( initialLocation );
 
-        // TODO: This will need to work different once the pivot point is made movable.
-        maxTiltAngle = Math.asin( initialLocation.getY() / ( LENGTH / 2 ) );
+        // TODO: This will need to work differently once the pivot point is made movable.
+        // Formula for this determined with lots of help from Mathematica.
+        double d = initialPivotPoint.distance( initialLocation );
+        double py = initialPivotPoint.getY();
+        double h = LENGTH;
+        maxTiltAngle = Math.PI - Math.acos( ( d * py - Math.sqrt( d * d * h * h + Math.pow( h, 4 ) - h * h * py * py ) ) / ( d * d + h * h ) );
 
         attachmentPointProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
 
