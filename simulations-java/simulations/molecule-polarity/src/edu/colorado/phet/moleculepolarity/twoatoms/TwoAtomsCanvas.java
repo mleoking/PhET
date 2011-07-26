@@ -90,5 +90,13 @@ public class TwoAtomsCanvas extends MPCanvas {
                 bondDipoleNode.setVisible( visible );
             }
         } );
+
+        viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                partialChargeNodeA.setVisible( visible );
+                partialChargeNodeB.setVisible( visible );
+            }
+        } );
+
     }
 }

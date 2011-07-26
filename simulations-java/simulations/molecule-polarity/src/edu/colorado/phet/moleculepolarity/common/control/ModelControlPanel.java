@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.control;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
@@ -23,9 +21,7 @@ public class ModelControlPanel extends MPControlPanel {
             setAnchor( Anchor.WEST ); // left justified
             add( new PropertyRadioButton<ModelRepresentation>( MPStrings.BALL_AND_STICK, modelRepresentation, ModelRepresentation.BALL_AND_STICK ) );
             add( new PropertyRadioButton<ModelRepresentation>( MPStrings.ELECTROSTATIC_POTENTIAL, modelRepresentation, ModelRepresentation.ELECTROSTATIC_POTENTIAL ) );
-            add( new PropertyRadioButton<ModelRepresentation>( MPStrings.ELECTRON_DENSITY, modelRepresentation, ModelRepresentation.ELECTRON_DENSITY ) {{
-                setForeground( Color.RED );
-            }} );
+            add( new PropertyRadioButton<ModelRepresentation>( MPStrings.ELECTRON_DENSITY, modelRepresentation, ModelRepresentation.ELECTRON_DENSITY ) );
         }} );
     }
 }
