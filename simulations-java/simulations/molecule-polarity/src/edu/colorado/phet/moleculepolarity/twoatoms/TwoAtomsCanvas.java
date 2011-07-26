@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -34,7 +35,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         TwoAtomMoleculeNode moleculeNode = new TwoAtomMoleculeNode( model.molecule );
         addChild( moleculeNode );
 
-        BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
+        final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         addChild( bondDipoleNode );
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
@@ -76,5 +77,11 @@ public class TwoAtomsCanvas extends MPCanvas {
 
 
         }
+
+        viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                bondDipoleNode.setVisible( visible );
+            }
+        } );
     }
 }
