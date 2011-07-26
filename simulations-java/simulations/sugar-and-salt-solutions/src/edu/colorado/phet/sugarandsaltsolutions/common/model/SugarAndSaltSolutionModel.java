@@ -92,8 +92,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final VerticalRangeContains lowerFaucetCanDrain;
 
     //Amounts of sugar and salt in crystal form falling from the dispenser
-    private CompositeDoubleProperty airborneSaltGrams;
-    private CompositeDoubleProperty airborneSugarGrams;
+    //TODO: move to macromodel
+    protected CompositeDoubleProperty airborneSaltGrams;
+    protected CompositeDoubleProperty airborneSugarGrams;
 
     //User setting: whether the concentration bar chart should be shown
     public final Property<Boolean> showConcentrationBarChart;
@@ -109,8 +110,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
     //Models for dispensers that can be used to add solute to the beaker solution
     public final ArrayList<Dispenser> dispensers;
-    public final ObservableProperty<Boolean> moreSaltAllowed;
-    public final ObservableProperty<Boolean> moreSugarAllowed;
 
     //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
     protected String getSaltShakerName() {
@@ -189,10 +188,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
         airborneSaltGrams = new AirborneCrystalMoles( saltList ).times( salt.gramsPerMole );
         airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
-
-        //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
-        moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
-        moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
 
         //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
         beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );

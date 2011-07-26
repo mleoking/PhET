@@ -3,7 +3,9 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -124,5 +126,13 @@ public class ItemList<T> implements Iterable<T> {
         for ( T element : elements ) {
             add( element );
         }
+    }
+
+    public CompositeDoubleProperty propertyCount( final Class<? extends T> type ) {
+        return new CompositeDoubleProperty( new Function0<Double>() {
+            public Double apply() {
+                return count( type ) + 0.0;
+            }
+        }, size );
     }
 }

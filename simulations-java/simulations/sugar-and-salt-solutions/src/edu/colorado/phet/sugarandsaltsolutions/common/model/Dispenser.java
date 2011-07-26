@@ -26,6 +26,8 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
 
     //True if the user has selected this dispenser type
     public final Property<Boolean> enabled = new Property<Boolean>( false );
+
+    //Beaker into which the solute will be dispensed
     protected final Beaker beaker;
 
     //True if the user is allowed to add more solute, false if the limit has been reached (10 moles per solute).
@@ -66,8 +68,9 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
         center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
     }
 
-    public void rotate( double v ) {
-        angle.add( v );
+    //Rotate the dispenser by the specified angle in radians
+    public void rotate( double angle ) {
+        this.angle.add( angle );
     }
 
     //Reset the dispenser's position and orientation

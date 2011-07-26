@@ -42,6 +42,10 @@ public class MacroModel extends SugarAndSaltSolutionModel {
                //In macro model scales are already tuned so no additional scaling is needed
                1 );
 
+        //Properties to indicate if the user is allowed to add more of the solute.  If not allowed the dispenser is shown as empty.
+        ObservableProperty<Boolean> moreSaltAllowed = salt.grams.plus( airborneSaltGrams ).lessThan( 100 );
+        ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
+
         //Add models for the various dispensers: sugar, salt, etc.
         dispensers.add( new MacroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
         dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );

@@ -48,4 +48,8 @@ public class CompositeDoubleProperty extends CompositeProperty<Double> {
     public LessThan lessThan( double b ) {
         return new LessThan( this, b );
     }
+
+    public Max max( CompositeDoubleProperty b ) {
+        return new Max( this, b );
+    }
 }
