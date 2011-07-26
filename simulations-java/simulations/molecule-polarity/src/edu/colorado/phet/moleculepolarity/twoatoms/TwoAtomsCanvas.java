@@ -18,6 +18,7 @@ import edu.colorado.phet.moleculepolarity.common.view.DipoleNode.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.TwoAtomMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.umd.cs.piccolo.PNode;
@@ -37,6 +38,14 @@ public class TwoAtomsCanvas extends MPCanvas {
 
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         addChild( bondDipoleNode );
+
+        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bond, false );
+        addChild( partialChargeNodeA );
+        partialChargeNodeA.setOffset( 200, 225 );//XXX
+
+        final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.bond, true );
+        addChild( partialChargeNodeB );
+        partialChargeNodeB.setOffset( 400, 225 );//XXX
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
@@ -74,8 +83,6 @@ public class TwoAtomsCanvas extends MPCanvas {
             viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-
-
         }
 
         viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {

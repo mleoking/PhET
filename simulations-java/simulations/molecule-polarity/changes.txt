@@ -1,3 +1,4 @@
+7/26/11 intermediate implementation of partial charge view (not positioned correctly)
 7/26/11 bond dipole view based on Vector2DNode
 7/25/11 intermediate implementation of bond dipole view (offset and magnitude not functional)
 7/25/11 add Bond to model
