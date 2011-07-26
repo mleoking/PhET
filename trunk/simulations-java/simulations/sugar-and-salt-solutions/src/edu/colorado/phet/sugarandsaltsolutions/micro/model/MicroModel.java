@@ -51,6 +51,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPerLiterToMolesPerMeterCubed;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SODIUM_CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SUCROSE;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.awt.Color.red;
@@ -204,12 +206,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                //Ratio of length scales in meters
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
+        ObservableProperty<Boolean> moreSodiumChlorideAllowed = sphericalParticles.propertyCount( SodiumIonParticle.class ).max( sphericalParticles.propertyCount( ChlorideIonParticle.class ) ).lessThan( MAX_SODIUM_CHLORIDE );
+        ObservableProperty<Boolean> moreSucroseAllowed = freeParticles.propertyCount( SucroseMolecule.class ).lessThan( MAX_SUCROSE );
+
         //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
-        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
-        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
-        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSugarAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL ) );
+        dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
+        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSucroseAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
+        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
+        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
+        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSodiumChlorideAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL ) );
 
         //When the pause button is pressed, pause the clock
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
@@ -290,9 +295,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
         updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, sucroseCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
