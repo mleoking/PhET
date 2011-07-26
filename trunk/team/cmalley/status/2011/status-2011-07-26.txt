@@ -1,0 +1,40 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 20-26, 2011
+
+Molecule Polarity
+- design meeting
+- added developer controls for Jmol (load files, execute scripts) in 0.00.02
+- investigated Jmol file formats with KL, #3018
+- started implementing "Two Atoms" tab
+
+Sugar and Salt Solutions
+- collaboration with SR on dissolving partial crystals
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Environment
+- investigated issues with Mac OS 10.7 (Lion) release
+
+WHAT'S NEXT:
+
+- Molecule Polarity sim
+- Capacitor Lab: #3012, change dipole excess charge view
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 4-9
+- August 22 - September 2
+- September 28 - October 2
+- October 19-29
+
+--
