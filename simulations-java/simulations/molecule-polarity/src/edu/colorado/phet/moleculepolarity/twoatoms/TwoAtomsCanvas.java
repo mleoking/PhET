@@ -39,11 +39,11 @@ public class TwoAtomsCanvas extends MPCanvas {
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         addChild( bondDipoleNode );
 
-        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bond, false );
+        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bond, model.molecule.atomA, model.molecule.atomB, false );
         addChild( partialChargeNodeA );
         partialChargeNodeA.setOffset( 200, 225 );//XXX
 
-        final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.bond, true );
+        final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.bond, model.molecule.atomB, model.molecule.atomA, true );
         addChild( partialChargeNodeB );
         partialChargeNodeB.setOffset( 400, 225 );//XXX
 
