@@ -261,14 +261,28 @@ public class Plank extends ShapeModelElement {
 
     private void updateMassPositions() {
         for ( Mass mass : massesOnSurface ) {
-            Vector2D vectorToPivotPoint = new Vector2D( positionHandle );
-            Vector2D vectorToCenterAbovePivot = new Vector2D( 0, THICKNESS );
-            vectorToCenterAbovePivot.rotate( tiltAngle );
-            Vector2D vectorToMass = new Vector2D( mapMassToDistFromCenter.get( mass ), 0 );
-            vectorToMass.rotate( tiltAngle );
+
+            //Compute the vector from the center of the plank's surface to the center of the mass, in meters
+            ImmutableVector2D vectorFromCenterToMass = new Vector2D( mapMassToDistFromCenter.get( mass ), 0 ).getRotatedInstance( tiltAngle );
+
+            //Now add the location of the center of the plank's surface to find the absolute location of the mass
+            ImmutableVector2D massPosition = getPlankSurfaceCenter().plus( vectorFromCenterToMass );
+
+            //Set the position and rotation of the mass
+            mass.setPosition( massPosition.toPoint2D() );
             mass.setRotationAngle( tiltAngle );
-            mass.setPosition( vectorToPivotPoint.add( vectorToCenterAbovePivot.add( vectorToMass ) ).toPoint2D() );
         }
+    }
+
+    //Determine the absolute position (in meters) of the surface (top) of the plank
+    private ImmutableVector2D getPlankSurfaceCenter() {
+
+        //Start at the absolute location of the attachment point, and add the relative location of the top of the plank, accounting for its rotation angle
+        return new ImmutableVector2D( attachmentPointProperty.get() ).plus( new ImmutableVector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
+    }
+
+    private ImmutableVector2D getPivotPointVector() {
+        return new ImmutableVector2D( pivotPoint );
     }
 
     /**
