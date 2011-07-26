@@ -9,6 +9,7 @@ HIGH
 - bond type (covalent/ionic) display
 
 MEDIUM
+- add icons to control panels (dipoles, partial charge, mep,...)
 - disable Shift-Drag feature that scales Jmol viewer
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
 - startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
