@@ -3,6 +3,10 @@ TODO list for molecule-polarity
 HIGH
 - implement vector scaling and offset in BondDipoleNode
 - implement TwoAtomMoleculeNode.RotationHandler
+- bond dipole vector model
+- molecular dipole vector model
+- partial charges display
+- bond type (covalent/ionic) display
 
 MEDIUM
 - disable Shift-Drag feature that scales Jmol viewer
