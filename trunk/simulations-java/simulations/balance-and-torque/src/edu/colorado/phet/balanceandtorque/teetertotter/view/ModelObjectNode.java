@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Paint;
+import java.awt.Shape;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.ShapeModelElement;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -17,7 +20,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class ModelObjectNode extends PNode {
     public ModelObjectNode( final ModelViewTransform mvt, final ShapeModelElement modelObject, Paint paint ) {
-        addChild( new PhetPPath( paint, new BasicStroke( 1 ), Color.BLACK ) {{
+        addChild( new PhetPPath( paint, new BasicStroke( 1, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_SQUARE ), Color.BLACK ) {{
             modelObject.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );

@@ -37,7 +37,7 @@ public class Plank extends ShapeModelElement {
     public static final double THICKNESS = 0.05; // meters
     public static final int NUM_SNAP_TO_MARKERS = 19;
     public static final double INTER_MARKER_DISTANCE = LENGTH / ( NUM_SNAP_TO_MARKERS + 1 ); // meters
-    public static final double MASS = 200; // kg
+    public static final double MASS = 100; // kg
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
@@ -194,9 +194,20 @@ public class Plank extends ShapeModelElement {
         // Add the "snap to" markers to the plank.
         double interMarkerDistance = LENGTH / (double) ( NUM_SNAP_TO_MARKERS + 1 );
         double markerXPos = -LENGTH / 2 + interMarkerDistance;
+        double thickerMarkerOffset = 0.005;
         for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
-            path.moveTo( markerXPos, 0 );
-            path.lineTo( markerXPos, THICKNESS );
+            if ( !( i == NUM_SNAP_TO_MARKERS / 2 ) ) {   // No marker in center of plank.
+                path.moveTo( markerXPos, 0 );
+                path.lineTo( markerXPos, THICKNESS );
+                if ( ( i + 1 ) % ( ( NUM_SNAP_TO_MARKERS + 1 ) / 4 ) == 0 ) {
+                    // This is a bit of a gimmick to make some of the markers look
+                    // thicker than others.
+                    path.moveTo( markerXPos - thickerMarkerOffset, 0 );
+                    path.lineTo( markerXPos - thickerMarkerOffset, THICKNESS );
+                    path.moveTo( markerXPos + thickerMarkerOffset, 0 );
+                    path.lineTo( markerXPos + thickerMarkerOffset, THICKNESS );
+                }
+            }
             markerXPos += interMarkerDistance;
         }
         // Translate to the initial position.
@@ -260,7 +271,7 @@ public class Plank extends ShapeModelElement {
             updateMassPositions();
         }
         // Simulate friction by slowing down the rotation a little.
-        angularVelocity *= 0.98;
+        angularVelocity *= 0.97;
     }
 
     private void updateMassPositions() {
