@@ -327,7 +327,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Determine whether it is time for the lattice to dissolve
             if ( lattice.isUnderwater() ) {
                 final double timeUnderwater = time - lattice.getUnderWaterTime();
-                if ( timeUnderwater > 1 ) {
+
+                //Make sure it has been underwater for a certain period of time (in seconds)
+                if ( timeUnderwater > 0.2 ) {
                     toDissolve.add( lattice );
                 }
             }

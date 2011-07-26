@@ -1,3 +1,4 @@
+Micro tab: Crystals dissolve faster
 Micro tab: Improvements for crystal dissolving
 Micro tab: Factored out strategy pattern for crystal dissolving
 # 0.00.70 (54480) Jul 25, 2011
