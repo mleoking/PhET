@@ -43,11 +43,6 @@ public class Plank extends ShapeModelElement {
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
     private static final double MOMENT_OF_INERTIA = MASS * ( ( LENGTH * LENGTH ) + ( THICKNESS * THICKNESS ) ) / 12;
 
-    // The x position (i.e. the position along the horizontal axis) where the
-    // pivot point exists.  If and when the fulcrum becomes movable, this will need
-    // to become a variable.
-    private static final double PIVOT_PT_POS_X = LENGTH / 2;
-
     //------------------------------------------------------------------------
     // Instance Data
     //------------------------------------------------------------------------
@@ -69,7 +64,7 @@ public class Plank extends ShapeModelElement {
 
     // Various variables that need to be retained between time steps in order
     // to calculate the position at the next time step.
-    private double torqueFromMasses = 0;
+    private double currentTorque = 0;
     private double angularVelocity = 0;    // In radians/sec
     private double maxTiltAngle;
 
@@ -164,14 +159,14 @@ public class Plank extends ShapeModelElement {
             }
         } );
         updateMassPositions();
-        updateTorqueDueToMasses();
+        updateTorque();
     }
 
     private void removeMassFromSurface( Mass mass ) {
         massesOnSurface.remove( mass );
         mass.setRotationAngle( 0 );
         mass.setOnPlank( false );
-        updateTorqueDueToMasses();
+        updateTorque();
     }
 
     public void removeAllMasses() {
@@ -249,9 +244,9 @@ public class Plank extends ShapeModelElement {
             angularVelocity = 0;
         }
         else {
-            updateTorqueDueToMasses();
+            updateTorque();
             // Update the angular velocity based on the current torque.
-            angularVelocity += torqueFromMasses / MOMENT_OF_INERTIA;
+            angularVelocity += currentTorque / MOMENT_OF_INERTIA;
         }
         // Update the angle of the plank's tilt based on the angular velocity.
         if ( angularVelocity != 0 ) {
@@ -338,12 +333,22 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    private void updateTorqueDueToMasses() {
-        double netTorqueFromMasses = 0;
+    private void updateTorque() {
+        // TODO: Need to have Mike D look at this, since it is probably not correct at this point (thought it looks good in the sim).
+        double netTorque = 0;
+        // Calculate torque due to masses.
         for ( Mass mass : massesOnSurface ) {
-            netTorqueFromMasses += -mass.getPosition().getX() * mass.getMass();
+            netTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
         }
-        torqueFromMasses = netTorqueFromMasses;
+
+        // Add in torque due to plank.
+        Rectangle2D plankBounds = getShape().getBounds2D();
+        double leftMassX = plankBounds.getMinX() + plankBounds.getWidth() / 3;
+        netTorque += pivotPoint.getX() - leftMassX * MASS / 2;
+        double rightMassX = plankBounds.getMinX() + plankBounds.getWidth() / 3 * 2;
+        netTorque += pivotPoint.getX() - rightMassX * MASS / 2;
+
+        currentTorque = netTorque;
     }
 
     /**
