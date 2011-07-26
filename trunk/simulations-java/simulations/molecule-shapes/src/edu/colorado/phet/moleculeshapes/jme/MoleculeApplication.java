@@ -34,7 +34,9 @@ public class MoleculeApplication extends BaseApplication {
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
+    //Contains electron pairs for lone pairs or electron pairs
     private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
+
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
@@ -46,6 +48,10 @@ public class MoleculeApplication extends BaseApplication {
 
     //The angle about which the molecule should be rotated, changes as a function of time
     private Quaternion rotation = new Quaternion();
+    private int numSuccess = 0;
+
+    //Time the configuration was started
+    private long startTime;
 
     @Override public void initialize() {
         super.initialize();
@@ -139,13 +145,14 @@ public class MoleculeApplication extends BaseApplication {
         addPair( new ElectronPair( initialPosition, isLonePair ) );
     }
 
-    public void testRemoveAtom() {
+    public synchronized void testRemoveAtom() {
         if ( !pairs.isEmpty() ) {
             removePair( pairs.get( random.nextInt( pairs.size() ) ) );
         }
     }
 
     @Override public synchronized void simpleUpdate( final float tpf ) {
+//        System.out.println( "tpf = " + tpf );
 //        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
         for ( ElectronPair pair : pairs ) {
             // run our fake physics
@@ -157,36 +164,70 @@ public class MoleculeApplication extends BaseApplication {
             }
             pair.attractTo( centerPair, tpf );
         }
+        moveTowardGlobalState( tpf );
         rebuildBonds();
         molecule.setLocalRotation( rotation );
     }
 
-    private void addPair( final ElectronPair pair ) {
-        enqueue( new Callable<Object>() {
-            public Object call() throws Exception {
-                pairs.add( pair );
-                AtomNode atomNode = new AtomNode( pair, assetManager );
-                atomNodes.add( atomNode );
-                molecule.attachChild( atomNode );
-                rebuildBonds();
-                return null;
+    private void moveTowardGlobalState( float tpf ) {
+        //Linear
+        ArrayList<ElectronPair> bondedAtoms = getBondedAtoms();
+        ArrayList<ElectronPair> lonePairs = getLonePairs();
+        if ( bondedAtoms.size() == 2 && lonePairs.size() == 3 ) {
+            ImmutableVector3D a = bondedAtoms.get( 0 ).position.get();
+            ImmutableVector3D b = bondedAtoms.get( 1 ).position.get();
+
+            //Should be 1 if at global state
+            double value = a.normalized().dot( b.normalized() ) * -1;
+
+            if ( value < 0.999 ) {
+                bondedAtoms.get( 0 ).repulseFrom( bondedAtoms.get( 1 ), tpf );
+                bondedAtoms.get( 1 ).repulseFrom( bondedAtoms.get( 0 ), tpf );
             }
-        } );
+            else {
+                //Its already close enough to good global maximum
+                numSuccess++;
+                System.out.println( "number of success: " + numSuccess + ", elapsed time = \t" + ( System.currentTimeMillis() - startTime ) );
+                setState( 2, 3 );
+
+            }
+        }
+    }
+
+    public ArrayList<ElectronPair> getBondedAtoms() {
+        return getPairs( false );
+    }
+
+    public ArrayList<ElectronPair> getLonePairs() {
+        return getPairs( true );
+    }
+
+    public ArrayList<ElectronPair> getPairs( final boolean lonePairs ) {
+        return new ArrayList<ElectronPair>() {{
+            for ( ElectronPair pair : pairs ) {
+                if ( pair.isLonePair == lonePairs ) {
+                    add( pair );
+                }
+            }
+        }};
+    }
+
+    private void addPair( final ElectronPair pair ) {
+        pairs.add( pair );
+        AtomNode atomNode = new AtomNode( pair, assetManager );
+        atomNodes.add( atomNode );
+        molecule.attachChild( atomNode );
+        rebuildBonds();
     }
 
     private void removePair( final ElectronPair pair ) {
-        enqueue( new Callable<Object>() {
-            public Object call() throws Exception {
-                pairs.remove( pair );
-                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-                    if ( atomNode.pair == pair ) {
-                        atomNodes.remove( atomNode );
-                        molecule.detachChild( atomNode );
-                    }
-                }
-                return null;
+        pairs.remove( pair );
+        for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+            if ( atomNode.pair == pair ) {
+                atomNodes.remove( atomNode );
+                molecule.detachChild( atomNode );
             }
-        } );
+        }
     }
 
     private void rebuildBonds() {
@@ -209,5 +250,27 @@ public class MoleculeApplication extends BaseApplication {
 
     public static void main( String[] args ) throws IOException {
         new MoleculeApplication().start();
+    }
+
+    public void removeAllAtoms() {
+        while ( !pairs.isEmpty() ) {
+            testRemoveAtom();
+        }
+    }
+
+    public synchronized void setState( final int X, final int E ) {
+        startTime = System.currentTimeMillis();
+        enqueue( new Callable<Object>() {
+            public Object call() throws Exception {
+                removeAllAtoms();
+                for ( int i = 0; i < X; i++ ) {
+                    testAddAtom( false );
+                }
+                for ( int i = 0; i < E; i++ ) {
+                    testAddAtom( true );
+                }
+                return null;
+            }
+        } );
     }
 }

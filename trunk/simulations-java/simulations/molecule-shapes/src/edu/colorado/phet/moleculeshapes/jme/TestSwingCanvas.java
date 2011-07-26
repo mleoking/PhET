@@ -1,6 +1,8 @@
 package edu.colorado.phet.moleculeshapes.jme;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -8,7 +10,10 @@ import java.util.concurrent.Callable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.*;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
@@ -48,6 +53,7 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
         public JMEModule( String name ) {
             super( name, new ConstantDtClock( 30.0 ) );
             AppSettings settings = new AppSettings( true );
+            settings.setFrameRate( 60 );
 
             final MoleculeApplication app = new MoleculeApplication();
 
@@ -84,24 +90,58 @@ public class TestSwingCanvas extends PiccoloPhetApplication {
                 add( new JButton( "(Test) Add Atom" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            app.testAddAtom( false );
+                            app.enqueue( new Callable<Object>() {
+                                public Object call() throws Exception {
+                                    app.testAddAtom( false );
+                                    return null;
+                                }
+                            } );
                         }
                     } );
                 }} );
                 add( new JButton( "(Test) Add Lone Pair" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            app.testAddAtom( true );
+                            app.enqueue( new Callable<Object>() {
+                                public Object call() throws Exception {
+                                    app.testAddAtom( true );
+                                    return null;
+                                }
+                            } );
                         }
                     } );
                 }} );
                 add( new JButton( "(Test) Remove Random" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            app.testRemoveAtom();
+                            app.enqueue( new Callable<Object>() {
+                                public Object call() throws Exception {
+                                    app.testRemoveAtom();
+                                    return null;
+                                }
+                            } );
                         }
                     } );
                 }} );
+
+                class VSEPRButton extends JButton {
+                    VSEPRButton( String nickname, final int X, final int E ) {
+                        super( nickname + " AX" + X + "E" + E );
+                        addActionListener( new ActionListener() {
+                            public void actionPerformed( ActionEvent e ) {
+                                app.setState( X, E );
+                            }
+                        } );
+                    }
+                }
+
+                add( new VSEPRButton( "Linear", 2, 3 ) );
+                add( new VSEPRButton( "Trigonal pyramidal", 3, 1 ) );
+                add( new VSEPRButton( "T-shaped", 3, 2 ) );
+                add( new VSEPRButton( "Seesaw", 4, 1 ) );
+                add( new VSEPRButton( "Square Planar", 4, 2 ) );
+                add( new VSEPRButton( "Square Pyramidal", 5, 1 ) );
+                add( new VSEPRButton( "Pentagonal pyramidal", 6, 1 ) );
                 add( new ResetAllButton( parent ) );
             }} );
 
