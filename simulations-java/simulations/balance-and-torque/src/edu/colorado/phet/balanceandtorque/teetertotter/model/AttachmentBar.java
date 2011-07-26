@@ -12,7 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author John Blanco
  */
 public class AttachmentBar extends ShapeModelElement {
-    private static final double WIDTH = 0.05; // In meters.
+    public static final double WIDTH = 0.05; // In meters.
+    private final Plank plank;
 
     /**
      * Constructor.
@@ -23,11 +24,16 @@ public class AttachmentBar extends ShapeModelElement {
      */
     public AttachmentBar( final Plank plank ) {
         super( generateShape( plank.getPivotPoint(), plank.attachmentPointProperty.get() ) );
+        this.plank = plank;
         plank.attachmentPointProperty.addObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D point2D ) {
                 setShapeProperty( generateShape( plank.getPivotPoint(), plank.attachmentPointProperty.get() ) );
             }
         } );
+    }
+
+    public Point2D getPivotPoint() {
+        return plank.getPivotPoint();
     }
 
     private static Shape generateShape( Point2D pivotPoint, Point2D attachmentPoint ) {
@@ -42,4 +48,6 @@ public class AttachmentBar extends ShapeModelElement {
         shape = AffineTransform.getTranslateInstance( pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( shape );
         return shape;
     }
+
+
 }
