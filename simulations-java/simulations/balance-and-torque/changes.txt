@@ -1,3 +1,4 @@
+Improved the V support shape for fulcrum above plank shape
 # 0.00.02 (54292) Jul 19, 2011
 7/19/11 Deploying snapshot to dev
 Added the "mystery masses".
