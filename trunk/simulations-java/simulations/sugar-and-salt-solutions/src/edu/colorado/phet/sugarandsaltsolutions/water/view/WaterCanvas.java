@@ -227,9 +227,11 @@ public class WaterCanvas extends PhetPCanvas {
         ) ) {{
             setOffset( MacroCanvas.INSET, canvasSize.getHeight() - getFullBounds().getHeight() - MacroCanvas.INSET * 10 );
         }} );
-        waterModel.k.trace( "k" );
-        waterModel.pow.trace( "pow" );
-        waterModel.randomness.trace( "randomness" );
+
+        //DEBUGGING
+//        waterModel.k.trace( "k" );
+//        waterModel.pow.trace( "pow" );
+//        waterModel.randomness.trace( "randomness" );
 
         //Add a bucket with salt that can be dragged into the play area
         //The transform must have inverted Y so the bucket is upside-up.
