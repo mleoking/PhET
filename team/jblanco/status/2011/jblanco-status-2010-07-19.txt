@@ -1,0 +1,68 @@
+PhET Weekly Progress Report
+John Blanco
+July 19th, 2011
+
+Time period covered: July 13th through July 19th.
+
+Balance and Torque - 18.0 hrs
+
+•	Added the "mystery objects".
+•	Created an adult that can be added to the balance.
+•	Published a version for review.
+•	Wrote up notes from meeting, added to spec, circulated for review.
+•	Drew up alternative versions of the balance with a fulcrum above the plank, circulated for discussion and decision.
+•	Changed all references to "Weights" to "Masses" on the user interface and within the code (this was recommended by design team).
+•	Put a picture of a game on the second tab (for prototype and demo purposes).
+•	Investigated Poser 8.0 as an alternative means for creating the people to go on the balance, decided against.
+•	Revised the artwork of the kid so that he takes up less space on the plank.
+•	Reviewed with design team at weekly meeting.
+
+Isotopes - 1.0 hrs
+
+•	Updated two open bugs, assigned to Trish for verification and closure.
+
+Gene Expression Basics - 3.5 hrs
+
+•	Started adding infrastructure for moving biomolecules and adding them from a tool box.
+
+States of Matter - 1.5 hrs
+
+•	Implemented a workaround for issue with slider on stove (in collaboration with Sam R), see #3001.
+•	Discussed workaround for #3001 with several people, ultimate conclusion was to rework the node to be pure Piccolo.
+
+Environment - 4.5 hrs
+
+•	Change the common code style to use more specific import directives in most cases.
+•	Worked with Noah P to try to attach hard drives with video content to phet-server.  This didn't work due to inability of phet-server to handle NTFS format (or something).
+•	Set up IntelliJ so that I can build Flex sims.
+•	Tried out a graphics drawing tablet that Trish brought in.
+
+Common Code - 1.0 hrs
+
+•	Investigated (with Sam R) an issue concerning a JAR file used by the build process, see #2997.
+
+Installers - 2.0 hrs
+
+•	Worked with JO to diagnose an issue with getting new windows to open in certain situations, see #2998.
+•	Changed BitRock project files to include JavaScript directory in the distribution, see #2998.
+•	Rebuilt and tested the installer.
+•	Incorporated changes into the automated weekly build.
+
+Professional Development - 1.5 hrs
+
+•	Attended PER meeting where the use of tablets in the classroom were discussed.
+
+Meetings, Email, and Other Administrative Overhead - 7.0 hrs
+
+•	Weekly PhET status meeting.
+•	Discussion with Kathy P about whether we are going to pursue biology sims in the short term.
+•	Weekly status report.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+What’s Next
+
+•	Continue working on Gene Expression simulation.
+•	Continue working on Balance & Torque simulation.
