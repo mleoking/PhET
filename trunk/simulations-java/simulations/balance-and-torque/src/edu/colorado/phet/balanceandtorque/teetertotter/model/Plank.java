@@ -243,6 +243,7 @@ public class Plank extends ShapeModelElement {
             angularVelocity = 0;
         }
         else {
+            updateTorqueDueToMasses();
             // Update the angular velocity based on the current torque.
             angularVelocity += torqueFromMasses / MOMENT_OF_INERTIA;
         }
@@ -257,6 +258,8 @@ public class Plank extends ShapeModelElement {
             updatePlankPosition();
             updateMassPositions();
         }
+        // Simulate friction by slowing down the rotation a little.
+        angularVelocity *= 0.98;
     }
 
     private void updateMassPositions() {
