@@ -11,6 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.random;
+
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
  *
@@ -97,5 +100,35 @@ public class Compound extends Particle implements Iterable<Constituent> {
             }
         }
         return count;
+    }
+
+    //Returns the number of constituents in the compound
+    public int numberConstituents() {
+        return constituents.size();
+    }
+
+    //Splits up all constituents from the crystal lattice, returning the components (particles or molecules) that should move about freely
+    public ArrayList<? extends Particle> dissolve() {
+        ArrayList<Particle> freeParticles = new ArrayList<Particle>();
+        for ( Constituent constituent : this ) {
+            dissolve( constituent );
+            freeParticles.add( constituent.particle );
+        }
+        return freeParticles;
+    }
+
+    //Dissolve a single particle
+    public void dissolve( Constituent constituent ) {
+        constituent.particle.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
+    }
+
+    //Gets the constituent at the specified index
+    public Constituent getConstituent( int i ) {
+        return constituents.get( i );
+    }
+
+    //Removes the specified constituent from the compound
+    public void removeConstituent( Constituent constituent ) {
+        constituents.remove( constituent );
     }
 }

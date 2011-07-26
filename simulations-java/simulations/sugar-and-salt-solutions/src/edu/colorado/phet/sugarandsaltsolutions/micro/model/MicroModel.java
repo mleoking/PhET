@@ -109,7 +109,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Strategy rule to use for dissolving the crystals
-    private DissolveStrategy dissolveStrategy = new DissolveCompleteCrystals();
+    private DissolveStrategy dissolveStrategy = new IncrementalDissolve();
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
@@ -289,14 +289,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
-        updateDissolvableCrystals( dt, saltCrystals, sodiumChlorideSaturationPoint );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumChlorideSaturationPoint );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumNitrateSaturationPoint );
-        updateDissolvableCrystals( dt, sucroseCrystals, sucroseSaturationPoint );
+        updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, sucroseCrystals, sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).or( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) ) );
     }
 
     //Update the crystals by moving them about and possibly dissolving them
-    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, double saturationPoint ) {
+    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> unsaturated ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal lattice : crystals ) {
@@ -335,10 +335,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Handle dissolving the lattices
         for ( Crystal crystal : toDissolve ) {
-            ArrayList<? extends Particle> particles = dissolveStrategy.dissolve( crystals, crystal, saturationPoint );
-
-            //Add the released particles into the set of free particles so they will move with random motion
-            freeParticles.addAll( particles );
+            dissolveStrategy.dissolve( crystals, crystal, freeParticles, unsaturated );
         }
     }
 
