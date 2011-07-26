@@ -1,27 +1,21 @@
 TODO list for molecule-polarity
 
 HIGH
-- implement vector scaling and offset in BondDipoleNode
+- set position of partial charges
 - implement TwoAtomMoleculeNode.RotationHandler
-- bond dipole vector model
 - molecular dipole vector model
-- partial charges display
 - bond type (covalent/ionic) display
 
 MEDIUM
+- set visibility of module-specific controls in control panels
 - add icons to control panels (dipoles, partial charge, mep,...)
-- disable Shift-Drag feature that scales Jmol viewer
-- if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
-- startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 - center scenegraph in the play area
-- Jmol integration with Piccolo (PSwing? other options?)
-- how to set a fully transparent background for Jmol viewer?
 - add minor and major ticks to EN control
-- hovering over an atom in Jmol viewer displays the atom's name, do we want that?
 
 LOW
 
 Jmol
+- Jmol integration with Piccolo (PSwing? other options?)
 - why doesn't MEP work for water.smol?
 - how to create smol files?
 - can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
@@ -32,6 +26,11 @@ Jmol
 - how to change atom colors?
 - why does MEP look lumpy for some molecules?
 - figure out how to make all bonds and molecules translucent and move bond dipoles to centers of bonds
+- disable Shift-Drag feature that scales Jmol viewer
+- if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
+- how to set a fully transparent background for Jmol viewer?
+- hovering over an atom in Jmol viewer displays the atom's name, do we want that?
+- startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 
 MIGRATE TO PHETCOMMON
 - HorizontalSliderDragHandler
