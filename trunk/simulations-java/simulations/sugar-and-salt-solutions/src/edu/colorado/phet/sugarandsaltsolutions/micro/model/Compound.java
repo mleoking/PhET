@@ -18,13 +18,15 @@ import static java.lang.Math.random;
 
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
+ * The type is generic since some compounds such as NaCl are made of SphericalParticles while others such as Sucrose are made from molecules with their own substructure
+ * Adding the type parameter at this level makes it so we don't have as many casts when acquiring components during dissolve or iteration processes.
  *
  * @author Sam Reid
  */
-public class Compound extends Particle implements Iterable<Constituent> {
+public class Compound<T extends Particle> extends Particle implements Iterable<Constituent<T>> {
 
     //Members in the compound
-    protected final ArrayList<Constituent> constituents = new ArrayList<Constituent>();
+    protected final ArrayList<Constituent<T>> constituents = new ArrayList<Constituent<T>>();
 
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
@@ -55,14 +57,17 @@ public class Compound extends Particle implements Iterable<Constituent> {
         return false;
     }
 
-    @Override protected void setLocation( ImmutableVector2D location ) {
-        super.setLocation( location );
+    //Set the position of the compound, and update the location of all constituents
+    //TODO: there is also a public api for setting the position of the compound through Property<ImmutableVector2D>, but which does not update the constituent locations
+    //Maybe this method should auto-call when that property changes, or the property shouldn't be public
+    @Override protected void setPosition( ImmutableVector2D location ) {
+        super.setPosition( location );
         updateConstituentLocations();
     }
 
     private void updateConstituentLocations() {
         for ( Constituent constituent : constituents ) {
-            constituent.particle.position.set( position.get().plus( constituent.location ) );
+            constituent.particle.setPosition( position.get().plus( constituent.location ) );
         }
     }
 
@@ -76,7 +81,7 @@ public class Compound extends Particle implements Iterable<Constituent> {
         return rect;
     }
 
-    public Iterator<Constituent> iterator() {
+    public Iterator<Constituent<T>> iterator() {
         return constituents.iterator();
     }
 
@@ -144,5 +149,23 @@ public class Compound extends Particle implements Iterable<Constituent> {
             }
         } );
         return c.get( c.size() - 1 );
+    }
+
+    //Get all the spherical particles within this compound and its children recursively, so they can be displayed with PNodes
+    public Iterable<SphericalParticle> getAllSphericalParticles() {
+        ArrayList<SphericalParticle> sphericalParticles = new ArrayList<SphericalParticle>();
+        for ( Constituent<T> constituent : constituents ) {
+            if ( constituent.particle instanceof SphericalParticle ) {
+                sphericalParticles.add( (SphericalParticle) constituent.particle );
+            }
+            else if ( constituent.particle instanceof Compound ) {
+                Compound<? extends Particle> compound = (Compound<? extends Particle>) constituent.particle;
+                Iterable<SphericalParticle> subParticles = compound.getAllSphericalParticles();
+                for ( SphericalParticle subParticle : subParticles ) {
+                    sphericalParticles.add( subParticle );
+                }
+            }
+        }
+        return sphericalParticles;
     }
 }

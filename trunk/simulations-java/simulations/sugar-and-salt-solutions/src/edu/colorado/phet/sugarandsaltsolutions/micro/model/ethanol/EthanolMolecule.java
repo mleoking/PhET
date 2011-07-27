@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygenParticle;
@@ -18,7 +19,7 @@ import static java.lang.Double.parseDouble;
  *
  * @author Sam Reid
  */
-public class EthanolMolecule extends Compound {
+public class EthanolMolecule extends Compound<SphericalParticle> {
     public EthanolMolecule( ImmutableVector2D position ) {
         super( position );
 
@@ -34,13 +35,13 @@ public class EthanolMolecule extends Compound {
             //It shouldn't look too regular since it is a fluid
             switch( type ) {
                 case 'H':
-                    constituents.add( new Constituent( new HydrogenIonParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new HydrogenIonParticle(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'C':
-                    constituents.add( new Constituent( new CarbonIonParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new CarbonIonParticle(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'O':
-                    constituents.add( new Constituent( new NeutralOxygenParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new NeutralOxygenParticle(), location.getRotatedInstance( angle ) ) );
                     break;
             }
         }

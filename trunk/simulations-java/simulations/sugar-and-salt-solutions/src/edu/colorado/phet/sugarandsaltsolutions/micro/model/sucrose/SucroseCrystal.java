@@ -19,10 +19,7 @@ import static java.lang.Math.random;
  *
  * @author Sam Reid
  */
-public class SucroseCrystal extends Crystal {
-
-    //List of sucrose molecules for keeping them together instead of disassociating
-    public final ArrayList<SucroseMolecule> sucroseMolecules = new ArrayList<SucroseMolecule>();
+public class SucroseCrystal extends Crystal<SucroseMolecule> {
 
     public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice ) {
         super( position );
@@ -39,13 +36,10 @@ public class SucroseCrystal extends Crystal {
 
         //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
         //Also, scale everything by the model sizeScale, including distances between atoms
-        final double spacing = nanometersToMeters( 0.5 ) * sizeScale;
+        final double spacing = nanometersToMeters( 0.5 ) * sizeScale / 2;
 
-        SucroseMolecule sucroseMolecule = new SucroseMolecule( relativePosition );
-        sucroseMolecules.add( sucroseMolecule );
-        for ( Constituent atom : sucroseMolecule ) {
-            constituents.add( atom );
-        }
+        //Create and add sucrose molecules in the right relative locations
+        constituents.add( new Constituent<SucroseMolecule>( new SucroseMolecule( relativePosition ), relativePosition ) );
 
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
@@ -59,11 +53,14 @@ public class SucroseCrystal extends Crystal {
     //Breaks apart the sucrose crystal, but keeps sucrose as molecules
     public ArrayList<? extends Particle> dissolve() {
         ArrayList<Particle> freeParticles = new ArrayList<Particle>();
-        for ( final SucroseMolecule sucroseMolecule : sucroseMolecules ) {
+        for ( final Constituent<SucroseMolecule> constituent : constituents ) {
+            SucroseMolecule sucroseMolecule = constituent.particle;
             sucroseMolecule.position.set( position.get() );
             sucroseMolecule.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
             freeParticles.add( sucroseMolecule );
         }
         return freeParticles;
     }
+
+    //TODO: implement dissolving single molecule
 }

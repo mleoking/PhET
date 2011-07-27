@@ -22,7 +22,7 @@ import static java.lang.Math.random;
  *
  * @author Sam Reid
  */
-public class SodiumNitrateCrystal extends Crystal {
+public class SodiumNitrateCrystal extends Crystal<Particle> {
     private ArrayList<NitrateMolecule> nitrateMolecules = new ArrayList<NitrateMolecule>();
 
     //The distance between nitrogen and oxygen should be the sum of their radii, but the blue background makes it hard to tell that N and O are bonded.
@@ -62,8 +62,8 @@ public class SodiumNitrateCrystal extends Crystal {
 
     private void addNitrate( NitrateMolecule nitrateMolecule, ImmutableVector2D relativePosition ) {
         nitrateMolecules.add( nitrateMolecule );
-        for ( Constituent constituent : nitrateMolecule ) {
-            constituents.add( new Constituent( constituent.particle, constituent.location.plus( relativePosition ) ) );
+        for ( Constituent<Particle> constituent : nitrateMolecule ) {
+            constituents.add( new Constituent<Particle>( constituent.particle, constituent.location.plus( relativePosition ) ) );
         }
     }
 

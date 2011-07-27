@@ -8,6 +8,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 
@@ -16,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  *
  * @author Sam Reid
  */
-public class CalciumChlorideCrystal extends Crystal {
+public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice ) {
         super( position );
 
@@ -31,11 +32,11 @@ public class CalciumChlorideCrystal extends Crystal {
     private void fill( CalciumChlorideLattice lattice, Component component, ArrayList<edu.colorado.phet.sugarandsaltsolutions.micro.model.Component> handled, ImmutableVector2D relativePosition ) {
         //Calcium
         if ( component instanceof edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.CalciumIon ) {
-            constituents.add( new Constituent( new CalciumIonParticle(), relativePosition ) );
+            constituents.add( new Constituent<SphericalParticle>( new CalciumIonParticle(), relativePosition ) );
         }
         //Chloride
         else {
-            constituents.add( new Constituent( new ChlorideIonParticle(), relativePosition ) );
+            constituents.add( new Constituent<SphericalParticle>( new ChlorideIonParticle(), relativePosition ) );
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
