@@ -16,7 +16,6 @@ LOW
 
 Jmol
 - switch to mol2
-- isosurface VDW map MEP colorscheme "RWB" translucent
 - change labels to %[atomName]
 - make labels black and larger font
 - investigate partial charge (partialCharge property in Jmol)
