@@ -90,49 +90,6 @@ public class Molecule3D {
         return outString;
     }
 
-    //TODO i18n of molecule names
-    public static class Ammonia extends Molecule3D {
-        public Ammonia() {
-            super( "NH3", "ammonia", "jmol/ammonia.smol" );
-        }
-    }
-
-    public static class BoronTrifluoride extends Molecule3D {
-        public BoronTrifluoride() {
-            super( "BF3", "boron trifluoride", "jmol/borontrifluoride.smol" );
-        }
-    }
-
-    public static class Formaldehyde extends Molecule3D {
-        public Formaldehyde() {
-            super( "CH2O", "formaldehyde", "jmol/formaldehyde.smol" );
-        }
-    }
-
-    public static class HydrogenFluoride extends Molecule3D {
-        public HydrogenFluoride() {
-            super( "HF", "hydrogen fluoride", "jmol/hydrogenfluoride.smol" );
-        }
-    }
-
-    public static class Methane extends Molecule3D {
-        public Methane() {
-            super( "CH4", "methane", "jmol/methane.smol" );
-        }
-    }
-
-    public static class MethylFluoride extends Molecule3D {
-        public MethylFluoride() {
-            super( "CH3F", "methyl fluoride", "jmol/methylfluoride.smol" );
-        }
-    }
-
-    public static class Water extends Molecule3D {
-        public Water() {
-            super( "H2O", "water", "jmol/water.smol" );
-        }
-    }
-
     /*
      * This molecule's getData method asks the user to select the data file using a JFileChooser.
      * This is intended for use in developer controls, to speed the process of identifying
@@ -141,7 +98,7 @@ public class Molecule3D {
     public static class ImportMolecule extends Molecule3D {
 
         public ImportMolecule() {
-            super( "Import...", "from file", "" );
+            super( "Import...", "from file", "" ); //dev only, i18n not required
         }
 
         @Override public String getData() {
