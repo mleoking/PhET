@@ -15,6 +15,7 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
+import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -85,9 +86,18 @@ public class JmolViewerNode extends PhetPNode {
             if ( errorString != null ) {
                 throw new RuntimeException( "Jmol problem: " + errorString ); //TODO improve exception handling
             }
-            // adjust colors
-            molecule.adjustColors( viewer );
         }
+    }
+
+    // use custom colors for some atoms
+    protected void adjustAtomColors() {
+        doScript( "select oxygen; color " + toJmolColor( PhetColorScheme.RED_COLORBLIND ) );
+        doScript( "select all" ); // be polite to other scripts that assume that everything is selected
+    }
+
+    // Converts an AWT Color to a String of the form "[xRRGGBB]", eg "[xff00f0]".
+    private static String toJmolColor( Color color ) {
+        return "[x" + Integer.toHexString( color.getRGB() & 0x00ffffff ) + "]";
     }
 
     public void doScript( String script ) {
@@ -97,6 +107,7 @@ public class JmolViewerNode extends PhetPNode {
     public void setMolecule( Molecule3D molecule ) {
         viewerPanel.setMolecule( molecule );
         // these things need to be reset when the viewer loads a new molecule
+        adjustAtomColors();
         setBallAndStick();
         setAtomLabelsVisible( atomLabelsVisible );
         setBondDipolesVisible( bondDipolesVisible );

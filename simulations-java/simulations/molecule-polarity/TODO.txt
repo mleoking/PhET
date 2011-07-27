@@ -27,7 +27,6 @@ Jmol
 - how to align Jmol molecule with E-Field?
 - how to create a Jmol custom isosurface for KP's electron density view?
 - how to set initial orientation for Jmol viewer?
-- how to change atom colors?
 - why does MEP look lumpy for some molecules?
 - figure out how to make all bonds and molecules translucent and move bond dipoles to centers of bonds
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
