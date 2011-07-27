@@ -1,3 +1,5 @@
+7/27/11 Jmol: remove duplicate code in readers for files and jar resources
+7/27/11 Jmol: disable hovers
 7/27/11 Jmol: disable zooming
 7/27/11 Jmol: customize color and thickness of bonds, doc ball-and-stick script commands
 7/27/11 Jmol: display partial charge as part of atom label

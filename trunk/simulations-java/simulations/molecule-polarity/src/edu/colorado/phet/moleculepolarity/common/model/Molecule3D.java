@@ -2,8 +2,9 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import javax.swing.JFileChooser;
@@ -24,7 +25,6 @@ public class Molecule3D {
     private final String symbol, name, resourceFilename;
 
     public Molecule3D( String symbol, String name, String resourceFilename ) {
-
         this.symbol = toSubscript( symbol );
         this.name = name;
         this.resourceFilename = resourceFilename;
@@ -39,20 +39,27 @@ public class Molecule3D {
     }
 
     public String getData() {
+        String s = "";
+        PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
         try {
-            PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
-            BufferedReader structureReader = new BufferedReader( new InputStreamReader( resources.getResourceAsStream( resourceFilename ) ) );
-            String s = "";
-            String line = structureReader.readLine();
-            while ( line != null ) {
-                s = s + line + "\n";
-                line = structureReader.readLine();
-            }
-            return s;
+            s = readStream( resources.getResourceAsStream( resourceFilename ) );
         }
-        catch ( Exception e ) {
-            throw new RuntimeException( e );
+        catch ( IOException e ) {
+            e.printStackTrace(); //TODO improve exception handling
         }
+        return s;
+    }
+
+    // Reads an input stream and returns a string.
+    protected static String readStream( InputStream istream ) throws IOException {
+        BufferedReader structureReader = new BufferedReader( new InputStreamReader( istream ) );
+        String s = "";
+        String line = structureReader.readLine();
+        while ( line != null ) {
+            s = s + line + "\n";
+            line = structureReader.readLine();
+        }
+        return s;
     }
 
     //TODO need an example of how to change colors for atoms, dipoles, etc.
@@ -107,17 +114,10 @@ public class Molecule3D {
             int returnVal = fc.showOpenDialog( PhetApplication.getInstance().getPhetFrame() );
             if ( returnVal == JFileChooser.APPROVE_OPTION ) {
                 try {
-                    File file = fc.getSelectedFile();
-                    BufferedReader structureReader = new BufferedReader( new FileReader( file ) );
-
-                    String line = structureReader.readLine();
-                    while ( line != null ) {
-                        s = s + line + "\n";
-                        line = structureReader.readLine();
-                    }
+                    s = readStream( new FileInputStream( fc.getSelectedFile() ) );
                 }
-                catch ( Exception e ) {
-                    throw new RuntimeException( e );
+                catch ( IOException e ) {
+                    e.printStackTrace(); //TODO improve exception handling
                 }
             }
             return s;
