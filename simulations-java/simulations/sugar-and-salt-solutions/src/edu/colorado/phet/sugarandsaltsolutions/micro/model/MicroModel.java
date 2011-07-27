@@ -295,9 +295,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
         updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint ) ) );
+        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
         updateDissolvableCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
+
+        //No saturation point for ethanol, which is miscible
     }
 
     //Update the crystals by moving them about and possibly dissolving them
