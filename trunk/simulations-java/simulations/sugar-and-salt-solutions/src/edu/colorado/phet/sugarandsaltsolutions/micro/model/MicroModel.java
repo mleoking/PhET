@@ -131,7 +131,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         public IonConcentration( final Class<? extends Particle> type ) {
             super( new Function0<Double>() {
                        public Double apply() {
-                           return numberToMoles( freeParticles.count( type ) ) / waterVolume.get();
+                           //If there is no water, there is no solution and hence no concentration
+                           return waterVolume.get() == 0 ? 0.0 :
+                                  numberToMoles( freeParticles.count( type ) ) / waterVolume.get();
                        }
                    }, waterVolume );
             VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {
@@ -371,6 +373,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             ImmutableVector2D initialPosition = particle.position.get();
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
+            //If the particle was stopped by the water completely evaporating, start it moving again
+            //Must be done before particle.stepInTime so that the particle doesn't pick up a small velocity in that method, since this assumes particle velocity of zero implies evaporated to the bottom
+            if ( particle.velocity.get().getMagnitude() == 0 ) {
+                setWaterSpeed( particle );
+            }
+
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E10;
@@ -380,7 +388,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //If the particle entered the water on this step, slow it down to simulate hitting the water
             if ( !initiallyUnderwater && underwater && particle.position.get().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
-                particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+                setWaterSpeed( particle );
             }
 
             //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
@@ -397,7 +405,21 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
                 particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), delta.getAngle() + PI ) );
             }
+
+            //Stop the particle completely if there is no water to move within
+            if ( waterVolume.get() <= 0 ) {
+                particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
+            }
+
+            //Keep the particle within the beaker solution bounds
+            preventFromFallingThroughBeakerBase( particle );
+            preventFromFallingThroughBeakerRight( particle );
+            preventFromFallingThroughBeakerLeft( particle );
         }
+    }
+
+    private void setWaterSpeed( Particle particle ) {
+        particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
     }
 
     public void reset() {
@@ -484,26 +506,49 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When water level decreases, move the particles down with the water level.
     //Beaker base is at y=0.  Move particles proportionately to how close they are to the top.
     private void waterLevelDropped( ItemList<? extends Particle> particles, double volumeDropped ) {
+
         double changeInWaterHeight = beaker.getHeightForVolume( volumeDropped ) - beaker.getHeightForVolume( 0 );
         for ( Particle particle : particles ) {
-            double yLocationInBeaker = particle.position.get().getY();
-            double waterTopY = beaker.getHeightForVolume( waterVolume.get() );
-            double fractionToTop = yLocationInBeaker / waterTopY;
-            particle.translate( 0, -changeInWaterHeight * fractionToTop );
+            if ( waterVolume.get() > 0 ) {
+                double yLocationInBeaker = particle.position.get().getY();
+                double waterTopY = beaker.getHeightForVolume( waterVolume.get() );
+                double fractionToTop = yLocationInBeaker / waterTopY;
+                particle.translate( 0, -changeInWaterHeight * fractionToTop );
 
-            //Prevent particles from leaving the top of the liquid
-            double topY = particle.getShape().getBounds2D().getMaxY();
-            if ( topY > waterTopY ) {
-                particle.translate( 0, ( waterTopY - topY - 1E-12 ) );
+                //Prevent particles from leaving the top of the liquid
+                double topY = particle.getShape().getBounds2D().getMaxY();
+                if ( topY > waterTopY ) {
+                    particle.translate( 0, ( waterTopY - topY - 1E-12 ) );
+                }
             }
 
-            //More importantly, prevent particles from falling through the bottom of the beaker.
             //This step must be done after prevention of particles leaving the top because falling through the bottom is worse (never returns), pushing through the top, particles
             //would just fall back to the water level
-            double bottomY = particle.getShape().getBounds2D().getMinY();
-            if ( bottomY < 0 ) {
-                particle.translate( 0, -bottomY + 1E-12 );
-            }
+            preventFromFallingThroughBeakerBase( particle );
+        }
+    }
+
+    //prevent particles from falling through the bottom of the beaker
+    private void preventFromFallingThroughBeakerBase( Particle particle ) {
+        double bottomY = particle.getShape().getBounds2D().getMinY();
+        if ( bottomY < 0 ) {
+            particle.translate( 0, -bottomY + 1E-12 );
+        }
+    }
+
+    //prevent particles from falling through the bottom of the beaker
+    private void preventFromFallingThroughBeakerLeft( Particle particle ) {
+        double left = particle.getShape().getBounds2D().getMinX();
+        if ( left < beaker.getLeftWall().getX1() ) {
+            particle.translate( beaker.getLeftWall().getX1() - left, 0 );
+        }
+    }
+
+    //prevent particles from falling through the bottom of the beaker
+    private void preventFromFallingThroughBeakerRight( Particle particle ) {
+        double right = particle.getShape().getBounds2D().getMaxX();
+        if ( right > beaker.getRightWall().getX1() ) {
+            particle.translate( beaker.getRightWall().getX1() - right, 0 );
         }
     }
 

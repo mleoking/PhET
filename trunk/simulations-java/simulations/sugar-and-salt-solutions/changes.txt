@@ -1,3 +1,5 @@
+Micro tab: Improved behavior under evaporation
+Micro tab: Prevent particles from leaving the beaker to the left or right
 Micro tab: Fixed: When evaporating, particles can move up past the surface of the water
 Micro tab: Fixed: When evaporating too much, particles can be pushed into the floor of the beaker
 Micro tab: Fixed saturation point for NaNO3 and CaCl2
