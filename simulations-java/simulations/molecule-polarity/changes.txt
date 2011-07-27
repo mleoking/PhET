@@ -1,3 +1,4 @@
+7/27/11 Jmol: make bonds translucent
 7/27/11 Jmol: use custom (colorblind) red for oxygen atoms
 7/27/11 Jmol: remove duplicate code in readers for files and jar resources
 7/27/11 Jmol: disable hovers
