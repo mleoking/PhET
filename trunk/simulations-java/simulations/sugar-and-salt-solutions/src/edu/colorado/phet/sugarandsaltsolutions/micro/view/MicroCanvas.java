@@ -144,7 +144,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             setOffset( periodicTableButton.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, periodicTableButton.getFullBounds().getMaxY() + INSET );
         }} );
 
-        //When sodium or chloride ions are added in the model, add graphics for them in the view
+        //When any spherical particle is added in the model, add graphics for them in the view
         model.sphericalParticles.addItemAddedListener( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
 
         //Add clock controls for pause/play/step

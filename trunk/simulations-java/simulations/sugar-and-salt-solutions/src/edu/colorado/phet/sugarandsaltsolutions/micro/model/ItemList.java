@@ -60,7 +60,7 @@ public class ItemList<T> implements Iterable<T> {
         itemRemovedListeners.notifyListeners( (T) item );
     }
 
-    public ArrayList<T> getItems() {
+    private ArrayList<T> getItems() {
         return items;
     }
 
@@ -85,18 +85,18 @@ public class ItemList<T> implements Iterable<T> {
 
     //Count the items in the list that are an instance of the specified class
     public int count( final Class<? extends T>... clazz ) {
-        return getMatchingItems( clazz ).size();
+        return filter( clazz ).size();
     }
 
     //Remove all instances that match the specified classes
     public void clear( final Class<? extends T>... clazz ) {
-        for ( T item : getMatchingItems( clazz ) ) {
+        for ( T item : filter( clazz ) ) {
             remove( item );
         }
     }
 
     //Determine which items are instances of the specified classes
-    private ArrayList<T> getMatchingItems( final Class<? extends T>... clazz ) {
+    public ArrayList<T> filter( final Class<? extends T>... clazz ) {
         return new ArrayList<T>() {{
             for ( T item : items ) {
                 for ( Class<? extends T> aClass : clazz ) {

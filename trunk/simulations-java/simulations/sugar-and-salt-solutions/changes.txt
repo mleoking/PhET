@@ -1,3 +1,4 @@
+Micro tab: First steps toward crystallizing atoms when past saturation point
 # 0.00.71 (54538) Jul 26, 2011
 Micro tab: Improved behavior under evaporation
 Micro tab: Prevent particles from leaving the beaker to the left or right

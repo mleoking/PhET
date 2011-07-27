@@ -22,6 +22,10 @@ public class SodiumChlorideLattice extends SquareLattice<SodiumChlorideLattice> 
         super( new ImmutableList<Component>( new SodiumIon() ), new ImmutableList<Bond>() );
     }
 
+    public SodiumChlorideLattice( Component component ) {
+        super( new ImmutableList<Component>( component ), new ImmutableList<Bond>() );
+    }
+
     public SodiumChlorideLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
         super( components, bonds );
     }
