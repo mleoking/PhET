@@ -140,7 +140,7 @@ public class JmolViewerNode extends PhetPNode {
     public void setElectrostaticPotentialVisible( boolean visible ) {
         electrostaticPotentialVisible = visible;
         if ( visible ) {
-            doScript( "isosurface resolution 6 solvent map mep translucent" );
+            doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
         }
         else {
             doScript( "isosurface off" );
