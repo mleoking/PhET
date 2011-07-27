@@ -1,10 +1,11 @@
-7/26/11 Jmol: customize color and thickness of bonds, doc ball-and-stick script commands
-7/26/11 Jmol: display partial charge as part of atom label
-7/26/11 Jmol: increase font size of Jmol labels, set label color to black for all atoms
+7/27/11 Jmol: disable zooming
+7/27/11 Jmol: customize color and thickness of bonds, doc ball-and-stick script commands
+7/27/11 Jmol: display partial charge as part of atom label
+7/27/11 Jmol: increase font size of Jmol labels, set label color to black for all atoms
 # 0.00.03 (54557) Jul 27, 2011
-7/26/11 Jmol: use KL's list of molecules and SDF files
-7/26/11 Jmol: check in SDF files obtained from PubChem (http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi)
-7/26/11 Jmol: use KL's method of creating mep isosurface
+7/27/11 Jmol: use KL's list of molecules and SDF files
+7/27/11 Jmol: check in SDF files obtained from PubChem (http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi)
+7/27/11 Jmol: use KL's method of creating mep isosurface
 7/26/11 intermediate implementation of partial charge view (not positioned correctly)
 7/26/11 bond dipole view based on Vector2DNode
 7/25/11 intermediate implementation of bond dipole view (offset and magnitude not functional)
