@@ -57,7 +57,8 @@ public class JmolViewerNode extends PhetPNode {
             // default settings of the viewer, independent of the molecule displayed
             viewer.setBooleanProperty( "antialiasDisplay", true );
             viewer.setBooleanProperty( "autoBond", false );
-            doScript( "unbind \"_popupMenu\"" ); // hide the right-click popup menu
+            doScript( "unbind \"_popupMenu\"" ); // disable popup menu
+            doScript( "unbind \"SHIFT-LEFT\"" ); // disable zooming
             doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
             doScript( MessageFormat.format( "background [{0},{1},{2}]", background.getRed(), background.getGreen(), background.getBlue() ) ); //TODO how to make background transparent?
 
