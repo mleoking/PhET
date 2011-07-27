@@ -487,11 +487,22 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         double changeInWaterHeight = beaker.getHeightForVolume( volumeDropped ) - beaker.getHeightForVolume( 0 );
         for ( Particle particle : particles ) {
             double yLocationInBeaker = particle.position.get().getY();
-            double fractionToTop = yLocationInBeaker / beaker.getHeightForVolume( waterVolume.get() );
+            double waterTopY = beaker.getHeightForVolume( waterVolume.get() );
+            double fractionToTop = yLocationInBeaker / waterTopY;
             particle.translate( 0, -changeInWaterHeight * fractionToTop );
+
+            //Prevent particles from leaving the top of the liquid
+            double topY = particle.getShape().getBounds2D().getMaxY();
+            if ( topY > waterTopY ) {
+                particle.translate( 0, ( waterTopY - topY - 1E-12 ) );
+            }
+
+            //More importantly, prevent particles from falling through the bottom of the beaker.
+            //This step must be done after prevention of particles leaving the top because falling through the bottom is worse (never returns), pushing through the top, particles
+            //would just fall back to the water level
             double bottomY = particle.getShape().getBounds2D().getMinY();
             if ( bottomY < 0 ) {
-                particle.translate( 0, -bottomY - 1E-12 );
+                particle.translate( 0, -bottomY + 1E-12 );
             }
         }
     }
