@@ -1,3 +1,4 @@
+7/26/11 check in SDF files obtained from PubChem (http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi)
 7/26/11 use KL's method of creating mep isosurface
 7/26/11 intermediate implementation of partial charge view (not positioned correctly)
 7/26/11 bond dipole view based on Vector2DNode
