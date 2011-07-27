@@ -15,7 +15,7 @@ MEDIUM
 LOW
 
 Jmol
-- switch to mol2
+- switch to mol2? sdf?
 - change labels to %[atomName]
 - make labels black and larger font
 - investigate partial charge (partialCharge property in Jmol)
