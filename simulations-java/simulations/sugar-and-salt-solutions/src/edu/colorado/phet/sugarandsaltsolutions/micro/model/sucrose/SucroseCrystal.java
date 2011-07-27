@@ -1,8 +1,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
@@ -22,11 +20,6 @@ public class SucroseCrystal extends Crystal<SucroseMolecule> {
                //Also, scale everything by the model sizeScale, including distances between atoms
                nanometersToMeters( 0.5 ) * sizeScale,
 
-               new Function2<Component, Double, SucroseMolecule>() {
-                   public SucroseMolecule apply( Component component, Double angle ) {
-                       return new SucroseMolecule( ImmutableVector2D.ZERO );
-                   }
-               },
                lattice
         );
     }

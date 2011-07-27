@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -44,11 +43,11 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Construct the compound from the specified lattice
-    public Compound( ImmutableVector2D position, double spacing, Function2<Component, Double, T> componentMaker, Lattice<? extends Lattice> lattice ) {
+    public Compound( ImmutableVector2D position, double spacing, Lattice<? extends Lattice> lattice ) {
         super( position );
 
         //Recursive method to traverse the graph and create particles
-        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D(), spacing, componentMaker );
+        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D(), spacing );
 
         //Update positions so the lattice position overwrites constituent particle positions
         stepInTime( new ImmutableVector2D(), 0.0 );
@@ -56,16 +55,16 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
 
 
     //Recursive method to traverse the graph and create particles
-    private void fill( Lattice<? extends Lattice> lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition, double spacing, Function2<Component, Double, T> componentMaker ) {
+    private void fill( Lattice<? extends Lattice> lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition, double spacing ) {
 
         //Create and add sucrose molecules in the right relative locations
-        constituents.add( new Constituent<T>( componentMaker.apply( component, angle ), relativePosition ) );
+        constituents.add( new Constituent<T>( (T) component.constructLatticeConstituent( angle ), relativePosition ) );
 
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
         for ( Bond bond : bonds ) {
             if ( !handled.contains( bond.destination ) ) {
-                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), spacing, componentMaker );
+                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), spacing );
             }
         }
     }

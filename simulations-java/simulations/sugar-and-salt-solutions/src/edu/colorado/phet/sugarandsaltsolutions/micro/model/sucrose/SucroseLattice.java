@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SucroseComponent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
