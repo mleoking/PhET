@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-public class Crystal extends Compound {
+public class Crystal<T extends Particle> extends Compound<T> {
     public Crystal( ImmutableVector2D position ) {
         super( position );
     }

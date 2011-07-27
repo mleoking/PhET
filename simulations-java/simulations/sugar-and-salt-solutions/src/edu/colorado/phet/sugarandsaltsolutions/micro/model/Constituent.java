@@ -7,11 +7,11 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-public class Constituent {
+public class Constituent<T extends Particle> {
     public final ImmutableVector2D location;
-    public final Particle particle;
+    public final T particle;
 
-    public Constituent( Particle particle, ImmutableVector2D location ) {
+    public Constituent( T particle, ImmutableVector2D location ) {
         this.location = location;
         this.particle = particle;
     }

@@ -250,10 +250,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         sodiumNitrateCrystals.add( crystal );
     }
 
-    //Add the components of the compound to the model so the graphics will be created
-    private void addComponents( Compound compound ) {
-        for ( Constituent constituent : compound ) {
-            sphericalParticles.add( (SphericalParticle) constituent.particle );
+    //Add all SphericalParticles contained in the compound so the graphics will be created
+    private void addComponents( Compound<? extends Particle> compound ) {
+        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
+            sphericalParticles.add( sphericalParticle );
         }
     }
 

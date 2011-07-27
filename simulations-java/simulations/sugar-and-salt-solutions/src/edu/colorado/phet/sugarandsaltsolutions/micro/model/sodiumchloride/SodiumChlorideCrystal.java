@@ -8,6 +8,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
@@ -18,7 +19,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
  *
  * @author Sam Reid
  */
-public class SodiumChlorideCrystal extends Crystal {
+public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
     public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice ) {
         super( position );
 
@@ -33,10 +34,10 @@ public class SodiumChlorideCrystal extends Crystal {
     private void fill( SodiumChlorideLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
         final double spacing = new ChlorideIonParticle().radius + new SodiumIonParticle().radius;
         if ( component instanceof SodiumIon ) {
-            constituents.add( new Constituent( new SodiumIonParticle(), relativePosition ) );
+            constituents.add( new Constituent<SphericalParticle>( new SodiumIonParticle(), relativePosition ) );
         }
         else {
-            constituents.add( new Constituent( new ChlorideIonParticle(), relativePosition ) );
+            constituents.add( new Constituent<SphericalParticle>( new ChlorideIonParticle(), relativePosition ) );
         }
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );

@@ -23,6 +23,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.barchart.BarItem;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
@@ -69,7 +71,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     if ( kit == 0 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
                                  new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
-                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ) );
+                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ) );
                     }
                     else if ( kit == 1 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
@@ -79,11 +81,11 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                     else if ( kit == 2 ) {
                         setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new SodiumIonParticle(), model.showChargeColor ) ) ),
                                  new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new ChlorideIonParticle(), model.showChargeColor ) ) ),
-                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode( transform, new NitrateMolecule( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) );
+                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode<Particle>( transform, new NitrateMolecule( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) );
                     }
                     else if ( kit == 3 ) {
-                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ),
-                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode( transform, new EthanolMolecule( ZERO ), model.showChargeColor ) ) ) );
+                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ),
+                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new EthanolMolecule( ZERO ), model.showChargeColor ) ) ) );
                     }
                 }
             } );
