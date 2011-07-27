@@ -48,6 +48,4 @@ public class AttachmentBar extends ShapeModelElement {
         shape = AffineTransform.getTranslateInstance( pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( shape );
         return shape;
     }
-
-
 }
