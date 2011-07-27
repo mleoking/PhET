@@ -109,7 +109,9 @@ public class JmolViewerNode extends PhetPNode {
     public void setAtomLabelsVisible( boolean visible ) {
         atomLabelsVisible = visible;
         if ( visible ) {
-            doScript( "label on" );
+            doScript( "label %[element]%[atomIndex]" );
+            doScript( "color labels black" );
+            doScript( "font labels 18" );
         }
         else {
             doScript( "label off" );

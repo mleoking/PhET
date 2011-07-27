@@ -1,3 +1,4 @@
+7/26/11 increase font size of Jmol labels, set label color to black for all atoms
 # 0.00.03 (54557) Jul 27, 2011
 7/26/11 use KL's list of molecules and SDF files
 7/26/11 check in SDF files obtained from PubChem (http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi)
