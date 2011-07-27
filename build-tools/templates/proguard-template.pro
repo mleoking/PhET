@@ -87,51 +87,31 @@
     public static javax.swing.plaf.ComponentUI createUI(javax.swing.JComponent);
 }
 
-#Necessary for JMol-phet classes if you are using PDB file content, as is currently done in Sugar and Salt Solutions
+##########################################################
+# begin sugar-and-salt-solutions dependencies
+# TODO move to project-specific file
 -keep class org.jmol.adapter.readers.cifpdb.PdbReader{
 <fields>;
 <methods>;
 }
+# end sugar-and-salt-solutions Jmol dependencies
+##########################################################
 
--keep class org.jmol.adapter.readers.quantum.SpartanSmolReader{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shapespecial.Dipoles{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shapespecial.DipolesRenderer{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shapesurface.Isosurface{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shapesurface.IsosurfaceRenderer{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shape.Labels{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.shape.LabelsRenderer{
-<fields>;
-<methods>;
-}
-
--keep class org.jmol.quantum.MepCalculation{
-<fields>;
-<methods>;
-}
+##########################################################
+# begin molecule-polarity dependencies
+# TODO move to project-specific file
+-keep class org.jmol.adapter.readers.quantum.SpartanSmolReader
+-keep class org.jmol.adapter.readers.molxyz.MolReader
+-keep class org.jmol.shapespecial.Dipoles
+-keep class org.jmol.shapespecial.DipolesRenderer
+-keep class org.jmol.shapesurface.Isosurface
+-keep class org.jmol.shapesurface.IsosurfaceRenderer
+-keep class org.jmol.shape.Labels
+-keep class org.jmol.shape.LabelsRenderer
+-keep class org.jmol.quantum.MepCalculation
+-keep class org.jmol.shape.Echo
+# end molecule-polarity Jmol dependencies
+##########################################################
 
 ##########
 # SimSharing features that use Akka
@@ -187,10 +167,9 @@
     <methods>;
 }
 
-#
-##############
-# JMol (test build-a-molecule if this is changed)
-
+##########################################################
+# begin build-a-molecule dependencies
+# TODO move to project-specific file
 # we actually don't need other things under org.jmol.shape, so leave this as-is
 -keep class org.jmol.adapter.readers.xml.XmlCmlReader
 -keep class org.jmol.shape.Balls
@@ -205,8 +184,8 @@
 -keep class org.jmol.shape.BbcageRenderer
 -keep class org.jmol.shape.Measures
 -keep class org.jmol.shape.MeasuresRenderer
-
-##############
+# end build-a-molecule dependencies
+##########################################################
 
 #JMonkeyengine dependencies
 #TODO: factor out to project properties files
