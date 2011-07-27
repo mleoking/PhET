@@ -61,7 +61,7 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "unbind \"_popupMenu\"" ); // disable popup menu
             doScript( "unbind \"SHIFT-LEFT\"" ); // disable zooming
             doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
-            doScript( MessageFormat.format( "background [{0},{1},{2}]", background.getRed(), background.getGreen(), background.getBlue() ) ); //TODO how to make background transparent?
+            doScript( "background " + JmolViewerNode.toJmolColor( background ) ); //TODO how to make background transparent?
 
             setMolecule( molecule );
         }
@@ -95,9 +95,9 @@ public class JmolViewerNode extends PhetPNode {
         doScript( "select all" ); // be polite to other scripts that assume that everything is selected
     }
 
-    // Converts an AWT Color to a String of the form "[xRRGGBB]", eg "[xff00f0]".
-    private static String toJmolColor( Color color ) {
-        return "[x" + Integer.toHexString( color.getRGB() & 0x00ffffff ) + "]";
+    // Converts an AWT Color to a Jmol RGB-color argument, a String of the form "[R,G,B]". Eg, Color.ORANGE -> eg "[255,200,0]".
+    public static String toJmolColor( Color color ) {
+        return MessageFormat.format( "[{0},{1},{2}]", color.getRed(), color.getGreen(), color.getBlue() );
     }
 
     public void doScript( String script ) {
