@@ -16,21 +16,19 @@ LOW
 
 Jmol
 - switch to mol2? sdf?
-- change labels to %[atomName]
-- investigate partial charge (partialCharge property in Jmol)
+- change numbering of atom labels to be per atom type
 - units for partial charge? e?
 - Jmol integration with Piccolo (PSwing? other options?)
-- why doesn't MEP work for water.smol?
 - how to create smol files?
 - can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
-- how to show partial charges with Jmol?
+- how to show partial charges independently of atom labels?
 - how to align Jmol molecule with E-Field?
-- how to create a Jmol custom isosurface for KP's electron density view?
+- how to create a Jmol custom isosurface for "electron density" view?
 - how to set initial orientation for Jmol viewer?
-- why does MEP look lumpy for some molecules?
-- figure out how to make all bonds and molecules translucent and move bond dipoles to centers of bonds
+- move bond dipoles to centers of bonds
+- move molecule dipole to ___?
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
-- how to set a fully transparent background for Jmol viewer?
+- how to set a transparent background for Jmol viewer?
 - startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 
 MIGRATE TO PHETCOMMON
