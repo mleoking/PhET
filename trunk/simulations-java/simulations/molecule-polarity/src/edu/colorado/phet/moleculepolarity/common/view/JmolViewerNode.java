@@ -115,12 +115,13 @@ public class JmolViewerNode extends PhetPNode {
         setElectrostaticPotentialVisible( electrostaticPotentialVisible );
         doScript( "hover off" ); // don't display labels when hovering over atoms
         updateAtomLabels();
+        updateTranslucency();
     }
 
     private void setBallAndStick() {
         doScript( "wireframe 0.1 " ); // draw bonds as lines
         doScript( "spacefill 25%" ); // render atoms as a percentage of the van der Waals radius
-        doScript( "color bonds black translucent" ); // color for all bonds
+        doScript( "color bonds black" ); // color for all bonds
     }
 
     public void setAtomLabelsVisible( boolean visible ) {
@@ -148,6 +149,12 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
+    private void updateTranslucency() {
+        String arg = ( bondDipolesVisible || molecularDipoleVisible ) ? "0.25" : "0.0"; // 0.0=opaque, 1.0=transparent
+        doScript( "color atoms translucent " + arg );
+        doScript( "color bonds translucent " + arg );
+    }
+
     public void setBondDipolesVisible( boolean visible ) {
         bondDipolesVisible = visible;
         if ( visible ) {
@@ -156,6 +163,7 @@ public class JmolViewerNode extends PhetPNode {
         else {
             doScript( "dipole bonds off" );
         }
+        updateTranslucency();
     }
 
     public void setMolecularDipoleVisible( boolean visible ) {
@@ -166,6 +174,7 @@ public class JmolViewerNode extends PhetPNode {
         else {
             doScript( "dipole molecular off" );
         }
+        updateTranslucency();
     }
 
     public void setPartialChargeVisible( boolean visible ) {
