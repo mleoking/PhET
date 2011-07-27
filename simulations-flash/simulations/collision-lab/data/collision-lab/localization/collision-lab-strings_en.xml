@@ -16,16 +16,20 @@
     <string key="DataTable.moreData" value="More Data"/>
     <string key="DataTable.lessData" value="Less Data"/>
     <string key="DataTable.ball" value="Ball"/>
-    <string key="DataTable.mass" value="Mass"/>
     <string key="DataTable.x" value="x"/>
     <string key="DataTable.y" value="y"/>
     <string key="DataTable.vx" value="Vx"/>
     <string key="DataTable.vy" value="Vy"/>
     <string key="DataTable.px" value="Px"/>
     <string key="DataTable.py" value="Py"/>
+    <string key="DataTable.mass" value="Mass"/>
+    <string key="DataTable.massWithUnits" value="Mass (kg)"/>
     <string key="DataTable.position" value="Position"/>
+    <string key="DataTable.positionWithUnits" value="Position (m)"/>
     <string key="DataTable.velocity" value="Velocity"/>
+    <string key="DataTable.velocityWithUnits" value="Velocity (m/s)"/>
     <string key="DataTable.momentum" value="Momentum"/>
+    <string key="DataTable.momentumWithUnits" value="Momentum (kg m/s)"/>
     <string key="DataTable.units.kilograms" value="kg"/>
     <string key="DataTable.units.meters" value="m"/>
     <string key="DataTable.units.metersPerSecond" value="m/s"/>

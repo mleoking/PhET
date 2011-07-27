@@ -61,7 +61,7 @@ public class DataTable extends Sprite {
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
-        colWidth = myModel.isIntro ? 90 : 60;
+        colWidth = myModel.isIntro ? 90 : 80;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
@@ -224,7 +224,8 @@ public class DataTable extends Sprite {
         var del: Number = bWidth / 2;
 
         // how much we need to chop off the top in the Intro tab when we are not showing more. top row shouldn't be visible
-        var offTopOffset = (!showingMore && myModel.isIntro) ? rowHeight : 0;
+        //var offTopOffset = (!showingMore && myModel.isIntro) ? rowHeight : 0;
+        var offTopOffset: Number = 0;
 
         g.clear();
         g.lineStyle( bWidth, 0x2222ff );
@@ -250,11 +251,11 @@ public class DataTable extends Sprite {
      * Row number of the main header row
      */
     public function get headerRowNbr(): int {
-        return myModel.isIntro ? 1 : 0;
+        return 0;
     }
 
     public function get unitsRowNbr(): int {
-        return myModel.isIntro ? 2 : 1;
+        return 1;
     }
 
     /**
@@ -267,33 +268,45 @@ public class DataTable extends Sprite {
     //header row is
     //ball	mass	x	y	vx	vy	px	py,   no radius for now
     private function makeHeaderRow(): void {
-        text_arr[headerRowNbr][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
-        text_arr[headerRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
-        text_arr[headerRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
-        text_arr[headerRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
-        text_arr[headerRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
-
-        text_arr[unitsRowNbr][ballColumnNbr].text = "";
-        text_arr[unitsRowNbr][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
-        text_arr[unitsRowNbr][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-        text_arr[unitsRowNbr][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-        text_arr[unitsRowNbr][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         if ( myModel.isIntro ) {
             // add a column above the main header row
-            text_arr[0][ballColumnNbr].text = "";
-            text_arr[0][massColumnNbr].text = "";
+            text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+            text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.mass", "Mass" );
             text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.position", "Position" );
             text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocity", "Velocity" );
             text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentum", "Momentum" );
+
+            text_arr[1][ballColumnNbr].text = "";
+            text_arr[1][massColumnNbr].text = SimStrings.get( "DataTable.units.kilograms", "kg" );
+            text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
+            text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
+            text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
         }
         else {
             // advanced-only headers
-            text_arr[headerRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
-            text_arr[headerRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
-            text_arr[headerRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
-            text_arr[unitsRowNbr][yColumnNbr].text = SimStrings.get( "DataTable.units.meters", "m" );
-            text_arr[unitsRowNbr][vyColumnNbr].text = SimStrings.get( "DataTable.units.metersPerSecond", "m/s" );
-            text_arr[unitsRowNbr][pyColumnNbr].text = SimStrings.get( "DataTable.units.kilogramMetersPerSecond", "kg m/s" );
+            text_arr[0][ballColumnNbr].text = SimStrings.get( "DataTable.ball", "Ball" );
+            text_arr[0][massColumnNbr].text = SimStrings.get( "DataTable.massWithUnits", "Mass (kg)" );
+
+            text_arr[0][xColumnNbr].width = text_arr[0][xColumnNbr].width * 2;
+            text_arr[0][xColumnNbr].text = SimStrings.get( "DataTable.positionWithUnits", "Position (m)" );
+            text_arr[0][yColumnNbr].text = "";
+
+            text_arr[0][vxColumnNbr].width = text_arr[0][vxColumnNbr].width * 2;
+            text_arr[0][vxColumnNbr].text = SimStrings.get( "DataTable.velocityWithUnits", "Velocity (m/s)" );
+            text_arr[0][vyColumnNbr].text = "";
+
+            text_arr[0][pxColumnNbr].width = text_arr[0][pxColumnNbr].width * 2;
+            text_arr[0][pxColumnNbr].text = SimStrings.get( "DataTable.momentumWithUnits", "Momentum (kg m/s)" );
+            text_arr[0][pyColumnNbr].text = "";
+
+            text_arr[1][ballColumnNbr].text = "";
+            text_arr[1][massColumnNbr].text = "";
+            text_arr[1][xColumnNbr].text = SimStrings.get( "DataTable.x", "x" );
+            text_arr[1][vxColumnNbr].text = SimStrings.get( "DataTable.vx", "Vx" );
+            text_arr[1][pxColumnNbr].text = SimStrings.get( "DataTable.px", "Px" );
+            text_arr[1][yColumnNbr].text = SimStrings.get( "DataTable.y", "y" );
+            text_arr[1][vyColumnNbr].text = SimStrings.get( "DataTable.vy", "Vy" );
+            text_arr[1][pyColumnNbr].text = SimStrings.get( "DataTable.py", "Py" );
         }
         tFormat.bold = true;
         for ( var row: int = 0; row < maxRows; row++ ) {
