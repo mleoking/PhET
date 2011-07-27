@@ -104,7 +104,9 @@ public class JmolViewerNode extends PhetPNode {
     }
 
     private void setBallAndStick() {
-        doScript( "wireframe 0.2; spacefill 25%" );
+        doScript( "wireframe 0.1 " ); // draw bonds as lines
+        doScript( "spacefill 25%" ); // render atoms as a percentage of the van der Waals radius
+        doScript( "color bonds black" ); // color for all bonds
     }
 
     public void setAtomLabelsVisible( boolean visible ) {
