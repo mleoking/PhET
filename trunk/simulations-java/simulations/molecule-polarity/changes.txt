@@ -1,5 +1,5 @@
 7/26/11 Jmol: customize color and thickness of bonds, doc ball-and-stick script commands
-7/26/11 Jmol: isplay partial charge as part of atom label
+7/26/11 Jmol: display partial charge as part of atom label
 7/26/11 Jmol: increase font size of Jmol labels, set label color to black for all atoms
 # 0.00.03 (54557) Jul 27, 2011
 7/26/11 Jmol: use KL's list of molecules and SDF files
