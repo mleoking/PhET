@@ -18,6 +18,7 @@ Jmol
 - switch to mol2? sdf?
 - change labels to %[atomName]
 - investigate partial charge (partialCharge property in Jmol)
+- units for partial charge? e?
 - Jmol integration with Piccolo (PSwing? other options?)
 - why doesn't MEP work for water.smol?
 - how to create smol files?

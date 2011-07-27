@@ -1,3 +1,4 @@
+7/26/11 display partial charge as part of atom label in Jmol
 7/26/11 increase font size of Jmol labels, set label color to black for all atoms
 # 0.00.03 (54557) Jul 27, 2011
 7/26/11 use KL's list of molecules and SDF files

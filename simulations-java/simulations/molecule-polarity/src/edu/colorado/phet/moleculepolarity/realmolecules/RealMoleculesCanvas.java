@@ -110,6 +110,12 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
+            viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    viewerNode.setPartialChargeVisible( visible );
+                }
+            } );
+
             viewProperties.atomLabelsVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     viewerNode.setAtomLabelsVisible( visible );
