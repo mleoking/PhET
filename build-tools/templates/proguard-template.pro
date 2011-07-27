@@ -527,6 +527,7 @@
 -keep class org.jmol.shape.LabelsRenderer
 -keep class org.jmol.quantum.MepCalculation
 -keep class org.jmol.shape.Echo
+-keep class org.jmol.shape.Hover
 # end molecule-polarity dependencies
 
 #####################################################################################################
