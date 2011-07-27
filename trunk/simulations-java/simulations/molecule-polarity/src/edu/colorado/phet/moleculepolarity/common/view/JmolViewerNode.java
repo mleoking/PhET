@@ -114,12 +114,13 @@ public class JmolViewerNode extends PhetPNode {
         setMolecularDipoleVisible( molecularDipoleVisible );
         setElectrostaticPotentialVisible( electrostaticPotentialVisible );
         doScript( "hover off" ); // don't display labels when hovering over atoms
+        updateAtomLabels();
     }
 
     private void setBallAndStick() {
         doScript( "wireframe 0.1 " ); // draw bonds as lines
         doScript( "spacefill 25%" ); // render atoms as a percentage of the van der Waals radius
-        doScript( "color bonds black" ); // color for all bonds
+        doScript( "color bonds black translucent" ); // color for all bonds
     }
 
     public void setAtomLabelsVisible( boolean visible ) {
