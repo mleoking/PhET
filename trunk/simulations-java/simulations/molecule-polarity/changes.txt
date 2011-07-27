@@ -1,3 +1,4 @@
+# 0.00.04 (54576) Jul 27, 2011
 7/27/11 Jmol: order molecules in combo box by increasing size/complexity
 7/27/11 Jmol: make bond and atoms translucent when dipoles are visible
 7/27/11 Jmol: use custom (colorblind) red for oxygen atoms
