@@ -1,3 +1,4 @@
+Micro tab: Factored out duplicated code in lattice construction
 Micro tab: Fixed dissolving for sodium nitrate
 Micro tab: Added generic type parameters to Compound and fixed sucrose crystal dissolving
 Micro tab: Crystals dissolve faster

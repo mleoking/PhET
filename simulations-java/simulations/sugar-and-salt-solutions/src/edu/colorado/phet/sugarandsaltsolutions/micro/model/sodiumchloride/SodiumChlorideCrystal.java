@@ -1,18 +1,13 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
-import java.util.ArrayList;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
-
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -21,30 +16,15 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
  */
 public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
     public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice ) {
-        super( position );
-
-        //Recursive method to traverse the graph and create particles
-        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D() );
-
-        //Update positions so the lattice position overwrites constituent particle positions
-        stepInTime( ZERO, 0.0 );
-    }
-
-    //Recursive method to traverse the graph and create particles
-    private void fill( SodiumChlorideLattice lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition ) {
-        final double spacing = new ChlorideIonParticle().radius + new SodiumIonParticle().radius;
-        if ( component instanceof SodiumIon ) {
-            constituents.add( new Constituent<SphericalParticle>( new SodiumIonParticle(), relativePosition ) );
-        }
-        else {
-            constituents.add( new Constituent<SphericalParticle>( new ChlorideIonParticle(), relativePosition ) );
-        }
-        handled.add( component );
-        ArrayList<Bond> bonds = lattice.getBonds( component );
-        for ( Bond bond : bonds ) {
-            if ( !handled.contains( bond.destination ) ) {
-                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ) );
-            }
-        }
+        super( position, new ChlorideIonParticle().radius + new SodiumIonParticle().radius, new Function2<Component, Double, SphericalParticle>() {
+                   public SphericalParticle apply( Component component, Double angle ) {
+                       if ( component instanceof SodiumIon ) {
+                           return new SodiumIonParticle();
+                       }
+                       else {
+                           return new ChlorideIonParticle();
+                       }
+                   }
+               }, lattice );
     }
 }
