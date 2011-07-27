@@ -1,3 +1,4 @@
+# 0.00.03 (54551) Jul 27, 2011
 7/26/11 use KL's list of molecules and SDF files
 7/26/11 check in SDF files obtained from PubChem (http://pubchem.ncbi.nlm.nih.gov/summary/summary.cgi)
 7/26/11 use KL's method of creating mep isosurface
