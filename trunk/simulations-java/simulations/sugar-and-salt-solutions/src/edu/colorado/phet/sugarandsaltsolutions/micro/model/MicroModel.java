@@ -488,7 +488,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         for ( Particle particle : particles ) {
             double yLocationInBeaker = particle.position.get().getY();
             double fractionToTop = yLocationInBeaker / beaker.getHeightForVolume( waterVolume.get() );
-            particle.position.set( particle.position.get().minus( 0, changeInWaterHeight * fractionToTop ) );
+            particle.translate( 0, -changeInWaterHeight * fractionToTop );
+            double bottomY = particle.getShape().getBounds2D().getMinY();
+            if ( bottomY < 0 ) {
+                particle.translate( 0, -bottomY - 1E-12 );
+            }
         }
     }
 
