@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.text.MessageFormat;
+import java.util.logging.Level;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -15,6 +16,7 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
+import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
@@ -31,6 +33,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  */
 public class JmolViewerNode extends PhetPNode {
 
+    private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( JmolViewerNode.class.getCanonicalName() );
+
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, electrostaticPotentialVisible, partialChargeVisible, atomLabelsVisible;
 
@@ -40,7 +44,7 @@ public class JmolViewerNode extends PhetPNode {
         addInputEventListener( new CursorHandler() );
     }
 
-    //TODO consider merging this with jmol-phet JmolPanel
+    //TODO consider merging this with jmol-phet.*.JmolPanel
     // Container for Jmol viewer
     private static class ViewerPanel extends JPanel {
 
@@ -84,7 +88,7 @@ public class JmolViewerNode extends PhetPNode {
             // load the molecule data
             String errorString = viewer.openStringInline( molecule.getData() );
             if ( errorString != null ) {
-                throw new RuntimeException( "Jmol problem: " + errorString ); //TODO improve exception handling
+                LOGGER.log( Level.SEVERE, "Jmol says: " + errorString ); //TODO improve error handling
             }
         }
     }
