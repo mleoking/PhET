@@ -102,6 +102,7 @@ public class JmolViewerNode extends PhetPNode {
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
         setElectrostaticPotentialVisible( electrostaticPotentialVisible );
+        doScript( "hover off" ); // don't display labels when hovering over atoms
     }
 
     private void setBallAndStick() {

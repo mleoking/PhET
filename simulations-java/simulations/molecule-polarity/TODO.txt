@@ -32,7 +32,6 @@ Jmol
 - figure out how to make all bonds and molecules translucent and move bond dipoles to centers of bonds
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
 - how to set a fully transparent background for Jmol viewer?
-- hovering over an atom in Jmol viewer displays the atom's name, do we want that?
 - startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 
 MIGRATE TO PHETCOMMON
