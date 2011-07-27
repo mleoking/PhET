@@ -78,16 +78,6 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         else { throw new RuntimeException( "Unknown bond type: " + bond ); }
     }
 
-    //TODO: no usages found, can it be deleted?
-    public boolean contains( Particle particle ) {
-        for ( Constituent constituent : constituents ) {
-            if ( constituent.particle == particle ) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     //Set the position of the compound, and update the location of all constituents
     //TODO: there is also a public api for setting the position of the compound through Property<ImmutableVector2D>, but which does not update the constituent locations
     //Maybe this method should auto-call when that property changes, or the property shouldn't be public
@@ -126,18 +116,6 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
 
     public double getUnderWaterTime() {
         return underwaterTime.get();
-    }
-
-    //Count the lattice constituent particles with the specified type, for purposes of computing concentrations
-    //TODO: no usages found, can it be deleted
-    public int count( Class<?> particleType ) {
-        int count = 0;
-        for ( Constituent constituent : constituents ) {
-            if ( particleType.isInstance( constituent.particle ) ) {
-                count++;
-            }
-        }
-        return count;
     }
 
     //Returns the number of constituents in the compound
