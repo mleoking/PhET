@@ -1,3 +1,5 @@
+Micro tab: Fixed: When evaporating too much, particles can be pushed into the floor of the beaker
+Micro tab: Fixed saturation point for NaNO3 and CaCl2
 Micro tab: Added Component=>Particle method
 Micro tab: Factored out duplicated code in lattice construction
 Micro tab: Fixed dissolving for sodium nitrate
