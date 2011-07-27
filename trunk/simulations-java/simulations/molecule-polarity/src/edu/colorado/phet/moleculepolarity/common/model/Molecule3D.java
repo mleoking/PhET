@@ -9,8 +9,6 @@ import java.io.InputStreamReader;
 
 import javax.swing.JFileChooser;
 
-import org.jmol.api.JmolViewer;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.moleculepolarity.MPConstants;
@@ -60,11 +58,6 @@ public class Molecule3D {
             line = structureReader.readLine();
         }
         return s;
-    }
-
-    //TODO need an example of how to change colors for atoms, dipoles, etc.
-    public void adjustColors( JmolViewer viewer ) {
-        // default does nothing
     }
 
     /*
