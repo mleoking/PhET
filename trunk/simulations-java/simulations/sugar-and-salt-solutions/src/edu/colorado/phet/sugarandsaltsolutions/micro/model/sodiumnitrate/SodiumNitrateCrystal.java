@@ -2,16 +2,11 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.function.Function2;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NitrogenIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
-
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -25,15 +20,6 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     public static final double NITROGEN_OXYGEN_SPACING = ( new NitrogenIonParticle().radius + new FreeOxygenIonParticle().radius ) * 0.85;
 
     public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice ) {
-        super( position, new SodiumIonParticle().radius * 2 + NITROGEN_OXYGEN_SPACING, new Function2<Component, Double, Particle>() {
-                   public Particle apply( Component component, Double angle ) {
-                       if ( component instanceof SodiumIon ) {
-                           return new SodiumIonParticle();
-                       }
-                       else {
-                           return new NitrateMolecule( angle, ZERO );
-                       }
-                   }
-               }, lattice );
+        super( position, new SodiumIonParticle().radius * 2 + NITROGEN_OXYGEN_SPACING, lattice );
     }
 }
