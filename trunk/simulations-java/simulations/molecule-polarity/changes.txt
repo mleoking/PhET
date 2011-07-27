@@ -1,3 +1,4 @@
+7/27/11 Jmol: order molecules in combo box by increasing size/complexity
 7/27/11 Jmol: make bond and atoms translucent when dipoles are visible
 7/27/11 Jmol: use custom (colorblind) red for oxygen atoms
 7/27/11 Jmol: remove duplicate code in readers for files and jar resources
