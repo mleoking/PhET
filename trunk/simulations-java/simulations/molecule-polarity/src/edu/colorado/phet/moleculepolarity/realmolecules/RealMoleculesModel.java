@@ -6,14 +6,7 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Ammonia;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.BoronTrifluoride;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Formaldehyde;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.HydrogenFluoride;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Methane;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.MethylFluoride;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Water;
 
 /**
  * Model for the "Real Molecules" module.
@@ -24,15 +17,20 @@ public class RealMoleculesModel extends MPModel {
 
     private final ArrayList<Molecule3D> molecules;
 
+    //TODO i18n of molecule names
     public RealMoleculesModel() {
         molecules = new ArrayList<Molecule3D>() {{
-            add( new Ammonia() );
-            add( new BoronTrifluoride() );
-            add( new Formaldehyde() );
-            add( new HydrogenFluoride() );
-            add( new Methane() );
-            add( new MethylFluoride() );
-            add( new Water() );
+            add( new Molecule3D( "NH3", "ammonia", "jmol/ammonia.sdf" ) );
+            add( new Molecule3D( "BF3", "boron trifluoride", "jmol/X-2D-boron-trifluoride.sdf" ) );
+            add( new Molecule3D( "CO2", "carbon dioxide", "jmol/carbon-dioxide.sdf" ) );
+            add( new Molecule3D( "CHCl3", "chloroform", "jmol/chloroform.sdf" ) );
+            add( new Molecule3D( "CH3F", "fluoromethane", "jmol/fluoromethane.sdf" ) );
+            add( new Molecule3D( "CH2O", "formaldehyde", "jmol/formaldehyde.sdf" ) );
+            add( new Molecule3D( "H2", "hydrogen", "jmol/X-2D-hydrogen.sdf" ) );
+            add( new Molecule3D( "HCN", "hydrogen cyanide", "jmol/hydrogen-cyanide.sdf" ) );
+            add( new Molecule3D( "HF", "hydrogen fluoride", "jmol/hydrogen-fluoride.sdf" ) );
+            add( new Molecule3D( "CH4", "methane", "jmol/X-3D-methane.sdf" ) );
+            add( new Molecule3D( "H2O", "water", "jmol/water.sdf" ) );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 add( new ImportMolecule() );
             }

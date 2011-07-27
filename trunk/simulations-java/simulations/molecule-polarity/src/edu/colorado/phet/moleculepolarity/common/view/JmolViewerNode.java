@@ -19,7 +19,6 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.Ammonia;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -152,7 +151,8 @@ public class JmolViewerNode extends PhetPNode {
         final PhetPCanvas canvas = new PhetPCanvas() {{
             setPreferredSize( new Dimension( 1024, 768 ) );
             setBackground( Color.LIGHT_GRAY );
-            JmolViewerNode viewerNode = new JmolViewerNode( new Ammonia(), getBackground(), new Dimension( 400, 400 ) );
+            Molecule3D molecule = new Molecule3D( "NH3", "ammonia", "jmol/ammonia.sdf" );
+            JmolViewerNode viewerNode = new JmolViewerNode( molecule, getBackground(), new Dimension( 400, 400 ) );
             getLayer().addChild( viewerNode );
             viewerNode.setOffset( 100, 100 );
         }};
