@@ -27,7 +27,7 @@ public class MPConstants {
 
     // View
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
-    public static final Color CANVAS_COLOR = new Color( 215, 255, 229 ); // light green
+    public static final Color CANVAS_COLOR = Color.WHITE;
     public static final Color NEGATIVE_COLOR = Color.BLUE;
     public static final Color POSITIVE_COLOR = PhetColorScheme.RED_COLORBLIND;
     public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
