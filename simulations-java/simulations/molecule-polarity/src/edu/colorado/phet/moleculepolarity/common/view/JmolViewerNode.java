@@ -115,14 +115,16 @@ public class JmolViewerNode extends PhetPNode {
         String args = "";
         if ( atomLabelsVisible || partialChargeVisible ) {
             if ( atomLabelsVisible ) {
-                args += " %[element]%[atomIndex]";
+                args += " %[element]%[atomIndex]"; // show element and sequential atom index
             }
             if ( partialChargeVisible ) {
-                args += " %[partialCharge]";
+                args += " \u03B4=%[partialCharge]"; // show partial charge
             }
             doScript( "label " + args );
-            doScript( "color labels black" );
-            doScript( "font labels 18" );
+            doScript( "set labelalignment center; set labeloffset 0 0" );  // center labels on atoms
+            doScript( "set labelfront" ); // make labels float in front of atoms
+            doScript( "color labels black" ); // color for all labels
+            doScript( "font labels 18 sanserif" ); // font for all labels
         }
         else {
             doScript( "label off" );
