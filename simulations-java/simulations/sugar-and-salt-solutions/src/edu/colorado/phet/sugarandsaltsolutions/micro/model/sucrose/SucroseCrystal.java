@@ -7,12 +7,9 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
-import static java.lang.Math.PI;
-import static java.lang.Math.random;
 
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together
@@ -49,18 +46,4 @@ public class SucroseCrystal extends Crystal<SucroseMolecule> {
             }
         }
     }
-
-    //Breaks apart the sucrose crystal, but keeps sucrose as molecules
-    public ArrayList<? extends Particle> dissolve() {
-        ArrayList<Particle> freeParticles = new ArrayList<Particle>();
-        for ( final Constituent<SucroseMolecule> constituent : constituents ) {
-            SucroseMolecule sucroseMolecule = constituent.particle;
-            sucroseMolecule.position.set( position.get() );
-            sucroseMolecule.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
-            freeParticles.add( sucroseMolecule );
-        }
-        return freeParticles;
-    }
-
-    //TODO: implement dissolving single molecule
 }
