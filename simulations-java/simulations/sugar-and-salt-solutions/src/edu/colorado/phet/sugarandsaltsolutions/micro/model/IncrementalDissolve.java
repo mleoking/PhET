@@ -32,7 +32,7 @@ public class IncrementalDissolve implements DissolveStrategy {
 
         //Remove the crystal from the list so it will no longer keep its constituents together
         if ( crystal.numberConstituents() == 0 ) {
-            crystals.getItems().remove( crystal );
+            crystals.remove( crystal );
         }
     }
 }

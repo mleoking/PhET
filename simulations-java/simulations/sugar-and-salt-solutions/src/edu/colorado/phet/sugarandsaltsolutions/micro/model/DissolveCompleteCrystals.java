@@ -19,7 +19,7 @@ public class DissolveCompleteCrystals implements DissolveStrategy {
         ArrayList<? extends Particle> components = crystal.dissolve();
 
         //Remove the crystal from the list so it will no longer keep its constituents together
-        crystals.getItems().remove( crystal );
+        crystals.remove( crystal );
 
         //Add the released particles into the set of free particles so they will move with random motion
         freeParticles.addAll( components );

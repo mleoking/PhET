@@ -31,8 +31,12 @@ public class SphericalParticleNodeFactory implements VoidFunction1<SphericalPart
         canvas.addChild( node );
         list.addItemRemovedListener( new VoidFunction1<SphericalParticle>() {
             public void apply( SphericalParticle sphericalParticle ) {
-                list.removeItemRemovedListener( this );
-                canvas.removeChild( node );
+
+                //Only remove the node if it corresponded to the node we created
+                if ( sphericalParticle == node.getSphericalParticle() ) {
+                    list.removeItemRemovedListener( this );
+                    canvas.removeChild( node );
+                }
             }
         } );
     }

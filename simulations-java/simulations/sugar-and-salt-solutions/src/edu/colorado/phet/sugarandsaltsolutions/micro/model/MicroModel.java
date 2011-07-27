@@ -26,6 +26,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.ChlorideIon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
@@ -37,6 +39,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
@@ -79,7 +82,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
     //Lists of compounds
-    public final ItemList<SodiumChlorideCrystal> saltCrystals = new ItemList<SodiumChlorideCrystal>();
+    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
@@ -112,6 +115,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Strategy rule to use for dissolving the crystals
     private DissolveStrategy dissolveStrategy = new IncrementalDissolve();
+
+    //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
+    private double lastNaClCrystallizationTime;
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
@@ -244,7 +250,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: separate list for NaCl crystals so no cast required here?
             sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
-        saltCrystals.add( sodiumChlorideCrystal );
+        sodiumChlorideCrystals.add( sodiumChlorideCrystal );
     }
 
     public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
@@ -281,6 +287,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
     }
 
+    //Determine saturation points
+    double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
+    double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
+    double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
+    double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
+
+    ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
+
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
@@ -288,58 +302,83 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Move the free particles randomly
         updateParticles( dt, freeParticles );
 
-        //Determine saturation points
-        double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
-        double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
-        double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
-        double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
-        updateDissolvableCrystals( dt, saltCrystals, sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, calciumChlorideCrystals, calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
-        updateDissolvableCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
-
         //No saturation point for ethanol, which is miscible
+        updateCrystals( dt, sodiumChlorideCrystals, sodiumChlorideUnsaturated );
+        updateCrystals( dt, calciumChlorideCrystals, calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint ) ) );
+        updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
+        updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
+
+        formNaClCrystals( sodiumChlorideUnsaturated );
+    }
+
+    //Check to see whether it is time to create or add to existing crystals, if the solution is over saturated
+    private void formNaClCrystals( ObservableProperty<Boolean> sodiumChlorideUnsaturated ) {
+        double timeSinceLast = time - lastNaClCrystallizationTime;
+
+        //Make sure at least 1 second has passed, then convert to crystals
+        if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 ) {
+            lastNaClCrystallizationTime = time;
+            convertToCrystal( SodiumIonParticle.class, new SodiumIon() );
+            convertToCrystal( ChlorideIonParticle.class, new ChlorideIon() );
+        }
+    }
+
+    //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
+    private void convertToCrystal( Class<? extends Particle> particle, Component component ) {
+        ArrayList<Particle> p = freeParticles.filter( particle );
+        if ( p.size() > 0 ) {
+            //If there is no crystal, create one with one particle
+            Particle firstParticle = p.get( 0 );
+            SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( firstParticle.position.get(), new SodiumChlorideLattice( component ) );
+
+            freeParticles.remove( firstParticle );
+            sphericalParticles.remove( firstParticle );
+
+            addSaltCrystal( crystal );
+
+            //If there is already a crystal, let it grab nearby particles
+        }
     }
 
     //Update the crystals by moving them about and possibly dissolving them
-    private void updateDissolvableCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> unsaturated ) {
+    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> unsaturated ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
-        for ( Crystal lattice : crystals ) {
+        for ( Crystal crystal : crystals ) {
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E10;
 
             //Cache the value to improve performance by 30% when number of particles is large
-            final boolean anyPartUnderwater = isAnyPartUnderwater( lattice );
+            final boolean anyPartUnderwater = isAnyPartUnderwater( crystal );
 
             //If any part touched the water, the lattice should slow down and move at a constant speed
             if ( anyPartUnderwater ) {
-                lattice.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+                crystal.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
             }
 
             //If completely underwater, lattice should prepare to dissolve
-            if ( isCompletelyUnderwater( lattice ) && !lattice.isUnderwater() ) {
-                lattice.setUnderwater( time );
+            if ( isCompletelyUnderwater( crystal ) && !crystal.isUnderwater() ) {
+                crystal.setUnderwater( time );
             }
-            lattice.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
+            crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
 
             //Collide with the bottom of the beaker
-            double minY = lattice.getShape().getBounds2D().getMinY();
+            double minY = crystal.getShape().getBounds2D().getMinY();
             if ( minY < 0 ) {
-                lattice.translate( 0, -minY );
+                crystal.translate( 0, -minY );
             }
 
             //Determine whether it is time for the lattice to dissolve
-            if ( lattice.isUnderwater() ) {
-                final double timeUnderwater = time - lattice.getUnderWaterTime();
+            if ( crystal.isUnderwater() ) {
+                final double timeUnderwater = time - crystal.getUnderWaterTime();
 
                 //Make sure it has been underwater for a certain period of time (in seconds)
-                if ( timeUnderwater > 0.2 ) {
-                    toDissolve.add( lattice );
+                if ( timeUnderwater > 0.5 ) {
+                    toDissolve.add( crystal );
                 }
             }
         }
@@ -440,7 +479,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Clear particle lists
         sphericalParticles.clear();
         freeParticles.clear();
-        saltCrystals.clear();
+        sodiumChlorideCrystals.clear();
         sodiumNitrateCrystals.clear();
         calciumChlorideCrystals.clear();
         sucroseCrystals.clear();
@@ -461,7 +500,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         sphericalParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
         freeParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
-        saltCrystals.clear();
+        sodiumChlorideCrystals.clear();
     }
 
     public void removeSugar() {
@@ -470,7 +509,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //TODO: will need to be more discriminative about which spherical particles to remove when in solution with ethanol
         sphericalParticles.clear( HydrogenIonParticle.class, CarbonIonParticle.class, OxygenIonParticle.class );
         freeParticles.clear( SucroseMolecule.class );
-        saltCrystals.clear();
+        sodiumChlorideCrystals.clear();
     }
 
     @Override public ObservableProperty<Boolean> getAnySolutes() {
