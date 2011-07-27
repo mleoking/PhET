@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
@@ -31,11 +32,42 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
 
-    //Put the vectors at the same angle so all crystals don't come out at right angles
+    //Put the vectors at the same random angle so all crystals don't come out at right angles
     protected final double angle = Math.random() * 2 * Math.PI;
 
     public Compound( ImmutableVector2D position ) {
         super( position );
+    }
+
+    public double getAngle() {
+        return angle;
+    }
+
+    //Construct the compound from the specified lattice
+    public Compound( ImmutableVector2D position, double spacing, Function2<Component, Double, T> componentMaker, Lattice<? extends Lattice> lattice ) {
+        super( position );
+
+        //Recursive method to traverse the graph and create particles
+        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D(), spacing, componentMaker );
+
+        //Update positions so the lattice position overwrites constituent particle positions
+        stepInTime( new ImmutableVector2D(), 0.0 );
+    }
+
+
+    //Recursive method to traverse the graph and create particles
+    private void fill( Lattice<? extends Lattice> lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition, double spacing, Function2<Component, Double, T> componentMaker ) {
+
+        //Create and add sucrose molecules in the right relative locations
+        constituents.add( new Constituent<T>( componentMaker.apply( component, angle ), relativePosition ) );
+
+        handled.add( component );
+        ArrayList<Bond> bonds = lattice.getBonds( component );
+        for ( Bond bond : bonds ) {
+            if ( !handled.contains( bond.destination ) ) {
+                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), spacing, componentMaker );
+            }
+        }
     }
 
     //Determine a direction to move based on the bond type
