@@ -33,10 +33,10 @@ public class SucroseCrystal extends Crystal<SucroseMolecule> {
 
         //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
         //Also, scale everything by the model sizeScale, including distances between atoms
-        final double spacing = nanometersToMeters( 0.5 ) * sizeScale / 2;
+        final double spacing = nanometersToMeters( 0.5 ) * sizeScale;
 
         //Create and add sucrose molecules in the right relative locations
-        constituents.add( new Constituent<SucroseMolecule>( new SucroseMolecule( relativePosition ), relativePosition ) );
+        constituents.add( new Constituent<SucroseMolecule>( new SucroseMolecule( ImmutableVector2D.ZERO ), relativePosition ) );
 
         handled.add( component );
         ArrayList<Bond> bonds = lattice.getBonds( component );
