@@ -43,4 +43,7 @@ public class MPStrings {
     public static final String TEST = RESOURCES.getLocalizedString( "test" );
     public static final String THREE_ATOMS = RESOURCES.getLocalizedString( "threeAtoms" );
     public static final String TWO_ATOMS = RESOURCES.getLocalizedString( "twoAtoms" );
+
+    // Symbols, i18n not required
+    public static final char DELTA = '\u03B4';
 }

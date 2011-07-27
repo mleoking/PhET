@@ -18,6 +18,7 @@ import org.jmol.util.Logger;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
@@ -118,7 +119,7 @@ public class JmolViewerNode extends PhetPNode {
                 args += " %[element]%[atomIndex]"; // show element and sequential atom index
             }
             if ( partialChargeVisible ) {
-                args += " \u03B4=%[partialCharge]"; // show partial charge
+                args += " " + MPStrings.DELTA + "=%[partialCharge]"; // show partial charge
             }
             doScript( "label " + args );
             doScript( "set labelalignment center; set labeloffset 0 0" );  // center labels on atoms

@@ -6,6 +6,7 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -17,8 +18,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class PartialChargeNode extends PComposite {
-
-    private static final char DELTA = '\u03B4';
 
     private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
     private static final double REF_SCALE = 1;
@@ -43,10 +42,10 @@ public class PartialChargeNode extends PComposite {
                     // d+ or d-
                     boolean negative = ( !positivePolarity && magnitude < 0 ) || ( positivePolarity && magnitude > 0 );
                     if ( negative ) {
-                        textNode.setText( DELTA + "-" );
+                        textNode.setText( MPStrings.DELTA + "-" );
                     }
                     else {
-                        textNode.setText( DELTA + "+" );
+                        textNode.setText( MPStrings.DELTA + "+" );
                     }
 
                     // size proportional to bond dipole magnitude
