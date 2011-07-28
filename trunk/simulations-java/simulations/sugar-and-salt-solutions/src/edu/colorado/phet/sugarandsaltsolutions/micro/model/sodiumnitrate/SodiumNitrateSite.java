@@ -6,14 +6,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 
 /**
  * Identifies open (available) bonding site in a Sodium Nitrate crystal
  *
  * @author Sam Reid
  */
-public class SodiumNitrateSite extends OpenSite<SodiumNitrateLattice> {
+public class SodiumNitrateSite extends LatticeSite<SodiumNitrateLattice> {
     public SodiumNitrateSite( Component component, BondType type ) {
         super( component, type );
     }

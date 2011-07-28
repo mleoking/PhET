@@ -1,3 +1,4 @@
+Micro tab: More support for incremental crystallization
 Micro tab: First steps toward crystallizing atoms when past saturation point
 # 0.00.71 (54538) Jul 26, 2011
 Micro tab: Improved behavior under evaporation

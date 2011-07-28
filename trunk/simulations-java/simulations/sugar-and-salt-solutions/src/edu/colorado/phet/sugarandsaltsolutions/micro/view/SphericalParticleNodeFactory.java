@@ -1,6 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
@@ -26,17 +27,13 @@ public class SphericalParticleNodeFactory implements VoidFunction1<SphericalPart
     }
 
     //Create the PNode for the particle, and wire it up to be removed when the particle leaves the model
-    public void apply( SphericalParticle particle ) {
+    public void apply( final SphericalParticle particle ) {
         final SphericalParticleNode node = new SphericalParticleNode( transform, particle, showChargeColor );
         canvas.addChild( node );
-        list.addItemRemovedListener( new VoidFunction1<SphericalParticle>() {
-            public void apply( SphericalParticle sphericalParticle ) {
-
-                //Only remove the node if it corresponded to the node we created
-                if ( sphericalParticle == node.getSphericalParticle() ) {
-                    list.removeItemRemovedListener( this );
-                    canvas.removeChild( node );
-                }
+        list.addItemRemovedListener( particle, new VoidFunction0() {
+            public void apply() {
+                list.removeItemRemovedListener( particle, this );
+                canvas.removeChild( node );
             }
         } );
     }

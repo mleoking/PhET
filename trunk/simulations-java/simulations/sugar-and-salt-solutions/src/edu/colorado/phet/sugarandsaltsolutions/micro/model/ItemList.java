@@ -1,12 +1,14 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -18,6 +20,7 @@ public class ItemList<T> implements Iterable<T> {
     private final ArrayList<T> items = new ArrayList<T>();
     private final ListenerList<T> itemAddedListeners = new ListenerList<T>();
     private final ListenerList<T> itemRemovedListeners = new ListenerList<T>();
+    private final HashMap<T, ArrayList<VoidFunction0>> particularItemRemovedListeners = new HashMap<T, ArrayList<VoidFunction0>>();
 
     //Property that can be used to monitor the number of items in the list.
     //It is typed as Double since that package provides support for composition (through >, +, etc)
@@ -47,6 +50,21 @@ public class ItemList<T> implements Iterable<T> {
 
     public void removeItemRemovedListener( VoidFunction1<T> listener ) {
         itemRemovedListeners.removeListener( listener );
+    }
+
+    //Listen for the removal of a specific item
+    public void addItemRemovedListener( T item, VoidFunction0 listener ) {
+        if ( !particularItemRemovedListeners.containsKey( item ) ) {
+            particularItemRemovedListeners.put( item, new ArrayList<VoidFunction0>() );
+        }
+        particularItemRemovedListeners.get( item ).add( listener );
+    }
+
+    //Remove a listener that was listening for a specific item removal
+    public void removeItemRemovedListener( T item, VoidFunction0 listener ) {
+        if ( particularItemRemovedListeners.containsKey( item ) ) {
+            particularItemRemovedListeners.get( item ).remove( listener );
+        }
     }
 
     public void add( T item ) {
@@ -117,7 +135,7 @@ public class ItemList<T> implements Iterable<T> {
     }
 
     //Get the number of elements in the list
-    private int size() {
+    public int size() {
         return getItems().size();
     }
 
@@ -134,5 +152,9 @@ public class ItemList<T> implements Iterable<T> {
                 return count( type ) + 0.0;
             }
         }, size );
+    }
+
+    public T get( int i ) {
+        return items.get( i );
     }
 }

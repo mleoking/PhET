@@ -42,42 +42,6 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         return angle;
     }
 
-    //Construct the compound from the specified lattice
-    public Compound( ImmutableVector2D position, double spacing, Lattice<? extends Lattice> lattice ) {
-        super( position );
-
-        //Recursive method to traverse the graph and create particles
-        fill( lattice, lattice.components.getFirst(), new ArrayList<Component>(), new ImmutableVector2D(), spacing );
-
-        //Update positions so the lattice position overwrites constituent particle positions
-        stepInTime( new ImmutableVector2D(), 0.0 );
-    }
-
-
-    //Recursive method to traverse the graph and create particles
-    private void fill( Lattice<? extends Lattice> lattice, Component component, ArrayList<Component> handled, ImmutableVector2D relativePosition, double spacing ) {
-
-        //Create and add sucrose molecules in the right relative locations
-        constituents.add( new Constituent<T>( (T) component.constructLatticeConstituent( angle ), relativePosition ) );
-
-        handled.add( component );
-        ArrayList<Bond> bonds = lattice.getBonds( component );
-        for ( Bond bond : bonds ) {
-            if ( !handled.contains( bond.destination ) ) {
-                fill( lattice, bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), spacing );
-            }
-        }
-    }
-
-    //Determine a direction to move based on the bond type
-    protected ImmutableVector2D getDelta( double spacing, Bond bond ) {
-        if ( bond.type == BondType.LEFT ) { return new ImmutableVector2D( -spacing, 0 ); }
-        else if ( bond.type == BondType.RIGHT ) { return new ImmutableVector2D( spacing, 0 ); }
-        else if ( bond.type == BondType.UP ) { return new ImmutableVector2D( 0, spacing ); }
-        else if ( bond.type == BondType.DOWN ) { return new ImmutableVector2D( 0, -spacing ); }
-        else { throw new RuntimeException( "Unknown bond type: " + bond ); }
-    }
-
     //Set the position of the compound, and update the location of all constituents
     //TODO: there is also a public api for setting the position of the compound through Property<ImmutableVector2D>, but which does not update the constituent locations
     //Maybe this method should auto-call when that property changes, or the property shouldn't be public

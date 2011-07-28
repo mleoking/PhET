@@ -7,7 +7,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SucroseComponent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
 /**
@@ -25,9 +25,9 @@ public class SucroseLattice extends SquareLattice<SucroseLattice> {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<OpenSite<SucroseLattice>> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<SucroseLattice>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            openSites.add( new SucroseSite( component, type ) );
+            latticeSites.add( new SucroseSite( component, type ) );
         }
     }
 }

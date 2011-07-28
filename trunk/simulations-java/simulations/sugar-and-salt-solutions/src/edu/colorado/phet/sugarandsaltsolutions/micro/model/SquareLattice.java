@@ -15,13 +15,13 @@ public abstract class SquareLattice<T extends SquareLattice<T>> extends Lattice<
     }
 
     //Find the available sites where a new component might be added
-    @Override protected ArrayList<OpenSite<T>> getOpenSites() {
-        ArrayList<OpenSite<T>> openSites = new ArrayList<OpenSite<T>>();
+    @Override protected ArrayList<LatticeSite<T>> getOpenSites() {
+        ArrayList<LatticeSite<T>> latticeSites = new ArrayList<LatticeSite<T>>();
         for ( Component component : components ) {
             for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
-                testAddSite( openSites, component, getBonds( component ), bondType );
+                testAddSite( latticeSites, component, getBonds( component ), bondType );
             }
         }
-        return openSites;
+        return latticeSites;
     }
 }
