@@ -1,3 +1,4 @@
+# 0.00.72 (54586) Jul 28, 2011
 Micro tab: Renamed SodiumIonParicle => Sodium, etc.
 Micro tab: Prefer crystallization sites that are underwater
 Micro tab: Added gradual crystallization for NaCl
