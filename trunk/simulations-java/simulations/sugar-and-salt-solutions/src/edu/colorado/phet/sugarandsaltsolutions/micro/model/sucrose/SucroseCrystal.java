@@ -11,7 +11,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  *
  * @author Sam Reid
  */
-public class SucroseCrystal extends Crystal<SucroseMolecule> {
+public class SucroseCrystal extends Crystal<Sucrose> {
 
     public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice, double angle ) {
         super( position,

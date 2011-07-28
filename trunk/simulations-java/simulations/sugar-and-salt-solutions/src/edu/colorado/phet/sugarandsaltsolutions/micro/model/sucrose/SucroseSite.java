@@ -11,17 +11,17 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
  *
  * @author Sam Reid
  */
-public class SucroseSite extends LatticeSite<SucroseMolecule> {
-    public SucroseSite( SucroseMolecule component, BondType type ) {
+public class SucroseSite extends LatticeSite<Sucrose> {
+    public SucroseSite( Sucrose component, BondType type ) {
         super( component, type );
     }
 
-    @Override public Lattice<SucroseMolecule> grow( Lattice<SucroseMolecule> lattice ) {
-        SucroseMolecule newSucroseMolecule = getOppositeComponent();
-        return new SucroseLattice( new ImmutableList<SucroseMolecule>( lattice.components, newSucroseMolecule ), new ImmutableList<Bond<SucroseMolecule>>( lattice.bonds, new Bond<SucroseMolecule>( component, newSucroseMolecule, type ) ) );
+    @Override public Lattice<Sucrose> grow( Lattice<Sucrose> lattice ) {
+        Sucrose newSucrose = getOppositeComponent();
+        return new SucroseLattice( new ImmutableList<Sucrose>( lattice.components, newSucrose ), new ImmutableList<Bond<Sucrose>>( lattice.bonds, new Bond<Sucrose>( component, newSucrose, type ) ) );
     }
 
-    public SucroseMolecule getOppositeComponent() {
-        return new SucroseMolecule();
+    public Sucrose getOppositeComponent() {
+        return new Sucrose();
     }
 }

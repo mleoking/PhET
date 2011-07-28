@@ -4,8 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 
 /**
  * This crystal for Calcium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -14,6 +14,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  */
 public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice, double angle ) {
-        super( position, new CalciumIonParticle().radius + new ChlorideIonParticle().radius, lattice, angle );
+        super( position, new Calcium().radius + new Chloride().radius, lattice, angle );
     }
 }

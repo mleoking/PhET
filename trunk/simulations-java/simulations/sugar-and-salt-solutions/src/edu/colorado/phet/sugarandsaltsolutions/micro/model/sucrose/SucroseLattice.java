@@ -13,17 +13,17 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
  *
  * @author Sam Reid
  */
-public class SucroseLattice extends SquareLattice<SucroseMolecule> {
+public class SucroseLattice extends SquareLattice<Sucrose> {
 
     public SucroseLattice() {
-        super( new ImmutableList<SucroseMolecule>( new SucroseMolecule() ), new ImmutableList<Bond<SucroseMolecule>>() );
+        super( new ImmutableList<Sucrose>( new Sucrose() ), new ImmutableList<Bond<Sucrose>>() );
     }
 
-    public SucroseLattice( ImmutableList<SucroseMolecule> components, ImmutableList<Bond<SucroseMolecule>> bonds ) {
+    public SucroseLattice( ImmutableList<Sucrose> components, ImmutableList<Bond<Sucrose>> bonds ) {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<LatticeSite<SucroseMolecule>> latticeSites, SucroseMolecule component, ArrayList<Bond<SucroseMolecule>> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<Sucrose>> latticeSites, Sucrose component, ArrayList<Bond<Sucrose>> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             latticeSites.add( new SucroseSite( component, type ) );
         }

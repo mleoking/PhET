@@ -8,7 +8,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
 /**
@@ -19,7 +19,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 public class SodiumChlorideLattice extends SquareLattice<SphericalParticle> {
 
     public SodiumChlorideLattice() {
-        super( new ImmutableList<SphericalParticle>( new SodiumIonParticle() ), new ImmutableList<Bond<SphericalParticle>>() );
+        super( new ImmutableList<SphericalParticle>( new Sodium() ), new ImmutableList<Bond<SphericalParticle>>() );
     }
 
     public SodiumChlorideLattice( SphericalParticle particle ) {

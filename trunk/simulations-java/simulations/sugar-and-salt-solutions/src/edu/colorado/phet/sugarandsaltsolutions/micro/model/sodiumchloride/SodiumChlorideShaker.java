@@ -9,8 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -36,7 +36,7 @@ public class SodiumChlorideShaker extends MicroShaker {
                                                                                     }
                                                                                 }, new Function1<SodiumChlorideLattice, Boolean>() {
                                                              public Boolean apply( SodiumChlorideLattice lattice ) {
-                                                                 return lattice.count( SodiumIonParticle.class ) == lattice.count( ChlorideIonParticle.class );
+                                                                 return lattice.count( Sodium.class ) == lattice.count( Chloride.class );
                                                              }
                                                          }
                                                          ), randomAngle() ) );

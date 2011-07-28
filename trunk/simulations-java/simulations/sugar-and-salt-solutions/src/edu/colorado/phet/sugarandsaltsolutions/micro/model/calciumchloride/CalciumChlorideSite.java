@@ -7,8 +7,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 
 /**
  * Model for growing a calcium chloride lattice, using the same 2d crystal structure as in Soluble Salts.
@@ -26,6 +26,6 @@ public class CalciumChlorideSite extends LatticeSite<SphericalParticle> {
     }
 
     @Override public SphericalParticle getOppositeComponent() {
-        return ( component instanceof ChlorideIonParticle ) ? new CalciumIonParticle() : new ChlorideIonParticle();
+        return ( component instanceof Chloride ) ? new Calcium() : new Chloride();
     }
 }

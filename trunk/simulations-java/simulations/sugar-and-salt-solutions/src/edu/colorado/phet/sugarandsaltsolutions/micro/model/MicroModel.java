@@ -27,25 +27,25 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.OxygenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Oxygen;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolMolecule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideLattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.NitrateMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
@@ -120,7 +120,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
-        EthanolMolecule ethanol = new EthanolMolecule( location, randomAngle() ) {{
+        Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
             //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
             velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
 
@@ -132,9 +132,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Colors for all the dissolved components
-    public final ObservableProperty<Color> sodiumColor = new IonColor( this, new SodiumIonParticle() );
-    public final ObservableProperty<Color> chlorideColor = new IonColor( this, new ChlorideIonParticle() );
-    public final ObservableProperty<Color> calciumColor = new IonColor( this, new CalciumIonParticle() );
+    public final ObservableProperty<Color> sodiumColor = new IonColor( this, new Sodium() );
+    public final ObservableProperty<Color> chlorideColor = new IonColor( this, new Chloride() );
+    public final ObservableProperty<Color> calciumColor = new IonColor( this, new Calcium() );
     public final ObservableProperty<Color> sucroseColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
@@ -152,12 +152,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }, showChargeColor );
 
     //Particle concentrations for all of the dissolved components
-    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( this, SodiumIonParticle.class );
-    public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, ChlorideIonParticle.class );
-    public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, CalciumIonParticle.class );
-    public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, SucroseMolecule.class );
-    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, EthanolMolecule.class );
-    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, NitrateMolecule.class );
+    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( this, Sodium.class );
+    public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, Chloride.class );
+    public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, Calcium.class );
+    public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, Sucrose.class );
+    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, Ethanol.class );
+    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -187,8 +187,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                //Ratio of length scales in meters
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
-        ObservableProperty<Boolean> moreSodiumChlorideAllowed = sphericalParticles.propertyCount( SodiumIonParticle.class ).max( sphericalParticles.propertyCount( ChlorideIonParticle.class ) ).lessThan( MAX_SODIUM_CHLORIDE );
-        ObservableProperty<Boolean> moreSucroseAllowed = freeParticles.propertyCount( SucroseMolecule.class ).lessThan( MAX_SUCROSE );
+        ObservableProperty<Boolean> moreSodiumChlorideAllowed = sphericalParticles.propertyCount( Sodium.class ).max( sphericalParticles.propertyCount( Chloride.class ) ).lessThan( MAX_SODIUM_CHLORIDE );
+        ObservableProperty<Boolean> moreSucroseAllowed = freeParticles.propertyCount( Sucrose.class ).lessThan( MAX_SUCROSE );
 
         //Add models for the various dispensers: sugar, salt, etc.
         dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
@@ -295,7 +295,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 && sodiumChlorideCrystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
-            convertToCrystal( new SodiumIonParticle() );
+            convertToCrystal( new Sodium() );
             lastNaClCrystallizationTime = time;
         }
 
@@ -554,8 +554,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public void removeSalt() {
         super.removeSalt();
 
-        sphericalParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
-        freeParticles.clear( SodiumIonParticle.class, ChlorideIonParticle.class );
+        sphericalParticles.clear( Sodium.class, Chloride.class );
+        freeParticles.clear( Sodium.class, Chloride.class );
         sodiumChlorideCrystals.clear();
     }
 
@@ -563,8 +563,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.removeSugar();
 
         //TODO: will need to be more discriminative about which spherical particles to remove when in solution with ethanol
-        sphericalParticles.clear( HydrogenIonParticle.class, CarbonIonParticle.class, OxygenIonParticle.class );
-        freeParticles.clear( SucroseMolecule.class );
+        sphericalParticles.clear( Hydrogen.class, Carbon.class, Oxygen.class );
+        freeParticles.clear( Sucrose.class );
         sodiumChlorideCrystals.clear();
     }
 
