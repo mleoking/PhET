@@ -16,4 +16,6 @@ public abstract class LatticeSite<T> {
 
     //Create a new lattice that has expanded from this open site
     public abstract Lattice<T> grow( Lattice<T> lattice );
+
+    public abstract T getOppositeComponent();
 }

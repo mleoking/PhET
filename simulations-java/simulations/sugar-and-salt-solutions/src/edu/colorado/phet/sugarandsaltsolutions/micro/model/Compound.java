@@ -32,10 +32,11 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     private Option<Double> underwaterTime = new None<Double>();
 
     //Put the vectors at the same random angle so all crystals don't come out at right angles
-    protected final double angle = Math.random() * 2 * Math.PI;
+    protected final double angle;
 
-    public Compound( ImmutableVector2D position ) {
+    public Compound( ImmutableVector2D position, double angle ) {
         super( position );
+        this.angle = angle;
     }
 
     public double getAngle() {

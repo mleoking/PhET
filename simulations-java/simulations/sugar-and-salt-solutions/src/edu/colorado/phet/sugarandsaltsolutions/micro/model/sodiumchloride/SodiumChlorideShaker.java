@@ -12,6 +12,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
+
 /**
  * This salt shaker adds salt (NaCl) crystals to the model when shaken
  *
@@ -37,6 +39,6 @@ public class SodiumChlorideShaker extends MicroShaker {
                                                                  return lattice.count( SodiumIonParticle.class ) == lattice.count( ChlorideIonParticle.class );
                                                              }
                                                          }
-                                                         ) ) );
+                                                         ), randomAngle() ) );
     }
 }

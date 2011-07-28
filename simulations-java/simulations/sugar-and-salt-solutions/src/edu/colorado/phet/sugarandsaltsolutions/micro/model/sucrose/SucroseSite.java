@@ -17,7 +17,11 @@ public class SucroseSite extends LatticeSite<SucroseMolecule> {
     }
 
     @Override public Lattice<SucroseMolecule> grow( Lattice<SucroseMolecule> lattice ) {
-        SucroseMolecule newSucroseMolecule = new SucroseMolecule();
+        SucroseMolecule newSucroseMolecule = getOppositeComponent();
         return new SucroseLattice( new ImmutableList<SucroseMolecule>( lattice.components, newSucroseMolecule ), new ImmutableList<Bond<SucroseMolecule>>( lattice.bonds, new Bond<SucroseMolecule>( component, newSucroseMolecule, type ) ) );
+    }
+
+    public SucroseMolecule getOppositeComponent() {
+        return new SucroseMolecule();
     }
 }

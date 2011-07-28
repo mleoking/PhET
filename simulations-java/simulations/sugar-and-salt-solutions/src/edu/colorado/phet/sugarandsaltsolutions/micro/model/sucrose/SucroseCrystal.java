@@ -13,14 +13,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  */
 public class SucroseCrystal extends Crystal<SucroseMolecule> {
 
-    public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice ) {
+    public SucroseCrystal( ImmutableVector2D position, SucroseLattice lattice, double angle ) {
         super( position,
 
                //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
                //Also, scale everything by the model sizeScale, including distances between atoms
                nanometersToMeters( 0.5 ) * sizeScale,
 
-               lattice
+               lattice, angle
         );
     }
 }

@@ -20,7 +20,11 @@ public class SodiumChlorideSite extends LatticeSite<SphericalParticle> {
     }
 
     @Override public Lattice<SphericalParticle> grow( Lattice<SphericalParticle> lattice ) {
-        SphericalParticle newIon = ( component instanceof SodiumIonParticle ) ? new ChlorideIonParticle() : new SodiumIonParticle();
+        SphericalParticle newIon = getOppositeComponent();
         return new SodiumChlorideLattice( new ImmutableList<SphericalParticle>( lattice.components, newIon ), new ImmutableList<Bond<SphericalParticle>>( lattice.bonds, new Bond<SphericalParticle>( component, newIon, type ) ) );
+    }
+
+    public SphericalParticle getOppositeComponent() {
+        return ( component instanceof SodiumIonParticle ) ? new ChlorideIonParticle() : new SodiumIonParticle();
     }
 }

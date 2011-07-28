@@ -20,7 +20,11 @@ public class SodiumNitrateSite extends LatticeSite<Particle> {
     }
 
     @Override public Lattice<Particle> grow( Lattice<Particle> lattice ) {
-        Particle newIon = ( component instanceof SodiumIonParticle ) ? new NitrateMolecule() : new SodiumIonParticle();
+        Particle newIon = getOppositeComponent();
         return new SodiumNitrateLattice( new ImmutableList<Particle>( lattice.components, newIon ), new ImmutableList<Bond<Particle>>( lattice.bonds, new Bond<Particle>( component, newIon, type ) ) );
+    }
+
+    public Particle getOppositeComponent() {
+        return ( component instanceof SodiumIonParticle ) ? new NitrateMolecule() : new SodiumIonParticle();
     }
 }

@@ -23,7 +23,7 @@ public class NitrateMolecule extends Compound<Particle> {
     }
 
     public NitrateMolecule( double angle, ImmutableVector2D relativePosition ) {
-        super( relativePosition );
+        super( relativePosition, angle );
         constituents.add( new Constituent<Particle>( new FreeOxygenIonParticle(), parseAngleAndMagnitude( NITROGEN_OXYGEN_SPACING, Math.PI * 2 * 0 / 3.0 + angle ) ) );
         constituents.add( new Constituent<Particle>( new FreeOxygenIonParticle(), parseAngleAndMagnitude( NITROGEN_OXYGEN_SPACING, Math.PI * 2 * 1 / 3.0 + angle ) ) );
         constituents.add( new Constituent<Particle>( new FreeOxygenIonParticle(), parseAngleAndMagnitude( NITROGEN_OXYGEN_SPACING, Math.PI * 2 * 2 / 3.0 + angle ) ) );

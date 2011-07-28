@@ -21,7 +21,11 @@ public class CalciumChlorideSite extends LatticeSite<SphericalParticle> {
     }
 
     @Override public Lattice<SphericalParticle> grow( Lattice<SphericalParticle> lattice ) {
-        SphericalParticle newIon = ( component instanceof ChlorideIonParticle ) ? new CalciumIonParticle() : new ChlorideIonParticle();
+        SphericalParticle newIon = getOppositeComponent();
         return new CalciumChlorideLattice( new ImmutableList<SphericalParticle>( lattice.components, newIon ), new ImmutableList<Bond<SphericalParticle>>( lattice.bonds, new Bond<SphericalParticle>( component, newIon, type ) ) );
+    }
+
+    @Override public SphericalParticle getOppositeComponent() {
+        return ( component instanceof ChlorideIonParticle ) ? new CalciumIonParticle() : new ChlorideIonParticle();
     }
 }

@@ -1,3 +1,4 @@
+Micro tab: Added gradual crystallization for NaCl
 Micro tab: Improved generics for ItemList
 Micro tab: Fixed: item list doesn't notify when particular items are removed
 Micro tab: Removed Component in lattice formation, and improved generics arguments for Lattice and Bond

@@ -20,8 +20,8 @@ public class Crystal<T extends Particle> extends Compound<T> {
     public final Lattice<T> lattice;
 
     //Construct the compound from the specified lattice
-    public Crystal( ImmutableVector2D position, double spacing, Lattice<T> lattice ) {
-        super( position );
+    public Crystal( ImmutableVector2D position, double spacing, Lattice<T> lattice, double angle ) {
+        super( position, angle );
         this.spacing = spacing;
         this.lattice = lattice;
 
@@ -45,13 +45,13 @@ public class Crystal<T extends Particle> extends Compound<T> {
         ArrayList<Bond<T>> bonds = lattice.getBonds( component );
         for ( Bond<T> bond : bonds ) {
             if ( !handled.contains( bond.destination ) ) {
-                fill( bond.destination, handled, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), spacing );
+                fill( bond.destination, handled, relativePosition.plus( getDelta( spacing, bond.type ).getRotatedInstance( angle ) ), spacing );
             }
         }
     }
 
     //Find the location of the specified component by recursively searching over the graph
-    private ImmutableVector2D findLocation( T component, ArrayList<T> visited, ImmutableVector2D relativePosition, T seekComponent ) {
+    private ImmutableVector2D findPosition( T component, ArrayList<T> visited, ImmutableVector2D relativePosition, T seekComponent ) {
         if ( component == seekComponent ) {
             return relativePosition;
         }
@@ -59,7 +59,7 @@ public class Crystal<T extends Particle> extends Compound<T> {
         ArrayList<Bond<T>> bonds = lattice.getBonds( component );
         for ( Bond<T> bond : bonds ) {
             if ( !visited.contains( bond.destination ) ) {
-                ImmutableVector2D location = findLocation( bond.destination, visited, relativePosition.plus( getDelta( spacing, bond ).getRotatedInstance( angle ) ), seekComponent );
+                ImmutableVector2D location = findPosition( bond.destination, visited, relativePosition.plus( getDelta( spacing, bond.type ).getRotatedInstance( angle ) ), seekComponent );
                 if ( location != null ) {
                     return location;
                 }
@@ -69,27 +69,37 @@ public class Crystal<T extends Particle> extends Compound<T> {
     }
 
     //Determine a direction to move based on the bond type
-    protected ImmutableVector2D getDelta( double spacing, Bond bond ) {
-        if ( bond.type == BondType.LEFT ) { return new ImmutableVector2D( -spacing, 0 ); }
-        else if ( bond.type == BondType.RIGHT ) { return new ImmutableVector2D( spacing, 0 ); }
-        else if ( bond.type == BondType.UP ) { return new ImmutableVector2D( 0, spacing ); }
-        else if ( bond.type == BondType.DOWN ) { return new ImmutableVector2D( 0, -spacing ); }
-        else { throw new RuntimeException( "Unknown bond type: " + bond ); }
+    protected ImmutableVector2D getDelta( double spacing, BondType bondType ) {
+        if ( bondType == BondType.LEFT ) { return new ImmutableVector2D( -spacing, 0 ); }
+        else if ( bondType == BondType.RIGHT ) { return new ImmutableVector2D( spacing, 0 ); }
+        else if ( bondType == BondType.UP ) { return new ImmutableVector2D( 0, spacing ); }
+        else if ( bondType == BondType.DOWN ) { return new ImmutableVector2D( 0, -spacing ); }
+        else { throw new RuntimeException( "Unknown bond type: " + bondType ); }
     }
 
     //Determine all of the available locations where an existing particle could be added
-    public ArrayList<CrystalSite> getCrystalSites() {
-        ArrayList<LatticeSite<T>> sites = lattice.getOpenSites();
-        ArrayList<CrystalSite> crystalSites = new ArrayList<CrystalSite>();
-        for ( LatticeSite<T> site : sites ) {
-            crystalSites.add( toCrystalSite( site ) );
-        }
-        return crystalSites;
+    public ArrayList<CrystalSite> getOpenSites() {
+        return new ArrayList<CrystalSite>() {{
+            for ( LatticeSite<T> site : lattice.getOpenSites() ) {
+                add( toCrystalSite( site ) );
+            }
+        }};
     }
 
     //Convert a lattice site to a crystal site so a real particle can connect to the crystal
     private CrystalSite toCrystalSite( LatticeSite<T> site ) {
-        ImmutableVector2D location = findLocation( lattice.components.getFirst(), new ArrayList<T>(), ZERO, site.component );
-        return new CrystalSite( location, site.component.getClass() );
+        ImmutableVector2D relativePosition = findPosition( lattice.components.getFirst(), new ArrayList<T>(), ZERO, site.component );
+
+        //This is the position of the particle to be bonded to
+        ImmutableVector2D bondingTarget = relativePosition.plus( position.get() );
+
+        //TODO: Find the location adjacent to the bonding target
+        ImmutableVector2D delta = getDelta( spacing, site.type );
+
+        return new CrystalSite( bondingTarget.plus( delta ), site.getOppositeComponent().getClass(), site );
+    }
+
+    public Lattice<T> growCrystal( CrystalSite crystalSite ) {
+        return crystalSite.latticeSite.grow( lattice );
     }
 }
