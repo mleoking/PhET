@@ -35,9 +35,12 @@ public class Plank extends ShapeModelElement {
 
     public static final double LENGTH = 4;// meters
     public static final double THICKNESS = 0.05; // meters
-    public static final int NUM_SNAP_TO_MARKERS = 19;
-    public static final double INTER_MARKER_DISTANCE = LENGTH / ( NUM_SNAP_TO_MARKERS + 1 ); // meters
-    public static final double MASS = 100; // kg
+    private static final double MASS = 100; // kg
+
+    // The number of locations where masses may be placed on the plank.  Only
+    // the locations defined be this are valid.
+    public static final int NUM_SNAP_TO_LOCATIONS = 19;
+    private static final double INTER_MARKER_DISTANCE = LENGTH / ( NUM_SNAP_TO_LOCATIONS + 1 ); // meters
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
@@ -79,6 +82,7 @@ public class Plank extends ShapeModelElement {
     // position regardless of any masses on its surface.
     private final BooleanProperty supportColumnsActive;
 
+    // The original, unrotated shape is needed for a number of operations.
     private final Shape unrotatedShape;
 
     //------------------------------------------------------------------------
@@ -179,6 +183,14 @@ public class Plank extends ShapeModelElement {
         return new Point2D.Double( pivotPoint.getX(), pivotPoint.getY() );
     }
 
+    public Shape getUnrotatedShape() {
+        return unrotatedShape;
+    }
+
+    public double getTiltAngle() {
+        return tiltAngle;
+    }
+
     // Generate the original shape, which is assumed to be level.  This also
     // creates and adds the "tick marks" to the plank.
     private static Shape generateOriginalShape( Point2D position ) {
@@ -191,15 +203,16 @@ public class Plank extends ShapeModelElement {
         path.lineTo( -LENGTH / 2, THICKNESS );
         path.lineTo( -LENGTH / 2, 0 );
         path.lineTo( 0, 0 );
+        /*
         // Add the "snap to" markers to the plank.
-        double interMarkerDistance = LENGTH / (double) ( NUM_SNAP_TO_MARKERS + 1 );
+        double interMarkerDistance = LENGTH / (double) ( NUM_SNAP_TO_LOCATIONS + 1 );
         double markerXPos = -LENGTH / 2 + interMarkerDistance;
         double thickerMarkerOffset = 0.005;
-        for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
-            if ( !( i == NUM_SNAP_TO_MARKERS / 2 ) ) {   // No marker in center of plank.
+        for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
+            if ( !( i == NUM_SNAP_TO_LOCATIONS / 2 ) ) {   // No marker in center of plank.
                 path.moveTo( markerXPos, 0 );
                 path.lineTo( markerXPos, THICKNESS );
-                if ( ( i + 1 ) % ( ( NUM_SNAP_TO_MARKERS + 1 ) / 4 ) == 0 ) {
+                if ( ( i + 1 ) % ( ( NUM_SNAP_TO_LOCATIONS + 1 ) / 4 ) == 0 ) {
                     // This is a bit of a gimmick to make some of the markers look
                     // thicker than others.
                     path.moveTo( markerXPos - thickerMarkerOffset, 0 );
@@ -210,6 +223,7 @@ public class Plank extends ShapeModelElement {
             }
             markerXPos += interMarkerDistance;
         }
+        */
         // Translate to the initial position.
         return AffineTransform.getTranslateInstance( position.getX(), position.getY() ).createTransformedShape( path );
     }
@@ -371,11 +385,11 @@ public class Plank extends ShapeModelElement {
      * @return
      */
     private List<Point2D> getSnapToLocations() {
-        List<Point2D> snapToLocations = new ArrayList<Point2D>( NUM_SNAP_TO_MARKERS );
+        List<Point2D> snapToLocations = new ArrayList<Point2D>( NUM_SNAP_TO_LOCATIONS );
         AffineTransform rotationTransform = AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() );
         double unrotatedY = unrotatedShape.getBounds2D().getMaxY();
         double unrotatedMinX = unrotatedShape.getBounds2D().getMinX();
-        for ( int i = 0; i < NUM_SNAP_TO_MARKERS; i++ ) {
+        for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
             Point2D unrotatedPoint = new Point2D.Double( unrotatedMinX + ( i + 1 ) * INTER_MARKER_DISTANCE, unrotatedY );
             snapToLocations.add( rotationTransform.transform( unrotatedPoint, null ) );
         }

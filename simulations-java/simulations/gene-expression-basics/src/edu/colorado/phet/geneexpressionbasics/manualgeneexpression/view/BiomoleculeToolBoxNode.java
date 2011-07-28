@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -20,6 +21,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.SmallRi
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * This class defines the box on the user interface from which the user can
@@ -28,7 +30,7 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author John Blanco
  */
 public class BiomoleculeToolBoxNode extends PNode {
-    private static final Font LABEL_FONT = new PhetFont( 20 );
+    private static final Font TITLE_FONT = new PhetFont( 20, true );
     protected final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
     protected final ModelViewTransform mvt;
@@ -37,21 +39,45 @@ public class BiomoleculeToolBoxNode extends PNode {
         this.model = model;
         this.canvas = canvas;
         this.mvt = mvt;
+        // Create the body, i.e. the part below the title.
+        PNode body = new SwingLayoutNode( new GridLayout( 5, 2, 20, 5 ) ) {{
+            addChild( new RowLabel( "RNA Polymerase" ) );
+            addChild( new HBox( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+            addChild( new RowLabel( "Transcription Factor" ) );
+            addChild( new HBox( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+            addChild( new RowLabel( "Small Ribosomal Subunit" ) );
+            addChild( new HBox( new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+            addChild( new RowLabel( "Large Ribosomal Subunit" ) );
+            addChild( new HBox( new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+            addChild( new RowLabel( "mRNA Destroyer" ) );
+            addChild( new HBox( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+        }};
+
+        // Create the control panel node.
         PNode contentNode = new VBox(
                 // TODO: i18n
-                new PText( "Tool Box" ) {{ setFont( LABEL_FONT ); }},
-                // TODO: i18n
-                new HBox( new PText( "RNA Polymerase" ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ), new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                // TODO: i18n
-                new HBox( new PText( "Transcription Factor" ), new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                // TODO: i18n
-                new HBox( new PText( "Small Ribosomal Subunit" ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                // TODO: i18n
-                new HBox( new PText( "Large Ribosomal Subunit" ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ), new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                // TODO: i18n
-                new HBox( new PText( "mRNA Destroyer" ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ), new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) )
+                new PText( "Tool Box" ) {{ setFont( TITLE_FONT ); }},
+                body
         );
         addChild( new ControlPanelNode( contentNode ) );
+    }
+
+    /**
+     * Convenience class for creating row labels.
+     */
+    private static class RowLabel extends PText {
+        private RowLabel( String text ) {
+            super( text );
+            setFont( new PhetFont( 14 ) );
+        }
     }
 
     // PNode that, when clicked on, will add an RNA polymerase to the model.
