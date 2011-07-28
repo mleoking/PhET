@@ -8,7 +8,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
 
@@ -29,21 +29,21 @@ public class CalciumChlorideLattice extends Lattice<CalciumChlorideLattice> {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<OpenSite<CalciumChlorideLattice>> openSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<CalciumChlorideLattice>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            openSites.add( new CalciumChlorideSite( component, type ) );
+            latticeSites.add( new CalciumChlorideSite( component, type ) );
         }
     }
 
     //Find the available sites where a new component might be added
-    @Override protected ArrayList<OpenSite<CalciumChlorideLattice>> getOpenSites() {
-        ArrayList<OpenSite<CalciumChlorideLattice>> openSites = new ArrayList<OpenSite<CalciumChlorideLattice>>();
+    @Override protected ArrayList<LatticeSite<CalciumChlorideLattice>> getOpenSites() {
+        ArrayList<LatticeSite<CalciumChlorideLattice>> latticeSites = new ArrayList<LatticeSite<CalciumChlorideLattice>>();
         for ( Component component : components ) {
 
             //Calcium bonds in all 4 directions
             if ( component instanceof Component.CalciumIon ) {
                 for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
-                    testAddSite( openSites, component, getBonds( component ), bondType );
+                    testAddSite( latticeSites, component, getBonds( component ), bondType );
                 }
             }
             //Chloride only bonds in the same direction as it came from
@@ -57,17 +57,17 @@ public class CalciumChlorideLattice extends Lattice<CalciumChlorideLattice> {
                 }
                 else if ( bonds.size() == 1 ) {
                     //add one bond on the opposite side
-                    openSites.add( new CalciumChlorideSite( component, bonds.get( 0 ).type.reverse() ) );
+                    latticeSites.add( new CalciumChlorideSite( component, bonds.get( 0 ).type.reverse() ) );
                 }
                 else {
                     //No bonds (it is the only ion in the lattice), so can go any direction
                     for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
-                        testAddSite( openSites, component, getBonds( component ), bondType );
+                        testAddSite( latticeSites, component, getBonds( component ), bondType );
                     }
                 }
             }
         }
-        return openSites;
+        return latticeSites;
     }
 
     //Sample main to test lattice construction

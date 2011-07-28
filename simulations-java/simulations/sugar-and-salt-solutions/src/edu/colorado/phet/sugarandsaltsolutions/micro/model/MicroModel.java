@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -26,7 +28,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.ChlorideIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
@@ -321,8 +322,61 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Make sure at least 1 second has passed, then convert to crystals
         if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 ) {
             lastNaClCrystallizationTime = time;
-            convertToCrystal( SodiumIonParticle.class, new SodiumIon() );
-            convertToCrystal( ChlorideIonParticle.class, new ChlorideIon() );
+
+            //Create a crystal if there weren't any
+            if ( sodiumChlorideCrystals.size() == 0 ) {
+                convertToCrystal( SodiumIonParticle.class, new SodiumIon() );
+            }
+
+            //try adding on to an existing crystal
+            else {
+
+                //Find existing crystal(s)
+                SodiumChlorideCrystal crystal = sodiumChlorideCrystals.get( 0 );
+
+                //Look for an open site on its lattice
+                ArrayList<CrystalSite> crystalSites = crystal.getCrystalSites();
+
+                class Match {
+                    public final Particle particle;
+                    public final CrystalSite crystalSite;
+                    public final double distance;
+
+                    Match( Particle particle, CrystalSite crystalSite ) {
+                        this.particle = particle;
+                        this.crystalSite = crystalSite;
+                        this.distance = particle.position.get().minus( crystalSite.position ).getMagnitude();
+                    }
+                }
+
+                //Enumerate all particles and distances from crystal sites
+                ArrayList<Match> matches = new ArrayList<Match>();
+                for ( Particle freeParticle : freeParticles ) {
+                    for ( CrystalSite crystalSite : crystalSites ) {
+                        if ( crystalSite.matches( freeParticle ) ) {
+                            matches.add( new Match( freeParticle, crystalSite ) );
+                        }
+                    }
+                }
+
+                //Find a matching particle nearby one of the sites and join it together
+                Collections.sort( matches, new Comparator<Match>() {
+                    public int compare( Match o1, Match o2 ) {
+                        return Double.compare( o1.distance, o2.distance );
+                    }
+                } );
+                Match match = matches.get( 0 );
+
+                //If close enough, join into the lattice
+                if ( match.distance < 1E-90 ) {
+
+                }
+
+                //Otherwise, move closest particle toward the lattice
+                else {
+                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 ) );
+                }
+            }
         }
     }
 
@@ -338,8 +392,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             sphericalParticles.remove( firstParticle );
 
             addSaltCrystal( crystal );
-
-            //If there is already a crystal, let it grab nearby particles
         }
     }
 

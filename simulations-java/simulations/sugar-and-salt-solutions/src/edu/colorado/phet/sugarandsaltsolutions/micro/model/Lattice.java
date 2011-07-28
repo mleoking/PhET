@@ -5,6 +5,7 @@ import java.util.Random;
 
 /**
  * A lattice represents a set of components (may be elements or molecules) and the bonds between them.
+ * Hence this is just a topological construct.  To actually place particles at specific positions, you need a crystal.
  * TODO: Graph creation does not prevent particles from being placed in the same location (reached by 2 different paths)
  * <p/>
  * //Generify to obtain the self type, see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6479372
@@ -29,10 +30,10 @@ public abstract class Lattice<T extends Lattice<T>> {
     }
 
     //Find the available sites where a new component might be added
-    protected abstract ArrayList<OpenSite<T>> getOpenSites();
+    protected abstract ArrayList<LatticeSite<T>> getOpenSites();
 
     //Check to see whether the adjacent site is available, if so, add it to the list of open sites for potential bonding
-    protected abstract void testAddSite( ArrayList<OpenSite<T>> openSites, Component component, ArrayList<Bond> bonds, BondType type );
+    protected abstract void testAddSite( ArrayList<LatticeSite<T>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type );
 
     //Determine whether the list contains a bond of the specified type
     protected boolean containsBondType( ArrayList<Bond> bonds, BondType type ) {
@@ -75,8 +76,8 @@ public abstract class Lattice<T extends Lattice<T>> {
     //Create a new Lattice with an additional (new) component
     protected Lattice<T> grow( Random random ) {
         //Randomly choose an open site for expansion
-        ArrayList<OpenSite<T>> sites = getOpenSites();
-        OpenSite selected = sites.get( random.nextInt( sites.size() ) );
+        ArrayList<LatticeSite<T>> sites = getOpenSites();
+        LatticeSite selected = sites.get( random.nextInt( sites.size() ) );
 
         //Grow at the selected open site
         return selected.grow( this );

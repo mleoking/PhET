@@ -5,14 +5,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 
 /**
  * Model for growing a calcium chloride lattice, using the same 2d crystal structure as in Soluble Salts.
  *
  * @author Sam Reid
  */
-public class CalciumChlorideSite extends OpenSite<CalciumChlorideLattice> {
+public class CalciumChlorideSite extends LatticeSite<CalciumChlorideLattice> {
     public CalciumChlorideSite( Component component, BondType type ) {
         super( component, type );
     }
