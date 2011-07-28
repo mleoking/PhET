@@ -5,15 +5,15 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
  *
  * @author Sam Reid
  */
-public abstract class LatticeSite<T extends Lattice> {
-    public final Component component;
+public abstract class LatticeSite<T> {
+    public final T component;
     public final BondType type;
 
-    public LatticeSite( Component component, BondType type ) {
+    public LatticeSite( T component, BondType type ) {
         this.component = component;
         this.type = type;
     }
 
     //Create a new lattice that has expanded from this open site
-    public abstract T grow( T lattice );
+    public abstract Lattice<T> grow( Lattice<T> lattice );
 }

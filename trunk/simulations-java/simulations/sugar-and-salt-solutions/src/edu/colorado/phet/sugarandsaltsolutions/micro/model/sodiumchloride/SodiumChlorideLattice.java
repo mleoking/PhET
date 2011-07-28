@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
 /**
@@ -16,23 +16,23 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
  *
  * @author Sam Reid
  */
-public class SodiumChlorideLattice extends SquareLattice<SodiumChlorideLattice> {
+public class SodiumChlorideLattice extends SquareLattice<SphericalParticle> {
 
     public SodiumChlorideLattice() {
-        super( new ImmutableList<Component>( new SodiumIon() ), new ImmutableList<Bond>() );
+        super( new ImmutableList<SphericalParticle>( new SodiumIonParticle() ), new ImmutableList<Bond<SphericalParticle>>() );
     }
 
-    public SodiumChlorideLattice( Component component ) {
-        super( new ImmutableList<Component>( component ), new ImmutableList<Bond>() );
+    public SodiumChlorideLattice( SphericalParticle particle ) {
+        super( new ImmutableList<SphericalParticle>( particle ), new ImmutableList<Bond<SphericalParticle>>() );
     }
 
-    public SodiumChlorideLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+    public SodiumChlorideLattice( ImmutableList<SphericalParticle> components, ImmutableList<Bond<SphericalParticle>> bonds ) {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<LatticeSite<SodiumChlorideLattice>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<SphericalParticle>> latticeSites, SphericalParticle particle, ArrayList<Bond<SphericalParticle>> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            latticeSites.add( new SodiumChlorideSite( component, type ) );
+            latticeSites.add( new SodiumChlorideSite( particle, type ) );
         }
     }
 

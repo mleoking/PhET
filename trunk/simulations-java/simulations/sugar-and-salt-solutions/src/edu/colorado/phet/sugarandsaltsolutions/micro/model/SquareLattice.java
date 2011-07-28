@@ -9,15 +9,15 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
  *
  * @author Sam Reid
  */
-public abstract class SquareLattice<T extends SquareLattice<T>> extends Lattice<T> {
-    public SquareLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+public abstract class SquareLattice<T> extends Lattice<T> {
+    public SquareLattice( ImmutableList<T> components, ImmutableList<Bond<T>> bonds ) {
         super( components, bonds );
     }
 
     //Find the available sites where a new component might be added
     @Override protected ArrayList<LatticeSite<T>> getOpenSites() {
         ArrayList<LatticeSite<T>> latticeSites = new ArrayList<LatticeSite<T>>();
-        for ( Component component : components ) {
+        for ( T component : components ) {
             for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
                 testAddSite( latticeSites, component, getBonds( component ), bondType );
             }

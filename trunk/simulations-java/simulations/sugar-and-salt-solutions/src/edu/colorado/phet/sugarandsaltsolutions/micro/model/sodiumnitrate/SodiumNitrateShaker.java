@@ -7,9 +7,9 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
 /**
  * This shaker adds sodium nitrate to the model when shaken
@@ -31,7 +31,7 @@ public class SodiumNitrateShaker extends MicroShaker {
                                                                                             }
                                                                                         }, new Function1<SodiumNitrateLattice, Boolean>() {
                                                                      public Boolean apply( SodiumNitrateLattice lattice ) {
-                                                                         return lattice.count( SodiumIon.class ) == lattice.count( edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.Nitrate.class );
+                                                                         return lattice.count( SodiumIonParticle.class ) == lattice.count( NitrateMolecule.class );
                                                                      }
                                                                  }
                                                                  ) ) );

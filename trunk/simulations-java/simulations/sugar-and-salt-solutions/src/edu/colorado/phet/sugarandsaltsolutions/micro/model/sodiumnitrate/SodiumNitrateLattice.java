@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
 /**
@@ -17,17 +17,17 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
  *
  * @author Sam Reid
  */
-public class SodiumNitrateLattice extends SquareLattice<SodiumNitrateLattice> {
+public class SodiumNitrateLattice extends SquareLattice<Particle> {
 
     public SodiumNitrateLattice() {
-        super( new ImmutableList<Component>( new SodiumIon() ), new ImmutableList<Bond>() );
+        super( new ImmutableList<Particle>( new SodiumIonParticle() ), new ImmutableList<Bond<Particle>>() );
     }
 
-    public SodiumNitrateLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+    public SodiumNitrateLattice( ImmutableList<Particle> components, ImmutableList<Bond<Particle>> bonds ) {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<LatticeSite<SodiumNitrateLattice>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<Particle>> latticeSites, Particle component, ArrayList<Bond<Particle>> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
             latticeSites.add( new SodiumNitrateSite( component, type ) );
         }
