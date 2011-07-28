@@ -3,9 +3,13 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -44,6 +48,7 @@ public class ItemList<T> implements Iterable<T> {
         itemAddedListeners.addListener( listener );
         itemRemovedListeners.addListener( listener );
     }};
+    private Random random = new Random();
 
     public void addItemAddedListener( VoidFunction1<T> listener ) {
         itemAddedListeners.addListener( listener );
@@ -142,6 +147,17 @@ public class ItemList<T> implements Iterable<T> {
                 }
             }
         }};
+    }
+
+    //Choose an item at random from the matching items in the list, if there is a match
+    public Option<T> selectRandom( final Class<? extends T>... clazz ) {
+        ArrayList<T> selected = filter( clazz );
+        if ( selected.size() == 0 ) {
+            return new None<T>();
+        }
+        else {
+            return new Some<T>( selected.get( random.nextInt( selected.size() ) ) );
+        }
     }
 
     //Determine which items are instances of the specified classes
