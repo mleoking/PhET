@@ -365,7 +365,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 Match match = matches.get( 0 );
 
                 //If close enough, join the lattice
-                //This number was determined by reducing particle velocity and determining a good value for when the particle is close enough
                 if ( match.distance <= FREE_PARTICLE_SPEED * dt ) {
 
                     //Remove the particle
