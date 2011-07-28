@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
-import edu.colorado.phet.common.phetcommon.model.property.IfElse;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
@@ -53,7 +52,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPerLiterToMolesPerMeterCubed;
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.numberToMoles;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SUCROSE;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
@@ -132,36 +130,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         addComponents( ethanol );
     }
 
-    //Observable property that gives the concentration in mol/m^3 for specific dissolved components (such as Na+ or sucrose)
-    public class IonConcentration extends CompositeDoubleProperty {
-        public IonConcentration( final Class<? extends Particle> type ) {
-            super( new Function0<Double>() {
-                       public Double apply() {
-                           //If there is no water, there is no solution and hence no concentration
-                           return waterVolume.get() == 0 ? 0.0 :
-                                  numberToMoles( freeParticles.count( type ) ) / waterVolume.get();
-                       }
-                   }, waterVolume );
-            VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {
-                public void apply( Particle particle ) {
-                    notifyIfChanged();
-                }
-            };
-            freeParticles.addItemAddedListener( listener );
-            freeParticles.addItemRemovedListener( listener );
-        }
-    }
-
-    public class IonColor extends IfElse<Color> {
-        public IonColor( SphericalParticle particle ) {
-            super( showChargeColor, particle.chargeColor, particle.color );
-        }
-    }
-
     //Colors for all the dissolved components
-    public final ObservableProperty<Color> sodiumColor = new IonColor( new SodiumIonParticle() );
-    public final ObservableProperty<Color> chlorideColor = new IonColor( new ChlorideIonParticle() );
-    public final ObservableProperty<Color> calciumColor = new IonColor( new CalciumIonParticle() );
+    public final ObservableProperty<Color> sodiumColor = new IonColor( this, new SodiumIonParticle() );
+    public final ObservableProperty<Color> chlorideColor = new IonColor( this, new ChlorideIonParticle() );
+    public final ObservableProperty<Color> calciumColor = new IonColor( this, new CalciumIonParticle() );
     public final ObservableProperty<Color> sucroseColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
@@ -179,12 +151,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }, showChargeColor );
 
     //Particle concentrations for all of the dissolved components
-    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( SodiumIonParticle.class );
-    public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( ChlorideIonParticle.class );
-    public final CompositeDoubleProperty calciumConcentration = new IonConcentration( CalciumIonParticle.class );
-    public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( SucroseMolecule.class );
-    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( EthanolMolecule.class );
-    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( NitrateMolecule.class );
+    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( this, SodiumIonParticle.class );
+    public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, ChlorideIonParticle.class );
+    public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, CalciumIonParticle.class );
+    public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, SucroseMolecule.class );
+    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, EthanolMolecule.class );
+    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, NitrateMolecule.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
