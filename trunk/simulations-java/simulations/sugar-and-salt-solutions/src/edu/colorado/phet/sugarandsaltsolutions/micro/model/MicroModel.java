@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -295,7 +296,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 && sodiumChlorideCrystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
-            convertToCrystal( new Sodium() );
+            startSodiumChlorideCrystal();
             lastNaClCrystallizationTime = time;
         }
 
@@ -332,65 +333,77 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             ArrayList<Match> matches = new ArrayList<Match>();
             for ( Particle freeParticle : freeParticles ) {
                 for ( CrystalSite openSite : openSites ) {
-                    if ( solutionContains( openSite.position ) && openSite.matches( freeParticle ) ) {
+                    if ( solutionContains( openSite ) && openSite.matches( freeParticle ) ) {
                         matches.add( new Match( freeParticle, openSite ) );
                     }
                 }
             }
 
-            //Find a matching particle nearby one of the sites and join it together
-            Collections.sort( matches, new Comparator<Match>() {
-                public int compare( Match o1, Match o2 ) {
-                    return Double.compare( o1.distance, o2.distance );
+            if ( matches.size() > 0 ) {
+
+                //Find a matching particle nearby one of the sites and join it together
+                Collections.sort( matches, new Comparator<Match>() {
+                    public int compare( Match o1, Match o2 ) {
+                        return Double.compare( o1.distance, o2.distance );
+                    }
+                } );
+                Match match = matches.get( 0 );
+
+                //If close enough, join the lattice
+                //This number was determined by reducing particle velocity and determining a good value for when the particle is close enough
+                if ( match.distance < 5E-12 ) {
+
+                    //Remove the particle
+                    freeParticles.remove( match.particle );
+                    sphericalParticles.remove( (SphericalParticle) match.particle );
+
+                    //Remove the old crystal
+                    for ( Constituent<SphericalParticle> constituent : crystal ) {
+                        sphericalParticles.remove( constituent.particle );
+                    }
+                    sodiumChlorideCrystals.remove( crystal );
+
+                    //Create a new crystal that combines the pre-existing crystal and the new particle
+                    addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), (SodiumChlorideLattice) crystal.growCrystal( match.crystalSite ), crystal.angle ) );
                 }
-            } );
-            Match match = matches.get( 0 );
 
-            //If close enough, join the lattice
-            //This number was determined by reducing particle velocity and determining a good value for when the particle is close enough
-            if ( match.distance < 5E-12 ) {
-
-                //Remove the particle
-                freeParticles.remove( match.particle );
-                sphericalParticles.remove( (SphericalParticle) match.particle );
-
-                //Remove the old crystal
-                for ( Constituent<SphericalParticle> constituent : crystal ) {
-                    sphericalParticles.remove( constituent.particle );
+                //Otherwise, move closest particle toward the lattice
+                else {
+                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 / 10 ) );
                 }
-                sodiumChlorideCrystals.remove( crystal );
-
-                //Create a new crystal that combines the pre-existing crystal and the new particle
-                addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), (SodiumChlorideLattice) crystal.growCrystal( match.crystalSite ), crystal.angle ) );
             }
 
-            //Otherwise, move closest particle toward the lattice
+            //No matches, so start a new crystal
             else {
-                match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 / 10 ) );
+                startSodiumChlorideCrystal();
             }
         }
     }
 
     //Determine whether the solution shape contains the specified point
-    private boolean solutionContains( ImmutableVector2D position ) {
-        return solution.shape.get().getBounds2D().contains( position.toPoint2D() );
+    private boolean solutionContains( CrystalSite site ) {
+        return solution.shape.get().getBounds2D().contains( site.getTargetBounds() );
     }
 
     //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
-    private void convertToCrystal( SphericalParticle component ) {
-        ArrayList<Particle> p = freeParticles.filter( SphericalParticle.class );
-        if ( p.size() > 0 ) {
+    private void startSodiumChlorideCrystal() {
+        Option<Particle> selected = freeParticles.selectRandom( Sodium.class, Chloride.class );
+        if ( selected.isSome() ) {
             //If there is no crystal, create one with one particle
-            Particle firstParticle = p.get( 0 );
-            SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( firstParticle.position.get(), new SodiumChlorideLattice( component ), randomAngle() );
-
-            freeParticles.remove( firstParticle );
-
-            //TODO: eliminate this cast
-            sphericalParticles.remove( (SphericalParticle) firstParticle );
-
-            addSaltCrystal( crystal );
+            convertToCrystal( selected.get() );
         }
+    }
+
+    //Convert the specified particle to a crystal
+    private void convertToCrystal( Particle particle ) {
+        SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( particle.position.get(), new SodiumChlorideLattice( (SphericalParticle) particle ), randomAngle() );
+
+        freeParticles.remove( particle );
+
+        //TODO: eliminate this cast
+        sphericalParticles.remove( (SphericalParticle) particle );
+
+        addSaltCrystal( crystal );
     }
 
     //Update the crystals by moving them about and possibly dissolving them

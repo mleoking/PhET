@@ -96,7 +96,7 @@ public class Crystal<T extends Particle> extends Compound<T> {
         //TODO: Find the location adjacent to the bonding target
         ImmutableVector2D delta = getDelta( spacing, site.type );
 
-        return new CrystalSite( bondingTarget.plus( delta ), site.getOppositeComponent().getClass(), site );
+        return new CrystalSite( bondingTarget.plus( delta ), site.getOppositeComponent(), site );
     }
 
     public Lattice<T> growCrystal( CrystalSite crystalSite ) {
