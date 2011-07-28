@@ -78,7 +78,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //List of all spherical particles
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
-    //List of all free spherical particles, used to keep track of which particles to move about randomly
+    //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
     //Lists of compounds
@@ -114,7 +114,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Strategy rule to use for dissolving the crystals
-    private DissolveStrategy dissolveStrategy = new IncrementalDissolve();
+    private IncrementalDissolve dissolveStrategy = new IncrementalDissolve();
 
     //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
     private double lastNaClCrystallizationTime;
@@ -324,7 +324,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a crystal if there weren't any
             if ( sodiumChlorideCrystals.size() == 0 ) {
-                convertToCrystal( SodiumIonParticle.class, new SodiumIonParticle() );
+                convertToCrystal( new SodiumIonParticle() );
             }
 
             //try adding on to an existing crystal
@@ -380,15 +380,17 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
-    private void convertToCrystal( Class<? extends Particle> particle, SphericalParticle component ) {
-        ArrayList<Particle> p = freeParticles.filter( particle );
+    private void convertToCrystal( SphericalParticle component ) {
+        ArrayList<Particle> p = freeParticles.filter( SphericalParticle.class );
         if ( p.size() > 0 ) {
             //If there is no crystal, create one with one particle
             Particle firstParticle = p.get( 0 );
             SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( firstParticle.position.get(), new SodiumChlorideLattice( component ) );
 
             freeParticles.remove( firstParticle );
-            sphericalParticles.remove( firstParticle );
+
+            //TODO: eliminate this cast
+            sphericalParticles.remove( (SphericalParticle) firstParticle );
 
             addSaltCrystal( crystal );
         }
