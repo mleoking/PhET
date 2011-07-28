@@ -300,11 +300,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
         updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
 
-        formNaClCrystals( sodiumChlorideUnsaturated );
+        formNaClCrystals( dt, sodiumChlorideUnsaturated );
     }
 
     //Check to see whether it is time to create or add to existing crystals, if the solution is over saturated
-    private void formNaClCrystals( ObservableProperty<Boolean> sodiumChlorideUnsaturated ) {
+    private void formNaClCrystals( double dt, ObservableProperty<Boolean> sodiumChlorideUnsaturated ) {
         double timeSinceLast = time - lastNaClCrystallizationTime;
 
         //Make sure at least 1 second has passed, then convert to crystals
@@ -366,7 +366,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
                 //If close enough, join the lattice
                 //This number was determined by reducing particle velocity and determining a good value for when the particle is close enough
-                if ( match.distance < 5E-12 ) {
+                if ( match.distance <= FREE_PARTICLE_SPEED * dt ) {
 
                     //Remove the particle
                     freeParticles.remove( match.particle );
@@ -384,7 +384,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
                 //Otherwise, move closest particle toward the lattice
                 else {
-                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 / 10 ) );
+                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
                 }
             }
 
