@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -33,7 +35,7 @@ public class DnaMoleculeNode extends PNode {
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
         // Put the genes behind everything.
         for ( Gene gene : dnaMolecule.getGenes() ) {
-            addChild( new PhetPPath( mvt.modelToView( gene.getRect() ), gene.getColor() ) );
+            addChild( new GeneNode( mvt, gene ) );
         }
 
         // Add the layers onto which the DNA backbone and base pairs will be placed.

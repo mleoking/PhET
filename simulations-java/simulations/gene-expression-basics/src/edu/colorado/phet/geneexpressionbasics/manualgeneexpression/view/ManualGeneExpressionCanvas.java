@@ -145,7 +145,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         }} );
 
         //Uncomment this line to add zoom on right mouse click drag
-//        addInputEventListener( getZoomEventHandler() );
+        addInputEventListener( getZoomEventHandler() );
     }
 
     public ImmutableVector2D getViewportOffset() {

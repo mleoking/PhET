@@ -16,7 +16,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 public class RnaPolymerase extends MobileBiomolecule {
 
     private static final double WIDTH = 340;
-    private static final double HEIGHT = 150;
+    private static final double HEIGHT = 700;
 
 
     public RnaPolymerase() {
