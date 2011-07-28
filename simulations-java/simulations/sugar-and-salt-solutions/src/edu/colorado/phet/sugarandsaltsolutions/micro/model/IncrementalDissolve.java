@@ -8,13 +8,13 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
  *
  * @author Sam Reid
  */
-public class IncrementalDissolve implements DissolveStrategy {
+public class IncrementalDissolve {
 
     //Debugging tool to visualize the dissolving process
     long lastDissolve = System.currentTimeMillis();
 
     //Dissolve the lattice incrementally so that we get as close as possible to the saturation point
-    public void dissolve( ItemList<? extends Crystal> crystals, final Crystal crystal, ItemList<Particle> freeParticles, ObservableProperty<Boolean> unsaturated ) {
+    public void dissolve( ItemList crystals, final Crystal crystal, ItemList<Particle> freeParticles, ObservableProperty<Boolean> unsaturated ) {
 
         while ( unsaturated.get() && crystal.numberConstituents() > 0
 //                && System.currentTimeMillis() - lastDissolve > 1000

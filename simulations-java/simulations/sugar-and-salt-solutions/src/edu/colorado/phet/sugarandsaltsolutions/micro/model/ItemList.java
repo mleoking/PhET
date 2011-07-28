@@ -81,14 +81,14 @@ public class ItemList<T> implements Iterable<T> {
         itemAddedListeners.notifyListeners( item );
     }
 
-    //TODO: Make removal work for subtypes of T, not on arbitrary Object type
-    public void remove( Object item ) {
+    //Remove the specified item from the list
+    public void remove( T item ) {
 
         //Remove the item
         items.remove( item );
 
         //Notify listeners that are just interested in removal of any item
-        itemRemovedListeners.notifyListeners( (T) item );
+        itemRemovedListeners.notifyListeners( item );
 
         //Notify listeners that were specifically listening for when the specified item would be removed
         if ( particularItemRemovedListeners.containsKey( item ) ) {
@@ -133,18 +133,29 @@ public class ItemList<T> implements Iterable<T> {
         }
     }
 
-    //Determine which items are instances of the specified classes
-    public ArrayList<T> filter( final Class<? extends T>... clazz ) {
+    //Collect all items from the list that match the predicate
+    public ArrayList<T> filter( final Function1<T, Boolean> predicate ) {
         return new ArrayList<T>() {{
             for ( T item : items ) {
-                for ( Class<? extends T> aClass : clazz ) {
-                    if ( aClass.isInstance( item ) ) {
-                        add( item );
-                        break;
-                    }
+                if ( predicate.apply( item ) ) {
+                    add( item );
                 }
             }
         }};
+    }
+
+    //Determine which items are instances of the specified classes
+    public ArrayList<T> filter( final Class<? extends T>... clazz ) {
+        return filter( new Function1<T, Boolean>() {
+            public Boolean apply( T t ) {
+                for ( Class<? extends T> aClass : clazz ) {
+                    if ( aClass.isInstance( t ) ) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        } );
     }
 
     //Remove all items from the list

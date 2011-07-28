@@ -88,9 +88,9 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Splits up all constituents from the crystal lattice, returning the components (particles or molecules) that should move about freely
-    public ArrayList<? extends Particle> dissolve() {
-        ArrayList<Particle> freeParticles = new ArrayList<Particle>();
-        for ( Constituent constituent : this ) {
+    public ArrayList<T> dissolve() {
+        ArrayList<T> freeParticles = new ArrayList<T>();
+        for ( Constituent<T> constituent : this ) {
             dissolve( constituent );
             freeParticles.add( constituent.particle );
         }
