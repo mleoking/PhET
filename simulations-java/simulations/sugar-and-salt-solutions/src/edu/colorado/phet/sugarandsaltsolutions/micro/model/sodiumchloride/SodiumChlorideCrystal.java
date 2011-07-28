@@ -3,8 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 /**
  * This crystal for Sodium Chloride salt updates the positions of the molecules to ensure they move as a crystal
@@ -13,6 +13,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sod
  */
 public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
     public SodiumChlorideCrystal( ImmutableVector2D position, SodiumChlorideLattice lattice, double angle ) {
-        super( position, new ChlorideIonParticle().radius + new SodiumIonParticle().radius, lattice, angle );
+        super( position, new Chloride().radius + new Sodium().radius, lattice, angle );
     }
 }

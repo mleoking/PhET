@@ -7,9 +7,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygenParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygen;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.EthanolPositions;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
@@ -20,12 +20,12 @@ import static java.lang.Double.parseDouble;
  *
  * @author Sam Reid
  */
-public class EthanolMolecule extends Compound<SphericalParticle> {
-    public EthanolMolecule() {
+public class Ethanol extends Compound<SphericalParticle> {
+    public Ethanol() {
         this( ZERO, Math.random() * 2 * Math.PI );
     }
 
-    public EthanolMolecule( ImmutableVector2D position, double angle ) {
+    public Ethanol( ImmutableVector2D position, double angle ) {
         super( position, angle );
 
         //Parse the locations and use the specified z-ordering so it will look more realistic
@@ -40,13 +40,13 @@ public class EthanolMolecule extends Compound<SphericalParticle> {
             //It shouldn't look too regular since it is a fluid
             switch( type ) {
                 case 'H':
-                    constituents.add( new Constituent<SphericalParticle>( new HydrogenIonParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new Hydrogen(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'C':
-                    constituents.add( new Constituent<SphericalParticle>( new CarbonIonParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new Carbon(), location.getRotatedInstance( angle ) ) );
                     break;
                 case 'O':
-                    constituents.add( new Constituent<SphericalParticle>( new NeutralOxygenParticle(), location.getRotatedInstance( angle ) ) );
+                    constituents.add( new Constituent<SphericalParticle>( new NeutralOxygen(), location.getRotatedInstance( angle ) ) );
                     break;
             }
         }

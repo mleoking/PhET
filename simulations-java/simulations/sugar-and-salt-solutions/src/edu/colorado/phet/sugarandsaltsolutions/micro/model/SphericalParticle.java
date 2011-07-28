@@ -45,59 +45,59 @@ public class SphericalParticle extends Particle {
     }
 
     //These classes contains state information for particulars particles and ions and permit matching in MicroModel for particle counting.
-    public static class HydrogenIonParticle extends SphericalParticle {
-        public HydrogenIonParticle() {
+    public static class Hydrogen extends SphericalParticle {
+        public Hydrogen() {
             super( 37, SphericalParticle.NEUTRAL_COLOR, white );
         }
     }
 
-    public static class CarbonIonParticle extends SphericalParticle {
-        public CarbonIonParticle() {
+    public static class Carbon extends SphericalParticle {
+        public Carbon() {
             super( 77, SphericalParticle.NEUTRAL_COLOR, gray );
         }
     }
 
-    public static class NitrogenIonParticle extends SphericalParticle {
-        public NitrogenIonParticle() {
+    public static class Nitrogen extends SphericalParticle {
+        public Nitrogen() {
             super( 75, SphericalParticle.NEGATIVE_COLOR, blue );
         }
     }
 
     //Abstract since oxygen ions and oxygen in sucrose must have different colors
-    public abstract static class OxygenIonParticle extends SphericalParticle {
-        public OxygenIonParticle( Color chargeColor ) {
+    public abstract static class Oxygen extends SphericalParticle {
+        public Oxygen( Color chargeColor ) {
             super( 73, chargeColor, red );
         }
     }
 
     //Free oxygen atoms have a negative charge
-    public static class FreeOxygenIonParticle extends OxygenIonParticle {
-        public FreeOxygenIonParticle() {
+    public static class FreeOxygen extends Oxygen {
+        public FreeOxygen() {
             super( Color.blue );
         }
     }
 
     //When participating in sucrose or ethanol, oxygen atoms should be shown as neutral
-    public static class NeutralOxygenParticle extends OxygenIonParticle {
-        public NeutralOxygenParticle() {
+    public static class NeutralOxygen extends Oxygen {
+        public NeutralOxygen() {
             super( SphericalParticle.NEUTRAL_COLOR );
         }
     }
 
-    public static class SodiumIonParticle extends SphericalParticle {
-        public SodiumIonParticle() {
+    public static class Sodium extends SphericalParticle {
+        public Sodium() {
             super( 102, SphericalParticle.POSITIVE_COLOR, magenta );
         }
     }
 
-    public static class ChlorideIonParticle extends SphericalParticle {
-        public ChlorideIonParticle() {
+    public static class Chloride extends SphericalParticle {
+        public Chloride() {
             super( 181, SphericalParticle.NEGATIVE_COLOR, green );
         }
     }
 
-    public static class CalciumIonParticle extends SphericalParticle {
-        public CalciumIonParticle() {
+    public static class Calcium extends SphericalParticle {
+        public Calcium() {
             //Calcium should be a dark green
             super( 100, SphericalParticle.POSITIVE_COLOR, new Color( 6, 98, 23 ) );
         }

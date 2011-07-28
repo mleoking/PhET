@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseMolecule;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.PFrame;
 
@@ -41,7 +41,7 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
                 new PFrame() {{
 
                     //Large transform is needed since nodes are rasterized
-                    getCanvas().getLayer().addChild( new CompositeParticleNode<SphericalParticle>( createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1E11 ), new SucroseMolecule( ZERO ), new Property<Boolean>( false ) ) {{
+                    getCanvas().getLayer().addChild( new CompositeParticleNode<SphericalParticle>( createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 1E11 ), new Sucrose( ZERO ), new Property<Boolean>( false ) ) {{
                         double width = getFullBounds().getWidth();
                         System.out.println( "width = " + width );
                         scale( 100 );

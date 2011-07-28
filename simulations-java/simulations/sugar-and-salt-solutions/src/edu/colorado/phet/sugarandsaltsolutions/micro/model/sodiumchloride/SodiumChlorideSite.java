@@ -6,8 +6,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 /**
  * Identifies open (available) bonding site in a SaltLattice
@@ -25,6 +25,6 @@ public class SodiumChlorideSite extends LatticeSite<SphericalParticle> {
     }
 
     public SphericalParticle getOppositeComponent() {
-        return ( component instanceof SodiumIonParticle ) ? new ChlorideIonParticle() : new SodiumIonParticle();
+        return ( component instanceof Sodium ) ? new Chloride() : new Sodium();
     }
 }

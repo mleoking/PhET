@@ -9,8 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -38,7 +38,7 @@ public class CalciumChlorideShaker extends MicroShaker {
                                                                 }, new Function1<CalciumChlorideLattice, Boolean>() {
             public Boolean apply( CalciumChlorideLattice lattice ) {
                 //CaCl2 should have twice as many Cl as Ca
-                return lattice.count( CalciumIonParticle.class ) * 2 == lattice.count( ChlorideIonParticle.class );
+                return lattice.count( Calcium.class ) * 2 == lattice.count( Chloride.class );
             }
         }
         );

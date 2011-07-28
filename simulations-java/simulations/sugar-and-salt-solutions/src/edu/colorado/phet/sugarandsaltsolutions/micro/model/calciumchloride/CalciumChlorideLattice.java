@@ -9,8 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
 
@@ -25,7 +25,7 @@ public class CalciumChlorideLattice extends Lattice<SphericalParticle> {
     public CalciumChlorideLattice() {
 
         //Seed with a chloride since we need 2:1 ratio of chloride to calcium
-        super( new ImmutableList<SphericalParticle>( new ChlorideIonParticle() ), new ImmutableList<Bond<SphericalParticle>>() );
+        super( new ImmutableList<SphericalParticle>( new Chloride() ), new ImmutableList<Bond<SphericalParticle>>() );
     }
 
     public CalciumChlorideLattice( ImmutableList<SphericalParticle> components, ImmutableList<Bond<SphericalParticle>> bonds ) {
@@ -44,7 +44,7 @@ public class CalciumChlorideLattice extends Lattice<SphericalParticle> {
         for ( SphericalParticle particle : components ) {
 
             //Calcium bonds in all 4 directions
-            if ( particle instanceof CalciumIonParticle ) {
+            if ( particle instanceof Calcium ) {
                 for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
                     testAddSite( openSites, particle, getBonds( particle ), bondType );
                 }
@@ -53,7 +53,7 @@ public class CalciumChlorideLattice extends Lattice<SphericalParticle> {
             //It only forms 2 bonds instead of 4 like Calcium
             //So if it already has 2 bonds, then it is full
             //If it only has 1 bond, then the other bond must be on the opposite side
-            else if ( particle instanceof ChlorideIonParticle ) {
+            else if ( particle instanceof Chloride ) {
                 ArrayList<Bond<SphericalParticle>> bonds = getBonds( particle );
                 if ( bonds.size() == 2 ) {
                     //do nothing, already fully bonded

@@ -5,9 +5,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.HydrogenIonParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygenParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygen;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SucrosePositions;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
@@ -18,28 +18,28 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  *
  * @author Sam Reid
  */
-public class SucroseMolecule extends Compound<SphericalParticle> {
-    public SucroseMolecule() {
+public class Sucrose extends Compound<SphericalParticle> {
+    public Sucrose() {
         this( ZERO, Math.random() * 2 * Math.PI );
     }
 
-    public SucroseMolecule( ImmutableVector2D relativePosition ) {
+    public Sucrose( ImmutableVector2D relativePosition ) {
         this( relativePosition, Math.random() * 2 * Math.PI );
     }
 
-    public SucroseMolecule( ImmutableVector2D relativePosition, double angle ) {
+    public Sucrose( ImmutableVector2D relativePosition, double angle ) {
         super( relativePosition, angle );
 
         //Add the salt molecule atoms in the right locations
         SucrosePositions sucrosePositions = new SucrosePositions();
         for ( ImmutableVector2D offset : sucrosePositions.getHydrogenPositions() ) {
-            constituents.add( new Constituent<SphericalParticle>( new HydrogenIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent<SphericalParticle>( new Hydrogen(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
         for ( ImmutableVector2D offset : sucrosePositions.getCarbonPositions() ) {
-            constituents.add( new Constituent<SphericalParticle>( new CarbonIonParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent<SphericalParticle>( new Carbon(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
         for ( ImmutableVector2D offset : sucrosePositions.getOxygenPositions() ) {
-            constituents.add( new Constituent<SphericalParticle>( new NeutralOxygenParticle(), relativePosition.plus( offset.times( sizeScale ) ) ) );
+            constituents.add( new Constituent<SphericalParticle>( new NeutralOxygen(), relativePosition.plus( offset.times( sizeScale ) ) ) );
         }
 
         //Update positions so the lattice position overwrites constituent particle positions

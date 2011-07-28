@@ -9,7 +9,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -33,7 +33,7 @@ public class SodiumNitrateShaker extends MicroShaker {
                                                                                             }
                                                                                         }, new Function1<SodiumNitrateLattice, Boolean>() {
                                                                      public Boolean apply( SodiumNitrateLattice lattice ) {
-                                                                         return lattice.count( SodiumIonParticle.class ) == lattice.count( NitrateMolecule.class );
+                                                                         return lattice.count( Sodium.class ) == lattice.count( Nitrate.class );
                                                                      }
                                                                  }
                                                                  ), randomAngle() ) );
