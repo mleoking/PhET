@@ -5,10 +5,12 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
 
@@ -18,56 +20,57 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType.*;
  *
  * @author Sam Reid
  */
-public class CalciumChlorideLattice extends Lattice<CalciumChlorideLattice> {
+public class CalciumChlorideLattice extends Lattice<SphericalParticle> {
 
     public CalciumChlorideLattice() {
+
         //Seed with a chloride since we need 2:1 ratio of chloride to calcium
-        super( new ImmutableList<Component>( new Component.ChlorideIon() ), new ImmutableList<Bond>() );
+        super( new ImmutableList<SphericalParticle>( new ChlorideIonParticle() ), new ImmutableList<Bond<SphericalParticle>>() );
     }
 
-    public CalciumChlorideLattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+    public CalciumChlorideLattice( ImmutableList<SphericalParticle> components, ImmutableList<Bond<SphericalParticle>> bonds ) {
         super( components, bonds );
     }
 
-    @Override protected void testAddSite( ArrayList<LatticeSite<CalciumChlorideLattice>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type ) {
+    @Override protected void testAddSite( ArrayList<LatticeSite<SphericalParticle>> latticeSites, SphericalParticle particle, ArrayList<Bond<SphericalParticle>> bonds, BondType type ) {
         if ( !containsBondType( bonds, type ) ) {
-            latticeSites.add( new CalciumChlorideSite( component, type ) );
+            latticeSites.add( new CalciumChlorideSite( particle, type ) );
         }
     }
 
     //Find the available sites where a new component might be added
-    @Override protected ArrayList<LatticeSite<CalciumChlorideLattice>> getOpenSites() {
-        ArrayList<LatticeSite<CalciumChlorideLattice>> latticeSites = new ArrayList<LatticeSite<CalciumChlorideLattice>>();
-        for ( Component component : components ) {
+    @Override protected ArrayList<LatticeSite<SphericalParticle>> getOpenSites() {
+        ArrayList<LatticeSite<SphericalParticle>> openSites = new ArrayList<LatticeSite<SphericalParticle>>();
+        for ( SphericalParticle particle : components ) {
 
             //Calcium bonds in all 4 directions
-            if ( component instanceof Component.CalciumIon ) {
+            if ( particle instanceof CalciumIonParticle ) {
                 for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
-                    testAddSite( latticeSites, component, getBonds( component ), bondType );
+                    testAddSite( openSites, particle, getBonds( particle ), bondType );
                 }
             }
             //Chloride only bonds in the same direction as it came from
             //It only forms 2 bonds instead of 4 like Calcium
             //So if it already has 2 bonds, then it is full
             //If it only has 1 bond, then the other bond must be on the opposite side
-            else if ( component instanceof Component.ChlorideIon ) {
-                ArrayList<Bond> bonds = getBonds( component );
+            else if ( particle instanceof ChlorideIonParticle ) {
+                ArrayList<Bond<SphericalParticle>> bonds = getBonds( particle );
                 if ( bonds.size() == 2 ) {
                     //do nothing, already fully bonded
                 }
                 else if ( bonds.size() == 1 ) {
                     //add one bond on the opposite side
-                    latticeSites.add( new CalciumChlorideSite( component, bonds.get( 0 ).type.reverse() ) );
+                    openSites.add( new CalciumChlorideSite( particle, bonds.get( 0 ).type.reverse() ) );
                 }
                 else {
                     //No bonds (it is the only ion in the lattice), so can go any direction
                     for ( BondType bondType : new BondType[] { UP, DOWN, LEFT, RIGHT } ) {
-                        testAddSite( latticeSites, component, getBonds( component ), bondType );
+                        testAddSite( openSites, particle, getBonds( particle ), bondType );
                     }
                 }
             }
         }
-        return latticeSites;
+        return openSites;
     }
 
     //Sample main to test lattice construction

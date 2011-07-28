@@ -19,6 +19,10 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  * @author Sam Reid
  */
 public class SucroseMolecule extends Compound<SphericalParticle> {
+    public SucroseMolecule() {
+        this( ZERO );
+    }
+
     public SucroseMolecule( ImmutableVector2D relativePosition ) {
         super( relativePosition );
 

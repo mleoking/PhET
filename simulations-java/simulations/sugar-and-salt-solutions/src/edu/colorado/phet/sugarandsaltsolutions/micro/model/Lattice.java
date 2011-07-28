@@ -13,14 +13,16 @@ import java.util.Random;
  *
  * @author Sam Reid
  */
-public abstract class Lattice<T extends Lattice<T>> {
-    //List of ions in the salt lattice graph, these are the vertices in the graph representation
-    public final ImmutableList<Component> components;
-    //List of bonds between ions in the graph, these are the edges in the graph representation
-    public final ImmutableList<Bond> bonds;
+public abstract class Lattice<T> {
+
+    //List of components in the lattice (e.g. ions), the vertices in the graph representation
+    public final ImmutableList<T> components;
+
+    //List of bonds between vertices (e.g., ions) in the graph, these are the edges in the graph representation
+    public final ImmutableList<Bond<T>> bonds;
 
     //Create a Lattice with the specified components and bonds
-    public Lattice( ImmutableList<Component> components, ImmutableList<Bond> bonds ) {
+    public Lattice( ImmutableList<T> components, ImmutableList<Bond<T>> bonds ) {
         this.components = components;
         this.bonds = bonds;
     }
@@ -33,10 +35,10 @@ public abstract class Lattice<T extends Lattice<T>> {
     protected abstract ArrayList<LatticeSite<T>> getOpenSites();
 
     //Check to see whether the adjacent site is available, if so, add it to the list of open sites for potential bonding
-    protected abstract void testAddSite( ArrayList<LatticeSite<T>> latticeSites, Component component, ArrayList<Bond> bonds, BondType type );
+    protected abstract void testAddSite( ArrayList<LatticeSite<T>> latticeSites, T component, ArrayList<Bond<T>> bonds, BondType type );
 
     //Determine whether the list contains a bond of the specified type
-    protected boolean containsBondType( ArrayList<Bond> bonds, BondType type ) {
+    protected boolean containsBondType( ArrayList<Bond<T>> bonds, BondType type ) {
         for ( Bond bond : bonds ) {
             if ( bond.type == type ) {
                 return true;
@@ -46,9 +48,9 @@ public abstract class Lattice<T extends Lattice<T>> {
     }
 
     //Find all of the bonds originating at the source component, reverses bonds if necessary so the specified component is the source
-    public ArrayList<Bond> getBonds( Component component ) {
-        ArrayList<Bond> ionBonds = new ArrayList<Bond>();
-        for ( Bond bond : bonds ) {
+    public ArrayList<Bond<T>> getBonds( T component ) {
+        ArrayList<Bond<T>> ionBonds = new ArrayList<Bond<T>>();
+        for ( Bond<T> bond : bonds ) {
             if ( bond.source == component ) {
                 ionBonds.add( bond );
             }
@@ -84,9 +86,9 @@ public abstract class Lattice<T extends Lattice<T>> {
     }
 
     //Count the number of components of the specified type to help ensure that lattices have a perfect 1:1 or 2:1 ratio
-    public int count( Class<? extends Component> c ) {
+    public int count( Class<? extends T> c ) {
         int count = 0;
-        for ( Component component : components ) {
+        for ( T component : components ) {
             if ( c.isInstance( component ) ) {
                 count++;
             }

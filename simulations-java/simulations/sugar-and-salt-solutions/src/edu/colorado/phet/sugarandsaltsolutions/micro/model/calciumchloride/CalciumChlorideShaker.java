@@ -7,10 +7,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.CalciumIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.ChlorideIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 
 /**
  * This shaker adds calcium chloride to the model when shaken
@@ -36,7 +36,7 @@ public class CalciumChlorideShaker extends MicroShaker {
                                                                 }, new Function1<CalciumChlorideLattice, Boolean>() {
             public Boolean apply( CalciumChlorideLattice lattice ) {
                 //CaCl2 should have twice as many Cl as Ca
-                return lattice.count( CalciumIon.class ) * 2 == lattice.count( ChlorideIon.class );
+                return lattice.count( CalciumIonParticle.class ) * 2 == lattice.count( ChlorideIonParticle.class );
             }
         }
         );

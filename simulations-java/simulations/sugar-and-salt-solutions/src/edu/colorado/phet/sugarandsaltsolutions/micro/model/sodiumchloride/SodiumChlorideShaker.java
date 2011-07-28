@@ -7,10 +7,10 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.ChlorideIon;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
 /**
  * This salt shaker adds salt (NaCl) crystals to the model when shaken
@@ -34,7 +34,7 @@ public class SodiumChlorideShaker extends MicroShaker {
                                                                                     }
                                                                                 }, new Function1<SodiumChlorideLattice, Boolean>() {
                                                              public Boolean apply( SodiumChlorideLattice lattice ) {
-                                                                 return lattice.count( SodiumIon.class ) == lattice.count( ChlorideIon.class );
+                                                                 return lattice.count( SodiumIonParticle.class ) == lattice.count( ChlorideIonParticle.class );
                                                              }
                                                          }
                                                          ) ) );

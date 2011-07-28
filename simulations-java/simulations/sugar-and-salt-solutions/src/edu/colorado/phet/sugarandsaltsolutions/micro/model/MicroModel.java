@@ -28,7 +28,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Component.SodiumIon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CarbonIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
@@ -325,7 +324,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a crystal if there weren't any
             if ( sodiumChlorideCrystals.size() == 0 ) {
-                convertToCrystal( SodiumIonParticle.class, new SodiumIon() );
+                convertToCrystal( SodiumIonParticle.class, new SodiumIonParticle() );
             }
 
             //try adding on to an existing crystal
@@ -381,7 +380,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
-    private void convertToCrystal( Class<? extends Particle> particle, Component component ) {
+    private void convertToCrystal( Class<? extends Particle> particle, SphericalParticle component ) {
         ArrayList<Particle> p = freeParticles.filter( particle );
         if ( p.size() > 0 ) {
             //If there is no crystal, create one with one particle
