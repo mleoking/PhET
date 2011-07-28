@@ -20,17 +20,17 @@ public class RealMoleculesModel extends MPModel {
     //TODO i18n of molecule names
     public RealMoleculesModel() {
         molecules = new ArrayList<Molecule3D>() {{
-            add( new Molecule3D( "H2", "hydrogen", "jmol/X-2D-hydrogen.sdf" ) );
-            add( new Molecule3D( "HF", "hydrogen fluoride", "jmol/hydrogen-fluoride.sdf" ) );
-            add( new Molecule3D( "H2O", "water", "jmol/water.sdf" ) );
-            add( new Molecule3D( "CO2", "carbon dioxide", "jmol/carbon-dioxide.sdf" ) );
+            add( new Molecule3D( "H2", "hydrogen", "sdf/X-2D-hydrogen.sdf" ) );
+            add( new Molecule3D( "HF", "hydrogen fluoride", "sdf/hydrogen-fluoride.sdf" ) );
+            add( new Molecule3D( "H2O", "water", "sdf/water.sdf" ) );
+            add( new Molecule3D( "CO2", "carbon dioxide", "sdf/carbon-dioxide.sdf" ) );
             add( new Molecule3D( "HCN", "hydrogen cyanide", "jmol/hydrogen-cyanide.sdf" ) );
-            add( new Molecule3D( "NH3", "ammonia", "jmol/ammonia.sdf" ) );
-            add( new Molecule3D( "BF3", "boron trifluoride", "jmol/X-2D-boron-trifluoride.sdf" ) );
-            add( new Molecule3D( "CH2O", "formaldehyde", "jmol/formaldehyde.sdf" ) );
-            add( new Molecule3D( "CH4", "methane", "jmol/X-3D-methane.sdf" ) );
-            add( new Molecule3D( "CH3F", "fluoromethane", "jmol/fluoromethane.sdf" ) );
-            add( new Molecule3D( "CHCl3", "chloroform", "jmol/chloroform.sdf" ) );
+            add( new Molecule3D( "NH3", "ammonia", "sdf/ammonia.sdf" ) );
+            add( new Molecule3D( "BF3", "boron trifluoride", "sdf/X-2D-boron-trifluoride.sdf" ) );
+            add( new Molecule3D( "CH2O", "formaldehyde", "sdf/formaldehyde.sdf" ) );
+            add( new Molecule3D( "CH4", "methane", "sdf/X-3D-methane.sdf" ) );
+            add( new Molecule3D( "CH3F", "fluoromethane", "sdf/fluoromethane.sdf" ) );
+            add( new Molecule3D( "CHCl3", "chloroform", "sdf/chloroform.sdf" ) );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 add( new ImportMolecule() );
             }
