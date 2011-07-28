@@ -201,7 +201,7 @@ public class JmolViewerNode extends PhetPNode {
         final PhetPCanvas canvas = new PhetPCanvas() {{
             setPreferredSize( new Dimension( 1024, 768 ) );
             setBackground( Color.LIGHT_GRAY );
-            Molecule3D molecule = new Molecule3D( "NH3", "ammonia", "jmol/ammonia.sdf" );
+            Molecule3D molecule = new Molecule3D( "NH3", "ammonia", "jmol/nh3.sdf" );
             JmolViewerNode viewerNode = new JmolViewerNode( molecule, getBackground(), new Dimension( 400, 400 ) );
             getLayer().addChild( viewerNode );
             viewerNode.setOffset( 100, 100 );
