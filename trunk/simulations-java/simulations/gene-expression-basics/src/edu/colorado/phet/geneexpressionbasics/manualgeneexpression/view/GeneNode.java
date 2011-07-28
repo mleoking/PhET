@@ -20,7 +20,7 @@ public class GeneNode extends PNode {
     private static final Font LABEL_FONT = new PhetFont( 11 );
 
     public GeneNode( final ModelViewTransform mvt, final Gene gene ) {
-        addChild( new PhetPPath( mvt.modelToView( gene.getRect() ), gene.getColor() ) );
+        addChild( new PhetPPath( mvt.modelToView( gene.getTranscribedRegionRect() ), gene.getColor() ) );
         addChild( new PhetPPath( mvt.modelToView( gene.getRegulatoryRegionRect() ), new Color( 30, 144, 255 ) ) );
         addChild( new HTMLNode( "<center>Regulatory<br>Region</center>" ) {{
             setFont( LABEL_FONT );
@@ -29,8 +29,8 @@ public class GeneNode extends PNode {
         }} );
         addChild( new HTMLNode( "<center>Transcribed<br>Region</center>" ) {{
             setFont( LABEL_FONT );
-            setOffset( mvt.modelToViewX( gene.getRect().getCenterX() ) - getFullBoundsReference().width / 2,
-                       mvt.modelToViewY( gene.getRect().getMinY() ) );
+            setOffset( mvt.modelToViewX( gene.getTranscribedRegionRect().getCenterX() ) - getFullBoundsReference().width / 2,
+                       mvt.modelToViewY( gene.getTranscribedRegionRect().getMinY() ) );
         }} );
     }
 }
