@@ -13,6 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
  */
 public class FulcrumAbovePlankNode extends ModelObjectNode {
     public FulcrumAbovePlankNode( final ModelViewTransform mvt, final FulcrumAbovePlank fulcrumShape ) {
-        super( mvt, fulcrumShape, Color.YELLOW );
+        super( mvt, fulcrumShape, new Color( 240, 240, 0 ) );
     }
 }
