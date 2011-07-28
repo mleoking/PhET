@@ -319,62 +319,69 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         double timeSinceLast = time - lastNaClCrystallizationTime;
 
         //Make sure at least 1 second has passed, then convert to crystals
-        if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 ) {
-            lastNaClCrystallizationTime = time;
+        if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 && sodiumChlorideCrystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
-            if ( sodiumChlorideCrystals.size() == 0 ) {
-                convertToCrystal( new SodiumIonParticle() );
+            convertToCrystal( new SodiumIonParticle() );
+            lastNaClCrystallizationTime = time;
+        }
+
+        //try adding on to an existing crystal
+        else if ( !sodiumChlorideUnsaturated.get() ) {
+
+            //Find existing crystal(s)
+            SodiumChlorideCrystal crystal = sodiumChlorideCrystals.get( 0 );
+
+            //Look for an open site on its lattice
+            ArrayList<CrystalSite> crystalSites = crystal.getCrystalSites();
+
+            class Match {
+                public final Particle particle;
+                public final CrystalSite crystalSite;
+                public final double distance;
+
+                Match( Particle particle, CrystalSite crystalSite ) {
+                    this.particle = particle;
+                    this.crystalSite = crystalSite;
+                    this.distance = particle.position.get().minus( crystalSite.position ).getMagnitude();
+                }
+
+                @Override public String toString() {
+                    return "Match{" +
+                           "particle=" + particle +
+                           ", crystalSite=" + crystalSite +
+                           ", distance=" + distance +
+                           '}';
+                }
             }
 
-            //try adding on to an existing crystal
+            //Enumerate all particles and distances from crystal sites
+            ArrayList<Match> matches = new ArrayList<Match>();
+            for ( Particle freeParticle : freeParticles ) {
+                for ( CrystalSite crystalSite : crystalSites ) {
+                    if ( crystalSite.matches( freeParticle ) ) {
+                        matches.add( new Match( freeParticle, crystalSite ) );
+                    }
+                }
+            }
+
+            //Find a matching particle nearby one of the sites and join it together
+            Collections.sort( matches, new Comparator<Match>() {
+                public int compare( Match o1, Match o2 ) {
+                    return Double.compare( o1.distance, o2.distance );
+                }
+            } );
+            Match match = matches.get( 0 );
+            System.out.println( "match = " + match );
+
+            //If close enough, join the lattice
+            if ( match.distance < 1E-12 ) {
+
+            }
+
+            //Otherwise, move closest particle toward the lattice
             else {
-
-                //Find existing crystal(s)
-                SodiumChlorideCrystal crystal = sodiumChlorideCrystals.get( 0 );
-
-                //Look for an open site on its lattice
-                ArrayList<CrystalSite> crystalSites = crystal.getCrystalSites();
-
-                class Match {
-                    public final Particle particle;
-                    public final CrystalSite crystalSite;
-                    public final double distance;
-
-                    Match( Particle particle, CrystalSite crystalSite ) {
-                        this.particle = particle;
-                        this.crystalSite = crystalSite;
-                        this.distance = particle.position.get().minus( crystalSite.position ).getMagnitude();
-                    }
-                }
-
-                //Enumerate all particles and distances from crystal sites
-                ArrayList<Match> matches = new ArrayList<Match>();
-                for ( Particle freeParticle : freeParticles ) {
-                    for ( CrystalSite crystalSite : crystalSites ) {
-                        if ( crystalSite.matches( freeParticle ) ) {
-                            matches.add( new Match( freeParticle, crystalSite ) );
-                        }
-                    }
-                }
-
-                //Find a matching particle nearby one of the sites and join it together
-                Collections.sort( matches, new Comparator<Match>() {
-                    public int compare( Match o1, Match o2 ) {
-                        return Double.compare( o1.distance, o2.distance );
-                    }
-                } );
-                Match match = matches.get( 0 );
-
-                //If close enough, join into the lattice
-                if ( match.distance < 1E-90 ) {
-
-                }
-
-                //Otherwise, move closest particle toward the lattice
-                else {
-                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 ) );
-                }
+                match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 / 10 ) );
             }
         }
     }
