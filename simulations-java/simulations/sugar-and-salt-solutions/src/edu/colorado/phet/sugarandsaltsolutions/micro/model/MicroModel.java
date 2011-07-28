@@ -132,6 +132,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
     private double lastNaClCrystallizationTime;
 
+    //Speed at which freely moving particles should random walk
+    protected double FREE_PARTICLE_SPEED = 6E-10;
+
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
         Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
@@ -288,7 +291,6 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Move the free particles randomly
         updateFreeParticles( dt );
-
 
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
@@ -489,22 +491,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //When the simulation clock ticks, move the particles
     private void updateFreeParticles( double dt ) {
         for ( Particle particle : freeParticles ) {
-
             boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
             ImmutableVector2D initialPosition = particle.position.get();
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
+            if ( initiallyUnderwater ) {
+                particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
+            }
+
             //If the particle was stopped by the water completely evaporating, start it moving again
             //Must be done before particle.stepInTime so that the particle doesn't pick up a small velocity in that method, since this assumes particle velocity of zero implies evaporated to the bottom
             if ( particle.velocity.get().getMagnitude() == 0 ) {
-                setWaterSpeed( particle );
+                collideWithWater( particle );
             }
-
-            //Make sure submerged particles are all moving at a high enough rate, instead of just relying on their previously set velocity to be correct
-            if ( initiallyUnderwater ) {
-                particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( 0.25E-9 ) );
-            }
-
 
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
@@ -515,13 +514,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //If the particle entered the water on this step, slow it down to simulate hitting the water
             if ( !initiallyUnderwater && underwater && particle.position.get().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
-                setWaterSpeed( particle );
+                collideWithWater( particle );
             }
 
             //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
             if ( underwater ) {
                 double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
-                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
+                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ).times( 2 ) );
             }
 
             //Prevent the particles from leaving the solution, but only if they started in the solution
@@ -545,7 +544,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
     }
 
-    private void setWaterSpeed( Particle particle ) {
+    private void collideWithWater( Particle particle ) {
         particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
     }
 
