@@ -287,7 +287,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         super.updateModel( dt );
 
         //Move the free particles randomly
-        updateParticles( dt, freeParticles );
+        updateFreeParticles( dt );
 
 
         //Dissolve the crystals if they are below the saturation points
@@ -487,8 +487,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //When the simulation clock ticks, move the particles
-    private void updateParticles( double dt, ItemList<? extends Particle> particles ) {
-        for ( Particle particle : particles ) {
+    private void updateFreeParticles( double dt ) {
+        for ( Particle particle : freeParticles ) {
 
             boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
             ImmutableVector2D initialPosition = particle.position.get();
