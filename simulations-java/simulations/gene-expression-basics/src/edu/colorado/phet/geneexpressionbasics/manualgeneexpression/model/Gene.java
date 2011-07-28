@@ -21,7 +21,7 @@ public class Gene {
         this.color = color;
     }
 
-    public Rectangle2D.Double getRect() {
+    public Rectangle2D.Double getTranscribedRegionRect() {
         double width = ( 1 - REG_REGION_PROPORTION ) * rect.getWidth();
         return new Rectangle2D.Double( rect.getMaxX() - width, rect.getY(), width, rect.getHeight() );
     }
