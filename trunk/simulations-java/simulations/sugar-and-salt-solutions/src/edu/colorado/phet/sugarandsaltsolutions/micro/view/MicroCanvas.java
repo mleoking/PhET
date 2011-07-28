@@ -84,8 +84,8 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
                                  new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode<Particle>( transform, new NitrateMolecule( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) );
                     }
                     else if ( kit == 3 ) {
-                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new SucroseMolecule( ZERO ), model.showChargeColor ) ) ),
-                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new EthanolMolecule( ZERO ), model.showChargeColor ) ) ) );
+                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new SucroseMolecule(), model.showChargeColor ) ) ),
+                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new EthanolMolecule(), model.showChargeColor ) ) ) );
                     }
                 }
             } );

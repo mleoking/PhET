@@ -12,6 +12,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hyd
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygenParticle;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.EthanolPositions;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static java.lang.Double.parseDouble;
 
 /**
@@ -20,8 +21,12 @@ import static java.lang.Double.parseDouble;
  * @author Sam Reid
  */
 public class EthanolMolecule extends Compound<SphericalParticle> {
-    public EthanolMolecule( ImmutableVector2D position ) {
-        super( position );
+    public EthanolMolecule() {
+        this( ZERO, Math.random() * 2 * Math.PI );
+    }
+
+    public EthanolMolecule( ImmutableVector2D position, double angle ) {
+        super( position, angle );
 
         //Parse the locations and use the specified z-ordering so it will look more realistic
         StringTokenizer lines = new StringTokenizer( EthanolPositions.positions, "\n" );

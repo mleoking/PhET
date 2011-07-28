@@ -54,6 +54,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPerLiterToMolesPerMeterCubed;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SODIUM_CHLORIDE;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.MAX_SUCROSE;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.awt.Color.red;
@@ -119,7 +120,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
-        EthanolMolecule ethanol = new EthanolMolecule( location ) {{
+        EthanolMolecule ethanol = new EthanolMolecule( location, randomAngle() ) {{
             //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
             velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
 
@@ -253,7 +254,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Create a random crystal
             //TODO: get rid of cast here
-            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ) );
+            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ), RandomUtil.randomAngle() );
             addComponents( crystal );
             sucroseCrystals.add( crystal );
         }
@@ -305,7 +306,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             SodiumChlorideCrystal crystal = sodiumChlorideCrystals.get( 0 );
 
             //Look for an open site on its lattice
-            ArrayList<CrystalSite> crystalSites = crystal.getCrystalSites();
+            ArrayList<CrystalSite> openSites = crystal.getOpenSites();
 
             class Match {
                 public final Particle particle;
@@ -330,9 +331,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //Enumerate all particles and distances from crystal sites
             ArrayList<Match> matches = new ArrayList<Match>();
             for ( Particle freeParticle : freeParticles ) {
-                for ( CrystalSite crystalSite : crystalSites ) {
-                    if ( crystalSite.matches( freeParticle ) ) {
-                        matches.add( new Match( freeParticle, crystalSite ) );
+                for ( CrystalSite openSite : openSites ) {
+                    if ( openSite.matches( freeParticle ) ) {
+                        matches.add( new Match( freeParticle, openSite ) );
                     }
                 }
             }
@@ -344,11 +345,23 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 }
             } );
             Match match = matches.get( 0 );
-            System.out.println( "match = " + match );
 
             //If close enough, join the lattice
-            if ( match.distance < 1E-12 ) {
+            //This number was determined by reducing particle velocity and determining a good value for when the particle is close enough
+            if ( match.distance < 5E-12 ) {
 
+                //Remove the particle
+                freeParticles.remove( match.particle );
+                sphericalParticles.remove( (SphericalParticle) match.particle );
+
+                //Remove the old crystal
+                for ( Constituent<SphericalParticle> constituent : crystal ) {
+                    sphericalParticles.remove( constituent.particle );
+                }
+                sodiumChlorideCrystals.remove( crystal );
+
+                //Create a new crystal that combines the pre-existing crystal and the new particle
+                addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), (SodiumChlorideLattice) crystal.growCrystal( match.crystalSite ), crystal.angle ) );
             }
 
             //Otherwise, move closest particle toward the lattice
@@ -364,7 +377,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         if ( p.size() > 0 ) {
             //If there is no crystal, create one with one particle
             Particle firstParticle = p.get( 0 );
-            SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( firstParticle.position.get(), new SodiumChlorideLattice( component ) );
+            SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( firstParticle.position.get(), new SodiumChlorideLattice( component ), randomAngle() );
 
             freeParticles.remove( firstParticle );
 
@@ -449,6 +462,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             if ( particle.velocity.get().getMagnitude() == 0 ) {
                 setWaterSpeed( particle );
             }
+
+            //Make sure submerged particles are all moving at a high enough rate, instead of just relying on their previously set velocity to be correct
+            if ( initiallyUnderwater ) {
+                particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( 0.25E-9 ) );
+            }
+
 
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker

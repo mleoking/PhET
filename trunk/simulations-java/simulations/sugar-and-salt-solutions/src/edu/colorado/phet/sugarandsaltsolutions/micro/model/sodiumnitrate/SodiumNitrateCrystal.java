@@ -19,7 +19,7 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     //Therefore we bring the outer O's closer to the N so there is some overlap.
     public static final double NITROGEN_OXYGEN_SPACING = ( new NitrogenIonParticle().radius + new FreeOxygenIonParticle().radius ) * 0.85;
 
-    public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice ) {
-        super( position, new SodiumIonParticle().radius * 2 + NITROGEN_OXYGEN_SPACING, lattice );
+    public SodiumNitrateCrystal( ImmutableVector2D position, SodiumNitrateLattice lattice, double angle ) {
+        super( position, new SodiumIonParticle().radius * 2 + NITROGEN_OXYGEN_SPACING, lattice, angle );
     }
 }

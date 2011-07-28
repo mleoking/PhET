@@ -11,6 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.SodiumIonParticle;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
+
 /**
  * This shaker adds sodium nitrate to the model when shaken
  *
@@ -34,6 +36,6 @@ public class SodiumNitrateShaker extends MicroShaker {
                                                                          return lattice.count( SodiumIonParticle.class ) == lattice.count( NitrateMolecule.class );
                                                                      }
                                                                  }
-                                                                 ) ) );
+                                                                 ), randomAngle() ) );
     }
 }

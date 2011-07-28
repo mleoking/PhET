@@ -13,7 +13,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  * @author Sam Reid
  */
 public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
-    public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice ) {
-        super( position, new CalciumIonParticle().radius + new ChlorideIonParticle().radius, lattice );
+    public CalciumChlorideCrystal( ImmutableVector2D position, CalciumChlorideLattice lattice, double angle ) {
+        super( position, new CalciumIonParticle().radius + new ChlorideIonParticle().radius, lattice, angle );
     }
 }

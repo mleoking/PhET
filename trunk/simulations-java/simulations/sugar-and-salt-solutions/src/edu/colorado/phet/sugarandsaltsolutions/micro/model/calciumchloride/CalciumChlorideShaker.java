@@ -12,6 +12,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.CalciumIonParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.ChlorideIonParticle;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
+
 /**
  * This shaker adds calcium chloride to the model when shaken
  *
@@ -40,6 +42,6 @@ public class CalciumChlorideShaker extends MicroShaker {
             }
         }
         );
-        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, lattice ) );
+        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, lattice, randomAngle() ) );
     }
 }

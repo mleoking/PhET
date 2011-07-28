@@ -20,11 +20,15 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  */
 public class SucroseMolecule extends Compound<SphericalParticle> {
     public SucroseMolecule() {
-        this( ZERO );
+        this( ZERO, Math.random() * 2 * Math.PI );
     }
 
     public SucroseMolecule( ImmutableVector2D relativePosition ) {
-        super( relativePosition );
+        this( relativePosition, Math.random() * 2 * Math.PI );
+    }
+
+    public SucroseMolecule( ImmutableVector2D relativePosition, double angle ) {
+        super( relativePosition, angle );
 
         //Add the salt molecule atoms in the right locations
         SucrosePositions sucrosePositions = new SucrosePositions();
