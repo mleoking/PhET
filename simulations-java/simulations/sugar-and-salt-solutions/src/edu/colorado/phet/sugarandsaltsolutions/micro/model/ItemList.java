@@ -1,7 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
@@ -17,10 +17,19 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public class ItemList<T> implements Iterable<T> {
+
+    //The items in the list
     private final ArrayList<T> items = new ArrayList<T>();
+
+    //Listeners that are notified when another item is added
     private final ListenerList<T> itemAddedListeners = new ListenerList<T>();
+
+    //Listeners that are notified when any item is removed
     private final ListenerList<T> itemRemovedListeners = new ListenerList<T>();
-    private final HashMap<T, ArrayList<VoidFunction0>> particularItemRemovedListeners = new HashMap<T, ArrayList<VoidFunction0>>();
+
+    //Listeners that are notified when a particular item (as determined by identity) is removed
+    //It is important to use identity here so this list can work with mutable values (such as moving particles)
+    private final IdentityHashMap<T, ArrayList<VoidFunction0>> particularItemRemovedListeners = new IdentityHashMap<T, ArrayList<VoidFunction0>>();
 
     //Property that can be used to monitor the number of items in the list.
     //It is typed as Double since that package provides support for composition (through >, +, etc)
@@ -72,10 +81,21 @@ public class ItemList<T> implements Iterable<T> {
         itemAddedListeners.notifyListeners( item );
     }
 
-    //TODO: Make this work for subtypes of T
+    //TODO: Make removal work for subtypes of T, not on arbitrary Object type
     public void remove( Object item ) {
+
+        //Remove the item
         items.remove( item );
+
+        //Notify listeners that are just interested in removal of any item
         itemRemovedListeners.notifyListeners( (T) item );
+
+        //Notify listeners that were specifically listening for when the specified item would be removed
+        if ( particularItemRemovedListeners.containsKey( item ) ) {
+            for ( VoidFunction0 listener : new ArrayList<VoidFunction0>( particularItemRemovedListeners.get( item ) ) ) {
+                listener.apply();
+            }
+        }
     }
 
     private ArrayList<T> getItems() {
