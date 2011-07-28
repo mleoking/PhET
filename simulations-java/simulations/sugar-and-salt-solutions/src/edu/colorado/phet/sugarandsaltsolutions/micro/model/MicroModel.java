@@ -328,11 +328,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 }
             }
 
-            //Enumerate all particles and distances from crystal sites
+            //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
             ArrayList<Match> matches = new ArrayList<Match>();
             for ( Particle freeParticle : freeParticles ) {
                 for ( CrystalSite openSite : openSites ) {
-                    if ( openSite.matches( freeParticle ) ) {
+                    if ( solutionContains( openSite.position ) && openSite.matches( freeParticle ) ) {
                         matches.add( new Match( freeParticle, openSite ) );
                     }
                 }
@@ -369,6 +369,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( 0.25E-9 / 10 ) );
             }
         }
+    }
+
+    //Determine whether the solution shape contains the specified point
+    private boolean solutionContains( ImmutableVector2D position ) {
+        return solution.shape.get().getBounds2D().contains( position.toPoint2D() );
     }
 
     //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
