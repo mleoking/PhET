@@ -41,9 +41,6 @@ public class RealMoleculesCanvas extends MPCanvas {
         final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
-        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
-        addChild( moleculeComboBox );
-
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
 
@@ -65,6 +62,10 @@ public class RealMoleculesCanvas extends MPCanvas {
 
         PeriodicTableNode periodicTableNode = new PeriodicTableNode();
         addChild( periodicTableNode );
+
+        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
+        addChild( moleculeComboBox );
+
 
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
