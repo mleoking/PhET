@@ -79,7 +79,20 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
     //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
-    public final ItemList<Particle> freeParticles = new ItemList<Particle>();
+    public final ItemList<Particle> freeParticles = new ItemList<Particle>() {{
+
+        //Diagnostic checking
+//        addItemAddedListener( new VoidFunction1<Particle>() {
+//            public void apply( final Particle p ) {
+//                int count = filter( new Function1<Particle, Boolean>() {
+//                    public Boolean apply( Particle particle ) {
+//                        return particle == p;
+//                    }
+//                } ).size();
+//                System.out.println( "count = " + count );
+//            }
+//        } );
+    }};
 
     //Lists of compounds
     public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
@@ -423,6 +436,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
                 crystal.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
             }
 
+            //Collide with the bottom of the beaker before doing underwater check so that crystals will dissolve
+            boundToBeakerBottom( crystal );
+
             //If completely underwater, lattice should prepare to dissolve
             if ( isCompletelyUnderwater( crystal ) && !crystal.isUnderwater() ) {
                 crystal.setUnderwater( time );
@@ -430,10 +446,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
 
             //Collide with the bottom of the beaker
-            double minY = crystal.getShape().getBounds2D().getMinY();
-            if ( minY < 0 ) {
-                crystal.translate( 0, -minY );
-            }
+            boundToBeakerBottom( crystal );
 
             //Determine whether it is time for the lattice to dissolve
             if ( crystal.isUnderwater() ) {
@@ -449,6 +462,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Handle dissolving the lattices
         for ( Crystal crystal : toDissolve ) {
             dissolveStrategy.dissolve( crystals, crystal, freeParticles, unsaturated );
+        }
+    }
+
+    private void boundToBeakerBottom( Particle particle ) {
+        if ( particle.getShape().getBounds2D().getMinY() < 0 ) {
+            particle.translate( 0, -particle.getShape().getBounds2D().getMinY() );
         }
     }
 
