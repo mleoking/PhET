@@ -20,17 +20,17 @@ public class RealMoleculesModel extends MPModel {
     //TODO i18n of molecule names
     public RealMoleculesModel() {
         molecules = new ArrayList<Molecule3D>() {{
-            add( new Molecule3D( "H2", "hydrogen", "sdf/X-2D-hydrogen.sdf" ) );
-            add( new Molecule3D( "HF", "hydrogen fluoride", "sdf/hydrogen-fluoride.sdf" ) );
-            add( new Molecule3D( "H2O", "water", "sdf/water.sdf" ) );
-            add( new Molecule3D( "CO2", "carbon dioxide", "sdf/carbon-dioxide.sdf" ) );
-            add( new Molecule3D( "HCN", "hydrogen cyanide", "jmol/hydrogen-cyanide.sdf" ) );
-            add( new Molecule3D( "NH3", "ammonia", "sdf/ammonia.sdf" ) );
-            add( new Molecule3D( "BF3", "boron trifluoride", "sdf/X-2D-boron-trifluoride.sdf" ) );
-            add( new Molecule3D( "CH2O", "formaldehyde", "sdf/formaldehyde.sdf" ) );
-            add( new Molecule3D( "CH4", "methane", "sdf/X-3D-methane.sdf" ) );
-            add( new Molecule3D( "CH3F", "fluoromethane", "sdf/fluoromethane.sdf" ) );
-            add( new Molecule3D( "CHCl3", "chloroform", "sdf/chloroform.sdf" ) );
+            add( new Molecule3D( "H2", "hydrogen", "sdf/h2.sdf" ) );
+            add( new Molecule3D( "HF", "hydrogen fluoride", "sdf/hf.sdf" ) );
+            add( new Molecule3D( "H2O", "water", "sdf/h2o.sdf" ) );
+            add( new Molecule3D( "CO2", "carbon dioxide", "sdf/co2.sdf" ) );
+            add( new Molecule3D( "HCN", "hydrogen cyanide", "sdf/hcn.sdf" ) );
+            add( new Molecule3D( "NH3", "ammonia", "sdf/nh3.sdf" ) );
+            add( new Molecule3D( "BF3", "boron trifluoride", "sdf/bf3.sdf" ) );
+            add( new Molecule3D( "CH2O", "formaldehyde", "sdf/ch2o.sdf" ) );
+            add( new Molecule3D( "CH4", "methane", "sdf/ch4.sdf" ) );
+            add( new Molecule3D( "CH3F", "fluoromethane", "sdf/ch3f.sdf" ) );
+            add( new Molecule3D( "CHCl3", "chloroform", "sdf/chcl3.sdf" ) );
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 add( new ImportMolecule() );
             }
