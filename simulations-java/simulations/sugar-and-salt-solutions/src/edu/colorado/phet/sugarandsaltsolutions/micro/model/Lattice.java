@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * A lattice represents a set of components (may be elements or molecules) and the bonds between them.
- * Hence this is just a topological construct.  To actually place particles at specific positions, you need a crystal.
+ * A lattice represents a set of components (may be elements or molecules) and the bonds between them, used as a blueprint
+ * for creating a crystal.  Hence this is just a topological construct.  To actually place particles at specific positions, you need a crystal.
  * TODO: Graph creation does not prevent particles from being placed in the same location (reached by 2 different paths)
- * <p/>
- * //Generify to obtain the self type, see http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6479372
- * //or http://passion.forco.de/content/emulating-self-types-using-java-generics-simplify-fluent-api-implementation
  *
  * @author Sam Reid
  */
