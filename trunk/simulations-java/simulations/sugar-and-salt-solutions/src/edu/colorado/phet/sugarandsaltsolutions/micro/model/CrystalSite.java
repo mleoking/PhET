@@ -11,8 +11,14 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Sam Reid
  */
 public class CrystalSite {
+
+    //Location of the potential bonding site
     public final ImmutableVector2D position;
+
+    //Particle that would be added at the bonding site
     public final Particle target;
+
+    //Corresponding site for partner lattice topology
     public final LatticeSite latticeSite;
 
     public CrystalSite( ImmutableVector2D position, Particle target, LatticeSite latticeSite ) {

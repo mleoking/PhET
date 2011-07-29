@@ -1,3 +1,4 @@
+Micro tab: Fixed a bug in incremental crystallization where a binding site was at the wrong angle
 Micro tab: Added BindingSiteDebugger to visualize crystal formation
 Micro tab: Increased speed of particle random walks
 Micro tab: Work toward ensuring that matching sites are contained within the solution for crystal growing
