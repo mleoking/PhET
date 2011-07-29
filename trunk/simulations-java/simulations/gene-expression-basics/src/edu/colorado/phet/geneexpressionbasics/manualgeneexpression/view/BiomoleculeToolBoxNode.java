@@ -16,6 +16,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.LargeRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRnaDestroyer;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.SmallRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
@@ -131,7 +132,7 @@ public class BiomoleculeToolBoxNode extends PNode {
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           SmallRibosomalSubunit srs = new SmallRibosomalSubunit( pos );
+                           Ribosome srs = new Ribosome( pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( srs );
                            return srs;
                        }
