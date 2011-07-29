@@ -2,9 +2,11 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Lattice;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.LatticeSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SquareLattice;
 
@@ -21,6 +23,14 @@ public class SucroseLattice extends SquareLattice<Sucrose> {
 
     public SucroseLattice( ImmutableList<Sucrose> components, ImmutableList<Bond<Sucrose>> bonds ) {
         super( components, bonds );
+    }
+
+    @Override public Lattice<Sucrose> drop( final Sucrose component ) {
+        return new SucroseLattice( components.drop( component ), bonds.drop( new Function1<Bond<Sucrose>, Boolean>() {
+            public Boolean apply( Bond<Sucrose> particleBond ) {
+                return particleBond.contains( component );
+            }
+        } ) );
     }
 
     @Override protected void testAddSite( ArrayList<LatticeSite<Sucrose>> latticeSites, Sucrose component, ArrayList<Bond<Sucrose>> bonds, BondType type ) {

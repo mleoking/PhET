@@ -2,6 +2,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
@@ -41,4 +42,15 @@ public class SodiumChlorideLattice extends SquareLattice<SphericalParticle> {
         Lattice lattice = new SodiumChlorideLattice().grow( 100 );
         System.out.println( "saltLattice = " + lattice );
     }
+
+    @Override public Lattice<SphericalParticle> drop( final SphericalParticle component ) {
+        ImmutableList<SphericalParticle> newComponents = components.drop( component );
+        ImmutableList<Bond<SphericalParticle>> newBonds = bonds.drop( new Function1<Bond<SphericalParticle>, Boolean>() {
+            public Boolean apply( Bond<SphericalParticle> sphericalParticleBond ) {
+                return sphericalParticleBond.contains( component );
+            }
+        } );
+        return new SodiumChlorideLattice( newComponents, newBonds );
+    }
+
 }

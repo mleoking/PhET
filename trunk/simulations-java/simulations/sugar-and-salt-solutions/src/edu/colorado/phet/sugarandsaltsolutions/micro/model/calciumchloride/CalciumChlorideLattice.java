@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
@@ -36,6 +37,14 @@ public class CalciumChlorideLattice extends Lattice<SphericalParticle> {
         if ( !containsBondType( bonds, type ) ) {
             latticeSites.add( new CalciumChlorideSite( particle, type ) );
         }
+    }
+
+    @Override public Lattice<SphericalParticle> drop( final SphericalParticle component ) {
+        return new CalciumChlorideLattice( components.drop( component ), bonds.drop( new Function1<Bond<SphericalParticle>, Boolean>() {
+            public Boolean apply( Bond<SphericalParticle> sphericalParticleBond ) {
+                return sphericalParticleBond.contains( component );
+            }
+        } ) );
     }
 
     //Find the available sites where a new component might be added
