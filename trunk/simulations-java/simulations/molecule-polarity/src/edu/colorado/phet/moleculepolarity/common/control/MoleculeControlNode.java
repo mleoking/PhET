@@ -50,7 +50,7 @@ public class MoleculeControlNode extends PhetPNode {
                 public PNode apply( final Molecule3D molecule ) {
                     return new HTMLNode() {{
                         setHTML( MessageFormat.format( "{0} ({1})", molecule.getSymbol(), molecule.getName() ) );
-                        setFont( new PhetFont( 18 ) );
+                        setFont( new PhetFont( 14 ) );
                     }};
                 }
             } );
