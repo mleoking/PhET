@@ -47,27 +47,11 @@ public class CrystalFormation {
             //Find existing crystal(s)
             SodiumChlorideCrystal crystal = model.sodiumChlorideCrystals.get( 0 );
 
-            //Look for an open site on its lattice
-            ArrayList<CrystalSite> openSites = crystal.getOpenSites();
-
             //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
-            ArrayList<CrystallizationMatch> matches = new ArrayList<CrystallizationMatch>();
-            for ( Particle freeParticle : model.freeParticles ) {
-                for ( CrystalSite openSite : openSites ) {
-                    if ( solutionContains( openSite ) && openSite.matches( freeParticle ) ) {
-                        matches.add( new CrystallizationMatch( freeParticle, openSite ) );
-                    }
-                }
-            }
-
+            ArrayList<CrystallizationMatch> matches = getAllBindingSites( crystal );
             if ( matches.size() > 0 ) {
 
                 //Find a matching particle nearby one of the sites and join it together
-                Collections.sort( matches, new Comparator<CrystallizationMatch>() {
-                    public int compare( CrystallizationMatch o1, CrystallizationMatch o2 ) {
-                        return Double.compare( o1.distance, o2.distance );
-                    }
-                } );
                 CrystallizationMatch match = matches.get( 0 );
 
                 //If close enough, join the lattice
@@ -98,6 +82,26 @@ public class CrystalFormation {
                 startSodiumChlorideCrystal();
             }
         }
+    }
+
+    //Look for all open site on its lattice and sort by distance to available participants
+    public ArrayList<CrystallizationMatch> getAllBindingSites( SodiumChlorideCrystal crystal ) {
+        ArrayList<CrystallizationMatch> matches = new ArrayList<CrystallizationMatch>();
+        for ( Particle freeParticle : model.freeParticles ) {
+            for ( CrystalSite openSite : crystal.getOpenSites() ) {
+                if ( solutionContains( openSite ) && openSite.matches( freeParticle ) ) {
+                    matches.add( new CrystallizationMatch( freeParticle, openSite ) );
+                }
+            }
+        }
+
+        //Find the best site
+        Collections.sort( matches, new Comparator<CrystallizationMatch>() {
+            public int compare( CrystallizationMatch o1, CrystallizationMatch o2 ) {
+                return Double.compare( o1.distance, o2.distance );
+            }
+        } );
+        return matches;
     }
 
     //Determine whether the solution shape contains the specified point

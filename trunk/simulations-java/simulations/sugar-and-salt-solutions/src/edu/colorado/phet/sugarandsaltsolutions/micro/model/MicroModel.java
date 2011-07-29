@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
@@ -169,6 +170,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, Ethanol.class );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
+    //Listeners that are notified when the simulation time step has completed
+    public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
+
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
         super( new ConstantDtClock( framesPerSecond ),
@@ -294,6 +298,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
 
         new CrystalFormation( this ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
+
+        //Notify listeners that the update step completed
+        for ( VoidFunction0 listener : stepFinishedListeners ) {
+            listener.apply();
+        }
     }
 
     //Update the crystals by moving them about and possibly dissolving them
@@ -557,5 +566,14 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     @Override protected void waterEvaporated( double evaporatedWater ) {
         super.waterEvaporated( evaporatedWater );
         updateParticlesDueToWaterLevelDropped( evaporatedWater );
+    }
+
+    //Get one list of bonding sites for each crystal
+    public ArrayList<ArrayList<CrystallizationMatch>> getAllBondingSites() {
+        ArrayList<ArrayList<CrystallizationMatch>> s = new ArrayList<ArrayList<CrystallizationMatch>>();
+        for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
+            s.add( new CrystalFormation( this ).getAllBindingSites( sodiumChlorideCrystal ) );
+        }
+        return s;
     }
 }
