@@ -405,4 +405,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public ObservableProperty<Boolean> isAnySugarToRemove() {
         return sugar.moles.greaterThan( 0.0 );
     }
+
+    //Gets the elapsed time of the model in seconds
+    public double getTime() {
+        return time;
+    }
 }
