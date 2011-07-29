@@ -74,8 +74,4 @@ public class SphericalParticleNode extends PNode {
             }} );
         }} ).setVisible( true );
     }
-
-    public SphericalParticle getSphericalParticle() {
-        return particle;
-    }
 }
