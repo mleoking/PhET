@@ -10,7 +10,6 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.BasePair;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule.DnaStrandSegment;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -34,8 +33,8 @@ public class DnaMoleculeNode extends PNode {
 
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
         // Put the genes behind everything.
-        for ( Gene gene : dnaMolecule.getGenes() ) {
-            addChild( new GeneNode( mvt, gene ) );
+        for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ) {
+            addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), i + 1 ) );
         }
 
         // Add the layers onto which the DNA backbone and base pairs will be placed.

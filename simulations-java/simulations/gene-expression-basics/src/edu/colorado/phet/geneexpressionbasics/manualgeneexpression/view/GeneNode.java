@@ -25,7 +25,7 @@ public class GeneNode extends PNode {
     private static final Font GENE_LABEL_FONT = new PhetFont( 16 );
     private static final double BRACKET_DEPTH = 20;
 
-    public GeneNode( final ModelViewTransform mvt, final Gene gene ) {
+    public GeneNode( final ModelViewTransform mvt, final Gene gene, int geneNumber ) {
         // Add the areas that essentially highlight the gene on the DNA
         // strand.  Each of these is labeled.
         addChild( new PhetPPath( mvt.modelToView( gene.getTranscribedRegionRect() ), gene.getColor() ) );
@@ -57,7 +57,7 @@ public class GeneNode extends PNode {
         addChild( new PhetPPath( bracketPath.getGeneralPath(), new BasicStroke( 2 ), Color.BLACK ) );
 
         // And the textual label for the gene.
-        addChild( new PText( "Gene" ) {{
+        addChild( new PText( "Gene " + geneNumber ) {{
             setFont( GENE_LABEL_FONT );
             setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
                        bracketPath.getGeneralPath().getBounds2D().getMaxY() + 5 );
