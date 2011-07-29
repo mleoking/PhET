@@ -43,7 +43,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumN
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseLattice;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
@@ -256,8 +255,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             //TODO: Make getPosition abstract so the particle can query the lattice?
 
             //Create a random crystal
-            //TODO: get rid of cast here
-            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), (SucroseLattice) new SucroseLattice().grow( 3 ), RandomUtil.randomAngle() );
+            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), RandomUtil.randomAngle() );
             addComponents( crystal );
             sucroseCrystals.add( crystal );
         }
