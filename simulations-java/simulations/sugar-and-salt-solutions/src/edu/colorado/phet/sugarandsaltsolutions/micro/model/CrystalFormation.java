@@ -41,7 +41,7 @@ public class CrystalFormation {
             lastNaClCrystallizationTime = model.getTime();
         }
 
-        //try adding on to an existing crystal
+        //If the solution is saturated, try adding on to an existing crystal
         else if ( !sodiumChlorideUnsaturated.get() ) {
 
             //Find existing crystal(s)
