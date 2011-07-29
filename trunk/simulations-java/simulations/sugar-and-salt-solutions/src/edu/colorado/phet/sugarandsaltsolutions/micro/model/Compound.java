@@ -113,8 +113,9 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         constituents.remove( constituent );
     }
 
-    //From among the constituents, choose one near the edge that would be good to release as part of a dissolving process
+    //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
     //Note that since the lattice can take the shape of an arc, this can still leave orphaned particles floating in the air.  This should probably be resolved
+    //TODO: A better way to to this would be to check that the dropped component doesn't create two separated components from the lattice graph
     public Constituent getConstituentToDissolve() {
         ArrayList<Constituent> c = new ArrayList<Constituent>( constituents );
         Collections.sort( c, new Comparator<Constituent>() {
