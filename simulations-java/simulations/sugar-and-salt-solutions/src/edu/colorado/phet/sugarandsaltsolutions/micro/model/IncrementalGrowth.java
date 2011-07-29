@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideLattice;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -19,13 +19,13 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class CrystalFormation {
+public class IncrementalGrowth {
 
     //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
     private double lastNaClCrystallizationTime;
     private MicroModel model;
 
-    public CrystalFormation( MicroModel model ) {
+    public IncrementalGrowth( MicroModel model ) {
         this.model = model;
     }
 
@@ -37,6 +37,7 @@ public class CrystalFormation {
         if ( !sodiumChlorideUnsaturated.get() && timeSinceLast > 1 && model.sodiumChlorideCrystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
+            System.out.println( "No crystals, starting a new one" );
             startSodiumChlorideCrystal();
             lastNaClCrystallizationTime = model.getTime();
         }
@@ -48,7 +49,7 @@ public class CrystalFormation {
             SodiumChlorideCrystal crystal = model.sodiumChlorideCrystals.get( 0 );
 
             //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
-            ArrayList<CrystallizationMatch> matches = getAllBindingSites( crystal );
+            ArrayList<CrystallizationMatch> matches = getAllCrystallizationMatches( crystal );
             if ( matches.size() > 0 ) {
 
                 //Find a matching particle nearby one of the sites and join it together
@@ -57,44 +58,33 @@ public class CrystalFormation {
                 //If close enough, join the lattice
                 if ( match.distance <= model.FREE_PARTICLE_SPEED * dt ) {
 
-                    //Remove the particle
+                    //Remove the particle from the list of free particles
                     model.freeParticles.remove( match.particle );
-                    model.sphericalParticles.remove( (SphericalParticle) match.particle );
 
-                    //Remove the old crystal
-                    for ( Constituent<SphericalParticle> constituent : crystal ) {
-                        model.sphericalParticles.remove( constituent.particle );
-                    }
-                    model.sodiumChlorideCrystals.remove( crystal );
-
-                    //Create a new crystal that combines the pre-existing crystal and the new particle
-                    model.addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), (SodiumChlorideLattice) crystal.growCrystal( match.crystalSite ), crystal.angle ) );
-
-                    //Code for reusing the pre-existing particle instead of discarding it and creating a new one, for debugging purposes: to see if it solves any problems
-//                    ImmutableList<SphericalParticle> components = new ImmutableList<SphericalParticle>( crystal.lattice.components, (SphericalParticle) match.particle );
-//                    ImmutableList<Bond<SphericalParticle>> bonds = new ImmutableList<Bond<SphericalParticle>>( crystal.lattice.bonds, new Bond<SphericalParticle>( (SphericalParticle) match.crystalSite.latticeSite.component, (SphericalParticle) match.particle, match.crystalSite.latticeSite.type ) );
-//                    model.addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), new SodiumChlorideLattice( components, bonds ), crystal.angle ) );
+                    //Add it as a constituent of the crystal
+                    crystal.addConstituent( match.openSite.toConstituent() );
                 }
 
                 //Otherwise, move closest particle toward the lattice
                 else {
-                    match.particle.velocity.set( match.crystalSite.position.minus( match.particle.position.get() ).getInstanceOfMagnitude( model.FREE_PARTICLE_SPEED ) );
+                    match.particle.velocity.set( match.openSite.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( MicroModel.FREE_PARTICLE_SPEED ) );
                 }
             }
 
             //No matches, so start a new crystal
             else {
+                System.out.println( "No matches, starting a new crystal" );
                 startSodiumChlorideCrystal();
             }
         }
     }
 
     //Look for all open site on its lattice and sort by distance to available participants
-    public ArrayList<CrystallizationMatch> getAllBindingSites( SodiumChlorideCrystal crystal ) {
+    public ArrayList<CrystallizationMatch> getAllCrystallizationMatches( SodiumChlorideCrystal crystal ) {
         ArrayList<CrystallizationMatch> matches = new ArrayList<CrystallizationMatch>();
         for ( Particle freeParticle : model.freeParticles ) {
-            for ( CrystalSite openSite : crystal.getOpenSites() ) {
-                if ( solutionContains( openSite ) && openSite.matches( freeParticle ) ) {
+            for ( OpenSite<SphericalParticle> openSite : crystal.getOpenSites() ) {
+                if ( model.solution.shape.get().contains( openSite.shape.getBounds2D() ) && openSite.matches( freeParticle ) ) {
                     matches.add( new CrystallizationMatch( freeParticle, openSite ) );
                 }
             }
@@ -109,11 +99,6 @@ public class CrystalFormation {
         return matches;
     }
 
-    //Determine whether the solution shape contains the specified point
-    private boolean solutionContains( CrystalSite site ) {
-        return model.solution.shape.get().getBounds2D().contains( site.getTargetBounds() );
-    }
-
     //Convert a particle to a crystal, or add to existing crystals to decrease the concentration below the saturation point
     private void startSodiumChlorideCrystal() {
         Option<Particle> selected = model.freeParticles.selectRandom( Sodium.class, Chloride.class );
@@ -125,13 +110,10 @@ public class CrystalFormation {
 
     //Convert the specified particle to a crystal
     private void convertToCrystal( Particle particle ) {
-        SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( particle.position.get(), new SodiumChlorideLattice( (SphericalParticle) particle ), randomAngle() );
+        SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( particle.getPosition(), randomAngle() );
+        crystal.addConstituent( new Constituent<SphericalParticle>( (SphericalParticle) particle, ImmutableVector2D.ZERO ) );
 
         model.freeParticles.remove( particle );
-
-        //TODO: eliminate this cast
-        model.sphericalParticles.remove( (SphericalParticle) particle );
-
-        model.addSaltCrystal( crystal );
+        model.sodiumChlorideCrystals.add( crystal );
     }
 }

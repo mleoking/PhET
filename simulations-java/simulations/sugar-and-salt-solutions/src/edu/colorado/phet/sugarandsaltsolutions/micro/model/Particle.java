@@ -4,6 +4,7 @@ import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * A particle is an indivisible object with a position such as Na+ or a sugar molecule.
@@ -12,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public abstract class Particle {
     //Interface for setting and observing the position
-    public final Property<ImmutableVector2D> position;
+    private final Property<ImmutableVector2D> position;
 
     //Interface for setting and observing the velocity
     public final Property<ImmutableVector2D> velocity;
@@ -28,7 +29,7 @@ public abstract class Particle {
         setPosition( position.get().plus( velocity.get().times( dt ) ) );
     }
 
-    protected void setPosition( ImmutableVector2D location ) {
+    public void setPosition( ImmutableVector2D location ) {
         position.set( location );
     }
 
@@ -38,4 +39,12 @@ public abstract class Particle {
 
     //Get a shape for the particle for purposes of collision detection with beaker solution and beaker walls
     public abstract Shape getShape();
+
+    public ImmutableVector2D getPosition() {
+        return position.get();
+    }
+
+    public void addPositionObserver( VoidFunction1<ImmutableVector2D> listener ) {
+        position.addObserver( listener );
+    }
 }

@@ -20,7 +20,7 @@ public class SucroseCrystal extends Crystal<Sucrose> {
                //Also, scale everything by the model sizeScale, including distances between atoms
                nanometersToMeters( 0.5 ) * sizeScale,
 
-               lattice, angle
+               angle
         );
     }
 }

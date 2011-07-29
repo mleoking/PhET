@@ -37,7 +37,7 @@ public class SphericalParticleNode extends PNode {
 
                 //Use a cached image to improve performance for large molecules such as sucrose
                 super( getAtomImage( transform.modelToViewDeltaX( particle.radius * 2 ), color ) );
-                particle.position.addObserver( new VoidFunction1<ImmutableVector2D>() {
+                particle.addPositionObserver( new VoidFunction1<ImmutableVector2D>() {
                     public void apply( ImmutableVector2D position ) {
                         Point2D.Double viewPoint = transform.modelToView( position ).toPoint2D();
                         setOffset( viewPoint.x - getFullBounds().getWidth() / 2, viewPoint.y - getFullBounds().getHeight() / 2 );

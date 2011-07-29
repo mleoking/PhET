@@ -28,8 +28,9 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
         for ( Constituent constituent : molecule ) {
 
             //Put particles at the correct relative locations and add as children
+            //TODO: is this still necessary after Compound was improved?
             SphericalParticle particle = (SphericalParticle) constituent.particle;
-            particle.position.set( constituent.location );
+            particle.setPosition( constituent.relativePosition );
             addChild( new SphericalParticleNode( transform, particle, showChargeColor ) );
         }
     }

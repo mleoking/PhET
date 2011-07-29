@@ -32,7 +32,7 @@ public class BindingSiteDebugger extends PNode {
                     for ( int i = matchesForCrystal.size() - 1; i >= 0; i-- ) {
                         CrystallizationMatch match = matchesForCrystal.get( i );
                         Color baseColor = i == 0 ? Color.black : Color.yellow;
-                        addChild( new PhetPPath( transform.modelToView( match.crystalSite.target.getShape() ), new Color( baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), 50 ) ) );
+                        addChild( new PhetPPath( transform.modelToView( match.getTargetShape() ), new Color( baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), 50 ) ) );
                     }
                 }
 
