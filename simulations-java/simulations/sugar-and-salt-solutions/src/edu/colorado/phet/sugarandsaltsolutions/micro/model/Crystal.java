@@ -93,8 +93,8 @@ public class Crystal<T extends Particle> extends Compound<T> {
         //This is the position of the particle to be bonded to
         ImmutableVector2D bondingTarget = relativePosition.plus( position.get() );
 
-        //TODO: Find the location adjacent to the bonding target
-        ImmutableVector2D delta = getDelta( spacing, site.type );
+        //Find the location adjacent to the bonding target
+        ImmutableVector2D delta = getDelta( spacing, site.type ).getRotatedInstance( angle );
 
         return new CrystalSite( bondingTarget.plus( delta ), site.getOppositeComponent(), site );
     }

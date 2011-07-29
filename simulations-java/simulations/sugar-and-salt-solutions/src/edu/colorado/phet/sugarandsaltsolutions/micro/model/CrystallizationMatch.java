@@ -7,6 +7,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
  * @author Sam Reid
  */
 public class CrystallizationMatch {
+
     //The particle used to test for a match
     public final Particle particle;
 

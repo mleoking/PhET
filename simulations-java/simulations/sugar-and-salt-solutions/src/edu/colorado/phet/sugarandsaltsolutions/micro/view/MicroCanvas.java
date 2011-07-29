@@ -50,6 +50,9 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     private PeriodicTableDialog periodicTableDialog;
     private boolean dialogVisibleOnActivate;
 
+    //If set to true, will highlight regions where crystals can be grown
+    private boolean debugBindingSites = false;
+
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ), new Function1<Double, String>() {
             public String apply( Double volumeInMetersCubed ) {
@@ -158,7 +161,9 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //For debugging, show the location of binding sites
-        addChild( new BindingSiteDebugger( transform, model ) );
+        if ( debugBindingSites ) {
+            addChild( new BindingSiteDebugger( transform, model ) );
+        }
     }
 
     //If the periodic table dialog was showing when the user switched away from this tab, restore it
