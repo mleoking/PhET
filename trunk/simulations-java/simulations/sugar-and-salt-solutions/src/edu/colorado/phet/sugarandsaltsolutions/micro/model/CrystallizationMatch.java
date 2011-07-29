@@ -14,27 +14,27 @@ public class CrystallizationMatch {
     public final Particle particle;
 
     //The site where the particle could join the crystal
-    public final OpenSite<SphericalParticle> openSite;
+    public final OpenSite<SphericalParticle> site;
 
     //The distance between the particle and the potential bonding site
     public final double distance;
 
-    public CrystallizationMatch( Particle particle, OpenSite<SphericalParticle> openSite ) {
+    public CrystallizationMatch( Particle particle, OpenSite<SphericalParticle> site ) {
         this.particle = particle;
-        this.openSite = openSite;
-        this.distance = particle.getPosition().minus( openSite.absolutePosition ).getMagnitude();
+        this.site = site;
+        this.distance = particle.getPosition().minus( site.absolutePosition ).getMagnitude();
     }
 
     @Override public String toString() {
         return "CrystallizationMatch{" +
                "particle=" + particle +
-               ", constituent=" + openSite +
+               ", constituent=" + site +
                ", distance=" + distance +
                '}';
     }
 
     //The absolute model shape (in meters) of where the binding site is, for purposes of debugging and making sure it is within the water shape
     public Shape getTargetShape() {
-        return openSite.shape;
+        return site.shape;
     }
 }

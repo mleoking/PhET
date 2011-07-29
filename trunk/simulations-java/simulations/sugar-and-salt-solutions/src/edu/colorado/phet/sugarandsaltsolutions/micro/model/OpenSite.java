@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.Function0;
 public class OpenSite<T extends Particle> {
 
     //Position relative to the origin of the crystal
-    private final ImmutableVector2D relativePosition;
+    public final ImmutableVector2D relativePosition;
 
     //Absolute location for checking bounds against water bounds
     public final Shape shape;

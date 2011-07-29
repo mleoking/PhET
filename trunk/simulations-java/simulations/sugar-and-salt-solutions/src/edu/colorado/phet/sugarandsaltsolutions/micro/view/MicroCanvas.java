@@ -51,7 +51,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     private boolean dialogVisibleOnActivate;
 
     //If set to true, will highlight regions where crystals can be grown
-    private boolean debugBindingSites = true;
+    private boolean debugBindingSites = false;
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ), new Function1<Double, String>() {

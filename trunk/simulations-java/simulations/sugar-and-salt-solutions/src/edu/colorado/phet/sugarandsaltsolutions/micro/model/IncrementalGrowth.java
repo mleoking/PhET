@@ -12,6 +12,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.FREE_PARTICLE_SPEED;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
 /**
@@ -56,18 +57,18 @@ public class IncrementalGrowth {
                 CrystallizationMatch match = matches.get( 0 );
 
                 //If close enough, join the lattice
-                if ( match.distance <= model.FREE_PARTICLE_SPEED * dt ) {
+                if ( match.distance <= FREE_PARTICLE_SPEED * dt ) {
 
                     //Remove the particle from the list of free particles
                     model.freeParticles.remove( match.particle );
 
                     //Add it as a constituent of the crystal
-                    crystal.addConstituent( match.openSite.toConstituent() );
+                    crystal.addConstituent( new Constituent<SphericalParticle>( (SphericalParticle) match.particle, match.site.relativePosition ) );
                 }
 
                 //Otherwise, move closest particle toward the lattice
                 else {
-                    match.particle.velocity.set( match.openSite.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( MicroModel.FREE_PARTICLE_SPEED ) );
+                    match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
                 }
             }
 
