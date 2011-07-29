@@ -1,3 +1,6 @@
+Micro tab: Fixed: Prevent crystal sites from forming on top of existing crystal components
+Micro tab: Fixed: During steady state, particle gets faster and faster
+Micro tab: Fixed: Crystals should dissolve gradually instead of completely to better match saturation point behavior
 Micro tab: Refactoring to remove dependency on Lattice classes for crystal construction, dissolving or growing
 Micro tab: Only dissolve particles that are submerged in the fluid
 Micro tab: Made crystals dissolve incrementally
