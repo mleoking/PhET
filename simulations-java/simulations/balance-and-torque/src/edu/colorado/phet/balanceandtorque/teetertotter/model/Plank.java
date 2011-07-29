@@ -3,7 +3,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -21,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
  * This is the plank upon which masses can be placed.
@@ -82,8 +82,14 @@ public class Plank extends ShapeModelElement {
     // position regardless of any masses on its surface.
     private final BooleanProperty supportColumnsActive;
 
-    // The original, unrotated shape is needed for a number of operations.
+    // The original, unrotated shape, which is needed for a number of operations.
     private final Shape unrotatedShape;
+
+    // Shape of the tick marks.  These are calculated here in the model, since
+    // their positions correspond to the "snap to" locations, but they are not
+    // added to the overall shape so that the view has more freedom to vary
+    // their appearance.
+    private final List<Shape> tickMarks = new ArrayList<Shape>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -109,17 +115,28 @@ public class Plank extends ShapeModelElement {
                 stepInTime( clockEvent.getSimulationTimeChange() );
             }
         } );
+
         // Keep a copy of the initial, unrotated shape.  This is rotated and
         // translated based on the masses on the plank's surface.
         unrotatedShape = generateOriginalShape( initialLocation );
 
+        // Listen the our own overall shape and update the tick marks whenever
+        // the shape changes.
+        getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+            public void apply( Shape shape ) {
+                updateTickMarks();
+            }
+        } );
+
         // TODO: This will need to work differently once the pivot point is made movable.
-        // Formula for this determined with lots of help from Mathematica.
+        // Determine the max rotational angle. Formula for this determined with lots of help from Mathematica.
         double d = initialPivotPoint.distance( initialLocation );
         double py = initialPivotPoint.getY();
         double h = LENGTH;
         maxTiltAngle = Math.PI - Math.acos( ( d * py - Math.sqrt( d * d * h * h + Math.pow( h, 4 ) - h * h * py * py ) ) / ( d * d + h * h ) );
 
+        // Initialize the attachment point (where the attachment bar meets the
+        // plank) which is the same as the initial location.
         attachmentPointProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
 
         // Listen to the support column property.  The plank goes back to the
@@ -191,11 +208,15 @@ public class Plank extends ShapeModelElement {
         return tiltAngle;
     }
 
+    public List<Shape> getTickMarks() {
+        return tickMarks;
+    }
+
     // Generate the original shape, which is assumed to be level.  This also
     // creates and adds the "tick marks" to the plank.
     private static Shape generateOriginalShape( Point2D position ) {
         // Create the outline shape of the plank.
-        GeneralPath path = new GeneralPath();
+        DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( 0, 0 );
         path.lineTo( LENGTH / 2, 0 );
         path.lineTo( LENGTH / 2, THICKNESS );
@@ -203,29 +224,27 @@ public class Plank extends ShapeModelElement {
         path.lineTo( -LENGTH / 2, THICKNESS );
         path.lineTo( -LENGTH / 2, 0 );
         path.lineTo( 0, 0 );
-        /*
-        // Add the "snap to" markers to the plank.
-        double interMarkerDistance = LENGTH / (double) ( NUM_SNAP_TO_LOCATIONS + 1 );
-        double markerXPos = -LENGTH / 2 + interMarkerDistance;
-        double thickerMarkerOffset = 0.005;
-        for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
-            if ( !( i == NUM_SNAP_TO_LOCATIONS / 2 ) ) {   // No marker in center of plank.
-                path.moveTo( markerXPos, 0 );
-                path.lineTo( markerXPos, THICKNESS );
-                if ( ( i + 1 ) % ( ( NUM_SNAP_TO_LOCATIONS + 1 ) / 4 ) == 0 ) {
-                    // This is a bit of a gimmick to make some of the markers look
-                    // thicker than others.
-                    path.moveTo( markerXPos - thickerMarkerOffset, 0 );
-                    path.lineTo( markerXPos - thickerMarkerOffset, THICKNESS );
-                    path.moveTo( markerXPos + thickerMarkerOffset, 0 );
-                    path.lineTo( markerXPos + thickerMarkerOffset, THICKNESS );
-                }
-            }
-            markerXPos += interMarkerDistance;
-        }
-        */
         // Translate to the initial position.
-        return AffineTransform.getTranslateInstance( position.getX(), position.getY() ).createTransformedShape( path );
+        return AffineTransform.getTranslateInstance( position.getX(), position.getY() ).createTransformedShape( path.getGeneralPath() );
+    }
+
+    // Updates the positions of the tick marks.
+    private void updateTickMarks() {
+        tickMarks.clear();
+        double interTickMarkDistance = LENGTH / (double) ( NUM_SNAP_TO_LOCATIONS + 1 );
+        double plankLeftEdgeX = unrotatedShape.getBounds2D().getMinX() + interTickMarkDistance;
+        double tickMarkYPos = unrotatedShape.getBounds2D().getMinY();
+        DoubleGeneralPath tickMarkPath = new DoubleGeneralPath();
+        AffineTransform transform = AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() );
+        for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
+            if ( i == NUM_SNAP_TO_LOCATIONS / 2 ) {
+                continue; // No marker in center of plank.
+            }
+            double xPos = plankLeftEdgeX + interTickMarkDistance * i;
+            tickMarkPath.moveTo( xPos, tickMarkYPos );
+            tickMarkPath.lineTo( xPos, tickMarkYPos + THICKNESS );
+            tickMarks.add( transform.createTransformedShape( tickMarkPath.getGeneralPath() ) );
+        }
     }
 
     // Generate the shape of the plank based on the current state of the
