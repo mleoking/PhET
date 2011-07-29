@@ -68,7 +68,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         return constituents.iterator();
     }
 
-    public boolean isUnderwater() {
+    public boolean isUnderwaterTimeRecorded() {
         return underwaterTime.isSome();
     }
 
@@ -98,14 +98,27 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
     //Note that since the lattice can take the shape of an arc, this can still leave orphaned particles floating in the air.  This should probably be resolved
     //TODO: A better way to to this would be to check that the dropped component doesn't create two separated components from the lattice graph
-    public Constituent getConstituentToDissolve() {
-        ArrayList<Constituent> c = new ArrayList<Constituent>( constituents );
+    public Constituent getConstituentToDissolve( final Rectangle2D waterBounds ) {
+
+        //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
+        ArrayList<Constituent> c = new ArrayList<Constituent>() {{
+            for ( Constituent<T> constituent : constituents ) {
+                if ( waterBounds.contains( constituent.particle.getShape().getBounds2D() ) ) {
+                    add( constituent );
+                }
+            }
+        }};
         Collections.sort( c, new Comparator<Constituent>() {
             public int compare( Constituent o1, Constituent o2 ) {
                 return Double.compare( o1.particle.position.get().getY(), o2.particle.position.get().getY() );
             }
         } );
-        return c.get( c.size() - 1 );
+        if ( c.isEmpty() ) {
+            return null;
+        }
+        else {
+            return c.get( c.size() - 1 );
+        }
     }
 
     //Get all the spherical particles within this compound and its children recursively, so they can be displayed with PNodes

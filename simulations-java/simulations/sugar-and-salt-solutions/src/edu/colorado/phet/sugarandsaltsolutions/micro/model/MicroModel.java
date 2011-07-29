@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
@@ -76,21 +77,25 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
     //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
-    public final ItemList<Particle> freeParticles = new ItemList<Particle>() {{
-
-        //Diagnostic checking
-//        addItemAddedListener( new VoidFunction1<Particle>() {
-//            public void apply( final Particle p ) {
-//                int count = filter( new Function1<Particle, Boolean>() {
-//                    public Boolean apply( Particle particle ) {
-//                        return particle == p;
-//                    }
-//                } ).size();
-//                System.out.println( "count = " + count );
-//            }
-//        } );
-    }};
-
+    public final ItemList<Particle> freeParticles = new ItemList<Particle>() {
+        {
+            size.trace( "free particles" );
+            //Diagnostic checking
+            addItemAddedListener( new VoidFunction1<Particle>() {
+                public void apply( final Particle p ) {
+                    int count = filter( new Function1<Particle, Boolean>() {
+                        public Boolean apply( Particle particle ) {
+                            return particle == p;
+                        }
+                    } ).size();
+                    System.out.println( "count = " + count );
+                    if ( size() > 40 ) {
+                        System.out.println( "Too many!" );
+                    }
+                }
+            } );
+        }
+    };
     //Lists of compounds
     public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
@@ -124,7 +129,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Strategy rule to use for dissolving the crystals
-    private IncrementalDissolve dissolveStrategy = new IncrementalDissolve();
+    private IncrementalDissolve incrementalDissolve = new IncrementalDissolve( this );
 
     //Speed at which freely moving particles should random walk
     protected double FREE_PARTICLE_SPEED = 6E-10;
@@ -326,7 +331,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             boundToBeakerBottom( crystal );
 
             //If completely underwater, lattice should prepare to dissolve
-            if ( isCompletelyUnderwater( crystal ) && !crystal.isUnderwater() ) {
+            if ( !crystal.isUnderwaterTimeRecorded() && !isCrystalTotallyAboveTheWater( crystal ) ) {
                 crystal.setUnderwater( time );
             }
             crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
@@ -335,7 +340,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             boundToBeakerBottom( crystal );
 
             //Determine whether it is time for the lattice to dissolve
-            if ( crystal.isUnderwater() ) {
+            if ( crystal.isUnderwaterTimeRecorded() ) {
                 final double timeUnderwater = time - crystal.getUnderWaterTime();
 
                 //Make sure it has been underwater for a certain period of time (in seconds)
@@ -347,8 +352,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Handle dissolving the lattices
         for ( Crystal crystal : toDissolve ) {
-            dissolveStrategy.dissolve( crystals, crystal, freeParticles, unsaturated );
+            incrementalDissolve.dissolve( crystals, crystal, unsaturated );
         }
+    }
+
+    private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
+        return crystal.getShape().getBounds2D().getY() > solution.shape.get().getBounds2D().getMaxY();
     }
 
     private void boundToBeakerBottom( Particle particle ) {

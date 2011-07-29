@@ -69,6 +69,11 @@ public class CrystalFormation {
 
                     //Create a new crystal that combines the pre-existing crystal and the new particle
                     model.addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), (SodiumChlorideLattice) crystal.growCrystal( match.crystalSite ), crystal.angle ) );
+
+                    //Code for reusing the pre-existing particle instead of discarding it and creating a new one, for debugging purposes: to see if it solves any problems
+//                    ImmutableList<SphericalParticle> components = new ImmutableList<SphericalParticle>( crystal.lattice.components, (SphericalParticle) match.particle );
+//                    ImmutableList<Bond<SphericalParticle>> bonds = new ImmutableList<Bond<SphericalParticle>>( crystal.lattice.bonds, new Bond<SphericalParticle>( (SphericalParticle) match.crystalSite.latticeSite.component, (SphericalParticle) match.particle, match.crystalSite.latticeSite.type ) );
+//                    model.addSaltCrystal( new SodiumChlorideCrystal( crystal.position.get(), new SodiumChlorideLattice( components, bonds ), crystal.angle ) );
                 }
 
                 //Otherwise, move closest particle toward the lattice
