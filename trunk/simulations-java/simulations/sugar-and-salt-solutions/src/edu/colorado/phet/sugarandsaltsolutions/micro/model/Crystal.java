@@ -102,4 +102,11 @@ public class Crystal<T extends Particle> extends Compound<T> {
     public Lattice<T> growCrystal( CrystalSite crystalSite ) {
         return crystalSite.latticeSite.grow( lattice );
     }
+
+    //Removes the specified constituent from the compound
+    public void removeConstituent( Constituent constituent ) {
+        super.removeConstituent( constituent );
+
+        //TODO: We must update the lattice to reflect the missing constituent otherwise subsequent lattice grow operations will be incorrect
+    }
 }
