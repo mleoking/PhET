@@ -1,3 +1,4 @@
+# 0.00.05 (54624) Jul 29, 2011
 7/29/11 reduce font size of MoleculeComboxBoxNode (temporarily?), so that popup fits in the play area, workaround for #3025
 7/29/11 Jmol: switch to mol2 files provided by KL, add additional molecules
 7/28/11 Jmol: separate chem data files into separate directories, by file type
