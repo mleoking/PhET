@@ -32,7 +32,7 @@ public class IncrementalDissolve {
                 && System.currentTimeMillis() - lastDissolve > 2
                 ) {
             lastDissolve = System.currentTimeMillis();
-            Constituent constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
+            RemovableConstituent constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
                 constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
 

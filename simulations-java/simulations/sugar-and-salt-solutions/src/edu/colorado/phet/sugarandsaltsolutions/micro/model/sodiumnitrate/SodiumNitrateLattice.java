@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Bond;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.BondType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ImmutableList;
@@ -31,6 +32,14 @@ public class SodiumNitrateLattice extends SquareLattice<Particle> {
         if ( !containsBondType( bonds, type ) ) {
             latticeSites.add( new SodiumNitrateSite( component, type ) );
         }
+    }
+
+    @Override public Lattice<Particle> drop( final Particle component ) {
+        return new SodiumNitrateLattice( components.drop( component ), bonds.drop( new Function1<Bond<Particle>, Boolean>() {
+            public Boolean apply( Bond<Particle> particleBond ) {
+                return particleBond.contains( component );
+            }
+        } ) );
     }
 
     //Sample main to test lattice construction

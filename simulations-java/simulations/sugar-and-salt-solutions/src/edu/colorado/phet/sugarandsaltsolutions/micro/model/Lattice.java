@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
+
 /**
  * A lattice represents a set of components (may be elements or molecules) and the bonds between them, used as a blueprint
  * for creating a crystal.  Hence this is just a topological construct.  To actually place particles at specific positions, you need a crystal.
@@ -91,5 +93,15 @@ public abstract class Lattice<T> {
             }
         }
         return count;
+    }
+
+    public abstract Lattice<T> drop( T component );
+
+    public boolean contains( final T particle ) {
+        return components.contains( particle ) || bonds.contains( new Function1<Bond<T>, Boolean>() {
+            public Boolean apply( Bond<T> tBond ) {
+                return tBond.contains( particle );
+            }
+        } );
     }
 }

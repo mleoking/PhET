@@ -29,4 +29,8 @@ public class Bond<T> {
     @Override public String toString() {
         return source + " --" + type + "--> " + destination;
     }
+
+    public boolean contains( T component ) {
+        return source == component || destination == component;
+    }
 }

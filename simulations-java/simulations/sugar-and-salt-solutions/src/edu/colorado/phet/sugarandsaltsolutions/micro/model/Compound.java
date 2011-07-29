@@ -91,14 +91,14 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Removes the specified constituent from the compound
-    public void removeConstituent( Constituent constituent ) {
-        constituents.remove( constituent );
+    public void removeConstituent( RemovableConstituent<T> constituent ) {
+        constituents.remove( constituent.constituent );
     }
 
     //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
     //Note that since the lattice can take the shape of an arc, this can still leave orphaned particles floating in the air.  This should probably be resolved
     //TODO: A better way to to this would be to check that the dropped component doesn't create two separated components from the lattice graph
-    public Constituent getConstituentToDissolve( final Rectangle2D waterBounds ) {
+    public RemovableConstituent getConstituentToDissolve( final Rectangle2D waterBounds ) {
 
         //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
         ArrayList<Constituent> c = new ArrayList<Constituent>() {{
@@ -117,7 +117,8 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
             return null;
         }
         else {
-            return c.get( c.size() - 1 );
+            Constituent constituent = c.get( c.size() - 1 );
+            return new RemovableConstituent( constituent, constituent.particle );
         }
     }
 

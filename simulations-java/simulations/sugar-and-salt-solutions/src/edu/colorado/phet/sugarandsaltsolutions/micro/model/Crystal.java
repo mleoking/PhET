@@ -17,7 +17,7 @@ public class Crystal<T extends Particle> extends Compound<T> {
     private final double spacing;
 
     //The lattice, which determines the graph layout (topology) of the crystal
-    public final Lattice<T> lattice;
+    private Lattice<T> lattice;
 
     //Construct the compound from the specified lattice
     public Crystal( ImmutableVector2D position, double spacing, Lattice<T> lattice, double angle ) {
@@ -88,6 +88,8 @@ public class Crystal<T extends Particle> extends Compound<T> {
 
     //Convert a lattice site to a crystal site so a real particle can connect to the crystal
     private CrystalSite toCrystalSite( LatticeSite<T> site ) {
+
+        //TODO: find position will fail if the lattice graph became disconnected or if lattice.components.getFirst() was removed from the lattice
         ImmutableVector2D relativePosition = findPosition( lattice.components.getFirst(), new ArrayList<T>(), ZERO, site.component );
 
         //This is the position of the particle to be bonded to
@@ -104,9 +106,32 @@ public class Crystal<T extends Particle> extends Compound<T> {
     }
 
     //Removes the specified constituent from the compound
-    public void removeConstituent( Constituent constituent ) {
+    public void removeConstituent( RemovableConstituent<T> constituent ) {
+        System.out.println( "############" );
+
+        boolean crystalContainsBefore = containsConstituentParticle( constituent.particle );
+        boolean latticeContainsBefore = lattice.contains( constituent.particle );
+
         super.removeConstituent( constituent );
 
         //TODO: We must update the lattice to reflect the missing constituent otherwise subsequent lattice grow operations will be incorrect
+        //Find the specified constituent.particle in the lattice
+        lattice = lattice.drop( constituent.latticeComponent );
+
+        System.out.println( "Crystal.removeConstituent, dropped " + constituent );
+        boolean crystalContains = containsConstituentParticle( constituent.particle );
+        boolean latticeContains = lattice.contains( constituent.particle );
+
+        System.out.println( "crystalContainsBefore = " + crystalContainsBefore + ", after => " + crystalContains );
+        System.out.println( "latticeContainsBefore = " + latticeContainsBefore + ", after => " + latticeContains );
+    }
+
+    private boolean containsConstituentParticle( T particle ) {
+        for ( Constituent<T> constituent : constituents ) {
+            if ( constituent.particle == particle ) {
+                return true;
+            }
+        }
+        return false;
     }
 }
