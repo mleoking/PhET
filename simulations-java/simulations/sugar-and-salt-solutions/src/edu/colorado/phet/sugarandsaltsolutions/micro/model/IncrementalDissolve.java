@@ -3,6 +3,9 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
+import static java.lang.Math.PI;
+import static java.lang.Math.random;
+
 /**
  * This strategy dissolves crystals incrementally so that the concentration will be below or near the saturation point.
  *
@@ -17,11 +20,14 @@ public class IncrementalDissolve {
     public void dissolve( ItemList crystals, final Crystal crystal, ItemList<Particle> freeParticles, ObservableProperty<Boolean> unsaturated ) {
 
         while ( unsaturated.get() && crystal.numberConstituents() > 0
-//                && System.currentTimeMillis() - lastDissolve > 1000
+
+                //For some unknown reason, limiting this to one dissolve element per step fixes bugs in dissolving the lattices
+                //Without this limit, crystals do not dissolve when they should
+                && System.currentTimeMillis() - lastDissolve > 2
                 ) {
 
             Constituent constituent = crystal.getConstituentToDissolve();
-            crystal.dissolve( constituent );
+            constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
 
             freeParticles.add( constituent.particle );
 

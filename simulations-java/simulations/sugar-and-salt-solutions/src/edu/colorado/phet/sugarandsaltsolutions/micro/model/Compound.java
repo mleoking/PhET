@@ -13,9 +13,6 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.random;
-
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
  * The type is generic since some compounds such as NaCl are made of SphericalParticles while others such as Sucrose are made from molecules with their own substructure
@@ -86,21 +83,6 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     //Returns the number of constituents in the compound
     public int numberConstituents() {
         return constituents.size();
-    }
-
-    //Splits up all constituents from the crystal lattice, returning the components (particles or molecules) that should move about freely
-    public ArrayList<T> dissolve() {
-        ArrayList<T> freeParticles = new ArrayList<T>();
-        for ( Constituent<T> constituent : this ) {
-            dissolve( constituent );
-            freeParticles.add( constituent.particle );
-        }
-        return freeParticles;
-    }
-
-    //Dissolve a single particle
-    public void dissolve( Constituent constituent ) {
-        constituent.particle.velocity.set( velocity.get().getRotatedInstance( random() * PI * 2 ) );
     }
 
     //Gets the constituent at the specified index
