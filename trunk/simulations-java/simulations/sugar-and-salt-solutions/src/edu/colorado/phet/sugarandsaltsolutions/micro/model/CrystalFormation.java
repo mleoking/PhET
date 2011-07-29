@@ -50,32 +50,12 @@ public class CrystalFormation {
             //Look for an open site on its lattice
             ArrayList<CrystalSite> openSites = crystal.getOpenSites();
 
-            class Match {
-                public final Particle particle;
-                public final CrystalSite crystalSite;
-                public final double distance;
-
-                Match( Particle particle, CrystalSite crystalSite ) {
-                    this.particle = particle;
-                    this.crystalSite = crystalSite;
-                    this.distance = particle.position.get().minus( crystalSite.position ).getMagnitude();
-                }
-
-                @Override public String toString() {
-                    return "Match{" +
-                           "particle=" + particle +
-                           ", crystalSite=" + crystalSite +
-                           ", distance=" + distance +
-                           '}';
-                }
-            }
-
             //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
-            ArrayList<Match> matches = new ArrayList<Match>();
+            ArrayList<CrystallizationMatch> matches = new ArrayList<CrystallizationMatch>();
             for ( Particle freeParticle : model.freeParticles ) {
                 for ( CrystalSite openSite : openSites ) {
                     if ( solutionContains( openSite ) && openSite.matches( freeParticle ) ) {
-                        matches.add( new Match( freeParticle, openSite ) );
+                        matches.add( new CrystallizationMatch( freeParticle, openSite ) );
                     }
                 }
             }
@@ -83,12 +63,12 @@ public class CrystalFormation {
             if ( matches.size() > 0 ) {
 
                 //Find a matching particle nearby one of the sites and join it together
-                Collections.sort( matches, new Comparator<Match>() {
-                    public int compare( Match o1, Match o2 ) {
+                Collections.sort( matches, new Comparator<CrystallizationMatch>() {
+                    public int compare( CrystallizationMatch o1, CrystallizationMatch o2 ) {
                         return Double.compare( o1.distance, o2.distance );
                     }
                 } );
-                Match match = matches.get( 0 );
+                CrystallizationMatch match = matches.get( 0 );
 
                 //If close enough, join the lattice
                 if ( match.distance <= model.FREE_PARTICLE_SPEED * dt ) {
