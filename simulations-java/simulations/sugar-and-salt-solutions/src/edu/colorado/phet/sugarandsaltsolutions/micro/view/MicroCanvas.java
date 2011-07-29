@@ -156,6 +156,9 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( 0, stageSize.getHeight() - getFullBounds().getHeight() );
         }} );
+
+        //For debugging, show the location of binding sites
+        addChild( new BindingSiteDebugger( transform, model ) );
     }
 
     //If the periodic table dialog was showing when the user switched away from this tab, restore it

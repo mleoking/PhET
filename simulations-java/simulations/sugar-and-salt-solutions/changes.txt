@@ -1,3 +1,4 @@
+Micro tab: Added BindingSiteDebugger to visualize crystal formation
 Micro tab: Increased speed of particle random walks
 Micro tab: Work toward ensuring that matching sites are contained within the solution for crystal growing
 # 0.00.72 (54586) Jul 28, 2011
