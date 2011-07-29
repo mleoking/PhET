@@ -13,12 +13,10 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.LargeRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRnaDestroyer;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
-import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.SmallRibosomalSubunit;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,21 +46,17 @@ public class BiomoleculeToolBoxNode extends PNode {
                                 new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) );
             addChild( new RowLabel( "Transcription Factor" ) );
             addChild( new HBox( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ) );
-            addChild( new RowLabel( "Small Ribosomal Subunit" ) );
-            addChild( new HBox( new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new SmallRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ) );
-            addChild( new RowLabel( "Large Ribosomal Subunit" ) );
-            addChild( new HBox( new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new LargeRibosomalSubunitCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+            addChild( new RowLabel( "Ribosome Subunit" ) );
+            addChild( new HBox( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
+                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ) );
             addChild( new RowLabel( "mRNA Destroyer" ) );
             addChild( new HBox( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
                                 new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
                                 new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) );
         }};
 
-        // Create the control panel node.
+        // Create and add the main content node.
         PNode contentNode = new VBox(
                 // TODO: i18n
                 new PText( "Tool Box" ) {{ setFont( TITLE_FONT ); }},
@@ -118,16 +112,16 @@ public class BiomoleculeToolBoxNode extends PNode {
         }
     }
 
-    // PNode that, when clicked on, will add a small ribosomal subunit to the active area.
-    private static class SmallRibosomalSubunitCreatorNode extends BiomoleculeCreatorNode {
+    // PNode that, when clicked on, will add a ribosome to the active area.
+    private static class RibosomeCreatorNode extends BiomoleculeCreatorNode {
         // Scaling factor for this node when used as a creator node.  May be
         // significantly different from the size of the corresponding element
         // in the model.
         private static final double SCALING_FACTOR = 0.1;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
-        private SmallRibosomalSubunitCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new SmallRibosomalSubunit() ),
+        private RibosomeCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
+            super( new MobileBiomoleculeNode( SCALING_MVT, new Ribosome() ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
@@ -135,36 +129,6 @@ public class BiomoleculeToolBoxNode extends PNode {
                            Ribosome srs = new Ribosome( pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( srs );
                            return srs;
-                       }
-                   },
-                   new VoidFunction1<MobileBiomolecule>() {
-                       public void apply( MobileBiomolecule mobileBiomolecule ) {
-                           biomoleculeBoxNode.model.removeMobileBiomolecule( mobileBiomolecule );
-                       }
-                   },
-                   biomoleculeBoxNode,
-                   true
-            );
-        }
-    }
-
-    // PNode that, when clicked on, will add a large ribosomal subunit to the active area.
-    private static class LargeRibosomalSubunitCreatorNode extends BiomoleculeCreatorNode {
-        // Scaling factor for this node when used as a creator node.  May be
-        // significantly different from the size of the corresponding element
-        // in the model.
-        private static final double SCALING_FACTOR = 0.1;
-        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
-
-        private LargeRibosomalSubunitCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new LargeRibosomalSubunit() ),
-                   biomoleculeBoxNode.canvas,
-                   biomoleculeBoxNode.mvt,
-                   new Function1<Point2D, MobileBiomolecule>() {
-                       public MobileBiomolecule apply( Point2D pos ) {
-                           LargeRibosomalSubunit lrs = new LargeRibosomalSubunit( pos );
-                           biomoleculeBoxNode.model.addMobileBiomolecule( lrs );
-                           return lrs;
                        }
                    },
                    new VoidFunction1<MobileBiomolecule>() {
