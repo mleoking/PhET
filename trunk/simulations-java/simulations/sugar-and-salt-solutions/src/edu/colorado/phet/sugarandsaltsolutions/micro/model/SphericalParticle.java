@@ -41,7 +41,7 @@ public class SphericalParticle extends Particle {
     }
 
     @Override public Shape getShape() {
-        return new Ellipse2D.Double( position.get().getX() - radius, position.get().getY() - radius, radius * 2, radius * 2 );
+        return new Ellipse2D.Double( getPosition().getX() - radius, getPosition().getY() - radius, radius * 2, radius * 2 );
     }
 
     //These classes contains state information for particulars particles and ions and permit matching in MicroModel for particle counting.

@@ -17,7 +17,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
@@ -77,27 +76,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
     //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
-    public final ItemList<Particle> freeParticles = new ItemList<Particle>() {
-        {
-            size.trace( "free particles" );
-            //Diagnostic checking
-            addItemAddedListener( new VoidFunction1<Particle>() {
-                public void apply( final Particle p ) {
-                    int count = filter( new Function1<Particle, Boolean>() {
-                        public Boolean apply( Particle particle ) {
-                            return particle == p;
-                        }
-                    } ).size();
-                    System.out.println( "count = " + count );
-                    if ( size() > 40 ) {
-                        System.out.println( "Too many!" );
-                    }
-                }
-            } );
-        }
-    };
+    public final ItemList<Particle> freeParticles = new ItemList<Particle>();
+
     //Lists of compounds
-    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
+    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>() {{
+        size.trace( "sodium chloride crystals" );
+    }};
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
@@ -132,7 +116,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private IncrementalDissolve incrementalDissolve = new IncrementalDissolve( this );
 
     //Speed at which freely moving particles should random walk
-    protected double FREE_PARTICLE_SPEED = 6E-10;
+    public static final double FREE_PARTICLE_SPEED = 6E-10;
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
@@ -302,7 +286,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
         updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
 
-        new CrystalFormation( this ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
+        new IncrementalGrowth( this ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
@@ -385,7 +369,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     private void updateFreeParticles( double dt ) {
         for ( Particle particle : freeParticles ) {
             boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
-            ImmutableVector2D initialPosition = particle.position.get();
+            ImmutableVector2D initialPosition = particle.getPosition();
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
             if ( initiallyUnderwater ) {
@@ -406,7 +390,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
             boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 
             //If the particle entered the water on this step, slow it down to simulate hitting the water
-            if ( !initiallyUnderwater && underwater && particle.position.get().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
+            if ( !initiallyUnderwater && underwater && particle.getPosition().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
                 collideWithWater( particle );
             }
 
@@ -418,8 +402,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
             //Prevent the particles from leaving the solution, but only if they started in the solution
             if ( initiallyUnderwater && !underwater ) {
-                ImmutableVector2D delta = particle.position.get().minus( initialPosition );
-                particle.position.set( initialPosition );
+                ImmutableVector2D delta = particle.getPosition().minus( initialPosition );
+                particle.setPosition( initialPosition );
 
                 //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
                 particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), delta.getAngle() + PI ) );
@@ -529,7 +513,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         double changeInWaterHeight = beaker.getHeightForVolume( volumeDropped ) - beaker.getHeightForVolume( 0 );
         for ( Particle particle : particles ) {
             if ( waterVolume.get() > 0 ) {
-                double yLocationInBeaker = particle.position.get().getY();
+                double yLocationInBeaker = particle.getPosition().getY();
                 double waterTopY = beaker.getHeightForVolume( waterVolume.get() );
                 double fractionToTop = yLocationInBeaker / waterTopY;
                 particle.translate( 0, -changeInWaterHeight * fractionToTop );
@@ -581,7 +565,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     public ArrayList<ArrayList<CrystallizationMatch>> getAllBondingSites() {
         ArrayList<ArrayList<CrystallizationMatch>> s = new ArrayList<ArrayList<CrystallizationMatch>>();
         for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
-            s.add( new CrystalFormation( this ).getAllBindingSites( sodiumChlorideCrystal ) );
+            s.add( new IncrementalGrowth( this ).getAllCrystallizationMatches( sodiumChlorideCrystal ) );
         }
         return s;
     }

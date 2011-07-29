@@ -41,17 +41,21 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Set the position of the compound, and update the location of all constituents
-    //TODO: there is also a public api for setting the position of the compound through Property<ImmutableVector2D>, but which does not update the constituent locations
-    //Maybe this method should auto-call when that property changes, or the property shouldn't be public
-    @Override protected void setPosition( ImmutableVector2D location ) {
+    @Override public void setPosition( ImmutableVector2D location ) {
         super.setPosition( location );
         updateConstituentLocations();
     }
 
-    private void updateConstituentLocations() {
+    //Update all constituents with their correct absolute location based on the crystal location and their relative location within the crystal
+    protected void updateConstituentLocations() {
         for ( Constituent constituent : constituents ) {
-            constituent.particle.setPosition( position.get().plus( constituent.location ) );
+            updateConstituentLocation( constituent );
         }
+    }
+
+    //Update the constituent with its correct absolute location based on the crystal location and its relative location within the crystal
+    private void updateConstituentLocation( Constituent constituent ) {
+        constituent.particle.setPosition( getPosition().plus( constituent.relativePosition ) );
     }
 
     //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
@@ -91,14 +95,19 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Removes the specified constituent from the compound
-    public void removeConstituent( RemovableConstituent<T> constituent ) {
-        constituents.remove( constituent.constituent );
+    public void removeConstituent( Constituent<T> constituent ) {
+        constituents.remove( constituent );
+    }
+
+    public void addConstituent( Constituent<T> constituent ) {
+        constituents.add( constituent );
+        updateConstituentLocation( constituent );
     }
 
     //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
     //Note that since the lattice can take the shape of an arc, this can still leave orphaned particles floating in the air.  This should probably be resolved
     //TODO: A better way to to this would be to check that the dropped component doesn't create two separated components from the lattice graph
-    public RemovableConstituent getConstituentToDissolve( final Rectangle2D waterBounds ) {
+    public Constituent<T> getConstituentToDissolve( final Rectangle2D waterBounds ) {
 
         //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
         ArrayList<Constituent> c = new ArrayList<Constituent>() {{
@@ -110,15 +119,14 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         }};
         Collections.sort( c, new Comparator<Constituent>() {
             public int compare( Constituent o1, Constituent o2 ) {
-                return Double.compare( o1.particle.position.get().getY(), o2.particle.position.get().getY() );
+                return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
             }
         } );
         if ( c.isEmpty() ) {
             return null;
         }
         else {
-            Constituent constituent = c.get( c.size() - 1 );
-            return new RemovableConstituent( constituent, constituent.particle );
+            return c.get( c.size() - 1 );
         }
     }
 

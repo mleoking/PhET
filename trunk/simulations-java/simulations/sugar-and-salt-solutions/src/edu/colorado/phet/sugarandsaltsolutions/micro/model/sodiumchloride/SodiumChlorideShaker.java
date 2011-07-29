@@ -3,14 +3,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -27,18 +23,11 @@ public class SodiumChlorideShaker extends MicroShaker {
 
     //Create a random salt crystal and add it to the model
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
-        model.addSaltCrystal( new SodiumChlorideCrystal( outputPoint,
-                                                         generateRandomLattice( new Function0<SodiumChlorideLattice>() {
-                                                                                    public SodiumChlorideLattice apply() {
-
-                                                                                        //TODO: can we get rid of this cast?
-                                                                                        return (SodiumChlorideLattice) new SodiumChlorideLattice().grow( 19 );
-                                                                                    }
-                                                                                }, new Function1<SodiumChlorideLattice, Boolean>() {
-                                                             public Boolean apply( SodiumChlorideLattice lattice ) {
-                                                                 return lattice.count( Sodium.class ) == lattice.count( Chloride.class );
-                                                             }
-                                                         }
-                                                         ), randomAngle() ) );
+        SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( outputPoint, randomAngle() );
+        for ( int i = 0; i < 10; i++ ) {
+            crystal.grow( model );
+        }
+        System.out.println( "crystal.numberConstituents() = " + crystal.numberConstituents() );
+        model.addSaltCrystal( crystal );
     }
 }

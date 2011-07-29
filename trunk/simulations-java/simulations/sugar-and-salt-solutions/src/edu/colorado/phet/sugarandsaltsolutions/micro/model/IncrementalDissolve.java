@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
 import static java.lang.Math.PI;
@@ -14,7 +15,7 @@ import static java.lang.Math.random;
 public class IncrementalDissolve {
 
     //Debugging tool to visualize the dissolving process
-    long lastDissolve = System.currentTimeMillis();
+    private long lastDissolve = System.currentTimeMillis();
 
     private final MicroModel model;
 
@@ -32,18 +33,11 @@ public class IncrementalDissolve {
                 && System.currentTimeMillis() - lastDissolve > 2
                 ) {
             lastDissolve = System.currentTimeMillis();
-            RemovableConstituent constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
+            Constituent constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
-                constituent.particle.velocity.set( crystal.velocity.get().getRotatedInstance( random() * PI * 2 ) );
-
-                if ( model.freeParticles.contains( constituent.particle ) ) {
-                    System.out.println( "Error: tried to free a particle that was already free" );
-                }
-                else {
-                    model.freeParticles.add( constituent.particle );
-                }
-
+                constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( MicroModel.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
                 crystal.removeConstituent( constituent );
+                model.freeParticles.add( constituent.particle );
             }
         }
 

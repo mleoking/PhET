@@ -3,14 +3,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -27,21 +23,6 @@ public class CalciumChlorideShaker extends MicroShaker {
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
 
         //for a ratio of 2:1, the total number of components must be 3x, but growing it from 1 means we must specify 3x-1 growth steps, such as 2,5,8,...
-        int numComponents = 7;
-        final int numGrowthSteps = 3 * numComponents - 1;
-        CalciumChlorideLattice lattice = generateRandomLattice( new Function0<CalciumChlorideLattice>() {
-                                                                    public CalciumChlorideLattice apply() {
-
-                                                                        //TODO: can we get rid of this cast?
-                                                                        return (CalciumChlorideLattice) new CalciumChlorideLattice().grow( numGrowthSteps );
-                                                                    }
-                                                                }, new Function1<CalciumChlorideLattice, Boolean>() {
-            public Boolean apply( CalciumChlorideLattice lattice ) {
-                //CaCl2 should have twice as many Cl as Ca
-                return lattice.count( Calcium.class ) * 2 == lattice.count( Chloride.class );
-            }
-        }
-        );
-        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, lattice, randomAngle() ) );
+        model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) );
     }
 }
