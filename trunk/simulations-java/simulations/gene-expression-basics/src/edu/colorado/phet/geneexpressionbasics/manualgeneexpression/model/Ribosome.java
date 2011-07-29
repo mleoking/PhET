@@ -19,13 +19,12 @@ public class Ribosome extends MobileBiomolecule {
 
     private static final double WIDTH = 290;                  // In nanometers.
     private static final double OVERALL_HEIGHT = 300;         // In nanometers.
-    private static final double TOP_PORTION_HEIGHT_PROPORTION = 0.7;
-    private static final double TOP_PORTION_HEIGHT = OVERALL_HEIGHT * TOP_PORTION_HEIGHT_PROPORTION;
-    private static final double BOTTOM_PORTION_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_PORTION_HEIGHT_PROPORTION );
+    private static final double TOP_SUBUNIT_HEIGHT_PROPORTION = 0.7;
+    private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
+    private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
 
     public Ribosome() {
         this( new Point2D.Double( 0, 0 ) );
-
     }
 
     public Ribosome( Point2D position ) {
@@ -37,20 +36,12 @@ public class Ribosome extends MobileBiomolecule {
         // Draw the top portion, which in this sim is the larger subunit.  The
         // shape is essentially a lumpy ellipse, and is based on some drawings
         // seen on the web.  Start at the top center.
-//        DoubleGeneralPath topPortionPath = new DoubleGeneralPath();
-//        topPortionPath.moveTo( 0, OVERALL_HEIGHT * 0.5 );
-//        topPortionPath.quadTo( WIDTH * 0.5, BOTTOM_PORTION_HEIGHT * 0.5, WIDTH * 0.5, -BOTTOM_PORTION_HEIGHT * 0.2 );
-//        topPortionPath.quadTo( WIDTH * 0.5, -BOTTOM_PORTION_HEIGHT * 0.5, 0, -BOTTOM_PORTION_HEIGHT * 0.4 );
-//        topPortionPath.quadTo( -WIDTH * 0.5, -BOTTOM_PORTION_HEIGHT * 0.5, -WIDTH * 0.5, -BOTTOM_PORTION_HEIGHT * 0.2 );
-//        topPortionPath.quadTo( -WIDTH * 0.5, BOTTOM_PORTION_HEIGHT * 0.5, 0, BOTTOM_PORTION_HEIGHT * 0.5 );
-//        topPortionPath.closePath();
-//        Shape topPortionShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 2 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -TOP_PORTION_HEIGHT / 2, WIDTH, TOP_PORTION_HEIGHT ) );
-        Shape topPortionShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 4 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -TOP_PORTION_HEIGHT / 2, WIDTH, TOP_PORTION_HEIGHT ) );
+        // TODO: Shape is currently very simple, probably will need improvement.
+        Shape topSubunitShape = AffineTransform.getTranslateInstance( 0, OVERALL_HEIGHT / 4 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -TOP_SUBUNIT_HEIGHT / 2, WIDTH, TOP_SUBUNIT_HEIGHT ) );
         // Create the bottom portion, which is a more compact ellipse.
-        Shape bottomPortionShape = AffineTransform.getTranslateInstance( 0, -OVERALL_HEIGHT / 4 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -BOTTOM_PORTION_HEIGHT / 2, WIDTH, BOTTOM_PORTION_HEIGHT ) );
-//        Shape bottomPortionShape = AffineTransform.getTranslateInstance( 0, -OVERALL_HEIGHT / 2 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -BOTTOM_PORTION_HEIGHT / 2, WIDTH, BOTTOM_PORTION_HEIGHT ) );
-        Area combinedShape = new Area( topPortionShape );
-        combinedShape.add( new Area( bottomPortionShape ) );
+        Shape bottomSubunitShape = AffineTransform.getTranslateInstance( 0, -OVERALL_HEIGHT / 4 ).createTransformedShape( new Ellipse2D.Double( -WIDTH / 2, -BOTTOM_SUBUNIT_HEIGHT / 2, WIDTH, BOTTOM_SUBUNIT_HEIGHT ) );
+        Area combinedShape = new Area( topSubunitShape );
+        combinedShape.add( new Area( bottomSubunitShape ) );
         return combinedShape;
     }
 }
