@@ -2,6 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
@@ -22,7 +24,10 @@ public class SodiumChlorideCrystalGrowth extends IncrementalGrowth<SphericalPart
         return new SodiumChlorideCrystal( particle.getPosition(), randomAngle() );
     }
 
-    protected Option<?> selectSeed() {
-        return model.freeParticles.selectRandom( Sodium.class, Chloride.class );
+    //Randomly choose any free sodium or chloride ion to seed the crystal
+    protected Option<SphericalParticle> selectSeed() {
+        Option<Particle> particleOption = model.freeParticles.selectRandom( Sodium.class, Chloride.class );
+        if ( particleOption.isNone() ) { return new None<SphericalParticle>(); }
+        else { return new Some<SphericalParticle>( (SphericalParticle) particleOption.get() ); }
     }
 }
