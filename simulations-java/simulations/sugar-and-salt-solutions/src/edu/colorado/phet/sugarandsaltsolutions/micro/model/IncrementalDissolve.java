@@ -12,7 +12,7 @@ import static java.lang.Math.random;
  *
  * @author Sam Reid
  */
-public class IncrementalDissolve {
+public class IncrementalDissolve<T extends Particle> {
 
     //Debugging tool to visualize the dissolving process
     private long lastDissolve = System.currentTimeMillis();
@@ -24,7 +24,7 @@ public class IncrementalDissolve {
     }
 
     //Dissolve the lattice incrementally so that we get as close as possible to the saturation point
-    public void dissolve( ItemList crystals, final Crystal crystal, ObservableProperty<Boolean> unsaturated ) {
+    public void dissolve( ItemList<Crystal<T>> crystals, final Crystal<T> crystal, ObservableProperty<Boolean> unsaturated ) {
 
         while ( unsaturated.get() && crystal.numberConstituents() > 0
 
@@ -33,7 +33,7 @@ public class IncrementalDissolve {
                 && System.currentTimeMillis() - lastDissolve > 2
                 ) {
             lastDissolve = System.currentTimeMillis();
-            Constituent constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
+            Constituent<T> constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
                 constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( MicroModel.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
                 crystal.removeConstituent( constituent );
