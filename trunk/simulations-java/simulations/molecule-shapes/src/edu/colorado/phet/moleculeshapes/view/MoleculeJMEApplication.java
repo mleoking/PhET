@@ -1,4 +1,4 @@
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.moleculeshapes.view;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
+import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.input.MouseInput;
@@ -22,7 +23,7 @@ import com.jme3.scene.Node;
 /**
  * Use jme3 to show a rotating molecule
  */
-public class MoleculeApplication extends BaseApplication {
+public class MoleculeJMEApplication extends BaseJMEApplication {
 
     public static final String MAP_LEFT = "CameraLeft";
     public static final String MAP_RIGHT = "CameraRight";
@@ -60,10 +61,10 @@ public class MoleculeApplication extends BaseApplication {
         * input handling
         *----------------------------------------------------------------------------*/
 
-        inputManager.addMapping( MoleculeApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
-        inputManager.addMapping( MoleculeApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
-        inputManager.addMapping( MoleculeApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
-        inputManager.addMapping( MoleculeApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
+        inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
+        inputManager.addMapping( MoleculeJMEApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
+        inputManager.addMapping( MoleculeJMEApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
+        inputManager.addMapping( MoleculeJMEApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
 
         inputManager.addMapping( MAP_DRAG, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
 
@@ -79,16 +80,16 @@ public class MoleculeApplication extends BaseApplication {
         inputManager.addListener( new AnalogListener() {
                                       public void onAnalog( String name, float value, float tpf ) {
                                           if ( dragging ) {
-                                              if ( name.equals( MoleculeApplication.MAP_LEFT ) ) {
+                                              if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
                                                   rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
                                               }
-                                              if ( name.equals( MoleculeApplication.MAP_RIGHT ) ) {
+                                              if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
                                                   rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
                                               }
-                                              if ( name.equals( MoleculeApplication.MAP_UP ) ) {
+                                              if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
                                                   rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
                                               }
-                                              if ( name.equals( MoleculeApplication.MAP_DOWN ) ) {
+                                              if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
                                                   rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
                                               }
                                           }
@@ -249,7 +250,7 @@ public class MoleculeApplication extends BaseApplication {
     }
 
     public static void main( String[] args ) throws IOException {
-        new MoleculeApplication().start();
+        new MoleculeJMEApplication().start();
     }
 
     public void removeAllAtoms() {
