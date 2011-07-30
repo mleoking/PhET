@@ -268,6 +268,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
     final ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
+    final ObservableProperty<Boolean> calciumChlorideUnsaturated = calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint * 2 ) );
     final ObservableProperty<Boolean> sucroseUnsaturated = sucroseConcentration.lessThan( sucroseSaturationPoint );
 
     //When the simulation clock ticks, move the particles
@@ -288,6 +289,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Allow the crystals to grow
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideUnsaturated );
         new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseUnsaturated );
+        new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideUnsaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
@@ -631,8 +633,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Get one list of bonding sites for each crystal for debugging purposes
     public ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> getAllBondingSites() {
         ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> s = new ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>>();
-        for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
-            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatches( sodiumChlorideCrystal ) );
+        for ( SodiumChlorideCrystal crystal : sodiumChlorideCrystals ) {
+            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatches( crystal ) );
+        }
+        for ( CalciumChlorideCrystal crystal : calciumChlorideCrystals ) {
+            s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getAllCrystallizationMatches( crystal ) );
         }
         return s;
     }
