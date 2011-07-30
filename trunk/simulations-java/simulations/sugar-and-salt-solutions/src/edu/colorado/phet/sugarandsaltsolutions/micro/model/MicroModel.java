@@ -268,6 +268,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
     final ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
+    final ObservableProperty<Boolean> sucroseUnsaturated = sucroseConcentration.lessThan( sucroseSaturationPoint );
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
@@ -284,8 +285,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
         updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
 
-        //Allow the sodium chloride crystals to grow
-        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
+        //Allow the crystals to grow
+        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideUnsaturated );
+        new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseUnsaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {

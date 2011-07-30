@@ -1,3 +1,4 @@
+Micro tab: Added incremental crystallization of sucrose
 Micro tab: Generalized crystal growth algorithm to make it easier to add support for other solutes
 Micro tab: Reset the water level when changing kits
 Micro tab: Fixed: Using up one solute causes the other solute in the kit to be empty
