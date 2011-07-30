@@ -270,6 +270,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     final ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
     final ObservableProperty<Boolean> calciumChlorideUnsaturated = calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint * 2 ) );
     final ObservableProperty<Boolean> sucroseUnsaturated = sucroseConcentration.lessThan( sucroseSaturationPoint );
+    final ObservableProperty<Boolean> sodiumNitrateUnsaturated = sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) );
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
@@ -282,9 +283,9 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
         //No saturation point for ethanol, which is miscible
         updateCrystals( dt, sodiumChlorideCrystals, sodiumChlorideUnsaturated );
-        updateCrystals( dt, calciumChlorideCrystals, calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint ) ) );
-        updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
-        updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
+        updateCrystals( dt, calciumChlorideCrystals, calciumChlorideUnsaturated );
+        updateCrystals( dt, sodiumNitrateCrystals, sodiumNitrateUnsaturated );
+        updateCrystals( dt, sucroseCrystals, sucroseUnsaturated );
 
         //Allow the crystals to grow
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideUnsaturated );
