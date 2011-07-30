@@ -235,6 +235,13 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
     }
 
+    //Remove all SphericalParticles contained in the compound so the graphics will be deleted
+    private void removeComponents( Compound<?> compound ) {
+        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
+            sphericalParticles.remove( sphericalParticle );
+        }
+    }
+
     public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
         addComponents( calciumChlorideCrystal );
         calciumChlorideCrystals.add( calciumChlorideCrystal );
@@ -440,6 +447,36 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     //Determine if there is any sugar that can be removed
     public ObservableProperty<Boolean> isAnySugarToRemove() {
         return sucroseConcentration.greaterThan( 0.0 );
+    }
+
+    //Removes all the sodium nitrate from the model.  This assumes that the nitrate group is unique to the sodium nitrate, i.e. does not appear in any other
+    //molecules in the kit.  Based on this assumption, the same number of sodium as nitrates is removed since some sodiums could have come from other sources like NaCl
+    public void removeAllSodiumNitrate() {
+
+        //Remove any crystals
+        while ( sodiumChlorideCrystals.size() > 0 ) {
+            removeSodiumNitrate( sodiumNitrateCrystals.get( 0 ) );
+        }
+
+        //Remove the nitrate groups
+        ArrayList<Particle> nitrates = freeParticles.filter( Nitrate.class );
+        for ( Particle p : nitrates ) {
+            Nitrate nitrate = (Nitrate) p;
+            freeParticles.remove( nitrate );
+            removeComponents( nitrate );
+        }
+
+        //Remove just as many sodium particles (if there are that many)
+        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
+        for ( int i = 0; i < nitrates.size() && i < sodium.size(); i++ ) {
+            freeParticles.remove( sodium.get( i ) );
+            sphericalParticles.remove( (SphericalParticle) sodium.get( i ) );
+        }
+    }
+
+    private void removeSodiumNitrate( SodiumNitrateCrystal crystal ) {
+        sodiumNitrateCrystals.remove( crystal );
+        removeComponents( crystal );
     }
 
     public void removeSalt() {

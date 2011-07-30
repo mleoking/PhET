@@ -1,3 +1,4 @@
+Micro tab: Added button to remove all sodium nitrate
 Micro tab: Moved RemoveSoluteControlNode to Macro tab only, Micro module will need another implementation
 Micro tab: Fixed: Prevent crystal sites from forming on top of existing crystal components
 Micro tab: Fixed: During steady state, particle gets faster and faster
