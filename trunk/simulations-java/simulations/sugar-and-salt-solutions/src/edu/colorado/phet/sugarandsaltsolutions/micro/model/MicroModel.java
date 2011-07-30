@@ -333,7 +333,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
 
         //Handle dissolving the lattices
-        for ( Crystal crystal : toDissolve ) {
+        for ( Crystal<?> crystal : toDissolve ) {
             incrementalDissolve.dissolve( crystals, crystal, unsaturated );
         }
     }

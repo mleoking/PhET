@@ -110,7 +110,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     public Constituent<T> getConstituentToDissolve( final Rectangle2D waterBounds ) {
 
         //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
-        ArrayList<Constituent> c = new ArrayList<Constituent>() {{
+        ArrayList<Constituent<T>> c = new ArrayList<Constituent<T>>() {{
             for ( Constituent<T> constituent : constituents ) {
                 if ( waterBounds.contains( constituent.particle.getShape().getBounds2D() ) ) {
                     add( constituent );
@@ -137,8 +137,8 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
             if ( constituent.particle instanceof SphericalParticle ) {
                 sphericalParticles.add( (SphericalParticle) constituent.particle );
             }
-            else if ( constituent.particle instanceof Compound ) {
-                Compound<? extends Particle> compound = (Compound<? extends Particle>) constituent.particle;
+            else if ( constituent.particle instanceof Compound<?> ) {
+                Compound<?> compound = (Compound<?>) constituent.particle;
                 Iterable<SphericalParticle> subParticles = compound.getAllSphericalParticles();
                 for ( SphericalParticle subParticle : subParticles ) {
                     sphericalParticles.add( subParticle );
