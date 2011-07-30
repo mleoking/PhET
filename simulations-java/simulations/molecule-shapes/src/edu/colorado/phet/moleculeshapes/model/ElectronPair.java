@@ -36,10 +36,6 @@ public class ElectronPair {
         position.set( position.get().plus( directionToCenter.times( 0.02 * offset ) ) );
     }
 
-    public double getRepulsionFactor() {
-        return isLonePair ? 3.0 : 1.0; // change first number to add in higher lone-pair repulsion
-    }
-
     public void repulseFrom( ElectronPair other, double timeElapsed ) {
         // only handle the force on this object for now
 
@@ -47,7 +43,7 @@ public class ElectronPair {
         ImmutableVector3D delta = position.get().minus( other.position.get() );
 
         // a factor that causes lone pairs to have more repulsion
-        double repulsionFactor = ( isLonePair && other.isLonePair ) ? 1.0 : 1.0;
+        double repulsionFactor = 1;
 
         // mimic Coulomb's Law
         ImmutableVector3D velocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
