@@ -17,8 +17,8 @@ public abstract class MicroShaker extends Shaker<MicroModel> {
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
     private final Property<Integer> stepsAdding = new Property<Integer>( 0 );
 
-    public MicroShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public MicroShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
+        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
     @Override protected void addSalt( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {

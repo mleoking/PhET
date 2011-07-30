@@ -267,7 +267,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
         //Add any new crystals from the salt & sugar dispensers
         for ( Dispenser dispenser : dispensers ) {
-            dispenser.updateModel( this );
+            dispenser.updateModel();
         }
 
         //Change the water volume based on input and output flow

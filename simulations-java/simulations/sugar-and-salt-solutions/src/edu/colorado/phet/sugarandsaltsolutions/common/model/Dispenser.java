@@ -43,10 +43,14 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     //This is used since we want to keep the view the same in each module, but to have different actual model dimensions
     protected double dispenserHeight;
 
-    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type ) {
+    //A reference to the model for adding particles to it
+    public final T model;
+
+    public Dispenser( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type, T model ) {
         this.beaker = beaker;
         this.moreAllowed = moreAllowed;
         this.name = name;
+        this.model = model;
         this.angle = new DoubleProperty( angle );
         center = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );
         this.distanceScale = distanceScale;
@@ -88,7 +92,7 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
     }
 
     //After time has passed, update the model by adding any crystals that should be emitted
-    public abstract void updateModel( T model );
+    public abstract void updateModel();
 
     //Method for creating a PNode such as a SugarDispenserNode or SaltShakerNode to display this Dispenser and allow the user to interact with it
     public abstract PNode createNode( ModelViewTransform transform, double beakerHeight );

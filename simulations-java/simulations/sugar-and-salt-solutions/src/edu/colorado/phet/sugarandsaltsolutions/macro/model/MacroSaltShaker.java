@@ -11,8 +11,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Shaker;
  * @author Sam Reid
  */
 public class MacroSaltShaker extends Shaker<MacroModel> {
-    public MacroSaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public MacroSaltShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MacroModel model ) {
+        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
     @Override protected void addSalt( MacroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity ) {

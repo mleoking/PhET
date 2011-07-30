@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarDispenserNode;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -22,18 +21,20 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAn
  *
  * @author Sam Reid
  */
-public class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
+public abstract class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispenser<T> {
     //True if the flap on the top of the dispenser is open and sugar can flow out
     public final Property<Boolean> open = new Property<Boolean>( false );
 
     //Randomness for the outgoing crystal velocity
-    private final Random random = new Random();
+    public final Random random = new Random();
 
     private boolean translating = false;
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
+    public final T model;
 
-    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName, distanceScale, selectedType, type );
+    public SugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
+        super( x, y, 1.2, beaker, moreAllowed, sugarDispenserName, distanceScale, selectedType, type, model );
+        this.model = model;
     }
 
     @Override public void translate( Dimension2D delta ) {
@@ -47,7 +48,7 @@ public class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispens
     }
 
     //Called when the model steps in time, and adds any sugar crystals to the sim if the dispenser is pouring
-    public void updateModel( SugarAndSaltSolutionModel sugarAndSaltSolutionModel ) {
+    public void updateModel() {
 
         //Add the new position to the list, but keep the list short so there is no memory leak.  The list size also determines the lag time for when the shaker rotates down and up
         positions.add( center.get() );
@@ -101,13 +102,12 @@ public class SugarDispenser<T extends SugarAndSaltSolutionModel> extends Dispens
                 //Determine where the sugar should come out
                 final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.85, angle.get() + Math.PI / 2 * 1.23 + Math.PI ) );//Hand tuned to match up with the image, will need to be re-tuned if the image changes
 
-                //Add the sugar, with some randomness in the velocity
-                sugarAndSaltSolutionModel.addMacroSugar( new MacroSugar( outputPoint, sugarAndSaltSolutionModel.sugar.volumePerSolidMole ) {{
-                    velocity.set( getCrystalVelocity( outputPoint ).plus( ( random.nextDouble() - 0.5 ) * 0.05, ( random.nextDouble() - 0.5 ) * 0.05 ) );
-                }} );
+                addSugarToModel( outputPoint );
             }
         }
     }
+
+    protected abstract void addSugarToModel( final ImmutableVector2D outputPoint );
 
     @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
         return new SugarDispenserNode( transform, this, beakerHeight );

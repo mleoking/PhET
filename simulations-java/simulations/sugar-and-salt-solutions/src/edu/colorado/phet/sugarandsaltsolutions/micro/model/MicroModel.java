@@ -24,8 +24,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
@@ -43,6 +41,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumN
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroSugarDispenser;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
@@ -66,10 +65,6 @@ import static java.lang.Math.random;
 public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
 
     private static final double framesPerSecond = 30;
-
-    //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
-    //TODO: should move to the micro sugar dispenser
-    private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
     //List of all spherical particles
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
@@ -193,11 +188,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         ObservableProperty<Boolean> moreSucroseAllowed = freeParticles.propertyCount( Sucrose.class ).lessThan( MAX_SUCROSE );
 
         //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
-        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSucroseAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
-        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE ) );
-        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE ) );
-        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSodiumChlorideAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL ) );
+        dispensers.add( new SodiumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT, this ) );
+        dispensers.add( new MicroSugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSucroseAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR, this ) );
+        dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE, this ) );
+        dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE, this ) );
+        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreSodiumChlorideAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL, this ) );
 
         //When the pause button is pressed, pause the clock
         clockRunning.addObserver( new VoidFunction1<Boolean>() {
@@ -245,20 +240,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         calciumChlorideCrystals.add( calciumChlorideCrystal );
     }
 
-    //When a macro sugar would be shaken out of the shaker, instead add a micro sugar crystal
-    //TODO: Create a new separate method for adding sucrose
-    @Override public void addMacroSugar( MacroSugar sugar ) {
-
-        //Only add a crystal every N steps, otherwise there are too many
-        stepsOfAddingSugar.set( stepsOfAddingSugar.get() + 1 );
-        if ( stepsOfAddingSugar.get() % 30 == 0 ) {
-            //TODO: Make getPosition abstract so the particle can query the lattice?
-
-            //Create a random crystal
-            final SucroseCrystal crystal = new SucroseCrystal( sugar.position.get(), RandomUtil.randomAngle() );
-            addComponents( crystal );
-            sucroseCrystals.add( crystal );
-        }
+    //Add a sucrose crystal to the model, and add graphics for all its constituent particles
+    public void addSucroseCrystal( SucroseCrystal sucroseCrystal ) {
+        addComponents( sucroseCrystal );
+        sucroseCrystals.add( sucroseCrystal );
     }
 
     //Determine saturation points

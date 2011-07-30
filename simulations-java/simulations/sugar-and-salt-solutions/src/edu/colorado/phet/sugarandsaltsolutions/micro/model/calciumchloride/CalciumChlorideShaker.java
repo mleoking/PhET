@@ -16,8 +16,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  * @author Sam Reid
  */
 public class CalciumChlorideShaker extends MicroShaker {
-    public CalciumChlorideShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public CalciumChlorideShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
+        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
