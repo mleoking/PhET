@@ -108,9 +108,10 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
         }
     }
 
-    protected abstract Option<?> selectSeed();
+    //Choose a single element to begin a new crystal
+    protected abstract Option<T> selectSeed();
 
-    //Convert the specified particle to a crystal
+    //Convert the specified particle to a crystal and add it to the model
     private void convertToCrystal( T particle ) {
         U crystal = toCrystal( particle );
         crystal.addConstituent( new Constituent<T>( particle, ImmutableVector2D.ZERO ) );
@@ -119,5 +120,6 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
         crystals.add( crystal );
     }
 
+    //Convert the specified particle to a crystal, used above in template method pattern
     protected abstract U toCrystal( T particle );
 }

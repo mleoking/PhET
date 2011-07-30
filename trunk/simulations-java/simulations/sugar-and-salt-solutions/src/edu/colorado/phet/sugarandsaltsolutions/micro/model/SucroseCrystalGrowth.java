@@ -2,6 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 
@@ -21,7 +23,10 @@ public class SucroseCrystalGrowth extends IncrementalGrowth<Sucrose, SucroseCrys
         return new SucroseCrystal( particle.getPosition(), randomAngle() );
     }
 
-    protected Option<?> selectSeed() {
-        return model.freeParticles.selectRandom( Sucrose.class );
+    //Randomly choose any free sucrose molecule to see the crystal
+    protected Option<Sucrose> selectSeed() {
+        Option<Particle> particleOption = model.freeParticles.selectRandom( Sucrose.class );
+        if ( particleOption.isNone() ) { return new None<Sucrose>(); }
+        else { return new Some<Sucrose>( (Sucrose) particleOption.get() ); }
     }
 }
