@@ -474,8 +474,44 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
     }
 
+    public void removeAllCalciumChloride() {
+        //Remove any crystals
+        while ( calciumChlorideCrystals.size() > 0 ) {
+            removeCalciumChlorideCrystal( calciumChlorideCrystals.get( 0 ) );
+        }
+
+        //Remove the Calcium ions first, since they are unique to CaCl2 given the kits (other molecule in this kit is NaCl)
+        ArrayList<Particle> calcium = freeParticles.filter( Calcium.class );
+        for ( Particle p : calcium ) {
+            freeParticles.remove( p );
+            sphericalParticles.remove( (SphericalParticle) p );
+        }
+
+        //Remove twice as many chloride particles (if there are that many)
+        ArrayList<Particle> chloride = freeParticles.filter( Chloride.class );
+        for ( int i = 0; i < calcium.size() * 2 && i < chloride.size(); i++ ) {
+            freeParticles.remove( chloride.get( i ) );
+            sphericalParticles.remove( (SphericalParticle) chloride.get( i ) );
+        }
+    }
+
+    public void removeAllEthanol() {
+        ArrayList<Particle> ethanol = freeParticles.filter( Ethanol.class );
+        for ( Particle ethanolMolecule : ethanol ) {
+            freeParticles.remove( ethanolMolecule );
+            removeComponents( (Compound<?>) ethanolMolecule );
+        }
+    }
+
+    //Remove a sodium nitrate crystal and all its subparticles
     private void removeSodiumNitrate( SodiumNitrateCrystal crystal ) {
         sodiumNitrateCrystals.remove( crystal );
+        removeComponents( crystal );
+    }
+
+    //Remove a calcium chloride crystal and all its subparticles
+    private void removeCalciumChlorideCrystal( CalciumChlorideCrystal crystal ) {
+        calciumChlorideCrystals.remove( crystal );
         removeComponents( crystal );
     }
 
