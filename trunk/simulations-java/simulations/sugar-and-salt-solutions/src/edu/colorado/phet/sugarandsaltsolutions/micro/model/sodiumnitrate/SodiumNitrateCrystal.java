@@ -22,4 +22,8 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     public SodiumNitrateCrystal( ImmutableVector2D position, double angle ) {
         super( position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
     }
+
+    @Override protected Particle createSeed() {
+        return random.nextBoolean() ? new Sodium() : new Nitrate();
+    }
 }

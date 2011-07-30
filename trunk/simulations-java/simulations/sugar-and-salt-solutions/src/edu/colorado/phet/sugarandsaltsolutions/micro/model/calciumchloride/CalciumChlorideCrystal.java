@@ -16,4 +16,8 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, double angle ) {
         super( position, new Calcium().radius + new Chloride().radius, angle );
     }
+
+    @Override protected SphericalParticle createSeed() {
+        return random.nextBoolean() ? new Calcium() : new Chloride();
+    }
 }

@@ -1,6 +1,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
@@ -19,6 +20,8 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     protected final ImmutableVector2D SOUTH;
     protected final ImmutableVector2D EAST;
     protected final ImmutableVector2D WEST;
+
+    public final Random random = new Random();
 
     //Construct the compound from the specified lattice
     public Crystal( ImmutableVector2D position, double spacing, double angle ) {
@@ -39,6 +42,24 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return new ArrayList<OpenSite<T>>();
     }
 
-    public void grow( MicroModel model ) {
+    //Grow the crystal randomly at one of the open sites
+    public void grow() {
+        if ( constituents.size() == 0 ) {
+            addConstituent( new Constituent<T>( createSeed(), ImmutableVector2D.ZERO ) );
+        }
+        else {
+            //find any particle that has open bonds
+            ArrayList<OpenSite<T>> openSites = getOpenSites();
+
+            if ( openSites.size() > 0 ) {
+                addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
+            }
+            else {
+                System.out.println( "Nowhere to bond!" );
+            }
+        }
     }
+
+    //Create the first constituent particle in a crystal
+    protected abstract T createSeed();
 }

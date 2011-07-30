@@ -25,7 +25,7 @@ public class SodiumChlorideShaker extends MicroShaker {
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
         SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( outputPoint, randomAngle() );
         for ( int i = 0; i < 10; i++ ) {
-            crystal.grow( model );
+            crystal.grow();
         }
         System.out.println( "crystal.numberConstituents() = " + crystal.numberConstituents() );
         model.addSaltCrystal( crystal );
