@@ -23,4 +23,8 @@ public class SucroseCrystal extends Crystal<Sucrose> {
                angle
         );
     }
+
+    @Override protected Sucrose createSeed() {
+        return new Sucrose();
+    }
 }

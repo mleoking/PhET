@@ -7,7 +7,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
@@ -24,22 +23,8 @@ public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
         super( position, new Chloride().radius + new Sodium().radius, angle );
     }
 
-    public void grow( MicroModel model ) {
-
-        if ( constituents.size() == 0 ) {
-            addConstituent( new Constituent<SphericalParticle>( new Sodium(), ImmutableVector2D.ZERO ) );
-        }
-        else {
-            //find any particle that has open bonds
-            ArrayList<OpenSite<SphericalParticle>> openSites = getOpenSites();
-
-            if ( openSites.size() > 0 ) {
-                addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
-            }
-            else {
-                System.out.println( "Nowhere to bond!" );
-            }
-        }
+    public SphericalParticle createSeed() {
+        return random.nextBoolean() ? new Sodium() : new Chloride();
     }
 
     @Override public ArrayList<OpenSite<SphericalParticle>> getOpenSites() {

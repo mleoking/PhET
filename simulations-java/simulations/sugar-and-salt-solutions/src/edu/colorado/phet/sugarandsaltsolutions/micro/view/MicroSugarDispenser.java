@@ -35,7 +35,7 @@ public class MicroSugarDispenser extends SugarDispenser<MicroModel> {
 
             //Create a random crystal
             final SucroseCrystal crystal = new SucroseCrystal( outputPoint, randomAngle() );
-            crystal.grow( model );
+            crystal.grow();
             model.addSucroseCrystal( crystal );
         }
     }
