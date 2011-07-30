@@ -292,6 +292,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
         new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
         new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
+        new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals ).allowCrystalGrowth( dt, sodiumNitrateSaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
