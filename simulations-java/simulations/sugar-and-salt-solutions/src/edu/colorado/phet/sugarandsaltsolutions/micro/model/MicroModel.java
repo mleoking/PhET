@@ -284,7 +284,8 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateCrystals( dt, sodiumNitrateCrystals, sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) ) );
         updateCrystals( dt, sucroseCrystals, sucroseConcentration.lessThan( sucroseSaturationPoint ) );
 
-        new IncrementalGrowth( this ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
+        //Allow the sodium chloride crystals to grow
+        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).formNaClCrystals( dt, sodiumChlorideUnsaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
@@ -625,11 +626,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         updateParticlesDueToWaterLevelDropped( evaporatedWater );
     }
 
-    //Get one list of bonding sites for each crystal
-    public ArrayList<ArrayList<CrystallizationMatch>> getAllBondingSites() {
-        ArrayList<ArrayList<CrystallizationMatch>> s = new ArrayList<ArrayList<CrystallizationMatch>>();
+    //Get one list of bonding sites for each crystal for debugging purposes
+    public ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> getAllBondingSites() {
+        ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> s = new ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>>();
         for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
-            s.add( new IncrementalGrowth( this ).getAllCrystallizationMatches( sodiumChlorideCrystal ) );
+            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatches( sodiumChlorideCrystal ) );
         }
         return s;
     }

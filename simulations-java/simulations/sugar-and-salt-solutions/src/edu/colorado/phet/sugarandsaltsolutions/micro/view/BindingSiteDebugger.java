@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.CrystallizationMatch;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -25,8 +26,8 @@ public class BindingSiteDebugger extends PNode {
                 removeAllChildren();
 
                 //Get one list of matches per crystal in the model
-                ArrayList<ArrayList<CrystallizationMatch>> matches = model.getAllBondingSites();
-                for ( ArrayList<CrystallizationMatch> matchesForCrystal : matches ) {
+                ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> matches = model.getAllBondingSites();
+                for ( ArrayList<CrystallizationMatch<SphericalParticle>> matchesForCrystal : matches ) {
 
                     //For each of the crystals match lists, show the bonding sites
                     for ( int i = matchesForCrystal.size() - 1; i >= 0; i-- ) {

@@ -8,18 +8,18 @@ import java.awt.Shape;
  *
  * @author Sam Reid
  */
-public class CrystallizationMatch {
+public class CrystallizationMatch<T extends Particle> {
 
     //The particle used to test for a match
-    public final Particle particle;
+    public final T particle;
 
     //The site where the particle could join the crystal
-    public final OpenSite<SphericalParticle> site;
+    public final OpenSite<T> site;
 
     //The distance between the particle and the potential bonding site
     public final double distance;
 
-    public CrystallizationMatch( Particle particle, OpenSite<SphericalParticle> site ) {
+    public CrystallizationMatch( T particle, OpenSite<T> site ) {
         this.particle = particle;
         this.site = site;
         this.distance = particle.getPosition().minus( site.absolutePosition ).getMagnitude();
