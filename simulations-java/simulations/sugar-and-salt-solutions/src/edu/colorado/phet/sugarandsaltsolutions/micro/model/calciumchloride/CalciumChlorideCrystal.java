@@ -17,6 +17,12 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
         super( position, new Calcium().radius + new Chloride().radius, angle );
     }
 
+    //Create the bonding partner for Calcium Chloride
+    @Override public SphericalParticle createPartner( SphericalParticle original ) {
+        return original instanceof Calcium ? new Chloride() : new Calcium();
+    }
+
+    //Randomly choose an initial particle for the crystal lattice
     @Override protected SphericalParticle createSeed() {
         return random.nextBoolean() ? new Calcium() : new Chloride();
     }

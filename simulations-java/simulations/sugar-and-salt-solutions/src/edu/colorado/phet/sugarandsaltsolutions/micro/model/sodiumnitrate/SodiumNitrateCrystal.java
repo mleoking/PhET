@@ -23,6 +23,12 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
         super( position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
     }
 
+    //Create the bonding partner for growing the crystal
+    @Override public Particle createPartner( Particle original ) {
+        return original instanceof Sodium ? new Nitrate() : new Sodium();
+    }
+
+    //Randomly choose an initial particle for the crystal lattice
     @Override protected Particle createSeed() {
         return random.nextBoolean() ? new Sodium() : new Nitrate();
     }

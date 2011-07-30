@@ -17,12 +17,12 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class MicroSugarDispenser extends SugarDispenser<MicroModel> {
+public class SucroseDispenser extends SugarDispenser<MicroModel> {
 
     //Keep track of how many times the user has tried to create macro salt, so that we can (less frequently) create corresponding micro crystals
     private final Property<Integer> stepsOfAddingSugar = new Property<Integer>( 0 );
 
-    public MicroSugarDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
+    public SucroseDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
         super( x, y, beaker, moreAllowed, sugarDispenserName, distanceScale, selectedType, type, model );
     }
 
@@ -31,12 +31,9 @@ public class MicroSugarDispenser extends SugarDispenser<MicroModel> {
         //Only add a crystal every N steps, otherwise there are too many
         stepsOfAddingSugar.set( stepsOfAddingSugar.get() + 1 );
         if ( stepsOfAddingSugar.get() % 30 == 0 ) {
-            //TODO: Make getPosition abstract so the particle can query the lattice?
 
-            //Create a random crystal
-            final SucroseCrystal crystal = new SucroseCrystal( outputPoint, randomAngle() );
-            crystal.grow();
-            model.addSucroseCrystal( crystal );
+            //Create a random crystal with 4 sucrose molecules
+            model.addSucroseCrystal( new SucroseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
         }
     }
 }
