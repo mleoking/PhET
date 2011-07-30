@@ -1,30 +1,39 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import java.awt.*;
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.piccolophet.nodes.ShadedSphereNode;
-import edu.colorado.phet.moleculeshapes.model.Atom;
-import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 
-public class AtomNode extends ShadedSphereNode implements MSNode {
-    private final Atom atom;
+import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.util.TangentBinormalGenerator;
 
-    public AtomNode( final Atom atom ) {
-        super( atom.radius * 2, Color.GRAY );
-        this.atom = atom;
+public class AtomNode extends Geometry {
+    public final ElectronPair pair;
 
-        atom.position.addObserver( new SimpleObserver() {
+    public AtomNode( final ElectronPair pair, AssetManager assetManager ) {
+        super( "Atom", new Sphere( 32, 32, 2f ) {{
+            setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
+            TangentBinormalGenerator.generate( this );           // for lighting effect
+        }} );
+        this.pair = pair;
+
+        setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
+            setBoolean( "UseMaterialColors", true );
+
+            setColor( "Diffuse", pair.getColor() );
+            setFloat( "Shininess", 1f ); // [0,128]
+        }} );
+
+        // update based on electron pair position
+        pair.position.addObserver( new SimpleObserver() {
             public void update() {
-                // orthographic for now
-                ImmutableVector2D position2d = Projection.project( atom.position.get() );
-                setOffset( position2d.getX(), position2d.getY() );
+                setLocalTranslation( (float) pair.position.get().getX(), (float) pair.position.get().getY(), (float) pair.position.get().getZ() );
             }
         } );
-    }
 
-    public ImmutableVector3D getCenter() {
-        return atom.position.get();
+        //rotate( 1.6f, 0, 0 );
     }
 }

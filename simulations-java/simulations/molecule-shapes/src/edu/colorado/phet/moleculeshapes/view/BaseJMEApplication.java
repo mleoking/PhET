@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.moleculeshapes.view;
 
 import com.jme3.app.Application;
 import com.jme3.app.StatsView;
@@ -23,7 +23,7 @@ import com.jme3.util.BufferUtils;
  * TODO rework
  * from SimpleApplication
  */
-public abstract class BaseApplication extends Application {
+public abstract class BaseJMEApplication extends Application {
 
     public static final String INPUT_MAPPING_EXIT = "SIMPLEAPP_Exit";
     public static final String INPUT_MAPPING_CAMERA_POS = "SIMPLEAPP_CameraPos";
@@ -38,7 +38,7 @@ public abstract class BaseApplication extends Application {
     protected boolean showSettings = true;
     private boolean showFps = true;
 
-    public BaseApplication() {
+    public BaseJMEApplication() {
         super();
     }
 

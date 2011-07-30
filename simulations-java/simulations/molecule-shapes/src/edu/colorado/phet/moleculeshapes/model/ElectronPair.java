@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.jme;
+package edu.colorado.phet.moleculeshapes.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.math.ColorRGBA;
 
