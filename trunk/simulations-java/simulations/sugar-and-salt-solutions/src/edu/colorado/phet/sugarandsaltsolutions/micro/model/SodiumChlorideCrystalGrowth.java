@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -20,8 +21,8 @@ public class SodiumChlorideCrystalGrowth extends IncrementalGrowth<SphericalPart
         super( model, crystals );
     }
 
-    @Override protected SodiumChlorideCrystal toCrystal( SphericalParticle particle ) {
-        return new SodiumChlorideCrystal( particle.getPosition(), randomAngle() );
+    @Override protected SodiumChlorideCrystal newCrystal( ImmutableVector2D position ) {
+        return new SodiumChlorideCrystal( position, randomAngle() );
     }
 
     //Randomly choose any free sodium or chloride ion to seed the crystal
