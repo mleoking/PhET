@@ -24,7 +24,7 @@ public class IncrementalGrowth {
 
     //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
     private double lastNaClCrystallizationTime;
-    private MicroModel model;
+    private final MicroModel model;
 
     public IncrementalGrowth( MicroModel model ) {
         this.model = model;

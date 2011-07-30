@@ -28,19 +28,19 @@ import static java.awt.Color.pink;
 public class HighlightMetals implements CellFactory {
 
     //Atomic numbers of the nonmetals to be indicated in the periodic table
-    private ArrayList<Integer> nonmetals = new ArrayList<Integer>( Arrays.asList( 1, 2,
-                                                                                  5, 6, 7, 8, 9, 10,
-                                                                                  14, 15, 16, 17, 18,
-                                                                                  33, 34, 35, 36,
-                                                                                  52, 53, 54,
-                                                                                  85, 86,
-                                                                                  118 ) );
+    private final ArrayList<Integer> nonmetals = new ArrayList<Integer>( Arrays.asList( 1, 2,
+                                                                                        5, 6, 7, 8, 9, 10,
+                                                                                        14, 15, 16, 17, 18,
+                                                                                        33, 34, 35, 36,
+                                                                                        52, 53, 54,
+                                                                                        85, 86,
+                                                                                        118 ) );
 
     //Atoms selected by the user
     private final List<Integer> selectedAtomicMasses;
 
     //Allow the developer to choose a different highlighter color
-    private boolean debug = false;
+    private final boolean debug = false;
 
     public HighlightMetals( Integer[] selectedAtomicMasses ) {
         this.selectedAtomicMasses = Arrays.asList( selectedAtomicMasses );

@@ -23,7 +23,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.view.AtomImageCache.
  * @author Sam Reid
  */
 public class SphericalParticleNode extends PNode {
-    private SphericalParticle particle;
+    private final SphericalParticle particle;
 
     public SphericalParticleNode( final ModelViewTransform transform, final SphericalParticle particle,
 

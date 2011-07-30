@@ -109,10 +109,10 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }};
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    private ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
+    private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Strategy rule to use for dissolving the crystals
-    private IncrementalDissolve incrementalDissolve = new IncrementalDissolve( this );
+    private final IncrementalDissolve incrementalDissolve = new IncrementalDissolve( this );
 
     //Speed at which freely moving particles should random walk
     public static final double FREE_PARTICLE_SPEED = 6E-10;
@@ -262,12 +262,12 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Determine saturation points
-    double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
-    double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
-    double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
-    double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
+    final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
+    final double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
+    final double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
+    final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
-    ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
+    final ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {

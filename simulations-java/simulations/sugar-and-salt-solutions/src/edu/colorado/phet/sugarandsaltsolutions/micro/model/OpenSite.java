@@ -22,7 +22,7 @@ public class OpenSite<T extends Particle> {
     //Absolute position in the model
     public final ImmutableVector2D absolutePosition;
 
-    private Function0<T> newInstance;
+    private final Function0<T> newInstance;
 
     public OpenSite( ImmutableVector2D relativePosition, Shape shape, Function0<T> newInstance, ImmutableVector2D absolutePosition ) {
         this.relativePosition = relativePosition;

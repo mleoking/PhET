@@ -15,10 +15,10 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     public final double spacing;
 
     //Direction vectors (non-unit vectors) in the coordinate frame of the lattice, at the right spacing and angle
-    protected ImmutableVector2D NORTH;
-    protected ImmutableVector2D SOUTH;
-    protected ImmutableVector2D EAST;
-    protected ImmutableVector2D WEST;
+    protected final ImmutableVector2D NORTH;
+    protected final ImmutableVector2D SOUTH;
+    protected final ImmutableVector2D EAST;
+    protected final ImmutableVector2D WEST;
 
     //Construct the compound from the specified lattice
     public Crystal( ImmutableVector2D position, double spacing, double angle ) {

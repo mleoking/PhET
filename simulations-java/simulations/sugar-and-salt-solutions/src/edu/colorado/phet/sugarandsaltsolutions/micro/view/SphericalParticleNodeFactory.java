@@ -17,7 +17,7 @@ public class SphericalParticleNodeFactory implements VoidFunction1<SphericalPart
     private final ItemList<SphericalParticle> list;
     private final ModelViewTransform transform;
     private final MicroCanvas canvas;
-    private ObservableProperty<Boolean> showChargeColor;
+    private final ObservableProperty<Boolean> showChargeColor;
 
     public SphericalParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, MicroCanvas canvas, ObservableProperty<Boolean> showChargeColor ) {
         this.list = list;
