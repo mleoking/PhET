@@ -70,7 +70,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     public ArrayList<OpenSite<T>> getOpenSites() {
         ArrayList<OpenSite<T>> bondingSites = new ArrayList<OpenSite<T>>();
         for ( final Constituent<T> constituent : new ArrayList<Constituent<T>>( constituents ) ) {
-            for ( ImmutableVector2D direction : new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST } ) {
+            for ( ImmutableVector2D direction : getPossibleDirections( constituent ) ) {
                 ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
                 if ( !isOccupied( relativePosition ) ) {
                     T opposite = createPartner( constituent.particle );
@@ -88,8 +88,16 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return bondingSites;
     }
 
+    //This method gets the possible directions in which the crystal can be grown from the given constituent.
+    //The default implementation here is a dense square lattice, like a checkerboard
+    //This method is overrideable so that other crystal types like CaCl2 can specify their own topology
+    //This may not generalize to non-square lattice topologies, but is sufficient for all currently requested crystal types for sugar and salt solutions
+    public ImmutableVector2D[] getPossibleDirections( Constituent<T> constituent ) {
+        return new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST };
+    }
+
     //Determine whether the specified location is available for bonding or already occupied by another particle
-    private boolean isOccupied( ImmutableVector2D location ) {
+    public boolean isOccupied( ImmutableVector2D location ) {
         for ( Constituent<T> constituent : constituents ) {
             if ( constituent.relativePosition.minus( location ).getMagnitude() < 1E-12 ) {
                 return true;
