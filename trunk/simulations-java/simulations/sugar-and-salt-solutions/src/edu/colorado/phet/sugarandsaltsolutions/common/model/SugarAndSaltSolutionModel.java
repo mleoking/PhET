@@ -383,9 +383,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public void reset() {
         //Reset the model state
         removeSaltAndSugar();
-        waterVolume.reset();
-        inputFlowRate.reset();
-        outputFlowRate.reset();
+        resetWater();
         for ( Dispenser dispenser : dispensers ) {
             dispenser.reset();
         }
@@ -394,6 +392,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         showConcentrationBarChart.reset();
 
         notifyReset();
+    }
+
+    //Reset the water volume to the initial value and stop the flow rate for input and output faucets
+    protected void resetWater() {
+        waterVolume.reset();
+        inputFlowRate.reset();
+        outputFlowRate.reset();
     }
 
     //Determine if any salt can be removed for purposes of displaying a "remove salt" button
