@@ -19,9 +19,14 @@ public class Kit {
     public final PNode removeSoluteControl;
 
     public Kit( final RemoveSoluteButtonNode[] removeSoluteButtonNodes, BarItem... barItems ) {
+
+        //Layout the buttons one on top of the other
         removeSoluteControl = new PNode() {{
+            double y = 0;
             for ( RemoveSoluteButtonNode removeSoluteButtonNode : removeSoluteButtonNodes ) {
+                removeSoluteButtonNode.setOffset( 0, y );
                 addChild( removeSoluteButtonNode );
+                y = y + removeSoluteButtonNode.getFullBounds().getHeight() + MicroCanvas.INSET;
             }
         }};
         this.barItems = barItems;
