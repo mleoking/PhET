@@ -55,11 +55,22 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
             model.selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer kit ) {
-                    setBars( kitList.getKit( kit ).getBars() );
+                    setBars( kitList.getKit( kit ).barItems );
                 }
             } );
         }};
         behindShakerNode.addChild( concentrationBarChart );
+
+        //Control that shows the Remove Solute buttons, switches when kit changes
+        final PNode removeSoluteControlNode = new PNode();
+        addChild( removeSoluteControlNode );
+        removeSoluteControlNode.setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
+        model.selectedKit.addObserver( new VoidFunction1<Integer>() {
+            public void apply( Integer kit ) {
+                removeSoluteControlNode.removeAllChildren();
+                removeSoluteControlNode.addChild( kitList.getKit( kit ).removeSoluteControl );
+            }
+        } );
 
         //Show the kit control node that allows the user to scroll through different kits
         PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
