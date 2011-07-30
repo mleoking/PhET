@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 
 /**
  * Marker class to signify which compounds are crystals vs noncrystals.
@@ -37,9 +38,14 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         WEST = new ImmutableVector2D( -1, 0 ).times( spacing ).getRotatedInstance( angle );
     }
 
-    //Determine all of the available locations where an existing particle could be added
-    public ArrayList<OpenSite<T>> getOpenSites() {
-        return new ArrayList<OpenSite<T>>();
+    //Create an instance that could bond with the specified original particle for purposes of growing crystals from scratch
+    public abstract T createPartner( T original );
+
+    //Grow the crystal for the specified number of steps
+    public void grow( int numSteps ) {
+        for ( int i = 0; i < numSteps; i++ ) {
+            grow();
+        }
     }
 
     //Grow the crystal randomly at one of the open sites
@@ -58,6 +64,38 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
                 System.out.println( "Nowhere to bond!" );
             }
         }
+    }
+
+    //Determine all of the available locations where an existing particle could be added
+    public ArrayList<OpenSite<T>> getOpenSites() {
+        ArrayList<OpenSite<T>> bondingSites = new ArrayList<OpenSite<T>>();
+        for ( final Constituent<T> constituent : new ArrayList<Constituent<T>>( constituents ) ) {
+            for ( ImmutableVector2D direction : new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST } ) {
+                ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
+                if ( !isOccupied( relativePosition ) ) {
+                    T opposite = createPartner( constituent.particle );
+                    ImmutableVector2D absolutePosition = relativePosition.plus( getPosition() );
+                    opposite.setPosition( absolutePosition );
+                    bondingSites.add( new OpenSite<T>( relativePosition, opposite.getShape(), new Function0<T>() {
+                        public T apply() {
+                            return createPartner( constituent.particle );
+                        }
+                    }, absolutePosition ) );
+                }
+            }
+        }
+
+        return bondingSites;
+    }
+
+    //Determine whether the specified location is available for bonding or already occupied by another particle
+    private boolean isOccupied( ImmutableVector2D location ) {
+        for ( Constituent<T> constituent : constituents ) {
+            if ( constituent.relativePosition.minus( location ).getMagnitude() < 1E-12 ) {
+                return true;
+            }
+        }
+        return false;
     }
 
     //Create the first constituent particle in a crystal

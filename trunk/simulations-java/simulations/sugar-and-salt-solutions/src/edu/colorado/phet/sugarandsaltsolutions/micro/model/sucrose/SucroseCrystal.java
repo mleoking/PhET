@@ -24,6 +24,12 @@ public class SucroseCrystal extends Crystal<Sucrose> {
         );
     }
 
+    //Create a new Sucrose to be added to the crystal
+    @Override public Sucrose createPartner( Sucrose original ) {
+        return new Sucrose();
+    }
+
+    //Create a single sucrose molecule to begin the crystal
     @Override protected Sucrose createSeed() {
         return new Sucrose();
     }
