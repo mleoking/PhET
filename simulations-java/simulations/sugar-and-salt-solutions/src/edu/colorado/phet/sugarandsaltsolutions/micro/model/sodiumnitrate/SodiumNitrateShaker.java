@@ -21,7 +21,6 @@ public class SodiumNitrateShaker extends MicroShaker {
     }
 
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
-        model.addSodiumNitrateCrystal( new SodiumNitrateCrystal( outputPoint,
-                                                                 randomAngle() ) );
+        model.addSodiumNitrateCrystal( new SodiumNitrateCrystal( outputPoint, randomAngle() ) {{grow( 10 );}} );
     }
 }
