@@ -13,7 +13,7 @@ import edu.colorado.phet.common.piccolophet.nodes.conductivitytester.IConductivi
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarDispenser;
+import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroSugarDispenser;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -47,8 +47,8 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         ObservableProperty<Boolean> moreSugarAllowed = sugar.grams.plus( airborneSugarGrams ).lessThan( 100 );
 
         //Add models for the various dispensers: sugar, salt, etc.
-        dispensers.add( new MacroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT ) );
-        dispensers.add( new SugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR ) );
+        dispensers.add( new MacroSaltShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSaltAllowed, getSaltShakerName(), distanceScale, dispenserType, SALT, this ) );
+        dispensers.add( new MacroSugarDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSugarAllowed, getSugarDispenserName(), distanceScale, dispenserType, SUGAR, this ) );
 
         //Model for the conductivity tester
         conductivityTester = new ConductivityTester( beaker.getWidth(), beaker.getHeight() );

@@ -17,8 +17,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  */
 public class SodiumChlorideShaker extends MicroShaker {
 
-    public SodiumChlorideShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public SodiumChlorideShaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
+        super( x, y, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
     //Create a random salt crystal and add it to the model

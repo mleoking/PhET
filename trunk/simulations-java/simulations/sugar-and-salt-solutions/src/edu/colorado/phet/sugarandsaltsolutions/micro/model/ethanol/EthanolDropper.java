@@ -29,12 +29,12 @@ public class EthanolDropper extends Dispenser<MicroModel> {
     //Number of time steps in which the dropper has emitted ethanol, so that it can be shut off after a short burst
     private int pressCounts;
 
-    public EthanolDropper( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type ) {
-        super( x, y, angle, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public EthanolDropper( double x, double y, double angle, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, final DispenserType type, MicroModel model ) {
+        super( x, y, angle, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
     //If the user is pressing the dropper, emit ethanol
-    @Override public void updateModel( MicroModel model ) {
+    @Override public void updateModel() {
         if ( pressing.get() ) {
             model.addEthanol( center.get().plus( 0, dropperHeight / 2 ) );
 

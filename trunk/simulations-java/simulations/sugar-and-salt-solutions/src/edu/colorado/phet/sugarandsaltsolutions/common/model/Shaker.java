@@ -30,8 +30,8 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     //Keep track of recorded positions when the shaker is translated so we can compute accelerations, which are responsible for shaking out the salt
     private ArrayList<ImmutableVector2D> positions = new ArrayList<ImmutableVector2D>();
 
-    public Shaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type ) {
-        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type );
+    public Shaker( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, String name, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, T model ) {
+        super( x, y, Math.PI * 3 / 4, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
         moreAllowed.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean allowed ) {
                 //If the shaker is emptied, prevent spurious grains from coming out the next time it is refilled by setting the shake amount to 0.0 and clearing the sampled positions
@@ -83,12 +83,12 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     }
 
     //Called when the model steps in time, and adds any salt crystals to the sim if the dispenser is pouring
-    public void updateModel( T model ) {
+    public void updateModel() {
         //Check to see if we should be emitting salt crystals-- if the shaker was shaken enough
         if ( enabled.get() && shakeAmount > 0 && moreAllowed.get() ) {
-//            System.out.println( "Emitted salt, shake amount = " + shakeAmount + ", moreAllowed = " + moreAllowed.get() );
             int numCrystals = (int) ( random.nextInt( 2 ) + Math.min( shakeAmount * 4000, 4 ) );
             for ( int i = 0; i < numCrystals; i++ ) {
+
                 //Determine where the salt should come out
                 //Hand tuned to match up with the image, will need to be re-tuned if the image changes
                 double randUniform = ( random.nextDouble() - 0.5 ) * 2;
