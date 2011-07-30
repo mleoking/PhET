@@ -26,7 +26,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.PrecipitateNode;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.RemoveSoluteControlNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -180,13 +179,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.getAnySolutes(), beakerVolumeReadoutFormat ) );
-
-        //Add a control that allows the user to remove solutes
-        //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
-        addChild( new RemoveSoluteControlNode( model ) {{
-            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
-                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
-        }} );
 
         //Add an evaporation rate slider below the beaker
         addChild( new EvaporationSlider( model.evaporationRate ) {{

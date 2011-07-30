@@ -77,6 +77,13 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
                 model.setOutflowShape( transform.viewToModel( transformed ).getBounds2D() );
             }
         } );
+
+        //Add a control that allows the user to remove solutes
+        //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
+        addChild( new RemoveSoluteControlNode( model ) {{
+            setOffset( transform.modelToViewX( model.beaker.getMaxX() ) - getFullBounds().getWidth() - INSET,
+                       transform.modelToViewY( model.beaker.getY() ) - getFullBounds().getHeight() - INSET );
+        }} );
     }
 
     //Create the transform from model (SI) to view (stage) coordinates.  Public and static since it is also used to create the MiniBeakerNode in the Water tab

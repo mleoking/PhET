@@ -10,6 +10,8 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
+
 /**
  * Node that contains one button to remove salt (if there is any salt) and another button for sugar.
  *
@@ -19,7 +21,7 @@ public class RemoveSoluteControlNode extends PNode {
     public RemoveSoluteControlNode( final ISugarAndSaltModel model ) {
 
         //Button to remove salt, only shown if there is any salt
-        TextButtonNode saltButton = new TextButtonNode( "Remove salt", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
+        TextButtonNode saltButton = new TextButtonNode( "Remove salt", CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.isAnySaltToRemove().addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
@@ -35,7 +37,7 @@ public class RemoveSoluteControlNode extends PNode {
         addChild( saltButton );
 
         //Button to remove sugar, only shown if there is any sugar
-        TextButtonNode sugarButton = new TextButtonNode( "Remove sugar", SugarAndSaltSolutionsCanvas.CONTROL_FONT ) {{
+        TextButtonNode sugarButton = new TextButtonNode( "Remove sugar", CONTROL_FONT ) {{
             setBackground( SugarAndSaltSolutionsCanvas.BUTTON_COLOR );
             model.isAnySugarToRemove().addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
