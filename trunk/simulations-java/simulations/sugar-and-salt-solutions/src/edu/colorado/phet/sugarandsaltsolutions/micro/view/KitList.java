@@ -34,6 +34,7 @@ public class KitList {
 
     public KitList( final MicroModel model, ModelViewTransform transform ) {
 
+        //Functions to create each button.  This code should be read with code folding on and a large right margin
         Function0<RemoveSoluteButtonNode> createSodiumChlorideButton = new Function0<RemoveSoluteButtonNode>() {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Sodium Chloride", model.isAnySaltToRemove(), new VoidFunction0() {
@@ -68,7 +69,7 @@ public class KitList {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Ethanol", model.ethanolConcentration.greaterThan( 0.0 ), new VoidFunction0() {
                     public void apply() {
-                        model.removeSugar();
+                        model.removeAllEthanol();
                     }
                 } );
             }
@@ -78,7 +79,7 @@ public class KitList {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Calcium Chloride", model.calciumConcentration.greaterThan( 0.0 ), new VoidFunction0() {
                     public void apply() {
-                        model.removeSugar();
+                        model.removeAllCalciumChloride();
                     }
                 } );
             }
