@@ -73,6 +73,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Node that shows the faucet, we need a reference so subclasses can listen to the water flowing out bounds for collision hit testing for the conductivity tester
     protected final FaucetNode drainFaucetNode;
 
+    //Store a reference to the EvaporationSlider for layout purposes
+    protected final EvaporationSlider evaporationSlider;
+
     public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform, Function1<Double, String> beakerVolumeReadoutFormat ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
@@ -181,10 +184,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.getAnySolutes(), beakerVolumeReadoutFormat ) );
 
         //Add an evaporation rate slider below the beaker
-        addChild( new EvaporationSlider( model.evaporationRate ) {{
+        evaporationSlider = new EvaporationSlider( model.evaporationRate ) {{
             Point2D point = SugarAndSaltSolutionsCanvas.this.transform.modelToView( 0, -model.beaker.getWallThickness() / 2 );
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
-        }} );
+        }};
+        addChild( evaporationSlider );
 
         //Show the precipitate as the sum of salt and sugar
         submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
