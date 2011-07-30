@@ -7,9 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -21,24 +19,13 @@ import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.barchart.BarItem;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.periodictable.PeriodicTableDialog;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNodeWithTicks.volumeToHTMLString;
 
 /**
@@ -60,36 +47,15 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             }
         } );
 
+        //List of the kits the user can choose from, for showing the appropriate bar charts + controls
+        final KitList kitList = new KitList( model, transform );
+
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
-        ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode(
-                model.showConcentrationBarChart,
-                model.showConcentrationValues
-        ) {{
+        ExpandableConcentrationBarChartNode concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.showConcentrationValues ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
             model.selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer kit ) {
-
-                    //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
-                    //Put the positive ions to the left of the negative ions
-                    if ( kit == 0 ) {
-                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ),
-                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose( ZERO ), model.showChargeColor ) ) ) );
-                    }
-                    else if ( kit == 1 ) {
-                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                                 new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, new Some<PNode>( new SphericalParticleNode( transform, new Calcium(), model.showChargeColor ) ) ),
-                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ) );
-                    }
-                    else if ( kit == 2 ) {
-                        setBars( new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ),
-                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) );
-                    }
-                    else if ( kit == 3 ) {
-                        setBars( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose(), model.showChargeColor ) ) ),
-                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Ethanol(), model.showChargeColor ) ) ) );
-                    }
+                    setBars( kitList.getKit( kit ).getBars() );
                 }
             } );
         }};
