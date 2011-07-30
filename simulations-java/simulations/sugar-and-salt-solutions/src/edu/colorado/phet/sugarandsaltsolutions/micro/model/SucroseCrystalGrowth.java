@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -19,8 +20,8 @@ public class SucroseCrystalGrowth extends IncrementalGrowth<Sucrose, SucroseCrys
         super( model, crystals );
     }
 
-    @Override protected SucroseCrystal toCrystal( Sucrose particle ) {
-        return new SucroseCrystal( particle.getPosition(), randomAngle() );
+    @Override protected SucroseCrystal newCrystal( ImmutableVector2D position ) {
+        return new SucroseCrystal( position, randomAngle() );
     }
 
     //Randomly choose any free sucrose molecule to see the crystal

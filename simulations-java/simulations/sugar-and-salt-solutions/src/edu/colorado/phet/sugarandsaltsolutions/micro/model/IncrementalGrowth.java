@@ -113,13 +113,13 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
 
     //Convert the specified particle to a crystal and add it to the model
     private void convertToCrystal( T particle ) {
-        U crystal = toCrystal( particle );
+        U crystal = newCrystal( particle.getPosition() );
         crystal.addConstituent( new Constituent<T>( particle, ImmutableVector2D.ZERO ) );
 
         model.freeParticles.remove( particle );
         crystals.add( crystal );
     }
 
-    //Convert the specified particle to a crystal, used above in template method pattern
-    protected abstract U toCrystal( T particle );
+    //Create the right subtype of crystal at the specified location.  It will be populated by the convertToCrystal method
+    protected abstract U newCrystal( ImmutableVector2D position );
 }
