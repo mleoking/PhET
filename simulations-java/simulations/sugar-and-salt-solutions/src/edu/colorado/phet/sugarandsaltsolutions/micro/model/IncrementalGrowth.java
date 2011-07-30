@@ -30,7 +30,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     }
 
     //Check to see whether it is time to create or add to existing crystals, if the solution is over saturated
-    public void formNaClCrystals( double dt, ObservableProperty<Boolean> unsaturated ) {
+    public void allowCrystalGrowth( double dt, ObservableProperty<Boolean> unsaturated ) {
         double timeSinceLast = model.getTime() - lastNewCrystalFormationTime;
 
         //Make sure at least 1 second has passed, then convert to crystals
