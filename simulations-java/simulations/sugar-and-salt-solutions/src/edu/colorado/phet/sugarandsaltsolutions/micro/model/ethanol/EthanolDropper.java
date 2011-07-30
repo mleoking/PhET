@@ -33,9 +33,9 @@ public class EthanolDropper extends Dispenser<MicroModel> {
         super( x, y, angle, beaker, moreAllowed, name, distanceScale, selectedType, type, model );
     }
 
-    //If the user is pressing the dropper, emit ethanol
+    //If the user is pressing the dropper and it hasn't reached the limit, emit ethanol
     @Override public void updateModel() {
-        if ( pressing.get() ) {
+        if ( pressing.get() && moreAllowed.get() ) {
             model.addEthanol( center.get().plus( 0, dropperHeight / 2 ) );
 
             //Keep track of the number of particles emitted and shut off after a short burst
