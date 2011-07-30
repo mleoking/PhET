@@ -267,10 +267,11 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     final double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
     final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
-    final ObservableProperty<Boolean> sodiumChlorideUnsaturated = sodiumConcentration.lessThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( sodiumChlorideSaturationPoint ) );
-    final ObservableProperty<Boolean> calciumChlorideUnsaturated = calciumConcentration.lessThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.lessThan( calciumChlorideSaturationPoint * 2 ) );
-    final ObservableProperty<Boolean> sucroseUnsaturated = sucroseConcentration.lessThan( sucroseSaturationPoint );
-    final ObservableProperty<Boolean> sodiumNitrateUnsaturated = sodiumConcentration.lessThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.lessThan( sodiumNitrateSaturationPoint ) );
+    //Create observable properties that indicate whether each solution type is saturated
+    final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
+    final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
+    final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
+    final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
@@ -282,15 +283,15 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
         //No saturation point for ethanol, which is miscible
-        updateCrystals( dt, sodiumChlorideCrystals, sodiumChlorideUnsaturated );
-        updateCrystals( dt, calciumChlorideCrystals, calciumChlorideUnsaturated );
-        updateCrystals( dt, sodiumNitrateCrystals, sodiumNitrateUnsaturated );
-        updateCrystals( dt, sucroseCrystals, sucroseUnsaturated );
+        updateCrystals( dt, sodiumChlorideCrystals, sodiumChlorideSaturated );
+        updateCrystals( dt, calciumChlorideCrystals, calciumChlorideSaturated );
+        updateCrystals( dt, sodiumNitrateCrystals, sodiumNitrateSaturated );
+        updateCrystals( dt, sucroseCrystals, sucroseSaturated );
 
         //Allow the crystals to grow
-        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideUnsaturated );
-        new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseUnsaturated );
-        new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideUnsaturated );
+        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
+        new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
+        new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
@@ -299,7 +300,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
     }
 
     //Update the crystals by moving them about and possibly dissolving them
-    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> unsaturated ) {
+    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> saturated ) {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal crystal : crystals ) {
@@ -340,7 +341,7 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
 
         //Handle dissolving the lattices
         for ( Crystal<?> crystal : toDissolve ) {
-            incrementalDissolve.dissolve( crystals, crystal, unsaturated );
+            incrementalDissolve.dissolve( crystals, crystal, saturated );
         }
     }
 

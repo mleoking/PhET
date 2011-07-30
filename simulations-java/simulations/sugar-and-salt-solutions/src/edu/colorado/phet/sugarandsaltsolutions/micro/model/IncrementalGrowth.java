@@ -30,11 +30,11 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     }
 
     //Check to see whether it is time to create or add to existing crystals, if the solution is over saturated
-    public void allowCrystalGrowth( double dt, ObservableProperty<Boolean> unsaturated ) {
+    public void allowCrystalGrowth( double dt, ObservableProperty<Boolean> saturated ) {
         double timeSinceLast = model.getTime() - lastNewCrystalFormationTime;
 
         //Make sure at least 1 second has passed, then convert to crystals
-        if ( !unsaturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
+        if ( saturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
             System.out.println( "No crystals, starting a new one" );
@@ -43,7 +43,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
         }
 
         //If the solution is saturated, try adding on to an existing crystal
-        else if ( !unsaturated.get() ) {
+        else if ( saturated.get() ) {
 
             //Find existing crystal(s)
             Crystal<T> crystal = crystals.get( 0 );

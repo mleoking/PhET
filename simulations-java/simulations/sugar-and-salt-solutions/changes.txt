@@ -1,3 +1,5 @@
+Micro tab: Increased the requested amount of CaCl2 because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated
+Micro tab: Model saturated property instead of unsaturated property
 Micro tab: Added incremental crystallization of sucrose
 Micro tab: Generalized crystal growth algorithm to make it easier to add support for other solutes
 Micro tab: Reset the water level when changing kits

@@ -24,9 +24,9 @@ public class IncrementalDissolve<T extends Particle> {
     }
 
     //Dissolve the lattice incrementally so that we get as close as possible to the saturation point
-    public void dissolve( ItemList<Crystal<T>> crystals, final Crystal<T> crystal, ObservableProperty<Boolean> unsaturated ) {
+    public void dissolve( ItemList<Crystal<T>> crystals, final Crystal<T> crystal, ObservableProperty<Boolean> saturated ) {
 
-        while ( unsaturated.get() && crystal.numberConstituents() > 0
+        while ( !saturated.get() && crystal.numberConstituents() > 0
 
                 //For some unknown reason, limiting this to one dissolve element per step fixes bugs in dissolving the lattices
                 //Without this limit, crystals do not dissolve when they should
