@@ -1,3 +1,5 @@
+Micro tab: Fixed: Using up one solute causes the other solute in the kit to be empty
+Micro tab: Added limits to amount of ethanol that can be added
 Micro tab: Moved the "remove sugar" and "remove salt" buttons below the beaker to the right of the evaporation box, and have it vertically stacked
 Micro tab: Added button to remove all Calcium Chloride
 Micro tab: Added button to remove all Ethanol
