@@ -21,7 +21,7 @@ import static edu.colorado.phet.common.phetcommon.model.property.Property.proper
 public class EthanolDropper extends Dispenser<MicroModel> {
 
     //True if the button has been pressed by the user and the dropper is emitting ethanol
-    public Property<Boolean> pressing = property( false );
+    public final Property<Boolean> pressing = property( false );
 
     //Model height of the dropper in meters
     private double dropperHeight;

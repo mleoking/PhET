@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.PNode;
 public class MicroConcentrationBarChart extends ConcentrationBarChart {
 
     private final PNode barLayer = new PNode();
-    private SettableProperty<Boolean> showValues;
+    private final SettableProperty<Boolean> showValues;
 
     public MicroConcentrationBarChart( Property<Boolean> visible,
                                        SettableProperty<Boolean> showValues,

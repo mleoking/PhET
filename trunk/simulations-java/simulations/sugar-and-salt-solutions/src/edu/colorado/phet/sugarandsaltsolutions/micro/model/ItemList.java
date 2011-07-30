@@ -48,7 +48,7 @@ public class ItemList<T> implements Iterable<T> {
         itemAddedListeners.addListener( listener );
         itemRemovedListeners.addListener( listener );
     }};
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public void addItemAddedListener( VoidFunction1<T> listener ) {
         itemAddedListeners.addListener( listener );

@@ -1,4 +1,4 @@
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.common.util;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -9,11 +9,12 @@ import static java.util.Collections.addAll;
 
 /**
  * List whose elements cannot be changed.
+ * No longer used in Sugar and Salt Solutions, but looks potentially useful for common code base.
  *
  * @author Sam Reid
  */
 public class ImmutableList<T> implements Iterable<T> {
-    private ArrayList<T> elements = new ArrayList<T>();
+    private final ArrayList<T> elements = new ArrayList<T>();
 
     //This method is provided to avoid compiler warnings for 0-arg uses of the varargs constructor
     public ImmutableList() {

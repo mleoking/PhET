@@ -15,7 +15,7 @@ import edu.umd.cs.piccolo.PNode;
 public class ExpandableConcentrationBarChartNode extends PNode {
 
     //The node for the expanded bar chart
-    protected MicroConcentrationBarChart microConcentrationBarChart;
+    protected final MicroConcentrationBarChart microConcentrationBarChart;
 
     public ExpandableConcentrationBarChartNode( final Property<Boolean> showConcentrationBarChart,
                                                 SettableProperty<Boolean> showConcentrationValues,

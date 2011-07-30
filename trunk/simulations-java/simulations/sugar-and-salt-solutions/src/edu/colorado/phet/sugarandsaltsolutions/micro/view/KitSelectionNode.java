@@ -39,10 +39,10 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     private PTransformActivity activity;
 
     //Layer that contains all the kits side by side horizontally
-    protected PNode kitLayer;
+    protected final PNode kitLayer;
 
     //Border and background, used for layout
-    protected PhetPPath background;
+    protected final PhetPPath background;
 
     //List of the available kits
     private final ArrayList<T> kits;

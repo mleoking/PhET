@@ -15,8 +15,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class DispenserRadioButtonSet extends PSwing {
-    private Property<DispenserType> dispenserType;
-    private Item[] items;
+    private final Property<DispenserType> dispenserType;
+    private final Item[] items;
 
     public DispenserRadioButtonSet( final Property<DispenserType> dispenserType, final Item... items ) {
         super( new VerticalLayoutPanel() {{

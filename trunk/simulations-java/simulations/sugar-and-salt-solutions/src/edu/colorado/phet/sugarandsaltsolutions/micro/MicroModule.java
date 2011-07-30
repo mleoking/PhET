@@ -18,7 +18,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
  */
 public class MicroModule extends Module {
 
-    private MicroModel model;
+    private final MicroModel model;
 
     public MicroModule( GlobalState globalState ) {
         this( globalState, new MicroModel() );
