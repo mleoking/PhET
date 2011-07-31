@@ -148,10 +148,9 @@ public class MainView extends Canvas {
 
 
     public function set1DOr2D(oneOrTwo:int):void{
-        this.myModel1.pauseSim();
-        this.myModel2.pauseSim();
-        this.myControlPanel.initializeStartStopButton();
         if(oneOrTwo == 1){
+            this.myModel2.interruptSim();
+            this.myModel1.resumeSim();
             this.myPausedSign.x = 0.36*stageW;
             this.oneDMode = true;
             this.myView1.visible = true;
@@ -161,10 +160,11 @@ public class MainView extends Canvas {
             this.myControlPanel.setModel( this.myModel1 );
             this.mySloMoStepControl.setModel( this.myModel1 );
             this.myPausedSign.setModel( this.myModel1 );
-            this.myControlPanel.setNbrMassesExternally( this.myModel1.N );
+            this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel1.N );
             //this.myControlPanel.showPhasesVisible( true );
-            this.myControlPanel.setShowPhasesControl();
         }else if(oneOrTwo == 2){
+            this.myModel1.interruptSim();
+            this.myModel2.resumeSim();
             this.myPausedSign.x = 0.31*stageW;
             this.oneDMode = false;
             this.myView1.visible = false;
@@ -174,17 +174,23 @@ public class MainView extends Canvas {
             this.myControlPanel.setModel( this.myModel2 );
             this.mySloMoStepControl.setModel( this.myModel2 );
             this.myPausedSign.setModel( this.myModel2 );
-            this.myControlPanel.setNbrMassesExternally( this.myModel2.N );
+            this.myControlPanel.setNbrMassesExternallyWithNoAction( this.myModel2.N );
             //this.myControlPanel.showPhasesVisible( false );
-            this.myControlPanel.setShowPhasesControl();
         }
+        this.myControlPanel.setShowPhasesControl();
+        this.myControlPanel.initializeStartStopButton();
     }//end set1DOr2D
 
     public function initializeAll(): void {
+        this.myModel1.pauseSim();
+        this.myModel2.pauseSim();
+        this.myModel1.interrupted = false;
+        this.myModel2.interrupted = false;
         this.myView1.initializeControls();
         this.mySloMoStepControl.unPauseExternally();
         this.mySloMoStepControl.setSliderExternally(1);
-        this.myControlPanel.setNbrMassesExternally( 3 );
+        this.myControlPanel.setNbrMassesExternally( 3 );    //this initializes Model1
+        this.myModel2.setN( 3 );                            //this initializes Model2
         //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }

@@ -155,7 +155,8 @@ public class ButtonArrayPanel extends Canvas{
                 //this.button_arr[i][j].changeColor( 0xffffff );
                 this.button_arr[i][j].changeBackgroundHeight( 0 );
                 this.button_arr[i][j].pushedIn = false;
-                this.button_arr[i][j].activated = false;
+                this.button_arr[i][j].activatedH = false;
+                this.button_arr[i][j].activatedV = false;
                 this.button_arr[i][j].x = xOffset + ( j-1 )*(size + 4);
                 this.button_arr[i][j].y = ySpacer + yOffset + ( i-1 )*(size + 4);
             }

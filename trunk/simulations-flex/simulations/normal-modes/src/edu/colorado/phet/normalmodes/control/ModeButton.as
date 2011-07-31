@@ -25,8 +25,7 @@ public class ModeButton extends Sprite{
     private var rIndex:int;
     private var sIndex:int;
     private var colorLayer:Sprite;         //bottom layer of sprite is a solid color
-    private var colorLayerMask:Sprite;      //mask for colorLayer.  mask is shape of rounded rect button
-    //private var colorLayer_arr:Array;      //array of color layers
+    private var colorLayerMask:Sprite;     //mask for colorLayer.  mask is shape of rounded rect button
     private var nMax;                      //number of different color layers
     private var trimAndLabelLayer:Sprite;  //next layer has trim and label
     private var sizeInPix:Number;
@@ -38,8 +37,9 @@ public class ModeButton extends Sprite{
     private var modeYColor:Number;                 //color corresponding to y-polarization mode
     private var label_txt; TextField;
     private var tFormat: TextFormat;
-    private var _activated:Boolean;      //true if button pressed once, false is pressed again
-    private var _pushedIn:Boolean;         //true if button pushed in by mouseDown
+    private var _activatedH:Boolean;         //state of button in horizontal polarization Mode: true if button pressed once, false is pressed again
+    private var _activatedV:Boolean;         //state of button in vertical polarization Mode: true = on; false = off
+    private var _pushedIn:Boolean;           //true if button pushed in by mouseDown
 
     public function ModeButton( myModel2:Model2, iIndx:int, jIndx:int, sizeInPix:Number) {
         this.myModel2 = myModel2;
@@ -52,7 +52,8 @@ public class ModeButton extends Sprite{
         myColorTransform = new ColorTransform();
         this.nMax = 16
         //this.colorLayer_arr = new Array( nMax );
-        this._activated = false;
+        this._activatedH = false;      //true if button activated for horizontal polarization mode
+        this._activatedV = false;      //true if button activated for vertical polarization mode
         this._pushedIn = false;
         this.colorLayer = new Sprite();
         this.colorLayerMask = new Sprite();
@@ -95,35 +96,17 @@ public class ModeButton extends Sprite{
         this.positionLabel();
     }
 
-    /*
-    private function createColorLayerArray():void{
-        //var nMax:int = 16;  //number of color layers in array
-        //this.buttonColor = 0x00ff00;
-        var w:int = this.sizeInPix;       //width and height of button in pixels
-        var hMax:int = this.sizeInPix;
-        var h:Number;
-        for( var i :int; i < this.nMax; i++ ){
-            this.colorLayer_arr[ i ] = new Sprite();
-            var gC:Graphics = this.colorLayer_arr[i].graphics;
-            gC.clear();
-            //gC.lineStyle( 1, 0x000000, 1 );
-            //h = i*hMax/(nMax-1);
-           // gC.moveTo( 0, hMax - h );
-           // gC.lineTo( w, hMax - h );
-            gC.beginFill( this.fullColor );
-            //var h:Number = i*hMax/(nMax-1);
-            gC.drawRoundRect( 0, 0,  w,  hMax,  w/2 );
-            gC.endFill();
-        }
-    }
-    */
 
     public function set pushedIn( tOrF:Boolean ):void{
         this._pushedIn = tOrF;
     }
 
-    public function set activated( tOrF:Boolean ):void{
-        this._activated = tOrF;
+    public function set activatedH( tOrF:Boolean ):void{
+        this._activatedH = tOrF;
+    }
+
+    public function set activatedV( tOrF:Boolean ):void{
+        this._activatedV = tOrF;
     }
 
     private function setBorderThickness( borderThickness:Number ):void{
@@ -144,6 +127,7 @@ public class ModeButton extends Sprite{
         //this.colorLayer.transform.colorTransform = this.myColorTransform;
     }
 
+    //draw colorLayer to height indicating amplitude of mode
     public function changeBackgroundHeight( inputHeight:int ):void{
         //this.colorLayer = this.colorLayer_arr[ inputHeight ];
         var w:int = this.sizeInPix;
@@ -210,6 +194,24 @@ public class ModeButton extends Sprite{
                     localRef._pushedIn = true;
                 }
 
+                if( localRef.myModel2.xModes ){
+                    if( !localRef._activatedH ){
+                        localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, largeAmplitude  );
+                        localRef._activatedH = true;
+                    }else{
+                        localRef.myModel2.setModeAmpli( "x", localRef.rIndex, localRef.sIndex, 0  );
+                        localRef._activatedH = false;
+                    }
+                }else{
+                    if( !localRef._activatedV ){
+                        localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, largeAmplitude  );
+                        localRef._activatedV = true;
+                    }else{
+                        localRef.myModel2.setModeAmpli( "y", localRef.rIndex, localRef.sIndex, 0  );
+                        localRef._activatedV = false;
+                    }
+                }
+                /*
                 if(!localRef._activated){
                     localRef._activated = true;
                     if( localRef.myModel2.xModes ){
@@ -228,13 +230,11 @@ public class ModeButton extends Sprite{
                     }
                     //localRef.myModel2.setModeAmpli( localRef.rIndex, localRef.sIndex, 0  );
                     //localRef.changeColor( 0xffffff );
-                }
+                }  */
 
                 //trace("evt.name:"+evt.type);
             } else if ( evt.type == "mouseOver" ) {
-//                if(!localRef._activated){
-//                    localRef.drawButton( 0xffff00);
-//                }
+
                 localRef.setBorderThickness( 3 );
                 localRef.tFormat.bold = true;
                 localRef.label_txt.setTextFormat( localRef.tFormat );
@@ -247,9 +247,16 @@ public class ModeButton extends Sprite{
                     localRef.y -= 2;
                     localRef._pushedIn = false;
                 }
-                if(!localRef._activated) {
-                   localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
+                if( localRef.myModel2.xModes ) {
+                    if(!localRef._activatedH) {
+                        localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
+                    }
+                } else{
+                    if(!localRef._activatedV) {
+                        localRef.changeColor( 0xffffff );//drawButton( 0xffffff );
+                    }
                 }
+
                 //localRef.myModel2.;
             } else if ( evt.type == "mouseOut" ) {
                 localRef.tFormat.bold = false;
@@ -260,9 +267,7 @@ public class ModeButton extends Sprite{
                     localRef.y -= 2;
                     localRef._pushedIn = false;
                 }
-                if(!localRef._activated){
-                    //localRef.changeColor( 0xffffff );
-                }
+
                 localRef.setBorderThickness( 2 );
             }
         }//end of buttonBehave

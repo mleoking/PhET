@@ -38,6 +38,7 @@ public class Model1 {
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
+    private var _interrupted:Boolean; //model interrupted when model unPaused and user switches to other tab/model
     private var _t: Number;		    //time in seconds
     //private var tInt: Number;     //time rounded up to nearest second, for testing only
     private var lastTime: Number;	//time in previous timeStep
@@ -77,6 +78,7 @@ public class Model1 {
         this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
         this._paused = true;
+        this._interrupted = false;
         this._t = 0;
         //this.tInt = 1;              //testing only
         this.dt = 0.01;
@@ -279,6 +281,10 @@ public class Model1 {
         return this._paused;
     }
 
+    public function set interrupted( tOrF:Boolean ):void{
+        this._interrupted = tOrF;
+    }
+
     //called form MassView.startTargetDrag();
     public function set grabbedMass(indx:int){
         this._grabbedMassIndex = indx;
@@ -287,15 +293,34 @@ public class Model1 {
 
     //END SETTERS and GETTERS
     public function pauseSim(): void {
-        this._paused = true;
-        this.msTimer.stop();
-        this.updateViews();
+        if( !this._paused ){
+            this._paused = true;
+            this.msTimer.stop();
+            this.updateViews();
+        }
     }
 
     public function unPauseSim(): void {
-        this._paused = false;
-        this.msTimer.start();
-        this.updateViews();
+        if( this._paused ){
+            this._paused = false;
+            this.msTimer.start();
+            this.updateViews();
+        }
+    }
+
+    //used when switching tabs between 1D and 2D
+    public function interruptSim():void{
+        if( !_paused ){
+            pauseSim();
+            _interrupted = true;
+        }
+    }
+
+    public function resumeSim():void{
+        if( this._interrupted ){
+            this.unPauseSim();
+            this._interrupted = false;
+        }
     }
 
     public function startMotion(): void {
