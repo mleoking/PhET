@@ -45,7 +45,7 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
             final double finalBarX = barX;
 
             //Use a StandardizedNodeX here to center the bars on the desired points horizontally so the bars will be equidistant
-            barLayer.addChild( new StandardizedNodeX( new Bar( bar.color, bar.caption, bar.icon.apply(), bar.concentration, showValues, verticalAxisScale ) ) {{
+            barLayer.addChild( new StandardizedNodeX( new Bar( bar.color, bar.caption, bar.icon.apply(), bar.concentration, showValues, verticalAxisScale, true ) ) {{
                 setOffset( finalBarX - getFullBoundsReference().width / 2, abscissaY );
             }} );
 

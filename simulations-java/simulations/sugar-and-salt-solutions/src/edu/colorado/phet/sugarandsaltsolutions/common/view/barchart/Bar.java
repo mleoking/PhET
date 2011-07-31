@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.StandardizedNode;
 import edu.umd.cs.piccolo.PNode;
@@ -25,8 +26,15 @@ import static java.lang.Float.isNaN;
  */
 public class Bar extends PNode {
     public static final float WIDTH = 40;
+    protected PNode valueReadout;
 
-    public Bar( final ObservableProperty<Color> color, String caption, final Option<PNode> icon, final ObservableProperty<Double> value, final ObservableProperty<Boolean> showValue, final double verticalAxisScale ) {
+    public Bar( final ObservableProperty<Color> color,
+                final String caption,
+                final Option<PNode> icon,
+                final ObservableProperty<Double> value,
+                final ObservableProperty<Boolean> showValue,
+                final double verticalAxisScale,
+                final boolean multiLineReadout ) {
 
         // Create and add the bar itself.
         final PPath bar = new PhetPPath( new BasicStroke( 1f ), Color.BLACK ) {{
@@ -68,7 +76,7 @@ public class Bar extends PNode {
         }
 
         //Optionally show the readout of the exact value above the bar itself
-        PText valueReadout = new PText() {{
+        valueReadout = new HTMLNode() {{
             setFont( CONTROL_FONT );
             value.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double molesPerMeterCubed ) {
@@ -77,7 +85,8 @@ public class Bar extends PNode {
                     double molesPerLiter = molesPerMeterCubed / litersPerCubicMeter;
 
                     //Update the text
-                    setText( new DecimalFormat( "0.00" ).format( molesPerLiter ) + " mol/L" );
+                    //Use multiline in tabs with 3+ bars, otherwise readouts will overlap each other
+                    setHTML( new DecimalFormat( "0.00" ).format( molesPerLiter ) + ( multiLineReadout ? "<br>mol/L" : " mol/L" ) );
 
                     //Show the label centered above the bar, even if bar is zero height
                     setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
