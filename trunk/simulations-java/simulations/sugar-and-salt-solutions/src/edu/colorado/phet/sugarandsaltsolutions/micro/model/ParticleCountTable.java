@@ -8,7 +8,6 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 public class ParticleCountTable {
     //Amounts are given for 1E-23L of water, then multiplied by 2 since the max fluid volume is 2E-23L
     public static final int MAX_SODIUM_CHLORIDE = (int) ( 10.30 * 2 );
-    public static final int MAX_SUCROSE = (int) ( 1.76 * 2 );
     public static final int MAX_ETHANOL = (int) ( 13.07 * 2 );
 
     //Increase the requested amount of CaCl2 because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated
@@ -16,4 +15,7 @@ public class ParticleCountTable {
 
     //Increase the requested amount of CaCl2 because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated
     public static final int MAX_SODIUM_NITRATE = (int) ( 7.00 * 2 ) * 3;
+
+    //Increase the requested amount of sucrose because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated
+    public static final int MAX_SUCROSE = (int) ( 1.76 * 2 ) * 3;
 }

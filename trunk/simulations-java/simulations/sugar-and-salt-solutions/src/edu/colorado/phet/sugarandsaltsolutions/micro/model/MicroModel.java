@@ -181,6 +181,22 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                //Ratio of length scales in meters
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
+        //Property that identifies the number of sucrose molecules in crystal form, for making sure the user doesn't exceed the allowed maximum
+        //Should be rewritten with Property<Integer> but there is currently no good compositional support for it (using plus(), greaterThan(), etc)
+        final Property<Double> numSucroseMoleculesInCrystal = new Property<Double>( 0.0 ) {{
+            VoidFunction1<SucroseCrystal> updateSucroseCount = new VoidFunction1<SucroseCrystal>() {
+                public void apply( SucroseCrystal sucroseCrystal ) {
+                    int count = 0;
+                    for ( SucroseCrystal crystal : sucroseCrystals ) {
+                        count = count + crystal.numberConstituents();
+                    }
+                    set( count + 0.0 );
+                }
+            };
+            sucroseCrystals.addItemAddedListener( updateSucroseCount );
+            sucroseCrystals.addItemRemovedListener( updateSucroseCount );
+        }};
+
         //Determine whether the user is allowed to add more of each type, based on the particle table
         //These computations make the simplifying assumption that only certain combinations of molecules will appear together
         //This allows us to say, for example, that more NaNO3 may be added if Oxygen is not over the limit, adding another molecule to its kit that contains oxygen would cause this to give incorrect limiting behavior
@@ -189,7 +205,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         ObservableProperty<Boolean> moreSodiumChlorideAllowed = sphericalParticles.propertyCount( Sodium.class ).lessThan( MAX_SODIUM_CHLORIDE ).or( sphericalParticles.propertyCount( Chloride.class ).lessThan( MAX_SODIUM_CHLORIDE ) );
         ObservableProperty<Boolean> moreCalciumChlorideAllowed = sphericalParticles.propertyCount( Calcium.class ).lessThan( MAX_CALCIUM_CHLORIDE ).or( sphericalParticles.propertyCount( Chloride.class ).lessThan( MAX_CALCIUM_CHLORIDE ) );
         ObservableProperty<Boolean> moreSodiumNitrateAllowed = sphericalParticles.propertyCount( Sodium.class ).lessThan( MAX_SODIUM_NITRATE ).or( sphericalParticles.propertyCount( Oxygen.class ).lessThan( MAX_SODIUM_NITRATE * 3 ) );
-        ObservableProperty<Boolean> moreSucroseAllowed = freeParticles.propertyCount( Sucrose.class ).lessThan( MAX_SUCROSE );
+        ObservableProperty<Boolean> moreSucroseAllowed = ( freeParticles.propertyCount( Sucrose.class ).plus( numSucroseMoleculesInCrystal ) ).lessThan( MAX_SUCROSE );
         ObservableProperty<Boolean> moreEthanolAllowed = freeParticles.propertyCount( Ethanol.class ).lessThan( MAX_ETHANOL );
 
         //Add models for the various dispensers: sugar, salt, etc.
