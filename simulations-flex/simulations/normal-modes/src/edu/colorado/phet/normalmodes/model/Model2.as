@@ -54,6 +54,7 @@ public class Model2 {
 
     //time variables
     private var _paused: Boolean;   //true if sim paused
+    private var _interrupted;       //model interrupted when model unPaused and user switches to other tab/model
     private var _t: Number;		    //time in seconds
     private var tInt: Number;       //time rounded down to nearest whole sec, for testing only
     private var lastTime: Number;	//time in previous timeStep
@@ -122,6 +123,7 @@ public class Model2 {
         this.initializeModeArrays();
         //this.setInitialPositions(); //for testing only
         this._paused = true;
+        this._interrupted = false;
         this._t = 0;
         this.tInt = 0;
         //this.tInt = 1;              //testing only
@@ -193,7 +195,7 @@ public class Model2 {
     }
 
     //SETTERS and GETTERS
-    public function setN(nbrMobileMassesInRow:int):void{
+    public function setN( nbrMobileMassesInRow:int ):void{
         //trace( "Model2.setN called.  NbrMobleMasses in Row = " + nbrMobileMassesInRow );
         if(nbrMobileMassesInRow > this._nMax){
             this._N = this._nMax;
@@ -315,6 +317,7 @@ public class Model2 {
         }else{
             this.modeAmpliY_arr[ modeNbrR ][ modeNbrS ] = A;
         }
+        this.setExactPositions();
         this._modesChanged = true;
         updateViews();
         this._modesChanged = false;
@@ -365,25 +368,45 @@ public class Model2 {
         return this._paused;
     }
 
+    public function set interrupted( tOrF:Boolean ):void{
+        this._interrupted = tOrF;
+    }
+
     //called from MassView.startTargetDrag();
     public function set grabbedMassIndices(iJIndices:Array){
         this._grabbedMassIndices = iJIndices;
         //trace("Model2.setGrabbeMassIndices called. u = " + this._grabbedMassIndices[0] + "   j = " + this._grabbedMassIndices[1]);
     }
     //END SETTERS and GETTERS
-
-
     public function pauseSim(): void {
-        this._paused = true;
-        this.msTimer.stop();
-        this.updateViews();
-        //this.running = false;
+        if( !this._paused ){
+            this._paused = true;
+            this.msTimer.stop();
+            this.updateViews();
+        }
     }
 
     public function unPauseSim(): void {
-        this._paused = false;
-        this.msTimer.start();
-        this.updateViews();
+        if( this._paused ){ this._paused = false;
+            this.msTimer.start();
+            this.updateViews();
+
+        }
+    }
+
+    //used when switching tabs between 1D and 2D
+    public function interruptSim():void{
+        if( !_paused ){
+            pauseSim();
+            _interrupted = true;
+        }
+    }
+
+    public function resumeSim():void{
+        if( this._interrupted ){
+            this.unPauseSim();
+            this._interrupted = false;
+        }
     }
 
     public function startMotion(): void {

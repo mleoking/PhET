@@ -227,6 +227,10 @@ public class ControlPanel extends Canvas {
         this.zeroPositions();
     }
 
+    public function setNbrMassesExternallyWithNoAction( nbrM: int ):void{
+        this.nbrMassesSlider.setSliderWithoutAction( nbrM );
+    }
+
     public function setModel( currentModel: Object ):void{
         this.myModel = currentModel;
     }
