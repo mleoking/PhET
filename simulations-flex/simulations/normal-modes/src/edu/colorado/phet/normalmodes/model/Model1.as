@@ -143,6 +143,8 @@ public class Model1 {
         }
         //trace("Model1.setN called N = " + this._N);
         this.initializeKinematicArrays();
+        this.zeroModeArrays();
+        this.setExactPositions();
         this.setResonantFrequencies();
         this._nChanged = true;
         this.updateViews();
