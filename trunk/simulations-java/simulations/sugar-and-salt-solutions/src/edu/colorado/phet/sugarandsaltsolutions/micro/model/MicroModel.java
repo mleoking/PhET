@@ -429,7 +429,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             ImmutableVector2D initialPosition = particle.getPosition();
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
-            if ( particle.hasSubmerged() ) {
+            //If the particle is underwater and there is any water, move the particle about at the free particle speed
+            if ( particle.hasSubmerged() && waterVolume.get() > 0 ) {
+
+                //If the particle velocity was set to zero (from a zero water volume, restore it to non-zero so it can be scaled
+                if ( particle.velocity.get().getMagnitude() == 0 ) {
+                    particle.velocity.set( parseAngleAndMagnitude( 1, randomAngle() ) );
+                }
                 particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
             }
 
