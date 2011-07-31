@@ -4,6 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 
 /**
+ * TODO: remove this interface, clients should just use MacroModel
+ *
  * @author Sam Reid
  */
 public interface ISugarAndSaltModel {

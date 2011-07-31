@@ -1,3 +1,5 @@
+Micro tab: Fixed: Kit 2, removing NaCl also removes all Cl from the CaCl2
+Micro tab: Fixed: Kit 3, exception on removing sodium nitrate from a mixed solution
 Micro tab: Fixed: When toggling back and forth between kits, sometimes bar chart labels appear under the kit box, not in the bar chart background
 Micro tab: Added crystallization for sodium nitrate
 Micro tab: Increased the requested amount of CaCl2 because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated

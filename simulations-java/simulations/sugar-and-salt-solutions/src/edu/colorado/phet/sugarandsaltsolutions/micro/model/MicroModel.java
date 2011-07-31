@@ -25,9 +25,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Oxygen;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
@@ -511,6 +509,30 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         }
     }
 
+    //Remove all corresponding sodium chloride from the simulation
+    //TODO: how to make sure no strays left after this?
+    public void removeAllSodiumChloride() {
+
+        //Remove any crystals
+        while ( sodiumChlorideCrystals.size() > 0 ) {
+            removeSodiumChlorideCrystal( sodiumChlorideCrystals.get( 0 ) );
+        }
+
+        //Remove the Calcium ions first, since they are unique to CaCl2 given the kits (other molecule in this kit is NaCl)
+        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
+        ArrayList<Particle> chloride = freeParticles.filter( Chloride.class );
+
+        int min = Math.min( sodium.size(), chloride.size() );
+
+        for ( int i = 0; i < min; i++ ) {
+            freeParticles.remove( sodium.get( i ) );
+            sphericalParticles.remove( (SphericalParticle) sodium.get( i ) );
+
+            freeParticles.remove( chloride.get( i ) );
+            sphericalParticles.remove( (SphericalParticle) chloride.get( i ) );
+        }
+    }
+
     public void removeAllEthanol() {
         ArrayList<Particle> ethanol = freeParticles.filter( Ethanol.class );
         for ( Particle ethanolMolecule : ethanol ) {
@@ -531,21 +553,19 @@ public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSa
         removeComponents( crystal );
     }
 
-    public void removeSalt() {
-        super.removeSalt();
-
-        sphericalParticles.clear( Sodium.class, Chloride.class );
-        freeParticles.clear( Sodium.class, Chloride.class );
-        sodiumChlorideCrystals.clear();
+    //Remove a calcium chloride crystal and all its subparticles
+    private void removeSodiumChlorideCrystal( SodiumChlorideCrystal crystal ) {
+        sodiumChlorideCrystals.remove( crystal );
+        removeComponents( crystal );
     }
 
-    public void removeSugar() {
-        super.removeSugar();
-
-        //TODO: will need to be more discriminative about which spherical particles to remove when in solution with ethanol
-        sphericalParticles.clear( Hydrogen.class, Carbon.class, Oxygen.class );
-        freeParticles.clear( Sucrose.class );
-        sodiumChlorideCrystals.clear();
+    //Remove all sucrose molecules from the model
+    public void removeAllSucrose() {
+        ArrayList<Particle> sucrose = freeParticles.filter( Sucrose.class );
+        for ( Particle sucroseMolecule : sucrose ) {
+            freeParticles.remove( sucroseMolecule );
+            removeComponents( (Compound<?>) sucroseMolecule );
+        }
     }
 
     @Override public ObservableProperty<Boolean> getAnySolutes() {
