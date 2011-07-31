@@ -217,13 +217,15 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     }
 
     //Called when the user presses a button to clear the salt, removes all salt (dissolved and crystals) from the sim
-    public void removeSalt() {
+    //TODO: move this method to MacroModel
+    public final void removeSalt() {
         removeCrystals( saltList, saltList );
         salt.moles.set( 0.0 );
     }
 
     //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
-    public void removeSugar() {
+    //TODO: move this method to MacroModel
+    public final void removeSugar() {
         removeCrystals( sugarList, sugarList );
         sugar.moles.set( 0.0 );
     }

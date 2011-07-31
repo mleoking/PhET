@@ -40,7 +40,7 @@ public class KitList {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Sodium Chloride", model.isAnySaltToRemove(), new VoidFunction0() {
                     public void apply() {
-                        model.removeSalt();
+                        model.removeAllSodiumChloride();
                     }
                 } );
             }
@@ -50,7 +50,7 @@ public class KitList {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Sucrose", model.isAnySugarToRemove(), new VoidFunction0() {
                     public void apply() {
-                        model.removeSugar();
+                        model.removeAllSucrose();
                     }
                 } );
             }
