@@ -147,4 +147,15 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         }
         return sphericalParticles;
     }
+
+    //TODO: should constituents use ItemList?
+    public int count( Class<?> type ) {
+        int count = 0;
+        for ( Constituent<T> constituent : constituents ) {
+            if ( constituent.particle.getClass().equals( type ) ) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
