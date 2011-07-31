@@ -207,6 +207,7 @@ public class Model2 {
            this._N = nbrMobileMassesInRow;
         }
         this.initializeKinematicArrays();
+        this.zeroModeArrays();
         this.setResonantFrequencies();
         this.computeSineProducts();
         this._nChanged = true;
