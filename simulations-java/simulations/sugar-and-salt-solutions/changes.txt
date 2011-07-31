@@ -1,3 +1,4 @@
+Micro tab: Fixed: Sometimes when water too low, particles get stuck in the bottom
 Micro tab: Fixed: User can exceed max allowed amount of sucrose because falling crystals aren't counted
 Micro tab: Fixed: Kit 2, removing NaCl also removes all Cl from the CaCl2
 Micro tab: Fixed: Kit 3, exception on removing sodium nitrate from a mixed solution

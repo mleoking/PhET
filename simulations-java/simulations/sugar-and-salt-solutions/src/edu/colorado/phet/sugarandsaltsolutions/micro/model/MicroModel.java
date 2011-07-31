@@ -351,12 +351,22 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                     toDissolve.add( crystal );
                 }
             }
+
+            //Keep the particle within the beaker solution bounds
+            preventFromLeavingBeaker( crystal );
         }
 
         //Handle dissolving the lattices
         for ( Crystal<?> crystal : toDissolve ) {
             incrementalDissolve.dissolve( crystals, crystal, saturated );
         }
+    }
+
+    //Keep the particle within the beaker solution bounds
+    private void preventFromLeavingBeaker( Particle particle ) {
+        preventFromFallingThroughBeakerBase( particle );
+        preventFromFallingThroughBeakerRight( particle );
+        preventFromFallingThroughBeakerLeft( particle );
     }
 
     private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
@@ -434,9 +444,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
 
             //Keep the particle within the beaker solution bounds
-            preventFromFallingThroughBeakerBase( particle );
-            preventFromFallingThroughBeakerRight( particle );
-            preventFromFallingThroughBeakerLeft( particle );
+            preventFromLeavingBeaker( particle );
         }
     }
 
