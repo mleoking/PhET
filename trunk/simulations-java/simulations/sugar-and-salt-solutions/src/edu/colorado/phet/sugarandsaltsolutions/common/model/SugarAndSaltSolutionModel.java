@@ -26,6 +26,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 
 /**
  * Base class model for Sugar and Salt Solutions, which keeps track of the physical model as well as the MVC model for view components (such as whether certain components are enabled).
+ * TODO: can more parts of this class be moved to MacroModel?
  *
  * @author Sam Reid
  */
@@ -383,6 +384,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     }
 
     public void reset() {
+
         //Reset the model state
         removeSaltAndSugar();
         resetWater();
