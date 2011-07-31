@@ -17,8 +17,7 @@ public class IonConcentration extends CompositeDoubleProperty {
         super( new Function0<Double>() {
                    public Double apply() {
                        //If there is no water, there is no solution and hence no concentration
-                       return microModel.waterVolume.get() == 0 ? 0.0 :
-                              numberToMoles( microModel.freeParticles.count( type ) ) / microModel.waterVolume.get();
+                       return microModel.waterVolume.get() == 0 ? 0.0 : numberToMoles( microModel.freeParticles.count( type ) ) / microModel.waterVolume.get();
                    }
                }, microModel.waterVolume );
         VoidFunction1<Particle> listener = new VoidFunction1<Particle>() {

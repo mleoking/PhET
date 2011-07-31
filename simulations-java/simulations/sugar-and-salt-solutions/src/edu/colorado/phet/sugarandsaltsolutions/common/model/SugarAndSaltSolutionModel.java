@@ -150,9 +150,10 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
 
         //Start the water halfway up the beaker
-        this.waterVolume = new DoubleProperty( beakerDimension.getVolume() / 2 );
+        waterVolume = new DoubleProperty( beakerDimension.getVolume() / 2 );
 
         //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
+        //TODO: move this to macro model
         salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0, MacroSalt.molarMass );
         sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
 
