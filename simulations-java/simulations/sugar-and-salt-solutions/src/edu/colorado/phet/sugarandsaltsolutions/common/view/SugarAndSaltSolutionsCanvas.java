@@ -117,13 +117,15 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
                                   new Point2D.Double( 0, 10 ) ) );
 
         //Add a faucet that drains the beaker, note that the value is assigned in the creation
-        addChild( drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
-        }} );
+        }};
+        model.setDrainFaucetNodeLocation( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) );
+        addChild( drainFaucetNode );
 
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<MacroSalt>( crystalLayer, new Function1<MacroSalt, PNode>() {
@@ -192,6 +194,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //Show the precipitate as the sum of salt and sugar
         submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
+
+        //Add a graphic to show where particles will flow out the drain
+        addChild( new DrainFaucetNodeLocationDebugger( transform, model ) );
     }
 
     public void addChild( PNode node ) {

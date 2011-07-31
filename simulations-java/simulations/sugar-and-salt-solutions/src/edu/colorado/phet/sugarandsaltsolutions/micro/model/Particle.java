@@ -18,6 +18,11 @@ public abstract class Particle {
     //Interface for setting and observing the velocity
     public final Property<ImmutableVector2D> velocity;
 
+    //Flag to indicate whether the particle has ever been submerged underwater.  If so, the model update will constrain the particle so it doesn't leave the water again
+    //Note this does not mean the particle is currently submerged, since it could get fully submerged once, then the water could evaporate so the particle is only partly submerged
+    //In this case it should still be prevented from leaving the water area
+    private boolean hasSubmerged = false;
+
     public Particle( ImmutableVector2D position ) {
         this.position = new Property<ImmutableVector2D>( position );
         this.velocity = new Property<ImmutableVector2D>( new ImmutableVector2D() );
@@ -46,5 +51,15 @@ public abstract class Particle {
 
     public void addPositionObserver( VoidFunction1<ImmutableVector2D> listener ) {
         position.addObserver( listener );
+    }
+
+    //Determines whether the particle has ever been submerged, for purposes of updating its location during the physics update.  See field documentation for more
+    public boolean hasSubmerged() {
+        return hasSubmerged;
+    }
+
+    //Sets whether the particle has ever been submerged, for purposes of updating its location during the physics update.  See field documentation for more
+    public void setSubmerged() {
+        hasSubmerged = true;
     }
 }

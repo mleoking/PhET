@@ -318,6 +318,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Keep track of which lattices should dissolve in this time step
         ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
         for ( Crystal crystal : crystals ) {
+
+            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
+            if ( solution.shape.get().contains( crystal.getShape().getBounds2D() ) ) {
+                crystal.setSubmerged();
+            }
+
             //Accelerate the particle due to gravity and perform an euler integration step
             //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
             double mass = 1E10;
@@ -364,9 +370,25 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Keep the particle within the beaker solution bounds
     private void preventFromLeavingBeaker( Particle particle ) {
+
+        //If the particle ever entered the water fully, don't let it leave through the top
+        if ( particle.hasSubmerged() ) {
+            preventFromMovingPastWaterTop( particle );
+        }
         preventFromFallingThroughBeakerBase( particle );
         preventFromFallingThroughBeakerRight( particle );
         preventFromFallingThroughBeakerLeft( particle );
+    }
+
+    //prevent particles from falling through the top of the water
+    private void preventFromMovingPastWaterTop( Particle particle ) {
+        double waterTopY = solution.shape.get().getBounds2D().getMaxY();
+        double particleTopY = particle.getShape().getBounds2D().getMaxY();
+
+        if ( particleTopY > waterTopY ) {
+            //TODO: Factor out 1E-12
+            particle.translate( 0, waterTopY - particleTopY - 1E-12 );
+        }
     }
 
     private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
@@ -398,10 +420,16 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     private void updateFreeParticles( double dt ) {
         for ( Particle particle : freeParticles ) {
             boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
+
+            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
+            if ( solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
+                particle.setSubmerged();
+            }
+
             ImmutableVector2D initialPosition = particle.getPosition();
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
-            if ( initiallyUnderwater ) {
+            if ( particle.hasSubmerged() ) {
                 particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
             }
 
@@ -596,6 +624,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     /**
+     * TODO: can this be removed?
+     *
      * @inheritDoc
      */
     @Override protected String getSaltShakerName() {
@@ -603,6 +633,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     /**
+     * TODO: can this be removed?
+     *
      * @inheritDoc
      */
     @Override protected String getSugarDispenserName() {
@@ -613,12 +645,48 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     @Override protected void waterDrained( double outVolume, double initialSaltConcentration, double initialSugarConcentration ) {
         super.waterDrained( outVolume, initialSaltConcentration, initialSugarConcentration );
         updateParticlesDueToWaterLevelDropped( outVolume );
+
+        //Move the particles toward the drain
+        double changeInWaterHeight = beaker.getHeightForVolume( outVolume ) - beaker.getHeightForVolume( 0 );
+
+        //Only move free particles, crystals are not in solution
+        ArrayList<Particle> toRemove = new ArrayList<Particle>();
+        for ( Particle particle : freeParticles ) {
+            if ( waterVolume.get() > 0 ) {
+                ImmutableVector2D v = new ImmutableVector2D( particle.getPosition().toPoint2D(), getDrainFaucetLocation().toPoint2D() );
+                ImmutableVector2D delta = v.getInstanceOfMagnitude( changeInWaterHeight * 3 );
+                particle.translate( delta.getX(), delta.getY() );
+
+                //Setting the velocity as well as translating here makes a smooth linear motion to the drain
+                //Translating without setting the velocity keeps a very random walk-y aspect
+                particle.velocity.set( delta );
+                if ( particle.getPosition().getDistance( getDrainFaucetLocation() ) <= delta.getMagnitude() ) {
+                    toRemove.add( particle );
+                }
+            }
+        }
+
+        for ( Particle particle : toRemove ) {
+            freeParticles.remove( particle );
+            if ( particle instanceof Compound<?> ) {
+                removeComponents( (Compound<?>) particle );
+            }
+            else if ( particle instanceof SphericalParticle ) {
+                sphericalParticles.remove( (SphericalParticle) particle );
+            }
+            else {
+                new RuntimeException( "No match found" ).printStackTrace();
+            }
+        }
     }
 
     //Iterate over particles that take random walks so they don't move above the top of the water
     private void updateParticlesDueToWaterLevelDropped( double changeInWaterHeight ) {
         waterLevelDropped( freeParticles, changeInWaterHeight );
         waterLevelDropped( sucroseCrystals, changeInWaterHeight );
+        waterLevelDropped( sodiumChlorideCrystals, changeInWaterHeight );
+        waterLevelDropped( calciumChlorideCrystals, changeInWaterHeight );
+        waterLevelDropped( sodiumNitrateCrystals, changeInWaterHeight );
     }
 
     //When water level decreases, move the particles down with the water level.
@@ -630,13 +698,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             if ( waterVolume.get() > 0 ) {
                 double yLocationInBeaker = particle.getPosition().getY();
                 double waterTopY = beaker.getHeightForVolume( waterVolume.get() );
-                double fractionToTop = yLocationInBeaker / waterTopY;
-                particle.translate( 0, -changeInWaterHeight * fractionToTop );
 
-                //Prevent particles from leaving the top of the liquid
-                double topY = particle.getShape().getBounds2D().getMaxY();
-                if ( topY > waterTopY ) {
-                    particle.translate( 0, ( waterTopY - topY - 1E-12 ) );
+                //Only move particles down if they are fully underwater
+                if ( yLocationInBeaker < waterTopY ) {
+                    double fractionToTop = yLocationInBeaker / waterTopY;
+                    particle.translate( 0, -changeInWaterHeight * fractionToTop );
+
+                    //Prevent particles from leaving the top of the liquid
+                    preventFromLeavingBeaker( particle );
                 }
             }
 

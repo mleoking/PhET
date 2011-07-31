@@ -2,6 +2,7 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -105,6 +106,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
     //Observable flag which determines whether the beaker is full of solution, for purposes of preventing overflow
     public final ObservableProperty<Boolean> beakerFull;
+
+    //Model location (in meters) of where water will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    private ImmutableVector2D drainFaucetLocation;
 
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public abstract ObservableProperty<Boolean> getAnySolutes();
@@ -418,5 +422,15 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //Gets the elapsed time of the model in seconds
     public double getTime() {
         return time;
+    }
+
+    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    public void setDrainFaucetNodeLocation( Point2D point2D ) {
+        this.drainFaucetLocation = new ImmutableVector2D( point2D );
+    }
+
+    //Get the location of the drain where particles will flow out, in absolute coordinates, in meters
+    public ImmutableVector2D getDrainFaucetLocation() {
+        return drainFaucetLocation;
     }
 }

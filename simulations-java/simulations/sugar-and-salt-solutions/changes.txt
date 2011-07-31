@@ -1,3 +1,5 @@
+Micro tab: Water flows toward the drain
+Micro tab: Fixed: Particles sometimes bounce out of the water when water level is low
 Micro tab: Fixed: Ensure NaCl, NaNO3 and CaCl2 are created with correct ratios of atoms
 Micro tab: Fixed: Values readouts overlap in the concentration chart
 Micro tab: Fixed: Sometimes when water too low, particles get stuck in the bottom
