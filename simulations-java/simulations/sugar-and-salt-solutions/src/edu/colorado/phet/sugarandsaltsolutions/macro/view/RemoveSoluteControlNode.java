@@ -2,8 +2,8 @@
 package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class RemoveSoluteControlNode extends PNode {
 
-    public RemoveSoluteControlNode( final ISugarAndSaltModel model ) {
+    public RemoveSoluteControlNode( final MacroModel model ) {
 
         //Button to remove salt, only shown if there is any salt
         RemoveSoluteButtonNode saltButton = new RemoveSoluteButtonNode( "Remove salt", model.isAnySaltToRemove(), new VoidFunction0() {

@@ -29,7 +29,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  *
  * @author Sam Reid
  */
-public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
+public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolutionsModel {
     //Use the same aspect ratio as the view to minimize insets with blank regions
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 

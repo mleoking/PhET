@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
@@ -59,7 +58,7 @@ import static java.lang.Math.random;
  *
  * @author Sam Reid
  */
-public class MicroModel extends SugarAndSaltSolutionModel implements ISugarAndSaltModel {
+public class MicroModel extends SugarAndSaltSolutionModel {
 
     private static final double framesPerSecond = 30;
 

@@ -22,7 +22,6 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.ISugarAndSaltModel;
 
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.CHLORINE_RADIUS;
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIUM_RADIUS;
@@ -32,7 +31,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIU
  *
  * @author Sam Reid
  */
-public class WaterModel extends AbstractSugarAndSaltSolutionsModel implements ISugarAndSaltModel {
+public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Lists of all model objects
     public final ParticleList<WaterMolecule> waterList = new ParticleList<WaterMolecule>();
