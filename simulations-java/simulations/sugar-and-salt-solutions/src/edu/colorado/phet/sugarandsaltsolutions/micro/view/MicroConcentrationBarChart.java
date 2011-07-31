@@ -34,6 +34,7 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
     //Clear the previous bars and display the specified bars
     public void setBars( BarItem... bars ) {
         barLayer.removeAllChildren();
+
         //Convert from model units (mol/L) to stage units by multiplying by this scale factor
         final double verticalAxisScale = 8 / 1000.0;
 
@@ -44,7 +45,7 @@ public class MicroConcentrationBarChart extends ConcentrationBarChart {
             final double finalBarX = barX;
 
             //Use a StandardizedNodeX here to center the bars on the desired points horizontally so the bars will be equidistant
-            barLayer.addChild( new StandardizedNodeX( new Bar( bar.color, bar.caption, bar.icon, bar.concentration, showValues, verticalAxisScale ) ) {{
+            barLayer.addChild( new StandardizedNodeX( new Bar( bar.color, bar.caption, bar.icon.apply(), bar.concentration, showValues, verticalAxisScale ) ) {{
                 setOffset( finalBarX - getFullBoundsReference().width / 2, abscissaY );
             }} );
 

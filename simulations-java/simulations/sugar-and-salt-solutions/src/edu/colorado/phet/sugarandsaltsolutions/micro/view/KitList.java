@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -32,7 +33,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 public class KitList {
     private final ArrayList<Kit> kits = new ArrayList<Kit>();
 
-    public KitList( final MicroModel model, ModelViewTransform transform ) {
+    public KitList( final MicroModel model, final ModelViewTransform transform ) {
 
         //Functions to create each button.  This code should be read with code folding on and a large right margin
         Function0<RemoveSoluteButtonNode> createSodiumChlorideButton = new Function0<RemoveSoluteButtonNode>() {
@@ -85,26 +86,58 @@ public class KitList {
             }
         };
 
+        //Create icons to be shown beneath each bar.  Functions are used to create new icons for each kit since giving the same PNode multiple parents caused layout problems
+        Function0<Option<PNode>> sodiumIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> chlorideIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> sucroseIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose( ZERO ), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> calciumIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new SphericalParticleNode( transform, new Calcium(), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> nitrateIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> ethanolIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Ethanol(), model.showChargeColor ) );
+            }
+        };
+
         //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
         //Put the positive ions to the left of the negative ions
         kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSucroseButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ),
-                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose( ZERO ), model.showChargeColor ) ) ) ) );
+                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
 
         kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createCalciumChlorideButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                           new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, new Some<PNode>( new SphericalParticleNode( transform, new Calcium(), model.showChargeColor ) ) ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ) ) );
+                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                           new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, calciumIcon ),
+                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ) ) );
 
         kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSodiumNitrateButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, new Some<PNode>( new SphericalParticleNode( transform, new Sodium(), model.showChargeColor ) ) ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, new Some<PNode>( new SphericalParticleNode( transform, new Chloride(), model.showChargeColor ) ) ),
-                           new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) ) ) ) );
+                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                           new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
         kits.add( new Kit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createEthanolButton.apply() },
-                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose(), model.showChargeColor ) ) ),
-                           new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Ethanol(), model.showChargeColor ) ) ) ) );
+                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
+                           new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, ethanolIcon ) ) );
     }
 
     public Kit getKit( int kit ) {
