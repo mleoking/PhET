@@ -297,13 +297,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
 
         //Iterate over all particles and let them update in time
-        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals ) ) {
+        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, drainedParticles ) ) {
             freeParticle.stepInTime( dt );
         }
-
-        //Update the particles that flowed out the drain
-        //TODO: move to FlowFromDrainStrategy
-        updateDrainedParticles( dt );
 
         //Allow the crystals to grow--not part of the strategies because it has to look at all particles within a group to decide which to crystallize
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
@@ -362,35 +358,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    private void updateDrainedParticles( double dt ) {
-
-        ArrayList<Particle> toRemove = new ArrayList<Particle>();
-        for ( Particle particle : drainedParticles ) {
-
-            //Accelerate the particle due to gravity and perform an euler integration step
-            particle.stepInTime( getExternalForce( false ).times( 1.0 / UpdateStrategy.PARTICLE_MASS ), dt );
-
-            //If the particle has fallen too far (say 3 beaker heights), remove it from the model completely
-            if ( particle.getPosition().getY() < -3 * beaker.getHeight() ) {
-                toRemove.add( particle );
-            }
-        }
-
-        //after enough time or distance, delete the particles from the model
-        //TODO: one method that handles both leaves and non-leaves?
-        for ( Particle particle : toRemove ) {
-            if ( particle instanceof Compound<?> ) {
-                removeComponents( (Compound<?>) particle );
-            }
-            else if ( particle instanceof SphericalParticle ) {
-                sphericalParticles.remove( (SphericalParticle) particle );
-            }
-            else {
-                new RuntimeException( "No match found" ).printStackTrace();
-            }
-        }
-    }
-
     //Add a single salt crystal to the model
     public void addSodiumChlorideCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
         //Add the components of the lattice to the model so the graphics will be created
@@ -417,7 +384,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Remove all SphericalParticles contained in the compound so the graphics will be deleted
-    private void removeComponents( Compound<?> compound ) {
+    void removeComponents( Compound<?> compound ) {
         for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
             sphericalParticles.remove( sphericalParticle );
         }
