@@ -14,6 +14,7 @@ public class ProguardConfigBuilder {
     private volatile File outputJar;
     private volatile String[] mainClasses;
     private volatile boolean shrink;
+    private volatile File[] additionalConfigFiles;
 
     public ProguardConfigBuilder() {
         reset();
@@ -27,6 +28,11 @@ public class ProguardConfigBuilder {
         this.outputJar = null;
         this.mainClasses = null;
         this.shrink = true;
+        this.additionalConfigFiles = null;
+    }
+
+    public void setAdditionalConfigFiles( File[] additionalConfigFiles ) {
+        this.additionalConfigFiles = additionalConfigFiles;
     }
 
     public void setName( String name ) {
@@ -59,7 +65,7 @@ public class ProguardConfigBuilder {
 
     public ProguardConfig build() {
         try {
-            return new ProguardConfig( name, proguardTemplate, proguardOutputFile, inputJars, outputJar, mainClasses, shrink );
+            return new ProguardConfig( name, proguardTemplate, additionalConfigFiles,proguardOutputFile, inputJars, outputJar, mainClasses, shrink );
         }
         finally {
             reset();

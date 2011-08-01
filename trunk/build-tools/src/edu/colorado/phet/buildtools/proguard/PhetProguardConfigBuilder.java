@@ -26,6 +26,7 @@ public class PhetProguardConfigBuilder {
     public void setJavaProject( JavaProject project ) {
         builder.setName( project.getName() );
         builder.setProguardTemplate( new File( project.getTrunk(), BuildToolsPaths.PROGUARD_TEMPLATE ) );
+        builder.setAdditionalConfigFiles( project.getAdditionalProguardConfigFiles() );
         builder.setInputJars( prepend( project.getAllJarFiles(), project.getJarFile() ) );
         builder.setProguardOutputFile( new File( project.getAntOutputDir(), project.getName() + ".pro" ) );
         builder.setMainClasses( getAllMainClasses( project ) );

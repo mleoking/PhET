@@ -1,0 +1,13 @@
+-keep class org.jmol.adapter.readers.quantum.SpartanSmolReader
+-keep class org.jmol.adapter.readers.molxyz.MolReader
+-keep class org.jmol.adapter.readers.more.Mol2Reader
+-keep class org.jmol.shapespecial.Dipoles
+-keep class org.jmol.shapespecial.DipolesRenderer
+-keep class org.jmol.shapesurface.Isosurface
+-keep class org.jmol.shapesurface.IsosurfaceRenderer
+-keep class org.jmol.shape.Labels
+-keep class org.jmol.shape.LabelsRenderer
+-keep class org.jmol.quantum.MepCalculation
+-keep class org.jmol.shape.Echo
+-keep class org.jmol.shape.Hover
+-keep class org.jmol.shape.HoverRenderer
