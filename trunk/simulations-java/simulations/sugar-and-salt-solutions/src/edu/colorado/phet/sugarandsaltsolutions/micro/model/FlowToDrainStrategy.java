@@ -32,20 +32,19 @@ public class FlowToDrainStrategy extends UpdateStrategy {
                 //Rescheduling all the time creates a zeno paradox situation because we are not accounting for the fact that particles have already come some distance to the drain
 //                model.rescheduleDrainParticles();
             }
+
+            //If the particle reached the drain, change its update strategy and move it into the list of model drained particles
             if ( particle.getPosition().getDistance( model.getDrainFaucetMetrics().inputPoint ) <= velocity.getMagnitude() * dt ) {
-                particle.setUpdateStrategy( new Motionless() );
+                particle.setUpdateStrategy( new FlowOutOfDrainStrategy( model ) );
+
+                //Move it from the list of free particles to the list of drained particles so it won't be counted for drain scheduling or for concentration
                 model.freeParticles.remove( particle );
-                model.sphericalParticles.remove( (SphericalParticle) particle );
+                model.drainedParticles.add( particle );
 
                 //Okay to reschedule now since one particle just left, so there will be no phase problem
                 model.rescheduleDrainParticles();
-                //        //Handle particles that entered the drain by moving them to the drainedParticles list
-//        for ( Particle particle : toDrain ) {
-//            freeParticles.remove( particle );
-//            particle.setPosition( getDrainFaucetMetrics().outputPoint );
-//            particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
-//            drainedParticles.add( particle );
-//        }
+                particle.setPosition( model.getDrainFaucetMetrics().outputPoint );
+                particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
             }
         }
     }
