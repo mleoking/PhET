@@ -24,6 +24,12 @@ public class FreeParticleStrategy extends UpdateStrategy {
     }
 
     public void stepInTime( Particle particle, double dt ) {
+        //Switch strategies if necessary
+        if ( model.outputFlowRate.get() > 0 ) {
+            particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D() ) );
+            particle.stepInTime( dt );
+            return;
+        }
         boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 
         //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
@@ -35,7 +41,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         ImmutableVector2D initialVelocity = particle.velocity.get();
 
         //If the particle is underwater and there is any water, move the particle about at the free particle speed
-        if ( particle.hasSubmerged() && waterVolume.get() > 0 && !particle.isFlowingTowardDrain() ) {
+        if ( particle.hasSubmerged() && waterVolume.get() > 0 ) {
 
             //If the particle velocity was set to zero (from a zero water volume, restore it to non-zero so it can be scaled
             if ( particle.velocity.get().getMagnitude() == 0 ) {
@@ -61,13 +67,13 @@ public class FreeParticleStrategy extends UpdateStrategy {
         }
 
         //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
-        if ( underwater && !particle.isFlowingTowardDrain() ) {
+        if ( underwater ) {
             double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
             particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ).times( 2 ) );
         }
 
         //Prevent the particles from leaving the solution, but only if they started in the solution
-        if ( initiallyUnderwater && !underwater && !particle.isFlowingTowardDrain() ) {
+        if ( initiallyUnderwater && !underwater ) {
             ImmutableVector2D delta = particle.getPosition().minus( initialPosition );
             particle.setPosition( initialPosition );
 

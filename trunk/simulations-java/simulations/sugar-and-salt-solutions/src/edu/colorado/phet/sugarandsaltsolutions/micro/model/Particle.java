@@ -12,19 +12,20 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * @author Sam Reid
  */
 public abstract class Particle {
+
     //Interface for setting and observing the position
     private final Property<ImmutableVector2D> position;
 
     //Interface for setting and observing the velocity
     public final Property<ImmutableVector2D> velocity;
 
+    //Strategy instance for updating the model when time passes
     private IUpdateStrategy updateStrategy = new Motionless();
 
     //Flag to indicate whether the particle has ever been submerged underwater.  If so, the model update will constrain the particle so it doesn't leave the water again
     //Note this does not mean the particle is currently submerged, since it could get fully submerged once, then the water could evaporate so the particle is only partly submerged
     //In this case it should still be prevented from leaving the water area
     private boolean hasSubmerged = false;
-    private boolean flowingTowardDrain;
 
     public Particle( ImmutableVector2D position ) {
         this.position = new Property<ImmutableVector2D>( position );
@@ -66,21 +67,13 @@ public abstract class Particle {
         hasSubmerged = true;
     }
 
-    public void setFlowingTowardDrain( boolean flowingTowardDrain ) {
-        this.flowingTowardDrain = flowingTowardDrain;
-    }
-
-    public boolean isFlowingTowardDrain() {
-        return flowingTowardDrain;
-    }
-
     //Gets the strategy this particle uses to move in time
     public IUpdateStrategy getUpdateStrategy() {
         return updateStrategy;
     }
 
     //Sets the strategy this particle uses to move in time
-    public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
+    public void setUpdateStrategy( IUpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;
     }
 
