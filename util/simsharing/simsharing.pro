@@ -29,7 +29,6 @@
     <methods>;
 }
 
-#TODO what are these logback classes? are they really specific to sim-sharing? couldn't tell from SVN history.
 -keep class ch.qos.logback.core.rolling.RollingFileAppender{
     <fields>;
     <methods>;
