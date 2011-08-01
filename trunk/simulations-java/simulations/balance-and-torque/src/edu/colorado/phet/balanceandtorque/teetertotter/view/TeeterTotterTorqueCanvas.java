@@ -100,7 +100,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the button that will restore the columns if they have been
         // previously removed.
         // TODO: i18n
-        final TextButtonNode restoreColumnsButton = new TextButtonNode( "Restore Supports", new PhetFont( 14 ) ) {{
+        final TextButtonNode restoreColumnsButton = new TextButtonNode( "Add Supports", new PhetFont( 14 ) ) {{
             setBackground( Color.YELLOW );
             setOffset( mvt.modelToViewX( 2.5 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
             addInputEventListener( new ButtonEventHandler() {
