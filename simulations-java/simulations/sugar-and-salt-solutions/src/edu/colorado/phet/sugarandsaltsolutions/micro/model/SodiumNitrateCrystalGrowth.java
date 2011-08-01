@@ -20,7 +20,7 @@ public class SodiumNitrateCrystalGrowth extends IncrementalGrowth<Particle, Sodi
     }
 
     @Override protected SodiumNitrateCrystal newCrystal( ImmutableVector2D position ) {
-        return new SodiumNitrateCrystal( position, randomAngle() );
+        return new SodiumNitrateCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sodiumNitrateCrystals, model.sodiumNitrateSaturated ) );}};
     }
 
     //Randomly choose any free sodium or nitrate to seed the crystal

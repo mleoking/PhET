@@ -22,7 +22,7 @@ public class SodiumChlorideCrystalGrowth extends IncrementalGrowth<SphericalPart
     }
 
     @Override protected SodiumChlorideCrystal newCrystal( ImmutableVector2D position ) {
-        return new SodiumChlorideCrystal( position, randomAngle() );
+        return new SodiumChlorideCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sodiumChlorideCrystals, model.sodiumChlorideSaturated ) );}};
     }
 
     //Randomly choose any free sodium or chloride ion to seed the crystal
