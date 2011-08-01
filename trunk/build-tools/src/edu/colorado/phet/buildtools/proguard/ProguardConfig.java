@@ -2,7 +2,6 @@
 package edu.colorado.phet.buildtools.proguard;
 
 import java.io.File;
-import java.util.Arrays;
 
 /**
  * Describes a ProGuard configuration.
@@ -93,37 +92,5 @@ public class ProguardConfig {
 
     public boolean getShrink() {
         return shrink;
-    }
-
-    @Override
-    public boolean equals( Object o ) {
-        if ( this == o ) { return true; }
-        if ( o == null || getClass() != o.getClass() ) { return false; }
-
-        ProguardConfig that = (ProguardConfig) o;
-
-        if ( shrink != that.shrink ) { return false; }
-        if ( !Arrays.equals( additionalConfigFiles, that.additionalConfigFiles ) ) { return false; }
-        if ( !Arrays.equals( inputJars, that.inputJars ) ) { return false; }
-        if ( !Arrays.equals( mainClasses, that.mainClasses ) ) { return false; }
-        if ( name != null ? !name.equals( that.name ) : that.name != null ) { return false; }
-        if ( outputJar != null ? !outputJar.equals( that.outputJar ) : that.outputJar != null ) { return false; }
-        if ( proguardOutputFile != null ? !proguardOutputFile.equals( that.proguardOutputFile ) : that.proguardOutputFile != null ) { return false; }
-        if ( proguardTemplate != null ? !proguardTemplate.equals( that.proguardTemplate ) : that.proguardTemplate != null ) { return false; }
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + ( proguardTemplate != null ? proguardTemplate.hashCode() : 0 );
-        result = 31 * result + ( additionalConfigFiles != null ? Arrays.hashCode( additionalConfigFiles ) : 0 );
-        result = 31 * result + ( proguardOutputFile != null ? proguardOutputFile.hashCode() : 0 );
-        result = 31 * result + ( inputJars != null ? Arrays.hashCode( inputJars ) : 0 );
-        result = 31 * result + ( outputJar != null ? outputJar.hashCode() : 0 );
-        result = 31 * result + ( mainClasses != null ? Arrays.hashCode( mainClasses ) : 0 );
-        result = 31 * result + ( shrink ? 1 : 0 );
-        return result;
     }
 }
