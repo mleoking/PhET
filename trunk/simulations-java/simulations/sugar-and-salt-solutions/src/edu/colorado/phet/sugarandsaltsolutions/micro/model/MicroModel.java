@@ -293,7 +293,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            updateParticlesFlowingToDrain( dt );
+            updateParticlesFlowingToDrain();
         }
 
         //Iterate over all particles and let them update in time
@@ -327,7 +327,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Move the particles toward the drain and try to keep a constant concentration
     //all particles should exit when fluid is gone, move nearby particles
     //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
-    private void updateParticlesFlowingToDrain( double dt ) {
+    private void updateParticlesFlowingToDrain() {
 
         //Sort particles by distance and set their speeds so that they will leave at the proper rate
         ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
