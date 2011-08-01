@@ -32,7 +32,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
     // A list of all the masses in the model
-    // TODO: I'm not sure that this is even needed, since we listen to all masses as soon as they are added.  Revist later and decide.
+    // TODO: I'm not sure that this is even needed, since we listen to all masses as soon as they are added.  Revisit later and decide.
     private final List<Mass> masses = new ArrayList<Mass>();
 
     // Listeners that are notified when a shape-based mass is added to the model
@@ -75,6 +75,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     }
 
     // TODO: The next block of code is for listening for masses being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
+    // TODO: I know: I should replace this with an observable list of masses.
     public void addMassAddedListener( VoidFunction1<Mass> listener ) {
         massAddedListeners.add( listener );
     }

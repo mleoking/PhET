@@ -91,6 +91,9 @@ public class Plank extends ShapeModelElement {
     // their appearance.
     private final List<Shape> tickMarks = new ArrayList<Shape>();
 
+    // List of the force vectors due to the masses on the surface.
+    public final ObservableList<Property<PositionedForceVector>> forceVectorList = new ObservableList<Property<PositionedForceVector>>();
+
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -412,5 +415,17 @@ public class Plank extends ShapeModelElement {
         }
 
         return snapToLocations;
+    }
+
+    // A force vector consists of two vectors, one that locates it in space
+    // and another that represents its components.
+    private static class PositionedForceVector {
+        public final ImmutableVector2D origin;
+        public final ImmutableVector2D force;
+
+        private PositionedForceVector( ImmutableVector2D origin, ImmutableVector2D force ) {
+            this.origin = new ImmutableVector2D( origin );
+            this.force = new ImmutableVector2D( force );
+        }
     }
 }
