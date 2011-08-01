@@ -22,6 +22,7 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
     public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
     public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );
+    public final Property<Boolean> bondTypeVisible = new Property<Boolean>( false );
     public final Property<Boolean> atomLabelsVisible = new Property<Boolean>( false );
 
     public void reset() {
@@ -29,6 +30,7 @@ public class ViewProperties implements Resettable {
         bondDipolesVisible.reset();
         molecularDipoleVisible.reset();
         partialChargesVisible.reset();
+        bondTypeVisible.reset();
         atomLabelsVisible.reset();
     }
 }

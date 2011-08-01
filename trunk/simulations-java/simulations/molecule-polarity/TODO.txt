@@ -4,9 +4,9 @@ HIGH
 - set position of partial charges
 - implement TwoAtomMoleculeNode.RotationHandler
 - molecular dipole vector model
-- bond type (covalent/ionic) display
 
 MEDIUM
+- what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - set visibility of module-specific controls in control panels
 - add icons to control panels (dipoles, partial charge, mep,...)
 - center scenegraph in the play area
@@ -15,7 +15,7 @@ MEDIUM
 LOW
 
 Jmol
-- switch to mol2? sdf?
+- molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
 - change numbering of atom labels to be per atom type
 - units for partial charge? e?
 - Jmol integration with Piccolo (PSwing? other options?)
@@ -25,7 +25,7 @@ Jmol
 - how to align Jmol molecule with E-Field?
 - how to create a Jmol custom isosurface for "electron density" view?
 - how to set initial orientation for Jmol viewer?
-- move bond dipoles to centers of bonds
+- move bond dipoles to centers of bonds?
 - move molecule dipole to ___?
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
 - how to set a transparent background for Jmol viewer?

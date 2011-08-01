@@ -14,6 +14,7 @@ import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityContro
 import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DipoleNode.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
@@ -52,6 +53,9 @@ public class TwoAtomsCanvas extends MPCanvas {
         addChild( enControlA );
         addChild( enControlB );
 
+        final PNode bondTypeNode = new BondTypeNode( model.molecule );
+        addChild( bondTypeNode );
+
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
 
@@ -79,6 +83,7 @@ public class TwoAtomsCanvas extends MPCanvas {
             enControlA.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
             positiveEFieldPlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
+            bondTypeNode.setOffset( 165, negativeEFieldPlateNode.getFullBoundsReference().getMaxY() ); //TODO compute horizontal center
             modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
             viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
@@ -98,5 +103,10 @@ public class TwoAtomsCanvas extends MPCanvas {
             }
         } );
 
+        viewProperties.bondTypeVisible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                bondTypeNode.setVisible( visible );
+            }
+        } );
     }
 }
