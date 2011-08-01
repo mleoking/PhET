@@ -128,12 +128,11 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the control panel that will allow users to control the visibility
         // of the various vectors.
         PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 4, 1 ) ) {{
-            addChild( new PText( "Vectors" ) {{
+            addChild( new PText( "Show" ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
-            addChild( new PropertyCheckBoxNode( "Lever Arms", leverArmVectorsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Distances", leverArmVectorsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Forces from Object", forceVectorsFromObjectsVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( "Forces from Supports", forceVectorsFromSupportsVisibleProperty ) );
         }} );
         vectorControlPanel.setOffset( STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width - 10, 10 );
         rootNode.addChild( vectorControlPanel );
