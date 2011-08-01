@@ -92,7 +92,7 @@ public class WebsiteProject extends JavaProject {
             ScpTo.uploadFile( getBuildWarFile(), userInfo.getUsername(), host, "/tmp/", userInfo.getPassword() );
 
             System.out.println( "Finished uploading, executing undeploy and deploy on Tomcat" );
-            success = SshUtils.executeCommands( new String[]{
+            success = SshUtils.executeCommands( new String[] {
                     host.equals( "phetsims.colorado.edu" ) || host.equals( "figaro.colorado.edu" ) ? "cp /tmp/ROOT.war /data/web/htdocs/phetsims/website-backup/website-code/ROOT-`date +%s`-`date | sed -e 's/ /_/g'`.war" : "",
                     "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + webHost + "/manager/undeploy?path=/'",
                     "curl -k -u " + managerInfo.getUsername() + ":" + managerInfo.getPassword() + " '" + protocol + "://" + webHost + "/manager/deploy?war=/tmp/ROOT.war&path=/'"
@@ -101,10 +101,10 @@ public class WebsiteProject extends JavaProject {
             System.out.println( "Finished running Tomcat commands. Should have stated 'OK - Deployed application at context path'" );
 
         }
-        catch( JSchException e ) {
+        catch ( JSchException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return success;
@@ -115,7 +115,7 @@ public class WebsiteProject extends JavaProject {
         try {
             return super.getClasspath() + " : " + new File( getProjectDir(), "contrib/javaee.jar" ).getCanonicalPath();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return super.getClasspath();
         }

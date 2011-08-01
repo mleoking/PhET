@@ -6,11 +6,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
-import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 
@@ -75,16 +81,17 @@ public class PhetBuildGUI {
         // recall previous size and location
         frame.setSize( PhetBuildGUIProperties.getInstance().getFrameSize() );
         frame.setLocation( PhetBuildGUIProperties.getInstance().getFrameLocation() );
-        
+
         // save changes to size and location
         frame.addComponentListener( new ComponentAdapter() {
-            public void componentResized(ComponentEvent e) {
+            public void componentResized( ComponentEvent e ) {
                 PhetBuildGUIProperties.getInstance().setFrameSize( frame.getSize() );
             }
-            public void componentMoved(ComponentEvent e) {
+
+            public void componentMoved( ComponentEvent e ) {
                 PhetBuildGUIProperties.getInstance().setFrameLocation( frame.getLocation() );
             }
-        });
+        } );
     }
 
     public void start() {
@@ -108,9 +115,10 @@ public class PhetBuildGUI {
 
     public static PhetWebsite getProductionWebsite( BuildLocalProperties buildLocalProperties ) {
         String override = buildLocalProperties.getProductionWebsiteOverride();
-        if( override == null ) {
+        if ( override == null ) {
             return PhetWebsite.DEFAULT_PRODUCTION_WEBSITE;
-        } else {
+        }
+        else {
             System.out.println( "Using " + override + " instead of default production server" );
             return PhetWebsite.getWebsiteByName( override );
         }

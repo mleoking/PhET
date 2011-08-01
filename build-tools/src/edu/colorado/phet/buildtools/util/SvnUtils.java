@@ -20,7 +20,6 @@ import edu.colorado.phet.buildtools.AuthenticationInfo;
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
-import edu.colorado.phet.common.phetcommon.util.*;
 import edu.colorado.phet.common.phetcommon.util.StreamReaderThread;
 import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 
@@ -28,7 +27,7 @@ public class SvnUtils {
     public static boolean commitProject( PhetProject project, AuthenticationInfo auth ) {
         String message = project.getName() + ": deployed version " + project.getFullVersionString();
         String path = project.getProjectDir().getAbsolutePath();
-        String[] args = new String[]{"svn", "commit", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path};
+        String[] args = new String[] { "svn", "commit", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), "--message", message, path };
         //TODO: verify that SVN repository revision number now matches what we wrote to the project properties file
         ProcessOutputReader.ProcessExecResult a = ProcessOutputReader.exec( args );
         if ( a.getTerminatedNormally() ) {
@@ -65,7 +64,7 @@ public class SvnUtils {
         String propFilename = propFile.getAbsolutePath();
 
         //use a command array for non-windows platforms
-        String[] svnCommand = new String[]{"svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath()};
+        String[] svnCommand = new String[] { "svn", "propset", "svn:ignore", "--file", propFilename, dir.getAbsolutePath() };
         System.out.println( "Running: " + Arrays.asList( svnCommand ) );
         Process p = Runtime.getRuntime().exec( svnCommand );
         new edu.colorado.phet.common.phetcommon.util.StreamReaderThread( p.getErrorStream(), "err" ).start();
@@ -116,12 +115,12 @@ public class SvnUtils {
                 }
             }
         }
-        catch( TransformerException e ) {
+        catch ( TransformerException e ) {
             e.printStackTrace();
             System.out.println( "Caused by the XML:\n" + out );
             return false;
         }
-        catch( ParserConfigurationException e ) {
+        catch ( ParserConfigurationException e ) {
             e.printStackTrace();
             System.out.println( "Caused by the XML:\n" + out );
             return false;

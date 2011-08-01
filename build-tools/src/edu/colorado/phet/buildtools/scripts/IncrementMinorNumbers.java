@@ -46,7 +46,7 @@ public class IncrementMinorNumbers {
             properties.setProperty( "version.revision", "17033" );
             properties.store( new FileOutputStream( propertyFile ), null );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

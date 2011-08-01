@@ -1,10 +1,12 @@
 package edu.colorado.phet.buildtools.gui;
 
-import java.awt.*;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.ImageIcon;
+import javax.swing.JList;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
@@ -37,7 +39,7 @@ public class ProjectCellRenderer extends DefaultListCellRenderer {
                 setIcon( new ImageIcon( new File( trunk, "build-tools/data/build-tools/images/flash.png" ).getCanonicalPath() ) );
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return this;

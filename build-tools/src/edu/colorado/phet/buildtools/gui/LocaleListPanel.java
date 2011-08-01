@@ -1,9 +1,12 @@
 package edu.colorado.phet.buildtools.gui;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 /**
  * A panel that holds a list of locales that can be selected

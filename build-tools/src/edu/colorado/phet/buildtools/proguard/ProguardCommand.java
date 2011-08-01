@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.buildtools.AntTaskRunner;
-import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
 import static edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString;
 

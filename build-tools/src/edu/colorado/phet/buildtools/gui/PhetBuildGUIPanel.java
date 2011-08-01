@@ -1,14 +1,23 @@
 package edu.colorado.phet.buildtools.gui;
 
-import java.awt.*;
+import java.awt.Container;
+import java.awt.GridLayout;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 
 import edu.colorado.phet.buildtools.PhetProject;
-import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
-import edu.colorado.phet.buildtools.gui.panels.*;
+import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
+import edu.colorado.phet.buildtools.gui.panels.FlashSimulationPanel;
+import edu.colorado.phet.buildtools.gui.panels.FlexSimulationPanel;
+import edu.colorado.phet.buildtools.gui.panels.JavaSimulationPanel;
+import edu.colorado.phet.buildtools.gui.panels.MiscJavaPanel;
+import edu.colorado.phet.buildtools.gui.panels.StatisticsPanel;
+import edu.colorado.phet.buildtools.gui.panels.WebsitePanel;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
@@ -46,7 +55,7 @@ public class PhetBuildGUIPanel extends JSplitPane {
                 cachedProject = project;
                 //System.out.println( "Changing project to " + project );
                 // TODO: consider refactoring project panels to be selected based on the project itself, instead of handling directly in the GUI
-                
+
                 if ( project instanceof FlexSimulationProject ) {
                     projectPanel = new FlexSimulationPanel( trunk, (FlexSimulationProject) project );
                     setRightComponent( projectPanel );
@@ -63,7 +72,7 @@ public class PhetBuildGUIPanel extends JSplitPane {
                     projectPanel = new StatisticsPanel( trunk, (StatisticsProject) project );
                     setRightComponent( projectPanel );
                 }
-                else if( project instanceof WebsiteProject ) {
+                else if ( project instanceof WebsiteProject ) {
                     projectPanel = new WebsitePanel( trunk, (WebsiteProject) project );
                     setRightComponent( projectPanel );
                 }

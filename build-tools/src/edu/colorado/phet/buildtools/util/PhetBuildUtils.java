@@ -53,7 +53,7 @@ public class PhetBuildUtils {
      * @return A File representing the directory of the project.
      */
     public static File resolveProject( File antFileBaseDir, String name ) {
-        File[] searchRoots = new File[]{
+        File[] searchRoots = new File[] {
                 new File( antFileBaseDir, "simulations" ),
                 new File( antFileBaseDir, "common" ),
                 new File( antFileBaseDir, "contrib" ),

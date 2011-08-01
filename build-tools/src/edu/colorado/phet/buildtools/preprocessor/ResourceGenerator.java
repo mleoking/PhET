@@ -1,8 +1,16 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildtools.preprocessor;
 
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
@@ -118,14 +126,14 @@ public class ResourceGenerator {
 
         //Filter the template to create the .java source file
         String resourceFileString = filter( new HashMap<String, String>() {{
-            put( "packagename", packagename );
-            put( "classname", className );
-            put( "simname", simDir.getName() );
-            put( "generator", ResourceGenerator.class.getName() );
-            put( "strings", strings );
-            put( "fullclassname", fullClassName );
-            put( "images", images );
-        }}, template ).trim();
+                                                put( "packagename", packagename );
+                                                put( "classname", className );
+                                                put( "simname", simDir.getName() );
+                                                put( "generator", ResourceGenerator.class.getName() );
+                                                put( "strings", strings );
+                                                put( "fullclassname", fullClassName );
+                                                put( "images", images );
+                                            }}, template ).trim();
 
         //Store the filtered strings in the java source directory for usage at compile time
         final File destination = new File( simDir, "src/edu/colorado/phet/" + packagename + "/" + fullClassName + ".java" );

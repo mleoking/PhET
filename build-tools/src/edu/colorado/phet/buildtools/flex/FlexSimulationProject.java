@@ -28,7 +28,7 @@ public class FlexSimulationProject extends FlashSimulationProject {
 
         String parentDir = "../../..";
         // TODO: factor out libraries and other dependencies into build properties
-        Process p = Runtime.getRuntime().exec( new String[]{getMxmlcExecutable(),
+        Process p = Runtime.getRuntime().exec( new String[] { getMxmlcExecutable(),
                 "-use-network",
                 "-output", "deploy/" + simulationName + ".swf",
                 "-compiler.source-path", "src",
@@ -37,7 +37,7 @@ public class FlexSimulationProject extends FlashSimulationProject {
                 parentDir + "/simulations-flash/contrib/box2d/src",
                 parentDir + "/simulations-flash/contrib/aswing-a3/src",
                 parentDir + "/simulations-flash/common-as3/src",
-                "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML( simulationName )}, null, getProjectDir() );
+                "-compiler.accessible", "-compiler.optimize", "-target-player", "9", getMXML( simulationName ) }, null, getProjectDir() );
         new StreamReaderThread( p.getErrorStream(), "err>" ).start();
         new StreamReaderThread( p.getInputStream(), "" ).start();
         p.waitFor();
@@ -74,7 +74,7 @@ public class FlexSimulationProject extends FlashSimulationProject {
             try {
                 projects.add( new FlexSimulationProject( file ) );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }

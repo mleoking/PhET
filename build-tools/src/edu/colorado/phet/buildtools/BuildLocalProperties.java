@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.common.phetcommon.view.util.StringUtil;
 

@@ -4,9 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
-import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.translate.WebsiteCommonTranslationDeployClient;
 import edu.colorado.phet.buildtools.translate.WebsiteTranslationDeployClient;
 
@@ -29,7 +30,7 @@ public class TranslationsMenu extends JMenu {
                     WebsiteTranslationDeployClient client = new WebsiteTranslationDeployClient( trunk, PhetBuildGUI.getProductionWebsite() );
                     client.startClient();
                 }
-                catch( Exception e1 ) {
+                catch ( Exception e1 ) {
                     e1.printStackTrace();
                 }
             }

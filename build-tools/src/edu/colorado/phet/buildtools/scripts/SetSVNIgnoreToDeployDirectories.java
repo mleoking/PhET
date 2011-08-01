@@ -34,7 +34,7 @@ public class SetSVNIgnoreToDeployDirectories {
         PhetProject[] projects = PhetProject.getAllProjects( trunk );
         for ( int k = 0; k < projects.length; k++ ) {
             File dir = projects[k].getDeployDir();
-            String[] ignorePatterns = new String[]{"*"};
+            String[] ignorePatterns = new String[] { "*" };
             SvnUtils.setIgnorePatternsOnDir( dir, ignorePatterns );
             System.out.println( "Updated properties on: " + dir.getAbsolutePath() );
         }

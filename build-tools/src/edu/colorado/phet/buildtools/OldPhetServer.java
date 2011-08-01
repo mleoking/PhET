@@ -1,7 +1,5 @@
 package edu.colorado.phet.buildtools;
 
-import javax.swing.*;
-
 public abstract class OldPhetServer {
     /* Dano on Feb 2, 2009
      * Consolidated many of the hardcoded strings to make it easier to change
@@ -223,6 +221,7 @@ public abstract class OldPhetServer {
 
     private static class PhetProdServer extends OldPhetServer {
         private String docRoot;
+
         public PhetProdServer( String serverHost, String webHost, String serverDeployPath, String webDeployPath, String cacheClearUrl, String cacheClearFile, String localizationCommand, String buildLocalPropertiesFile, String stagingArea, String docRoot ) {
             super( serverHost, webHost, serverDeployPath, webDeployPath, cacheClearUrl, cacheClearFile, localizationCommand, false, buildLocalPropertiesFile, stagingArea );
             this.docRoot = docRoot;

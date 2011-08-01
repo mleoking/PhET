@@ -20,7 +20,7 @@ public class TestBuildAllMetaXML {
                 project.writeMetaXML();
             }
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
     }

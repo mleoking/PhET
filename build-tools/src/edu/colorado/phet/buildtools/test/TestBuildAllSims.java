@@ -20,7 +20,7 @@ public class TestBuildAllSims {
                 project.build();
             }
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             e.printStackTrace();
         }
     }

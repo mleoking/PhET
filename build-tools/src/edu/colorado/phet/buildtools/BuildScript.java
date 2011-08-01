@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;

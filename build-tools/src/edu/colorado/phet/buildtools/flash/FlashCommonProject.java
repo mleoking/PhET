@@ -3,7 +3,7 @@ package edu.colorado.phet.buildtools.flash;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.util.SVNDependencyProject;

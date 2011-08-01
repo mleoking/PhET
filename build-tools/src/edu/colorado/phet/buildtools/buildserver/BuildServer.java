@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
  * deploy-translations moving-man
  * deploy masses-and-springs -swf /usr/local/reids/build/masses-and-springs.swf
  * svn update //updates build tools, should do before a deploy
+ *
  * @author Sam Reid
  */
 public class BuildServer {

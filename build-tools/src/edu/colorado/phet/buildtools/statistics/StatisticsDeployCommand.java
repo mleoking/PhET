@@ -5,7 +5,11 @@ import java.io.FileFilter;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.buildtools.PhetWebsite;
+import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.util.ProcessOutputReader;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
@@ -70,11 +74,11 @@ public class StatisticsDeployCommand {
             try {
                 ScpTo.uploadFile( statisticsFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( statisticsFile, "/" ), authenticationInfo.getPassword() );
             }
-            catch( JSchException e ) {
+            catch ( JSchException e ) {
                 e.printStackTrace();
                 success = false;
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
                 success = false;
             }
@@ -84,11 +88,11 @@ public class StatisticsDeployCommand {
             try {
                 ScpTo.uploadFile( reportFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( reportFile, "/report/" ), authenticationInfo.getPassword() );
             }
-            catch( JSchException e ) {
+            catch ( JSchException e ) {
                 e.printStackTrace();
                 success = false;
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
                 success = false;
             }
@@ -98,11 +102,11 @@ public class StatisticsDeployCommand {
             try {
                 ScpTo.uploadFile( adminFile, authenticationInfo.getUsername(), website.getServerHost(), deployFileName( adminFile, "/admin/" ), authenticationInfo.getPassword() );
             }
-            catch( JSchException e ) {
+            catch ( JSchException e ) {
                 e.printStackTrace();
                 success = false;
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
                 success = false;
             }
@@ -132,7 +136,7 @@ public class StatisticsDeployCommand {
         try {
             return getTrunkDir().getCanonicalPath();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         throw new RuntimeException( "Trunk path not found." );
@@ -159,7 +163,7 @@ public class StatisticsDeployCommand {
                 }
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return false;
@@ -194,7 +198,7 @@ public class StatisticsDeployCommand {
      */
     private String getSVNVersion() {
         AuthenticationInfo auth = BuildLocalProperties.getInstance().getRespositoryAuthenticationInfo();
-        String[] args = new String[]{"svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), getTrunkPath()};
+        String[] args = new String[] { "svn", "status", "-u", "--non-interactive", "--username", auth.getUsername(), "--password", auth.getPassword(), getTrunkPath() };
         ProcessOutputReader.ProcessExecResult output = ProcessOutputReader.exec( args );
         StringTokenizer st = new StringTokenizer( output.getOut(), "\n" );
         while ( st.hasMoreTokens() ) {
@@ -241,7 +245,7 @@ public class StatisticsDeployCommand {
 
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
 

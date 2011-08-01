@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.MessageFormat;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;

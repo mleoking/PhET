@@ -26,7 +26,7 @@ public class ProcessOutputReader extends Thread {
                 line = bufferedReader.readLine();
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -91,13 +91,13 @@ public class ProcessOutputReader extends Thread {
 
                 return new ProcessExecResult( args, code, processOutputReader.getOutput(), processErr.getOutput() );
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
                 throw new RuntimeException( e );
             }
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             throw new RuntimeException( e );
         }

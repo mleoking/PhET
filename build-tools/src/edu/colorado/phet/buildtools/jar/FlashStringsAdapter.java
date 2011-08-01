@@ -2,8 +2,16 @@
 
 package edu.colorado.phet.buildtools.jar;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,7 +29,7 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 /**
  * Java sims store localized strings in properties files, while Flash sims used XML files.
  * This class converts between properties and the XML formats.
- * <p>
+ * <p/>
  * For Flash's localized strings files:
  * The root element is <SimStrings>.
  * The element for each localized string is <string key="key" value="value" />.
@@ -31,19 +39,20 @@ import edu.colorado.phet.common.phetcommon.view.util.XMLUtils;
 public class FlashStringsAdapter {
 
     private static final String ENCODING = "UTF-8";
-    
+
     private static final String ROOT_ELEMENT = "SimStrings";
     private static final String STRING_ELEMENT = "string";
     private static final String KEY_ATTRIBUTE = "key";
     private static final String VALUE_ATTRIBUTE = "value";
-   
+
     /**
      * Converts an XML Document object to a Properties object.
      * The XML document is in the format required for Flash simulations.
-     * 
+     *
      * @param properties
      * @return Properties
      * @throws PropertiesFlashAdapterException
+     *
      */
     public static final Properties documentToProperties( Document document ) {
         Properties properties = new Properties();
@@ -57,15 +66,15 @@ public class FlashStringsAdapter {
         }
         return properties;
     }
-    
+
     /*
-     * Converts a Properties object to an XML Document, in the format required for Flash simulations.
-     * 
-     * @param properties
-     * @param header comment that describes the contents of the document
-     * @return Document
-     * @throws PropertiesFlashAdapterException
-     */
+    * Converts a Properties object to an XML Document, in the format required for Flash simulations.
+    *
+    * @param properties
+    * @param header comment that describes the contents of the document
+    * @return Document
+    * @throws PropertiesFlashAdapterException
+    */
     private static final Document propertiesToDocument( Properties properties, String header ) throws ParserConfigurationException {
         // create a document
         DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -93,43 +102,44 @@ public class FlashStringsAdapter {
 
         return document;
     }
-    
+
     /**
      * Reads a Properties object from an input stream.
-     * 
+     *
      * @param fileName
      * @return Properties
-     * @throws SAXException 
-     * @throws IOException 
-     * @throws ParserConfigurationException 
+     * @throws SAXException
+     * @throws IOException
+     * @throws ParserConfigurationException
      * @throws DocumentIOException
      */
     public static final Properties readProperties( InputStream inputStream ) throws ParserConfigurationException, IOException, SAXException {
         Document document = XMLUtils.readDocument( inputStream );
         return documentToProperties( document );
     }
-    
+
     /**
      * Saves a Properties object to an XML file.
-     * 
+     *
      * @param properties
-     * @param header comment that describes the contents of the XML file
+     * @param header     comment that describes the contents of the XML file
      * @param fileName
-     * @throws ParserConfigurationException 
+     * @throws ParserConfigurationException
      * @throws IOException
-     * @throws DocumentIOException 
+     * @throws DocumentIOException
      */
     public static final void writeProperties( Properties properties, String header, OutputStream outputStream ) throws TransformerException, ParserConfigurationException {
         Document document = propertiesToDocument( properties, header );
         XMLUtils.writeDocument( document, outputStream, ENCODING );
     }
-    
+
     /**
      * Test program.
-     * @throws ParserConfigurationException 
-     * @throws TransformerException 
-     * @throws SAXException 
-     * @throws DocumentIOException 
+     *
+     * @throws ParserConfigurationException
+     * @throws TransformerException
+     * @throws SAXException
+     * @throws DocumentIOException
      */
     public static void main( String[] args ) throws IOException, TransformerException, ParserConfigurationException, SAXException {
 

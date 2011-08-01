@@ -1,13 +1,22 @@
 package edu.colorado.phet.buildtools.gui.panels;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildScript;
+import edu.colorado.phet.buildtools.OldPhetServer;
+import edu.colorado.phet.buildtools.VersionIncrement;
 import edu.colorado.phet.buildtools.gui.ChangesPanel;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.java.JavaProject;
@@ -98,7 +107,7 @@ public class MiscJavaPanel extends JPanel {
             }
         } );
 
-        testProdButton.addActionListener( new ActionListener(){
+        testProdButton.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent actionEvent ) {
                 doDeployTest();
             }
