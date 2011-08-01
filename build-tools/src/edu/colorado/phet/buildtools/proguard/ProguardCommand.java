@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.buildtools.AntTaskRunner;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
 
+import static edu.colorado.phet.common.phetcommon.util.FileUtils.loadFileAsString;
+
 /**
  * This command runs the ProGuard task given the ProGuard configuration and an
  * Ant task runner.
@@ -99,8 +101,18 @@ public class ProguardCommand {
                 bufferedWriter.write( "-dontshrink" + newline );
             }
 
-            String text = FileUtils.loadFileAsString( config.getProguardTemplate() );
+            String text = loadFileAsString( config.getProguardTemplate() );
             bufferedWriter.write( text );
+
+            //Write any sim-specific proguard keep statements
+            for ( File file : config.getAdditionalConfigFiles() ) {
+
+                //Make sure the last and next lines don't run together.  This is also necessary from the original config.getProguardTemplate as well as between all pairs of additional config files
+                bufferedWriter.write( '\n' );
+
+                //Write the config file to the destination
+                bufferedWriter.write( loadFileAsString( file ) );
+            }
 
         }
         finally {

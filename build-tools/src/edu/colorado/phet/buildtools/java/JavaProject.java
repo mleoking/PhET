@@ -14,7 +14,11 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.BuildToolsConstants;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.buildtools.MyAntTaskRunner;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.Simulation;
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
@@ -245,4 +249,15 @@ public abstract class JavaProject extends PhetProject {
         return BuildToolsConstants.SIM_JAVA_VERSION;
     }
 
+    //If there is an additional proguard configuration file with sim-specific keep directives or other proguard directives, return it,
+    //otherwise return an empty array signifying no specific keeps required for the sim
+    public File[] getAdditionalProguardConfigFiles() {
+        File proguardConfigFile = new File( getProjectDir(), getName() + ".pro" );
+        if ( proguardConfigFile.exists() ) {
+            return new File[] { proguardConfigFile };
+        }
+        else {
+            return new File[0];
+        }
+    }
 }

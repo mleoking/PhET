@@ -1,3 +1,4 @@
+Added sim-specific proguard configuration support, see #3016
 Removed reference to unused jar tools.jar, see #2997
 Resource generator: exclude flavor names from generated flavors
 Added automatic resource generation
