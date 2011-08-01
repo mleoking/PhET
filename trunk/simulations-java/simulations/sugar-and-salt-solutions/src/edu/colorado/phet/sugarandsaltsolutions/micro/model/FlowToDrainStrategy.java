@@ -29,7 +29,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
             if ( !model.solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() ) ) {
                 model.preventFromLeavingBeaker( particle );
 
-                //Rescheduling all the time creates a zeno paradox situation
+                //Rescheduling all the time creates a zeno paradox situation because we are not accounting for the fact that particles have already come some distance to the drain
 //                model.rescheduleDrainParticles();
             }
             if ( particle.getPosition().getDistance( model.getDrainFaucetMetrics().inputPoint ) <= velocity.getMagnitude() * dt ) {
