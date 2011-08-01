@@ -148,6 +148,7 @@ public class Model1 {
         this.setResonantFrequencies();
         this._nChanged = true;
         this.updateViews();
+        this._nChanged = false;
     }//end setN
 
     public function get N():int {
@@ -263,6 +264,10 @@ public class Model1 {
 
     public function getModePhase( modeNbr:int ):Number{
         return this.modePhase_arr[ modeNbr - 1 ];
+    }
+
+    public function getModeOmega( modeNbr:int ):Number{
+        return this.modeOmega_arr[ modeNbr - 1];
     }
 
     public function setTRate(rate:Number):void{
