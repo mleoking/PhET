@@ -1,5 +1,7 @@
+Added control panel for vectors (but not the actual vectors yet).
 Fixed: blocks look like they are sliding along the plank surface
 Improved the V support shape for fulcrum above plank shape
+Added support for having the pivot above the plank.
 # 0.00.02 (54292) Jul 19, 2011
 7/19/11 Deploying snapshot to dev
 Added the "mystery masses".
