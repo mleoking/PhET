@@ -12,6 +12,7 @@ MEDIUM
 - center scenegraph in the play area
 - add minor and major ticks to EN control
 - dipole magnitude should be an abs value
+- tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
 
