@@ -33,7 +33,7 @@ public class ElectronPair {
         double offset = getIdealDistanceFromCenter() - distance;
 
         // just modify position for now so we don't get any oscillations
-        position.set( position.get().plus( directionToCenter.times( 0.02 * offset ) ) );
+        position.set( position.get().plus( directionToCenter.times( 0.1 * offset ) ) );
     }
 
     public void repulseFrom( ElectronPair other, double timeElapsed ) {
@@ -42,12 +42,42 @@ public class ElectronPair {
         // from other => this
         ImmutableVector3D delta = position.get().minus( other.position.get() );
 
+        /*---------------------------------------------------------------------------*
+        * coulomb repulsion
+        *----------------------------------------------------------------------------*/
+
         // a factor that causes lone pairs to have more repulsion
         double repulsionFactor = 1;
 
         // mimic Coulomb's Law
-        ImmutableVector3D velocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
-        velocity.set( velocity.get().plus( velocityDelta ) );
+        ImmutableVector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
+        velocity.set( velocity.get().plus( coulombVelocityDelta.times( 1 ) ) );
+
+        /*---------------------------------------------------------------------------*
+        * angle-based repulsion
+        *----------------------------------------------------------------------------*/
+
+        double angle = Math.acos( position.get().normalized().dot( other.position.get().normalized() ) );
+
+        ImmutableVector3D pushDirection = getTangentDirection( position.get(), delta ).normalized();
+
+        double anglePushEstimate = estimatePush( angle ) - estimatePush( 2 * Math.PI - angle ); // push from the close direction (minus push from the LONG direction)
+
+        double pushFactor = getPushFactor() * other.getPushFactor();
+        ImmutableVector3D angleVelocityDelta = pushDirection.times( anglePushEstimate * pushFactor );
+        velocity.set( velocity.get().plus( angleVelocityDelta.times( 0 ) ) );
+    }
+
+    public double getPushFactor() {
+        return isLonePair ? 1 : 1;
+    }
+
+    private double estimatePush( double angle ) {
+        double result = 10 / ( angle * angle );
+        if ( Double.isNaN( result ) ) {
+            return 0;
+        }
+        return result;
     }
 
     public void stepForward( double timeElapsed ) {
@@ -80,5 +110,13 @@ public class ElectronPair {
 
     private double getIdealDistanceFromCenter() {
         return isLonePair ? LONE_PAIR_DISTANCE : BONDED_PAIR_DISTANCE;
+    }
+
+    /**
+     * Returns a unit vector that is the component of "vector" that is perpendicular to the "position" vector
+     */
+    public static ImmutableVector3D getTangentDirection( ImmutableVector3D position, ImmutableVector3D vector ) {
+        ImmutableVector3D normalizedPosition = position.normalized();
+        return vector.minus( normalizedPosition.times( vector.dot( normalizedPosition ) ) );
     }
 }
