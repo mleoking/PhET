@@ -56,7 +56,7 @@ public class View1 extends Sprite {
         this.walls = new Sprite();
         this.drawWalls();
 
-        this. setVisiblityGraphics();
+        this.setVisiblityGraphics();
 
         for(i = 0; i <= this.myModel1.nMax; i++){
             this.addChild(this.spring_arr[i]);
@@ -171,7 +171,7 @@ public class View1 extends Sprite {
 
         if( this.myModel1.nChanged ){
             this.setNbrMasses();
-            this.myModel1.nChanged = false;
+            //this.myModel1.nChanged = false;
         }
 
         //position masses
