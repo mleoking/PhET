@@ -21,6 +21,7 @@ public class ViewControlPanel extends MPControlPanel {
             add( new PropertyCheckBox( MPStrings.BOND_DIPOLES, properties.bondDipolesVisible ) );
             add( new PropertyCheckBox( MPStrings.MOLECULAR_DIPOLE, properties.molecularDipoleVisible ) );
             add( new PropertyCheckBox( MPStrings.PARTIAL_CHARGES, properties.partialChargesVisible ) );
+            add( new PropertyCheckBox( MPStrings.BOND_TYPE, properties.bondTypeVisible ) );
             add( new PropertyCheckBox( MPStrings.ATOM_LABELS, properties.atomLabelsVisible ) );
         }} );
     }

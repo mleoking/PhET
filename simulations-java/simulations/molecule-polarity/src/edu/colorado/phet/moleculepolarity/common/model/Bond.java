@@ -13,6 +13,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class Bond {
 
+    //TODO dipole magnitude should be abs value, but we're using the sign elsewhere
     public final Property<Double> dipoleMagnitude; // positive vector points from atom1 to atom2
     public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
 
