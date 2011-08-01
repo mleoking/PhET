@@ -167,8 +167,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
     //When draining, match this number of ions output per second to try to keep a constant concentration
-    private double sodiumIonsDrainPerSec = 0;
-    private double chlorideIonsDrainPerSec = 0;
+    private double sodiumDrainPerSec = 0;
+    private double chlorideDrainPerSec = 0;
+    private double sucroseDrainPerSec = 0;
+    private double nitrateDrainPerSec = 0;
+    private double calciumDrainPerSec = 0;
+    private double ethanolDrainPerSec = 0;
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -274,11 +278,15 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             drainFlowStartTime = getTime();
 
             //Determine the time between particle exits, given that all should exit when the fluid is totally drained
-            sodiumIonsDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sodium.class );
-            chlorideIonsDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Chloride.class );
+            sodiumDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sodium.class );
+            chlorideDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Chloride.class );
+            sucroseDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sucrose.class );
+            nitrateDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Nitrate.class );
+            calciumDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Calcium.class );
+            ethanolDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Ethanol.class );
 
             if ( debugDraining ) {
-                System.out.println( "ionsPerSec = " + sodiumIonsDrainPerSec );
+                System.out.println( "ionsPerSec = " + sodiumDrainPerSec );
             }
         }
     }
@@ -304,8 +312,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            updateParticlesFlowingToDrain( sodiumIonsDrainPerSec, freeParticles.filter( Sodium.class ) );
-            updateParticlesFlowingToDrain( chlorideIonsDrainPerSec, freeParticles.filter( Chloride.class ) );
+            updateParticlesFlowingToDrain( sodiumDrainPerSec, freeParticles.filter( Sodium.class ) );
+            updateParticlesFlowingToDrain( chlorideDrainPerSec, freeParticles.filter( Chloride.class ) );
+            updateParticlesFlowingToDrain( sucroseDrainPerSec, freeParticles.filter( Sucrose.class ) );
+            updateParticlesFlowingToDrain( nitrateDrainPerSec, freeParticles.filter( Nitrate.class ) );
+            updateParticlesFlowingToDrain( calciumDrainPerSec, freeParticles.filter( Calcium.class ) );
+            updateParticlesFlowingToDrain( ethanolDrainPerSec, freeParticles.filter( Ethanol.class ) );
         }
 
         //Iterate over all particles and let them update in time
