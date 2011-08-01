@@ -249,8 +249,12 @@ public abstract class JavaProject extends PhetProject {
         return BuildToolsConstants.SIM_JAVA_VERSION;
     }
 
-    //If there is an additional proguard configuration file with sim-specific keep directives or other proguard directives, return it,
-    //otherwise return an empty array signifying no specific keeps required for the sim
+    /*
+     * See #3016.
+     * If there is a project-specific proguard configuration file, return it.
+     * Otherwise return an empty array.
+     */
+    //TODO #3030, collect proguard config files for all dependencies
     public File[] getAdditionalProguardConfigFiles() {
         File proguardConfigFile = new File( getProjectDir(), getName() + ".pro" );
         if ( proguardConfigFile.exists() ) {
