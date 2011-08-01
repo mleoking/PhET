@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -112,9 +113,8 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         }} );
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker
-        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ),
-                                  //move the top faucet down a little bit, so the slider doesn't go offscreen
-                                  new Point2D.Double( 0, 10 ) ) );
+        //move the top faucet down a little bit, so the slider doesn't go offscreen
+        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ), new Point2D.Double( 0, 10 ) ) );
 
         //Add a faucet that drains the beaker, note that the value is assigned in the creation
         drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
@@ -124,7 +124,8 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
         }};
-        model.setDrainFaucetNodeLocation( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) );
+        model.setDrainFaucetMetrics( new DrainFaucetMetrics( new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) ),
+                                                             new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) ) ) );
         addChild( drainFaucetNode );
 
         //Add salt crystals graphics when salt crystals are added to the model

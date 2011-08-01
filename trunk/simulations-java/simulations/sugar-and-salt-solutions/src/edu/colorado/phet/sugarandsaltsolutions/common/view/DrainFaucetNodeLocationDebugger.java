@@ -10,15 +10,22 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolution
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Debugging utility to show the location of the faucet where the paricles will drain out
+ * Debugging utility to show the location of the faucet where the particles will drain out
  *
  * @author Sam Reid
  */
 public class DrainFaucetNodeLocationDebugger extends PNode {
     public DrainFaucetNodeLocationDebugger( final ModelViewTransform transform, final SugarAndSaltSolutionModel model ) {
         double length = 4;
+
+        //Show the location where particles enter the drain faucet
         addChild( new PhetPPath( new Rectangle2D.Double( -length, -length, length * 2, length * 2 ), Color.red ) {{
-            setOffset( transform.modelToView( model.getDrainFaucetLocation().toPoint2D() ) );
+            setOffset( transform.modelToView( model.getDrainFaucetMetrics().inputPoint.toPoint2D() ) );
+        }} );
+
+        //Show the location where particles leave through the drain faucet
+        addChild( new PhetPPath( new Rectangle2D.Double( -length, -length, length * 2, length * 2 ), Color.red ) {{
+            setOffset( transform.modelToView( model.getDrainFaucetMetrics().outputPoint.toPoint2D() ) );
         }} );
     }
 }

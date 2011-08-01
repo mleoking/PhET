@@ -68,6 +68,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
     public final ItemList<Particle> freeParticles = new ItemList<Particle>();
 
+    //List of all drained particles, used to keep track of which particles (includes molecules) should flow out of the output drain
+    public final ItemList<Particle> drainedParticles = new ItemList<Particle>();
+
     //Lists of compounds
     public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>() {{
         size.trace( "sodium chloride crystals" );
@@ -108,6 +111,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Speed at which freely moving particles should random walk
     public static final double FREE_PARTICLE_SPEED = 6E-10;
+
+    //Particle mass, used in stepping forward in time according to newton's 2nd law.
+    //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+    protected double particleMass = 1E10;
 
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
@@ -253,6 +260,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Move the free particles randomly
         updateFreeParticles( dt );
 
+        //Update the particles that flowed out the drain
+        updateDrainedParticles( dt );
+
         //Dissolve the crystals if they are below the saturation points
         //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
         //No saturation point for ethanol, which is miscible
@@ -270,6 +280,35 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
+        }
+    }
+
+    private void updateDrainedParticles( double dt ) {
+
+        ArrayList<Particle> toRemove = new ArrayList<Particle>();
+        for ( Particle particle : drainedParticles ) {
+
+            //Accelerate the particle due to gravity and perform an euler integration step
+            particle.stepInTime( getExternalForce( false ).times( 1.0 / particleMass ), dt );
+
+            //If the particle has fallen too far (say 3 beaker heights), remove it from the model completely
+            if ( particle.getPosition().getY() < -3 * beaker.getHeight() ) {
+                toRemove.add( particle );
+            }
+        }
+
+        //after enough time or distance, delete the particles from the model
+        //TODO: one method that handles both leaves and non-leaves?
+        for ( Particle particle : toRemove ) {
+            if ( particle instanceof Compound<?> ) {
+                removeComponents( (Compound<?>) particle );
+            }
+            else if ( particle instanceof SphericalParticle ) {
+                sphericalParticles.remove( (SphericalParticle) particle );
+            }
+            else {
+                new RuntimeException( "No match found" ).printStackTrace();
+            }
         }
     }
 
@@ -303,9 +342,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
 
             //Accelerate the particle due to gravity and perform an euler integration step
-            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E10;
-            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( 1.0 / mass ), dt );
+            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( 1.0 / particleMass ), dt );
 
             boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 
@@ -594,19 +631,19 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    //Remove a sodium nitrate crystal and all its subparticles
+    //Remove a sodium nitrate crystal and all its sub-particles
     private void removeSodiumNitrate( SodiumNitrateCrystal crystal ) {
         sodiumNitrateCrystals.remove( crystal );
         removeComponents( crystal );
     }
 
-    //Remove a calcium chloride crystal and all its subparticles
+    //Remove a calcium chloride crystal and all its sub-particles
     private void removeCalciumChlorideCrystal( CalciumChlorideCrystal crystal ) {
         calciumChlorideCrystals.remove( crystal );
         removeComponents( crystal );
     }
 
-    //Remove a calcium chloride crystal and all its subparticles
+    //Remove a calcium chloride crystal and all its sub-particles
     private void removeSodiumChlorideCrystal( SodiumChlorideCrystal crystal ) {
         sodiumChlorideCrystals.remove( crystal );
         removeComponents( crystal );
@@ -634,35 +671,27 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         double changeInWaterHeight = beaker.getHeightForVolume( outVolume ) - beaker.getHeightForVolume( 0 );
 
         //Only move free particles, crystals are not in solution
-        ArrayList<Particle> toRemove = new ArrayList<Particle>();
+        ArrayList<Particle> toDrain = new ArrayList<Particle>();
         for ( Particle particle : freeParticles ) {
             if ( waterVolume.get() > 0 ) {
-                ImmutableVector2D v = new ImmutableVector2D( particle.getPosition().toPoint2D(), getDrainFaucetLocation().toPoint2D() );
-                ImmutableVector2D delta = v.getInstanceOfMagnitude( changeInWaterHeight * 3 );
+                ImmutableVector2D delta = new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( changeInWaterHeight * 3 );
                 particle.translate( delta.getX(), delta.getY() );
 
                 //Setting the velocity as well as translating here makes a smooth linear motion to the drain
                 //Translating without setting the velocity keeps a very random walk-y aspect
                 particle.velocity.set( delta );
-                if ( particle.getPosition().getDistance( getDrainFaucetLocation() ) <= delta.getMagnitude() ) {
-                    toRemove.add( particle );
+                if ( particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ) <= delta.getMagnitude() ) {
+                    toDrain.add( particle );
                 }
             }
         }
 
-        for ( Particle particle : toRemove ) {
+        //Handle particles that entered the drain by moving them to the drainedParticles list
+        for ( Particle particle : toDrain ) {
             freeParticles.remove( particle );
-
-            //TODO: one method that removes recursively?
-            if ( particle instanceof Compound<?> ) {
-                removeComponents( (Compound<?>) particle );
-            }
-            else if ( particle instanceof SphericalParticle ) {
-                sphericalParticles.remove( (SphericalParticle) particle );
-            }
-            else {
-                new RuntimeException( "No match found" ).printStackTrace();
-            }
+            particle.setPosition( getDrainFaucetMetrics().outputPoint );
+            particle.velocity.set( new ImmutableVector2D( 0, -FREE_PARTICLE_SPEED / 2 ) );
+            drainedParticles.add( particle );
         }
     }
 

@@ -2,7 +2,6 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -15,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.DrainFaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
@@ -106,8 +106,8 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //Observable flag which determines whether the beaker is full of solution, for purposes of preventing overflow
     public final ObservableProperty<Boolean> beakerFull;
 
-    //Model location (in meters) of where water will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
-    private ImmutableVector2D drainFaucetLocation;
+    //Model location (in meters) of where water will flow out the drain (both toward and away from drain faucet), set by the view since view locations are chosen first for consistency across tabs
+    private DrainFaucetMetrics drainFaucetMetrics;
 
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public abstract ObservableProperty<Boolean> getAnySolutes();
@@ -414,13 +414,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         return time;
     }
 
-    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
-    public void setDrainFaucetNodeLocation( Point2D point2D ) {
-        this.drainFaucetLocation = new ImmutableVector2D( point2D );
+    //Get the location of the drain where particles will flow toward and out, in absolute coordinates, in meters
+    public DrainFaucetMetrics getDrainFaucetMetrics() {
+        return drainFaucetMetrics;
     }
 
-    //Get the location of the drain where particles will flow out, in absolute coordinates, in meters
-    public ImmutableVector2D getDrainFaucetLocation() {
-        return drainFaucetLocation;
+    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    public void setDrainFaucetMetrics( DrainFaucetMetrics drainFaucetMetrics ) {
+        this.drainFaucetMetrics = drainFaucetMetrics;
     }
 }
