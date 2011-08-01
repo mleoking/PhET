@@ -21,7 +21,7 @@ public class SucroseCrystalGrowth extends IncrementalGrowth<Sucrose, SucroseCrys
     }
 
     @Override protected SucroseCrystal newCrystal( ImmutableVector2D position ) {
-        return new SucroseCrystal( position, randomAngle() );
+        return new SucroseCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sucroseCrystals, model.sucroseSaturated ) );}};
     }
 
     //Randomly choose any free sucrose molecule to see the crystal
