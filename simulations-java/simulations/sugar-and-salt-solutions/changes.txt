@@ -1,3 +1,4 @@
+Micro tab: Added FlowToDrainStrategy for moving particles to the drain at a constant rat
 Micro tab: Added crystal update strategies to newly formed crystals
 Micro tab: Initial progress towards strategy pattern for motion
 # 0.00.73 (54684) Jul 31, 2011

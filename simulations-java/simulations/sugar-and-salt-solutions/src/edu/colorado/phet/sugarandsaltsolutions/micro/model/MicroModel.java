@@ -103,6 +103,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
+    //Record the time when particles were scheduled to leave the drain so it can be accounted for during propagation toward the drain.
+    private double drainFlowStartTime;
+
+    //Debugging flag for draining particles through the faucet
+    private boolean debugDraining = false;
+
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
         Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
@@ -245,59 +251,61 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
-            double lastFlowRate = 0;
-
             public void apply( Double outputFlowRate ) {
-                double drainedVolumePerSecond = outputFlowRate * clock.getDt() * faucetFlowRate;
-                System.out.println( "clock.getDt() = " + clock.getDt() );
-                if ( drainedVolumePerSecond > 0 ) {
-
-                    if ( lastFlowRate == 0 ) {
-                        //store the concentrations of all solutes and set up a drain schedule,
-                        //so that particles will flow out at rates so as to keep the concentration level as constant as possible
-
-                        //Determine the time between particle exits, given that all should exit when the fluid is totally drained
-                        int numSodiumIons = freeParticles.count( Sodium.class );
-                        double amountOfFluidToDrain = solution.volume.get();
-
-                        //When draining, try to attain this number of target ions per volume as closely as possible
-                        double targetIonsPerVolume = numSodiumIons / amountOfFluidToDrain;
-
-                        //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
-                        ionsPerSec = targetIonsPerVolume * drainedVolumePerSecond;
-                    }
-                }
-                lastFlowRate = drainedVolumePerSecond;
+                rescheduleDrainParticles();
             }
         } );
+    }
+
+    //store the concentrations of all solutes and set up a drain schedule,
+    //so that particles will flow out at rates so as to keep the concentration level as constant as possible
+    public void rescheduleDrainParticles() {
+        double drainedVolumePerSecond = outputFlowRate.get() * faucetFlowRate;
+
+        if ( debugDraining ) {
+            double timeToDrainFully = solution.volume.get() / drainedVolumePerSecond;
+            System.out.println( "clock.getDt() = " + clock.getDt() + ", time to drain fully: " + timeToDrainFully );
+        }
+
+        if ( drainedVolumePerSecond > 0 ) {
+
+            //Determine the time between particle exits, given that all should exit when the fluid is totally drained
+            int numSodiumIons = freeParticles.count( Sodium.class );
+            double amountOfFluidToDrain = solution.volume.get();
+
+            //When draining, try to attain this number of target ions per volume as closely as possible
+            double targetIonsPerVolume = numSodiumIons / amountOfFluidToDrain;
+
+            //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
+            ionsPerSec = targetIonsPerVolume * drainedVolumePerSecond;
+            drainFlowStartTime = getTime();
+
+            if ( debugDraining ) {
+                System.out.println( "ionsPerSec = " + ionsPerSec );
+            }
+        }
     }
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
 
-        //Iterate over all particles and let them update in time
-        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals ) ) {
-            freeParticle.stepInTime( dt );
-        }
-
-        //TODO: move to FlowToDrainStrategy
-        //Update due to the drain first, so that the new velocities will be applied in updateFreeParticles
+        //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
+        //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
             updateParticlesFlowingToDrain( dt );
         }
-        else {
-            for ( Particle particle : freeParticles.filter( Sodium.class ) ) {
-                particle.setFlowingTowardDrain( false );
-            }
+
+        //Iterate over all particles and let them update in time
+        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals ) ) {
+            freeParticle.stepInTime( dt );
         }
 
         //Update the particles that flowed out the drain
         //TODO: move to FlowFromDrainStrategy
         updateDrainedParticles( dt );
 
-        //Allow the crystals to grow
-        //TODO: move to the end of CrystalStrategy
+        //Allow the crystals to grow--not part of the strategies because it has to look at all particles within a group to decide which to crystallize
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
         new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
         new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
@@ -336,18 +344,21 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Set a position for each of the particles so they will leave at regular intervals and keep the concentration as constant as possible
         //Make closer particles leave first since that is more natural
         double secondsPerIon = 1.0 / ionsPerSec;
+        double elapsedDrainTime = getTime() - drainFlowStartTime;
         for ( int i = 0; i < sodium.size(); i++ ) {
             Particle particle = sodium.get( i );
             int index = i + 1;
 
-            //TODO: why is there an extra factor of clock.getDT * 0.8 here?  It shouldn't be here, but it (or something thereabouts) seems to be necessary to get particles to move fast enough
-            double targetTime = secondsPerIon * index * dt;
-//                        double targetTime = 10;
+            //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
+            double targetTime = secondsPerIon * index - elapsedDrainTime;
             double distanceToTarget = particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint );
-            double velocity = distanceToTarget / targetTime;
-            System.out.println( "i = " + i + ", target time = " + targetTime + ", velocity = " + velocity + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
-            particle.velocity.set( new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( velocity ) );
-            particle.setFlowingTowardDrain( true );
+            double speed = distanceToTarget / targetTime;
+            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( speed );
+            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
+
+            if ( debugDraining ) {
+                System.out.println( "i = " + i + ", seconds per ion = " + secondsPerIon + ", target time = " + targetTime + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
+            }
         }
     }
 
@@ -613,39 +624,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     @Override public ObservableProperty<Boolean> getAnySolutes() {
         return anySolutes;
-    }
-
-    //Called when water flows out of the output faucet, so that we can move update the particles accordingly
-    @Override protected void waterDrained( double outVolume, double initialSaltConcentration, double initialSugarConcentration ) {
-        super.waterDrained( outVolume, initialSaltConcentration, initialSugarConcentration );
-        updateParticlesDueToWaterLevelDropped( outVolume );
-
-        //Move the particles toward the drain
-        double changeInWaterHeight = beaker.getHeightForVolume( outVolume ) - beaker.getHeightForVolume( 0 );
-
-        //Only move free particles, crystals are not in solution
-        ArrayList<Particle> toDrain = new ArrayList<Particle>();
-        for ( Particle particle : freeParticles ) {
-            if ( waterVolume.get() > 0 ) {
-                ImmutableVector2D delta = new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( changeInWaterHeight * 3 );
-                particle.translate( delta.getX(), delta.getY() );
-
-                //Setting the velocity as well as translating here makes a smooth linear motion to the drain
-                //Translating without setting the velocity keeps a very random walk-y aspect
-                particle.velocity.set( delta );
-                if ( particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ) <= delta.getMagnitude() ) {
-                    toDrain.add( particle );
-                }
-            }
-        }
-
-        //Handle particles that entered the drain by moving them to the drainedParticles list
-        for ( Particle particle : toDrain ) {
-            freeParticles.remove( particle );
-            particle.setPosition( getDrainFaucetMetrics().outputPoint );
-            particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
-            drainedParticles.add( particle );
-        }
     }
 
     //Iterate over particles that take random walks so they don't move above the top of the water
