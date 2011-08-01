@@ -1,3 +1,4 @@
+Micro tab: Generalized code for flowing toward the drain at constant concentration for reuse by other solutes
 Micro tab: Added FlowOutOfDrainStrategy for particles flowing out of the drain faucet
 Micro tab: Added FlowToDrainStrategy for moving particles to the drain at a constant rat
 Micro tab: Added crystal update strategies to newly formed crystals

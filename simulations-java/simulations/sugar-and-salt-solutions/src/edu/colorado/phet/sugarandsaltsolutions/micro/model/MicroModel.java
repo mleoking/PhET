@@ -167,7 +167,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
     //When draining, match this number of ions output per second to try to keep a constant concentration
-    private double ionsPerSec = 0;
+    private double sodiumIonsDrainPerSec = 0;
+    private double chlorideIonsDrainPerSec = 0;
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -269,21 +270,31 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         if ( drainedVolumePerSecond > 0 ) {
 
-            //Determine the time between particle exits, given that all should exit when the fluid is totally drained
-            int numSodiumIons = freeParticles.count( Sodium.class );
-            double amountOfFluidToDrain = solution.volume.get();
-
-            //When draining, try to attain this number of target ions per volume as closely as possible
-            double targetIonsPerVolume = numSodiumIons / amountOfFluidToDrain;
-
-            //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
-            ionsPerSec = targetIonsPerVolume * drainedVolumePerSecond;
+            //Record the drain start time so that it can be accounted for in the propagation schedule, to keep track of how far particles have already come
             drainFlowStartTime = getTime();
 
+            //Determine the time between particle exits, given that all should exit when the fluid is totally drained
+            sodiumIonsDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sodium.class );
+            chlorideIonsDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Chloride.class );
+
             if ( debugDraining ) {
-                System.out.println( "ionsPerSec = " + ionsPerSec );
+                System.out.println( "ionsPerSec = " + sodiumIonsDrainPerSec );
             }
         }
+    }
+
+    //Compute the number of ions that should be drained per second (on average) to maintain a constant concentration
+    private double getIonsToDrainPerSecond( double drainedVolumePerSecond, Class<? extends Particle> type ) {
+
+        //TODO: this is counting all particles, we should just be counting the submerged free particles, not free ethanol falling to the water since it shouldn't move to the drain until it hits water
+        int numSodiumIons = freeParticles.count( type );
+        double amountOfFluidToDrain = solution.volume.get();
+
+        //When draining, try to attain this number of target ions per volume as closely as possible
+        double targetIonsPerVolume = numSodiumIons / amountOfFluidToDrain;
+
+        //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
+        return targetIonsPerVolume * drainedVolumePerSecond;
     }
 
     //When the simulation clock ticks, move the particles
@@ -293,7 +304,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            updateParticlesFlowingToDrain();
+            updateParticlesFlowingToDrain( sodiumIonsDrainPerSec, freeParticles.filter( Sodium.class ) );
+            updateParticlesFlowingToDrain( chlorideIonsDrainPerSec, freeParticles.filter( Chloride.class ) );
         }
 
         //Iterate over all particles and let them update in time
@@ -327,11 +339,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Move the particles toward the drain and try to keep a constant concentration
     //all particles should exit when fluid is gone, move nearby particles
     //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
-    private void updateParticlesFlowingToDrain() {
+    private void updateParticlesFlowingToDrain( double ionsPerSec, ArrayList<Particle> particles ) {
 
         //Sort particles by distance and set their speeds so that they will leave at the proper rate
-        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
-        sort( sodium, new Comparator<Particle>() {
+
+        sort( particles, new Comparator<Particle>() {
             public int compare( Particle o1, Particle o2 ) {
                 return Double.compare( o1.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ), o2.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ) );
             }
@@ -341,8 +353,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Make closer particles leave first since that is more natural
         double secondsPerIon = 1.0 / ionsPerSec;
         double elapsedDrainTime = getTime() - drainFlowStartTime;
-        for ( int i = 0; i < sodium.size(); i++ ) {
-            Particle particle = sodium.get( i );
+        for ( int i = 0; i < particles.size(); i++ ) {
+            Particle particle = particles.get( i );
             int index = i + 1;
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
