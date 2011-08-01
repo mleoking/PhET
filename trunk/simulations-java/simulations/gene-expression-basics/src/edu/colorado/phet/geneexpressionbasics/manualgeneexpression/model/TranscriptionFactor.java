@@ -15,12 +15,11 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
  */
 public class TranscriptionFactor extends MobileBiomolecule {
 
-    private static final double WIDTH = 250;   // In nanometers.
-    private static final double HEIGHT = 120;  // In nanometers.
+    private static final double WIDTH = 350;   // In nanometers.
+    private static final double HEIGHT = 240;  // In nanometers.
 
     public TranscriptionFactor() {
         this( new Point2D.Double( 0, 0 ) );
-
     }
 
     public TranscriptionFactor( Point2D position ) {
