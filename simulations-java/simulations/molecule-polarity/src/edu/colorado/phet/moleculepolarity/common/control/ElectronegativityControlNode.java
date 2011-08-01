@@ -62,8 +62,8 @@ public class ElectronegativityControlNode extends PhetPNode {
     // background
     private static final double BACKGROUND_X_MARGIN = 10;
     private static final double BACKGROUND_Y_MARGIN = 5;
-    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 1f );
-    private static final Color BACKGROUND_STROKE_COLOR = Color.BLACK;
+    private static final Stroke BACKGROUND_STROKE = new BasicStroke( 2f );
+    private static final Color BACKGROUND_STROKE_COLOR = Color.GRAY;
 
     /**
      * Constructor
