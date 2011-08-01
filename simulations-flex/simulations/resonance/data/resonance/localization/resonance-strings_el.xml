@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_el.xml created Mon Aug 01 17:04:57 EEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) Φεβ 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="ταχύτητα προσομοίωσης"/>
+<string key="sameFrequency" value="ίδια συχνότητα"/>
+<string key="slow" value="αργά"/>
+<string key="kg" value="κ."/>
+<string key="pause" value="παύση"/>
+<string key="frequencyEqualsXHz" value="συχνότητα = {0} Hz"/>
+<string key="step" value="βήμα"/>
+<string key="cm" value="εκ."/>
+<string key="driver" value="ΟΔΗΓΟΣ"/>
+<string key="on" value="ανοιχτό"/>
+<string key="ruler" value="Χάρακας"/>
+<string key="resonance.simTitle" value="Συντονισμός"/>
+<string key="springConstant" value="συνεχής αναπήδηση"/>
+<string key="frequency" value="συχνότητα"/>
+<string key="resetAll" value="Επαναφορά όλων"/>
+<string key="mass" value="Μάζα"/>
+<string key="sameMass" value="ίδια μάζα m"/>
+<string key="translation.credits" value="Yannis Kaskamanidis"/>
+<string key="hz" value="Hz"/>
+<string key="play" value="αναπαραγωγή"/>
+<string key="gravityColon" value="Βαρύτητα:"/>
+<string key="paused" value="ΣΤΑΜΑΤΗΜΕΝΟ"/>
+<string key="off" value="κλειστό"/>
+<string key="dampingConstant" value="συνεχής απόσβεση"/>
+<string key="normal" value="κανονικά"/>
+</SimStrings>
