@@ -1,4 +1,4 @@
-Micro tab: Made it so that components frow out through the drain faucet
+Micro tab: Made it so that components flow out through the drain faucet
 Micro tab: Fixed: Sometimes when water too low, drawing errors occur, like NaN or Infinity
 Micro tab: Water flows toward the drain
 Micro tab: Fixed: Particles sometimes bounce out of the water when water level is low
