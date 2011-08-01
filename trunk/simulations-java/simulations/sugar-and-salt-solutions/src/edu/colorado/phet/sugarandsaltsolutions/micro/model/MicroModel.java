@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -52,6 +53,7 @@ import static java.awt.Color.blue;
 import static java.awt.Color.red;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
+import static java.util.Collections.sort;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -172,6 +174,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Listeners that are notified when the simulation time step has completed
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
+    //When draining, match this number of ions output per second to try to keep a constant concentration
+    private double ionsPerSec = 0;
+
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
         super( new ConstantDtClock( framesPerSecond ),
@@ -186,7 +191,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                // 2E-23 = width * width/2 * width/2
                // =>
                // 8E-23 = width^3.  Therefore
-               // width = cuberoot(8E-23)
+               // width = cube root(8E-23)
                new BeakerDimension( Math.pow( 8E-23
                                               //convert L to meters cubed
                                               * 0.001, 1 / 3.0 ) ),
@@ -251,11 +256,51 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 clockRunning.set( true );
             }
         } );
+
+        //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time
+        outputFlowRate.addObserver( new VoidFunction1<Double>() {
+            double lastFlowRate = 0;
+
+            public void apply( Double outputFlowRate ) {
+                double drainedVolumePerSecond = outputFlowRate * clock.getDt() * faucetFlowRate;
+                System.out.println( "clock.getDt() = " + clock.getDt() );
+                if ( drainedVolumePerSecond > 0 ) {
+
+                    if ( lastFlowRate == 0 ) {
+                        //store the concentrations of all solutes and set up a drain schedule,
+                        //so that particles will flow out at rates so as to keep the concentration level as constant as possible
+
+                        //Determine the time between particle exits, given that all should exit when the fluid is totally drained
+                        int numSodiumIons = freeParticles.count( Sodium.class );
+                        double amountOfFluidToDrain = solution.volume.get();
+
+                        //When draining, try to attain this number of target ions per volume as closely as possible
+                        double targetIonsPerVolume = numSodiumIons / amountOfFluidToDrain;
+
+                        //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
+                        ionsPerSec = targetIonsPerVolume * drainedVolumePerSecond;
+                    }
+                }
+                lastFlowRate = drainedVolumePerSecond;
+            }
+        } );
     }
 
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
+
+        //TODO: rewrite using the strategy pattern
+
+        //Update due to the drain first, so that the new velocities will be applied in updateFreeParticles
+        if ( outputFlowRate.get() > 0 ) {
+            updateParticlesFlowingToDrain( dt );
+        }
+        else {
+            for ( Particle particle : freeParticles.filter( Sodium.class ) ) {
+                particle.setFlowingTowardDrain( false );
+            }
+        }
 
         //Move the free particles randomly
         updateFreeParticles( dt );
@@ -280,6 +325,37 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
+        }
+    }
+
+    //Move the particles toward the drain and try to keep a constant concentration
+    //all particles should exit when fluid is gone, move nearby particles
+    //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
+    private void updateParticlesFlowingToDrain( double dt ) {
+
+        //Sort particles by distance and set their speeds so that they will leave at the proper rate
+        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
+        sort( sodium, new Comparator<Particle>() {
+            public int compare( Particle o1, Particle o2 ) {
+                return Double.compare( o1.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ), o2.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ) );
+            }
+        } );
+
+        //Set a position for each of the particles so they will leave at regular intervals and keep the concentration as constant as possible
+        //Make closer particles leave first since that is more natural
+        double secondsPerIon = 1.0 / ionsPerSec;
+        for ( int i = 0; i < sodium.size(); i++ ) {
+            Particle particle = sodium.get( i );
+            int index = i + 1;
+
+            //TODO: why is there an extra factor of clock.getDT * 0.8 here?  It shouldn't be here, but it (or something thereabouts) seems to be necessary to get particles to move fast enough
+            double targetTime = secondsPerIon * index * dt;
+//                        double targetTime = 10;
+            double distanceToTarget = particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint );
+            double velocity = distanceToTarget / targetTime;
+            System.out.println( "i = " + i + ", target time = " + targetTime + ", velocity = " + velocity + " nominal velocity = " + FREE_PARTICLE_SPEED );
+            particle.velocity.set( new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( velocity ) );
+            particle.setFlowingTowardDrain( true );
         }
     }
 
@@ -326,7 +402,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             ImmutableVector2D initialVelocity = particle.velocity.get();
 
             //If the particle is underwater and there is any water, move the particle about at the free particle speed
-            if ( particle.hasSubmerged() && waterVolume.get() > 0 ) {
+            if ( particle.hasSubmerged() && waterVolume.get() > 0 && !particle.isFlowingTowardDrain() ) {
 
                 //If the particle velocity was set to zero (from a zero water volume, restore it to non-zero so it can be scaled
                 if ( particle.velocity.get().getMagnitude() == 0 ) {
@@ -352,13 +428,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
 
             //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
-            if ( underwater ) {
+            if ( underwater && !particle.isFlowingTowardDrain() ) {
                 double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
                 particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ).times( 2 ) );
             }
 
             //Prevent the particles from leaving the solution, but only if they started in the solution
-            if ( initiallyUnderwater && !underwater ) {
+            if ( initiallyUnderwater && !underwater && !particle.isFlowingTowardDrain() ) {
                 ImmutableVector2D delta = particle.getPosition().minus( initialPosition );
                 particle.setPosition( initialPosition );
 

@@ -35,6 +35,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 
     //Model for input and output flows
+    //TODO: these docs are wrong, see faucetFlowRate
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
     public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker in m^3/s
 
@@ -50,7 +51,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
 
     //Flow controls vary between 0 and 1, this scales it down to a good model value
-    private final double faucetFlowRate;
+    public final double faucetFlowRate;
     public final double distanceScale;
 
     //Which dispenser the user has selected

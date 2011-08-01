@@ -22,6 +22,7 @@ public abstract class Particle {
     //Note this does not mean the particle is currently submerged, since it could get fully submerged once, then the water could evaporate so the particle is only partly submerged
     //In this case it should still be prevented from leaving the water area
     private boolean hasSubmerged = false;
+    private boolean flowingTowardDrain;
 
     public Particle( ImmutableVector2D position ) {
         this.position = new Property<ImmutableVector2D>( position );
@@ -61,5 +62,13 @@ public abstract class Particle {
     //Sets whether the particle has ever been submerged, for purposes of updating its location during the physics update.  See field documentation for more
     public void setSubmerged() {
         hasSubmerged = true;
+    }
+
+    public void setFlowingTowardDrain( boolean flowingTowardDrain ) {
+        this.flowingTowardDrain = flowingTowardDrain;
+    }
+
+    public boolean isFlowingTowardDrain() {
+        return flowingTowardDrain;
     }
 }
