@@ -150,6 +150,18 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, Ethanol.class );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
+    //Determine saturation points
+    final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
+    final double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
+    final double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
+    final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
+
+    //Create observable properties that indicate whether each solution type is saturated
+    final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
+    final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
+    final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
+    final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
+
     //Listeners that are notified when the simulation time step has completed
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
@@ -234,58 +246,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         } );
     }
 
-    //When a macro salt would be shaken out of the shaker, instead add a micro salt crystal
-    public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
-        //Add the components of the lattice to the model so the graphics will be created
-        for ( Constituent constituent : sodiumChlorideCrystal ) {
-            //TODO: separate list for NaCl crystals so no cast required here?
-            sphericalParticles.add( (SphericalParticle) constituent.particle );
-        }
-        sodiumChlorideCrystals.add( sodiumChlorideCrystal );
-    }
-
-    public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
-        addComponents( crystal );
-        sodiumNitrateCrystals.add( crystal );
-    }
-
-    //Add all SphericalParticles contained in the compound so the graphics will be created
-    private void addComponents( Compound<? extends Particle> compound ) {
-        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
-            sphericalParticles.add( sphericalParticle );
-        }
-    }
-
-    //Remove all SphericalParticles contained in the compound so the graphics will be deleted
-    private void removeComponents( Compound<?> compound ) {
-        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
-            sphericalParticles.remove( sphericalParticle );
-        }
-    }
-
-    public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
-        addComponents( calciumChlorideCrystal );
-        calciumChlorideCrystals.add( calciumChlorideCrystal );
-    }
-
-    //Add a sucrose crystal to the model, and add graphics for all its constituent particles
-    public void addSucroseCrystal( SucroseCrystal sucroseCrystal ) {
-        addComponents( sucroseCrystal );
-        sucroseCrystals.add( sucroseCrystal );
-    }
-
-    //Determine saturation points
-    final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
-    final double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
-    final double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
-    final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
-
-    //Create observable properties that indicate whether each solution type is saturated
-    final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
-    final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
-    final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
-    final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
-
     //When the simulation clock ticks, move the particles
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
@@ -311,109 +271,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
         }
-    }
-
-    //Update the crystals by moving them about and possibly dissolving them
-    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> saturated ) {
-        //Keep track of which lattices should dissolve in this time step
-        ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
-        for ( Crystal crystal : crystals ) {
-
-            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
-            if ( solution.shape.get().contains( crystal.getShape().getBounds2D() ) ) {
-                crystal.setSubmerged();
-            }
-
-            //Accelerate the particle due to gravity and perform an euler integration step
-            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E10;
-
-            //Cache the value to improve performance by 30% when number of particles is large
-            final boolean anyPartUnderwater = isAnyPartUnderwater( crystal );
-
-            //If any part touched the water, the lattice should slow down and move at a constant speed
-            if ( anyPartUnderwater ) {
-                crystal.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
-            }
-
-            //Collide with the bottom of the beaker before doing underwater check so that crystals will dissolve
-            boundToBeakerBottom( crystal );
-
-            //If completely underwater, lattice should prepare to dissolve
-            if ( !crystal.isUnderwaterTimeRecorded() && !isCrystalTotallyAboveTheWater( crystal ) ) {
-                crystal.setUnderwater( time );
-            }
-            crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
-
-            //Collide with the bottom of the beaker
-            boundToBeakerBottom( crystal );
-
-            //Determine whether it is time for the lattice to dissolve
-            if ( crystal.isUnderwaterTimeRecorded() ) {
-                final double timeUnderwater = time - crystal.getUnderWaterTime();
-
-                //Make sure it has been underwater for a certain period of time (in seconds)
-                if ( timeUnderwater > 0.5 ) {
-                    toDissolve.add( crystal );
-                }
-            }
-
-            //Keep the particle within the beaker solution bounds
-            preventFromLeavingBeaker( crystal );
-        }
-
-        //Handle dissolving the lattices
-        for ( Crystal<?> crystal : toDissolve ) {
-            incrementalDissolve.dissolve( crystals, crystal, saturated );
-        }
-    }
-
-    //Keep the particle within the beaker solution bounds
-    private void preventFromLeavingBeaker( Particle particle ) {
-
-        //If the particle ever entered the water fully, don't let it leave through the top
-        if ( particle.hasSubmerged() ) {
-            preventFromMovingPastWaterTop( particle );
-        }
-        preventFromFallingThroughBeakerBase( particle );
-        preventFromFallingThroughBeakerRight( particle );
-        preventFromFallingThroughBeakerLeft( particle );
-    }
-
-    //prevent particles from falling through the top of the water
-    private void preventFromMovingPastWaterTop( Particle particle ) {
-        double waterTopY = solution.shape.get().getBounds2D().getMaxY();
-        double particleTopY = particle.getShape().getBounds2D().getMaxY();
-
-        if ( particleTopY > waterTopY ) {
-            //TODO: Factor out 1E-12
-            particle.translate( 0, waterTopY - particleTopY - 1E-12 );
-        }
-    }
-
-    private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
-        return crystal.getShape().getBounds2D().getY() > solution.shape.get().getBounds2D().getMaxY();
-    }
-
-    private void boundToBeakerBottom( Particle particle ) {
-        if ( particle.getShape().getBounds2D().getMinY() < 0 ) {
-            particle.translate( 0, -particle.getShape().getBounds2D().getMinY() );
-        }
-    }
-
-    //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
-    private ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
-        return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
-    }
-
-    //Determine whether the object is underwater--when it touches the water it should slow down
-    private boolean isAnyPartUnderwater( Particle particle ) {
-        return particle.getShape().intersects( solution.shape.get().getBounds2D() );
-    }
-
-    //Determine whether the object is completely underwater--when it goes completely underwater it should dissolve soon
-    private boolean isCompletelyUnderwater( Particle particle ) {
-        return solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() );
     }
 
     //When the simulation clock ticks, move the particles
@@ -480,6 +337,145 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             //Keep the particle within the beaker solution bounds
             preventFromLeavingBeaker( particle );
         }
+    }
+
+    //Update the crystals by moving them about and possibly dissolving them
+    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> saturated ) {
+        //Keep track of which lattices should dissolve in this time step
+        ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
+        for ( Crystal crystal : crystals ) {
+
+            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
+            if ( solution.shape.get().contains( crystal.getShape().getBounds2D() ) ) {
+                crystal.setSubmerged();
+            }
+
+            //Accelerate the particle due to gravity and perform an euler integration step
+            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
+            double mass = 1E10;
+
+            //Cache the value to improve performance by 30% when number of particles is large
+            final boolean anyPartUnderwater = isAnyPartUnderwater( crystal );
+
+            //If any part touched the water, the lattice should slow down and move at a constant speed
+            if ( anyPartUnderwater ) {
+                crystal.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
+            }
+
+            //Collide with the bottom of the beaker before doing underwater check so that crystals will dissolve
+            boundToBeakerBottom( crystal );
+
+            //If completely underwater, lattice should prepare to dissolve
+            if ( !crystal.isUnderwaterTimeRecorded() && !isCrystalTotallyAboveTheWater( crystal ) ) {
+                crystal.setUnderwater( time );
+            }
+            crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
+
+            //Collide with the bottom of the beaker
+            boundToBeakerBottom( crystal );
+
+            //Determine whether it is time for the lattice to dissolve
+            if ( crystal.isUnderwaterTimeRecorded() ) {
+                final double timeUnderwater = time - crystal.getUnderWaterTime();
+
+                //Make sure it has been underwater for a certain period of time (in seconds)
+                if ( timeUnderwater > 0.5 ) {
+                    toDissolve.add( crystal );
+                }
+            }
+
+            //Keep the particle within the beaker solution bounds
+            preventFromLeavingBeaker( crystal );
+        }
+
+        //Handle dissolving the lattices
+        for ( Crystal<?> crystal : toDissolve ) {
+            incrementalDissolve.dissolve( crystals, crystal, saturated );
+        }
+    }
+
+    //Add a single salt crystal to the model
+    public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
+        //Add the components of the lattice to the model so the graphics will be created
+        for ( Constituent constituent : sodiumChlorideCrystal ) {
+            //TODO: separate list for NaCl crystals so no cast required here?
+            sphericalParticles.add( (SphericalParticle) constituent.particle );
+        }
+        sodiumChlorideCrystals.add( sodiumChlorideCrystal );
+    }
+
+    //Add a single sodium nitrate crystal to the model
+    public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
+        addComponents( crystal );
+        sodiumNitrateCrystals.add( crystal );
+    }
+
+    //Add all SphericalParticles contained in the compound so the graphics will be created
+    private void addComponents( Compound<? extends Particle> compound ) {
+        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
+            sphericalParticles.add( sphericalParticle );
+        }
+    }
+
+    //Remove all SphericalParticles contained in the compound so the graphics will be deleted
+    private void removeComponents( Compound<?> compound ) {
+        for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
+            sphericalParticles.remove( sphericalParticle );
+        }
+    }
+
+    public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
+        addComponents( calciumChlorideCrystal );
+        calciumChlorideCrystals.add( calciumChlorideCrystal );
+    }
+
+    //Add a sucrose crystal to the model, and add graphics for all its constituent particles
+    public void addSucroseCrystal( SucroseCrystal sucroseCrystal ) {
+        addComponents( sucroseCrystal );
+        sucroseCrystals.add( sucroseCrystal );
+    }
+
+    //Keep the particle within the beaker solution bounds
+    private void preventFromLeavingBeaker( Particle particle ) {
+
+        //If the particle ever entered the water fully, don't let it leave through the top
+        if ( particle.hasSubmerged() ) {
+            preventFromMovingPastWaterTop( particle );
+        }
+        preventFromFallingThroughBeakerBase( particle );
+        preventFromFallingThroughBeakerRight( particle );
+        preventFromFallingThroughBeakerLeft( particle );
+    }
+
+    //prevent particles from falling through the top of the water
+    private void preventFromMovingPastWaterTop( Particle particle ) {
+        double waterTopY = solution.shape.get().getBounds2D().getMaxY();
+        double particleTopY = particle.getShape().getBounds2D().getMaxY();
+
+        if ( particleTopY > waterTopY ) {
+            //TODO: Factor out 1E-12
+            particle.translate( 0, waterTopY - particleTopY - 1E-12 );
+        }
+    }
+
+    private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
+        return crystal.getShape().getBounds2D().getY() > solution.shape.get().getBounds2D().getMaxY();
+    }
+
+    private void boundToBeakerBottom( Particle particle ) {
+        if ( particle.getShape().getBounds2D().getMinY() < 0 ) {
+            particle.translate( 0, -particle.getShape().getBounds2D().getMinY() );
+        }
+    }
+
+    //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
+    private ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
+        return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
+    }
+
+    //Determine whether the object is underwater--when it touches the water it should slow down
+    private boolean isAnyPartUnderwater( Particle particle ) {
+        return particle.getShape().intersects( solution.shape.get().getBounds2D() );
     }
 
     private void collideWithWater( Particle particle ) {
