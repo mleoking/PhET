@@ -34,11 +34,7 @@ public class PlankNode extends ModelObjectNode {
                 // on the unrotated plank, and then rotated to match the
                 // current orientation.
                 for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
-                    if ( i == plank.getTickMarks().size() / 2 ) {
-                        // Skip the one in the middle of the plank.
-                        continue;
-                    }
-                    else if ( i != 0 && ( i + 1 ) % 5 == 0 ) {
+                    if ( i % 5 == 0 ) {
                         // Make some marks bold for easier placement of masses.
                         // The 'if' clause can be tweaked to put marks in
                         // different places.

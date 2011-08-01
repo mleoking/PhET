@@ -33,14 +33,14 @@ public class Plank extends ShapeModelElement {
     // Class Data
     //------------------------------------------------------------------------
 
-    public static final double LENGTH = 4;// meters
+    public static final double LENGTH = 4.4;// meters
     public static final double THICKNESS = 0.05; // meters
     private static final double MASS = 100; // kg
 
     // The number of locations where masses may be placed on the plank.  Only
     // the locations defined be this are valid.
-    public static final int NUM_SNAP_TO_LOCATIONS = 19;
-    private static final double INTER_MARKER_DISTANCE = LENGTH / ( NUM_SNAP_TO_LOCATIONS + 1 ); // meters
+    private static final double INTER_MARKER_DISTANCE = 0.2; // meters
+    public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_MARKER_DISTANCE - 1 );
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
