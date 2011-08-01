@@ -30,7 +30,7 @@ public class SucroseDispenser extends SugarDispenser<MicroModel> {
 
         //Only add a crystal every N steps, otherwise there are too many
         stepsOfAddingSugar.set( stepsOfAddingSugar.get() + 1 );
-        if ( stepsOfAddingSugar.get() % 30 == 0 ) {
+        if ( stepsOfAddingSugar.get() % 10 == 0 ) {
 
             //Create a random crystal with 4 sucrose molecules
             model.addSucroseCrystal( new SucroseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
