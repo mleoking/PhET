@@ -45,6 +45,19 @@ public class ImmutableVector2D implements Serializable {
         this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
     }
 
+    /**
+     * Create a new ImmutableVector2D based on the difference (final - initial) of the passed in vectors.
+     * Note that the order of the arguments in (initial, final) even though the subtraction is (final - initial).
+     * This is done for consistency with the pre-existing constructor ImmutableVector2D(Point2D,Point2D), and by the convention of passing in
+     * the initial object first.
+     *
+     * @param initialPt starting point for the (final-initial) difference
+     * @param finalPt   ending point for the (final-initial) difference
+     */
+    public ImmutableVector2D( ImmutableVector2D initialPt, ImmutableVector2D finalPt ) {
+        this( finalPt.getX() - initialPt.getX(), finalPt.getY() - initialPt.getY() );
+    }
+
     public ImmutableVector2D( Dimension2D v ) {
         this( v.getWidth(), v.getHeight() );
     }
