@@ -35,9 +35,10 @@ public class IncrementalDissolve<T extends Particle> {
             lastDissolve = System.currentTimeMillis();
             Constituent<T> constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
-                constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( MicroModel.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
+                constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( UpdateStrategy.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
                 crystal.removeConstituent( constituent );
                 model.freeParticles.add( constituent.particle );
+                constituent.particle.setUpdateStrategy( new FreeParticleStrategy( model ) );
             }
         }
 

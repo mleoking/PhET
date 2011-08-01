@@ -1,3 +1,4 @@
+Micro tab: Initial progress towards strategy pattern for motion
 # 0.00.73 (54684) Jul 31, 2011
 Micro tab: Made sodium ion particles flow toward drain faucet at an even rate
 Micro tab: Made it so that components flow out through the drain faucet
