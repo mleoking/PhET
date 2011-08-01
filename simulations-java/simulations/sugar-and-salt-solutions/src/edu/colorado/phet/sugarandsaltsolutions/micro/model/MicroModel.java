@@ -652,6 +652,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         for ( Particle particle : toRemove ) {
             freeParticles.remove( particle );
+
+            //TODO: one method that removes recursively?
             if ( particle instanceof Compound<?> ) {
                 removeComponents( (Compound<?>) particle );
             }
