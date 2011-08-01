@@ -2,6 +2,7 @@
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
@@ -11,17 +12,23 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueM
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
+import edu.umd.cs.piccolox.pswing.PSwing;
+import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
  * @author John Blanco
@@ -30,6 +37,10 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
+
+    public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
+    public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
+    public final BooleanProperty forceVectorsFromSupportsVisibleProperty = new BooleanProperty( false );
 
     public TeeterTotterTorqueCanvas( final TeeterTotterTorqueModel model ) {
 
@@ -114,10 +125,32 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             }
         } );
 
+        // Add the control panel that will allow users to control the visibility
+        // of the various vectors.
+        PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 4, 1 ) ) {{
+            addChild( new PText( "Vectors" ) {{
+                setFont( new PhetFont( 18 ) );
+            }} );
+            addChild( new PropertyCheckBoxNode( "Lever Arms", leverArmVectorsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Forces from Object", forceVectorsFromObjectsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Forces from Supports", forceVectorsFromSupportsVisibleProperty ) );
+        }} );
+        vectorControlPanel.setOffset( STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width - 10, 10 );
+        rootNode.addChild( vectorControlPanel );
+
         // Add the mass box, which is the place where the user will get the
         // objects that can be placed on the balance.
         rootNode.addChild( new MassBoxNode( model, mvt, this ) {{
             setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, mvt.modelToViewY( 0 ) - getFullBoundsReference().height - 10 );
         }} );
+    }
+
+    // Convenience class for avoiding code duplication.
+    private static class PropertyCheckBoxNode extends PNode {
+        private PropertyCheckBoxNode( String text, BooleanProperty property ) {
+            PropertyCheckBox checkBox = new PropertyCheckBox( text, property );
+            checkBox.setFont( new PhetFont( 14 ) );
+            addChild( new PSwing( checkBox ) );
+        }
     }
 }
