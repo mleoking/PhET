@@ -65,7 +65,7 @@ public class ProguardConfigBuilder {
 
     public ProguardConfig build() {
         try {
-            return new ProguardConfig( name, proguardTemplate, additionalConfigFiles,proguardOutputFile, inputJars, outputJar, mainClasses, shrink );
+            return new ProguardConfig( name, proguardTemplate, additionalConfigFiles, proguardOutputFile, inputJars, outputJar, mainClasses, shrink );
         }
         finally {
             reset();

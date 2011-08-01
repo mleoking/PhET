@@ -2,7 +2,12 @@ package edu.colorado.phet.buildtools;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
@@ -43,7 +48,7 @@ public class PhetDisplayStatsTask {
                     languages.put( locale, "" );
                 }
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -83,7 +88,7 @@ public class PhetDisplayStatsTask {
         //standardized if contains "[simname]/" "[simname].properties" and optionally ".svn"
         File child = new File( dir, phetProject.getName() );
         File rootSVN = new File( dir, ".svn" );
-        boolean rootOK = containsExactly( dir, new File[]{child, rootSVN} );
+        boolean rootOK = containsExactly( dir, new File[] { child, rootSVN } );
 
         File prop = new File( child, phetProject.getName() + ".properties" );
         boolean containsProperties = Arrays.asList( child.listFiles() ).contains( prop );

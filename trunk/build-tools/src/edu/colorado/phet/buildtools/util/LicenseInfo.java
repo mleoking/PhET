@@ -1,6 +1,10 @@
 package edu.colorado.phet.buildtools.util;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import edu.colorado.phet.licensing.ResourceAnnotation;
@@ -40,10 +44,10 @@ public class LicenseInfo {
             }
             return (LicenseInfo[]) infos.toArray( new LicenseInfo[infos.size()] );
         }
-        catch( FileNotFoundException e ) {
+        catch ( FileNotFoundException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
         return new LicenseInfo[0];

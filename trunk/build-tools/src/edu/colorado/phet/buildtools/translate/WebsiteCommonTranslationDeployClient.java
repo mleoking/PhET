@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.JFileChooser;
 
 import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
@@ -114,11 +114,11 @@ public class WebsiteCommonTranslationDeployClient {
 
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return;
         }
-        catch( JSchException e ) {
+        catch ( JSchException e ) {
             e.printStackTrace();
         }
 
@@ -170,10 +170,10 @@ public class WebsiteCommonTranslationDeployClient {
                     File localHTMLFile = new File( project.getDeployDir(), HTMLName );
                     client.uploadExtraFile( localHTMLFile, project.getName() );
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                 }
             }
@@ -198,7 +198,7 @@ public class WebsiteCommonTranslationDeployClient {
             trunk = ( new File( args[0] ) ).getCanonicalFile();
             BuildLocalProperties.initRelativeToTrunk( trunk );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return;
         }

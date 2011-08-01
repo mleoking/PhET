@@ -66,7 +66,7 @@ public class StatisticsProject extends PhetProject {
     }
 
     public PhetProject[] getAllDependencies() {
-        return new PhetProject[]{this};
+        return new PhetProject[] { this };
     }
 
     public boolean isTestable() {

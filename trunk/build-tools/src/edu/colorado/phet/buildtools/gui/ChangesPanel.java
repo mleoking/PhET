@@ -1,8 +1,10 @@
 package edu.colorado.phet.buildtools.gui;
 
-import java.awt.*;
+import java.awt.GridLayout;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import edu.colorado.phet.buildtools.PhetProject;
 

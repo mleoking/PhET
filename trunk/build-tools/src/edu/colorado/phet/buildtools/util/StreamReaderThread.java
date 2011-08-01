@@ -23,7 +23,7 @@ public class StreamReaderThread extends Thread {
                 line = bufferedReader.readLine();
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

@@ -6,7 +6,9 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 /**
  * This utility displays all translations given in the .properties file specificed as args[0].

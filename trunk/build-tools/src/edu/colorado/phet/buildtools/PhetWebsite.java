@@ -18,9 +18,9 @@ public abstract class PhetWebsite {
         if ( browser != null ) {
             try {
                 System.out.println( "command = " + browser + " " + path );
-                Runtime.getRuntime().exec( new String[]{browser, path} );
+                Runtime.getRuntime().exec( new String[] { browser, path } );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -104,7 +104,7 @@ public abstract class PhetWebsite {
         try {
             return getWebBaseURL() + "/admin/deploy-translation?dir=" + URLEncoder.encode( translationDir, "UTF-8" );
         }
-        catch( UnsupportedEncodingException e ) {
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
             return null;
         }
@@ -118,7 +118,7 @@ public abstract class PhetWebsite {
         try {
             return getWebBaseURL() + "/admin/deploy-resource?dir=" + URLEncoder.encode( resourceDir, "UTF-8" );
         }
-        catch( UnsupportedEncodingException e ) {
+        catch ( UnsupportedEncodingException e ) {
             e.printStackTrace();
             return null;
         }
@@ -348,7 +348,7 @@ public abstract class PhetWebsite {
 
     public static PhetWebsite DEFAULT_PRODUCTION_WEBSITE = FIGARO;
 
-    private static final PhetWebsite[] websites = new PhetWebsite[]{FIGARO, JON_DEV, PHET_SERVER};
+    private static final PhetWebsite[] websites = new PhetWebsite[] { FIGARO, JON_DEV, PHET_SERVER };
 
     /**
      * Find one of the websites with the specified name

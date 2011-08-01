@@ -88,10 +88,10 @@ public class ImportTranslations {
                     }
                 }
             }
-            catch( FileNotFoundException e ) {
+            catch ( FileNotFoundException e ) {
                 System.out.println( "skipping: " + file.getAbsolutePath() );
             }
-            catch( InterruptedException ie ) {
+            catch ( InterruptedException ie ) {
                 ie.printStackTrace();
             }
         }

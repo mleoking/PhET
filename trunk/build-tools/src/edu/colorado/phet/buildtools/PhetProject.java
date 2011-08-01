@@ -1,19 +1,50 @@
 package edu.colorado.phet.buildtools;
 
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Properties;
+import java.util.StringTokenizer;
 
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaBuildCommand;
 import edu.colorado.phet.buildtools.java.JavaProject;
-import edu.colorado.phet.buildtools.java.projects.*;
+import edu.colorado.phet.buildtools.java.projects.BuildToolsProject;
+import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
+import edu.colorado.phet.buildtools.java.projects.PhetUpdaterProject;
+import edu.colorado.phet.buildtools.java.projects.SimSharingProject;
+import edu.colorado.phet.buildtools.java.projects.TimesheetProject;
+import edu.colorado.phet.buildtools.java.projects.TranslationUtilityProject;
+import edu.colorado.phet.buildtools.java.projects.WebsiteProject;
 import edu.colorado.phet.buildtools.statistics.StatisticsProject;
-import edu.colorado.phet.buildtools.util.*;
+import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
+import edu.colorado.phet.buildtools.util.DataResource;
+import edu.colorado.phet.buildtools.util.LicenseInfo;
+import edu.colorado.phet.buildtools.util.ProjectPropertiesFile;
+import edu.colorado.phet.buildtools.util.SvnUtils;
 import edu.colorado.phet.common.phetcommon.resources.PhetProperties;
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.phetcommon.resources.PhetVersion;
-import edu.colorado.phet.common.phetcommon.util.*;
+import edu.colorado.phet.common.phetcommon.util.AnnotationParser;
+import edu.colorado.phet.common.phetcommon.util.FileUtils;
+import edu.colorado.phet.common.phetcommon.util.LocaleUtils;
 
 /**
  * Author: Sam Reid
@@ -1000,6 +1031,7 @@ public abstract class PhetProject {
 
     /**
      * Only simulation projects should return true
+     *
      * @return
      */
     public boolean isSimulationProject() {

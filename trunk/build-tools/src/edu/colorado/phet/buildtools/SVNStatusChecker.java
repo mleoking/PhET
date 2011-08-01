@@ -38,7 +38,7 @@ public class SVNStatusChecker {
             try {
                 p.waitFor();
             }
-            catch( InterruptedException e ) {
+            catch ( InterruptedException e ) {
                 e.printStackTrace();
             }
             String out = pop.getOutput();
@@ -77,7 +77,7 @@ public class SVNStatusChecker {
             }
 
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return false;
         }

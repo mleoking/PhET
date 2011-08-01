@@ -1,6 +1,12 @@
 package edu.colorado.phet.buildtools.java;
 
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.util.Properties;
 
 import org.apache.tools.ant.taskdefs.Copy;
@@ -147,7 +153,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
                 FileUtils.writeString( new File( jsDir, jsName ), jsWriter.toString() );
                 System.out.println( "js finished" );
             }
-            catch( Exception e ) {
+            catch ( Exception e ) {
                 System.out.println( "warning: compiling old website version." );
                 e.printStackTrace();
             }
@@ -161,7 +167,7 @@ public class WebsiteBuildCommand extends JavaBuildCommand {
 
             antTaskRunner.runTask( jar );
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

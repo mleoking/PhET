@@ -18,17 +18,17 @@ import edu.colorado.phet.flashlauncher.FlashLauncher;
  * Creates jar files for Flash simulations.
  */
 public class FlashJarCreator extends JarCreator {
-    
+
     /*
-     * Reads files from the input JAR that are required by Flash sims.
-     */
+    * Reads files from the input JAR that are required by Flash sims.
+    */
     protected void readJarEntries( String inputJarName, Locale locale ) {
         // nothing to read
     }
-    
+
     /*
-     * Writes localized strings to the output JAR in XML format.
-     */
+    * Writes localized strings to the output JAR in XML format.
+    */
     protected void writeStringsFile( JarOutputStream jarOutputStream, Locale locale, Properties localizedStrings, String stringsFilePath, String header ) throws IOException {
         JarEntry jarEntry = new JarEntry( stringsFilePath );
         jarOutputStream.putNextEntry( jarEntry );
@@ -43,20 +43,20 @@ public class FlashJarCreator extends JarCreator {
         }
         jarOutputStream.closeEntry();
     }
-    
+
     /*
-     * Write files to the output JAR that are required for Flash sims.
-     * Any files written here must also be excluded via getCopyExclusions.
-     */
+    * Write files to the output JAR that are required for Flash sims.
+    * Any files written here must also be excluded via getCopyExclusions.
+    */
     protected void writeJarEntries( JarOutputStream jarOutputStream, String projectName, Locale locale, String header ) throws IOException {
         // flash-launcher-args.txt
         writeFlashLauncherArgs( jarOutputStream, projectName, locale );
     }
-    
+
     /*
-     * Regular expressions for files that should be skipped when copying the jar for a Flash sim.
-     * These exclusions are specific to Flash sims, general exclusions are provided by the super class.
-     */
+    * Regular expressions for files that should be skipped when copying the jar for a Flash sim.
+    * These exclusions are specific to Flash sims, general exclusions are provided by the super class.
+    */
     protected String[] getCopyExclusions() {
         return new String[] { FlashLauncher.ARGS_FILENAME };
     }
@@ -85,11 +85,11 @@ public class FlashJarCreator extends JarCreator {
         outputStream.write( args.getBytes() );
         outputStream.closeEntry();
     }
-    
+
     public String getStringsFileSuffix() {
         return ".xml";
     }
-    
+
     /**
      * Gets the path to the JAR resource that contains localized strings.
      */
@@ -97,28 +97,28 @@ public class FlashJarCreator extends JarCreator {
         // XML resources are at the top-level of the JAR, so resource path is the same as resource name
         return getStringsFileBasename( projectName, locale );
     }
-    
+
     /**
      * Gets the basename of of the JAR resource for an XML document.
      * In UNIX parlance, the basename of a file is the final rightmost component of its full path.
      */
     public String getStringsFileBasename( String projectName, Locale locale ) {
         String rootName = getStringsRootName( projectName );
-        String format = "{0}-strings_{1}" + getStringsFileSuffix();  
+        String format = "{0}-strings_{1}" + getStringsFileSuffix();
         Object[] args = { rootName, locale };
         return MessageFormat.format( format, args );
     }
-    
+
     /*
-     * Gets the root name of the strings file.
-     * <p>
-     * This is typically the same as the project name, except for common strings.
-     * PhET common strings are bundled into their own JAR file for use with translation utility.
-     * The JAR file must be built & deployed via a dummy sim named "flash-common-strings", 
-     * found in trunk/simulations-flash/simulations.  If the project name is "flash-common-strings",
-     * we really want to load the common strings which are in files with root name "common".
-     * So we use "common" as the project name.
-     */
+    * Gets the root name of the strings file.
+    * <p>
+    * This is typically the same as the project name, except for common strings.
+    * PhET common strings are bundled into their own JAR file for use with translation utility.
+    * The JAR file must be built & deployed via a dummy sim named "flash-common-strings",
+    * found in trunk/simulations-flash/simulations.  If the project name is "flash-common-strings",
+    * we really want to load the common strings which are in files with root name "common".
+    * So we use "common" as the project name.
+    */
     private String getStringsRootName( String projectName ) {
         String rootName = projectName;
         if ( rootName.equals( "flash-common-strings" ) ) {

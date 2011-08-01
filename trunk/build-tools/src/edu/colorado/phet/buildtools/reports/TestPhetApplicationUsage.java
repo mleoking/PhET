@@ -1,6 +1,6 @@
 package edu.colorado.phet.buildtools.reports;
 
-import java.awt.*;
+import java.awt.AWTException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,8 +25,8 @@ public class TestPhetApplicationUsage {
         final Simulation flavor = phetProject.getSimulation( sim );
 
         Class c = Class.forName( flavor.getMainclass() );
-        Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
-        m.invoke( null, new Object[]{new String[0]} );
+        Method m = c.getMethod( "main", new Class[] { new String[0].getClass() } );
+        m.invoke( null, new Object[] { new String[0] } );
 
         new Thread( new Runnable() {
             public void run() {
@@ -36,7 +36,7 @@ public class TestPhetApplicationUsage {
                     System.out.println( "count = " + app );
                     log( "project=" + phetProject.getName() + ", sim=" + flavor.getName() + ", phetAppCount=" + app + "\n" );
                 }
-                catch( InterruptedException e ) {
+                catch ( InterruptedException e ) {
                     e.printStackTrace();
                 }
                 System.exit( 0 );
@@ -55,7 +55,7 @@ public class TestPhetApplicationUsage {
             fileWriter.write( str + "\n" );
             fileWriter.flush();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             throw new RuntimeException( e );
         }
     }

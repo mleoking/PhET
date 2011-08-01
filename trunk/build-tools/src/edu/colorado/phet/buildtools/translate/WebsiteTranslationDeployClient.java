@@ -7,9 +7,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import javax.swing.*;
+import javax.swing.JOptionPane;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.AuthenticationInfo;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
 import edu.colorado.phet.buildtools.util.ScpTo;
 import edu.colorado.phet.buildtools.util.SshUtils;
@@ -142,7 +146,7 @@ public class WebsiteTranslationDeployClient {
                 project.writeMetaXML();
                 FileUtils.copyToDir( project.getMetaXMLFile(), dir );
             }
-            catch( IOException e ) {
+            catch ( IOException e ) {
                 e.printStackTrace();
             }
         }
@@ -173,10 +177,10 @@ public class WebsiteTranslationDeployClient {
                         File localHTMLFile = new File( project.getDeployDir(), htmlFilename );
                         ScpTo.uploadFile( localHTMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + htmlFilename, authenticationInfo.getPassword() );
                     }
-                    catch( IOException e ) {
+                    catch ( IOException e ) {
                         e.printStackTrace();
                     }
-                    catch( JSchException e ) {
+                    catch ( JSchException e ) {
                         e.printStackTrace();
                     }
                 }
@@ -193,10 +197,10 @@ public class WebsiteTranslationDeployClient {
         try {
             ScpTo.uploadFile( localSimXMLFile, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + localSimXMLFile.getName(), authenticationInfo.getPassword() );
         }
-        catch( JSchException e ) {
+        catch ( JSchException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }
@@ -257,7 +261,7 @@ public class WebsiteTranslationDeployClient {
     }
 
     private boolean mkdir( String serverDir ) {
-        return SshUtils.executeCommands( new String[]{
+        return SshUtils.executeCommands( new String[] {
                 "mkdir -p -m 777 " + serverDir
         }, server.getServerHost(), authenticationInfo );
     }
@@ -277,10 +281,10 @@ public class WebsiteTranslationDeployClient {
                 try {
                     ScpTo.uploadFile( file, authenticationInfo.getUsername(), server.getServerHost(), remotePathDir + "/" + file.getName(), authenticationInfo.getPassword() );
                 }
-                catch( JSchException e ) {
+                catch ( JSchException e ) {
                     e.printStackTrace();
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
 //                    sshConnection.executeTask( new ScpUpload( new ScpFile( f[i],  ) ) );

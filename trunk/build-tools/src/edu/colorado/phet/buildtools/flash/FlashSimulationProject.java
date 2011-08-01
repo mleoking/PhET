@@ -1,6 +1,11 @@
 package edu.colorado.phet.buildtools.flash;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
@@ -10,7 +15,14 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.Jar;
 import org.apache.tools.ant.taskdefs.Manifest;
 
-import edu.colorado.phet.buildtools.*;
+import edu.colorado.phet.buildtools.BuildLocalProperties;
+import edu.colorado.phet.buildtools.BuildToolsConstants;
+import edu.colorado.phet.buildtools.BuildToolsPaths;
+import edu.colorado.phet.buildtools.MyAntTaskRunner;
+import edu.colorado.phet.buildtools.PhetProject;
+import edu.colorado.phet.buildtools.PhetWebsite;
+import edu.colorado.phet.buildtools.Simulation;
+import edu.colorado.phet.buildtools.SimulationPhetProject;
 import edu.colorado.phet.buildtools.flex.FlexSimulationProject;
 import edu.colorado.phet.buildtools.java.JavaProject;
 import edu.colorado.phet.buildtools.util.PhetJarSigner;

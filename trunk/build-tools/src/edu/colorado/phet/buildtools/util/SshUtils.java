@@ -23,7 +23,7 @@ public class SshUtils {
      * @return Success (whether the command was executed successfully)
      */
     public static boolean executeCommand( PhetWebsite website, String command ) {
-        return executeCommands( new String[]{command}, website.getServerHost(), website.getServerAuthenticationInfo( BuildLocalProperties.getInstance() ) );
+        return executeCommands( new String[] { command }, website.getServerHost(), website.getServerAuthenticationInfo( BuildLocalProperties.getInstance() ) );
     }
 
     /**
@@ -47,7 +47,7 @@ public class SshUtils {
      * @return Success (whether the command was executed successfully)
      */
     public static boolean executeCommand( String command, String host, AuthenticationInfo authenticationInfo ) {
-        return executeCommands( new String[]{command}, host, authenticationInfo );
+        return executeCommands( new String[] { command }, host, authenticationInfo );
     }
 
     /**
@@ -71,7 +71,7 @@ public class SshUtils {
                 }
             }
         }
-        catch( SshException e ) {
+        catch ( SshException e ) {
             if ( e.toString().toLowerCase().indexOf( "auth fail" ) != -1 ) {
                 // on tigercat, 3 (9?) unsuccessful login attepts will lock you out
                 System.out.println( "Authentication on '" + host + "' has failed, is your username and password correct?  Exiting..." );

@@ -1,16 +1,18 @@
 package edu.colorado.phet.buildtools.gui.panels;
 
-import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import edu.colorado.phet.buildtools.BuildToolsPaths;
-import edu.colorado.phet.buildtools.OldPhetServer;
-import edu.colorado.phet.buildtools.PhetWebsite;
 import edu.colorado.phet.buildtools.SVNStatusChecker;
 import edu.colorado.phet.buildtools.gui.PhetBuildGUI;
 import edu.colorado.phet.buildtools.statistics.StatisticsDeployCommand;
@@ -76,7 +78,7 @@ public class StatisticsPanel extends JPanel {
                 System.out.println( "Statistics deploy completed successfully" );
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

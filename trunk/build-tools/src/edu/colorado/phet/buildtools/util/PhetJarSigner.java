@@ -75,7 +75,7 @@ public class PhetJarSigner {
         try {
             antTaskRunner.runTask( signer );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             //Show how to construct the equivalent command line call for debugging purposes
             //because failure explanations during antTaskRunner.runTask are poorly explained
             //Keep this commented out except during debugging so that our private data doesn't inadvertently end up in a public log file somewhere
@@ -114,7 +114,7 @@ public class PhetJarSigner {
             verifier.setJar( jarFile );
             antTaskRunner.runTask( verifier );
         }
-        catch( Exception e ) {
+        catch ( Exception e ) {
             System.out.println( "Exception while attempting to verify signed JAR:" );
             e.printStackTrace();
             return false;
@@ -171,7 +171,7 @@ public class PhetJarSigner {
                 System.out.println( "Skipping pack-and-compress step due to previous packing failure" );
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
             return false;
         }
@@ -210,7 +210,7 @@ public class PhetJarSigner {
                 readFile.close();
             }
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             // probably failed due to a corrupt scala attribute
             // beforehand: com.sun.java.util.jar.pack.Attribute$FormatException: class.ScalaSig: unknown in scala/LowPriorityImplicits
             success = false;

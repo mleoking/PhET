@@ -27,10 +27,10 @@ public class TestSshCommand {
             File tmpFile = File.createTempFile( "prefix", ".suffix" );
             ScpTo.uploadFile( website, BuildLocalProperties.getInstance(), tmpFile, remotePathDir + "/" + "unknowndir/prefix.suffix" );
         }
-        catch( JSchException e ) {
+        catch ( JSchException e ) {
             e.printStackTrace();
         }
-        catch( IOException e ) {
+        catch ( IOException e ) {
             e.printStackTrace();
         }
     }

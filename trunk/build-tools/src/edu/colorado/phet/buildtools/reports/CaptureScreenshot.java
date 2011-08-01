@@ -1,6 +1,8 @@
 package edu.colorado.phet.buildtools.reports;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Frame;
+import java.awt.Robot;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -9,7 +11,8 @@ import java.lang.reflect.Method;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.buildtools.PhetProject;
 import edu.colorado.phet.buildtools.Simulation;
@@ -38,19 +41,19 @@ public class CaptureScreenshot {
             public void run() {
                 try {
                     Class c = Class.forName( flavor.getMainclass() );
-                    Method m = c.getMethod( "main", new Class[]{new String[0].getClass()} );
-                    m.invoke( null, new Object[]{new String[0]} );
+                    Method m = c.getMethod( "main", new Class[] { new String[0].getClass() } );
+                    m.invoke( null, new Object[] { new String[0] } );
                 }
-                catch( ClassNotFoundException e ) {
+                catch ( ClassNotFoundException e ) {
                     e.printStackTrace();
                 }
-                catch( InvocationTargetException e ) {
+                catch ( InvocationTargetException e ) {
                     e.printStackTrace();
                 }
-                catch( NoSuchMethodException e ) {
+                catch ( NoSuchMethodException e ) {
                     e.printStackTrace();
                 }
-                catch( IllegalAccessException e ) {
+                catch ( IllegalAccessException e ) {
                     e.printStackTrace();
                 }
 
@@ -64,14 +67,14 @@ public class CaptureScreenshot {
                     try {
                         Thread.sleep( 50 );
                     }
-                    catch( InterruptedException e ) {
+                    catch ( InterruptedException e ) {
                         e.printStackTrace();
                     }
                     if ( isApplicationStarted() ) {
                         try {
                             Thread.sleep( 1000 );//wait for window to become opaque
                         }
-                        catch( InterruptedException e ) {
+                        catch ( InterruptedException e ) {
                             e.printStackTrace();
                         }
                         break;
@@ -96,10 +99,10 @@ public class CaptureScreenshot {
                         }
                     }
                 }
-                catch( AWTException e ) {
+                catch ( AWTException e ) {
                     e.printStackTrace();
                 }
-                catch( IOException e ) {
+                catch ( IOException e ) {
                     e.printStackTrace();
                 }
                 System.exit( 0 );
