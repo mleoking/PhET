@@ -125,6 +125,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     protected double time;
 
     public SugarAndSaltSolutionModel( ConstantDtClock clock,
+
                                       //Dimensions of the beaker
                                       BeakerDimension beakerDimension,
                                       double faucetFlowRate,
