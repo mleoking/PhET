@@ -237,13 +237,11 @@ public class Plank extends ShapeModelElement {
         DoubleGeneralPath tickMarkPath = new DoubleGeneralPath();
         AffineTransform transform = AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() );
         for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
-            if ( i == NUM_SNAP_TO_LOCATIONS / 2 ) {
-                continue; // No marker in center of plank.
-            }
             double xPos = plankLeftEdgeX + interTickMarkDistance * i;
             tickMarkPath.moveTo( xPos, tickMarkYPos );
             tickMarkPath.lineTo( xPos, tickMarkYPos + THICKNESS );
             tickMarks.add( transform.createTransformedShape( tickMarkPath.getGeneralPath() ) );
+            tickMarkPath.reset();
         }
     }
 

@@ -4,6 +4,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.Stroke;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -17,6 +18,9 @@ import edu.umd.cs.piccolo.PNode;
  * @author Sam Reid
  */
 public class PlankNode extends ModelObjectNode {
+    private static final Stroke NORMAL_TICK_MARK_STROKE = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+    private static final Stroke BOLD_TICK_MARK_STROKE = new BasicStroke( 3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER );
+
     public PlankNode( final ModelViewTransform mvt, final Plank plank ) {
         super( mvt, plank, new Color( 243, 203, 127 ) );
         final PNode tickMarkLayer = new PNode();
@@ -29,9 +33,21 @@ public class PlankNode extends ModelObjectNode {
                 // plank's "snap to" locations.  The marks are created based
                 // on the unrotated plank, and then rotated to match the
                 // current orientation.
-                tickMarkLayer.removeAllChildren();
-                for ( Shape tickMarkShape : plank.getTickMarks() ) {
-                    tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( tickMarkShape ), new BasicStroke( 1 ), Color.BLACK ) );
+                for ( int i = 0; i < plank.getTickMarks().size(); i++ ) {
+                    if ( i == plank.getTickMarks().size() / 2 ) {
+                        // Skip the one in the middle of the plank.
+                        continue;
+                    }
+                    else if ( i != 0 && ( i + 1 ) % 5 == 0 ) {
+                        // Make some marks bold for easier placement of masses.
+                        // The 'if' clause can be tweaked to put marks in
+                        // different places.
+                        tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), BOLD_TICK_MARK_STROKE, Color.BLACK ) );
+                    }
+                    else {
+                        // Use the normal stroke.
+                        tickMarkLayer.addChild( new PhetPPath( mvt.modelToView( plank.getTickMarks().get( i ) ), NORMAL_TICK_MARK_STROKE, Color.BLACK ) );
+                    }
                 }
             }
         } );
