@@ -18,6 +18,8 @@ public abstract class Particle {
     //Interface for setting and observing the velocity
     public final Property<ImmutableVector2D> velocity;
 
+    private IUpdateStrategy updateStrategy = new Motionless();
+
     //Flag to indicate whether the particle has ever been submerged underwater.  If so, the model update will constrain the particle so it doesn't leave the water again
     //Note this does not mean the particle is currently submerged, since it could get fully submerged once, then the water could evaporate so the particle is only partly submerged
     //In this case it should still be prevented from leaving the water area
@@ -70,5 +72,20 @@ public abstract class Particle {
 
     public boolean isFlowingTowardDrain() {
         return flowingTowardDrain;
+    }
+
+    //Gets the strategy this particle uses to move in time
+    public IUpdateStrategy getUpdateStrategy() {
+        return updateStrategy;
+    }
+
+    //Sets the strategy this particle uses to move in time
+    public void setUpdateStrategy( UpdateStrategy updateStrategy ) {
+        this.updateStrategy = updateStrategy;
+    }
+
+    //Updates the particle according to its UpdateStrategy
+    public void stepInTime( double dt ) {
+        updateStrategy.stepInTime( this, dt );
     }
 }

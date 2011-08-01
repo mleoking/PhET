@@ -9,8 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
 
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.FREE_PARTICLE_SPEED;
-
 /**
  * This class handles incremental crystallization of particles when the concentration surpasses the saturation point.
  * I originally tried just specifying the "T extends particle" generic type and using Crystal
@@ -56,7 +54,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
                 CrystallizationMatch<T> match = matches.get( 0 );
 
                 //If close enough, join the lattice
-                if ( match.distance <= FREE_PARTICLE_SPEED * dt ) {
+                if ( match.distance <= UpdateStrategy.FREE_PARTICLE_SPEED * dt ) {
 
                     //Remove the particle from the list of free particles
                     model.freeParticles.remove( match.particle );
@@ -67,7 +65,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
 
                 //Otherwise, move closest particle toward the lattice
                 else {
-                    match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
+                    match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( UpdateStrategy.FREE_PARTICLE_SPEED ) );
                 }
             }
 

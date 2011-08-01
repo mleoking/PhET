@@ -204,4 +204,8 @@ public class ItemList<T> implements Iterable<T> {
     public T get( int i ) {
         return items.get( i );
     }
+
+    public ArrayList<T> toList() {
+        return new ArrayList<T>( getItems() );
+    }
 }

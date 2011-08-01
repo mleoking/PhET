@@ -4,10 +4,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -81,9 +79,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
 
-    //Randomness for random walks
-    private final Random random = new Random();
-
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
 
@@ -108,16 +103,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
-    //Strategy rule to use for dissolving the crystals
-    private final IncrementalDissolve incrementalDissolve = new IncrementalDissolve( this );
-
-    //Speed at which freely moving particles should random walk
-    public static final double FREE_PARTICLE_SPEED = 6E-10;
-
-    //Particle mass, used in stepping forward in time according to newton's 2nd law.
-    //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-    protected double particleMass = 1E10;
-
     //Add ethanol above the solution at the dropper output location
     public void addEthanol( final ImmutableVector2D location ) {
         Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
@@ -128,6 +113,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                             plus( parseAngleAndMagnitude( 0.25E-9 / 4, random() * PI ) ) );
         }};
         freeParticles.add( ethanol );
+        ethanol.setUpdateStrategy( new FreeParticleStrategy( this ) );
         addComponents( ethanol );
     }
 
@@ -290,8 +276,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     @Override protected void updateModel( double dt ) {
         super.updateModel( dt );
 
-        //TODO: rewrite using the strategy pattern
+        //Iterate over all particles and let them update in time
+        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals ) ) {
+            freeParticle.stepInTime( dt );
+        }
 
+        //TODO: move to FlowToDrainStrategy
         //Update due to the drain first, so that the new velocities will be applied in updateFreeParticles
         if ( outputFlowRate.get() > 0 ) {
             updateParticlesFlowingToDrain( dt );
@@ -302,21 +292,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         }
 
-        //Move the free particles randomly
-        updateFreeParticles( dt );
-
         //Update the particles that flowed out the drain
+        //TODO: move to FlowFromDrainStrategy
         updateDrainedParticles( dt );
 
-        //Dissolve the crystals if they are below the saturation points
-        //In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
-        //No saturation point for ethanol, which is miscible
-        updateCrystals( dt, sodiumChlorideCrystals, sodiumChlorideSaturated );
-        updateCrystals( dt, calciumChlorideCrystals, calciumChlorideSaturated );
-        updateCrystals( dt, sodiumNitrateCrystals, sodiumNitrateSaturated );
-        updateCrystals( dt, sucroseCrystals, sucroseSaturated );
-
         //Allow the crystals to grow
+        //TODO: move to the end of CrystalStrategy
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
         new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
         new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
@@ -326,6 +307,17 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
         }
+    }
+
+    private ArrayList<Particle> joinLists( ItemList<?>... freeParticles ) {
+        ArrayList<Particle> p = new ArrayList<Particle>();
+        for ( ItemList<?> freeParticle : freeParticles ) {
+            ArrayList<?> list = freeParticle.toList();
+            for ( Object o : list ) {
+                p.add( (Particle) o );
+            }
+        }
+        return p;
     }
 
     //Move the particles toward the drain and try to keep a constant concentration
@@ -353,7 +345,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 //                        double targetTime = 10;
             double distanceToTarget = particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint );
             double velocity = distanceToTarget / targetTime;
-            System.out.println( "i = " + i + ", target time = " + targetTime + ", velocity = " + velocity + " nominal velocity = " + FREE_PARTICLE_SPEED );
+            System.out.println( "i = " + i + ", target time = " + targetTime + ", velocity = " + velocity + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
             particle.velocity.set( new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( velocity ) );
             particle.setFlowingTowardDrain( true );
         }
@@ -365,7 +357,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( Particle particle : drainedParticles ) {
 
             //Accelerate the particle due to gravity and perform an euler integration step
-            particle.stepInTime( getExternalForce( false ).times( 1.0 / particleMass ), dt );
+            particle.stepInTime( getExternalForce( false ).times( 1.0 / UpdateStrategy.PARTICLE_MASS ), dt );
 
             //If the particle has fallen too far (say 3 beaker heights), remove it from the model completely
             if ( particle.getPosition().getY() < -3 * beaker.getHeight() ) {
@@ -388,137 +380,20 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    //When the simulation clock ticks, move the particles
-    private void updateFreeParticles( double dt ) {
-        for ( Particle particle : freeParticles ) {
-            boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
-
-            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
-            if ( solution.shape.get().contains( particle.getShape().getBounds2D() ) ) {
-                particle.setSubmerged();
-            }
-
-            ImmutableVector2D initialPosition = particle.getPosition();
-            ImmutableVector2D initialVelocity = particle.velocity.get();
-
-            //If the particle is underwater and there is any water, move the particle about at the free particle speed
-            if ( particle.hasSubmerged() && waterVolume.get() > 0 && !particle.isFlowingTowardDrain() ) {
-
-                //If the particle velocity was set to zero (from a zero water volume, restore it to non-zero so it can be scaled
-                if ( particle.velocity.get().getMagnitude() == 0 ) {
-                    particle.velocity.set( parseAngleAndMagnitude( 1, randomAngle() ) );
-                }
-                particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
-            }
-
-            //If the particle was stopped by the water completely evaporating, start it moving again
-            //Must be done before particle.stepInTime so that the particle doesn't pick up a small velocity in that method, since this assumes particle velocity of zero implies evaporated to the bottom
-            if ( particle.velocity.get().getMagnitude() == 0 ) {
-                collideWithWater( particle );
-            }
-
-            //Accelerate the particle due to gravity and perform an euler integration step
-            particle.stepInTime( getExternalForce( isAnyPartUnderwater( particle ) ).times( 1.0 / particleMass ), dt );
-
-            boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
-
-            //If the particle entered the water on this step, slow it down to simulate hitting the water
-            if ( !initiallyUnderwater && underwater && particle.getPosition().getY() > beaker.getHeightForVolume( waterVolume.get() ) / 2 ) {
-                collideWithWater( particle );
-            }
-
-            //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
-            if ( underwater && !particle.isFlowingTowardDrain() ) {
-                double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
-                particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ).times( 2 ) );
-            }
-
-            //Prevent the particles from leaving the solution, but only if they started in the solution
-            if ( initiallyUnderwater && !underwater && !particle.isFlowingTowardDrain() ) {
-                ImmutableVector2D delta = particle.getPosition().minus( initialPosition );
-                particle.setPosition( initialPosition );
-
-                //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-                particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), delta.getAngle() + PI ) );
-            }
-
-            //Stop the particle completely if there is no water to move within
-            if ( waterVolume.get() <= 0 ) {
-                particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
-            }
-
-            //Keep the particle within the beaker solution bounds
-            preventFromLeavingBeaker( particle );
-        }
-    }
-
-    //Update the crystals by moving them about and possibly dissolving them
-    private void updateCrystals( double dt, ItemList<? extends Crystal> crystals, ObservableProperty<Boolean> saturated ) {
-        //Keep track of which lattices should dissolve in this time step
-        ArrayList<Crystal> toDissolve = new ArrayList<Crystal>();
-        for ( Crystal crystal : crystals ) {
-
-            //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
-            if ( solution.shape.get().contains( crystal.getShape().getBounds2D() ) ) {
-                crystal.setSubmerged();
-            }
-
-            //Accelerate the particle due to gravity and perform an euler integration step
-            //This number was obtained by guessing and checking to find a value that looked good for accelerating the particles out of the shaker
-            double mass = 1E10;
-
-            //Cache the value to improve performance by 30% when number of particles is large
-            final boolean anyPartUnderwater = isAnyPartUnderwater( crystal );
-
-            //If any part touched the water, the lattice should slow down and move at a constant speed
-            if ( anyPartUnderwater ) {
-                crystal.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
-            }
-
-            //Collide with the bottom of the beaker before doing underwater check so that crystals will dissolve
-            boundToBeakerBottom( crystal );
-
-            //If completely underwater, lattice should prepare to dissolve
-            if ( !crystal.isUnderwaterTimeRecorded() && !isCrystalTotallyAboveTheWater( crystal ) ) {
-                crystal.setUnderwater( time );
-            }
-            crystal.stepInTime( getExternalForce( anyPartUnderwater ).times( 1.0 / mass ), dt );
-
-            //Collide with the bottom of the beaker
-            boundToBeakerBottom( crystal );
-
-            //Determine whether it is time for the lattice to dissolve
-            if ( crystal.isUnderwaterTimeRecorded() ) {
-                final double timeUnderwater = time - crystal.getUnderWaterTime();
-
-                //Make sure it has been underwater for a certain period of time (in seconds)
-                if ( timeUnderwater > 0.5 ) {
-                    toDissolve.add( crystal );
-                }
-            }
-
-            //Keep the particle within the beaker solution bounds
-            preventFromLeavingBeaker( crystal );
-        }
-
-        //Handle dissolving the lattices
-        for ( Crystal<?> crystal : toDissolve ) {
-            incrementalDissolve.dissolve( crystals, crystal, saturated );
-        }
-    }
-
     //Add a single salt crystal to the model
-    public void addSaltCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
+    public void addSodiumChlorideCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
         //Add the components of the lattice to the model so the graphics will be created
         for ( Constituent constituent : sodiumChlorideCrystal ) {
             //TODO: separate list for NaCl crystals so no cast required here?
             sphericalParticles.add( (SphericalParticle) constituent.particle );
         }
         sodiumChlorideCrystals.add( sodiumChlorideCrystal );
+        sodiumChlorideCrystal.setUpdateStrategy( new CrystalStrategy( this, sodiumChlorideCrystals, sodiumChlorideSaturated ) );
     }
 
     //Add a single sodium nitrate crystal to the model
     public void addSodiumNitrateCrystal( SodiumNitrateCrystal crystal ) {
+        crystal.setUpdateStrategy( new CrystalStrategy( this, sodiumNitrateCrystals, sodiumNitrateSaturated ) );
         addComponents( crystal );
         sodiumNitrateCrystals.add( crystal );
     }
@@ -538,18 +413,20 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     public void addCalciumChlorideCrystal( CalciumChlorideCrystal calciumChlorideCrystal ) {
+        calciumChlorideCrystal.setUpdateStrategy( new CrystalStrategy( this, calciumChlorideCrystals, calciumChlorideSaturated ) );
         addComponents( calciumChlorideCrystal );
         calciumChlorideCrystals.add( calciumChlorideCrystal );
     }
 
     //Add a sucrose crystal to the model, and add graphics for all its constituent particles
     public void addSucroseCrystal( SucroseCrystal sucroseCrystal ) {
+        sucroseCrystal.setUpdateStrategy( new CrystalStrategy( this, sucroseCrystals, sucroseSaturated ) );
         addComponents( sucroseCrystal );
         sucroseCrystals.add( sucroseCrystal );
     }
 
     //Keep the particle within the beaker solution bounds
-    private void preventFromLeavingBeaker( Particle particle ) {
+    void preventFromLeavingBeaker( Particle particle ) {
 
         //If the particle ever entered the water fully, don't let it leave through the top
         if ( particle.hasSubmerged() ) {
@@ -571,27 +448,27 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    private boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
+    boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
         return crystal.getShape().getBounds2D().getY() > solution.shape.get().getBounds2D().getMaxY();
     }
 
-    private void boundToBeakerBottom( Particle particle ) {
+    void boundToBeakerBottom( Particle particle ) {
         if ( particle.getShape().getBounds2D().getMinY() < 0 ) {
             particle.translate( 0, -particle.getShape().getBounds2D().getMinY() );
         }
     }
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
-    private ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
+    ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
         return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down
-    private boolean isAnyPartUnderwater( Particle particle ) {
+    boolean isAnyPartUnderwater( Particle particle ) {
         return particle.getShape().intersects( solution.shape.get().getBounds2D() );
     }
 
-    private void collideWithWater( Particle particle ) {
+    void collideWithWater( Particle particle ) {
         particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
     }
 
@@ -766,7 +643,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( Particle particle : toDrain ) {
             freeParticles.remove( particle );
             particle.setPosition( getDrainFaucetMetrics().outputPoint );
-            particle.velocity.set( new ImmutableVector2D( 0, -FREE_PARTICLE_SPEED / 2 ) );
+            particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
             drainedParticles.add( particle );
         }
     }
