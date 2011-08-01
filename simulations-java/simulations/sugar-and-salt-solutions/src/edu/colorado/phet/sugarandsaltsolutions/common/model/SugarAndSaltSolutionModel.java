@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
@@ -115,16 +114,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
     //Models for dispensers that can be used to add solute to the beaker solution
     public final ArrayList<Dispenser> dispensers;
-
-    //Method to give the name displayed on the side of the salt shaker, necessary since it says e.g. "salt" in macro tab and "sodium chloride" in micro tab
-    protected String getSaltShakerName() {
-        return SugarAndSaltSolutionsResources.Strings.SALT;
-    }
-
-    //Method to give the name displayed on the side of the sugar dispenser, necessary since it says e.g. "sugar" in macro tab and "sucrose" in micro tab
-    protected String getSugarDispenserName() {
-        return SugarAndSaltSolutionsResources.Strings.SUGAR;
-    }
 
     //Rate at which liquid (but no solutes) leaves the model
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
