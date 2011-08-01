@@ -1,3 +1,5 @@
+# 0.00.37 (54692) Aug 1, 2011
+8/1/11 Commented out View1DModes
 # 0.00.36 (54690) Aug 1, 2011
 8/1/11 Added view of individual modes in 1D.
 # 0.00.35 (54319) Jul 20, 2011
