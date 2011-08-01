@@ -11,6 +11,7 @@ MEDIUM
 - add icons to control panels (dipoles, partial charge, mep,...)
 - center scenegraph in the play area
 - add minor and major ticks to EN control
+- dipole magnitude should be an abs value
 
 LOW
 
