@@ -24,9 +24,9 @@ public class ProguardConfig {
 
     /**
      * @param name
-     * @param proguardTemplate
+     * @param proguardTemplate      The primary config file, erroneously named.
      * @param additionalConfigFiles List of additional config files, or 0-length list of no additional configuration is needed.
-     *                              This is to support sims that specify their own proguard dependencies
+     *                              This is to support projects that specify their own proguard dependencies.
      * @param proguardFile
      * @param inJars
      * @param outJar

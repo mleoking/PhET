@@ -100,13 +100,15 @@ public class ProguardCommand {
                 bufferedWriter.write( "-dontshrink" + newline );
             }
 
+            //Write the primary Proguard configuration file.
             String text = loadFileAsString( config.getProguardTemplate() );
             bufferedWriter.write( text );
 
-            //Write any sim-specific proguard keep statements
+            //Write any project-specific proguard configuration files.
             for ( File file : config.getAdditionalConfigFiles() ) {
 
-                //Make sure the last and next lines don't run together.  This is also necessary from the original config.getProguardTemplate as well as between all pairs of additional config files
+                //Make sure the last and first lines don't run together.
+                //This is also necessary from the original config.getProguardTemplate as well as between all pairs of additional config files.
                 bufferedWriter.write( '\n' );
 
                 //Write the config file to the destination
