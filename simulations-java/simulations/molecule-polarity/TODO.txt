@@ -17,6 +17,8 @@ MEDIUM
 LOW
 
 Jmol
+- tweak atom names in mol2 files, or figure this out programmatically?
+- adjust initial orientation by editing mol2 files?
 - molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
 - change numbering of atom labels to be per atom type
 - units for partial charge? e?
