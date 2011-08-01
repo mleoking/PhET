@@ -1,3 +1,5 @@
+# 0.00.36 (54690) Aug 1, 2011
+8/1/11 Added view of individual modes in 1D.
 # 0.00.35 (54319) Jul 20, 2011
 7/20/11 Extra space after "Resonator" in ControlPanel
 # 0.00.34 (54120) Jul 15, 2011
