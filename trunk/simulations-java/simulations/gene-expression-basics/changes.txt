@@ -1,4 +1,6 @@
 # 0.00.04 (53478) Jun 24, 2011
+Made ribosomes into a single unit instead of two subunits
+Added tool boxes and ability to add/remove biomolecules using these tool boxes
 6/24/11 Publishing to dev for review of DNA look and navigation.
 Added base pairs to DNA molecule
 Improved the size and coloration of the prototype genes.
