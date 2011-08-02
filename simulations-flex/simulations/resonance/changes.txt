@@ -1,3 +1,5 @@
+# 1.00.01 (54773) Aug 2, 2011
+8/2/11 Location of DRIVER label tweeked for better internationalization.
 # 1.00.00 (54323) Jul 20, 2011
 7/20/11 Extra space after string "Resonator"
 7/20/11 Extra space after "Resonator" in ControlPanel
