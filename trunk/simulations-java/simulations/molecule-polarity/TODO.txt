@@ -9,7 +9,7 @@ MEDIUM
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - set visibility of module-specific controls in control panels
 - add icons to control panels (dipoles, partial charge, mep,...)
-- center scenegraph in the play area
+- find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - dipole magnitude should be an abs value
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
