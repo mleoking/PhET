@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TwoAtomMolecule;
-import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PDragSequenceEventHandler;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
@@ -26,28 +26,28 @@ public class TwoAtomMoleculeNode extends PhetPNode {
         addChild( new AtomNode( molecule.atomB ) );
 
         addInputEventListener( new CursorHandler() ); //TODO change cursor to indicate rotation
-        addInputEventListener( new RotationHandler( this, molecule ) );
-    }
 
-    private static class RotationHandler extends PDragSequenceEventHandler {
+        //Rotate the molecule about the center of the bond when dragged, copied from PrismNode in bending-light
+        //TODO: consider generalizing
+        addInputEventListener( new PBasicInputEventHandler() {
+            double previousAngle;
 
-        private final PNode dragNode;
-        private final TwoAtomMolecule molecule;
+            //Store the original angle since rotations are computed as deltas between each event
+            public void mousePressed( PInputEvent event ) {
+                previousAngle = getAngle( event );
+            }
 
-        public RotationHandler( PNode dragNode, TwoAtomMolecule molecule ) {
-            this.dragNode = dragNode;
-            this.molecule = molecule;
-        }
+            //Find the angle about the center of the prism
+            private double getAngle( PInputEvent event ) {
+                return new ImmutableVector2D( molecule.bond.getCenter().toPoint2D(), event.getPositionRelativeTo( getParent() ) ).getAngle();
+            }
 
-        @Override protected void startDrag( PInputEvent event ) {
-            super.startDrag( event );
-            //TODO
-        }
-
-        @Override protected void drag( PInputEvent event ) {
-            super.drag( event );
-            molecule.angle.set( molecule.angle.get() + Math.toRadians( 1 ) ); // increment angle by 1 degree on any drag
-            //TODO
-        }
+            //Drag the prism to rotate it
+            public void mouseDragged( PInputEvent event ) {
+                double angle = getAngle( event );
+                molecule.angle.set( molecule.angle.get() + angle - previousAngle );
+                previousAngle = angle;
+            }
+        } );
     }
 }

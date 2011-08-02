@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- implement TwoAtomMoleculeNode.RotationHandler
 - molecular dipole vector model
 
 MEDIUM
