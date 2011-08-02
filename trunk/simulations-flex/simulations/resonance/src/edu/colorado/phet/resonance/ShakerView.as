@@ -126,7 +126,7 @@ public class ShakerView extends Sprite {
         this.label_txt = new TextField();	//static label
         this.addChild( this.label_txt );
         this.label_txt.selectable = false;
-        this.label_txt.autoSize = TextFieldAutoSize.CENTER;
+        this.label_txt.autoSize = TextFieldAutoSize.LEFT;
         this.label_txt.text = driver_str;
         this.label_fmt = new TextFormat();	//format of label
         this.label_fmt.font = "Arial";
@@ -319,7 +319,7 @@ public class ShakerView extends Sprite {
 
         this.onOffButton.x = - 0.3 * baseW; // + this.onOffButton.width;
         this.onOffButton.y = floorLevel - 0.50 * baseH;
-        this.label_txt.x = this.onOffButton.x - 0.9 * this.label_txt.width;
+        this.label_txt.x = -baseW/2 + 7; //this.onOffButton.x - 0.9 * this.label_txt.width;
         this.label_txt.y = floorLevel - 1* baseH + 0.4 * this.label_txt.height;
         this.onLight.x = this.onOffButton.x;
         this.onLight.y = floorLevel - 0.3 * baseH;
