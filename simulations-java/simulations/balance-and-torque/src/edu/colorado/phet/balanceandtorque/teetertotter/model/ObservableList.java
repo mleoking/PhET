@@ -23,8 +23,32 @@ public class ObservableList<T> implements List<T> {
     private final List<VoidFunction1<T>> elementAddedObservers = new ArrayList<VoidFunction1<T>>();
     private final List<VoidFunction1<T>> elementRemovedObservers = new ArrayList<VoidFunction1<T>>();
 
+    /**
+     * Default constructor.
+     */
+    public ObservableList() {
+    }
+
+    /**
+     * Constructor that copies another collection.
+     *
+     * @param listToCopy
+     */
+    public ObservableList( ObservableList<T> listToCopy ) {
+        list.addAll( listToCopy );
+        // Since this is a constructor, no notifications should need to be sent.
+    }
+
+
     public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver ) {
+        addElementAddedObserver( elementAddedObserver, true );
+    }
+
+    public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver, boolean notifyImmediately ) {
         elementAddedObservers.add( elementAddedObserver );
+        for ( T element : list ) {
+            elementAddedObserver.apply( element );
+        }
     }
 
     public void removeElementAddedObserver( VoidFunction1<T> elementAddedObserver ) {

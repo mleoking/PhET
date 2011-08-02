@@ -91,8 +91,9 @@ public class Plank extends ShapeModelElement {
     // their appearance.
     private final List<Shape> tickMarks = new ArrayList<Shape>();
 
-    // List of the force vectors due to the masses on the surface.
-//    public final ObservableList<Property<PositionedForceVector>> forceVectorList = new ObservableList<Property<PositionedForceVector>>();
+    // Observable list of the force vectors due to the masses on the surface.
+    public final ObservableList<MassForceVector> forceVectorList =
+            new ObservableList<MassForceVector>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -173,12 +174,14 @@ public class Plank extends ShapeModelElement {
         mass.setPosition( getClosestOpenLocation( mass.getPosition() ) );
         double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) * ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
         mapMassToDistFromCenter.put( mass, distanceFromCenter );
+        forceVectorList.add( new MassForceVector( mass ) );
         mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( userControlled ) {
                     // The user has picked up this mass, so it is no longer
                     // on the surface.
                     removeMassFromSurface( mass );
+                    mass.userControlled.removeObserver( this );
                 }
             }
         } );
@@ -190,6 +193,11 @@ public class Plank extends ShapeModelElement {
         massesOnSurface.remove( mass );
         mass.setRotationAngle( 0 );
         mass.setOnPlank( false );
+        for ( MassForceVector massForceVector : new ObservableList<MassForceVector>( forceVectorList ) ) {
+            if ( mass == massForceVector.mass ) {
+                forceVectorList.remove( mass );
+            }
+        }
         updateTorque();
     }
 
@@ -304,6 +312,10 @@ public class Plank extends ShapeModelElement {
             updatePlankPosition();
             updateMassPositions();
         }
+        // Update the force vectors from the masses.
+        for ( MassForceVector massForceVector : forceVectorList ) {
+            massForceVector.update();
+        }
         // Simulate friction by slowing down the rotation a little.
         angularVelocity *= 0.97;
     }
@@ -417,15 +429,27 @@ public class Plank extends ShapeModelElement {
         return snapToLocations;
     }
 
-    // A force vector consists of two vectors, one that locates it in space
-    // and another that represents its components.
-    private static class PositionedForceVector {
-        public final ImmutableVector2D origin;
-        public final ImmutableVector2D force;
+    /**
+     * Convenience class that maintains relationship between a mass and the
+     * force vector associated with it.
+     */
+    public static class MassForceVector {
+        public static final double ACCELERATION_DUE_TO_GRAVITY = -9.8; // meters per second squared.
+        public final Mass mass;
+        public final Property<PositionedVector> forceVectorProperty;
 
-        private PositionedForceVector( ImmutableVector2D origin, ImmutableVector2D force ) {
-            this.origin = new ImmutableVector2D( origin );
-            this.force = new ImmutableVector2D( force );
+        public MassForceVector( Mass mass ) {
+            this.mass = mass;
+            this.forceVectorProperty = new Property<PositionedVector>( generateVector( mass ) );
+        }
+
+        public void update() {
+            forceVectorProperty.set( generateVector( mass ) );
+        }
+
+        private PositionedVector generateVector( Mass mass ) {
+            return new PositionedVector( new ImmutableVector2D( mass.getPosition() ),
+                                         new ImmutableVector2D( 0, mass.getMass() * ACCELERATION_DUE_TO_GRAVITY ) );
         }
     }
 }
