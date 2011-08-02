@@ -7,9 +7,8 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.ObservableList;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
 
@@ -52,10 +51,6 @@ public class ManualGeneExpressionModel {
 
     // List of RNA polymerase in the model.
     public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
-
-    // Listeners for notifications of biomolecules coming and going.
-    private final List<VoidFunction1<MobileBiomolecule>> biomoleculeAddedListeners = new ArrayList<VoidFunction1<MobileBiomolecule>>();
-    private final List<VoidFunction1<MobileBiomolecule>> biomoleculeRemovedListeners = new ArrayList<VoidFunction1<MobileBiomolecule>>();
 
     //------------------------------------------------------------------------
     // Constructor
