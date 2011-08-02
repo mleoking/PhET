@@ -24,6 +24,7 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
 
     public AbstractSugarAndSaltSolutionsModel( ConstantDtClock clock ) {
         this.clock = clock;
+
         //Wire up to the clock so we can update when it ticks
         clock.addClockListener( new ClockAdapter() {
             @Override public void simulationTimeChanged( ClockEvent clockEvent ) {
