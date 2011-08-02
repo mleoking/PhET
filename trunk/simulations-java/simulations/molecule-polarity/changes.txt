@@ -1,3 +1,4 @@
+8/2/11 make Bond dipole field a vector instead of a scalar
 8/2/11 add infrastructure for aligning molecular dipole with E-field over time
 8/2/11 Jmol: limit display of partial charge to 2 decimal places
 8/2/11 Implemented TwoAtomMoleculeNode.RotationHandler

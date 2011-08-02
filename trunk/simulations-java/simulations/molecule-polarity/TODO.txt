@@ -1,11 +1,11 @@
 TODO list for molecule-polarity
 
 HIGH
-- change Bond.dipoleMagnitude (double) to Bond.dipole (ImmutableVector2D)
 - molecular dipole vector model (for TwoAtomMolecule, this is identical to Bond.dipole)
 - E-field alignment, implement TwoAtomsModel.updateMoleculeOrientation
 
 MEDIUM
+- rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - set visibility of module-specific controls in control panels
 - add icons to control panels (dipoles, partial charge, mep,...)
