@@ -103,27 +103,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
-    //Record the time when particles were scheduled to leave the drain so it can be accounted for during propagation toward the drain.
-    private double drainFlowStartTime;
-
     //Debugging flag for draining particles through the faucet
     private boolean debugDraining = false;
 
-    //Add ethanol above the solution at the dropper output location
-    public void addEthanol( final ImmutableVector2D location ) {
-        Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
-            //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
-            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
-
-                    //Add randomness so they look more fluid-like
-                            plus( parseAngleAndMagnitude( 0.25E-9 / 4, random() * PI ) ) );
-        }};
-        freeParticles.add( ethanol );
-        ethanol.setUpdateStrategy( new FreeParticleStrategy( this ) );
-        addComponents( ethanol );
-    }
-
-    //Colors for all the dissolved components
+    //Colors for all the dissolved components timexr
     public final ObservableProperty<Color> sodiumColor = new IonColor( this, new Sodium() );
     public final ObservableProperty<Color> chlorideColor = new IonColor( this, new Chloride() );
     public final ObservableProperty<Color> calciumColor = new IonColor( this, new Calcium() );
@@ -166,13 +149,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Listeners that are notified when the simulation time step has completed
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
-    //When draining, match this number of ions output per second to try to keep a constant concentration
-    private double sodiumDrainPerSec = 0;
-    private double chlorideDrainPerSec = 0;
-    private double sucroseDrainPerSec = 0;
-    private double nitrateDrainPerSec = 0;
-    private double calciumDrainPerSec = 0;
-    private double ethanolDrainPerSec = 0;
+    //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
+    //There is one for each type since they may flow at different rates and have different schedules
+    public final DrainData sodiumDrainData = new DrainData( Sodium.class );
+    public final DrainData chlorideDrainData = new DrainData( Chloride.class );
+    public final DrainData sucroseDrainData = new DrainData( Sucrose.class );
+    public final DrainData nitrateDrainData = new DrainData( Nitrate.class );
+    public final DrainData calciumDrainData = new DrainData( Calcium.class );
+    public final DrainData ethanolDrainData = new DrainData( Ethanol.class );
 
     public MicroModel() {
         //SolubleSalts clock runs much faster than wall time
@@ -254,17 +238,46 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         } );
 
-        //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time
+        //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time for each solute type
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
             public void apply( Double outputFlowRate ) {
-                rescheduleDrainParticles();
+                rescheduleDrainParticles( sodiumDrainData );
+                rescheduleDrainParticles( chlorideDrainData );
+                rescheduleDrainParticles( nitrateDrainData );
+                rescheduleDrainParticles( ethanolDrainData );
+                rescheduleDrainParticles( calciumDrainData );
+                rescheduleDrainParticles( sucroseDrainData );
             }
         } );
     }
 
+    //Look up the DrainData corresponding to the specified particle type, so that it may be referenced in the UpdateStrategy when the scheduling is performed
+    public DrainData getDrainData( Particle particle ) {
+        if ( particle instanceof Sodium ) { return sodiumDrainData; }
+        if ( particle instanceof Chloride ) { return chlorideDrainData; }
+        if ( particle instanceof Nitrate ) { return nitrateDrainData; }
+        if ( particle instanceof Ethanol ) { return ethanolDrainData; }
+        if ( particle instanceof Calcium ) { return calciumDrainData; }
+        if ( particle instanceof Sucrose ) { return sucroseDrainData; }
+        throw new RuntimeException( "unknown type: " + particle.getClass() );
+    }
+
+    public static class DrainData {
+
+        //Record the time when particles were scheduled to leave the drain so it can be accounted for during propagation toward the drain.
+        double drainFlowStartTime;
+
+        double particlesDrainPerSecond;
+        public final Class<? extends Particle> type;
+
+        public DrainData( Class<? extends Particle> type ) {
+            this.type = type;
+        }
+    }
+
     //store the concentrations of all solutes and set up a drain schedule,
     //so that particles will flow out at rates so as to keep the concentration level as constant as possible
-    public void rescheduleDrainParticles() {
+    public void rescheduleDrainParticles( DrainData drainData ) {
         double drainedVolumePerSecond = outputFlowRate.get() * faucetFlowRate;
 
         if ( debugDraining ) {
@@ -275,18 +288,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         if ( drainedVolumePerSecond > 0 ) {
 
             //Record the drain start time so that it can be accounted for in the propagation schedule, to keep track of how far particles have already come
-            drainFlowStartTime = getTime();
+            drainData.drainFlowStartTime = getTime();
 
             //Determine the time between particle exits, given that all should exit when the fluid is totally drained
-            sodiumDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sodium.class );
-            chlorideDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Chloride.class );
-            sucroseDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Sucrose.class );
-            nitrateDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Nitrate.class );
-            calciumDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Calcium.class );
-            ethanolDrainPerSec = getIonsToDrainPerSecond( drainedVolumePerSecond, Ethanol.class );
+            drainData.particlesDrainPerSecond = getIonsToDrainPerSecond( drainedVolumePerSecond, drainData.type );
 
             if ( debugDraining ) {
-                System.out.println( "ionsPerSec = " + sodiumDrainPerSec );
+                System.out.println( "ionsPerSec = " + drainData.particlesDrainPerSecond );
             }
         }
     }
@@ -312,12 +320,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            updateParticlesFlowingToDrain( sodiumDrainPerSec, freeParticles.filter( Sodium.class ) );
-            updateParticlesFlowingToDrain( chlorideDrainPerSec, freeParticles.filter( Chloride.class ) );
-            updateParticlesFlowingToDrain( sucroseDrainPerSec, freeParticles.filter( Sucrose.class ) );
-            updateParticlesFlowingToDrain( nitrateDrainPerSec, freeParticles.filter( Nitrate.class ) );
-            updateParticlesFlowingToDrain( calciumDrainPerSec, freeParticles.filter( Calcium.class ) );
-            updateParticlesFlowingToDrain( ethanolDrainPerSec, freeParticles.filter( Ethanol.class ) );
+            updateParticlesFlowingToDrain( sodiumDrainData );
+            updateParticlesFlowingToDrain( chlorideDrainData );
+            updateParticlesFlowingToDrain( sucroseDrainData );
+            updateParticlesFlowingToDrain( nitrateDrainData );
+            updateParticlesFlowingToDrain( calciumDrainData );
+            updateParticlesFlowingToDrain( ethanolDrainData );
         }
 
         //Iterate over all particles and let them update in time
@@ -351,7 +359,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Move the particles toward the drain and try to keep a constant concentration
     //all particles should exit when fluid is gone, move nearby particles
     //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
-    private void updateParticlesFlowingToDrain( double ionsPerSec, ArrayList<Particle> particles ) {
+    private void updateParticlesFlowingToDrain( DrainData data ) {
+
+        ArrayList<Particle> particles = freeParticles.filter( data.type );
 
         //Sort particles by distance and set their speeds so that they will leave at the proper rate
 
@@ -363,8 +373,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         //Set a position for each of the particles so they will leave at regular intervals and keep the concentration as constant as possible
         //Make closer particles leave first since that is more natural
-        double secondsPerIon = 1.0 / ionsPerSec;
-        double elapsedDrainTime = getTime() - drainFlowStartTime;
+        double secondsPerIon = 1.0 / data.particlesDrainPerSecond;
+        double elapsedDrainTime = getTime() - data.drainFlowStartTime;
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = particles.get( i );
             int index = i + 1;
@@ -425,6 +435,20 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         sucroseCrystal.setUpdateStrategy( new CrystalStrategy( this, sucroseCrystals, sucroseSaturated ) );
         addComponents( sucroseCrystal );
         sucroseCrystals.add( sucroseCrystal );
+    }
+
+    //Add ethanol above the solution at the dropper output location
+    public void addEthanol( final ImmutableVector2D location ) {
+        Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
+            //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
+            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
+
+                    //Add randomness so they look more fluid-like
+                            plus( parseAngleAndMagnitude( 0.25E-9 / 4, random() * PI ) ) );
+        }};
+        freeParticles.add( ethanol );
+        ethanol.setUpdateStrategy( new FreeParticleStrategy( this ) );
+        addComponents( ethanol );
     }
 
     //Keep the particle within the beaker solution bounds
