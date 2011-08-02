@@ -42,7 +42,8 @@ public class FlowToDrainStrategy extends UpdateStrategy {
                 model.drainedParticles.add( particle );
 
                 //Okay to reschedule now since one particle just left, so there will be no phase problem
-                model.rescheduleDrainParticles( model.getDrainData( particle ) );
+//                model.rescheduleDrainParticles( model.getDrainData( particle ) );
+                model.resetTime( model.getDrainData( particle ) );
                 particle.setPosition( model.getDrainFaucetMetrics().outputPoint );
                 particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
             }
