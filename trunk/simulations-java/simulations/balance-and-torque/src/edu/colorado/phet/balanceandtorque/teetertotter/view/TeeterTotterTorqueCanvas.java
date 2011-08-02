@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
@@ -96,6 +97,22 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );
         }
+
+        // Listen to the list of various vectors and manage their representations.
+        model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
+            public void apply( MassForceVector massForceVector ) {
+                // Add a vector node for the new vector.
+                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( massForceVector.forceVectorProperty, mvt );
+                rootNode.addChild( positionedVectorNode );
+                // Listen for removal of this vector and, if and when it is
+                // removed, remove the corresponding representation.
+                model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
+                    public void apply( MassForceVector positionedVectorProperty ) {
+                        rootNode.removeChild( positionedVectorNode );
+                    }
+                } );
+            }
+        } );
 
         // Add the button that will restore the columns if they have been
         // previously removed.
