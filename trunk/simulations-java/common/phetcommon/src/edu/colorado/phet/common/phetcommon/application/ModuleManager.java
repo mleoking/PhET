@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.IClock;
  */
 class ModuleManager {
 
-    private ArrayList modules = new ArrayList();
+    private ArrayList<Module> modules = new ArrayList<Module>();
     private Module activeModule;
     private PhetApplication phetApplication;
     private ArrayList moduleObservers = new ArrayList();
@@ -41,7 +41,7 @@ class ModuleManager {
      * @return the specified module.
      */
     Module moduleAt( int i ) {
-        return (Module) modules.get( i );
+        return modules.get( i );
     }
 
     /**
@@ -190,7 +190,11 @@ class ModuleManager {
             new IllegalStateException( "multiple modules are running: active modules=" + numActiveModules ).printStackTrace();
         }
         if ( numClocksRunning > 1 ) {
-            new IllegalStateException( "multiple clocks are running: running clocks=" + numClocksRunning ).printStackTrace();
+            ArrayList<String> runningModules = new ArrayList<String>();
+            for ( Module module : modules ) {
+                if ( module.getClock().isRunning() ) { runningModules.add( module.getName() ); }
+            }
+            new IllegalStateException( "multiple clocks are running: running clocks=" + numClocksRunning + ", in modules " + runningModules ).printStackTrace();
         }
         if ( numClocksRunning == 1 && !activeModule.getClock().isRunning() ) {
             new IllegalStateException( "a clock is running that does not belong to the active module" ).printStackTrace();
@@ -204,8 +208,8 @@ class ModuleManager {
         for ( int i = 0; i < modules.size(); i++ ) {
             for ( int k = 0; k < modules.size(); k++ ) {
                 if ( k != i ) {
-                    IClock clock1 = ( (Module) modules.get( i ) ).getClock();
-                    IClock clock2 = ( (Module) modules.get( k ) ).getClock();
+                    IClock clock1 = modules.get( i ).getClock();
+                    IClock clock2 = modules.get( k ).getClock();
                     if ( clock1 == clock2 ) {
                         return true;
                     }
@@ -218,7 +222,7 @@ class ModuleManager {
     private int getNumActiveModules() {
         int count = 0;
         for ( int i = 0; i < modules.size(); i++ ) {
-            if ( ( (Module) modules.get( i ) ).isActive() ) {
+            if ( modules.get( i ).isActive() ) {
                 count++;
             }
         }
@@ -231,7 +235,7 @@ class ModuleManager {
     private int getNumClocksRunning() {
         ArrayList runningClocks = new ArrayList();
         for ( int i = 0; i < modules.size(); i++ ) {
-            IClock clock = ( (Module) modules.get( i ) ).getClock();
+            IClock clock = modules.get( i ).getClock();
             if ( clock.isRunning() ) {
                 if ( !runningClocks.contains( clock ) ) {
                     runningClocks.add( clock );
