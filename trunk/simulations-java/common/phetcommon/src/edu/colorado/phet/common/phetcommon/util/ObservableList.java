@@ -20,8 +20,8 @@ public class ObservableList<T> implements List<T> {
 
     private final List<T> list = new ArrayList<T>();
 
-    private final List<VoidFunction1<T>> elementAddedObservers = new ArrayList<VoidFunction1<T>>();
-    private final List<VoidFunction1<T>> elementRemovedObservers = new ArrayList<VoidFunction1<T>>();
+    private final ObserverList<T> elementAddedObservers = new ObserverList<T>();
+    private final ObserverList<T> elementRemovedObservers = new ObserverList<T>();
 
     /**
      * Default constructor.
@@ -45,7 +45,7 @@ public class ObservableList<T> implements List<T> {
     }
 
     public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver, boolean notifyImmediately ) {
-        elementAddedObservers.add( elementAddedObserver );
+        elementAddedObservers.addObserver( elementAddedObserver );
         if ( notifyImmediately ) {
             for ( T element : list ) {
                 elementAddedObserver.apply( element );
@@ -54,27 +54,15 @@ public class ObservableList<T> implements List<T> {
     }
 
     public void removeElementAddedObserver( VoidFunction1<T> elementAddedObserver ) {
-        elementAddedObservers.remove( elementAddedObserver );
+        elementAddedObservers.removeObserver( elementAddedObserver );
     }
 
     public void addElementRemovedObserver( VoidFunction1<T> elementRemovedObserver ) {
-        elementRemovedObservers.add( elementRemovedObserver );
+        elementRemovedObservers.addObserver( elementRemovedObserver );
     }
 
     public void removeElementRemovedObserver( VoidFunction1<T> elementRemovedObserver ) {
-        elementRemovedObservers.remove( elementRemovedObserver );
-    }
-
-    private void notifyElementAdded( T t ) {
-        for ( VoidFunction1<T> observer : elementAddedObservers ) {
-            observer.apply( t );
-        }
-    }
-
-    private void notifyElementRemoved( T t ) {
-        for ( VoidFunction1<T> observer : elementRemovedObservers ) {
-            observer.apply( t );
-        }
+        elementRemovedObservers.removeObserver( elementRemovedObserver );
     }
 
     //------------------------------------------------------------------------
@@ -85,20 +73,20 @@ public class ObservableList<T> implements List<T> {
 
     public boolean add( T t ) {
         boolean result = list.add( t );
-        notifyElementAdded( t );
+        elementAddedObservers.notifyObservers( t );
         return result;
     }
 
     public boolean remove( Object o ) {
         boolean result = list.remove( o );
-        notifyElementRemoved( (T) o );
+        elementRemovedObservers.notifyObservers( (T) o );
         return result;
     }
 
     public boolean addAll( Collection<? extends T> c ) {
         boolean result = list.addAll( c );
         for ( T element : c ) {
-            notifyElementAdded( element );
+            elementAddedObservers.notifyObservers( element );
         }
         return result;
     }
@@ -106,7 +94,7 @@ public class ObservableList<T> implements List<T> {
     public boolean addAll( int index, Collection<? extends T> c ) {
         boolean result = list.addAll( index, c );
         for ( T element : c ) {
-            notifyElementAdded( element );
+            elementAddedObservers.notifyObservers( element );
         }
         return result;
     }
@@ -114,7 +102,7 @@ public class ObservableList<T> implements List<T> {
     public boolean removeAll( Collection<?> c ) {
         boolean result = list.removeAll( c );
         for ( Object element : c ) {
-            notifyElementRemoved( (T) element );
+            elementRemovedObservers.notifyObservers( (T) element );
         }
         return result;
     }
@@ -128,17 +116,19 @@ public class ObservableList<T> implements List<T> {
         List<T> copyOfList = new ArrayList<T>( list );
         list.clear();
         for ( T element : copyOfList ) {
-            notifyElementRemoved( element );
+            elementRemovedObservers.notifyObservers( element );
         }
     }
 
     public void add( int index, T element ) {
         list.add( index, element );
-        notifyElementAdded( element );
+        elementAddedObservers.notifyObservers( element );
     }
 
     public T remove( int index ) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        T value = list.remove( index );
+        elementRemovedObservers.notifyObservers( value );
+        return value;
     }
 
     //------------------------------------------------------------------------

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.ObserverList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -26,10 +27,10 @@ public class ItemList<T> implements Iterable<T> {
     private final ArrayList<T> items = new ArrayList<T>();
 
     //Listeners that are notified when another item is added
-    private final ListenerList<T> itemAddedListeners = new ListenerList<T>();
+    private final ObserverList<T> itemAddedListeners = new ObserverList<T>();
 
     //Listeners that are notified when any item is removed
-    private final ListenerList<T> itemRemovedListeners = new ListenerList<T>();
+    private final ObserverList<T> itemRemovedListeners = new ObserverList<T>();
 
     //Listeners that are notified when a particular item (as determined by identity) is removed
     //It is important to use identity here so this list can work with mutable values (such as moving particles)
@@ -45,25 +46,25 @@ public class ItemList<T> implements Iterable<T> {
                 set( getItems().size() + 0.0 );
             }
         };
-        itemAddedListeners.addListener( listener );
-        itemRemovedListeners.addListener( listener );
+        itemAddedListeners.addObserver( listener );
+        itemRemovedListeners.addObserver( listener );
     }};
     private final Random random = new Random();
 
     public void addItemAddedListener( VoidFunction1<T> listener ) {
-        itemAddedListeners.addListener( listener );
+        itemAddedListeners.addObserver( listener );
     }
 
     public void removeItemAddedListener( VoidFunction1<T> listener ) {
-        itemAddedListeners.removeListener( listener );
+        itemAddedListeners.removeObserver( listener );
     }
 
     public void addItemRemovedListener( VoidFunction1<T> listener ) {
-        itemRemovedListeners.addListener( listener );
+        itemRemovedListeners.addObserver( listener );
     }
 
     public void removeItemRemovedListener( VoidFunction1<T> listener ) {
-        itemRemovedListeners.removeListener( listener );
+        itemRemovedListeners.removeObserver( listener );
     }
 
     //Listen for the removal of a specific item
@@ -83,7 +84,7 @@ public class ItemList<T> implements Iterable<T> {
 
     public void add( T item ) {
         items.add( item );
-        itemAddedListeners.notifyListeners( item );
+        itemAddedListeners.notifyObservers( item );
     }
 
     //Remove the specified item from the list
@@ -93,7 +94,7 @@ public class ItemList<T> implements Iterable<T> {
         items.remove( item );
 
         //Notify listeners that are just interested in removal of any item
-        itemRemovedListeners.notifyListeners( item );
+        itemRemovedListeners.notifyObservers( item );
 
         //Notify listeners that were specifically listening for when the specified item would be removed
         if ( particularItemRemovedListeners.containsKey( item ) ) {
