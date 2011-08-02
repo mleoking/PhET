@@ -23,7 +23,7 @@ public class PartialChargeNode extends PComposite {
     private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
     private static final double REF_SCALE = 1;
 
-    public PartialChargeNode( final Bond bond, final Atom atom, final Atom relatedAtom, final boolean positivePolarity ) {
+    public PartialChargeNode( final Bond bond, final Atom atom, final boolean positivePolarity ) {
 
         final PText textNode = new PText() {{
             setFont( new PhetFont( 40 ) );
@@ -68,8 +68,5 @@ public class PartialChargeNode extends PComposite {
         };
         bond.dipoleMagnitude.addObserver( updater );
         atom.location.addObserver( updater );
-        relatedAtom.location.addObserver( updater );
-
-
     }
 }

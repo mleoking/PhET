@@ -13,6 +13,7 @@ MEDIUM
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
+- PartialChargeNode's offset looks a little weird as molecule is rotated
 
 Jmol
 - tweak atom names in mol2 files, or figure this out programmatically?
