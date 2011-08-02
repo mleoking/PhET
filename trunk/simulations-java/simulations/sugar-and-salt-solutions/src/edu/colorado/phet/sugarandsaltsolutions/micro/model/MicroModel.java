@@ -70,9 +70,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ItemList<Particle> drainedParticles = new ItemList<Particle>();
 
     //Lists of compounds
-    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>() {{
-        size.trace( "sodium chloride crystals" );
-    }};
+    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
