@@ -1,4 +1,5 @@
 # 0.00.03 (54712) Aug 1, 2011
+Fixed an issue where the gradient didn't move with the attachment bar.
 8/1/11 Deploying to dev for review at weekly meeting
 Added control panel for vectors (but not the actual vectors yet).
 Fixed: blocks look like they are sliding along the plank surface
