@@ -13,13 +13,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class Bond {
 
-    //TODO dipole magnitude should be abs value, but we're using the sign elsewhere
-    public final Property<Double> dipoleMagnitude; // positive vector points from atom1 to atom2
+    public final Property<ImmutableVector2D> dipole;
     public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
 
     public Bond( final Atom atom1, final Atom atom2 ) {
 
-        this.dipoleMagnitude = new Property<Double>( 0d );
+        this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
         this.endpoint1 = new Property<ImmutableVector2D>( atom1.location.get() );
         this.endpoint2 = new Property<ImmutableVector2D>( atom2.location.get() );
 
@@ -38,7 +37,8 @@ public class Bond {
         // update dipole magnitude when electronegativity of either atom changes
         VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
-                dipoleMagnitude.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
+                double deltaEN = atom2.electronegativity.get() - atom1.electronegativity.get();
+                dipole.set( new ImmutableVector2D( atom1.location.get(), atom2.location.get() ).getNormalizedInstance().times( deltaEN ) );
             }
         };
         atom1.electronegativity.addObserver( electronegativityObserver );
@@ -54,5 +54,10 @@ public class Bond {
     public double getAngle() {
         ImmutableVector2D center = getCenter();
         return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );
+    }
+
+    // dipole is in phase if it points from atom1 to atom2
+    public boolean isDipoleInPhase() {
+        return getAngle() == dipole.get().getAngle();
     }
 }

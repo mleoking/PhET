@@ -34,14 +34,14 @@ public class PartialChargeNode extends PComposite {
         SimpleObserver updater = new SimpleObserver() {
             public void update() {
 
-                final double magnitude = bond.dipoleMagnitude.get();
+                final double magnitude = bond.dipole.get().getMagnitude();
 
-                textNode.setVisible( magnitude != 0 ); // invisible if dipole is zero
+                setVisible( magnitude != 0 ); // invisible if dipole is zero
 
                 if ( magnitude != 0 ) {
 
                     // d+ or d-
-                    boolean negative = ( !positivePolarity && magnitude < 0 ) || ( positivePolarity && magnitude > 0 );
+                    boolean negative = ( !positivePolarity && !bond.isDipoleInPhase() ) || ( positivePolarity && bond.isDipoleInPhase() );
                     if ( negative ) {
                         textNode.setText( MPStrings.DELTA + "-" );
                     }
@@ -66,7 +66,7 @@ public class PartialChargeNode extends PComposite {
                 }
             }
         };
-        bond.dipoleMagnitude.addObserver( updater );
+        bond.dipole.addObserver( updater );
         atom.location.addObserver( updater );
     }
 }
