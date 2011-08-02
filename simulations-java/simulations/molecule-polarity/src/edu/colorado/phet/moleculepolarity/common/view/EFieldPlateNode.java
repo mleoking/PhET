@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -28,12 +30,12 @@ public abstract class EFieldPlateNode extends PComposite {
     }
 
     public static class NegativeEFieldPlateNode extends EFieldPlateNode {
-        public NegativeEFieldPlateNode(EField eField ) {
+        public NegativeEFieldPlateNode( EField eField ) {
             super( eField, false );
         }
     }
 
-    private static final Dimension PLATE_SIZE = new Dimension( 50, 400 );
+    private static final Dimension PLATE_SIZE = new Dimension( 50, 450 );
     private static final double INDICATOR_DIAMETER = 50;
 
     private final PPath plateNode;
@@ -75,7 +77,7 @@ public abstract class EFieldPlateNode extends PComposite {
 
     private static class PolarityIndicatorNode extends PComposite {
         public PolarityIndicatorNode( boolean positive, double diameter ) {
-            final float strokeWidth = (float)( 0.1 * diameter );
+            final float strokeWidth = (float) ( 0.1 * diameter );
             // circle
             addChild( new PPath( new Ellipse2D.Double( 0, 0, diameter, diameter ) ) {{
                 setStroke( new BasicStroke( strokeWidth ) );

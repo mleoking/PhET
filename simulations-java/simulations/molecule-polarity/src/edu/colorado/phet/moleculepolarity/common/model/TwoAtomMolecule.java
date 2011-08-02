@@ -17,7 +17,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  */
 public class TwoAtomMolecule {
 
-    private static final double BOND_LENGTH = 200;
+    private static final double BOND_LENGTH = 150;
 
     private final Property<ImmutableVector2D> location;
     public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
@@ -28,8 +28,8 @@ public class TwoAtomMolecule {
     public TwoAtomMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
         angle = new Property<Double>( 0d );
-        atomA = new Atom( MPStrings.A, 150, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );
-        atomB = new Atom( MPStrings.B, 150, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
+        atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );
+        atomB = new Atom( MPStrings.B, 100, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
         bond = new Bond( atomA, atomB );
         angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {

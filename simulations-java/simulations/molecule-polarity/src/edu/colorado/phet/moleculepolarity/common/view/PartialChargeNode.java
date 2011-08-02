@@ -26,7 +26,7 @@ public class PartialChargeNode extends PComposite {
     public PartialChargeNode( final Bond bond, final Atom atom, final boolean positivePolarity ) {
 
         final PText textNode = new PText() {{
-            setFont( new PhetFont( 40 ) );
+            setFont( new PhetFont( 32 ) );
             setTextPaint( Color.BLACK );
         }};
         addChild( textNode );
