@@ -1,3 +1,5 @@
+Micro tab: Allow solutes to flow out as long as water is flowing out, moving the target drain point down below the center as the fluid drains
+Micro tab: Disabled drain debug rectangles
 Micro tab: Fixed draining rate and scheduling for all solute types
 Micro tab: Added draining for other particle types
 Micro tab: Generalized code for flowing toward the drain at constant concentration for reuse by other solutes
