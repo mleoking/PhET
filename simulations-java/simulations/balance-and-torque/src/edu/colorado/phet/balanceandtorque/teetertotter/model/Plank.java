@@ -92,7 +92,7 @@ public class Plank extends ShapeModelElement {
     private final List<Shape> tickMarks = new ArrayList<Shape>();
 
     // List of the force vectors due to the masses on the surface.
-    public final ObservableList<Property<PositionedForceVector>> forceVectorList = new ObservableList<Property<PositionedForceVector>>();
+//    public final ObservableList<Property<PositionedForceVector>> forceVectorList = new ObservableList<Property<PositionedForceVector>>();
 
     //------------------------------------------------------------------------
     // Constructor(s)
