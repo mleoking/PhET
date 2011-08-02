@@ -44,7 +44,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
 
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties ) );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true ) );
         addChild( viewControlsNode );
 
         PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
