@@ -2,7 +2,6 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -38,7 +37,7 @@ public class Bond {
         VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
                 double deltaEN = atom2.electronegativity.get() - atom1.electronegativity.get();
-                dipole.set( new ImmutableVector2D( atom1.location.get(), atom2.location.get() ).getNormalizedInstance().times( deltaEN ) );
+                dipole.set( getNormal().times( deltaEN ) );
             }
         };
         atom1.electronegativity.addObserver( electronegativityObserver );
@@ -52,12 +51,16 @@ public class Bond {
 
     // gets the angle of endpoint2 relative to the horizontal
     public double getAngle() {
-        ImmutableVector2D center = getCenter();
-        return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );
+        return getNormal().getAngle();
     }
 
     // dipole is in phase if it points from atom1 to atom2
     public boolean isDipoleInPhase() {
         return getAngle() == dipole.get().getAngle();
+    }
+
+    // gets the normal vector that points along the axis from atom1 to atom2
+    private ImmutableVector2D getNormal() {
+        return new ImmutableVector2D( endpoint1.get(), endpoint2.get() ).getNormalizedInstance();
     }
 }

@@ -36,7 +36,7 @@ public class PartialChargeNode extends PComposite {
 
                 final double magnitude = bond.dipole.get().getMagnitude();
 
-                setVisible( magnitude != 0 ); // invisible if dipole is zero
+                textNode.setVisible( magnitude != 0 ); // invisible if dipole is zero
 
                 if ( magnitude != 0 ) {
 
