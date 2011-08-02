@@ -41,7 +41,6 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
     public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
-    public final BooleanProperty forceVectorsFromSupportsVisibleProperty = new BooleanProperty( false );
 
     public TeeterTotterTorqueCanvas( final TeeterTotterTorqueModel model ) {
 
@@ -101,8 +100,10 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Listen to the list of various vectors and manage their representations.
         model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
             public void apply( final MassForceVector addedMassForceVector ) {
-                // Add a vector node for the new vector.
-                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty, mvt );
+                // Add a representation for the new vector.
+                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,
+                                                                                            forceVectorsFromObjectsVisibleProperty,
+                                                                                            mvt );
                 rootNode.addChild( positionedVectorNode );
                 // Listen for removal of this vector and, if and when it is
                 // removed, remove the corresponding representation.
