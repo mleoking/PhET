@@ -56,7 +56,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.34 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.4 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
                 150 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set up a root node for our scene graph.
