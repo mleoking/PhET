@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculepolarity.MPConstants;
@@ -55,7 +56,12 @@ public class PartialChargeNode extends PComposite {
                         textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() / 2 ); // origin at center
                     }
 
-                    //TODO set offset so that symbol is on bond axis, just past atom
+                    //A vector that points in the direction we will need to move the charge node; away from the associated atom
+                    ImmutableVector2D unitVectorFromBond = new ImmutableVector2D( bond.getCenter(), atom.location.get() ).getNormalizedInstance();
+
+                    //Compute the amount to move the partial charge node
+                    ImmutableVector2D relativeOffset = unitVectorFromBond.times( atom.getDiameter() / 2 + Math.max( getFullBounds().getWidth(), getFullBounds().getHeight() ) / 2 );
+                    setOffset( atom.location.get().plus( relativeOffset ).toPoint2D() );
                 }
             }
         };

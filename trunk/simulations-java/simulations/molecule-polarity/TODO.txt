@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- set position of partial charges
 - implement TwoAtomMoleculeNode.RotationHandler
 - molecular dipole vector model
 

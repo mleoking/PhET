@@ -1,3 +1,4 @@
+8/2/11 Set position of partial charges relative to their associated atoms
 8/2/11 Centered the play area in the panel
 8/1/11 simple implementation of bond type (covalent/ionic) display
 # 0.00.05 (54624) Jul 29, 2011
