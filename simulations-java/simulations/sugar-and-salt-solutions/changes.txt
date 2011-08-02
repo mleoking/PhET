@@ -1,3 +1,4 @@
+Fixed: Exception on startup "multiple clocks are running"
 Micro tab: Fixed: "Remove sucrose" button doesn’t remove sucrose crystals
 # 0.00.74 (54730) Aug 1, 2011
 Micro tab: Allow solutes to flow out as long as water is flowing out, moving the target drain point down below the center as the fluid drains

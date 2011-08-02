@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
+import edu.colorado.phet.sugarandsaltsolutions.common.SugarAndSaltSolutionsModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
 
@@ -16,7 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
  *
  * @author Sam Reid
  */
-public class MicroModule extends Module {
+public class MicroModule extends SugarAndSaltSolutionsModule {
 
     private final MicroModel model;
 
@@ -29,12 +29,12 @@ public class MicroModule extends Module {
 
         this.model = model;
 
-        //Don't use the entire south panel for the clock controls
-        setClockControlPanel( null );
-
         setSimulationPanel( new MicroCanvas( model, globalState ) {{
             addListener( this );
         }} );
+
+        //When the module becomes activated/deactivated, update the flag in the model for purposes of starting and stopping the clock
+        listenForModuleActivated( model.moduleActive );
     }
 
     @Override public void reset() {

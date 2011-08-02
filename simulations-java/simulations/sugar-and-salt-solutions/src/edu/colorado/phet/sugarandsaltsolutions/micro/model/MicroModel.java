@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
-import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -85,9 +83,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //User setting for whether color should be based on charge or identity
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
-    //Settable property that indicates whether the clock is running or paused
-    public final Property<Boolean> clockRunning = new Property<Boolean>( true );
-
     //The index of the kit selected by the user
     public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
 
@@ -159,6 +154,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final DrainData ethanolDrainData = new DrainData( Ethanol.class );
 
     public MicroModel() {
+
         //SolubleSalts clock runs much faster than wall time
         super( new ConstantDtClock( framesPerSecond ),
 
@@ -219,24 +215,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumNitrateAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE, this ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreCalciumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE, this ) );
         dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreEthanolAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL, this ) );
-
-        //When the pause button is pressed, pause the clock
-        clockRunning.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean running ) {
-                clock.setRunning( running );
-            }
-        } );
-
-        //When the clock pauses or starts, update the property
-        clock.addClockListener( new ClockAdapter() {
-            @Override public void clockPaused( ClockEvent clockEvent ) {
-                clockRunning.set( false );
-            }
-
-            @Override public void clockStarted( ClockEvent clockEvent ) {
-                clockRunning.set( true );
-            }
-        } );
 
         //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time for each solute type
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
@@ -511,10 +489,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dispenserType.reset();
         showChargeColor.reset();
         selectedKit.reset();
-        clockRunning.reset();
+        playButtonPressed.reset();
     }
 
     private void clearSolutes() {
+
         //Clear particle lists
         sphericalParticles.clear();
         freeParticles.clear();
