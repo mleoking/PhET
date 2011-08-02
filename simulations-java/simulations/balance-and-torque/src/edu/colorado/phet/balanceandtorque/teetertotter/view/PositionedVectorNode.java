@@ -17,11 +17,13 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class PositionedVectorNode extends PNode {
-    private static final double SCALE_FACTOR = 0.005; // Arbitrary scaling factor to make vectors a reasonable size.
+    private static final double SCALE_FACTOR = 0.003; // Arbitrary scaling factor to make vectors a reasonable size.
 
     public PositionedVectorNode( final Property<PositionedVector> positionedVectorProperty, final ModelViewTransform mvt ) {
         // Create the vector node and add it as a child.
-        final Vector2DNode vectorNode = new Vector2DNode( 0, 0, 1, SCALE_FACTOR );
+        final Vector2DNode vectorNode = new Vector2DNode( 0, 0, 1, SCALE_FACTOR ) {{
+            setHeadSize( 15, 10 ); // Head size is arbitrary based on what looked good.
+        }};
         addChild( vectorNode );
         // Listen to the vector and update the node when changes occur.
         positionedVectorProperty.addObserver( new VoidFunction1<PositionedVector>() {
