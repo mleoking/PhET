@@ -34,7 +34,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
             }
 
             //If the particle reached the drain, change its update strategy and move it into the list of model drained particles
-            if ( particle.getPosition().getDistance( model.getDrainFaucetMetrics().inputPoint ) <= velocity.getMagnitude() * dt ) {
+            if ( particle.getPosition().getDistance( model.getDrainFaucetMetrics().getInputPoint() ) <= velocity.getMagnitude() * dt ) {
                 particle.setUpdateStrategy( new FlowOutOfDrainStrategy( model ) );
 
                 //Move it from the list of free particles to the list of drained particles so it won't be counted for drain scheduling or for concentration

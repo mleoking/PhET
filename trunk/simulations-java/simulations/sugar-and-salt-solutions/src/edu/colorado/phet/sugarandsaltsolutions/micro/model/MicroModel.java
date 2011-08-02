@@ -363,11 +363,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         ArrayList<Particle> particles = freeParticles.filter( data.type );
 
-        //Sort particles by distance and set their speeds so that they will leave at the proper rate
+        //Pre-compute the drain faucet input point since it is used throughout this method, and many times in the sort method
+        final ImmutableVector2D inputPoint = getDrainFaucetMetrics().getInputPoint();
 
+        //Sort particles by distance and set their speeds so that they will leave at the proper rate
         sort( particles, new Comparator<Particle>() {
             public int compare( Particle o1, Particle o2 ) {
-                return Double.compare( o1.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ), o2.getPosition().getDistance( getDrainFaucetMetrics().inputPoint ) );
+                return Double.compare( o1.getPosition().getDistance( inputPoint ), o2.getPosition().getDistance( inputPoint ) );
             }
         } );
 
@@ -381,9 +383,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
             double targetTime = secondsPerIon * index - elapsedDrainTime;
-            double distanceToTarget = particle.getPosition().getDistance( getDrainFaucetMetrics().inputPoint );
+            double distanceToTarget = particle.getPosition().getDistance( inputPoint );
             double speed = distanceToTarget / targetTime;
-            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), getDrainFaucetMetrics().inputPoint ).getInstanceOfMagnitude( speed );
+            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), inputPoint ).getInstanceOfMagnitude( speed );
             particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
 
             if ( debugDraining ) {

@@ -125,7 +125,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
         }};
         model.setDrainFaucetMetrics( new DrainFaucetMetrics( new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) ),
-                                                             new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) ) ) );
+                                                             new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) ), model ) );
         addChild( drainFaucetNode );
 
         //Add salt crystals graphics when salt crystals are added to the model
