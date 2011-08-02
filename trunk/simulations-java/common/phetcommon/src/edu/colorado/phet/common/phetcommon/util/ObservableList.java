@@ -46,8 +46,10 @@ public class ObservableList<T> implements List<T> {
 
     public void addElementAddedObserver( VoidFunction1<T> elementAddedObserver, boolean notifyImmediately ) {
         elementAddedObservers.add( elementAddedObserver );
-        for ( T element : list ) {
-            elementAddedObserver.apply( element );
+        if ( notifyImmediately ) {
+            for ( T element : list ) {
+                elementAddedObserver.apply( element );
+            }
         }
     }
 

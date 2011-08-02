@@ -1,3 +1,4 @@
+8/2/11 Fixed: notifyImmediately flag ignored in ObservableList
 8/2/11 Moved ObservableList to phet common
 8/2/11 Generified ModuleManager.modules from ArrayList to ArrayList<Module> and removed unnecessary casts
 7/20/11 Renamed static creation method Property.value to Property.property
