@@ -36,9 +36,16 @@ public class FloatingClockControlNode extends PNode {
     private final PlayPauseButton playPauseButton;
     private final StepButton stepButton;
 
-    public FloatingClockControlNode( SettableProperty<Boolean> clockRunning, final Function1<Double, String> timeReadout, final IClock clock, final String clearString,
-                                     ObservableProperty<Color> timeReadoutColor ) {
-        this( clockRunning, timeReadout == null ? null : new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
+    /**
+     * @param playButtonPressed a flag to indicate whether the play button has been pressed.  Note that this does not necessarily mean the clock will be running, the module should also be active so that multiple module clocks don't run at once
+     * @param timeReadout
+     * @param clock
+     * @param clearString
+     * @param timeReadoutColor
+     */
+    public FloatingClockControlNode( SettableProperty<Boolean> playButtonPressed, final Function1<Double, String> timeReadout,
+                                     final IClock clock, final String clearString, ObservableProperty<Color> timeReadoutColor ) {
+        this( playButtonPressed, timeReadout == null ? null : new Property<String>( timeReadout.apply( clock.getSimulationTime() ) ) {{
             clock.addClockListener( new ClockAdapter() {
                 @Override
                 public void simulationTimeChanged( ClockEvent clockEvent ) {
@@ -66,23 +73,23 @@ public class FloatingClockControlNode extends PNode {
         );
     }
 
-    public FloatingClockControlNode( final SettableProperty<Boolean> clockRunning,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
+    public FloatingClockControlNode( final SettableProperty<Boolean> playButtonPressed,//property to indicate whether the clock should be running or not; this value is mediated by a Property<Boolean> since this needs to also be 'and'ed with whether the module is active for multi-tab simulations.
                                      final Property<String> timeReadout,
                                      final VoidFunction0 step,//steps the clock when 'step' is pressed which the sim is paused
                                      final VoidFunction0 resetTime,
                                      final Property<Double> simulationTime, final String clearString, final ObservableProperty<Color> timeReadoutColor ) {
         playPauseButton = new PlayPauseButton( 80 ) {{
-            setPlaying( clockRunning.get() );
+            setPlaying( playButtonPressed.get() );
             final Listener updatePlayPauseButtons = new Listener() {
                 public void playbackStateChanged() {
-                    clockRunning.set( isPlaying() );
+                    playButtonPressed.set( isPlaying() );
                 }
             };
             addListener( updatePlayPauseButtons );
             updatePlayPauseButtons.playbackStateChanged();//Sync immediately
-            clockRunning.addObserver( new SimpleObserver() {
+            playButtonPressed.addObserver( new SimpleObserver() {
                 public void update() {
-                    setPlaying( clockRunning.get() );
+                    setPlaying( playButtonPressed.get() );
                 }
             } );
         }};
@@ -94,7 +101,7 @@ public class FloatingClockControlNode extends PNode {
                         setEnabled( !playPauseButton.isPlaying() );
                     }
                 };
-                clockRunning.addObserver( new SimpleObserver() {
+                playButtonPressed.addObserver( new SimpleObserver() {
                     public void update() {
                         updateEnabled.playbackStateChanged();
                     }

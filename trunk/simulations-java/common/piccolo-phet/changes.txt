@@ -1,3 +1,4 @@
+8/2/2011 Renamed parameter and added docs to FloatingClockControlNode
 7/22/11 Generalized BoxLayout and subclasses to use double instead of int for spacing
 7/19/11 Generalized ComboBoxNode so the client code can specify an arbitrary initial selection, instead of just using the 0th item, resolves #3014
 7/19/11 Generalized ComboBoxNode so that it can show arbitrary nodes, resolves #3010
