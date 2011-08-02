@@ -36,7 +36,8 @@ Jmol
 - how to set a transparent background for Jmol viewer?
 - startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 
-MIGRATE TO PHETCOMMON
+MIGRATE TO COMMON
 - HorizontalSliderDragHandler
 - VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
+- rotation handler, in TwoAtomMoleculeNode
 
