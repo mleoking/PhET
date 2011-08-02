@@ -43,6 +43,11 @@ public class TwoAtomMolecule {
         atomB.reset();
     }
 
+    // For a 2-atom molecule, the molecular dipole is identical to the bond dipole.
+    public ImmutableVector2D getMolecularDipole() {
+        return new ImmutableVector2D( bond.dipole.get() );
+    }
+
     public boolean isDragging() {
         return dragging;
     }

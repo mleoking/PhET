@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- molecular dipole vector model (for TwoAtomMolecule, this is identical to Bond.dipole)
 - E-field alignment, implement TwoAtomsModel.updateMoleculeOrientation
 
 MEDIUM
