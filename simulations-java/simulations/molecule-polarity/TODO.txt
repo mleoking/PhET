@@ -3,6 +3,7 @@ TODO list for molecule-polarity
 HIGH
 - change Bond.dipoleMagnitude (double) to Bond.dipole (ImmutableVector2D)
 - molecular dipole vector model (for TwoAtomMolecule, this is identical to Bond.dipole)
+- E-field alignment, implement TwoAtomsModel.updateMoleculeOrientation
 
 MEDIUM
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
@@ -17,6 +18,7 @@ LOW
 - add a unity mvt, for insurance?
 
 Jmol
+- how to iterate over atoms?
 - tweak atom names in mol2 files, or figure this out programmatically?
 - adjust initial orientation by editing mol2 files?
 - molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
