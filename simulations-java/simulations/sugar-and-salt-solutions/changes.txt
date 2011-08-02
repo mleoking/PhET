@@ -5,7 +5,7 @@ Micro tab: Fixed draining rate and scheduling for all solute types
 Micro tab: Added draining for other particle types
 Micro tab: Generalized code for flowing toward the drain at constant concentration for reuse by other solutes
 Micro tab: Added FlowOutOfDrainStrategy for particles flowing out of the drain faucet
-Micro tab: Added FlowToDrainStrategy for moving particles to the drain at a constant rat
+Micro tab: Added FlowToDrainStrategy for moving particles to the drain at a constant rate
 Micro tab: Added crystal update strategies to newly formed crystals
 Micro tab: Initial progress towards strategy pattern for motion
 # 0.00.73 (54684) Jul 31, 2011
