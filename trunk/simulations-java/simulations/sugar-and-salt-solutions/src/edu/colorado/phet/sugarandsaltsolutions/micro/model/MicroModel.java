@@ -630,12 +630,24 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         removeComponents( crystal );
     }
 
+    //Remove a Sucrose crystal and all its sub-particles
+    private void removeSucroseCrystal( SucroseCrystal crystal ) {
+        sucroseCrystals.remove( crystal );
+        removeComponents( crystal );
+    }
+
     //Remove all sucrose molecules from the model
     public void removeAllSucrose() {
-        ArrayList<Particle> sucrose = freeParticles.filter( Sucrose.class );
-        for ( Particle sucroseMolecule : sucrose ) {
+
+        //Remove the free sucrose
+        for ( Particle sucroseMolecule : freeParticles.filter( Sucrose.class ) ) {
             freeParticles.remove( sucroseMolecule );
             removeComponents( (Compound<?>) sucroseMolecule );
+        }
+
+        //Remove the crystallized sucrose
+        while ( sucroseCrystals.size() > 0 ) {
+            removeSucroseCrystal( sucroseCrystals.get( 0 ) );
         }
     }
 
