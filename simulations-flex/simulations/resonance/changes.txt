@@ -1,3 +1,5 @@
+# 1.01.00 (54775) Aug 2, 2011
+8/2/11 Adjusted location of DRIVER label for better internationalization.
 # 1.00.01 (54773) Aug 2, 2011
 8/2/11 Location of DRIVER label tweeked for better internationalization.
 # 1.00.00 (54323) Jul 20, 2011
