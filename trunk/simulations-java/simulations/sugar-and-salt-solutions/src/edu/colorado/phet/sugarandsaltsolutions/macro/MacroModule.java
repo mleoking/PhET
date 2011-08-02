@@ -19,9 +19,12 @@ public class MacroModule extends SugarAndSaltSolutionsModule {
         this( new MacroModel(), globalState );
     }
 
-    private MacroModule( MacroModel model, GlobalState globalState ) {
+    private MacroModule( final MacroModel model, GlobalState globalState ) {
         super( SugarAndSaltSolutionsResources.Strings.MACRO, model.clock );
         this.model = model;
         setSimulationPanel( new MacroCanvas( this.model, globalState ) );
+
+        //When the module becomes activated/deactivated, update the flag in the model for purposes of starting and stopping the clock
+        listenForModuleActivated( model.moduleActive );
     }
 }

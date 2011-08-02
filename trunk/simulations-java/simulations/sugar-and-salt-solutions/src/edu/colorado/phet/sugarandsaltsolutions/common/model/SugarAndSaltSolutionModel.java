@@ -8,12 +8,15 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.event.Notifier;
+import edu.colorado.phet.common.phetcommon.model.property.And;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.DrainFaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
@@ -125,7 +128,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //The elapsed running time of the model
     protected double time;
 
-    public SugarAndSaltSolutionModel( ConstantDtClock clock,
+    //Settable property that indicates whether the clock is running or paused
+    public final BooleanProperty playButtonPressed = new BooleanProperty( true );
+
+    //Boolean flag to indicate whether the module is running, for purposes of starting and pausing the clock
+    public final BooleanProperty moduleActive = new BooleanProperty( false );
+
+    public SugarAndSaltSolutionModel( final ConstantDtClock clock,
 
                                       //Dimensions of the beaker
                                       BeakerDimension beakerDimension,
@@ -195,6 +204,19 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
         //Create the list of dispensers
         dispensers = new ArrayList<Dispenser>();
+
+        //Make the clock run if "play" is selected with the user controls and if the module is active
+        final And clockRunning = playButtonPressed.and( moduleActive );
+        clockRunning.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean clockRunning ) {
+                if ( clockRunning ) {
+                    clock.start();
+                }
+                else {
+                    clock.pause();
+                }
+            }
+        } );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
