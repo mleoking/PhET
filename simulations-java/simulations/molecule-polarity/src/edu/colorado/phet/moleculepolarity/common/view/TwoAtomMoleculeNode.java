@@ -41,12 +41,12 @@ public class TwoAtomMoleculeNode extends PhetPNode {
                 molecule.setDragging( false );
             }
 
-            //Find the angle about the center of the prism
+            // Find the angle about the center of the bond.
             private double getAngle( PInputEvent event ) {
                 return new ImmutableVector2D( molecule.bond.getCenter().toPoint2D(), event.getPositionRelativeTo( getParent() ) ).getAngle();
             }
 
-            //Drag the prism to rotate it
+            // Drag the molecule to rotate it.
             @Override public void mouseDragged( PInputEvent event ) {
                 double angle = getAngle( event );
                 molecule.angle.set( molecule.angle.get() + angle - previousAngle );
