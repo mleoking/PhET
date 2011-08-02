@@ -1,19 +1,16 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
-import java.util.IdentityHashMap;
-import java.util.Iterator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.ObserverList;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -21,20 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author Sam Reid
  */
-public class ItemList<T> implements Iterable<T> {
-
-    //The items in the list
-    private final ArrayList<T> items = new ArrayList<T>();
-
-    //Listeners that are notified when another item is added
-    private final ObserverList<T> itemAddedListeners = new ObserverList<T>();
-
-    //Listeners that are notified when any item is removed
-    private final ObserverList<T> itemRemovedListeners = new ObserverList<T>();
-
-    //Listeners that are notified when a particular item (as determined by identity) is removed
-    //It is important to use identity here so this list can work with mutable values (such as moving particles)
-    private final IdentityHashMap<T, ArrayList<VoidFunction0>> particularItemRemovedListeners = new IdentityHashMap<T, ArrayList<VoidFunction0>>();
+public class ItemList<T> extends ObservableList<T> {
 
     //Property that can be used to monitor the number of items in the list.
     //It is typed as Double since that package provides support for composition (through >, +, etc)
@@ -43,83 +27,18 @@ public class ItemList<T> implements Iterable<T> {
     public final DoubleProperty size = new DoubleProperty( 0.0 ) {{
         VoidFunction1<T> listener = new VoidFunction1<T>() {
             public void apply( T t ) {
-                set( getItems().size() + 0.0 );
+                set( size() + 0.0 );
             }
         };
-        itemAddedListeners.addObserver( listener );
-        itemRemovedListeners.addObserver( listener );
+        addElementAddedObserver( listener );
+        addElementRemovedObserver( listener );
     }};
     private final Random random = new Random();
-
-    public void addItemAddedListener( VoidFunction1<T> listener ) {
-        itemAddedListeners.addObserver( listener );
-    }
-
-    public void removeItemAddedListener( VoidFunction1<T> listener ) {
-        itemAddedListeners.removeObserver( listener );
-    }
-
-    public void addItemRemovedListener( VoidFunction1<T> listener ) {
-        itemRemovedListeners.addObserver( listener );
-    }
-
-    public void removeItemRemovedListener( VoidFunction1<T> listener ) {
-        itemRemovedListeners.removeObserver( listener );
-    }
-
-    //Listen for the removal of a specific item
-    public void addItemRemovedListener( T item, VoidFunction0 listener ) {
-        if ( !particularItemRemovedListeners.containsKey( item ) ) {
-            particularItemRemovedListeners.put( item, new ArrayList<VoidFunction0>() );
-        }
-        particularItemRemovedListeners.get( item ).add( listener );
-    }
-
-    //Remove a listener that was listening for a specific item removal
-    public void removeItemRemovedListener( T item, VoidFunction0 listener ) {
-        if ( particularItemRemovedListeners.containsKey( item ) ) {
-            particularItemRemovedListeners.get( item ).remove( listener );
-        }
-    }
-
-    public void add( T item ) {
-        items.add( item );
-        itemAddedListeners.notifyObservers( item );
-    }
-
-    //Remove the specified item from the list
-    public void remove( T item ) {
-
-        //Remove the item
-        items.remove( item );
-
-        //Notify listeners that are just interested in removal of any item
-        itemRemovedListeners.notifyObservers( item );
-
-        //Notify listeners that were specifically listening for when the specified item would be removed
-        if ( particularItemRemovedListeners.containsKey( item ) ) {
-            for ( VoidFunction0 listener : new ArrayList<VoidFunction0>( particularItemRemovedListeners.get( item ) ) ) {
-                listener.apply();
-            }
-        }
-    }
-
-    private ArrayList<T> getItems() {
-        return items;
-    }
-
-    public Iterator<T> iterator() {
-        return items.iterator();
-    }
-
-    public boolean contains( T item ) {
-        return items.contains( item );
-    }
 
     //Count the items in the list that match the predicate
     public int count( Function1<T, Boolean> predicate ) {
         int count = 0;
-        for ( T item : items ) {
+        for ( T item : this ) {
             if ( predicate.apply( item ) ) {
                 count++;
             }
@@ -142,7 +61,7 @@ public class ItemList<T> implements Iterable<T> {
     //Collect all items from the list that match the predicate
     public ArrayList<T> filter( final Function1<T, Boolean> predicate ) {
         return new ArrayList<T>() {{
-            for ( T item : items ) {
+            for ( T item : ItemList.this ) {
                 if ( predicate.apply( item ) ) {
                     add( item );
                 }
@@ -175,18 +94,6 @@ public class ItemList<T> implements Iterable<T> {
         } );
     }
 
-    //Remove all items from the list
-    public void clear() {
-        while ( size() > 0 ) {
-            remove( getItems().get( 0 ) );
-        }
-    }
-
-    //Get the number of elements in the list
-    public int size() {
-        return getItems().size();
-    }
-
     //Add all items from the list
     public void addAll( ArrayList<? extends T> elements ) {
         for ( T element : elements ) {
@@ -202,11 +109,7 @@ public class ItemList<T> implements Iterable<T> {
         }, size );
     }
 
-    public T get( int i ) {
-        return items.get( i );
-    }
-
     public ArrayList<T> toList() {
-        return new ArrayList<T>( getItems() );
+        return new ArrayList<T>( this );
     }
 }

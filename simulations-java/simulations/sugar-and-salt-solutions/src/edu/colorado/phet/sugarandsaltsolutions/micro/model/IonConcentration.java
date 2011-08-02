@@ -25,7 +25,7 @@ public class IonConcentration extends CompositeDoubleProperty {
                 notifyIfChanged();
             }
         };
-        microModel.freeParticles.addItemAddedListener( listener );
-        microModel.freeParticles.addItemRemovedListener( listener );
+        microModel.freeParticles.addElementAddedObserver( listener );
+        microModel.freeParticles.addElementRemovedObserver( listener );
     }
 }

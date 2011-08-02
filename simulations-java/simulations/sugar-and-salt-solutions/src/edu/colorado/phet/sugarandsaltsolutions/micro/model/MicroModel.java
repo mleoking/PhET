@@ -192,8 +192,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                     set( count + 0.0 );
                 }
             };
-            sucroseCrystals.addItemAddedListener( updateSucroseCount );
-            sucroseCrystals.addItemRemovedListener( updateSucroseCount );
+            sucroseCrystals.addElementAddedObserver( updateSucroseCount );
+            sucroseCrystals.addElementRemovedObserver( updateSucroseCount );
         }};
 
         //Determine whether the user is allowed to add more of each type, based on the particle table
