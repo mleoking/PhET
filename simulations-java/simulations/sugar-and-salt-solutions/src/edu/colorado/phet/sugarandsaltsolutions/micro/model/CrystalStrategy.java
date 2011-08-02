@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
  */
 public class CrystalStrategy extends UpdateStrategy {
     //Strategy rule to use for dissolving the crystals
-    public final IncrementalDissolve incrementalDissolve = new IncrementalDissolve( model );
+    public final IncrementalDissolve incrementalDissolve;
     private ItemList<? extends Crystal> crystals;
     private ObservableProperty<Boolean> saturated;
 
@@ -22,6 +22,7 @@ public class CrystalStrategy extends UpdateStrategy {
         super( model );
         this.crystals = crystals;
         this.saturated = saturated;
+        incrementalDissolve = new IncrementalDissolve( model );
     }
 
     @Override public void stepInTime( Particle particle, double dt ) {

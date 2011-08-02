@@ -16,6 +16,7 @@ import static java.lang.Math.PI;
  * @author Sam Reid
  */
 public class FreeParticleStrategy extends UpdateStrategy {
+
     //Randomness for random walks
     private final Random random = new Random();
 
@@ -24,6 +25,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
     }
 
     public void stepInTime( Particle particle, double dt ) {
+
         //Switch strategies if necessary
         if ( model.outputFlowRate.get() > 0 ) {
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D() ) );
