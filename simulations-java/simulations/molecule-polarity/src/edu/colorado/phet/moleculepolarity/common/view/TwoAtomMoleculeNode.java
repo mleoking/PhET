@@ -32,9 +32,13 @@ public class TwoAtomMoleculeNode extends PhetPNode {
         addInputEventListener( new PBasicInputEventHandler() {
             double previousAngle;
 
-            //Store the original angle since rotations are computed as deltas between each event
-            public void mousePressed( PInputEvent event ) {
-                previousAngle = getAngle( event );
+            @Override public void mousePressed( PInputEvent event ) {
+                molecule.setDragging( true );
+                previousAngle = getAngle( event ); //Store the original angle since rotations are computed as deltas between each event
+            }
+
+            @Override public void mouseReleased( PInputEvent event ) {
+                molecule.setDragging( false );
             }
 
             //Find the angle about the center of the prism
@@ -43,7 +47,7 @@ public class TwoAtomMoleculeNode extends PhetPNode {
             }
 
             //Drag the prism to rotate it
-            public void mouseDragged( PInputEvent event ) {
+            @Override public void mouseDragged( PInputEvent event ) {
                 double angle = getAngle( event );
                 molecule.angle.set( molecule.angle.get() + angle - previousAngle );
                 previousAngle = angle;
