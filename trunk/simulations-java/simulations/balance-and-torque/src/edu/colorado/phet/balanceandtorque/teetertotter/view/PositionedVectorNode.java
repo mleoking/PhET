@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
+import java.awt.BasicStroke;
+import java.awt.Stroke;
+
 import edu.colorado.phet.balanceandtorque.teetertotter.model.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -17,7 +20,8 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class PositionedVectorNode extends PNode {
-    private static final double SCALE_FACTOR = 0.003; // Arbitrary scaling factor to make vectors a reasonable size.
+    private static final double SCALE_FACTOR = 0.002; // Arbitrary scaling factor to make vectors a reasonable size.
+    private static final Stroke ARROW_STROKE = new BasicStroke( 2 );
 
     public PositionedVectorNode( final Property<PositionedVector> positionedVectorProperty, final ModelViewTransform mvt ) {
         // Create the vector node and add it as a child.
