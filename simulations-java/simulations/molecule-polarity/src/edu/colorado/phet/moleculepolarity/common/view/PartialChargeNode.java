@@ -60,7 +60,8 @@ public class PartialChargeNode extends PComposite {
                     ImmutableVector2D unitVectorFromBond = new ImmutableVector2D( bond.getCenter(), atom.location.get() ).getNormalizedInstance();
 
                     //Compute the amount to move the partial charge node
-                    ImmutableVector2D relativeOffset = unitVectorFromBond.times( atom.getDiameter() / 2 + Math.max( getFullBounds().getWidth(), getFullBounds().getHeight() ) / 2 );
+                    double multiplier = ( atom.getDiameter() / 2 ) + ( Math.max( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() ) / 2 ) + 3;
+                    ImmutableVector2D relativeOffset = unitVectorFromBond.times( multiplier );
                     setOffset( atom.location.get().plus( relativeOffset ).toPoint2D() );
                 }
             }
