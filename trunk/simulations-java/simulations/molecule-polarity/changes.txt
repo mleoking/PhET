@@ -1,3 +1,4 @@
+8/2/11 tweak sizes and locations of some things, so that there are no collisions when rotating molecule
 8/2/11 for 2-atom molecule, molecular dipole is identical to bond dipole
 8/2/11 make Bond dipole field a vector instead of a scalar
 8/2/11 add infrastructure for aligning molecular dipole with E-field over time

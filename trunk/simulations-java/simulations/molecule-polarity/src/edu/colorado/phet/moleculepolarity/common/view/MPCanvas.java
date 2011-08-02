@@ -46,21 +46,21 @@ public class MPCanvas extends PhetPCanvas {
 
         Dimension2D worldSize = getWorldSize();
         if ( getWidth() > 0 && getHeight() > 0 ) {
-            centerRootNode();
+            topCenterRootNode();
         }
         LOGGER.info( "size=" + getSize() + " worldSize=" + worldSize );
     }
 
-    protected void centerRootNode() {
-        centerNode( rootNode );
+    protected void topCenterRootNode() {
+        topCenterNode( rootNode );
     }
 
-    protected void centerNode( PNode node ) {
+    protected void topCenterNode( PNode node ) {
         if ( node != null ) {
             Dimension2D worldSize = getWorldSize();
             PBounds b = node.getFullBoundsReference();
             double xOffset = ( worldSize.getWidth() - b.getWidth() - PNodeLayoutUtils.getOriginXOffset( node ) ) / 2;
-            double yOffset = ( worldSize.getHeight() - b.getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) ) / 2;
+            double yOffset = 0;
             node.setOffset( xOffset, yOffset );
         }
     }
