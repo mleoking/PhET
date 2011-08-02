@@ -6,8 +6,10 @@ import java.util.logging.Logger;
 
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.util.PBounds;
 
 /**
  * Base class for all canvases.
@@ -43,10 +45,23 @@ public class MPCanvas extends PhetPCanvas {
         super.updateLayout();
 
         Dimension2D worldSize = getWorldSize();
-        if ( worldSize.getWidth() <= 0 || worldSize.getHeight() <= 0 ) {
-            // canvas hasn't been sized, blow off layout
-            return;
+        if ( getWidth() > 0 && getHeight() > 0 ) {
+            centerRootNode();
         }
         LOGGER.info( "size=" + getSize() + " worldSize=" + worldSize );
+    }
+
+    protected void centerRootNode() {
+        centerNode( rootNode );
+    }
+
+    protected void centerNode( PNode node ) {
+        if ( node != null ) {
+            Dimension2D worldSize = getWorldSize();
+            PBounds b = node.getFullBoundsReference();
+            double xOffset = ( worldSize.getWidth() - b.getWidth() - PNodeLayoutUtils.getOriginXOffset( node ) ) / 2;
+            double yOffset = ( worldSize.getHeight() - b.getHeight() - PNodeLayoutUtils.getOriginYOffset( node ) ) / 2;
+            node.setOffset( xOffset, yOffset );
+        }
     }
 }
