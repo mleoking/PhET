@@ -195,7 +195,7 @@ public class Plank extends ShapeModelElement {
         mass.setOnPlank( false );
         for ( MassForceVector massForceVector : new ObservableList<MassForceVector>( forceVectorList ) ) {
             if ( mass == massForceVector.mass ) {
-                forceVectorList.remove( mass );
+                forceVectorList.remove( massForceVector );
             }
         }
         updateTorque();
