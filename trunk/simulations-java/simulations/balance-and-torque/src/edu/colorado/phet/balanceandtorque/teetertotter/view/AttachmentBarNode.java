@@ -5,9 +5,12 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Paint;
+import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.AttachmentBar;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -30,14 +33,20 @@ public class AttachmentBarNode extends ModelObjectNode {
         pivotNode.setOffset( mvt.modelToView( attachmentBar.getPivotPoint() ) );
         pivotNode.addChild( new PhetPPath( new Ellipse2D.Double( -pivotWidth / 10, -pivotWidth / 10, pivotWidth / 5, pivotWidth / 5 ), Color.BLACK ) );
         addChild( pivotNode );
+        // Watch the shape and update the gradient as needed.
+        attachmentBar.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+            public void apply( Shape shape ) {
+                setPaint( createGradientPaint( mvt, attachmentBar ) );
+            }
+        } );
     }
 
     private static Paint createGradientPaint( ModelViewTransform mvt, AttachmentBar attachmentBar ) {
-        return new GradientPaint( (float) mvt.modelToViewX( attachmentBar.getShape().getBounds2D().getMinX() ),
-                                  (float) mvt.modelToViewX( attachmentBar.getShape().getBounds2D().getMinY() ),
+        Vector2D gradientAdjustmentVector = new Vector2D( AttachmentBar.WIDTH / 2, 0 ).rotate( attachmentBar.getDeflectionAngle() );
+        Vector2D pivotPointVector = new Vector2D( attachmentBar.getPivotPoint() );
+        return new GradientPaint( mvt.modelToView( new Vector2D( pivotPointVector ).subtract( gradientAdjustmentVector ).toPoint2D() ),
                                   ColorUtils.brighterColor( BASE_COLOR, 0.5 ),
-                                  (float) mvt.modelToViewX( attachmentBar.getShape().getBounds2D().getMaxX() ),
-                                  (float) mvt.modelToViewX( attachmentBar.getShape().getBounds2D().getMinY() ),
+                                  mvt.modelToView( new Vector2D( pivotPointVector ).add( gradientAdjustmentVector ).toPoint2D() ),
                                   ColorUtils.darkerColor( BASE_COLOR, 0.5 ) );
     }
 }

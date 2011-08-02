@@ -13,19 +13,41 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class for displaying and interacting with any model object in the torque sim.
- * Uses the shape of the object, which will change as the object moves.
+ * Base class for displaying and interacting with model objects.  Uses the
+ * shape of the object, which will change as the object moves.
  *
+ * @author John Blanco
  * @author Sam Reid
  */
 public class ModelObjectNode extends PNode {
+
+    private PhetPPath modelShapeNode;
+
+    /**
+     * Constructor.
+     *
+     * @param mvt
+     * @param modelObject
+     * @param paint
+     */
     public ModelObjectNode( final ModelViewTransform mvt, final ShapeModelElement modelObject, Paint paint ) {
-        addChild( new PhetPPath( paint, new BasicStroke( 1, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_SQUARE ), Color.BLACK ) {{
+        modelShapeNode = new PhetPPath( paint, new BasicStroke( 1, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_SQUARE ), Color.BLACK ) {{
             modelObject.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );
                 }
             } );
-        }} );
+        }};
+        addChild( modelShapeNode );
+    }
+
+    /**
+     * Change the initial paint value.  Useful when rotating model objects
+     * that were created with a gradient paint.
+     *
+     * @param paint
+     */
+    public void setPaint( Paint paint ) {
+        modelShapeNode.setPaint( paint );
     }
 }

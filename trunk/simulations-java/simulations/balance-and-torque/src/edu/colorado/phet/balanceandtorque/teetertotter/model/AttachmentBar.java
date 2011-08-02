@@ -36,6 +36,17 @@ public class AttachmentBar extends ShapeModelElement {
         return plank.getPivotPoint();
     }
 
+    /**
+     * Get the angle of deflection.
+     *
+     * @return Zero if the bar is pointing straight down, positive if the
+     *         bottom is to the right of the pivot point, negative if the bottom is
+     *         to the left of the pivot point.
+     */
+    public double getDeflectionAngle() {
+        return plank.getTiltAngle();
+    }
+
     private static Shape generateShape( Point2D pivotPoint, Point2D attachmentPoint ) {
         double distance = pivotPoint.distance( attachmentPoint );
         DoubleGeneralPath path = new DoubleGeneralPath( 0, 0 );
