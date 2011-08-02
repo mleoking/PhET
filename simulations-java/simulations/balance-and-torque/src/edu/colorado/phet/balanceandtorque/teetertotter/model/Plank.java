@@ -193,6 +193,7 @@ public class Plank extends ShapeModelElement {
         massesOnSurface.remove( mass );
         mass.setRotationAngle( 0 );
         mass.setOnPlank( false );
+        // Remove the force vector associated with this mass.
         for ( MassForceVector massForceVector : new ObservableList<MassForceVector>( forceVectorList ) ) {
             if ( mass == massForceVector.mass ) {
                 forceVectorList.remove( massForceVector );

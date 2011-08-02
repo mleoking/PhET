@@ -100,15 +100,17 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
 
         // Listen to the list of various vectors and manage their representations.
         model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
-            public void apply( MassForceVector massForceVector ) {
+            public void apply( final MassForceVector addedMassForceVector ) {
                 // Add a vector node for the new vector.
-                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( massForceVector.forceVectorProperty, mvt );
+                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty, mvt );
                 rootNode.addChild( positionedVectorNode );
                 // Listen for removal of this vector and, if and when it is
                 // removed, remove the corresponding representation.
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
-                    public void apply( MassForceVector positionedVectorProperty ) {
-                        rootNode.removeChild( positionedVectorNode );
+                    public void apply( MassForceVector removedMassForceVector ) {
+                        if ( removedMassForceVector == addedMassForceVector ) {
+                            rootNode.removeChild( positionedVectorNode );
+                        }
                     }
                 } );
             }
