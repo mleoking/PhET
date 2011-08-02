@@ -1,3 +1,4 @@
+8/2/11 add infrastructure for aligning molecular dipole with E-field over time
 8/2/11 Jmol: limit display of partial charge to 2 decimal places
 8/2/11 Implemented TwoAtomMoleculeNode.RotationHandler
 8/2/11 Set position of partial charges relative to their associated atoms

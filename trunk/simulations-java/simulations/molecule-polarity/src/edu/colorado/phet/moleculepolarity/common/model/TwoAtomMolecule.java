@@ -23,6 +23,7 @@ public class TwoAtomMolecule {
     public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
     public final Atom atomA, atomB;
     public final Bond bond;
+    private boolean dragging;
 
     public TwoAtomMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
@@ -40,6 +41,14 @@ public class TwoAtomMolecule {
     public void reset() {
         atomA.reset();
         atomB.reset();
+    }
+
+    public boolean isDragging() {
+        return dragging;
+    }
+
+    public void setDragging( boolean dragging ) {
+        this.dragging = dragging;
     }
 
     private void updateAngle( double angle ) {
