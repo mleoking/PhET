@@ -57,7 +57,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
         addChild( modelControlsNode );
 
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties ) );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false ) );
         addChild( viewControlsNode );
 
         PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
