@@ -1,3 +1,4 @@
+Micro tab: Fixed: Ethanol concentration should only count ethanol in solution, not ethanol in the air
 Micro tab: Improved speed at which particles move to the drain faucet
 Fixed: Exception on startup "multiple clocks are running"
 Micro tab: Fixed: "Remove sucrose" button doesn’t remove sucrose crystals
