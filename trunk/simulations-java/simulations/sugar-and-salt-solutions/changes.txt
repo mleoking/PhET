@@ -1,3 +1,4 @@
+Micro tab: Improved speed at which particles move to the drain faucet
 Fixed: Exception on startup "multiple clocks are running"
 Micro tab: Fixed: "Remove sucrose" button doesn’t remove sucrose crystals
 # 0.00.74 (54730) Aug 1, 2011
