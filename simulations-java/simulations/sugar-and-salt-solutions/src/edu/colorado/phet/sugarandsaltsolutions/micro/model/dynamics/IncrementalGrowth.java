@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -9,8 +9,14 @@ import java.util.Random;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.UpdateStrategy.FREE_PARTICLE_SPEED;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 
 /**
  * This class handles incremental crystallization of particles when the concentration surpasses the saturation point.

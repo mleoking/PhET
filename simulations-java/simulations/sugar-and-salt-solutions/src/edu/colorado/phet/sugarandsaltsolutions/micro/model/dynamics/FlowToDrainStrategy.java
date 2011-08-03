@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * This strategy moves particles toward the drain at the indicated velocity.  When they reach the drain, they flow out through the drain faucet.
@@ -41,7 +43,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
 
                 //Okay to reschedule now since one particle just left, so there will be no phase problem
                 particle.setPosition( model.getDrainFaucetMetrics().outputPoint );
-                particle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
+                particle.velocity.set( new ImmutableVector2D( 0, -FREE_PARTICLE_SPEED / 2 ) );
             }
         }
     }

@@ -5,6 +5,8 @@ import java.awt.Shape;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IUpdateStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Motionless;
 
 /**
  * A particle is an indivisible object with a position such as Na+ or a sugar molecule.
