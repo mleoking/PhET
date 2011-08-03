@@ -697,10 +697,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> getAllBondingSites() {
         ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> s = new ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>>();
         for ( SodiumChlorideCrystal crystal : sodiumChlorideCrystals ) {
-            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatches( crystal ) );
+            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatchesSorted( crystal ) );
         }
         for ( CalciumChlorideCrystal crystal : calciumChlorideCrystals ) {
-            s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getAllCrystallizationMatches( crystal ) );
+            s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getAllCrystallizationMatchesSorted( crystal ) );
         }
         return s;
     }
