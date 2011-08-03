@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
+import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.TwoAtomMolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -35,7 +36,7 @@ public class BondTypeNode extends PComposite {
     private static final double THUMB_WIDTH = 15;
     private static final double THUMB_HEIGHT = 30;
 
-    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, 3.3, ARROW_HEAD_HEIGHT, ARROW_LENGTH - ARROW_HEAD_HEIGHT );
+    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), ARROW_HEAD_HEIGHT, ARROW_LENGTH - ARROW_HEAD_HEIGHT );
 
     public BondTypeNode( TwoAtomMolecule molecule ) {
 
