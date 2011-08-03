@@ -1,8 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- fix condition where bond dipole and endpoints are updated at different times, resulting in incorrect Bond.isDipoleInPhase
-- E-field alignment, implement TwoAtomsModel.updateMoleculeOrientation
 
 MEDIUM
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
