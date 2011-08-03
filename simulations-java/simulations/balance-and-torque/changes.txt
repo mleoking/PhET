@@ -1,3 +1,5 @@
+# 0.00.05 (54837) Aug 3, 2011
+8/3/11 Publishing updated version to dev for review.
 Improved placement of the control panels.
 Moved columns so that the red x wouldn't be overlapped by force vectors.
 Made it easier to place masses on the plank by using the center point rather than the bottom of the mass.
