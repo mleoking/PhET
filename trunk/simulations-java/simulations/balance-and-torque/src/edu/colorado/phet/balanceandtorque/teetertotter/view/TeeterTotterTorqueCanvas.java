@@ -107,6 +107,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,
                                                                                             0.002,  // Scaling factor, chosen to make size reasonable.
                                                                                             forceVectorsFromObjectsVisibleProperty,
+                                                                                            Color.WHITE,
                                                                                             mvt );
                 rootNode.addChild( positionedVectorNode );
                 // Listen for removal of this vector and, if and when it is
@@ -126,6 +127,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedLeverArmVector.leverArmVectorProperty,
                                                                                             1.0,
                                                                                             leverArmVectorsVisibleProperty,
+                                                                                            new Color( 255, 190, 0 ),
                                                                                             mvt );
                 rootNode.addChild( positionedVectorNode );
                 // Listen for removal of this vector and, if and when it is
