@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.common.phetcommon.util;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
@@ -141,8 +139,14 @@ public class ObservableList<T> implements List<T> {
     }
 
     public boolean retainAll( Collection<?> c ) {
-        // Didn't implement this yet, please do so if it is needed.
-        throw ( new NotImplementedException() );
+        boolean anyRemoved = false;
+        for ( T t : new ArrayList<T>( this ) ) {
+            if ( !c.contains( t ) ) {
+                boolean didRemove = remove( t );
+                anyRemoved = anyRemoved || didRemove;
+            }
+        }
+        return anyRemoved;
     }
 
     public void clear() {
