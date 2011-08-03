@@ -1,4 +1,3 @@
-# 0.00.75 (54793) Aug 3, 2011
 Micro tab: Sometimes create new crystals instead of only growing one large crystal
 Micro tab: Fixed: Ethanol concentration should only count ethanol in solution, not ethanol in the air
 Micro tab: Improved speed at which particles move to the drain faucet
