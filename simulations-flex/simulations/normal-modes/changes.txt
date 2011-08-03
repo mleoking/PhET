@@ -1,3 +1,5 @@
+# 0.00.38 (54818) Aug 3, 2011
+8/3/11 Minor String edits. 2D starts with 2x2 array.
 # 0.00.37 (54692) Aug 1, 2011
 8/1/11 Commented out View1DModes
 # 0.00.36 (54690) Aug 1, 2011
