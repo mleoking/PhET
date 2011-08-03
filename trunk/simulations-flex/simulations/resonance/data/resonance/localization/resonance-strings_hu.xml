@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_hu.xml created Wed Aug 03 19:53:44 CEST 2011 using: resonance 1.01.00 (54775), translation-utility 2.10.00 (48775) febr. 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="szimuláció sebesség"/>
+<string key="sameFrequency" value="azonos frekvencia"/>
+<string key="sameSpring" value="azonos rugó"/>
+<string key="slow" value="lassú"/>
+<string key="mixedMAndK" value="különböző tömeg m és rugóállandó k"/>
+<string key="numberOfResonators" value="rezonátorok száma"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="szünet"/>
+<string key="amplitude" value="amlitúdó"/>
+<string key="frequencyEqualsXHz" value="frekvencia={0} Hz"/>
+<string key="sloMo" value="lassított mozgás"/>
+<string key="step" value="léptet"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="gerjesztő"/>
+<string key="on" value="be"/>
+<string key="ruler" value="Vonalzó"/>
+<string key="resonance.simTitle" value="Rezonancia"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="rugó állandó"/>
+<string key="frequency" value="frevencia"/>
+<string key="resetAll" value="alapállapotba "/>
+<string key="mass" value="tömeg"/>
+<string key="sameMass" value="azonos tömeg"/>
+<string key="resonator" value="Rezonátor"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="gravitáció"/>
+<string key="play" value="lejátszik"/>
+<string key="paused" value="megállítva"/>
+<string key="off" value="ki"/>
+<string key="dampingConstant" value="csillapítási állandó"/>
+<string key="normal" value="normál"/>
+<string key="selectPreset" value="állítsd be paramétereket"/>
+</SimStrings>
