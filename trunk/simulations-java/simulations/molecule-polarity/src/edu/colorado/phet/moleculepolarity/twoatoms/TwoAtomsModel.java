@@ -78,7 +78,7 @@ public class TwoAtomsModel extends MPModel {
             if ( angle == Math.PI ) {
                 // do nothing, molecule is aligned with E-field
             }
-            else if ( angle >= 0 && angle < Math.PI ) {
+            else if ( angle > 0 && angle < Math.PI ) {
                 newAngle = angle + deltaAngle;
                 if ( newAngle > Math.PI ) {
                     newAngle = Math.PI;
@@ -86,7 +86,7 @@ public class TwoAtomsModel extends MPModel {
             }
             else {
                 newAngle = angle - deltaAngle;
-                if ( newAngle < Math.PI ) {
+                if ( newAngle < Math.PI && newAngle > 0 ) {
                     newAngle = Math.PI;
                 }
             }
