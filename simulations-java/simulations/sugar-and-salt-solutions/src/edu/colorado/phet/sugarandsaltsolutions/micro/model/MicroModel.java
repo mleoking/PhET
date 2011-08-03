@@ -243,11 +243,16 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Record the time when particles were scheduled to leave the drain so it can be accounted for during propagation toward the drain.
         double drainFlowStartTime;
 
-        //concentration at time user started manipulating drain faucet, in particles/m^3
-        double targetConcentration;
+        //initial number of solutes at time user started manipulating drain faucet
+        int initialNumberSolutes;
+
+        //initial volume at time user started manipulating drain faucet, in m^3
+        double initialVolume;
 
         //the previous flow rate of the drain faucet, for purposes of recording the target concentration when user starts draining fluid.
         double previousDrainFlowRate;
+
+        //The type of the particle to match, necessary since concentration is different for each solute
         public final Class<? extends Particle> type;
 
         public DrainData( Class<? extends Particle> type ) {
@@ -268,12 +273,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         if ( currentDrainFlowRate > 0 ) {
             if ( drainData.previousDrainFlowRate == 0 ) {
 
-                //TODO: this is counting all particles, we should just be counting the submerged free particles, not free ethanol falling to the water since it shouldn't move to the drain until it hits water
-                int numSodiumIons = freeParticles.count( drainData.type );
-                double amountOfFluidToDrain = solution.volume.get();
-
                 //When draining, try to attain this number of target ions per volume as closely as possible
-                drainData.targetConcentration = numSodiumIons / amountOfFluidToDrain;
+                //TODO: this is counting all particles, we should just be counting the submerged free particles, not free ethanol falling to the water since it shouldn't move to the drain until it hits water
+                drainData.initialNumberSolutes = freeParticles.count( drainData.type );
+                drainData.initialVolume = solution.volume.get();
 
                 //Record the drain start time so that it can be accounted for in the propagation schedule, to keep track of how far particles have already come
                 drainData.drainFlowStartTime = getTime();
@@ -352,30 +355,48 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Compute the number of ions that should be drained per second (on average) to maintain a constant concentration
         //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
         double currentDrainFlowRate_VolumePerSecond = outputFlowRate.get() * faucetFlowRate;
-        double particlesDrainPerSecond = currentDrainFlowRate_VolumePerSecond * drainData.targetConcentration;
-        double secondsPerIon = 1.0 / particlesDrainPerSecond;
-        double elapsedDrainTime = getTime() - drainData.drainFlowStartTime;
 
-        //TODO: will this alternate technique work?
-        double volumeDrained = currentDrainFlowRate_VolumePerSecond * dt;
-        double targetConcentration = drainData.targetConcentration;
-        double targetNumberIons = volumeDrained * targetConcentration;
-//        System.out.println( "targetNumberIons = " + targetNumberIons );
+        //Determine the current concentration in particles per meter cubed
+        double currentConcentration = freeParticles.count( drainData.type ) / solution.volume.get();
 
+        //Determine the concentration at which we would consider it to be too erroneous, at half a particle over the target concentration
+        //Half a particle is used so the solution will center on the target concentration (rather than upper or lower bounded)
+        double errorConcentration = ( drainData.initialNumberSolutes + 0.5 ) / drainData.initialVolume;
+
+        //Determine the concentration in the next step, and subsequently how much it is changing over time
+        double nextConcentration = freeParticles.count( drainData.type ) / ( solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
+        double deltaConcentration = ( nextConcentration - currentConcentration );
+        double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
+
+        //Assuming a constant rate of drain flow, compute how long until we would be in the previously determined error scenario
+        //We will speed up the nearest particle so that it flows out in this time
+        double timeToError = numberDeltasToError * dt;
+
+        //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
+        //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
+        double mainParticleSpeed = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = particles.get( i );
-            int index = i + 1;
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
-            double targetTime = secondsPerIon * index - elapsedDrainTime;
             double distanceToTarget = particle.getPosition().getDistance( drain );
-            double speed = distanceToTarget / targetTime;
+            double speed = distanceToTarget / timeToError;
+
+            //Store the primary speed that the leaving particle is moving at
+            if ( i == 0 ) {
+                mainParticleSpeed = speed;
+            }
+            else {
+
+                //For secondary particles, move with a speed close to that of the closest particle, but slower if further away
+                //TODO: could do smoother interpolation to obtain the speeds for further away objects
+                speed = mainParticleSpeed / ( i + 1 );
+            }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
             particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
 
             if ( debugDraining ) {
-                System.out.println( "i = " + i + ", seconds per ion = " + secondsPerIon + ", target time = " + targetTime +
-                                    ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
+                System.out.println( "i = " + 0 + ", target time = " + time + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
             }
         }
     }
