@@ -83,13 +83,13 @@ public class MainView extends Canvas {
         this.myModel2 = new Model2( this );
         this.myModel2.stopMotion();
         this.myView1 = new View1( this, myModel1 );
-        //this.myView1DModes = new View1DModes( this, myModel1 );
+        this.myView1DModes = new View1DModes( this, myModel1 );
         this.myView2 = new View2( this, myModel2 );
 
         this.myView1.x = 0 * stageW;
         this.myView1.y = 0 * stageH;
-        //this.myView1DModes.x = 0.83*stageW;
-        //this.myView1DModes.y = 0.55*stageH;
+        this.myView1DModes.x = 0.83*stageW;
+        this.myView1DModes.y = 0.55*stageH;
         this.myView2.x = 0 * stageW;
         this.myView2.y = 0 * stageH;
 
@@ -127,7 +127,7 @@ public class MainView extends Canvas {
         this.addChild( mySliderArrayPanel );
         //this.addChild( new SpriteUIComponent ( mySliderArrayPanel ) );
         this.addChild( new SpriteUIComponent( myView1 ) );
-        //this.addChild( new SpriteUIComponent( myView1DModes ) );
+        this.addChild( new SpriteUIComponent( myView1DModes ) );
         this.addChild( new SpriteUIComponent( myView2 ) );
         this.myView2.visible = false;
         this.addChild( myControlPanel );
@@ -159,7 +159,7 @@ public class MainView extends Canvas {
             this.myPausedSign.x = 0.36*stageW;
             this.oneDMode = true;
             this.myView1.visible = true;
-            //this.myView1DModes.visible = true;
+            this.myView1DModes.visible = true;
             this.myView2.visible = false;
             this.mySliderArrayPanel.visible = true;
             this.myButtonArrayPanel.visible = false;
@@ -174,7 +174,7 @@ public class MainView extends Canvas {
             this.myPausedSign.x = 0.31*stageW;
             this.oneDMode = false;
             this.myView1.visible = false;
-            //this.myView1DModes.visible = false;
+            this.myView1DModes.visible = false;
             this.myView2.visible = true;
             this.mySliderArrayPanel.visible = false;
             this.myButtonArrayPanel.visible = true;
@@ -197,7 +197,7 @@ public class MainView extends Canvas {
         this.mySloMoStepControl.unPauseExternally();
         this.mySloMoStepControl.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 3 );    //this initializes Model1
-        this.myModel2.setN( 3 );                            //this initializes Model2
+        this.myModel2.setN( 2 );                            //this initializes Model2
         //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }

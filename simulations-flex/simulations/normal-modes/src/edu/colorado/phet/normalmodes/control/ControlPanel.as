@@ -193,8 +193,8 @@ public class ControlPanel extends Canvas {
     } //end of init()
 
     public function initializeStrings(): void {
-        start_str = FlexSimStrings.get( "start", "START" );
-        stop_str = FlexSimStrings.get( "stop", "STOP" );
+        start_str = FlexSimStrings.get( "start", "Start" );
+        stop_str = FlexSimStrings.get( "stop", "Stop" );
         resetPositions_str = FlexSimStrings.get( "resetPositions", "Initial Positions" );
         zeroPositions_str = FlexSimStrings.get( "zeroPositions", "Zero Positions");
         numberOfMasses_str = FlexSimStrings.get( "numberOfMasses", "Number of Masses");

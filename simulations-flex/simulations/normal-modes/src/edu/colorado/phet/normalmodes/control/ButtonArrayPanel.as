@@ -98,7 +98,7 @@ public class ButtonArrayPanel extends Canvas{
     } //end constructor
 
     public function initializeStrings():void{
-        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode numbers x, y");
+        this.modesNxNy_str = FlexSimStrings.get("modeNumbersXY", "Mode Numbers x, y");
     }
 
     private function formatLabel():void{
