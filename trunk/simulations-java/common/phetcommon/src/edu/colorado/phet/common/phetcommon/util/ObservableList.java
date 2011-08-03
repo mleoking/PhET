@@ -20,18 +20,18 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class ObservableList<T> implements List<T> {
 
-    //Underlying data structure containing the items in question
+    //Underlying data structure containing the elements
     private final List<T> list = new ArrayList<T>();
 
-    //Listeners that are notified when an element is added to the list
+    //Observers that are notified when an element is added to the list
     private final ObserverList<T> elementAddedObservers = new ObserverList<T>();
 
-    //Listeners that are notified when an element is removed from the list
+    //Observers that are notified when an element is removed from the list
     private final ObserverList<T> elementRemovedObservers = new ObserverList<T>();
 
-    //Listeners that are notified when a particular item (as determined by identity) is removed
+    //Observers that are notified when a particular element (as determined by identity) is removed
     //It is important to use identity here so this list can work with mutable values (such as moving particles)
-    private final IdentityHashMap<T, ArrayList<VoidFunction0>> particularItemRemovedListeners = new IdentityHashMap<T, ArrayList<VoidFunction0>>();
+    private final IdentityHashMap<T, ArrayList<VoidFunction0>> particularElementRemovedObservers = new IdentityHashMap<T, ArrayList<VoidFunction0>>();
 
     /**
      * Default constructor.
@@ -75,18 +75,18 @@ public class ObservableList<T> implements List<T> {
         elementRemovedObservers.removeObserver( elementRemovedObserver );
     }
 
-    //Listen for the removal of a specific item
-    public void addItemRemovedListener( T item, VoidFunction0 listener ) {
-        if ( !particularItemRemovedListeners.containsKey( item ) ) {
-            particularItemRemovedListeners.put( item, new ArrayList<VoidFunction0>() );
+    //Listen for the removal of a specific element
+    public void addElementRemovedObserver( T element, VoidFunction0 observer ) {
+        if ( !particularElementRemovedObservers.containsKey( element ) ) {
+            particularElementRemovedObservers.put( element, new ArrayList<VoidFunction0>() );
         }
-        particularItemRemovedListeners.get( item ).add( listener );
+        particularElementRemovedObservers.get( element ).add( observer );
     }
 
-    //Remove a listener that was listening for a specific item removal
-    public void removeItemRemovedListener( T item, VoidFunction0 listener ) {
-        if ( particularItemRemovedListeners.containsKey( item ) ) {
-            particularItemRemovedListeners.get( item ).remove( listener );
+    //Remove a observer that was listening for a specific element removal
+    public void removeElementRemovedObserver( T element, VoidFunction0 observer ) {
+        if ( particularElementRemovedObservers.containsKey( element ) ) {
+            particularElementRemovedObservers.get( element ).remove( observer );
         }
     }
 
@@ -106,10 +106,10 @@ public class ObservableList<T> implements List<T> {
         boolean result = list.remove( o );
         elementRemovedObservers.notifyObservers( (T) o );
 
-        //Notify listeners that were specifically listening for when the specified item would be removed
-        if ( particularItemRemovedListeners.containsKey( o ) ) {
-            for ( VoidFunction0 listener : new ArrayList<VoidFunction0>( particularItemRemovedListeners.get( o ) ) ) {
-                listener.apply();
+        //Notify observers that were specifically observing when the specified element would be removed
+        if ( particularElementRemovedObservers.containsKey( o ) ) {
+            for ( VoidFunction0 observer : new ArrayList<VoidFunction0>( particularElementRemovedObservers.get( o ) ) ) {
+                observer.apply();
             }
         }
 
