@@ -26,7 +26,7 @@ public class PartialChargeNode extends PComposite {
     public PartialChargeNode( final Bond bond, final Atom atom, final boolean positivePolarity ) {
 
         final PText textNode = new PText() {{
-            setFont( new PhetFont( 40 ) );
+            setFont( new PhetFont( 32 ) );
             setTextPaint( Color.BLACK );
         }};
         addChild( textNode );
@@ -34,15 +34,14 @@ public class PartialChargeNode extends PComposite {
         SimpleObserver updater = new SimpleObserver() {
             public void update() {
 
-                final double magnitude = bond.dipoleMagnitude.get();
+                final double deltaElectronegativity = bond.deltaElectronegativity.get();
 
-                textNode.setVisible( magnitude != 0 ); // invisible if dipole is zero
+                textNode.setVisible( deltaElectronegativity != 0 ); // invisible if dipole is zero
 
-                if ( magnitude != 0 ) {
+                if ( deltaElectronegativity != 0 ) {
 
                     // d+ or d-
-                    boolean negative = ( !positivePolarity && magnitude < 0 ) || ( positivePolarity && magnitude > 0 );
-                    if ( negative ) {
+                    if ( ( positivePolarity && deltaElectronegativity > 0 ) || ( !positivePolarity && deltaElectronegativity < 0 ) ) {
                         textNode.setText( MPStrings.DELTA + "-" );
                     }
                     else {
@@ -50,7 +49,7 @@ public class PartialChargeNode extends PComposite {
                     }
 
                     // size proportional to bond dipole magnitude
-                    final double scale = Math.abs( REF_SCALE * magnitude / REF_MAGNITUDE );
+                    final double scale = Math.abs( REF_SCALE * deltaElectronegativity / REF_MAGNITUDE );
                     if ( scale != 0 ) {
                         textNode.setScale( scale );
                         textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() / 2 ); // origin at center
@@ -66,7 +65,7 @@ public class PartialChargeNode extends PComposite {
                 }
             }
         };
-        bond.dipoleMagnitude.addObserver( updater );
+        bond.deltaElectronegativity.addObserver( updater );
         atom.location.addObserver( updater );
     }
 }

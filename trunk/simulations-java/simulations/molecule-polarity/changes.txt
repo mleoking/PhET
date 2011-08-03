@@ -1,3 +1,4 @@
+8/2/11 change Bond.dipoleMagnitude to Bond.deltaElectronegativity, since this is really what it is
 8/2/11 revert work done on making dipole a vector, introduced many problems and seems redundant
 8/2/11 hide View controls that are not relevant to a tab
 8/2/11 tweak sizes and locations of some things, so that there are no collisions when rotating molecule

@@ -13,12 +13,12 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  */
 public class Bond {
 
-    public final Property<Double> dipoleMagnitude; // positive points from atom1 to atom2
+    public final Property<Double> deltaElectronegativity; // atom2.electronegativity - atom1.electronegativity
     public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
 
     public Bond( final Atom atom1, final Atom atom2 ) {
 
-        this.dipoleMagnitude = new Property<Double>( 0d );
+        this.deltaElectronegativity = new Property<Double>( 0d );
         this.endpoint1 = new Property<ImmutableVector2D>( atom1.location.get() );
         this.endpoint2 = new Property<ImmutableVector2D>( atom2.location.get() );
 
@@ -37,7 +37,7 @@ public class Bond {
         // update dipole magnitude when electronegativity of either atom changes
         VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
-                dipoleMagnitude.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
+                deltaElectronegativity.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
             }
         };
         atom1.electronegativity.addObserver( electronegativityObserver );

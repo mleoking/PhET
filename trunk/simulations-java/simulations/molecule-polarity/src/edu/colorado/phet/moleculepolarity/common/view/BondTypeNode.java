@@ -63,9 +63,9 @@ public class BondTypeNode extends PComposite {
         maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth(),
                                 trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
 
-        molecule.bond.dipoleMagnitude.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double magnitude ) {
-                thumbNode.setOffset( X_OFFSET_FUNCTION.evaluate( Math.abs( magnitude ) ), thumbNode.getYOffset() );
+        molecule.bond.deltaElectronegativity.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double deltaElectronegativity ) {
+                thumbNode.setOffset( X_OFFSET_FUNCTION.evaluate( Math.abs( deltaElectronegativity ) ), thumbNode.getYOffset() );
             }
         } );
     }
