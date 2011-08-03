@@ -1,3 +1,7 @@
+Improved placement of the control panels.
+Moved columns so that the red x wouldn't be overlapped by force vectors.
+Made it easier to place masses on the plank by using the center point rather than the bottom of the mass.
+Added distance vectors.
 Made the plank motion settle out more quickly (i.e. it oscillates less before becoming still).
 Hooked up vector visibility to control panel.
 Added vectors due to masses on the planks.
