@@ -47,3 +47,23 @@
 <fields>;
 <methods>;
 }
+
+-keep class org.jmol.shape.MeasuresRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shape.BbcageRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shape.UccageRenderer{
+<fields>;
+<methods>;
+}
+
+-keep class org.jmol.shape.FrankRenderer{
+<fields>;
+<methods>;
+}

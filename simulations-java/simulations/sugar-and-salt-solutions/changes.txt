@@ -1,3 +1,4 @@
+Water tab: added more proguard keep statements
 Water tab: Fixed: Sucrose 3D stick view is broken and there are many exceptions
 # 0.00.76 (54799) Aug 3, 2011
 Water tab: Fixed: Sucrose 3D view no longer appears
