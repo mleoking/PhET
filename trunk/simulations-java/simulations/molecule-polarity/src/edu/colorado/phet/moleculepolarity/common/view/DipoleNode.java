@@ -18,9 +18,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class DipoleNode extends PComposite {
 
     private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
-    private static final double REF_LENGTH = 200;
+    private static final double REF_LENGTH = 150;
 
-    private static final double PERPENDICULAR_OFFSET = 100; // offset perpendicular to the axis of the endpoints
+    private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
 
     private final Vector2DNode vectorNode;
 
