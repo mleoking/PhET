@@ -25,7 +25,7 @@ public class TwoAtomsModel extends MPModel {
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
-                if ( eField.enabled.get() && !molecule.isDragging() && molecule.bond.deltaElectronegativity.get() != 0 ) {
+                if ( eField.enabled.get() && !molecule.isDragging() ) {
                     // if the E-field is on and the user isn't controlling the molecule's orientation...
                     updateMoleculeOrientation();
                 }
