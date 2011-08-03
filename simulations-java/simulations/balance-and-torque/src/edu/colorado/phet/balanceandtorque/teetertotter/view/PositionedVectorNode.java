@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
+import java.awt.Color;
+
 import edu.colorado.phet.balanceandtorque.teetertotter.model.PositionedVector;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -28,10 +30,11 @@ public class PositionedVectorNode extends PNode {
      * @param mvt
      */
     public PositionedVectorNode( final Property<PositionedVector> positionedVectorProperty, double scalingFactor,
-                                 BooleanProperty visibilityProperty, final ModelViewTransform mvt ) {
+                                 BooleanProperty visibilityProperty, final Color fillColor, final ModelViewTransform mvt ) {
         // Create the vector node and add it as a child.
         final Vector2DNode vectorNode = new Vector2DNode( 0, 0, 1, scalingFactor ) {{
             setHeadSize( 15, 10 ); // Head size is arbitrary based on what looked good.
+            setArrowFillPaint( fillColor );
         }};
         addChild( vectorNode );
         // Listen to the vector and update the node when changes occur.
