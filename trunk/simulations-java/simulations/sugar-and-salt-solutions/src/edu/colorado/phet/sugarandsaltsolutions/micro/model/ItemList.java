@@ -69,6 +69,17 @@ public class ItemList<T> extends ObservableList<T> {
         }};
     }
 
+    //Collect all items from the list that match the predicate and return a new ItemList
+    public ItemList<T> filterList( final Function1<T, Boolean> predicate ) {
+        return new ItemList<T>() {{
+            for ( T item : ItemList.this ) {
+                if ( predicate.apply( item ) ) {
+                    add( item );
+                }
+            }
+        }};
+    }
+
     //Choose an item at random from the matching items in the list, if there is a match
     public Option<T> selectRandom( final Class<? extends T>... clazz ) {
         ArrayList<T> selected = filter( clazz );

@@ -32,4 +32,9 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     @Override protected Particle createSeed() {
         return random.nextBoolean() ? new Sodium() : new Nitrate();
     }
+
+    //Determine whether Na or NO3 should be removed from the crystal to maintain the ionic balance
+    @Override protected Class<? extends Particle> getMajorityType() {
+        return getMajorityType( Sodium.class, Nitrate.class );
+    }
 }

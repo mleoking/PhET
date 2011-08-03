@@ -2,6 +2,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
@@ -28,5 +29,10 @@ public class SucroseCrystal extends Crystal<Sucrose> {
     //Create a single sucrose molecule to begin the crystal
     @Override protected Sucrose createSeed() {
         return new Sucrose();
+    }
+
+    //Sucrose is always in the majority since it is the only component type; thus it can always be removed
+    @Override protected Class<? extends Particle> getMajorityType() {
+        return Sucrose.class;
     }
 }
