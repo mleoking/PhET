@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
@@ -104,6 +105,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             public void apply( final MassForceVector addedMassForceVector ) {
                 // Add a representation for the new vector.
                 final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedMassForceVector.forceVectorProperty,
+                                                                                            0.002,  // Scaling factor, chosen to make size reasonable.
                                                                                             forceVectorsFromObjectsVisibleProperty,
                                                                                             mvt );
                 rootNode.addChild( positionedVectorNode );
@@ -112,6 +114,25 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
                     public void apply( MassForceVector removedMassForceVector ) {
                         if ( removedMassForceVector == addedMassForceVector ) {
+                            rootNode.removeChild( positionedVectorNode );
+                        }
+                    }
+                } );
+            }
+        } );
+        model.getPlank().leverArmVectorList.addElementAddedObserver( new VoidFunction1<LeverArmVector>() {
+            public void apply( final LeverArmVector addedLeverArmVector ) {
+                // Add a representation for the new vector.
+                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedLeverArmVector.leverArmVectorProperty,
+                                                                                            1.0,
+                                                                                            leverArmVectorsVisibleProperty,
+                                                                                            mvt );
+                rootNode.addChild( positionedVectorNode );
+                // Listen for removal of this vector and, if and when it is
+                // removed, remove the corresponding representation.
+                model.getPlank().leverArmVectorList.addElementRemovedObserver( new VoidFunction1<LeverArmVector>() {
+                    public void apply( LeverArmVector removedLeverArmVector ) {
+                        if ( removedLeverArmVector == addedLeverArmVector ) {
                             rootNode.removeChild( positionedVectorNode );
                         }
                     }
