@@ -198,6 +198,7 @@ public class MainView extends Canvas {
         this.mySloMoStepControl.setSliderExternally(1);
         this.myControlPanel.setNbrMassesExternally( 3 );    //this initializes Model1
         this.myModel2.setN( 2 );                            //this initializes Model2
+        this.mySliderArrayPanel.drawBoundingBox();
         //this.myModel1.setTorL( "T" );
         //this.setNbrResonators(2);
     }
