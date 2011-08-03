@@ -151,7 +151,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // TODO: i18n
         final TextButtonNode restoreColumnsButton = new TextButtonNode( "Add Supports", new PhetFont( 14 ) ) {{
             setBackground( Color.YELLOW );
-            setOffset( mvt.modelToViewX( 2.5 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
+            setOffset( mvt.modelToViewX( 2.3 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
                     model.supportColumnsActive.set( true );
@@ -190,14 +190,20 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             addChild( new PropertyCheckBoxNode( "Distances", leverArmVectorsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Forces from Object", forceVectorsFromObjectsVisibleProperty ) );
         }} );
-        vectorControlPanel.setOffset( STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width - 10, 10 );
         rootNode.addChild( vectorControlPanel );
 
         // Add the mass box, which is the place where the user will get the
         // objects that can be placed on the balance.
-        rootNode.addChild( new MassBoxNode( model, mvt, this ) {{
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 10, mvt.modelToViewY( 0 ) - getFullBoundsReference().height - 10 );
-        }} );
+        MassBoxNode massBoxControlPanel = new MassBoxNode( model, mvt, this );
+        rootNode.addChild( massBoxControlPanel );
+
+        // Lay out the control panels.
+        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massBoxControlPanel.getFullBoundsReference().width / 2 - 10,
+                                               STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width / 2 - 10 );
+        massBoxControlPanel.setOffset( controlPanelCenterX - massBoxControlPanel.getFullBoundsReference().width / 2,
+                                       mvt.modelToViewY( 0 ) - massBoxControlPanel.getFullBoundsReference().height - 10 );
+        vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
+                                      massBoxControlPanel.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
     }
 
     // Convenience class for avoiding code duplication.
