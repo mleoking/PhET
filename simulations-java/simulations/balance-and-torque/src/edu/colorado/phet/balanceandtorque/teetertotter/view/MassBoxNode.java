@@ -21,7 +21,6 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
-import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
 /**
@@ -32,7 +31,6 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  */
 public class MassBoxNode extends PNode {
 
-    private static final PDimension SIZE = new PDimension( 220, 300 );
     private static final PhetFont BUTTON_FONT = new PhetFont( 16 );
     private static final Color BUTTON_COLOR = new Color( 50, 205, 50 );
 
