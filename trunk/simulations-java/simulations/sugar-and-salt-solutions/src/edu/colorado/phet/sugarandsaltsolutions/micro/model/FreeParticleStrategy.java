@@ -27,6 +27,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
     public void stepInTime( Particle particle, double dt ) {
 
         //Switch strategies if necessary
+        //Note, this check prevents random motion during draining since the strategy is switched before random walk can take place
         if ( model.outputFlowRate.get() > 0 ) {
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D() ) );
             particle.stepInTime( dt );

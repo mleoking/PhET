@@ -217,19 +217,19 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time for each solute type
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
             public void apply( Double outputFlowRate ) {
-                rescheduleDrainParticles( sodiumDrainData );
-                rescheduleDrainParticles( chlorideDrainData );
-                rescheduleDrainParticles( nitrateDrainData );
-                rescheduleDrainParticles( ethanolDrainData );
-                rescheduleDrainParticles( calciumDrainData );
-                rescheduleDrainParticles( sucroseDrainData );
+                checkStartDrain( sodiumDrainData );
+                checkStartDrain( chlorideDrainData );
+                checkStartDrain( nitrateDrainData );
+                checkStartDrain( ethanolDrainData );
+                checkStartDrain( calciumDrainData );
+                checkStartDrain( sucroseDrainData );
             }
         } );
     }
 
     //store the concentrations of all solutes and set up a drain schedule,
     //so that particles will flow out at rates so as to keep the concentration level as constant as possible
-    public void rescheduleDrainParticles( DrainData drainData ) {
+    public void checkStartDrain( DrainData drainData ) {
         double currentDrainFlowRate = outputFlowRate.get() * faucetFlowRate;
 
         if ( debugDraining ) {
@@ -358,6 +358,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 //TODO: mix with some random behavior, randomness decreases as you get closer to the drain (closest particle has no randomness to ensure consistent concentration)
             }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
+//            if ( i != 0 ) {
+//                particle.velocity.set( particle.velocity.get().plus( velocity ) );//gets renormalized anyways
+//            }
+//            else {
+//                particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
+//            }
+//
             particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
 
             if ( debugDraining ) {
