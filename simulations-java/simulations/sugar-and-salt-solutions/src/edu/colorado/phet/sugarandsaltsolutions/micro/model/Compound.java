@@ -4,8 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -102,34 +100,6 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     public void addConstituent( Constituent<T> constituent ) {
         constituents.add( constituent );
         updateConstituentLocation( constituent );
-    }
-
-    //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
-    //Note that since the lattice can take the shape of an arc, this can still leave orphaned particles floating in the air.  This should probably be resolved
-    //TODO: A better way to to this would be to check that the dropped component doesn't create two separated components from the lattice graph
-    public Constituent<T> getConstituentToDissolve( final Rectangle2D waterBounds ) {
-
-        //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
-        ArrayList<Constituent<T>> c = new ArrayList<Constituent<T>>() {{
-            for ( Constituent<T> constituent : constituents ) {
-                if ( waterBounds.contains( constituent.particle.getShape().getBounds2D() ) ) {
-                    add( constituent );
-                }
-            }
-        }};
-
-        //Sort by y-values to choose the highest particle
-        Collections.sort( c, new Comparator<Constituent>() {
-            public int compare( Constituent o1, Constituent o2 ) {
-                return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
-            }
-        } );
-        if ( c.isEmpty() ) {
-            return null;
-        }
-        else {
-            return c.get( c.size() - 1 );
-        }
     }
 
     //Get all the spherical particles within this compound and its children recursively, so they can be displayed with PNodes

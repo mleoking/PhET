@@ -1,10 +1,14 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * Marker class to signify which compounds are crystals vs noncrystals.
@@ -108,4 +112,74 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Create the first constituent particle in a crystal
     protected abstract T createSeed();
+
+    //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
+    public Constituent<T> getConstituentToDissolve( final Rectangle2D waterBounds ) {
+
+        //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
+        ItemList<Constituent<T>> c = new ItemList<Constituent<T>>() {{
+            for ( Constituent<T> constituent : constituents ) {
+                if ( waterBounds.contains( constituent.particle.getShape().getBounds2D() ) ) {
+                    add( constituent );
+                }
+            }
+        }};
+
+        //Select only particles that don't separate the crystal, this will ensure that particles leave from the edges and do not leave particles floating in the air
+        c = c.filterList( new Function1<Constituent<T>, Boolean>() {
+            public Boolean apply( Constituent<T> constituent ) {
+                return !connectsCompound( constituent );
+            }
+        } );
+
+        //Try to select a particle that maintains the ion balance within the crystal.
+        //This is done by removing a constituent that is in the majority according to the formula ratio
+        final Class<? extends Particle> majorityType = getMajorityType();
+        if ( majorityType != null ) {
+            c = c.filterList( new Function1<Constituent<T>, Boolean>() {
+                public Boolean apply( Constituent<T> constituent ) {
+                    return majorityType.isInstance( constituent.particle );
+                }
+            } );
+        }
+
+        //Sort by y-values to choose the highest particle
+        Collections.sort( c, new Comparator<Constituent>() {
+            public int compare( Constituent o1, Constituent o2 ) {
+                return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
+            }
+        } );
+        if ( c.isEmpty() ) {
+            return null;
+        }
+        else {
+            return c.get( c.size() - 1 );
+        }
+    }
+
+    //Determine whether removing the specified constituent would disconnect the crystal; if so, then it shouldn't be removed during dissolving
+    //Instead, we should dissolve a particle from near the edge, which doesn't connect the crystal
+    //TODO: implement this method
+    private boolean connectsCompound( Constituent<T> constituent ) {
+        return false;
+    }
+
+    //Returns the type of particle that is in the minority (according to the formula ratio), so that it can be removed during dissolving
+    protected abstract Class<? extends Particle> getMajorityType();
+
+    //Determine the majority type for a 1:1 formula ratio such as NaCl
+    //Return null if no clear majority (i.e. a tie)
+    public Class<? extends Particle> getMajorityType( Class<? extends Particle> a, Class<? extends Particle> b ) {
+        int numA = count( a );
+        int numB = count( b );
+        if ( numA > numB ) {
+            return a;
+        }
+        else if ( numB > numA ) {
+            return b;
+        }
+        else {
+            return null;
+        }
+    }
 }
