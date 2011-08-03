@@ -2,8 +2,9 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Model of a bond between 2 atoms.
@@ -12,32 +13,35 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Bond {
 
-    public final Property<ImmutableVector2D> dipole;
+    public final Property<Double> dipoleMagnitude; // positive points from atom1 to atom2
     public final Property<ImmutableVector2D> endpoint1, endpoint2; // ends of the bond at atom1 and atom2, respectively
 
     public Bond( final Atom atom1, final Atom atom2 ) {
 
-        this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        this.dipoleMagnitude = new Property<Double>( 0d );
         this.endpoint1 = new Property<ImmutableVector2D>( atom1.location.get() );
         this.endpoint2 = new Property<ImmutableVector2D>( atom2.location.get() );
 
-        SimpleObserver updater = new SimpleObserver() {
-            public void update() {
-                // endpoints
+        // update bond endpoints when atoms move
+        atom1.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D location ) {
                 endpoint1.set( new ImmutableVector2D( atom1.location.get() ) );
+            }
+        } );
+        atom2.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D location ) {
                 endpoint2.set( new ImmutableVector2D( atom2.location.get() ) );
-                // dipole
-                double deltaEN = atom2.electronegativity.get() - atom1.electronegativity.get();
-                dipole.set( getNormal().times( deltaEN ) );
+            }
+        } );
+
+        // update dipole magnitude when electronegativity of either atom changes
+        VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
+            public void apply( Double aDouble ) {
+                dipoleMagnitude.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
             }
         };
-
-        // update bond endpoints when atoms move
-        atom1.location.addObserver( updater );
-        atom2.location.addObserver( updater );
-        // update dipole vector when electronegativity or location of either atom changes
-        atom1.electronegativity.addObserver( updater );
-        atom2.electronegativity.addObserver( updater );
+        atom1.electronegativity.addObserver( electronegativityObserver );
+        atom2.electronegativity.addObserver( electronegativityObserver );
     }
 
     // gets the center of the bond, using the midpoint formula
@@ -47,16 +51,7 @@ public class Bond {
 
     // gets the angle of endpoint2 relative to the horizontal
     public double getAngle() {
-        return getNormal().getAngle();
-    }
-
-    // dipole is in phase if it points from atom1 to atom2
-    public boolean isDipoleInPhase() {
-        return getAngle() == dipole.get().getAngle();
-    }
-
-    // gets the normal vector that points along the axis from atom1 to atom2
-    private ImmutableVector2D getNormal() {
-        return new ImmutableVector2D( endpoint1.get(), endpoint2.get() ).getNormalizedInstance();
+        ImmutableVector2D center = getCenter();
+        return PolarCartesianConverter.getAngle( endpoint2.get().getX() - center.getX(), endpoint2.get().getY() - center.getY() );
     }
 }

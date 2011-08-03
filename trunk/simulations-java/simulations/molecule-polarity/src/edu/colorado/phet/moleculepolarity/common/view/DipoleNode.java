@@ -43,7 +43,7 @@ public abstract class DipoleNode extends PComposite {
             SimpleObserver update = new SimpleObserver() {
                 public void update() {
 
-                    setMagnitude( bond.dipole.get().getMagnitude() * ( bond.isDipoleInPhase() ? 1 : -1 ) );
+                    setMagnitude( bond.dipoleMagnitude.get() );
 
                     // compute location of dipole, with offset
                     double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, bond.getAngle() - Math.PI / 2 );
@@ -63,7 +63,7 @@ public abstract class DipoleNode extends PComposite {
                     rotate( bond.getAngle() );
 
                     // center vector on bond
-                    if ( bond.isDipoleInPhase() ) {
+                    if ( bond.dipoleMagnitude.get() > 0 ) {
                         translate( -length / 2, 0 );
                     }
                     else {
@@ -73,7 +73,7 @@ public abstract class DipoleNode extends PComposite {
             };
             bond.endpoint1.addObserver( update );
             bond.endpoint2.addObserver( update );
-            bond.dipole.addObserver( update );
+            bond.dipoleMagnitude.addObserver( update );
         }
     }
 }
