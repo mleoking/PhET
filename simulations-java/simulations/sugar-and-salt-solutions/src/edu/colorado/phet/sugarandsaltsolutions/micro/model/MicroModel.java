@@ -398,6 +398,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 //                speed = alpha / distanceToTarget;
 
                 speed = mainParticleSpeed / ( i + 1 );
+
+                //TODO: mix with some random behavior, randomness decreases as you get closer to the drain (closest particle has no randomness to ensure consistent concentration)
             }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
             particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
