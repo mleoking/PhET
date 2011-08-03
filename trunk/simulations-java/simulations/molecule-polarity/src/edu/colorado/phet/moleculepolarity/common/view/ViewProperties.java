@@ -23,7 +23,7 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
     public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );
     public final Property<Boolean> bondTypeVisible = new Property<Boolean>( false );
-    public final Property<Boolean> atomLabelsVisible = new Property<Boolean>( false );
+    public final Property<Boolean> atomLabelsVisible = new Property<Boolean>( true );
 
     public void reset() {
         modelRepresentation.reset();
