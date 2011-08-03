@@ -35,12 +35,6 @@ public class TeeterTotterTorqueModel implements Resettable {
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
 
-    // Listeners that are notified when a shape-based mass is added to the model
-    private final ArrayList<VoidFunction1<Mass>> massAddedListeners = new ArrayList<VoidFunction1<Mass>>();
-
-    // Listeners that are notified when a shape-based mass is removed from the model
-    private final ArrayList<VoidFunction1<Mass>> massRemovedListeners = new ArrayList<VoidFunction1<Mass>>();
-
     // Fulcrum on which the plank pivots
     private final FulcrumAbovePlank fulcrum = new FulcrumAbovePlank( 1, FULCRUM_HEIGHT );
 
@@ -77,13 +71,13 @@ public class TeeterTotterTorqueModel implements Resettable {
         return clock;
     }
 
-    // Adds a mass to the model and notifies registered listeners
+    // Adds a mass to the model.
     public UserMovableModelElement addMass( final Mass mass ) {
         mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
                     // The user has dropped this mass.
-                    if ( plank.isPointAbovePlank( mass.getPosition() ) ) {
+                    if ( plank.isPointAbovePlank( mass.getMiddlePoint() ) ) {
                         // The mass was dropped above the plank, move it to a
                         // valid location on the plank.
                         plank.addMassToSurface( mass );
@@ -96,24 +90,12 @@ public class TeeterTotterTorqueModel implements Resettable {
             }
         } );
         massList.add( mass );
-        notifyMassAdded( mass );
         return mass;
     }
 
-    private void notifyMassAdded( Mass mass ) {
-        for ( VoidFunction1<Mass> massAddedListener : massAddedListeners ) {
-            massAddedListener.apply( mass );
-        }
-    }
-
-    // Removes a mass from the model and notifies listeners.
+    // Removes a mass from the model.
     public void removeMass( Mass mass ) {
-        if ( massList.contains( mass ) ) {
-            massList.remove( mass );
-            for ( VoidFunction1<Mass> massRemovedListener : massRemovedListeners ) {
-                massRemovedListener.apply( mass );
-            }
-        }
+        massList.remove( mass );
     }
 
     public FulcrumAbovePlank getFulcrum() {

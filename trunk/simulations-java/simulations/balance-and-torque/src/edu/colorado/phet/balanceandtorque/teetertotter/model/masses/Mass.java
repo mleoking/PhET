@@ -37,6 +37,8 @@ public abstract class Mass implements UserMovableModelElement {
 
     public abstract Point2D getPosition();
 
+    public abstract Point2D getMiddlePoint();
+
     public void setOnPlank( boolean onPlank ) {
         // Handle any changes that need to happen when added to the plank,
         // such as changes to shape or image.  Be default, this does nothing.
