@@ -1,3 +1,4 @@
+# 0.00.06 (54831) Aug 3, 2011
 8/3/11 add molecule angle to Reset All
 8/3/11 align two-atom molecule with E-field
 8/2/11 change Bond.dipoleMagnitude to Bond.deltaElectronegativity, since this is really what it is
