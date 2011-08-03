@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--resonance-strings_de.xml created Tue Aug 02 10:56:09 CEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) Feb 9, 2011-->
+<SimStrings>
+<string key="simSpeed" value="Geschwindigkeit"/>
+<string key="sameFrequency" value="Selbe Frequenz"/>
+<string key="sameSpring" value="Selbe Konstante"/>
+<string key="slow" value="langsam"/>
+<string key="mixedMAndK" value="Zufall"/>
+<string key="numberOfResonators" value="Anzahl der Resonatoren"/>
+<string key="kg" value="kg"/>
+<string key="pause" value="Pause"/>
+<string key="amplitude" value="Amplitude"/>
+<string key="frequencyEqualsXHz" value="Frequenz = {0} Hz"/>
+<string key="sloMo" value="SLO-MO"/>
+<string key="step" value="Schritt"/>
+<string key="cm" value="cm"/>
+<string key="driver" value="Rüttler"/>
+<string key="on" value="an"/>
+<string key="ruler" value="Lineal"/>
+<string key="resonance.simTitle" value="Resonanz"/>
+<string key="NperMperS" value="N/(m/s)"/>
+<string key="springConstant" value="Federkonstante"/>
+<string key="frequency" value="Frequenz"/>
+<string key="resetAll" value="Reset"/>
+<string key="mass" value="Masse"/>
+<string key="sameMass" value="Selbe Masse"/>
+<string key="resonator" value="Resonator"/>
+<string key="hz" value="Hz"/>
+<string key="NperM" value="N/m"/>
+<string key="gravityColon" value="Schwerkraft"/>
+<string key="play" value="Start"/>
+<string key="paused" value="PAUSE"/>
+<string key="off" value="aus"/>
+<string key="dampingConstant" value="Dämpfungskonstante"/>
+<string key="normal" value="normal"/>
+<string key="selectPreset" value="Voreinstellung"/>
+</SimStrings>
