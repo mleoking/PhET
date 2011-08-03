@@ -402,21 +402,13 @@ public class Plank extends ShapeModelElement {
     }
 
     private void updateTorque() {
-        // TODO: Need to have Mike D look at this, since it is probably not correct at this point (thought it looks good in the sim).
-        double netTorque = 0;
+        currentTorque = 0;
         // Calculate torque due to masses.
         for ( Mass mass : massesOnSurface ) {
-            netTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
+            currentTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
         }
-
         // Add in torque due to plank.
-        Rectangle2D plankBounds = getShape().getBounds2D();
-        double leftMassX = plankBounds.getMinX() + plankBounds.getWidth() / 3;
-        netTorque += pivotPoint.getX() - leftMassX * MASS / 2;
-        double rightMassX = plankBounds.getMinX() + plankBounds.getWidth() / 3 * 2;
-        netTorque += pivotPoint.getX() - rightMassX * MASS / 2;
-
-        currentTorque = netTorque;
+        currentTorque += ( pivotPoint.getX() - attachmentPointProperty.get().getX() ) * MASS;
     }
 
     /**
