@@ -4,6 +4,8 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -136,6 +138,13 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
             centerFullBoundsOnPoint( restoreColumnsButton.getFullBoundsReference().getCenterX(),
                                      restoreColumnsButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    // Reset properties that control vector visibility.
+                    leverArmVectorsVisibleProperty.reset();
+                    forceVectorsFromObjectsVisibleProperty.reset();
+                }
+            } );
         }} );
 
         // Only show the Restore Columns button when the columns are not active.
