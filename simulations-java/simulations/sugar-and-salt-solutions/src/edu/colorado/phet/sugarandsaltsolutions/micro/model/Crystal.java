@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
+import static java.util.Collections.min;
+
 /**
  * Marker class to signify which compounds are crystals vs noncrystals.
  *
@@ -26,7 +28,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     protected final ImmutableVector2D EAST;
     protected final ImmutableVector2D WEST;
 
+    //Randomness for growing the crystal
     public final Random random = new Random();
+
+    //Flag for debugging the crystals
+    private boolean debugCrystalDissolve = false;
 
     //Construct the compound from the specified lattice
     public Crystal( ImmutableVector2D position, double spacing, double angle ) {
@@ -125,13 +131,6 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             }
         }};
 
-        //Select only particles that don't separate the crystal, this will ensure that particles leave from the edges and do not leave particles floating in the air
-        c = c.filterList( new Function1<Constituent<T>, Boolean>() {
-            public Boolean apply( Constituent<T> constituent ) {
-                return !connectsCompound( constituent );
-            }
-        } );
-
         //Try to select a particle that maintains the ion balance within the crystal.
         //This is done by removing a constituent that is in the majority according to the formula ratio
         final Class<? extends Particle> majorityType = getMajorityType();
@@ -143,25 +142,57 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             } );
         }
 
-        //Sort by y-values to choose the highest particle
-        Collections.sort( c, new Comparator<Constituent>() {
-            public int compare( Constituent o1, Constituent o2 ) {
-                return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
+        //Make sure list not empty after filtering based on majority type
+        if ( c.size() > 0 ) {
+
+            //Find the smallest number of bonds of any of the particles
+            final int minBonds = getNumBonds( min( c, new Comparator<Constituent<T>>() {
+                public int compare( Constituent<T> o1, Constituent<T> o2 ) {
+                    return Double.compare( getNumBonds( o1 ), getNumBonds( o2 ) );
+                }
+            } ) );
+
+            //Only consider particles with the smallest number of bonds
+            c = c.filterList( new Function1<Constituent<T>, Boolean>() {
+                public Boolean apply( Constituent<T> constituent ) {
+                    return getNumBonds( constituent ) == minBonds;
+                }
+            } );
+
+            //Sort by y-value so that particles are taken from near the top instead of from the bottom (which would cause the crystal to fall)
+            Collections.sort( c, new Comparator<Constituent>() {
+                public int compare( Constituent o1, Constituent o2 ) {
+                    return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
+                }
+            } );
+
+            if ( debugCrystalDissolve ) {
+                System.out.println( "Crystal num components = " + c.size() );
+                for ( int i = 0; i < c.size(); i++ ) {
+                    System.out.println( "" + i + ": " + getNumBonds( c.get( i ) ) );
+                }
+                System.out.println( "END crystal" );
             }
-        } );
-        if ( c.isEmpty() ) {
-            return null;
+
+            //Return the highest item
+            if ( c.size() > 0 ) {
+                return c.get( c.size() - 1 );
+            }
         }
-        else {
-            return c.get( c.size() - 1 );
-        }
+        return null;
     }
 
-    //Determine whether removing the specified constituent would disconnect the crystal; if so, then it shouldn't be removed during dissolving
-    //Instead, we should dissolve a particle from near the edge, which doesn't connect the crystal
-    //TODO: implement this method
-    private boolean connectsCompound( Constituent<T> constituent ) {
-        return false;
+    //Count the number of bonds by which the constituent is attached, so that particles near the edges (instead of near the centers) will be selected for dissolving
+    private int getNumBonds( Constituent constituent ) {
+        int numBonds = 0;
+        ImmutableVector2D[] directions = new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST };
+        for ( ImmutableVector2D direction : directions ) {
+            ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
+            if ( isOccupied( relativePosition ) ) {
+                numBonds++;
+            }
+        }
+        return numBonds;
     }
 
     //Returns the type of particle that is in the minority (according to the formula ratio), so that it can be removed during dissolving

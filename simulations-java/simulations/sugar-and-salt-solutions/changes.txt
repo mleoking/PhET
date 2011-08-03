@@ -1,3 +1,4 @@
+Micro tab: Dissolve particles from the edges instead of the center of the crystal
 Micro tab: Maintain constituent ratio according to chemical formula during dissolve
 # 0.00.77 (54806) Aug 3, 2011
 Water tab: added more proguard keep statements
