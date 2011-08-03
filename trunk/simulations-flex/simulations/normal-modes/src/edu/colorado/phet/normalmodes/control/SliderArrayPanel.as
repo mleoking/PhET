@@ -37,6 +37,7 @@ public class SliderArrayPanel extends Canvas {
     private var myMainView: MainView;
     private var myModel1: Model1;
     private var container: Sprite;
+    private var boundingBox:Sprite;
     private var myPolarizationPanel: PolarizationPanel;
     private var leftEdgeX;
     private var ampliSlider_arr:Array;   //array of verticalSliders for setting amplitude of mode.
@@ -91,11 +92,11 @@ public class SliderArrayPanel extends Canvas {
         this.createLabels();
         this.createFrequencyLabels();
         this.createModeIcons();
-        this.locateSlidersAndLabels();
 
         this.addChild( this.myPolarizationPanel );
         this.myPolarizationPanel.x = this.container.width + 20;
         this.myPolarizationPanel.y = 0;
+        this.locateSlidersAndLabels();
     } //end constructor
 
     private function initializeSliderArray():void{
@@ -285,7 +286,29 @@ public class SliderArrayPanel extends Canvas {
 
         this.container.x = 0;
         this.myPolarizationPanel.x = rightEdgeOfSliders;
+        this.drawBoundingBox();
+
     } //end positionSliders();
+
+    public function drawBoundingBox():void{
+        var g:Graphics = this.container.graphics;
+        g.clear();
+        g.lineStyle( 5, 0x999999, 1 );  //gray color
+        var xPos:Number = Math.min( modeLabel_txt.x, frequency_txt.x ) - 15;
+        var yPos:Number = this.container.y - 20;
+        var rightEdgeOfSliders:Number = this.ampliSlider_arr[myModel1.N - 1].x + this.ampliSlider_arr[myModel1.N - 1].width;
+        //Next line necessary for correct start-up. On first start-up, this.myPolarizationPanel.width = 0
+        var polarizationPanelWidth:Number = Math.max( 97, this.myPolarizationPanel.width );
+        var w:int = rightEdgeOfSliders + polarizationPanelWidth + 20 - xPos;
+        //trace("SliderArrayPanel.myPolarizationPanel.width = "+this.myPolarizationPanel.width) ;
+        var h:int;
+        if(this.phasesShown){
+            h = 40 + phaseSlider_arr[0].y + phaseSlider_arr[1].height - container.y;
+        } else{
+            h = -15 + ampliSlider_arr[0].y + ampliSlider_arr[1].height - container.y;
+        }
+        g.drawRoundRect( xPos, yPos, w, h, 20 );
+    }
 
     public function resetSliders():void{
         var amplitude:Number;
@@ -324,6 +347,7 @@ public class SliderArrayPanel extends Canvas {
         for ( i = nbrMasses; i < this.nMax; i++ ){
             this.phaseSlider_arr[i].visible = false;
         }
+        this.drawBoundingBox();
     }
 
     public function update():void{
