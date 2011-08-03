@@ -1,3 +1,4 @@
+# 0.00.76 (54799) Aug 3, 2011
 Water tab: Fixed: Sucrose 3D view no longer appears
 # 0.00.75 (54796) Aug 3, 2011
 Micro tab: Sometimes create new crystals instead of only growing one large crystal
