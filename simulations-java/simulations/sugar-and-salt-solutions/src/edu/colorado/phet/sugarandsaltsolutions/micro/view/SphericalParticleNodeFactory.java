@@ -30,9 +30,9 @@ public class SphericalParticleNodeFactory implements VoidFunction1<SphericalPart
     public void apply( final SphericalParticle particle ) {
         final SphericalParticleNode node = new SphericalParticleNode( transform, particle, showChargeColor );
         canvas.addChild( node );
-        list.addItemRemovedListener( particle, new VoidFunction0() {
+        list.addElementRemovedObserver( particle, new VoidFunction0() {
             public void apply() {
-                list.removeItemRemovedListener( particle, this );
+                list.removeElementRemovedObserver( particle, this );
                 canvas.removeChild( node );
             }
         } );
