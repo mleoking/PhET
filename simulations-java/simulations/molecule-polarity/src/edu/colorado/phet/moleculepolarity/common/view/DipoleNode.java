@@ -30,8 +30,8 @@ public abstract class DipoleNode extends PComposite {
         addChild( vectorNode );
     }
 
-    protected void setMagnitude( double magnitude ) {
-        vectorNode.setXY( magnitude, 0 );
+    protected void setComponentX( double x ) {
+        vectorNode.setXY( x, 0 );
     }
 
     // Visual representation of a bond dipole.
@@ -43,7 +43,7 @@ public abstract class DipoleNode extends PComposite {
             SimpleObserver update = new SimpleObserver() {
                 public void update() {
 
-                    setMagnitude( bond.dipoleMagnitude.get() );
+                    setComponentX( bond.deltaElectronegativity.get() );
 
                     // compute location of dipole, with offset
                     double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, bond.getAngle() - Math.PI / 2 );
@@ -63,7 +63,7 @@ public abstract class DipoleNode extends PComposite {
                     rotate( bond.getAngle() );
 
                     // center vector on bond
-                    if ( bond.dipoleMagnitude.get() > 0 ) {
+                    if ( bond.deltaElectronegativity.get() > 0 ) {
                         translate( -length / 2, 0 );
                     }
                     else {
@@ -73,7 +73,7 @@ public abstract class DipoleNode extends PComposite {
             };
             bond.endpoint1.addObserver( update );
             bond.endpoint2.addObserver( update );
-            bond.dipoleMagnitude.addObserver( update );
+            bond.deltaElectronegativity.addObserver( update );
         }
     }
 }
