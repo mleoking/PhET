@@ -1,4 +1,4 @@
-package edu.colorado.phet.calculusgrapher {
+﻿package edu.colorado.phet.calculusgrapher {
 
 import flash.display.*;
 import flash.events.*;
@@ -43,8 +43,8 @@ public class ControlPanel extends Sprite {
 
     public function initialize():void {
         //trace("initialize called");
-        this.controlPanelBackground.width = 140;
-        this.controlPanelBackground.height = 440;
+        this.controlPanelBackground.width = 154; //140;
+        this.controlPanelBackground.height = 491; //440;
         this.tFormat.size = 14;
         this.tFormat.font = "_sans";
         this.makePanelDraggable();
