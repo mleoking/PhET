@@ -117,6 +117,8 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
                 }
             }
         }};
+
+        //Sort by y-values to choose the highest particle
         Collections.sort( c, new Comparator<Constituent>() {
             public int compare( Constituent o1, Constituent o2 ) {
                 return Double.compare( o1.particle.getPosition().getY(), o2.particle.getPosition().getY() );
