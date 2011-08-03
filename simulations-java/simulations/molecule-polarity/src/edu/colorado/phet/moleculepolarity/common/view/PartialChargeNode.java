@@ -26,7 +26,7 @@ public class PartialChargeNode extends PComposite {
     public PartialChargeNode( final Bond bond, final Atom atom, final boolean positivePolarity ) {
 
         final PText textNode = new PText() {{
-            setFont( new PhetFont( 32 ) );
+            setFont( new PhetFont( 40 ) );
             setTextPaint( Color.BLACK );
         }};
         addChild( textNode );
@@ -34,14 +34,14 @@ public class PartialChargeNode extends PComposite {
         SimpleObserver updater = new SimpleObserver() {
             public void update() {
 
-                final double magnitude = bond.dipole.get().getMagnitude();
+                final double magnitude = bond.dipoleMagnitude.get();
 
                 textNode.setVisible( magnitude != 0 ); // invisible if dipole is zero
 
                 if ( magnitude != 0 ) {
 
                     // d+ or d-
-                    boolean negative = ( !positivePolarity && !bond.isDipoleInPhase() ) || ( positivePolarity && bond.isDipoleInPhase() );
+                    boolean negative = ( !positivePolarity && magnitude < 0 ) || ( positivePolarity && magnitude > 0 );
                     if ( negative ) {
                         textNode.setText( MPStrings.DELTA + "-" );
                     }
@@ -66,7 +66,7 @@ public class PartialChargeNode extends PComposite {
                 }
             }
         };
-        bond.dipole.addObserver( updater );
+        bond.dipoleMagnitude.addObserver( updater );
         atom.location.addObserver( updater );
     }
 }
