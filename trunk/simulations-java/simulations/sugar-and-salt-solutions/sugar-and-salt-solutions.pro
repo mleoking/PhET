@@ -42,3 +42,8 @@
 <fields>;
 <methods>;
 }
+
+-keep class org.jmol.shape.SticksRenderer{
+<fields>;
+<methods>;
+}
