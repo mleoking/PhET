@@ -1,0 +1,52 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: July 27 - August 2, 2011
+
+Molecule Polarity
+- Two Atoms: implemented "Bond Type" indicator
+- Two Atoms: positioned partial charge indicators next to their associated atoms (with SR)
+- Two Atoms: reused rotation handler from bending-light (with SR)
+- Two Atoms: started working on alignment of molecular dipole with E-field
+- Real Molecules: increased font size of Jmol labels, set label color to black for all atoms
+- Real Molecules: display partial charge as part of atom label, limited to 2 decimal places (for discussion)
+- Real Molecules: disabled zooming and hovers
+- Real Molecules: implemented custom atom colors
+- Real Molecules: made bond and atoms translucent when dipoles are visible (for discussion)
+- Real Molecules: ordered molecules in combo box by increasing size/complexity
+- Real Molecules: tested batches of mol2 files provided by KL, switched to mol2 files
+- published several dev versions for discussions with KL
+
+Sugar and Salt Solutions
+- collaborated with SR on draining rate and scheduling
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Build Process
+- #3016, modularized Proguard configuration files (with SR)
+
+Environment
+- installed and test-drove JProfiler 7
+- #3031, sharing of IntelliJ IDEA dictionaries (with SR)
+- #3003, rolled back to IntelliJ IDEA 10.5.0
+
+WHAT'S NEXT:
+
+- Molecule Polarity sim
+- Capacitor Lab: #3012, change dipole excess charge view
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 4-9
+- August 22 - September 1
+- October 19-29
+
+--
