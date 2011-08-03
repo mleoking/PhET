@@ -39,6 +39,8 @@ public class TwoAtomMolecule {
     }
 
     public void reset() {
+        location.reset();
+        angle.reset();
         atomA.reset();
         atomB.reset();
     }
