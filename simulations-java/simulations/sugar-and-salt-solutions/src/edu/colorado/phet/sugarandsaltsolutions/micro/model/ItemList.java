@@ -94,13 +94,6 @@ public class ItemList<T> extends ObservableList<T> {
         } );
     }
 
-    //Add all items from the list
-    public void addAll( ArrayList<? extends T> elements ) {
-        for ( T element : elements ) {
-            add( element );
-        }
-    }
-
     public CompositeDoubleProperty propertyCount( final Class<? extends T> type ) {
         return new CompositeDoubleProperty( new Function0<Double>() {
             public Double apply() {
