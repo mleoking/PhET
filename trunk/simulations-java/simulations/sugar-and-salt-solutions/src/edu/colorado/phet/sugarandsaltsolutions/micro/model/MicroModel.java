@@ -99,6 +99,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Debugging flag for draining particles through the faucet
     private boolean debugDraining = false;
 
+    //Listeners that are notified when the simulation time step has completed
+    public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
+
     //Colors for all the dissolved solutes
     public final ObservableProperty<Color> sodiumColor = new IonColor( this, new Sodium() );
     public final ObservableProperty<Color> chlorideColor = new IonColor( this, new Chloride() );
@@ -124,7 +127,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, Chloride.class );
     public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, Calcium.class );
     public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, Sucrose.class );
-    public final CompositeDoubleProperty ethanolConcentration = new IonConcentration( this, Ethanol.class );
+    public final CompositeDoubleProperty ethanolConcentration = new EthanolConcentration( this );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
     //Determine saturation points
@@ -139,11 +142,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
     final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
-    //Listeners that are notified when the simulation time step has completed
-    public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
-
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
-    //There is one for each type since they may flow at different rates and have different schedules
+    //There is one DrainData for each type since they may flow at different rates and have different schedules
     public final DrainData sodiumDrainData = new DrainData( Sodium.class );
     public final DrainData chlorideDrainData = new DrainData( Chloride.class );
     public final DrainData sucroseDrainData = new DrainData( Sucrose.class );
@@ -227,39 +227,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         } );
     }
 
-    //Look up the DrainData corresponding to the specified particle type, so that it may be referenced in the UpdateStrategy when the scheduling is performed
-    public DrainData getDrainData( Particle particle ) {
-        if ( particle instanceof Sodium ) { return sodiumDrainData; }
-        if ( particle instanceof Chloride ) { return chlorideDrainData; }
-        if ( particle instanceof Nitrate ) { return nitrateDrainData; }
-        if ( particle instanceof Ethanol ) { return ethanolDrainData; }
-        if ( particle instanceof Calcium ) { return calciumDrainData; }
-        if ( particle instanceof Sucrose ) { return sucroseDrainData; }
-        throw new RuntimeException( "unknown type: " + particle.getClass() );
-    }
-
-    public static class DrainData {
-
-        //Record the time when particles were scheduled to leave the drain so it can be accounted for during propagation toward the drain.
-        double drainFlowStartTime;
-
-        //initial number of solutes at time user started manipulating drain faucet
-        int initialNumberSolutes;
-
-        //initial volume at time user started manipulating drain faucet, in m^3
-        double initialVolume;
-
-        //the previous flow rate of the drain faucet, for purposes of recording the target concentration when user starts draining fluid.
-        double previousDrainFlowRate;
-
-        //The type of the particle to match, necessary since concentration is different for each solute
-        public final Class<? extends Particle> type;
-
-        public DrainData( Class<? extends Particle> type ) {
-            this.type = type;
-        }
-    }
-
     //store the concentrations of all solutes and set up a drain schedule,
     //so that particles will flow out at rates so as to keep the concentration level as constant as possible
     public void rescheduleDrainParticles( DrainData drainData ) {
@@ -277,16 +244,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 //TODO: this is counting all particles, we should just be counting the submerged free particles, not free ethanol falling to the water since it shouldn't move to the drain until it hits water
                 drainData.initialNumberSolutes = freeParticles.count( drainData.type );
                 drainData.initialVolume = solution.volume.get();
-
-                //Record the drain start time so that it can be accounted for in the propagation schedule, to keep track of how far particles have already come
-                drainData.drainFlowStartTime = getTime();
             }
         }
         drainData.previousDrainFlowRate = currentDrainFlowRate;
-    }
-
-    public void resetTime( DrainData drainData ) {
-        drainData.drainFlowStartTime = getTime();
     }
 
     //When the simulation clock ticks, move the particles
@@ -582,14 +542,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         ArrayList<Particle> calcium = freeParticles.filter( Calcium.class );
         for ( Particle p : calcium ) {
             freeParticles.remove( p );
-            sphericalParticles.remove( (SphericalParticle) p );
+            sphericalParticles.remove( p );
         }
 
         //Remove twice as many chloride particles (if there are that many)
         ArrayList<Particle> chloride = freeParticles.filter( Chloride.class );
         for ( int i = 0; i < calcium.size() * 2 && i < chloride.size(); i++ ) {
             freeParticles.remove( chloride.get( i ) );
-            sphericalParticles.remove( (SphericalParticle) chloride.get( i ) );
+            sphericalParticles.remove( chloride.get( i ) );
         }
     }
 
