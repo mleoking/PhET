@@ -190,6 +190,7 @@ public class JmolViewerNode extends PhetPNode {
         electrostaticPotentialVisible = visible;
         if ( visible ) {
             doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
+//            doScript( "isosurface VDW color white translucent" ); //TODO for molecules with 2 atoms of the same type
         }
         else {
             doScript( "isosurface off" );
