@@ -17,6 +17,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -68,9 +69,10 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
         // Add the background that consists of the ground and sky.
         rootNode.addChild( new OutsideBackgroundNode( mvt, 3, 1 ) );
 
-        // Whenever a mass is added to the model, create a graphic for it
-        model.addMassAddedListener( new VoidFunction1<Mass>() {
-            public void apply( final Mass mass ) {
+        // Whenever a mass is added to the model, create a graphic for it.
+        model.massList.addElementAddedObserver( new VoidFunction1<Mass>() {
+            public void apply( Mass mass ) {
+                // Create and add the view representation for this mass.
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
@@ -79,16 +81,18 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 else if ( mass instanceof ImageMass ) {
                     massNode = new ImageModelElementNode( mvt, (ImageMass) mass );
                 }
+                else {
+                    System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
+                    assert false;
+                }
+                rootNode.addChild( massNode );
                 // Add the removal listener for if and when this mass is removed from the model.
                 final PNode finalMassNode = massNode;
-                model.addMassRemovedListener( new VoidFunction1<Mass>() {
-                    public void apply( Mass w ) {
-                        if ( w == mass ) {
-                            rootNode.removeChild( finalMassNode );
-                        }
+                model.massList.addElementRemovedObserver( mass, new VoidFunction0() {
+                    public void apply() {
+                        rootNode.removeChild( finalMassNode );
                     }
                 } );
-                rootNode.addChild( massNode );
             }
         } );
 

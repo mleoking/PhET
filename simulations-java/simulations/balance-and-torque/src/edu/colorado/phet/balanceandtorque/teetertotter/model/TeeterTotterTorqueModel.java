@@ -9,6 +9,7 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -32,8 +33,7 @@ public class TeeterTotterTorqueModel implements Resettable {
     private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
     // A list of all the masses in the model
-    // TODO: I'm not sure that this is even needed, since we listen to all masses as soon as they are added.  Revisit later and decide.
-    private final List<Mass> masses = new ArrayList<Mass>();
+    public final ObservableList<Mass> massList = new ObservableList<Mass>();
 
     // Listeners that are notified when a shape-based mass is added to the model
     private final ArrayList<VoidFunction1<Mass>> massAddedListeners = new ArrayList<VoidFunction1<Mass>>();
@@ -77,24 +77,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         return clock;
     }
 
-    // TODO: The next block of code is for listening for masses being added and removed.  It seems bulky and repetitions, and feels like it could be simplified.
-    // TODO: I know: I should replace this with an observable list of masses.
-    public void addMassAddedListener( VoidFunction1<Mass> listener ) {
-        massAddedListeners.add( listener );
-    }
-
-    public void removeMassAddedListener( VoidFunction1<Mass> listener ) {
-        massAddedListeners.remove( listener );
-    }
-
-    public void addMassRemovedListener( VoidFunction1<Mass> listener ) {
-        massRemovedListeners.add( listener );
-    }
-
-    public void removeMassRemovedListener( VoidFunction1<Mass> listener ) {
-        massRemovedListeners.remove( listener );
-    }
-
     // Adds a mass to the model and notifies registered listeners
     public UserMovableModelElement addMass( final Mass mass ) {
         mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
@@ -113,7 +95,7 @@ public class TeeterTotterTorqueModel implements Resettable {
                 }
             }
         } );
-        masses.add( mass );
+        massList.add( mass );
         notifyMassAdded( mass );
         return mass;
     }
@@ -126,8 +108,8 @@ public class TeeterTotterTorqueModel implements Resettable {
 
     // Removes a mass from the model and notifies listeners.
     public void removeMass( Mass mass ) {
-        if ( masses.contains( mass ) ) {
-            masses.remove( mass );
+        if ( massList.contains( mass ) ) {
+            massList.remove( mass );
             for ( VoidFunction1<Mass> massRemovedListener : massRemovedListeners ) {
                 massRemovedListener.apply( mass );
             }
@@ -150,10 +132,6 @@ public class TeeterTotterTorqueModel implements Resettable {
         return supportColumns;
     }
 
-    public List<Mass> getMasses() {
-        return masses;
-    }
-
     public void reset() {
         getClock().resetSimulationTime();
 
@@ -161,15 +139,11 @@ public class TeeterTotterTorqueModel implements Resettable {
         plank.removeAllMasses();
 
         // Remove this model's references to the masses.
-        for ( Mass mass : new ArrayList<Mass>( masses ) ) {
+        for ( Mass mass : new ArrayList<Mass>( massList ) ) {
             removeMass( mass );
         }
 
         // Set the support columns to their initial state.
         supportColumnsActive.reset();
     }
-
-    //------------------------------------------------------------------------
-    // Inner Classes and Interfaces
-    //------------------------------------------------------------------------
 }
