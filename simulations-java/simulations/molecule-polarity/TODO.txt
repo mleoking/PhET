@@ -3,6 +3,7 @@ TODO list for molecule-polarity
 HIGH
 
 MEDIUM
+- add cross on dipoles
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - add icons to control panels (dipoles, partial charge, mep,...)
