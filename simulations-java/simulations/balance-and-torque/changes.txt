@@ -1,3 +1,5 @@
+Made the plank motion settle out more quickly (i.e. it oscillates less before becoming still).
+Hooked up vector visibility to control panel.
 Added vectors due to masses on the planks.
 # 0.00.04 (54743) Aug 2, 2011
 8/2/11 Deploying to dev again due to issues with previous deployment
