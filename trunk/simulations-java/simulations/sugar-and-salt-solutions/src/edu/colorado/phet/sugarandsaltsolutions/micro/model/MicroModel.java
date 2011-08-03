@@ -375,6 +375,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
         //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
         double mainParticleSpeed = 0;
+        double mainParticleDistance = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = particles.get( i );
 
@@ -385,11 +386,17 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             //Store the primary speed that the leaving particle is moving at
             if ( i == 0 ) {
                 mainParticleSpeed = speed;
+                mainParticleDistance = distanceToTarget;
             }
             else {
 
                 //For secondary particles, move with a speed close to that of the closest particle, but slower if further away
-                //TODO: could do smoother interpolation to obtain the speeds for further away objects
+                //TODO: could do smoother interpolation to obtain the speeds for further away objects?
+
+                //attempt at using v = alpha * 1/d, but it exhibits undesirable switching behavior
+//                double alpha = mainParticleSpeed * mainParticleDistance;
+//                speed = alpha / distanceToTarget;
+
                 speed = mainParticleSpeed / ( i + 1 );
             }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
