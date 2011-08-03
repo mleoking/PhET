@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
@@ -50,7 +52,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
             if ( particle.velocity.get().getMagnitude() == 0 ) {
                 particle.velocity.set( parseAngleAndMagnitude( 1, randomAngle() ) );
             }
-            particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( UpdateStrategy.FREE_PARTICLE_SPEED ) );
+            particle.velocity.set( particle.velocity.get().getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
         }
 
         //If the particle was stopped by the water completely evaporating, start it moving again
@@ -60,7 +62,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         }
 
         //Accelerate the particle due to gravity and perform an euler integration step
-        particle.stepInTime( model.getExternalForce( model.isAnyPartUnderwater( particle ) ).times( 1.0 / UpdateStrategy.PARTICLE_MASS ), dt );
+        particle.stepInTime( model.getExternalForce( model.isAnyPartUnderwater( particle ) ).times( 1.0 / PARTICLE_MASS ), dt );
 
         boolean underwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 

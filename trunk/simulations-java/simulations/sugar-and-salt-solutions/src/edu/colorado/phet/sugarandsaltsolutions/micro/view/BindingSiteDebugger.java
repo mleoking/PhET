@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.CrystallizationMatch;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystallizationMatch;
 import edu.umd.cs.piccolo.PNode;
 
 /**

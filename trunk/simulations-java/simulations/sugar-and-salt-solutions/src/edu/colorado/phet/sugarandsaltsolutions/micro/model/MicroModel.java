@@ -25,16 +25,26 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Oxygen;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystallizationMatch;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FlowToDrainStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FreeParticleStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolConcentration;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.SodiumNitrateShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
@@ -137,10 +147,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
 
     //Create observable properties that indicate whether each solution type is saturated
-    final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
-    final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
-    final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
-    final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
+    public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
+    public final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
+    public final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
+    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
     //There is one DrainData for each type since they may flow at different rates and have different schedules
@@ -399,7 +409,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Remove all SphericalParticles contained in the compound so the graphics will be deleted
-    void removeComponents( Compound<?> compound ) {
+    public void removeComponents( Compound<?> compound ) {
         for ( SphericalParticle sphericalParticle : compound.getAllSphericalParticles() ) {
             sphericalParticles.remove( sphericalParticle );
         }
@@ -433,7 +443,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Keep the particle within the beaker solution bounds
-    void preventFromLeavingBeaker( Particle particle ) {
+    public void preventFromLeavingBeaker( Particle particle ) {
 
         //If the particle ever entered the water fully, don't let it leave through the top
         if ( particle.hasSubmerged() ) {
@@ -455,27 +465,27 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
+    public boolean isCrystalTotallyAboveTheWater( Crystal crystal ) {
         return crystal.getShape().getBounds2D().getY() > solution.shape.get().getBounds2D().getMaxY();
     }
 
-    void boundToBeakerBottom( Particle particle ) {
+    public void boundToBeakerBottom( Particle particle ) {
         if ( particle.getShape().getBounds2D().getMinY() < 0 ) {
             particle.translate( 0, -particle.getShape().getBounds2D().getMinY() );
         }
     }
 
     //Get the external force acting on the particle, gravity if the particle is in free fall or zero otherwise (e.g., in solution)
-    ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
+    public ImmutableVector2D getExternalForce( final boolean anyPartUnderwater ) {
         return new ImmutableVector2D( 0, anyPartUnderwater ? 0 : -9.8 );
     }
 
     //Determine whether the object is underwater--when it touches the water it should slow down
-    boolean isAnyPartUnderwater( Particle particle ) {
+    public boolean isAnyPartUnderwater( Particle particle ) {
         return particle.getShape().intersects( solution.shape.get().getBounds2D() );
     }
 
-    void collideWithWater( Particle particle ) {
+    public void collideWithWater( Particle particle ) {
         particle.velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 ) );
     }
 

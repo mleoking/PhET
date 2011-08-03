@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import java.awt.Shape;
+
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.OpenSite;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * Data structure used when searching for a place for an ion to join a crystal

@@ -1,13 +1,18 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 

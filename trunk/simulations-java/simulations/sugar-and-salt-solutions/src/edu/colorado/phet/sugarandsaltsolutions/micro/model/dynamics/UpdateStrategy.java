@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Solution;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 /**
  * Strategy pattern for updating particles in their different states, such as "flowing toward drain", "random walk", "flowing out of drain", "dropping from the crystal shaker"
