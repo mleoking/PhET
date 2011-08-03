@@ -349,11 +349,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         } );
 
-        //Set a position for each of the particles so they will leave at regular intervals and keep the concentration as constant as possible
-        //Make closer particles leave first since that is more natural
-        //Determine the time between particle exits, given that all should exit when the fluid is totally drained.
-        //Compute the number of ions that should be drained per second (on average) to maintain a constant concentration
-        //flow rate is volume / time, so ionsPerTime = ionsPerVolume * flowRate
+        //flow rate in volume / time
         double currentDrainFlowRate_VolumePerSecond = outputFlowRate.get() * faucetFlowRate;
 
         //Determine the current concentration in particles per meter cubed
