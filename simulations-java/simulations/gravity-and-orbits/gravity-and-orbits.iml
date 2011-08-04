@@ -7,7 +7,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module-library">
+    <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
           <root url="file://$MODULE_DIR$/data" />
@@ -16,8 +16,8 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="phetcommon" />
-    <orderEntry type="module" module-name="piccolo-phet" />
+    <orderEntry type="module" module-name="phetcommon" exported="" />
+    <orderEntry type="module" module-name="piccolo-phet" exported="" />
   </component>
 </module>
 
