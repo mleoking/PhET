@@ -52,9 +52,9 @@ public class DnaMolecule {
         }
 
         // Add the genes.
-        genes.add( new Gene( this, new DoubleRange( 5000, 6000 ), new Color( 30, 144, 255 ), new DoubleRange( 6000, 8000 ), new Color( 255, 165, 79, 150 ) ) );
-        genes.add( new Gene( this, new DoubleRange( 15000, 16000 ), new Color( 30, 144, 255 ), new DoubleRange( 16000, 18000 ), new Color( 240, 246, 143, 150 ) ) );
-        genes.add( new Gene( this, new DoubleRange( 25000, 26000 ), new Color( 30, 144, 255 ), new DoubleRange( 26000, 28000 ), new Color( 205, 255, 112, 150 ) ) );
+        genes.add( new Gene( this, new DoubleRange( 5000, 6000 ), new Color( 30, 144, 255 ), new DoubleRange( 6000, 9000 ), new Color( 255, 165, 79, 150 ) ) );
+        genes.add( new Gene( this, new DoubleRange( 15000, 16000 ), new Color( 30, 144, 255 ), new DoubleRange( 16000, 20000 ), new Color( 240, 246, 143, 150 ) ) );
+        genes.add( new Gene( this, new DoubleRange( 25000, 26000 ), new Color( 30, 144, 255 ), new DoubleRange( 26000, 32000 ), new Color( 205, 255, 112, 150 ) ) );
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.
