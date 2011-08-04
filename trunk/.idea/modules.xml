@@ -112,6 +112,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/signal-circuit/signal-circuit.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-example/sim-example.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-example/sim-example.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sim-template/sim-template.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/simsharing/simsharing.iml" filepath="$PROJECT_DIR$/util/simsharing/simsharing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/soluble-salts/soluble-salts.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sound/sound.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/spline/spline.iml" filepath="$PROJECT_DIR$/simulations-java/common/spline/spline.iml" />
@@ -124,8 +125,10 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" filepath="$PROJECT_DIR$/simulations-java/common/timeseries/timeseries.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/timesheet/timesheet.iml" filepath="$PROJECT_DIR$/util/timesheet/timesheet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/titration/titration.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/translation-strings-diff/translation-strings-diff.iml" filepath="$PROJECT_DIR$/util/translation-strings-diff/translation-strings-diff.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/translation-utility/translation-utility.iml" filepath="$PROJECT_DIR$/util/translation-utility/translation-utility.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/travoltage/travoltage.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/travoltage/travoltage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/unfuddle/unfuddle.iml" filepath="$PROJECT_DIR$/util/unfuddle/unfuddle.iml" />
       <module fileurl="file://$PROJECT_DIR$/team/jolson/utilities/utilities.iml" filepath="$PROJECT_DIR$/team/jolson/utilities/utilities.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/wave-interference/wave-interference.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" filepath="$PROJECT_DIR$/../../git/website/ide/intellij/website.iml" />
