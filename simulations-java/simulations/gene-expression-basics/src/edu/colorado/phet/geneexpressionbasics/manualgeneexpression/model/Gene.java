@@ -52,11 +52,11 @@ public class Gene {
     }
 
     private Shape createRegionShape( DnaMolecule dnaMolecule, DoubleRange range ) {
-        double rectHeight = dnaMolecule.getWidth();
+        double rectHeight = dnaMolecule.getWidth() * 1.75;
         double rectWidth = range.getLength();
         double xPos = dnaMolecule.getLeftEdgePos().getX() + range.getMin();
         double yPos = dnaMolecule.getLeftEdgePos().getY() - rectHeight / 2;
-        double rounding = 5; // Empirically chosen based on what looked good.
+        double rounding = rectHeight * 0.75; // Empirically chosen based on what looked good.
         return new RoundRectangle2D.Double( xPos, yPos, rectWidth, rectHeight, rounding, rounding );
     }
 
