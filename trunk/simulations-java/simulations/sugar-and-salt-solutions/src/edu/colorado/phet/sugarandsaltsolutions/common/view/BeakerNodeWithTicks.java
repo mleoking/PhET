@@ -96,19 +96,23 @@ public class BeakerNodeWithTicks extends BeakerNode {
     }
 
     //Get the HTML text that will be used for the specified volume in meters cubed
-    public static String volumeToHTMLString( double volume, String format ) {
-        //Convert the number to exponent + mantissa so it can be displayed using HTML like 2 x 10^-24
-        // see http://www.thatsjava.com/java-essentials/68687
-        double log10 = Math.log10( metersCubedToLiters( volume ) );
-        int exponent = (int) log10;
-        double mantissa = Math.pow( 10, log10 - exponent );
+    public static String volumeToHTMLString( double volumeInMetersCubed, String format ) {
 
-        //The algorithm above can yield mantissas like 0.123, so move the decimal point over one step
-        if ( mantissa < 1 ) {
-            mantissa = mantissa * 10;
-            exponent = exponent - 1;
+        //Convert to liters
+        double volumeInLiters = metersCubedToLiters( volumeInMetersCubed );
+
+        //Use an exponent of 10^-23 so that the prefix will range from 0 to 2 like in the first tab
+        int exponent = -23;
+        double mantissa = volumeInLiters / Math.pow( 10, exponent );
+
+        //Show no water as 0 L water
+        if ( volumeInLiters == 0 ) {
+            return "0";
         }
 
-        return new DecimalFormat( format ).format( mantissa ) + "x10<sup>" + exponent + "</sup>";
+        //Otherwise, show in exponential notation
+        else {
+            return new DecimalFormat( format ).format( mantissa ) + "x10<sup>" + exponent + "</sup>";
+        }
     }
 }
