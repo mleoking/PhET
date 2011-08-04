@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * XXX
+ * A make-believe atom whose electronegativity is mutable.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
