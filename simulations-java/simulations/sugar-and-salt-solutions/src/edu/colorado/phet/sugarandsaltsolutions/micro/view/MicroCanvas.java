@@ -61,16 +61,11 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }};
         behindShakerNode.addChild( concentrationBarChart );
 
-        //Control that shows the Remove Solute buttons, switches when kit changes
-        final PNode removeSoluteControlNode = new PNode();
-        addChild( removeSoluteControlNode );
-        removeSoluteControlNode.setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
-        model.selectedKit.addObserver( new VoidFunction1<Integer>() {
-            public void apply( Integer kit ) {
-                removeSoluteControlNode.removeAllChildren();
-                removeSoluteControlNode.addChild( kitList.getKit( kit ).removeSoluteControl );
-            }
-        } );
+        //Control that shows the Remove Solute button, which appears when any solutes of any type are in solution
+        //Show it to the right of the evaporation slider, below the beaker so it doesn't overlap (or get overlapped by) any solutes
+        addChild( new RemoveAllSolutesButton( model ) {{
+            setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
+        }} );
 
         //Show the kit control node that allows the user to scroll through different kits
         PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
