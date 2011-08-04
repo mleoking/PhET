@@ -2,7 +2,8 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
 import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -11,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
-import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRnaDestroyer;
@@ -29,6 +29,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
  * @author John Blanco
  */
 public class BiomoleculeToolBoxNode extends PNode {
+
     private static final Font TITLE_FONT = new PhetFont( 20, true );
     protected final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
@@ -38,30 +39,65 @@ public class BiomoleculeToolBoxNode extends PNode {
         this.model = model;
         this.canvas = canvas;
         this.mvt = mvt;
-        // Create the body, i.e. the part below the title.
-        PNode body = new SwingLayoutNode( new GridLayout( 5, 2, 20, 5 ) ) {{
-            addChild( new RowLabel( "RNA Polymerase" ) );
+        // Create the content of this control panel.
+        PNode contentNode = new SwingLayoutNode( new GridBagLayout() ) {{
+            GridBagConstraints constraints = new GridBagConstraints();
+            // Add the title.
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.gridwidth = 2;
+            addChild( new PText( "Biomolecule Tool Box" ) {{ setFont( TITLE_FONT ); }}, constraints );
+            // Add the biomolecule rows, each of which has a title and a set of
+            // biomolecules that can be added to the active area.
+            constraints.gridy++;
+            constraints.gridwidth = 1;
+            constraints.anchor = GridBagConstraints.LINE_START;
+            constraints.insets.top = 10;
+            constraints.insets.left = 0;
+            addChild( new RowLabel( "RNA Polymerase" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
             addChild( new HBox( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
                                 new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) );
-            addChild( new RowLabel( "Transcription Factor" ) );
-            addChild( new HBox( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ) );
-            addChild( new RowLabel( "Ribosome Subunit" ) );
+                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                      constraints );
+
+            constraints.gridx = 0;
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            addChild( new RowLabel( "Transcription Factor" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
+            addChild( new HBox( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ), constraints );
+
+            constraints.gridx = 0;
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            addChild( new RowLabel( "Ribosome Subunit" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
             addChild( new HBox( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
                                 new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ) );
-            addChild( new RowLabel( "mRNA Destroyer" ) );
+                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                      constraints );
+
+            constraints.gridx = 0;
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            addChild( new RowLabel( "mRNA Destroyer" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
             addChild( new HBox( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
                                 new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) );
+                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                      constraints );
         }};
 
-        // Create and add the main content node.
-        PNode contentNode = new VBox(
-                // TODO: i18n
-                new PText( "Tool Box" ) {{ setFont( TITLE_FONT ); }},
-                body
-        );
+        // Place the content into a control panel node.
         addChild( new ControlPanelNode( contentNode ) );
     }
 
