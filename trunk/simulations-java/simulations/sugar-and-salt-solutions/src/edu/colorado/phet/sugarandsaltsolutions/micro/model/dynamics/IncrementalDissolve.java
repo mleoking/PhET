@@ -39,16 +39,28 @@ public class IncrementalDissolve<T extends Particle> {
             lastDissolve = System.currentTimeMillis();
             Constituent<T> constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
-                constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( UpdateStrategy.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
-                crystal.removeConstituent( constituent );
-                model.freeParticles.add( constituent.particle );
-                constituent.particle.setUpdateStrategy( new FreeParticleStrategy( model ) );
+                removeConstituent( crystal, constituent );
             }
+        }
+
+        //If the crystal has only one constituent, then dissolve it and remove the crystal.
+        //Note that this is the only place in the code where crystals are reduced, so as long as crystals are always created with 2 or more constituents,
+        //this will guarantee that there are never any 1-particle crystals.
+        //1-particle crystals should be avoided because it is unrealistic for an ion to hang out by itself in solid form; you need both an Na and a Cl to make a salt grain
+        if ( crystal.numberConstituents() == 1 ) {
+            removeConstituent( crystal, crystal.getConstituent( 0 ) );
         }
 
         //Remove the crystal from the list so it will no longer keep its constituents together
         if ( crystal.numberConstituents() == 0 ) {
             crystals.remove( crystal );
         }
+    }
+
+    private void removeConstituent( Crystal<T> crystal, Constituent<T> constituent ) {
+        constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( UpdateStrategy.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
+        crystal.removeConstituent( constituent );
+        model.freeParticles.add( constituent.particle );
+        constituent.particle.setUpdateStrategy( new FreeParticleStrategy( model ) );
     }
 }
