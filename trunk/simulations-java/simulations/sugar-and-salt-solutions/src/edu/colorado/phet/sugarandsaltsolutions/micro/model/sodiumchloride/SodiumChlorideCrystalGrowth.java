@@ -1,18 +1,17 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -26,14 +25,12 @@ public class SodiumChlorideCrystalGrowth extends IncrementalGrowth<SphericalPart
         super( model, crystals );
     }
 
+    @Override protected ArrayList<ParticlePair> getAllPairs() {
+        return generateAllPairs( Sodium.class, Chloride.class );
+    }
+
     @Override protected SodiumChlorideCrystal newCrystal( ImmutableVector2D position ) {
         return new SodiumChlorideCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sodiumChlorideCrystals, model.sodiumChlorideSaturated ) );}};
     }
 
-    //Randomly choose any free sodium or chloride ion to seed the crystal
-    protected Option<SphericalParticle> selectSeed() {
-        Option<Particle> particleOption = model.freeParticles.selectRandom( Sodium.class, Chloride.class );
-        if ( particleOption.isNone() ) { return new None<SphericalParticle>(); }
-        else { return new Some<SphericalParticle>( (SphericalParticle) particleOption.get() ); }
-    }
 }

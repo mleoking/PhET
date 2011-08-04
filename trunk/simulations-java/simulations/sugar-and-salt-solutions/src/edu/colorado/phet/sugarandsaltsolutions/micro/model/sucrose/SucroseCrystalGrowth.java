@@ -1,15 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -23,14 +22,12 @@ public class SucroseCrystalGrowth extends IncrementalGrowth<Sucrose, SucroseCrys
         super( model, crystals );
     }
 
+    @Override protected ArrayList<ParticlePair> getAllPairs() {
+        return generateAllPairs( Sucrose.class, Sucrose.class );
+    }
+
     @Override protected SucroseCrystal newCrystal( ImmutableVector2D position ) {
         return new SucroseCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sucroseCrystals, model.sucroseSaturated ) );}};
     }
 
-    //Randomly choose any free sucrose molecule to see the crystal
-    protected Option<Sucrose> selectSeed() {
-        Option<Particle> particleOption = model.freeParticles.selectRandom( Sucrose.class );
-        if ( particleOption.isNone() ) { return new None<Sucrose>(); }
-        else { return new Some<Sucrose>( (Sucrose) particleOption.get() ); }
-    }
 }
