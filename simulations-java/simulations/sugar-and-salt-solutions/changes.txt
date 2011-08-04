@@ -1,3 +1,4 @@
+Micro tab: Removed the "dash mark" near the play button
 # 0.00.81 (54857) Aug 4, 2011
 Micro tab: Fixed: Particles get stuck in the corners of the beaker
 # 0.00.80 (54855) Aug 4, 2011
