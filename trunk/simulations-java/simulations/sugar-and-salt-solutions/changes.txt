@@ -1,3 +1,4 @@
+Micro tab: Combined the "remove solute 1" and "remove solute 2" buttons into one "remove solutes" button
 # 0.00.78 (54820) Aug 3, 2011
 Micro tab: Dissolve particles from the edges instead of the center of the crystal
 Micro tab: Maintain constituent ratio according to chemical formula during dissolve

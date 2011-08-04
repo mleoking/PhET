@@ -104,6 +104,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }};
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
+    //TODO: this incorrectly counts ethanol molecules as solutes even if they haven't reached the beaker yet.  Is this a big enough problem to warrant fixing?
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Debugging flag for draining particles through the faucet
@@ -503,7 +504,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         playButtonPressed.reset();
     }
 
-    private void clearSolutes() {
+    //Remove all solutes from the model
+    public void clearSolutes() {
 
         //Clear particle lists
         sphericalParticles.clear();
