@@ -1,3 +1,4 @@
+8/3/11 change request: add line separator between atom name and partial charge
 8/3/11 change request: atom labels on by default
 # 0.00.06 (54831) Aug 3, 2011
 8/3/11 add molecule angle to Reset All

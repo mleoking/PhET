@@ -140,7 +140,10 @@ public class JmolViewerNode extends PhetPNode {
                 args += " %[element]%[atomIndex]"; // show element and sequential atom index
             }
             if ( partialChargeVisible ) {
-                args += " " + MPStrings.DELTA + "=%.2[partialCharge]"; // show partial charge
+                if ( atomLabelsVisible ) {
+                    args += "|"; // line separator
+                }
+                args += MPStrings.DELTA + "=%.2[partialCharge]"; // show partial charge
             }
             doScript( "label " + args );
             doScript( "set labelalignment center; set labeloffset 0 0" );  // center labels on atoms
