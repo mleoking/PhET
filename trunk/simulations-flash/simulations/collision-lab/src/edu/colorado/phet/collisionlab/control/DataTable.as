@@ -152,7 +152,10 @@ public class DataTable extends Sprite {
                     text_arr[row][col].filters = [glow];
                 }
                 rowCanvas_arr[row].addChild( text_arr[row][col] );
-                rowCanvas_arr[row].y = row * rowHeight;
+                rowCanvas_arr[row].y = row * rowHeight - 5;
+                if( row == 0 ) {
+                    rowCanvas_arr[row].y = 5;
+                }
 
                 // decrease width (and thus position) for the ball column
                 text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth));
