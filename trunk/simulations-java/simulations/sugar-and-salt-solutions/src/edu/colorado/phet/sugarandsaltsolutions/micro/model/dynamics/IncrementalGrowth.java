@@ -152,7 +152,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     //Crystal-specific code to generate a list of all matching pairs of particles, these are particles that could form a new crystal together, if they are close enough together
     protected abstract ArrayList<ParticlePair> getAllPairs();
 
-    //Convert the specified particle to a crystal and add it to the model
+    //Convert the specified particles to a crystal and add the crystal to the model
     private void convertToCrystal( T a, T b ) {
 
         //Create a crystal based on the 'a' particle, then add the 'b' particle as the second constituent
