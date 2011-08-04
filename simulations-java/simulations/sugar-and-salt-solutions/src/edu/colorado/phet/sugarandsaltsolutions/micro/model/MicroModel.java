@@ -55,8 +55,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPer
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.*;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
-import static java.awt.Color.blue;
-import static java.awt.Color.red;
+import static java.awt.Color.*;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 import static java.util.Collections.sort;
@@ -114,6 +113,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
 
     //Colors for all the dissolved solutes
+    //Choose nitrate to be blue because the Nitrogen atom is blue, even though it is negative and therefore also blue under "show charge color" condition
     public final ObservableProperty<Color> sodiumColor = new IonColor( this, new Sodium() );
     public final ObservableProperty<Color> chlorideColor = new IonColor( this, new Chloride() );
     public final ObservableProperty<Color> calciumColor = new IonColor( this, new Calcium() );
@@ -124,12 +124,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }, showChargeColor );
     public final ObservableProperty<Color> nitrateColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
-            return showChargeColor.get() ? NEUTRAL_COLOR : blue;
+            return showChargeColor.get() ? blue : blue;
         }
     }, showChargeColor );
     public final ObservableProperty<Color> ethanolColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
-            return showChargeColor.get() ? NEUTRAL_COLOR : Color.pink;
+            return showChargeColor.get() ? NEUTRAL_COLOR : pink;
         }
     }, showChargeColor );
 
