@@ -3,10 +3,12 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.ShapeUtils;
 
 /**
  * Class that represents RNA polymerase in the model.
@@ -16,8 +18,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 public class RnaPolymerase extends MobileBiomolecule {
 
     private static final double WIDTH = 340;
-    private static final double HEIGHT = 700;
-
+    private static final double HEIGHT = 480;
 
     public RnaPolymerase() {
         this( new Point2D.Double( 0, 0 ) );
@@ -30,16 +31,15 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     private static Shape createShape() {
-        GeneralPath path = new GeneralPath();
-        // Start from left side, vertical center.
-        path.moveTo( -WIDTH / 2, 0 );
-        path.lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-        path.lineTo( WIDTH * 0.4, HEIGHT * 0.4 );
-        path.lineTo( WIDTH / 2, 0 );
-        path.lineTo( WIDTH * 0.4, -HEIGHT * 0.5 );
-        path.lineTo( -WIDTH * 0.3, -HEIGHT * 0.5 );
-        path.lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );
-        path.closePath();
-        return path;
+        // Shape is meant to look like illustrations in "The Machinery of
+        // Life" by David Goodsell.
+        List<Point2D> points = new ArrayList<Point2D>();
+        points.add( new Point2D.Double( 0, HEIGHT / 2 ) ); // Middle top.
+        points.add( new Point2D.Double( WIDTH / 2, HEIGHT * 0.25 ) );
+        points.add( new Point2D.Double( WIDTH * 0.30, -HEIGHT * 0.25 ) );
+        points.add( new Point2D.Double( 0, -HEIGHT / 2 ) ); // Middle bottom.
+        points.add( new Point2D.Double( -WIDTH * 0.30, -HEIGHT * 0.25 ) );
+        points.add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
+        return ShapeUtils.createRoundedShapeFromPoints( points );
     }
 }

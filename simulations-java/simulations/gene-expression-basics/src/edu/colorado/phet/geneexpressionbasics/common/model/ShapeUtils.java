@@ -46,11 +46,13 @@ public class ShapeUtils {
         return path.getGeneralPath();
     }
 
-    // Extrapolate a control point for a curve based on three points.
+    // Extrapolate a control point for a curve based on three points.  This
+    // is used to "go around the corner" at y, staring from x, and heading
+    // towards z.  If that makes any sense.
     private static ImmutableVector2D extrapolateControlPoint( ImmutableVector2D x, ImmutableVector2D y, ImmutableVector2D z ) {
         ImmutableVector2D xy = y.getSubtractedInstance( x );
         ImmutableVector2D yz = z.getSubtractedInstance( y );
-        return y.getAddedInstance( xy.getScaledInstance( 0.33 ).getAddedInstance( yz.getScaledInstance( 0.33 ) ) );
+        return y.getAddedInstance( xy.getScaledInstance( 0.25 ).getAddedInstance( yz.getScaledInstance( 0.25 ) ) );
     }
 
     // First extrapolation attempt.  Should work well in theory, but didn't
