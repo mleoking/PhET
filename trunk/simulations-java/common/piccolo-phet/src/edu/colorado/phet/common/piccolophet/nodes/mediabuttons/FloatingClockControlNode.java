@@ -141,19 +141,24 @@ public class FloatingClockControlNode extends PNode {
                 } );
             }};
             addChild( readoutNode );
-            addChild( new HTMLImageButtonNode( clearString ) {{
-                setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        resetTime.apply();
-                    }
-                } );
-                simulationTime.addObserver( new SimpleObserver() {
-                    public void update() {
-                        setEnabled( simulationTime.get() > 0 );
-                    }
-                } );
-            }} );
+
+            //Only show the "clear" button if the user specified a string
+            //TODO: In the future, this string could be provided by phetcommon-strings, and we would need another way for the client code to identify whether the clear button should be shown
+            if ( clearString != null && clearString.length() > 0 ) {
+                addChild( new HTMLImageButtonNode( clearString ) {{
+                    setOffset( readoutNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, readoutNode.getFullBounds().getMaxY() );
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            resetTime.apply();
+                        }
+                    } );
+                    simulationTime.addObserver( new SimpleObserver() {
+                        public void update() {
+                            setEnabled( simulationTime.get() > 0 );
+                        }
+                    } );
+                }} );
+            }
         }
     }
 
