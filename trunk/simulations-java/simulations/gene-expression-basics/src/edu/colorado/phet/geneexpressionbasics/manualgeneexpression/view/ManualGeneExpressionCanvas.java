@@ -127,7 +127,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 if ( activity != null ) {
                     activity.terminate( 0 );
                 }
-                viewportOffset.setComponents( -mvt.modelToViewX( gene.getTranscribedRegionRect().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
+                viewportOffset.setComponents( -mvt.modelToViewX( gene.getTranscribedRegionShape().getBounds2D().getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
             }
         } );
@@ -135,14 +135,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         // Add the tool boxes from which various biomolecules can be moved into
         // the active area of the sim.
         modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getTranscribedRegionRect().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }} );
-        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getTranscribedRegionRect().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }} );
-        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
-            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getTranscribedRegionRect().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }} );
+//        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+//            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+//        }} );
+//        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+//            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+//        }} );
 
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );

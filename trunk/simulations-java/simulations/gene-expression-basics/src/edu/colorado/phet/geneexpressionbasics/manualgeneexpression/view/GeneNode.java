@@ -28,30 +28,32 @@ public class GeneNode extends PNode {
     public GeneNode( final ModelViewTransform mvt, final Gene gene, int geneNumber ) {
         // Add the areas that essentially highlight the gene on the DNA
         // strand.  Each of these is labeled.
-        addChild( new PhetPPath( mvt.modelToView( gene.getTranscribedRegionRect() ), gene.getColor() ) );
+        final PhetPPath transcribedRegionNode = new PhetPPath( mvt.modelToView( gene.getTranscribedRegionShape() ), gene.getTranscribedRegionColor() );
+        addChild( transcribedRegionNode );
         // TODO: i18n
         PNode regulatoryRegionCaption = new HTMLNode( "<center>Transcribed<br>Region</center>" ) {{
             setFont( REGION_LABEL_FONT );
-            setOffset( mvt.modelToViewX( gene.getTranscribedRegionRect().getCenterX() ) - getFullBoundsReference().width / 2,
-                       mvt.modelToViewY( gene.getTranscribedRegionRect().getMinY() ) );
+            setOffset( transcribedRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
+                       transcribedRegionNode.getFullBoundsReference().getMaxY() );
         }};
         addChild( regulatoryRegionCaption );
-        addChild( new PhetPPath( mvt.modelToView( gene.getRegulatoryRegionRect() ), new Color( 30, 144, 255 ) ) );
+        final PhetPPath regulatoryRegionNode = new PhetPPath( mvt.modelToView( gene.getRegulatoryRegionShape() ), gene.getRegulatoryRegionColor() );
+        addChild( regulatoryRegionNode );
         // TODO: i18n
         PNode transcribedRegionCaption = new HTMLNode( "<center>Regulatory<br>Region</center>" ) {{
             setFont( REGION_LABEL_FONT );
-            setOffset( mvt.modelToViewX( gene.getRegulatoryRegionRect().getCenterX() ) - getFullBoundsReference().width / 2,
-                       mvt.modelToViewY( gene.getRegulatoryRegionRect().getMinY() ) );
+            setOffset( regulatoryRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
+                       regulatoryRegionNode.getFullBoundsReference().getMaxY() );
         }};
         addChild( transcribedRegionCaption );
 
         // Add the bracket.  This is a portion (the non-textual part) of the
         // overall label for the gene.
         final DoubleGeneralPath bracketPath = new DoubleGeneralPath();
-        bracketPath.moveTo( mvt.modelToViewX( gene.getRegulatoryRegionRect().getMinX() ),
+        bracketPath.moveTo( regulatoryRegionNode.getFullBoundsReference().getMinX(),
                             regulatoryRegionCaption.getFullBoundsReference().getMaxY() );
         bracketPath.lineToRelative( BRACKET_DEPTH, BRACKET_DEPTH );
-        bracketPath.lineTo( mvt.modelToViewX( gene.getTranscribedRegionRect().getMaxX() ) - BRACKET_DEPTH,
+        bracketPath.lineTo( transcribedRegionNode.getFullBoundsReference().getMaxX() - BRACKET_DEPTH,
                             transcribedRegionCaption.getFullBoundsReference().getMaxY() + BRACKET_DEPTH );
         bracketPath.lineToRelative( BRACKET_DEPTH, -BRACKET_DEPTH );
         addChild( new PhetPPath( bracketPath.getGeneralPath(), new BasicStroke( 2 ), Color.BLACK ) );
