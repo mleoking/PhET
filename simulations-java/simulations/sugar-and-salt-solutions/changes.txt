@@ -1,3 +1,4 @@
+Micro tab: Require two particles for forming a crystal instead of one
 # 0.00.79 (54852) Aug 3, 2011
 Micro tab: Made NO3- concentration bar blue because it represents a negative ion
 Micro tab: Fixed exponent for the water/solution volume readout and show no water as 0L
