@@ -10,7 +10,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
-import static java.lang.Math.PI;
 
 /**
  * Move the particles about with a random walk, but making sure they remain within the solution (if they started within it)
@@ -78,12 +77,10 @@ public class FreeParticleStrategy extends UpdateStrategy {
         }
 
         //Prevent the particles from leaving the solution, but only if they started in the solution
+        //And randomize the velocity so it will hopefully move away from the wall soon, and won't get stuck in the corner
         if ( initiallyUnderwater && !underwater ) {
-            ImmutableVector2D delta = particle.getPosition().minus( initialPosition );
             particle.setPosition( initialPosition );
-
-            //If the particle hit the wall, point its velocity in the opposite direction so it will move away from the wall
-            particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), delta.getAngle() + PI ) );
+            particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
         }
 
         //Stop the particle completely if there is no water to move within
