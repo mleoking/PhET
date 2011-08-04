@@ -62,7 +62,8 @@ public class DataTable extends Sprite {
 
     public function DataTable( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
-        colWidth = myModel.isIntro ? 90 : 80;
+//        colWidth = myModel.isIntro ? 90 : 80; SIZE
+        colWidth = myModel.isIntro ? 80 : 70;
         myModel.registerView( this );
         this.myMainView = myMainView;
         nbrBalls = this.myModel.nbrBalls;
@@ -71,7 +72,7 @@ public class DataTable extends Sprite {
         massSlider_arr = new Array( maxRows );
         tFormat = new TextFormat();
         tFormat.font = "Arial";
-        tFormat.size = 14;
+        tFormat.size = 13; // SIZE was 14
         tFormat.align = TextFormatAlign.CENTER;
 
         //create textfields for full data table and mass sliders for partial data table
