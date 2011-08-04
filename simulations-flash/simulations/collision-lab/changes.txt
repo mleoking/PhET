@@ -1,4 +1,5 @@
-Reduced header height
+> Font size reduction in the data table
+> Reduced header height
 > Made the ball column in the data table thinner
 # 1.00.08 (54543) Jul 27, 2011
 > Data table heavily changed
