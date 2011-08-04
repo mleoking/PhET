@@ -22,6 +22,7 @@ import flash.filters.*;
  */
 public class DataTable extends Sprite {
     private var colWidth: int;			//width of column in pix
+    private const ballColWidth: int = 60;
     private static const rowHeight: int = 27;			//height of row in pix
 
     private var myModel: Model;
@@ -137,7 +138,7 @@ public class DataTable extends Sprite {
                 ballBackground.y = 0;
                 ballBackground.graphics.beginFill( myMainView.myTableView.ballColor_arr[ballNum] );
                 ballBackground.graphics.lineStyle( 0, 0x000000 );
-                ballBackground.graphics.drawCircle( (colWidth - 5) / 2, (rowHeight - 5) / 2, 10 );
+                ballBackground.graphics.drawCircle( (ballColWidth - 5) / 2, (rowHeight - 5) / 2, 10 );
                 ballBackground.graphics.endFill();
                 rowCanvas_arr[row].addChild( ballBackground );
             }
@@ -152,10 +153,12 @@ public class DataTable extends Sprite {
                 }
                 rowCanvas_arr[row].addChild( text_arr[row][col] );
                 rowCanvas_arr[row].y = row * rowHeight;
-                text_arr[row][col].x = col * colWidth;
+
+                // decrease width (and thus position) for the ball column
+                text_arr[row][col].x = (col == 0) ? 0 : (col * colWidth - (colWidth - ballColWidth));
                 text_arr[row][col].y = 0;
                 text_arr[row][col].text = "row" + row;
-                text_arr[row][col].width = colWidth - 5;
+                text_arr[row][col].width = (col == 0) ? (ballColWidth - 5) : (colWidth - 5);
                 text_arr[row][col].height = rowHeight - 5;
                 text_arr[row][col].border = false;
                 //Not user-settable: ballnbr, mass, px, py
@@ -371,7 +374,7 @@ public class DataTable extends Sprite {
             canvas.x = -rowWidth / 2;
         }
         else {
-            rowWidth = nbrColumns * colWidth;
+            rowWidth = nbrColumns * colWidth - (colWidth - ballColWidth); // compensate for the shorter ball column
             canvas.x = -rowWidth / 2;
         }
         drawBorder( nbrBalls );
