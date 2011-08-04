@@ -137,12 +137,12 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
         modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }} );
-//        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
-//            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-//        }} );
-//        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
-//            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-//        }} );
+        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+        }} );
+        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+            setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getTranscribedRegionShape().getBounds2D().getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
+        }} );
 
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );
