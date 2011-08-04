@@ -11,8 +11,6 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/util/testing/contrib/opencsv/src" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/util/testing/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/translation-strings-diff/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/unfuddle/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/util/simsharing/src" isTestSource="false" />
