@@ -26,6 +26,7 @@ public class DnaMolecule {
     private static final double BASE_PAIRS_PER_TWIST = 10; // In picometers.
     private static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
+    private static final int NUMBER_OF_TWISTS = 120;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
@@ -37,8 +38,8 @@ public class DnaMolecule {
      */
     public DnaMolecule() {
         // Create the two strands that comprise the DNA "backbone".
-        strand1 = generateDnaStrand( LEFT_EDGE_X_POS, LENGTH_PER_TWIST * 100, true );
-        strand2 = generateDnaStrand( LEFT_EDGE_X_POS + INTER_STRAND_OFFSET, LENGTH_PER_TWIST * 100, false );
+        strand1 = generateDnaStrand( LEFT_EDGE_X_POS, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, true );
+        strand2 = generateDnaStrand( LEFT_EDGE_X_POS + INTER_STRAND_OFFSET, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, false );
 
         // Add in the base pairs between the strands.
         double basePairXPos = INTER_STRAND_OFFSET;
