@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,7 +24,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  *
  * @author John Blanco
  */
-public class ManualGeneExpressionModel {
+public class ManualGeneExpressionModel implements Resettable {
 
     //------------------------------------------------------------------------
     // Class Data
@@ -82,6 +83,11 @@ public class ManualGeneExpressionModel {
         activeGene.set( genes.get( index ) );
     }
 
+    private void activateGene( int i ) {
+        final ArrayList<Gene> genes = dnaStrand.getGenes();
+        activeGene.set( dnaStrand.getGenes().get( i ) );
+    }
+
     public List<MobileBiomolecule> getMobileBiomoleculeList() {
         return mobileBiomoleculeList;
     }
@@ -92,5 +98,12 @@ public class ManualGeneExpressionModel {
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.remove( mobileBiomolecule );
+    }
+
+    public void reset() {
+        for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
+            removeMobileBiomolecule( mobileBiomolecule );
+        }
+        activateGene( 0 );
     }
 }

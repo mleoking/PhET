@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -34,6 +36,7 @@ public class BiomoleculeToolBoxNode extends PNode {
     protected final ManualGeneExpressionModel model;
     private final ManualGeneExpressionCanvas canvas;
     protected final ModelViewTransform mvt;
+    private final List<BiomoleculeCreatorNode> biomoleculeCreatorNodeList = new ArrayList<BiomoleculeCreatorNode>();
 
     public BiomoleculeToolBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
         this.model = model;
@@ -60,9 +63,9 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+            addChild( new HBox( addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
 
             constraints.gridx = 0;
@@ -73,7 +76,7 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ), constraints );
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ) ), constraints );
 
             constraints.gridx = 0;
             constraints.gridy++;
@@ -83,9 +86,9 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
+            addChild( new HBox( addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RibosomeCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
 
             constraints.gridx = 0;
@@ -96,14 +99,27 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ),
-                                new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
+            addChild( new HBox( addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new MessengerRnaDestroyerCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
                       constraints );
         }};
 
         // Place the content into a control panel node.
         addChild( new ControlPanelNode( contentNode ) );
+    }
+
+    public void reset() {
+        for ( BiomoleculeCreatorNode biomoleculeCreatorNode : biomoleculeCreatorNodeList ) {
+            biomoleculeCreatorNode.reset();
+        }
+    }
+
+    // Convenience function for making it easy to create a biomolecule creator
+    // node and add it to the content panel at the same time.
+    private BiomoleculeCreatorNode addCreatorNode( BiomoleculeCreatorNode biomoleculeCreatorNode ) {
+        biomoleculeCreatorNodeList.add( biomoleculeCreatorNode );
+        return biomoleculeCreatorNode;
     }
 
     /**

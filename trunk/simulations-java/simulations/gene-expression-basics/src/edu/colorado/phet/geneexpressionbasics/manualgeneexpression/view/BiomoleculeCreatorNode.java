@@ -25,6 +25,8 @@ public class BiomoleculeCreatorNode extends PComposite {
     private MobileBiomolecule biomolecule = null;
     private final ModelViewTransform mvt;
     private final ManualGeneExpressionCanvas canvas;
+    private VoidFunction1<Boolean> observer;
+    private final PNode appearanceNode;
 
     /**
      * Constructor.
@@ -43,7 +45,7 @@ public class BiomoleculeCreatorNode extends PComposite {
      *                             disappear when clicked on, which creates a look like the object was
      *                             dragged out of the tool box.
      */
-    public BiomoleculeCreatorNode( final PNode appearanceNode,
+    public BiomoleculeCreatorNode( PNode appearanceNode,
                                    ManualGeneExpressionCanvas canvas,
                                    final ModelViewTransform mvt,
                                    final Function1<Point2D, MobileBiomolecule> moleculeCreator,
@@ -52,32 +54,36 @@ public class BiomoleculeCreatorNode extends PComposite {
                                    final boolean goInvisibleOnAdd ) {
         this.canvas = canvas;
         this.mvt = mvt;
+        this.appearanceNode = appearanceNode;
         // Cursor handler.
         addInputEventListener( new CursorHandler() );
         // Add the handler that will add elements to the model when clicked.
         addInputEventListener( new PBasicInputEventHandler() {
             @Override
             public void mousePressed( PInputEvent event ) {
-                appearanceNode.setVisible( !goInvisibleOnAdd );
+                BiomoleculeCreatorNode.this.appearanceNode.setVisible( !goInvisibleOnAdd );
                 biomolecule = moleculeCreator.apply( getModelPosition( event.getCanvasPosition() ) );
                 biomolecule.userControlled.set( true );
                 // Add an observer to watch for this model element to be returned.
                 final MobileBiomolecule finalBiomolecule = biomolecule;
-                biomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
+                observer = new VoidFunction1<Boolean>() {
                     public void apply( Boolean userControlled ) {
                         if ( !userControlled ) {
-                            // The user has released this biomolecule.  If it was dropped above the return
-                            // bounds (which is generally the tool box where this creator node resides),
-                            // then the model element should be removed from the model.
+                            // The user has released this biomolecule.  If it
+                            // was dropped above the return bounds (which are
+                            // generally the bounds of the tool box where this
+                            // creator node resides),then the model element
+                            // should be removed from the model.
                             if ( enclosingToolBoxNode.getFullBoundsReference().contains( mvt.modelToView( finalBiomolecule.getPosition() ) ) ) {
                                 moleculeDestroyer.apply( finalBiomolecule );
                                 System.out.println( "Molecule returned to tool box." );
                                 finalBiomolecule.userControlled.removeObserver( this );
-                                appearanceNode.setVisible( true );
+                                BiomoleculeCreatorNode.this.appearanceNode.setVisible( true );
                             }
                         }
                     }
-                } );
+                };
+                biomolecule.userControlled.addObserver( observer );
             }
 
             @Override
@@ -89,10 +95,22 @@ public class BiomoleculeCreatorNode extends PComposite {
             public void mouseReleased( PInputEvent event ) {
                 // The user has released this node.
                 biomolecule.release();
+                biomolecule.userControlled.removeObserver( observer );
                 biomolecule = null;
             }
         } );
         addChild( appearanceNode );
+    }
+
+    public void reset() {
+        if ( biomolecule != null ) {
+            biomolecule.userControlled.removeObserver( observer );
+            biomolecule = null;
+        }
+        if ( appearanceNode.getVisible() == false ) {
+            System.out.println( "Setting back to visible." );
+        }
+        appearanceNode.setVisible( true );
     }
 
     /**

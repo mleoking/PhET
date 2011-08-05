@@ -22,14 +22,15 @@ import edu.umd.cs.piccolo.PNode;
  * moves.
  */
 public class MobileBiomoleculeNode extends PNode {
+
+    /**
+     * Constructor.
+     *
+     * @param mvt
+     * @param mobileBiomolecule
+     */
     public MobileBiomoleculeNode( final ModelViewTransform mvt, final MobileBiomolecule mobileBiomolecule ) {
 
-        Paint gradientPaint = new GradientPaint( mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMinX(),
-                                                                                      mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                                 ColorUtils.brighterColor( mobileBiomolecule.getBaseColor(), 0.5 ),
-                                                 new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMaxX(),
-                                                                     mobileBiomolecule.getShape().getBounds2D().getCenterY() ),
-                                                 ColorUtils.darkerColor( mobileBiomolecule.getBaseColor(), 0.5 ) );
         addChild( new PhetPPath( new BasicStroke( 1 ), Color.BLACK ) {{
             // Update the shape whenever it changes.
             mobileBiomolecule.addShapeChangeObserver( new VoidFunction1<Shape>() {
