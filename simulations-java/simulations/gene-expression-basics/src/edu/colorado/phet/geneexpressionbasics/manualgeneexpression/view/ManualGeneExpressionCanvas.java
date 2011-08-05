@@ -7,14 +7,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
@@ -28,11 +32,12 @@ import static edu.colorado.phet.geneexpressionbasics.GeneExpressionBasicsResourc
 /**
  * @author John Blanco
  */
-public class ManualGeneExpressionCanvas extends PhetPCanvas {
+public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettable {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
     private PTransformActivity activity;
     private final Vector2D viewportOffset = new Vector2D( 0, 0 );
+    private final List<BiomoleculeToolBoxNode> biomoleculeToolBoxNodeList = new ArrayList<BiomoleculeToolBoxNode>();
 
     public ManualGeneExpressionCanvas( final ManualGeneExpressionModel model ) {
 
@@ -88,10 +93,10 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
         // Add buttons for moving to next and previous genes.
         // TODO: i18n
-        controlsRootNode.addChild( new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
+        final HTMLImageButtonNode nextGeneButton = new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
             setTextPosition( TextPosition.LEFT );
             setFont( new PhetFont( 20 ) );
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 40 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -103,12 +108,13 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                     setEnabled( !lastGeneActive );
                 }
             } );
-        }} );
+        }};
+        controlsRootNode.addChild( nextGeneButton );
         // TODO: i18n
         controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
-            setOffset( 20, dnaMoleculeNode.getFullBoundsReference().getMaxY() + 20 );
+            setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 40 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -122,6 +128,14 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
             } );
         }} );
 
+        // Add the Reset All button.
+        controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { this, model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
+            setConfirmationEnabled( false );
+            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
+        }} );
+
+        // Monitor the active gene and move the view port to be centered on it
+        // whenever it changes.
         model.activeGene.addObserver( new VoidFunction1<Gene>() {
             public void apply( Gene gene ) {
                 if ( activity != null ) {
@@ -134,15 +148,22 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
         // Add the tool boxes from which various biomolecules can be moved into
         // the active area of the sim.
-        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        // TODO: There is some code duplication here.  Could be cleaned up by making genes provide their transcription factors.
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode1 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }} );
-        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        }};
+        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode1 );
+        modelRootNode.addChild( biomoleculeToolBoxNode1 );
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode2 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }} );
-        modelRootNode.addChild( new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        }};
+        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode2 );
+        modelRootNode.addChild( biomoleculeToolBoxNode2 );
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode3 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
-        }} );
+        }};
+        biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode3 );
+        modelRootNode.addChild( biomoleculeToolBoxNode3 );
 
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );
@@ -150,5 +171,11 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
 
     public ImmutableVector2D getViewportOffset() {
         return new ImmutableVector2D( viewportOffset );
+    }
+
+    public void reset() {
+        for ( BiomoleculeToolBoxNode biomoleculeToolBoxNode : biomoleculeToolBoxNodeList ) {
+            biomoleculeToolBoxNode.reset();
+        }
     }
 }
