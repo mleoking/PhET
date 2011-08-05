@@ -23,15 +23,30 @@ public class Gene {
     private final DnaMolecule dnaMolecule;
     private final Color regulatoryRegionColor;
     private final Color transcribedRegionColor;
+    private final DoubleRange regulatoryRegion;
+    private final DoubleRange transcribedRegion;
     private final Shape transcribedRegionShape;
     private final Shape regulatoryRegionShape;
 
+    /**
+     * Constructor.
+     *
+     * @param dnaMolecule            The DNA molecule within which this gene exists.
+     * @param regulatoryRegion       The range, with respect to the left edge of
+     *                               the DNA molecule, where the regulatory region exists.
+     * @param regulatoryRegionColor
+     * @param transcribedRegion      The range, with respect to the left edge of
+     *                               the DNA molecule, where the transcribed region exists.
+     * @param transcribedRegionColor
+     */
     public Gene( DnaMolecule dnaMolecule, DoubleRange regulatoryRegion, Color regulatoryRegionColor,
-                 DoubleRange transcribingRegion, Color transcribedRegionColor ) {
+                 DoubleRange transcribedRegion, Color transcribedRegionColor ) {
         this.dnaMolecule = dnaMolecule;
+        this.regulatoryRegion = regulatoryRegion;
         this.regulatoryRegionColor = regulatoryRegionColor;
+        this.transcribedRegion = transcribedRegion;
         this.transcribedRegionColor = transcribedRegionColor;
-        transcribedRegionShape = createRegionShape( dnaMolecule, transcribingRegion );
+        transcribedRegionShape = createRegionShape( dnaMolecule, transcribedRegion );
         regulatoryRegionShape = createRegionShape( dnaMolecule, regulatoryRegion );
     }
 
@@ -66,5 +81,10 @@ public class Gene {
 
     public Color getTranscribedRegionColor() {
         return transcribedRegionColor;
+    }
+
+    public double getCenterX() {
+        return ( Math.min( regulatoryRegion.getMin(), transcribedRegion.getMin() ) +
+                 Math.max( regulatoryRegion.getMax(), transcribedRegion.getMax() ) ) / 2 + dnaMolecule.getLeftEdgePos().getX();
     }
 }

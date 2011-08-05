@@ -20,13 +20,14 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  */
 public class DnaMolecule {
 
-    private static final double LEFT_EDGE_X_POS = 0;
     private static final double STRAND_WIDTH = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final double BASE_PAIRS_PER_TWIST = 10; // In picometers.
     private static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
-    private static final int NUMBER_OF_TWISTS = 120;
+    private static final int NUMBER_OF_TWISTS = 150;
+    private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
+    private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
@@ -41,21 +42,40 @@ public class DnaMolecule {
         strand1 = generateDnaStrand( LEFT_EDGE_X_POS, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, true );
         strand2 = generateDnaStrand( LEFT_EDGE_X_POS + INTER_STRAND_OFFSET, LENGTH_PER_TWIST * NUMBER_OF_TWISTS, false );
 
-        // Add in the base pairs between the strands.
-        double basePairXPos = INTER_STRAND_OFFSET;
+        // Add in the base pairs between the strands.  This calculates the
+        // distance between the two strands and puts a line between them in
+        // order to look like the base pair.  This counts on the strands being
+        // close to sine waves.
+        double basePairXPos = LEFT_EDGE_X_POS + INTER_STRAND_OFFSET;
         while ( basePairXPos < strand2.get( strand2.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
-            double height = Math.abs( ( Math.sin( ( basePairXPos - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
-                                        Math.sin( basePairXPos / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_WIDTH / 2;
-            double basePairYPos = ( Math.sin( ( basePairXPos - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
-                                    Math.sin( basePairXPos / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_WIDTH / 2;
+            double height = Math.abs( ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
+                                        Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_WIDTH / 2;
+            double basePairYPos = ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
+                                    Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_WIDTH / 2;
             basePairs.add( new BasePair( new Point2D.Double( basePairXPos, basePairYPos ), height ) );
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
 
-        // Add the genes.
-        genes.add( new Gene( this, new DoubleRange( 5000, 6000 ), new Color( 30, 144, 255 ), new DoubleRange( 6000, 9000 ), new Color( 255, 165, 79, 150 ) ) );
-        genes.add( new Gene( this, new DoubleRange( 15000, 16000 ), new Color( 30, 144, 255 ), new DoubleRange( 16000, 20000 ), new Color( 240, 246, 143, 150 ) ) );
-        genes.add( new Gene( this, new DoubleRange( 25000, 26000 ), new Color( 30, 144, 255 ), new DoubleRange( 26000, 32000 ), new Color( 205, 255, 112, 150 ) ) );
+        // Add the genes.  The first gene is set up to be centered at (0,0)in
+        // model space to having to scroll the gene at startup.
+        double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
+        genes.add( new Gene( this,
+                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new Color( 30, 144, 255 ),
+                             new DoubleRange( geneStartX + 2000, geneStartX + 4000 ),
+                             new Color( 255, 165, 79, 150 ) ) );
+        geneStartX += DISTANCE_BETWEEN_GENES;
+        genes.add( new Gene( this,
+                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new Color( 30, 144, 255 ),
+                             new DoubleRange( geneStartX + 2000, geneStartX + 6000 ),
+                             new Color( 240, 246, 143, 150 ) ) );
+        geneStartX += DISTANCE_BETWEEN_GENES;
+        genes.add( new Gene( this,
+                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new Color( 30, 144, 255 ),
+                             new DoubleRange( geneStartX + 2000, geneStartX + 8000 ),
+                             new Color( 205, 255, 112, 150 ) ) );
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.

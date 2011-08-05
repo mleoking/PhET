@@ -1,3 +1,8 @@
+Made strand longer so that ends are not seen when overall aspect ratio is reasonable.
+Made 1st gene be centered at (0,0) in model space so that initial scrolling doesn't occur.
+Made shape of RNA Polymerase look like suggested by design team.
+Improved layout of biomolecule tool box
+Retitled "Tool Box" to "Biomolecule Tool Box"
 # 0.00.04 (53478) Jun 24, 2011
 Made ribosomes into a single unit instead of two subunits
 Added tool boxes and ability to add/remove biomolecules using these tool boxes
