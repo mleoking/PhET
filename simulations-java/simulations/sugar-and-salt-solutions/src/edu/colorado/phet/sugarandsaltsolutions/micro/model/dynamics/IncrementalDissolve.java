@@ -9,6 +9,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy.FREE_PARTICLE_SPEED;
 import static java.lang.Math.PI;
 import static java.lang.Math.random;
 
@@ -57,8 +58,16 @@ public class IncrementalDissolve<T extends Particle> {
         }
     }
 
+    //Remove the specified constituent from the containing crystal, by dissolving it off
     private void removeConstituent( Crystal<T> crystal, Constituent<T> constituent ) {
-        constituent.particle.velocity.set( new ImmutableVector2D( 0, 1 ).times( UpdateStrategy.FREE_PARTICLE_SPEED ).getRotatedInstance( random() * PI * 2 ) );
+
+        //If the particle is above the water when dissolved off the crystal, then make sure it starts moving downward, otherwise it will "jump" into the air above the beaker
+        boolean particleAboveWater = constituent.particle.getShape().getBounds2D().getMaxY() > model.solution.shape.get().getBounds2D().getMaxY();
+        double velocityAngle = particleAboveWater ? 0 : random() * PI * 2;
+        ImmutableVector2D velocity = new ImmutableVector2D( 0, -1 ).times( FREE_PARTICLE_SPEED ).getRotatedInstance( velocityAngle );
+        constituent.particle.velocity.set( velocity );
+
+        //Remove the constituent from the crystal and instead make it move under a random walk
         crystal.removeConstituent( constituent );
         model.freeParticles.add( constituent.particle );
         constituent.particle.setUpdateStrategy( new FreeParticleStrategy( model ) );
