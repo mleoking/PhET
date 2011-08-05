@@ -51,6 +51,6 @@ public class MobileBiomoleculeNode extends PNode {
                                   ColorUtils.brighterColor( mobileBiomolecule.getBaseColor(), 0.8 ),
                                   mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMaxX(),
                                                                        mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                  ColorUtils.darkerColor( mobileBiomolecule.getBaseColor(), 0.5 ) );
+                                  ColorUtils.darkerColor( mobileBiomolecule.getBaseColor(), 0.3 ) );
     }
 }
