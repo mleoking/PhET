@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import edu.colorado.phet.balanceandtorque.common.BackButton;
+import edu.colorado.phet.balanceandtorque.common.ForwardButton;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -16,8 +18,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -66,8 +66,7 @@ public class MassBoxNode extends PNode {
             addChild( new MysteryObjectInMassBoxNode( 3, model, mvt, canvas ) );
         }} );
 
-        // TODO: i18n
-        TextButtonNode nextButton = new TextButtonNode( "Next", BUTTON_FONT, BUTTON_COLOR ) {{
+        final ForwardButton forwardButton = new ForwardButton() {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     activeMassSet.set( ( activeMassSet.get() + 1 ) % massSets.size() );
@@ -76,12 +75,12 @@ public class MassBoxNode extends PNode {
             // Set up a listener that disables the button if there are no more mass sets.
             activeMassSet.valueEquals( massSets.size() - 1 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atLastMass ) {
-                    setEnabled( !atLastMass );
+                    setVisible( !atLastMass );
                 }
             } );
         }};
-        // TODO: i18n
-        TextButtonNode previousButton = new TextButtonNode( "Previous", BUTTON_FONT, BUTTON_COLOR ) {{
+
+        final BackButton backButton = new BackButton() {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     activeMassSet.set( Math.abs( ( activeMassSet.get() - 1 ) % massSets.size() ) );
@@ -90,7 +89,7 @@ public class MassBoxNode extends PNode {
             // Set up a listener that disables the button if they are looking at the first mass set.
             activeMassSet.valueEquals( 0 ).addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean atFirstMass ) {
-                    setEnabled( !atFirstMass );
+                    setVisible( !atFirstMass );
                 }
             } );
         }};
@@ -104,8 +103,18 @@ public class MassBoxNode extends PNode {
                 new PText( "Masses" ) {{
                     setFont( new PhetFont( 20 ) );
                 }},
-                // Buttons.
-                new HBox( previousButton, nextButton ),
+                // Forward/back buttons.
+                new PNode() {{
+                    addChild( backButton );
+                    addChild( forwardButton );
+                    // TODO: The setOffset call below sets the spacing between the buttons
+                    // which ultimately sets the size of the mass selection node.  This
+                    // probably isn't the best way to do this, but will likely be fixed
+                    // when the kit selection code from SASS is commonized and integrated.
+                    // If that doesn't happen, code should be created that will force this
+                    // kit selection node to a particular size.
+                    forwardButton.setOffset( 110, 0 );
+                }},
                 // Mass set.
                 massSets.get( activeMassSet.get() )
         );
