@@ -1,3 +1,4 @@
+> Improved launching of 3D dialog
 # 1.00.02 (54324) Jul 20, 2011
 # 1.00.01 (53369) Jun 22, 2011
 > Text changes: 1st tab renamed to "Make Molecules", and "Reset Kit" changed to "Refill Kit"
