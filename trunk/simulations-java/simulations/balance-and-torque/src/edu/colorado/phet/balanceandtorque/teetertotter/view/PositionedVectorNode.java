@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.Color;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.PositionedVector;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -41,7 +40,7 @@ public class PositionedVectorNode extends PNode {
         positionedVectorProperty.addObserver( new VoidFunction1<PositionedVector>() {
             public void apply( PositionedVector positionedVector ) {
                 vectorNode.setOffset( mvt.modelToView( positionedVectorProperty.get().origin.toPoint2D() ) );
-                vectorNode.setVector( new Vector2D( mvt.modelToViewDelta( positionedVectorProperty.get().vector ) ) );
+                vectorNode.setVector( mvt.modelToViewDelta( positionedVectorProperty.get().vector ) );
             }
         } );
         // Set up visibility control.
