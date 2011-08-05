@@ -46,6 +46,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.gridwidth = 2;
+            // TODO: i18n
             addChild( new PText( "Biomolecule Tool Box" ) {{ setFont( TITLE_FONT ); }}, constraints );
             // Add the biomolecule rows, each of which has a title and a set of
             // biomolecules that can be added to the active area.
@@ -54,6 +55,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.anchor = GridBagConstraints.LINE_START;
             constraints.insets.top = 10;
             constraints.insets.left = 0;
+            // TODO: i18n
             addChild( new RowLabel( "RNA Polymerase" ), constraints );
 
             constraints.gridx++;
@@ -66,6 +68,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
+            // TODO: i18n
             addChild( new RowLabel( "Transcription Factor" ), constraints );
 
             constraints.gridx++;
@@ -75,7 +78,8 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
-            addChild( new RowLabel( "Ribosome Subunit" ), constraints );
+            // TODO: i18n
+            addChild( new RowLabel( "Ribosome" ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
@@ -87,6 +91,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
+            // TODO: i18n
             addChild( new RowLabel( "mRNA Destroyer" ), constraints );
 
             constraints.gridx++;
