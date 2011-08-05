@@ -127,7 +127,6 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas {
                 if ( activity != null ) {
                     activity.terminate( 0 );
                 }
-                System.out.println( "gene.getCenterX() = " + gene.getCenterX() );
                 viewportOffset.setComponents( -mvt.modelToViewX( gene.getCenterX() ) + STAGE_SIZE.getWidth() / 2, 0 );
                 activity = modelRootNode.animateToPositionScaleRotation( viewportOffset.getX(), viewportOffset.getY(), 1, 0, 1000 );
             }
