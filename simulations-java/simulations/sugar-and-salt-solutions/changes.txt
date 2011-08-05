@@ -1,3 +1,4 @@
+Micro tab: Fixed: Partially submerged particles only move one direction and get stuck
 Micro tab: Fixed: The sugar particles can get stuck after you remove the max amount of solution from the drain
 Micro tab: Fixed: The ions and molecules can fly out of the solution when you add solute
 # 0.00.82 (54873) Aug 4, 2011

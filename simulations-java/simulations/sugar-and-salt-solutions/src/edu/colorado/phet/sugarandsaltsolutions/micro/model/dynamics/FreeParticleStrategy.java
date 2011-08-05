@@ -83,6 +83,14 @@ public class FreeParticleStrategy extends UpdateStrategy {
             particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
         }
 
+        //If the particle is on the floor of the beaker, and only partly submerged due to a very low water level, then make sure its velocity gets randomized too
+        //Without this fix, it would just move constantly until hitting a wall and stopping
+        boolean shapeIntersectsWater = particle.getShape().getBounds2D().intersects( model.solution.shape.get().getBounds2D() );
+        boolean partiallySubmerged = particle.getShape().getBounds2D().getMinY() < model.solution.shape.get().getBounds2D().getMaxY();
+        if ( !initiallyUnderwater && !underwater && shapeIntersectsWater && partiallySubmerged ) {
+            particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
+        }
+
         //Stop the particle completely if there is no water to move within
         if ( waterVolume.get() <= 0 ) {
             particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
