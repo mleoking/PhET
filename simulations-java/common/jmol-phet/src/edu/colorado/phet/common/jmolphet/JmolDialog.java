@@ -49,8 +49,6 @@ public class JmolDialog extends JDialog {
             }} );
         }}, BorderLayout.SOUTH );
 
-        container.paintImmediately( 0, 0, container.getWidth(), container.getHeight() );
-
         setDefaultCloseOperation( JDialog.DISPOSE_ON_CLOSE );
     }
 
