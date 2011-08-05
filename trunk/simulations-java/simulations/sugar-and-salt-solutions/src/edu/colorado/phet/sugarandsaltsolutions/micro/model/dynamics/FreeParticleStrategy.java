@@ -80,7 +80,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
         //Random Walk, implementation taken from edu.colorado.phet.solublesalts.model.RandomWalk
         if ( underwater ) {
             double theta = random.nextDouble() * Math.toRadians( 30.0 ) * MathUtil.nextRandomSign();
-            particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ).times( 2 ) );
+            particle.velocity.set( particle.velocity.get().getRotatedInstance( theta ) );
         }
 
         //Prevent the particles from leaving the solution, but only if they started in the solution
