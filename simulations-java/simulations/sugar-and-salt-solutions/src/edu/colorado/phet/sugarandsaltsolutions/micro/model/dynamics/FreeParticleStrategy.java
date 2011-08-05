@@ -90,20 +90,24 @@ public class FreeParticleStrategy extends UpdateStrategy {
             particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
         }
 
+        //Keep the particle within the beaker solution bounds
+        model.preventFromLeavingBeaker( particle );
+
         //If the particle is on the floor of the beaker, and only partly submerged due to a very low water level, then make sure its velocity gets randomized too
         //Without this fix, it would just move constantly until hitting a wall and stopping
+        //nearTheBottomFlag was necessary since without it particles would skip and jump on the top of the water
+        //Note that this must be computed after clamping the particle to remain within beaker bounds so that the check for near the bottom is correct
         boolean shapeIntersectsWater = particle.getShape().getBounds2D().intersects( model.solution.shape.get().getBounds2D() );
         boolean partiallySubmerged = particle.getShape().getBounds2D().getMinY() < model.solution.shape.get().getBounds2D().getMaxY();
-        if ( !initiallyUnderwater && !underwater && shapeIntersectsWater && partiallySubmerged ) {
+        boolean nearTheBottom = particle.getShape().getBounds2D().getMinY() <= model.solution.shape.get().getBounds().getMinY() + 1E-12;
+        if ( !initiallyUnderwater && !underwater && shapeIntersectsWater && partiallySubmerged && nearTheBottom ) {
             particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
         }
 
         //Stop the particle completely if there is no water to move within
+        //TODO: maybe removing this line will help ensure that free particles always join up with partners to form crystals, as long as there is always a match
         if ( waterVolume.get() <= 0 ) {
             particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
         }
-
-        //Keep the particle within the beaker solution bounds
-        model.preventFromLeavingBeaker( particle );
     }
 }
