@@ -359,25 +359,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             else {
 
                 //For secondary particles, move with a speed close to that of the closest particle, but slower if further away
-                //TODO: could do smoother interpolation to obtain the speeds for further away objects?
-
-                //attempt at using v = alpha * 1/d, but it exhibits undesirable switching behavior
-//                double alpha = mainParticleSpeed * mainParticleDistance;
-//                speed = alpha / distanceToTarget;
-
+                //This rule seems to work well, I also experimented with rules like v=alpha / d but it exhibited undesirable quirky behavior
                 speed = mainParticleSpeed / ( i + 1 );
-
-                //TODO: mix with some random behavior, randomness decreases as you get closer to the drain (closest particle has no randomness to ensure consistent concentration)
             }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
-//            if ( i != 0 ) {
-//                particle.velocity.set( particle.velocity.get().plus( velocity ) );//gets renormalized anyways
-//            }
-//            else {
-//                particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
-//            }
-//
-            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity ) );
+            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity, i != 0 ) );
 
             if ( debugDraining ) {
                 System.out.println( "i = " + 0 + ", target time = " + time + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );

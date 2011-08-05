@@ -25,15 +25,22 @@ public class FreeParticleStrategy extends UpdateStrategy {
         super( model );
     }
 
+    //Updates the particle in time, moving it randomly or changing its motion strategy based on user input
     public void stepInTime( Particle particle, double dt ) {
 
         //Switch strategies if necessary
         //Note, this check prevents random motion during draining since the strategy is switched before random walk can take place
         if ( model.outputFlowRate.get() > 0 ) {
-            particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D() ) );
+            particle.setUpdateStrategy( new FlowToDrainStrategy( model, new ImmutableVector2D(), false ) );
             particle.stepInTime( dt );
-            return;
         }
+        else {
+            randomWalk( particle, dt );
+        }
+    }
+
+    //Apply a random walk update to the particle.  This is also reused in FlowToDrainStrategy so that the particle will have somewhat random motion as it progresses toward the drain
+    public void randomWalk( Particle particle, double dt ) {
         boolean initiallyUnderwater = solution.shape.get().contains( particle.getShape().getBounds2D() );
 
         //If the crystal has ever gone underwater, set a flag so that it can be kept from leaving the top of the water
