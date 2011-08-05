@@ -1,3 +1,4 @@
+# 0.00.82 (54873) Aug 4, 2011
 Micro tab: Prevent dissolving from crystals during evaporation
 Micro tab: Removed the "dash mark" near the play button
 # 0.00.81 (54857) Aug 4, 2011
