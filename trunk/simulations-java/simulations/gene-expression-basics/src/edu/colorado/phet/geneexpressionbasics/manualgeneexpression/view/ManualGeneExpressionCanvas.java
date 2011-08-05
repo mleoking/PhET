@@ -19,7 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
-import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualGeneExpressionModel;
 import edu.umd.cs.piccolo.PNode;
@@ -51,7 +51,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // ones zoom in).
         mvt = ModelViewTransform.createSinglePointScaleInvertedYMapping(
                 new Point2D.Double( 0, 0 ),
-                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.75 ) ),
+                new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.70 ) ),
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         // Set the background color.
@@ -96,7 +96,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         final HTMLImageButtonNode nextGeneButton = new HTMLImageButtonNode( "Next Gene", GRAY_ARROW ) {{
             setTextPosition( TextPosition.LEFT );
             setFont( new PhetFont( 20 ) );
-            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 40 );
+            setOffset( STAGE_SIZE.getWidth() - getFullBoundsReference().width - 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -114,7 +114,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         controlsRootNode.addChild( new HTMLImageButtonNode( "Prev Gene", flipX( GRAY_ARROW ) ) {{
             setTextPosition( TextPosition.RIGHT );
             setFont( new PhetFont( 20 ) );
-            setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 40 );
+            setOffset( 20, mvt.modelToViewY( model.getDnaMolecule().getLeftEdgePos().getY() ) + 90 );
             setBackground( Color.GREEN );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -131,7 +131,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Add the Reset All button.
         controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { this, model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
-            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
+            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 20 );
         }} );
 
         // Monitor the active gene and move the view port to be centered on it
