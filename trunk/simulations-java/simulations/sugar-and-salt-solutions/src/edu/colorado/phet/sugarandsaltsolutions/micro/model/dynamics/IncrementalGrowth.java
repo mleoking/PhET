@@ -39,6 +39,9 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     //Randomness for crystal formation times and which crystals to bond to
     private final Random random = new Random();
 
+    //Flag to show debug information to the console about crystal formation
+    private boolean debug = false;
+
     public IncrementalGrowth( MicroModel model, ItemList<U> crystals ) {
         this.model = model;
         this.crystals = crystals;
@@ -52,7 +55,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
         if ( saturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
-            System.out.println( "No crystals, starting a new one" );
+            debug( "No crystals, starting a new one" );
             towardNewCrystal( dt );
         }
 
@@ -71,7 +74,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
 
                 //With 1% chance, form a new crystal anyways (if there aren't too many crystals)
                 if ( random.nextDouble() > 0.99 && crystals.size() <= 2 ) {
-                    System.out.println( "Random choice to form new crystal instead of joining another" );
+                    debug( "Random choice to form new crystal instead of joining another" );
                     towardNewCrystal( dt );
                 }
 
@@ -91,16 +94,23 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
                 }
 
                 else {
-                    System.out.println( "Best match was too far away (" + match.distance / model.beaker.getWidth() + " beaker widths, so starting a new crystal with a random particle" );
+                    debug( "Best match was too far away (" + match.distance / model.beaker.getWidth() + " beaker widths, so starting a new crystal with a random particle" );
                     towardNewCrystal( dt );
                 }
             }
 
             //No matches, so start a new crystal
             else {
-                System.out.println( "No matches, starting a new crystal" );
+                debug( "No matches, starting a new crystal" );
                 towardNewCrystal( dt );
             }
+        }
+    }
+
+    //Show some debugging information to the console
+    private void debug( String s ) {
+        if ( debug ) {
+            System.out.println( s );
         }
     }
 
@@ -172,7 +182,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
 
         //Add the second particle as the second constituent of the crystal
         if ( selectedSite == null ) {
-            System.out.println( "No available sites to bind to, this probably shouldn't have happened." );
+            debug( "No available sites to bind to, this probably shouldn't have happened." );
         }
         else {
             crystal.addConstituent( new Constituent<T>( b, selectedSite.relativePosition ) );
