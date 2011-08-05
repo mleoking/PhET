@@ -24,7 +24,7 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
     }
 
     public MessengerRnaDestroyer( Point2D position ) {
-        super( createShape(), new Color( 238, 118, 33 ) );
+        super( createShape(), new Color( 255, 150, 66 ) );
         setPosition( position );
     }
 
