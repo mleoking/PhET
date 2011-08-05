@@ -76,8 +76,16 @@ public class CrystalStrategy extends UpdateStrategy {
         //Keep the particle within the beaker solution bounds
         model.preventFromLeavingBeaker( crystal );
 
-        //Dissolve the crystal if necessary
-        if ( dissolve ) {
+        //Dissolve the crystal if it has spent enough time underwater, and if the user is not evaporating the solution
+        //The reason not to allow dissolving if the user is evaporating solution is so that the crystal growing process is more clear.
+        //JC said: Crystals grow while the solution is being evaporated, however even while the solution level is dropping, some of the ions in the forming crystals dissolve back into solution.
+        // This causes the crystals to break up, and seems unrealistic.  As the solution saturation increases, crystals should not dissolve.
+        // Is there a way you could prevent release of ions from crystals while the "dissolve" slider is being activated?
+        // Once the dissolve slider is released, the equilibrium of some ions adding and subtracting from different places on one or more crystals would be fine,
+        // but letting this happen as saturation is increasing seems problematic.
+        //JC said: I think the change to prevent ion release when the user is dragging the evaporation slider would help the user grow larger (prettier) crystals, which is fun.
+        //TODO: what if the user adds a crystal then turns up evaporation before it has a chance to dissolve?  It will never have a chance to dissolve then and they will be able to create an unrealistic situation
+        if ( dissolve && model.evaporationRate.get() == 0 ) {
             incrementalDissolve.dissolve( crystals, crystal, saturated );
         }
     }
