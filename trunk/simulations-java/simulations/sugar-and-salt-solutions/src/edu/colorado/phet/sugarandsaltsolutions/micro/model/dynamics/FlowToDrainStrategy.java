@@ -11,22 +11,41 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  * @author Sam Reid
  */
 public class FlowToDrainStrategy extends UpdateStrategy {
+
+    //The velocity at which the particle should flow toward the drain
     private ImmutableVector2D velocity;
 
-    public FlowToDrainStrategy( MicroModel model, ImmutableVector2D velocity ) {
+    //Flag to indicate whether the particle should also use some randomness as it moves toward the drain.  Particles that are closest to the drain should move directly toward the drain
+    //So they can reach it in the desired amount of time to keep the concentration as steady as possible
+    private boolean randomWalk;
+
+    public FlowToDrainStrategy( MicroModel model, ImmutableVector2D velocity, boolean randomWalk ) {
         super( model );
         this.velocity = velocity;
+        this.randomWalk = randomWalk;
     }
 
     @Override public void stepInTime( Particle particle, double dt ) {
+
+        //If the user released the drain slider, then switch back to purely random motion
         if ( model.outputFlowRate.get() == 0 ) {
             particle.setUpdateStrategy( new FreeParticleStrategy( model ) );
         }
+
+        //Otherwise, move the particle with the pre-specified velocity and possible some random walk mixed in
         else {
 
-            //Move the particle with the pre-specified velocity
-            particle.velocity.set( velocity );
-            particle.stepInTime( ImmutableVector2D.ZERO, dt );
+            //If not closest to the drain, follow some random walk motion to look more natural, but still move toward the drain a little bit
+            //If closest to the drain, move directly toward the drain so it can reach it in the desired amount of time to keep the concentration as steady as possible
+            if ( randomWalk ) {
+                double initVelocity = particle.velocity.get().getMagnitude();
+                particle.velocity.set( particle.velocity.get().plus( velocity ).getInstanceOfMagnitude( initVelocity ) );
+                new FreeParticleStrategy( model ).randomWalk( particle, dt );
+            }
+            else {
+                particle.velocity.set( velocity );
+                particle.stepInTime( ImmutableVector2D.ZERO, dt );
+            }
 
             if ( !model.solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() ) ) {
                 model.preventFromLeavingBeaker( particle );
