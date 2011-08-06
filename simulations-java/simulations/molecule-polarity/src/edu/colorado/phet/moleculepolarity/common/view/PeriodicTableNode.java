@@ -18,7 +18,7 @@ public class PeriodicTableNode extends PComposite {
 
     public PeriodicTableNode() {
 
-        PPath tableNode = new PPath( new Rectangle2D.Double( 0, 0, 500, 125 ) ) {{
+        PPath tableNode = new PPath( new Rectangle2D.Double( 0, 0, 485, 125 ) ) {{
             setPaint( Color.GRAY );
         }};
         addChild( tableNode );
