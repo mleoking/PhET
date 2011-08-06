@@ -1,0 +1,87 @@
+// Copyright 2002-2011, University of Colorado
+package edu.colorado.phet.sugarandsaltsolutions.water.view;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.SwingUtilities;
+
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
+import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.water.dev.DeveloperControlDialog;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
+import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
+import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_ATOMS;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_IN_3_D;
+
+/**
+ * Control panel for user options in the water tab
+ *
+ * @author Sam Reid
+ */
+public class WaterControlPanel extends ControlPanelNode {
+
+    public WaterControlPanel( final WaterModel waterModel, final GlobalState state, final WaterCanvas waterCanvas, final Sucrose3DDialog sucrose3DDialog ) {
+        super( new VBox(
+
+                //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
+                new PSwing( new PropertyCheckBox( SHOW_SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
+                    setFont( new PhetFont( 16 ) );
+//                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
+//                        public void apply( Boolean enabled ) {
+//                            setEnabled( enabled );
+//                        }
+//                    } );
+                }} ),
+
+                //If development version, show button to launch developer controls
+                state.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{
+                    addActionListener( new ActionListener() {
+                        DeveloperControlDialog dialog = null;
+
+                        public void actionPerformed( ActionEvent e ) {
+                            if ( dialog == null ) {
+                                dialog = new DeveloperControlDialog( SwingUtilities.getWindowAncestor( waterCanvas ), waterModel );
+                                SwingUtils.centerInParent( dialog );
+                            }
+                            dialog.setVisible( true );
+                        }
+                    } );
+                }} : new PNode(),
+
+                //Add a button that allows the user to show the 3D water molecule
+                new TextButtonNode( SHOW_SUGAR_IN_3_D ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            sucrose3DDialog.showDialog();
+                        }
+                    } );
+                }},
+
+                //Add a reset all button that resets this tab
+                new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ) ) {{
+                    addActionListener( new ActionListener() {
+                        public void actionPerformed( ActionEvent e ) {
+                            waterModel.reset();
+
+                            //When the module is reset, but the salt and sugar back in the buckets
+                            waterCanvas.addSaltToBucket( waterModel, waterCanvas.getModelViewTransform() );
+                            waterCanvas.addSugarToBucket( waterModel, waterCanvas.getModelViewTransform() );
+
+                            sucrose3DDialog.reset();
+                        }
+                    } );
+                }}
+        ) );
+    }
+}
