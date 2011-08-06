@@ -30,10 +30,10 @@ public class DraggableSaltCrystalNode extends PNode {
         waterModel.unhook( saltCrystal );
 
         //Add graphics for the Na+ and Cl- particles
-        addChild( new DefaultParticleNode( transform, saltCrystal.sodium, new Null<VoidFunction0>(), S3Element.NaIon ) );
-        addChild( new DefaultParticleNode( transform, saltCrystal.sodium2, new Null<VoidFunction0>(), S3Element.NaIon ) );
-        addChild( new DefaultParticleNode( transform, saltCrystal.chloride, new Null<VoidFunction0>(), S3Element.ClIon ) );
-        addChild( new DefaultParticleNode( transform, saltCrystal.chloride2, new Null<VoidFunction0>(), S3Element.ClIon ) );
+        addChild( new DefaultParticleNode( transform, saltCrystal.sodium, new Null<VoidFunction0>(), Element.NA_ION ) );
+        addChild( new DefaultParticleNode( transform, saltCrystal.sodium2, new Null<VoidFunction0>(), Element.NA_ION ) );
+        addChild( new DefaultParticleNode( transform, saltCrystal.chloride, new Null<VoidFunction0>(), Element.CL_ION ) );
+        addChild( new DefaultParticleNode( transform, saltCrystal.chloride2, new Null<VoidFunction0>(), Element.CL_ION ) );
 
         //Overrides the cursor handler in DefaultParticleNode instances
         addInputEventListener( new CursorHandler() );

@@ -23,8 +23,8 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
 
-import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.CHLORINE_RADIUS;
-import static edu.colorado.phet.sugarandsaltsolutions.water.view.S3Element.SODIUM_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.CHLORINE_RADIUS;
+import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.SODIUM_RADIUS;
 
 /**
  * Model for "water" tab for sugar and salt solutions.

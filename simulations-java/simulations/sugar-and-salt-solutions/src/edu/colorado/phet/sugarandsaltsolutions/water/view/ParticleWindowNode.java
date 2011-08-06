@@ -55,7 +55,7 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for SodiumIons
         new GraphicAdapter<DefaultParticle>( particleLayer, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
-                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.NaIon );
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.NA_ION );
             }
         }, waterModel.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
@@ -67,7 +67,7 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for Chlorine Ions
         new GraphicAdapter<DefaultParticle>( particleLayer, new Function1<DefaultParticle, PNode>() {
             public PNode apply( DefaultParticle sodiumIon ) {
-                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, S3Element.ClIon );
+                return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.CL_ION );
             }
         }, waterModel.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
