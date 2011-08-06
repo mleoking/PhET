@@ -83,7 +83,7 @@ public class JmolViewerNode extends PhetPNode {
         }
 
         public void doScript( String script ) {
-            viewer.script( script );
+            viewer.scriptWait( script );
         }
 
         public void setMolecule( Molecule3D molecule ) {
@@ -201,7 +201,7 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );
         }
         else {
-            doScript( "dipole molecular off" );
+            doScript( "isosurface off" );
         }
     }
 
