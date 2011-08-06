@@ -8,6 +8,7 @@ import java.util.concurrent.Callable;
 
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -114,8 +115,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             double y = 10 * Math.sin( theta );
             addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
         }
-        addPair( new ElectronPair( new ImmutableVector3D( 0, 0, 10 ), true ) );
-        addPair( new ElectronPair( new ImmutableVector3D( -7, 0, 7 ), true ) );
 
         rebuildBonds();
 
@@ -152,6 +151,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
+    private int counter = 0;
+
     @Override public synchronized void simpleUpdate( final float tpf ) {
 //        System.out.println( "tpf = " + tpf );
 //        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
@@ -168,6 +169,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         moveTowardGlobalState( tpf );
         rebuildBonds();
         molecule.setLocalRotation( rotation );
+        if ( counter++ % 50 == 0 ) {
+            VseprConfiguration config = new VseprConfiguration( getBondedAtoms().size(), getLonePairs().size() );
+            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs ) );
+        }
     }
 
     private void moveTowardGlobalState( float tpf ) {
