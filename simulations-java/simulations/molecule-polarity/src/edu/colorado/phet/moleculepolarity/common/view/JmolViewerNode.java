@@ -23,6 +23,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -36,7 +37,8 @@ public class JmolViewerNode extends PhetPNode {
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( JmolViewerNode.class.getCanonicalName() );
 
     private final ViewerPanel viewerPanel;
-    private boolean bondDipolesVisible, molecularDipoleVisible, electrostaticPotentialVisible, partialChargeVisible, atomLabelsVisible;
+    private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
+    private IsosurfaceType isosurface;
 
     public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( molecule, background, size );
@@ -116,7 +118,7 @@ public class JmolViewerNode extends PhetPNode {
         setAtomLabelsVisible( atomLabelsVisible );
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
-        setElectrostaticPotentialVisible( electrostaticPotentialVisible );
+        setIsosurfaceType( isosurface );
         doScript( "hover off" ); // don't display labels when hovering over atoms
         updateAtomLabels();
         updateTranslucency();
@@ -189,14 +191,17 @@ public class JmolViewerNode extends PhetPNode {
         updateAtomLabels();
     }
 
-    public void setElectrostaticPotentialVisible( boolean visible ) {
-        electrostaticPotentialVisible = visible;
-        if ( visible ) {
+    public void setIsosurfaceType( IsosurfaceType isosurfaceType ) {
+        this.isosurface = isosurfaceType;
+        if ( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL ) {
             doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
 //            doScript( "isosurface VDW color white translucent" ); //TODO for molecules with 2 atoms of the same type
         }
+        else if ( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY ) {
+            doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );
+        }
         else {
-            doScript( "isosurface off" );
+            doScript( "dipole molecular off" );
         }
     }
 
