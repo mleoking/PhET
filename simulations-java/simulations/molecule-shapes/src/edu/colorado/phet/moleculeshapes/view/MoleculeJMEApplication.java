@@ -171,7 +171,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         molecule.setLocalRotation( rotation );
         if ( counter++ % 50 == 0 ) {
             VseprConfiguration config = new VseprConfiguration( getBondedAtoms().size(), getLonePairs().size() );
-            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs ) );
+            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs, 0.15 ) );
         }
     }
 
