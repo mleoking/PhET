@@ -11,14 +11,11 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class ViewProperties implements Resettable {
 
-    // Choices for visual representations of the model.
-    public enum ModelRepresentation {
-        BALL_AND_STICK,
-        ELECTROSTATIC_POTENTIAL,
-        ELECTRON_DENSITY
-    }
+    public static enum IsosurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
 
-    public final Property<ModelRepresentation> modelRepresentation = new Property<ModelRepresentation>( ModelRepresentation.BALL_AND_STICK );
+    ;
+
+    public final Property<IsosurfaceType> isosurfaceType = new Property<IsosurfaceType>( IsosurfaceType.NONE );
     public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
     public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
     public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );
@@ -26,7 +23,7 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> atomLabelsVisible = new Property<Boolean>( true );
 
     public void reset() {
-        modelRepresentation.reset();
+        isosurfaceType.reset();
         bondDipolesVisible.reset();
         molecularDipoleVisible.reset();
         partialChargesVisible.reset();

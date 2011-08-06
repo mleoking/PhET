@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
@@ -22,7 +22,7 @@ import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.PeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
-import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.ModelRepresentation;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -41,11 +41,11 @@ public class RealMoleculesCanvas extends MPCanvas {
         final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
-        PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
-        addChild( modelControlsNode );
-
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true ) );
         addChild( viewControlsNode );
+
+        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
+        addChild( isosurfaceControlsNode );
 
         PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
         addChild( testControlsNode );
@@ -81,12 +81,12 @@ public class RealMoleculesCanvas extends MPCanvas {
             positiveEFieldPlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
             periodicTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( periodicTableNode.getFullBoundsReference().getWidth() / 2 ),
                                          viewerNode.getFullBoundsReference().getMaxY() + 20 );
-            modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
-            viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            viewControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
+            isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
 
         }
@@ -105,9 +105,9 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.modelRepresentation.addObserver( new VoidFunction1<ModelRepresentation>() {
-                public void apply( ModelRepresentation modelRepresentation ) {
-                    viewerNode.setElectrostaticPotentialVisible( modelRepresentation == ModelRepresentation.ELECTROSTATIC_POTENTIAL );
+            viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
+                public void apply( IsosurfaceType isosurfaceType ) {
+                    viewerNode.setIsosurfaceType( isosurfaceType );
                 }
             } );
 

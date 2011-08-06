@@ -11,7 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.ModelControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
@@ -54,11 +54,11 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
         addChild( bondTypeNode );
 
-        PNode modelControlsNode = new ControlPanelNode( new ModelControlPanel( viewProperties.modelRepresentation ) );
-        addChild( modelControlsNode );
-
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false ) );
         addChild( viewControlsNode );
+
+        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
+        addChild( isosurfaceControlsNode );
 
         PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
         addChild( testControlsNode );
@@ -82,10 +82,10 @@ public class TwoAtomsCanvas extends MPCanvas {
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
             positiveEFieldPlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
             bondTypeNode.setOffset( 150, negativeEFieldPlateNode.getFullBoundsReference().getMaxY() ); //TODO compute horizontal center
-            modelControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
-            viewControlsNode.setOffset( modelControlsNode.getXOffset(), modelControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            testControlsNode.setOffset( modelControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( modelControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            viewControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
+            isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
