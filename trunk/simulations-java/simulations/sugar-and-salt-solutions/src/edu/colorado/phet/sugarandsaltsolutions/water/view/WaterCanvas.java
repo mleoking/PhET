@@ -113,22 +113,25 @@ public class WaterCanvas extends PhetPCanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
 
+        //Create the salt and sugar buckets
+        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.Strings.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
         saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, SugarAndSaltSolutionsResources.Strings.SALT ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+
+        //Add them to the view
+        addChild( sugarBucket.getHoleNode() );
         addChild( saltBucket.getHoleNode() );
 
+        //Create layers for the sugar and salt particles
         saltBucketParticleLayer = new PNode();
         addChild( saltBucketParticleLayer );
         addChild( saltBucket.getFrontNode() );
-
-        addSaltToBucket( waterModel, transform );
-
-        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.Strings.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-        addChild( sugarBucket.getHoleNode() );
 
         sugarBucketParticleLayer = new PNode();
         addChild( sugarBucketParticleLayer );
         addChild( sugarBucket.getFrontNode() );
 
+        //Start out the buckets with salt and sugar
+        addSaltToBucket( waterModel, transform );
         addSugarToBucket( waterModel, transform );
 
         waterModel.addResetListener( new VoidFunction0() {
@@ -149,6 +152,7 @@ public class WaterCanvas extends PhetPCanvas {
         sucrose3DDialog.moduleDeactivated();
     }
 
+    //Puts a single salt crystal in the salt bucket
     public void addSaltToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
         saltBucketParticleLayer.removeAllChildren();
         saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
@@ -156,6 +160,7 @@ public class WaterCanvas extends PhetPCanvas {
         }} );
     }
 
+    //Puts a single sugar crystal in the sugar bucket
     public void addSugarToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
         sugarBucketParticleLayer.addChild( new DraggableSugarCrystalNode( waterModel, transform, particleWindowNode, waterModel.showSugarAtoms ) {{
