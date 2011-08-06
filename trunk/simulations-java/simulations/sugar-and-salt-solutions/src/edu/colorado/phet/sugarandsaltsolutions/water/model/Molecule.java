@@ -18,6 +18,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 
 /**
+ * Molecule composed of atoms.
+ * TODO: can this be replaced / augmented with micro model Compound?
+ *
  * @author Sam Reid
  */
 public class Molecule implements Removable, Particle {
