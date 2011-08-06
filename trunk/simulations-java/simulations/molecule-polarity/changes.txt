@@ -1,3 +1,4 @@
+8/6/11 Jmol: execute scripts synchronously with JmolViewer.scriptWait, #3009
 8/6/11 change Model control panel to Isosurface, with choices "none", "Electrostatic Potential", "Electron Density"
 8/6/11 Jmol: add a proposed isosurface command for "electron density" view, for discussion
 8/3/11 change request: add line separator between atom name and partial charge
