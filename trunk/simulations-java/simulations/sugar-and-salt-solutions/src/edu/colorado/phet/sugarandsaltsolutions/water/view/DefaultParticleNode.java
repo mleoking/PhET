@@ -25,7 +25,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  */
 public class DefaultParticleNode extends PNode {
 
-    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, final S3Element element ) {
+    public DefaultParticleNode( final ModelViewTransform transform, final DefaultParticle particle, VoidFunction1<VoidFunction0> addListener, final Element element ) {
 
         //Get the diameters in view coordinates
         double diameter = transform.modelToViewDeltaX( particle.radius * 2 );
