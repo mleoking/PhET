@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.water.view;
+package edu.colorado.phet.sugarandsaltsolutions.water.dev;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

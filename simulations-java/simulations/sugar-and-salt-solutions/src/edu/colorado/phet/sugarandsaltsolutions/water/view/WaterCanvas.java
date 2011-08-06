@@ -36,6 +36,7 @@ import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.water.dev.DeveloperControlDialog;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -187,17 +188,17 @@ public class WaterCanvas extends PhetPCanvas {
                         public void actionPerformed( ActionEvent e ) {
                             if ( jmolDialog == null ) {
                                 jmolDialog = displayMolecule3D( state.frame, new Molecule() {
-                                                                    public String getDisplayName() {
-                                                                        return SugarAndSaltSolutionsResources.Strings.SUGAR;
-                                                                    }
+                                    public String getDisplayName() {
+                                        return SugarAndSaltSolutionsResources.Strings.SUGAR;
+                                    }
 
-                                                                    public String getData() {
-                                                                        return readPDB();
-                                                                    }
+                                    public String getData() {
+                                        return readPDB();
+                                    }
 
-                                                                    public void fixJmolColors( JmolViewer viewer ) {
-                                                                    }
-                                                                }, "Space fill", "Ball and stick", "Loading..." );
+                                    public void fixJmolColors( JmolViewer viewer ) {
+                                    }
+                                }, "Space fill", "Ball and stick", "Loading..." );
                             }
                             else {
                                 jmolDialog.setVisible( true );
