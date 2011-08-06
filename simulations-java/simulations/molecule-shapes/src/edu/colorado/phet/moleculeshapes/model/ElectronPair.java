@@ -8,7 +8,7 @@ import com.jme3.math.ColorRGBA;
 public class ElectronPair {
     // TODO: add in developer controls for all of these
     public static final double BONDED_PAIR_DISTANCE = 10.0;
-    public static final double LONE_PAIR_DISTANCE = 6.0;
+    public static final double LONE_PAIR_DISTANCE = 7.0;
 
     public static final double ELECTRON_PAIR_REPULSION_SCALE = 30000;
     public static final double JITTER_SCALE = 0.01;
