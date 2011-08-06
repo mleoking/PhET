@@ -2,13 +2,13 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.common.model.SucrosePositions;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Carbon;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Hydrogen;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NeutralOxygen;
-import edu.colorado.phet.sugarandsaltsolutions.water.model.SucrosePositions;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;

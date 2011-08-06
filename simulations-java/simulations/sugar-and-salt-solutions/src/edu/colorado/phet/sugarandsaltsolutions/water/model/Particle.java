@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  *
  * @author Sam Reid
  */
-interface Particle {
+public interface Particle {
     Vec2 getBox2DPosition();
 
     double getCharge();
