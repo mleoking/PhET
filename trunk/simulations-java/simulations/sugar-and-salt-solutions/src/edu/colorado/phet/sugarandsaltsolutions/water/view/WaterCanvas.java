@@ -46,6 +46,8 @@ import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.RESOURCES;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_ATOMS;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_IN_3_D;
 
 /**
  * Canvas for the Water tab
@@ -63,8 +65,6 @@ public class WaterCanvas extends PhetPCanvas {
     //Separate layer for the particles so they are always behind the control panel
     private ParticleWindowNode particleWindowNode;
 
-    //Make it easy to enable/disable buckets for testing each way
-    private boolean useBuckets = true;
     private BucketView saltBucket;
     private BucketView sugarBucket;
     private PNode saltBucketParticleLayer;
@@ -117,42 +117,8 @@ public class WaterCanvas extends PhetPCanvas {
         //Control panel
         addChild( new ControlPanelNode( new VBox(
 
-                //button to add a salt
-                useBuckets ? new PNode() :
-                new HTMLImageButtonNode( "Add Salt" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            waterModel.addSalt( new Point2D.Double( 0, waterModel.beakerWidth / 2 ) );
-                        }
-                    } );
-
-                    //disable the "add salt" button if there are already 2 salts
-                    waterModel.sodiumList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
-                        public void apply( Boolean lessThanTwoSodiums ) {
-                            setEnabled( lessThanTwoSodiums );
-                        }
-                    } );
-                }},
-
-                //button to add a sugar
-                useBuckets ? new PNode() :
-                new HTMLImageButtonNode( "Add Sugar" ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            waterModel.addSugar( new Point2D.Double( 0, waterModel.beakerWidth / 2 ) );
-                        }
-                    } );
-
-                    //disable the "add sugar" button if there are already 2 sugars
-                    waterModel.sugarMoleculeList.count.lessThan( 2 ).addObserver( new VoidFunction1<Boolean>() {
-                        public void apply( Boolean lessThanTwoSugars ) {
-                            setEnabled( lessThanTwoSugars );
-                        }
-                    } );
-                }},
-
                 //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
-                new PSwing( new PropertyCheckBox( SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
+                new PSwing( new PropertyCheckBox( SHOW_SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
                     setFont( new PhetFont( 16 ) );
 //                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
 //                        public void apply( Boolean enabled ) {
@@ -160,13 +126,6 @@ public class WaterCanvas extends PhetPCanvas {
 //                        }
 //                    } );
                 }} ),
-
-                //Allow the user to hide the water graphics
-                //KL said "I do not think students should be able to hide water, since the whole point of the tab is what the water is doing."
-                //But I'll leave this in just in case
-//                new PSwing( new PropertyCheckBox( "Hide water", waterModel.hideWater ) {{
-//                    setFont( new PhetFont( 16 ) );
-//                }} ),
 
                 //If development version, show button to launch developer controls
                 state.config.isDev() ? new TextButtonNode( "Developer Controls" ) {{
@@ -183,7 +142,8 @@ public class WaterCanvas extends PhetPCanvas {
                     } );
                 }} : new PNode(),
 
-                new TextButtonNode( SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_IN_3_D ) {{
+                //Add a button that allows the user to show the 3D water molecule
+                new TextButtonNode( SHOW_SUGAR_IN_3_D ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             if ( jmolDialog == null ) {
@@ -236,27 +196,25 @@ public class WaterCanvas extends PhetPCanvas {
 
         //Add a bucket with salt that can be dragged into the play area
         //The transform must have inverted Y so the bucket is upside-up.
-        if ( useBuckets ) {
-            final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
+        final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
 
-            saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, SugarAndSaltSolutionsResources.Strings.SALT ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-            addChild( saltBucket.getHoleNode() );
+        saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, SugarAndSaltSolutionsResources.Strings.SALT ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+        addChild( saltBucket.getHoleNode() );
 
-            saltBucketParticleLayer = new PNode();
-            addChild( saltBucketParticleLayer );
-            addChild( saltBucket.getFrontNode() );
+        saltBucketParticleLayer = new PNode();
+        addChild( saltBucketParticleLayer );
+        addChild( saltBucket.getFrontNode() );
 
-            addSaltToBucket( waterModel, transform );
+        addSaltToBucket( waterModel, transform );
 
-            sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.Strings.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-            addChild( sugarBucket.getHoleNode() );
+        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.Strings.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+        addChild( sugarBucket.getHoleNode() );
 
-            sugarBucketParticleLayer = new PNode();
-            addChild( sugarBucketParticleLayer );
-            addChild( sugarBucket.getFrontNode() );
+        sugarBucketParticleLayer = new PNode();
+        addChild( sugarBucketParticleLayer );
+        addChild( sugarBucket.getFrontNode() );
 
-            addSugarToBucket( waterModel, transform );
-        }
+        addSugarToBucket( waterModel, transform );
 
         waterModel.addResetListener( new VoidFunction0() {
             public void apply() {
