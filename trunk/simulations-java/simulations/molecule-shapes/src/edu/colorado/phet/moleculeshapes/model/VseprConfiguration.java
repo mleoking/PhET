@@ -104,7 +104,11 @@ public class VseprConfiguration {
         }
     }
 
-    public boolean matchesElectronPairs( List<ElectronPair> pairs ) {
+    /*---------------------------------------------------------------------------*
+    * matching of electron positions to shape
+    *----------------------------------------------------------------------------*/
+
+    public boolean matchesElectronPairs( List<ElectronPair> pairs, double epsilon ) {
         List<ElectronPair> bondedPairs = new ArrayList<ElectronPair>();
         List<ElectronPair> lonePairs = new ArrayList<ElectronPair>();
         for ( ElectronPair pair : pairs ) {
@@ -139,10 +143,10 @@ public class VseprConfiguration {
             }
         }
 
-        return recurMatch( indices, assignments, configAngles, pairAngles );
+        return recurMatch( indices, assignments, configAngles, pairAngles, epsilon );
     }
 
-    private boolean recurMatch( List<Integer> remainingPairs, List<Integer> assignments, double[][] configAngles, double[][] pairAngles ) {
+    private boolean recurMatch( List<Integer> remainingPairs, List<Integer> assignments, double[][] configAngles, double[][] pairAngles, double epsilon ) {
         // if we have matched all of the pairs, we are successful!
         if ( remainingPairs.isEmpty() ) {
             return true;
@@ -166,7 +170,7 @@ public class VseprConfiguration {
             for ( int k = 0; k < i; k++ ) {
                 // check that the angles are similar enough
                 double angleDifference = Math.abs( configAngles[i][k] - pairAngles[pair][assignments.get( k )] );
-                if ( angleDifference > 0.15 ) {
+                if ( angleDifference > epsilon ) {
                     ok = false;
                     break;
                 }
@@ -174,7 +178,7 @@ public class VseprConfiguration {
             if ( ok ) {
                 remainingPairs.remove( pair );
                 assignments.add( pair );
-                boolean success = recurMatch( remainingPairs, assignments, configAngles, pairAngles );
+                boolean success = recurMatch( remainingPairs, assignments, configAngles, pairAngles, epsilon );
                 remainingPairs.add( pair );
                 assignments.remove( pair ); // it's an Integer, not an int. so this should remove the element, NOT the location..
                 if ( success ) {
@@ -184,6 +188,10 @@ public class VseprConfiguration {
         }
         return false;
     }
+
+    /*---------------------------------------------------------------------------*
+    * equality / hash
+    *----------------------------------------------------------------------------*/
 
     @Override public int hashCode() {
         return x + e * 10;
