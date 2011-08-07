@@ -24,8 +24,8 @@ public class ElectronPair {
         this.isLonePair = isLonePair;
     }
 
-    public void attractTo( ElectronPair center, double timeElapsed ) {
-        ImmutableVector3D toCenter = position.get().minus( center.position.get() );
+    public void attractToDistance( double timeElapsed ) {
+        ImmutableVector3D toCenter = position.get();
 
         double distance = toCenter.magnitude();
         ImmutableVector3D directionToCenter = toCenter.normalized();

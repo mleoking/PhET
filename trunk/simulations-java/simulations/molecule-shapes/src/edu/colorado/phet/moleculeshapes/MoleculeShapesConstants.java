@@ -2,6 +2,8 @@
 
 package edu.colorado.phet.moleculeshapes;
 
+import com.jme3.math.ColorRGBA;
+
 public class MoleculeShapesConstants {
 
     /* Not intended for instantiation. */
@@ -10,4 +12,7 @@ public class MoleculeShapesConstants {
 
     public static final String PROJECT_NAME = "molecule-shapes";
 
+    public static final ColorRGBA COLOR_ATOM_CENTER = new ColorRGBA( 1f, 0f, 0f, 1f );
+    public static final ColorRGBA COLOR_ATOM = new ColorRGBA( 1f, 1f, 1f, 1f );
+    public static final ColorRGBA COLOR_LONE_PAIR = new ColorRGBA( 1f, 0.5f, 0f, 1f );
 }
