@@ -86,7 +86,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //User settings
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
-    public final Property<Boolean> hideWater = new Property<Boolean>( false );//Allow the user to hide the water molecules so they can focus on the solutes
+    public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
     public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
     public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
@@ -410,7 +410,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public void reset() {
         initModel();
         showSugarAtoms.reset();
-        hideWater.reset();
+        showWaterCharges.reset();
     }
 
     //Set up the initial model state, used on init and after reset

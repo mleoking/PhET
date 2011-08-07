@@ -21,8 +21,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_ATOMS;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_SUGAR_IN_3_D;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
  * Control panel for user options in the water tab
@@ -42,6 +41,11 @@ public class WaterControlPanel extends ControlPanelNode {
 //                            setEnabled( enabled );
 //                        }
 //                    } );
+                }} ),
+
+                //Checkbox to show/hide water charges (showing partial charges)
+                new PSwing( new PropertyCheckBox( SHOW_WATER_CHARGES, waterModel.showWaterCharges ) {{
+                    setFont( new PhetFont( 16 ) );
                 }} ),
 
                 //If development version, show button to launch developer controls

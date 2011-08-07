@@ -33,6 +33,7 @@ public class SugarAndSaltSolutionsResources {
         public static final String SHOW_SUGAR_ATOMS = RESOURCES.getLocalizedString( "showSugarAtoms" );
         public static final String SHOW_SUGAR_IN_3_D = RESOURCES.getLocalizedString( "showSugarIn3D" );
         public static final String SHOW_VALUES = RESOURCES.getLocalizedString( "showValues" );
+        public static final String SHOW_WATER_CHARGES = RESOURCES.getLocalizedString( "showWaterCharges" );
         public static final String SODIUM = RESOURCES.getLocalizedString( "sodium" );
         public static final String SODIUM_CHLORIDE = RESOURCES.getLocalizedString( "sodiumChloride" );
         public static final String SODIUM_CHLORIDE_NEW_LINE = RESOURCES.getLocalizedString( "sodiumChlorideNewLine" );

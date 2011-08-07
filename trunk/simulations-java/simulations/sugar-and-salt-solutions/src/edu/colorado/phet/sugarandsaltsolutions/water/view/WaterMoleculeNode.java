@@ -4,7 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.chemistry.molecules.AtomNode;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -29,14 +28,7 @@ public class WaterMoleculeNode extends PNode {
     private static final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 1000, O.getColor() ).toImage() );
     private static final BufferedImage HYDROGEN_IMAGE = toBufferedImage( new AtomNode( 1000, H.getColor() ).toImage() );
 
-    public WaterMoleculeNode( final ModelViewTransform transform, final WaterMolecule waterMolecule, final VoidFunction1<VoidFunction0> addListener, ObservableProperty<Boolean> hideWater ) {
-
-        //Allow the user to hide the water molecules so they can focus on the solutes
-        hideWater.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean invisible ) {
-                setVisible( !invisible );
-            }
-        } );
+    public WaterMoleculeNode( final ModelViewTransform transform, final WaterMolecule waterMolecule, final VoidFunction1<VoidFunction0> addListener ) {
 
         //Get the diameters in view coordinates
         double oxygenDiameter = transform.modelToViewDeltaX( oxygenRadius * 2 );
