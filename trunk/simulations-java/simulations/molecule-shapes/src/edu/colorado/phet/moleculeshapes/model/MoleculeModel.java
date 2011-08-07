@@ -26,10 +26,10 @@ public class MoleculeModel {
             }
             pair.attractToDistance( tpf );
         }
+        AttractorModel.applyAttractorForces( this, tpf );
         if ( counter++ % 50 == 0 ) {
             VseprConfiguration config = new VseprConfiguration( getBondedPairs().size(), getLonePairs().size() );
             System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs, 0.15 ) );
-            AttractorModel.applyAttractorForces( this, tpf );
         }
     }
 
