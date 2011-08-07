@@ -43,7 +43,7 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for WaterMolecules
         new GraphicAdapter<WaterMolecule>( particleLayer, new Function1<WaterMolecule, PNode>() {
             public PNode apply( WaterMolecule waterMolecule ) {
-                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener );
+                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener, waterModel.showWaterCharges );
             }
         }, waterModel.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
             public void apply( VoidFunction1<WaterMolecule> createNode ) {
@@ -76,7 +76,6 @@ public class ParticleWindowNode extends PNode {
         }
         );
 
-
         //Provide graphics for Sugar molecules
         new GraphicAdapter<Sucrose>( particleLayer, new Function1<Sucrose, PNode>() {
             public PNode apply( Sucrose sodiumIon ) {
@@ -91,7 +90,6 @@ public class ParticleWindowNode extends PNode {
                                          }
                                      }
         );
-
 
         PClip clip = new PClip() {{
 

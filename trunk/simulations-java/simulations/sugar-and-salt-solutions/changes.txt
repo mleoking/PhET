@@ -1,3 +1,4 @@
+Water tab: Wired up checkbox for "show water charges"
 Water tab: Added a checkbox for "show water charges", not wired up yet
 Water tab: Added play/pause buttons
 # 0.00.83 (54884) Aug 5, 2011
