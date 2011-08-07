@@ -1,36 +1,39 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.model.ElectronPair;
+import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
+// displays an atom in the 3d view
 public class AtomNode extends Geometry {
-    public final ElectronPair pair;
+    public final Property<ImmutableVector3D> position;
 
-    public AtomNode( final ElectronPair pair, AssetManager assetManager ) {
+    public AtomNode( final Property<ImmutableVector3D> position, final ColorRGBA color, AssetManager assetManager ) {
         super( "Atom", new Sphere( 32, 32, 2f ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
         }} );
-        this.pair = pair;
+        this.position = position;
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            setColor( "Diffuse", pair.getColor() );
+            setColor( "Diffuse", color );
             setFloat( "Shininess", 1f ); // [0,128]
         }} );
 
         // update based on electron pair position
-        pair.position.addObserver( new SimpleObserver() {
+        position.addObserver( new SimpleObserver() {
             public void update() {
-                setLocalTranslation( (float) pair.position.get().getX(), (float) pair.position.get().getY(), (float) pair.position.get().getZ() );
+                setLocalTranslation( (float) position.get().getX(), (float) position.get().getY(), (float) position.get().getZ() );
             }
         } );
 

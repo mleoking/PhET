@@ -6,9 +6,12 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
-import edu.colorado.phet.moleculeshapes.model.VseprConfiguration;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -36,17 +39,13 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
-    //Contains electron pairs for lone pairs or electron pairs
-    private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
-
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
 
-    // TODO: this doesn't make sense! convert to particle or something
-    private ElectronPair centerPair = new ElectronPair( new ImmutableVector3D(), false );
+    private MoleculeModel molecule = new MoleculeModel();
 
-    private Node molecule; //The molecule to display and rotate
+    private Node moleculeNode; //The molecule to display and rotate
 
     //The angle about which the molecule should be rotated, changes as a function of time
     private Quaternion rotation = new Quaternion();
@@ -97,23 +96,44 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                       }
                                   }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_DRAG );
 
-        molecule = new Node();
-        rootNode.attachChild( molecule );
+        moleculeNode = new Node();
+        rootNode.attachChild( moleculeNode );
+
+        // update the UI when the molecule changes electron pairs
+        molecule.addListener( new Adapter() {
+            @Override public void onPairAdded( ElectronPair pair ) {
+                AtomNode atomNode = new AtomNode( pair.position, pair.isLonePair ? MoleculeShapesConstants.COLOR_LONE_PAIR : MoleculeShapesConstants.COLOR_ATOM, assetManager );
+                atomNodes.add( atomNode );
+                moleculeNode.attachChild( atomNode );
+                rebuildBonds();
+            }
+
+            @Override public void onPairRemoved( ElectronPair pair ) {
+                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+
+                    // TODO: associate these more closely! (comparing positions for equality is bad)
+                    if ( atomNode.position == pair.position ) {
+                        atomNodes.remove( atomNode );
+                        moleculeNode.detachChild( atomNode );
+                    }
+                }
+            }
+        } );
 
         /*---------------------------------------------------------------------------*
         * atoms
         *----------------------------------------------------------------------------*/
 
         //Create the central atom
-        AtomNode center = new AtomNode( centerPair, assetManager );
-        molecule.attachChild( center );
+        AtomNode center = new AtomNode( new Property<ImmutableVector3D>( new ImmutableVector3D() ), MoleculeShapesConstants.COLOR_ATOM_CENTER, assetManager );
+        moleculeNode.attachChild( center );
 
         //Create the atoms that circle about the central atom
         double angle = Math.PI * 2 / 5;
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
+            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
         }
 
         rebuildBonds();
@@ -142,109 +162,32 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     public void testAddAtom( boolean isLonePair ) {
         ImmutableVector3D initialPosition = new ImmutableVector3D( Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5 ).normalized().times( 7 );
-        addPair( new ElectronPair( initialPosition, isLonePair ) );
+        molecule.addPair( new ElectronPair( initialPosition, isLonePair ) );
     }
 
     public synchronized void testRemoveAtom() {
-        if ( !pairs.isEmpty() ) {
-            removePair( pairs.get( random.nextInt( pairs.size() ) ) );
+        if ( !molecule.getPairs().isEmpty() ) {
+            molecule.removePair( molecule.getPairs().get( random.nextInt( molecule.getPairs().size() ) ) );
         }
     }
 
     private int counter = 0;
 
     @Override public synchronized void simpleUpdate( final float tpf ) {
-//        System.out.println( "tpf = " + tpf );
-//        rotation = new Quaternion().fromAngles( 0, 0.2f * tpf, 0 ).mult( rotation );
-        for ( ElectronPair pair : pairs ) {
-            // run our fake physics
-            pair.stepForward( tpf );
-            for ( ElectronPair otherPair : pairs ) {
-                if ( otherPair != pair ) {
-                    pair.repulseFrom( otherPair, tpf );
-                }
-            }
-            pair.attractTo( centerPair, tpf );
-        }
-        moveTowardGlobalState( tpf );
+        molecule.update( tpf );
         rebuildBonds();
-        molecule.setLocalRotation( rotation );
-        if ( counter++ % 50 == 0 ) {
-            VseprConfiguration config = new VseprConfiguration( getBondedAtoms().size(), getLonePairs().size() );
-            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs, 0.15 ) );
-        }
-    }
-
-    private void moveTowardGlobalState( float tpf ) {
-        //Linear
-        ArrayList<ElectronPair> bondedAtoms = getBondedAtoms();
-        ArrayList<ElectronPair> lonePairs = getLonePairs();
-        if ( bondedAtoms.size() == 2 && lonePairs.size() == 3 ) {
-            ImmutableVector3D a = bondedAtoms.get( 0 ).position.get();
-            ImmutableVector3D b = bondedAtoms.get( 1 ).position.get();
-
-            //Should be 1 if at global state
-            double value = a.normalized().dot( b.normalized() ) * -1;
-
-            if ( value < 0.999 ) {
-                bondedAtoms.get( 0 ).repulseFrom( bondedAtoms.get( 1 ), tpf );
-                bondedAtoms.get( 1 ).repulseFrom( bondedAtoms.get( 0 ), tpf );
-            }
-            else {
-                //Its already close enough to good global maximum
-                numSuccess++;
-                System.out.println( "number of success: " + numSuccess + ", elapsed time = \t" + ( System.currentTimeMillis() - startTime ) );
-                setState( 2, 3 );
-
-            }
-        }
-    }
-
-    public ArrayList<ElectronPair> getBondedAtoms() {
-        return getPairs( false );
-    }
-
-    public ArrayList<ElectronPair> getLonePairs() {
-        return getPairs( true );
-    }
-
-    public ArrayList<ElectronPair> getPairs( final boolean lonePairs ) {
-        return new ArrayList<ElectronPair>() {{
-            for ( ElectronPair pair : pairs ) {
-                if ( pair.isLonePair == lonePairs ) {
-                    add( pair );
-                }
-            }
-        }};
-    }
-
-    private void addPair( final ElectronPair pair ) {
-        pairs.add( pair );
-        AtomNode atomNode = new AtomNode( pair, assetManager );
-        atomNodes.add( atomNode );
-        molecule.attachChild( atomNode );
-        rebuildBonds();
-    }
-
-    private void removePair( final ElectronPair pair ) {
-        pairs.remove( pair );
-        for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-            if ( atomNode.pair == pair ) {
-                atomNodes.remove( atomNode );
-                molecule.detachChild( atomNode );
-            }
-        }
+        moleculeNode.setLocalRotation( rotation );
     }
 
     private void rebuildBonds() {
         // necessary for now since just updating their geometry shows significant errors
         for ( BondNode bondNode : bondNodes ) {
-            molecule.detachChild( bondNode );
+            moleculeNode.detachChild( bondNode );
         }
         bondNodes.clear();
-        for ( ElectronPair pair : pairs ) {
-            BondNode bondNode = new BondNode( centerPair, pair, assetManager );
-            molecule.attachChild( bondNode );
+        for ( ElectronPair pair : molecule.getPairs() ) {
+            BondNode bondNode = new BondNode( new ImmutableVector3D(), pair.position.get(), assetManager );
+            moleculeNode.attachChild( bondNode );
             bondNodes.add( bondNode );
         }
     }
@@ -259,7 +202,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     public void removeAllAtoms() {
-        while ( !pairs.isEmpty() ) {
+        while ( !molecule.getPairs().isEmpty() ) {
             testRemoveAtom();
         }
     }
