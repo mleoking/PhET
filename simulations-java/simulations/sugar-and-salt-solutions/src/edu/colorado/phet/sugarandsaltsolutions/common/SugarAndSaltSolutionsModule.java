@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
  */
 public abstract class SugarAndSaltSolutionsModule extends Module {
 
-    public SugarAndSaltSolutionsModule( String name, Clock clock ) {
+    public SugarAndSaltSolutionsModule( String name, Clock clock, BooleanProperty moduleActive ) {
         super( name, clock );
 
         //Clock control panel will be shown floating in the simulation panel, so don't show the top level swing component for the clock control panel
@@ -20,6 +20,9 @@ public abstract class SugarAndSaltSolutionsModule extends Module {
 
         //Don't show the logo panel--since the sim is multi-tab, the logo should be shown in the tab tray at the far right
         setLogoPanel( null );
+
+        //When the module becomes activated/deactivated, update the flag in the model for purposes of starting and stopping the clock
+        listenForModuleActivated( moduleActive );
     }
 
     public void listenForModuleActivated( final BooleanProperty moduleActive ) {

@@ -9,6 +9,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -16,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
+import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -23,6 +25,7 @@ import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
+import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
 
 /**
  * Canvas for the Water tab
@@ -49,7 +52,7 @@ public class WaterCanvas extends PhetPCanvas {
     private PNode sugarBucketParticleLayer;
 
     //Control panel with user options
-    protected WaterControlPanel waterControlPanel;
+    protected WaterControlPanel controlPanel;
 
     //Dialog in which to show the 3d JMol view of sucrose
     private Sucrose3DDialog sucrose3DDialog;
@@ -57,8 +60,9 @@ public class WaterCanvas extends PhetPCanvas {
     //Model view transform from model to stage coordinates
     protected final ModelViewTransform transform;
 
-    public WaterCanvas( final WaterModel waterModel, final GlobalState state ) {
+    public WaterCanvas( final WaterModel model, final GlobalState state ) {
         sucrose3DDialog = new Sucrose3DDialog( state.frame );
+
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
         state.colorScheme.backgroundColorSet.color.addObserver( new VoidFunction1<Color>() {
             public void apply( Color color ) {
@@ -67,18 +71,17 @@ public class WaterCanvas extends PhetPCanvas {
         } );
 
         //Set the stage size according to the same aspect ratio as used in the model
-
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
         double inset = 40;
-        transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -waterModel.beakerWidth / 2, 0, waterModel.beakerWidth, waterModel.beakerHeight ),
+        transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, 0, model.beakerWidth, model.beakerHeight ),
                                                      new Rectangle2D.Double( -inset, -inset, canvasSize.getWidth() + inset * 2, canvasSize.getHeight() + inset * 2 ) );
 
         // Root of our scene graph
         addWorldChild( rootNode );
 
         //Add the region with the particles
-        particleWindowNode = new ParticleWindowNode( waterModel, transform ) {{
+        particleWindowNode = new ParticleWindowNode( model, transform ) {{
             setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - 50, 0 );
         }};
         rootNode.addChild( particleWindowNode );
@@ -99,10 +102,10 @@ public class WaterCanvas extends PhetPCanvas {
         }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
 
         //Control panel
-        waterControlPanel = new WaterControlPanel( waterModel, state, this, sucrose3DDialog ) {{
-            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET * 10 );
+        controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
+            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
         }};
-        addChild( waterControlPanel );
+        addChild( controlPanel );
 
         //DEBUGGING
 //        waterModel.k.trace( "k" );
@@ -131,15 +134,20 @@ public class WaterCanvas extends PhetPCanvas {
         addChild( sugarBucket.getFrontNode() );
 
         //Start out the buckets with salt and sugar
-        addSaltToBucket( waterModel, transform );
-        addSugarToBucket( waterModel, transform );
+        addSaltToBucket( model, transform );
+        addSugarToBucket( model, transform );
 
-        waterModel.addResetListener( new VoidFunction0() {
+        model.addResetListener( new VoidFunction0() {
             public void apply() {
-                addSaltToBucket( waterModel, transform );
-                addSugarToBucket( waterModel, transform );
+                addSaltToBucket( model, transform );
+                addSugarToBucket( model, transform );
             }
         } );
+
+        //Add clock controls for pause/play/step
+        addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
+            setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+        }} );
     }
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so

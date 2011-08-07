@@ -40,6 +40,13 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     //If set to true, will highlight regions where crystals can be grown
     private final boolean debugBindingSites = false;
 
+    //Function that is used in the floating clock control panel to hide the time readout
+    public static final Function1<Double, String> NO_READOUT = new Function1<Double, String>() {
+        public String apply( Double aDouble ) {
+            return "";
+        }
+    };
+
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
         super( model, globalState, createMicroTransform( model ), new Function1<Double, String>() {
             public String apply( Double volumeInMetersCubed ) {
@@ -123,12 +130,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         model.sphericalParticles.addElementAddedObserver( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
 
         //Add clock controls for pause/play/step
-        addChild( new FloatingClockControlNode( model.playButtonPressed, new Function1<Double, String>() {
-            public String apply( Double time ) {
-                return "";
-            }
-            //TODO: get rid of clear button if unused
-        }, model.clock, "", new Property<Color>( Color.white ) ) {{
+        addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( 0, stageSize.getHeight() - getFullBounds().getHeight() );
         }} );
 

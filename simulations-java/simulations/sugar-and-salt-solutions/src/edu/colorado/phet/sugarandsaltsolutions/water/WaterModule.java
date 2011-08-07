@@ -19,7 +19,7 @@ public class WaterModule extends SugarAndSaltSolutionsModule {
     }
 
     public WaterModule( final WaterModel model, GlobalState state ) {
-        super( SugarAndSaltSolutionsResources.Strings.WATER, model.clock );
+        super( SugarAndSaltSolutionsResources.Strings.WATER, model.clock, model.moduleActive );
         setSimulationPanel( new WaterCanvas( model, state ) {{
 
             //Listen for when the user changes tabs so the JMolDialog can be hidden when switching away and shown when switching to this tab (if it was already shown)
@@ -34,5 +34,4 @@ public class WaterModule extends SugarAndSaltSolutionsModule {
             } );
         }} );
     }
-
 }

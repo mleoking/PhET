@@ -25,16 +25,13 @@ public class MicroModule extends SugarAndSaltSolutionsModule {
     }
 
     public MicroModule( GlobalState globalState, MicroModel model ) {
-        super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock );
+        super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock, model.moduleActive );
 
         this.model = model;
 
         setSimulationPanel( new MicroCanvas( model, globalState ) {{
             addListener( this );
         }} );
-
-        //When the module becomes activated/deactivated, update the flag in the model for purposes of starting and stopping the clock
-        listenForModuleActivated( model.moduleActive );
     }
 
     @Override public void reset() {
