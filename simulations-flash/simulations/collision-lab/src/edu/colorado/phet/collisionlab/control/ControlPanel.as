@@ -136,20 +136,14 @@ public class ControlPanel extends Sprite {
     protected function resetAll(): void {
         this.myModel.resetAll();
         this.myMainView.reset();
-        this.myMainView.myTableView.reDrawBorder();
+        this.myMainView.myTableView.reset();
         this.myMainView.myDataTable.checkBallNbrLimits();
-        this.myMainView.myTableView.playButtons.resetAllCalled();
         this.sub_showVelocities_cb.selected = true;
-        this.myMainView.myTableView.showArrowsOnBallImages( true );
         this.sub_showMomentumVectors_cb.selected = false;
-        this.myMainView.myTableView.showPArrowsOnBallImages( false );
-        this.myMainView.myTableView.CM.visible = true;
         this.sub_showMomenta_cb.selected = false;
         this.myMainView.momentumView.visible = false;
-        this.myMainView.myTableView.myTrajectories.pathsOff();
         this.sub_sound_cb.selected = false;
         this.myModel.soundOn = false;
-        this.myMainView.myTableView.timeRate_slider.value = this.myModel.timeRate;
         this.sub_elasticitySlider.value = 1;
         this.myModel.setElasticity( 1 );
         updateElasticityValueLabel();

@@ -23,7 +23,7 @@ public class TableView extends Sprite {
     public var showingPaths: Boolean;                //true if paths are shown
     public var myMainView: MainView;			      //mediator and container of views
     public var canvas: Sprite;					      //background on which everything is placed
-    public var ballColor_arr:Array = new Array(
+    public var ballColor_arr: Array = new Array(
             0xff0000, // red
             0x009900, // green
             0x0000ff, // blue
@@ -84,13 +84,21 @@ public class TableView extends Sprite {
         }
         Util.makePanelDraggableWithBorder( this, invisibleBorder );
         update();
-        //drawBorder();
-        //ballImageTest = new BallImage(myModel, 2, this);
-        //myModel.startMotion();
 
         // TODO: put this in reset! Where is that?
         setTotalKEVisible( false );
-    }//end of constructor
+    }
+
+    public function reset(): void {
+        setTotalKEVisible( false );
+        reDrawBorder();
+        playButtons.resetAllCalled();
+        showArrowsOnBallImages( true );
+        showPArrowsOnBallImages( false );
+        CM.visible = true;
+        myTrajectories.pathsOff();
+        timeRate_slider.value = myModel.timeRate;
+    }
 
     public function drawBorder(): void {
         var W: Number = myModel.borderWidth * CLConstants.PIXELS_PER_METER;
@@ -112,7 +120,7 @@ public class TableView extends Sprite {
             //        var x0: Number = 0;
             //        var y0: Number = 0;
             if ( myModel.isIntro ) {
-                const largeConst:Number = 5000;
+                const largeConst: Number = 5000;
                 g.beginFill( 0xccffcc );
                 g.moveTo( -largeConst, -del );
                 g.lineTo( W + largeConst, -del );
@@ -337,7 +345,7 @@ public class TableView extends Sprite {
             myTrajectories.erasePaths();
         }
 
-        for( i = 0; i < myModel.nbrBalls; i++ ) {
+        for ( i = 0; i < myModel.nbrBalls; i++ ) {
             ballImage_arr[i].setVisibilityOfArrowHeadIndicator();
         }
 
