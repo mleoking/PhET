@@ -68,6 +68,7 @@ public class TableView extends Sprite {
         canvas.addChild( ballLayer );
         createBallImages();
         canvas.addChild( CM );
+        CM.mouseEnabled = false;
         if ( myModel.nbrBalls == 1 ) {
             CM.visible = false;
         }
@@ -358,6 +359,14 @@ public class TableView extends Sprite {
 
     function getTimeText( time: String ): String {
         return SimStrings.get( "TableView.time", "Time = {0} s", [time] );
+    }
+
+    public function addBallChild( ball: BallImage ): void {
+        ballLayer.addChild( ball );
+    }
+
+    public function removeBallChild( ball: BallImage ): void {
+        ballLayer.removeChild( ball );
     }
 }//end of class
 
