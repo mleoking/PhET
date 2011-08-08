@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.StandardizedNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -75,7 +75,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         }} );
 
         //Show the kit control node that allows the user to scroll through different kits
-        PNode microKitControlNode = new StandardizedNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
+        PNode microKitControlNode = new ZeroOffsetNode( new MicroKitControlNode( model.selectedKit, model.dispenserType ) {{
             model.addResetListener( new VoidFunction0() {
                 public void apply() {
                     kitSelectionNode.selectedKit.set( 0 );

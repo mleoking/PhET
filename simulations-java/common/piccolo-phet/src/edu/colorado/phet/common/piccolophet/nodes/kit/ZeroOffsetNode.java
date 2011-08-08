@@ -8,8 +8,8 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class StandardizedNode extends PNode {
-    public StandardizedNode( PNode node ) {
+public class ZeroOffsetNode extends PNode {
+    public ZeroOffsetNode( PNode node ) {
         addChild( node );
         node.setOffset( -node.getFullBounds().getX(), -node.getFullBounds().getY() );
     }

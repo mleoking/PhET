@@ -59,7 +59,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         //Standardize the nodes, this centers them to simplify the layout
         final ArrayList<PNode> standardizedNodes = new ArrayList<PNode>();
         for ( PNode kit : kits ) {
-            standardizedNodes.add( new StandardizedNode( kit ) );
+            standardizedNodes.add( new ZeroOffsetNode( kit ) );
         }
 
         //Find the smallest rectangle that holds all the kits
