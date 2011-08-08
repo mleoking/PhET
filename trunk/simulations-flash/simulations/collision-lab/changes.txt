@@ -1,3 +1,4 @@
+> Change precision of data table to 2 places in Intro tab, 3 in Advanced tab
 > Font size reduction in the data table
 > Reduced header height
 > Made the ball column in the data table thinner
