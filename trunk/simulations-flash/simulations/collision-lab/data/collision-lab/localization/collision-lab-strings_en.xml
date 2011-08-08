@@ -4,7 +4,7 @@
     <string key="introductionTab" value="Introduction"/>
     <string key="advancedTab" value="Advanced"/>
 
-    <string key="PlayPauseButtons.rewind" value="Rewind"/>
+    <string key="PlayPauseButtons.rewind" value="Restart"/>
     <string key="PlayPauseButtons.back" value="Back"/>
     <string key="PlayPauseButtons.play" value="Play"/>
     <string key="PlayPauseButtons.pause" value="Pause"/>
