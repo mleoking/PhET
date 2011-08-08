@@ -1,3 +1,4 @@
+8/8/2011 Moved kit implementations to piccolo-phet
 8/4/2011 Only show the "clear" button if the client requested it
 8/2/2011 Renamed parameter and added docs to FloatingClockControlNode
 7/22/11 Generalized BoxLayout and subclasses to use double instead of int for spacing
