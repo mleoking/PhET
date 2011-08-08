@@ -1,3 +1,4 @@
+Initial usage of KitSelectionNode
 # 0.00.05 (54837) Aug 3, 2011
 8/3/11 Publishing updated version to dev for review.
 Improved placement of the control panels.
