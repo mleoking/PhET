@@ -13,8 +13,10 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
 // displays an atom in the 3d view
@@ -23,7 +25,7 @@ public class LonePairNode extends Node {
 
     private static Spatial lonePairGeometry;
 
-    public LonePairNode( final Property<ImmutableVector3D> position, AssetManager assetManager ) {
+    public LonePairNode( final Property<ImmutableVector3D> position, final AssetManager assetManager ) {
         super( "Lone Pair" );
         this.position = position;
 
@@ -33,16 +35,21 @@ public class LonePairNode extends Node {
         Spatial model = getGeometry( assetManager );
         attachChild( model );
 
+        attachChild( new ElectronDotNode( assetManager, new Vector3f( 0.3f, 0, 0 ) ) );
+        attachChild( new ElectronDotNode( assetManager, new Vector3f( -0.3f, 0, 0 ) ) );
+
         model.setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
             setColor( "Diffuse", new ColorRGBA( 1, 1, 1, 0.7f ) );
             setFloat( "Shininess", 1f ); // [0,128]
+
+            // allow transparency
             getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
             setTransparent( true );
         }} );
 
-        model.setQueueBucket( Bucket.Transparent );
+        model.setQueueBucket( Bucket.Transparent ); // allow it to be transparent
 
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {
@@ -62,6 +69,27 @@ public class LonePairNode extends Node {
             TangentBinormalGenerator.generate( lonePairGeometry );
         }
         return lonePairGeometry.clone();
+    }
+
+    private class ElectronDotNode extends Geometry {
+        public ElectronDotNode( AssetManager assetManager, Vector3f offset ) {
+            super( "Electron Dot", new Sphere( 10, 10, 0.1f ) {{
+                TangentBinormalGenerator.generate( this );
+            }} );
+            setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
+                setBoolean( "UseMaterialColors", true );
+
+                setColor( "Diffuse", new ColorRGBA( 1.0f, 1.0f, 0.0f, 0.8f ) );
+                setFloat( "Shininess", 1f ); // [0,128]
+
+                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                setTransparent( true );
+            }} );
+
+            setQueueBucket( Bucket.Transparent );
+
+            setLocalTranslation( new Vector3f( 0, 2, 0 ).add( offset ) );
+        }
     }
 
     /**
@@ -194,4 +222,5 @@ public class LonePairNode extends Node {
         }
 
     }
+
 }
