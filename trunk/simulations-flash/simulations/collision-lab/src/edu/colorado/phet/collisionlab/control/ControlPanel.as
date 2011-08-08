@@ -127,7 +127,7 @@ public class ControlPanel extends Sprite {
         this.myModel.resetAll();
         this.myMainView.reset();
         this.myMainView.myTableView.reset();
-        this.myMainView.myDataTable.checkBallNbrLimits();
+        this.myMainView.myDataTable.reset();
         this.sub_showVelocities_cb.selected = true;
         this.sub_showMomentumVectors_cb.selected = false;
         this.sub_showMomenta_cb.selected = false;

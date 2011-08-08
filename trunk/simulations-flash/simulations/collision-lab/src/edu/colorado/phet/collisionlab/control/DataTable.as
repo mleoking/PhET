@@ -199,6 +199,14 @@ public class DataTable extends Sprite {
         update();
     }
 
+    public function reset(): void {
+        checkBallNbrLimits();
+        if ( showingMore ) {
+            // unfortunately best way of resetting more/less view
+            toggleDataButton();
+        }
+    }
+
     //following function to be altered during internationalization
     public function initializeStrings(): void {
         addBallButton.setLabel( SimStrings.get( "DataTable.addBall", "Add Ball" ) );
