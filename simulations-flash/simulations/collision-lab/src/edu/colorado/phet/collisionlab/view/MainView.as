@@ -66,11 +66,13 @@ public class MainView extends Sprite {
         this.myTableView.y = paddingForTabs;
         if ( myModel.isIntro ) {
             this.myDataTable.y = 0.60 * this.stageH + paddingForTabs / 2;
-            this.myDataTable.x = 380; // hardcoded for now, since we have different widths of play areas...
+            //this.myDataTable.x = 380; // hardcoded for now, since we have different widths of play areas...
+            myDataTable.x = 10;
         }
         else {
-            this.myDataTable.x = 340; // hardcoded for now, since we have different widths of play areas...
-            this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2;
+//            this.myDataTable.x = 340; // hardcoded for now, since we have different widths of play areas...
+            myDataTable.x = 10;
+            this.myDataTable.y = 0.75 * this.stageH + paddingForTabs / 2 - 30;
         }
         //this.controlPanel.sub_background.width = 170;
         //this.controlPanel.sub_background.height = 330;
