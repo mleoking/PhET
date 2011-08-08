@@ -153,7 +153,7 @@ public class BallImage extends Sprite {
     }
 
     private function setLayerDepths():void {
-        this.myTableView.canvas.addChild( this );
+        this.myTableView.addBallChild( this );
         this.addChild( this.ballBody );
         this.addChild( this.arrowHeadIndicator );
         this.addChild( this.pArrowImage );
@@ -314,8 +314,7 @@ public class BallImage extends Sprite {
             //next two lines bring selected ball to top, so velocity arrow visible
             //and bring C.M. icon to top, so not hidden behind any ball
             // TODO: this seems to be messing up everything. why do we have a ball layer in TableView?
-            thisBallImage.myTableView.canvas.addChild( thisBallImage );
-            thisBallImage.myTableView.canvas.addChild( thisBallImage.myTableView.CM );
+            thisBallImage.myTableView.addBallChild( thisBallImage );
             //problem with localX, localY if sprite is rotated.
             clickOffset = new Point( evt.localX, evt.localY );
         }
@@ -403,7 +402,7 @@ public class BallImage extends Sprite {
 
         function startTargetDrag( evt:MouseEvent ):void {
             //problem with localX, localY if sprite is rotated.
-            thisBallImage.myTableView.canvas.addChild( thisBallImage );
+            thisBallImage.myTableView.addBallChild( thisBallImage );
             clickOffset = new Point( evt.localX, evt.localY );
 
             mouseDownOnArrow = true;
