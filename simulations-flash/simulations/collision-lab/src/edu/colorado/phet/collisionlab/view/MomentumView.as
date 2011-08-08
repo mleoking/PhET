@@ -224,8 +224,7 @@ public class MomentumView extends Sprite {
         this.scale_slider.value += 0.1;
         var currentValue: Number = this.scale_slider.value;
         if ( currentValue > 1 ) {this.scale_slider.value = 1;}
-        this.setScaleOfArrows( 10
-                                       + this.scale_slider.value * 200 );
+        this.setScaleOfArrows( convertSliderToScale( scale_slider.value ) );
         this.drawGrid();
         //trace("pushed up, value = "+this.scale_slider.value);
     }
@@ -234,7 +233,7 @@ public class MomentumView extends Sprite {
         this.scale_slider.value -= 0.1;
         var currentValue: Number = this.scale_slider.value;
         if ( currentValue < 0 ) {this.scale_slider.value = 0;}
-        this.setScaleOfArrows( 10 + this.scale_slider.value * 200 );
+        this.setScaleOfArrows( convertSliderToScale( scale_slider.value ) );
         this.drawGrid();
         //trace("pushed down, value = "+this.scale_slider.value);
     }
@@ -246,15 +245,14 @@ public class MomentumView extends Sprite {
     }
 
     private function sliderChangeListener( evt: SliderEvent ): void {
-        this.setScaleOfArrows( 10 + evt.target.value * 200 );
+        this.setScaleOfArrows( convertSliderToScale( evt.target.value ) );
         this.drawGrid();
         //trace("MomentumView slider value = "+evt.target.value);
     }
 
-    //    private function tipToTailCheckBoxOff(): void {
-    //        this.tipToTailDisplayOn = false;
-    //        this.tipToTail_cb.selected = false;
-    //    }
+    private function convertSliderToScale( sliderValue: Number ): Number {
+        return 10 + sliderValue * 200;
+    }
 
     private function setScaleOfArrows( scale: Number ): void {
         var maxN: int = CLConstants.MAX_BALLS;
