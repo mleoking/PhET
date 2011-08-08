@@ -79,7 +79,6 @@ public class ControlPanel extends Sprite {
         } );
         this.sub_showMomenta_cb.addEventListener( MouseEvent.CLICK, momentaDiagramOnOrOff );
         this.sub_sound_cb.addEventListener( MouseEvent.CLICK, soundOnOrOff );
-        //this.timeRateSlider.addEventListener(SliderEvent.CHANGE, setTimeRate);
         this.sub_elasticitySlider.addEventListener( SliderEvent.CHANGE, setElasticity );
 
         kineticEnergyCheckBox.addEventListener( MouseEvent.CLICK, function( e: MouseEvent ): void {
@@ -87,12 +86,6 @@ public class ControlPanel extends Sprite {
         } );
 
     }
-
-
-    //<string key="ControlPanel.showCenterOfMass" value="Show C.M."/>
-    //    <string key="ControlPanel.reflectingBorder" value="Reflecting Border"/>
-    //    <string key="ControlPanel.showPaths" value="Show Paths"/>
-    //    <string key="ControlPanel.sound" value="Sound"/>
 
     public function initializeStrings(): void {
         // hook together the buttons (check boxes in this case) with their labels
@@ -105,7 +98,6 @@ public class ControlPanel extends Sprite {
 
         resetButton.setLabel( SimStrings.get( "ControlPanel.resetAll", "Reset All" ) );
         updateElasticityValueLabel();
-        //this.sub_elasticityLabel.text = SimStrings.get( "ControlPanel.elasticity", "Elasticity" );
         this.sub_zeroPercentLabel.text = SimStrings.get( "ControlPanel.zeroPercent", "Sticky" );
         this.sub_oneHundredPercentLabel.text = SimStrings.get( "ControlPanel.oneHundredPercent", "Bouncy" );
 
@@ -128,8 +120,6 @@ public class ControlPanel extends Sprite {
     }
 
     public function momentaDiagramOnOrOff( evt: MouseEvent ): void {
-        //trace(this.showCMOn = evt.target.selected);
-        //var momentaDiagramOnOrOff:Boolean = evt.target.selected;
         this.myMainView.momentumView.visible = evt.target.selected;
     }
 
@@ -184,11 +174,6 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.drawBorder();
     }
 
-    private function borderOnOrOff( evt: MouseEvent ): void {
-
-        //trace("ControlPanel.borderOnOrOff: " + evt.target.selected);
-    }
-
     public function showOrErasePaths( evt: MouseEvent ): void {
         //trace("ControlPanel.showOrErasePaths.evt.target.selected: "+evt.target.selected);
         if ( evt.target.selected ) {
@@ -209,19 +194,10 @@ public class ControlPanel extends Sprite {
         this.myModel.soundOn = evt.target.selected;
     }
 
-    //Time Rate slider moved to TableView
-    //public function setTimeRate(evt:SliderEvent):void{
-    //trace("time slider: "+evt.target.value);
-    //this.myModel.setTimeRate(evt.target.value);
-    //}
-
     public function setElasticity( evt: SliderEvent ): void {
         trace( "elasticity = " + evt.target.value )
         this.myModel.setElasticity( evt.target.value );
         updateElasticityValueLabel();
-//        var e_str: String = this.myModel.e.toFixed( 2 );//String(evt.target.value);
-//        this.sub_elasticityValueLabel.text = e_str;
-        //trace("e slider: "+evt.target.value);
     }
 
     //may not be necessary, since this is a controller, not a view
