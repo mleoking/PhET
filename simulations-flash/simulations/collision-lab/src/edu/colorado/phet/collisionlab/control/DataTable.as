@@ -106,10 +106,10 @@ public class DataTable extends Sprite {
         removeBallButton_sp = new DataTableButtonBody();
         moreDataButton_sp = new DataTableButtonBody();
         lessDataButton_sp = new DataTableButtonBody();
-        addBallButton = new NiceButton( addBallButton_sp, 90, addBall );
-        removeBallButton = new NiceButton( removeBallButton_sp, 90, removeBall );
-        moreDataButton = new NiceButton( moreDataButton_sp, 90, toggleDataButton );
-        lessDataButton = new NiceButton( lessDataButton_sp, 90, toggleDataButton );
+        addBallButton = new NiceButton( addBallButton_sp, 100, addBall );
+        removeBallButton = new NiceButton( removeBallButton_sp, 100, removeBall );
+        moreDataButton = new NiceButton( moreDataButton_sp, 100, toggleDataButton );
+        lessDataButton = new NiceButton( lessDataButton_sp, 100, toggleDataButton );
         initializeStrings();
         //don't put buttons on canvas, since want buttons stationary when canvas resizes
         if ( myMainView.module.allowAddRemoveBalls() ) {
@@ -345,29 +345,19 @@ public class DataTable extends Sprite {
 
     public function positionButtons(): void {
         if ( myModel.isIntro ) {
-
-        }
-        else {
-
-        }
-        addBallButton_sp.x = -0.6 * addBallButton_sp.width - 0.5 * removeBallButton_sp.width;
-        addBallButton_sp.y = -0.75 * addBallButton_sp.height;
-        removeBallButton_sp.x = 0;
-        removeBallButton_sp.y = -0.75 * addBallButton_sp.height;
-        moreDataButton_sp.x = 0.5 * removeBallButton_sp.width + 0.8 * moreDataButton_sp.width;
-        if ( myModel.isIntro ) {
             moreDataButton_sp.x += 200;
             moreDataButton_sp.y = invisibleBorder.height + 15;
         }
         else {
-            addBallButton_sp.x = addBallButton_sp.width / 2;
+            addBallButton_sp.x = addBallButton_sp.width / 2 - 10;
             addBallButton_sp.y = addBallButton_sp.height / 2;
-            removeBallButton_sp.x = removeBallButton_sp.width / 2;
+            removeBallButton_sp.x = removeBallButton_sp.width / 2 - 10;
             removeBallButton_sp.y = removeBallButton_sp.height / 2 + addBallButton_sp.y + addBallButton_sp.height / 2 + 5;
-            moreDataButton_sp.x = moreDataButton_sp.width / 2;
+            moreDataButton_sp.x = moreDataButton_sp.width / 2 - 10;
             moreDataButton_sp.y = moreDataButton_sp.height / 2 + removeBallButton_sp.y + removeBallButton_sp.height / 2 + 5;
         }
 
+        // less button is where the more button is (they just toggle visibility)
         lessDataButton_sp.x = moreDataButton_sp.x;
         lessDataButton_sp.y = moreDataButton_sp.y;
     }
