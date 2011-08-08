@@ -138,6 +138,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         rebuildBonds();
 
+        rootNode.attachChild( new LonePairNode( new Property<ImmutableVector3D>( new ImmutableVector3D(  ) ), assetManager ) );
+
         /*---------------------------------------------------------------------------*
         * lights
         *----------------------------------------------------------------------------*/

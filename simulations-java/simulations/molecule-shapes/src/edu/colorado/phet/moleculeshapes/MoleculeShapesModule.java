@@ -21,6 +21,11 @@ public class MoleculeShapesModule extends Module {
     public MoleculeShapesModule( String name ) {
         super( name, new ConstantDtClock( 30.0 ) );
         AppSettings settings = new AppSettings( true );
+
+        // antialiasing
+        settings.setSamples( 4 );
+
+        // limit the framerate
         settings.setFrameRate( 60 );
 
         final MoleculeJMEApplication app = new MoleculeJMEApplication();
