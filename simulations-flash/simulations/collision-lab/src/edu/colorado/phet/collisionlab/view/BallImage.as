@@ -301,30 +301,21 @@ public class BallImage extends Sprite {
         var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
         var clickOffset:Point;
 
-        //function bringToTop(evt:MouseEvent):void{
-        //thisBallImage.myTableView.canvas.addChild(thisBallImage);
-        //}
-
         function startTargetDrag( evt:MouseEvent ):void {
             //next two lines bring selected ball to top, so velocity arrow visible
             //and bring C.M. icon to top, so not hidden behind any ball
+            // TODO: this seems to be messing up everything. why do we have a ball layer in TableView?
             thisBallImage.myTableView.canvas.addChild( thisBallImage );
             thisBallImage.myTableView.canvas.addChild( thisBallImage.myTableView.CM );
             //problem with localX, localY if sprite is rotated.
             clickOffset = new Point( evt.localX, evt.localY );
-            //trace("evt.localX: "+evt.localX);
-            //trace("evt.localY: "+evt.localY);
         }
 
         function stopTargetDrag( evt:MouseEvent ):void {
-            //trace("stop dragging");
             if ( clickOffset != null ) {
                 clickOffset = null;
-                //trace("before separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
                 thisBallImage.myModel.separateAllBalls();
-                //trace("after separateAllBalls(), index = "+indx+ "thisBallImage.x = "+thisBallImage.x);
             }
-
         }
 
         function dragTarget( evt:MouseEvent ):void {
