@@ -1,3 +1,4 @@
+Remove most horizontal gridlines on the 1-D momenta diagram
 Fixed "Reset All" bug with more/less in the data table
 > Renamed "Rewind" button to "Restart"
 # 1.00.10 (54934) Aug 7, 2011
