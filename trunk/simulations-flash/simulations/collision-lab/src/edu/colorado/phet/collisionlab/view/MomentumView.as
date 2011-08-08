@@ -134,10 +134,14 @@ public class MomentumView extends Sprite {
             //draw horizontal grid lines and vertical grid lines
             var maxN: int = Math.floor( H / (2 * gridSpacing) );  //n = number of lines above x-axis
             for ( var i: int = 1; i <= maxN; i++ ) {
-                moveTo( del, H / 2 - i * gridSpacing );
-                lineTo( W - del, H / 2 - i * gridSpacing );
-                moveTo( del, H / 2 + i * gridSpacing );
-                lineTo( W - del, H / 2 + i * gridSpacing );
+                if ( !myModel.isIntro ) {
+                    // horizontal lines
+                    moveTo( del, H / 2 - i * gridSpacing );
+                    lineTo( W - del, H / 2 - i * gridSpacing );
+                    moveTo( del, H / 2 + i * gridSpacing );
+                    lineTo( W - del, H / 2 + i * gridSpacing );
+                }
+                // vertical lines
                 moveTo( W / 2 + i * gridSpacing, del );
                 lineTo( W / 2 + i * gridSpacing, H - del );
                 moveTo( W / 2 - i * gridSpacing, del );
@@ -221,7 +225,7 @@ public class MomentumView extends Sprite {
         var currentValue: Number = this.scale_slider.value;
         if ( currentValue > 1 ) {this.scale_slider.value = 1;}
         this.setScaleOfArrows( 10
-                + this.scale_slider.value * 200 );
+                                       + this.scale_slider.value * 200 );
         this.drawGrid();
         //trace("pushed up, value = "+this.scale_slider.value);
     }
