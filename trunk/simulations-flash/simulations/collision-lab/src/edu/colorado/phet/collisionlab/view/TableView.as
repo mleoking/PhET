@@ -46,47 +46,47 @@ public class TableView extends Sprite {
     public function TableView( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         this.myMainView = myMainView;
-        this.CM = new CenterOfMass();	//library symbol
-        this.canvas = new Sprite();
-        this.myMainView.addChild( this );
-        this.addChild( this.canvas );
-        this.xOffset = 10;  //position of table border relative to origin of stage
-        this.yOffset = 30;
-        this.canvas.x = xOffset;
-        this.canvas.y = yOffset;
-        this.border = new Sprite();
-        this.invisibleBorder = new Sprite();
-        this.playButtons = new PlayPauseButtons( this.myModel );
-        this.timeRate_slider = new Slider();
-        this.setupSlider();
-        this.canvas.addChild( this.border );
-        this.canvas.addChild( this.invisibleBorder );
-        this.canvas.addChild( this.playButtons );
-        this.makeTimeLabel();
-        this.makeTotKELabel();
-        this.makeTimeRateLabel();
-        this.canvas.addChild( this.timeRate_slider );
-        this.myModel.registerView( this );
-        this.showingPaths = false;
-        this.myTrajectories = new Trajectories( this.myModel, this );
-        //this.canvas.addChild(this.myTrajectories);
-        this.border.addChild( this.myTrajectories );
-        this.drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
-        //this.ballColor_arr = new Array( 10 );  //start with 10 colors
-        this.createBallColors();
-        //this.createBallImages2();
+        CM = new CenterOfMass();	//library symbol
+        canvas = new Sprite();
+        myMainView.addChild( this );
+        addChild( this.canvas );
+        xOffset = 10;  //position of table border relative to origin of stage
+        yOffset = 30;
+        canvas.x = xOffset;
+        canvas.y = yOffset;
+        border = new Sprite();
+        invisibleBorder = new Sprite();
+        playButtons = new PlayPauseButtons( myModel );
+        timeRate_slider = new Slider();
+        setupSlider();
+        canvas.addChild( border );
+        canvas.addChild( invisibleBorder );
+        canvas.addChild( playButtons );
+        makeTimeLabel();
+        makeTotKELabel();
+        makeTimeRateLabel();
+        canvas.addChild( timeRate_slider );
+        myModel.registerView( this );
+        showingPaths = false;
+        myTrajectories = new Trajectories( myModel, this );
+        //canvas.addChild(myTrajectories);
+        border.addChild( myTrajectories );
+        drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
+        //ballColor_arr = new Array( 10 );  //start with 10 colors
+        createBallColors();
+        //createBallImages2();
         ballLayer = new Sprite();
-        this.canvas.addChild( ballLayer );
-        this.createBallImages();
-        this.canvas.addChild( this.CM );
-        if ( this.myModel.nbrBalls == 1 ) {
-            this.CM.visible = false;
+        canvas.addChild( ballLayer );
+        createBallImages();
+        canvas.addChild( CM );
+        if ( myModel.nbrBalls == 1 ) {
+            CM.visible = false;
         }
-        Util.makePanelDraggableWithBorder( this, this.invisibleBorder );
-        this.update();
-        //this.drawBorder();
-        //this.ballImageTest = new BallImage(this.myModel, 2, this);
-        //this.myModel.startMotion();
+        Util.makePanelDraggableWithBorder( this, invisibleBorder );
+        update();
+        //drawBorder();
+        //ballImageTest = new BallImage(myModel, 2, this);
+        //myModel.startMotion();
 
         // TODO: put this in reset! Where is that?
         setTotalKEVisible( false );
