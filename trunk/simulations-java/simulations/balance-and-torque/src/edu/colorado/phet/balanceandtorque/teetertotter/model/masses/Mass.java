@@ -41,7 +41,7 @@ public abstract class Mass implements UserMovableModelElement {
 
     public void setOnPlank( boolean onPlank ) {
         // Handle any changes that need to happen when added to the plank,
-        // such as changes to shape or image.  Be default, this does nothing.
+        // such as changes to shape or image.  By default, this does nothing.
     }
 
     /**
