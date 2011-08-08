@@ -225,6 +225,7 @@ public class Model {
         }
         stopMotion();
         separateAllBalls();
+        setCenterOfMass();
         updateViews();
     }
 
