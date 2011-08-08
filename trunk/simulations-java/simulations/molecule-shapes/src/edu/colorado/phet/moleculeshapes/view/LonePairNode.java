@@ -22,8 +22,8 @@ public class LonePairNode extends Node {
 
         scale( 2.5f );
 
-        Spatial model = assetManager.loadModel( "molecule-shapes/jme3/Models/balloon.obj" );
-//        TangentBinormalGenerator.generate( model );
+        Spatial model = assetManager.loadModel( "molecule-shapes/jme3/Models/balloon2.obj" );
+        TangentBinormalGenerator.generate( model );
         attachChild( model );
 
         model.setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
