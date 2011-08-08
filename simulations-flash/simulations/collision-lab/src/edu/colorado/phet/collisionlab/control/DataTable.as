@@ -154,7 +154,7 @@ public class DataTable extends Sprite {
                 }
                 rowCanvas_arr[row].addChild( text_arr[row][col] );
                 rowCanvas_arr[row].y = row * rowHeight - 5;
-                if( row == 0 ) {
+                if ( row == 0 ) {
                     rowCanvas_arr[row].y = 5;
                 }
 
@@ -577,6 +577,10 @@ public class DataTable extends Sprite {
         addBallButton_sp.visible = nbrBalls != CLConstants.MAX_BALLS;
     }
 
+    private function get precision(): int {
+        return myModel.isIntro ? 2 : 3;
+    }
+
     public function update(): void {
         setNbrDisplayedRows();
         var row: int;
@@ -588,24 +592,24 @@ public class DataTable extends Sprite {
                 for ( col = 0; col < nbrColumns; col++ ) {
                     if ( col == massColumnNbr ) { // mass in kg
                         mass = myModel.ball_arr[ballNum].getMass();
-                        text_arr[row][col].text = mass.toFixed( 1 ); //round(mass, 1);
+                        text_arr[row][col].text = mass.toFixed( precision ); //round(mass, 1);
                     }
                     if ( col == xColumnNbr ) { //x position in m
                         var xPos: Number = myModel.ball_arr[ballNum].position.getX();
-                        text_arr[row][col].text = xPos.toFixed( 3 ); //round(xPos, nbrPlaces);
+                        text_arr[row][col].text = xPos.toFixed( precision ); //round(xPos, nbrPlaces);
                     }
                     if ( col == vxColumnNbr ) { // v_x in m/s
                         var xVel: Number = myModel.ball_arr[ballNum].velocity.getX();
-                        text_arr[row][col].text = xVel.toFixed( 3 ); //round(xVel, nbrPlaces);
+                        text_arr[row][col].text = xVel.toFixed( precision ); //round(xVel, nbrPlaces);
                     }
                     if ( !myModel.isIntro ) { // y position in m
                         if ( col == yColumnNbr ) {
                             var yPos: Number = myModel.ball_arr[ballNum].position.getY();
-                            text_arr[row][col].text = yPos.toFixed( 3 ); //round(yPos, nbrPlaces);
+                            text_arr[row][col].text = yPos.toFixed( precision ); //round(yPos, nbrPlaces);
                         }
                         if ( col == vyColumnNbr ) { // v_y in m/s
                             var yVel: Number = myModel.ball_arr[ballNum].velocity.getY();
-                            text_arr[row][col].text = yVel.toFixed( 3 ); //round(yVel, nbrPlaces);
+                            text_arr[row][col].text = yVel.toFixed( precision ); //round(yVel, nbrPlaces);
                         }
                     }
                 }
@@ -631,10 +635,10 @@ public class DataTable extends Sprite {
             yVel = myModel.ball_arr[ballNbr( row )].velocity.getY();
 
             var xMom: Number = mass * xVel;
-            text_arr[row][pxColumnNbr].text = xMom.toFixed( 3 );
+            text_arr[row][pxColumnNbr].text = xMom.toFixed( precision );
             if ( !myModel.isIntro ) {
                 var yMom: Number = mass * yVel;
-                text_arr[row][pyColumnNbr].text = yMom.toFixed( 3 ); //round(yMom, nbrPlaces);
+                text_arr[row][pyColumnNbr].text = yMom.toFixed( precision ); //round(yMom, nbrPlaces);
             }
         }
     }
