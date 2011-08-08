@@ -88,6 +88,9 @@ public class TableView extends Sprite {
         CM.visible = true;
         myTrajectories.pathsOff();
         timeRate_slider.value = myModel.timeRate;
+        for each ( var ball: BallImage in ballImage_arr ) {
+            ball.setShowValues( false );
+        }
     }
 
     public function drawBorder(): void {
