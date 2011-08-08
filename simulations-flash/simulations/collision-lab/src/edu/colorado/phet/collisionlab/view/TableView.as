@@ -93,17 +93,17 @@ public class TableView extends Sprite {
     }//end of constructor
 
     public function drawBorder(): void {
-        var W: Number = this.myModel.borderWidth * CLConstants.PIXELS_PER_METER;
-        var H: Number = this.myModel.borderHeight * CLConstants.PIXELS_PER_METER;
+        var W: Number = myModel.borderWidth * CLConstants.PIXELS_PER_METER;
+        var H: Number = myModel.borderHeight * CLConstants.PIXELS_PER_METER;
         var thickness: Number = 6;  //border thickness in pixels
         var del: Number = thickness / 2;
         //trace("width: "+W+"    height: "+H);
-        var g: Graphics = this.border.graphics;
+        var g: Graphics = border.graphics;
         g.clear();
-        if ( this.myModel.borderOn ) {
+        if ( myModel.borderOn ) {
             // now we only draw the border if the border is "on".
 
-            if ( this.myModel.borderOn ) {
+            if ( myModel.borderOn ) {
                 g.lineStyle( thickness, 0xFF0000 );
             }
             else {
@@ -111,7 +111,7 @@ public class TableView extends Sprite {
             }
             //        var x0: Number = 0;
             //        var y0: Number = 0;
-            if ( this.myModel.isIntro ) {
+            if ( myModel.isIntro ) {
                 const largeConst:Number = 5000;
                 g.beginFill( 0xccffcc );
                 g.moveTo( -largeConst, -del );
@@ -133,29 +133,29 @@ public class TableView extends Sprite {
         }
 
         //position playButtons
-        this.playButtons.x = W / 2;
-        this.playButtons.y = H + this.playButtons.height / 2;
+        playButtons.x = W / 2;
+        playButtons.y = H + playButtons.height / 2;
 
-        this.drawInvisibleBorder();
+        drawInvisibleBorder();
 
-        this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
-        this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
-        this.timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
+        timeText.text = getTimeText( myModel.time.toFixed( 2 ) );
+        totKEText.text = getKEText( myModel.getTotalKE().toFixed( 2 ) );
+        timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
 
         //position Time Label
-        //this.timeText.width=165;//to improve support for i18n
-        this.timeText.x = W - this.timeText.width;
-        this.timeText.y = H + 10;
-        //trace("this.timeText.width = "+this.timeText.width);
+        //timeText.width=165;//to improve support for i18n
+        timeText.x = W - timeText.width;
+        timeText.y = H + 10;
+        //trace("timeText.width = "+timeText.width);
 
         //position slider
-        this.timeRate_slider.x = W - this.timeRate_slider.width - this.timeText.width - 5;
-        //        ; //- 1.7*this.timeText.width;
-        this.timeRate_slider.y = H + 30;
+        timeRate_slider.x = W - timeRate_slider.width - timeText.width - 5;
+        //        ; //- 1.7*timeText.width;
+        timeRate_slider.y = H + 30;
 
         //position slider label
-        this.timeRateText.y = H + 10;
-        this.timeRateText.x = this.timeRate_slider.x + (this.timeRate_slider.width / 2) - (this.timeRateText.width / 2);
+        timeRateText.y = H + 10;
+        timeRateText.x = timeRate_slider.x + (timeRate_slider.width / 2) - (timeRateText.width / 2);
 
         //positon KE label
         if ( myModel.isIntro ) {
@@ -165,37 +165,37 @@ public class TableView extends Sprite {
         }
         else {
             // advanced tab
-            this.totKEText.x = 0;//0.5*this.totKEText.width;//30; //
-            this.totKEText.y = H + 10;
+            totKEText.x = 0;//0.5*totKEText.width;//30; //
+            totKEText.y = H + 10;
         }
-        //            this.totKEText.border=true;//to help visualize layout
-        this.totKEText.width = 165;//to improve support for i18n
-        //trace("drawBorder() called. this.totKEText.width = "+this.totKEText.width);
+        //            totKEText.border=true;//to help visualize layout
+        totKEText.width = 165;//to improve support for i18n
+        //trace("drawBorder() called. totKEText.width = "+totKEText.width);
 
     }//end of drawBorder();
 
     //called when 1D/2D mode is switched
     public function reDrawBorder(): void {
-        this.drawBorder();
-        if ( this.myModel.oneDMode ) {
+        drawBorder();
+        if ( myModel.oneDMode ) {
             var oneDH: Number = CLConstants.BORDER_HEIGHT_1D / 2;
             var twoDH: Number = CLConstants.BORDER_HEIGHT_2D / 2;
-            this.canvas.y = yOffset + CLConstants.PIXELS_PER_METER * (twoDH - oneDH);
+            canvas.y = yOffset + CLConstants.PIXELS_PER_METER * (twoDH - oneDH);
         }
         else {
-            this.canvas.y = yOffset;
+            canvas.y = yOffset;
         }
-        this.update();
+        update();
     }
 
     //invisible border is grabbable
     public function drawInvisibleBorder(): void {  //grayed-out border when Reflecting Border is OFF
-        var W: Number = this.myModel.borderWidth * CLConstants.PIXELS_PER_METER;
-        var H: Number = this.myModel.borderHeight * CLConstants.PIXELS_PER_METER;
+        var W: Number = myModel.borderWidth * CLConstants.PIXELS_PER_METER;
+        var H: Number = myModel.borderHeight * CLConstants.PIXELS_PER_METER;
         var thickness: Number = 6;  //border thickness in pixels
         var del: Number = thickness / 2;
         //trace("width: "+W+"    height: "+H);
-        var g: Graphics = this.invisibleBorder.graphics;
+        var g: Graphics = invisibleBorder.graphics;
         g.clear();
         g.lineStyle( thickness, 0xffffff, 0 );
         g.moveTo( -del, -del );
@@ -207,107 +207,107 @@ public class TableView extends Sprite {
 
 
     public function makeTimeLabel(): void {
-        this.timeText = new TextField();
-        this.timeText.text = getTimeText( Number( 0 ).toFixed( 2 ) );
-        this.timeText.selectable = false;
-        this.timeText.autoSize = TextFieldAutoSize.LEFT;
+        timeText = new TextField();
+        timeText.text = getTimeText( Number( 0 ).toFixed( 2 ) );
+        timeText.selectable = false;
+        timeText.autoSize = TextFieldAutoSize.LEFT;
         var tFormat: TextFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.bold = true;
         tFormat.color = 0x000000;
         tFormat.size = 16;
-        this.timeText.defaultTextFormat = tFormat;
-        //this.timeText.setTextFormat(tFormat);
-        this.canvas.addChild( this.timeText );
+        timeText.defaultTextFormat = tFormat;
+        //timeText.setTextFormat(tFormat);
+        canvas.addChild( timeText );
     }
 
     public function setTotalKEVisible( visible: Boolean ): void {
-        this.totKEText.visible = visible;
+        totKEText.visible = visible;
     }
 
     public function makeTotKELabel(): void {
         //following two strings should be set by internationalizer
-        this.totKEText = new TextField();
-        this.totKEText.text = getKEText( myModel.getTotalKE().toFixed( 2 ) ); //text is set in update
-        this.totKEText.selectable = false;
-        //			this.totKEText.autoSize = TextFieldAutoSize.RIGHT;
+        totKEText = new TextField();
+        totKEText.text = getKEText( myModel.getTotalKE().toFixed( 2 ) ); //text is set in update
+        totKEText.selectable = false;
+        //			totKEText.autoSize = TextFieldAutoSize.RIGHT;
         var tFormat: TextFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.bold = true;
         tFormat.color = 0x000000;
         tFormat.size = 14;
-        this.totKEText.defaultTextFormat = tFormat;
-        //this.timeText.setTextFormat(tFormat);
-        this.canvas.addChild( this.totKEText );
+        totKEText.defaultTextFormat = tFormat;
+        //timeText.setTextFormat(tFormat);
+        canvas.addChild( totKEText );
     }
 
     public function makeTimeRateLabel(): void {
         //following two strings should be set by internationalizer
-        this.timeRateText = new TextField();
-        this.timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
-        this.timeRateText.selectable = false;
-        this.timeRateText.autoSize = "left";
-        //			this.timeRateText.autoSize = TextFieldAutoSize.RIGHT;
+        timeRateText = new TextField();
+        timeRateText.text = " " + SimStrings.get( "TableView.timeRate", "Sim Speed" ) + " ";
+        timeRateText.selectable = false;
+        timeRateText.autoSize = "left";
+        //			timeRateText.autoSize = TextFieldAutoSize.RIGHT;
         var tFormat: TextFormat = new TextFormat();
         tFormat.font = "Arial";
         tFormat.bold = true;
         tFormat.color = 0x000000;
         tFormat.italic = true;
         tFormat.size = 12;
-        this.timeRateText.defaultTextFormat = tFormat;
-        //this.timeText.setTextFormat(tFormat);
-        this.canvas.addChild( this.timeRateText );
+        timeRateText.defaultTextFormat = tFormat;
+        //timeText.setTextFormat(tFormat);
+        canvas.addChild( timeRateText );
     }
 
     private function setupSlider(): void {
-        this.timeRate_slider.direction = SliderDirection.HORIZONTAL;
-        this.timeRate_slider.minimum = 0.01;
-        this.timeRate_slider.maximum = 1;
-        this.timeRate_slider.snapInterval = 0.02;
-        this.timeRate_slider.value = 0.5;
-        this.myModel.setTimeRate( 0.5 );
-        this.timeRate_slider.liveDragging = true;
-        this.timeRate_slider.width = 100;
-        this.timeRate_slider.addEventListener( Event.CHANGE, setTimeRate );
+        timeRate_slider.direction = SliderDirection.HORIZONTAL;
+        timeRate_slider.minimum = 0.01;
+        timeRate_slider.maximum = 1;
+        timeRate_slider.snapInterval = 0.02;
+        timeRate_slider.value = 0.5;
+        myModel.setTimeRate( 0.5 );
+        timeRate_slider.liveDragging = true;
+        timeRate_slider.width = 100;
+        timeRate_slider.addEventListener( Event.CHANGE, setTimeRate );
     }
 
     public function setTimeRate( evt: SliderEvent ): void {
         //trace("time slider: "+evt.target.value);
-        this.myModel.setTimeRate( evt.target.value );
+        myModel.setTimeRate( evt.target.value );
     }
 
     public function createBallColors(): void {
-        this.ballColor_arr[0] = 0xff0000;
-        this.ballColor_arr[1] = 0x009900;
-        this.ballColor_arr[2] = 0x0000ff;
-        this.ballColor_arr[3] = 0xff00ff;
-        this.ballColor_arr[4] = 0xffff00;
+        ballColor_arr[0] = 0xff0000;
+        ballColor_arr[1] = 0x009900;
+        ballColor_arr[2] = 0x0000ff;
+        ballColor_arr[3] = 0xff00ff;
+        ballColor_arr[4] = 0xffff00;
 
     }
 
     //called once, at startup
     public function createBallImages(): void {
-        this.ballImage_arr = new Array( CLConstants.MAX_BALLS );
+        ballImage_arr = new Array( CLConstants.MAX_BALLS );
         for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
-            var ballImage: BallImage = new BallImage( this.myModel, i, this );
-            this.ballImage_arr[i] = ballImage;
-            ballImage.x = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getX();
-            ballImage.y = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getY();
-            if ( i >= this.myModel.nbrBalls ) {
+            var ballImage: BallImage = new BallImage( myModel, i, this );
+            ballImage_arr[i] = ballImage;
+            ballImage.x = CLConstants.PIXELS_PER_METER * myModel.ball_arr[i].position.getX();
+            ballImage.y = CLConstants.PIXELS_PER_METER * myModel.ball_arr[i].position.getY();
+            if ( i >= myModel.nbrBalls ) {
                 ballImage_arr[i].visible = false;
             }
         }//end for
-        //this.update(); //to make extra balls invisible
+        //update(); //to make extra balls invisible
     }//end of createBallImages()
 
     //show velocity arrows on ball images
     public function showArrowsOnBallImages( tOrF: Boolean ): void {
         for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
-                this.ballImage_arr[i].showArrow( true );
+                ballImage_arr[i].showArrow( true );
             }
             else {
-                this.ballImage_arr[i].showArrow( false );
+                ballImage_arr[i].showArrow( false );
             }
         }
     }//end showArrowsOnBallImages()
@@ -316,52 +316,52 @@ public class TableView extends Sprite {
     public function showPArrowsOnBallImages( tOrF: Boolean ): void {
         for ( var i: int = 0; i < CLConstants.MAX_BALLS; i++ ) {
             if ( tOrF ) {
-                this.ballImage_arr[i].showPArrow( true );
+                ballImage_arr[i].showPArrow( true );
             }
             else {
-                this.ballImage_arr[i].showPArrow( false );
+                ballImage_arr[i].showPArrow( false );
             }
         }
     }//end showPArrowsOnBallImages()
 
 
     public function update(): void {
-        if ( this.myModel.nbrBallsChanged ) {
+        if ( myModel.nbrBallsChanged ) {
             for ( var i: int = 0; i < myModel.nbrBalls; i++ ) {
-                this.ballImage_arr[i].visible = true;
+                ballImage_arr[i].visible = true;
             }
             for ( i = myModel.nbrBalls; i < CLConstants.MAX_BALLS; i++ ) {
-                this.ballImage_arr[i].visible = false;
+                ballImage_arr[i].visible = false;
             }
-            this.myTrajectories.updateNbrPaths();
-            this.myTrajectories.erasePaths();
+            myTrajectories.updateNbrPaths();
+            myTrajectories.erasePaths();
         }
 
         for( i = 0; i < myModel.nbrBalls; i++ ) {
             ballImage_arr[i].setVisibilityOfArrowHeadIndicator();
         }
 
-        var yMax: Number = this.myModel.borderHeight / 2;  //recall origin is set at y = borderHeight/2
+        var yMax: Number = myModel.borderHeight / 2;  //recall origin is set at y = borderHeight/2
         for ( i = 0; i < myModel.nbrBalls; i++ ) {
-            ballImage_arr[i].x = CLConstants.PIXELS_PER_METER * this.myModel.ball_arr[i].position.getX();
-            ballImage_arr[i].y = CLConstants.PIXELS_PER_METER * (yMax - this.myModel.ball_arr[i].position.getY());
+            ballImage_arr[i].x = CLConstants.PIXELS_PER_METER * myModel.ball_arr[i].position.getX();
+            ballImage_arr[i].y = CLConstants.PIXELS_PER_METER * (yMax - myModel.ball_arr[i].position.getY());
             ballImage_arr[i].updateVelocityArrow();
         }
 
-        if ( this.showingPaths ) {
-            this.myTrajectories.drawStep();
+        if ( showingPaths ) {
+            myTrajectories.drawStep();
         }
 
-        if ( this.myModel.atInitialConfig || this.myModel.resetting ) {
-            this.myTrajectories.erasePaths();
-            //this.myModel.atInitialConfig = false;
+        if ( myModel.atInitialConfig || myModel.resetting ) {
+            myTrajectories.erasePaths();
+            //myModel.atInitialConfig = false;
         }
 
-        this.timeText.text = getTimeText( this.myModel.time.toFixed( 2 ) );
-        this.totKEText.text = getKEText( this.myModel.getTotalKE().toFixed( 2 ) );
+        timeText.text = getTimeText( myModel.time.toFixed( 2 ) );
+        totKEText.text = getKEText( myModel.getTotalKE().toFixed( 2 ) );
 
-        this.CM.x = CLConstants.PIXELS_PER_METER * this.myModel.CM.x;
-        this.CM.y = CLConstants.PIXELS_PER_METER * (yMax - this.myModel.CM.y);
+        CM.x = CLConstants.PIXELS_PER_METER * myModel.CM.x;
+        CM.y = CLConstants.PIXELS_PER_METER * (yMax - myModel.CM.y);
     }
 
     function getKEText( keValue: String ): String {
