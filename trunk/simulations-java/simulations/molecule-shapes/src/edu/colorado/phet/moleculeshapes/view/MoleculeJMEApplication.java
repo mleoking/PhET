@@ -22,7 +22,6 @@ import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
 
 /**
@@ -41,6 +40,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private static final Random random = new Random( System.currentTimeMillis() );
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
+    private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private boolean dragging = false;
 
@@ -103,19 +103,36 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         // update the UI when the molecule changes electron pairs
         molecule.addListener( new Adapter() {
             @Override public void onPairAdded( ElectronPair pair ) {
-                AtomNode atomNode = new AtomNode( pair.position, pair.isLonePair ? MoleculeShapesConstants.COLOR_LONE_PAIR : MoleculeShapesConstants.COLOR_ATOM, assetManager );
-                atomNodes.add( atomNode );
-                moleculeNode.attachChild( atomNode );
-                rebuildBonds();
+                if ( pair.isLonePair ) {
+                    LonePairNode lonePairNode = new LonePairNode( pair.position, assetManager );
+                    lonePairNodes.add( lonePairNode );
+                    moleculeNode.attachChild( lonePairNode );
+                }
+                else {
+                    AtomNode atomNode = new AtomNode( pair.position, pair.isLonePair ? MoleculeShapesConstants.COLOR_LONE_PAIR : MoleculeShapesConstants.COLOR_ATOM, assetManager );
+                    atomNodes.add( atomNode );
+                    moleculeNode.attachChild( atomNode );
+                    rebuildBonds();
+                }
             }
 
             @Override public void onPairRemoved( ElectronPair pair ) {
-                for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-
-                    // TODO: associate these more closely! (comparing positions for equality is bad)
-                    if ( atomNode.position == pair.position ) {
-                        atomNodes.remove( atomNode );
-                        moleculeNode.detachChild( atomNode );
+                if ( pair.isLonePair ) {
+                    for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
+                        // TODO: associate these more closely! (comparing positions for equality is bad)
+                        if ( lonePairNode.position == pair.position ) {
+                            lonePairNodes.remove( lonePairNode );
+                            moleculeNode.detachChild( lonePairNode );
+                        }
+                    }
+                }
+                else {
+                    for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+                        // TODO: associate these more closely! (comparing positions for equality is bad)
+                        if ( atomNode.position == pair.position ) {
+                            atomNodes.remove( atomNode );
+                            moleculeNode.detachChild( atomNode );
+                        }
                     }
                 }
             }
@@ -138,8 +155,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
 
         rebuildBonds();
-
-        rootNode.attachChild( new LonePairNode( new Property<ImmutableVector3D>( new ImmutableVector3D(  ) ), assetManager ) );
 
         /*---------------------------------------------------------------------------*
         * lights
@@ -189,9 +204,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
         bondNodes.clear();
         for ( ElectronPair pair : molecule.getPairs() ) {
-            BondNode bondNode = new BondNode( new ImmutableVector3D(), pair.position.get(), assetManager );
-            moleculeNode.attachChild( bondNode );
-            bondNodes.add( bondNode );
+            if ( !pair.isLonePair ) {
+                BondNode bondNode = new BondNode( new ImmutableVector3D(), pair.position.get(), assetManager );
+                moleculeNode.attachChild( bondNode );
+                bondNodes.add( bondNode );
+            }
         }
     }
 
