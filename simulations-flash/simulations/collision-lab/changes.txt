@@ -1,3 +1,4 @@
+# 1.00.10 (54934) Aug 7, 2011
 > Center of mass is always in front of balls and arrows
 # 1.00.09 (54928) Aug 7, 2011
 Moved advanced tab data table buttons to the left
