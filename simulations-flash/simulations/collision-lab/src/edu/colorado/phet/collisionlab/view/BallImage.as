@@ -33,30 +33,30 @@ public class BallImage extends Sprite {
             0, 0, 0, 0, 0 // others that were already specified. shortening might break this?
             );			//array of uint for colors of balls
 
-    public var myModel:Model;
-    public var myTableView:TableView;
-    public var myBall:Ball;
-    public var ballIndex:int;			//index labels ball 1, 2, 3,
-    public var ballBody:Sprite;
-    public var pArrowImage:Arrow;				//momentum arrow, not grabbable
-    public var vArrowImage:Arrow;				//velocity arrow, not grabbable
-    public var ballHandle:Sprite; // this is the "draggable" target for the ball
-    private var velocityReadoutText:TextField;
-    private var momentumReadoutText:TextField;
-    public var arrowHeadIndicator:Sprite; 		//shows user where tip of arrow head is
-    public var arrowHeadHandle:Sprite;			//user grabs this handle to set velocity with mouse
-    public var arrowShown:Boolean;				//true if velocity arrow visible
-    public var tFieldBallNbr:TextField;		//label = ball number
-    public var xEqString:String;				//"x = "  All text must be programmatically set for internationalization
-    public var yEqString:String;				//"y = "
-    public var showValues:Boolean = false;
+    public var myModel: Model;
+    public var myTableView: TableView;
+    public var myBall: Ball;
+    public var ballIndex: int;			//index labels ball 1, 2, 3,
+    public var ballBody: Sprite;
+    public var pArrowImage: Arrow;				//momentum arrow, not grabbable
+    public var vArrowImage: Arrow;				//velocity arrow, not grabbable
+    public var ballHandle: Sprite; // this is the "draggable" target for the ball
+    private var velocityReadoutText: TextField;
+    private var momentumReadoutText: TextField;
+    public var arrowHeadIndicator: Sprite; 		//shows user where tip of arrow head is
+    public var arrowHeadHandle: Sprite;			//user grabs this handle to set velocity with mouse
+    public var arrowShown: Boolean;				//true if velocity arrow visible
+    public var tFieldBallNbr: TextField;		//label = ball number
+    public var xEqString: String;				//"x = "  All text must be programmatically set for internationalization
+    public var yEqString: String;				//"y = "
+    public var showValues: Boolean = false;
 
-    private var mouseOverBallHandle:Boolean = false;
-    private var mouseDownOnArrow:Boolean = false;
+    private var mouseOverBallHandle: Boolean = false;
+    private var mouseDownOnArrow: Boolean = false;
 
-    private static const arrowDragRadius:Number = 15; // radius of the arrow "handle" and visible marker is
+    private static const arrowDragRadius: Number = 15; // radius of the arrow "handle" and visible marker is
 
-    public function BallImage( myModel:Model, indx:int, myTableView:TableView ) {
+    public function BallImage( myModel: Model, indx: int, myTableView: TableView ) {
         this.myModel = myModel;
         this.myTableView = myTableView;
         this.ballIndex = indx;
@@ -75,21 +75,21 @@ public class BallImage extends Sprite {
         this.arrowHeadIndicator = new Sprite();
         this.arrowHeadHandle = new Sprite();
         this.tFieldBallNbr = new TextField();
-        var outline:GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 ); //outline for ball number text for better visibility
+        var outline: GlowFilter = new GlowFilter( 0x000000, 1.0, 2.0, 2.0, 10 ); //outline for ball number text for better visibility
         outline.quality = BitmapFilterQuality.MEDIUM;
-        var ballNbr:String = String( 1 + this.ballIndex );
+        var ballNbr: String = String( 1 + this.ballIndex );
         this.tFieldBallNbr.text = ballNbr;
         this.tFieldBallNbr.filters = [outline];
         this.xEqString = "x = ";
         this.yEqString = "y = ";
 
-        var ballLabelTextFormat:TextFormat = new TextFormat();
+        var ballLabelTextFormat: TextFormat = new TextFormat();
         ballLabelTextFormat.font = "Arial";
         ballLabelTextFormat.bold = true;
         ballLabelTextFormat.color = 0xffffff;
         ballLabelTextFormat.size = 20;
 
-        var ballReadoutTextFormat:TextFormat = new TextFormat();
+        var ballReadoutTextFormat: TextFormat = new TextFormat();
         ballReadoutTextFormat.bold = true;
         ballReadoutTextFormat.font = "Arial";
         ballReadoutTextFormat.color = 0x000000;
@@ -120,12 +120,12 @@ public class BallImage extends Sprite {
 
         setReadoutsVisible( false ); // don't show them initially
 
-        ballHandle.addEventListener( MouseEvent.MOUSE_OVER, function( evt:MouseEvent ):void {
+        ballHandle.addEventListener( MouseEvent.MOUSE_OVER, function( evt: MouseEvent ): void {
             mouseOverBallHandle = true;
             updateShowValuesVisibility();
         } );
 
-        ballHandle.addEventListener( MouseEvent.MOUSE_OUT, function( evt:MouseEvent ):void {
+        ballHandle.addEventListener( MouseEvent.MOUSE_OUT, function( evt: MouseEvent ): void {
             mouseOverBallHandle = false;
             updateShowValuesVisibility();
         } );
@@ -144,7 +144,7 @@ public class BallImage extends Sprite {
         this.arrowShown = true;
     }
 
-    private function updateShowValuesVisibility():void {
+    private function updateShowValuesVisibility(): void {
         // if showValues == true, it is already visible. don't toggle
         if ( !showValues ) {
             // NOTE: never show readouts unless "Show Values" is on
@@ -152,7 +152,7 @@ public class BallImage extends Sprite {
         }
     }
 
-    private function setLayerDepths():void {
+    private function setLayerDepths(): void {
         this.myTableView.addBallChild( this );
         this.addChild( this.ballBody );
         this.addChild( this.arrowHeadIndicator );
@@ -165,18 +165,18 @@ public class BallImage extends Sprite {
         addChild( momentumReadoutText );
     }
 
-    public function drawLayer1():void {
-        var g:Graphics = this.ballBody.graphics;
-        var currentColor:uint = BallImage.ballColor_arr[this.ballIndex];
-        var radius:Number = this.myBall.getRadius();
+    public function drawLayer1(): void {
+        var g: Graphics = this.ballBody.graphics;
+        var currentColor: uint = BallImage.ballColor_arr[this.ballIndex];
+        var radius: Number = this.myBall.getRadius();
         g.clear();
         g.lineStyle( 1, 0x000000, 1, false );
         g.beginFill( currentColor );
-        var viewRadius:Number = radius * CLConstants.PIXELS_PER_METER;
+        var viewRadius: Number = radius * CLConstants.PIXELS_PER_METER;
         g.drawCircle( 0, 0, viewRadius );
         g.endFill();
 
-        var readoutPaddingFromBall:Number = 5;
+        var readoutPaddingFromBall: Number = 5;
 
         // TODO: reposition readouts from here
         velocityReadoutText.x = -velocityReadoutText.width / 2;
@@ -186,7 +186,7 @@ public class BallImage extends Sprite {
         momentumReadoutText.y = viewRadius + readoutPaddingFromBall;
     }
 
-    public function updateReadouts():void {
+    public function updateReadouts(): void {
         var vCaption: String;
         var vReadout: String;
         var pCaption: String;
@@ -207,17 +207,17 @@ public class BallImage extends Sprite {
         momentumReadoutText.text = pCaption + "\n" + pReadout;
     }
 
-    public function setReadoutsVisible( visible:Boolean ):void {
+    public function setReadoutsVisible( visible: Boolean ): void {
         velocityReadoutText.visible = visible;
         momentumReadoutText.visible = visible;
     }
 
-    public function setShowValues( showValues:Boolean ):void {
+    public function setShowValues( showValues: Boolean ): void {
         this.showValues = showValues;
         setReadoutsVisible( showValues );
     }
 
-    public function drawLayer1a():void {
+    public function drawLayer1a(): void {
         this.pArrowImage.setArrow( this.myModel.ball_arr[this.ballIndex].momentum );
         //trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
         this.pArrowImage.setText( "" );
@@ -225,7 +225,7 @@ public class BallImage extends Sprite {
         updateReadouts();
     }
 
-    public function drawLayer2():void {
+    public function drawLayer2(): void {
         this.vArrowImage.setArrow( this.myModel.ball_arr[this.ballIndex].velocity );
         //trace("velocityY: "+this.myModel.ball_arr[this.ballIndex].velocity.getY());
         this.vArrowImage.setText( "" );
@@ -233,9 +233,9 @@ public class BallImage extends Sprite {
         updateReadouts();
     }
 
-    public function drawLayer2a():void {
-        var ballNbr:int = this.ballIndex + 1;
-        var ballNbr_str:String = String( ballNbr );
+    public function drawLayer2a(): void {
+        var ballNbr: int = this.ballIndex + 1;
+        var ballNbr_str: String = String( ballNbr );
         this.tFieldBallNbr.text = ballNbr_str;
         this.tFieldBallNbr.autoSize = TextFieldAutoSize.LEFT;
         this.tFieldBallNbr.height = 15;
@@ -243,18 +243,18 @@ public class BallImage extends Sprite {
         this.tFieldBallNbr.y = -this.tFieldBallNbr.height / 2;
     }
 
-    public function drawLayer3():void {
-        var g:Graphics = this.arrowHeadIndicator.graphics;
+    public function drawLayer3(): void {
+        var g: Graphics = this.arrowHeadIndicator.graphics;
 
         // draw the "Velocity" arrow head label
         g.clear();
         g.lineStyle( 2, 0x666666 );
         g.drawCircle( 0, 0, arrowDragRadius );
-        var arrowHeadLabel:TextField = new TextField();
+        var arrowHeadLabel: TextField = new TextField();
         arrowHeadLabel.autoSize = "left";
         arrowHeadLabel.text = "V";
         arrowHeadLabel.textColor = 0x666666;
-        var fmt:TextFormat = new TextFormat();
+        var fmt: TextFormat = new TextFormat();
         fmt.font = "Arial";
         fmt.size = 20;
         arrowHeadLabel.setTextFormat( fmt );
@@ -266,21 +266,21 @@ public class BallImage extends Sprite {
         this.arrowHeadIndicator.visible = false;
     }
 
-    public function drawLayer4():void {    //ballHandle
-        var g:Graphics = this.ballHandle.graphics;
-        var currentColor:uint = 0xffff00;
-        var alpha1:Number = 0;
-        var r:Number = this.myBall.getRadius();
+    public function drawLayer4(): void {    //ballHandle
+        var g: Graphics = this.ballHandle.graphics;
+        var currentColor: uint = 0xffff00;
+        var alpha1: Number = 0;
+        var r: Number = this.myBall.getRadius();
         g.clear();
         g.beginFill( currentColor, alpha1 );
         g.drawCircle( 0, 0, r * CLConstants.PIXELS_PER_METER );
         g.endFill();
     }
 
-    public function drawLayer5():void {  //arrowHeadHandle
-        var g:Graphics = this.arrowHeadHandle.graphics;
-        var currentColor:uint = 0xffffff;
-        var alpha1:Number = 0;
+    public function drawLayer5(): void {  //arrowHeadHandle
+        var g: Graphics = this.arrowHeadHandle.graphics;
+        var currentColor: uint = 0xffffff;
+        var alpha1: Number = 0;
         g.clear();
         g.beginFill( currentColor, alpha1 );
         g.drawCircle( 1, 0, arrowDragRadius );
@@ -290,52 +290,74 @@ public class BallImage extends Sprite {
     }
 
 
-    public function makeBallDraggable():void {
-        var target:Sprite = this.ballHandle;
-        var thisBallImage:BallImage = this;
+    public function makeBallDraggable(): void {
+        var target: Sprite = this.ballHandle;
+        var thisBallImage: BallImage = this;
         target.buttonMode = true;
-        var indx:int = ballIndex;
-        var modelRef:Model = this.myModel;
-        var H:Number = modelRef.borderHeight;
-        var W:Number = modelRef.borderWidth;
-        var ballX:Number;	//current ball coordinates in meters
-        var ballY:Number;
+        var indx: int = ballIndex;
+        var modelRef: Model = this.myModel;
+        var H: Number = modelRef.borderHeight;
+        var W: Number = modelRef.borderWidth;
+        var ballX: Number;	//current ball coordinates in meters
+        var ballY: Number;
+
+        var overBall: Boolean = false;
+        var dragging: Boolean = false;
 
         //target.addEventListener(MouseEvent.MOUSE_OVER, bringToTop);
         target.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         target.stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
         target.stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-        target.addEventListener( MouseEvent.MOUSE_OVER, highlightPositionTextFields );
-        target.addEventListener( MouseEvent.MOUSE_OUT, unHighlightPositionTextFields );
-        var theStage:Object = thisBallImage.myTableView.canvas;//target.parent;
-        var clickOffset:Point;
+        target.addEventListener( MouseEvent.MOUSE_OVER, function( e: MouseEvent ): void {
+            overBall = true
+            checkHighlight();
+        } );
+        target.addEventListener( MouseEvent.MOUSE_OUT, function( e: MouseEvent ): void {
+            overBall = false
+            checkHighlight();
+        } );
+        var theStage: Object = thisBallImage.myTableView.canvas;//target.parent;
+        var clickOffset: Point;
 
-        function startTargetDrag( evt:MouseEvent ):void {
+        function checkHighlight(): void {
+            if ( overBall || dragging ) {
+                thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight( thisBallImage.ballIndex, true );
+            }
+            else {
+                thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight( thisBallImage.ballIndex, false );
+            }
+        }
+
+        function startTargetDrag( evt: MouseEvent ): void {
             //next two lines bring selected ball to top, so velocity arrow visible
             //and bring C.M. icon to top, so not hidden behind any ball
             // TODO: this seems to be messing up everything. why do we have a ball layer in TableView?
             thisBallImage.myTableView.addBallChild( thisBallImage );
             //problem with localX, localY if sprite is rotated.
             clickOffset = new Point( evt.localX, evt.localY );
+            dragging = true;
+            checkHighlight();
         }
 
-        function stopTargetDrag( evt:MouseEvent ):void {
+        function stopTargetDrag( evt: MouseEvent ): void {
             if ( clickOffset != null ) {
                 clickOffset = null;
                 thisBallImage.myModel.separateAllBalls();
             }
+            dragging = false;
+            checkHighlight();
         }
 
-        function dragTarget( evt:MouseEvent ):void {
+        function dragTarget( evt: MouseEvent ): void {
             if ( clickOffset != null ) {  //if dragging
                 //adjust x position
                 thisBallImage.x = theStage.mouseX - clickOffset.x;
                 ballX = thisBallImage.x / CLConstants.PIXELS_PER_METER;
                 //edges of border, beyond which center of ball may not go
-                var leftEdge:Number = thisBallImage.myBall.getRadius();
-                var rightEdge:Number = W - thisBallImage.myBall.getRadius();
-                var topEdge:Number = H / 2 - thisBallImage.myBall.getRadius();
-                var bottomEdge:Number = -H / 2 + thisBallImage.myBall.getRadius();
+                var leftEdge: Number = thisBallImage.myBall.getRadius();
+                var rightEdge: Number = W - thisBallImage.myBall.getRadius();
+                var topEdge: Number = H / 2 - thisBallImage.myBall.getRadius();
+                var bottomEdge: Number = -H / 2 + thisBallImage.myBall.getRadius();
                 if ( modelRef.borderOn ) {
                     if ( ballX < leftEdge ) {
                         ballX = leftEdge;
@@ -370,37 +392,29 @@ public class BallImage extends Sprite {
                 evt.updateAfterEvent();
             }
         }
-
-        function highlightPositionTextFields():void {
-            thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight(thisBallImage.ballIndex, true);
-        }
-
-        function unHighlightPositionTextFields():void {
-            thisBallImage.myTableView.myMainView.myDataTable.setPositionHighlight(thisBallImage.ballIndex, false);
-        }
     }
 
 
-    public function makeArrowDraggable():void {
-        var target:Sprite = this.arrowHeadHandle;
-        var thisBallImage:BallImage = this;
-        var thisArrowImage:Arrow = this.vArrowImage;
+    public function makeArrowDraggable(): void {
+        var target: Sprite = this.arrowHeadHandle;
+        var thisBallImage: BallImage = this;
+        var thisArrowImage: Arrow = this.vArrowImage;
 
         target.buttonMode = true;
-        var indx:int = ballIndex;
-        var modelRef:Model = this.myModel;
-        var H:Number = modelRef.borderHeight;
+        var indx: int = ballIndex;
+        var modelRef: Model = this.myModel;
+        var H: Number = modelRef.borderHeight;
 
         target.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         target.stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
         target.stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         target.addEventListener( MouseEvent.MOUSE_OVER, showVelocity );
         target.addEventListener( MouseEvent.MOUSE_OUT, unshowVelocity );
-        var theStage:Object = thisBallImage;//target.parent;
-        var clickOffset:Point;
+        var theStage: Object = thisBallImage;//target.parent;
+        var clickOffset: Point;
 
 
-        function startTargetDrag( evt:MouseEvent ):void {
+        function startTargetDrag( evt: MouseEvent ): void {
             //problem with localX, localY if sprite is rotated.
             thisBallImage.myTableView.addBallChild( thisBallImage );
             clickOffset = new Point( evt.localX, evt.localY );
@@ -409,7 +423,7 @@ public class BallImage extends Sprite {
             updateShowValuesVisibility();
         }
 
-        function stopTargetDrag( evt:MouseEvent ):void {
+        function stopTargetDrag( evt: MouseEvent ): void {
             //trace("stop dragging");
             clickOffset = null;
 
@@ -417,12 +431,12 @@ public class BallImage extends Sprite {
             updateShowValuesVisibility();
         }
 
-        function dragTarget( evt:MouseEvent ):void {
+        function dragTarget( evt: MouseEvent ): void {
             if ( clickOffset != null ) {  //if dragging
                 //adjust x-component of velocity
                 //following line is ratio of arrowHeadIndicator position to tip-of-arrow position, measured from origin at tail of arrow.
                 //keeps the handle on the center of the arrow head rather than on the tip of the arrow head
-                var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL) / (thisArrowImage.lengthInPix + 0.2 * thisArrowImage.headL);
+                var ratio: Number = (thisArrowImage.lengthInPix + thisArrowImage.headL) / (thisArrowImage.lengthInPix + 0.2 * thisArrowImage.headL);
                 //trace("ratio before trap: "+ratio);
                 if ( isNaN( ratio ) ) {
                     ratio = 1;
@@ -432,7 +446,7 @@ public class BallImage extends Sprite {
                 target.x = theStage.mouseX;// - clickOffset.x;
                 //thisBallImage.arrowHeadHandle.x = target.x;
                 thisBallImage.arrowHeadIndicator.x = target.x;
-                var velocityX:Number = (target.x * ratio) / thisBallImage.vArrowImage.scale;
+                var velocityX: Number = (target.x * ratio) / thisBallImage.vArrowImage.scale;
                 //trace("velocityX: "+velocityX);
 
                 modelRef.setVX( indx, velocityX );
@@ -441,7 +455,7 @@ public class BallImage extends Sprite {
                     target.y = theStage.mouseY;// - clickOffset.y;
                     //thisBallImage.arrowHeadHandle.y = target.y;
                     thisBallImage.arrowHeadIndicator.y = target.y;
-                    var velocityY:Number = -(target.y * ratio) / thisBallImage.vArrowImage.scale;
+                    var velocityY: Number = -(target.y * ratio) / thisBallImage.vArrowImage.scale;
                     modelRef.setVY( indx, velocityY );
                 }
                 else {
@@ -462,26 +476,26 @@ public class BallImage extends Sprite {
         }
 
 
-        function showVelocity( evt:MouseEvent ):void {
-            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight(thisBallImage.ballIndex, true);
+        function showVelocity( evt: MouseEvent ): void {
+            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight( thisBallImage.ballIndex, true );
         }
 
-        function unshowVelocity( evt:MouseEvent ):void {
-            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight(thisBallImage.ballIndex, false);
+        function unshowVelocity( evt: MouseEvent ): void {
+            thisBallImage.myTableView.myMainView.myDataTable.setVelocityHighlight( thisBallImage.ballIndex, false );
         }
     }
 
 
-    public function setVisibilityOfArrowHeadIndicator():void {
-        var ballRadiusInPix:Number = CLConstants.PIXELS_PER_METER * this.myBall.getRadius();
-        var velInPix:Number = this.vArrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y);
+    public function setVisibilityOfArrowHeadIndicator(): void {
+        var ballRadiusInPix: Number = CLConstants.PIXELS_PER_METER * this.myBall.getRadius();
+        var velInPix: Number = this.vArrowImage.lengthInPix//Math.sqrt(target.x*target.x + target.y*target.y);
         //var rInPix:Number = thisBallImage.pixelsPerMeter*thisBallImage.myBall.getRadius();
         //trace("distInPix: "+distInPix+"   r:"+rInPix);
         //this.arrowHeadIndicator.visible = velInPix < ballRadiusInPix && this.arrowShown;
         arrowHeadIndicator.visible = this.arrowShown && !myModel.playing;
     }
 
-    public function showArrow( tOrF:Boolean ):void {
+    public function showArrow( tOrF: Boolean ): void {
         if ( tOrF ) {  //if arrows shown
             this.arrowShown = true;
             this.vArrowImage.visible = true;
@@ -496,7 +510,7 @@ public class BallImage extends Sprite {
         }
     }
 
-    public function showPArrow( tOrF:Boolean ):void {
+    public function showPArrow( tOrF: Boolean ): void {
         if ( tOrF ) {  //if arrows shown
             //this.pArrowShown = true;
             this.pArrowImage.visible = true;
@@ -508,19 +522,19 @@ public class BallImage extends Sprite {
     }
 
     //update both velocity and momentum arrows on ball images
-    public function updateVelocityArrow():void {
-        var vel:TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
-        var mom:TwoVector = this.myModel.ball_arr[this.ballIndex].getMomentum(); //momentum;
+    public function updateVelocityArrow(): void {
+        var vel: TwoVector = this.myModel.ball_arr[this.ballIndex].velocity;
+        var mom: TwoVector = this.myModel.ball_arr[this.ballIndex].getMomentum(); //momentum;
         //if(this.ballIndex == 0){
         //trace("ballImage.myModel.ball_arr[0].velocity.y = "+this.myModel.ball_arr[0].velocity.getY());
         //}
         //this.myModel.updateViews();
         this.vArrowImage.setArrow( vel );
         this.pArrowImage.setArrow( mom );
-        var scaleFactor:Number = this.vArrowImage.scale;
+        var scaleFactor: Number = this.vArrowImage.scale;
         //following line is ratio of arrowHeadIndicator position to tip-of-arrow position, measured from origin at tail of arrow.
-        var thisArrowImage:Arrow = this.vArrowImage;
-        var ratio:Number = (thisArrowImage.lengthInPix + thisArrowImage.headL) / (thisArrowImage.lengthInPix + 0.2 * thisArrowImage.headL);
+        var thisArrowImage: Arrow = this.vArrowImage;
+        var ratio: Number = (thisArrowImage.lengthInPix + thisArrowImage.headL) / (thisArrowImage.lengthInPix + 0.2 * thisArrowImage.headL);
         if ( isNaN( ratio ) ) {ratio = 1;}
         ratio = 1;
         //trace("on updateVelocityArrow(), ratio is "+ratio);
