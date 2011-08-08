@@ -49,7 +49,7 @@ public class PlayPauseButtons extends Sprite {
 
     //must be altered when internationalizing
     public function initializeLabels(): void {
-        this.rewindText = SimStrings.get( "PlayPauseButtons.rewind", "Rewind" );
+        this.rewindText = SimStrings.get( "PlayPauseButtons.rewind", "Restart" );
         this.backText = SimStrings.get( "PlayPauseButtons.back", "Back" );
         this.playText = SimStrings.get( "PlayPauseButtons.play", "Play" );
         this.pauseText = SimStrings.get( "PlayPauseButtons.pause", "Pause" );
