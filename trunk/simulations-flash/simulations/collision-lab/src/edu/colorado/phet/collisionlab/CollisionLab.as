@@ -85,14 +85,15 @@ public class CollisionLab extends Sprite {  //should the main class extend Movie
     }
 
     protected function positionButtons(): void {
+        var dimensions:Rectangle = stageDimensions( this );
         if ( common.commonButtons != null ) {
             var height:int = common.commonButtons.getPreferredHeight();
             const x:Number = phetIcon.x - common.commonButtons.width - 20;
-            const y:Number = 1;
+            const y:Number = 1 + dimensions.top;
             common.commonButtons.setLocationXY( x, y );
         }
+        phetIcon.y = dimensions.top;
         if( tabBar != null && stage != null ) {
-            var dimensions:Rectangle = stageDimensions( this );
             tabBar.y = dimensions.top;
         }
     }
