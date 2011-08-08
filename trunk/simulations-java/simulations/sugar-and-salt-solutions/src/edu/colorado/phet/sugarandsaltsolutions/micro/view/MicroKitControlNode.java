@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ArrowButton;
+import edu.colorado.phet.common.piccolophet.nodes.kit.KitSelectionNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.WhiteControlPanelNode;

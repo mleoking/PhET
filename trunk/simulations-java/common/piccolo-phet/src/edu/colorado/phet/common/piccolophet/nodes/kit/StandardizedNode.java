@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.view;
+package edu.colorado.phet.common.piccolophet.nodes.kit;
 
 import edu.umd.cs.piccolo.PNode;
 

@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.view;
+package edu.colorado.phet.common.piccolophet.nodes.kit;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -21,7 +21,7 @@ import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.t
  */
 public class ArrowButton extends ImageButtonNode {
     public static final int inset = 5;
-    protected static final double ARROW_HEIGHT = 24;
+    public static final double ARROW_HEIGHT = 24;
 
     //Create a yellow triangle like the one used in Build a Molecule for switching between kits
     //An image instead of PNode is used since that makes it easy to flip horizontally, pad inset and translate
