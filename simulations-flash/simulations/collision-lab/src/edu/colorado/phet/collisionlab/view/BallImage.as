@@ -24,6 +24,15 @@ import flash.geom.Point;
 import flash.text.*;
 
 public class BallImage extends Sprite {
+    public static const ballColor_arr: Array = new Array(
+            0xff0000, // red
+            0x009900, // green
+            0x0000ff, // blue
+            0xff00ff, // magenta
+            0xffff00, // yellow
+            0, 0, 0, 0, 0 // others that were already specified. shortening might break this?
+            );			//array of uint for colors of balls
+
     public var myModel:Model;
     public var myTableView:TableView;
     public var myBall:Ball;
@@ -158,7 +167,7 @@ public class BallImage extends Sprite {
 
     public function drawLayer1():void {
         var g:Graphics = this.ballBody.graphics;
-        var currentColor:uint = this.myTableView.ballColor_arr[this.ballIndex];
+        var currentColor:uint = BallImage.ballColor_arr[this.ballIndex];
         var radius:Number = this.myBall.getRadius();
         g.clear();
         g.lineStyle( 1, 0x000000, 1, false );
