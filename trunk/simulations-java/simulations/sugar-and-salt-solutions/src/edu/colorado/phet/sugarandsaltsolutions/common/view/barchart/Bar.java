@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.common.piccolophet.nodes.kit.StandardizedNode;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -70,7 +70,7 @@ public class Bar extends PNode {
 
         //If specified, show an icon below the caption (to save horizontal space)
         for ( PNode element : icon ) {
-            addChild( new StandardizedNode( element ) {{
+            addChild( new ZeroOffsetNode( element ) {{
                 setOffset( captionNode.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, captionNode.getFullBounds().getMaxY() + 2 );
             }} );
         }
