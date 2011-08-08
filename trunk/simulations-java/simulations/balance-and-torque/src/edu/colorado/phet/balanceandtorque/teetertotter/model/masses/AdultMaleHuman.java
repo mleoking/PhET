@@ -15,8 +15,8 @@ import edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils;
 public class AdultMaleHuman extends ImageMass {
 
     private static final double MASS = 60; // in kg
-    private static final double STANDING_HEIGHT = 1.8; // In meters.
-    private static final double SITTING_HEIGHT = 1.0; // In meters.
+    private static final double STANDING_HEIGHT = 1.7; // In meters.
+    private static final double SITTING_HEIGHT = 0.9; // In meters.
 
     public AdultMaleHuman() {
         super( MASS, Images.ADULT_MAN_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
