@@ -12,6 +12,11 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * This class defines a mass in the model that carries with it an associated
  * image that should be presented in the view.  The image can change at times,
  * such as when it is dropped on the balance.
+ * <p/>
+ * IMPORTANT: All images used by this class are assumed to have their center
+ * of mass in the horizontal direction in the center of the image.  In order
+ * to make this work for all images, it may be necessary to have some blank
+ * transparent space on one side of the image.
  *
  * @author John Blanco
  */
