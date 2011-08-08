@@ -40,8 +40,8 @@ public class Plank extends ShapeModelElement {
 
     // The number of locations where masses may be placed on the plank.  Only
     // the locations defined be this are valid.
-    private static final double INTER_MARKER_DISTANCE = 0.2; // meters
-    public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_MARKER_DISTANCE - 1 );
+    private static final double INTER_SNAP_TO_MARKER_DISTANCE = 0.2; // meters
+    public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_SNAP_TO_MARKER_DISTANCE - 1 );
 
     // Moment of inertia.
     // TODO: I'm not certain that this is the correct formula, should check with Mike Dubson.
@@ -167,33 +167,43 @@ public class Plank extends ShapeModelElement {
     }
 
     /**
-     * Add a mass (e.g. a brick) to the surface of the plank.  This will
-     * set the position and orientation of the mass.  The plank will then
-     * continue to control the position and orientation of the mass until the
-     * mass is removed from the surface of the plank.
+     * Add a mass (e.g. a brick) to the surface of the plank.  If successful,
+     * this will set the position and orientation of the mass.  The plank will
+     * then continue to control the position and orientation of the mass until
+     * the mass is removed from the surface of the plank.
+     * <p/>
+     * If there is no valid location for this mass on the plank, it will not
+     * be added and 'false' will be returned.
      *
      * @param mass
+     * @return true if mass was successfully added, false if not (which
+     *         generally indicates that no open nearby locations were available).
      */
-    public void addMassToSurface( final Mass mass ) {
-        massesOnSurface.add( mass );
-        mass.setOnPlank( true );
-        mass.setPosition( getClosestOpenLocation( mass.getPosition() ) );
-        double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) * ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
-        mapMassToDistFromCenter.put( mass, distanceFromCenter );
-        forceVectorList.add( new MassForceVector( mass ) );
-        leverArmVectorList.add( new LeverArmVector( pivotPoint, mass ) );
-        mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean userControlled ) {
-                if ( userControlled ) {
-                    // The user has picked up this mass, so it is no longer
-                    // on the surface.
-                    removeMassFromSurface( mass );
-                    mass.userControlled.removeObserver( this );
+    public boolean addMassToSurface( final Mass mass ) {
+        Point2D closestOpenLocation = getOpenMassDroppedLocation( mass.getPosition() );
+        if ( closestOpenLocation != null ) {
+            massesOnSurface.add( mass );
+            mass.setOnPlank( true );
+            mass.setPosition( closestOpenLocation );
+            double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) * ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
+            mapMassToDistFromCenter.put( mass, distanceFromCenter );
+            forceVectorList.add( new MassForceVector( mass ) );
+            leverArmVectorList.add( new LeverArmVector( pivotPoint, mass ) );
+            mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean userControlled ) {
+                    if ( userControlled ) {
+                        // The user has picked up this mass, so it is no longer
+                        // on the surface.
+                        removeMassFromSurface( mass );
+                        mass.userControlled.removeObserver( this );
+                    }
                 }
-            }
-        } );
-        updateMassPositions();
-        updateTorque();
+            } );
+            updateMassPositions();
+            updateTorque();
+        }
+
+        return closestOpenLocation != null;
     }
 
     private void removeMassFromSurface( Mass mass ) {
@@ -284,12 +294,19 @@ public class Plank extends ShapeModelElement {
         attachmentPointProperty.set( pivotPointVector.add( attachmentBarVector ).toPoint2D() );
     }
 
-    private Point2D getClosestOpenLocation( Point2D p ) {
-        // TODO: Doesn't actually give open locations yet, just valid snap-to ones.
-        Point2D closestOpenLocation = new Point2D.Double( 0, 0 );
-        for ( Point2D location : getSnapToLocations() ) {
-            if ( location.distance( p ) < closestOpenLocation.distance( p ) ) {
-                closestOpenLocation.setLocation( location );
+    // Find the best open location for a mass that was dropped at the given
+    // point.  Returns null if no nearby open location is available.
+    private Point2D getOpenMassDroppedLocation( Point2D p ) {
+        Point2D closestOpenLocation = null;
+        for ( Point2D candidateOpenLocation : getOpenSnapToLocations() ) {
+            // Must be a reasonable distance away in the horizontal direction
+            // so that objects don't appear to fall sideways.
+            if ( Math.abs( candidateOpenLocation.getX() - p.getX() ) <= INTER_SNAP_TO_MARKER_DISTANCE ) {
+                // This location is a potential candidate.  Is it better than
+                // what was already found?
+                if ( closestOpenLocation == null || candidateOpenLocation.distance( p ) < closestOpenLocation.distance( p ) ) {
+                    closestOpenLocation = candidateOpenLocation;
+                }
             }
         }
         return closestOpenLocation;
@@ -429,7 +446,7 @@ public class Plank extends ShapeModelElement {
 
     /**
      * Get a list of the "snap to" locations on the surface of the plank.
-     * These locations are the only locations where the masses may ba placed,
+     * These locations are the only locations where the masses may be placed,
      * and locations between these points are not considered valid.  This is
      * done to make it easier to balance things.
      *
@@ -441,11 +458,28 @@ public class Plank extends ShapeModelElement {
         double unrotatedY = unrotatedShape.getBounds2D().getMaxY();
         double unrotatedMinX = unrotatedShape.getBounds2D().getMinX();
         for ( int i = 0; i < NUM_SNAP_TO_LOCATIONS; i++ ) {
-            Point2D unrotatedPoint = new Point2D.Double( unrotatedMinX + ( i + 1 ) * INTER_MARKER_DISTANCE, unrotatedY );
+            Point2D unrotatedPoint = new Point2D.Double( unrotatedMinX + ( i + 1 ) * INTER_SNAP_TO_MARKER_DISTANCE, unrotatedY );
             snapToLocations.add( rotationTransform.transform( unrotatedPoint, null ) );
         }
 
         return snapToLocations;
+    }
+
+    /**
+     * Get a list of the "snap to" locations on the surface of the plank that
+     * where there are no masses currently positioned.
+     */
+    private List<Point2D> getOpenSnapToLocations() {
+        List<Point2D> snapToLocations = getSnapToLocations();
+        List<Point2D> openSnapToLocations = new ArrayList<Point2D>( snapToLocations );
+        for ( Point2D snapToLocation : snapToLocations ) {
+            for ( Mass mass : massesOnSurface ) {
+                if ( snapToLocation.distance( mass.getPosition() ) < 0.001 ) {
+                    openSnapToLocations.remove( snapToLocation );
+                }
+            }
+        }
+        return openSnapToLocations;
     }
 
     /**

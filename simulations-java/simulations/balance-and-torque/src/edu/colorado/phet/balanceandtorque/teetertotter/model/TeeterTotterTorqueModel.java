@@ -77,13 +77,10 @@ public class TeeterTotterTorqueModel implements Resettable {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
                     // The user has dropped this mass.
-                    if ( plank.isPointAbovePlank( mass.getMiddlePoint() ) ) {
-                        // The mass was dropped above the plank, move it to a
-                        // valid location on the plank.
-                        plank.addMassToSurface( mass );
-                    }
-                    else {
-                        // Not above the plank, so remove it from the model.
+                    if ( !plank.addMassToSurface( mass ) ) {
+                        // The attempt to add mass to surface of plank failed,
+                        // probably because the area below the mass is full,
+                        // or because the mass wasn't over the plank.
                         removeMass( mass );
                     }
                 }
