@@ -1,3 +1,4 @@
+Micro tab: Use the same scale factor for ParticleCountTable
 Water tab: Wired up checkbox for "show water charges"
 Water tab: Added a checkbox for "show water charges", not wired up yet
 Water tab: Added play/pause buttons
