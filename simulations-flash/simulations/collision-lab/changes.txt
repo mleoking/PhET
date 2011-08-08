@@ -1,3 +1,4 @@
+> Fixed momenta diagram arrows so that zooming will keep the arrows fixed to the grid
 Remove most horizontal gridlines on the 1-D momenta diagram
 Fixed "Reset All" bug with more/less in the data table
 > Renamed "Rewind" button to "Restart"
