@@ -41,6 +41,8 @@ public class MomentumView extends Sprite {
     var tipToTail_str: String;
     var tot_str: String;
 
+    private var zoomScale: Number = 50;
+
     public function MomentumView( myModel: Model, myMainView: MainView ) {
         this.myModel = myModel;
         this.myMainView = myMainView;
@@ -254,12 +256,28 @@ public class MomentumView extends Sprite {
         return 10 + sliderValue * 200;
     }
 
-    private function setScaleOfArrows( scale: Number ): void {
-        var maxN: int = CLConstants.MAX_BALLS;
-        for ( var i: int = 0; i < maxN; i++ ) {
-            this.momentum_arr[i].setScale( scale );
+    private function getArrows():Array {
+        var arrows: Array = new Array();
+        for each ( var arrow: Arrow in momentum_arr ) {
+            arrows.push( arrow );
         }
-        this.totMomentum.setScale( scale );
+        arrows.push( totMomentum );
+        return arrows;
+    }
+
+    private function setScaleOfArrows( scale: Number ): void {
+        var oldScale: Number = zoomScale;
+        zoomScale = scale;
+        var maxN: int = CLConstants.MAX_BALLS;
+        for each ( var arrow: Arrow in getArrows() ) {
+            arrow.setScale( scale );
+
+            // funky math to rescale the arrows, since they aren't otherwise connected. also, the center origin scaling does this
+            arrow.x = (arrow.x - borderWidth / 2) * zoomScale / oldScale + borderWidth / 2;
+            if( !myModel.isIntro ) {
+                arrow.y = (arrow.y - borderHeight / 2) * zoomScale / oldScale + borderHeight / 2;
+            }
+        }
         this.update();
     }//end setScaleOfArrows()
 
