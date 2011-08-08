@@ -23,14 +23,6 @@ public class TableView extends Sprite {
     public var showingPaths: Boolean;                //true if paths are shown
     public var myMainView: MainView;			      //mediator and container of views
     public var canvas: Sprite;					      //background on which everything is placed
-    public var ballColor_arr: Array = new Array(
-            0xff0000, // red
-            0x009900, // green
-            0x0000ff, // blue
-            0xff00ff, // magenta
-            0xffff00, // yellow
-            0, 0, 0, 0, 0 // others that were already specified. shortening might break this?
-            );			//array of uint for colors of balls
 
     private var myModel: Model;
     private var border: Sprite;                       //reflecting border
@@ -72,9 +64,6 @@ public class TableView extends Sprite {
         //canvas.addChild(myTrajectories);
         border.addChild( myTrajectories );
         drawBorder();  //drawBorder() also calls positionLabels() and drawInvisibleBorder()
-        //ballColor_arr = new Array( 10 );  //start with 10 colors
-        createBallColors();
-        //createBallImages2();
         ballLayer = new Sprite();
         canvas.addChild( ballLayer );
         createBallImages();
@@ -282,15 +271,6 @@ public class TableView extends Sprite {
     public function setTimeRate( evt: SliderEvent ): void {
         //trace("time slider: "+evt.target.value);
         myModel.setTimeRate( evt.target.value );
-    }
-
-    public function createBallColors(): void {
-        ballColor_arr[0] = 0xff0000;
-        ballColor_arr[1] = 0x009900;
-        ballColor_arr[2] = 0x0000ff;
-        ballColor_arr[3] = 0xff00ff;
-        ballColor_arr[4] = 0xffff00;
-
     }
 
     //called once, at startup

@@ -2,6 +2,7 @@ package edu.colorado.phet.collisionlab.control {
 import edu.colorado.phet.collisionlab.constants.CLConstants;
 import edu.colorado.phet.collisionlab.model.Model;
 import edu.colorado.phet.collisionlab.util.Util;
+import edu.colorado.phet.collisionlab.view.BallImage;
 import edu.colorado.phet.collisionlab.view.MainView;
 import edu.colorado.phet.flashcommon.SimStrings;
 import edu.colorado.phet.flashcommon.TextFieldUtils;
@@ -137,7 +138,7 @@ public class DataTable extends Sprite {
 
                 ballBackground.x = 0;
                 ballBackground.y = 0;
-                ballBackground.graphics.beginFill( myMainView.myTableView.ballColor_arr[ballNum] );
+                ballBackground.graphics.beginFill( BallImage.ballColor_arr[ballNum] );
                 ballBackground.graphics.lineStyle( 0, 0x000000 );
                 ballBackground.graphics.drawCircle( (ballColWidth - 5) / 2, (rowHeight - 5) / 2, 10 );
                 ballBackground.graphics.endFill();
