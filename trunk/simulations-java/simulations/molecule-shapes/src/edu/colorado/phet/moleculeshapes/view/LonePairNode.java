@@ -7,7 +7,9 @@ import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.util.TangentBinormalGenerator;
@@ -29,9 +31,13 @@ public class LonePairNode extends Node {
         model.setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            setColor( "Diffuse", new ColorRGBA( 1, 0, 0, 1 ) );
+            setColor( "Diffuse", new ColorRGBA( 1, 1, 1, 0.7f ) );
             setFloat( "Shininess", 1f ); // [0,128]
+            getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+            setTransparent( true );
         }} );
+
+        model.setQueueBucket( Bucket.Transparent );
 
         // update based on electron pair position
         position.addObserver( new SimpleObserver() {
