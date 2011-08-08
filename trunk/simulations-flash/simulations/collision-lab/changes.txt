@@ -1,3 +1,4 @@
+Moved advanced tab data table buttons to the left
 > Change precision of data table to 2 places in Intro tab, 3 in Advanced tab
 > Font size reduction in the data table
 > Reduced header height

@@ -344,16 +344,28 @@ public class DataTable extends Sprite {
 
 
     public function positionButtons(): void {
+        if ( myModel.isIntro ) {
+
+        }
+        else {
+
+        }
         addBallButton_sp.x = -0.6 * addBallButton_sp.width - 0.5 * removeBallButton_sp.width;
         addBallButton_sp.y = -0.75 * addBallButton_sp.height;
         removeBallButton_sp.x = 0;
         removeBallButton_sp.y = -0.75 * addBallButton_sp.height;
         moreDataButton_sp.x = 0.5 * removeBallButton_sp.width + 0.8 * moreDataButton_sp.width;
         if ( myModel.isIntro ) {
-            moreDataButton_sp.y = invisibleBorder.height + rowHeight + 15;
+            moreDataButton_sp.x += 200;
+            moreDataButton_sp.y = invisibleBorder.height + 15;
         }
         else {
-            moreDataButton_sp.y = -0.75 * addBallButton_sp.height;
+            addBallButton_sp.x = addBallButton_sp.width / 2;
+            addBallButton_sp.y = addBallButton_sp.height / 2;
+            removeBallButton_sp.x = removeBallButton_sp.width / 2;
+            removeBallButton_sp.y = removeBallButton_sp.height / 2 + addBallButton_sp.y + addBallButton_sp.height / 2 + 5;
+            moreDataButton_sp.x = moreDataButton_sp.width / 2;
+            moreDataButton_sp.y = moreDataButton_sp.height / 2 + removeBallButton_sp.y + removeBallButton_sp.height / 2 + 5;
         }
 
         lessDataButton_sp.x = moreDataButton_sp.x;
@@ -373,13 +385,14 @@ public class DataTable extends Sprite {
 
     public function displayPartialDataTable( showSliders: Boolean ): void {
         showingMore = !showSliders;
+        canvas.x = 100;
         if ( showSliders ) {
             rowWidth = 5.5 * colWidth;
-            canvas.x = -rowWidth / 2;
+//            canvas.x = -rowWidth / 2;
         }
         else {
             rowWidth = nbrColumns * colWidth - (colWidth - ballColWidth); // compensate for the shorter ball column
-            canvas.x = -rowWidth / 2;
+//            canvas.x = -rowWidth / 2;
         }
         drawBorder( nbrBalls );
         //hide all but 1st two columns for partial
