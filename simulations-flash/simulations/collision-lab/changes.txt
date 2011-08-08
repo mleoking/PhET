@@ -1,3 +1,4 @@
+Fixed "Reset All" bug with more/less in the data table
 > Renamed "Rewind" button to "Restart"
 # 1.00.10 (54934) Aug 7, 2011
 > Center of mass is always in front of balls and arrows
