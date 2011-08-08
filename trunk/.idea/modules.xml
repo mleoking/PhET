@@ -118,7 +118,6 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/spline/spline.iml" filepath="$PROJECT_DIR$/simulations-java/common/spline/spline.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/states-of-matter/states-of-matter.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/sugar-and-salt-solutions/sugar-and-salt-solutions.iml" />
-      <module fileurl="file://$USER_HOME$/dev/tmp/swogl-tests.iml" filepath="$USER_HOME$/dev/tmp/swogl-tests.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/test-project/test-project.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/testing/testing.iml" filepath="$PROJECT_DIR$/util/testing/testing.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/the-ramp/the-ramp.iml" />
