@@ -46,31 +46,59 @@ public class NiceButton {
         this.buttonBody.buttonMode = true;
         var localRef: Object = this;
 
+        // TODO: state not perfect, since you can press down, move mouse out, press up, press down, move mouse over, mouse up, and it will trigger
+        var down: Boolean = false;
+        var pushed: Boolean = false;
+
+        function pushDown(): void {
+            if ( !pushed ) {
+                localRef.buttonBody.x += 2;
+                localRef.buttonBody.y += 2;
+            }
+            pushed = true;
+        }
+
+        function pushUp(): void {
+            if ( pushed ) {
+                localRef.buttonBody.x -= 2;
+                localRef.buttonBody.y -= 2;
+            }
+            pushed = false;
+        }
+
         function buttonBehave( evt: MouseEvent ): void {
 
             if ( evt.type == "mouseDown" ) {
-                localRef.buttonBody.x += 2;
-                localRef.buttonBody.y += 2;
-                //trace("evt.name:"+evt.type);
+                pushDown();
+                down = true;
             }
             else {
                 if ( evt.type == "mouseOver" ) {
                     localRef.tFormat.bold = true;
                     localRef.buttonBody.label_txt.setTextFormat( localRef.tFormat );
-                    //trace("evt.name:"+evt.type);
+                    if ( down && !evt.buttonDown ) {
+                        down = false;
+                    }
+                    if ( down ) {
+                        pushDown();
+                    }
                 }
                 else {
                     if ( evt.type == "mouseUp" ) {
                         //trace("evt.name:"+evt.type);
-                        localRef.buttonBody.x -= 2;
-                        localRef.buttonBody.y -= 2;
-                        localRef.buttonFunction();
+                        if ( down ) {
+                            pushUp();
+                            localRef.buttonFunction();
+                        }
+                        down = false;
                     }
                     else {
                         if ( evt.type == "mouseOut" ) {
                             localRef.tFormat.bold = false;
                             localRef.buttonBody.label_txt.setTextFormat( localRef.tFormat );
-                            //trace("evt.name:"+evt.type);
+                            if ( down ) {
+                                pushUp();
+                            }
                         }
                     }
                 }
