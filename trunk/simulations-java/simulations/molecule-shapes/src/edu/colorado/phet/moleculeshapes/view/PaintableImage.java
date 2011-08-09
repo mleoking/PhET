@@ -12,7 +12,8 @@ public abstract class PaintableImage extends Image {
     private ByteBuffer scratch;
 
     public PaintableImage( int width, int height, boolean hasAlpha ) {
-        super( hasAlpha ? Format.ABGR8 : Format.BGR8, width, height, ByteBuffer.allocateDirect( 4 * width * height ) );
+        // TODO: fix alpha support. broken currently
+        super( hasAlpha ? Format.RGBA8 : Format.BGR8, width, height, ByteBuffer.allocateDirect( 4 * width * height ) );
         scratch = data.get( 0 );
         backImg = new BufferedImage( width, height, hasAlpha ? BufferedImage.TYPE_4BYTE_ABGR : BufferedImage.TYPE_3BYTE_BGR );
 
