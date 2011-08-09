@@ -203,7 +203,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                             panel.setPreferredSize( new Dimension( 256, 64 ) );
                             panel.setSize( panel.getPreferredSize() );
                             layoutComponent( panel );
-                            panel.setDoubleBuffered( false );
+                            panel.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
 
                             System.out.println( panel.getBounds() );
                             System.out.println( panel.isDisplayable() );
