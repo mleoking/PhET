@@ -1,3 +1,4 @@
+8/9/11 Jmol: delete sdf and smol files, #3018
 # 0.00.07 (54913) Aug 6, 2011
 8/6/11 Jmol: execute scripts synchronously with JmolViewer.scriptWait, #3009
 8/6/11 change Model control panel to Isosurface, with choices "none", "Electrostatic Potential", "Electron Density"
