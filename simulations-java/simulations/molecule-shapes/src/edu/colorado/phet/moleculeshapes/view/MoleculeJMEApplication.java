@@ -24,9 +24,11 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Quad;
@@ -188,7 +190,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         guiNode.attachChild( new Geometry( "HUD", new Quad( 512, 64, true ) ) {{
             setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
                 setTexture( "ColorMap", new Texture2D() {{
-                    setImage( new PaintableImage( 512, 64, false ) {
+                    setImage( new PaintableImage( 512, 64, true ) {
                         JPanel panel = new JPanel( new FlowLayout( FlowLayout.LEFT ) );
 
                         {
@@ -198,9 +200,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                             }} );
                             panel.add( new JLabel( "Test" ) );
                             panel.add( new JButton( "Test" ) );
-                            panel.setPreferredSize( new Dimension( 512, 64 ) );
+                            panel.setPreferredSize( new Dimension( 256, 64 ) );
                             panel.setSize( panel.getPreferredSize() );
                             layoutComponent( panel );
+                            panel.setDoubleBuffered( false );
 
                             System.out.println( panel.getBounds() );
                             System.out.println( panel.isDisplayable() );
@@ -218,8 +221,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     } );
                 }} );
 
-//                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-//                setTransparent( true );
+                getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                setTransparent( true );
             }} );
 //            setQueueBucket( Bucket.Transparent );
 
