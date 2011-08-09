@@ -2,6 +2,7 @@
 package edu.colorado.phet.common.piccolophet.nodes.kit;
 
 import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
@@ -15,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
 import edu.umd.cs.piccolo.activities.PTransformActivity;
@@ -57,33 +59,54 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         this.selectedKit = selectedKit;
 
         //Standardize the nodes, this centers them to simplify the layout
-        final ArrayList<PNode> standardizedNodes = new ArrayList<PNode>();
+        final ArrayList<PNode> zeroOffsetContentNodes = new ArrayList<PNode>();
         for ( Kit<T> kit : kits ) {
-            standardizedNodes.add( new ZeroOffsetNode( kit.content ) );
+            zeroOffsetContentNodes.add( new ZeroOffsetNode( kit.content ) );
         }
 
-        //Find the smallest rectangle that holds all the kits
-        Rectangle2D kitBounds = standardizedNodes.get( 0 ).getFullBounds();
-        for ( PNode kit : standardizedNodes ) {
-            kitBounds = kitBounds.createUnion( kit.getFullBounds() );
+        //Find out the max bounds of all the kit contents for layout purposes
+        Rectangle2D contentBounds = getBoundingRectangle( zeroOffsetContentNodes );
+
+        final ArrayList<PNode> zeroOffsetTitleNodes = new ArrayList<PNode>();
+        for ( Kit<T> kit : kits ) {
+            if ( kit.title.isSome() ) {
+                zeroOffsetTitleNodes.add( new ZeroOffsetNode( kit.title.get() ) );
+            }
         }
 
-        //Add insets so the kits sit within the background instead of protruding off the edge
-        kitBounds = RectangleUtils.expand( kitBounds, 2, 2 );
+        //Find out the max bounds of all the kit titles for layout purposes
+        Rectangle2D titleBounds = getBoundingRectangle( zeroOffsetTitleNodes );
 
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
-        RoundRectangle2D.Double backgroundPath = new RoundRectangle2D.Double( 0, 0, kitBounds.getWidth(), kitBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
+        RoundRectangle2D.Double kitBounds = new RoundRectangle2D.Double( 0, 0, Math.max( contentBounds.getWidth(), titleBounds.getWidth() ), contentBounds.getHeight() + titleBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
 
         //Hide the background for embedding in a larger control panel, background is just used for layout purposes
-        background = new PhetPPath( backgroundPath, null, null, null );
+        background = new PhetPPath( kitBounds, null, null, null );
         addChild( background );
 
         //Create the layer that contains all the kits, and add the kits side by side spaced by the distance of the background so only 1 kit will be visible at a time
         kitLayer = new PNode();
+
+        //X location of each kit content nodes within the new parent (kitLayer) that will be scrolled across
         double x = 0;
-        for ( PNode standardizedNode : standardizedNodes ) {
-            standardizedNode.setOffset( x + background.getFullBounds().getWidth() / 2 - standardizedNode.getFullBounds().getWidth() / 2, background.getFullBounds().getHeight() / 2 - standardizedNode.getFullBounds().getHeight() / 2 );
-            kitLayer.addChild( standardizedNode );
+
+        double availableSpaceForContentNode = background.getFullBounds().getHeight() - titleBounds.getHeight();
+        for ( Kit<T> kit : kits ) {
+
+            //Zero the title and content for easier layout
+            ZeroOffsetNode titleNode = new ZeroOffsetNode( kit.title.getOrElse( new PNode() ) );
+            ZeroOffsetNode contentNode = new ZeroOffsetNode( kit.content );
+
+            //Put the title centered at the top and the content node centered in the available space beneath
+            titleNode.setOffset( x + background.getFullBounds().getWidth() / 2 - titleNode.getFullBounds().getWidth() / 2, 0 );
+            contentNode.setOffset( x + background.getFullBounds().getWidth() / 2 - contentNode.getFullBounds().getWidth() / 2,
+                                   titleBounds.getHeight() + availableSpaceForContentNode / 2 - contentNode.getFullBounds().getHeight() / 2 );
+
+            //Add the nodes to the kitLayer
+            kitLayer.addChild( titleNode );
+            kitLayer.addChild( contentNode );
+
+            //Move over to the next kit
             x += background.getFullBounds().getWidth();
         }
 
@@ -111,7 +134,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
             } );
             KitSelectionNode.this.selectedKit.addObserver( new VoidFunction1<Integer>() {
                 public void apply( Integer integer ) {
-                    setVisible( KitSelectionNode.this.selectedKit.get() < standardizedNodes.size() - 1 );
+                    setVisible( KitSelectionNode.this.selectedKit.get() < zeroOffsetContentNodes.size() - 1 );
                 }
             } );
         }};
@@ -134,6 +157,22 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 }
             } );
         }} );
+    }
+
+    private Rectangle2D getBoundingRectangle( ArrayList<PNode> nodes ) {
+        if ( nodes.size() == 0 ) {
+            return new Rectangle();
+        }
+
+        //Find the smallest rectangle that holds all the kits
+        Rectangle2D kitBounds = nodes.get( 0 ).getFullBounds();
+        for ( PNode kit : nodes ) {
+            kitBounds = kitBounds.createUnion( kit.getFullBounds() );
+        }
+
+        //Add insets so the kits sit within the background instead of protruding off the edge
+        kitBounds = RectangleUtils.expand( kitBounds, 2, 2 );
+        return kitBounds;
     }
 
     //When the next or previous button is pressed, scroll to the next kit
@@ -161,7 +200,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 new PFrame() {{
                     getCanvas().getLayer().addChild( new KitSelectionNode<PNode>(
                             new Property<Integer>( 0 ),
-                            new Kit<PNode>( new PText( "Hello" ) ),
+                            new Kit<PNode>( new PText( "Title 1" ), new VBox( new PText( "Hello" ), new PText( "This is kit 1" ) ) ),
                             new Kit<PNode>( new PText( "there" ) ),
                             new Kit<PNode>( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ) ),
                             new Kit<PNode>( new PText( "so" ) ),
