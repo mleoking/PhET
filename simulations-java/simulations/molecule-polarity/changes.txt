@@ -1,3 +1,4 @@
+8/9/11 Jmol: manually edit mol2 file for O3, swap y and z axes, invert y axis
 8/9/11 Jmol: manually edit mol2 file for H2O, swap y and z axes, invert y axis
 8/9/11 Jmol: manually edit mol2 file for CH2O, swap y and z axes, invert y axis, adjust labels
 8/9/11 Jmol: manually edit mol2 orientation of atoms that involve swapping x and z axes, adjust labels
