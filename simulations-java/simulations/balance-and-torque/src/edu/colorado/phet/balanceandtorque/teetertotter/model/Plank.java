@@ -180,8 +180,9 @@ public class Plank extends ShapeModelElement {
      *         generally indicates that no open nearby locations were available).
      */
     public boolean addMassToSurface( final Mass mass ) {
+        boolean massAdded = false;
         Point2D closestOpenLocation = getOpenMassDroppedLocation( mass.getPosition() );
-        if ( closestOpenLocation != null ) {
+        if ( isPointAbovePlank( mass.getMiddlePoint() ) && closestOpenLocation != null ) {
             massesOnSurface.add( mass );
             mass.setOnPlank( true );
             mass.setPosition( closestOpenLocation );
@@ -201,9 +202,10 @@ public class Plank extends ShapeModelElement {
             } );
             updateMassPositions();
             updateTorque();
+            massAdded = true;
         }
 
-        return closestOpenLocation != null;
+        return massAdded;
     }
 
     private void removeMassFromSurface( Mass mass ) {
