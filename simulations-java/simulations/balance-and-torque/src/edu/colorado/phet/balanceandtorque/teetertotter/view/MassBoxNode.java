@@ -2,7 +2,6 @@
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -51,12 +51,10 @@ public class MassBoxNode extends PNode {
         }} );
 
         // Create a node that contains people.  This is also a "mass set".
-        massSets.add( new SwingLayoutNode( new FlowLayout() ) {{
-            AdolescentHumanInMassBoxNode adolescentHumanInMassBoxNode = new AdolescentHumanInMassBoxNode( model, mvt, canvas );
-            addChild( adolescentHumanInMassBoxNode );
-            AdultMaleHumanInMassBoxNode adultMaleHumanInMassBoxNode = new AdultMaleHumanInMassBoxNode( model, mvt, canvas );
-            addChild( adultMaleHumanInMassBoxNode );
-        }} );
+        massSets.add( new HBox(
+                new AdolescentHumanInMassBoxNode( model, mvt, canvas ),
+                new AdultMaleHumanInMassBoxNode( model, mvt, canvas )
+        ) );
 
         // Create a node that contains mystery objects.  This is also a "mass set".
         massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
