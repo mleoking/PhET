@@ -60,10 +60,16 @@ public class ImageMass extends Mass {
         positionProperty.addObserver( observer );
     }
 
+    /**
+     * Set the position, which is the location of the bottom center of mass.
+     */
     public void setPosition( double x, double y ) {
         positionProperty.set( new Point2D.Double( x, y ) );
     }
 
+    /**
+     * Set the position, which is the location of the bottom center of mass.
+     */
     public void setPosition( Point2D p ) {
         setPosition( p.getX(), p.getY() );
     }

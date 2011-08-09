@@ -17,6 +17,7 @@ public class AdolescentHuman extends ImageMass {
     private static final double MASS = 20; // in kg
     private static final double STANDING_HEIGHT = 1.2; // In meters.
     private static final double SITTING_HEIGHT = 0.7; // In meters.
+    private static final double SITTING_CENTER_OF_MASS_X_OFFSET = 0.07; // In meters, determined visually.  Update if image changes.
 
     public AdolescentHuman() {
         super( MASS, Images.ADOLESCENT_STANDING, STANDING_HEIGHT, new Point2D.Double( 0, 0 ) );
@@ -27,9 +28,11 @@ public class AdolescentHuman extends ImageMass {
             height = SITTING_HEIGHT;
             if ( getPosition().getX() > 0 ) {
                 imageProperty.set( Images.COMPACT_ADOLESCENT_SITTING );
+                setCenterOfMassXOffset( SITTING_CENTER_OF_MASS_X_OFFSET );
             }
             else {
                 imageProperty.set( BufferedImageUtils.flipX( Images.COMPACT_ADOLESCENT_SITTING ) );
+                setCenterOfMassXOffset( -SITTING_CENTER_OF_MASS_X_OFFSET );
             }
         }
         else {

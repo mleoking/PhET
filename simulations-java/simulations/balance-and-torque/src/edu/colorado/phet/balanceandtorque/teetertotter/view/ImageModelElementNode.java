@@ -70,8 +70,9 @@ public class ImageModelElementNode extends PNode {
 
     private void updatePositionAndAngle() {
         setRotation( 0 );
-        setOffset( mvt.modelToViewX( mass.getPosition().getX() ) - getFullBoundsReference().width / 2,
+        setOffset( mvt.modelToViewX( mass.getPosition().getX() - mass.getCenterOfMassXOffset() ) - getFullBoundsReference().width / 2,
                    mvt.modelToViewY( mass.getPosition().getY() ) - getFullBoundsReference().height );
-        rotateAboutPoint( -mass.getRotationAngle(), getFullBoundsReference().getWidth() / 2, getFullBoundsReference().getHeight() );
+        rotateAboutPoint( -mass.getRotationAngle(), getFullBoundsReference().getWidth() / 2 + mvt.modelToViewDeltaX( mass.getCenterOfMassXOffset() ),
+                          getFullBoundsReference().getHeight() );
     }
 }
