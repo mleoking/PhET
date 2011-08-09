@@ -114,6 +114,11 @@ public abstract class ModelElementCreatorNode extends PComposite {
         updateLayout();
     }
 
+    /**
+     * Set an offset to use when adding the initial model element.  This is
+     * useful in making sure that the newly created model object is positioned
+     * well beneath the mouse.
+     */
     protected void setPositioningOffset( double x, double y ) {
         positioningOffset.setComponents( x, y );
     }

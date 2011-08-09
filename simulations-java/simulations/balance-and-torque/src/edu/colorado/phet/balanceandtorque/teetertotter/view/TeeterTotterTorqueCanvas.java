@@ -78,10 +78,10 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
-                    massNode = new BrickStackNode( mvt, (ShapeMass) mass );
+                    massNode = new BrickStackNode( mvt, (ShapeMass) mass, TeeterTotterTorqueCanvas.this );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass );
+                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass, TeeterTotterTorqueCanvas.this );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
