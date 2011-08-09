@@ -10,7 +10,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-public class Kit {
+public class MicroKit {
 
     //Bars to be shown in the concentration bar chart
     public final BarItem[] barItems;
@@ -18,7 +18,7 @@ public class Kit {
     //Control node to be shown for removing the solutes when in this kit
     public final PNode removeSoluteControl;
 
-    public Kit( final RemoveSoluteButtonNode[] removeSoluteButtonNodes, BarItem... barItems ) {
+    public MicroKit( final RemoveSoluteButtonNode[] removeSoluteButtonNodes, BarItem... barItems ) {
 
         //Layout the buttons one on top of the other
         removeSoluteControl = new PNode() {{

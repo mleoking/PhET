@@ -25,7 +25,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
 import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.DEFAULT_ARC;
 
 /**
- * Node for showing and scrolling between kits, which can be any PNode.
+ * Node for showing and scrolling between kits.
  *
  * @author Sam Reid
  */
@@ -44,7 +44,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     protected final PhetPPath background;
 
     //List of the available kits
-    private final ArrayList<T> kits;
+    private final ArrayList<Kit<T>> kits;
 
     /**
      * Create a KitSelectionNode that uses the specified kits
@@ -52,14 +52,14 @@ public class KitSelectionNode<T extends PNode> extends PNode {
      * @param selectedKit model for which kit has been selected by the user
      * @param kits        the list of kits to show
      */
-    public KitSelectionNode( final Property<Integer> selectedKit, T... kits ) {
-        this.kits = new ArrayList<T>( Arrays.asList( kits ) );
+    public KitSelectionNode( final Property<Integer> selectedKit, Kit<T>... kits ) {
+        this.kits = new ArrayList<Kit<T>>( Arrays.asList( kits ) );
         this.selectedKit = selectedKit;
 
         //Standardize the nodes, this centers them to simplify the layout
         final ArrayList<PNode> standardizedNodes = new ArrayList<PNode>();
-        for ( PNode kit : kits ) {
-            standardizedNodes.add( new ZeroOffsetNode( kit ) );
+        for ( Kit<T> kit : kits ) {
+            standardizedNodes.add( new ZeroOffsetNode( kit.content ) );
         }
 
         //Find the smallest rectangle that holds all the kits
@@ -150,7 +150,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         }
     }
 
-    public T getKit( Integer index ) {
+    public Kit<T> getKit( Integer index ) {
         return kits.get( index );
     }
 
@@ -161,12 +161,12 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 new PFrame() {{
                     getCanvas().getLayer().addChild( new KitSelectionNode<PNode>(
                             new Property<Integer>( 0 ),
-                            new PText( "Hello" ),
-                            new PText( "There" ),
-                            new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ),
-                            new PText( "So" ),
-                            new PText( "Many" ),
-                            new PText( "Kits" )
+                            new Kit<PNode>( new PText( "Hello" ) ),
+                            new Kit<PNode>( new PText( "there" ) ),
+                            new Kit<PNode>( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ) ),
+                            new Kit<PNode>( new PText( "so" ) ),
+                            new Kit<PNode>( new PText( "many" ) ),
+                            new Kit<PNode>( new PText( "kits!" ) )
                     ) {{
                         setOffset( 100, 100 );
                     }} );
