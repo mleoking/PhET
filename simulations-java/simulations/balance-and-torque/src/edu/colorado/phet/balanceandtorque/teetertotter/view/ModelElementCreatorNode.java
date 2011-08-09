@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.Cursor;
+import java.awt.Font;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
@@ -17,12 +18,13 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Base class for the Piccolo nodes that appear in the mass box and that can
- * be clicked on by the user in order to add model elements to the model.
+ * Base class for the Piccolo nodes that appear in the view, generally in some
+ * sort of tool box, and that can be clicked on by the user in order to add
+ * model elements to the model.
  *
  * @author John Blanco
  */
-public abstract class MassBoxItem extends PComposite {
+public abstract class ModelElementCreatorNode extends PComposite {
 
     //----------------------------------------------------------------------------
     // Class Data
@@ -54,7 +56,7 @@ public abstract class MassBoxItem extends PComposite {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public MassBoxItem( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public ModelElementCreatorNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         this.model = model;
         this.mvt = mvt;

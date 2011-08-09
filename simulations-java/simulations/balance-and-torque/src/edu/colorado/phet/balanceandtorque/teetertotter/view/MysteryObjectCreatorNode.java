@@ -11,22 +11,22 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
- * This class represents a mystery object in the mass box.  When the user
+ * This class represents a "mystery object" in a tool box.  When the user
  * clicks on this node, the corresponding model element is added to the model
  * at the user's mouse location.
  *
  * @author John Blanco
  */
-public class MysteryObjectInMassBoxNode extends MassBoxItem {
+public class MysteryObjectCreatorNode extends ModelElementCreatorNode {
 
     private final int mysteryObjectID;
 
-    // Model-view transform for scaling the node used in the mass box.  This
+    // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
     protected static final ModelViewTransform SCALING_MVT =
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 200 );
 
-    public MysteryObjectInMassBoxNode( int mysteryObjectID, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MysteryObjectCreatorNode( int mysteryObjectID, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.mysteryObjectID = mysteryObjectID;
         ImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID );

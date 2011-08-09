@@ -44,24 +44,24 @@ public class MassBoxNode extends PNode {
 
         // Create a node that contains the set of bricks.  This is a "mass set".
         massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
-            addChild( new BrickStackInMassBoxNode( 1, model, mvt, canvas ) );
-            addChild( new BrickStackInMassBoxNode( 2, model, mvt, canvas ) );
-            addChild( new BrickStackInMassBoxNode( 3, model, mvt, canvas ) );
-            addChild( new BrickStackInMassBoxNode( 4, model, mvt, canvas ) );
+            addChild( new BrickStackCreatorNode( 1, model, mvt, canvas ) );
+            addChild( new BrickStackCreatorNode( 2, model, mvt, canvas ) );
+            addChild( new BrickStackCreatorNode( 3, model, mvt, canvas ) );
+            addChild( new BrickStackCreatorNode( 4, model, mvt, canvas ) );
         }} );
 
         // Create a node that contains people.  This is also a "mass set".
         massSets.add( new HBox(
-                new AdolescentHumanInMassBoxNode( model, mvt, canvas ),
-                new AdultMaleHumanInMassBoxNode( model, mvt, canvas )
+                new AdolescentHumanCreatorNode( model, mvt, canvas ),
+                new AdultMaleHumanCreatorNode( model, mvt, canvas )
         ) );
 
         // Create a node that contains mystery objects.  This is also a "mass set".
         massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{
-            addChild( new MysteryObjectInMassBoxNode( 0, model, mvt, canvas ) );
-            addChild( new MysteryObjectInMassBoxNode( 1, model, mvt, canvas ) );
-            addChild( new MysteryObjectInMassBoxNode( 2, model, mvt, canvas ) );
-            addChild( new MysteryObjectInMassBoxNode( 3, model, mvt, canvas ) );
+            addChild( new MysteryObjectCreatorNode( 0, model, mvt, canvas ) );
+            addChild( new MysteryObjectCreatorNode( 1, model, mvt, canvas ) );
+            addChild( new MysteryObjectCreatorNode( 2, model, mvt, canvas ) );
+            addChild( new MysteryObjectCreatorNode( 3, model, mvt, canvas ) );
         }} );
 
         final ForwardButton forwardButton = new ForwardButton() {{
