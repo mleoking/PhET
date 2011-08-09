@@ -31,7 +31,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  * @author Sam Reid
  */
 public class KitList {
-    private final ArrayList<Kit> kits = new ArrayList<Kit>();
+    private final ArrayList<MicroKit> kits = new ArrayList<MicroKit>();
 
     public KitList( final MicroModel model, final ModelViewTransform transform ) {
 
@@ -120,27 +120,27 @@ public class KitList {
 
         //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
         //Put the positive ions to the left of the negative ions
-        kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSucroseButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
-                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
+        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSucroseButton.apply() },
+                                new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
 
-        kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createCalciumChlorideButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
-                           new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, calciumIcon ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ) ) );
+        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createCalciumChlorideButton.apply() },
+                                new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                                new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, calciumIcon ),
+                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ) ) );
 
-        kits.add( new Kit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSodiumNitrateButton.apply() },
-                           new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
-                           new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
-                           new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
+        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSodiumChlorideButton.apply(), createSodiumNitrateButton.apply() },
+                                new BarItem( model.sodiumConcentration, model.sodiumColor, SODIUM, sodiumIcon ),
+                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
-        kits.add( new Kit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createEthanolButton.apply() },
-                           new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
-                           new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, ethanolIcon ) ) );
+        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createEthanolButton.apply() },
+                                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
+                                new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, ethanolIcon ) ) );
     }
 
-    public Kit getKit( int kit ) {
+    public MicroKit getKit( int kit ) {
         return kits.get( kit );
     }
 }
