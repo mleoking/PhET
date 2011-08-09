@@ -139,7 +139,7 @@ public class JmolViewerNode extends PhetPNode {
         String args = "";
         if ( atomLabelsVisible || partialChargeVisible ) {
             if ( atomLabelsVisible ) {
-                args += " %[element]%[atomIndex]"; // show element and sequential atom index
+                args += " %[atomName]"; // show element and sequential atom index
             }
             if ( partialChargeVisible ) {
                 if ( atomLabelsVisible ) {
