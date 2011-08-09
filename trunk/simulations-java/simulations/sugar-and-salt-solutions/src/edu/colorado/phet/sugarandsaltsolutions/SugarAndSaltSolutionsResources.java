@@ -51,6 +51,8 @@ public class SugarAndSaltSolutionsResources {
         public static final BufferedImage BUTTON_UNPRESSED = RESOURCES.getImage( "button_unpressed.png" );
         public static final BufferedImage DROPPER = RESOURCES.getImage( "dropper.png" );
         public static final BufferedImage FAUCET = RESOURCES.getImage( "faucet.png" );
+        public static final BufferedImage FAUCET_FRONT = RESOURCES.getImage( "faucet_front.png" );
+        public static final BufferedImage FAUCET_PIPE = RESOURCES.getImage( "faucet_pipe.png" );
         public static final BufferedImage SALT_1 = RESOURCES.getImage( "salt_1.png" );
         public static final BufferedImage SALT_EMPTY = RESOURCES.getImage( "salt_empty.png" );
         public static final BufferedImage SUGAR_CLOSED = RESOURCES.getImage( "sugar_closed.png" );
