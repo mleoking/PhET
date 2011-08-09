@@ -1,6 +1,7 @@
 TODO list for molecule-polarity
 
 HIGH
+- adjust initial orientation for NH3, CH3F, CHF3, CH2F2, CHCl3
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
 - use "isosurface VDW color white translucent" for molecules that are composed of 2 of the same atom (eg H2)
 - write script to get atom xyz coordinates after rotating in Jmol viewer
