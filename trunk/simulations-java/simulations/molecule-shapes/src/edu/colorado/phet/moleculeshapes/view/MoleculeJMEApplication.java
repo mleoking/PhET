@@ -211,7 +211,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                         @Override public void paint( Graphics2D g ) {
                             g.setBackground( new Color( 0f, 0f, 0f, 0f ) );
                             g.clearRect( 0, 0, getWidth(), getHeight() );
-                            panel.paint( g );
+                            if ( panel != null ) {
+                                panel.paint( g );
+                            }
                         }
                     } );
                 }} );
