@@ -1,11 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Shape;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
@@ -16,7 +19,7 @@ import edu.umd.cs.piccolo.PNode;
  * @author John Blanco
  */
 public class BrickStackNode extends PNode {
-    public BrickStackNode( final ModelViewTransform mvt, final ShapeMass mass ) {
+    public BrickStackNode( final ModelViewTransform mvt, final ShapeMass mass, PhetPCanvas canvas ) {
         addChild( new PhetPPath( new Color( 205, 38, 38 ), new BasicStroke( 1 ), Color.BLACK ) {{
             mass.shapeProperty.addObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
@@ -29,6 +32,6 @@ public class BrickStackNode extends PNode {
             } );
         }} );
         addInputEventListener( new CursorHandler() );
-        addInputEventListener( new MassDragHandler( mass, this, mvt ) );
+        addInputEventListener( new MassDragHandler( mass, this, canvas, mvt ) );
     }
 }

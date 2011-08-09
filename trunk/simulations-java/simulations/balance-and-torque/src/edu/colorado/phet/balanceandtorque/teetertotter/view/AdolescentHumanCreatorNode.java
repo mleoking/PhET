@@ -27,7 +27,7 @@ public class AdolescentHumanCreatorNode extends ModelElementCreatorNode {
     public AdolescentHumanCreatorNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         ImageMass adolescentHuman = new AdolescentHuman();
-        setSelectionNode( new ImageModelElementNode( SCALING_MVT, adolescentHuman ) );
+        setSelectionNode( new ImageModelElementNode( SCALING_MVT, adolescentHuman, canvas ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
         // TODO: i18n (units too)
         setCaption( adolescentHuman.getMass() + " kg" );

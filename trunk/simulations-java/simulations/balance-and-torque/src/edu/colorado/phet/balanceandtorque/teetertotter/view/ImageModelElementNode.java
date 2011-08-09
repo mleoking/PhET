@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -24,7 +25,7 @@ public class ImageModelElementNode extends PNode {
     private final ModelViewTransform mvt;
     private PBounds unrotatedBounds = new PBounds();
 
-    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass mass ) {
+    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass mass, PhetPCanvas canvas ) {
         this.mass = mass;
         this.mvt = mvt;
 
@@ -65,7 +66,7 @@ public class ImageModelElementNode extends PNode {
         addInputEventListener( new CursorHandler() );
 
         // Add the mouse event handler.
-        addInputEventListener( new MassDragHandler( mass, this, mvt ) );
+        addInputEventListener( new MassDragHandler( mass, this, canvas, mvt ) );
     }
 
     private void updatePositionAndAngle() {

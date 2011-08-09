@@ -27,8 +27,8 @@ public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
     public AdultMaleHumanCreatorNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         ImageMass adultMaleHumanNode = new AdultMaleHuman();
-        setSelectionNode( new ImageModelElementNode( SCALING_MVT, adultMaleHumanNode ) );
-        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
+        setSelectionNode( new ImageModelElementNode( SCALING_MVT, adultMaleHumanNode, canvas ) );
+        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height * 0.75 );
         // TODO: i18n (units)
         setCaption( adultMaleHumanNode.getMass() + " kg" );
         // TODO: Line below is for debug, remove at some point.

@@ -87,7 +87,7 @@ public class ImageMass extends Mass {
     }
 
     @Override public Point2D getMiddlePoint() {
-        return new Point2D.Double( getPosition().getX(), getPosition().getY() + imageProperty.get().getHeight() / 2 );
+        return new Point2D.Double( getPosition().getX(), getPosition().getY() + height / 2 );
     }
 
     public Point2D getPosition() {
