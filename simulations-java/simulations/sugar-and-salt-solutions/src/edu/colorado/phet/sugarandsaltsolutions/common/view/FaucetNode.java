@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET_FRONT;
 
 /**
  * Faucet node for showing and controlling water flowing into and out of the beaker.
@@ -39,23 +39,31 @@ public class FaucetNode extends PNode {
     private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
 
     public FaucetNode( final Property<Double> faucetFlowLevel,
-                       final Option<Double> flowPoint,//if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
-                       final ObservableProperty<Boolean> allowed,//true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
-                       final Point2D offset//Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker
+
+                       //if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
+                       final Option<Double> flowPoint,
+
+                       //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
+                       final ObservableProperty<Boolean> allowed,
+
+                       //Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker
+                       final Point2D offset
     ) {
         setOffset( offset );
-        PImage imageNode = new PImage( FAUCET ) {{
+        PImage imageNode = new PImage( FAUCET_FRONT ) {{
             //Scale and offset so that the slider will fit into the tap control component
-            setScale( 0.75 );
-            setOffset( -27, 0 );
+            setScale( 1 );
+            setOffset( 0, 0 );
 
             //Create the slider
             final PSwing sliderNode = new PSwing( new JSlider( 0, 100 ) {{
                 setBackground( new Color( 0, 0, 0, 0 ) );
-                setPaintTicks( true );//to make the slider thumb wider on Windows 7
+
+                //Make the slider thumb wider on Windows 7
+                setPaintTicks( true );
 
                 //Fix the size so it will fit into the specified image dimensions
-                setPreferredSize( new Dimension( 120, getPreferredSize().height ) );
+                setPreferredSize( new Dimension( 140, getPreferredSize().height ) );
 
                 //Wire up 2-way communication with the Property
                 addChangeListener( new ChangeListener() {
@@ -71,9 +79,11 @@ public class FaucetNode extends PNode {
                         setValue( (int) ( value * 100 ) );
                     }
                 } );
+
                 //Set the flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
                 addMouseListener( new MouseAdapter() {
                     @Override public void mouseReleased( MouseEvent e ) {
+
                         //Turn off the flow level
                         faucetFlowLevel.set( 0.0 );
 
@@ -84,7 +94,7 @@ public class FaucetNode extends PNode {
                     }
                 } );
             }} ) {{
-                translate( 186, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );//Mac sliders render lower than windows slider, so have to compensate
+                translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );//Mac sliders render lower than windows slider, so have to compensate
                 //Faucet slider should be invisible when in "auto" mode
             }};
             addChild( sliderNode );
