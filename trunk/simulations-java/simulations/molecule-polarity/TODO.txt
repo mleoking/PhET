@@ -17,6 +17,7 @@ MEDIUM
 - redesign or eliminate Model control panel
 
 LOW
+- change "dipole bonds" to "dipole bond" in Two Atoms tab
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
 
