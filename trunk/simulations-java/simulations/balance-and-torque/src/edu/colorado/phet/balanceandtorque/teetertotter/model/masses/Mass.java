@@ -23,12 +23,25 @@ public abstract class Mass implements UserMovableModelElement {
 
     private final double mass;
 
+    // Since not all objects are symmetrical, some may need to have an offset
+    // that indicates where their center of mass is when placed on a balance.
+    // This is the horizontal offset from the center of the shape or image.
+    private double centerOfMassXOffset = 0;
+
     public Mass( double mass ) {
         this.mass = mass;
     }
 
     public double getMass() {
         return mass;
+    }
+
+    public double getCenterOfMassXOffset() {
+        return centerOfMassXOffset;
+    }
+
+    public void setCenterOfMassXOffset( double centerOfMassXOffset ) {
+        this.centerOfMassXOffset = centerOfMassXOffset;
     }
 
     public abstract void translate( double x, double y );
