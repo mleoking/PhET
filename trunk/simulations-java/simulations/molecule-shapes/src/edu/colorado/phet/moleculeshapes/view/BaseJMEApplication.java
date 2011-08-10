@@ -10,7 +10,9 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
@@ -31,6 +33,7 @@ public abstract class BaseJMEApplication extends Application {
 
     protected Node rootNode = new Node( "Root Node" );
     protected Node guiNode = new Node( "Gui Node" );
+    protected Node preGuiNode = new Node( "Pre Gui Node" );
     protected float secondCounter = 0.0f;
     protected BitmapText fpsText;
     protected BitmapFont guiFont;
@@ -64,37 +67,6 @@ public abstract class BaseJMEApplication extends Application {
     }
 
     /**
-     * Retrieves guiNode
-     *
-     * @return guiNode Node object
-     */
-    public Node getGuiNode() {
-        return guiNode;
-    }
-
-    /**
-     * Retrieves rootNode
-     *
-     * @return rootNode Node object
-     */
-    public Node getRootNode() {
-        return rootNode;
-    }
-
-    public boolean isShowSettings() {
-        return showSettings;
-    }
-
-    /**
-     * Toggles settings window to display at start-up
-     *
-     * @param showSettings Sets true/false
-     */
-    public void setShowSettings( boolean showSettings ) {
-        this.showSettings = showSettings;
-    }
-
-    /**
      * Attaches FPS statistics to guiNode and displays it on the screen.
      */
     public void loadFPSText() {
@@ -119,6 +91,15 @@ public abstract class BaseJMEApplication extends Application {
     @Override
     public void initialize() {
         super.initialize();
+
+        // setup a GUI behind the main scene
+        preGuiNode.setQueueBucket( Bucket.Gui );
+        preGuiNode.setCullHint( CullHint.Never );
+        Camera preGuiCam = new Camera( settings.getWidth(), settings.getHeight() );
+        ViewPort preGuiViewPort = renderManager.createPreView( "Gui Background", preGuiCam );
+        preGuiViewPort.setClearFlags( true, true, true );
+        preGuiViewPort.attachScene( preGuiNode );
+        viewPort.setClearFlags( false, true, true );
 
         guiNode.setQueueBucket( Bucket.Gui );
         guiNode.setCullHint( CullHint.Never );
@@ -191,8 +172,10 @@ public abstract class BaseJMEApplication extends Application {
         simpleUpdate( tpf );
         rootNode.updateLogicalState( tpf );
         guiNode.updateLogicalState( tpf );
+        preGuiNode.updateLogicalState( tpf );
         rootNode.updateGeometricState();
         guiNode.updateGeometricState();
+        preGuiNode.updateGeometricState();
 
         // render states
         stateManager.render( renderManager );
