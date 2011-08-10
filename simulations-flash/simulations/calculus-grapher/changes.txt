@@ -1,3 +1,5 @@
+# 2.08.00 (55025) Aug 10, 2011
+8/10/11 Added two new labels to control panel.
 # 2.07.01 (55024) Aug 10, 2011
 8/10/11 Revised Control Panel with 2 new strings.
 # 2.07.00 (53364) Jun 22, 2011
