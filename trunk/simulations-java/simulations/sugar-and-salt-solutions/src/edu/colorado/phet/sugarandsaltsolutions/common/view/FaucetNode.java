@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -44,15 +43,11 @@ public class FaucetNode extends PNode {
                        final Option<Double> flowPoint,
 
                        //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
-                       final ObservableProperty<Boolean> allowed,
-
-                       //Offset to account for in ending the output fluid flow, so it doesn't go past the bottom of the beaker
-                       final Point2D offset
-    ) {
-        setOffset( offset );
+                       final ObservableProperty<Boolean> allowed ) {
         PImage imageNode = new PImage( FAUCET_FRONT ) {{
-            //Scale and offset so that the slider will fit into the tap control component
-            setScale( 1 );
+
+            //Scale up the faucet since it looks good larger
+            setScale( 1.2 );
             setOffset( 0, 0 );
 
             //Create the slider
@@ -63,7 +58,7 @@ public class FaucetNode extends PNode {
                 setPaintTicks( true );
 
                 //Fix the size so it will fit into the specified image dimensions
-                setPreferredSize( new Dimension( 140, getPreferredSize().height ) );
+                setPreferredSize( new Dimension( 95, getPreferredSize().height ) );
 
                 //Wire up 2-way communication with the Property
                 addChangeListener( new ChangeListener() {
@@ -94,8 +89,12 @@ public class FaucetNode extends PNode {
                     }
                 } );
             }} ) {{
-                translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );//Mac sliders render lower than windows slider, so have to compensate
-                //Faucet slider should be invisible when in "auto" mode
+
+                //TODO: rewrite slider in piccolo to avoid mac/pc and layout problems?
+                //Mac sliders render lower than windows slider, so have to compensate
+                translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );
+
+                //TODO: Faucet slider should be invisible when in "auto" mode
             }};
             addChild( sliderNode );
         }};
@@ -109,7 +108,7 @@ public class FaucetNode extends PNode {
                     double width = flow * 100 * 0.5;
                     double pipeWidth = 56;
                     double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
-                    double height = bottomY - imageHeight - offset.getY();
+                    double height = bottomY - imageHeight - getOffset().getY();
                     final Rectangle2D.Double waterShape = new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height );
                     notifyWaterShapeChanged( waterShape );
                     setPathTo( waterShape );
