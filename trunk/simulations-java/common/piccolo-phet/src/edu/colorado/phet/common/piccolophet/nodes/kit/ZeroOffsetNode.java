@@ -16,6 +16,10 @@ public class ZeroOffsetNode extends PNode {
     public ZeroOffsetNode( PNode node ) {
         addChild( node );
 
+        // The following line makes sure that the bounds of the PNode are accurate.  Usually this is superfluous, but
+        // we have seen occasions where this was needed in order for this class to work as intended.
+        node.getFullBoundsReference();
+
         //Take away any local offset applied to the node before standardizing, otherwise will be off by that amount
         node.setOffset( 0, 0 );
 
@@ -24,7 +28,6 @@ public class ZeroOffsetNode extends PNode {
     }
 
     public static void main( String[] args ) {
-//        Rectangle rect = new Rectangle(  );
         new PFrame() {{
             PhetPPath pathNode = new PhetPPath( new Rectangle( 1000, 1000, 50, 50 ) );
             debug( pathNode );
