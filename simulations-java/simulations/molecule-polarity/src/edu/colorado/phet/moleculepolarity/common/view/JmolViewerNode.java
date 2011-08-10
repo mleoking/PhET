@@ -60,7 +60,6 @@ public class JmolViewerNode extends PhetPNode {
 
             // create the 3D viewer
             viewer = JmolViewer.allocateViewer( ViewerPanel.this, new SmarterJmolAdapter(), null, null, null, "-applet", null );
-            System.out.println( "viewer class = " + viewer.getClass().getName() );//XXX
 
             // default settings of the viewer, independent of the molecule displayed
             viewer.setBooleanProperty( "antialiasDisplay", true );
@@ -90,7 +89,7 @@ public class JmolViewerNode extends PhetPNode {
         public void doScriptStatus( String script ) {
             Object status = viewer.scriptWaitStatus( script, null );
             if ( status != null ) {
-                System.out.println( "viewer status = <" + status.toString() + ">" );
+                System.out.println( "Jmol:\n" + status.toString() );
             }
         }
 
