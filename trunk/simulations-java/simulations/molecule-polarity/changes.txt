@@ -1,3 +1,4 @@
+8/10/11 restore "more" in bond type indicator
 8/10/11 remove arrows and "more" from bond type indicator
 8/10/11 Jmol: return status from developer scripts
 8/10/11 adjust 2D dipoles to look more like Jmol dipoles

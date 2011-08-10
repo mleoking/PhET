@@ -41,10 +41,10 @@ public class BondTypeNode extends PComposite {
         PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
             setPaint( Color.BLACK );
         }};
-        PNode maxLabelNode = new PText( MPStrings.IONIC ) {{
+        PNode maxLabelNode = new PText( MPStrings.MORE_IONIC ) {{
             setFont( LABEL_FONT );
         }};
-        PNode minLabelNode = new PText( MPStrings.COVALENT ) {{
+        PNode minLabelNode = new PText( MPStrings.MORE_COVALENT ) {{
             setFont( LABEL_FONT );
         }};
         final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
