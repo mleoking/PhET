@@ -32,8 +32,10 @@ public class MicroKitControlNode extends PNode {
                                                                           createTitle(),
                                                                           new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sucroseString, SUGAR ) ) ),
                                                                           new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( calciumChlorideString, CALCIUM_CHLORIDE ) ) ),
-                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ) ),
-                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) ) )
+                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ) )
+
+                                                                          //Commented out ethanol kit for now
+//                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) ) )
         );
         addChild( new WhiteControlPanelNode( kitSelectionNode ) );
 
