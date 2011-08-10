@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -28,18 +29,16 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BondTypeNode extends PComposite {
 
-    private static final double TRACK_LENGTH = 350;
-    private static final double TRACK_HEIGHT = 5;
+    private static final Dimension TRACK_SIZE = new Dimension( 350, 5 );
+    private static final Dimension THUMB_SIZE = new Dimension( 15, 30 );
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final double LABEL_Y_SPACING = 4;
-    private static final double THUMB_WIDTH = 15;
-    private static final double THUMB_HEIGHT = 30;
 
-    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_LENGTH );
+    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_SIZE.width );
 
     public BondTypeNode( TwoAtomMolecule molecule ) {
 
-        PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_LENGTH, TRACK_HEIGHT ) ) {{
+        PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
             setPaint( Color.BLACK );
         }};
         PNode maxLabelNode = new PText( MPStrings.IONIC ) {{
@@ -48,7 +47,7 @@ public class BondTypeNode extends PComposite {
         PNode minLabelNode = new PText( MPStrings.COVALENT ) {{
             setFont( LABEL_FONT );
         }};
-        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_HEIGHT ), new Point2D.Double( 0, 0 ), THUMB_WIDTH, THUMB_WIDTH, THUMB_WIDTH / 3 );
+        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
         thumbNode.setPaint( Color.LIGHT_GRAY );
 
         // rendering order
