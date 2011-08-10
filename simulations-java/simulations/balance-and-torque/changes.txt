@@ -1,3 +1,6 @@
+Made the items grabbed from the teeter totter be positioned under the mouse (they were off in some cases).
+Fixed issues with humans not being positioned where the center of balance is.
+Fixed issue where items could be added to center of plank.
 Initial usage of KitSelectionNode
 # 0.00.05 (54837) Aug 3, 2011
 8/3/11 Publishing updated version to dev for review.
