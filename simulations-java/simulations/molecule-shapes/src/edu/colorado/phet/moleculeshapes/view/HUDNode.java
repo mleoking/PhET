@@ -10,9 +10,13 @@ import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
 import com.jme3.input.event.JoyButtonEvent;
@@ -419,25 +423,25 @@ public class HUDNode extends Geometry {
     }
 
     private boolean isKeyDown( int key ) {
-//        return KeyInput.get().isKeyDown( key );
-        return false;
+        return Keyboard.isKeyDown( key );
+//        return false;
     }
 
 
     private int getButtonMask( int swingButton ) {
         int buttonMask = 0;
-//        if ( MouseInput.get().isButtonDown( 0 ) || swingButton == MouseEvent.BUTTON1 ) {
-//            buttonMask |= InputEvent.BUTTON1_MASK;
-//            buttonMask |= InputEvent.BUTTON1_DOWN_MASK;
-//        }
-//        if ( MouseInput.get().isButtonDown( 1 ) || swingButton == MouseEvent.BUTTON2 ) {
-//            buttonMask |= InputEvent.BUTTON2_MASK;
-//            buttonMask |= InputEvent.BUTTON2_DOWN_MASK;
-//        }
-//        if ( MouseInput.get().isButtonDown( 2 ) || swingButton == MouseEvent.BUTTON3 ) {
-//            buttonMask |= InputEvent.BUTTON3_MASK;
-//            buttonMask |= InputEvent.BUTTON3_DOWN_MASK;
-//        }
+        if ( Mouse.isButtonDown( 0 ) || swingButton == MouseEvent.BUTTON1 ) {
+            buttonMask |= InputEvent.BUTTON1_MASK;
+            buttonMask |= InputEvent.BUTTON1_DOWN_MASK;
+        }
+        if ( Mouse.isButtonDown( 1 ) || swingButton == MouseEvent.BUTTON2 ) {
+            buttonMask |= InputEvent.BUTTON2_MASK;
+            buttonMask |= InputEvent.BUTTON2_DOWN_MASK;
+        }
+        if ( Mouse.isButtonDown( 2 ) || swingButton == MouseEvent.BUTTON3 ) {
+            buttonMask |= InputEvent.BUTTON3_MASK;
+            buttonMask |= InputEvent.BUTTON3_DOWN_MASK;
+        }
         return buttonMask;
     }
 
