@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
@@ -26,6 +27,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
@@ -33,6 +35,7 @@ import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
@@ -196,18 +199,26 @@ public class BalancingActCanvas extends PhetPCanvas {
 
         // Add the mass box, which is the place where the user will get the
         // objects that can be placed on the balance.
-        MassBoxNode massBoxControlPanel = new MassBoxNode( model, mvt, this );
-        rootNode.addChild( massBoxControlPanel );
+        PNode massKit = new ZeroOffsetNode( new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) ) );
+//        PNode massKit = new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) );
+        System.out.println( "massKit.getFullBoundsReference() = " + massKit.getFullBoundsReference() );
+        rootNode.addChild( massKit );
+//        rootNode.addChild( new ZeroOffsetNode( massKit ) );
 
         // Lay out the control panels.
-        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massBoxControlPanel.getFullBoundsReference().width / 2 - 10,
-                                               STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width / 2 - 10 );
-        massBoxControlPanel.setOffset( controlPanelCenterX - massBoxControlPanel.getFullBoundsReference().width / 2,
-                                       mvt.modelToViewY( 0 ) - massBoxControlPanel.getFullBoundsReference().height - 10 );
-        vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
-                                      massBoxControlPanel.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
+        PDebug.debugBounds = true;
 
-        rootNode.addChild( new ZeroOffsetNode( new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) ) ) );
+        double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - 10,
+                                               STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width / 2 - 10 );
+//        massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
+//                                       mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
+//        massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
+//                                       mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().getMinY());
+        massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
+                           mvt.modelToViewY( 0 ) );
+        vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
+                                      massKit.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
+        rootNode.addChild( new PhetPPath( mvt.modelToView( new Rectangle2D.Double( 0, 0, 0.5, 0.5 ) ) ) );
     }
 
     // Convenience class for avoiding code duplication.
