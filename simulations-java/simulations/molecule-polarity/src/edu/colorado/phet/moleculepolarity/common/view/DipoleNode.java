@@ -27,6 +27,8 @@ public abstract class DipoleNode extends PComposite {
     protected DipoleNode( Color color ) {
         vectorNode = new Vector2DNode( 1, 0, REF_MAGNITUDE, REF_LENGTH ); // origin is at tail of VectorNode
         vectorNode.setArrowFillPaint( color );
+        vectorNode.setHeadSize( 12, 25 ); // similar to Jmol
+        vectorNode.setTailWidth( 4 ); // similar to Jmol
         addChild( vectorNode );
     }
 
