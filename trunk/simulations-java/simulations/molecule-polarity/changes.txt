@@ -1,3 +1,4 @@
+8/10/11 Jmol: return status from developer scripts
 8/10/11 adjust 2D dipoles to look more like Jmol dipoles
 8/10/11 Jmol: swp atom labels so that they are numbered clockwise from upper left
 8/10/11 Jmol: change atoms labels so that if there's only one atom of a type, it has no index (eg "C", not "C1")

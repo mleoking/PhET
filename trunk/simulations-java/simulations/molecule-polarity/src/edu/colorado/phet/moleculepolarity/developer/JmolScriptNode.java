@@ -43,7 +43,7 @@ public class JmolScriptNode extends PhetPNode {
 
         executeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                viewerNode.doScript( textArea.getText() );
+                viewerNode.doScriptStatus( textArea.getText() );
             }
         } );
     }
