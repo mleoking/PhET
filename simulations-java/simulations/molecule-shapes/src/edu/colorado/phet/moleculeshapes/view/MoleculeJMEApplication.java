@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Callable;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
@@ -177,7 +179,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         setDisplayFps( false );
         setDisplayStatView( false );
 
-        preGuiNode.attachChild( new HUDNode( assetManager, inputManager ) );
+        preGuiNode.attachChild( new HUDNode( 512, 64, assetManager, inputManager ) {{
+            getPanel().add( new JButton( "Reset" ) );
+        }} );
     }
 
     public void testAddAtom( boolean isLonePair ) {
