@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultMaleHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
@@ -24,7 +24,7 @@ public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
     protected static final ModelViewTransform SCALING_MVT =
             ModelViewTransform.createOffsetScaleMapping( new Point2D.Double( 0, 0 ), 100 );
 
-    public AdultMaleHumanCreatorNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public AdultMaleHumanCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         ImageMass adultMaleHumanNode = new AdultMaleHuman();
         setSelectionNode( new ImageModelElementNode( SCALING_MVT, adultMaleHumanNode, canvas ) );

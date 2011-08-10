@@ -9,10 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
@@ -40,7 +40,7 @@ import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 /**
  * @author John Blanco
  */
-public class TeeterTotterTorqueCanvas extends PhetPCanvas {
+public class BalancingActCanvas extends PhetPCanvas {
 
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
@@ -48,7 +48,7 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
     public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
 
-    public TeeterTotterTorqueCanvas( final TeeterTotterTorqueModel model ) {
+    public BalancingActCanvas( final BalancingActModel model ) {
 
         // Set up the canvas-screen transform.
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
@@ -78,10 +78,10 @@ public class TeeterTotterTorqueCanvas extends PhetPCanvas {
                 PNode massNode = null;
                 if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
-                    massNode = new BrickStackNode( mvt, (ShapeMass) mass, TeeterTotterTorqueCanvas.this );
+                    massNode = new BrickStackNode( mvt, (ShapeMass) mass, BalancingActCanvas.this );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass, TeeterTotterTorqueCanvas.this );
+                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass, BalancingActCanvas.this );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );

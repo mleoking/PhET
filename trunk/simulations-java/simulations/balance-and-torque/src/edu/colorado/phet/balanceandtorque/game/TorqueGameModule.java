@@ -2,7 +2,7 @@
 package edu.colorado.phet.balanceandtorque.game;
 
 import edu.colorado.phet.balanceandtorque.game.view.GameCanvas;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.application.Module;
 
 /**
@@ -11,12 +11,12 @@ import edu.colorado.phet.common.phetcommon.application.Module;
 public class TorqueGameModule extends Module {
 
     public TorqueGameModule() {
-        this( new TeeterTotterTorqueModel() );
+        this( new BalancingActModel() );
 
         setClockControlPanel( null );
     }
 
-    private TorqueGameModule( TeeterTotterTorqueModel model ) {
+    private TorqueGameModule( BalancingActModel model ) {
         // TODO: i18n
         super( "Game", model.getClock() );
         setSimulationPanel( new GameCanvas() );

@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,7 +25,7 @@ public class BrickStackCreatorNode extends ModelElementCreatorNode {
 
     private final int numBricks;
 
-    public BrickStackCreatorNode( int numBricks, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public BrickStackCreatorNode( int numBricks, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.numBricks = numBricks;
         setSelectionNode( new BrickStackNode( SCALING_MVT, new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), canvas ) );
