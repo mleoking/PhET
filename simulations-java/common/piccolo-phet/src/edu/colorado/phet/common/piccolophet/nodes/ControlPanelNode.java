@@ -12,6 +12,7 @@ import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
+import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -55,15 +56,19 @@ public class ControlPanelNode extends PNode {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     final PBounds layoutSize = getControlPanelBounds( content );
                     //Set the size of the border, subtracting out any local offset of the content node
-                    setPathTo( new RoundRectangle2D.Double( layoutSize.getX() - inset, layoutSize.getY() - inset, layoutSize.width + inset * 2, layoutSize.height + inset * 2, arc, arc ) );
+                    setPathTo( new RoundRectangle2D.Double( 0, 0, layoutSize.width + inset * 2, layoutSize.height + inset * 2, arc, arc ) );
                 }
             };
             content.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, updateSize );
             updateSize.propertyChange( null );
         }};
-        content.setOffset( inset, inset );
+        // Create a node that puts the contents at the inset location
+        // regardless of its initial offset.
+        PNode insetContentNode = new ZeroOffsetNode( content ) {{
+            setOffset( inset, inset );
+        }};
         addChild( background );
-        addChild( content );
+        background.addChild( insetContentNode );
         if ( transparifySwing ) {
             transparifySwing( this );
         }
@@ -71,6 +76,8 @@ public class ControlPanelNode extends PNode {
 
     /**
      * Determine the bounds of the control panel.  This implementation uses the bounds of the content.
+     * This may be overridden if subclasses don't want control panel size to change when the contents
+     * change.
      *
      * @param content the content PNode in this ControlPanelNode
      * @return the PBounds which the ControlPanelNode should occupy

@@ -53,4 +53,5 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
                )
         );
     }
+
 }
