@@ -4,16 +4,17 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
-import edu.colorado.phet.common.piccolophet.nodes.DoubleArrowNode;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.TwoAtomMolecule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
@@ -27,26 +28,24 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class BondTypeNode extends PComposite {
 
-    private static final double ARROW_LENGTH = 350;
-    private static final double ARROW_HEAD_HEIGHT = 15;
-    private static final double ARROW_HEAD_WIDTH = 15;
-    private static final double ARROW_TAIL_WIDTH = 5;
+    private static final double TRACK_LENGTH = 350;
+    private static final double TRACK_HEIGHT = 5;
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final double LABEL_Y_SPACING = 4;
     private static final double THUMB_WIDTH = 15;
     private static final double THUMB_HEIGHT = 30;
 
-    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), ARROW_HEAD_HEIGHT, ARROW_LENGTH - ARROW_HEAD_HEIGHT );
+    private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_LENGTH );
 
     public BondTypeNode( TwoAtomMolecule molecule ) {
 
-        DoubleArrowNode trackNode = new DoubleArrowNode( new Point2D.Double( 0, 0 ), new Point2D.Double( ARROW_LENGTH, 0 ), ARROW_HEAD_HEIGHT, ARROW_HEAD_WIDTH, ARROW_TAIL_WIDTH ) {{
+        PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_LENGTH, TRACK_HEIGHT ) ) {{
             setPaint( Color.BLACK );
         }};
-        PNode maxLabelNode = new PText( MPStrings.MORE_IONIC ) {{
+        PNode maxLabelNode = new PText( MPStrings.IONIC ) {{
             setFont( LABEL_FONT );
         }};
-        PNode minLabelNode = new PText( MPStrings.MORE_COVALENT ) {{
+        PNode minLabelNode = new PText( MPStrings.COVALENT ) {{
             setFont( LABEL_FONT );
         }};
         final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_HEIGHT ), new Point2D.Double( 0, 0 ), THUMB_WIDTH, THUMB_WIDTH, THUMB_WIDTH / 3 );

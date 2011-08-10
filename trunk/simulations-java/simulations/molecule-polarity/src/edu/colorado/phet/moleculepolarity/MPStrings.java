@@ -19,6 +19,7 @@ public class MPStrings {
     public static final String ATOM_LABELS = RESOURCES.getLocalizedString( "atomLabels" );
     public static final String B = RESOURCES.getLocalizedString( "B" );
     public static final String C = RESOURCES.getLocalizedString( "C" );
+    public static final String COVALENT = RESOURCES.getLocalizedString( "covalent" );
     public static final String VIEW = RESOURCES.getLocalizedString( "View" );
     public static final String BOND_DIPOLES = RESOURCES.getLocalizedString( "bondDipoles" );
     public static final String BOND_TYPE = RESOURCES.getLocalizedString( "bondType" );
@@ -26,13 +27,12 @@ public class MPStrings {
     public static final String ELECTRON_DENSITY = RESOURCES.getLocalizedString( "electronDensity" );
     public static final String ELECTRONEGATIVITY = RESOURCES.getLocalizedString( "electronegativity" );
     public static final String ELECTROSTATIC_POTENTIAL = RESOURCES.getLocalizedString( "electrostaticPotential" );
+    public static final String IONIC = RESOURCES.getLocalizedString( "ionic" );
     public static final String ISOSURFACE = RESOURCES.getLocalizedString( "isosurface" );
     public static final String LESS = RESOURCES.getLocalizedString( "less" );
     public static final String MOLECULE = RESOURCES.getLocalizedString( "molecule" );
     public static final String MOLECULAR_DIPOLE = RESOURCES.getLocalizedString( "molecularDipole" );
     public static final String MORE = RESOURCES.getLocalizedString( "more" );
-    public static final String MORE_COVALENT = RESOURCES.getLocalizedString( "moreCovalent" );
-    public static final String MORE_IONIC = RESOURCES.getLocalizedString( "moreIonic" );
     public static final String NONE = RESOURCES.getLocalizedString( "none" );
     public static final String OFF = RESOURCES.getLocalizedString( "off" );
     public static final String ON = RESOURCES.getLocalizedString( "on" );
