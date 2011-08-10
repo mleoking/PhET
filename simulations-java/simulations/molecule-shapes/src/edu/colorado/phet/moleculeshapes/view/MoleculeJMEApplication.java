@@ -14,17 +14,10 @@ import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 
 import com.jme3.input.MouseInput;
-import com.jme3.input.RawInputListener;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
-import com.jme3.input.event.JoyAxisEvent;
-import com.jme3.input.event.JoyButtonEvent;
-import com.jme3.input.event.KeyInputEvent;
-import com.jme3.input.event.MouseButtonEvent;
-import com.jme3.input.event.MouseMotionEvent;
-import com.jme3.input.event.TouchEvent;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
@@ -184,7 +177,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         setDisplayFps( false );
         setDisplayStatView( false );
 
-        guiNode.attachChild( new HUDNode( assetManager, inputManager ) );
+        preGuiNode.attachChild( new HUDNode( assetManager, inputManager ) );
     }
 
     public void testAddAtom( boolean isLonePair ) {
