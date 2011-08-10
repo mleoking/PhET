@@ -2,11 +2,11 @@
 package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import java.util.TimerTask;
 
 import javax.swing.*;
 
@@ -90,15 +90,11 @@ public class HUDNode extends Geometry {
         };
 
         // TODO: only update when repaint needed?
-        new java.util.Timer().schedule( new TimerTask() {
-                                            @Override public void run() {
-                                                SwingUtilities.invokeLater( new Runnable() {
-                                                    public void run() {
-                                                        image.refreshImage();
-                                                    }
-                                                } );
-                                            }
-                                        }, 50 );
+        new Timer( 50, new ActionListener() {
+            public void actionPerformed( ActionEvent e ) {
+                image.refreshImage();
+            }
+        } ).start();
 
         inputManager.addRawInputListener( new RawInputListener() {
             public void beginInput() {
@@ -294,8 +290,9 @@ public class HUDNode extends Geometry {
                     downX = x;
                     downY = y;
 //                    setFocusOwner( componentAt( x, y, panel, true ) );
-                    dispatchEvent( panel, new FocusEvent( panel,        // TODO: remove this HACK
-                                                          FocusEvent.FOCUS_GAINED, false, null ) );
+                    componentAt( x, y, panel, true ).requestFocus();
+//                    dispatchEvent( panel, new FocusEvent( panel,        // TODO: remove this HACK
+//                                                          FocusEvent.FOCUS_GAINED, false, null ) );
                 }
                 else if ( grabbedMouseButton == swingButton && grabbedMouse != null ) {
                     comp = grabbedMouse;
