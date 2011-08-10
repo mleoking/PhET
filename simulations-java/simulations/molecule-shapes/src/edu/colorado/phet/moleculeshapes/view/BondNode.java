@@ -19,7 +19,7 @@ public class BondNode extends Geometry {
         Vector3f start = MoleculeJMEApplication.vectorConversion( a );
         Vector3f end = MoleculeJMEApplication.vectorConversion( b );
 
-        BondNode.this.mesh = new Cylinder( 4, 8, .5f, start.distance( end ) );
+        BondNode.this.mesh = new Cylinder( 4, 16, .5f, start.distance( end ) );
         setLocalTranslation( FastMath.interpolateLinear( .5f, start, end ) );
         lookAt( end, Vector3f.UNIT_Y );
 //            }

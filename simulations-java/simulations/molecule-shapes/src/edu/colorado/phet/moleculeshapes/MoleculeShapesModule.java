@@ -64,66 +64,8 @@ public class MoleculeShapesModule extends Module {
 
         setClockControlPanel( null );
 
-        setControlPanel( new JPanel() {{
-            JComponent parent = this;
-            setLayout( new BoxLayout( parent, BoxLayout.Y_AXIS ) );
-            add( new JButton( "(Test) Add Atom" ) {{
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        app.enqueue( new Callable<Object>() {
-                            public Object call() throws Exception {
-                                app.testAddAtom( false );
-                                return null;
-                            }
-                        } );
-                    }
-                } );
-            }} );
-            add( new JButton( "(Test) Add Lone Pair" ) {{
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        app.enqueue( new Callable<Object>() {
-                            public Object call() throws Exception {
-                                app.testAddAtom( true );
-                                return null;
-                            }
-                        } );
-                    }
-                } );
-            }} );
-            add( new JButton( "(Test) Remove Random" ) {{
-                addActionListener( new ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        app.enqueue( new Callable<Object>() {
-                            public Object call() throws Exception {
-                                app.testRemoveAtom();
-                                return null;
-                            }
-                        } );
-                    }
-                } );
-            }} );
-
-            class VSEPRButton extends JButton {
-                VSEPRButton( String nickname, final int X, final int E ) {
-                    super( nickname + " AX" + X + "E" + E );
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            app.setState( X, E );
-                        }
-                    } );
-                }
-            }
-
-            add( new VSEPRButton( "Linear", 2, 3 ) );
-            add( new VSEPRButton( "Trigonal pyramidal", 3, 1 ) );
-            add( new VSEPRButton( "T-shaped", 3, 2 ) );
-            add( new VSEPRButton( "Seesaw", 4, 1 ) );
-            add( new VSEPRButton( "Square Planar", 4, 2 ) );
-            add( new VSEPRButton( "Square Pyramidal", 5, 1 ) );
-            add( new VSEPRButton( "Pentagonal pyramidal", 6, 1 ) );
-            add( new ResetAllButton( parent ) );
-        }} );
+        setControlPanel( null );
+        setLogoPanelVisible( false );
 
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
             add( canvas, BorderLayout.CENTER );
