@@ -151,24 +151,39 @@ public class BalancingActCanvas extends PhetPCanvas {
             }
         } );
 
-        // Add the button that will restore the columns if they have been
-        // previously removed.
-        // TODO: i18n
-        final TextButtonNode restoreColumnsButton = new TextButtonNode( "Add Supports", new PhetFont( 14 ) ) {{
+        // Add the button that will control whether or not the support columns
+        // are in place.
+        final TextButtonNode columnControlButton = new TextButtonNode( "", new PhetFont( 14 ) ) {{
             setBackground( Color.YELLOW );
-            setOffset( mvt.modelToViewX( 2.3 ) - getFullBounds().width / 2, mvt.modelToViewY( -0.2 ) );
             addInputEventListener( new ButtonEventHandler() {
                 @Override public void mouseReleased( PInputEvent event ) {
-                    model.supportColumnsActive.set( true );
+                    model.supportColumnsActive.set( !model.supportColumnsActive.get() );
                 }
             } );
         }};
-        rootNode.addChild( restoreColumnsButton );
+        rootNode.addChild( columnControlButton );
+
+        // Change the button back and forth from one that removes the supports
+        // to one that restores the supports.
+        final Point2D columnControlButtonLocation = new Point2D.Double( mvt.modelToViewX( 2.55 ), mvt.modelToViewY( -0.3 ) );
+        model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean supportColumnsActive ) {
+                if ( supportColumnsActive ) {
+                    // TODO: i18n
+                    columnControlButton.setText( "Remove Supports" );
+                }
+                else {
+                    // TODO: i18n
+                    columnControlButton.setText( "Add Supports" );
+                }
+                columnControlButton.centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
+            }
+        } );
 
         // Add the Reset All button.
         rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
-            centerFullBoundsOnPoint( restoreColumnsButton.getFullBoundsReference().getCenterX(),
-                                     restoreColumnsButton.getFullBoundsReference().getMaxY() + 30 );
+            centerFullBoundsOnPoint( columnControlButton.getFullBoundsReference().getCenterX(),
+                                     columnControlButton.getFullBoundsReference().getMaxY() + 30 );
             setConfirmationEnabled( false );
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -178,13 +193,6 @@ public class BalancingActCanvas extends PhetPCanvas {
                 }
             } );
         }} );
-
-        // Only show the Restore Columns button when the columns are not active.
-        model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean supportColumnsActive ) {
-                restoreColumnsButton.setVisible( !supportColumnsActive );
-            }
-        } );
 
         // Add the control panel that will allow users to control the visibility
         // of the various vectors.
