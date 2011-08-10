@@ -1,14 +1,18 @@
 TODO list for molecule-polarity
 
 HIGH
+- add perspective to E-field plates
+- add cross on 2D dipoles, make it look like Jmol, shrink like Vector2DNode
 - adjust initial orientation for NH3, CH3F, CHF3, CH2F2, CHCl3
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
 - use "isosurface VDW color white translucent" for molecules that are composed of 2 of the same atom (eg H2)
 - write script to get atom xyz coordinates after rotating in Jmol viewer
 
 MEDIUM
+- create shape of 2D isosurface, but colorscheme is still TBD
+- 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
+- 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - change initial molecule angle so that turning on the E-field causes it to rotate?
-- add cross on dipoles
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientations
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
