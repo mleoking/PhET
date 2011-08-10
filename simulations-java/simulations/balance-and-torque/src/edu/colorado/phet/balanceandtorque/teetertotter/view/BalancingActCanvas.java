@@ -29,7 +29,6 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
-import edu.colorado.phet.common.piccolophet.nodes.kit.ZeroOffsetNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -202,23 +201,16 @@ public class BalancingActCanvas extends PhetPCanvas {
         }} );
         rootNode.addChild( vectorControlPanel );
 
-        // Add the mass box, which is the place where the user will get the
+        // Add the mass kit, which is the place where the user will get the
         // objects that can be placed on the balance.
         ControlPanelNode massKit = new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) );
-//        PNode massKit = new ControlPanelNode( new MassKitSelectionNode( new Property<Integer>( 0 ), model, mvt, this ) );
-        System.out.println( "massKit.getFullBoundsReference() = " + massKit.getFullBoundsReference() );
-        PNode zeroedMassKit = new ZeroOffsetNode( massKit );
-        System.out.println( "zeroedMassKit.getFullBoundsReference() = " + zeroedMassKit.getFullBoundsReference() );
         rootNode.addChild( massKit );
 
+        // Lay out the control panels.
         double controlPanelCenterX = Math.min( STAGE_SIZE.getWidth() - massKit.getFullBoundsReference().width / 2 - 10,
                                                STAGE_SIZE.getWidth() - vectorControlPanel.getFullBoundsReference().width / 2 - 10 );
-//        massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
-//                                       mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
-//        massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
-//                                       mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().getMinY());
         massKit.setOffset( controlPanelCenterX - massKit.getFullBoundsReference().width / 2,
-                           mvt.modelToViewY( 0 ) );
+                           mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
         vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
                                       massKit.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
     }
