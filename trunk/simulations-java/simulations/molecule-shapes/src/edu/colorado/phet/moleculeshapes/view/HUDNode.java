@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Point2D;
 import java.util.TimerTask;
 
 import javax.swing.*;
@@ -187,12 +188,10 @@ public class HUDNode extends Geometry {
         return yOffset;
     }
 
-    public void setxOffset( int xOffset ) {
-        this.xOffset = xOffset;
-    }
-
-    public void setyOffset( int yOffset ) {
-        this.yOffset = yOffset;
+    public void setOffset( Point2D offset ) {
+        xOffset = (int) offset.getX();
+        yOffset = (int) offset.getY();
+        setLocalTranslation( new Vector3f( xOffset, yOffset, 0 ) );
     }
 
     public void refresh() {
