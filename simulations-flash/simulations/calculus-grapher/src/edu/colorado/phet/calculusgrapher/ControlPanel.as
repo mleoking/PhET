@@ -116,6 +116,17 @@ public class ControlPanel extends Sprite {
 
     public function initializeComponents():void {
         //trace("this.checkBoxDerivative:"+this.checkBoxDerivative);
+		//set labels
+		var drawingToolsLabel : TextField = this.drawingTools_label;
+		var viewLabel: TextField = this.view_label;
+		
+		//set label strings
+		drawingToolsLabel.text = SimStrings.get("drawingTools", "Drawing Tools");
+		viewLabel.text = SimStrings.get("view", "View");
+		
+		//resize labels
+		TextFieldUtils.resizeText( drawingToolsLabel, "center" );
+        TextFieldUtils.resizeText( viewLabel, "left" );
 
         this.derivative_cb.addEventListener(MouseEvent.CLICK, showDerivativeCurve);
         this.integral_cb.addEventListener(MouseEvent.CLICK, showIntegralCurve);
