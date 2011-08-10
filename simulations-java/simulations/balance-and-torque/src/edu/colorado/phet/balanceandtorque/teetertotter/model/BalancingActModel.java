@@ -17,7 +17,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  *
  * @author John Blanco
  */
-public class TeeterTotterTorqueModel implements Resettable {
+public class BalancingActModel implements Resettable {
     //------------------------------------------------------------------------
     // Class Data
     //------------------------------------------------------------------------

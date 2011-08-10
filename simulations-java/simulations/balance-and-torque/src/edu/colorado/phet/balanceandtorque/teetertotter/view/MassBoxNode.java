@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.balanceandtorque.common.BackButton;
 import edu.colorado.phet.balanceandtorque.common.ForwardButton;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -40,7 +40,7 @@ public class MassBoxNode extends PNode {
     /**
      * Constructor.
      */
-    public MassBoxNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MassBoxNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         // Create a node that contains the set of bricks.  This is a "mass set".
         massSets.add( new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{

@@ -3,7 +3,7 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
 import java.awt.GridLayout;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -27,7 +27,7 @@ public class MassKitSelectionNode extends KitSelectionNode<PNode> {
         }
     }
 
-    public MassKitSelectionNode( final Property<Integer> selectedKit, final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public MassKitSelectionNode( final Property<Integer> selectedKit, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( selectedKit,
                new Kit<PNode>( new TitleNode( "Bricks" ),
                                new SwingLayoutNode( new GridLayout( 2, 2, 20, 20 ) ) {{

@@ -5,7 +5,7 @@ import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.balanceandtorque.teetertotter.model.TeeterTotterTorqueModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -44,7 +44,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     // Instance Data
     //----------------------------------------------------------------------------
 
-    protected final TeeterTotterTorqueModel model;
+    protected final BalancingActModel model;
     private final PhetPCanvas canvas;
     private final ModelViewTransform mvt;
     private PNode selectionNode = null;
@@ -56,7 +56,7 @@ public abstract class ModelElementCreatorNode extends PComposite {
     // Constructor(s)
     //----------------------------------------------------------------------------
 
-    public ModelElementCreatorNode( final TeeterTotterTorqueModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
+    public ModelElementCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
         this.model = model;
         this.mvt = mvt;
