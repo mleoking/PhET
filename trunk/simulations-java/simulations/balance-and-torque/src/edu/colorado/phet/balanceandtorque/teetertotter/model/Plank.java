@@ -186,7 +186,8 @@ public class Plank extends ShapeModelElement {
             massesOnSurface.add( mass );
             mass.setOnPlank( true );
             mass.setPosition( closestOpenLocation );
-            double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) * ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
+            double distanceFromCenter = getPlankSurfaceCenter().toPoint2D().distance( mass.getPosition() ) *
+                                        ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
             mapMassToDistFromCenter.put( mass, distanceFromCenter );
             forceVectorList.add( new MassForceVector( mass ) );
             leverArmVectorList.add( new LeverArmVector( pivotPoint, mass ) );
@@ -300,7 +301,16 @@ public class Plank extends ShapeModelElement {
     // point.  Returns null if no nearby open location is available.
     private Point2D getOpenMassDroppedLocation( Point2D p ) {
         Point2D closestOpenLocation = null;
-        for ( Point2D candidateOpenLocation : getOpenSnapToLocations() ) {
+        List<Point2D> candidateOpenLocations = getSnapToLocations();
+        if ( NUM_SNAP_TO_LOCATIONS % 2 == 1 ) {
+            // Remove the location at the center of the plank from the set of
+            // candidates, since we don't want to allow users to place things
+            // there.
+            candidateOpenLocations.remove( NUM_SNAP_TO_LOCATIONS / 2 );
+        }
+        // Sort through the locations and eliminate those that are already
+        // occupied or too far away.
+        for ( Point2D candidateOpenLocation : candidateOpenLocations ) {
             // Must be a reasonable distance away in the horizontal direction
             // so that objects don't appear to fall sideways.
             if ( Math.abs( candidateOpenLocation.getX() - p.getX() ) <= INTER_SNAP_TO_MARKER_DISTANCE ) {
