@@ -29,6 +29,12 @@ public class LonePairNode extends Node {
         super( "Lone Pair" );
         this.position = position;
 
+        MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
+            public void update() {
+                setCullHint( MoleculeJMEApplication.showLonePairs.get() ? CullHint.Inherit : CullHint.Always );
+            }
+        } );
+
         // make the model a bit bigger
         scale( 2.5f );
 
