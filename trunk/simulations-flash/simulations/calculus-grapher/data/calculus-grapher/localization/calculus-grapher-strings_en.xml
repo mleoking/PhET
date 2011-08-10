@@ -3,6 +3,8 @@
     <string key="undo" value="Undo"/>
     <string key="smooth" value="Smooth"/>
     <string key="zero" value="Zero"/>
+    <string key="drawingTools" value="Drawing Tools"/>
+    <string key="view" value="View"/>
     <string key="integral" value="Integral"/>
     <string key="derivative" value="Derivative"/>
     <string key="grid" value="Grid"/>
