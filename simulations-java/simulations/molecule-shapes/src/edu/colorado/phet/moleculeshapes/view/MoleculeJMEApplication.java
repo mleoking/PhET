@@ -1,5 +1,6 @@
 package edu.colorado.phet.moleculeshapes.view;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +10,15 @@ import java.util.concurrent.Callable;
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
+import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -47,6 +52,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private boolean dragging = false;
 
     private MoleculeModel molecule = new MoleculeModel();
+
+    private HUDNode controlPanel;
 
     private Node moleculeNode; //The molecule to display and rotate
 
@@ -179,9 +186,32 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         setDisplayFps( false );
         setDisplayStatView( false );
 
-        preGuiNode.attachChild( new HUDNode( 512, 64, assetManager, inputManager ) {{
-            getPanel().add( new JButton( "Reset" ) );
-        }} );
+        controlPanel = new HUDNode( 512, 64, assetManager, inputManager ) {{
+            getPanel().add( new JButton( "Reset" ) {{
+                setOpaque( false );
+            }} );
+            getPanel().add( new PCanvas() {{
+                final PCanvas canvas = this;
+                setPreferredSize( new Dimension( 50, 50 ) );
+                getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, 30, 30 ) ) {{
+                    setPaint( Color.RED );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mouseEntered( PInputEvent event ) {
+                            setPaint( Color.GREEN );
+                        }
+
+                        @Override public void mouseExited( PInputEvent event ) {
+                            setPaint( Color.BLUE );
+                        }
+
+                        @Override public void mouseMoved( PInputEvent event ) {
+                            super.mouseMoved( event );
+                        }
+                    } );
+                }} );
+            }} );
+        }};
+        preGuiNode.attachChild( controlPanel );
     }
 
     public void testAddAtom( boolean isLonePair ) {
@@ -249,4 +279,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         } );
     }
 
+    public void onResize( Dimension canvasSize ) {
+//        controlPanel.onResize( canvasSize);
+    }
 }
