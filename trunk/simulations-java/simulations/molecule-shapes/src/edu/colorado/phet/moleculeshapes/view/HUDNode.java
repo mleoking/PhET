@@ -44,6 +44,10 @@ public class HUDNode extends Geometry {
         }
     };
 
+    private int xOffset = 0;
+    private int yOffset = 0;
+    private final PaintableImage image;
+
     private Component lastComponent;
     private Component grabbedMouse;
     private int grabbedMouseButton;
@@ -54,17 +58,22 @@ public class HUDNode extends Geometry {
     private static final int MAX_CLICKED_OFFSET = 4;
 
     private static final int DOUBLE_CLICK_TIME = 300;
+    private final int width;
+    private final int height;
 
     public HUDNode( final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
         super( "HUD", new Quad( width, height, true ) );
+        this.width = width;
+        this.height = height;
         panel.setPreferredSize( new Dimension( width, height ) );
         panel.setSize( panel.getPreferredSize() );
         panel.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
+        panel.setOpaque( false );
 
         System.out.println( panel.getBounds() );
         System.out.println( panel.isDisplayable() );
 
-        final PaintableImage image = new PaintableImage( width, height, true ) {
+        image = new PaintableImage( width, height, true ) {
             {
                 panel.setDoubleBuffered( false );
                 refreshImage();
@@ -108,7 +117,7 @@ public class HUDNode extends Geometry {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 //                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( (int) ( evt.getX() - getXOffset() ), (int) ( height - evt.getY() + getYOffset() ), false, MouseEvent.NOBUTTON );
+                        sendAWTMouseEvent( evt.getX() - getXOffset(), height - evt.getY() + getYOffset(), false, MouseEvent.NOBUTTON );
                         image.refreshImage();
                     }
                 } );
@@ -119,7 +128,7 @@ public class HUDNode extends Geometry {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 //                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( (int) ( evt.getX() - getXOffset() ), (int) ( height - evt.getY() + getYOffset() ), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
+                        sendAWTMouseEvent( evt.getX() - getXOffset(), height - evt.getY() + getYOffset(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
                         image.refreshImage();
                     }
                 } );
@@ -162,12 +171,32 @@ public class HUDNode extends Geometry {
         }
     }
 
-    private double getXOffset() {
-        return 10;
+    public int getWidth() {
+        return width;
     }
 
-    private double getYOffset() {
-        return 10;
+    public int getHeight() {
+        return height;
+    }
+
+    private int getXOffset() {
+        return xOffset;
+    }
+
+    private int getYOffset() {
+        return yOffset;
+    }
+
+    public void setxOffset( int xOffset ) {
+        this.xOffset = xOffset;
+    }
+
+    public void setyOffset( int yOffset ) {
+        this.yOffset = yOffset;
+    }
+
+    public void refresh() {
+        image.refreshImage();
     }
 
     /*
