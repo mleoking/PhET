@@ -9,8 +9,6 @@ import java.util.TimerTask;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -57,27 +55,16 @@ public class HUDNode extends Geometry {
 
     private static final int DOUBLE_CLICK_TIME = 300;
 
-    private static final int panelWidth = 512;
-    private static final int panelHeight = 64;
-
-    public HUDNode( AssetManager assetManager, InputManager inputManager ) {
-        super( "HUD", new Quad( panelWidth, panelHeight, true ) );
-
-
-        panel.add( new JLabel( "This is a test 图片" ) {{
-            setForeground( Color.BLACK );
-            setFont( new PhetFont( 20 ) );
-        }} );
-        panel.add( new JLabel( "Test" ) );
-        panel.add( new JButton( "Test" ) );
-        panel.setPreferredSize( new Dimension( panelWidth, panelHeight ) );
+    public HUDNode( final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
+        super( "HUD", new Quad( width, height, true ) );
+        panel.setPreferredSize( new Dimension( width, height ) );
         panel.setSize( panel.getPreferredSize() );
         panel.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
 
         System.out.println( panel.getBounds() );
         System.out.println( panel.isDisplayable() );
 
-        final PaintableImage image = new PaintableImage( panelWidth, panelHeight, true ) {
+        final PaintableImage image = new PaintableImage( width, height, true ) {
             {
                 panel.setDoubleBuffered( false );
                 refreshImage();
@@ -103,10 +90,6 @@ public class HUDNode extends Geometry {
                                             }
                                         }, 50 );
 
-        panel.add( new JButton( "Another button" ) );
-
-        image.refreshImage();
-
         inputManager.addRawInputListener( new RawInputListener() {
             public void beginInput() {
             }
@@ -125,7 +108,7 @@ public class HUDNode extends Geometry {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 //                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( evt.getX(), panelHeight - evt.getY(), false, MouseEvent.NOBUTTON );
+                        sendAWTMouseEvent( (int) ( evt.getX() - getXOffset() ), (int) ( height - evt.getY() + getYOffset() ), false, MouseEvent.NOBUTTON );
                         image.refreshImage();
                     }
                 } );
@@ -136,7 +119,7 @@ public class HUDNode extends Geometry {
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
 //                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( evt.getX(), panelHeight - evt.getY(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
+                        sendAWTMouseEvent( (int) ( evt.getX() - getXOffset() ), (int) ( height - evt.getY() + getYOffset() ), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
                         image.refreshImage();
                     }
                 } );
@@ -162,6 +145,9 @@ public class HUDNode extends Geometry {
         setLocalTranslation( new Vector3f( (float) getXOffset(), (float) getYOffset(), 0 ) );
     }
 
+    public JPanel getPanel() {
+        return panel;
+    }
 
     private int getSwingButtonIndex( int jmeButtonIndex ) {
         switch( jmeButtonIndex ) {
@@ -177,11 +163,11 @@ public class HUDNode extends Geometry {
     }
 
     private double getXOffset() {
-        return 0;
+        return 10;
     }
 
     private double getYOffset() {
-        return 0;
+        return 10;
     }
 
     /*
