@@ -113,15 +113,16 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         }} );
 
         //Add the faucets, the first faucet should have the water stop at the base of the beaker
-        //move the top faucet down a little bit, so the slider doesn't go offscreen
-        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ), new Point2D.Double( 0, 10 ) ) );
+        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ) ) {{
+            setOffset( 50, 10 );
+        }} );
 
-        //Add a faucet that drains the beaker, note that the value is assigned in the creation
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, new Point2D.Double( 0, 0 ) ) {{
+        //Add a faucet that drains the beaker
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
-            setOffset( beakerBottomRightView.getX() - getFullBounds().getWidth() * 0.4, //Hand tuned so it doesn't overlap the reset button in English
+            setOffset( beakerBottomRightView.getX() + 7, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
         }};
         model.setDrainFaucetMetrics( new DrainFaucetMetrics( new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) ),
