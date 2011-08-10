@@ -3,8 +3,6 @@ package edu.colorado.phet.common.piccolophet.nodes.kit;
 
 import java.awt.Color;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.RoundRectangle2D;
 import java.util.ArrayList;
@@ -13,7 +11,11 @@ import java.util.Arrays;
 import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.RectangleUtils;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
@@ -25,6 +27,7 @@ import edu.umd.cs.piccolox.PFrame;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 import static edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode.DEFAULT_ARC;
+import static java.lang.Math.max;
 
 /**
  * Node for showing and scrolling between kits.
@@ -49,12 +52,34 @@ public class KitSelectionNode<T extends PNode> extends PNode {
     private final ArrayList<Kit<T>> kits;
 
     /**
-     * Create a KitSelectionNode that uses the specified kits
+     * Creates a KitSelectionNode with no title
      *
      * @param selectedKit model for which kit has been selected by the user
      * @param kits        the list of kits to show
      */
     public KitSelectionNode( final Property<Integer> selectedKit, Kit<T>... kits ) {
+        this( selectedKit, new None<PNode>(), kits );
+    }
+
+    /**
+     * Creates a KitSelectionNode with the specified title node
+     *
+     * @param selectedKit model for which kit has been selected by the user
+     * @param titleNode   node to display for the title
+     * @param kits        the list of kits to show
+     */
+    public KitSelectionNode( final Property<Integer> selectedKit, PNode titleNode, Kit<T>... kits ) {
+        this( selectedKit, new Some<PNode>( titleNode ), kits );
+    }
+
+    /**
+     * Create a KitSelectionNode that uses the specified kits
+     *
+     * @param selectedKit model for which kit has been selected by the user
+     * @param titleNode   optional node to display for the title
+     * @param kits        the list of kits to show
+     */
+    public KitSelectionNode( final Property<Integer> selectedKit, Option<PNode> titleNode, Kit<T>... kits ) {
         this.kits = new ArrayList<Kit<T>>( Arrays.asList( kits ) );
         this.selectedKit = selectedKit;
 
@@ -77,8 +102,12 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         //Find out the max bounds of all the kit titles for layout purposes
         Rectangle2D titleBounds = getBoundingRectangle( zeroOffsetTitleNodes );
 
+        //The bounds of the smallest possible KitControlNode, used to ensure the rest of the control is at least this big
+        //TODO: This value is hard coded, could have a better layout
+        double controlWidth = new KitControlNode( getKitCount(), selectedKit, titleNode, 3 ).getFullBounds().getWidth();
+
         //Construct and add the background.  Make it big enough to hold the largest kit, and set it to look like ControlPanelNode by default
-        RoundRectangle2D.Double kitBounds = new RoundRectangle2D.Double( 0, 0, Math.max( contentBounds.getWidth(), titleBounds.getWidth() ), contentBounds.getHeight() + titleBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
+        RoundRectangle2D.Double kitBounds = new RoundRectangle2D.Double( 0, 0, max( max( contentBounds.getWidth(), titleBounds.getWidth() ), controlWidth ), contentBounds.getHeight() + titleBounds.getHeight(), DEFAULT_ARC, DEFAULT_ARC );
 
         //Hide the background for embedding in a larger control panel, background is just used for layout purposes
         background = new PhetPPath( kitBounds, null, null, null );
@@ -94,16 +123,16 @@ public class KitSelectionNode<T extends PNode> extends PNode {
         for ( Kit<T> kit : kits ) {
 
             //Zero the title and content for easier layout
-            ZeroOffsetNode titleNode = new ZeroOffsetNode( kit.title.getOrElse( new PNode() ) );
+            ZeroOffsetNode kitTitleNode = new ZeroOffsetNode( kit.title.getOrElse( new PNode() ) );
             ZeroOffsetNode contentNode = new ZeroOffsetNode( kit.content );
 
             //Put the title centered at the top and the content node centered in the available space beneath
-            titleNode.setOffset( x + background.getFullBounds().getWidth() / 2 - titleNode.getFullBounds().getWidth() / 2, 0 );
+            kitTitleNode.setOffset( x + background.getFullBounds().getWidth() / 2 - kitTitleNode.getFullBounds().getWidth() / 2, 0 );
             contentNode.setOffset( x + background.getFullBounds().getWidth() / 2 - contentNode.getFullBounds().getWidth() / 2,
                                    titleBounds.getHeight() + availableSpaceForContentNode / 2 - contentNode.getFullBounds().getHeight() / 2 );
 
             //Add the nodes to the kitLayer
-            kitLayer.addChild( titleNode );
+            kitLayer.addChild( kitTitleNode );
             kitLayer.addChild( contentNode );
 
             //Move over to the next kit
@@ -123,39 +152,14 @@ public class KitSelectionNode<T extends PNode> extends PNode {
             }
         } );
 
-        //Buttons for scrolling previous/next
-        //Place the kit "previous" and "next" buttons above the kit to save horizontal space.  In Sugar and Salt Solution, they are moved up next to the title
-        final PNode nextButton = new ForwardButton() {{
-            setOffset( background.getFullBounds().getMaxX() - getFullBounds().getWidth(), background.getFullBounds().getMinY() - getFullBounds().getHeight() );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    selectedKit.set( selectedKit.get() + 1 );
-                }
-            } );
-            KitSelectionNode.this.selectedKit.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer integer ) {
-                    setVisible( KitSelectionNode.this.selectedKit.get() < zeroOffsetContentNodes.size() - 1 );
-                }
-            } );
-        }};
-        addChild( nextButton );
-        addChild( new BackButton() {{
-            setOffset( background.getFullBounds().getMinX(), background.getFullBounds().getMinY() - getFullBounds().getHeight() );
+        //Add the KitControlNode which has the optional title and forward/back buttons
+        //TODO: This heuristic is not exactly right for making sure the KitControlNode is spaced properly
+        double width = background.getFullBounds().getWidth();
+        double extraSpace = width - controlWidth;
+        double extraInsetSpace = extraSpace / 2;
 
-            //Make sure the previous and next buttons don't overlap, useful to handle long i18n strings
-            if ( getFullBounds().getMaxX() > nextButton.getFullBounds().getMinX() ) {
-                setOffset( nextButton.getFullBounds().getMinX() - 2, getOffset().getY() );
-            }
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    selectedKit.set( selectedKit.get() - 1 );
-                }
-            } );
-            KitSelectionNode.this.selectedKit.addObserver( new VoidFunction1<Integer>() {
-                public void apply( Integer integer ) {
-                    setVisible( KitSelectionNode.this.selectedKit.get() > 0 );
-                }
-            } );
+        addChild( new ZeroOffsetNode( new KitControlNode( getKitCount(), selectedKit, titleNode, extraInsetSpace ) ) {{
+            setOffset( background.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, background.getFullBounds().getMinY() - getFullBounds().getHeight() );
         }} );
     }
 
@@ -200,6 +204,7 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 new PFrame() {{
                     getCanvas().getLayer().addChild( new KitSelectionNode<PNode>(
                             new Property<Integer>( 0 ),
+                            new Some<PNode>( new PText( "Choose a kit:" ) {{setFont( new PhetFont( 16, true ) );}} ),
                             new Kit<PNode>( new PText( "Title 1" ), new VBox( new PText( "Hello" ), new PText( "This is kit 1" ) ) ),
                             new Kit<PNode>( new PText( "there" ) ),
                             new Kit<PNode>( new PhetPPath( new Rectangle2D.Double( 0, 0, 100, 100 ), Color.blue ) ),
@@ -213,5 +218,9 @@ public class KitSelectionNode<T extends PNode> extends PNode {
                 }}.setVisible( true );
             }
         } );
+    }
+
+    public int getKitCount() {
+        return kits.size();
     }
 }

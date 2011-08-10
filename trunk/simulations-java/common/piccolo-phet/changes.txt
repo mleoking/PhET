@@ -1,3 +1,4 @@
+8/9/2011 Improved support for title in KitSelectionNode
 8/9/2011 Fixes for ZeroOffsetNode and added Kit titles in KitSelectionNode
 8/8/2011 Renamed StandardizedNode to ZeroOffsetNode
 8/8/2011 Moved kit implementations to piccolo-phet
