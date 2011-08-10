@@ -25,6 +25,10 @@ LOW
 
 Jmol
 - how to iterate over atoms?
+     n = {*}.length
+     for ( i = 0; i < n; i++ ) {
+         print {*}[i].atomName
+     }
 - tweak atom names in mol2 files, or figure this out programmatically?
 - adjust initial orientation by editing mol2 files?
 - molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
