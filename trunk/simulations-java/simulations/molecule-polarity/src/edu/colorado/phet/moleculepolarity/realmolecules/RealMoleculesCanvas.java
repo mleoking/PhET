@@ -87,7 +87,7 @@ public class RealMoleculesCanvas extends MPCanvas {
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
+            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + 50 );
 
         }
 
