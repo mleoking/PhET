@@ -12,8 +12,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class represents an adolescent human in a tool box.  When the user
- * clicks on this node, the corresponding model element is added to the model
- * at the user's mouse location.
+ * clicks on this node, the corresponding model element is added to the model at
+ * the user's mouse location.
  *
  * @author John Blanco
  */
@@ -35,10 +35,12 @@ public class AdolescentHumanCreatorNode extends ModelElementCreatorNode {
 //        addChild( new PhetPPath(getFullBoundsReference(), new BasicStroke( 2 ), Color.RED ) );
     }
 
-    @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
-        AdolescentHuman adolescentHuman = new AdolescentHuman();
-        adolescentHuman.setPosition( position );
-        adolescentHuman.userControlled.set( true );
+    @Override protected UserMovableModelElement addElementToModel( final Point2D position ) {
+        AdolescentHuman adolescentHuman = new AdolescentHuman() {{
+            setPosition( position );
+            setAnimationDestination( position );
+            userControlled.set( true );
+        }};
         model.addMass( adolescentHuman );
         return adolescentHuman;
     }

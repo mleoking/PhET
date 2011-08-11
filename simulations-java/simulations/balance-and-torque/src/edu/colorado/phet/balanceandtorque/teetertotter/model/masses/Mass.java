@@ -5,6 +5,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -55,6 +56,12 @@ public abstract class Mass implements UserMovableModelElement {
 
     // Destination of linear animation.
     protected Point2D animationDestination = new Point2D.Double();
+    // Vector that describes the amount of linear motion for one time step.
+    final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
+    // Scale factor, used primarily during animation.
+    protected double scale = 1;
+    // Expected duration of an in-progress animation.
+    protected double expectedAnimationTime = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -92,8 +99,8 @@ public abstract class Mass implements UserMovableModelElement {
      * Initiate this element's animation to the animation destination point.
      * This consists of moving the element in a stepwise fashion back to the
      * point where it was originally added to the model while simultaneously
-     * reducing its size, and then signaling that the animation is complete.
-     * At that point, it is generally removed from the model.
+     * reducing its size, and then signaling that the animation is complete. At
+     * that point, it is generally removed from the model.
      */
     public void initiateAnimation() {
         // In the default implementation, the signal is sent that says that
@@ -125,9 +132,9 @@ public abstract class Mass implements UserMovableModelElement {
     }
 
     /**
-     * Set the angle of rotation.  The point of rotation is the position
-     * handle.  For a mass, that means that this method can be used to make
-     * it appear to sit will on plank.
+     * Set the angle of rotation.  The point of rotation is the position handle.
+     *  For a mass, that means that this method can be used to make it appear to
+     * sit will on plank.
      *
      * @param angle rotational angle in radians.
      */
@@ -151,6 +158,9 @@ public abstract class Mass implements UserMovableModelElement {
         animationDestination.setLocation( x, y );
     }
 
+    public void setAnimationDestination( Point2D animationDestination ) {
+        setAnimationDestination( animationDestination.getX(), animationDestination.getY() );
+    }
 
     /**
      * Implements any time-dependent behavior of the mass.

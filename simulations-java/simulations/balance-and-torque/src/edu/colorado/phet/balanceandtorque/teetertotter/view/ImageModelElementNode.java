@@ -48,6 +48,17 @@ public class ImageModelElementNode extends PNode {
             }
         } );
 
+        // Observe height changes.
+        mass.addHeightChangeObserver( new VoidFunction1<Double>() {
+            public void apply( Double newHeight ) {
+                imageNode.setScale( 1 );
+                double scalingFactor = Math.abs( mvt.modelToViewDeltaY( newHeight ) ) / imageNode.getFullBoundsReference().height;
+                imageNode.setScale( scalingFactor );
+                unrotatedBounds.setRect( imageNode.getFullBoundsReference() );
+                updatePositionAndAngle();
+            }
+        } );
+
         // Register for notification of position changes.
         mass.addPositionChangeObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D newPosition ) {

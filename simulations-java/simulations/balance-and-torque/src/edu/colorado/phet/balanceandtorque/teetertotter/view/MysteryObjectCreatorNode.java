@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
- * This class represents a "mystery object" in a tool box.  When the user
- * clicks on this node, the corresponding model element is added to the model
- * at the user's mouse location.
+ * This class represents a "mystery object" in a tool box.  When the user clicks
+ * on this node, the corresponding model element is added to the model at the
+ * user's mouse location.
  *
  * @author John Blanco
  */
@@ -37,6 +37,7 @@ public class MysteryObjectCreatorNode extends ModelElementCreatorNode {
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
         ImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID, new Point2D.Double() );
         mysteryObject.setPosition( position );
+        mysteryObject.setAnimationDestination( position );
         mysteryObject.userControlled.set( true );
         model.addMass( mysteryObject );
         return mysteryObject;

@@ -6,7 +6,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -31,13 +30,6 @@ public class BrickStack extends ShapeMass {
 
     private int numBricks = 1;
     private Point2D position = new Point2D.Double( 0, 0 );
-
-    // Vector that describes the amount of linear motion for one time step.
-    final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
-
-    private double scale = 1;
-
-    private double expectedAnimationTime = 0;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
