@@ -40,7 +40,6 @@ public class MPStrings {
     public static final String PATTERN_0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
     public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
     public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
-    public static final String TEST = RESOURCES.getLocalizedString( "test" );
     public static final String THREE_ATOMS = RESOURCES.getLocalizedString( "threeAtoms" );
     public static final String TWO_ATOMS = RESOURCES.getLocalizedString( "twoAtoms" );
 
