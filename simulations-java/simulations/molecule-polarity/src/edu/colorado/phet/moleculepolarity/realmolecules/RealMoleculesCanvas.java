@@ -16,11 +16,11 @@ import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
-import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PeriodicTableNode;
+import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
@@ -54,11 +54,11 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
         addChild( resetAllButtonNode );
 
-        NegativeEFieldPlateNode negativeEFieldPlateNode = new NegativeEFieldPlateNode( model.eField );
-        addChild( negativeEFieldPlateNode );
+        PNode negativePlateNode = new NegativePlateNode( model.eField );
+        addChild( negativePlateNode );
 
-        PositiveEFieldPlateNode positiveEFieldPlateNode = new PositiveEFieldPlateNode( model.eField );
-        addChild( positiveEFieldPlateNode );
+        PNode positivePlateNode = new PositivePlateNode( model.eField );
+        addChild( positivePlateNode );
 
         PeriodicTableNode periodicTableNode = new PeriodicTableNode();
         addChild( periodicTableNode );
@@ -76,14 +76,14 @@ public class RealMoleculesCanvas extends MPCanvas {
         {
             final double xSpacing = 50;
             final double ySpacing = 10;
-            negativeEFieldPlateNode.setOffset( 30, 30 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
-            viewerNode.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
-            positiveEFieldPlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
+            negativePlateNode.setOffset( 30, 30 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+            viewerNode.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
+            positivePlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
             periodicTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( periodicTableNode.getFullBoundsReference().getWidth() / 2 ),
                                          viewerNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
-            viewControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
+            viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
