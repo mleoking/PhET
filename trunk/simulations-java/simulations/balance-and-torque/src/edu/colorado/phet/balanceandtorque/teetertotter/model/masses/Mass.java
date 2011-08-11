@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for all objects that can be placed on the balance.
@@ -110,14 +109,6 @@ public abstract class Mass implements UserMovableModelElement {
         animatingProperty.set( false );
     }
 
-    public void addAnimationStateObserver( VoidFunction1<Boolean> animationStateObserver ) {
-        animatingProperty.addObserver( animationStateObserver );
-    }
-
-    public void removeAnimationStateObserver( VoidFunction1<Boolean> animationStateObserver ) {
-        animatingProperty.removeObserver( animationStateObserver );
-    }
-
     public void addAnimationStateObserver( ChangeObserver<Boolean> changeObserver ) {
         animatingProperty.addObserver( changeObserver );
     }
@@ -133,7 +124,7 @@ public abstract class Mass implements UserMovableModelElement {
 
     /**
      * Set the angle of rotation.  The point of rotation is the position handle.
-     *  For a mass, that means that this method can be used to make it appear to
+     * For a mass, that means that this method can be used to make it appear to
      * sit will on plank.
      *
      * @param angle rotational angle in radians.
