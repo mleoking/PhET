@@ -21,15 +21,18 @@ public class PositivePlateNode extends PComposite {
 
     public PositivePlateNode( EField eField ) {
 
+        // positive polarity indicator
         final PNode indicatorNode = new PolarityIndicatorNode( true ) {{
             setOffset( ( MPConstants.PLATE_WIDTH / 2 ) - getFullBoundsReference().getWidth() / 2,
                        ( MPConstants.PLATE_PERSPECTIVE_Y_OFFSET / 2 ) - getFullBoundsReference().getHeight() + 4 );
         }};
 
+        // side edge to show thickness
         PPath sideEdgeNode = new PPath( new Rectangle2D.Double( MPConstants.PLATE_WIDTH, 0, MPConstants.PLATE_THICKNESS, MPConstants.PLATE_HEIGHT ) ) {{
             setPaint( MPConstants.PLATE_DISABLED_COLOR );
         }};
 
+        // the primary face of the plate
         DoubleGeneralPath facePath = new DoubleGeneralPath() {{
             moveTo( 0, MPConstants.PLATE_PERSPECTIVE_Y_OFFSET );
             lineTo( MPConstants.PLATE_WIDTH, 0 );
@@ -41,10 +44,12 @@ public class PositivePlateNode extends PComposite {
             setPaint( MPConstants.PLATE_DISABLED_COLOR );
         }};
 
+        // rendering order
         addChild( indicatorNode );
         addChild( sideEdgeNode );
         addChild( faceNode );
 
+        // when the field is enabled/disabled...
         eField.enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
                 faceNode.setPaint( enabled ? MPConstants.PLATE_POSITIVE_COLOR : MPConstants.PLATE_DISABLED_COLOR );
