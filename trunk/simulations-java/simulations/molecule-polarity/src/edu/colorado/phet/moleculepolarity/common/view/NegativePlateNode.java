@@ -13,6 +13,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Negative plate for E-field creation device.
+ * Origin at the upper-left corner of the plate, excluding the polarity indicator.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
