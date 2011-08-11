@@ -20,8 +20,8 @@ import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.TwoAtomMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.TwoAtomsIsosurfaceNode;
+import edu.colorado.phet.moleculepolarity.common.view.TwoAtomsMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.umd.cs.piccolo.PNode;
@@ -36,7 +36,7 @@ public class TwoAtomsCanvas extends MPCanvas {
     public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        TwoAtomMoleculeNode moleculeNode = new TwoAtomMoleculeNode( model.molecule );
+        TwoAtomsMoleculeNode moleculeNode = new TwoAtomsMoleculeNode( model.molecule );
         addChild( moleculeNode );
 
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
