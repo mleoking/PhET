@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public abstract class ShapeMass extends Mass {
     public final Property<Shape> shapeProperty;
 
-    public ShapeMass( double mass, Shape shape ) {
+    public ShapeMass( double mass, Shape shape, Point2D initialCenterBottom ) {
         super( mass );
         shapeProperty = new Property<Shape>( shape );
     }
