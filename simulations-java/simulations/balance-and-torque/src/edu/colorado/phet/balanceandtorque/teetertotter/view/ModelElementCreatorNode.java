@@ -26,9 +26,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class ModelElementCreatorNode extends PComposite {
 
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // Class Data
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
     private static final double CAPTION_OFFSET_FROM_SELECTION_NODE = 4;
 
@@ -40,9 +40,9 @@ public abstract class ModelElementCreatorNode extends PComposite {
     // clicking on this node.
     UserMovableModelElement modelElement = null;
 
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // Instance Data
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
     protected final BalancingActModel model;
     private final PhetPCanvas canvas;
@@ -52,9 +52,9 @@ public abstract class ModelElementCreatorNode extends PComposite {
     private RestoreDefaultOnReleaseCursorHandler cursorHandler = new RestoreDefaultOnReleaseCursorHandler( Cursor.HAND_CURSOR );
     private final Vector2D positioningOffset = new Vector2D( 0, 0 ); // In view coordinate system.
 
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // Constructor(s)
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
     public ModelElementCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
 
@@ -84,9 +84,9 @@ public abstract class ModelElementCreatorNode extends PComposite {
         } );
     }
 
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
     // Methods
-    //----------------------------------------------------------------------------
+    //-------------------------------------------------------------------------
 
     /**
      * Method overriden by subclasses to add the element that they represent to
