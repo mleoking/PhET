@@ -31,9 +31,6 @@ public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height * 0.75 );
         // TODO: i18n (units)
         setCaption( adultMaleHumanNode.getMass() + " kg" );
-        // TODO: Line below is for debug, remove at some point.
-//        addChild( new PhetPPath(getFullBoundsReference(), new BasicStroke( 2 ), Color.RED ) );
-
     }
 
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {

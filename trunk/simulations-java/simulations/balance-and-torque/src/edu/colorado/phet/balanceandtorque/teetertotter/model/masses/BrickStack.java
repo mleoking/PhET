@@ -15,18 +15,34 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author John Blanco
  */
 public class BrickStack extends ShapeMass {
+
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 5; // In kg.
 
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+
     private int numBricks = 1;
     private Point2D position = new Point2D.Double( 0, 0 );
 
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
+
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0 ) );
+        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0 ), initialCenterBottom );
         position.setLocation( initialCenterBottom );
         this.numBricks = numBricks;
     }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
 
     // Generate the shape for this object.  This is static so that it can be
     // used in the constructor.

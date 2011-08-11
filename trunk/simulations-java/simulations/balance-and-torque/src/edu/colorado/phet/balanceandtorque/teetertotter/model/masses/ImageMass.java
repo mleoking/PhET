@@ -90,6 +90,10 @@ public class ImageMass extends Mass {
         return new Point2D.Double( getPosition().getX(), getPosition().getY() + height / 2 );
     }
 
+    @Override public void animateReturnToAddPoint() {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public Point2D getPosition() {
         return new Point2D.Double( positionProperty.get().getX(), positionProperty.get().getY() );
     }
