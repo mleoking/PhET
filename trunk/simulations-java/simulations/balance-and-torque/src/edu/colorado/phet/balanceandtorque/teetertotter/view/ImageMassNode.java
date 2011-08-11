@@ -20,12 +20,12 @@ import edu.umd.cs.piccolo.util.PBounds;
  *
  * @author John Blanco
  */
-public class ImageModelElementNode extends PNode {
+public class ImageMassNode extends PNode {
     private final ImageMass mass;
     private final ModelViewTransform mvt;
     private PBounds unrotatedBounds = new PBounds();
 
-    public ImageModelElementNode( final ModelViewTransform mvt, final ImageMass mass, PhetPCanvas canvas ) {
+    public ImageMassNode( final ModelViewTransform mvt, final ImageMass mass, PhetPCanvas canvas ) {
         this.mass = mass;
         this.mvt = mvt;
 

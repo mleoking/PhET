@@ -29,7 +29,7 @@ public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
         super( model, mvt, canvas );
         this.mysteryObjectID = mysteryObjectID;
         ImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID );
-        setSelectionNode( new ImageModelElementNode( SCALING_MVT, mysteryObject, canvas ) );
+        setSelectionNode( new ImageMassNode( SCALING_MVT, mysteryObject, canvas ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
     }
 

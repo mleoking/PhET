@@ -81,10 +81,10 @@ public class BalancingActCanvas extends PhetPCanvas {
                     massNode = new BrickStackNode( mvt, (ShapeMass) mass, BalancingActCanvas.this );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
-                    massNode = new LabeledImageModelElementNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this );
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageModelElementNode( mvt, (ImageMass) mass, BalancingActCanvas.this );
+                    massNode = new ImageMassNode( mvt, (ImageMass) mass, BalancingActCanvas.this );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
