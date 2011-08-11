@@ -17,7 +17,8 @@ import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
- * Primary model class for the tab that depicts torque on a plank, a.k.a. a teeter totter.
+ * Primary model class for the tab that depicts torque on a plank, a.k.a. a
+ * teeter totter.
  *
  * @author John Blanco
  */
@@ -99,7 +100,7 @@ public class BalancingActModel implements Resettable {
                         // The attempt to add mass to surface of plank failed,
                         // probably because the area below the mass is full,
                         // or because the mass wasn't over the plank.
-                        removeMass( mass );
+                        removeMassAnimated( mass );
                     }
                 }
             }
@@ -108,8 +109,12 @@ public class BalancingActModel implements Resettable {
         return mass;
     }
 
-    // Removes a mass from the model.
-    public void removeMass( final Mass mass ) {
+    /**
+     * Remove the mass from the model and animate its removal.
+     *
+     * @param mass
+     */
+    private void removeMassAnimated( final Mass mass ) {
         // Register a listener for the completion of the removal animation sequence.
         mass.addAnimationStateObserver( new ChangeObserver<Boolean>() {
             public void update( Boolean isAnimating, Boolean wasAnimating ) {
@@ -122,6 +127,15 @@ public class BalancingActModel implements Resettable {
         } );
         // Kick off the animation back to the tool box.
         mass.initiateAnimation();
+    }
+
+    /**
+     * Removes a mass right away, with no animation.
+     *
+     * @param mass
+     */
+    private void removeMass( final Mass mass ) {
+        massList.remove( mass );
     }
 
     public FulcrumAbovePlank getFulcrum() {
