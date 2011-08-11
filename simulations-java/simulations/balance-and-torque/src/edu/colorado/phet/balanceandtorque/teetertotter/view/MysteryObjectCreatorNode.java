@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
@@ -29,7 +30,7 @@ public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
         super( model, mvt, canvas );
         this.mysteryObjectID = mysteryObjectID;
         ImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID );
-        setSelectionNode( new ImageMassNode( SCALING_MVT, mysteryObject, canvas ) );
+        setSelectionNode( new ImageMassNode( SCALING_MVT, mysteryObject, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
     }
 

@@ -45,6 +45,7 @@ public class BalancingActCanvas extends PhetPCanvas {
     private static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     private final ModelViewTransform mvt;
 
+    public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( false );
     public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
 
@@ -81,10 +82,11 @@ public class BalancingActCanvas extends PhetPCanvas {
                     massNode = new BrickStackNode( mvt, (ShapeMass) mass, BalancingActCanvas.this );
                 }
                 else if ( mass instanceof LabeledImageMass ) {
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this );
+                    // These are mystery objects.  Don't allow their mass to be shown.
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this, new BooleanProperty( false ) );
                 }
                 else if ( mass instanceof ImageMass ) {
-                    massNode = new ImageMassNode( mvt, (ImageMass) mass, BalancingActCanvas.this );
+                    massNode = new ImageMassNode( mvt, (ImageMass) mass, BalancingActCanvas.this, massLabelVisibilityProperty );
                 }
                 else {
                     System.out.println( getClass().getName() + " - Error: Unrecognized mass type." );
@@ -195,11 +197,12 @@ public class BalancingActCanvas extends PhetPCanvas {
         }} );
 
         // Add the control panel that will allow users to control the visibility
-        // of the various vectors.
+        // of the various indicators.
         PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 4, 1 ) ) {{
             addChild( new PText( "Show" ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
+            addChild( new PropertyCheckBoxNode( "Mass Labels", massLabelVisibilityProperty ) );
             addChild( new PropertyCheckBoxNode( "Distances", leverArmVectorsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Forces from Object", forceVectorsFromObjectsVisibleProperty ) );
         }} );

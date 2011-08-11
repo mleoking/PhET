@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.geom.RoundRectangle2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -20,8 +21,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class LabeledImageMassNode extends ImageMassNode {
     private static final double INSET_PROPORTION = 0.2;
 
-    public LabeledImageMassNode( final ModelViewTransform mvt, final LabeledImageMass mass, PhetPCanvas canvas ) {
-        super( mvt, mass, canvas );
+    public LabeledImageMassNode( final ModelViewTransform mvt, final LabeledImageMass mass, PhetPCanvas canvas, BooleanProperty massLabelVisibilityProperty ) {
+        super( mvt, mass, canvas, massLabelVisibilityProperty );
         double inset = getFullBoundsReference().width * INSET_PROPORTION;
         // Create the label.
         TestLabelNode label = new TestLabelNode( mass.getLabelText() );
