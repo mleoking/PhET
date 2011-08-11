@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
@@ -47,8 +47,8 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
         addChild( isosurfaceControlsNode );
 
-        PNode testControlsNode = new ControlPanelNode( new TestControlPanel( model.eField.enabled ) );
-        addChild( testControlsNode );
+        PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
+        addChild( eFieldControlsNode );
 
         Resettable[] resettables = new Resettable[] { model, viewProperties };
         PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
@@ -85,8 +85,8 @@ public class RealMoleculesCanvas extends MPCanvas {
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, viewerNode.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + 50 );
 
         }
