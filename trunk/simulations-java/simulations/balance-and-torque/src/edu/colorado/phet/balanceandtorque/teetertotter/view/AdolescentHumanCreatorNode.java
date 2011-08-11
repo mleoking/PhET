@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdolescentHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author John Blanco
  */
-public class AdolescentHumanCreatorNode extends ModelElementCreatorNode {
+public class AdolescentHumanCreatorNode extends ImageMassCreatorNode {
 
     // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
@@ -32,16 +31,9 @@ public class AdolescentHumanCreatorNode extends ModelElementCreatorNode {
         // TODO: i18n (units too)
         setCaption( adolescentHuman.getMass() + " kg" );
         // TODO: Line below is for debug, remove at some point.
-//        addChild( new PhetPPath(getFullBoundsReference(), new BasicStroke( 2 ), Color.RED ) );
     }
 
-    @Override protected UserMovableModelElement addElementToModel( final Point2D position ) {
-        AdolescentHuman adolescentHuman = new AdolescentHuman() {{
-            setPosition( position );
-            setAnimationDestination( position );
-            userControlled.set( true );
-        }};
-        model.addMass( adolescentHuman );
-        return adolescentHuman;
+    @Override protected ImageMass createImageMassInstance() {
+        return new AdolescentHuman();
     }
 }
