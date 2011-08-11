@@ -10,11 +10,11 @@ import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomMoleculeNode extends PhetPNode {
+public class TwoAtomsMoleculeNode extends PhetPNode {
 
     private final TwoAtomsMolecule molecule;
 
-    public TwoAtomMoleculeNode( final TwoAtomsMolecule molecule ) {
+    public TwoAtomsMoleculeNode( final TwoAtomsMolecule molecule ) {
 
         this.molecule = molecule;
 
