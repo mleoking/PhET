@@ -21,7 +21,9 @@ import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.TwoAtomMoleculeNode;
+import edu.colorado.phet.moleculepolarity.common.view.TwoAtomsIsosurfaceNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -73,6 +75,9 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
+        final PNode electrostaticPotentialNode = new TwoAtomsIsosurfaceNode( model.molecule );
+        addChild( electrostaticPotentialNode );
+
         // layout
         {
             final double xSpacing = 50;
@@ -104,6 +109,12 @@ public class TwoAtomsCanvas extends MPCanvas {
         viewProperties.bondTypeVisible.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean visible ) {
                 bondTypeNode.setVisible( visible );
+            }
+        } );
+
+        viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
+            public void apply( IsosurfaceType isosurfaceType ) {
+                electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
             }
         } );
     }
