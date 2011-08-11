@@ -1,3 +1,5 @@
+8/11/11 first attempt at 2D isosurface
+8/11/11 generalize molecule drag handler in MoleculeRotationHandler
 8/11/11 add 3D perspective to E-field plates
 8/10/11 restore "more" in bond type indicator
 8/10/11 remove arrows and "more" from bond type indicator
