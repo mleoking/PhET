@@ -34,12 +34,13 @@ public class TwoAtomsIsosurfaceNode extends PComposite {
         }};
         addChild( pathNode );
 
-        //TODO bug: with E-field on, doesn't rotate all the way. Not a problem if we observer atom locations.
-        molecule.angle.addObserver( new SimpleObserver() {
+        SimpleObserver observer = new SimpleObserver() {
             public void update() {
                 updateNode();
             }
-        } );
+        };
+        molecule.atomA.location.addObserver( observer );
+        molecule.atomB.location.addObserver( observer );
 
         addInputEventListener( new CursorHandler() ); //TODO change cursor to indicate rotation
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
