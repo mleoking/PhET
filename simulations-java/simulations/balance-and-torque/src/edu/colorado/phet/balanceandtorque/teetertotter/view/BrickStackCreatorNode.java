@@ -37,6 +37,7 @@ public class BrickStackCreatorNode extends ModelElementCreatorNode {
     @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
         BrickStack brickStack = new BrickStack( numBricks, position );
         brickStack.userControlled.set( true );
+        brickStack.setAnimationDestination( position.getX(), position.getY() );
         model.addMass( brickStack );
         return brickStack;
     }

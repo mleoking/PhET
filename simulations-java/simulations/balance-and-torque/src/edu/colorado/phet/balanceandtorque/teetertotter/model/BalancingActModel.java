@@ -5,12 +5,14 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.balanceandtorque.teetertotter.BalanceAndTorqueSharedConstants;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -32,7 +34,7 @@ public class BalancingActModel implements Resettable {
     //------------------------------------------------------------------------
 
     // Clock that drives all time-dependent behavior in this model.
-    private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
+    private final ConstantDtClock clock = new ConstantDtClock( BalanceAndTorqueSharedConstants.FRAME_RATE );
 
     // A list of all the masses in the model
     public final ObservableList<Mass> massList = new ObservableList<Mass>();
@@ -82,7 +84,7 @@ public class BalancingActModel implements Resettable {
     }
 
     private void stepInTime( double dt ) {
-        for ( Mass mass : massList ) {
+        for ( Mass mass : new ArrayList<Mass>( massList ) ) {
             mass.stepInTime( dt );
         }
     }
@@ -109,17 +111,17 @@ public class BalancingActModel implements Resettable {
     // Removes a mass from the model.
     public void removeMass( final Mass mass ) {
         // Register a listener for the completion of the removal animation sequence.
-        mass.addAnimationStateObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean animationInProgress ) {
-                if ( !animationInProgress ) {
-                    // The animation has completed, so remove this mass from the model.
-                    massList.remove( mass );
+        mass.addAnimationStateObserver( new ChangeObserver<Boolean>() {
+            public void update( Boolean isAnimating, Boolean wasAnimating ) {
+                if ( wasAnimating && !isAnimating ) {
+                    // Animation sequence has completed.
                     mass.removeAnimationStateObserver( this );
+                    massList.remove( mass );
                 }
             }
         } );
         // Kick off the animation back to the tool box.
-        mass.animateReturnToAddPoint();
+        mass.initiateAnimation();
     }
 
     public FulcrumAbovePlank getFulcrum() {
