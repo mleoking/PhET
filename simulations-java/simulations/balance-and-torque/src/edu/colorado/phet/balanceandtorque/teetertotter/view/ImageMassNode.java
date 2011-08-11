@@ -102,6 +102,6 @@ public class ImageMassNode extends PNode {
         setOffset( mvt.modelToViewX( mass.getPosition().getX() - mass.getCenterOfMassXOffset() ) - imageNode.getFullBoundsReference().width / 2,
                    mvt.modelToViewY( mass.getPosition().getY() ) - imageNode.getFullBoundsReference().height );
         rotateAboutPoint( -mass.getRotationAngle(), getFullBoundsReference().getWidth() / 2 + mvt.modelToViewDeltaX( mass.getCenterOfMassXOffset() ),
-                          getFullBoundsReference().getHeight() );
+                          imageNode.getFullBoundsReference().getHeight() );
     }
 }
