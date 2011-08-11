@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.AdultMaleHuman;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author John Blanco
  */
-public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
+public class AdultMaleHumanCreatorNode extends ImageMassCreatorNode {
 
     // Model-view transform for scaling the node used in the tool box.  This
     // may scale the node differently than what is used in the model.
@@ -33,13 +32,7 @@ public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
         setCaption( adultMaleHumanNode.getMass() + " kg" );
     }
 
-    @Override protected UserMovableModelElement addElementToModel( final Point2D position ) {
-        AdultMaleHuman human = new AdultMaleHuman() {{
-            setPosition( position );
-            setAnimationDestination( position );
-            userControlled.set( true );
-        }};
-        model.addMass( human );
-        return human;
+    @Override protected ImageMass createImageMassInstance() {
+        return new AdultMaleHuman();
     }
 }

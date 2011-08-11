@@ -89,8 +89,8 @@ public abstract class ModelElementCreatorNode extends PComposite {
     //----------------------------------------------------------------------------
 
     /**
-     * Method overriden by subclasses to add the element that they represent
-     * to the model.
+     * Method overriden by subclasses to add the element that they represent to
+     * the model.
      *
      * @param position
      */

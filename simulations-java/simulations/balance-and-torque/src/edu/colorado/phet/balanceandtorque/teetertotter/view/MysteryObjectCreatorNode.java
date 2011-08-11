@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.view;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.MysteryObjectFactory;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -17,7 +16,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
  *
  * @author John Blanco
  */
-public class MysteryObjectCreatorNode extends ModelElementCreatorNode {
+public class MysteryObjectCreatorNode extends ImageMassCreatorNode {
 
     private final int mysteryObjectID;
 
@@ -34,12 +33,7 @@ public class MysteryObjectCreatorNode extends ModelElementCreatorNode {
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
     }
 
-    @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
-        ImageMass mysteryObject = MysteryObjectFactory.createMysteryObject( mysteryObjectID, new Point2D.Double() );
-        mysteryObject.setPosition( position );
-        mysteryObject.setAnimationDestination( position );
-        mysteryObject.userControlled.set( true );
-        model.addMass( mysteryObject );
-        return mysteryObject;
+    @Override protected ImageMass createImageMassInstance() {
+        return MysteryObjectFactory.createMysteryObject( mysteryObjectID );
     }
 }
