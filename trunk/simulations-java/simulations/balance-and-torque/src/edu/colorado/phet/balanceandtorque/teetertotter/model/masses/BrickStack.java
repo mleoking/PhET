@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -19,6 +20,7 @@ public class BrickStack extends ShapeMass {
     //-------------------------------------------------------------------------
     // Class Data
     //-------------------------------------------------------------------------
+
     private static final double BRICK_WIDTH = 0.2; // In meters.
     private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 5; // In kg.
@@ -30,12 +32,19 @@ public class BrickStack extends ShapeMass {
     private int numBricks = 1;
     private Point2D position = new Point2D.Double( 0, 0 );
 
+    // Vector that describes the amount of linear motion for one time step.
+    final protected Vector2D animationMotionVector = new Vector2D( 0, 0 );
+
+    private double scale = 1;
+
+    private double expectedAnimationTime = 0;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0 ), initialCenterBottom );
+        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0, 1 ), initialCenterBottom );
         position.setLocation( initialCenterBottom );
         this.numBricks = numBricks;
     }
@@ -46,7 +55,7 @@ public class BrickStack extends ShapeMass {
 
     // Generate the shape for this object.  This is static so that it can be
     // used in the constructor.
-    private static Shape generateShape( int numBricks, Point2D centerBottom, double rotationAngle ) {
+    private static Shape generateShape( int numBricks, Point2D centerBottom, double rotationAngle, double scale ) {
         Point2D brickOrigin = new Point2D.Double( 0, 0 );
         // Create a path that represents a stack of bricks.
         DoubleGeneralPath brickPath = new DoubleGeneralPath();
@@ -62,7 +71,8 @@ public class BrickStack extends ShapeMass {
             brickOrigin.setLocation( brickOrigin.getX(), brickOrigin.getY() + BRICK_HEIGHT );
         }
         Shape rotatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( brickPath.getGeneralPath() );
-        Shape translatedShape = AffineTransform.getTranslateInstance( centerBottom.getX(), centerBottom.getY() ).createTransformedShape( rotatedShape );
+        Shape scaledShape = AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( rotatedShape );
+        Shape translatedShape = AffineTransform.getTranslateInstance( centerBottom.getX(), centerBottom.getY() ).createTransformedShape( scaledShape );
         return translatedShape;
     }
 
@@ -92,7 +102,36 @@ public class BrickStack extends ShapeMass {
         updateShape();
     }
 
+    @Override public void initiateAnimation() {
+        // Calculate velocity.  A higher velocity is used if the model element
+        // has a long way to travel, otherwise it takes too long.
+        double velocity = Math.max( getPosition().distance( animationDestination ) / MAX_REMOVAL_ANIMATION_DURATION, MIN_ANIMATION_VELOCITY );
+        expectedAnimationTime = getPosition().distance( animationDestination ) / velocity; // In seconds.
+        // Calculate the animation motion vector.
+        animationMotionVector.setComponents( velocity, 0 );
+        double animationAngle = Math.atan2( animationDestination.getY() - getPosition().getY(), animationDestination.getX() - getPosition().getX() );
+        animationMotionVector.rotate( animationAngle );
+        // Calculate the scaling factor such that the object is about 10% of
+        // its usual size when it reaches the destination.
+        // Update the property that tracks the animation state.
+        animatingProperty.set( true );
+    }
+
+    @Override public void stepInTime( double dt ) {
+        if ( animatingProperty.get() ) {
+            // Do a step of the linear animation towards the destination.
+            translate( animationMotionVector.getScaledInstance( dt ) );
+            scale = Math.max( scale - ( dt / expectedAnimationTime ) * 0.9, 0.1 );
+            if ( getPosition().distance( animationDestination ) < animationMotionVector.getMagnitude() * dt ) {
+                // Close enough - animation is complete.
+                setPosition( animationDestination );
+                animatingProperty.set( false );
+                scale = 1;
+            }
+        }
+    }
+
     private void updateShape() {
-        shapeProperty.set( generateShape( numBricks, position, rotationalAngleProperty.get() ) );
+        shapeProperty.set( generateShape( numBricks, position, rotationalAngleProperty.get(), scale ) );
     }
 }

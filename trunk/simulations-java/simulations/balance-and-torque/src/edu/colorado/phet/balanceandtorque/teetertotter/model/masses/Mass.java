@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -21,7 +22,8 @@ public abstract class Mass implements UserMovableModelElement {
     // Class Data
     //-------------------------------------------------------------------------
 
-    protected static final double ANIMATION_VELOCITY = 1; // In meters/sec.
+    protected static final double MIN_ANIMATION_VELOCITY = 3; // In meters/sec.
+    protected static final double MAX_REMOVAL_ANIMATION_DURATION = 0.75; // In seconds.
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -42,8 +44,9 @@ public abstract class Mass implements UserMovableModelElement {
     final protected Property<Double> rotationalAngleProperty = new Property<Double>( 0.0 );
 
     // Boolean property that indicates whether this model element is currently
-    // animating back to its original add location.
-    final protected BooleanProperty animatingToAddPoint = new BooleanProperty( false );
+    // animating.  At the time of this writing, the only animation supported
+    // is a simple linear motion to a preset point.
+    final protected BooleanProperty animatingProperty = new BooleanProperty( false );
 
     // Since not all objects are symmetrical, some may need to have an offset
     // that indicates where their center of mass is when placed on a balance.
@@ -86,26 +89,34 @@ public abstract class Mass implements UserMovableModelElement {
     public abstract Point2D getMiddlePoint();
 
     /**
-     * Animate this element's return to its initial location.  This consists
-     * of moving the element in a stepwise fashion back to the point where it
-     * was originally added to the model while simultaneously reducing its
-     * size, and then signaling that the animation is complete.  At that
-     * point, it is generally removed from the model.
+     * Initiate this element's animation to the animation destination point.
+     * This consists of moving the element in a stepwise fashion back to the
+     * point where it was originally added to the model while simultaneously
+     * reducing its size, and then signaling that the animation is complete.
+     * At that point, it is generally removed from the model.
      */
-    public void animateReturnToAddPoint() {
+    public void initiateAnimation() {
         // In the default implementation, the signal is sent that says that
         // the animation is complete, but no actual animation is done.
         // Override to implement the subclass-specific animation.
-        animatingToAddPoint.set( true );
-        animatingToAddPoint.set( false );
+        animatingProperty.set( true );
+        animatingProperty.set( false );
     }
 
     public void addAnimationStateObserver( VoidFunction1<Boolean> animationStateObserver ) {
-        animatingToAddPoint.addObserver( animationStateObserver );
+        animatingProperty.addObserver( animationStateObserver );
     }
 
     public void removeAnimationStateObserver( VoidFunction1<Boolean> animationStateObserver ) {
-        animatingToAddPoint.removeObserver( animationStateObserver );
+        animatingProperty.removeObserver( animationStateObserver );
+    }
+
+    public void addAnimationStateObserver( ChangeObserver<Boolean> changeObserver ) {
+        animatingProperty.addObserver( changeObserver );
+    }
+
+    public void removeAnimationStateObserver( ChangeObserver<Boolean> changeObserver ) {
+        animatingProperty.removeObserver( changeObserver );
     }
 
     public void setOnPlank( boolean onPlank ) {
