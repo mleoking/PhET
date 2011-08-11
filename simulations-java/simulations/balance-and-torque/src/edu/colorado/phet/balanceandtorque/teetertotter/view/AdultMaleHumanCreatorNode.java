@@ -26,7 +26,7 @@ public class AdultMaleHumanCreatorNode extends ImageMassCreatorNode {
     public AdultMaleHumanCreatorNode( final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         ImageMass adultMaleHumanNode = new AdultMaleHuman();
-        setSelectionNode( new ImageModelElementNode( SCALING_MVT, adultMaleHumanNode, canvas ) );
+        setSelectionNode( new ImageMassNode( SCALING_MVT, adultMaleHumanNode, canvas ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height * 0.75 );
         // TODO: i18n (units)
         setCaption( adultMaleHumanNode.getMass() + " kg" );

@@ -17,10 +17,10 @@ import edu.umd.cs.piccolo.nodes.PText;
 /**
  * @author John Blanco
  */
-public class LabeledImageModelElementNode extends ImageModelElementNode {
+public class LabeledImageMassNode extends ImageMassNode {
     private static final double INSET_PROPORTION = 0.2;
 
-    public LabeledImageModelElementNode( final ModelViewTransform mvt, final LabeledImageMass mass, PhetPCanvas canvas ) {
+    public LabeledImageMassNode( final ModelViewTransform mvt, final LabeledImageMass mass, PhetPCanvas canvas ) {
         super( mvt, mass, canvas );
         double inset = getFullBoundsReference().width * INSET_PROPORTION;
         // Create the label.
