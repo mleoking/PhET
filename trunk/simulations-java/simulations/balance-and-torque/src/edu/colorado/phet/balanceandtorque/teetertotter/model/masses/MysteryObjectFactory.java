@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.balanceandtorque.BalanceAndTorqueResources.Images;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 
 /**
  * This class creates mystery objects.  A mystery object is an mass that the
@@ -20,10 +21,11 @@ public class MysteryObjectFactory {
     private static final List<MysteryObjectConfig> MYSTERY_OBJECT_CONFIGURATIONS = new ArrayList<MysteryObjectConfig>() {{
         // Note that the height value needs to be somewhat coordinated with
         // the image for things to look good.
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.2 ) );
-        add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.23 ) );
-        add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.3 ) );
-        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.35 ) );
+        // TODO: i18n of all labels (not sure how this will work with single character labels).
+        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.2, "A" ) );
+        add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.23, "B" ) );
+        add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.3, "C" ) );
+        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.35, "D" ) );
     }};
 
     /**
@@ -43,23 +45,25 @@ public class MysteryObjectFactory {
      * @param initialLocation
      * @return
      */
-    public static ImageMass createMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
+    public static LabeledImageMass createMysteryObject( int mysteryObjectID, Point2D initialLocation ) {
         assert ( mysteryObjectID < MYSTERY_OBJECT_CONFIGURATIONS.size() );
         MysteryObjectConfig config = MYSTERY_OBJECT_CONFIGURATIONS.get( mysteryObjectID );
-        return new ImageMass( config.mass, config.image, config.height, initialLocation );
+        return new LabeledImageMass( config.mass, config.image, config.height, initialLocation, config.labelText );
     }
 
     // Collection of information needed to define a particular configuration
     // of mystery object.
     private static class MysteryObjectConfig {
-        private final double mass;      // in kg
-        private final BufferedImage image;      // Image to use when depicting this object.
-        private final double height;     // in model space, which is in meters
+        private final double mass;            // In kg
+        private final BufferedImage image;    // Image to use when depicting this object.
+        private final double height;          // In model space, which is in meters
+        private final String labelText;
 
-        private MysteryObjectConfig( double mass, BufferedImage image, double height ) {
+        private MysteryObjectConfig( double mass, BufferedImage image, double height, String labelText ) {
             this.mass = mass;
             this.image = image;
             this.height = height;
+            this.labelText = labelText;
         }
     }
 }

@@ -10,6 +10,7 @@ import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
@@ -78,6 +79,9 @@ public class BalancingActCanvas extends PhetPCanvas {
                 if ( mass instanceof ShapeMass ) {
                     // TODO: Always bricks right now, may have to change in the future.
                     massNode = new BrickStackNode( mvt, (ShapeMass) mass, BalancingActCanvas.this );
+                }
+                else if ( mass instanceof LabeledImageMass ) {
+                    massNode = new LabeledImageModelElementNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this );
                 }
                 else if ( mass instanceof ImageMass ) {
                     massNode = new ImageModelElementNode( mvt, (ImageMass) mass, BalancingActCanvas.this );
