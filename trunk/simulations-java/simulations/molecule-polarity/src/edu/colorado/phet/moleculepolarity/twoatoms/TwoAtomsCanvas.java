@@ -86,7 +86,7 @@ public class TwoAtomsCanvas extends MPCanvas {
             enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
             positivePlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            bondTypeNode.setOffset( 150, negativePlateNode.getFullBoundsReference().getMaxY() ); //TODO compute horizontal center
+            bondTypeNode.setOffset( 150, negativePlateNode.getFullBoundsReference().getMaxY() + 30 ); //TODO compute horizontal center
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
