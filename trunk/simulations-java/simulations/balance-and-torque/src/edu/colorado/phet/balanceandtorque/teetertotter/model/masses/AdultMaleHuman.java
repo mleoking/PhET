@@ -25,7 +25,7 @@ public class AdultMaleHuman extends ImageMass {
 
     @Override public void setOnPlank( boolean onPlank ) {
         if ( onPlank ) {
-            height = SITTING_HEIGHT;
+            heightProperty.set( SITTING_HEIGHT );
             if ( getPosition().getX() > 0 ) {
                 imageProperty.set( Images.ADULT_MAN_SITTING );
                 setCenterOfMassXOffset( SITTING_CENTER_OF_MASS_X_OFFSET );
@@ -37,7 +37,7 @@ public class AdultMaleHuman extends ImageMass {
             }
         }
         else {
-            height = STANDING_HEIGHT;
+            heightProperty.set( STANDING_HEIGHT );
             imageProperty.set( Images.ADULT_MAN_STANDING );
             setCenterOfMassXOffset( 0 );
         }

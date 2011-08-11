@@ -12,8 +12,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
 /**
  * This class represents an adult male human in a tool box.  When the user
- * clicks on this node, the corresponding model element is added to the model
- * at the user's mouse location.
+ * clicks on this node, the corresponding model element is added to the model at
+ * the user's mouse location.
  *
  * @author John Blanco
  */
@@ -33,10 +33,12 @@ public class AdultMaleHumanCreatorNode extends ModelElementCreatorNode {
         setCaption( adultMaleHumanNode.getMass() + " kg" );
     }
 
-    @Override protected UserMovableModelElement addElementToModel( Point2D position ) {
-        AdultMaleHuman human = new AdultMaleHuman();
-        human.setPosition( position );
-        human.userControlled.set( true );
+    @Override protected UserMovableModelElement addElementToModel( final Point2D position ) {
+        AdultMaleHuman human = new AdultMaleHuman() {{
+            setPosition( position );
+            setAnimationDestination( position );
+            userControlled.set( true );
+        }};
         model.addMass( human );
         return human;
     }
