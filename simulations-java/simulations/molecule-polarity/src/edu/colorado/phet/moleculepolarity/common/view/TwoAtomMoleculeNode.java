@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.moleculepolarity.common.model.TwoAtomMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
@@ -15,9 +15,9 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class TwoAtomMoleculeNode extends PhetPNode {
 
-    private final TwoAtomMolecule molecule;
+    private final TwoAtomsMolecule molecule;
 
-    public TwoAtomMoleculeNode( final TwoAtomMolecule molecule ) {
+    public TwoAtomMoleculeNode( final TwoAtomsMolecule molecule ) {
 
         this.molecule = molecule;
 
