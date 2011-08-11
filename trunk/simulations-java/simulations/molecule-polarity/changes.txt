@@ -1,3 +1,4 @@
+8/11/11 add 3D perspective to E-field plates
 8/10/11 restore "more" in bond type indicator
 8/10/11 remove arrows and "more" from bond type indicator
 8/10/11 Jmol: return status from developer scripts

@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- add perspective to E-field plates
 - add cross on 2D dipoles, make it look like Jmol, shrink like Vector2DNode
 - adjust initial orientation for NH3, CH3F, CHF3, CH2F2, CHCl3
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)

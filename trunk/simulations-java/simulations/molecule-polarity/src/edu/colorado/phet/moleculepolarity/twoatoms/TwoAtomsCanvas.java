@@ -16,10 +16,10 @@ import edu.colorado.phet.moleculepolarity.common.control.TestControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
 import edu.colorado.phet.moleculepolarity.common.view.DipoleNode.BondDipoleNode;
-import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.NegativeEFieldPlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.EFieldPlateNode.PositiveEFieldPlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
+import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.TwoAtomMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.umd.cs.piccolo.PNode;
@@ -67,22 +67,22 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
         addChild( resetAllButtonNode );
 
-        NegativeEFieldPlateNode negativeEFieldPlateNode = new NegativeEFieldPlateNode( model.eField );
-        addChild( negativeEFieldPlateNode );
+        PNode negativePlateNode = new NegativePlateNode( model.eField );
+        addChild( negativePlateNode );
 
-        PositiveEFieldPlateNode positiveEFieldPlateNode = new PositiveEFieldPlateNode( model.eField );
-        addChild( positiveEFieldPlateNode );
+        PNode positivePlateNode = new PositivePlateNode( model.eField );
+        addChild( positivePlateNode );
 
         // layout
         {
             final double xSpacing = 50;
             final double ySpacing = 10;
-            negativeEFieldPlateNode.setOffset( 30, 75 - PNodeLayoutUtils.getOriginYOffset( negativeEFieldPlateNode ) );
-            enControlA.setOffset( negativeEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
+            negativePlateNode.setOffset( 30, 75 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+            enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 100 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
-            positiveEFieldPlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativeEFieldPlateNode.getYOffset() );
-            bondTypeNode.setOffset( 150, negativeEFieldPlateNode.getFullBoundsReference().getMaxY() ); //TODO compute horizontal center
-            viewControlsNode.setOffset( positiveEFieldPlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
+            positivePlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
+            bondTypeNode.setOffset( 150, negativePlateNode.getFullBoundsReference().getMaxY() ); //TODO compute horizontal center
+            viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, enControlA.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             testControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), testControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
