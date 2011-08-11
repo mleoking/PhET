@@ -28,7 +28,14 @@ public class MPConstants {
     // View
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
     public static final Color CANVAS_COLOR = Color.WHITE;
-    public static final Color NEGATIVE_COLOR = Color.BLUE;
-    public static final Color POSITIVE_COLOR = PhetColorScheme.RED_COLORBLIND;
     public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
+
+    // E-field plates
+    public static final double PLATE_WIDTH = 50; // width when the plate is flattened to 2D
+    public static final double PLATE_HEIGHT = 450;
+    public static final double PLATE_THICKNESS = 5;
+    public static final double PLATE_PERSPECTIVE_Y_OFFSET = 35; // y difference between foreground and background edges of the plate
+    public static final Color PLATE_NEGATIVE_COLOR = Color.BLUE;
+    public static final Color PLATE_POSITIVE_COLOR = PhetColorScheme.RED_COLORBLIND;
+
 }

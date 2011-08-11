@@ -19,27 +19,22 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class PositivePlateNode extends PComposite {
 
-    private static final double FACE_WIDTH = 50;
-    private static final double FACE_HEIGHT = 450;
-    private static final double PERSPECTIVE_Y_OFFSET = 35;
-    private static final double THICKNESS = 5;
-
     public PositivePlateNode( EField eField ) {
 
         final PNode indicatorNode = new PolarityIndicatorNode( true ) {{
-            setOffset( ( FACE_WIDTH / 2 ) - getFullBoundsReference().getWidth() / 2,
-                       ( PERSPECTIVE_Y_OFFSET / 2 ) - getFullBoundsReference().getHeight() + 4 );
+            setOffset( ( MPConstants.PLATE_WIDTH / 2 ) - getFullBoundsReference().getWidth() / 2,
+                       ( MPConstants.PLATE_PERSPECTIVE_Y_OFFSET / 2 ) - getFullBoundsReference().getHeight() + 4 );
         }};
 
-        PPath sideEdgeNode = new PPath( new Rectangle2D.Double( FACE_WIDTH, 0, THICKNESS, FACE_HEIGHT ) ) {{
+        PPath sideEdgeNode = new PPath( new Rectangle2D.Double( MPConstants.PLATE_WIDTH, 0, MPConstants.PLATE_THICKNESS, MPConstants.PLATE_HEIGHT ) ) {{
             setPaint( MPConstants.PLATE_DISABLED_COLOR );
         }};
 
         DoubleGeneralPath facePath = new DoubleGeneralPath() {{
-            moveTo( 0, PERSPECTIVE_Y_OFFSET );
-            lineTo( FACE_WIDTH, 0 );
-            lineTo( FACE_WIDTH, FACE_HEIGHT );
-            lineTo( 0, PERSPECTIVE_Y_OFFSET + ( FACE_HEIGHT - 2 * PERSPECTIVE_Y_OFFSET ) );
+            moveTo( 0, MPConstants.PLATE_PERSPECTIVE_Y_OFFSET );
+            lineTo( MPConstants.PLATE_WIDTH, 0 );
+            lineTo( MPConstants.PLATE_WIDTH, MPConstants.PLATE_HEIGHT );
+            lineTo( 0, MPConstants.PLATE_PERSPECTIVE_Y_OFFSET + ( MPConstants.PLATE_HEIGHT - 2 * MPConstants.PLATE_PERSPECTIVE_Y_OFFSET ) );
             closePath();
         }};
         final PPath faceNode = new PPath( facePath.getGeneralPath() ) {{
@@ -52,7 +47,7 @@ public class PositivePlateNode extends PComposite {
 
         eField.enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                faceNode.setPaint( enabled ? MPConstants.POSITIVE_COLOR : MPConstants.PLATE_DISABLED_COLOR );
+                faceNode.setPaint( enabled ? MPConstants.PLATE_POSITIVE_COLOR : MPConstants.PLATE_DISABLED_COLOR );
                 indicatorNode.setVisible( enabled );
             }
         } );
