@@ -1,11 +1,10 @@
+// Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-
-import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together
@@ -16,9 +15,8 @@ public class GlucoseCrystal extends Crystal<Glucose> {
 
     public GlucoseCrystal( ImmutableVector2D position, double angle ) {
 
-        //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
-        //Also, scale everything by the model sizeScale, including distances between atoms
-        super( position, nanometersToMeters( 0.5 ) * sizeScale, angle );
+        //Glucose is about half as big as sucrose and hence should be half as far away on the lattice
+        super( position, SucroseCrystal.SPACING / 2, angle );
     }
 
     //Create a new Sucrose to be added to the crystal
