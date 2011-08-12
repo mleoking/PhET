@@ -34,6 +34,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.RulerNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
@@ -315,6 +316,18 @@ public class BalancingActCanvas extends PhetPCanvas {
                            mvt.modelToViewY( 0 ) - massKit.getFullBoundsReference().height - 10 );
         vectorControlPanel.setOffset( controlPanelCenterX - vectorControlPanel.getFullBoundsReference().width / 2,
                                       massKit.getFullBoundsReference().getMinY() - vectorControlPanel.getFullBoundsReference().height - 10 );
+
+        // TODO: First attempt to add ruler.
+        // Create the ruler node.  It is 4 meters long, adjust if plank length changes.
+        RulerNode rulerNode = new RulerNode( mvt.modelToViewDeltaX( 4 ),
+                                             50,
+//                                             new String[] { "2", "1.9", "1.8", "1.7", "6", "5", "4", "3", "2", "1", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }, "m",
+                                             new String[] { "2", "1.5", "1", "0.5", "0", "0.5", "1", "1.5", "2" }, "m",
+                                             1,
+                                             12 );
+        rulerNode.setOffset( mvt.modelToViewX( model.getPlank().getBalancePoint().getX() ) - rulerNode.getFullBounds().width / 2,
+                             mvt.modelToViewY( model.getPlank().getBalancePoint().getY() ) );
+        rootNode.addChild( rulerNode );
     }
 
     // Convenience class for avoiding code duplication.
