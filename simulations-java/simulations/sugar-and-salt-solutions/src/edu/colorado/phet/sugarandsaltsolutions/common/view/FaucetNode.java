@@ -34,16 +34,22 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  * @author Sam Reid
  */
 public class FaucetNode extends PNode {
+
     //Listeners for the shape of the water that flows out of the faucet
     private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
 
-    public FaucetNode( final Property<Double> faucetFlowLevel,
+    public FaucetNode(
 
-                       //if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
-                       final Option<Double> flowPoint,
+            //Value between 0 and 1 inclusive to indicate the rate of flow
+            final Property<Double> flowRate,
 
-                       //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
-                       final ObservableProperty<Boolean> allowed ) {
+            //if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
+            final Option<Double> flowPoint,
+
+            //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
+            final ObservableProperty<Boolean> allowed ) {
+
+        //Create the image and slider node used to display and control the faucet
         PImage imageNode = new PImage( FAUCET_FRONT ) {{
 
             //Scale up the faucet since it looks good larger
@@ -65,11 +71,11 @@ public class FaucetNode extends PNode {
                     public void stateChanged( ChangeEvent e ) {
                         //Only change the flow rate if the beaker can accommodate
                         if ( allowed.get() ) {
-                            faucetFlowLevel.set( getValue() / 100.0 );
+                            flowRate.set( getValue() / 100.0 );
                         }
                     }
                 } );
-                faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
+                flowRate.addObserver( new VoidFunction1<Double>() {
                     public void apply( Double value ) {
                         setValue( (int) ( value * 100 ) );
                     }
@@ -80,7 +86,7 @@ public class FaucetNode extends PNode {
                     @Override public void mouseReleased( MouseEvent e ) {
 
                         //Turn off the flow level
-                        faucetFlowLevel.set( 0.0 );
+                        flowRate.set( 0.0 );
 
                         //To make sure the slider goes back to zero, it is essential to set the value to something other than zero first
                         //Just calling setValue(0) here or waiting for the callback from the model doesn't work if the user was dragging the knob
@@ -90,7 +96,6 @@ public class FaucetNode extends PNode {
                 } );
             }} ) {{
 
-                //TODO: rewrite slider in piccolo to avoid mac/pc and layout problems?
                 //Mac sliders render lower than windows slider, so have to compensate
                 translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );
 
@@ -103,7 +108,7 @@ public class FaucetNode extends PNode {
 
         //Show the water flowing out of the faucet
         addChild( new PhetPPath( SugarAndSaltSolutionsApplication.WATER_COLOR ) {{
-            faucetFlowLevel.addObserver( new VoidFunction1<Double>() {
+            flowRate.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double flow ) {
                     double width = flow * 100 * 0.5;
                     double pipeWidth = 56;
