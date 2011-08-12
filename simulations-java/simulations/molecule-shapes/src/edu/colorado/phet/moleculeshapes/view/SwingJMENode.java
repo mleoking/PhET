@@ -32,7 +32,7 @@ public class SwingJMENode extends Node {
 
         component.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                System.out.println( "Resize: " + System.currentTimeMillis() % 1000);
+                System.out.println( "Resize: " + System.currentTimeMillis() % 1000 );
                 onResize();
             }
         } );
@@ -43,6 +43,7 @@ public class SwingJMENode extends Node {
         if ( !component.getPreferredSize().equals( size ) ) {
             if ( hudNode != null ) {
                 detachChild( hudNode );
+                hudNode.dispose();
             }
             size = component.getPreferredSize();
             hudNode = new HUDNode( component, size.width, size.height, assetManager, inputManager );
