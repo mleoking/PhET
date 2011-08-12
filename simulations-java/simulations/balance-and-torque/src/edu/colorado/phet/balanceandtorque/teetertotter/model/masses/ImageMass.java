@@ -101,10 +101,6 @@ public class ImageMass extends Mass {
         setPosition( p.getX(), p.getY() );
     }
 
-    public void addRotationalAngleChangeObserver( VoidFunction1<Double> changeObserver ) {
-        rotationalAngleProperty.addObserver( changeObserver );
-    }
-
     @Override public void translate( double x, double y ) {
         setPosition( positionProperty.get().getX() + x, positionProperty.get().getY() + y );
     }

@@ -67,8 +67,10 @@ public class ShapeMassNode extends PNode {
                     setPathTo( mvt.modelToView( shape ) );
 
                     // Update the position of the mass label.
+                    massLabel.setRotation( 0 );
                     massLabel.setOffset( getFullBoundsReference().getCenterX() - massLabel.getFullBoundsReference().width / 2,
                                          getFullBoundsReference().getMinY() - massLabel.getFullBoundsReference().height );
+                    massLabel.rotateAboutPoint( -mass.getRotationAngle(), mass.getPosition() );
                 }
             } );
         }} );
@@ -77,4 +79,5 @@ public class ShapeMassNode extends PNode {
         addInputEventListener( new CursorHandler() );
         addInputEventListener( new MassDragHandler( mass, this, canvas, mvt ) );
     }
+
 }
