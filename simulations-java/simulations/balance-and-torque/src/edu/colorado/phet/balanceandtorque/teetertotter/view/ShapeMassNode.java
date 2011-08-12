@@ -76,9 +76,10 @@ public class ShapeMassNode extends PNode {
             public void apply( Shape shape ) {
                 Shape zeroOffsetShape = AffineTransform.getTranslateInstance( -mvt.modelToViewX( 0 ), -mvt.modelToViewY( 0 ) ).createTransformedShape( mvt.modelToView( shape ) );
                 shapeNode.setPathTo( zeroOffsetShape );
-                massLabel.setOffset( -10, -10 );
-//                massLabel.setOffset( shapeNode.getFullBoundsReference().getCenterX() - massLabel.getFullBoundsReference().width / 2,
-//                                     shapeNode.getFullBoundsReference().getMinY() - massLabel.getFullBoundsReference().hashCode());
+                massLabel.setScale( 1 );
+                massLabel.setScale( shapeNode.getFullBoundsReference().width * 0.9 / massLabel.getFullBoundsReference().width );
+                massLabel.setOffset( shapeNode.getFullBoundsReference().getCenterX() - massLabel.getFullBoundsReference().width / 2,
+                                     shapeNode.getFullBoundsReference().getY() - massLabel.getFullBoundsReference().height );
                 updatePositionAndAngle();
             }
         } );
