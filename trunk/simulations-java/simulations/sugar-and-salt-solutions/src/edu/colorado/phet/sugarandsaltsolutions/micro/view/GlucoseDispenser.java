@@ -6,12 +6,12 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystal;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
 /**
- * Model dispenser that shakes sucrose into the model.
+ * Model dispenser that shakes glucose into the model.
  *
  * @author Sam Reid
  */
@@ -23,6 +23,6 @@ public class GlucoseDispenser extends MicroSugarDispenser {
 
     //Create and add a random glucose crystal with 4 sucrose molecules
     protected void doAddSugar( final ImmutableVector2D outputPoint ) {
-        model.addSucroseCrystal( new SucroseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
+        model.addGlucoseCrystal( new GlucoseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
     }
 }

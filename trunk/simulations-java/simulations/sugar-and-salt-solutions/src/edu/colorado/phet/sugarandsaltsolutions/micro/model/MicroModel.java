@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
@@ -34,7 +33,9 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FreeParticle
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolConcentration;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolDropper;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumchloride.SodiumChlorideShaker;
@@ -84,6 +85,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
     public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
     public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
+    public final ItemList<GlucoseCrystal> glucoseCrystals = new ItemList<GlucoseCrystal>();
 
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
@@ -139,6 +141,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, Chloride.class );
     public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, Calcium.class );
     public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, Sucrose.class );
+    public final CompositeDoubleProperty glucoseConcentration = new IonConcentration( this, Glucose.class );
     public final CompositeDoubleProperty ethanolConcentration = new EthanolConcentration( this );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
@@ -147,11 +150,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     final double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
     final double sodiumNitrateSaturationPoint = molesPerLiterToMolesPerMeterCubed( 10.8 );
     final double sucroseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.84 );
+    final double glucoseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.05 );
 
     //Create observable properties that indicate whether each solution type is saturated
     public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
     public final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
     public final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
+    public final ObservableProperty<Boolean> glucoseSaturated = glucoseConcentration.greaterThan( glucoseSaturationPoint );
     public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
@@ -194,20 +199,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                1.0 / Math.pow( 8E-23 * 0.001, 1 / 3.0 ) / 0.2 );
 
         //Property that identifies the number of sucrose molecules in crystal form, for making sure the user doesn't exceed the allowed maximum
-        //Should be rewritten with Property<Integer> but there is currently no good compositional support for it (using plus(), greaterThan(), etc)
-        final Property<Double> numSucroseMoleculesInCrystal = new Property<Double>( 0.0 ) {{
-            VoidFunction1<SucroseCrystal> updateSucroseCount = new VoidFunction1<SucroseCrystal>() {
-                public void apply( SucroseCrystal sucroseCrystal ) {
-                    int count = 0;
-                    for ( SucroseCrystal crystal : sucroseCrystals ) {
-                        count = count + crystal.numberConstituents();
-                    }
-                    set( count + 0.0 );
-                }
-            };
-            sucroseCrystals.addElementAddedObserver( updateSucroseCount );
-            sucroseCrystals.addElementRemovedObserver( updateSucroseCount );
-        }};
+        final CrystalMoleculeCount numSucroseMoleculesInCrystal = new CrystalMoleculeCount( sucroseCrystals );
+        final CrystalMoleculeCount numGlucoseMoleculesInCrystal = new CrystalMoleculeCount( glucoseCrystals );
 
         //Determine whether the user is allowed to add more of each type, based on the particle table
         //These computations make the simplifying assumption that only certain combinations of molecules will appear together
@@ -218,7 +211,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         ObservableProperty<Boolean> moreCalciumChlorideAllowed = sphericalParticles.propertyCount( Calcium.class ).lessThan( MAX_CALCIUM_CHLORIDE ).or( sphericalParticles.propertyCount( Chloride.class ).lessThan( MAX_CALCIUM_CHLORIDE ) );
         ObservableProperty<Boolean> moreSodiumNitrateAllowed = sphericalParticles.propertyCount( Sodium.class ).lessThan( MAX_SODIUM_NITRATE ).or( sphericalParticles.propertyCount( Oxygen.class ).lessThan( MAX_SODIUM_NITRATE * 3 ) );
         ObservableProperty<Boolean> moreSucroseAllowed = ( freeParticles.propertyCount( Sucrose.class ).plus( numSucroseMoleculesInCrystal ) ).lessThan( MAX_SUCROSE );
-        ObservableProperty<Boolean> moreEthanolAllowed = freeParticles.propertyCount( Ethanol.class ).lessThan( MAX_ETHANOL );
+        ObservableProperty<Boolean> moreGlucoseAllowed = ( freeParticles.propertyCount( Glucose.class ).plus( numGlucoseMoleculesInCrystal ) ).lessThan( MAX_GLUCOSE );
 
         //Add models for the various dispensers: sugar, salt, etc.
         //Note that this is done by associating a DispenserType with the dispenser model element, a more direct way would be to create class Substance that has both a dispenser type and a node factory
@@ -226,8 +219,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dispensers.add( new SodiumNitrateShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSodiumNitrateAllowed, SODIUM_NITRATE_NEW_LINE, distanceScale, dispenserType, DispenserType.SODIUM_NITRATE, this ) );
         dispensers.add( new SucroseDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSucroseAllowed, SUCROSE, distanceScale, dispenserType, SUGAR, this ) );
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreCalciumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE, this ) );
-        dispensers.add( new EthanolDropper( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, 0, beaker, moreEthanolAllowed, Strings.ETHANOL, distanceScale, dispenserType, DispenserType.ETHANOL, this ) );
-        dispensers.add( new GlucoseDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreSucroseAllowed, GLUCOSE, distanceScale, dispenserType, DispenserType.GLUCOSE, this ) );
+        dispensers.add( new GlucoseDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreGlucoseAllowed, GLUCOSE, distanceScale, dispenserType, DispenserType.GLUCOSE, this ) );
 
         //When the output flow rate changes, recompute the desired flow rate for particles to try to attain a constant concentration over time for each solute type
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
@@ -280,13 +272,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
 
         //Iterate over all particles and let them update in time
-        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, drainedParticles ) ) {
+        for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals, drainedParticles ) ) {
             freeParticle.stepInTime( dt );
         }
 
         //Allow the crystals to grow--not part of the strategies because it has to look at all particles within a group to decide which to crystallize
         new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
         new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
+        new GlucoseCrystalGrowth( this, glucoseCrystals ).allowCrystalGrowth( dt, glucoseSaturated );
         new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
         new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals ).allowCrystalGrowth( dt, sodiumNitrateSaturated );
 
@@ -417,6 +410,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         sucroseCrystal.setUpdateStrategy( new CrystalStrategy( this, sucroseCrystals, sucroseSaturated ) );
         addComponents( sucroseCrystal );
         sucroseCrystals.add( sucroseCrystal );
+    }
+
+    //Add a glucose crystal to the model, and add graphics for all its constituent particles
+    public void addGlucoseCrystal( GlucoseCrystal glucoseCrystal ) {
+        glucoseCrystal.setUpdateStrategy( new CrystalStrategy( this, glucoseCrystals, glucoseSaturated ) );
+        addComponents( glucoseCrystal );
+        glucoseCrystals.add( glucoseCrystal );
     }
 
     //Add ethanol above the solution at the dropper output location
