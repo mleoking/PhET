@@ -48,16 +48,16 @@ public class JmolViewerNode extends PhetPNode {
             "numberOfAtoms = {*}.length\n" +
             "homogeneousDiatomic = \"" + RESULT_TRUE + "\"\n" +
             "if ( numberOfAtoms == 2 ) {\n" +
-            "firstElement = {*}[0].element\n" +
-            "for ( i = 0; i < numberOfAtoms; i++ ) {\n" +
-            "nextElement = {*}[i].element\n" +
-            "if ( firstElement != nextElement ) {\n" +
-            "homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
-            "}\n" +
-            "}\n" +
+            "    firstElement = {*}[0].element\n" +
+            "    for ( i = 0; i < numberOfAtoms; i++ ) {\n" +
+            "        nextElement = {*}[i].element\n" +
+            "        if ( firstElement != nextElement ) {\n" +
+            "            homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
+            "        }\n" +
+            "    }\n" +
             "}\n" +
             "else {\n" +
-            "homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
+            "    homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
             "}\n" +
             "print homogeneousDiatomic";
 
