@@ -63,7 +63,7 @@ public class SphericalParticle extends Particle {
         }
     }
 
-    //Abstract since oxygen ions and oxygen in sucrose must have different colors
+    //Abstract since oxygen ions and oxygen in sucrose/glucose must have different colors
     public abstract static class Oxygen extends SphericalParticle {
         public Oxygen( Color chargeColor ) {
             super( 73, chargeColor, red );
@@ -77,7 +77,7 @@ public class SphericalParticle extends Particle {
         }
     }
 
-    //When participating in sucrose or ethanol, oxygen atoms should be shown as neutral
+    //When participating in sucrose, glucose or ethanol, oxygen atoms should be shown as neutral
     public static class NeutralOxygen extends Oxygen {
         public NeutralOxygen() {
             super( SphericalParticle.NEUTRAL_COLOR );

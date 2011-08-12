@@ -1,10 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.util;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +34,13 @@ public class ProjectorUtil {
                     addMouseListener( new MouseAdapter() {
                         @Override public void mousePressed( MouseEvent e ) {
                             System.out.println( e.getX() + ", " + e.getY() );
+
+                            //Draw a rectangle to signify this atom has already been annotated
+                            Graphics2D g2 = image.createGraphics();
+                            g2.setPaint( Color.blue );
+                            g2.draw( new Rectangle2D.Double( e.getX() - 4, e.getY() - 4, 8, 8 ) );
+                            g2.dispose();
+                            repaint();
                         }
                     } );
                 }
