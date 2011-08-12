@@ -2,10 +2,11 @@
 package edu.colorado.phet.moleculepolarity.developer;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -25,24 +26,28 @@ public class JmolScriptNode extends PhetPNode {
 
     public JmolScriptNode( final JmolViewerNode viewerNode ) {
 
-        final JTextArea textArea = new JTextArea( 5, 20 ) {{
+        final JTextArea textArea = new JTextArea() {{
             setLineWrap( true );
-            setBorder( BorderFactory.createLineBorder( Color.RED ) );
             setBackground( new Color( 245, 245, 245 ) );
         }};
-        PSwing textAreaNode = new PSwing( textArea );
-        addChild( new PSwing( textArea ) );
+        JScrollPane scrollPane = new JScrollPane( textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER );
+        scrollPane.setPreferredSize( new Dimension( 200, 100 ) );
+        PSwing scrollPaneNode = new PSwing( scrollPane );
+        addChild( scrollPaneNode );
 
         TextButtonNode executeButtonNode = new TextButtonNode( "Run Jmol Script" ) {{
             setFont( new PhetFont( 10 ) );
             setBackground( Color.YELLOW );
         }};
         addChild( executeButtonNode );
-        executeButtonNode.setOffset( 0, textAreaNode.getFullBoundsReference().getMaxY() + 3 );
+        executeButtonNode.setOffset( 0, scrollPaneNode.getFullBoundsReference().getMaxY() + 3 );
 
         executeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                viewerNode.doScriptStatus( textArea.getText() );
+                Object status = viewerNode.doScriptStatus( textArea.getText() );
+                if ( status != null ) {
+                    System.out.println( "Jmol:\n" + status.toString() );
+                }
             }
         } );
     }

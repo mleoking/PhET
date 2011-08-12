@@ -36,6 +36,31 @@ public class JmolViewerNode extends PhetPNode {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( JmolViewerNode.class.getCanonicalName() );
 
+    // Results returned by Jmol scripts. These are returned as a status Object, which must be parsed.
+    private static final String RESULT_TRUE = "true";
+    private static final String RESULT_FALSE = "false";
+
+    /*
+     * Jmol script to determine if the current molecule is homogeneous diatomic (2 atoms of the same type.)
+     * Returns RESULT_TRUE or RESULT_FALSE.
+     */
+    private static final String SCRIPT_IS_HOMOGENEOUS_DIATOMIC =
+            "numberOfAtoms = {*}.length\n" +
+            "homogeneousDiatomic = \"" + RESULT_TRUE + "\"\n" +
+            "if ( numberOfAtoms == 2 ) {\n" +
+            "firstElement = {*}[0].element\n" +
+            "for ( i = 0; i < numberOfAtoms; i++ ) {\n" +
+            "nextElement = {*}[i].element\n" +
+            "if ( firstElement != nextElement ) {\n" +
+            "homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
+            "}\n" +
+            "}\n" +
+            "}\n" +
+            "else {\n" +
+            "homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
+            "}\n" +
+            "print homogeneousDiatomic";
+
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
     private IsosurfaceType isosurface;
@@ -46,7 +71,6 @@ public class JmolViewerNode extends PhetPNode {
         addInputEventListener( new CursorHandler() );
     }
 
-    //TODO consider merging this with jmol-phet.*.JmolPanel
     // Container for Jmol viewer
     private static class ViewerPanel extends JPanel {
 
@@ -86,11 +110,8 @@ public class JmolViewerNode extends PhetPNode {
             viewer.scriptWait( script );
         }
 
-        public void doScriptStatus( String script ) {
-            Object status = viewer.scriptWaitStatus( script, null );
-            if ( status != null ) {
-                System.out.println( "Jmol:\n" + status.toString() );
-            }
+        public Object doScriptStatus( String script ) {
+            return viewer.scriptWaitStatus( script, null );
         }
 
         public void setMolecule( Molecule3D molecule ) {
@@ -117,8 +138,8 @@ public class JmolViewerNode extends PhetPNode {
         viewerPanel.doScript( script );
     }
 
-    public void doScriptStatus( String script ) {
-        viewerPanel.doScriptStatus( script );
+    public Object doScriptStatus( String script ) {
+        return viewerPanel.doScriptStatus( script );
     }
 
     public void setMolecule( Molecule3D molecule ) {
@@ -205,16 +226,41 @@ public class JmolViewerNode extends PhetPNode {
     public void setIsosurfaceType( IsosurfaceType isosurfaceType ) {
         this.isosurface = isosurfaceType;
         if ( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL ) {
-            doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
-//            doScript( "isosurface VDW color white translucent" ); //TODO for homogeneous diatomic molecules
+            if ( isHomogeneousDiatomic() ) {
+                doScript( "isosurface VDW color white translucent" );
+            }
+            else {
+                doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
+            }
         }
         else if ( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY ) {
-            doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );
-//            doScript( "isosurface VDW color white translucent" ); //TODO for homogeneous diatomic molecules
+            if ( isHomogeneousDiatomic() ) {
+                doScript( "isosurface VDW color white translucent" );
+            }
+            else {
+                doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );
+            }
         }
         else {
             doScript( "isosurface off" );
         }
+    }
+
+    // Interrogates Jmol to determine whether the current molecule is homogeneous diatomic.
+    private boolean isHomogeneousDiatomic() {
+        Object status = doScriptStatus( SCRIPT_IS_HOMOGENEOUS_DIATOMIC );
+        LOGGER.info( "isHomogeneousDiatomic status=[" + status.toString() + "]" );
+        if ( status == null ) {
+            throw new RuntimeException( "expected non-null status" );
+        }
+        else {
+            return isTrue( status );
+        }
+    }
+
+    // Returns true if Jmol status is equal to the String RESULT_TRUE.
+    private static boolean isTrue( Object status ) {
+        return status.toString().trim().equals( RESULT_TRUE );
     }
 
     // test

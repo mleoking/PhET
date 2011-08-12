@@ -1,3 +1,5 @@
+8/12/11 Jmol: use different isosurfaces for homogeneous diatomic molecules
+8/12/11 Jmol: wrote script to identify homogeneous diatomic molecules
 8/12/11 change "bond dipoles" to "bond dipole" in Two Atoms tab
 8/12/11 #3039, add Arrow.getHeadScale, use it to scale dipole cross
 8/12/11 add cross to dipole by decorating arrow
