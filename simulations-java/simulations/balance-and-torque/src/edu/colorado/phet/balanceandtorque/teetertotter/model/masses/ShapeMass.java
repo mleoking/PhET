@@ -7,15 +7,15 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * This class defines a mass in the model whose appearance is defined by
- * its shape as opposed to, say, an image.
+ * This class defines a mass in the model whose appearance is defined by its
+ * shape as opposed to, say, an image.
  *
  * @author John Blanco
  */
 public abstract class ShapeMass extends Mass {
     public final Property<Shape> shapeProperty;
 
-    public ShapeMass( double mass, Shape shape, Point2D initialCenterBottom ) {
+    public ShapeMass( double mass, Shape shape ) {
         super( mass );
         shapeProperty = new Property<Shape>( shape );
     }
