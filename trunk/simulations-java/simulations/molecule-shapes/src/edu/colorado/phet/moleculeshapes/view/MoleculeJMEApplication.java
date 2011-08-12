@@ -395,20 +395,18 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }};
         preGuiNode.attachChild( controlPanel );
 
-//        preGuiNode.attachChild( new SwingJMENode( new JPanel() {{
-//            final JPanel p = this;
-//            add( new JButton( "Test Resize" ) {{
-//                addActionListener( new java.awt.event.ActionListener() {
-//                    public void actionPerformed( ActionEvent e ) {
-//                        System.out.println( "pre: " + p.getPreferredSize() + ", " + p.getSize() );
-//                        p.add( new PCanvas() {{
-//                            setSize( new Dimension( 100, 100 ) );
-//                        }} );
-//                        System.out.println( "aft: " + p.getPreferredSize() + ", " + p.getSize() );
-//                    }
-//                } );
-//            }} );
-//        }}, assetManager, inputManager ) );
+        preGuiNode.attachChild( new SwingJMENode( new JPanel() {{
+            final JPanel p = this;
+            add( new JButton( "Test Resize" ) {{
+                addActionListener( new java.awt.event.ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        p.add( new PCanvas() {{
+                            setSize( new Dimension( 100, 100 ) );
+                        }} );
+                    }
+                } );
+            }} );
+        }}, assetManager, inputManager ) );
 
 //        preGuiNode.attachChild( new HUDNode( 256, 64, assetManager, inputManager ) {{
 //            getPanel().add( new JButton( "Show Molecular Geometry" ) {

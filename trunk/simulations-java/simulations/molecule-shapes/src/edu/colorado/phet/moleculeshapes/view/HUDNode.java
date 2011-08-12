@@ -13,6 +13,8 @@ import javax.swing.*;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -53,12 +55,19 @@ public class HUDNode extends Geometry {
     private static final int DOUBLE_CLICK_TIME = 300;
     private final int width;
     private final int height;
+    private final InputManager inputManager;
+    private RawInputListener inputListener;
+
+    private boolean dirty = false; // whether the image needs to be repainted
+
+    public static final String ON_REPAINT_CALLBACK = "!@#%^&*";
 
     public HUDNode( final JComponent panel, final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
         super( "HUD", new Quad( width, height, true ) );
         this.panel = panel;
         this.width = width;
         this.height = height;
+        this.inputManager = inputManager;
 
         System.out.println( panel.getBounds() );
         System.out.println( panel.isDisplayable() );
@@ -79,14 +88,23 @@ public class HUDNode extends Geometry {
             }
         };
 
+        panel.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
+            public void apply() {
+                dirty = true;
+            }
+        } );
+
         // TODO: only update when repaint needed?
-        new Timer( 20, new ActionListener() {
+        new Timer( 10, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                image.refreshImage();
+                if ( dirty ) {
+                    image.refreshImage();
+                    dirty = false;
+                }
             }
         } ).start();
 
-        inputManager.addRawInputListener( new RawInputListener() {
+        inputListener = new RawInputListener() {
             public void beginInput() {
             }
 
@@ -104,7 +122,7 @@ public class HUDNode extends Geometry {
                     public void run() {
                         Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
                         sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), false, MouseEvent.NOBUTTON );
-                        image.refreshImage();
+//                        image.refreshImage();
                     }
                 } );
             }
@@ -114,7 +132,7 @@ public class HUDNode extends Geometry {
                     public void run() {
                         Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
                         sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
-                        image.refreshImage();
+//                        image.refreshImage();
                     }
                 } );
             }
@@ -124,7 +142,8 @@ public class HUDNode extends Geometry {
 
             public void onTouchEvent( TouchEvent evt ) {
             }
-        } );
+        };
+        inputManager.addRawInputListener( inputListener );
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
             setTexture( "ColorMap", new Texture2D() {{
@@ -135,6 +154,21 @@ public class HUDNode extends Geometry {
             setTransparent( true );
         }} );
 //            setQueueBucket( Bucket.Transparent );
+
+        initRepaintManager();
+
+        image.refreshImage();
+    }
+
+    private void initRepaintManager() {
+        final RepaintManager repaintManager = RepaintManager.currentManager( panel );
+        if ( !( repaintManager instanceof JMERepaintManager ) ) {
+            RepaintManager.setCurrentManager( new JMERepaintManager() );
+        }
+    }
+
+    public void dispose() {
+        inputManager.removeRawInputListener( inputListener );
     }
 
     public JComponent getPanel() {
