@@ -23,6 +23,7 @@ public class Arrow {
     private double tailWidth;
     private double fractionalHeadHeight;
     private boolean scaleTailToo;
+    private double headScale;
 
     private ImmutableVector2D direction;
     private ImmutableVector2D norm;
@@ -115,6 +116,7 @@ public class Arrow {
             else if ( length < headHeight ) {
                 throw new RuntimeException( "headHeight is bigger than arrow length: length=" + length + " headHeight=" + headHeight );
             }
+            headScale = tempHeadHeight / headHeight;
             norm = direction.getNormalVector();
 
             ImmutableVector2D rightFlap = getPoint( -1 * tempHeadHeight, -tempHeadWidth / 2 );
@@ -145,6 +147,11 @@ public class Arrow {
         double x = ( direction.getX() * parallel ) + ( norm.getX() * normal ) + tipLocation.getX();
         double y = ( direction.getY() * parallel ) + ( norm.getY() * normal ) + tipLocation.getY();
         return new ImmutableVector2D( x, y );
+    }
+
+    // Gets the scaling factor that was applied to the arrow head in computeArrow.
+    public double getHeadScale() {
+        return headScale;
     }
 
     public GeneralPath getShape() {
