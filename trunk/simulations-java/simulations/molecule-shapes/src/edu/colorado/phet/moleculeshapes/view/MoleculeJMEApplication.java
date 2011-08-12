@@ -396,19 +396,19 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }};
         preGuiNode.attachChild( controlPanel );
 
-        preGuiNode.attachChild( new HUDNode( 256, 64, assetManager, inputManager ) {{
-            getPanel().add( new JButton( "Show Molecular Geometry" ) {
-                {
-                    setOpaque( false );
-                    addActionListener( new java.awt.event.ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            showLonePairs.set( !showLonePairs.get() );
-                            setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
-                        }
-                    } );
-                }
-            } );
-        }} );
+//        preGuiNode.attachChild( new HUDNode( 256, 64, assetManager, inputManager ) {{
+//            getPanel().add( new JButton( "Show Molecular Geometry" ) {
+//                {
+//                    setOpaque( false );
+//                    addActionListener( new java.awt.event.ActionListener() {
+//                        public void actionPerformed( ActionEvent e ) {
+//                            showLonePairs.set( !showLonePairs.get() );
+//                            setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
+//                        }
+//                    } );
+//                }
+//            } );
+//        }} );
     }
 
     public void testAddAtom( boolean isLonePair ) {
