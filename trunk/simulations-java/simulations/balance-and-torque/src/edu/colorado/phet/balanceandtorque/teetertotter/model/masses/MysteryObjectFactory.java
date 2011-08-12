@@ -34,7 +34,7 @@ public class MysteryObjectFactory {
      * @param mysteryObjectID
      * @return
      */
-    public static ImageMass createMysteryObject( int mysteryObjectID ) {
+    public static LabeledImageMass createMysteryObject( int mysteryObjectID ) {
         return createMysteryObject( mysteryObjectID, new Point2D.Double( 0, 0 ) );
     }
 
