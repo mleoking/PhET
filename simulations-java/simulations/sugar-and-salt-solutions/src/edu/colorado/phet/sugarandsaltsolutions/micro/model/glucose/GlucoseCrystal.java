@@ -19,17 +19,17 @@ public class GlucoseCrystal extends Crystal<Glucose> {
         super( position, SucroseCrystal.SPACING / 2, angle );
     }
 
-    //Create a new Sucrose to be added to the crystal
+    //Create a new Glucose to be added to the crystal
     @Override public Glucose createPartner( Glucose original ) {
         return new Glucose();
     }
 
-    //Create a single sucrose molecule to begin the crystal
+    //Create a single Glucose molecule to begin the crystal
     @Override protected Glucose createSeed() {
         return new Glucose();
     }
 
-    //Sucrose is always in the majority since it is the only component type; thus it can always be removed
+    //Glucose is always in the majority since it is the only component type; thus it can always be removed
     @Override protected Class<? extends Particle> getMajorityType() {
         return Glucose.class;
     }

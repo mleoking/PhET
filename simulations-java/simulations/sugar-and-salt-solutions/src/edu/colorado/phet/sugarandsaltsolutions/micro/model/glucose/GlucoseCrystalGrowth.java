@@ -27,6 +27,6 @@ public class GlucoseCrystalGrowth extends IncrementalGrowth<Glucose, GlucoseCrys
     }
 
     @Override protected GlucoseCrystal newCrystal( ImmutableVector2D position ) {
-        return new GlucoseCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.sucroseCrystals, model.sucroseSaturated ) );}};
+        return new GlucoseCrystal( position, randomAngle() ) {{setUpdateStrategy( new CrystalStrategy( model, model.glucoseCrystals, model.glucoseSaturated ) );}};
     }
 }
