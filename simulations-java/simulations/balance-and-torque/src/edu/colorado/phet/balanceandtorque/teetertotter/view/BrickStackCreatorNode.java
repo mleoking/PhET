@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.UserMovableModelElement;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.BrickStack;
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 
@@ -28,7 +29,7 @@ public class BrickStackCreatorNode extends ModelElementCreatorNode {
     public BrickStackCreatorNode( int numBricks, final BalancingActModel model, final ModelViewTransform mvt, final PhetPCanvas canvas ) {
         super( model, mvt, canvas );
         this.numBricks = numBricks;
-        setSelectionNode( new ShapeMassNode( SCALING_MVT, new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), canvas ) );
+        setSelectionNode( new BrickStackNode( new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), SCALING_MVT, canvas, new BooleanProperty( false ) ) );
         setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
         // TODO: i18n (units too)
         setCaption( BrickStack.BRICK_MASS * numBricks + " kg" );

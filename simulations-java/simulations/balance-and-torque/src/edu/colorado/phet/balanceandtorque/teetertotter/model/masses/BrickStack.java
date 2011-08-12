@@ -5,7 +5,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 
 /**
@@ -36,8 +35,8 @@ public class BrickStack extends ShapeMass {
     //-------------------------------------------------------------------------
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0, 1 ) );
-        position.setLocation( initialCenterBottom );
+        super( numBricks * BRICK_MASS, generateShape( numBricks, 1 ) );
+        setPosition( initialCenterBottom );
         this.numBricks = numBricks;
     }
 
@@ -47,7 +46,7 @@ public class BrickStack extends ShapeMass {
 
     // Generate the shape for this object.  This is static so that it can be
     // used in the constructor.
-    private static Shape generateShape( int numBricks, Point2D centerBottom, double rotationAngle, double scale ) {
+    private static Shape generateShape( int numBricks, double scale ) {
         Point2D brickOrigin = new Point2D.Double( 0, 0 );
         // Create a path that represents a stack of bricks.
         DoubleGeneralPath brickPath = new DoubleGeneralPath();
@@ -62,36 +61,8 @@ public class BrickStack extends ShapeMass {
             // Move the origin to the next brick.
             brickOrigin.setLocation( brickOrigin.getX(), brickOrigin.getY() + BRICK_HEIGHT );
         }
-        Shape rotatedShape = AffineTransform.getRotateInstance( rotationAngle ).createTransformedShape( brickPath.getGeneralPath() );
-        Shape scaledShape = AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( rotatedShape );
-        Shape translatedShape = AffineTransform.getTranslateInstance( centerBottom.getX(), centerBottom.getY() ).createTransformedShape( scaledShape );
-        return translatedShape;
-    }
-
-    public void setPosition( double x, double y ) {
-        position.setLocation( x, y );
-        updateShape();
-    }
-
-    public void setPosition( Point2D p ) {
-        setPosition( p.getX(), p.getY() );
-    }
-
-    @Override public Point2D getPosition() {
-        return new Point2D.Double( position.getX(), position.getY() );
-    }
-
-    @Override public void translate( double x, double y ) {
-        setPosition( position.getX() + x, position.getY() + y );
-    }
-
-    @Override public void translate( ImmutableVector2D delta ) {
-        translate( delta.getX(), delta.getY() );
-    }
-
-    @Override public void setRotationAngle( double angle ) {
-        super.setRotationAngle( angle );
-        updateShape();
+        Shape scaledShape = AffineTransform.getScaleInstance( scale, scale ).createTransformedShape( brickPath.getGeneralPath() );
+        return scaledShape;
     }
 
     @Override public void initiateAnimation() {
@@ -121,9 +92,5 @@ public class BrickStack extends ShapeMass {
                 scale = 1;
             }
         }
-    }
-
-    private void updateShape() {
-        shapeProperty.set( generateShape( numBricks, position, rotationalAngleProperty.get(), scale ) );
     }
 }

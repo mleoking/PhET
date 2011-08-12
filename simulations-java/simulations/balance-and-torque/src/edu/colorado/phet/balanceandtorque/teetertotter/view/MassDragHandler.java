@@ -34,6 +34,7 @@ public class MassDragHandler extends PDragEventHandler {
         mass.userControlled.set( true );
         Point2D modelPosition = getModelPosition( event.getCanvasPosition() );
         double yOffset = mass.getMiddlePoint().getY() - mass.getPosition().getY();
+        System.out.println( "yOffset = " + yOffset );
         mass.setPosition( modelPosition.getX(), modelPosition.getY() - yOffset );
     }
 
