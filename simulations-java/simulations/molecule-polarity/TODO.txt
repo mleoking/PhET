@@ -21,7 +21,6 @@ MEDIUM
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - change initial molecule angle so that turning on the E-field causes it to rotate?
-- what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - add icons to control panels (dipoles, partial charge, mep,...)
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control

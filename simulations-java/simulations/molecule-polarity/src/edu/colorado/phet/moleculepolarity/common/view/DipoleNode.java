@@ -26,7 +26,7 @@ public abstract class DipoleNode extends PPath {
     private static final double REFERENCE_LENGTH = 150; // view size
     private static final Dimension HEAD_SIZE = new Dimension( 12, 25 ); // similar to Jmol
     private static final Dimension CROSS_SIZE = new Dimension( 10, 10 ); // similar to Jmol
-    private static final double REFERENCE_CROSS_OFFSET = 10; // offset from the tail of the arrow when arrow length is REFERENCE_LENGTH
+    private static final double REFERENCE_CROSS_OFFSET = 20; // offset from the tail of the arrow when arrow length is REFERENCE_LENGTH
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
