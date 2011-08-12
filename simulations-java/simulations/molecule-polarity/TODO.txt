@@ -1,7 +1,6 @@
 TODO list for molecule-polarity
 
 HIGH
-- add cross on 2D dipoles, make it look like Jmol, shrink like Vector2DNode
 - adjust initial orientation for NH3, CH3F, CHF3, CH2F2, CHCl3
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
 - use "isosurface VDW color white translucent" for molecules that are composed of 2 of the same atom (eg H2)

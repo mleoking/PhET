@@ -10,10 +10,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
 import edu.colorado.phet.moleculepolarity.MPConstants;
-import edu.colorado.phet.moleculepolarity.common.model.Bond;
 import edu.umd.cs.piccolo.nodes.PPath;
 
 /**
@@ -21,14 +19,14 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DipoleNode extends PPath {
+public abstract class DipoleNode extends PPath {
 
     // Note: heights are parallel to dipole axis, widths are perpendicular.
     private static final double REFERENCE_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength(); // model value
     private static final double REFERENCE_LENGTH = 150; // view size
     private static final Dimension HEAD_SIZE = new Dimension( 12, 25 ); // similar to Jmol
     private static final Dimension CROSS_SIZE = new Dimension( 10, 10 ); // similar to Jmol
-    private static final double REFERENCE_CROSS_OFFSET = 10; // offset from the tail of the arrow
+    private static final double REFERENCE_CROSS_OFFSET = 10; // offset from the tail of the arrow when arrow length is REFERENCE_LENGTH
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
@@ -93,50 +91,4 @@ public class DipoleNode extends PPath {
         return new Rectangle2D.Double( crossOffset, -crossWidth / 2, crossHeight, crossWidth );
     }
 
-    // Visual representation of a bond dipole.
-    public static class BondDipoleNode extends DipoleNode {
-
-        private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
-
-        public BondDipoleNode( final Bond bond ) {
-            super( Color.BLACK );
-
-            // align the dipole to be parallel with the bond, with some perpendicular offset
-            SimpleObserver update = new SimpleObserver() {
-                public void update() {
-
-                    setComponentX( bond.deltaElectronegativity.get() );
-
-                    // compute location of dipole, with offset
-                    final double angle = bond.getAngle() - Math.PI / 2; // above the bond
-                    double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, angle );
-                    double dipoleY = PolarCartesianConverter.getY( PERPENDICULAR_OFFSET, angle );
-
-                    // clear the transform
-                    setOffset( 0, 0 );
-                    setRotation( 0 );
-
-                    // compute length before transforming
-                    final double length = getFullBoundsReference().getWidth();
-
-                    // offset from bond
-                    translate( bond.getCenter().getX() + dipoleX, bond.getCenter().getY() + dipoleY );
-
-                    // parallel to bond
-                    rotate( bond.getAngle() );
-
-                    // center vector on bond
-                    if ( bond.deltaElectronegativity.get() > 0 ) {
-                        translate( -length / 2, 0 );
-                    }
-                    else {
-                        translate( +length / 2, 0 );
-                    }
-                }
-            };
-            bond.endpoint1.addObserver( update );
-            bond.endpoint2.addObserver( update );
-            bond.deltaElectronegativity.addObserver( update );
-        }
-    }
 }
