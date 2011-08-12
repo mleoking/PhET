@@ -10,6 +10,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
@@ -56,7 +57,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
         addChild( bondTypeNode );
 
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false ) );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false, MPStrings.BOND_DIPOLE ) );
         addChild( viewControlsNode );
 
         PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );

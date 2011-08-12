@@ -13,12 +13,12 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
  */
 public class ViewControlPanel extends MPControlPanel {
 
-    public ViewControlPanel( final ViewProperties properties, final boolean hasMolecularDipole, final boolean hasBondType, final boolean hasAtomLabels ) {
+    public ViewControlPanel( final ViewProperties properties, final boolean hasMolecularDipole, final boolean hasBondType, final boolean hasAtomLabels, final String bondDipolesLabel ) {
         super( MPStrings.VIEW );
         add( new GridPanel() {{
             setGridX( 0 ); // vertical
             setAnchor( Anchor.WEST ); // left justified
-            add( new PropertyCheckBox( MPStrings.BOND_DIPOLES, properties.bondDipolesVisible ) );
+            add( new PropertyCheckBox( bondDipolesLabel, properties.bondDipolesVisible ) );
             if ( hasMolecularDipole ) {
                 add( new PropertyCheckBox( MPStrings.MOLECULAR_DIPOLE, properties.molecularDipoleVisible ) );
             }

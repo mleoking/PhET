@@ -20,6 +20,7 @@ public class MPStrings {
     public static final String B = RESOURCES.getLocalizedString( "B" );
     public static final String C = RESOURCES.getLocalizedString( "C" );
     public static final String VIEW = RESOURCES.getLocalizedString( "View" );
+    public static final String BOND_DIPOLE = RESOURCES.getLocalizedString( "bondDipole" );
     public static final String BOND_DIPOLES = RESOURCES.getLocalizedString( "bondDipoles" );
     public static final String BOND_TYPE = RESOURCES.getLocalizedString( "bondType" );
     public static final String ELECTRIC_FIELD = RESOURCES.getLocalizedString( "electricField" );
