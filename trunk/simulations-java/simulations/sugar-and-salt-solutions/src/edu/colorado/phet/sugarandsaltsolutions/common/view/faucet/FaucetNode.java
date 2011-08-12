@@ -1,29 +1,19 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.common.view;
+package edu.colorado.phet.sugarandsaltsolutions.common.view.faucet;
 
 // Copyright 2002-2011, University of Colorado
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.PhetUtilities;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
-import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Images.FAUCET_FRONT;
 
@@ -52,56 +42,11 @@ public class FaucetNode extends PNode {
         //Create the image and slider node used to display and control the faucet
         PImage imageNode = new PImage( FAUCET_FRONT ) {{
 
-            //Scale up the faucet since it looks good larger
+            //Scale up the faucet since it looks better at a larger size
             setScale( 1.2 );
-            setOffset( 0, 0 );
 
-            //Create the slider
-            final PSwing sliderNode = new PSwing( new JSlider( 0, 100 ) {{
-                setBackground( new Color( 0, 0, 0, 0 ) );
-
-                //Make the slider thumb wider on Windows 7
-                setPaintTicks( true );
-
-                //Fix the size so it will fit into the specified image dimensions
-                setPreferredSize( new Dimension( 95, getPreferredSize().height ) );
-
-                //Wire up 2-way communication with the Property
-                addChangeListener( new ChangeListener() {
-                    public void stateChanged( ChangeEvent e ) {
-                        //Only change the flow rate if the beaker can accommodate
-                        if ( allowed.get() ) {
-                            flowRate.set( getValue() / 100.0 );
-                        }
-                    }
-                } );
-                flowRate.addObserver( new VoidFunction1<Double>() {
-                    public void apply( Double value ) {
-                        setValue( (int) ( value * 100 ) );
-                    }
-                } );
-
-                //Set the flow back to zero when the user lets go, the user has to hold the slider to keep the faucet on
-                addMouseListener( new MouseAdapter() {
-                    @Override public void mouseReleased( MouseEvent e ) {
-
-                        //Turn off the flow level
-                        flowRate.set( 0.0 );
-
-                        //To make sure the slider goes back to zero, it is essential to set the value to something other than zero first
-                        //Just calling setValue(0) here or waiting for the callback from the model doesn't work if the user was dragging the knob
-                        setValue( 1 );
-                        setValue( 0 );
-                    }
-                } );
-            }} ) {{
-
-                //Mac sliders render lower than windows slider, so have to compensate
-                translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );
-
-                //TODO: Faucet slider should be invisible when in "auto" mode
-            }};
-            addChild( sliderNode );
+            //Add the slider as a child of the image so it will receive the same scaling so it will stay in corresponding with the image area for the slider
+            addChild( new FaucetSlider( allowed, flowRate ) );
         }};
         final double imageWidth = imageNode.getFullBounds().getMaxX();
         final double imageHeight = imageNode.getFullBounds().getMaxY();
