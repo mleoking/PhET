@@ -54,6 +54,7 @@ public class DipoleNode extends PPath {
         else {
             somePoint.setLocation( x * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE ), y );
             Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), somePoint, HEAD_SIZE.height, HEAD_SIZE.width, TAIL_WIDTH, FRACTIONAL_HEAD_HEIGHT, true /* scaleTailToo */ );
+            //TODO add cross using constructive area geometry, scale cross based on FRACTIONAL_HEAD_HEIGHT
             setPathTo( arrow.getShape() );
         }
     }
