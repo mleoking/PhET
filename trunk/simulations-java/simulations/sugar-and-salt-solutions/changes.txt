@@ -1,3 +1,4 @@
+Added pipe for top faucet
 Switched to lighter version of faucet images
 Added glucose
 Fixed z-ordering for sucrose

@@ -113,13 +113,13 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             } );
         }} );
 
-        //Add the faucets, the first faucet should have the water stop at the base of the beaker
-        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ) ) {{
+        //Add the faucets, the first faucet should have the water stop at the base of the beaker.  This faucet should extend very far in case the user makes the sim short and fat, so the faucet pipe will always be visible
+        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ), 10000 ) {{
             setOffset( 50, 10 );
         }} );
 
-        //Add a faucet that drains the beaker
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain ) {{
+        //Add a faucet that drains the beaker; there is no input pipe for this since it attaches directly to the beaker
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, 0 ) {{
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
