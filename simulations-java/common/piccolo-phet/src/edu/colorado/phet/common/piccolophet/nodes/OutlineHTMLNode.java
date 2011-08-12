@@ -11,7 +11,12 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * The API for this class is still under design and subject to change; do not rely on it too heavily.
+ * The API for this class is still under design and subject to change; do not
+ * rely on it too heavily.
+ * <p/>
+ * Ticket #3038 was created to track improvements to this class, since it is not
+ * too useful in its current state.  If you need such a node, please feel free
+ * to improve this and note changes in the ticket.
  *
  * @author Sam Reid
  */
