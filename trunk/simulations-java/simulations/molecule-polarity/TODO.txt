@@ -12,8 +12,6 @@ DESIGN
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
-- Jmol: write script to identify homogeneous diatomic molecules
-- Jmol: use "isosurface VDW color white translucent" for all isosurfaces of homogeneous diatomic molecules (eg H2)
 - create shape of 2D isosurface
 
 MEDIUM
