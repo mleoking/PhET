@@ -194,8 +194,8 @@ public class BalancingActCanvas extends PhetPCanvas {
         model.getPlank().getShapeProperty().addObserver( new SimpleObserver() {
             public void update() {
                 if ( Math.abs( model.getPlank().getTiltAngle() ) < Math.PI / 1000 ) {
-                    leftLevelIndicator2.setPaint( Color.GREEN );
-                    rightLevelIndicator2.setPaint( Color.GREEN );
+                    leftLevelIndicator2.setPaint( new Color( 173, 255, 47 ) );
+                    rightLevelIndicator2.setPaint( new Color( 173, 255, 47 ) );
                 }
                 else {
                     leftLevelIndicator2.setPaint( Color.LIGHT_GRAY );
