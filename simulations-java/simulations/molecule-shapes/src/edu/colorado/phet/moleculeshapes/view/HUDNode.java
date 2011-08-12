@@ -16,7 +16,6 @@ import org.lwjgl.input.Mouse;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
-import com.jme3.input.MouseInput;
 import com.jme3.input.RawInputListener;
 import com.jme3.input.event.JoyAxisEvent;
 import com.jme3.input.event.JoyButtonEvent;
@@ -94,7 +93,7 @@ public class HUDNode extends Geometry {
         };
 
         // TODO: only update when repaint needed?
-        new Timer( 50, new ActionListener() {
+        new Timer( 20, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 image.refreshImage();
             }
