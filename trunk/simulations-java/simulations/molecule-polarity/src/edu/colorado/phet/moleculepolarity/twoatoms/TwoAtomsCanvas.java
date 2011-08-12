@@ -79,6 +79,9 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode electrostaticPotentialNode = new TwoAtomsIsosurfaceNode( model.molecule );
         addChild( electrostaticPotentialNode );
 
+        final PNode electronDensityNode = new TwoAtomsIsosurfaceNode( model.molecule );
+        addChild( electronDensityNode );
+
         // layout
         {
             final double xSpacing = 50;
@@ -116,6 +119,7 @@ public class TwoAtomsCanvas extends MPCanvas {
         viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
             public void apply( IsosurfaceType isosurfaceType ) {
                 electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
+                electronDensityNode.setVisible( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY );
             }
         } );
     }
