@@ -206,10 +206,11 @@ public class JmolViewerNode extends PhetPNode {
         this.isosurface = isosurfaceType;
         if ( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL ) {
             doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
-//            doScript( "isosurface VDW color white translucent" ); //TODO for molecules with 2 atoms of the same type
+//            doScript( "isosurface VDW color white translucent" ); //TODO for homogeneous diatomic molecules
         }
         else if ( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY ) {
             doScript( "isosurface VDW map MEP colorscheme \"BW\" translucent" );
+//            doScript( "isosurface VDW color white translucent" ); //TODO for homogeneous diatomic molecules
         }
         else {
             doScript( "isosurface off" );
