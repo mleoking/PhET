@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.Arrow;
-import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -20,32 +19,21 @@ import edu.umd.cs.piccolo.nodes.PPath;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DipoleNode extends PhetPNode {
+public class DipoleNode extends PPath {
 
     private static final double REFERENCE_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength(); // model value
     private static final double REFERENCE_LENGTH = 150; // view size
-    private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
     private static final Dimension HEAD_SIZE = new Dimension( 12, 25 ); // similar to Jmol
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
     private double x;
-    private final PPath arrowNode;
-
-    private Point2D somePoint; // reusable point
+    private final Point2D somePoint; // reusable point
 
     public DipoleNode( Color color ) {
         super();
-
-        setPickable( false );
-        setChildrenPickable( false );
-
-        arrowNode = new PPath();
-        arrowNode.setPaint( color );
-        addChild( arrowNode );
-
+        setPaint( color );
         somePoint = new Point2D.Double();
-
         update();
     }
 
@@ -61,17 +49,20 @@ public class DipoleNode extends PhetPNode {
         final double y = 0;
         final double magnitude = PolarCartesianConverter.getRadius( x, y );
         if ( magnitude == 0 ) {
-            arrowNode.setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
+            setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
         }
         else {
             somePoint.setLocation( x * ( REFERENCE_LENGTH / REFERENCE_MAGNITUDE ), y );
             Arrow arrow = new Arrow( new Point2D.Double( 0, 0 ), somePoint, HEAD_SIZE.height, HEAD_SIZE.width, TAIL_WIDTH, FRACTIONAL_HEAD_HEIGHT, true /* scaleTailToo */ );
-            arrowNode.setPathTo( arrow.getShape() );
+            setPathTo( arrow.getShape() );
         }
     }
 
     // Visual representation of a bond dipole.
     public static class BondDipoleNode extends DipoleNode {
+
+        private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
+
         public BondDipoleNode( final Bond bond ) {
             super( Color.BLACK );
 
@@ -82,8 +73,9 @@ public class DipoleNode extends PhetPNode {
                     setComponentX( bond.deltaElectronegativity.get() );
 
                     // compute location of dipole, with offset
-                    double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, bond.getAngle() - Math.PI / 2 );
-                    double dipoleY = PolarCartesianConverter.getY( PERPENDICULAR_OFFSET, bond.getAngle() - Math.PI / 2 );
+                    final double angle = bond.getAngle() - Math.PI / 2; // above the bond
+                    double dipoleX = PolarCartesianConverter.getX( PERPENDICULAR_OFFSET, angle );
+                    double dipoleY = PolarCartesianConverter.getY( PERPENDICULAR_OFFSET, angle );
 
                     // clear the transform
                     setOffset( 0, 0 );
