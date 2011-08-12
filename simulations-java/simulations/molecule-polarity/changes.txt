@@ -1,3 +1,4 @@
+8/12/11 wire up "electron density" control in "Two Atoms" tab
 8/12/11 Jmol: use different isosurfaces for homogeneous diatomic molecules
 8/12/11 Jmol: wrote script to identify homogeneous diatomic molecules
 8/12/11 change "bond dipoles" to "bond dipole" in Two Atoms tab
