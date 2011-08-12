@@ -26,7 +26,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 public class ImageMassNode extends PNode {
     private final ImageMass mass;
     private final ModelViewTransform mvt;
-    final PImage imageNode = new PImage();
+    protected final PImage imageNode = new PImage();
 
     public ImageMassNode( final ModelViewTransform mvt, final ImageMass mass, PhetPCanvas canvas, BooleanProperty massLabelVisibilityProperty ) {
         this.mass = mass;

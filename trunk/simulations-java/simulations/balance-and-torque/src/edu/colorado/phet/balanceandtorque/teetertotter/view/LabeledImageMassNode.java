@@ -30,7 +30,12 @@ public class LabeledImageMassNode extends ImageMassNode {
         double widthScale = ( getFullBoundsReference().width - ( 2 * inset ) ) / label.getFullBoundsReference().width;
         double heightScale = ( getFullBoundsReference().height - ( 2 * inset ) ) / label.getFullBoundsReference().height;
         label.setScale( Math.min( widthScale, heightScale ) );
-        label.centerFullBoundsOnPoint( getFullBoundsReference().getWidth() / 2, getFullBoundsReference().getHeight() * 0.6 );
+        // Position the label on the image.  TWEAK WARNING - These labels are
+        // positioned a little below the center because it looked better on the
+        // initial set of mystery objects.  May require adjustment if the
+        // artwork for the mystery objects change.
+        label.centerFullBoundsOnPoint( imageNode.getFullBoundsReference().getCenterX(),
+                                       imageNode.getFullBoundsReference().getCenterY() + imageNode.getFullBoundsReference().height * 0.1 );
         // Add the label as a child.
         addChild( label );
     }
@@ -45,12 +50,7 @@ public class LabeledImageMassNode extends ImageMassNode {
             }};
             double dimension = Math.max( textNode.getFullBoundsReference().width,
                                          textNode.getFullBoundsReference().height );
-            RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0,
-                                                                                   0,
-                                                                                   dimension,
-                                                                                   dimension,
-                                                                                   3,
-                                                                                   3 );
+            RoundRectangle2D.Double backgroundShape = new RoundRectangle2D.Double( 0, 0, dimension, dimension, 3, 3 );
             PNode backgroundNode = new PhetPPath( backgroundShape,
                                                   Color.WHITE,
                                                   new BasicStroke( 0.5f ),
