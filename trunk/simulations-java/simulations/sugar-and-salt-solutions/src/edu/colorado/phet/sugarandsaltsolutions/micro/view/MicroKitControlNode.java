@@ -27,16 +27,13 @@ public class MicroKitControlNode extends PNode {
         String calciumChlorideString = "<html>Calcium Chloride<br>CaCl<sub>2</sub></html>";
         String sodiumNitrateString = "<html>Sodium Nitrate<br>NaNO<sub>3</sub></html>";
         String sucroseString = "<html>Sucrose<br>C<sub>12</sub>H<sub>22</sub>O<sub>11</sub></html>";
-        String ethanolString = "<html>Ethanol<br>C<sub>2</sub>H<sub>5</sub>OH</html>";
+        String glucoseString = "<html>Glucose<br>C<sub>6</sub>H<sub>12</sub>O<sub>11</sub></html>";
         kitSelectionNode = new KitSelectionNode<DispenserRadioButtonSet>( selectedKit,
                                                                           createTitle(),
                                                                           new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sucroseString, SUGAR ) ) ),
                                                                           new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( calciumChlorideString, CALCIUM_CHLORIDE ) ) ),
-                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ) )
-
-                                                                          //Commented out ethanol kit for now
-//                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( ethanolString, ETHANOL ) ) )
-        );
+                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sodiumChlorideString, SALT ), new Item( sodiumNitrateString, SODIUM_NITRATE ) ) ),
+                                                                          new Kit<DispenserRadioButtonSet>( new DispenserRadioButtonSet( dispenserType, new Item( sucroseString, SUGAR ), new Item( glucoseString, GLUCOSE ) ) ) );
         addChild( new WhiteControlPanelNode( kitSelectionNode ) );
 
         //When switching to a new kit, switch to a dispenser that is in the set (if not already selecting it).  If switching from a set that contains NaCl to a new set that also contains NaCl, then keep the selection

@@ -16,8 +16,11 @@ public class DispenserType {
 
     public static final DispenserType SALT = new DispenserType( "Salt", 11, 17 );
     public static final DispenserType SUGAR = new DispenserType( "Sugar", 6, 1, 8 );
+    public static final DispenserType GLUCOSE = new DispenserType( "Glucose", 6, 1, 8 );
     public static final DispenserType SODIUM_NITRATE = new DispenserType( "Sodium Nitrate", 11, 7, 8 );
     public static final DispenserType CALCIUM_CHLORIDE = new DispenserType( "Calcium Chloride", 20, 17 );
+
+    //TODO: Remove ethanol
     public static final DispenserType ETHANOL = new DispenserType( "Ethanol", 6, 8, 1 );
 
     //Enum pattern, so no other instances should be created
