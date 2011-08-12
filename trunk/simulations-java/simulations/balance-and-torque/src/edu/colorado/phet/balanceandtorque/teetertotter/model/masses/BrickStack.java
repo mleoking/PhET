@@ -36,7 +36,7 @@ public class BrickStack extends ShapeMass {
     //-------------------------------------------------------------------------
 
     public BrickStack( int numBricks, Point2D initialCenterBottom ) {
-        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0, 1 ), initialCenterBottom );
+        super( numBricks * BRICK_MASS, generateShape( numBricks, initialCenterBottom, 0, 1 ) );
         position.setLocation( initialCenterBottom );
         this.numBricks = numBricks;
     }
