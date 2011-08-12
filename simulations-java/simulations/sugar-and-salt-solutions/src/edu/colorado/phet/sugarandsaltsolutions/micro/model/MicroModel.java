@@ -164,6 +164,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final DrainData sodiumDrainData = new DrainData( Sodium.class );
     public final DrainData chlorideDrainData = new DrainData( Chloride.class );
     public final DrainData sucroseDrainData = new DrainData( Sucrose.class );
+    public final DrainData glucoseDrainData = new DrainData( Glucose.class );
     public final DrainData nitrateDrainData = new DrainData( Nitrate.class );
     public final DrainData calciumDrainData = new DrainData( Calcium.class );
     public final DrainData ethanolDrainData = new DrainData( Ethanol.class );
@@ -230,6 +231,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 checkStartDrain( ethanolDrainData );
                 checkStartDrain( calciumDrainData );
                 checkStartDrain( sucroseDrainData );
+                checkStartDrain( glucoseDrainData );
             }
         } );
     }
@@ -266,6 +268,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             updateParticlesFlowingToDrain( sodiumDrainData, dt );
             updateParticlesFlowingToDrain( chlorideDrainData, dt );
             updateParticlesFlowingToDrain( sucroseDrainData, dt );
+            updateParticlesFlowingToDrain( glucoseDrainData, dt );
             updateParticlesFlowingToDrain( nitrateDrainData, dt );
             updateParticlesFlowingToDrain( calciumDrainData, dt );
             updateParticlesFlowingToDrain( ethanolDrainData, dt );
