@@ -1,18 +1,22 @@
 TODO list for molecule-polarity
 
-HIGH
-- adjust initial orientation for NH3, CH3F, CHF3, CH2F2, CHCl3
+DESIGN
+- location of bond dipoles relative to bonds
+- location of molecular dipoles relative to molecules
+- location of atom labels and partial charges in Jmol
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
-- use "isosurface VDW color white translucent" for molecules that are composed of 2 of the same atom (eg H2)
-- write script to get atom xyz coordinates after rotating in Jmol viewer
+
+HIGH
+- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
+- Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
+- Jmol: write script to identify 2-atom-homogeneous molecules
+- Jmol: use "isosurface VDW color white translucent" for all isosurfaces of 2-atom-homogeneous molecules (eg H2)
+- create shape of 2D isosurface
 
 MEDIUM
-- create shape of 2D isosurface, but colorscheme is still TBD
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - change initial molecule angle so that turning on the E-field causes it to rotate?
-- rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
-- simplify implementation of TwoAtomsModel.updateMoleculeOrientations
 - what to do about molecules that have no partial charges? (molecules composed of 2 of the same atom)
 - add icons to control panels (dipoles, partial charge, mep,...)
 - find out why scenegraph doesn't take up full width in MPCanvas
@@ -22,6 +26,8 @@ MEDIUM
 LOW
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
+- rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
+- simplify implementation of TwoAtomsModel.updateMoleculeOrientations
 
 Jmol
 - how to iterate over atoms?
@@ -29,26 +35,15 @@ Jmol
      for ( i = 0; i < n; i++ ) {
          print {*}[i].atomName
      }
-- tweak atom names in mol2 files, or figure this out programmatically?
-- adjust initial orientation by editing mol2 files?
 - molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
-- change numbering of atom labels to be per atom type
 - units for partial charge? e?
-- Jmol integration with Piccolo (PSwing? other options?)
-- how to create smol files?
-- can we use smol files from http://www.chemtube3d.com/ElectrostaticSurfacesPolar.html?
 - how to show partial charges independently of atom labels?
 - how to align Jmol molecule with E-Field?
-- how to create a Jmol custom isosurface for "electron density" view?
-- how to set initial orientation for Jmol viewer?
-- move bond dipoles to centers of bonds?
-- move molecule dipole to ___?
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
 - how to set a transparent background for Jmol viewer?
-- startup time for "Real Molecules" is not acceptable because of Jmol, how to optimize?
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
 - VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
-- rotation handler, in TwoAtomMoleculeNode
+- MoleculeRotationHandler
 
