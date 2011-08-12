@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.view.faucet;
 
-// Copyright 2002-2011, University of Colorado
-
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
