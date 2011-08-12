@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ChangeObserver;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for all objects that can be placed on the balance.
@@ -136,6 +137,14 @@ public abstract class Mass implements UserMovableModelElement {
 
     public double getRotationAngle() {
         return rotationalAngleProperty.get();
+    }
+
+    public void addRotationalAngleChangeObserver( VoidFunction1<Double> changeObserver ) {
+        rotationalAngleProperty.addObserver( changeObserver );
+    }
+
+    public void removeRotationalAngleChangeObserver( VoidFunction1<Double> changeObserver ) {
+        rotationalAngleProperty.removeObserver( changeObserver );
     }
 
     /**
