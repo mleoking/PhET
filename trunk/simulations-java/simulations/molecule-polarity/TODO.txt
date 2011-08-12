@@ -5,6 +5,7 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - location of atom labels and partial charges in Jmol
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
+- how to represent zero-length molecular dipole
 
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -14,6 +15,8 @@ HIGH
 - create shape of 2D isosurface
 
 MEDIUM
+- Jmol: script to return set of unique element names, for highlighting periodic table
+- periodic table, highlight elements
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - change initial molecule angle so that turning on the E-field causes it to rotate?
@@ -27,7 +30,7 @@ LOW
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
-- simplify implementation of TwoAtomsModel.updateMoleculeOrientations
+- simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 
 Jmol
 - how to iterate over atoms?
