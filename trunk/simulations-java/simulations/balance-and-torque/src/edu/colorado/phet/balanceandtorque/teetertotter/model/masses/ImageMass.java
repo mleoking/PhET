@@ -4,7 +4,6 @@ package edu.colorado.phet.balanceandtorque.teetertotter.model.masses;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
@@ -32,11 +31,6 @@ public class ImageMass extends Mass {
 
     // Property that contains the current image.
     final protected Property<BufferedImage> imageProperty;
-
-    // Property that contains the position in model space.  By convention for
-    // this simulation, the position of a mass is the center bottom of the
-    // model object.
-    final public Property<Point2D> positionProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
     // Property that contains the current height of the corresponding model
     // object.  Only height is used, as opposed to both height and width, 
@@ -87,34 +81,8 @@ public class ImageMass extends Mass {
         heightProperty.addObserver( observer );
     }
 
-    /**
-     * Set the position, which is the location of the bottom center of mass.
-     */
-    public void setPosition( double x, double y ) {
-        positionProperty.set( new Point2D.Double( x, y ) );
-    }
-
-    /**
-     * Set the position, which is the location of the bottom center of mass.
-     */
-    public void setPosition( Point2D p ) {
-        setPosition( p.getX(), p.getY() );
-    }
-
-    @Override public void translate( double x, double y ) {
-        setPosition( positionProperty.get().getX() + x, positionProperty.get().getY() + y );
-    }
-
-    @Override public void translate( ImmutableVector2D delta ) {
-        translate( delta.getX(), delta.getY() );
-    }
-
     @Override public Point2D getMiddlePoint() {
         return new Point2D.Double( getPosition().getX(), getPosition().getY() + heightProperty.get() / 2 );
-    }
-
-    public Point2D getPosition() {
-        return new Point2D.Double( positionProperty.get().getX(), positionProperty.get().getY() );
     }
 
     @Override public void initiateAnimation() {

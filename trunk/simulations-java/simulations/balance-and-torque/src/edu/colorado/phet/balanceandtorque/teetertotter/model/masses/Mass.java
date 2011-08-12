@@ -39,6 +39,11 @@ public abstract class Mass implements UserMovableModelElement {
     // "weight" was not appropriate, so we're stuck with this situation.
     private final double mass;
 
+    // Property that contains the position in model space.  By convention for
+    // this simulation, the position of a mass is the center bottom of the
+    // model object.
+    final public Property<Point2D> positionProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
+
     // Property that contains the rotational angle, in radians, of the model
     // element.  By convention for this simulation, the point of rotation is
     // considered to be the center bottom of the model element.
@@ -79,6 +84,45 @@ public abstract class Mass implements UserMovableModelElement {
         return mass;
     }
 
+    /**
+     * Set the position, which is the location of the bottom center of mass.
+     */
+    public void setPosition( double x, double y ) {
+        positionProperty.set( new Point2D.Double( x, y ) );
+    }
+
+    public void setPosition( Point2D position ) {
+        setPosition( position.getX(), position.getY() );
+    }
+
+    public Point2D getPosition() {
+        return new Point2D.Double( positionProperty.get().getX(), positionProperty.get().getY() );
+    }
+
+    ;
+
+    public void translate( double x, double y ) {
+        positionProperty.set( new Point2D.Double( positionProperty.get().getX() + x, positionProperty.get().getY() + y ) );
+    }
+
+    ;
+
+    public void translate( ImmutableVector2D delta ) {
+        translate( delta.getX(), delta.getY() );
+    }
+
+    ;
+
+    public void addPositionChangeObserver( VoidFunction1<Point2D> changeObserver ) {
+        positionProperty.addObserver( changeObserver );
+    }
+
+    public void removePositionChangeObserver( VoidFunction1<Point2D> changeObserver ) {
+        positionProperty.removeObserver( changeObserver );
+    }
+
+    public abstract Point2D getMiddlePoint();
+
     public double getCenterOfMassXOffset() {
         return centerOfMassXOffset;
     }
@@ -86,14 +130,6 @@ public abstract class Mass implements UserMovableModelElement {
     public void setCenterOfMassXOffset( double centerOfMassXOffset ) {
         this.centerOfMassXOffset = centerOfMassXOffset;
     }
-
-    public abstract void translate( double x, double y );
-
-    public abstract void translate( ImmutableVector2D delta );
-
-    public abstract Point2D getPosition();
-
-    public abstract Point2D getMiddlePoint();
 
     /**
      * Initiate this element's animation to the animation destination point.
@@ -132,7 +168,6 @@ public abstract class Mass implements UserMovableModelElement {
      */
     public void setRotationAngle( double angle ) {
         rotationalAngleProperty.set( angle );
-        // Override to implement the updates to the shape if needed.
     }
 
     public double getRotationAngle() {
