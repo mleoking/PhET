@@ -77,7 +77,7 @@ public class ImageMassNode extends PNode {
         DecimalFormat formatter = new DecimalFormat( "##" );
         // TODO: i18n, including order and units!
         final PText massIndicator = new PText( formatter.format( mass.getMass() ) + " kg" ) {{
-            setFont( new PhetFont( 18 ) );
+            setFont( new PhetFont( 14 ) );
         }};
         massIndicator.setOffset( imageNode.getFullBoundsReference().getCenterX() - massIndicator.getFullBoundsReference().width / 2,
                                  imageNode.getFullBoundsReference().getMinY() - massIndicator.getFullBoundsReference().height );
