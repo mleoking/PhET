@@ -59,7 +59,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private MoleculeModel molecule = new MoleculeModel();
 
-    private HUDNode controlPanel;
+    private SwingJMENode controlPanel;
 
     private Node moleculeNode; //The molecule to display and rotate
 
@@ -200,201 +200,215 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         * control panel
         *----------------------------------------------------------------------------*/
 
-        controlPanel = new HUDNode( 256, 1024, assetManager, inputManager ) {{
-
-            final int bondWidth = 50;
-            final int bondHeight = 5;
-            final int bondSpacing = 2;
-
-            getPanel().setLayout( new GridBagLayout() );
-            getPanel().add(
-                    new JPanel() {{
-                        setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-                        add( new JPanel( new GridBagLayout() ) {{
-                            setBorder( new TitledBorder( "Bonding" ) );
-                            add( new PCanvas() {{
-                                     setPreferredSize( new Dimension( bondWidth, bondHeight ) );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                     }} );
-                                     getLayer().addInputEventListener( new PBasicInputEventHandler() {
-                                         @Override public void mousePressed( PInputEvent event ) {
-                                             System.out.println( "Single bond!" );
-                                         }
-                                     } );
-                                     setOpaque( false );
-                                     removeInputEventListener( getZoomEventHandler() );
-                                     removeInputEventListener( getPanEventHandler() );
-                                 }}, new GridBagConstraints() );
-                            add( new JLabel( "Single" ), new GridBagConstraints() {{
-                                gridx = 0;
-                                gridy = 1;
-                            }} );
-                            add( new PCanvas() {{
-                                     setPreferredSize( new Dimension( bondWidth, bondHeight * 2 + bondSpacing ) );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                     }} );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                         setOffset( 0, bondHeight + bondSpacing );
-                                     }} );
-                                     getLayer().addInputEventListener( new PBasicInputEventHandler() {
-                                         @Override public void mousePressed( PInputEvent event ) {
-                                             System.out.println( "Double bond!" );
-                                         }
-                                     } );
-                                     setOpaque( false );
-                                     removeInputEventListener( getZoomEventHandler() );
-                                     removeInputEventListener( getPanEventHandler() );
-                                 }},
-                                 new GridBagConstraints() {{
-                                     gridx = 0;
-                                     gridy = 2;
-                                     insets = new Insets( 15, 0, 0, 0 );
-                                 }}
-                            );
-                            add( new JLabel( "Double" ), new GridBagConstraints() {{
-                                gridx = 0;
-                                gridy = 3;
-                            }} );
-                            add( new PCanvas() {{
-                                     setPreferredSize( new Dimension( bondWidth, bondHeight * 3 + bondSpacing * 2 ) );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                     }} );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                         setOffset( 0, bondHeight + bondSpacing );
-                                     }} );
-                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
-                                         setPaint( Color.BLACK );
-                                         setOffset( 0, ( bondHeight + bondSpacing ) * 2 );
-                                     }} );
-                                     getLayer().addInputEventListener( new PBasicInputEventHandler() {
-                                         @Override public void mousePressed( PInputEvent event ) {
-                                             System.out.println( "Triple bond!" );
-                                         }
-                                     } );
-                                     setOpaque( false );
-                                     removeInputEventListener( getZoomEventHandler() );
-                                     removeInputEventListener( getPanEventHandler() );
-                                 }},
-                                 new GridBagConstraints() {{
-                                     gridx = 0;
-                                     gridy = 4;
-                                     insets = new Insets( 15, 0, 0, 0 );
-                                 }}
-                            );
-                            add( new JLabel( "Triple" ), new GridBagConstraints() {{
-                                gridx = 0;
-                                gridy = 5;
-                            }} );
-                        }} );
-                        add(
-                                new JPanel( new GridBagLayout() ) {{
-                                    setBorder( new TitledBorder( "Non-Bonding" ) );
+        final int bondWidth = 50;
+        final int bondHeight = 5;
+        final int bondSpacing = 2;
+        controlPanel = new SwingJMENode(
+                new JPanel( new GridBagLayout() ) {{
+                    add(
+                            new JPanel() {{
+                                setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+                                add( new JPanel( new GridBagLayout() ) {{
+                                    setBorder( new TitledBorder( "Bonding" ) );
                                     add( new PCanvas() {{
-                                             setPreferredSize( new Dimension( 50, 20 ) );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Ellipse2D.Double( 8, 3, 14, 14 ) ) {{
-                                                 setPaint( Color.BLACK );
-                                             }} );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Ellipse2D.Double( 28, 3, 14, 14 ) ) {{
+                                             setPreferredSize( new Dimension( bondWidth, bondHeight ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
                                                  setPaint( Color.BLACK );
                                              }} );
                                              getLayer().addInputEventListener( new PBasicInputEventHandler() {
                                                  @Override public void mousePressed( PInputEvent event ) {
-                                                     System.out.println( "Lone Pair!" );
+                                                     System.out.println( "Single bond!" );
+                                                 }
+                                             } );
+                                             setOpaque( false );
+                                             removeInputEventListener( getZoomEventHandler() );
+                                             removeInputEventListener( getPanEventHandler() );
+                                         }}, new GridBagConstraints() );
+                                    add( new JLabel( "Single" ), new GridBagConstraints() {{
+                                        gridx = 0;
+                                        gridy = 1;
+                                    }} );
+                                    add( new PCanvas() {{
+                                             setPreferredSize( new Dimension( bondWidth, bondHeight * 2 + bondSpacing ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                                 setPaint( Color.BLACK );
+                                             }} );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                                 setPaint( Color.BLACK );
+                                                 setOffset( 0, bondHeight + bondSpacing );
+                                             }} );
+                                             getLayer().addInputEventListener( new PBasicInputEventHandler() {
+                                                 @Override public void mousePressed( PInputEvent event ) {
+                                                     System.out.println( "Double bond!" );
                                                  }
                                              } );
                                              setOpaque( false );
                                              removeInputEventListener( getZoomEventHandler() );
                                              removeInputEventListener( getPanEventHandler() );
                                          }},
-                                         new GridBagConstraints() );
-                                    add( new JLabel( "Lone Pair" ), new GridBagConstraints() {{
+                                         new GridBagConstraints() {{
+                                             gridx = 0;
+                                             gridy = 2;
+                                             insets = new Insets( 15, 0, 0, 0 );
+                                         }}
+                                    );
+                                    add( new JLabel( "Double" ), new GridBagConstraints() {{
                                         gridx = 0;
-                                        gridy = 1;
+                                        gridy = 3;
                                     }} );
-                                }}
-                        );
-                        add(
-                                new JPanel() {{
-                                    setLayout( new GridBagLayout() );
-                                    setBorder( new TitledBorder( "Geometry Name" ) );
-                                    add( new JPanel() {{
-                                             setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
-                                             add( new JCheckBox( "Molecular" ) );
-                                             add( new JCheckBox( "Electron" ) );
-                                         }}, new GridBagConstraints() );
-                                }}
-                        );
-                        add( new JButton( "(Test) Add Atom" ) {{
-                            addActionListener( new java.awt.event.ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    enqueue( new Callable<Object>() {
-                                        public Object call() throws Exception {
-                                            testAddAtom( false );
-                                            return null;
+                                    add( new PCanvas() {{
+                                             setPreferredSize( new Dimension( bondWidth, bondHeight * 3 + bondSpacing * 2 ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                                 setPaint( Color.BLACK );
+                                             }} );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                                 setPaint( Color.BLACK );
+                                                 setOffset( 0, bondHeight + bondSpacing );
+                                             }} );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                                 setPaint( Color.BLACK );
+                                                 setOffset( 0, ( bondHeight + bondSpacing ) * 2 );
+                                             }} );
+                                             getLayer().addInputEventListener( new PBasicInputEventHandler() {
+                                                 @Override public void mousePressed( PInputEvent event ) {
+                                                     System.out.println( "Triple bond!" );
+                                                 }
+                                             } );
+                                             setOpaque( false );
+                                             removeInputEventListener( getZoomEventHandler() );
+                                             removeInputEventListener( getPanEventHandler() );
+                                         }},
+                                         new GridBagConstraints() {{
+                                             gridx = 0;
+                                             gridy = 4;
+                                             insets = new Insets( 15, 0, 0, 0 );
+                                         }}
+                                    );
+                                    add( new JLabel( "Triple" ), new GridBagConstraints() {{
+                                        gridx = 0;
+                                        gridy = 5;
+                                    }} );
+                                }} );
+                                add(
+                                        new JPanel( new GridBagLayout() ) {{
+                                            setBorder( new TitledBorder( "Non-Bonding" ) );
+                                            add( new PCanvas() {{
+                                                     setPreferredSize( new Dimension( 50, 20 ) );
+                                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Ellipse2D.Double( 8, 3, 14, 14 ) ) {{
+                                                         setPaint( Color.BLACK );
+                                                     }} );
+                                                     getLayer().addChild( new PhetPPath( new java.awt.geom.Ellipse2D.Double( 28, 3, 14, 14 ) ) {{
+                                                         setPaint( Color.BLACK );
+                                                     }} );
+                                                     getLayer().addInputEventListener( new PBasicInputEventHandler() {
+                                                         @Override public void mousePressed( PInputEvent event ) {
+                                                             System.out.println( "Lone Pair!" );
+                                                         }
+                                                     } );
+                                                     setOpaque( false );
+                                                     removeInputEventListener( getZoomEventHandler() );
+                                                     removeInputEventListener( getPanEventHandler() );
+                                                 }},
+                                                 new GridBagConstraints() );
+                                            add( new JLabel( "Lone Pair" ), new GridBagConstraints() {{
+                                                gridx = 0;
+                                                gridy = 1;
+                                            }} );
+                                        }}
+                                );
+                                add(
+                                        new JPanel() {{
+                                            setLayout( new GridBagLayout() );
+                                            setBorder( new TitledBorder( "Geometry Name" ) );
+                                            add( new JPanel() {{
+                                                     setLayout( new BoxLayout( this, BoxLayout.Y_AXIS ) );
+                                                     add( new JCheckBox( "Molecular" ) );
+                                                     add( new JCheckBox( "Electron" ) );
+                                                 }}, new GridBagConstraints() );
+                                        }}
+                                );
+                                add( new JButton( "(Test) Add Atom" ) {{
+                                    addActionListener( new java.awt.event.ActionListener() {
+                                        public void actionPerformed( ActionEvent e ) {
+                                            enqueue( new Callable<Object>() {
+                                                public Object call() throws Exception {
+                                                    testAddAtom( false );
+                                                    return null;
+                                                }
+                                            } );
                                         }
                                     } );
-                                }
-                            } );
-                        }} );
-                        add( new JButton( "(Test) Add Lone Pair" ) {{
-                            addActionListener( new java.awt.event.ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    enqueue( new Callable<Object>() {
-                                        public Object call() throws Exception {
-                                            testAddAtom( true );
-                                            return null;
+                                }} );
+                                add( new JButton( "(Test) Add Lone Pair" ) {{
+                                    addActionListener( new java.awt.event.ActionListener() {
+                                        public void actionPerformed( ActionEvent e ) {
+                                            enqueue( new Callable<Object>() {
+                                                public Object call() throws Exception {
+                                                    testAddAtom( true );
+                                                    return null;
+                                                }
+                                            } );
                                         }
                                     } );
-                                }
-                            } );
-                        }} );
-                        add( new JButton( "(Test) Remove Random" ) {{
-                            addActionListener( new java.awt.event.ActionListener() {
-                                public void actionPerformed( ActionEvent e ) {
-                                    enqueue( new Callable<Object>() {
-                                        public Object call() throws Exception {
-                                            testRemoveAtom();
-                                            return null;
+                                }} );
+                                add( new JButton( "(Test) Remove Random" ) {{
+                                    addActionListener( new java.awt.event.ActionListener() {
+                                        public void actionPerformed( ActionEvent e ) {
+                                            enqueue( new Callable<Object>() {
+                                                public Object call() throws Exception {
+                                                    testRemoveAtom();
+                                                    return null;
+                                                }
+                                            } );
                                         }
                                     } );
-                                }
-                            } );
-                        }} );
+                                }} );
 
-                        class VSEPRButton extends JButton {
-                            VSEPRButton( String nickname, final int X, final int E ) {
-                                super( nickname + " AX" + X + "E" + E );
-                                addActionListener( new java.awt.event.ActionListener() {
-                                    public void actionPerformed( ActionEvent e ) {
-                                        setState( X, E );
+                                class VSEPRButton extends JButton {
+                                    VSEPRButton( String nickname, final int X, final int E ) {
+                                        super( nickname + " AX" + X + "E" + E );
+                                        addActionListener( new java.awt.event.ActionListener() {
+                                            public void actionPerformed( ActionEvent e ) {
+                                                setState( X, E );
+                                            }
+                                        } );
                                     }
-                                } );
-                            }
-                        }
+                                }
 
-                        add( new VSEPRButton( "Linear", 2, 3 ) );
-                        add( new VSEPRButton( "Trigonal pyramidal", 3, 1 ) );
-                        add( new VSEPRButton( "T-shaped", 3, 2 ) );
-                        add( new VSEPRButton( "Seesaw", 4, 1 ) );
-                        add( new VSEPRButton( "Square Planar", 4, 2 ) );
-                        add( new VSEPRButton( "Square Pyramidal", 5, 1 ) );
-                        add( new ResetAllButton( this ) );
-                    }},
-                    new GridBagConstraints() {{
-                        gridx = 0;
-                        gridy = 0;
-                        anchor = GridBagConstraints.FIRST_LINE_END;
-                        weighty = 1;
-                        weightx = 1;
-                    }}
-            );
+                                add( new VSEPRButton( "Linear", 2, 3 ) );
+                                add( new VSEPRButton( "Trigonal pyramidal", 3, 1 ) );
+                                add( new VSEPRButton( "T-shaped", 3, 2 ) );
+                                add( new VSEPRButton( "Seesaw", 4, 1 ) );
+                                add( new VSEPRButton( "Square Planar", 4, 2 ) );
+                                add( new VSEPRButton( "Square Pyramidal", 5, 1 ) );
+                                add( new ResetAllButton( this ) );
+                            }},
+                            new GridBagConstraints() {{
+                                gridx = 0;
+                                gridy = 0;
+                                anchor = GridBagConstraints.FIRST_LINE_END;
+                                weighty = 1;
+                                weightx = 1;
+                            }}
+                    );
+                }}, assetManager, inputManager ) {{
         }};
         preGuiNode.attachChild( controlPanel );
+
+//        preGuiNode.attachChild( new SwingJMENode( new JPanel() {{
+//            final JPanel p = this;
+//            add( new JButton( "Test Resize" ) {{
+//                addActionListener( new java.awt.event.ActionListener() {
+//                    public void actionPerformed( ActionEvent e ) {
+//                        System.out.println( "pre: " + p.getPreferredSize() + ", " + p.getSize() );
+//                        p.add( new PCanvas() {{
+//                            setSize( new Dimension( 100, 100 ) );
+//                        }} );
+//                        System.out.println( "aft: " + p.getPreferredSize() + ", " + p.getSize() );
+//                    }
+//                } );
+//            }} );
+//        }}, assetManager, inputManager ) );
 
 //        preGuiNode.attachChild( new HUDNode( 256, 64, assetManager, inputManager ) {{
 //            getPanel().add( new JButton( "Show Molecular Geometry" ) {
@@ -434,8 +448,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         if ( resizeDirty ) {
             resizeDirty = false;
             if ( controlPanel != null ) {
-                controlPanel.setOffset( new java.awt.geom.Point2D.Double( lastCanvasSize.width - controlPanel.getWidth(),
-                                                                          lastCanvasSize.height - controlPanel.getHeight() ) );
+                controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth(),
+                                                  lastCanvasSize.height - controlPanel.getHeight(),
+                                                  0 );
             }
         }
     }

@@ -37,16 +37,7 @@ import com.jme3.texture.Texture2D;
  */
 public class HUDNode extends Geometry {
 
-    final JPanel panel = new JPanel( new FlowLayout( FlowLayout.LEFT ) ) {
-        @Override public void update( Graphics g ) {
-            System.out.println( "update" );
-            super.update( g );
-        }
-
-        @Override public boolean isOptimizedDrawingEnabled() {
-            return false;
-        }
-    };
+    final JComponent panel;
 
     private final PaintableImage image;
 
@@ -63,14 +54,11 @@ public class HUDNode extends Geometry {
     private final int width;
     private final int height;
 
-    public HUDNode( final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
+    public HUDNode( final JComponent panel, final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
         super( "HUD", new Quad( width, height, true ) );
+        this.panel = panel;
         this.width = width;
         this.height = height;
-        panel.setPreferredSize( new Dimension( width, height ) );
-        panel.setSize( panel.getPreferredSize() );
-        panel.setDoubleBuffered( false ); // avoids having the RepaintManager attempt to get the containing window (and throw a NPE)
-        panel.setOpaque( false );
 
         System.out.println( panel.getBounds() );
         System.out.println( panel.isDisplayable() );
@@ -85,6 +73,7 @@ public class HUDNode extends Geometry {
                 g.setBackground( new Color( 0f, 0f, 0f, 0f ) );
                 g.clearRect( 0, 0, getWidth(), getHeight() );
                 panel.validate();
+                panel.setSize( panel.getPreferredSize() );
                 layoutComponent( panel );
                 panel.paint( g );
             }
@@ -121,7 +110,6 @@ public class HUDNode extends Geometry {
             }
 
             public void onMouseButtonEvent( final MouseButtonEvent evt ) {
-                System.out.println( "mousebutton " + evt.getX() + "," + evt.getY() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
                         Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
@@ -149,7 +137,7 @@ public class HUDNode extends Geometry {
 //            setQueueBucket( Bucket.Transparent );
     }
 
-    public JPanel getPanel() {
+    public JComponent getPanel() {
         return panel;
     }
 
