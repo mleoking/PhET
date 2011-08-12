@@ -5,7 +5,9 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - location of atom labels and partial charges in Jmol
 - specify "electron density" requirements (color, shape, what to do when no partial charges,...)
-- how to represent zero-length molecular dipole
+- units for partial charges in Real Molecules
+- labels for isosurfaces
+- on/off control for E-field
 
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -15,6 +17,7 @@ HIGH
 - create shape of 2D isosurface
 
 MEDIUM
+- Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
 - Jmol: script to return set of unique element names, for highlighting periodic table
 - periodic table, highlight elements
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
@@ -39,7 +42,6 @@ Jmol
          print {*}[i].atomName
      }
 - molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
-- units for partial charge? e?
 - how to show partial charges independently of atom labels?
 - how to align Jmol molecule with E-Field?
 - if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
