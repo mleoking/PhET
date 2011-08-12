@@ -29,10 +29,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystallizationMatch;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FlowToDrainStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FreeParticleStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.EthanolConcentration;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystalGrowth;
@@ -49,17 +46,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.GlucoseDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.molesPerLiterToMolesPerMeterCubed;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountTable.*;
-import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
-import static java.awt.Color.*;
-import static java.lang.Math.PI;
-import static java.lang.Math.random;
+import static java.awt.Color.blue;
+import static java.awt.Color.red;
 import static java.util.Collections.sort;
 
 /**
@@ -106,7 +100,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }};
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
-    //TODO: this incorrectly counts ethanol molecules as solutes even if they haven't reached the beaker yet.  Is this a big enough problem to warrant fixing?
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
 
     //Debugging flag for draining particles through the faucet
@@ -125,14 +118,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
         }
     }, showChargeColor );
+    public final ObservableProperty<Color> glucoseColor = new CompositeProperty<Color>( new Function0<Color>() {
+        public Color apply() {
+            return showChargeColor.get() ? NEUTRAL_COLOR : red;
+        }
+    }, showChargeColor );
     public final ObservableProperty<Color> nitrateColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
             return showChargeColor.get() ? blue : blue;
-        }
-    }, showChargeColor );
-    public final ObservableProperty<Color> ethanolColor = new CompositeProperty<Color>( new Function0<Color>() {
-        public Color apply() {
-            return showChargeColor.get() ? NEUTRAL_COLOR : pink;
         }
     }, showChargeColor );
 
@@ -142,7 +135,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, Calcium.class );
     public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, Sucrose.class );
     public final CompositeDoubleProperty glucoseConcentration = new IonConcentration( this, Glucose.class );
-    public final CompositeDoubleProperty ethanolConcentration = new EthanolConcentration( this );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
     //Determine saturation points
@@ -167,7 +159,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final DrainData glucoseDrainData = new DrainData( Glucose.class );
     public final DrainData nitrateDrainData = new DrainData( Nitrate.class );
     public final DrainData calciumDrainData = new DrainData( Calcium.class );
-    public final DrainData ethanolDrainData = new DrainData( Ethanol.class );
 
     public MicroModel() {
 
@@ -207,7 +198,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //These computations make the simplifying assumption that only certain combinations of molecules will appear together
         //This allows us to say, for example, that more NaNO3 may be added if Oxygen is not over the limit, adding another molecule to its kit that contains oxygen would cause this to give incorrect limiting behavior
         //TODO: For sucrose, account for non-dissolved crystals.  Otherwise the user can go over the limit since falling crystals aren't counted
-        //For ethanol, okay to count free particles since they are free (non-crystal) when emitted from the dropper
         ObservableProperty<Boolean> moreSodiumChlorideAllowed = sphericalParticles.propertyCount( Sodium.class ).lessThan( MAX_SODIUM_CHLORIDE ).or( sphericalParticles.propertyCount( Chloride.class ).lessThan( MAX_SODIUM_CHLORIDE ) );
         ObservableProperty<Boolean> moreCalciumChlorideAllowed = sphericalParticles.propertyCount( Calcium.class ).lessThan( MAX_CALCIUM_CHLORIDE ).or( sphericalParticles.propertyCount( Chloride.class ).lessThan( MAX_CALCIUM_CHLORIDE ) );
         ObservableProperty<Boolean> moreSodiumNitrateAllowed = sphericalParticles.propertyCount( Sodium.class ).lessThan( MAX_SODIUM_NITRATE ).or( sphericalParticles.propertyCount( Oxygen.class ).lessThan( MAX_SODIUM_NITRATE * 3 ) );
@@ -228,7 +218,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 checkStartDrain( sodiumDrainData );
                 checkStartDrain( chlorideDrainData );
                 checkStartDrain( nitrateDrainData );
-                checkStartDrain( ethanolDrainData );
                 checkStartDrain( calciumDrainData );
                 checkStartDrain( sucroseDrainData );
                 checkStartDrain( glucoseDrainData );
@@ -250,7 +239,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             if ( drainData.previousDrainFlowRate == 0 ) {
 
                 //When draining, try to attain this number of target ions per volume as closely as possible
-                //TODO: this is counting all particles, we should just be counting the submerged free particles, not free ethanol falling to the water since it shouldn't move to the drain until it hits water
                 drainData.initialNumberSolutes = freeParticles.count( drainData.type );
                 drainData.initialVolume = solution.volume.get();
             }
@@ -271,7 +259,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             updateParticlesFlowingToDrain( glucoseDrainData, dt );
             updateParticlesFlowingToDrain( nitrateDrainData, dt );
             updateParticlesFlowingToDrain( calciumDrainData, dt );
-            updateParticlesFlowingToDrain( ethanolDrainData, dt );
         }
 
         //Iterate over all particles and let them update in time
@@ -420,20 +407,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         glucoseCrystal.setUpdateStrategy( new CrystalStrategy( this, glucoseCrystals, glucoseSaturated ) );
         addComponents( glucoseCrystal );
         glucoseCrystals.add( glucoseCrystal );
-    }
-
-    //Add ethanol above the solution at the dropper output location
-    public void addEthanol( final ImmutableVector2D location ) {
-        Ethanol ethanol = new Ethanol( location, randomAngle() ) {{
-            //Give the ethanol molecules some initial downward velocity since they are squirted out of the dropper
-            velocity.set( new ImmutableVector2D( 0, -1 ).times( 0.25E-9 * 3 ).
-
-                    //Add randomness so they look more fluid-like
-                            plus( parseAngleAndMagnitude( 0.25E-9 / 4, random() * PI ) ) );
-        }};
-        freeParticles.add( ethanol );
-        ethanol.setUpdateStrategy( new FreeParticleStrategy( this ) );
-        addComponents( ethanol );
     }
 
     //Keep the particle within the beaker solution bounds
@@ -589,14 +562,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }
 
-    public void removeAllEthanol() {
-        ArrayList<Particle> ethanol = freeParticles.filter( Ethanol.class );
-        for ( Particle ethanolMolecule : ethanol ) {
-            freeParticles.remove( ethanolMolecule );
-            removeComponents( (Compound<?>) ethanolMolecule );
-        }
-    }
-
     //Remove a sodium nitrate crystal and all its sub-particles
     private void removeSodiumNitrate( SodiumNitrateCrystal crystal ) {
         sodiumNitrateCrystals.remove( crystal );
@@ -622,7 +587,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Remove all sucrose molecules from the model
-    public void removeAllSucrose() {
+    public void removeAllGlucose() {
 
         //Remove the free sucrose
         for ( Particle sucroseMolecule : freeParticles.filter( Sucrose.class ) ) {

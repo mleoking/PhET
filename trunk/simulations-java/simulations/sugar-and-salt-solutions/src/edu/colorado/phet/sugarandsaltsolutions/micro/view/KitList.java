@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -17,12 +18,11 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.ethanol.Ethanol;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
@@ -50,7 +50,17 @@ public class KitList {
             public RemoveSoluteButtonNode apply() {
                 return new RemoveSoluteButtonNode( "Remove Sucrose", model.isAnySugarToRemove(), new VoidFunction0() {
                     public void apply() {
-                        model.removeAllSucrose();
+                        model.removeAllGlucose();
+                    }
+                } );
+            }
+        };
+
+        Function0<RemoveSoluteButtonNode> createGlucoseButton = new Function0<RemoveSoluteButtonNode>() {
+            public RemoveSoluteButtonNode apply() {
+                return new RemoveSoluteButtonNode( "Remove Glucose", new Property<Boolean>( true ), new VoidFunction0() {
+                    public void apply() {
+                        model.removeAllGlucose();
                     }
                 } );
             }
@@ -61,16 +71,6 @@ public class KitList {
                 return new RemoveSoluteButtonNode( "Remove Sodium Nitrate", model.nitrateConcentration.greaterThan( 0.0 ), new VoidFunction0() {
                     public void apply() {
                         model.removeAllSodiumNitrate();
-                    }
-                } );
-            }
-        };
-
-        Function0<RemoveSoluteButtonNode> createEthanolButton = new Function0<RemoveSoluteButtonNode>() {
-            public RemoveSoluteButtonNode apply() {
-                return new RemoveSoluteButtonNode( "Remove Ethanol", model.ethanolConcentration.greaterThan( 0.0 ), new VoidFunction0() {
-                    public void apply() {
-                        model.removeAllEthanol();
                     }
                 } );
             }
@@ -99,7 +99,12 @@ public class KitList {
         };
         Function0<Option<PNode>> sucroseIcon = new Function0<Option<PNode>>() {
             public Option<PNode> apply() {
-                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose( ZERO ), model.showChargeColor ) );
+                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Sucrose(), model.showChargeColor ) );
+            }
+        };
+        Function0<Option<PNode>> glucoseIcon = new Function0<Option<PNode>>() {
+            public Option<PNode> apply() {
+                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Glucose(), model.showChargeColor ) );
             }
         };
         Function0<Option<PNode>> calciumIcon = new Function0<Option<PNode>>() {
@@ -110,11 +115,6 @@ public class KitList {
         Function0<Option<PNode>> nitrateIcon = new Function0<Option<PNode>>() {
             public Option<PNode> apply() {
                 return new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) );
-            }
-        };
-        Function0<Option<PNode>> ethanolIcon = new Function0<Option<PNode>>() {
-            public Option<PNode> apply() {
-                return new Some<PNode>( new CompositeParticleNode<SphericalParticle>( transform, new Ethanol(), model.showChargeColor ) );
             }
         };
 
@@ -136,9 +136,9 @@ public class KitList {
                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
         //TODO: Add glucose and remove ethanol from this kit
-        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createEthanolButton.apply() },
+        kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createGlucoseButton.apply() },
                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
-                                new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, ethanolIcon ) ) );
+                                new BarItem( model.glucoseConcentration, model.glucoseColor, GLUCOSE, glucoseIcon ) ) );
     }
 
     public MicroKit getKit( int kit ) {

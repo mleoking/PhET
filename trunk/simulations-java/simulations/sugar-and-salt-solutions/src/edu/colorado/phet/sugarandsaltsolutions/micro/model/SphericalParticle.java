@@ -77,7 +77,7 @@ public class SphericalParticle extends Particle {
         }
     }
 
-    //When participating in sucrose, glucose or ethanol, oxygen atoms should be shown as neutral
+    //When participating in sucrose or glucose or other neutral crystals oxygen atoms should be shown as neutral
     public static class NeutralOxygen extends Oxygen {
         public NeutralOxygen() {
             super( SphericalParticle.NEUTRAL_COLOR );

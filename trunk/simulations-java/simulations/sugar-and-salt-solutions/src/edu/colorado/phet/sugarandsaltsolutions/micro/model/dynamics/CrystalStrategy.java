@@ -12,7 +12,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  * Update the crystals by moving them about and possibly dissolving them
  * Dissolve the crystals if they are below the saturation points
  * In CaCl2, the factor of 2 accounts for the fact that CaCl2 needs 2 Cl- for every 1 Ca2+
- * No saturation point for ethanol, which is miscible
  *
  * @author Sam Reid
  */

@@ -21,7 +21,6 @@ public class SugarAndSaltSolutionsResources {
         public static final String CHLORIDE = RESOURCES.getLocalizedString( "chloride" );
         public static final String CONCENTRATION = RESOURCES.getLocalizedString( "concentration" );
         public static final String CONDUCTIVITY = RESOURCES.getLocalizedString( "conductivity" );
-        public static final String ETHANOL = RESOURCES.getLocalizedString( "ethanol" );
         public static final String EVAPORATION = RESOURCES.getLocalizedString( "evaporation" );
         public static final String GLUCOSE = RESOURCES.getLocalizedString( "glucose" );
         public static final String LOTS = RESOURCES.getLocalizedString( "lots" );
