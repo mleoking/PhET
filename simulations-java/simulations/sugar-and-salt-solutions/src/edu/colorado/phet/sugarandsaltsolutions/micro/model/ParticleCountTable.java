@@ -16,4 +16,7 @@ public class ParticleCountTable {
     public static final int MAX_CALCIUM_CHLORIDE = (int) ( 5.43 * 2 ) * scaleFactor;
     public static final int MAX_SODIUM_NITRATE = (int) ( 7.00 * 2 ) * scaleFactor;
     public static final int MAX_SUCROSE = (int) ( 1.76 * 2 ) * scaleFactor;
+
+    //Since glucose is half as big as sucrose, you can have twice as many
+    public static final int MAX_GLUCOSE = MAX_SUCROSE * 2;
 }
