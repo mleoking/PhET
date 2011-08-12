@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
@@ -11,6 +12,7 @@ import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
+import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
@@ -19,19 +21,24 @@ import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ShapeMass;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
+import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
@@ -48,6 +55,7 @@ public class BalancingActCanvas extends PhetPCanvas {
     public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( false );
     public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
+    public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
     public BalancingActCanvas( final BalancingActModel model ) {
 
@@ -110,6 +118,91 @@ public class BalancingActCanvas extends PhetPCanvas {
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );
         }
+
+        // TODO: Test of level indicator.
+        DoubleGeneralPath levelIndicatorPath = new DoubleGeneralPath();
+        levelIndicatorPath.moveTo( model.getPlank().getBalancePoint().getX() - Plank.LENGTH / 2,
+                                   model.getPlank().getBalancePoint().getY() + Plank.THICKNESS );
+        levelIndicatorPath.lineTo( model.getPlank().getBalancePoint().getX() + Plank.LENGTH / 2,
+                                   model.getPlank().getBalancePoint().getY() + Plank.THICKNESS );
+        final PPath levelIndicator = new PhetPPath( mvt.modelToView( levelIndicatorPath.getGeneralPath() ),
+                                                    new BasicStroke( 1f,
+                                                                     BasicStroke.CAP_ROUND,
+                                                                     BasicStroke.JOIN_ROUND,
+                                                                     1f,
+                                                                     new float[] { 8f },
+                                                                     0f ),
+                                                    Color.RED );
+        rootNode.addChild( levelIndicator );
+        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean showLevelIndicator ) {
+                levelIndicator.setVisible( showLevelIndicator );
+            }
+        } );
+
+        // TODO: Alternative level indicator #1
+        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getBalancePoint().getX() - Plank.LENGTH / 2,
+                                                                             model.getPlank().getBalancePoint().getY() + Plank.THICKNESS ) );
+        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getBalancePoint().getX() + Plank.LENGTH / 2,
+                                                                              model.getPlank().getBalancePoint().getY() + Plank.THICKNESS ) );
+        final ArrowNode leftLevelIndicator = new ArrowNode( new Point2D.Double( leftEdgeOfPlank.getX() - 30, leftEdgeOfPlank.getY() ),
+                                                            leftEdgeOfPlank,
+                                                            10,
+                                                            10,
+                                                            4 );
+        rootNode.addChild( leftLevelIndicator );
+        final ArrowNode rightLevelIndicator = new ArrowNode( new Point2D.Double( rightEdgeOfPlank.getX() + 30, rightEdgeOfPlank.getY() ),
+                                                             rightEdgeOfPlank,
+                                                             10,
+                                                             10,
+                                                             4 );
+        rootNode.addChild( rightLevelIndicator );
+        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean showLevelIndicator ) {
+                leftLevelIndicator.setVisible( showLevelIndicator );
+                rightLevelIndicator.setVisible( showLevelIndicator );
+            }
+        } );
+
+        // TODO: Alternative level indicator #2
+        DoubleGeneralPath leftIndicatorPath = new DoubleGeneralPath() {{
+            // Draw a sort of arrow head shape.
+            moveTo( leftEdgeOfPlank.getX() - 2, leftEdgeOfPlank.getY() );
+            lineTo( leftEdgeOfPlank.getX() - 20, leftEdgeOfPlank.getY() - 7 );
+            lineTo( leftEdgeOfPlank.getX() - 15, leftEdgeOfPlank.getY() );
+            lineTo( leftEdgeOfPlank.getX() - 20, leftEdgeOfPlank.getY() + 7 );
+            closePath();
+        }};
+        final PPath leftLevelIndicator2 = new PhetPPath( leftIndicatorPath.getGeneralPath(), new BasicStroke( 1f ), Color.BLACK );
+        rootNode.addChild( leftLevelIndicator2 );
+        DoubleGeneralPath rightIndicatorPath = new DoubleGeneralPath() {{
+            // Draw a sort of arrow head shape.
+            moveTo( rightEdgeOfPlank.getX() + 2, rightEdgeOfPlank.getY() );
+            lineTo( rightEdgeOfPlank.getX() + 20, rightEdgeOfPlank.getY() + 7 );
+            lineTo( rightEdgeOfPlank.getX() + 15, rightEdgeOfPlank.getY() );
+            lineTo( rightEdgeOfPlank.getX() + 20, rightEdgeOfPlank.getY() - 7 );
+            closePath();
+        }};
+        final PPath rightLevelIndicator2 = new PhetPPath( rightIndicatorPath.getGeneralPath(), new BasicStroke( 1f ), Color.BLACK );
+        rootNode.addChild( rightLevelIndicator2 );
+        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean showLevelIndicator ) {
+                leftLevelIndicator2.setVisible( showLevelIndicator );
+                rightLevelIndicator2.setVisible( showLevelIndicator );
+            }
+        } );
+        model.getPlank().getShapeProperty().addObserver( new SimpleObserver() {
+            public void update() {
+                if ( Math.abs( model.getPlank().getTiltAngle() ) < Math.PI / 1000 ) {
+                    leftLevelIndicator2.setPaint( Color.GREEN );
+                    rightLevelIndicator2.setPaint( Color.GREEN );
+                }
+                else {
+                    leftLevelIndicator2.setPaint( Color.LIGHT_GRAY );
+                    rightLevelIndicator2.setPaint( Color.LIGHT_GRAY );
+                }
+            }
+        } );
 
         // Listen to the list of various vectors and manage their representations.
         model.getPlank().forceVectorList.addElementAddedObserver( new VoidFunction1<MassForceVector>() {
@@ -198,13 +291,15 @@ public class BalancingActCanvas extends PhetPCanvas {
 
         // Add the control panel that will allow users to control the visibility
         // of the various indicators.
-        PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 4, 1 ) ) {{
+        PNode vectorControlPanel = new ControlPanelNode( new SwingLayoutNode( new GridLayout( 5, 1 ) ) {{
             addChild( new PText( "Show" ) {{
                 setFont( new PhetFont( 18 ) );
             }} );
+            // TODO: i18n
             addChild( new PropertyCheckBoxNode( "Mass Labels", massLabelVisibilityProperty ) );
             addChild( new PropertyCheckBoxNode( "Distances", leverArmVectorsVisibleProperty ) );
-            addChild( new PropertyCheckBoxNode( "Forces from Object", forceVectorsFromObjectsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Forces from Objects", forceVectorsFromObjectsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
         }} );
         rootNode.addChild( vectorControlPanel );
 
