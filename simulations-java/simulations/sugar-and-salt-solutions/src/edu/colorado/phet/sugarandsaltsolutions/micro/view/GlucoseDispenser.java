@@ -15,14 +15,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class SucroseDispenser extends MicroSugarDispenser {
+public class GlucoseDispenser extends MicroSugarDispenser {
 
-    public SucroseDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
+    public GlucoseDispenser( double x, double y, Beaker beaker, ObservableProperty<Boolean> moreAllowed, final String sugarDispenserName, double distanceScale, ObservableProperty<DispenserType> selectedType, DispenserType type, MicroModel model ) {
         super( x, y, beaker, moreAllowed, sugarDispenserName, distanceScale, selectedType, type, model );
     }
 
-    //Create and add a random sucrose crystal with 4 sucrose molecules
-    @Override protected void doAddSugar( ImmutableVector2D outputPoint ) {
+    //Create and add a random glucose crystal with 4 sucrose molecules
+    protected void doAddSugar( final ImmutableVector2D outputPoint ) {
         model.addSucroseCrystal( new SucroseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
     }
 }

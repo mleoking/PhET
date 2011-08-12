@@ -135,6 +135,7 @@ public class KitList {
                                 new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
+        //TODO: Add glucose and remove ethanol from this kit
         kits.add( new MicroKit( new RemoveSoluteButtonNode[] { createSucroseButton.apply(), createEthanolButton.apply() },
                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
                                 new BarItem( model.ethanolConcentration, model.ethanolColor, ETHANOL, ethanolIcon ) ) );
