@@ -48,8 +48,6 @@ public class HUDNode extends Geometry {
         }
     };
 
-    private int xOffset = 0;
-    private int yOffset = 0;
     private final PaintableImage image;
 
     private Component lastComponent;
@@ -113,11 +111,10 @@ public class HUDNode extends Geometry {
             }
 
             public void onMouseMotionEvent( final MouseMotionEvent evt ) {
-//                System.out.println( "mouse " + evt.getX() + "," + evt.getY() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-//                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( evt.getX() - getXOffset(), height - evt.getY() + getYOffset(), false, MouseEvent.NOBUTTON );
+                        Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
+                        sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), false, MouseEvent.NOBUTTON );
                         image.refreshImage();
                     }
                 } );
@@ -127,8 +124,8 @@ public class HUDNode extends Geometry {
                 System.out.println( "mousebutton " + evt.getX() + "," + evt.getY() );
                 SwingUtilities.invokeLater( new Runnable() {
                     public void run() {
-//                        sendAWTMouseEvent( (int) ( evt.getX() ), (int) ( evt.getY() ), false, MouseEvent.NOBUTTON );
-                        sendAWTMouseEvent( evt.getX() - getXOffset(), height - evt.getY() + getYOffset(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
+                        Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
+                        sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
                         image.refreshImage();
                     }
                 } );
@@ -150,12 +147,27 @@ public class HUDNode extends Geometry {
             setTransparent( true );
         }} );
 //            setQueueBucket( Bucket.Transparent );
-
-        setLocalTranslation( new Vector3f( (float) getXOffset(), (float) getYOffset(), 0 ) );
     }
 
     public JPanel getPanel() {
         return panel;
+    }
+
+    /**
+     * Transform from screen coordinates (JME-based) into Swing-based coordinates for what we are showing
+     *
+     * @param x Screen X (JME)
+     * @param y Screen Y (JME)
+     * @return Transformed position, with x and y in the vector. Z is basically useless (we assume an orthographic display)
+     */
+    private Vector3f transformEventCoordinates( int x, int y ) {
+        // do the coordinate transform
+        Vector3f transformed = getWorldTransform().transformInverseVector( new Vector3f( x, y, 0 ), new Vector3f() );
+
+        // invert our Y
+        transformed.setY( height - transformed.getY() );
+
+        return transformed;
     }
 
     private int getSwingButtonIndex( int jmeButtonIndex ) {
@@ -179,18 +191,8 @@ public class HUDNode extends Geometry {
         return height;
     }
 
-    private int getXOffset() {
-        return xOffset;
-    }
-
-    private int getYOffset() {
-        return yOffset;
-    }
-
     public void setOffset( Point2D offset ) {
-        xOffset = (int) offset.getX();
-        yOffset = (int) offset.getY();
-        setLocalTranslation( new Vector3f( xOffset, yOffset, 0 ) );
+        setLocalTranslation( new Vector3f( (float) offset.getX(), (float) offset.getY(), 0 ) );
     }
 
     public void refresh() {
