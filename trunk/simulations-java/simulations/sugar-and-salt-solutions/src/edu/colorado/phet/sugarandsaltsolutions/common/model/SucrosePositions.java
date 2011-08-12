@@ -1,108 +1,65 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
-import java.util.ArrayList;
-import java.util.StringTokenizer;
-
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 
 /**
- * Provides physical locations (positions) of the atoms within a Sucrose molecule.
+ * Provides physical locations (positions) of the atoms within a sucrose molecule.
  * Positions sampled from a 2d rasterized view of sucrose from JMol with ProjectorUtil
+ * <p/>
+ * C12H22O11
  *
  * @author Sam Reid
  */
-public class SucrosePositions {
-    private final String oxygen =
-            "561, 562\n" +
-            "295, 185\n" +
-            "770, 150\n" +
-            "964, 437\n" +
-            "885, 586\n" +
-            "633, 367\n" +
-            "567, 636\n" +
-            "648, 657\n" +
-            "406, 404\n" +
-            "374, 448\n" +
-            "232, 666\n";
-    private final String carbon =
-            "385, 230\n" +
-            "357, 369\n" +
-            "454, 423\n" +
-            "442, 570\n" +
-            "432, 558\n" +
-            "359, 674\n" +
-            "586, 484\n" +
-            "684, 538\n" +
-            "801, 538\n" +
-            "852, 426\n" +
-            "759, 358\n" +
-            "787, 223\n";
+public class SucrosePositions extends ProjectedPositions {
+    public static final double scale = WaterMolecule.oxygenRadius * 10 / 800 * 0.7;
 
-    private final String hydrogen =
-            "211, 208\n" +
-            "386, 171\n" +
-            "485, 218\n" +
-            "255, 376\n" +
-            "457, 473\n" +
-            "554, 385\n" +
-            "504, 465\n" +
-            "352, 620\n" +
-            "205, 583\n" +
-            "408, 760\n" +
-            "627, 614\n" +
-            "619, 696\n" +
-            "686, 488\n" +
-            "749, 418\n" +
-            "807, 612\n" +
-            "839, 645\n" +
-            "1009, 493\n" +
-            "857, 362\n" +
-            "883, 213\n" +
-            "718, 196\n" +
-            "694, 188";
-    private ImmutableVector2D origin;
-
-    //Get the positions for a specific list of atom types.
-    private ArrayList<ImmutableVector2D> getPositions( String text ) {
-        ArrayList<ImmutableVector2D> list = new ArrayList<ImmutableVector2D>();
-        StringTokenizer stringTokenizer = new StringTokenizer( text, "\n" );
-        while ( stringTokenizer.hasMoreTokens() ) {
-            String token = stringTokenizer.nextToken();
-            StringTokenizer st = new StringTokenizer( token, ", " );
-            double x = Double.parseDouble( st.nextToken() );
-            double y = Double.parseDouble( st.nextToken() );
-            list.add( new ImmutableVector2D( x, y ) );
-        }
-        return list;
-    }
-
-    public ImmutableVector2D getOrigin() {
-        if ( origin == null ) {
-            origin = getPositions( carbon ).get( 0 );
-        }
-        return origin;
-    }
-
-    public ArrayList<ImmutableVector2D> getCarbonPositions() {
-        return normalize( getPositions( carbon ) );
-    }
-
-    //Normalize by subtracting the origin and scaling
-    private ArrayList<ImmutableVector2D> normalize( final ArrayList<ImmutableVector2D> positions ) {
-        return new ArrayList<ImmutableVector2D>() {{
-            for ( ImmutableVector2D position : positions ) {
-                add( position.minus( getOrigin() ).times( WaterMolecule.oxygenRadius * 10 / 800 * 0.7 ) );//OH distance in sugar should look like that in water
-            }
-        }};
-    }
-
-    public ArrayList<ImmutableVector2D> getHydrogenPositions() {
-        return normalize( getPositions( hydrogen ) );
-    }
-
-    public ArrayList<ImmutableVector2D> getOxygenPositions() {
-        return normalize( getPositions( oxygen ) );
+    public SucrosePositions() {
+        super( "H 695, 300\n" +
+               "H 470, 514\n" +
+               "H 668, 516\n" +
+               "H 264, 281\n" +
+               "O 770, 155\n" +
+               "H 848, 188\n" +
+               "C 755, 352\n" +
+               "C 667, 463\n" +
+               "C 536, 432\n" +
+               "O 490, 337\n" +
+               "C 564, 231\n" +
+               "C 692, 257\n" +
+               "O 866, 379\n" +
+               "H 877, 474\n" +
+               "O 722, 555\n" +
+               "C 415, 529\n" +
+               "C 403, 404\n" +
+               "C 372, 283\n" +
+               "C 218, 321\n" +
+               "O 294, 429\n" +
+               "C 291, 206\n" +
+               "C 177, 284\n" +
+               "H 129, 205\n" +
+               "H 127, 339\n" +
+               "O 113, 390\n" +
+               "H 43, 406\n" +
+               "O 486, 222\n" +
+               "H 465, 293\n" +
+               "C 503, 149\n" +
+               "H 554, 75\n" +
+               "H 416, 119\n" +
+               "O 201, 114\n" +
+               "H 232, 573\n" +
+               "H 458, 619\n" +
+               "H 496, 512\n" +
+               "O 526, 385\n" +
+               "H 261, 62\n" +
+               "H 308, 302\n" +
+               "H 563, 174\n" +
+               "H 544, 211\n" +
+               "H 761, 303\n" +
+               "O 296, 570\n" +
+               "H 700, 514\n" +
+               "H 348, 160\n" +
+               "O 480, 198",
+               scale );
     }
 }
