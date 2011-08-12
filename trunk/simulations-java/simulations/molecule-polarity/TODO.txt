@@ -18,10 +18,8 @@ MEDIUM
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
-- redesign or eliminate Model control panel
 
 LOW
-- change "dipole bonds" to "dipole bond" in Two Atoms tab
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
 
