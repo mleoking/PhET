@@ -18,25 +18,49 @@ public class MassView1 extends Sprite{
     private var _index:int;   //integer labeling the mass
     private var myModel1:Model1;
     private var container:View1;
+    private var mass:Sprite;
+    private var borderZone:Sprite;
 
     public function MassView1( index:int, myModel1:Model1, container:View1 ) {
         this._index = index;
         this.myModel1 = myModel1
         this.container = container;
-        this.drawMass();
+        this.mass = new Sprite();
+        this.borderZone = new Sprite();
+        this.addChild( borderZone );
+        this.addChild( mass );
+        this.drawMass( "dim" );
+        this.drawBorderZone();
         this.makeMassGrabbable();
     } //end constructor
 
-    private function drawMass():void{
-        var g:Graphics = this.graphics;
+    private function drawBorderZone():void{
+        var g:Graphics = this.borderZone.graphics;
+        g.clear();
+        g.lineStyle(3, 0xffffff, 0.3);
+        var d:Number = 80;   //edge length of square mass in pixels
+        g.beginFill(0xffffff, 0.3);
+        g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+        g.endFill();
+    }
+
+    private function drawMass( dimOrBright:String ):void{
+        var g:Graphics = this.mass.graphics;
         g.clear();
         g.lineStyle(3, 0x0000ff, 1);
         var d:Number = 20;   //edge length of square mass in pixels
-        g.beginFill(0x5555ff, 1);
-        g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
-        g.endFill();
+        if( dimOrBright == "dim") {
+            g.beginFill(0x5555ff, 1);
+            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+            g.endFill();
+        } else{
+            g.beginFill(0x000055, 1);
+            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+            g.endFill();
+        }
+
         //this.mass_arr[i].y = this.leftEdgeY;
-        this.visible = false;      //start with mass invisible
+        this.mass.visible = true;      //start with mass invisible
     }//end drawMass()
 
     public function get index():int{
@@ -50,8 +74,8 @@ public class MassView1 extends Sprite{
         var leftEdgeY:Number = this.container.leftEdgeY;
         var pixPerMeter:Number = this.container.pixPerMeter;
         var thisObject:Object = this;
-        this.buttonMode = true;
-        this.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+        this.mass.buttonMode = true;
+        this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
