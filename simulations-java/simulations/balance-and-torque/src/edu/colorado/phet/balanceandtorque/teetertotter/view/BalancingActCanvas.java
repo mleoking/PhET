@@ -83,7 +83,7 @@ public class BalancingActCanvas extends PhetPCanvas {
                 }
                 else if ( mass instanceof LabeledImageMass ) {
                     // These are mystery objects.  Don't allow their mass to be shown.
-                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this, massLabelVisibilityProperty );
+                    massNode = new LabeledImageMassNode( mvt, (LabeledImageMass) mass, BalancingActCanvas.this, new BooleanProperty( false ) );
                 }
                 else if ( mass instanceof ImageMass ) {
                     massNode = new ImageMassNode( mvt, (ImageMass) mass, BalancingActCanvas.this, massLabelVisibilityProperty );
