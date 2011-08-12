@@ -1,3 +1,4 @@
+8/12/11 #3039, add Arrow.getHeadScale, use it to scale dipole cross
 8/12/11 add cross to dipole by decorating arrow
 8/11/11 cannibalize Vector2DNode for use in rewrite of DipoleNode
 8/11/11 make TwoAtomsIsosurfaceNode observer atom locations, since those are the properties it relies on

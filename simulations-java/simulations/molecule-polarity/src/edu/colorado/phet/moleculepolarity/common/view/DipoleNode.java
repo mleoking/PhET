@@ -71,31 +71,19 @@ public class DipoleNode extends PPath {
     /*
      * Creates the cross that signifies the positive end of the dipole.
      * We're attempting to make this look like Jmol's representation, which looks more like a 3D cylinder.
-     * <p>
-     * TODO: Complicating this implementation is the fact that the arrow begins to scale when it reaches
-     * some minimum length (as defined by FRACTIONAL_HEAD_HEIGHT).  The Arrow class doesn't tell us
-     * when it is being scaled, or what the scaling factor is. So in order to decorate the Arrow shape,
-     * we're relying on internal information about the Arrow implementation. So if Arrow's behavior changes,
-     * this implementation may break.
+     * The arrow head and cross scale when the dipole is below some minimum length (as defined by FRACTIONAL_HEAD_HEIGHT).
      */
     private Shape createCross( Arrow arrow ) {
 
         double arrowLength = Math.abs( arrow.getTipLocation().getX() - arrow.getTailLocation().getX() );
+        final double headScale = arrow.getHeadScale();
 
-        // offset and height are always scaled
-        double crossOffset = REFERENCE_CROSS_OFFSET * arrowLength / REFERENCE_LENGTH;
-        double crossHeight = CROSS_SIZE.height * arrowLength / REFERENCE_LENGTH;
+        // scale offset and height based on arrow length and whether arrow head is scaled.
+        double crossOffset = headScale * REFERENCE_CROSS_OFFSET * arrowLength / REFERENCE_LENGTH;
+        double crossHeight = headScale * CROSS_SIZE.height * arrowLength / REFERENCE_LENGTH;
 
-        // width is scaled if arrow head is scaled
-        double crossWidth = CROSS_SIZE.width;
-        if ( arrowLength < HEAD_SIZE.height / FRACTIONAL_HEAD_HEIGHT ) { //TODO this relies on implementation of Arrow.computeArrow
-            // the arrow is being scaled, so scale the cross
-            double scaledHeadHeight = arrowLength * FRACTIONAL_HEAD_HEIGHT; //TODO this relies on implementation of Arrow.computeArrow
-            double crossScale = scaledHeadHeight / HEAD_SIZE.height;
-            crossOffset *= crossScale;
-            crossWidth *= crossScale;
-            crossHeight *= crossScale;
-        }
+        // scale width based on whether arrow head is scaled.
+        double crossWidth = headScale * CROSS_SIZE.width;
 
         // arrow points left, flip sign of offset and shift it to the left
         if ( arrow.getTipLocation().getX() < arrow.getTailLocation().getX() ) {
