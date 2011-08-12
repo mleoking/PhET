@@ -12,7 +12,6 @@ public class ParticleCountTable {
 
     //Amounts are given for 1E-23L of water, then multiplied by 2 since the max fluid volume is 2E-23L
     public static final int MAX_SODIUM_CHLORIDE = (int) ( 10.30 * 2 ) * scaleFactor;
-    public static final int MAX_ETHANOL = (int) ( 13.07 * 2 ) * scaleFactor;
     public static final int MAX_CALCIUM_CHLORIDE = (int) ( 5.43 * 2 ) * scaleFactor;
     public static final int MAX_SODIUM_NITRATE = (int) ( 7.00 * 2 ) * scaleFactor;
     public static final int MAX_SUCROSE = (int) ( 1.76 * 2 ) * scaleFactor;

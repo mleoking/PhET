@@ -14,11 +14,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.siz
  */
 public class SucroseCrystal extends Crystal<Sucrose> {
 
+    //Spacing between adjacent sucrose molecules, in meters
+    public static final double SPACING = nanometersToMeters( 0.5 ) * sizeScale;
+
     public SucroseCrystal( ImmutableVector2D position, double angle ) {
 
         //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
         //Also, scale everything by the model sizeScale, including distances between atoms
-        super( position, nanometersToMeters( 0.5 ) * sizeScale, angle );
+        super( position, SPACING, angle );
     }
 
     //Create a new Sucrose to be added to the crystal
