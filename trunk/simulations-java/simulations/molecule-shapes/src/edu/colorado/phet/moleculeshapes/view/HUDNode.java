@@ -36,10 +36,11 @@ import com.jme3.texture.Texture2D;
  * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
  * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
  * TODO: Avoid for now. This class is currently in "disaster zone" mode. many things to fix and clean up
+ * NOTE: only one HUDNode per component works
  */
 public class HUDNode extends Geometry {
 
-    final JComponent panel;
+    final JComponent component;
 
     private final PaintableImage image;
 
@@ -60,35 +61,32 @@ public class HUDNode extends Geometry {
 
     private boolean dirty = false; // whether the image needs to be repainted
 
-    public static final String ON_REPAINT_CALLBACK = "!@#%^&*";
+    public static final String ON_REPAINT_CALLBACK = "!@#%^&*"; // tag used in the repaint manager to notify this instance for repainting
 
-    public HUDNode( final JComponent panel, final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
-        super( "HUD", new Quad( width, height, true ) );
-        this.panel = panel;
+    public HUDNode( final JComponent component, final int width, final int height, AssetManager assetManager, InputManager inputManager ) {
+        super( "HUD", new Quad( width, height, true ) ); // true flips it so our components are shown in the correct Y direction
+        this.component = component;
         this.width = width;
         this.height = height;
         this.inputManager = inputManager;
 
-        System.out.println( panel.getBounds() );
-        System.out.println( panel.isDisplayable() );
-
         image = new PaintableImage( width, height, true ) {
             {
-                panel.setDoubleBuffered( false );
+                component.setDoubleBuffered( false );
                 refreshImage();
             }
 
             @Override public void paint( Graphics2D g ) {
                 g.setBackground( new Color( 0f, 0f, 0f, 0f ) );
                 g.clearRect( 0, 0, getWidth(), getHeight() );
-                panel.validate();
-                panel.setSize( panel.getPreferredSize() );
-                layoutComponent( panel );
-                panel.paint( g );
+                component.validate();
+                component.setSize( component.getPreferredSize() );
+                layoutComponent( component );
+                component.paint( g );
             }
         };
 
-        panel.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
+        component.putClientProperty( ON_REPAINT_CALLBACK, new VoidFunction0() {
             public void apply() {
                 dirty = true;
             }
@@ -122,7 +120,6 @@ public class HUDNode extends Geometry {
                     public void run() {
                         Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
                         sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), false, MouseEvent.NOBUTTON );
-//                        image.refreshImage();
                     }
                 } );
             }
@@ -132,7 +129,6 @@ public class HUDNode extends Geometry {
                     public void run() {
                         Vector3f coordinates = transformEventCoordinates( evt.getX(), evt.getY() );
                         sendAWTMouseEvent( (int) coordinates.getX(), (int) coordinates.getY(), evt.isPressed(), getSwingButtonIndex( evt.getButtonIndex() ) );
-//                        image.refreshImage();
                     }
                 } );
             }
@@ -160,19 +156,15 @@ public class HUDNode extends Geometry {
         image.refreshImage();
     }
 
-    private void initRepaintManager() {
-        final RepaintManager repaintManager = RepaintManager.currentManager( panel );
-        if ( !( repaintManager instanceof JMERepaintManager ) ) {
-            RepaintManager.setCurrentManager( new JMERepaintManager() );
-        }
-    }
-
     public void dispose() {
         inputManager.removeRawInputListener( inputListener );
     }
 
-    public JComponent getPanel() {
-        return panel;
+    private void initRepaintManager() {
+        final RepaintManager repaintManager = RepaintManager.currentManager( component );
+        if ( !( repaintManager instanceof JMERepaintManager ) ) {
+            RepaintManager.setCurrentManager( new JMERepaintManager() );
+        }
     }
 
     /**
@@ -279,7 +271,7 @@ public class HUDNode extends Geometry {
 
 
     private void sendAWTMouseEvent( int x, int y, boolean pressed, int swingButton ) {
-        Component comp = componentAt( x, y, panel, false );
+        Component comp = componentAt( x, y, component, false );
 
         final int eventType;
         if ( swingButton > MouseEvent.NOBUTTON ) {
@@ -293,13 +285,13 @@ public class HUDNode extends Geometry {
         if ( lastComponent != comp ) {
             //enter/leave events
             while ( lastComponent != null && ( comp == null || !SwingUtilities.isDescendingFrom( comp, lastComponent ) ) ) {
-                final Point pos = convertPoint( panel, x, y, lastComponent );
+                final Point pos = convertPoint( component, x, y, lastComponent );
                 sendExitedEvent( lastComponent, getCurrentModifiers( swingButton ), pos );
                 lastComponent = lastComponent.getParent();
             }
-            final Point pos = convertPoint( panel, x, y, lastComponent );
+            final Point pos = convertPoint( component, x, y, lastComponent );
             if ( lastComponent == null ) {
-                lastComponent = panel;
+                lastComponent = component;
             }
             sendEnteredEvent( comp, lastComponent, getCurrentModifiers( swingButton ), pos );
             lastComponent = comp;
@@ -317,7 +309,7 @@ public class HUDNode extends Geometry {
                     downX = x;
                     downY = y;
 //                    setFocusOwner( componentAt( x, y, panel, true ) );
-                    componentAt( x, y, panel, true ).requestFocus();
+                    componentAt( x, y, component, true ).requestFocus();
 //                    dispatchEvent( panel, new FocusEvent( panel,        // TODO: remove this HACK
 //                                                          FocusEvent.FOCUS_GAINED, false, null ) );
                 }
@@ -342,7 +334,7 @@ public class HUDNode extends Geometry {
                 comp = grabbedMouse;
             }
 
-            final Point pos = convertPoint( panel, x, y, comp );
+            final Point pos = convertPoint( component, x, y, comp );
 //            System.out.println( "sending mouseevent: " + pos.x + "," + pos.y );
             final MouseEvent event = new MouseEvent( comp,
                                                      eventType,
@@ -352,8 +344,8 @@ public class HUDNode extends Geometry {
             dispatchEvent( comp, event );
             if ( clicked ) {
                 // CLICKED seems to need special glass pane handling o_O
-                comp = componentAt( x, y, panel, true );
-                final Point clickedPos = convertPoint( panel, x, y, comp );
+                comp = componentAt( x, y, component, true );
+                final Point clickedPos = convertPoint( component, x, y, comp );
 
                 final MouseEvent clickedEvent = new MouseEvent( comp,
                                                                 MouseEvent.MOUSE_CLICKED,
@@ -469,8 +461,8 @@ public class HUDNode extends Geometry {
     }
 
     public Component componentAt( int x, int y ) {
-        Component component = componentAt( x, y, panel, true );
-        if ( component != panel ) {
+        Component component = componentAt( x, y, this.component, true );
+        if ( component != this.component ) {
             return component;
         }
 
