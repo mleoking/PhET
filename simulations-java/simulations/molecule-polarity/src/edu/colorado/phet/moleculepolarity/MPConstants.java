@@ -29,8 +29,8 @@ public class MPConstants {
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
     public static final Color CANVAS_COLOR = Color.WHITE;
 
-    // E-field plates
-    public static final double PLATE_WIDTH = 50; // width when the plate is flattened to 2D
+    // E-field plates, all values are related to 2D projection of the plates
+    public static final double PLATE_WIDTH = 50;
     public static final double PLATE_HEIGHT = 450;
     public static final double PLATE_THICKNESS = 5;
     public static final double PLATE_PERSPECTIVE_Y_OFFSET = 35; // y difference between foreground and background edges of the plate
