@@ -17,6 +17,7 @@ HIGH
 - Jmol: how to align molecular dipole with E-Field?
 
 MEDIUM
+- Real Molecules: Reset All doesn't reset the current molecule selection
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - find out why scenegraph doesn't take up full width in MPCanvas
