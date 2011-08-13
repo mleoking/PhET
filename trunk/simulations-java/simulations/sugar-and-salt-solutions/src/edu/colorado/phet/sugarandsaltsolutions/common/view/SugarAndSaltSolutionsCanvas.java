@@ -126,9 +126,12 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             setOffset( beakerBottomRightView.getX() + 7, //Hand tuned so it doesn't overlap the reset button in English
                        beakerBottomRightView.getY() - getFullBounds().getHeight() );
         }};
-        model.setDrainFaucetMetrics( new DrainFaucetMetrics( new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) ),
-                                                             new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) ), model ) );
         addChild( drainFaucetNode );
+
+        //Use the view coordinates to set the model coordinates for how particle should flow toward and flow out the drain pipe
+        ImmutableVector2D input = new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getCenterY() ) );
+        ImmutableVector2D output = new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) );
+        model.setDrainFaucetMetrics( new DrainFaucetMetrics( input, output, model ) );
 
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<MacroSalt>( crystalLayer, new Function1<MacroSalt, PNode>() {
