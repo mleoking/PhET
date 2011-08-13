@@ -355,7 +355,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         bondNodes.clear();
         for ( ElectronPair pair : molecule.getPairs() ) {
             if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode( new ImmutableVector3D(), pair.position.get(), assetManager );
+                BondNode bondNode = new BondNode( pair.position.get(), assetManager );
                 moleculeNode.attachChild( bondNode );
                 bondNodes.add( bondNode );
             }
