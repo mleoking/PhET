@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculepolarity.realmolecules;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule;
@@ -14,6 +15,8 @@ import edu.colorado.phet.moleculepolarity.common.model.Molecule3D.ImportMolecule
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class RealMoleculesModel extends MPModel {
+
+    public final Property<Molecule3D> currentMolecule;
 
     private final ArrayList<Molecule3D> molecules;
 
@@ -49,6 +52,13 @@ public class RealMoleculesModel extends MPModel {
                 add( new ImportMolecule() );
             }
         }};
+
+        currentMolecule = new Property<Molecule3D>( molecules.get( 0 ) );
+    }
+
+    public void reset() {
+        super.reset();
+        currentMolecule.reset();
     }
 
     public ArrayList<Molecule3D> getMolecules() {
