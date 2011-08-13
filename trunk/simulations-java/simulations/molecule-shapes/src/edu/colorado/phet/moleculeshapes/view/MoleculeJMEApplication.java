@@ -30,6 +30,8 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import com.jme3.collision.CollisionResult;
+import com.jme3.collision.CollisionResults;
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
@@ -38,9 +40,11 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  * Use jme3 to show a rotating molecule
@@ -54,7 +58,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public static final String MAP_RIGHT = "CameraRight";
     public static final String MAP_UP = "CameraUp";
     public static final String MAP_DOWN = "CameraDown";
-    public static final String MAP_DRAG = "CameraDrag";
+    public static final String MAP_LMB = "CameraDrag";
+    public static final String MAP_MMB = "RightMouseButton";
 
     private static final float MOUSE_SCALE = 3.0f;
 
@@ -118,13 +123,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         inputManager.addMapping( MoleculeJMEApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
         inputManager.addMapping( MoleculeJMEApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
 
-        inputManager.addMapping( MAP_DRAG, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
+        inputManager.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
+        inputManager.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
 
         inputManager.addListener(
                 new ActionListener() {
                     public void onAction( String name, boolean value, float tpf ) {
                         // record whether the mouse button is down
-                        if ( name.equals( MAP_DRAG ) ) {
+                        if ( name.equals( MAP_LMB ) ) {
                             dragging = value;
 
                             if ( dragging ) {
@@ -142,8 +148,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                 }
                             }
                         }
+                        if ( name.equals( MAP_MMB ) ) {
+                            ElectronPair pair = getElectronPairUnderPointer();
+                            if ( pair != null ) {
+                                molecule.removePair( pair );
+                            }
+                        }
                     }
-                }, MAP_DRAG );
+                }, MAP_LMB, MAP_MMB );
         inputManager.addListener(
                 new AnalogListener() {
                     public void onAnalog( String name, float value, float tpf ) {
@@ -176,7 +188,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                             }
                         }
                     }
-                }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_DRAG );
+                }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
         moleculeNode = new Node();
         rootNode.attachChild( moleculeNode );
@@ -314,6 +326,54 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         // transform to moleculeNode coordinates and return
         return moleculeNode.getWorldTransform().transformInverseVector( globalStartPosition, new Vector3f() );
+    }
+
+    /**
+     * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
+     */
+    public ElectronPair getElectronPairUnderPointer() {
+        CollisionResults results = new CollisionResults();
+        Vector2f click2d = inputManager.getCursorPosition();
+        Vector3f click3d = cam.getWorldCoordinates(
+                new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = cam.getWorldCoordinates(
+                new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Ray ray = new Ray( click3d, dir );
+        rootNode.collideWith( ray, results );
+        for ( CollisionResult result : results ) {
+            ElectronPair pair = getElectronPairForTarget( result.getGeometry() );
+            if ( pair != null ) {
+                return pair;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Given a spatial target, return any associated electron pair, or null if there is none
+     *
+     * @param target JME Spatial
+     * @return Electron pair, or null
+     */
+    private ElectronPair getElectronPairForTarget( Spatial target ) {
+        boolean isAtom = target instanceof AtomNode;
+        boolean isLonePair = target instanceof LonePairNode;
+
+        if ( isAtom ) {
+            return ( (AtomNode) target ).pair;
+        }
+        else if ( isLonePair ) {
+            return ( (LonePairNode) target ).pair;
+        }
+        else {
+            if ( target.getParent() != null ) {
+                return getElectronPairForTarget( target.getParent() );
+            }
+            else {
+                // failure
+                return null;
+            }
+        }
     }
 
     public void testAddAtom( boolean isLonePair ) {
