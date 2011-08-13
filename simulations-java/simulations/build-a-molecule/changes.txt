@@ -1,3 +1,4 @@
+# 1.00.04 (55148) Aug 12, 2011
 Added tests for audio latency, see #2435
 # 1.00.03 (54879) Aug 5, 2011
 > Improved launching of 3D dialog
