@@ -21,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
@@ -341,6 +342,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public Vector3f getSphericalMoleculeCursorPosition( Vector3f currentLocalPosition ) {
         // decide whether to grab the closest or farthest point if possible. for now, we try to NOT move the pair at the start of the drag
         boolean returnCloseHit = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).mult( currentLocalPosition ).z >= 0;
+
+        // override for dev option
+        if ( MoleculeShapesApplication.dragExistingInFront.get() ) {
+            returnCloseHit = true;
+        }
 
         // set up intersection stuff
         CollisionResults results = new CollisionResults();
