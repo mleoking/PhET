@@ -30,7 +30,7 @@ public class RealMoleculesModel extends MPModel {
             add( new Molecule3D( "O2", MPStrings.OXYGEN, "mol2/o2.mol2" ) );
             add( new Molecule3D( "F2", MPStrings.FLUORINE, "mol2/f2.mol2" ) );
             add( new Molecule3D( "HF", MPStrings.HYDROGEN_FLUORIDE, "mol2/hf.mol2" ) );
-            add( new Molecule3D( "CO", MPStrings.CARBON_DIOXIDE, "mol2/co.mol2" ) );
+            add( new Molecule3D( "CO", MPStrings.CARBON_MONOXIDE, "mol2/co.mol2" ) );
 
             add( new Molecule3D( "H2O", MPStrings.WATER, "mol2/h2o.mol2" ) );
             add( new Molecule3D( "CO2", MPStrings.CARBON_DIOXIDE, "mol2/co2.mol2" ) );
