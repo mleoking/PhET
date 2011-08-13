@@ -1,3 +1,4 @@
+8/12/11 reuse piccolo-phet's PeriodicTableNode
 8/12/11 display element numbers in periodic table placeholder
 8/12/11 Jmol: script to return element numbers, for use in periodic table
 8/12/11 wire up "electron density" control in "Two Atoms" tab
