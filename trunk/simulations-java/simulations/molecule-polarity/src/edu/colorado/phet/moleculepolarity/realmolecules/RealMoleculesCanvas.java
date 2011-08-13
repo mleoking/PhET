@@ -61,12 +61,11 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
-        PeriodicTableNode periodicTableNode = new PeriodicTableNode();
+        final PeriodicTableNode periodicTableNode = new PeriodicTableNode();
         addChild( periodicTableNode );
 
         MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
         addChild( moleculeComboBox );
-
 
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
         if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
@@ -127,6 +126,7 @@ public class RealMoleculesCanvas extends MPCanvas {
             moleculeComboBox.addSelectedItemObserver( new VoidFunction1<Molecule3D>() {
                 public void apply( Molecule3D molecule ) {
                     viewerNode.setMolecule( molecule );
+                    periodicTableNode.setHighlighted( viewerNode.getElementNumbers() );
                 }
             } );
         }

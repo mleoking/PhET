@@ -16,6 +16,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class PeriodicTableNode extends PComposite {
 
+    private final PText textNode;
+
     public PeriodicTableNode() {
 
         PPath tableNode = new PPath( new Rectangle2D.Double( 0, 0, 485, 125 ) ) {{
@@ -23,14 +25,24 @@ public class PeriodicTableNode extends PComposite {
         }};
         addChild( tableNode );
 
-        PText textNode = new PText( "Periodic Table goes here" ) {{
+        textNode = new PText( "Periodic Table goes here" ) {{
             setFont( new PhetFont( 18 ) );
             setTextPaint( Color.WHITE );
         }};
         addChild( textNode );
 
         // layout
-        textNode.setOffset( tableNode.getFullBoundsReference().getCenterX() - ( textNode.getFullBoundsReference().getWidth() / 2 ),
-                            tableNode.getFullBoundsReference().getCenterY() - ( textNode.getFullBoundsReference().getHeight() / 2 ) );
+        textNode.setOffset( 50, 50 );
+    }
+
+    public void setHighlighted( int... elementNumbers ) {
+        StringBuffer s = new StringBuffer( "Periodic Table, element numbers: " );
+        for ( int i = 0; i < elementNumbers.length; i++ ) {
+            s.append( String.valueOf( elementNumbers[i] ) );
+            if ( i < elementNumbers.length - 1 ) {
+                s.append( "," );
+            }
+        }
+        textNode.setText( s.toString() );
     }
 }
