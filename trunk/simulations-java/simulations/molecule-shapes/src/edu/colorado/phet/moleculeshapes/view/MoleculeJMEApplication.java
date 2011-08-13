@@ -70,10 +70,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     //The angle about which the molecule should be rotated, changes as a function of time
     private Quaternion rotation = new Quaternion();
-    private int numSuccess = 0;
-
-    //Time the configuration was started
-    private long startTime;
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
