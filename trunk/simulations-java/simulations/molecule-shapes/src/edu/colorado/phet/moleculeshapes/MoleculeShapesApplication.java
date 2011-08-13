@@ -12,7 +12,9 @@ import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
@@ -22,6 +24,8 @@ import com.jme3.system.Natives;
  * The main application for Molecule Shapes
  */
 public class MoleculeShapesApplication extends PiccoloPhetApplication {
+
+    public static final Property<Boolean> dragExistingInFront = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -70,6 +74,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         // Developer menu
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
+
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Drag existing in front", dragExistingInFront ) );
     }
 
     //----------------------------------------------------------------------------
