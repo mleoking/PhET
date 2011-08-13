@@ -20,15 +20,19 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
 
-// displays an atom in the 3d view
+/**
+ * Displays a lone electron pair in the 3d view
+ */
 public class LonePairNode extends Node {
+    public final ElectronPair pair;
     public final Property<ImmutableVector3D> position;
 
     private static Spatial lonePairGeometry;
 
-    public LonePairNode( final Property<ImmutableVector3D> position, final AssetManager assetManager ) {
+    public LonePairNode( ElectronPair pair, final AssetManager assetManager ) {
         super( "Lone Pair" );
-        this.position = position;
+        this.pair = pair;
+        this.position = pair.position;
 
         MoleculeJMEApplication.showLonePairs.addObserver( new SimpleObserver() {
             public void update() {
