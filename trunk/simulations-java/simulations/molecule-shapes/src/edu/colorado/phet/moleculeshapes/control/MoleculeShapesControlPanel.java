@@ -97,6 +97,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         System.out.println( "Lone Pair" );
+                        app.startNewInstanceDrag( 0 );
                     }
                 } );
             }} );

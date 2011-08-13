@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
@@ -65,6 +66,13 @@ public class LonePairNode extends Node {
                 Matrix3f matrix = new Matrix3f();
                 fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );
                 setLocalRotation( matrix );
+
+                if ( position.get().magnitude() > ElectronPair.LONE_PAIR_DISTANCE ) {
+                    setLocalTranslation( MoleculeJMEApplication.vectorConversion( position.get().minus( position.get().normalized().times( ElectronPair.LONE_PAIR_DISTANCE ) ) ) );
+                }
+                else {
+                    setLocalTranslation( 0, 0, 0 );
+                }
             }
         } );
     }

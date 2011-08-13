@@ -136,11 +136,6 @@ public class ElectronPair {
     }
 
     public void dragToPosition( ImmutableVector3D immutableVector3D ) {
-        if ( !isLonePair ) {
-            position.set( immutableVector3D );
-        }
-        else {
-            throw new NotImplementedException(); // TODO: dragging of lone pairs
-        }
+        position.set( immutableVector3D );
     }
 }
