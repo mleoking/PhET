@@ -25,6 +25,7 @@ public class GameOverStateView extends StateView {
     public GameOverStateView( BuildAnAtomGameCanvas gameCanvas, final BuildAnAtomGameModel model ) {
         super( model, model.getGameOverState(), gameCanvas );
         gameAudioPlayer = new GameAudioPlayer( model.isSoundEnabled() ); // Assumes that the game over state is recreated at the end of each game.
+        gameAudioPlayer.init();
         gameOverNode = new GameOverNode( model.getLevel(), model.getScore(),
                                          model.getMaximumPossibleScore(), new DecimalFormat( "0.#" ), model.getTime(), model.getBestTime( model.getLevel() ),
                                          model.isNewBestTime(), model.isTimerEnabled() );

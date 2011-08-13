@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
@@ -56,6 +58,7 @@ public abstract class ProblemView extends StateView {
         super( model, problem, gameCanvas );
         this.problem = problem;
         gameAudioPlayer = new GameAudioPlayer( model.isSoundEnabled() );
+        gameAudioPlayer.init();
         final int problemIndex = model.getProblemIndex( problem ) + 1;
         final int maxProblems = model.getNumberProblems();
         problemNumberDisplay = new PText( MessageFormat.format( BuildAnAtomStrings.GAME_PROBLEM_INDEX_READOUT_PATTERN, problemIndex, maxProblems ) ) {

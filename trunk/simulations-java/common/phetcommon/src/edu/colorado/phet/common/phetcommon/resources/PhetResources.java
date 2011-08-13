@@ -215,7 +215,17 @@ public class PhetResources {
      * @return PhetAudioClip
      */
     public PhetAudioClip getAudioClip( String resourceName ) {
-        return resourceLoader.getAudioClip( rootDirectoryName + PATH_SEPARATOR + AUDIO_DIR + PATH_SEPARATOR + resourceName );
+        return resourceLoader.getAudioClip( getFullPathForAudio( resourceName ) );
+    }
+
+    /**
+     * Returns the fully qualified path (from the root) for the specified audio resource
+     *
+     * @param s
+     * @return
+     */
+    public String getFullPathForAudio( String s ) {
+        return rootDirectoryName + PATH_SEPARATOR + AUDIO_DIR + PATH_SEPARATOR + s;
     }
 
     /**
@@ -345,4 +355,5 @@ public class PhetResources {
     public String getDistributionTag() {
         return getProjectProperty( PROPERTY_DISTRIBUTION_TAG );
     }
+
 }
