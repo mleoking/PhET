@@ -7,8 +7,8 @@ import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.IClock;
 import edu.colorado.phet.moleculepolarity.MPConstants;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.colorado.phet.moleculepolarity.common.model.MPModel;
-import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
 
 /**
  * Model for the "Two Atoms" module.
@@ -17,11 +17,11 @@ import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
  */
 public class TwoAtomsModel extends MPModel {
 
-    public final TwoAtomsMolecule molecule;
+    public final DiatomicMolecule molecule;
 
     public TwoAtomsModel( IClock clock ) {
 
-        molecule = new TwoAtomsMolecule( new ImmutableVector2D( 325, 390 ) );
+        molecule = new DiatomicMolecule( new ImmutableVector2D( 325, 390 ) );
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {

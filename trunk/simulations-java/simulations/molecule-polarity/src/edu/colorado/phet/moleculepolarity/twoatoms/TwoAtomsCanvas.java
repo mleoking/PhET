@@ -17,12 +17,12 @@ import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.BondTypeNode;
+import edu.colorado.phet.moleculepolarity.common.view.DiatomicIsosurfaceNode;
+import edu.colorado.phet.moleculepolarity.common.view.DiatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.TwoAtomsIsosurfaceNode;
-import edu.colorado.phet.moleculepolarity.common.view.TwoAtomsMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 import edu.umd.cs.piccolo.PNode;
@@ -37,7 +37,7 @@ public class TwoAtomsCanvas extends MPCanvas {
     public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        TwoAtomsMoleculeNode moleculeNode = new TwoAtomsMoleculeNode( model.molecule );
+        DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
         addChild( moleculeNode );
 
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
@@ -76,10 +76,10 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
-        final PNode electrostaticPotentialNode = new TwoAtomsIsosurfaceNode( model.molecule );
+        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
         addChild( electrostaticPotentialNode );
 
-        final PNode electronDensityNode = new TwoAtomsIsosurfaceNode( model.molecule );
+        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
         addChild( electronDensityNode );
 
         // layout

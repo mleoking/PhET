@@ -1,3 +1,4 @@
+8/12/11 rename various TwoAtoms* classes to Diatomic*
 8/12/11 javadoc throughout
 8/12/11 fix Reset All so that it resets the molecule in Real Molecules
 8/12/11 add currentMolecule property to Real Molecules model, observe in Jmol viewer and periodic table

@@ -8,23 +8,23 @@ import java.awt.geom.Ellipse2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface for a diatomic molecule (composed of 2 atoms).
+ * 2D isosurface for a diatomic molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsIsosurfaceNode extends PComposite {
+public class DiatomicIsosurfaceNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
 
-    private final TwoAtomsMolecule molecule;
+    private final DiatomicMolecule molecule;
     private final PPath pathNode;
 
-    public TwoAtomsIsosurfaceNode( final TwoAtomsMolecule molecule ) {
+    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule ) {
 
         this.molecule = molecule;
 

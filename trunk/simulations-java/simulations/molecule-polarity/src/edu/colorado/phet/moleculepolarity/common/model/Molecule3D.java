@@ -61,11 +61,12 @@ public class Molecule3D {
         return s;
     }
 
+    //TODO consider generalizing and migrating to phetcommon, this has been copied in a several sims
     /*
-    * Handles HTML subscript formatting.
-    * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
-    * For example, "C2H4" is converted to "C<sub>2</sub>H<sub>4</sub>".
-    */
+     * Handles HTML subscript formatting.
+     * All numbers in a string are assumed to be part of a subscript, and will be enclosed in a <sub> tag.
+     * For example, "C2H4" is converted to "C<sub>2</sub>H<sub>4</sub>".
+     */
     private static final String toSubscript( String inString ) {
         String outString = "";
         boolean sub = false; // are we in a <sub> tag?
@@ -111,7 +112,7 @@ public class Molecule3D {
                     s = readStream( new FileInputStream( fc.getSelectedFile() ) );
                 }
                 catch ( IOException e ) {
-                    e.printStackTrace(); //TODO improve exception handling
+                    e.printStackTrace();
                 }
             }
             return s;
