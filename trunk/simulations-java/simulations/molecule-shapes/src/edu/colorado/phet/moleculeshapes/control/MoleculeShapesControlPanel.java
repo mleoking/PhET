@@ -5,11 +5,11 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D.Double;
 
-import javax.swing.*;
-
+import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -113,13 +113,13 @@ public class MoleculeShapesControlPanel extends PNode {
             // padding, and make sure we have the width
             addChild( new PhetPPath( new Double( 0, 0, CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
 
-            final PSwing molecularCheckbox = new PSwing( new JCheckBox( "Molecular" ) {{
+            final PSwing molecularCheckbox = new PSwing( new PropertyCheckBox( "Molecular", MoleculeShapesApplication.showMolecularShapeName ) {{
                 setFont( new PhetFont( 12 ) );
             }} ) {{
                 setOffset( 10, 10 );
             }};
             addChild( molecularCheckbox );
-            PSwing electronCheckbox = new PSwing( new JCheckBox( "Electron" ) {{
+            PSwing electronCheckbox = new PSwing( new PropertyCheckBox( "Electron", MoleculeShapesApplication.showElectronShapeName ) {{
                 setFont( new PhetFont( 12 ) );
             }} ) {{
                 setOffset( 10, molecularCheckbox.getFullBounds().getMaxY() + 2 );
