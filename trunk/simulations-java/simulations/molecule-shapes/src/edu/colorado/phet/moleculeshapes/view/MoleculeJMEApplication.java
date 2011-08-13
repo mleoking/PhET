@@ -395,32 +395,17 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }};
         preGuiNode.attachChild( controlPanel );
 
-        preGuiNode.attachChild( new SwingJMENode( new JPanel() {{
-            final JPanel p = this;
-            add( new JButton( "Test Resize" ) {{
+        preGuiNode.attachChild( new SwingJMENode( new JButton( "Show Molecular Geometry" ) {
+            {
+                setOpaque( false );
                 addActionListener( new java.awt.event.ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        p.add( new PCanvas() {{
-                            setSize( new Dimension( 100, 100 ) );
-                        }} );
+                        showLonePairs.set( !showLonePairs.get() );
+                        setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
                     }
                 } );
-            }} );
-        }}, assetManager, inputManager ) );
-
-//        preGuiNode.attachChild( new HUDNode( 256, 64, assetManager, inputManager ) {{
-//            getPanel().add( new JButton( "Show Molecular Geometry" ) {
-//                {
-//                    setOpaque( false );
-//                    addActionListener( new java.awt.event.ActionListener() {
-//                        public void actionPerformed( ActionEvent e ) {
-//                            showLonePairs.set( !showLonePairs.get() );
-//                            setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
-//                        }
-//                    } );
-//                }
-//            } );
-//        }} );
+            }
+        }, assetManager, inputManager ) );
     }
 
     public void testAddAtom( boolean isLonePair ) {
