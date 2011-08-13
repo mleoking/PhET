@@ -11,11 +11,11 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
 /**
- * A make-believe molecule with 2 atoms.
+ * Model of a make-believe diatomic (2 atoms) molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsMolecule {
+public class DiatomicMolecule {
 
     private static final double BOND_LENGTH = 150;
 
@@ -25,7 +25,7 @@ public class TwoAtomsMolecule {
     public final Bond bond;
     private boolean dragging; // true when the user is dragging the molecule
 
-    public TwoAtomsMolecule( ImmutableVector2D location ) {
+    public DiatomicMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
         angle = new Property<Double>( 0d );
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );

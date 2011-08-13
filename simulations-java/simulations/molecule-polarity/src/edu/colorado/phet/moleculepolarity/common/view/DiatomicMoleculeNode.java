@@ -3,18 +3,18 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 
 /**
- * Visual representation of a diatomic molecule (composed of 2 atoms).
+ * Visual representation of a diatomic molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TwoAtomsMoleculeNode extends PhetPNode {
+public class DiatomicMoleculeNode extends PhetPNode {
 
-    private final TwoAtomsMolecule molecule;
+    private final DiatomicMolecule molecule;
 
-    public TwoAtomsMoleculeNode( final TwoAtomsMolecule molecule ) {
+    public DiatomicMoleculeNode( final DiatomicMolecule molecule ) {
 
         this.molecule = molecule;
 

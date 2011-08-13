@@ -13,7 +13,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -36,7 +36,7 @@ public class BondTypeNode extends PComposite {
 
     private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_SIZE.width );
 
-    public BondTypeNode( TwoAtomsMolecule molecule ) {
+    public BondTypeNode( DiatomicMolecule molecule ) {
 
         // the track that represents the continuum
         PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
