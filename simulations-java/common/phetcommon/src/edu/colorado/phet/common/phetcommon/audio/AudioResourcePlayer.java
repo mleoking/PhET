@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.resources.PhetResources;
  */
 public class AudioResourcePlayer {
 
-    private final PhetResources simResourceLoader;
+    protected final PhetResources simResourceLoader;
     private boolean enabled;
 
     public AudioResourcePlayer( PhetResources simResourceLoader, boolean enabled ) {

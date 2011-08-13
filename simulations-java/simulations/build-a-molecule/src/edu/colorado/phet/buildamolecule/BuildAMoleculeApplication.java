@@ -2,11 +2,13 @@
 
 package edu.colorado.phet.buildamolecule;
 
-import java.awt.*;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JDialog;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -43,7 +45,9 @@ public class BuildAMoleculeApplication extends PiccoloPhetApplication {
     * audio
     *----------------------------------------------------------------------------*/
 
-    private static final GameAudioPlayer audioPlayer = new GameAudioPlayer( true );
+    private static final GameAudioPlayer audioPlayer = new GameAudioPlayer( true ) {{
+        init();
+    }};
     public static final Property<Boolean> soundEnabled = new Property<Boolean>( true );
 
     /**
