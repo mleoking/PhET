@@ -16,7 +16,6 @@ HIGH
 
 MEDIUM
 - Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
-- Jmol: script to return set of unique element names, for highlighting periodic table
 - periodic table, highlight elements
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B

@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 
 import javax.swing.JFrame;
@@ -60,6 +62,16 @@ public class JmolViewerNode extends PhetPNode {
             "    homogeneousDiatomic = \"" + RESULT_FALSE + "\"\n" +
             "}\n" +
             "print homogeneousDiatomic";
+
+    /**
+     * Jmol script to get the element numbers of atoms in the current molecule.
+     * Each element number appears on a separate line.
+     */
+    private static final String SCRIPT_GET_ELEMENT_NUMBERS =
+            "n = {*}.length\n" +
+            "for ( i = 0; i < n; i++ ) {\n" +
+            "    print {*}[i].elemno\n" +
+            "}";
 
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
@@ -251,16 +263,53 @@ public class JmolViewerNode extends PhetPNode {
         Object status = doScriptStatus( SCRIPT_IS_HOMOGENEOUS_DIATOMIC );
         LOGGER.info( "isHomogeneousDiatomic status=[" + status.toString() + "]" );
         if ( status == null ) {
-            throw new RuntimeException( "expected non-null status" );
+            throw new RuntimeException( "Jmol script returned null status" );
         }
         else {
-            return isTrue( status );
+            return parseBoolean( status );
+        }
+    }
+
+    public int[] getElementNumbers() {
+        Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS );
+        LOGGER.info( "getElementNumbers status=[" + status.toString() + "]" );
+        if ( status == null ) {
+            throw new RuntimeException( "Jmol script returned null status" );
+        }
+        else {
+            return parseIntegers( status );
         }
     }
 
     // Returns true if Jmol status is equal to the String RESULT_TRUE.
-    private static boolean isTrue( Object status ) {
+    private static boolean parseBoolean( Object status ) {
         return status.toString().trim().equals( RESULT_TRUE );
+    }
+
+    /*
+     * Parses a string that contains integers separated by space or newlines.
+     * The array returned may contain duplicates, since we don't know what the
+     * caller wants to do with the results.
+     */
+    private static int[] parseIntegers( Object status ) {
+
+        String statusString = status.toString().trim();
+
+        // parse
+        ArrayList<Integer> elementNumbers = new ArrayList<Integer>();
+        StringTokenizer tokenizer = new StringTokenizer( statusString, " \n" );
+        while ( tokenizer.hasMoreTokens() ) {
+            String token = tokenizer.nextToken();
+            int elementNumber = Integer.parseInt( token );
+            elementNumbers.add( elementNumber );
+        }
+
+        // convert to int[]
+        int[] array = new int[elementNumbers.size()];
+        for ( int i = 0; i < array.length; i++ ) {
+            array[i] = elementNumbers.get( i );
+        }
+        return array;
     }
 
     // test
