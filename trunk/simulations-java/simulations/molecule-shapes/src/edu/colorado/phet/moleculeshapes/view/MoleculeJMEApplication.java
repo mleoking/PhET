@@ -53,6 +53,7 @@ import com.jme3.scene.Spatial.CullHint;
 /**
  * Use jme3 to show a rotating molecule
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
+ * TODO: cursor stuff!
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
@@ -109,6 +110,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private SwingJMENode oldControlPanel;
     private PiccoloJMENode controlPanel;
+    private PiccoloJMENode resetAllNode;
 
     private Node moleculeNode; // The molecule to display and rotate
 
@@ -300,11 +302,25 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             } );
         }}, assetManager, inputManager ) );
 
+        resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
+            addActionListener( new java.awt.event.ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    resetAll();
+                }
+            } );
+        }}, assetManager, inputManager );
+        preGuiNode.attachChild( resetAllNode );
+
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
         controlPanel = new PiccoloJMENode( new ControlPanelNode( new MoleculeShapesControlPanel( this ) ), assetManager, inputManager );
         preGuiNode.attachChild( controlPanel );
+    }
+
+    public synchronized void resetAll() {
+        removeAllAtoms();
+        // TODO: reset checkbox states, etc
     }
 
     public synchronized void startNewInstanceDrag( int bondOrder ) {
@@ -462,6 +478,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             if ( controlPanel != null ) {
                 final float padding = 10;
                 controlPanel.setLocalTranslation( padding, lastCanvasSize.height - controlPanel.getHeight() - padding, 0 );
+
+                resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
             }
         }
     }

@@ -148,7 +148,7 @@ public abstract class BaseJMEApplication extends Application {
     }
 
     @Override
-    public void update() {
+    public synchronized void update() {
         super.update(); // makes sure to execute AppTasks
         if ( speed == 0 || paused ) {
             return;
