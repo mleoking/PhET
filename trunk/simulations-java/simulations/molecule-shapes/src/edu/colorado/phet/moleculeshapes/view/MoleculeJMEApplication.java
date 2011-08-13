@@ -111,6 +111,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private SwingJMENode oldControlPanel;
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
+    private PiccoloJMENode showGeometryButtonNode;
 
     private Node moleculeNode; // The molecule to display and rotate
 
@@ -223,6 +224,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     moleculeNode.attachChild( atomNode );
                     rebuildBonds();
                 }
+
+                onGeometryChange();
             }
 
             @Override public void onPairRemoved( ElectronPair pair ) {
@@ -244,6 +247,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                         }
                     }
                 }
+
+                onGeometryChange();
             }
         } );
 
@@ -293,14 +298,18 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         oldControlPanel = new SwingJMENode( new OldControlPanel(), assetManager, inputManager ) {{ }};
         preGuiNode.attachChild( oldControlPanel );
 
-        preGuiNode.attachChild( new PiccoloJMENode( new TextButtonNode( "Show Molecular Geometry", new PhetFont( 20 ), Color.ORANGE ) {{
-            addActionListener( new java.awt.event.ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    showLonePairs.set( !showLonePairs.get() );
-                    setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
-                }
-            } );
-        }}, assetManager, inputManager ) );
+        showGeometryButtonNode = new PiccoloJMENode( new TextButtonNode( "Show Molecular Geometry", new PhetFont( 20 ), Color.ORANGE ) {
+            {
+                addActionListener( new java.awt.event.ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        showLonePairs.set( !showLonePairs.get() );
+                        setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
+                    }
+                } );
+            }
+        }, assetManager, inputManager );
+        preGuiNode.attachChild( showGeometryButtonNode );
+        onGeometryChange();
 
         resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
             addActionListener( new java.awt.event.ActionListener() {
@@ -318,10 +327,17 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         preGuiNode.attachChild( controlPanel );
     }
 
+    private void onGeometryChange() {
+        if ( showGeometryButtonNode != null ) {
+            showGeometryButtonNode.setCullHint( molecule.getLonePairs().isEmpty() ? CullHint.Always : CullHint.Inherit );
+        }
+    }
+
     public synchronized void resetAll() {
         removeAllAtoms();
         MoleculeShapesApplication.showElectronShapeName.reset();
         MoleculeShapesApplication.showMolecularShapeName.reset();
+        showLonePairs.reset();
     }
 
     public synchronized void startNewInstanceDrag( int bondOrder ) {
