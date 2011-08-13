@@ -37,7 +37,7 @@ public class RealMoleculesModel extends MPModel {
             add( new Molecule3D( "HCN", MPStrings.HYDROGEN_CYANIDE, "mol2/hcn.mol2" ) );
             add( new Molecule3D( "O3", MPStrings.OZONE, "mol2/o3.mol2" ) );
 
-            add( new Molecule3D( "NH3", MPStrings.NITROGEN, "mol2/nh3.mol2" ) );
+            add( new Molecule3D( "NH3", MPStrings.AMMONIA, "mol2/nh3.mol2" ) );
             add( new Molecule3D( "BH3", MPStrings.BORANE, "mol2/bh3.mol2" ) );
             add( new Molecule3D( "BF3", MPStrings.BORON_TRIFLUORIDE, "mol2/bf3.mol2" ) );
             add( new Molecule3D( "CH2O", MPStrings.FORMALDEHYDE, "mol2/ch2o.mol2" ) );
