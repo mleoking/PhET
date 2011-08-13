@@ -132,34 +132,36 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 new ActionListener() {
                     public void onAction( String name, boolean value, float tpf ) {
                         // record whether the mouse button is down
-                        if ( name.equals( MAP_LMB ) ) {
-                            dragging = value;
+                        synchronized ( MoleculeJMEApplication.this ) {
+                            if ( name.equals( MAP_LMB ) ) {
+                                dragging = value;
 
-                            if ( dragging ) {
-                                ElectronPair pair = getElectronPairUnderPointer();
-                                if ( pair != null ) {
-                                    dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
-                                    draggedParticle = pair;
-                                    pair.userControlled.set( true );
+                                if ( dragging ) {
+                                    ElectronPair pair = getElectronPairUnderPointer();
+                                    if ( pair != null ) {
+                                        dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
+                                        draggedParticle = pair;
+                                        pair.userControlled.set( true );
+                                    }
+                                    else {
+                                        // set up default drag mode
+                                        dragMode = DragMode.MOLECULE_ROTATE;
+                                    }
                                 }
                                 else {
-                                    // set up default drag mode
-                                    dragMode = DragMode.MOLECULE_ROTATE;
-                                }
-                            }
-                            else {
-                                // not dragging.
+                                    // not dragging.
 
-                                // release an electron pair if we were dragging it
-                                if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
-                                    draggedParticle.userControlled.set( false );
+                                    // release an electron pair if we were dragging it
+                                    if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
+                                        draggedParticle.userControlled.set( false );
+                                    }
                                 }
                             }
-                        }
-                        if ( name.equals( MAP_MMB ) ) {
-                            ElectronPair pair = getElectronPairUnderPointer();
-                            if ( pair != null ) {
-                                molecule.removePair( pair );
+                            if ( name.equals( MAP_MMB ) ) {
+                                ElectronPair pair = getElectronPairUnderPointer();
+                                if ( pair != null ) {
+                                    molecule.removePair( pair );
+                                }
                             }
                         }
                     }
@@ -168,28 +170,30 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 new AnalogListener() {
                     public void onAnalog( String name, float value, float tpf ) {
                         if ( dragging ) {
-                            switch( dragMode ) {
-                                case MOLECULE_ROTATE:
-                                    if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
-                                        rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
-                                    }
-                                    if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
-                                        rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
-                                    }
-                                    if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
-                                        rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
-                                    }
-                                    if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
-                                        rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
-                                    }
-                                    break;
-                                case PAIR_FRESH_PLANAR:
-                                    // put the particle on the z=0 plane
-                                    draggedParticle.dragToPosition( vectorConversion( getPlanarMoleculeCursorPosition() ) );
-                                    break;
-                                case PAIR_EXISTING_SPHERICAL:
-                                    draggedParticle.dragToPosition( vectorConversion( getSphericalMoleculeCursorPosition( vectorConversion( draggedParticle.position.get() ) ) ) );
-                                    break;
+                            synchronized ( MoleculeJMEApplication.this ) {
+                                switch( dragMode ) {
+                                    case MOLECULE_ROTATE:
+                                        if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
+                                            rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
+                                        }
+                                        if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
+                                            rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
+                                        }
+                                        if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
+                                            rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                        }
+                                        if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
+                                            rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                        }
+                                        break;
+                                    case PAIR_FRESH_PLANAR:
+                                        // put the particle on the z=0 plane
+                                        draggedParticle.dragToPosition( vectorConversion( getPlanarMoleculeCursorPosition() ) );
+                                        break;
+                                    case PAIR_EXISTING_SPHERICAL:
+                                        draggedParticle.dragToPosition( vectorConversion( getSphericalMoleculeCursorPosition( vectorConversion( draggedParticle.position.get() ) ) ) );
+                                        break;
+                                }
                             }
                         }
                     }
