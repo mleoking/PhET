@@ -1,3 +1,4 @@
+# 0.00.08 (55174) Aug 13, 2011
 8/12/11 make sure that all PText instances have a call to setFont(PhetFont)
 8/12/11 rename various TwoAtoms* classes to Diatomic*
 8/12/11 javadoc throughout
