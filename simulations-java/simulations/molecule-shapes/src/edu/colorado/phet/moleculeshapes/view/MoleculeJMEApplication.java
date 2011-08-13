@@ -13,6 +13,7 @@ import java.util.concurrent.Callable;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -22,6 +23,8 @@ import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
+import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -103,6 +106,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode showGeometryButtonNode;
+
+    private PiccoloJMENode moleculeShapeReadout;
+    private PiccoloJMENode electronShapeReadout;
 
     private Node moleculeNode; // The molecule to display and rotate
 
@@ -307,6 +313,80 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }}, assetManager, inputManager );
         preGuiNode.attachChild( resetAllNode );
 
+        moleculeShapeReadout = new PiccoloJMENode( new PText( "Molecular Geometry: " ) {{
+            setFont( new PhetFont( 16 ) );
+            setTextPaint( Color.WHITE );
+            molecule.addListener( new Listener() {
+                {
+                    updateText();
+                }
+
+                public void updateText() {
+                    String name = molecule.getConfiguration().name;
+                    System.out.println( "molecular: " + name );
+                    setText( "Molecular Geometry: " + ( name == null ? "unknown" : name ) );
+
+                    // TODO: fix this. shouldn't be necessary
+                    if( moleculeShapeReadout != null ) {
+                        moleculeShapeReadout.refresh();
+                    }
+                }
+
+                public void onPairAdded( ElectronPair pair ) {
+                    updateText();
+                }
+
+                public void onPairRemoved( ElectronPair pair ) {
+                    updateText();
+                }
+            } );
+        }}, assetManager, inputManager ) {{
+            MoleculeShapesApplication.showMolecularShapeName.addObserver( new SimpleObserver() {
+                public void update() {
+                    // TODO: refactor visibility
+                    setCullHint( MoleculeShapesApplication.showMolecularShapeName.get() ? CullHint.Inherit : CullHint.Always );
+                }
+            } );
+        }};
+        preGuiNode.attachChild( moleculeShapeReadout );
+
+        electronShapeReadout = new PiccoloJMENode( new PText( "Electron Geometry: " ) {{
+            setFont( new PhetFont( 16 ) );
+            setTextPaint( Color.WHITE );
+            molecule.addListener( new Listener() {
+                {
+                    updateText();
+                }
+
+                public void updateText() {
+                    String name = molecule.getConfiguration().geometry.name;
+                    System.out.println( "electron: " + name );
+                    setText( "Electron Geometry: " + ( name == null ? "unknown" : name ) );
+
+                    // TODO: fix this. shouldn't be necessary
+                    if( electronShapeReadout != null ) {
+                        electronShapeReadout.refresh();
+                    }
+                }
+
+                public void onPairAdded( ElectronPair pair ) {
+                    updateText();
+                }
+
+                public void onPairRemoved( ElectronPair pair ) {
+                    updateText();
+                }
+            } );
+        }}, assetManager, inputManager ) {{
+            MoleculeShapesApplication.showElectronShapeName.addObserver( new SimpleObserver() {
+                public void update() {
+                    // TODO: refactor visibility
+                    setCullHint( MoleculeShapesApplication.showElectronShapeName.get() ? CullHint.Inherit : CullHint.Always );
+                }
+            } );
+        }};
+        preGuiNode.attachChild( electronShapeReadout );
+
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
@@ -482,6 +562,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
 
                 showGeometryButtonNode.setLocalTranslation( ( lastCanvasSize.width - showGeometryButtonNode.getWidth() ) / 2, padding, 0 );
+
+                moleculeShapeReadout.setLocalTranslation( padding, lastCanvasSize.height - moleculeShapeReadout.getHeight() - padding, 0 );
+
+                electronShapeReadout.setLocalTranslation( moleculeShapeReadout.getLocalTranslation().add( new Vector3f( 0, -30, 0 ) ) );
             }
         }
     }

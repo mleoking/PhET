@@ -38,6 +38,12 @@ public class SwingJMENode extends Node {
         onResize();
     }
 
+    public void refresh() {
+        if( hudNode != null ) {
+            hudNode.refresh();
+        }
+    }
+
     public void onResize() {
         if ( !component.getPreferredSize().equals( size ) ) {
             if ( hudNode != null ) {
