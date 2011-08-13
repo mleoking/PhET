@@ -30,6 +30,7 @@ import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
 import com.jme3.collision.CollisionResults;
 import com.jme3.input.MouseInput;
@@ -39,6 +40,7 @@ import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
@@ -134,10 +136,16 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                             dragging = value;
 
                             if ( dragging ) {
-                                // TODO: do picking test to see if we should drag an individual atom instead
-
-                                // set up default drag mode
-                                dragMode = DragMode.MOLECULE_ROTATE;
+                                ElectronPair pair = getElectronPairUnderPointer();
+                                if ( pair != null ) {
+                                    dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
+                                    draggedParticle = pair;
+                                    pair.userControlled.set( true );
+                                }
+                                else {
+                                    // set up default drag mode
+                                    dragMode = DragMode.MOLECULE_ROTATE;
+                                }
                             }
                             else {
                                 // not dragging.
@@ -178,12 +186,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                 case PAIR_FRESH_PLANAR:
                                     // put the particle on the z=0 plane
                                     draggedParticle.dragToPosition( vectorConversion( getPlanarMoleculeCursorPosition() ) );
-
-                                    // cancel its velocity
-                                    draggedParticle.velocity.set( new ImmutableVector3D() );
                                     break;
                                 case PAIR_EXISTING_SPHERICAL:
-                                    // TODO: spherical drag mode
+                                    draggedParticle.dragToPosition( vectorConversion( getSphericalMoleculeCursorPosition( vectorConversion( draggedParticle.position.get() ) ) ) );
                                     break;
                             }
                         }
@@ -326,6 +331,40 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         // transform to moleculeNode coordinates and return
         return moleculeNode.getWorldTransform().transformInverseVector( globalStartPosition, new Vector3f() );
+    }
+
+    public Vector3f getSphericalMoleculeCursorPosition( Vector3f currentLocalPosition ) {
+        // decide whether to grab the closest or farthest point if possible. for now, we try to NOT move the pair at the start of the drag
+        boolean returnCloseHit = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).mult( currentLocalPosition ).z >= 0;
+
+        // set up intersection stuff
+        CollisionResults results = new CollisionResults();
+        Vector2f click2d = inputManager.getCursorPosition();
+        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+
+        // transform our position and direction into the local coordinate frame. we will do our computations there
+        Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
+        Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).invert().transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
+        Ray ray = new Ray( transformedPosition, transformedDirection );
+
+        // how far we will end up from the center atom
+        float distance = (float) draggedParticle.getIdealDistanceFromCenter();
+
+        // our sphere to cast our ray against
+        BoundingSphere sphere = new BoundingSphere( distance, new Vector3f( 0, 0, 0 ) );
+
+        sphere.collideWithRay( ray, results );
+        if ( results.size() == 0 ) {
+            // just return the closest intersection on the plane, since we are not pointing to a spot on the "sphere"
+            // TODO: get rid of perspective "gap" here
+            return getPlanarMoleculeCursorPosition().normalize().mult( distance );
+        }
+        else {
+            // pick our desired hitpoint (there are only 2), and return it
+            CollisionResult result = returnCloseHit ? results.getClosestCollision() : results.getFarthestCollision();
+            return result.getContactPoint();
+        }
     }
 
     /**
