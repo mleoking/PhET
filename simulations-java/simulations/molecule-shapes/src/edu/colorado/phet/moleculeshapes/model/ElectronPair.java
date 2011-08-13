@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.model;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 import com.jme3.math.ColorRGBA;
@@ -123,7 +121,7 @@ public class ElectronPair {
         }
     }
 
-    private double getIdealDistanceFromCenter() {
+    public double getIdealDistanceFromCenter() {
         return isLonePair ? LONE_PAIR_DISTANCE : BONDED_PAIR_DISTANCE;
     }
 
@@ -137,5 +135,8 @@ public class ElectronPair {
 
     public void dragToPosition( ImmutableVector3D immutableVector3D ) {
         position.set( immutableVector3D );
+
+        // stop any velocity that was moving the pair
+        velocity.set( new ImmutableVector3D() );
     }
 }
