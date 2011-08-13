@@ -7,6 +7,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class MoleculeModel {
+
+    public static final int MAX_PAIRS = 6;
+
     private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
     private List<Listener> listeners = new ArrayList<Listener>();
 
@@ -86,6 +89,10 @@ public class MoleculeModel {
 
     public List<ElectronPair> getPairs() {
         return pairs;
+    }
+
+    public boolean isFull() {
+        return pairs.size() >= MAX_PAIRS;
     }
 
     /*---------------------------------------------------------------------------*

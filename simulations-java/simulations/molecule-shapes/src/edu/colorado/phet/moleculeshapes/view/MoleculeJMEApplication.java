@@ -1,5 +1,7 @@
 package edu.colorado.phet.moleculeshapes.view;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
@@ -35,6 +37,7 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 
@@ -43,6 +46,9 @@ import com.jme3.scene.Node;
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
+    /*---------------------------------------------------------------------------*
+    * input mapping constants
+    *----------------------------------------------------------------------------*/
     public static final String MAP_LEFT = "CameraLeft";
     public static final String MAP_RIGHT = "CameraRight";
     public static final String MAP_UP = "CameraUp";
@@ -51,38 +57,60 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private static final float MOUSE_SCALE = 3.0f;
 
-    private static final Random random = new Random( System.currentTimeMillis() );
+    /*---------------------------------------------------------------------------*
+    * model
+    *----------------------------------------------------------------------------*/
+
+    private MoleculeModel molecule = new MoleculeModel();
 
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
-    private boolean dragging = false;
+
+    public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
+
+    /*---------------------------------------------------------------------------*
+    * dragging
+    *----------------------------------------------------------------------------*/
+
+    public static enum DragMode {
+        MOLECULE_ROTATE, // rotate the molecule
+        PAIR_FRESH_PLANAR, // drag an atom/lone pair on the z=0 plane
+        PAIR_EXISTING_SPHERICAL // drag an atom/lone pair across the surface of a sphere
+    }
+
+    private boolean dragging = false; // keeps track of the drag state
+    private DragMode dragMode = DragMode.MOLECULE_ROTATE;
+    private ElectronPair draggedParticle = null;
+
+    /*---------------------------------------------------------------------------*
+    * positioning
+    *----------------------------------------------------------------------------*/
 
     private Dimension lastCanvasSize;
     private boolean resizeDirty = false;
 
-    private MoleculeModel molecule = new MoleculeModel();
+    private Quaternion rotation = new Quaternion(); // The angle about which the molecule should be rotated, changes as a function of time
 
-    private SwingJMENode controlPanel;
+    /*---------------------------------------------------------------------------*
+    * graphics/control
+    *----------------------------------------------------------------------------*/
 
-    private Node moleculeNode; //The molecule to display and rotate
+    private SwingJMENode oldControlPanel;
+    private PiccoloJMENode controlPanel;
 
-    //The angle about which the molecule should be rotated, changes as a function of time
-    private Quaternion rotation = new Quaternion();
+    private Node moleculeNode; // The molecule to display and rotate
 
-    public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
+    private static final Random random = new Random( System.currentTimeMillis() );
 
-    private PiccoloJMENode newControlPanel;
-
+    /**
+     * Pseudo-constructor (JME-based)
+     */
     @Override public void initialize() {
         super.initialize();
 
         // TODO: re-center
 //        rootNode.setLocalTranslation( new Vector3f( -4, 0, 0 ) );
-
-        /*---------------------------------------------------------------------------*
-        * input handling
-        *----------------------------------------------------------------------------*/
 
         inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
         inputManager.addMapping( MoleculeJMEApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
@@ -91,33 +119,63 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         inputManager.addMapping( MAP_DRAG, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
 
-        inputManager.addListener( new ActionListener() {
-                                      public void onAction( String name, boolean value, float tpf ) {
+        inputManager.addListener(
+                new ActionListener() {
+                    public void onAction( String name, boolean value, float tpf ) {
+                        // record whether the mouse button is down
+                        if ( name.equals( MAP_DRAG ) ) {
+                            dragging = value;
 
-                                          // record whether the mouse button is down
-                                          if ( name.equals( MAP_DRAG ) ) {
-                                              dragging = value;
-                                          }
-                                      }
-                                  }, MAP_DRAG );
-        inputManager.addListener( new AnalogListener() {
-                                      public void onAnalog( String name, float value, float tpf ) {
-                                          if ( dragging ) {
-                                              if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
-                                                  rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
-                                              }
-                                              if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
-                                                  rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
-                                              }
-                                              if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
-                                                  rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
-                                              }
-                                              if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
-                                                  rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
-                                              }
-                                          }
-                                      }
-                                  }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_DRAG );
+                            if ( dragging ) {
+                                // TODO: do picking test to see if we should drag an individual atom instead
+
+                                // set up default drag mode
+                                dragMode = DragMode.MOLECULE_ROTATE;
+                            }
+                            else {
+                                // not dragging.
+
+                                // release an electron pair if we were dragging it
+                                if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
+                                    draggedParticle.userControlled.set( false );
+                                }
+                            }
+                        }
+                    }
+                }, MAP_DRAG );
+        inputManager.addListener(
+                new AnalogListener() {
+                    public void onAnalog( String name, float value, float tpf ) {
+                        if ( dragging ) {
+                            switch( dragMode ) {
+                                case MOLECULE_ROTATE:
+                                    if ( name.equals( MoleculeJMEApplication.MAP_LEFT ) ) {
+                                        rotation = new Quaternion().fromAngles( 0, -value * MOUSE_SCALE, 0 ).mult( rotation );
+                                    }
+                                    if ( name.equals( MoleculeJMEApplication.MAP_RIGHT ) ) {
+                                        rotation = new Quaternion().fromAngles( 0, value * MOUSE_SCALE, 0 ).mult( rotation );
+                                    }
+                                    if ( name.equals( MoleculeJMEApplication.MAP_UP ) ) {
+                                        rotation = new Quaternion().fromAngles( -value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                    }
+                                    if ( name.equals( MoleculeJMEApplication.MAP_DOWN ) ) {
+                                        rotation = new Quaternion().fromAngles( value * MOUSE_SCALE, 0, 0 ).mult( rotation );
+                                    }
+                                    break;
+                                case PAIR_FRESH_PLANAR:
+                                    // put the particle on the z=0 plane
+                                    draggedParticle.dragToPosition( vectorConversion( getPlanarMoleculeCursorPosition() ) );
+
+                                    // cancel its velocity
+                                    draggedParticle.velocity.set( new ImmutableVector3D() );
+                                    break;
+                                case PAIR_EXISTING_SPHERICAL:
+                                    // TODO: spherical drag mode
+                                    break;
+                            }
+                        }
+                    }
+                }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_DRAG );
 
         moleculeNode = new Node();
         rootNode.attachChild( moleculeNode );
@@ -173,7 +231,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false ) );
+            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false, false ) );
         }
 
         rebuildBonds();
@@ -203,8 +261,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         * control panel
         *----------------------------------------------------------------------------*/
 
-        controlPanel = new SwingJMENode( new OldControlPanel(), assetManager, inputManager ) {{ }};
-        preGuiNode.attachChild( controlPanel );
+        oldControlPanel = new SwingJMENode( new OldControlPanel(), assetManager, inputManager ) {{ }};
+        preGuiNode.attachChild( oldControlPanel );
 
         preGuiNode.attachChild( new PiccoloJMENode( new TextButtonNode( "Show Molecular Geometry", new PhetFont( 20 ), Color.ORANGE ) {{
             addActionListener( new java.awt.event.ActionListener() {
@@ -218,14 +276,49 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
-        newControlPanel = new PiccoloJMENode( new ControlPanelNode( new MoleculeShapesControlPanel() ), assetManager, inputManager );
-        preGuiNode.attachChild( newControlPanel );
+        controlPanel = new PiccoloJMENode( new ControlPanelNode( new MoleculeShapesControlPanel( this ) ), assetManager, inputManager );
+        preGuiNode.attachChild( controlPanel );
+    }
+
+    public synchronized void startNewInstanceDrag( int bondOrder ) {
+        if ( molecule.isFull() ) {
+            // don't add to the molecule if it is full
+            // TODO: find better way of not calling this (or not having the user attempt to drag!) grey-out the control panel bonds?
+            return;
+        }
+
+        Vector3f localPosition = getPlanarMoleculeCursorPosition();
+
+        ElectronPair pair = new ElectronPair( vectorConversion( localPosition ), bondOrder == 0, true );
+        molecule.addPair( pair );
+
+        if ( bondOrder == 1 || bondOrder == 0 ) {
+            dragging = true;
+            dragMode = DragMode.PAIR_FRESH_PLANAR;
+            draggedParticle = pair;
+        }
+        else {
+            throw new NotImplementedException(); // TODO: other bonds and lone pair dragging
+        }
+    }
+
+    public Vector3f getPlanarMoleculeCursorPosition() {
+        Vector2f click2d = inputManager.getCursorPosition();
+        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+
+        float t = -click3d.getZ() / dir.getZ(); // solve for below equation at z=0. assumes camera isn't z=0, which should be safe here
+
+        Vector3f globalStartPosition = click3d.add( dir.mult( t ) );
+
+        // transform to moleculeNode coordinates and return
+        return moleculeNode.getWorldTransform().transformInverseVector( globalStartPosition, new Vector3f() );
     }
 
     public void testAddAtom( boolean isLonePair ) {
         if ( molecule.getPairs().size() < 6 ) {
             ImmutableVector3D initialPosition = new ImmutableVector3D( Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5 ).normalized().times( 7 );
-            molecule.addPair( new ElectronPair( initialPosition, isLonePair ) );
+            molecule.addPair( new ElectronPair( initialPosition, isLonePair, false ) );
         }
     }
 
@@ -235,8 +328,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
-    private int counter = 0;
-
     @Override public synchronized void simpleUpdate( final float tpf ) {
         molecule.update( tpf );
         rebuildBonds();
@@ -244,14 +335,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         if ( resizeDirty ) {
             resizeDirty = false;
-            if ( controlPanel != null ) {
-                controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth(),
-                                                  lastCanvasSize.height - controlPanel.getHeight(),
-                                                  0 );
+            if ( oldControlPanel != null ) {
+                oldControlPanel.setLocalTranslation( lastCanvasSize.width - oldControlPanel.getWidth(),
+                                                     lastCanvasSize.height - oldControlPanel.getHeight(),
+                                                     0 );
             }
-            if ( newControlPanel != null ) {
+            if ( controlPanel != null ) {
                 final float padding = 10;
-                newControlPanel.setLocalTranslation( padding, lastCanvasSize.height - newControlPanel.getHeight() - padding, 0 );
+                controlPanel.setLocalTranslation( padding, lastCanvasSize.height - controlPanel.getHeight() - padding, 0 );
             }
         }
     }
@@ -274,6 +365,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public static Vector3f vectorConversion( ImmutableVector3D vec ) {
         // TODO: move to utilities
         return new Vector3f( (float) vec.getX(), (float) vec.getY(), (float) vec.getZ() );
+    }
+
+    public static ImmutableVector3D vectorConversion( Vector3f vec ) {
+        // TODO: move to utilities
+        return new ImmutableVector3D( vec.getX(), vec.getY(), vec.getZ() );
     }
 
     public static void main( String[] args ) throws IOException {
