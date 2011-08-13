@@ -49,6 +49,7 @@ import com.jme3.scene.Spatial.CullHint;
  * Use jme3 to show a rotating molecule
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: cursor stuff!
+ * TODO: add multiple-bond handling (and to the model)
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
