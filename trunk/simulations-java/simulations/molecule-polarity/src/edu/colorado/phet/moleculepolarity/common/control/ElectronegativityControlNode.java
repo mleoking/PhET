@@ -287,7 +287,9 @@ public class ElectronegativityControlNode extends PhetPNode {
             addChild( tickNode );
 
             if ( label != null && label.trim().length() != 0 ) {
-                PText labelNode = new PText( label );
+                PText labelNode = new PText( label ) {{
+                    setFont( new PhetFont( 12 ) );
+                }};
                 addChild( labelNode );
                 double x = tickNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
                 double y = tickNode.getFullBoundsReference().getMaxY() + 2;
