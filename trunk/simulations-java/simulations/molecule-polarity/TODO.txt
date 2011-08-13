@@ -35,7 +35,6 @@ LOW
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - Jmol: how to set a transparent background for the viewer?
-- change initial molecule angle so that turning on the E-field causes it to rotate?
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
