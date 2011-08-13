@@ -28,6 +28,7 @@ public class ControlPanelNode extends PNode {
     public static final Color DEFAULT_BACKGROUND_COLOR = new Color( 238, 238, 238 );
     public static final Color DEFAULT_BORDER_COLOR = Color.gray;
     public static final BasicStroke DEFAULT_STROKE = new BasicStroke( 2 );
+    protected final PhetPPath background;
 
     public ControlPanelNode( JComponent jComponent ) {
         this( new PSwing( jComponent ) );
@@ -51,7 +52,7 @@ public class ControlPanelNode extends PNode {
 
     public ControlPanelNode( final PNode content, Color backgroundColor, BasicStroke borderStroke, Color borderColor, final int inset, final int arc, boolean transparifySwing ) {
         //Make sure the background resizes when the content resizes
-        final PhetPPath background = new PhetPPath( backgroundColor, borderStroke, borderColor ) {{
+        background = new PhetPPath( backgroundColor, borderStroke, borderColor ) {{
             final PropertyChangeListener updateSize = new PropertyChangeListener() {
                 public void propertyChange( PropertyChangeEvent evt ) {
                     final PBounds layoutSize = getControlPanelBounds( content );

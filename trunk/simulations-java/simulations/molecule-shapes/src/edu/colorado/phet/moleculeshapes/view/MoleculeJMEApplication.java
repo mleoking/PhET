@@ -2,6 +2,8 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D.Double;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +16,7 @@ import javax.swing.border.TitledBorder;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
@@ -22,8 +25,12 @@ import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 import edu.umd.cs.piccolo.PCanvas;
+import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
 import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
@@ -74,10 +81,20 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
+    private static final double CONTROL_PANEL_INNER_WIDTH = 150; // width of the inner parts of the control panel
+    private static final double BOND_TEXT_SPACER = 5; // space between text and bond lines
+    private static final double PANEL_SPACER = 20; // space between text and bond lines
+
+    private static final int BOND_WIDTH = 50;
+    private static final int BOND_HEIGHT = 5;
+    private static final int BOND_SPACING = 2;
+    private PiccoloJMENode newControlPanel;
+
     @Override public void initialize() {
         super.initialize();
 
-        rootNode.setLocalTranslation( new Vector3f( -4, 0, 0 ) );
+        // TODO: re-center
+//        rootNode.setLocalTranslation( new Vector3f( -4, 0, 0 ) );
 
         /*---------------------------------------------------------------------------*
         * input handling
@@ -202,9 +219,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         * control panel
         *----------------------------------------------------------------------------*/
 
-        final int bondWidth = 50;
-        final int bondHeight = 5;
-        final int bondSpacing = 2;
         controlPanel = new SwingJMENode(
                 new JPanel( new GridBagLayout() ) {{
                     add(
@@ -213,8 +227,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                 add( new JPanel( new GridBagLayout() ) {{
                                     setBorder( new TitledBorder( "Bonding" ) );
                                     add( new PCanvas() {{
-                                             setPreferredSize( new Dimension( bondWidth, bondHeight ) );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             setPreferredSize( new Dimension( BOND_WIDTH, BOND_HEIGHT ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
                                              }} );
                                              getLayer().addInputEventListener( new PBasicInputEventHandler() {
@@ -231,13 +245,13 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                         gridy = 1;
                                     }} );
                                     add( new PCanvas() {{
-                                             setPreferredSize( new Dimension( bondWidth, bondHeight * 2 + bondSpacing ) );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             setPreferredSize( new Dimension( BOND_WIDTH, BOND_HEIGHT * 2 + BOND_SPACING ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
                                              }} );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
-                                                 setOffset( 0, bondHeight + bondSpacing );
+                                                 setOffset( 0, BOND_HEIGHT + BOND_SPACING );
                                              }} );
                                              getLayer().addInputEventListener( new PBasicInputEventHandler() {
                                                  @Override public void mousePressed( PInputEvent event ) {
@@ -259,17 +273,17 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                         gridy = 3;
                                     }} );
                                     add( new PCanvas() {{
-                                             setPreferredSize( new Dimension( bondWidth, bondHeight * 3 + bondSpacing * 2 ) );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             setPreferredSize( new Dimension( BOND_WIDTH, BOND_HEIGHT * 3 + BOND_SPACING * 2 ) );
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
                                              }} );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
-                                                 setOffset( 0, bondHeight + bondSpacing );
+                                                 setOffset( 0, BOND_HEIGHT + BOND_SPACING );
                                              }} );
-                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, bondWidth, bondHeight ) ) {{
+                                             getLayer().addChild( new PhetPPath( new java.awt.geom.Rectangle2D.Double( 0, 0, BOND_WIDTH, BOND_HEIGHT ) ) {{
                                                  setPaint( Color.BLACK );
-                                                 setOffset( 0, ( bondHeight + bondSpacing ) * 2 );
+                                                 setOffset( 0, ( BOND_HEIGHT + BOND_SPACING ) * 2 );
                                              }} );
                                              getLayer().addInputEventListener( new PBasicInputEventHandler() {
                                                  @Override public void mousePressed( PInputEvent event ) {
@@ -405,6 +419,116 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 }
             } );
         }}, assetManager, inputManager ) );
+
+        /*---------------------------------------------------------------------------*
+        * "new" control panel
+        *----------------------------------------------------------------------------*/
+        newControlPanel = new PiccoloJMENode( new ControlPanelNode( new PNode() {{
+            /*---------------------------------------------------------------------------*
+            * bonding panel
+            *----------------------------------------------------------------------------*/
+            final InnerControlPanelNode bondingPanel = new InnerControlPanelNode( new PNode() {{
+                // padding, and make sure we have the width
+                addChild( new PhetPPath( new Double( 0, 0, CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+
+                final double spaceBetweenTypes = 15;
+
+                final PNode singleNode = new BondTypeNode(
+                        new BondLine( 0 ), "Single" ) {{
+                    setOffset( 0, 10 );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mousePressed( PInputEvent event ) {
+                            System.out.println( "Single" );
+                        }
+                    } );
+                }};
+                addChild( singleNode );
+                final PNode doubleNode = new BondTypeNode(
+                        new PNode() {{
+                            addChild( new BondLine( 0 ) );
+                            addChild( new BondLine( 1 ) );
+                        }}, "Double" ) {{
+                    setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mousePressed( PInputEvent event ) {
+                            System.out.println( "Double" );
+                        }
+                    } );
+                }};
+                addChild( doubleNode );
+                final PNode tripleNode = new BondTypeNode(
+                        new PNode() {{
+                            addChild( new BondLine( 0 ) );
+                            addChild( new BondLine( 1 ) );
+                            addChild( new BondLine( 2 ) );
+                        }}, "Triple" ) {{
+                    setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mousePressed( PInputEvent event ) {
+                            System.out.println( "Triple" );
+                        }
+                    } );
+                }};
+                addChild( tripleNode );
+            }}, "Bonding" );
+            addChild( bondingPanel );
+
+            /*---------------------------------------------------------------------------*
+            * non-bonding panel
+            *----------------------------------------------------------------------------*/
+            final InnerControlPanelNode nonBondingPanel = new InnerControlPanelNode( new PNode() {{
+                // padding, and make sure we have the width
+                addChild( new PhetPPath( new Double( 0, 0, CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+
+                addChild( new BondTypeNode(
+                        new PNode() {{
+                            double centerX = CONTROL_PANEL_INNER_WIDTH / 2;
+                            double radius = 5;
+                            double spacing = 4;
+                            addChild( new PhetPPath( new Ellipse2D.Double( centerX - spacing / 2 - 2 * radius, 0, 2 * radius, 2 * radius ), Color.BLACK ) );
+                            addChild( new PhetPPath( new Ellipse2D.Double( centerX + spacing / 2, 0, 2 * radius, 2 * radius ), Color.BLACK ) );
+                        }}, "Lone Pair" ) {{
+                    setOffset( 0, 10 );
+                    addInputEventListener( new PBasicInputEventHandler() {
+                        @Override public void mousePressed( PInputEvent event ) {
+                            System.out.println( "Lone Pair" );
+                        }
+                    } );
+                }} );
+            }}, "Non-Bonding" ) {{
+                setOffset( 0, bondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
+            }};
+            addChild( nonBondingPanel );
+
+            /*---------------------------------------------------------------------------*
+            * geometry panel
+            *----------------------------------------------------------------------------*/
+            final InnerControlPanelNode geometryPanel = new InnerControlPanelNode( new PNode() {{
+                // padding, and make sure we have the width
+                addChild( new PhetPPath( new Double( 0, 0, CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
+
+                final PSwing molecularCheckbox = new PSwing( new JCheckBox( "Molecular" ) {{
+                    setFont( new PhetFont( 12 ) );
+                }} ) {{
+                    setOffset( 10, 10 );
+                }};
+                addChild( molecularCheckbox );
+                PSwing electronCheckbox = new PSwing( new JCheckBox( "Electron" ) {{
+                    setFont( new PhetFont( 12 ) );
+                }} ) {{
+                    setOffset( 10, molecularCheckbox.getFullBounds().getMaxY() + 2 );
+                }};
+                addChild( electronCheckbox );
+            }}, "Geometry Name" ) {{
+                setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
+            }};
+            addChild( geometryPanel );
+        }} ), assetManager, inputManager );
+        preGuiNode.attachChild( newControlPanel );
+    }
+
+    private PBounds padBoundsHorizontally( PBounds bounds, double amount ) {
+        return new PBounds( bounds.x - amount, bounds.y, bounds.width + 2 * amount, bounds.height );
     }
 
     public void testAddAtom( boolean isLonePair ) {
@@ -433,6 +557,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth(),
                                                   lastCanvasSize.height - controlPanel.getHeight(),
                                                   0 );
+            }
+            if ( newControlPanel != null ) {
+                final float padding = 10;
+                newControlPanel.setLocalTranslation( padding, lastCanvasSize.height - newControlPanel.getHeight() - padding, 0 );
             }
         }
     }
@@ -486,5 +614,48 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public void onResize( Dimension canvasSize ) {
         lastCanvasSize = canvasSize;
         resizeDirty = true;
+    }
+
+    private class InnerControlPanelNode extends ControlPanelNode {
+        public InnerControlPanelNode( final PNode content, final String title ) {
+            super( content, ControlPanelNode.DEFAULT_BACKGROUND_COLOR, new BasicStroke( 1 ), ControlPanelNode.DEFAULT_BORDER_COLOR );
+
+            final ControlPanelNode controlPanelNode = this;
+
+            // title
+            background.addChild( 0, new PNode() {{
+                PText text = new PText( title ) {{
+                    setFont( new PhetFont( 14, false ) );
+                }};
+
+                // background to block out border
+                addChild( new PhetPPath( padBoundsHorizontally( text.getFullBounds(), 10 ), ControlPanelNode.DEFAULT_BACKGROUND_COLOR ) );
+                addChild( text );
+                setOffset( ( controlPanelNode.getFullBounds().getWidth() - text.getFullBounds().getWidth() ) / 2,
+                           -text.getFullBounds().getHeight() / 2 );
+            }} );
+        }
+    }
+
+    private static class BondTypeNode extends PNode {
+        private BondTypeNode( final PNode graphic, String type ) {
+            addChild( graphic );
+            addChild( new PText( type ) {{
+                setFont( new PhetFont( 12 ) );
+                setOffset( ( CONTROL_PANEL_INNER_WIDTH - getFullBounds().getWidth() ) / 2, BOND_TEXT_SPACER + graphic.getFullBounds().getHeight() );
+            }} );
+
+            // add a blank background that will allow the user to click on this
+            addChild( 0, new PhetPPath( getFullBounds(), new Color( 0, 0, 0, 0 ) ) );
+        }
+    }
+
+    private static class BondLine extends PhetPPath {
+        public BondLine( int number ) {
+            super( new java.awt.geom.Rectangle2D.Double( ( CONTROL_PANEL_INNER_WIDTH - BOND_WIDTH ) / 2, 0, BOND_WIDTH, BOND_HEIGHT ), Color.BLACK );
+
+            // offset by bond number
+            setOffset( 0, number * ( BOND_HEIGHT + BOND_SPACING ) );
+        }
     }
 }
