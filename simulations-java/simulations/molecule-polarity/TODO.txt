@@ -12,7 +12,7 @@ DESIGN
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
-- create shape of 2D isosurface
+- refine shape of 2D isosurface
 
 MEDIUM
 - Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
