@@ -1,3 +1,5 @@
+8/12/11 fix Reset All so that it resets the molecule in Real Molecules
+8/12/11 add currentMolecule property to Real Molecules model, observe in Jmol viewer and periodic table
 8/12/11 reuse piccolo-phet's PeriodicTableNode
 8/12/11 display element numbers in periodic table placeholder
 8/12/11 Jmol: script to return element numbers, for use in periodic table

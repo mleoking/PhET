@@ -16,7 +16,6 @@ import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.MPPeriodicTableNode;
@@ -39,7 +38,7 @@ public class RealMoleculesCanvas extends MPCanvas {
     public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        final JmolViewerNode viewerNode = new JmolViewerNode( model.getMolecules().get( 0 ), getBackground(), JMOL_VIEWER_SIZE );
+        final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
         addChild( viewerNode );
 
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, MPStrings.BOND_DIPOLES ) );
@@ -61,10 +60,10 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
-        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode();
+        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode( model.currentMolecule, viewerNode );
         addChild( periodicTableNode );
 
-        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
+        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
         addChild( moleculeComboBox );
 
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
@@ -120,13 +119,6 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewProperties.atomLabelsVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     viewerNode.setAtomLabelsVisible( visible );
-                }
-            } );
-
-            moleculeComboBox.addSelectedItemObserver( new VoidFunction1<Molecule3D>() {
-                public void apply( Molecule3D molecule ) {
-                    viewerNode.setMolecule( molecule );
-                    periodicTableNode.setSelected( viewerNode.getElementNumbers() );
                 }
             } );
         }

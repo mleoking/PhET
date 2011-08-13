@@ -18,6 +18,8 @@ import org.jmol.adapter.smarter.SmarterJmolAdapter;
 import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -77,10 +79,15 @@ public class JmolViewerNode extends PhetPNode {
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
     private IsosurfaceType isosurface;
 
-    public JmolViewerNode( Molecule3D molecule, Color background, Dimension size ) {
-        viewerPanel = new ViewerPanel( molecule, background, size );
+    public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
+        viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         addChild( new PSwing( viewerPanel ) );
         addInputEventListener( new CursorHandler() );
+        currentMolecule.addObserver( new VoidFunction1<Molecule3D>() {
+            public void apply( Molecule3D molecule ) {
+                setMolecule( molecule );
+            }
+        } );
     }
 
     // Container for Jmol viewer
@@ -154,7 +161,7 @@ public class JmolViewerNode extends PhetPNode {
         return viewerPanel.doScriptStatus( script );
     }
 
-    public void setMolecule( Molecule3D molecule ) {
+    private void setMolecule( Molecule3D molecule ) {
         viewerPanel.setMolecule( molecule );
         // these things need to be reset when the viewer loads a new molecule
         adjustAtomColors();
@@ -318,8 +325,8 @@ public class JmolViewerNode extends PhetPNode {
         final PhetPCanvas canvas = new PhetPCanvas() {{
             setPreferredSize( new Dimension( 1024, 768 ) );
             setBackground( Color.LIGHT_GRAY );
-            Molecule3D molecule = new Molecule3D( "NH3", "ammonia", "jmol/nh3.sdf" );
-            JmolViewerNode viewerNode = new JmolViewerNode( molecule, getBackground(), new Dimension( 400, 400 ) );
+            Property<Molecule3D> currentMolecule = new Property<Molecule3D>( new Molecule3D( "NH3", "ammonia", "jmol/nh3.sdf" ) );
+            JmolViewerNode viewerNode = new JmolViewerNode( currentMolecule, getBackground(), new Dimension( 400, 400 ) );
             getLayer().addChild( viewerNode );
             viewerNode.setOffset( 100, 100 );
         }};
