@@ -50,6 +50,7 @@ import com.jme3.scene.Spatial;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
