@@ -3,10 +3,11 @@ TODO list for molecule-polarity
 DESIGN
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
-- location of atom labels and partial charges in Jmol
-- specify "electron density" requirements (color, shape, what to do when no partial charges,...)
-- units for partial charges in Real Molecules
-- labels for isosurfaces
+- location of atom labels and partial charges in "Real Molecules" tab
+- color scheme for "electrostatic potential" isosurface
+- requirements for "electron density" isosurface (color scheme, shape, what to do when no partial charges,...)
+- units for partial charge values displayed in "Real Molecules" tab
+- labels for isosurface controls
 - on/off control for E-field
 
 HIGH
