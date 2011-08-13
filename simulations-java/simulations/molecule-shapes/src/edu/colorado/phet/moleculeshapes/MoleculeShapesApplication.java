@@ -26,6 +26,8 @@ import com.jme3.system.Natives;
 public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
     public static final Property<Boolean> dragExistingInFront = new Property<Boolean>( false );
+    public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
+    public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
 
     /**
      * Sole constructor.

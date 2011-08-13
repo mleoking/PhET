@@ -320,7 +320,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     public synchronized void resetAll() {
         removeAllAtoms();
-        // TODO: reset checkbox states, etc
+        MoleculeShapesApplication.showElectronShapeName.reset();
+        MoleculeShapesApplication.showMolecularShapeName.reset();
     }
 
     public synchronized void startNewInstanceDrag( int bondOrder ) {
