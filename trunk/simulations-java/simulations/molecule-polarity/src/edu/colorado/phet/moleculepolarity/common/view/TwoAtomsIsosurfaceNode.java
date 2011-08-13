@@ -13,7 +13,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface for a molecule that is composed of 2 atoms.
+ * 2D isosurface for a diatomic molecule (composed of 2 atoms).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -28,7 +28,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceT
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Canvas for the "One Atom" module.
+ * Canvas for the "Two Atoms" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -97,30 +97,33 @@ public class TwoAtomsCanvas extends MPCanvas {
             resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
-        viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                bondDipoleNode.setVisible( visible );
-            }
-        } );
+        // synchronize with view properties
+        {
+            viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    bondDipoleNode.setVisible( visible );
+                }
+            } );
 
-        viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                partialChargeNodeA.setVisible( visible );
-                partialChargeNodeB.setVisible( visible );
-            }
-        } );
+            viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    partialChargeNodeA.setVisible( visible );
+                    partialChargeNodeB.setVisible( visible );
+                }
+            } );
 
-        viewProperties.bondTypeVisible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
-                bondTypeNode.setVisible( visible );
-            }
-        } );
+            viewProperties.bondTypeVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    bondTypeNode.setVisible( visible );
+                }
+            } );
 
-        viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
-            public void apply( IsosurfaceType isosurfaceType ) {
-                electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
-                electronDensityNode.setVisible( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY );
-            }
-        } );
+            viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
+                public void apply( IsosurfaceType isosurfaceType ) {
+                    electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
+                    electronDensityNode.setVisible( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY );
+                }
+            } );
+        }
     }
 }

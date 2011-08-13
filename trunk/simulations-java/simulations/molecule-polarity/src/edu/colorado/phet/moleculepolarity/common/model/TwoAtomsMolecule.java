@@ -23,7 +23,7 @@ public class TwoAtomsMolecule {
     public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
     public final Atom atomA, atomB;
     public final Bond bond;
-    private boolean dragging;
+    private boolean dragging; // true when the user is dragging the molecule
 
     public TwoAtomsMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
@@ -33,7 +33,7 @@ public class TwoAtomsMolecule {
         bond = new Bond( atomA, atomB );
         angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
-                updateAngle( angle );
+                updateAtomLocations( angle );
             }
         } );
     }
@@ -53,7 +53,8 @@ public class TwoAtomsMolecule {
         this.dragging = dragging;
     }
 
-    private void updateAngle( double angle ) {
+    // repositions the atoms
+    private void updateAtomLocations( double angle ) {
         final double radius = BOND_LENGTH / 2;
         // atom A
         double xA = PolarCartesianConverter.getX( radius, angle + Math.PI ) + location.get().getX();

@@ -7,7 +7,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 
 /**
- * "View" control panel.
+ * Control panel for various view parameters.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

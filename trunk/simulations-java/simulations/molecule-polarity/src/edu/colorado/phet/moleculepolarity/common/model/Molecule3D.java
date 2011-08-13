@@ -15,6 +15,7 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 
 /**
  * Molecule that is viewable in 3D using Jmol.
+ * Specific information about the molecule must be obtained by interrogating Jmol.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -17,15 +17,21 @@ import edu.umd.cs.piccolo.nodes.PText;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class AtomNode extends PhetPNode {
+
     public AtomNode( Atom atom ) {
 
+        // shaded sphere
         final ShadedSphereNode sphereNode = new ShadedSphereNode( atom.getDiameter(), atom.getColor() );
         addChild( sphereNode );
+
+        // atom name
         addChild( new PText( atom.getName() ) {{
             setFont( new PhetFont( Font.BOLD, 32 ) );
             setOffset( sphereNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().getWidth() / 2,
                        sphereNode.getFullBoundsReference().getCenterY() - getFullBoundsReference().getHeight() / 2 );
         }} );
+
+        // change offset when atom moves
         atom.location.addObserver( new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D location ) {
                 setOffset( location.toPoint2D() );

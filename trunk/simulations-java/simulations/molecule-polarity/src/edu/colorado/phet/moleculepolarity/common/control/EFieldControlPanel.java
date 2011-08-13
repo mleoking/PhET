@@ -7,7 +7,7 @@ import edu.colorado.phet.common.phetcommon.view.util.GridPanel;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
 /**
- * "Test" control panel.
+ * Control panel for turning the E-field on/off.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

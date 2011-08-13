@@ -22,8 +22,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Displays the bond type, by placing a marker on a continuum whose
  * extremes are "more covalent" and "more ionic".
- * Range is absolute value of the difference in electronegativity between the 2 atoms,
- * from 0.0 (non-polar covalent) to 3.3 (mostly iconic)
+ * Range is the absolute value of the difference in electronegativity between the 2 atoms,
+ * from 0.0 (non-polar covalent) to 3.3 (mostly iconic).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -38,15 +38,22 @@ public class BondTypeNode extends PComposite {
 
     public BondTypeNode( TwoAtomsMolecule molecule ) {
 
+        // the track that represents the continuum
         PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
             setPaint( Color.BLACK );
         }};
+
+        // label at the max end
         PNode maxLabelNode = new PText( MPStrings.MORE_IONIC ) {{
             setFont( LABEL_FONT );
         }};
+
+        // label at the min end
         PNode minLabelNode = new PText( MPStrings.MORE_COVALENT ) {{
             setFont( LABEL_FONT );
         }};
+
+        // thumb that moves along the track, not interactive
         final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
         thumbNode.setPaint( Color.LIGHT_GRAY );
 
@@ -62,6 +69,7 @@ public class BondTypeNode extends PComposite {
         maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth(),
                                 trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
 
+        // when difference in electronegativity changes, move the thumb
         molecule.bond.deltaElectronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double deltaElectronegativity ) {
                 thumbNode.setOffset( X_OFFSET_FUNCTION.evaluate( Math.abs( deltaElectronegativity ) ), thumbNode.getYOffset() );

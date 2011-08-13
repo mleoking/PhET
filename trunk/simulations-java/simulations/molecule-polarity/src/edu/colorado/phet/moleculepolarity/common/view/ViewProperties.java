@@ -13,8 +13,6 @@ public class ViewProperties implements Resettable {
 
     public static enum IsosurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
 
-    ;
-
     public final Property<IsosurfaceType> isosurfaceType = new Property<IsosurfaceType>( IsosurfaceType.NONE );
     public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
     public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );

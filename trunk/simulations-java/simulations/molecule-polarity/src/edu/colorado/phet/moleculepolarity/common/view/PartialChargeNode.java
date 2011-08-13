@@ -23,7 +23,7 @@ public class PartialChargeNode extends PComposite {
     private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
     private static final double REF_SCALE = 1;
 
-    public PartialChargeNode( final Bond bond, final Atom atom, final boolean positivePolarity ) {
+    public PartialChargeNode( final Bond bond, final Atom atom, final boolean positive ) {
 
         final PText textNode = new PText() {{
             setFont( new PhetFont( 32 ) );
@@ -41,7 +41,7 @@ public class PartialChargeNode extends PComposite {
                 if ( deltaElectronegativity != 0 ) {
 
                     // d+ or d-
-                    if ( ( positivePolarity && deltaElectronegativity > 0 ) || ( !positivePolarity && deltaElectronegativity < 0 ) ) {
+                    if ( ( positive && deltaElectronegativity > 0 ) || ( !positive && deltaElectronegativity < 0 ) ) {
                         textNode.setText( MPStrings.DELTA + "-" );
                     }
                     else {

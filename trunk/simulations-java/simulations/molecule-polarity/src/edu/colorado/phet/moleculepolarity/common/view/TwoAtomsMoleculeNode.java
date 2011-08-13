@@ -6,7 +6,7 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
 
 /**
- * Visual representation of a molecule composed for 2 atoms.
+ * Visual representation of a diatomic molecule (composed of 2 atoms).
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
