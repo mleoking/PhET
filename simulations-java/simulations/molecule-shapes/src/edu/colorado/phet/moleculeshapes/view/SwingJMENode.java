@@ -22,7 +22,7 @@ public class SwingJMENode extends Node {
     private final AssetManager assetManager;
     private final InputManager inputManager;
 
-    public SwingJMENode( JComponent component, AssetManager assetManager, InputManager inputManager ) {
+    public SwingJMENode( final JComponent component, AssetManager assetManager, InputManager inputManager ) {
         this.component = component;
         this.assetManager = assetManager;
         this.inputManager = inputManager;
@@ -32,7 +32,6 @@ public class SwingJMENode extends Node {
 
         component.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                System.out.println( "Resize: " + System.currentTimeMillis() % 1000 );
                 onResize();
             }
         } );
@@ -57,5 +56,9 @@ public class SwingJMENode extends Node {
 
     public int getHeight() {
         return hudNode.getHeight();
+    }
+
+    public JComponent getComponent() {
+        return component;
     }
 }

@@ -13,7 +13,9 @@ import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
@@ -395,17 +397,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }};
         preGuiNode.attachChild( controlPanel );
 
-        preGuiNode.attachChild( new SwingJMENode( new JButton( "Show Molecular Geometry" ) {
-            {
-                setOpaque( false );
-                addActionListener( new java.awt.event.ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        showLonePairs.set( !showLonePairs.get() );
-                        setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
-                    }
-                } );
-            }
-        }, assetManager, inputManager ) );
+        preGuiNode.attachChild( new PiccoloJMENode( new TextButtonNode( "Show Molecular Geometry", new PhetFont( 20 ), Color.ORANGE ) {{
+            addActionListener( new java.awt.event.ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    showLonePairs.set( !showLonePairs.get() );
+                    setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
+                }
+            } );
+        }}, assetManager, inputManager ) );
     }
 
     public void testAddAtom( boolean isLonePair ) {
