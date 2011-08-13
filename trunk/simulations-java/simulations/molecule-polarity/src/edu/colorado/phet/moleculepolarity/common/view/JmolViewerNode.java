@@ -270,7 +270,8 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
-    public int[] getElementNumbers() {
+    // Interrogates Jmol to determine element numbers of the atoms in the current molecule.
+    public Integer[] getElementNumbers() {
         Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS );
         LOGGER.info( "getElementNumbers status=[" + status.toString() + "]" );
         if ( status == null ) {
@@ -291,7 +292,7 @@ public class JmolViewerNode extends PhetPNode {
      * The array returned may contain duplicates, since we don't know what the
      * caller wants to do with the results.
      */
-    private static int[] parseIntegers( Object status ) {
+    private static Integer[] parseIntegers( Object status ) {
 
         String statusString = status.toString().trim();
 
@@ -305,7 +306,7 @@ public class JmolViewerNode extends PhetPNode {
         }
 
         // convert to int[]
-        int[] array = new int[elementNumbers.size()];
+        Integer[] array = new Integer[elementNumbers.size()];
         for ( int i = 0; i < array.length; i++ ) {
             array[i] = elementNumbers.get( i );
         }

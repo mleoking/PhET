@@ -19,8 +19,8 @@ import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.MPPeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.PeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
@@ -61,7 +61,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
-        final PeriodicTableNode periodicTableNode = new PeriodicTableNode();
+        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode();
         addChild( periodicTableNode );
 
         MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules() );
@@ -126,7 +126,7 @@ public class RealMoleculesCanvas extends MPCanvas {
             moleculeComboBox.addSelectedItemObserver( new VoidFunction1<Molecule3D>() {
                 public void apply( Molecule3D molecule ) {
                     viewerNode.setMolecule( molecule );
-                    periodicTableNode.setHighlighted( viewerNode.getElementNumbers() );
+                    periodicTableNode.setSelected( viewerNode.getElementNumbers() );
                 }
             } );
         }
