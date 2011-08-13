@@ -11,6 +11,15 @@
     <orderEntry type="module" module-name="motion" />
     <orderEntry type="module" module-name="phetcommon" />
     <orderEntry type="module" module-name="record-and-playback" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/data" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 
