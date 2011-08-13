@@ -119,6 +119,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     @Override public void initialize() {
         super.initialize();
 
+        initializeResources();
+
         // TODO: re-center
 //        rootNode.setLocalTranslation( new Vector3f( -4, 0, 0 ) );
 
@@ -511,6 +513,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public void onResize( Dimension canvasSize ) {
         lastCanvasSize = canvasSize;
         resizeDirty = true;
+    }
+
+    private void initializeResources() {
+        // pre-load the lone pair geometry, so we don't get that delay
+        LonePairNode.getGeometry( assetManager );
     }
 
     private class OldControlPanel extends JPanel {
