@@ -185,7 +185,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         molecule.addListener( new Adapter() {
             @Override public void onPairAdded( ElectronPair pair ) {
                 if ( pair.isLonePair ) {
-                    LonePairNode lonePairNode = new LonePairNode( pair.position, assetManager );
+                    LonePairNode lonePairNode = new LonePairNode( pair, assetManager );
                     lonePairNodes.add( lonePairNode );
                     moleculeNode.attachChild( lonePairNode );
                 }
