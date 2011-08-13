@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 
 import javax.swing.*;
 
@@ -40,20 +39,9 @@ import com.jme3.texture.Texture2D;
  */
 public class HUDNode extends Geometry {
 
-    final JComponent component;
-
+    private final JComponent component;
     private final PaintableImage image;
 
-    private Component lastComponent;
-    private Component grabbedMouse;
-    private int grabbedMouseButton;
-    private int downX = 0;
-    private int downY = 0;
-    private long lastClickTime = 0;
-    private int clickCount = 0;
-    private static final int MAX_CLICKED_OFFSET = 4;
-
-    private static final int DOUBLE_CLICK_TIME = 300;
     private final int width;
     private final int height;
     private final InputManager inputManager;
@@ -92,7 +80,6 @@ public class HUDNode extends Geometry {
             }
         } );
 
-        // TODO: only update when repaint needed?
         new Timer( 10, new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 if ( dirty ) {
@@ -184,19 +171,6 @@ public class HUDNode extends Geometry {
         return transformed;
     }
 
-    private int getSwingButtonIndex( int jmeButtonIndex ) {
-        switch( jmeButtonIndex ) {
-            case 0:
-                return MouseEvent.BUTTON1;
-            case 1:
-                return MouseEvent.BUTTON2;
-            case 2:
-                return MouseEvent.BUTTON3;
-            default:
-                return MouseEvent.NOBUTTON; //todo: warn here?
-        }
-    }
-
     public int getWidth() {
         return width;
     }
@@ -205,13 +179,9 @@ public class HUDNode extends Geometry {
         return height;
     }
 
-    public void setOffset( Point2D offset ) {
-        setLocalTranslation( new Vector3f( (float) offset.getX(), (float) offset.getY(), 0 ) );
-    }
-
-    public void refresh() {
-        image.refreshImage();
-    }
+    /*---------------------------------------------------------------------------*
+    * here follows a lot of JMEDesktop code, listed with the relevant license information
+    *----------------------------------------------------------------------------*/
 
     /*
     * Copyright (c) 2003-2008 jMonkeyEngine
@@ -245,7 +215,30 @@ public class HUDNode extends Geometry {
     * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     */
 
+    private Component lastComponent;
+    private Component grabbedMouse;
+    private int grabbedMouseButton;
+    private int downX = 0;
+    private int downY = 0;
+    private long lastClickTime = 0;
+    private int clickCount = 0;
+    private static final int MAX_CLICKED_OFFSET = 4;
+    private static final int DOUBLE_CLICK_TIME = 300;
+
     private boolean useConvertPoint = true;
+
+    private int getSwingButtonIndex( int jmeButtonIndex ) {
+        switch( jmeButtonIndex ) {
+            case 0:
+                return MouseEvent.BUTTON1;
+            case 1:
+                return MouseEvent.BUTTON2;
+            case 2:
+                return MouseEvent.BUTTON3;
+            default:
+                return MouseEvent.NOBUTTON; //todo: warn here?
+        }
+    }
 
     private Point convertPoint( Component parent, int x, int y, Component comp ) {
         if ( useConvertPoint && parent != null && comp != null ) {
