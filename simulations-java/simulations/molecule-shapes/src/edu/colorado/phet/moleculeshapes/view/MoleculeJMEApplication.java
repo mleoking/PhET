@@ -14,12 +14,13 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
+import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
@@ -189,7 +190,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     moleculeNode.attachChild( lonePairNode );
                 }
                 else {
-                    AtomNode atomNode = new AtomNode( pair.position, pair.isLonePair ? MoleculeShapesConstants.COLOR_LONE_PAIR : MoleculeShapesConstants.COLOR_ATOM, assetManager );
+                    AtomNode atomNode = new AtomNode( new Some<ElectronPair>( pair ), assetManager );
                     atomNodes.add( atomNode );
                     moleculeNode.attachChild( atomNode );
                     rebuildBonds();
@@ -223,7 +224,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         *----------------------------------------------------------------------------*/
 
         //Create the central atom
-        AtomNode center = new AtomNode( new Property<ImmutableVector3D>( new ImmutableVector3D() ), MoleculeShapesConstants.COLOR_ATOM_CENTER, assetManager );
+        AtomNode center = new AtomNode( new None<ElectronPair>(), assetManager );
         moleculeNode.attachChild( center );
 
         //Create the atoms that circle about the central atom
