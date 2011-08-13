@@ -48,6 +48,7 @@ import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.Spatial.CullHint;
 
 /**
  * Use jme3 to show a rotating molecule
@@ -415,7 +416,12 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             return ( (AtomNode) target ).pair;
         }
         else if ( isLonePair ) {
-            return ( (LonePairNode) target ).pair;
+            if ( !target.getCullHint().equals( CullHint.Always ) ) {
+                return ( (LonePairNode) target ).pair;
+            }
+            else {
+                return null; // lone pair invisible
+            }
         }
         else {
             if ( target.getParent() != null ) {
