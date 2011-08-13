@@ -1,14 +1,14 @@
 TODO list for molecule-polarity
 
 DESIGN
-- location of bond dipoles relative to bonds (offset along the dipole axis? offset perpendicular to dipole axis? see Jmol "dipole" command)
+- location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
-- location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front or with atoms?)
+- location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front, or allow occlusion?)
 - color scheme for "electrostatic potential" isosurface
-- requirements for "electron density" isosurface (color scheme, shape, what to do when no partial charges,...)
-- units for partial charge values displayed in "Real Molecules" tab
+- requirements for "electron density" isosurface (color scheme, shape, homogeneous diatomic molecules,...)
+- units for partial charge values in "Real Molecules" tab
 - labels for isosurface controls
-- on/off control for E-field
+- on/off control for E-field (radio buttons vs switch graphic)
 
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
