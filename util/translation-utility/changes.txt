@@ -1,3 +1,5 @@
+# 2.11.00 (55119) Aug 12, 2011
+8/12/11 > added support for Tamil
 # 2.10.00 (48775) Feb 8, 2011
 > add translation.credits field for specifying translation credits
 # 2.09.01 (48362) Jan 31, 2011
