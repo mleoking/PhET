@@ -14,36 +14,27 @@ HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
 - refine shape of 2D isosurface
-- Jmol: get molecular dipole's global orientation, for alignment with E-field
+- Jmol: how to align molecular dipole with E-Field?
 
 MEDIUM
-- Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
 - periodic table, highlight elements
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
-- change initial molecule angle so that turning on the E-field causes it to rotate?
-- add icons to control panels (dipoles, partial charge, mep,...)
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
+- add icons to control panels (dipoles, partial charge, mep,...)
+- Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
+- Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
+- Jmol: how to show partial charges independently of atom labels?
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
-
-Jmol
-- how to iterate over atoms?
-     n = {*}.length
-     for ( i = 0; i < n; i++ ) {
-         print {*}[i].atomName
-     }
-- molecules are often rendered as bonds only, no atoms visible (more often with mol2 than smol?)
-- how to show partial charges independently of atom labels?
-- how to align Jmol molecule with E-Field?
-- if you change Jmol dipole properties (offset, width,...) then the viewer may clip the dipole
-- how to set a transparent background for Jmol viewer?
+- Jmol: how to set a transparent background for the viewer?
+- change initial molecule angle so that turning on the E-field causes it to rotate?
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
