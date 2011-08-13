@@ -35,7 +35,7 @@ public class AttractorModel {
              */
             double strength = timeElapsed * 3 * delta.magnitude();
 
-            pair.velocity.set( pair.velocity.get().plus( delta.times( strength ) ) );
+            pair.addVelocity( delta.times( strength ) );
         }
     }
 

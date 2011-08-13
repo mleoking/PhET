@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.model;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 import com.jme3.math.ColorRGBA;
@@ -15,16 +17,23 @@ public class ElectronPair {
     public static final double DAMPING_FACTOR = 0.1;
     public static final double ATTRACTION_SCALE = 1.0;
 
-    public Property<ImmutableVector3D> position;
-    public Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
+    public final Property<ImmutableVector3D> position;
+    public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
     public final boolean isLonePair;
+    public final Property<Boolean> userControlled;
 
-    public ElectronPair( ImmutableVector3D position, boolean isLonePair ) {
+    public ElectronPair( ImmutableVector3D position, boolean isLonePair, boolean startDragged ) {
         this.position = new Property<ImmutableVector3D>( position );
         this.isLonePair = isLonePair;
+        userControlled = new Property<Boolean>( startDragged );
     }
 
     public void attractToDistance( double timeElapsed ) {
+        if ( userControlled.get() ) {
+            // don't process if being dragged
+            return;
+        }
+
         ImmutableVector3D toCenter = position.get();
 
         double distance = toCenter.magnitude();
@@ -51,7 +60,7 @@ public class ElectronPair {
 
         // mimic Coulomb's Law
         ImmutableVector3D coulombVelocityDelta = delta.normalized().times( timeElapsed * ELECTRON_PAIR_REPULSION_SCALE * repulsionFactor / ( delta.magnitude() * delta.magnitude() ) );
-        velocity.set( velocity.get().plus( coulombVelocityDelta.times( 1 ) ) );
+        addVelocity( coulombVelocityDelta.times( 1 ) );
 
         /*---------------------------------------------------------------------------*
         * angle-based repulsion
@@ -65,7 +74,13 @@ public class ElectronPair {
 
         double pushFactor = getPushFactor() * other.getPushFactor();
         ImmutableVector3D angleVelocityDelta = pushDirection.times( anglePushEstimate * pushFactor );
-        velocity.set( velocity.get().plus( angleVelocityDelta.times( 0 ) ) );
+        addVelocity( angleVelocityDelta.times( 0 ) );
+    }
+
+    public void addVelocity( ImmutableVector3D velocityChange ) {
+        if ( !userControlled.get() ) {
+            velocity.set( velocity.get().plus( velocityChange ) );
+        }
     }
 
     public double getPushFactor() {
@@ -118,5 +133,14 @@ public class ElectronPair {
     public static ImmutableVector3D getTangentDirection( ImmutableVector3D position, ImmutableVector3D vector ) {
         ImmutableVector3D normalizedPosition = position.normalized();
         return vector.minus( normalizedPosition.times( vector.dot( normalizedPosition ) ) );
+    }
+
+    public void dragToPosition( ImmutableVector3D immutableVector3D ) {
+        if ( !isLonePair ) {
+            position.set( immutableVector3D );
+        }
+        else {
+            throw new NotImplementedException(); // TODO: dragging of lone pairs
+        }
     }
 }

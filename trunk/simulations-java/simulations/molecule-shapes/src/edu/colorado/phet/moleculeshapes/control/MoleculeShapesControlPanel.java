@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -26,7 +27,7 @@ public class MoleculeShapesControlPanel extends PNode {
     public static final int BOND_HEIGHT = 5;
     public static final int BOND_SPACING = 2;
 
-    public MoleculeShapesControlPanel() {
+    public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
         /*---------------------------------------------------------------------------*
         * bonding panel
         *----------------------------------------------------------------------------*/
@@ -42,6 +43,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         System.out.println( "Single" );
+                        app.startNewInstanceDrag( 1 );
                     }
                 } );
             }};
