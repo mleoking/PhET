@@ -11,7 +11,7 @@ import edu.colorado.phet.moleculepolarity.common.model.MPModel;
 import edu.colorado.phet.moleculepolarity.common.model.TwoAtomsMolecule;
 
 /**
- * Model for the "One Atom" module.
+ * Model for the "Two Atoms" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

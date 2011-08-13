@@ -9,7 +9,7 @@ import edu.colorado.phet.moleculepolarity.common.model.MPClock;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 
 /**
- * "One Atom" module.
+ * "Two Atoms" module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

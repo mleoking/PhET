@@ -8,7 +8,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
 
 /**
- * "Isosurface" control panel.
+ * Control panel for selecting an isosurface.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

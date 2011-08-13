@@ -90,7 +90,7 @@ public class RealMoleculesCanvas extends MPCanvas {
 
         }
 
-        // synchronize viewer with view properties
+        // synchronize with view properties
         {
             viewProperties.bondDipolesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {

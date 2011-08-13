@@ -2,10 +2,9 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
- * Model for the "Molecule Polarity" sim.
+ * Base class for models in this sim.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

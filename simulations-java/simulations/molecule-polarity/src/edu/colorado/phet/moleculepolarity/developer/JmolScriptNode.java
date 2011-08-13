@@ -16,7 +16,7 @@ import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
- * User interface for sending commands to a Jmol viewer.
+ * Developer user interface for sending commands to a Jmol viewer.
  * Command are in the Jmol scripting language, described at http://chemapps.stolaf.edu/jmol/docs
  * Errors are printed to the console by the Jmol viewer.
  *
@@ -26,6 +26,7 @@ public class JmolScriptNode extends PhetPNode {
 
     public JmolScriptNode( final JmolViewerNode viewerNode ) {
 
+        // text area in a scrolling pane
         final JTextArea textArea = new JTextArea() {{
             setLineWrap( true );
             setBackground( new Color( 245, 245, 245 ) );
@@ -35,6 +36,7 @@ public class JmolScriptNode extends PhetPNode {
         PSwing scrollPaneNode = new PSwing( scrollPane );
         addChild( scrollPaneNode );
 
+        // button to execute the script
         TextButtonNode executeButtonNode = new TextButtonNode( "Run Jmol Script" ) {{
             setFont( new PhetFont( 10 ) );
             setBackground( Color.YELLOW );
@@ -42,6 +44,7 @@ public class JmolScriptNode extends PhetPNode {
         addChild( executeButtonNode );
         executeButtonNode.setOffset( 0, scrollPaneNode.getFullBoundsReference().getMaxY() + 3 );
 
+        // pressing the button executes the script in the text area, and prints the Jmol status to System.out
         executeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
                 Object status = viewerNode.doScriptStatus( textArea.getText() );

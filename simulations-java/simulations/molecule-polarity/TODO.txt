@@ -26,6 +26,8 @@ MEDIUM
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
+- custom cursor for molecule rotation
+- custom cursor for bond angle manipulation
 - add icons to control panels (dipoles, partial charge, mep,...)
 - Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
