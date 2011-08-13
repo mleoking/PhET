@@ -24,6 +24,7 @@ MEDIUM
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
+- make sure that all PText instances have a call to setFont(PhetFont)
 
 LOW
 - custom cursor for molecule rotation
