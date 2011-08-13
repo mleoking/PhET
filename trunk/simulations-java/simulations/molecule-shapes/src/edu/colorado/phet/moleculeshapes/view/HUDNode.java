@@ -522,4 +522,8 @@ public class HUDNode extends Geometry {
             }
         }
     }
+
+    public void refresh() {
+        image.refreshImage();
+    }
 }

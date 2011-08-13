@@ -44,6 +44,11 @@ public class MoleculeModel {
         return getPairs( true );
     }
 
+    public VseprConfiguration getConfiguration() {
+        // TODO: refactor to use this
+        return new VseprConfiguration( getBondedPairs().size(), getLonePairs().size() );
+    }
+
     public ArrayList<ElectronPair> getPairs( final boolean lonePairs ) {
         return new ArrayList<ElectronPair>() {{
             for ( ElectronPair pair : pairs ) {
