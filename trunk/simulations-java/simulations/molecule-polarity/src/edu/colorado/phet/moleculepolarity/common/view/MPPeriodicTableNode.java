@@ -24,11 +24,11 @@ public class MPPeriodicTableNode extends PComposite {
     private PNode periodicTableNode; // use composition since PeriodicTableNode's selection is immutable
 
     public MPPeriodicTableNode( final Property<Molecule3D> currentMolecule, final JmolViewerNode viewerNode ) {
+        // when the current molecule changes, get the list of element number from Jmol
         currentMolecule.addObserver( new VoidFunction1<Molecule3D>() {
             public void apply( Molecule3D molecule3D ) {
-                Integer[] elementNumbers = viewerNode.getElementNumbers();
                 removeChild( periodicTableNode );
-                periodicTableNode = new PeriodicTableNode( BACKGROUND, new HighlightElements( elementNumbers ) );
+                periodicTableNode = new PeriodicTableNode( BACKGROUND, new HighlightElements( viewerNode.getElementNumbers() ) );
                 addChild( periodicTableNode );
             }
         } );

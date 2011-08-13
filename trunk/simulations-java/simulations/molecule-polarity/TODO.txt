@@ -10,6 +10,7 @@ DESIGN
 - labels for isosurface controls
 - on/off control for E-field (radio buttons vs switch graphic)
 - decide on final set of real molecules
+- should the pointer move across the full range of the Bond Type indicator?
 
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
