@@ -156,6 +156,7 @@ public class MainView extends Canvas {
         if(oneOrTwo == 1){
             this.myModel2.interruptSim();
             this.myModel1.resumeSim();
+            this.myModel1.updateViews();
             this.myPausedSign.x = 0.36*stageW;
             this.oneDMode = true;
             this.myView1.visible = true;
@@ -171,6 +172,7 @@ public class MainView extends Canvas {
         }else if(oneOrTwo == 2){
             this.myModel1.interruptSim();
             this.myModel2.resumeSim();
+            this.myModel2.updateViews();
             this.myPausedSign.x = 0.31*stageW;
             this.oneDMode = false;
             this.myView1.visible = false;
