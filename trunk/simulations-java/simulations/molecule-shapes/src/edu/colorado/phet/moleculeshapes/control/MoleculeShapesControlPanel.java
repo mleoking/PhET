@@ -42,7 +42,6 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, 10 );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        System.out.println( "Single" );
                         app.startNewInstanceDrag( 1 );
                     }
                 } );
@@ -56,7 +55,6 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        System.out.println( "Double" );
                     }
                 } );
             }};
@@ -70,7 +68,6 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        System.out.println( "Triple" );
                     }
                 } );
             }};
@@ -96,7 +93,6 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, 10 );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        System.out.println( "Lone Pair" );
                         app.startNewInstanceDrag( 0 );
                     }
                 } );
