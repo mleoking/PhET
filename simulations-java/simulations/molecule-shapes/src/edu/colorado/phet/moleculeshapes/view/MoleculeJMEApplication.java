@@ -1,14 +1,11 @@
 package edu.colorado.phet.moleculeshapes.view;
 
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -262,7 +259,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), false, false ) );
+            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), 1, false ) );
         }
 
         rebuildBonds();
@@ -415,17 +412,13 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
-        ElectronPair pair = new ElectronPair( vectorConversion( localPosition ), bondOrder == 0, true );
+        ElectronPair pair = new ElectronPair( vectorConversion( localPosition ), bondOrder, true );
         molecule.addPair( pair );
 
-        if ( bondOrder == 1 || bondOrder == 0 ) {
-            dragging = true;
-            dragMode = DragMode.PAIR_FRESH_PLANAR;
-            draggedParticle = pair;
-        }
-        else {
-            throw new NotImplementedException(); // TODO: other bonds and lone pair dragging
-        }
+        // set up dragging information
+        dragging = true;
+        dragMode = DragMode.PAIR_FRESH_PLANAR;
+        draggedParticle = pair;
     }
 
     public Vector3f getPlanarMoleculeCursorPosition() {
@@ -533,13 +526,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
-    public void testAddAtom( boolean isLonePair ) {
-        if ( molecule.getPairs().size() < 6 ) {
-            ImmutableVector3D initialPosition = new ImmutableVector3D( Math.random() - 0.5, Math.random() - 0.5, Math.random() - 0.5 ).normalized().times( 7 );
-            molecule.addPair( new ElectronPair( initialPosition, isLonePair, false ) );
-        }
-    }
-
     public synchronized void testRemoveAtom() {
         if ( !molecule.getPairs().isEmpty() ) {
             molecule.removePair( molecule.getPairs().get( random.nextInt( molecule.getPairs().size() ) ) );
@@ -577,7 +563,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         bondNodes.clear();
         for ( ElectronPair pair : molecule.getPairs() ) {
             if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode( pair.position.get(), assetManager );
+                BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, assetManager );
                 moleculeNode.attachChild( bondNode );
                 bondNodes.add( bondNode );
             }
@@ -602,21 +588,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         while ( !molecule.getPairs().isEmpty() ) {
             testRemoveAtom();
         }
-    }
-
-    public synchronized void setState( final int X, final int E ) {
-        enqueue( new Callable<Object>() {
-            public Object call() throws Exception {
-                removeAllAtoms();
-                for ( int i = 0; i < X; i++ ) {
-                    testAddAtom( false );
-                }
-                for ( int i = 0; i < E; i++ ) {
-                    testAddAtom( true );
-                }
-                return null;
-            }
-        } );
     }
 
     public void onResize( Dimension canvasSize ) {

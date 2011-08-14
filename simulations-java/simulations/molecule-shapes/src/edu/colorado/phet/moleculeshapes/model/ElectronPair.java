@@ -18,11 +18,18 @@ public class ElectronPair {
     public final Property<ImmutableVector3D> position;
     public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
     public final boolean isLonePair;
+    public final int bondOrder;
     public final Property<Boolean> userControlled;
 
-    public ElectronPair( ImmutableVector3D position, boolean isLonePair, boolean startDragged ) {
+    /**
+     * @param position     Initial 3D position
+     * @param bondOrder    Bond order, (0 if it is a lone pair)
+     * @param startDragged Whether it is starting as a dragged object
+     */
+    public ElectronPair( ImmutableVector3D position, int bondOrder, boolean startDragged ) {
         this.position = new Property<ImmutableVector3D>( position );
-        this.isLonePair = isLonePair;
+        this.bondOrder = bondOrder;
+        this.isLonePair = bondOrder == 0;
         userControlled = new Property<Boolean>( startDragged );
     }
 
@@ -53,7 +60,6 @@ public class ElectronPair {
         * coulomb repulsion
         *----------------------------------------------------------------------------*/
 
-        // a factor that causes lone pairs to have more repulsion
         double repulsionFactor = 1;
 
         // mimic Coulomb's Law

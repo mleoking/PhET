@@ -15,7 +15,7 @@ public class BondNode extends Geometry {
 
     private static final float MAX_LENGTH = (float) ElectronPair.BONDED_PAIR_DISTANCE;
 
-    public BondNode( final ImmutableVector3D b, AssetManager assetManager ) {
+    public BondNode( final ImmutableVector3D b, int bondOrder, AssetManager assetManager ) {
         super( "Bond" );
 
         Vector3f start = new Vector3f( 0, 0, 0 );

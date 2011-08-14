@@ -55,6 +55,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
+                        app.startNewInstanceDrag( 2 );
                     }
                 } );
             }};
@@ -68,6 +69,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
+                        app.startNewInstanceDrag( 3 );
                     }
                 } );
             }};
