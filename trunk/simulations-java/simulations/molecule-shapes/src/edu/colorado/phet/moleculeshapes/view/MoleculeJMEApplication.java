@@ -557,6 +557,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     private void rebuildBonds() {
+        // get our molecule-based camera position, so we can use that to compute orientation of double/triple bonds
+        // TODO: refactor some of this duplicated code out
+        Vector2f click2d = inputManager.getCursorPosition();
+        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+
+        // transform our position and direction into the local coordinate frame. we will do our computations there
+        Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
+
         // necessary for now since just updating their geometry shows significant errors
         for ( BondNode bondNode : bondNodes ) {
             moleculeNode.detachChild( bondNode );
@@ -564,7 +572,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         bondNodes.clear();
         for ( PairGroup pair : molecule.getGroups() ) {
             if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, assetManager );
+                BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, assetManager, transformedPosition );
                 moleculeNode.attachChild( bondNode );
                 bondNodes.add( bondNode );
             }
