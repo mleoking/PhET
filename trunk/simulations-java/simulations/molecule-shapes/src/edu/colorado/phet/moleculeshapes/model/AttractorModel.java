@@ -14,6 +14,8 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
  * Contains the logic for applying an "attractor" force to a molecule that first:
  * (1) finds the closest VSEPR configuration (with rotation) to our current positions, and
  * (2) pushes the electron pairs towards those positions.
+ * <p/>
+ * TODO: improve docs
  */
 public class AttractorModel {
     public static void applyAttractorForces( final MoleculeModel molecule, final float timeElapsed ) {
@@ -57,7 +59,6 @@ public class AttractorModel {
         final VseprConfiguration configuration = new VseprConfiguration( molecule.getBondedGroups().size(), molecule.getLonePairs().size() );
 
         final int n = molecule.getGroups().size(); // number of total pairs
-        final int e = molecule.getLonePairs().size();
 
         // y == electron pair positions
         final Matrix y = new Matrix( 3, n ) {{
@@ -72,60 +73,55 @@ public class AttractorModel {
 
         final Property<ResultMapping> bestResult = new Property<ResultMapping>( null );
 
-        // permutation over lone pairs
-        forEachPermutation( rangeInclusive( 0, e - 1 ), new VoidFunction1<List<Integer>>() {
-            public void apply( final List<Integer> lonePairIndices ) {
+        // iterate over different repulsion categories
+        forEachMultiplePermutations( separateRepulsionCategories( molecule ), new VoidFunction1<List<List<Integer>>>() {
+            public void apply( final List<List<Integer>> indexLists ) {
+                final List<ImmutableVector3D> unitVectors = configuration.geometry.unitVectors;
 
-                // permutation over bonded pairs
-                forEachPermutation( rangeInclusive( e, n - 1 ), new VoidFunction1<List<Integer>>() {
-                    public void apply( final List<Integer> bondedPairIndices ) {
-                        final List<ImmutableVector3D> unitVectors = configuration.geometry.unitVectors;
+                // permutation. think of it as a function of index of electron pair => index of configuration vector
+                final List<Integer> permutation = new ArrayList<Integer>( n );
+                // TODO: consider removal of the permutation list. we don't actually use it (yet), even though it may be useful in the future
 
-                        // permutation. think of it as a function of index of electron pair => index of configuration vector
-                        final List<Integer> permutation = new ArrayList<Integer>( n );
-                        // TODO: consider removal of the permutation list. we don't actually use it (yet), even though it may be useful in the future
+                // x == configuration positions
+                Matrix x = new Matrix( 3, n ) {{
+                    // fill up the matrix with the permuted configuration vectors
+                    List<Integer> indices = flatten( indexLists );
+                    for ( int i = 0; i < n; i++ ) {
+                        // compute the index and store it (we need to combine the permutations here!)
+                        Integer permutedIndex = indices.get( i );
+                        permutation.add( permutedIndex );
 
-                        // x == configuration positions
-                        Matrix x = new Matrix( 3, n ) {{
-                            // fill up the matrix with the permuted configuration vectors
-                            for ( int i = 0; i < n; i++ ) {
-                                // compute the index and store it (we need to combine the permutations here!)
-                                Integer permutedIndex = i < e ? lonePairIndices.get( i ) : bondedPairIndices.get( i - e );
-                                permutation.add( permutedIndex );
-
-                                // fill the vector into the matrix as a column
-                                ImmutableVector3D configurationVector = unitVectors.get( permutedIndex );
-                                set( 0, i, configurationVector.getX() );
-                                set( 1, i, configurationVector.getY() );
-                                set( 2, i, configurationVector.getZ() );
-                            }
-                        }};
-
-                        // S = X * Y^T
-                        Matrix s = x.times( y.transpose() );
-
-                        SingularValueDecomposition svd = new SingularValueDecomposition( s );
-                        double det = svd.getV().times( svd.getU().transpose() ).det();
-
-                        Matrix rot = svd.getV().times( new Matrix( new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, det } } ).times( svd.getU().transpose() ) );
-
-                        // target matrix, same shape as our y (current position) matrix
-                        Matrix target = rot.times( x );
-
-                        // calculate the error
-                        double error = 0;
-                        Matrix offsets = y.minus( target );
-                        Matrix squaredOffsets = offsets.arrayTimes( offsets );
-                        for ( int i = 0; i < n; i++ ) {
-                            error += squaredOffsets.get( 0, i ) + squaredOffsets.get( 1, i ) + squaredOffsets.get( 2, i );
-                        }
-
-                        // if this is the best one, record it
-                        if ( bestResult.get() == null || error < bestResult.get().error ) {
-                            bestResult.set( new ResultMapping( error, target, permutation ) );
-                        }
+                        // fill the vector into the matrix as a column
+                        ImmutableVector3D configurationVector = unitVectors.get( permutedIndex );
+                        set( 0, i, configurationVector.getX() );
+                        set( 1, i, configurationVector.getY() );
+                        set( 2, i, configurationVector.getZ() );
                     }
-                } );
+                }};
+
+                // S = X * Y^T
+                Matrix s = x.times( y.transpose() );
+
+                SingularValueDecomposition svd = new SingularValueDecomposition( s );
+                double det = svd.getV().times( svd.getU().transpose() ).det();
+
+                Matrix rot = svd.getV().times( new Matrix( new double[][] { { 1, 0, 0 }, { 0, 1, 0 }, { 0, 0, det } } ).times( svd.getU().transpose() ) );
+
+                // target matrix, same shape as our y (current position) matrix
+                Matrix target = rot.times( x );
+
+                // calculate the error
+                double error = 0;
+                Matrix offsets = y.minus( target );
+                Matrix squaredOffsets = offsets.arrayTimes( offsets );
+                for ( int i = 0; i < n; i++ ) {
+                    error += squaredOffsets.get( 0, i ) + squaredOffsets.get( 1, i ) + squaredOffsets.get( 2, i );
+                }
+
+                // if this is the best one, record it
+                if ( bestResult.get() == null || error < bestResult.get().error ) {
+                    bestResult.set( new ResultMapping( error, target, permutation ) );
+                }
             }
         } );
         return bestResult.get();
@@ -151,6 +147,78 @@ public class AttractorModel {
             this.error = error;
             this.target = target;
             this.permutation = permutation;
+        }
+    }
+
+    /**
+     * @param lists Lists to flatten
+     * @param <T>   Type
+     * @return Standard 1-step flattened list
+     */
+    private static <T> List<T> flatten( List<List<T>> lists ) {
+        List<T> ret = new ArrayList<T>();
+        for ( List<T> list : lists ) {
+            ret.addAll( list );
+        }
+        return ret;
+    }
+
+    /**
+     * Separate out lists of indices for groups of differing bond orders. Relies on the molecule groups having been
+     * sorted into repulsion categories
+     *
+     * @param molecule The molecule
+     * @return List of index lists. each sub-list has the same bond order
+     */
+    private static List<List<Integer>> separateRepulsionCategories( final MoleculeModel molecule ) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<Integer> current = new ArrayList<Integer>();
+        int lastBondOrder = 50;
+
+        for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
+            PairGroup group = molecule.getGroups().get( i );
+            if ( group.bondOrder != lastBondOrder ) {
+                lastBondOrder = group.bondOrder;
+                if ( !current.isEmpty() ) {
+                    result.add( current );
+                }
+                current = new ArrayList<Integer>();
+            }
+            current.add( i );
+        }
+        if ( !current.isEmpty() ) {
+            result.add( current );
+        }
+        return result;
+    }
+
+    /**
+     * Call the function with each individual permutation of the list elements of "lists"
+     *
+     * @param lists    List of lists. Order of lists will not change, however each possible permutation involving sub-lists will be used
+     * @param function Function to call
+     * @param <T>      Type
+     */
+    public static <T> void forEachMultiplePermutations( final List<List<T>> lists, final VoidFunction1<List<List<T>>> function ) {
+        if ( lists.isEmpty() ) {
+            function.apply( lists );
+        }
+        else {
+            final List<List<T>> remainder = new ArrayList<List<T>>( lists );
+            final List<T> first = remainder.get( 0 );
+            remainder.remove( 0 );
+            forEachPermutation( first, new VoidFunction1<List<T>>() {
+                public void apply( final List<T> permutedFirst ) {
+                    forEachMultiplePermutations( remainder, new VoidFunction1<List<List<T>>>() {
+                        public void apply( final List<List<T>> subLists ) {
+                            function.apply( new ArrayList<List<T>>( lists.size() ) {{
+                                add( permutedFirst );
+                                addAll( subLists );
+                            }} );
+                        }
+                    } );
+                }
+            } );
         }
     }
 
@@ -201,5 +269,54 @@ public class AttractorModel {
             result.add( i );
         }
         return result;
+    }
+
+    public static void main( String[] args ) {
+        /*
+         Testing of permuting each individual list. Output:
+         AB C DEF
+         AB C DFE
+         AB C EDF
+         AB C EFD
+         AB C FDE
+         AB C FED
+         BA C DEF
+         BA C DFE
+         BA C EDF
+         BA C EFD
+         BA C FDE
+         BA C FED
+         */
+        forEachMultiplePermutations( new ArrayList<List<String>>() {{
+                                         add( new ArrayList<String>() {{
+                                             add( "A" );
+                                             add( "B" );
+                                         }} );
+                                         add( new ArrayList<String>() {{
+                                             add( "C" );
+                                         }} );
+                                         add( new ArrayList<String>() {{
+                                             add( "D" );
+                                             add( "E" );
+                                             add( "F" );
+                                         }} );
+                                     }}, new VoidFunction1<List<List<String>>>() {
+            public void apply( List<List<String>> lists ) {
+                String ret = listPrint( lists );
+                System.out.println( ret );
+            }
+        }
+        );
+    }
+
+    private static <T> String listPrint( List<List<T>> lists ) {
+        String ret = "";
+        for ( List<T> list : lists ) {
+            ret += " ";
+            for ( Object o : list ) {
+                ret += o.toString();
+            }
+        }
+        return ret;
     }
 }
