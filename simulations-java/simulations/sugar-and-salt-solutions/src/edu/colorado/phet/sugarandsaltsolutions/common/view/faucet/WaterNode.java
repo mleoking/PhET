@@ -21,17 +21,16 @@ public class WaterNode extends PNode {
     //Listeners for the shape of the water that flows out of the faucet
     private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
 
-    public WaterNode( final Property<Double> flowRate, final Option<Double> flowPoint, final double imageWidth, final double imageHeight ) {
+    public WaterNode( final Property<Double> flowRate, final Option<Double> flowPoint, final double outputPipeX1, double outputPipeX2, final double outputPipeY ) {
         addChild( new PhetPPath( SugarAndSaltSolutionsApplication.WATER_COLOR ) {{
             flowRate.addObserver( new VoidFunction1<Double>() {
                 public void apply( Double flow ) {
                     double width = flow * 100 * 0.5;
-                    double pipeWidth = 56;
 
                     //Compute the bottom of the water (e.g. if it collides with the beaker)
                     double bottomY = flowPoint.getOrElse( 1000.0 );
-                    double height = bottomY - imageHeight - getOffset().getY();
-                    final Rectangle2D.Double waterShape = new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height );
+                    double height = bottomY - outputPipeY - getOffset().getY();
+                    final Rectangle2D.Double waterShape = new Rectangle2D.Double( outputPipeX1, outputPipeY, width, height );
                     notifyWaterShapeChanged( waterShape );
                     setPathTo( waterShape );
                 }

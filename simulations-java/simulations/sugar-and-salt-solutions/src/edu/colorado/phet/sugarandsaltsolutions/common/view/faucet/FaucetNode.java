@@ -5,7 +5,6 @@ import java.awt.TexturePaint;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -25,8 +24,13 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 public class FaucetNode extends PNode {
 
     //Locations where the left side of the faucet connects to the pipe, so that the pipe can be tiled beyond the faucet image
-    private final ImmutableVector2D inputPipeTopPoint = new ImmutableVector2D( 0, 32 );
-    private final ImmutableVector2D inputPipeBottomPoint = new ImmutableVector2D( 0, 77 );
+    private final double inputPipeY1 = 32;
+    private final double inputPipeY2 = 77;
+    private final double inputPipeX = 0;
+
+    private final double outputPipeX1 = 57;
+    private final double outputPipeX2 = 109;
+    private final double outputPipeY = 133;
 
     private final PImage faucetImageNode;
 
@@ -57,20 +61,22 @@ public class FaucetNode extends PNode {
             addChild( new FaucetSliderNode( allowed, flowRate ) );
 
             //Show the pipe to the left of the faucet with a tiled image
-            final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength + 1, inputPipeTopPoint.getY() - 0.5, faucetLength, inputPipeBottomPoint.getY() - inputPipeTopPoint.getY() + 1.5 );
+            final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength + 1, inputPipeY1 - 0.5, faucetLength, inputPipeY2 - inputPipeY1 + 1.5 );
             addChild( new PhetPPath( rect, new TexturePaint( FAUCET_PIPE, new Rectangle2D.Double( 0, rect.getY(), FAUCET_PIPE.getWidth(), FAUCET_PIPE.getHeight() ) ) ) );
         }};
-        final double imageWidth = faucetImageNode.getFullBounds().getMaxX();
-        final double imageHeight = faucetImageNode.getFullBounds().getMaxY();
 
         //Show the water flowing out of the faucet
-        waterNode = new WaterNode( flowRate, flowPoint, imageWidth, imageHeight );
+        waterNode = new WaterNode( flowRate, flowPoint, outputPipeY, outputPipeX1, outputPipeX2 );
         addChild( waterNode );
         addChild( faucetImageNode );
     }
 
     //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.
     public Point2D getInputGlobalViewPoint() {
-        return faucetImageNode.localToGlobal( new Point2D.Double( inputPipeTopPoint.getX(), ( inputPipeTopPoint.getY() + inputPipeBottomPoint.getY() ) / 2 ) );
+        return faucetImageNode.localToGlobal( new Point2D.Double( inputPipeX, ( inputPipeY1 + inputPipeY2 ) / 2 ) );
+    }
+
+    public Point2D getOutputGlobalViewPoint() {
+        return faucetImageNode.localToGlobal( new Point2D.Double( ( outputPipeX2 + outputPipeX1 ) / 2, outputPipeY ) );
     }
 }

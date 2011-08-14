@@ -131,10 +131,8 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( drainFaucetNode );
 
         //Use the view coordinates to set the model coordinates for how particle should flow toward and flow out the drain pipe
-
-        Point2D rooted = rootNode.globalToLocal( drainFaucetNode.getInputGlobalViewPoint() );
-        ImmutableVector2D input = transform.viewToModel( new ImmutableVector2D( rooted ) );
-        ImmutableVector2D output = new ImmutableVector2D( transform.viewToModel( drainFaucetNode.getFullBounds().getWidth() * 0.9 + drainFaucetNode.getFullBounds().getMinX(), drainFaucetNode.getFullBounds().getMaxY() ) );
+        ImmutableVector2D input = transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( drainFaucetNode.getInputGlobalViewPoint() ) ) );
+        ImmutableVector2D output = transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( drainFaucetNode.getOutputGlobalViewPoint() ) ) );
         model.setDrainFaucetMetrics( new DrainFaucetMetrics( input, output, model ) );
 
         //Add salt crystals graphics when salt crystals are added to the model
