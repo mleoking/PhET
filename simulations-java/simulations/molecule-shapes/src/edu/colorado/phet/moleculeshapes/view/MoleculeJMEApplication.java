@@ -324,11 +324,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
                 public void updateText() {
                     String name = molecule.getConfiguration().name;
-                    System.out.println( "molecular: " + name );
                     setText( "Molecular Geometry: " + ( name == null ? "unknown" : name ) );
 
                     // TODO: fix this. shouldn't be necessary
-                    if( moleculeShapeReadout != null ) {
+                    if ( moleculeShapeReadout != null ) {
                         moleculeShapeReadout.refresh();
                     }
                 }
@@ -361,11 +360,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
                 public void updateText() {
                     String name = molecule.getConfiguration().geometry.name;
-                    System.out.println( "electron: " + name );
                     setText( "Electron Geometry: " + ( name == null ? "unknown" : name ) );
 
                     // TODO: fix this. shouldn't be necessary
-                    if( electronShapeReadout != null ) {
+                    if ( electronShapeReadout != null ) {
                         electronShapeReadout.refresh();
                     }
                 }
@@ -460,7 +458,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         // transform our position and direction into the local coordinate frame. we will do our computations there
         Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
-        Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).invert().transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
+        Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
         Ray ray = new Ray( transformedPosition, transformedDirection );
 
         // how far we will end up from the center atom

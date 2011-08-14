@@ -16,7 +16,7 @@ public class MoleculeModel {
     public MoleculeModel() {
     }
 
-    private int counter = 0;
+//    private int counter = 0;
 
     public void update( final float tpf ) {
         for ( ElectronPair pair : pairs ) {
@@ -30,10 +30,10 @@ public class MoleculeModel {
             pair.attractToDistance( tpf );
         }
         AttractorModel.applyAttractorForces( this, tpf );
-        if ( counter++ % 50 == 0 ) {
-            VseprConfiguration config = new VseprConfiguration( getBondedPairs().size(), getLonePairs().size() );
-            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs, 0.15 ) );
-        }
+//        if ( counter++ % 50 == 0 ) {
+//            VseprConfiguration config = new VseprConfiguration( getBondedPairs().size(), getLonePairs().size() );
+//            System.out.println( "Testing " + config.name + "(" + config.geometry.name + "): " + config.matchesElectronPairs( pairs, 0.15 ) );
+//        }
     }
 
     public ArrayList<ElectronPair> getBondedPairs() {
