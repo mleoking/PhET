@@ -22,8 +22,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  *
  * @author Sam Reid
  */
-public class FaucetSlider extends PNode {
-    public FaucetSlider( final ObservableProperty<Boolean> allowed, final Property<Double> flowRate ) {
+public class FaucetSliderNode extends PNode {
+    public FaucetSliderNode( final ObservableProperty<Boolean> allowed, final Property<Double> flowRate ) {
 
         //Create the slider
         final PSwing sliderNode = new PSwing( new JSlider( 0, 100 ) {{
