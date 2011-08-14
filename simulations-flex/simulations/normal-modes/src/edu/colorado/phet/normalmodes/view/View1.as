@@ -19,6 +19,7 @@ public class View1 extends Sprite {
     private var spring_arr:Array;           //array of spring sprites
     private var walls:Sprite;               //graphic for the fixed walls
     private var _springsVisible:Boolean;    //true if springs are shown
+    private var _massGrabbedByUser:Boolean; //true if use has grabbed any mass once
 
     private var stageW: int;
     private var stageH: int;
@@ -65,7 +66,7 @@ public class View1 extends Sprite {
             this.addChild(this.mass_arr[i]);
         }
         this.addChild(this.walls);
-
+        this._massGrabbedByUser = false;
         this.initializeControls();
     }//end of initialize()
 
@@ -122,6 +123,11 @@ public class View1 extends Sprite {
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
         }
+        if( _massGrabbedByUser ){
+            //nothing
+        } else{
+           this.mass_arr[i].drawBorderZone( this.L0Spring, 300 );
+        }
         for(i = N; i < nMax; i++){
             this.mass_arr[i].visible = false;
         }
@@ -129,7 +135,7 @@ public class View1 extends Sprite {
 
     public function setNbrMasses():void{
         this.drawSprings();
-        this. setVisiblityGraphics();
+        this.setVisiblityGraphics();
     }
 
     public function set springsVisible( tOrF: Boolean):void{
@@ -161,6 +167,14 @@ public class View1 extends Sprite {
     public function get leftEdgeY():Number{
         return this._leftEdgeY;
     }
+
+    public function clearBorderZones():void{
+        this._massGrabbedByUser = true;
+        for(var i:int = 0; i < this.myModel1.nMax; i++ ){
+            this.mass_arr[i].drawBorderZone( 0, 0 );
+        }
+    }
+
 
     public function update(): void {
         var xInMeters:Number;

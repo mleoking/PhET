@@ -30,31 +30,35 @@ public class MassView1 extends Sprite{
         this.addChild( borderZone );
         this.addChild( mass );
         this.drawMass( "dim" );
-        this.drawBorderZone();
+        this.drawBorderZone( 150, 200 );
         this.makeMassGrabbable();
     } //end constructor
 
-    private function drawBorderZone():void{
+    public function drawBorderZone( width:Number,  height:Number ):void{
+        var w:Number = width;
+        var h:Number = height;
         var g:Graphics = this.borderZone.graphics;
         g.clear();
-        g.lineStyle(3, 0xffffff, 0.3);
-        var d:Number = 80;   //edge length of square mass in pixels
-        g.beginFill(0xffffff, 0.3);
-        g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+        g.lineStyle(3, 0xffffff, 0);
+        //var d:Number = 80;   //edge length of square mass in pixels
+        g.beginFill(0xffffff, 0);
+        g.drawRoundRect(-w/2, -h/2, w,  h,  w/4 );
         g.endFill();
     }
 
     private function drawMass( dimOrBright:String ):void{
         var g:Graphics = this.mass.graphics;
         g.clear();
-        g.lineStyle(3, 0x0000ff, 1);
+
         var d:Number = 20;   //edge length of square mass in pixels
         if( dimOrBright == "dim") {
-            g.beginFill(0x5555ff, 1);
+            g.lineStyle(3, 0x0000ff, 1);
+            g.beginFill(0x6666ff, 1);
             g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
             g.endFill();
         } else{
-            g.beginFill(0x000055, 1);
+            g.lineStyle(3, 0x0000ff, 1);
+            g.beginFill(0xffff00, 1);
             g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
             g.endFill();
         }
@@ -76,6 +80,7 @@ public class MassView1 extends Sprite{
         var thisObject:Object = this;
         this.mass.buttonMode = true;
         this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+        this.borderZone.addEventListener( MouseEvent.MOUSE_OVER, brightenMass );
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
@@ -86,6 +91,18 @@ public class MassView1 extends Sprite{
             //trace("evt.target.y: "+evt.target.y);
         }
 
+        function brightenMass( evt: MouseEvent ):void {
+            thisObject.drawMass( "bright" );
+            stage.addEventListener ( MouseEvent.MOUSE_OUT, dimMass );
+
+        }
+
+        function dimMass( evt: MouseEvent ):void{
+            thisObject.drawMass( "dim" );
+            stage.removeEventListener( MouseEvent.MOUSE_OVER, brightenMass );
+            stage.removeEventListener( MouseEvent.MOUSE_OUT, dimMass );
+        }
+
         function stopTargetDrag( evt: MouseEvent ): void {
             thisObject.myModel1.grabbedMass = 0;
             //thisObject.myModel1.computeModeAmplitudesAndPhases();
@@ -93,6 +110,7 @@ public class MassView1 extends Sprite{
             thisObject.myModel1.computeModeAmplitudesAndPhases();
             //thisObject.myModel1.nbrStepsSinceRelease = 0;
             clickOffset = null;
+            thisObject.container.clearBorderZones();
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
