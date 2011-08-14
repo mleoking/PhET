@@ -37,6 +37,7 @@ public class ControlPanel extends Canvas {
     private var zeroPositionsButton: NiceButton2;
 
     //Polarization radio buttons
+    /*
     private var innerBckgrnd1: VBox;
     private var polarizationLabel: NiceLabel;
     private var modeTypeHBox: HBox;
@@ -45,6 +46,7 @@ public class ControlPanel extends Canvas {
     private var vertPolarizationButton: RadioButton;
     private var horizArrow: TwoHeadedArrow;
     private var vertArrow: TwoHeadedArrow;
+    */
 
     private var innerBckgrnd3:HBox;
     private var showPhasesCheckBox: CheckBox;
@@ -99,6 +101,7 @@ public class ControlPanel extends Canvas {
             setStyle( "horizontalAlign", "center" );
         }
 
+        /*
         this.innerBckgrnd1 = new VBox();
         with ( this.innerBckgrnd1 ) {
             setStyle( "backgroundColor", 0x88ff88 );   //0xdddd00
@@ -114,6 +117,7 @@ public class ControlPanel extends Canvas {
             setStyle( "verticalGap", 0 );
             setStyle( "horizontalAlign" , "center" );
         }
+        */
 
         this.nbrMassesSlider = new HorizontalSlider( setNbrMasses, 120, 1, 10, false, true, 10, false );
         this.nbrMassesSlider.drawKnob( 0x8888ff, 0x0000cc );
@@ -123,9 +127,10 @@ public class ControlPanel extends Canvas {
         this.startStopButton = new NiceButton2( 100, 25, start_str, startStop, 0x00ff00, 0x000000 );
         this.resetPositionsButton = new NiceButton2( 120, 25, resetPositions_str, resetPositions, 0xffff00, 0x000000  )
         this.zeroPositionsButton = new NiceButton2( 120, 25, zeroPositions_str, zeroPositions, 0xff0000, 0xffffff );
-        this.polarizationLabel = new NiceLabel( 12, polarization_str );
+        //this.polarizationLabel = new NiceLabel( 12, polarization_str );
 
         //Set up polarization radio button box
+        /*
         this.modeTypeHBox = new HBox();
         this.directionOfMode_rbg = new RadioButtonGroup();
         this.horizPolarizationButton = new RadioButton();
@@ -140,6 +145,7 @@ public class ControlPanel extends Canvas {
         this.vertArrow.width = 20;
         this.vertArrow.rotation = -90;
         this.vertArrow.x = 5;
+
         this.horizPolarizationButton.group = directionOfMode_rbg;
         this.vertPolarizationButton.group = directionOfMode_rbg;
         this.horizPolarizationButton.value = 1;
@@ -147,6 +153,7 @@ public class ControlPanel extends Canvas {
         this.horizPolarizationButton.selected = false;
         this.vertPolarizationButton.selected = true;
         this.directionOfMode_rbg.addEventListener( Event.CHANGE, setPolarization );
+        */
 
         this.innerBckgrnd3 = new HBox();
         this.innerBckgrnd3.setStyle( "horizontalGap", 0 );
@@ -280,6 +287,7 @@ public class ControlPanel extends Canvas {
         //this.myModel.pauseSim();
     }
 
+    /*
     private function setPolarization( evt: Event ): void {
         var val: Object = this.directionOfMode_rbg.selectedValue;
         if ( val == 1 ) {
@@ -293,6 +301,7 @@ public class ControlPanel extends Canvas {
             //this.myMainView.myButtonArrayPanel.showVerticalPolarization( true );
         }
     }
+    */
 
     private function clickShowPhases( evt:Event ):void{
         var shown: Boolean = this.showPhasesCheckBox.selected;
