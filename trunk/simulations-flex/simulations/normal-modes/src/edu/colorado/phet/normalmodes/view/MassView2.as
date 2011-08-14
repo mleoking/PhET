@@ -21,6 +21,8 @@ public class MassView2 extends Sprite{
     private var _iJIndices:Array = new Array(2);       // i, j integers labeling the mass :i = row = 1, 2, .. N, j = column = 1, 2, .. N
     private var myModel2:Model2;
     private var container:View2;
+    private var mass:Sprite;
+    private var borderZone:Sprite;
     private var label_txt:TextField;
     private var tFormat:TextFormat;
 
@@ -29,13 +31,54 @@ public class MassView2 extends Sprite{
         this._iJIndices[1] = j;
         this.myModel2 = myModel2
         this.container = container;
+        this.mass = new Sprite();
+        this.borderZone = new Sprite();
+        this.addChild( borderZone );
+        this.addChild( mass );
+        this.drawMass( "dim" );
+        this.drawBorderZone( 200, 200 );
         this.label_txt = new TextField();
         this.tFormat = new TextFormat();
-        this.drawMass();
         //this.makeLabel();   //for testing only
         this.makeMassGrabbable();
     } //end constructor
 
+    //invisible border zone, when zone is moused over, mass brightens
+    //cueing user that mass is grabbable
+    public function drawBorderZone( width:Number,  height:Number ):void{
+        var w:Number = width;
+        var h:Number = height;
+        var g:Graphics = this.borderZone.graphics;
+        g.clear();
+        g.lineStyle(3, 0xffffff, 0);
+        //var d:Number = 80;   //edge length of square mass in pixels
+        g.beginFill(0xffffff, 0);
+        g.drawRoundRect(-w/2, -h/2, w,  h,  w/4 );
+        g.endFill();
+    }
+
+    private function drawMass( dimOrBright:String ):void{
+        var g:Graphics = this.mass.graphics;
+        g.clear();
+
+        var d:Number = 20;   //edge length of square mass in pixels
+        if( dimOrBright == "dim") {
+            g.lineStyle(3, 0x0000ff, 1);
+            g.beginFill(0x6666ff, 1);
+            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+            g.endFill();
+        } else{
+            g.lineStyle(3, 0x0000ff, 1);
+            g.beginFill(0xffff00, 1);
+            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+            g.endFill();
+        }
+
+        //this.mass_arr[i].y = this.leftEdgeY;
+        this.mass.visible = true;      //start with mass invisible
+    }//end drawMass()
+
+    /*
     private function drawMass():void{
         var g:Graphics = this.graphics;
         g.clear();
@@ -48,6 +91,7 @@ public class MassView2 extends Sprite{
         g.endFill();
         this.visible = false;      //start with mass invisible
     }//end drawMass()
+    */
 
     //For testing only. Label shows indices on mass graphic
     private function makeLabel():void{
@@ -70,8 +114,9 @@ public class MassView2 extends Sprite{
         var topEdgeY:Number = this.container.topLeftCornerY;
         var pixPerMeter:Number = this.container.pixPerMeter;
         var thisObject:Object = this;
-        this.buttonMode = true;
-        this.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+        this.mass.buttonMode = true;
+        this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
+        this.borderZone.addEventListener( MouseEvent.MOUSE_OVER, brightenMass );
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
@@ -82,6 +127,18 @@ public class MassView2 extends Sprite{
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
             //trace("MassView2.startTargetDrag.  i = " + thisObject._iJIndices[0] + "    j = "+thisObject._iJIndices[1]);
             //trace("evt.target.y: "+evt.target.y);
+        }
+
+        function brightenMass( evt: MouseEvent ):void {
+            thisObject.drawMass( "bright" );
+            stage.addEventListener ( MouseEvent.MOUSE_OUT, dimMass );
+
+        }
+
+        function dimMass( evt: MouseEvent ):void{
+            thisObject.drawMass( "dim" );
+            stage.removeEventListener( MouseEvent.MOUSE_OVER, brightenMass );
+            stage.removeEventListener( MouseEvent.MOUSE_OUT, dimMass );
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
@@ -95,6 +152,7 @@ public class MassView2 extends Sprite{
             clickOffset = null;
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            thisObject.container.clearBorderZones();
         }
 
         function dragTarget( evt: MouseEvent ): void {
