@@ -68,18 +68,10 @@ public class MoleculeModel {
     public void addPair( PairGroup pair ) {
         groups.add( pair );
 
-        // sort so that the lone pairs come first
+        // sort so that the higher-repulsion groups come first
         Collections.sort( groups, new Comparator<PairGroup>() {
             public int compare( PairGroup a, PairGroup b ) {
-                if ( a.isLonePair == b.isLonePair ) {
-                    return 0;
-                }
-                if ( a.isLonePair ) {
-                    return -1;
-                }
-                else {
-                    return 1;
-                }
+                return new Integer( getSortingKey( a ) ).compareTo( getSortingKey( b ) );
             }
         } );
 
@@ -87,6 +79,11 @@ public class MoleculeModel {
         for ( Listener listener : listeners ) {
             listener.onGroupAdded( pair );
         }
+    }
+
+    private int getSortingKey( PairGroup group ) {
+        // triple bonds lowest, then double bonds, then lone pairs, then single bonds
+        return group.bondOrder > 1 ? -group.bondOrder : group.bondOrder;
     }
 
     public void removePair( PairGroup pair ) {
