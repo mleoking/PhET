@@ -5,7 +5,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
-import edu.colorado.phet.moleculeshapes.model.ElectronPair;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
@@ -19,14 +19,14 @@ import com.jme3.util.TangentBinormalGenerator;
  */
 public class AtomNode extends Geometry {
 
-    public final ElectronPair pair; // referenced pair (or null)
+    public final PairGroup pair; // referenced pair (or null)
     public final Property<ImmutableVector3D> position; // position property
 
     /**
      * @param pairOption   An electron pair if applicable. If no pair is given, it is ASSUMED to be the center atom, and is colored differently
      * @param assetManager Asset manager
      */
-    public AtomNode( Option<ElectronPair> pairOption, AssetManager assetManager ) {
+    public AtomNode( Option<PairGroup> pairOption, AssetManager assetManager ) {
         super( "Atom", new Sphere( 32, 32, 2f ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect

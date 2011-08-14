@@ -3,7 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.model.ElectronPair;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
@@ -24,12 +24,12 @@ import com.jme3.util.TangentBinormalGenerator;
  * Displays a lone electron pair in the 3d view
  */
 public class LonePairNode extends Node {
-    public final ElectronPair pair;
+    public final PairGroup pair;
     public final Property<ImmutableVector3D> position;
 
     private static Spatial lonePairGeometry;
 
-    public LonePairNode( ElectronPair pair, final AssetManager assetManager ) {
+    public LonePairNode( PairGroup pair, final AssetManager assetManager ) {
         super( "Lone Pair" );
         this.pair = pair;
         this.position = pair.position;
@@ -71,8 +71,8 @@ public class LonePairNode extends Node {
                 fromStartEndVectors( matrix, lonePairOrientation, normalizedPosition );
                 setLocalRotation( matrix );
 
-                if ( position.get().magnitude() > ElectronPair.LONE_PAIR_DISTANCE ) {
-                    setLocalTranslation( MoleculeJMEApplication.vectorConversion( position.get().minus( position.get().normalized().times( ElectronPair.LONE_PAIR_DISTANCE ) ) ) );
+                if ( position.get().magnitude() > PairGroup.LONE_PAIR_DISTANCE ) {
+                    setLocalTranslation( MoleculeJMEApplication.vectorConversion( position.get().minus( position.get().normalized().times( PairGroup.LONE_PAIR_DISTANCE ) ) ) );
                 }
                 else {
                     setLocalTranslation( 0, 0, 0 );

@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.moleculeshapes.model.ElectronPair;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 
 import com.jme3.asset.AssetManager;
@@ -13,7 +13,7 @@ import com.jme3.scene.shape.Cylinder;
 
 public class BondNode extends Geometry {
 
-    private static final float MAX_LENGTH = (float) ElectronPair.BONDED_PAIR_DISTANCE;
+    private static final float MAX_LENGTH = (float) PairGroup.BONDED_PAIR_DISTANCE;
 
     public BondNode( final ImmutableVector3D b, int bondOrder, AssetManager assetManager ) {
         super( "Bond" );

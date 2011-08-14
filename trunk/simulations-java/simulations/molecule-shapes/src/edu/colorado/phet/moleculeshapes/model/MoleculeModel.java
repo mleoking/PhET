@@ -10,46 +10,54 @@ public class MoleculeModel {
 
     public static final int MAX_PAIRS = 6;
 
-    private List<ElectronPair> pairs = new ArrayList<ElectronPair>();
+    private List<PairGroup> groups = new ArrayList<PairGroup>();
     private List<Listener> listeners = new ArrayList<Listener>();
 
     public MoleculeModel() {
     }
 
     public void update( final float tpf ) {
-        for ( ElectronPair pair : pairs ) {
+        for ( PairGroup group : groups ) {
             // run our fake physics
-            pair.stepForward( tpf );
-            for ( ElectronPair otherPair : pairs ) {
-                if ( otherPair != pair ) {
-                    pair.repulseFrom( otherPair, tpf );
+            group.stepForward( tpf );
+            for ( PairGroup otherGroup : groups ) {
+                if ( otherGroup != group ) {
+                    group.repulseFrom( otherGroup, tpf );
                 }
             }
-            pair.attractToDistance( tpf );
+            group.attractToDistance( tpf );
         }
         AttractorModel.applyAttractorForces( this, tpf );
     }
 
     public int getStericNumber() {
-        return pairs.size();
+        return groups.size();
     }
 
-    public ArrayList<ElectronPair> getBondedPairs() {
-        return getPairs( false );
+    public int getNumberOfPairs() {
+        int result = 0;
+        for ( PairGroup group : groups ) {
+            result += group.getNumberOfPairs();
+        }
+        return result;
     }
 
-    public ArrayList<ElectronPair> getLonePairs() {
-        return getPairs( true );
+    public ArrayList<PairGroup> getBondedGroups() {
+        return getGroups( false );
+    }
+
+    public ArrayList<PairGroup> getLonePairs() {
+        return getGroups( true );
     }
 
     public VseprConfiguration getConfiguration() {
         // TODO: refactor to use this
-        return new VseprConfiguration( getBondedPairs().size(), getLonePairs().size() );
+        return new VseprConfiguration( getBondedGroups().size(), getLonePairs().size() );
     }
 
-    public ArrayList<ElectronPair> getPairs( final boolean lonePairs ) {
-        return new ArrayList<ElectronPair>() {{
-            for ( ElectronPair pair : pairs ) {
+    public ArrayList<PairGroup> getGroups( final boolean lonePairs ) {
+        return new ArrayList<PairGroup>() {{
+            for ( PairGroup pair : groups ) {
                 if ( pair.isLonePair == lonePairs ) {
                     add( pair );
                 }
@@ -57,12 +65,12 @@ public class MoleculeModel {
         }};
     }
 
-    public void addPair( ElectronPair pair ) {
-        pairs.add( pair );
+    public void addPair( PairGroup pair ) {
+        groups.add( pair );
 
         // sort so that the lone pairs come first
-        Collections.sort( pairs, new Comparator<ElectronPair>() {
-            public int compare( ElectronPair a, ElectronPair b ) {
+        Collections.sort( groups, new Comparator<PairGroup>() {
+            public int compare( PairGroup a, PairGroup b ) {
                 if ( a.isLonePair == b.isLonePair ) {
                     return 0;
                 }
@@ -77,25 +85,29 @@ public class MoleculeModel {
 
         // notify
         for ( Listener listener : listeners ) {
-            listener.onPairAdded( pair );
+            listener.onGroupAdded( pair );
         }
     }
 
-    public void removePair( ElectronPair pair ) {
-        pairs.remove( pair );
+    public void removePair( PairGroup pair ) {
+        groups.remove( pair );
 
         // notify
         for ( Listener listener : listeners ) {
-            listener.onPairRemoved( pair );
+            listener.onGroupRemoved( pair );
         }
     }
 
-    public List<ElectronPair> getPairs() {
-        return pairs;
+    public List<PairGroup> getGroups() {
+        return groups;
     }
 
-    public boolean isFull() {
-        return pairs.size() >= MAX_PAIRS;
+    /**
+     * @param bondOrder Bond order of potential pair group to add
+     * @return Whether the pair group can be added, or whether this molecule would go over its pair limit
+     */
+    public boolean wouldAllowBondOrder( int bondOrder ) {
+        return getNumberOfPairs() + ( bondOrder == 0 ? 1 : bondOrder ) <= MAX_PAIRS;
     }
 
     /*---------------------------------------------------------------------------*
@@ -111,16 +123,16 @@ public class MoleculeModel {
     }
 
     public static interface Listener {
-        public void onPairAdded( ElectronPair pair );
+        public void onGroupAdded( PairGroup group );
 
-        public void onPairRemoved( ElectronPair pair );
+        public void onGroupRemoved( PairGroup group );
     }
 
     public static class Adapter implements Listener {
-        public void onPairAdded( ElectronPair pair ) {
+        public void onGroupAdded( PairGroup group ) {
         }
 
-        public void onPairRemoved( ElectronPair pair ) {
+        public void onGroupRemoved( PairGroup group ) {
         }
     }
 }

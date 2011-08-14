@@ -16,11 +16,11 @@ import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
-import edu.colorado.phet.moleculeshapes.model.ElectronPair;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.bounding.BoundingSphere;
@@ -47,6 +47,7 @@ import com.jme3.scene.Spatial.CullHint;
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: cursor stuff!
  * TODO: add multiple-bond handling (and to the model)
+ * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
@@ -86,7 +87,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private boolean dragging = false; // keeps track of the drag state
     private DragMode dragMode = DragMode.MOLECULE_ROTATE;
-    private ElectronPair draggedParticle = null;
+    private PairGroup draggedParticle = null;
 
     /*---------------------------------------------------------------------------*
     * positioning
@@ -139,7 +140,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                 dragging = value;
 
                                 if ( dragging ) {
-                                    ElectronPair pair = getElectronPairUnderPointer();
+                                    PairGroup pair = getElectronPairUnderPointer();
                                     if ( pair != null ) {
                                         dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
                                         draggedParticle = pair;
@@ -160,7 +161,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                 }
                             }
                             if ( name.equals( MAP_MMB ) ) {
-                                ElectronPair pair = getElectronPairUnderPointer();
+                                PairGroup pair = getElectronPairUnderPointer();
                                 if ( pair != null ) {
                                     molecule.removePair( pair );
                                 }
@@ -206,14 +207,14 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         // update the UI when the molecule changes electron pairs
         molecule.addListener( new Adapter() {
-            @Override public void onPairAdded( ElectronPair pair ) {
-                if ( pair.isLonePair ) {
-                    LonePairNode lonePairNode = new LonePairNode( pair, assetManager );
+            @Override public void onGroupAdded( PairGroup group ) {
+                if ( group.isLonePair ) {
+                    LonePairNode lonePairNode = new LonePairNode( group, assetManager );
                     lonePairNodes.add( lonePairNode );
                     moleculeNode.attachChild( lonePairNode );
                 }
                 else {
-                    AtomNode atomNode = new AtomNode( new Some<ElectronPair>( pair ), assetManager );
+                    AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), assetManager );
                     atomNodes.add( atomNode );
                     moleculeNode.attachChild( atomNode );
                     rebuildBonds();
@@ -222,11 +223,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 onGeometryChange();
             }
 
-            @Override public void onPairRemoved( ElectronPair pair ) {
-                if ( pair.isLonePair ) {
+            @Override public void onGroupRemoved( PairGroup group ) {
+                if ( group.isLonePair ) {
                     for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
                         // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( lonePairNode.position == pair.position ) {
+                        if ( lonePairNode.position == group.position ) {
                             lonePairNodes.remove( lonePairNode );
                             moleculeNode.detachChild( lonePairNode );
                         }
@@ -235,7 +236,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 else {
                     for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
                         // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( atomNode.position == pair.position ) {
+                        if ( atomNode.position == group.position ) {
                             atomNodes.remove( atomNode );
                             moleculeNode.detachChild( atomNode );
                         }
@@ -251,7 +252,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         *----------------------------------------------------------------------------*/
 
         //Create the central atom
-        AtomNode center = new AtomNode( new None<ElectronPair>(), assetManager );
+        AtomNode center = new AtomNode( new None<PairGroup>(), assetManager );
         moleculeNode.attachChild( center );
 
         //Create the atoms that circle about the central atom
@@ -259,7 +260,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
             double x = 10 * Math.cos( theta );
             double y = 10 * Math.sin( theta );
-            molecule.addPair( new ElectronPair( new ImmutableVector3D( x, y, 0 ), 1, false ) );
+            molecule.addPair( new PairGroup( new ImmutableVector3D( x, y, 0 ), 1, false ) );
         }
 
         rebuildBonds();
@@ -329,11 +330,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     }
                 }
 
-                public void onPairAdded( ElectronPair pair ) {
+                public void onGroupAdded( PairGroup group ) {
                     updateText();
                 }
 
-                public void onPairRemoved( ElectronPair pair ) {
+                public void onGroupRemoved( PairGroup group ) {
                     updateText();
                 }
             } );
@@ -365,11 +366,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     }
                 }
 
-                public void onPairAdded( ElectronPair pair ) {
+                public void onGroupAdded( PairGroup group ) {
                     updateText();
                 }
 
-                public void onPairRemoved( ElectronPair pair ) {
+                public void onGroupRemoved( PairGroup group ) {
                     updateText();
                 }
             } );
@@ -404,7 +405,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     public synchronized void startNewInstanceDrag( int bondOrder ) {
-        if ( molecule.isFull() ) {
+        if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
             // don't add to the molecule if it is full
             // TODO: find better way of not calling this (or not having the user attempt to drag!) grey-out the control panel bonds?
             return;
@@ -412,7 +413,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
-        ElectronPair pair = new ElectronPair( vectorConversion( localPosition ), bondOrder, true );
+        PairGroup pair = new PairGroup( vectorConversion( localPosition ), bondOrder, true );
         molecule.addPair( pair );
 
         // set up dragging information
@@ -476,7 +477,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     /**
      * @return The closest (hit) electron pair currently under the mouse pointer, or null if there is none
      */
-    public ElectronPair getElectronPairUnderPointer() {
+    public PairGroup getElectronPairUnderPointer() {
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
         Vector3f click3d = cam.getWorldCoordinates(
@@ -486,7 +487,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         Ray ray = new Ray( click3d, dir );
         rootNode.collideWith( ray, results );
         for ( CollisionResult result : results ) {
-            ElectronPair pair = getElectronPairForTarget( result.getGeometry() );
+            PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
                 return pair;
             }
@@ -500,7 +501,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
      * @param target JME Spatial
      * @return Electron pair, or null
      */
-    private ElectronPair getElectronPairForTarget( Spatial target ) {
+    private PairGroup getElectronPairForTarget( Spatial target ) {
         boolean isAtom = target instanceof AtomNode;
         boolean isLonePair = target instanceof LonePairNode;
 
@@ -527,8 +528,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     public synchronized void testRemoveAtom() {
-        if ( !molecule.getPairs().isEmpty() ) {
-            molecule.removePair( molecule.getPairs().get( random.nextInt( molecule.getPairs().size() ) ) );
+        if ( !molecule.getGroups().isEmpty() ) {
+            molecule.removePair( molecule.getGroups().get( random.nextInt( molecule.getGroups().size() ) ) );
         }
     }
 
@@ -561,7 +562,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             moleculeNode.detachChild( bondNode );
         }
         bondNodes.clear();
-        for ( ElectronPair pair : molecule.getPairs() ) {
+        for ( PairGroup pair : molecule.getGroups() ) {
             if ( !pair.isLonePair ) {
                 BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, assetManager );
                 moleculeNode.attachChild( bondNode );
@@ -585,7 +586,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     public void removeAllAtoms() {
-        while ( !molecule.getPairs().isEmpty() ) {
+        while ( !molecule.getGroups().isEmpty() ) {
             testRemoveAtom();
         }
     }
@@ -598,5 +599,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private void initializeResources() {
         // pre-load the lone pair geometry, so we don't get that delay
         LonePairNode.getGeometry( assetManager );
+    }
+
+    public MoleculeModel getMolecule() {
+        return molecule;
     }
 }

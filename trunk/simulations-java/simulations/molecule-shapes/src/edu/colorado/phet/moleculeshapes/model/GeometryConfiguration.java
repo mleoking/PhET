@@ -72,8 +72,8 @@ public class GeometryConfiguration {
         ) );
     }};
 
-    public static GeometryConfiguration getConfiguration( int numberOfPairs ) {
-        return GEOMETRY_MAP.get( numberOfPairs );
+    public static GeometryConfiguration getConfiguration( int numberOfGroups ) {
+        return GEOMETRY_MAP.get( numberOfGroups );
     }
 
     /*---------------------------------------------------------------------------*
