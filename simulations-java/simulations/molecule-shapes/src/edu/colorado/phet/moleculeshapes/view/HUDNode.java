@@ -181,6 +181,7 @@ public class HUDNode extends Geometry {
 
     /*---------------------------------------------------------------------------*
     * here follows a lot of JMEDesktop code, listed with the relevant license information
+    * see https://code.google.com/p/jmonkeyengine/source/browse/trunk/src/com/jmex/awt/swingui/JMEDesktop.java?r=4078
     *----------------------------------------------------------------------------*/
 
     /*
