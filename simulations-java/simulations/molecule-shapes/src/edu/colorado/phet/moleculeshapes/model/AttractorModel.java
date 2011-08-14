@@ -20,8 +20,8 @@ public class AttractorModel {
         final ResultMapping mapping = findClosestMatchingConfiguration( molecule );
 
         // for each electron pair, push it towards its computed target
-        for ( int i = 0; i < molecule.getPairs().size(); i++ ) {
-            ElectronPair pair = molecule.getPairs().get( i );
+        for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
+            PairGroup pair = molecule.getGroups().get( i );
             ImmutableVector3D targetUnitVector = new ImmutableVector3D( mapping.target.get( 0, i ), mapping.target.get( 1, i ), mapping.target.get( 2, i ) );
             ImmutableVector3D targetLocation = targetUnitVector.times( pair.position.get().magnitude() );
 
@@ -54,16 +54,16 @@ public class AttractorModel {
      * @return Result mapping (see docs there)
      */
     private static ResultMapping findClosestMatchingConfiguration( final MoleculeModel molecule ) {
-        final VseprConfiguration configuration = new VseprConfiguration( molecule.getBondedPairs().size(), molecule.getLonePairs().size() );
+        final VseprConfiguration configuration = new VseprConfiguration( molecule.getBondedGroups().size(), molecule.getLonePairs().size() );
 
-        final int n = molecule.getPairs().size(); // number of total pairs
+        final int n = molecule.getGroups().size(); // number of total pairs
         final int e = molecule.getLonePairs().size();
 
         // y == electron pair positions
         final Matrix y = new Matrix( 3, n ) {{
             for ( int i = 0; i < n; i++ ) {
                 // fill the vector into the matrix as a column
-                ImmutableVector3D normalizedPosition = molecule.getPairs().get( i ).position.get().normalized();
+                ImmutableVector3D normalizedPosition = molecule.getGroups().get( i ).position.get().normalized();
                 set( 0, i, normalizedPosition.getX() );
                 set( 1, i, normalizedPosition.getY() );
                 set( 2, i, normalizedPosition.getZ() );

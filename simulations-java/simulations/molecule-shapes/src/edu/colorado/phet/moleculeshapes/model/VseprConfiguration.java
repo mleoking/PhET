@@ -108,28 +108,28 @@ public class VseprConfiguration {
     * matching of electron positions to shape
     *----------------------------------------------------------------------------*/
 
-    public boolean matchesElectronPairs( List<ElectronPair> pairs, double epsilon ) {
-        List<ElectronPair> bondedPairs = new ArrayList<ElectronPair>();
-        List<ElectronPair> lonePairs = new ArrayList<ElectronPair>();
-        for ( ElectronPair pair : pairs ) {
+    public boolean matchesElectronPairs( List<PairGroup> pairs, double epsilon ) {
+        List<PairGroup> bondedGroups = new ArrayList<PairGroup>();
+        List<PairGroup> lonePairs = new ArrayList<PairGroup>();
+        for ( PairGroup pair : pairs ) {
             if ( pair.isLonePair ) {
                 lonePairs.add( pair );
             }
             else {
-                bondedPairs.add( pair );
+                bondedGroups.add( pair );
             }
         }
 
-        if ( x != bondedPairs.size() || e != lonePairs.size() ) {
+        if ( x != bondedGroups.size() || e != lonePairs.size() ) {
             return false;
         }
 
-        List<ElectronPair> orderedPairs = new ArrayList<ElectronPair>();
-        orderedPairs.addAll( lonePairs );
-        orderedPairs.addAll( bondedPairs );
+        List<PairGroup> orderedGroups = new ArrayList<PairGroup>();
+        orderedGroups.addAll( lonePairs );
+        orderedGroups.addAll( bondedGroups );
 
         double[][] configAngles = new double[x + e][x + e];
-        double[][] pairAngles = new double[x + e][x + e];
+        double[][] groupAngles = new double[x + e][x + e];
 
         List<Integer> indices = new ArrayList<Integer>();
         List<Integer> assignments = new ArrayList<Integer>();
@@ -139,11 +139,11 @@ public class VseprConfiguration {
             indices.add( i );
             for ( int k = 0; k < pairs.size(); k++ ) {
                 configAngles[i][k] = Math.acos( geometry.unitVectors.get( i ).dot( geometry.unitVectors.get( k ) ) );
-                pairAngles[i][k] = Math.acos( orderedPairs.get( i ).position.get().normalized().dot( orderedPairs.get( k ).position.get().normalized() ) );
+                groupAngles[i][k] = Math.acos( orderedGroups.get( i ).position.get().normalized().dot( orderedGroups.get( k ).position.get().normalized() ) );
             }
         }
 
-        return recurMatch( indices, assignments, configAngles, pairAngles, epsilon );
+        return recurMatch( indices, assignments, configAngles, groupAngles, epsilon );
     }
 
     private boolean recurMatch( List<Integer> remainingPairs, List<Integer> assignments, double[][] configAngles, double[][] pairAngles, double epsilon ) {
@@ -159,8 +159,8 @@ public class VseprConfiguration {
         boolean isLoneSpot = i < e;
 
         // try to assign each remaining pair to this spot
-        for ( Integer pair : new ArrayList<Integer>( remainingPairs ) ) {
-            boolean isLonePair = pair < e;
+        for ( Integer group : new ArrayList<Integer>( remainingPairs ) ) {
+            boolean isLonePair = group < e;
             if ( isLonePair != isLoneSpot ) {
                 // can't put a lone pair in a bonded spot, and vice versa
                 continue;
@@ -169,18 +169,18 @@ public class VseprConfiguration {
             boolean ok = true;
             for ( int k = 0; k < i; k++ ) {
                 // check that the angles are similar enough
-                double angleDifference = Math.abs( configAngles[i][k] - pairAngles[pair][assignments.get( k )] );
+                double angleDifference = Math.abs( configAngles[i][k] - pairAngles[group][assignments.get( k )] );
                 if ( angleDifference > epsilon ) {
                     ok = false;
                     break;
                 }
             }
             if ( ok ) {
-                remainingPairs.remove( pair );
-                assignments.add( pair );
+                remainingPairs.remove( group );
+                assignments.add( group );
                 boolean success = recurMatch( remainingPairs, assignments, configAngles, pairAngles, epsilon );
-                remainingPairs.add( pair );
-                assignments.remove( pair ); // it's an Integer, not an int. so this should remove the element, NOT the location..
+                remainingPairs.add( group );
+                assignments.remove( group ); // it's an Integer, not an int. so this should remove the element, NOT the location..
                 if ( success ) {
                     return true;
                 }

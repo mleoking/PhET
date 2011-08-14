@@ -5,7 +5,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 import com.jme3.math.ColorRGBA;
 
-public class ElectronPair {
+/**
+ * A group of electron pairs. The pairs may be part of a bond, or may be a lone electron pair.
+ */
+public class PairGroup {
     // TODO: add in developer controls for all of these
     public static final double BONDED_PAIR_DISTANCE = 10.0;
     public static final double LONE_PAIR_DISTANCE = 7.0;
@@ -17,8 +20,10 @@ public class ElectronPair {
 
     public final Property<ImmutableVector3D> position;
     public final Property<ImmutableVector3D> velocity = new Property<ImmutableVector3D>( new ImmutableVector3D() );
+
     public final boolean isLonePair;
-    public final int bondOrder;
+
+    public final int bondOrder; // is zero if it is a lone pair
     public final Property<Boolean> userControlled;
 
     /**
@@ -26,11 +31,15 @@ public class ElectronPair {
      * @param bondOrder    Bond order, (0 if it is a lone pair)
      * @param startDragged Whether it is starting as a dragged object
      */
-    public ElectronPair( ImmutableVector3D position, int bondOrder, boolean startDragged ) {
+    public PairGroup( ImmutableVector3D position, int bondOrder, boolean startDragged ) {
         this.position = new Property<ImmutableVector3D>( position );
         this.bondOrder = bondOrder;
         this.isLonePair = bondOrder == 0;
         userControlled = new Property<Boolean>( startDragged );
+    }
+
+    public int getNumberOfPairs() {
+        return bondOrder == 0 ? 1 : bondOrder;
     }
 
     public void attractToDistance( double timeElapsed ) {
@@ -50,7 +59,7 @@ public class ElectronPair {
         position.set( position.get().plus( directionToCenter.times( 0.1 * offset ) ) );
     }
 
-    public void repulseFrom( ElectronPair other, double timeElapsed ) {
+    public void repulseFrom( PairGroup other, double timeElapsed ) {
         // only handle the force on this object for now
 
         // from other => this

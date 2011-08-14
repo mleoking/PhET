@@ -10,6 +10,8 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -27,7 +29,10 @@ public class MoleculeShapesControlPanel extends PNode {
     public static final int BOND_HEIGHT = 5;
     public static final int BOND_SPACING = 2;
 
+    private final MoleculeJMEApplication app;
+
     public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
+        this.app = app;
         /*---------------------------------------------------------------------------*
         * bonding panel
         *----------------------------------------------------------------------------*/
@@ -38,11 +43,13 @@ public class MoleculeShapesControlPanel extends PNode {
             final double spaceBetweenTypes = 15;
 
             final PNode singleNode = new BondTypeNode(
-                    new BondLine( 0 ), "Single" ) {{
+                    new BondLine( 0 ), 1, "Single" ) {{
                 setOffset( 0, 10 );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        app.startNewInstanceDrag( 1 );
+                        if ( enabled ) {
+                            app.startNewInstanceDrag( 1 );
+                        }
                     }
                 } );
             }};
@@ -51,11 +58,13 @@ public class MoleculeShapesControlPanel extends PNode {
                     new PNode() {{
                         addChild( new BondLine( 0 ) );
                         addChild( new BondLine( 1 ) );
-                    }}, "Double" ) {{
+                    }}, 2, "Double" ) {{
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        app.startNewInstanceDrag( 2 );
+                        if ( enabled ) {
+                            app.startNewInstanceDrag( 2 );
+                        }
                     }
                 } );
             }};
@@ -65,11 +74,13 @@ public class MoleculeShapesControlPanel extends PNode {
                         addChild( new BondLine( 0 ) );
                         addChild( new BondLine( 1 ) );
                         addChild( new BondLine( 2 ) );
-                    }}, "Triple" ) {{
+                    }}, 3, "Triple" ) {{
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        app.startNewInstanceDrag( 3 );
+                        if ( enabled ) {
+                            app.startNewInstanceDrag( 3 );
+                        }
                     }
                 } );
             }};
@@ -91,11 +102,13 @@ public class MoleculeShapesControlPanel extends PNode {
                         double spacing = 4;
                         addChild( new PhetPPath( new Ellipse2D.Double( centerX - spacing / 2 - 2 * radius, 0, 2 * radius, 2 * radius ), Color.BLACK ) );
                         addChild( new PhetPPath( new Ellipse2D.Double( centerX + spacing / 2, 0, 2 * radius, 2 * radius ), Color.BLACK ) );
-                    }}, "Lone Pair" ) {{
+                    }}, 0, "Lone Pair" ) {{
                 setOffset( 0, 10 );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        app.startNewInstanceDrag( 0 );
+                        if ( enabled ) {
+                            app.startNewInstanceDrag( 0 );
+                        }
                     }
                 } );
             }} );
@@ -154,8 +167,12 @@ public class MoleculeShapesControlPanel extends PNode {
         }
     }
 
-    private static class BondTypeNode extends PNode {
-        private BondTypeNode( final PNode graphic, String type ) {
+    private class BondTypeNode extends PNode {
+        private final int bondOrder;
+        protected boolean enabled = true;
+
+        private BondTypeNode( final PNode graphic, int bondOrder, String type ) {
+            this.bondOrder = bondOrder;
             addChild( graphic );
             addChild( new PText( type ) {{
                 setFont( new PhetFont( 12 ) );
@@ -164,6 +181,28 @@ public class MoleculeShapesControlPanel extends PNode {
 
             // add a blank background that will allow the user to click on this
             addChild( 0, new PhetPPath( getFullBounds(), new Color( 0, 0, 0, 0 ) ) );
+
+            app.getMolecule().addListener( new Adapter() {
+                @Override public void onGroupAdded( PairGroup group ) {
+                    updateEnabled();
+                }
+
+                @Override public void onGroupRemoved( PairGroup group ) {
+                    updateEnabled();
+                }
+            } );
+            updateEnabled();
+        }
+
+        private void updateEnabled() {
+            enabled = app.getMolecule().wouldAllowBondOrder( bondOrder );
+            if ( enabled ) {
+                setTransparency( 1 );
+            }
+            else {
+                setTransparency( 0.3f );
+            }
+            repaint();
         }
     }
 
