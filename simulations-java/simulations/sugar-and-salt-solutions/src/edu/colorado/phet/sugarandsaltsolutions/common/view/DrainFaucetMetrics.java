@@ -32,7 +32,7 @@ public class DrainFaucetMetrics {
     //This is so that solutes can continue flowing out as long as water is flowing out
     public ImmutableVector2D getInputPoint() {
         Rectangle2D solutionShapeBounds = model.solution.shape.get().getBounds2D();
-        if ( solutionShapeBounds.contains( inputPoint.toPoint2D() ) ) {
+        if ( solutionShapeBounds.getBounds2D().getMinY() < inputPoint.toPoint2D().getY() && inputPoint.toPoint2D().getY() < solutionShapeBounds.getBounds2D().getMaxY() ) {
             return inputPoint;
         }
         else {

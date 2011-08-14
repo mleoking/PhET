@@ -2,16 +2,14 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.view.faucet;
 
 import java.awt.TexturePaint;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
@@ -26,12 +24,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
  */
 public class FaucetNode extends PNode {
 
-    //Listeners for the shape of the water that flows out of the faucet
-    private ArrayList<VoidFunction1<Rectangle2D>> listeners = new ArrayList<VoidFunction1<Rectangle2D>>();
-
     //Locations where the left side of the faucet connects to the pipe, so that the pipe can be tiled beyond the faucet image
     private final ImmutableVector2D inputPipeTopPoint = new ImmutableVector2D( 0, 32 );
     private final ImmutableVector2D inputPipeBottomPoint = new ImmutableVector2D( 0, 77 );
+
+    private final PImage faucetImageNode;
+
+    //Node that displays the water flowing out of the faucet
+    public final WaterNode waterNode;
 
     public FaucetNode(
 
@@ -48,47 +48,29 @@ public class FaucetNode extends PNode {
             final double faucetLength ) {
 
         //Create the image and slider node used to display and control the faucet
-        PImage imageNode = new PImage( FAUCET_FRONT ) {{
+        faucetImageNode = new PImage( FAUCET_FRONT ) {{
 
             //Scale up the faucet since it looks better at a larger size
             setScale( 1.2 );
 
             //Add the slider as a child of the image so it will receive the same scaling so it will stay in corresponding with the image area for the slider
-            addChild( new FaucetSlider( allowed, flowRate ) );
+            addChild( new FaucetSliderNode( allowed, flowRate ) );
 
             //Show the pipe to the left of the faucet with a tiled image
             final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength + 1, inputPipeTopPoint.getY() - 0.5, faucetLength, inputPipeBottomPoint.getY() - inputPipeTopPoint.getY() + 1.5 );
             addChild( new PhetPPath( rect, new TexturePaint( FAUCET_PIPE, new Rectangle2D.Double( 0, rect.getY(), FAUCET_PIPE.getWidth(), FAUCET_PIPE.getHeight() ) ) ) );
         }};
-        final double imageWidth = imageNode.getFullBounds().getMaxX();
-        final double imageHeight = imageNode.getFullBounds().getMaxY();
+        final double imageWidth = faucetImageNode.getFullBounds().getMaxX();
+        final double imageHeight = faucetImageNode.getFullBounds().getMaxY();
 
         //Show the water flowing out of the faucet
-        addChild( new PhetPPath( SugarAndSaltSolutionsApplication.WATER_COLOR ) {{
-            flowRate.addObserver( new VoidFunction1<Double>() {
-                public void apply( Double flow ) {
-                    double width = flow * 100 * 0.5;
-                    double pipeWidth = 56;
-                    double bottomY = flowPoint.getOrElse( 1000.0 );//Compute the bottom of the water (e.g. if it collides with the beaker)
-                    double height = bottomY - imageHeight - getOffset().getY();
-                    final Rectangle2D.Double waterShape = new Rectangle2D.Double( imageWidth - width / 2 - pipeWidth / 2, imageHeight, width, height );
-                    notifyWaterShapeChanged( waterShape );
-                    setPathTo( waterShape );
-                }
-            } );
-        }} );
-        addChild( imageNode );
+        waterNode = new WaterNode( flowRate, flowPoint, imageWidth, imageHeight );
+        addChild( waterNode );
+        addChild( faucetImageNode );
     }
 
-    //Add a listener that will be notified about the shape of the water
-    public void addListener( VoidFunction1<Rectangle2D> listener ) {
-        listeners.add( listener );
-    }
-
-    //Notify listeners that the shape of the output water changed
-    private void notifyWaterShapeChanged( Rectangle2D.Double waterShape ) {
-        for ( VoidFunction1<Rectangle2D> listener : listeners ) {
-            listener.apply( waterShape );
-        }
+    //Gets the location of the input part of the pipe in global coordinates for coordination with the model coordinates.
+    public Point2D getInputGlobalViewPoint() {
+        return faucetImageNode.localToGlobal( new Point2D.Double( inputPipeTopPoint.getX(), ( inputPipeTopPoint.getY() + inputPipeBottomPoint.getY() ) / 2 ) );
     }
 }

@@ -70,7 +70,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         }} );
 
         //When the shape of the flowing-out water changes, update the model so we can account for conductivity of the water while it is draining
-        drainFaucetNode.addListener( new VoidFunction1<Rectangle2D>() {
+        drainFaucetNode.waterNode.addListener( new VoidFunction1<Rectangle2D>() {
             public void apply( Rectangle2D outFlowShape ) {
                 ImmutableRectangle2D r = new ImmutableRectangle2D( outFlowShape );
                 Rectangle2D transformed = drainFaucetNode.localToGlobal( r.toRectangle2D() );
