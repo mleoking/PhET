@@ -44,7 +44,7 @@ import com.jme3.scene.Spatial.CullHint;
 
 /**
  * Use jme3 to show a rotating molecule
- * TODO: add multiple-bond handling to the attraction model
+ * TODO: consider allowing more electron pairs, since we can't show the double/triple bond differences much!
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: cursor stuff!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
