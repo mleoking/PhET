@@ -34,13 +34,13 @@ public class Plank extends ShapeModelElement {
     // Class Data
     //------------------------------------------------------------------------
 
-    public static final double LENGTH = 4.4;// meters
+    public static final double LENGTH = 4.5;// meters
     public static final double THICKNESS = 0.05; // meters
     private static final double MASS = 100; // kg
 
     // The number of locations where masses may be placed on the plank.  Only
     // the locations defined be this are valid.
-    private static final double INTER_SNAP_TO_MARKER_DISTANCE = 0.2; // meters
+    private static final double INTER_SNAP_TO_MARKER_DISTANCE = 0.25; // meters
     public static final int NUM_SNAP_TO_LOCATIONS = (int) Math.floor( LENGTH / INTER_SNAP_TO_MARKER_DISTANCE - 1 );
 
     // Moment of inertia.
@@ -106,13 +106,15 @@ public class Plank extends ShapeModelElement {
     //------------------------------------------------------------------------
 
     /**
-     * Constructor.  Creates the initial shape of the plank.  This assumes
-     * that the plank is initially flat and that the pivot point is under the
-     * center of the plank.
+     * Constructor.  Creates the initial shape of the plank.  This assumes that
+     * the plank is initially flat and that the pivot point is under the center
+     * of the plank.
      *
-     * @param clock                - The model clock used to drive time-dependent behavior.
+     * @param clock                - The model clock used to drive
+     *                             time-dependent behavior.
      * @param initialLocation      - Initial location of the plank.  This is the
-     *                             location of the horizontal center, vertical bottom of the plank.
+     *                             location of the horizontal center, vertical
+     *                             bottom of the plank.
      * @param initialPivotPoint
      * @param supportColumnsActive - Boolean property that can be monitored
      */
@@ -172,12 +174,13 @@ public class Plank extends ShapeModelElement {
      * then continue to control the position and orientation of the mass until
      * the mass is removed from the surface of the plank.
      * <p/>
-     * If there is no valid location for this mass on the plank, it will not
-     * be added and 'false' will be returned.
+     * If there is no valid location for this mass on the plank, it will not be
+     * added and 'false' will be returned.
      *
      * @param mass
      * @return true if mass was successfully added, false if not (which
-     *         generally indicates that no open nearby locations were available).
+     *         generally indicates that no open nearby locations were
+     *         available).
      */
     public boolean addMassToSurface( final Mass mass ) {
         boolean massAdded = false;
@@ -325,8 +328,8 @@ public class Plank extends ShapeModelElement {
     }
 
     /**
-     * Force the plank back to the level position.  This is generally done when some sort of support column has been
-     * put into place.
+     * Force the plank back to the level position.  This is generally done when
+     * some sort of support column has been put into place.
      */
     private void forceToLevel() {
         tiltAngle = 0;
@@ -405,8 +408,7 @@ public class Plank extends ShapeModelElement {
 
     /**
      * Get the balance point for the plank.  This is the point on which the
-     * plank rests and tilts, so it is the underside of the plank, not the
-     * top.
+     * plank rests and tilts, so it is the underside of the plank, not the top.
      *
      * @return
      */
@@ -457,10 +459,10 @@ public class Plank extends ShapeModelElement {
     }
 
     /**
-     * Get a list of the "snap to" locations on the surface of the plank.
-     * These locations are the only locations where the masses may be placed,
-     * and locations between these points are not considered valid.  This is
-     * done to make it easier to balance things.
+     * Get a list of the "snap to" locations on the surface of the plank. These
+     * locations are the only locations where the masses may be placed, and
+     * locations between these points are not considered valid.  This is done to
+     * make it easier to balance things.
      *
      * @return
      */
@@ -519,10 +521,10 @@ public class Plank extends ShapeModelElement {
     }
 
     /**
-     * Convenience class that maintains relationship between a mass and a
-     * lever arm vector.  A lever arm vector starts at the pivot point and
-     * goes to the location of the center of gravity of the mass on the
-     * surface of the plank.
+     * Convenience class that maintains relationship between a mass and a lever
+     * arm vector.  A lever arm vector starts at the pivot point and goes to the
+     * location of the center of gravity of the mass on the surface of the
+     * plank.
      */
     public static class LeverArmVector {
         private final Mass mass;
