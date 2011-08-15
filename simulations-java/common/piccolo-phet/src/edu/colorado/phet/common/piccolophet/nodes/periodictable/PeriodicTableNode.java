@@ -77,61 +77,25 @@ public class PeriodicTableNode extends PNode {
      */
     private Point getPeriodicTableGridPoint( int atomicNumber ) {
         //http://www.ptable.com/ was useful here
-        if ( atomicNumber == 1 ) {
-            return new Point( 1, 1 );
-        }
-        if ( atomicNumber == 2 ) {
-            return new Point( 1, 18 );
-        }
-        else if ( atomicNumber == 3 ) {
-            return new Point( 2, 1 );
-        }
-        else if ( atomicNumber == 4 ) {
-            return new Point( 2, 2 );
-        }
-        else if ( atomicNumber >= 5 && atomicNumber <= 10 ) {
-            return new Point( 2, atomicNumber + 8 );
-        }
-        else if ( atomicNumber == 11 ) {
-            return new Point( 3, 1 );
-        }
-        else if ( atomicNumber == 12 ) {
-            return new Point( 3, 2 );
-        }
-        else if ( atomicNumber >= 13 && atomicNumber <= 18 ) {
-            return new Point( 3, atomicNumber );
-        }
-        else if ( atomicNumber >= 19 && atomicNumber <= 36 ) {
-            return new Point( 4, atomicNumber - 18 );
-        }
-        else if ( atomicNumber >= 37 && atomicNumber <= 54 ) {
-            return new Point( 5, atomicNumber - 36 );
-        }
-        else if ( atomicNumber == 55 ) {
-            return new Point( 6, 1 );
-        }
-        else if ( atomicNumber == 56 ) {
-            return new Point( 6, 2 );
-        }
-        else if ( atomicNumber >= 57 && atomicNumber <= 71 ) {
-            return new Point( 6, 3 );
-        }
-        else if ( atomicNumber >= 72 && atomicNumber <= 86 ) {
-            return new Point( 6, atomicNumber - 68 );
-        }
-        else if ( atomicNumber == 87 ) {
-            return new Point( 7, 1 );
-        }
-        else if ( atomicNumber == 88 ) {
-            return new Point( 7, 2 );
-        }
-        else if ( atomicNumber >= 89 && atomicNumber <= 103 ) {
-            return new Point( 7, 3 );
-        }
-        else if ( atomicNumber >= 104 && atomicNumber <= 118 ) {
-            return new Point( 7, atomicNumber - 100 );
-        }
-        return new Point( 1, 1 );
+        if ( atomicNumber == 1 ) { return new Point( 1, 1 ); }
+        if ( atomicNumber == 2 ) { return new Point( 1, 18 ); }
+        else if ( atomicNumber == 3 ) { return new Point( 2, 1 ); }
+        else if ( atomicNumber == 4 ) { return new Point( 2, 2 ); }
+        else if ( atomicNumber >= 5 && atomicNumber <= 10 ) { return new Point( 2, atomicNumber + 8 ); }
+        else if ( atomicNumber == 11 ) { return new Point( 3, 1 ); }
+        else if ( atomicNumber == 12 ) { return new Point( 3, 2 ); }
+        else if ( atomicNumber >= 13 && atomicNumber <= 18 ) { return new Point( 3, atomicNumber ); }
+        else if ( atomicNumber >= 19 && atomicNumber <= 36 ) { return new Point( 4, atomicNumber - 18 ); }
+        else if ( atomicNumber >= 37 && atomicNumber <= 54 ) { return new Point( 5, atomicNumber - 36 ); }
+        else if ( atomicNumber == 55 ) { return new Point( 6, 1 ); }
+        else if ( atomicNumber == 56 ) { return new Point( 6, 2 ); }
+        else if ( atomicNumber >= 57 && atomicNumber <= 71 ) { return new Point( 6, 3 ); }
+        else if ( atomicNumber >= 72 && atomicNumber <= 86 ) { return new Point( 6, atomicNumber - 68 ); }
+        else if ( atomicNumber == 87 ) { return new Point( 7, 1 ); }
+        else if ( atomicNumber == 88 ) { return new Point( 7, 2 ); }
+        else if ( atomicNumber >= 89 && atomicNumber <= 103 ) { return new Point( 7, 3 ); }
+        else if ( atomicNumber >= 104 && atomicNumber <= 118 ) { return new Point( 7, atomicNumber - 100 ); }
+        else { return new Point( 1, 1 ); }
     }
 
     //Test Application that displays the PeriodicTableNode
