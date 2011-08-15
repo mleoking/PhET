@@ -16,6 +16,7 @@ import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityContro
 import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
+import edu.colorado.phet.moleculepolarity.common.view.DiatomicIsosurfaceNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
@@ -80,6 +81,12 @@ public class ThreeAtomsCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         addChild( positivePlateNode );
 
+        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
+        addChild( electrostaticPotentialNode );
+
+        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
+        addChild( electronDensityNode );
+
         // layout
         {
             final double xSpacing = 50;
@@ -114,7 +121,8 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
             viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
                 public void apply( IsosurfaceType isosurfaceType ) {
-                    //TODO change visibility of isosurface nodes
+                    electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
+                    electronDensityNode.setVisible( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY );
                 }
             } );
         }

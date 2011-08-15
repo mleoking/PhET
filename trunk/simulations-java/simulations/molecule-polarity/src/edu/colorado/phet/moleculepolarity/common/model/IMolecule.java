@@ -4,11 +4,14 @@ package edu.colorado.phet.moleculepolarity.common.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 
 /**
- * Interface implemented by all rotatable molecules.
+ * Interface implemented by all molecules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public interface IRotatableMolecule {
+public interface IMolecule {
+
+    // gets an array of the molecule's atoms
+    public Atom[] getAtoms();
 
     // gets the point about which the molecule rotates
     public ImmutableVector2D getLocation();

@@ -15,7 +15,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TriatomicMolecule implements IRotatableMolecule {
+public class TriatomicMolecule implements IMolecule {
 
     private static final double BOND_LENGTH = 150;
 
@@ -59,6 +59,10 @@ public class TriatomicMolecule implements IRotatableMolecule {
         angle.reset();
         bondAngleA.reset();
         bondAngleC.reset();
+    }
+
+    public Atom[] getAtoms() {
+        return new Atom[] { atomA, atomB, atomC };
     }
 
     public ImmutableVector2D getLocation() {
