@@ -1,3 +1,4 @@
+Micro tab: Factored out SoluteConstituent
 Micro tab: Increased the random walk component when particles flowing to the drain
 Micro tab: Moved the drain faucet input point into the solution instead of being past the exterior of the beaker
 Micro tab: For "no dissolving while evaporating" workaround, only apply the workaround if concentration is above the saturation point.  This will allow newly dropped crystals to dissolve instead of staying crystallized.
