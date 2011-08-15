@@ -1,3 +1,4 @@
+Micro tab: Balance crystal ion ratios (according to formula ratio) when growing crystals to help maintain the correct concentration ratio
 Micro tab: If there is no water, move particles quickly toward each other to form crystals since there should be no free ions
 Micro tab: Made button read "remove solute" if one solute type, "remove solutes" if two solute types
 Fixed: water not centered on faucets

@@ -33,4 +33,8 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     @Override protected Class<? extends Particle> getMajorityType() {
         return Glucose.class;
     }
+
+    @Override public Class<? extends Particle> getMinorityType() {
+        return Glucose.class;
+    }
 }

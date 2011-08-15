@@ -213,4 +213,23 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             return null;
         }
     }
+
+    //Determine the minority type for a 1:1 formula ratio such as NaCl
+    //Return null if no clear minority (i.e. a tie)
+    public Class<? extends Particle> getMinorityType( Class<? extends Particle> a, Class<? extends Particle> b ) {
+        int numA = count( a );
+        int numB = count( b );
+        if ( numA < numB ) {
+            return a;
+        }
+        else if ( numB < numA ) {
+            return b;
+        }
+        else {
+            return null;
+        }
+    }
+
+    //Returns the type of particle that is in the majority (according to the formula ratio), so that it can be added during crystallization
+    public abstract Class<? extends Particle> getMinorityType();
 }
