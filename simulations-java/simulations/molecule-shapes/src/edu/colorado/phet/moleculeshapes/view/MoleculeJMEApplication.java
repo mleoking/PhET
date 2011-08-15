@@ -45,6 +45,7 @@ import com.jme3.scene.Spatial.CullHint;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: double-check naming with double/triple bonds
  * TODO: fix firefox failure (where to put libs?
  * TODO: consider allowing more electron pairs, since we can't show the double/triple bond differences much!
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
