@@ -19,7 +19,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class MPPeriodicTableNode extends PComposite {
 
-    private static final Color BACKGROUND = new Color( 248, 255, 222 ); // light yellow
+    private static final Color BACKGROUND = Color.LIGHT_GRAY;
 
     private PNode periodicTableNode; // use composition since PeriodicTableNode's selection is immutable
 
