@@ -149,7 +149,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         // Scaling factor for this node when used as a creator node.  May be
         // significantly different from the size of the corresponding element
         // in the model.
-        private static final double SCALING_FACTOR = 0.1;
+        private static final double SCALING_FACTOR = 0.07;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         /**
@@ -186,7 +186,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         // Scaling factor for this node when used as a creator node.  May be
         // significantly different from the size of the corresponding element
         // in the model.
-        private static final double SCALING_FACTOR = 0.1;
+        private static final double SCALING_FACTOR = 0.07;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private RibosomeCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
@@ -216,7 +216,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         // Scaling factor for this node when used as a creator node.  May be
         // significantly different from the size of the corresponding element
         // in the model.
-        private static final double SCALING_FACTOR = 0.1;
+        private static final double SCALING_FACTOR = 0.07;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final int geneID, final boolean positive ) {
@@ -246,7 +246,7 @@ public class BiomoleculeToolBoxNode extends PNode {
         // Scaling factor for this node when used as a creator node.  May be
         // significantly different from the size of the corresponding element
         // in the model.
-        private static final double SCALING_FACTOR = 0.1;
+        private static final double SCALING_FACTOR = 0.07;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private MessengerRnaDestroyerCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
