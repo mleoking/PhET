@@ -2,12 +2,13 @@
 package edu.colorado.phet.sugarandsaltsolutions.common.view.faucet;
 
 import java.awt.TexturePaint;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
@@ -34,16 +35,10 @@ public class FaucetNode extends PNode {
 
     private final PImage faucetImageNode;
 
-    //Node that displays the water flowing out of the faucet
-    public final WaterNode waterNode;
-
     public FaucetNode(
 
             //Value between 0 and 1 inclusive to indicate the rate of flow
             final Property<Double> flowRate,
-
-            //if some, the point at which water should stop flowing (for the input faucet, water should stop at the beaker base
-            final Option<Double> flowPoint,
 
             //true if this faucet is allowed to add water.  The top faucet is allowed to add water if the beaker isn't full, and the bottom one can turn on if the beaker isn't empty.
             final ObservableProperty<Boolean> allowed,
@@ -65,9 +60,6 @@ public class FaucetNode extends PNode {
             addChild( new PhetPPath( rect, new TexturePaint( FAUCET_PIPE, new Rectangle2D.Double( 0, rect.getY(), FAUCET_PIPE.getWidth(), FAUCET_PIPE.getHeight() ) ) ) );
         }};
 
-        //Show the water flowing out of the faucet
-        waterNode = new WaterNode( flowRate, flowPoint, outputPipeY, outputPipeX1, outputPipeX2 );
-        addChild( waterNode );
         addChild( faucetImageNode );
     }
 
@@ -78,5 +70,9 @@ public class FaucetNode extends PNode {
 
     public Point2D getOutputGlobalViewPoint() {
         return faucetImageNode.localToGlobal( new Point2D.Double( ( outputPipeX2 + outputPipeX1 ) / 2, outputPipeY ) );
+    }
+
+    public Dimension2D getGlobalFaucetWidthDimension() {
+        return faucetImageNode.localToGlobal( new Dimension2DDouble( outputPipeX2 - outputPipeX1, 0 ) );
     }
 }

@@ -1,7 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.macro.model;
 
-import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -27,9 +26,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType
 public class MacroModel extends SugarAndSaltSolutionModel {
     //Model for the conductivity tester which is in the macro tab but not other tabs
     public final ConductivityTester conductivityTester;
-
-    //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
-    protected Rectangle2D outFlowShape;
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = salt.moles.greaterThan( 0 ).or( sugar.moles.greaterThan( 0 ) );
@@ -73,15 +69,12 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             }
         } );
 
-        //Shape of the water draining out the output faucet, needed for purposes of determining whether there is an electrical connection for the conductivity tester
-        outFlowShape = new Rectangle();
-
         //Update the conductivity tester when the water level changes, since it might move up to touch a probe (or move out from underneath a submerged probe)
         new RichSimpleObserver() {
             @Override public void update() {
                 updateConductivityTesterBrightness();
             }
-        }.observe( saltConcentration, solution.shape );
+        }.observe( saltConcentration, solution.shape, outputWater );
     }
 
     //Determine if a conductivity tester probe is touching water in the beaker, or water flowing out of the beaker (which would have the same concentration as the water in the beaker)
@@ -89,7 +82,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         Rectangle2D waterBounds = solution.shape.get().getBounds2D();
 
         final Rectangle2D regionBounds = region.toRectangle2D();
-        return waterBounds.intersects( region.toRectangle2D() ) || outFlowShape.intersects( regionBounds );
+        return waterBounds.intersects( region.toRectangle2D() ) || outputWater.get().getBounds2D().intersects( regionBounds );
     }
 
     //Update the conductivity tester brightness when the probes come into contact with (or stop contacting) the fluid
@@ -122,11 +115,5 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     @Override public void reset() {
         super.reset();
         conductivityTester.reset();
-    }
-
-    //Sets the shape of the water flowing out of the beaker, and updates the brightness of the conductivity tester
-    public void setOutflowShape( Rectangle2D outFlowShape ) {
-        this.outFlowShape = outFlowShape;
-        updateConductivityTesterBrightness();
     }
 }

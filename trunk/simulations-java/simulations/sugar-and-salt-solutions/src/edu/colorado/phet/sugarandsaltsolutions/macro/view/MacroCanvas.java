@@ -4,9 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.macro.view;
 import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
@@ -68,15 +66,6 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
             //Set the location of the control panel
             setOffset( stageSize.getWidth() - getFullBounds().getWidth() - INSET, concentrationBarChart.getFullBounds().getMaxY() + INSET );
         }} );
-
-        //When the shape of the flowing-out water changes, update the model so we can account for conductivity of the water while it is draining
-        drainFaucetNode.waterNode.addListener( new VoidFunction1<Rectangle2D>() {
-            public void apply( Rectangle2D outFlowShape ) {
-                ImmutableRectangle2D r = new ImmutableRectangle2D( outFlowShape );
-                Rectangle2D transformed = drainFaucetNode.localToGlobal( r.toRectangle2D() );
-                model.setOutflowShape( transform.viewToModel( transformed ).getBounds2D() );
-            }
-        } );
 
         //Add a control that allows the user to remove solutes
         //Button should be inside the beaker at the bottom right so it doesn't collide with the leftmost tick marks
