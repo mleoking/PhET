@@ -18,7 +18,7 @@ import edu.umd.cs.piccolo.PNode;
 public class DrainFaucetNodeLocationDebugger extends PNode {
 
     //Flag to indicate whether the debugging is enabled
-    private static final boolean enabled = true;
+    private static final boolean enabled = false;
 
     public DrainFaucetNodeLocationDebugger( final ModelViewTransform transform, final SugarAndSaltSolutionModel model ) {
         if ( enabled ) {
