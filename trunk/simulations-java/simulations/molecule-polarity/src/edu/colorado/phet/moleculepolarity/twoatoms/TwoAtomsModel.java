@@ -21,7 +21,7 @@ public class TwoAtomsModel extends MPModel {
 
     public TwoAtomsModel( IClock clock ) {
 
-        molecule = new DiatomicMolecule( new ImmutableVector2D( 325, 390 ) );
+        molecule = new DiatomicMolecule( new ImmutableVector2D( 325, 390 ) ); //TODO revisit this and make sure it's accounted for in canvas layout
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {

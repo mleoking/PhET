@@ -6,6 +6,7 @@ import java.awt.Frame;
 import edu.colorado.phet.common.piccolophet.PiccoloModule;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.MPClock;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 
 /**
  * "Three Atoms" module.
@@ -16,7 +17,11 @@ public class ThreeAtomsModule extends PiccoloModule {
 
     public ThreeAtomsModule( Frame parentFrame ) {
         super( MPStrings.THREE_ATOMS, new MPClock() );
-        setSimulationPanel( new ThreeAtomsCanvas( parentFrame ) );
+        ThreeAtomsModel model = new ThreeAtomsModel( getClock() );
+        ViewProperties viewProperties = new ViewProperties() {{
+            bondDipolesVisible.set( true );
+        }};
+        setSimulationPanel( new ThreeAtomsCanvas( model, viewProperties, parentFrame ) );
         setClockControlPanel( null );
     }
 }
