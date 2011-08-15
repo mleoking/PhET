@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -45,9 +46,9 @@ public class SupportColumnNode extends ModelObjectNode {
         PNode closeButton = new PSwing( new CloseButton() ) {{
             // Tweak the button's size.  The factor is empirically determined.
             setScale( 0.8 );
-            // Position at center top of column.
+            // Position at center bottom of column.
             double xPos = mvt.modelToViewX( supportColumn.getShape().getBounds2D().getCenterX() ) - getFullBoundsReference().width / 2;
-            double yPos = mvt.modelToViewY( supportColumn.getShape().getBounds2D().getMaxY() ) + getFullBoundsReference().height / 2;
+            double yPos = mvt.modelToViewY( supportColumn.getShape().getBounds2D().getMinY() ) - 2 * getFullBoundsReference().height;
             setOffset( xPos, yPos );
             addInputEventListener( new CursorHandler() );
             // Add the handler that will deactivate the columns when the
