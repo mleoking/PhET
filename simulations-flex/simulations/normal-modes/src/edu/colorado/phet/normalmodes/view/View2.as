@@ -227,7 +227,6 @@ public class View2 extends Sprite {
         var N:int = this.myModel2.nMax;
         for(var i:int = 0; i <= N - 1; i++){
             for(var j:int = 0; j <= N - 1; j++){
-                this.mass_arr[i][j].visible = true;
                 this.mass_arr[i][j].drawBorderZone( 0, 0 );
             }
         }
