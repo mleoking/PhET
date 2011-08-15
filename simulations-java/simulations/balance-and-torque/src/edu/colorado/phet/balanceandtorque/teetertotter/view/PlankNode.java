@@ -25,7 +25,7 @@ public class PlankNode extends ModelObjectNode {
         super( mvt, plank, new Color( 243, 203, 127 ) );
         final PNode tickMarkLayer = new PNode();
         addChild( tickMarkLayer );
-        plank.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+        plank.addShapeObserver( new VoidFunction1<Shape>() {
             public void apply( Shape rotatedPlankShape ) {
                 // Remove existing tick marks.
                 tickMarkLayer.removeAllChildren();

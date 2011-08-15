@@ -17,8 +17,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Graphic for the bar that connects from the pivot point of the fulcrum to
- * the plank.
+ * Graphic for the bar that connects from the pivot point of the fulcrum to the
+ * plank.
  *
  * @author John Blanco
  */
@@ -34,7 +34,7 @@ public class AttachmentBarNode extends ModelObjectNode {
         pivotNode.addChild( new PhetPPath( new Ellipse2D.Double( -pivotWidth / 10, -pivotWidth / 10, pivotWidth / 5, pivotWidth / 5 ), Color.BLACK ) );
         addChild( pivotNode );
         // Watch the shape and update the gradient as needed.
-        attachmentBar.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+        attachmentBar.addShapeObserver( new VoidFunction1<Shape>() {
             public void apply( Shape shape ) {
                 setPaint( createGradientPaint( mvt, attachmentBar ) );
             }

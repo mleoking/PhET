@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * Base class for displaying and interacting with model objects.  Uses the
- * shape of the object, which will change as the object moves.
+ * Base class for displaying and interacting with model objects.  Uses the shape
+ * of the object, which will change as the object moves.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -32,7 +32,7 @@ public class ModelObjectNode extends PNode {
      */
     public ModelObjectNode( final ModelViewTransform mvt, final ShapeModelElement modelObject, Paint paint ) {
         modelShapeNode = new PhetPPath( paint, new BasicStroke( 1, BasicStroke.JOIN_BEVEL, BasicStroke.CAP_SQUARE ), Color.BLACK ) {{
-            modelObject.getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+            modelObject.addShapeObserver( new VoidFunction1<Shape>() {
                 public void apply( Shape shape ) {
                     setPathTo( mvt.modelToView( shape ) );
                 }
@@ -42,8 +42,8 @@ public class ModelObjectNode extends PNode {
     }
 
     /**
-     * Change the initial paint value.  Useful when rotating model objects
-     * that were created with a gradient paint.
+     * Change the initial paint value.  Useful when rotating model objects that
+     * were created with a gradient paint.
      *
      * @param paint
      */

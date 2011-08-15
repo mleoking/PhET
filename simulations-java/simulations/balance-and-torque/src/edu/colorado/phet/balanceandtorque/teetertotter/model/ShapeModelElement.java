@@ -1,12 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.model;
 
-import java.awt.*;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * An element in the model for the torque sim that has a shape.  Most model
@@ -44,12 +46,33 @@ public abstract class ShapeModelElement {
         return shapeProperty.get();
     }
 
-    public Property<Shape> getShapeProperty() {
-        return shapeProperty;
+//    public Property<Shape> getShapeProperty() {
+//        return shapeProperty;
+//    }
+
+    /**
+     * Set a new shape value.  This should only be done by subclasses.
+     *
+     * @param newShape
+     */
+    protected void setShape( Shape newShape ) {
+        shapeProperty.set( newShape );
     }
 
-    protected void setShapeProperty( Shape newShape ) {
-        shapeProperty.set( newShape );
+    public void addShapeObserver( VoidFunction1<Shape> observer ) {
+        shapeProperty.addObserver( observer );
+    }
+
+    public void addShapeObserver( SimpleObserver observer ) {
+        shapeProperty.addObserver( observer );
+    }
+
+    public void removeShapeObserver( VoidFunction1<Shape> observer ) {
+        shapeProperty.removeObserver( observer );
+    }
+
+    public void removeShapeObserver( SimpleObserver observer ) {
+        shapeProperty.removeObserver( observer );
     }
 
     // TODO: Probably need to make this abstract, but it has a default implementation for now.
