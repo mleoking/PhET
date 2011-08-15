@@ -42,7 +42,7 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
             public String apply( Double volumeInMetersCubed ) {
                 return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );
             }
-        } );
+        }, false );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );

@@ -75,7 +75,10 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Store a reference to the EvaporationSlider for layout purposes
     protected final EvaporationSlider evaporationSlider;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform, Function1<Double, String> beakerVolumeReadoutFormat ) {
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform, Function1<Double, String> beakerVolumeReadoutFormat,
+
+                                        //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
+                                        boolean micro ) {
 
         //Set the stage size according to the same aspect ratio as used in the model
         stageSize = new PDimension( canvasSize.width, (int) ( canvasSize.width / model.visibleRegion.width * model.visibleRegion.height ) );
@@ -158,7 +161,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
 
         //add the salt and sugar dispenser nodes, which should always be in front of everything
         for ( Dispenser dispenser : model.dispensers ) {
-            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight() ) );
+            submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight(), micro ) );
         }
 
         //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
