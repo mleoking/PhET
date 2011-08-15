@@ -19,10 +19,11 @@ public class DiatomicMolecule {
 
     private static final double BOND_LENGTH = 150;
 
-    private final Property<ImmutableVector2D> location;
-    public final Property<Double> angle; // the clockwise angle between atomB and the horizontal, in radians
-    public final Atom atomA, atomB;
-    public final Bond bond;
+    public final Atom atomA, atomB; // the atoms labeled A and B
+    public final Bond bond; // the bond connecting atoms A and B
+    private final Property<ImmutableVector2D> location; // location is at the center of the bond
+    public final Property<Double> angle; // angle of rotation about the location (zero is bond horizontal, atom A left, atom B right)
+
     private boolean dragging; // true when the user is dragging the molecule
 
     public DiatomicMolecule( ImmutableVector2D location ) {
