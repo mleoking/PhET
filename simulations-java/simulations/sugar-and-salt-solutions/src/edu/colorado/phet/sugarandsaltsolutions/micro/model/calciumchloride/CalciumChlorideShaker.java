@@ -31,7 +31,7 @@ public class CalciumChlorideShaker extends MicroShaker {
         int count = 0;
         while ( crystal == null || crystal.count( Calcium.class ) * 2 != crystal.count( Chloride.class ) && count++ < 100 ) {
             //for a ratio of 2:1, the total number of components must be 3x, but growing it from 1 means we must specify 3x-1 growth steps, such as 3,6,9,12,...
-            crystal = new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 12 ); }};
+            crystal = new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 18 ); }};
 //            System.out.println( "calcium = " + crystal.count( Calcium.class ) + ", chloride = " + crystal.count( Chloride.class ) );
         }
 

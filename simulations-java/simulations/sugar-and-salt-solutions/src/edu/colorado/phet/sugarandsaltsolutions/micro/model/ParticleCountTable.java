@@ -8,7 +8,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 public class ParticleCountTable {
 
     //The number of formula (such as NaCl or CaCl3) that the user can add to the solution, chosen to be this value so that the user can only add 1.0 mol / L by default
-    private static final int NUMBER_SOLUTE_FORMULAE = 6;
+    private static final int NUMBER_SOLUTE_FORMULAE = 10;
 
     public static final int MAX_SODIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE;
     public static final int MAX_SODIUM_NITRATE = NUMBER_SOLUTE_FORMULAE;
@@ -16,5 +16,5 @@ public class ParticleCountTable {
     public static final int MAX_GLUCOSE = NUMBER_SOLUTE_FORMULAE;
 
     //Half as much since different formula ratio, this number limits the concentration to 1.00mol/L on startup
-    public static final int MAX_CALCIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE / 2;
+    public static final int MAX_CALCIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE;
 }
