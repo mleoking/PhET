@@ -29,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
-import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -121,50 +120,50 @@ public class BalancingActCanvas extends PhetPCanvas {
         // Add the ruler.
         rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
-        // TODO: Test of level indicator.
-        DoubleGeneralPath levelIndicatorPath = new DoubleGeneralPath();
-        levelIndicatorPath.moveTo( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
-                                   model.getPlank().getCenterSurfacePoint().getY() );
-        levelIndicatorPath.lineTo( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
-                                   model.getPlank().getCenterSurfacePoint().getY() );
-        final PPath levelIndicator = new PhetPPath( mvt.modelToView( levelIndicatorPath.getGeneralPath() ),
-                                                    new BasicStroke( 1f,
-                                                                     BasicStroke.CAP_ROUND,
-                                                                     BasicStroke.JOIN_ROUND,
-                                                                     1f,
-                                                                     new float[] { 8f },
-                                                                     0f ),
-                                                    Color.RED );
-        rootNode.addChild( levelIndicator );
-        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean showLevelIndicator ) {
-                levelIndicator.setVisible( showLevelIndicator );
-            }
-        } );
+        // TODO: Prototype of level indicator.
+//        DoubleGeneralPath levelIndicatorPath = new DoubleGeneralPath();
+//        levelIndicatorPath.moveTo( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
+//                                   model.getPlank().getCenterSurfacePoint().getY() );
+//        levelIndicatorPath.lineTo( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
+//                                   model.getPlank().getCenterSurfacePoint().getY() );
+//        final PPath levelIndicator = new PhetPPath( mvt.modelToView( levelIndicatorPath.getGeneralPath() ),
+//                                                    new BasicStroke( 1f,
+//                                                                     BasicStroke.CAP_ROUND,
+//                                                                     BasicStroke.JOIN_ROUND,
+//                                                                     1f,
+//                                                                     new float[] { 8f },
+//                                                                     0f ),
+//                                                    Color.RED );
+//        rootNode.addChild( levelIndicator );
+//        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+//            public void apply( Boolean showLevelIndicator ) {
+//                levelIndicator.setVisible( showLevelIndicator );
+//            }
+//        } );
 
         // TODO: Alternative level indicator #1
         final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
                                                                              model.getPlank().getCenterSurfacePoint().getY() ) );
         final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
                                                                               model.getPlank().getCenterSurfacePoint().getY() ) );
-        final ArrowNode leftLevelIndicator = new ArrowNode( new Point2D.Double( leftEdgeOfPlank.getX() - 30, leftEdgeOfPlank.getY() ),
-                                                            leftEdgeOfPlank,
-                                                            10,
-                                                            10,
-                                                            4 );
-        rootNode.addChild( leftLevelIndicator );
-        final ArrowNode rightLevelIndicator = new ArrowNode( new Point2D.Double( rightEdgeOfPlank.getX() + 30, rightEdgeOfPlank.getY() ),
-                                                             rightEdgeOfPlank,
-                                                             10,
-                                                             10,
-                                                             4 );
-        rootNode.addChild( rightLevelIndicator );
-        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean showLevelIndicator ) {
-                leftLevelIndicator.setVisible( showLevelIndicator );
-                rightLevelIndicator.setVisible( showLevelIndicator );
-            }
-        } );
+//        final ArrowNode leftLevelIndicator = new ArrowNode( new Point2D.Double( leftEdgeOfPlank.getX() - 30, leftEdgeOfPlank.getY() ),
+//                                                            leftEdgeOfPlank,
+//                                                            10,
+//                                                            10,
+//                                                            4 );
+//        rootNode.addChild( leftLevelIndicator );
+//        final ArrowNode rightLevelIndicator = new ArrowNode( new Point2D.Double( rightEdgeOfPlank.getX() + 30, rightEdgeOfPlank.getY() ),
+//                                                             rightEdgeOfPlank,
+//                                                             10,
+//                                                             10,
+//                                                             4 );
+//        rootNode.addChild( rightLevelIndicator );
+//        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
+//            public void apply( Boolean showLevelIndicator ) {
+//                leftLevelIndicator.setVisible( showLevelIndicator );
+//                rightLevelIndicator.setVisible( showLevelIndicator );
+//            }
+//        } );
 
         // TODO: Alternative level indicator #2
         DoubleGeneralPath leftIndicatorPath = new DoubleGeneralPath() {{
