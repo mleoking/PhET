@@ -1,3 +1,5 @@
+# 0.00.41 (55266) Aug 15, 2011
+8/15/11 Minor bug fixe in View2.clearBorderZones()
 # 0.00.40 (55264) Aug 15, 2011
 8/15/11 Added initial brightning of masses to cue mass-draggable.
 # 0.00.39 (54839) Aug 3, 2011
