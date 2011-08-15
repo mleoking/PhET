@@ -48,8 +48,8 @@ public class BalancingActModel implements Resettable {
         // Note: These are positioned so that the closing window that is
         // placed on them (the red x) is between two snap-to points on the
         // plank that the they don't get blocked by force vectors.
-        add( new SupportColumn( PLANK_HEIGHT, -1.5 ) );
-        add( new SupportColumn( PLANK_HEIGHT, 1.5 ) );
+        add( new SupportColumn( PLANK_HEIGHT, -1.625 ) );
+        add( new SupportColumn( PLANK_HEIGHT, 1.625 ) );
     }};
 
     // Property that controls whether the columns are supporting the plank.
