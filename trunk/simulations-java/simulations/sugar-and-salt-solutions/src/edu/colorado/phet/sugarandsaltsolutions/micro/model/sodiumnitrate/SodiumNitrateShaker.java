@@ -29,7 +29,7 @@ public class SodiumNitrateShaker extends MicroShaker {
         SodiumNitrateCrystal crystal = null;
         int count = 0;
         while ( crystal == null || crystal.count( Sodium.class ) != crystal.count( Nitrate.class ) && count++ < 100 ) {
-            crystal = new SodiumNitrateCrystal( outputPoint, randomAngle() ) {{grow( 10 );}};
+            crystal = new SodiumNitrateCrystal( outputPoint, randomAngle() ) {{grow( 12 );}};
         }
         model.addSodiumNitrateCrystal( crystal );
     }

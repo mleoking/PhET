@@ -23,6 +23,6 @@ public class GlucoseDispenser extends MicroSugarDispenser {
 
     //Create and add a random glucose crystal with 4 sucrose molecules
     protected void doAddSugar( final ImmutableVector2D outputPoint ) {
-        model.addGlucoseCrystal( new GlucoseCrystal( outputPoint, randomAngle() ) {{grow( 4 ); }} );
+        model.addGlucoseCrystal( new GlucoseCrystal( outputPoint, randomAngle() ) {{grow( 6 ); }} );
     }
 }
