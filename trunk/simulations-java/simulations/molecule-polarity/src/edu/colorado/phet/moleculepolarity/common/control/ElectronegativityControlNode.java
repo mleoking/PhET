@@ -17,7 +17,6 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -302,7 +301,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     public static void main( String[] args ) {
 
         Color paleYellow = new Color( 253, 255, 213 );
-        final Atom atom = new Atom( "Y", 30, paleYellow, 3, new ImmutableVector2D( 0, 0 ) );
+        final Atom atom = new Atom( "Y", 30, paleYellow, 3 );
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 System.out.println( "electronegativity=" + value );
