@@ -18,14 +18,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
  * @author Sam Reid
  */
 public class RemoveSoluteButtonNode extends TextButtonNode {
-    public RemoveSoluteButtonNode( String text, ObservableProperty<Boolean> anyToRemove, final VoidFunction0 remove ) {
+    public RemoveSoluteButtonNode( String text, ObservableProperty<Boolean> visible, final VoidFunction0 remove ) {
         super( text, CONTROL_FONT );
         setBackground( BUTTON_COLOR );
 
         //Only show the button if there is solute to be removed
-        anyToRemove.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean anyToRemove ) {
-                setVisible( anyToRemove );
+        visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
             }
         } );
 

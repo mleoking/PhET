@@ -70,7 +70,11 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
 
         //Control that shows the Remove Solute button, which appears when any solutes of any type are in solution
         //Show it to the right of the evaporation slider, below the beaker so it doesn't overlap (or get overlapped by) any solutes
-        addChild( new RemoveAllSolutesButton( model ) {{
+        //Reads "remove solute" if one solute type, "remove solutes" if two solute types
+        addChild( new RemoveSolutesButton( "Remove solute", model.numberSoluteTypes.valueEquals( 1.0 ), model ) {{
+            setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
+        }} );
+        addChild( new RemoveSolutesButton( "Remove solutes", model.numberSoluteTypes.greaterThan( 1 ), model ) {{
             setOffset( evaporationSlider.getFullBounds().getMaxX() + INSET, evaporationSlider.getFullBounds().getY() );
         }} );
 
