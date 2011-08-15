@@ -27,6 +27,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.CELL_DIMENSION;
+
 /**
  * This class defines a node that represents a periodic table of the elements
  * that contains some cells that are interactive and can be used to set the
@@ -85,7 +87,7 @@ public class PeriodicTableControlNode extends PNode {
      * is interactive.
      */
     private static class ButtonElementCell extends ElementCell {
-        private static final double CELL_WIDTH = PeriodicTableNode.getCellDimension();
+        private static final double CELL_WIDTH = CELL_DIMENSION;
         private static final Paint IDLE_PAINT = new GradientPaint( 0, (float) ( CELL_WIDTH / 2 ), new Color( 220, 220, 220 ), 0, (float) CELL_WIDTH, new Color( 180, 180, 180 ) );
         private static final Paint FOCUSED_PAINT = new GradientPaint( 0, 0, new Color( 255, 255, 255 ), 0, (float) CELL_WIDTH, new Color( 200, 200, 200 ) );
         private static final Paint PRESSED_PAINT = new GradientPaint( 0, 0, new Color( 170, 170, 170 ), 0, (float) CELL_WIDTH, new Color( 210, 210, 210 ) );
