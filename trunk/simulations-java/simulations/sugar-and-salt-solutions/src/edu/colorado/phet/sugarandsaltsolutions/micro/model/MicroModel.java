@@ -516,6 +516,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     public void removeAllCalciumChloride() {
+
         //Remove any crystals
         while ( calciumChlorideCrystals.size() > 0 ) {
             removeCalciumChlorideCrystal( calciumChlorideCrystals.get( 0 ) );
