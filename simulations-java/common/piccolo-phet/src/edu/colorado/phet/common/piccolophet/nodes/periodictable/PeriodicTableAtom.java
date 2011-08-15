@@ -7,6 +7,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  * Interface used by PeriodicTableNode for highlighting one or more of the cells.
  *
  * @author Sam Reid
+ * @author John Blanco
  */
 public interface PeriodicTableAtom {
 

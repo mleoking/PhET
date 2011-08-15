@@ -1,13 +1,13 @@
 package edu.colorado.phet.common.piccolophet.nodes.periodictable;
 
 /**
- * @author Sam Reid
+ * Table of element symbols, indexed by the atomic number.  Note that this
+ * is not internationalizable, a decision made by the chemistry team.
+ * Note that this array starts with a "-" so that index matches atomic number, e.g., 1->H
+ *
+ * @author John Blanco
  */
 public class SymbolTable {
-
-    // Table of element symbols, indexed by the atomic number.  Note that this
-    // is not internationalizable, a decision made by the chemistry team.
-    //Note that this array starts with a "-" so that index matches atomic number, e.g., 1->H
     public static final String[] ELEMENT_SYMBOL_TABLE = {
             "-", // 0, NO ELEMENT
             "H", // 1, HYDROGEN

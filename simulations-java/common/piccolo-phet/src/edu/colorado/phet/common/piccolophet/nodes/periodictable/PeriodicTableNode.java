@@ -7,7 +7,6 @@ import java.awt.Point;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory.HighlightElements;
 import edu.umd.cs.piccolo.PNode;
 
 /**

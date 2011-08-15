@@ -13,6 +13,9 @@ import static edu.colorado.phet.common.phetcommon.view.PhetColorScheme.RED_COLOR
 /**
  * Cell that watches the atom and highlights itself if the atomic number
  * matches its configuration.
+ *
+ * @author Sam Reid
+ * @author John Blanco
  */
 public class HighlightedElementCell extends BasicElementCell {
 

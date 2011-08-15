@@ -19,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.DefaultCellFactory;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableAtom;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
@@ -67,7 +68,7 @@ public class PeriodicTableControlNode extends PNode {
                 }
                 else {
                     // This atomic number is larger than the specified max for interactive cells, so use the default cell type
-                    return new Default().createCellForElement( atomicNumberOfCell, backgroundColor );
+                    return new DefaultCellFactory().createCellForElement( atomicNumberOfCell, backgroundColor );
                 }
             }
         } );

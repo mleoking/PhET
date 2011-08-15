@@ -5,6 +5,9 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Abstract base class for cells that comprise the periodic table.
+ *
+ * @author Sam Reid
+ * @author John Blanco
  */
 public abstract class ElementCell extends PNode {
     private final int atomicNumber;

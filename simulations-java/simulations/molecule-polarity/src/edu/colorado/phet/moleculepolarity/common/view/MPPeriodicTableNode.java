@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory.HighlightElements;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.HighlightElements;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.umd.cs.piccolo.PNode;
