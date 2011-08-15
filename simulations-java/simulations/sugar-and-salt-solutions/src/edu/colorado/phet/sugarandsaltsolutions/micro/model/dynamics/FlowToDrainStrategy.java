@@ -39,7 +39,10 @@ public class FlowToDrainStrategy extends UpdateStrategy {
             //If closest to the drain, move directly toward the drain so it can reach it in the desired amount of time to keep the concentration as steady as possible
             if ( randomWalk ) {
                 double initVelocity = particle.velocity.get().getMagnitude();
-                particle.velocity.set( particle.velocity.get().plus( velocity ).getInstanceOfMagnitude( initVelocity ) );
+
+                //Mix in more of the original velocity to keep more of the random walk component
+                ImmutableVector2D newVelocity = particle.velocity.get().times( 3 ).plus( velocity ).getInstanceOfMagnitude( initVelocity );
+                particle.velocity.set( newVelocity );
                 new FreeParticleStrategy( model ).randomWalk( particle, dt );
             }
             else {

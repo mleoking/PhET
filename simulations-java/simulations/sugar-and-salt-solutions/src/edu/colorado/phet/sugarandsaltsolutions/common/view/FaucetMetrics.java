@@ -55,4 +55,9 @@ public class FaucetMetrics {
             return new ImmutableVector2D( inputPoint.getX(), solutionShapeBounds.getMaxY() );
         }
     }
+
+    //Copies this FaucetMetrics but with the substituted inputX value to ensure output drain input point is within the fluid so particles can reach it
+    public FaucetMetrics clampInputWithinFluid( double inputX ) {
+        return new FaucetMetrics( model, new ImmutableVector2D( inputX, inputPoint.getY() ), outputPoint, faucetWidth );
+    }
 }

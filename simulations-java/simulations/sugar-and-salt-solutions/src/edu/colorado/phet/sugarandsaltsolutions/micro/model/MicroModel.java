@@ -337,6 +337,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         double deltaConcentration = ( nextConcentration - currentConcentration );
         double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
 
+        //Sanity check on the number of deltas to reach a problem, if this is negative it could indicate some unexpected change in initial concentration
+        //In any case, shouldn't propagate toward the drain with a negative delta, because that causes a negative speed and motion away from the drain
+        if ( numberDeltasToError < 0 ) {
+            System.out.println( getClass().getName() + ": numberDeltasToError = " + numberDeltasToError + ", recomputing initial concentration and postponing drain" );
+            checkStartDrain( drainData );
+            return;
+        }
+
         //Assuming a constant rate of drain flow, compute how long until we would be in the previously determined error scenario
         //We will speed up the nearest particle so that it flows out in this time
         double timeToError = numberDeltasToError * dt;
