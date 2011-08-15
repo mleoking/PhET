@@ -317,7 +317,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Half a particle is used so the solution will center on the target concentration (rather than upper or lower bounded)
         double errorConcentration = ( drainData.initialNumberSolutes + 0.5 ) / drainData.initialVolume;
 
-        //Determine the concentration in the next step, and subsequently how much it is changing over time
+        //Determine the concentration in the next time step, and subsequently how much it is changing over time and how long until the next error occurs
         double nextConcentration = freeParticles.count( drainData.type ) / ( solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
         double deltaConcentration = ( nextConcentration - currentConcentration );
         double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
@@ -351,6 +351,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
             if ( debugDraining ) {
                 System.out.println( "i = " + 0 + ", target time = " + time + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
+//                System.out.println( "flowing to drain = " + drain.getX() + ", velocity = " + velocity.getX() + ", speed = " + speed );
             }
         }
     }
@@ -488,116 +489,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Determine if there is any sugar that can be removed
     public ObservableProperty<Boolean> isAnySugarToRemove() {
         return sucroseConcentration.greaterThan( 0.0 );
-    }
-
-    //Removes all the sodium nitrate from the model.  This assumes that the nitrate group is unique to the sodium nitrate, i.e. does not appear in any other
-    //molecules in the kit.  Based on this assumption, the same number of sodium as nitrates is removed since some sodium ions could have come from other sources like NaCl
-    public void removeAllSodiumNitrate() {
-
-        //Remove any crystals
-        while ( sodiumChlorideCrystals.size() > 0 ) {
-            removeSodiumNitrate( sodiumNitrateCrystals.get( 0 ) );
-        }
-
-        //Remove the nitrate groups
-        ArrayList<Particle> nitrates = freeParticles.filter( Nitrate.class );
-        for ( Particle p : nitrates ) {
-            Nitrate nitrate = (Nitrate) p;
-            freeParticles.remove( nitrate );
-            removeComponents( nitrate );
-        }
-
-        //Remove just as many sodium particles (if there are that many)
-        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
-        for ( int i = 0; i < nitrates.size() && i < sodium.size(); i++ ) {
-            freeParticles.remove( sodium.get( i ) );
-            sphericalParticles.remove( sodium.get( i ) );
-        }
-    }
-
-    public void removeAllCalciumChloride() {
-
-        //Remove any crystals
-        while ( calciumChlorideCrystals.size() > 0 ) {
-            removeCalciumChlorideCrystal( calciumChlorideCrystals.get( 0 ) );
-        }
-
-        //Remove the Calcium ions first, since they are unique to CaCl2 given the kits (other molecule in this kit is NaCl)
-        ArrayList<Particle> calcium = freeParticles.filter( Calcium.class );
-        for ( Particle p : calcium ) {
-            freeParticles.remove( p );
-            sphericalParticles.remove( p );
-        }
-
-        //Remove twice as many chloride particles (if there are that many)
-        ArrayList<Particle> chloride = freeParticles.filter( Chloride.class );
-        for ( int i = 0; i < calcium.size() * 2 && i < chloride.size(); i++ ) {
-            freeParticles.remove( chloride.get( i ) );
-            sphericalParticles.remove( chloride.get( i ) );
-        }
-    }
-
-    //Remove all corresponding sodium chloride from the simulation
-    //TODO: how to make sure no strays left after this?
-    public void removeAllSodiumChloride() {
-
-        //Remove any crystals
-        while ( sodiumChlorideCrystals.size() > 0 ) {
-            removeSodiumChlorideCrystal( sodiumChlorideCrystals.get( 0 ) );
-        }
-
-        //Remove the Calcium ions first, since they are unique to CaCl2 given the kits (other molecule in this kit is NaCl)
-        ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
-        ArrayList<Particle> chloride = freeParticles.filter( Chloride.class );
-
-        int min = Math.min( sodium.size(), chloride.size() );
-
-        for ( int i = 0; i < min; i++ ) {
-            freeParticles.remove( sodium.get( i ) );
-            sphericalParticles.remove( sodium.get( i ) );
-
-            freeParticles.remove( chloride.get( i ) );
-            sphericalParticles.remove( chloride.get( i ) );
-        }
-    }
-
-    //Remove a sodium nitrate crystal and all its sub-particles
-    private void removeSodiumNitrate( SodiumNitrateCrystal crystal ) {
-        sodiumNitrateCrystals.remove( crystal );
-        removeComponents( crystal );
-    }
-
-    //Remove a calcium chloride crystal and all its sub-particles
-    private void removeCalciumChlorideCrystal( CalciumChlorideCrystal crystal ) {
-        calciumChlorideCrystals.remove( crystal );
-        removeComponents( crystal );
-    }
-
-    //Remove a calcium chloride crystal and all its sub-particles
-    private void removeSodiumChlorideCrystal( SodiumChlorideCrystal crystal ) {
-        sodiumChlorideCrystals.remove( crystal );
-        removeComponents( crystal );
-    }
-
-    //Remove a Sucrose crystal and all its sub-particles
-    private void removeSucroseCrystal( SucroseCrystal crystal ) {
-        sucroseCrystals.remove( crystal );
-        removeComponents( crystal );
-    }
-
-    //Remove all sucrose molecules from the model
-    public void removeAllGlucose() {
-
-        //Remove the free sucrose
-        for ( Particle sucroseMolecule : freeParticles.filter( Sucrose.class ) ) {
-            freeParticles.remove( sucroseMolecule );
-            removeComponents( (Compound<?>) sucroseMolecule );
-        }
-
-        //Remove the crystallized sucrose
-        while ( sucroseCrystals.size() > 0 ) {
-            removeSucroseCrystal( sucroseCrystals.get( 0 ) );
-        }
     }
 
     @Override public ObservableProperty<Boolean> getAnySolutes() {
