@@ -1,3 +1,4 @@
+8/15/11 change request: make "bond dipoles" on by default in "Two Atoms" tab
 # 0.00.08 (55174) Aug 13, 2011
 8/12/11 make sure that all PText instances have a call to setFont(PhetFont)
 8/12/11 rename various TwoAtoms* classes to Diatomic*
