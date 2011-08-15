@@ -125,10 +125,8 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
         ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
         final Class<? extends Particle> minorityType = crystal.getMinorityType();
 
-        System.out.println( "minority = " + minorityType );
-
-        //TODO: If minority type is null, then try to bring out of solution whichever type had more concentration in the model (according to the formula ratio), this will balance ion ratios across crystals
-        //TODO: And help to maintain a good balance
+        //TODO: If minority type is null, then try to bring out of solution whichever type had more concentration in the model (according to the formula ratio), this will balance ion ratios across crystals and help to maintain a good balance
+        //But maybe this would cause a bigger oscillating problem if multiple crystals are vying for the same type
 
         //If the crystal was balanced, allow adding either type.  If the crystal was unbalanced, add the minority type to restore balance
         Iterable<? extends Particle> particlesToConsider = minorityType == null ? model.freeParticles : model.freeParticles.filter( minorityType );
