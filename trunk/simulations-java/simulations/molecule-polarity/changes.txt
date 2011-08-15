@@ -1,3 +1,4 @@
+8/15/11 change request: use gray background for periodic table, to provide more contrast between selected and unselected cells
 8/15/11 first pass at fleshing out "Three Atoms" tab, only partially functional
 8/15/11 change request: make "bond dipoles" on by default in "Two Atoms" tab
 # 0.00.08 (55174) Aug 13, 2011
