@@ -74,30 +74,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //List of all drained particles, used to keep track of which particles (includes molecules) should flow out of the output drain
     public final ItemList<Particle> drainedParticles = new ItemList<Particle>();
 
-    //Lists of compounds
-    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
-    public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
-    public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
-    public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
-    public final ItemList<GlucoseCrystal> glucoseCrystals = new ItemList<GlucoseCrystal>();
-
     //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
     public static final double sizeScale = 0.35;
 
     //User setting for whether color should be based on charge or identity
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
-
-    //The index of the kit selected by the user
-    public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
-
-        //When the user switches kits, clear the solutes and reset the water level
-        addObserver( new SimpleObserver() {
-            public void update() {
-                clearSolutes();
-                resetWater();
-            }
-        } );
-    }};
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
@@ -138,6 +119,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final SoluteConstituent glucose = new SoluteConstituent( this, glucoseColor, Glucose.class );
     public final SoluteConstituent nitrate = new SoluteConstituent( this, nitrateColor, Nitrate.class );
 
+    //Lists of compounds
+    public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
+    public final ItemList<SodiumNitrateCrystal> sodiumNitrateCrystals = new ItemList<SodiumNitrateCrystal>();
+    public final ItemList<CalciumChlorideCrystal> calciumChlorideCrystals = new ItemList<CalciumChlorideCrystal>();
+    public final ItemList<SucroseCrystal> sucroseCrystals = new ItemList<SucroseCrystal>();
+    public final ItemList<GlucoseCrystal> glucoseCrystals = new ItemList<GlucoseCrystal>();
+
     //Determine saturation points
     final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
     final double calciumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.71 );
@@ -151,6 +139,18 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ObservableProperty<Boolean> sucroseSaturated = sucrose.concentration.greaterThan( sucroseSaturationPoint );
     public final ObservableProperty<Boolean> glucoseSaturated = glucose.concentration.greaterThan( glucoseSaturationPoint );
     public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrate.concentration.greaterThan( sodiumNitrateSaturationPoint ) );
+
+    //The index of the kit selected by the user
+    public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
+
+        //When the user switches kits, clear the solutes and reset the water level
+        addObserver( new SimpleObserver() {
+            public void update() {
+                clearSolutes();
+                resetWater();
+            }
+        } );
+    }};
 
     public MicroModel() {
 
