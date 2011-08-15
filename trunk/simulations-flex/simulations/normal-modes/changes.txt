@@ -1,3 +1,5 @@
+# 0.00.40 (55264) Aug 15, 2011
+8/15/11 Added initial brightning of masses to cue mass-draggable.
 # 0.00.39 (54839) Aug 3, 2011
 8/3/11 Added bounding box around 1D SliderArray.
 # 0.00.38 (54818) Aug 3, 2011
