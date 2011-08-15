@@ -2,7 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.IRotatableMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class MoleculeRotationHandler extends PBasicInputEventHandler {
 
-    private final DiatomicMolecule molecule;
+    private final IRotatableMolecule molecule;
     private final PNode dragNode;
     double previousAngle;
 
-    public MoleculeRotationHandler( DiatomicMolecule molecule, PNode dragNode ) {
+    public MoleculeRotationHandler( IRotatableMolecule molecule, PNode dragNode ) {
         this.molecule = molecule;
         this.dragNode = dragNode;
     }
@@ -36,13 +36,13 @@ public class MoleculeRotationHandler extends PBasicInputEventHandler {
 
     // Find the angle about the center of the bond.
     private double getAngle( PInputEvent event ) {
-        return new ImmutableVector2D( molecule.bond.getCenter().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
+        return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
     }
 
     // Drag the molecule to rotate it.
     @Override public void mouseDragged( PInputEvent event ) {
         double angle = getAngle( event );
-        molecule.angle.set( molecule.angle.get() + angle - previousAngle );
+        molecule.setAngle( molecule.getAngle() + angle - previousAngle );
         previousAngle = angle;
     }
 }

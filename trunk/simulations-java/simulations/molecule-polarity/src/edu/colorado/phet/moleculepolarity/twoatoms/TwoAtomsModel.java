@@ -50,7 +50,7 @@ public class TwoAtomsModel extends MPModel {
         final double deltaAngle = Math.abs( enToAngle.evaluate( deltaEN ) );
 
         // convert angle to range [0,2*PI)
-        final double angle = normalizeAngle( molecule.angle.get() );
+        final double angle = normalizeAngle( molecule.getAngle() );
 
         //TODO simplify, this seems unnecessarily complicated
         // move the molecule one step towards alignment with the E-field
@@ -91,7 +91,7 @@ public class TwoAtomsModel extends MPModel {
                 }
             }
         }
-        molecule.angle.set( newAngle );
+        molecule.setAngle( newAngle );
     }
 
     // converts an angle to range [0,2*PI) radians

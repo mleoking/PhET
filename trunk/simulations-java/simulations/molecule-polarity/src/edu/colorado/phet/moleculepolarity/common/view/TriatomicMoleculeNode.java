@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 
 /**
@@ -28,5 +29,6 @@ public class TriatomicMoleculeNode extends PhetPNode {
 
         //TODO add molecule rotation handler, grab bonds or atomB
         //TODO add bond angle handler, grab atomA or atomC
+        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 }

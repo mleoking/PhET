@@ -15,7 +15,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class TriatomicMolecule {
+public class TriatomicMolecule implements IRotatableMolecule {
 
     private static final double BOND_LENGTH = 150;
 
@@ -23,7 +23,7 @@ public class TriatomicMolecule {
     public final Bond bondAB; // the bond connecting atoms A and B
     public final Bond bondBC; // the bond connecting atoms B and C
     private final Property<ImmutableVector2D> location; // location is at the center of atom B
-    public final Property<Double> angle; // angle of rotation of the entire molecule about the location
+    private final Property<Double> angle; // angle of rotation of the entire molecule about the location
     public final Property<Double> bondAngleA; // the bond angle of atom A relative to atom B, before applying molecule rotation
     public final Property<Double> bondAngleC; // the bond angle of atom C relative to atom B, before applying molecule rotation
 
@@ -59,6 +59,18 @@ public class TriatomicMolecule {
         angle.reset();
         bondAngleA.reset();
         bondAngleC.reset();
+    }
+
+    public ImmutableVector2D getLocation() {
+        return location.get();
+    }
+
+    public void setAngle( double angle ) {
+        this.angle.set( angle );
+    }
+
+    public double getAngle() {
+        return angle.get();
     }
 
     public boolean isDragging() {
