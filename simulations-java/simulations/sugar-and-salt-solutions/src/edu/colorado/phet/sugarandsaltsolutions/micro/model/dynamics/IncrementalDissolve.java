@@ -35,8 +35,7 @@ public class IncrementalDissolve<T extends Particle> {
 
                 //For some unknown reason, limiting this to one dissolve element per step fixes bugs in dissolving the lattices
                 //Without this limit, crystals do not dissolve when they should
-                && System.currentTimeMillis() - lastDissolve > 2
-                ) {
+                && System.currentTimeMillis() - lastDissolve > 2 ) {
             lastDissolve = System.currentTimeMillis();
             Constituent<T> constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
             if ( constituent != null ) {
