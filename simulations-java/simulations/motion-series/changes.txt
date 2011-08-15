@@ -1,3 +1,4 @@
+> Fixed crate image, crashes were happening when it was too far from the wall
 Updated screenshot for forces-and-motion, see #3040
 # 2.01.00 (53821) Jul 6, 2011
 7/6/11 > added new translation credits features
