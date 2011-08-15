@@ -83,8 +83,10 @@ public class CrystalStrategy extends UpdateStrategy {
         // Once the dissolve slider is released, the equilibrium of some ions adding and subtracting from different places on one or more crystals would be fine,
         // but letting this happen as saturation is increasing seems problematic.
         //JC said: I think the change to prevent ion release when the user is dragging the evaporation slider would help the user grow larger (prettier) crystals, which is fun.
-        //TODO: what if the user adds a crystal then turns up evaporation before it has a chance to dissolve?  It will never have a chance to dissolve then and they will be able to create an unrealistic situation
-        if ( dissolve && model.evaporationRate.get() == 0 ) {
+
+        //for "no dissolving while evaporating" workaround, only apply the workaround if concentration is above the saturation point.  This will allow newly dropped crystals to dissolve instead of staying crystallized.
+        boolean evaporationAndConcentrationAllowsDissolve = model.evaporationRate.get() > 0 && saturated.get();
+        if ( dissolve || evaporationAndConcentrationAllowsDissolve ) {
             incrementalDissolve.dissolve( crystals, crystal, saturated );
         }
     }
