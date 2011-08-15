@@ -30,7 +30,7 @@ public class TriatomicMolecule {
         angleBC = new Property<Double>( 0d );
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );
         atomB = new Atom( MPStrings.B, 100, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
-        atomC = new Atom( MPStrings.C, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
+        atomC = new Atom( MPStrings.C, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.plus( BOND_LENGTH / 2, 0 ) );
         bondAB = new Bond( atomA, atomB );
         bondBC = new Bond( atomB, atomC );
         VoidFunction1<Double> observer = new VoidFunction1<Double>() {
