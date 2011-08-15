@@ -2,10 +2,12 @@
 
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.Color;
 
 import edu.colorado.phet.buildanatom.model.IDynamicAtom;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.HighlightingElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
 
 /**
