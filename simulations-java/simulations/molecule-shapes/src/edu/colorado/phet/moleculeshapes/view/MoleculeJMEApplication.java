@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -44,6 +45,7 @@ import com.jme3.scene.Spatial.CullHint;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: fix firefox failure (where to put libs?
  * TODO: consider allowing more electron pairs, since we can't show the double/triple bond differences much!
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: cursor stuff!
@@ -322,7 +324,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
                 public void updateText() {
                     String name = molecule.getConfiguration().name;
-                    setText( "Molecular Geometry: " + ( name == null ? "unknown" : name ) );
+                    setText( "Molecular Geometry: " + ( name == null ? Strings.SHAPE__EMPTY : name ) );
 
                     // TODO: fix this. shouldn't be necessary
                     if ( moleculeShapeReadout != null ) {
@@ -358,7 +360,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
                 public void updateText() {
                     String name = molecule.getConfiguration().geometry.name;
-                    setText( "Electron Geometry: " + ( name == null ? "unknown" : name ) );
+                    setText( "Electron Geometry: " + ( name == null ? Strings.GEOMETRY__EMPTY : name ) );
 
                     // TODO: fix this. shouldn't be necessary
                     if ( electronShapeReadout != null ) {

@@ -104,7 +104,8 @@ public class MoleculeModel {
      * @return Whether the pair group can be added, or whether this molecule would go over its pair limit
      */
     public boolean wouldAllowBondOrder( int bondOrder ) {
-        return getNumberOfPairs() + ( bondOrder == 0 ? 1 : bondOrder ) <= MAX_PAIRS;
+        return getStericNumber() < MAX_PAIRS;
+//        return getNumberOfPairs() + ( bondOrder == 0 ? 1 : bondOrder ) <= MAX_PAIRS;
     }
 
     /*---------------------------------------------------------------------------*
