@@ -7,15 +7,14 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
  */
 public class ParticleCountTable {
 
-    //Increase the requested amount because otherwise it is too difficult to get it to crystallize before the water is almost completely evaporated
-    public static final int scaleFactor = 2;
+    //The number of formula (such as NaCl or CaCl3) that the user can add to the solution, chosen to be this value so that the user can only add 1.0 mol / L by default
+    private static final int NUMBER_SOLUTE_FORMULAE = 6;
 
-    //Amounts are given for 1E-23L of water, then multiplied by 2 since the max fluid volume is 2E-23L
-    public static final int MAX_SODIUM_CHLORIDE = (int) ( 10.30 * 2 ) * scaleFactor;
-    public static final int MAX_CALCIUM_CHLORIDE = (int) ( 5.43 * 2 ) * scaleFactor;
-    public static final int MAX_SODIUM_NITRATE = (int) ( 7.00 * 2 ) * scaleFactor;
-    public static final int MAX_SUCROSE = (int) ( 1.76 * 2 ) * scaleFactor;
+    public static final int MAX_SODIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE;
+    public static final int MAX_SODIUM_NITRATE = NUMBER_SOLUTE_FORMULAE;
+    public static final int MAX_SUCROSE = NUMBER_SOLUTE_FORMULAE;
+    public static final int MAX_GLUCOSE = NUMBER_SOLUTE_FORMULAE;
 
-    //Since glucose is half as big as sucrose, you can have twice as many
-    public static final int MAX_GLUCOSE = MAX_SUCROSE * 2;
+    //Half as much since different formula ratio, this number limits the concentration to 1.00mol/L on startup
+    public static final int MAX_CALCIUM_CHLORIDE = NUMBER_SOLUTE_FORMULAE / 2;
 }
