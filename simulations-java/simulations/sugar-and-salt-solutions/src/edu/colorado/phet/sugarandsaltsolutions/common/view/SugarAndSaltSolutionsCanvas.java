@@ -10,9 +10,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -113,13 +110,19 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             } );
         }} );
 
+        //Show the water flowing out of the top and bottom faucets
+        addChild( new WaterNode( transform, model.inputWater ) );
+        addChild( new WaterNode( transform, model.outputWater ) );
+
         //Add the faucets, the first faucet should have the water stop at the base of the beaker.  This faucet should extend very far in case the user makes the sim short and fat, so the faucet pipe will always be visible
-        addChild( new FaucetNode( model.inputFlowRate, new Some<Double>( transform.modelToViewY( model.beaker.getY() ) ), not( model.beakerFull ), 10000 ) {{
+        FaucetNode inputFaucetNode = new FaucetNode( model.inputFlowRate, not( model.beakerFull ), 10000 ) {{
             setOffset( 50, 10 );
-        }} );
+        }};
+        addChild( inputFaucetNode );
+        model.setInputFaucetMetrics( new FaucetMetrics( transform, model, rootNode, inputFaucetNode ) );
 
         //Add a faucet that drains the beaker; there is no input pipe for this since it attaches directly to the beaker
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, new None<Double>(), model.lowerFaucetCanDrain, 0 ) {{
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.lowerFaucetCanDrain, 0 ) {{
 
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             //x-value hand tuned so it doesn't overlap the reset button in English
@@ -131,9 +134,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         addChild( drainFaucetNode );
 
         //Use the view coordinates to set the model coordinates for how particle should flow toward and flow out the drain pipe
-        ImmutableVector2D input = transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( drainFaucetNode.getInputGlobalViewPoint() ) ) );
-        ImmutableVector2D output = transform.viewToModel( new ImmutableVector2D( rootNode.globalToLocal( drainFaucetNode.getOutputGlobalViewPoint() ) ) );
-        model.setDrainFaucetMetrics( new DrainFaucetMetrics( input, output, model ) );
+        model.setDrainFaucetMetrics( new FaucetMetrics( transform, model, rootNode, drainFaucetNode ) );
 
         //Add salt crystals graphics when salt crystals are added to the model
         model.saltAdded.addListener( new CrystalMaker<MacroSalt>( crystalLayer, new Function1<MacroSalt, PNode>() {

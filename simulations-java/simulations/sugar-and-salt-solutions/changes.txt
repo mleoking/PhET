@@ -1,3 +1,4 @@
+Fixed: water not centered on faucets
 Micro tab: Fixed: particles don't flow out of the output faucet at the right location
 Micro tab: Fixed: particles don't flow to the right location on the output faucet
 # 0.00.87 (55106) Aug 12, 2011

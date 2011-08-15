@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
+import java.awt.Shape;
+import java.awt.geom.Area;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -14,7 +17,8 @@ import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
-import edu.colorado.phet.sugarandsaltsolutions.common.view.DrainFaucetMetrics;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.FaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
@@ -109,7 +113,12 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final ObservableProperty<Boolean> beakerFull;
 
     //Model location (in meters) of where water will flow out the drain (both toward and away from drain faucet), set by the view since view locations are chosen first for consistency across tabs
-    private DrainFaucetMetrics drainFaucetMetrics;
+    private FaucetMetrics drainFaucetMetrics = new FaucetMetrics( this, ImmutableVector2D.ZERO, ImmutableVector2D.ZERO, 0 );
+    private FaucetMetrics inputFaucetMetrics = new FaucetMetrics( this, ImmutableVector2D.ZERO, ImmutableVector2D.ZERO, 0 );
+
+    //The shape of the input and output water.  The Shape of the water draining out the output faucet is also needed for purposes of determining whether there is an electrical connection for the conductivity tester
+    public final Property<Shape> inputWater = new Property<Shape>( new Area() );
+    public final Property<Shape> outputWater = new Property<Shape>( new Area() );
 
     //True if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     public abstract ObservableProperty<Boolean> getAnySolutes();
@@ -129,7 +138,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public SugarAndSaltSolutionModel( final ConstantDtClock clock,
 
                                       //Dimensions of the beaker
-                                      BeakerDimension beakerDimension,
+                                      final BeakerDimension beakerDimension,
                                       double faucetFlowRate,
                                       final double drainPipeBottomY,
                                       final double drainPipeTopY,
@@ -196,6 +205,24 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
 
         //Create the list of dispensers
         dispensers = new ArrayList<Dispenser>();
+
+        //Sets the shape of the water into the beaker
+        inputFlowRate.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double rate ) {
+                double width = rate * inputFaucetMetrics.faucetWidth;
+                double height = inputFaucetMetrics.outputPoint.getY();//assumes beaker floor is at y=0
+                inputWater.set( new Rectangle2D.Double( inputFaucetMetrics.outputPoint.getX() - width / 2, inputFaucetMetrics.outputPoint.getY() - height, width, height ) );
+            }
+        } );
+
+        //Sets the shape of the water flowing out of the beaker, changing the shape updates the brightness of the conductivity tester in the macro tab
+        outputFlowRate.addObserver( new VoidFunction1<Double>() {
+            public void apply( Double rate ) {
+                double width = rate * drainFaucetMetrics.faucetWidth;
+                double height = beakerDimension.height * 2;
+                outputWater.set( new Rectangle2D.Double( drainFaucetMetrics.outputPoint.getX() - width / 2, drainFaucetMetrics.outputPoint.getY() - height, width, height ) );
+            }
+        } );
     }
 
     //When a crystal is absorbed by the water, increase the number of moles in solution
@@ -418,12 +445,17 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     }
 
     //Get the location of the drain where particles will flow toward and out, in absolute coordinates, in meters
-    public DrainFaucetMetrics getDrainFaucetMetrics() {
+    public FaucetMetrics getDrainFaucetMetrics() {
         return drainFaucetMetrics;
     }
 
     //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
-    public void setDrainFaucetMetrics( DrainFaucetMetrics drainFaucetMetrics ) {
-        this.drainFaucetMetrics = drainFaucetMetrics;
+    public void setDrainFaucetMetrics( FaucetMetrics faucetMetrics ) {
+        this.drainFaucetMetrics = faucetMetrics;
+    }
+
+    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    public void setInputFaucetMetrics( FaucetMetrics faucetMetrics ) {
+        this.inputFaucetMetrics = faucetMetrics;
     }
 }
