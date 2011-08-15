@@ -1,3 +1,5 @@
+Added the snap-on ruler for showing distances.
+Added mass labels and the ability to turn them on/off.
 Added labels for the mystery objects.
 Added animation for the removal of masses from the plank.
 Made the items grabbed from the teeter totter be positioned under the mouse (they were off in some cases).
