@@ -134,11 +134,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     final double glucoseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.05 );
 
     //Create observable properties that indicate whether each solution type is saturated
-    public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodium.concentration.greaterThan( sodiumChlorideSaturationPoint ).and( chloride.concentration.greaterThan( sodiumChlorideSaturationPoint ) );
-    public final ObservableProperty<Boolean> calciumChlorideSaturated = calcium.concentration.greaterThan( calciumChlorideSaturationPoint ).and( chloride.concentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
+    public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodium.concentration.greaterThan( sodiumChlorideSaturationPoint ).or( chloride.concentration.greaterThan( sodiumChlorideSaturationPoint ) );
+    public final ObservableProperty<Boolean> calciumChlorideSaturated = calcium.concentration.greaterThan( calciumChlorideSaturationPoint ).or( chloride.concentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
     public final ObservableProperty<Boolean> sucroseSaturated = sucrose.concentration.greaterThan( sucroseSaturationPoint );
     public final ObservableProperty<Boolean> glucoseSaturated = glucose.concentration.greaterThan( glucoseSaturationPoint );
-    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrate.concentration.greaterThan( sodiumNitrateSaturationPoint ) );
+    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).or( nitrate.concentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //The index of the kit selected by the user
     public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
