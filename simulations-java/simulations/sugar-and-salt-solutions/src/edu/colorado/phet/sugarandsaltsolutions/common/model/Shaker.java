@@ -106,8 +106,8 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
     protected abstract void addSalt( T model, final ImmutableVector2D outputPoint, double volumePerSolidMole, final ImmutableVector2D crystalVelocity );
 
     //Create a SaltShakerNode for display and interaction with this model element
-    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight ) {
-        return new SaltShakerNode<T>( transform, this, beakerHeight );
+    @Override public PNode createNode( ModelViewTransform transform, double beakerHeight, boolean micro ) {
+        return new SaltShakerNode<T>( transform, this, beakerHeight, micro );
     }
 
     @Override public void reset() {

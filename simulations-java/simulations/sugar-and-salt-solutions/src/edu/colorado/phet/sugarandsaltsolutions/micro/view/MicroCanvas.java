@@ -52,7 +52,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             public String apply( Double volumeInMetersCubed ) {
                 return volumeToHTMLString( volumeInMetersCubed, "0.00" );
             }
-        } );
+        }, true );
 
         //List of the kits the user can choose from, for showing the appropriate bar charts + controls
         final KitList kitList = new KitList( model, transform );

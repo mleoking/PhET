@@ -25,7 +25,13 @@ public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends Dis
     private static final BufferedImage openEmpty = multiScaleToHeight( SUGAR_EMPTY_OPEN, 250 );
     private static final BufferedImage closedEmpty = multiScaleToHeight( SUGAR_EMPTY_CLOSED, 250 );
 
-    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model, double beakerHeight ) {
+    private static final BufferedImage openMicro = multiScaleToHeight( SUGAR_MICRO_OPEN, 250 );
+    private static final BufferedImage closedMicro = multiScaleToHeight( SUGAR_MICRO_CLOSED, 250 );
+
+    public SugarDispenserNode( final ModelViewTransform transform, final SugarDispenser<T> model, double beakerHeight,
+
+                               //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
+                               final boolean micro ) {
         super( transform, model, beakerHeight );
 
         //Hide the sugar dispenser if it is not enabled (selected by the user)
@@ -39,11 +45,16 @@ public class SugarDispenserNode<T extends SugarAndSaltSolutionModel> extends Dis
         //Also update the image when the the dispenser opens/closes and empties/fills.
         new RichSimpleObserver() {
             @Override public void update() {
+                boolean open = model.open.get();
+                boolean allowed = model.moreAllowed.get();
                 imageNode.setImage(
-                        model.open.get() && model.moreAllowed.get() ? openFull :
-                        model.open.get() && !model.moreAllowed.get() ? openEmpty :
-                        !model.open.get() && model.moreAllowed.get() ? closedFull :
-                        closedEmpty
+                        micro ? ( open ?
+                                  openMicro :
+                                  closedMicro )
+                              : ( open && allowed ? openFull :
+                                  open && !allowed ? openEmpty :
+                                  !open && allowed ? closedFull :
+                                  closedEmpty )
                 );
             }
         }.observe( model.open, model.moreAllowed );
