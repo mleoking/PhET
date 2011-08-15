@@ -15,14 +15,15 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiatomicMolecule {
+public class DiatomicMolecule implements IRotatableMolecule {
 
     private static final double BOND_LENGTH = 150;
 
     public final Atom atomA, atomB; // the atoms labeled A and B
     public final Bond bond; // the bond connecting atoms A and B
+
     private final Property<ImmutableVector2D> location; // location is at the center of the bond
-    public final Property<Double> angle; // angle of rotation about the location (zero is bond horizontal, atom A left, atom B right)
+    private final Property<Double> angle; // angle of rotation about the location (zero is bond horizontal, atom A left, atom B right)
 
     private boolean dragging; // true when the user is dragging the molecule
 
@@ -44,6 +45,18 @@ public class DiatomicMolecule {
         angle.reset();
         atomA.reset();
         atomB.reset();
+    }
+
+    public ImmutableVector2D getLocation() {
+        return location.get();
+    }
+
+    public void setAngle( double angle ) {
+        this.angle.set( angle );
+    }
+
+    public double getAngle() {
+        return angle.get();
     }
 
     public boolean isDragging() {
