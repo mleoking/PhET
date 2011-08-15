@@ -79,7 +79,7 @@ public class KitList {
                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sucrose.concentration, model.sucrose.color, SUCROSE, sucroseIcon ),
-                                new BarItem( model.glucoseConcentration, model.glucoseColor, GLUCOSE, glucoseIcon ) ) );
+                                new BarItem( model.glucose.concentration, model.glucose.color, GLUCOSE, glucoseIcon ) ) );
     }
 
     public MicroKit getKit( int kit ) {

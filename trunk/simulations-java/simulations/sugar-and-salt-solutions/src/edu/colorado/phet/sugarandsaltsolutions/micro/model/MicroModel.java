@@ -120,7 +120,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
         }
     }, showChargeColor );
-    public final ObservableProperty<Color> glucoseColor = new CompositeProperty<Color>( new Function0<Color>() {
+    private final ObservableProperty<Color> glucoseColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
         }
@@ -131,7 +131,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
     }, showChargeColor );
 
-    public final CompositeDoubleProperty glucoseConcentration = new IonConcentration( this, Glucose.class );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
     //Constituents of dissolved solutes, such as sodium, nitrate, sucrose, etc.
@@ -139,6 +138,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final SoluteConstituent chloride = new SoluteConstituent( this, new IonColor( this, new Chloride() ), Chloride.class );
     public final SoluteConstituent calcium = new SoluteConstituent( this, new IonColor( this, new Calcium() ), Calcium.class );
     public final SoluteConstituent sucrose = new SoluteConstituent( this, sucroseColor, Sucrose.class );
+    public final SoluteConstituent glucose = new SoluteConstituent( this, glucoseColor, Glucose.class );
 
     //Determine saturation points
     final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
@@ -151,7 +151,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodium.concentration.greaterThan( sodiumChlorideSaturationPoint ).and( chloride.concentration.greaterThan( sodiumChlorideSaturationPoint ) );
     public final ObservableProperty<Boolean> calciumChlorideSaturated = calcium.concentration.greaterThan( calciumChlorideSaturationPoint ).and( chloride.concentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
     public final ObservableProperty<Boolean> sucroseSaturated = sucrose.concentration.greaterThan( sucroseSaturationPoint );
-    public final ObservableProperty<Boolean> glucoseSaturated = glucoseConcentration.greaterThan( glucoseSaturationPoint );
+    public final ObservableProperty<Boolean> glucoseSaturated = glucose.concentration.greaterThan( glucoseSaturationPoint );
     public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
