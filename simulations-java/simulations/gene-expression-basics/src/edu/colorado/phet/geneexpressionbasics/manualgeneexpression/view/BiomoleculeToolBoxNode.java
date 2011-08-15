@@ -50,7 +50,9 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridy = 0;
             constraints.gridwidth = 2;
             // TODO: i18n
-            addChild( new PText( "Biomolecule Tool Box" ) {{ setFont( TITLE_FONT ); }}, constraints );
+            addChild( new PText( "Biomolecule Tool Box" ) {{
+                          setFont( TITLE_FONT );
+                      }}, constraints );
             // Add the biomolecule rows, each of which has a title and a set of
             // biomolecules that can be added to the active area.
             constraints.gridy++;
@@ -72,13 +74,23 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
-            addChild( new RowLabel( "Transcription Factor" ), constraints );
+            addChild( new RowLabel( "Positive Transcription Factor" ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this ) ) ), constraints );
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, 0, true ) ) ), constraints );
 
             constraints.gridx = 0;
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            // TODO: i18n
+            addChild( new RowLabel( "Negative Transcription Factor" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, 0, false ) ) ), constraints );
+            constraints.gridx = 0;
+
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
@@ -207,13 +219,13 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final double SCALING_FACTOR = 0.1;
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
-        private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new TranscriptionFactor() ),
+        private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final int geneID, final boolean positive ) {
+            super( new MobileBiomoleculeNode( SCALING_MVT, TranscriptionFactor.generateTranscriptionFactor( geneID, positive, new Point2D.Double( 0, 0 ) ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           TranscriptionFactor transcriptionFactor = new TranscriptionFactor( pos );
+                           TranscriptionFactor transcriptionFactor = TranscriptionFactor.generateTranscriptionFactor( geneID, positive, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
                            return transcriptionFactor;
                        }
