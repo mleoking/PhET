@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -101,6 +102,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Determine if there are any solutes (i.e., if moles of salt or moles of sugar is greater than zero).  This is used to show/hide the "remove solutes" button
     private final ObservableProperty<Boolean> anySolutes = freeParticles.size.greaterThan( 0 );
+
+    //The number of different types of solute in solution, to determine whether to show singular or plural text for the "remove solute(s)" button
+    //Note: this value should not be set externally, it should only be set by this model.  The reason that we used DoubleProperty which has a public setter is because it also has methods such as greaterThan and valueEquals
+    public final DoubleProperty numberSoluteTypes = new DoubleProperty( 0.0 );
 
     //Debugging flag for draining particles through the faucet
     private boolean debugDraining = false;
@@ -273,12 +278,22 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
         new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals ).allowCrystalGrowth( dt, sodiumNitrateSaturated );
 
+        //Update the number of solute types for purposes of changing the text on the "remove solute(s)" button
+        //Note that sodium is not counted since it appears in several solute types, we just count its binding partner
+        numberSoluteTypes.set( countType( Sucrose.class ) + countType( Glucose.class ) + countType( Nitrate.class ) + countType( Chloride.class ) + countType( Calcium.class ) + 0.0 );
+
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
         }
     }
 
+    //Counts the number of solute types for purposes of changing the text on the "remove solute(s)" button
+    private int countType( Class<? extends Particle> particle ) {
+        return freeParticles.count( particle ) > 0 ? 1 : 0;
+    }
+
+    //Combine elements from several lists so they can be iterated over together
     private ArrayList<Particle> joinLists( ItemList<?>... freeParticles ) {
         ArrayList<Particle> p = new ArrayList<Particle>();
         for ( ItemList<?> freeParticle : freeParticles ) {
