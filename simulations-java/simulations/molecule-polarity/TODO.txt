@@ -13,6 +13,7 @@ DESIGN
 - should the pointer move across the full range of the Bond Type indicator?
 - what is the purpose of the period table, why do we have it?
 - how should the dipoles scale?
+- what to show for triatomic molecule partial charges
 
 HIGH
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -28,6 +29,7 @@ MEDIUM
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
+- "View" check box for Periodic Table
 - custom cursor for molecule rotation
 - custom cursor for bond angle manipulation
 - add icons to control panels (dipoles, partial charge, mep,...)
