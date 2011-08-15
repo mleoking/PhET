@@ -10,7 +10,8 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.umd.cs.piccolo.PNode;
 
 /**
- * This class defines a node that represents a periodic table of the elements. It is not interactive by default,
+ * This class defines a node that represents a periodic table of the elements.  A CellFactory is used to create the nodes for the periodic table,
+ * and also can be used to highlight some (or all) of the elements.  The periodic table is not interactive by default,
  * but provides infrastructure that can be used to add interactivity in subclasses.
  *
  * @author Sam Reid
@@ -67,8 +68,8 @@ public class PeriodicTableNode extends PNode {
     /**
      * Returns a point that represents the row and column on a grid that corresponds to the layout of the standard periodic table.
      *
-     * @param atomicNumber
-     * @return
+     * @param atomicNumber the atomic number of the element to add
+     * @return the location on the 2d grid that defines the periodic table
      */
     private Point getPeriodicTableGridPoint( int atomicNumber ) {
         //http://www.ptable.com/ was useful here
