@@ -15,14 +15,14 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
   def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
 
-    //Commented out for Dallas
-//    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
-//    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
+    //For Dallas, gravity and normal forces were commented out
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
+    addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
     addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
-      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
-      () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
+                               new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
+                               () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,
@@ -61,7 +61,7 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
 
   def addVector(motionSeriesObject: MotionSeriesObject, vector: Vector, freeBodyDiagramOffset: Vector2DModel, offsetPlayArea: Double, vectorDisplay: VectorDisplay) = {
     vectorDisplay.addVector(vector, freeBodyDiagramOffset, MotionSeriesDefaults.FBD_LABEL_MAX_OFFSET, offsetPlayArea)
-    motionSeriesObject.removalListeners += (() => vectorDisplay.removeVector(vector))
+    motionSeriesObject.removalListeners += ( () => vectorDisplay.removeVector(vector) )
   }
 }
 
@@ -74,7 +74,7 @@ trait VectorDisplay {
 class PlayAreaVectorDisplay(transform: ModelViewTransform2D, motionSeriesObject: MotionSeriesObject) extends PNode with VectorDisplay {
   def addVector(vector: Vector, offset2D: Vector2DModel, maxOffset: Int, offset: Double): Unit = {
     val defaultCenter = motionSeriesObject.height / 2.0
-    def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * (offset + defaultCenter)
+    def getValue = motionSeriesObject.position2D + new Vector2D(motionSeriesObject.getAngle + java.lang.Math.PI / 2) * ( offset + defaultCenter )
     val myoffset = new Vector2DModel(getValue)
     motionSeriesObject.position2DProperty.addListener(() => myoffset.value = getValue)
     addChild(new BodyVectorNode(transform, vector, myoffset, motionSeriesObject, MotionSeriesDefaults.PLAY_AREA_FORCE_VECTOR_SCALE))
