@@ -13,9 +13,9 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory.Listener;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.BasicElementCell;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.BasicElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
 
 import static java.awt.Color.black;
 import static java.awt.Color.pink;

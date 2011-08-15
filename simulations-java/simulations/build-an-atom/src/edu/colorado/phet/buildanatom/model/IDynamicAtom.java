@@ -3,7 +3,7 @@
 package edu.colorado.phet.buildanatom.model;
 
 
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.PeriodicTableAtom;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableAtom;
 
 /**
  * Interface for atoms that can change their configuration, e.g. can gain an

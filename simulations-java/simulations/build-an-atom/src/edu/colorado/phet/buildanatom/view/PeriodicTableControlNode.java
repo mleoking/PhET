@@ -1,7 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.buildanatom.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GradientPaint;
+import java.awt.Paint;
+import java.awt.Stroke;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.buildanatom.model.AtomIdentifier;
@@ -14,9 +19,9 @@ import edu.colorado.phet.common.piccolophet.event.ButtonEventHandler;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableAtom;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.PeriodicTableAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -78,7 +83,7 @@ public class PeriodicTableControlNode extends PNode {
      * cell that looks like a button, intended to convey to the user that it
      * is interactive.
      */
-    private static class ButtonElementCell extends PeriodicTableNode.ElementCell {
+    private static class ButtonElementCell extends ElementCell {
         private static final double CELL_WIDTH = PeriodicTableNode.getCellDimension();
         private static final Paint IDLE_PAINT = new GradientPaint( 0, (float) ( CELL_WIDTH / 2 ), new Color( 220, 220, 220 ), 0, (float) CELL_WIDTH, new Color( 180, 180, 180 ) );
         private static final Paint FOCUSED_PAINT = new GradientPaint( 0, 0, new Color( 255, 255, 255 ), 0, (float) CELL_WIDTH, new Color( 200, 200, 200 ) );

@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.BasicElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.HighlightedElementCell;
 
 /**
  * Determines how to create PNodes for cells in the periodic table.

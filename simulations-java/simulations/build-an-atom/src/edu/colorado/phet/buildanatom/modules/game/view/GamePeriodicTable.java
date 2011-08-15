@@ -2,12 +2,14 @@
 
 package edu.colorado.phet.buildanatom.modules.game.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import edu.colorado.phet.buildanatom.BuildAnAtomConstants;
 import edu.colorado.phet.buildanatom.BuildAnAtomStrings;
@@ -18,10 +20,10 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.CellFactory;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.ElementCell;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.HighlightingElementCell;
+import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableAtom;
 import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.ElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.HighlightingElementCell;
-import edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.PeriodicTableAtom;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
