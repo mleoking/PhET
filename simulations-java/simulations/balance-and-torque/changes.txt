@@ -1,3 +1,5 @@
+Moved x's on bottoms of support columns so that the won't be overlapped by the ruler.
+Removed distance vectors (a.k.a. lever arms).
 Added the snap-on ruler for showing distances.
 Added mass labels and the ability to turn them on/off.
 Added labels for the mystery objects.
