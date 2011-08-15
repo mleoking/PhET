@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Color;
 
+import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 
@@ -14,11 +15,11 @@ import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.Composi
 public class SoluteConstituent {
     public final CompositeDoubleProperty concentration;
     public final ObservableProperty<Color> color;
-    public final DrainData sodiumDrainData;
+    public final DrainData drainData;
 
-    public SoluteConstituent( MicroModel model, IonColor color, Class<? extends Particle> type ) {
+    public SoluteConstituent( MicroModel model, CompositeProperty<Color> color, Class<? extends Particle> type ) {
         concentration = new IonConcentration( model, type );
         this.color = color;
-        sodiumDrainData = new DrainData( type );
+        drainData = new DrainData( type );
     }
 }

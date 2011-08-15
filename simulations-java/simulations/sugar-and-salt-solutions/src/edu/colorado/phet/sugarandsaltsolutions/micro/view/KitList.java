@@ -67,15 +67,15 @@ public class KitList {
         //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
         //Put the positive ions to the left of the negative ions
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
                                 new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, calciumIcon ),
-                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ) ) );
+                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.chlorideConcentration, model.chlorideColor, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
