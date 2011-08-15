@@ -71,7 +71,7 @@ public class KitList {
                                 new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.calciumConcentration, model.calciumColor, CALCIUM, calciumIcon ),
+                                new BarItem( model.calcium.concentration, model.calcium.color, CALCIUM, calciumIcon ),
                                 new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
