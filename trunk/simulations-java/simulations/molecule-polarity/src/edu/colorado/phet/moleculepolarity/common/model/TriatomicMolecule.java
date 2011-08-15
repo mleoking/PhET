@@ -88,7 +88,7 @@ public class TriatomicMolecule implements IMolecule {
     // repositions the atoms
     private void updateAtomLocations() {
         final double radius = BOND_LENGTH;
-        // atom B remains at a fixed location
+        // atom B remains at the molecule's location
         atomB.location.set( location.get() );
         // atom A
         double thetaA = angle.get() + bondAngleA.get();
