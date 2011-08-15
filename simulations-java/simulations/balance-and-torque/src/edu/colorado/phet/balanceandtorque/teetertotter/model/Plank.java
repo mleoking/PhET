@@ -55,12 +55,12 @@ public class Plank extends ShapeModelElement {
     // the user if the fulcrum is moved.
     private final Point2D pivotPoint = new Point2D.Double();
 
-    // Point at which the bar from the pivot point attaches to the plank. When
+    // Point where the bottom center of the plank is currently located. When
     // the plank is sitting on top of the fulcrum, this point will be the same
     // as the pivot point.  When the pivot point is above the plank, this will
     // be different.  This is a public property so that it can be monitored
     // externally, since it changes as the plank tilts.
-    public final Property<Point2D> attachmentPointProperty = new Property<Point2D>( new Point2D.Double() );
+    public final Property<Point2D> bottomCenterPoint = new Property<Point2D>( new Point2D.Double() );
 
     // Angle of the plank with respect to the ground.  A value of 0 indicates
     // a level plank.  Value is in radians.
@@ -149,7 +149,7 @@ public class Plank extends ShapeModelElement {
 
         // Initialize the attachment point (where the attachment bar meets the
         // plank) which is the same as the initial location.
-        attachmentPointProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
+        bottomCenterPoint.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
 
         // Listen to the support column property.  The plank goes back to the
         // level position whenever the supports become active.
@@ -297,7 +297,7 @@ public class Plank extends ShapeModelElement {
         Vector2D pivotPointVector = new Vector2D( pivotPoint );
         Vector2D attachmentBarVector = new Vector2D( 0, unrotatedShape.getBounds2D().getY() - pivotPoint.getY() );
         attachmentBarVector.rotate( tiltAngle );
-        attachmentPointProperty.set( pivotPointVector.add( attachmentBarVector ).toPoint2D() );
+        bottomCenterPoint.set( pivotPointVector.add( attachmentBarVector ).toPoint2D() );
     }
 
     // Find the best open location for a mass that was dropped at the given
@@ -399,26 +399,15 @@ public class Plank extends ShapeModelElement {
     private ImmutableVector2D getPlankSurfaceCenter() {
 
         //Start at the absolute location of the attachment point, and add the relative location of the top of the plank, accounting for its rotation angle
-        return new ImmutableVector2D( attachmentPointProperty.get() ).plus( new ImmutableVector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
+        return new ImmutableVector2D( bottomCenterPoint.get() ).plus( new ImmutableVector2D( 0, THICKNESS ).getRotatedInstance( tiltAngle ) );
     }
 
     private ImmutableVector2D getPivotPointVector() {
         return new ImmutableVector2D( pivotPoint );
     }
 
-    /**
-     * Get the balance point for the plank.  This is the point on which the
-     * plank rests and tilts, so it is the underside of the plank, not the top.
-     *
-     * @return
-     */
-    public Point2D getBalancePoint() {
-        // TODO: This only works when the fulcrum is immobile, and will need to be improved.
-        return new Point2D.Double( positionHandle.getX(), positionHandle.getY() );
-    }
-
-    private Point2D getSurfacePointAboveBalancePoint() {
-        return new Vector2D( getBalancePoint() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) ).toPoint2D();
+    public Point2D getCenterSurfacePoint() {
+        return new Vector2D( bottomCenterPoint.get() ).add( new Vector2D( 0, THICKNESS ).rotate( tiltAngle ) ).toPoint2D();
     }
 
     /**
@@ -431,7 +420,7 @@ public class Plank extends ShapeModelElement {
     private double getSurfaceYValue( double xValue ) {
         // Solve the linear equation for the line that represents the surface
         // of the plank.
-        Point2D surfacePointAboveBalancePoint = getSurfacePointAboveBalancePoint();
+        Point2D surfacePointAboveBalancePoint = getCenterSurfacePoint();
         double m = Math.atan( tiltAngle );
         double b = surfacePointAboveBalancePoint.getY() - m * surfacePointAboveBalancePoint.getX();
         // Does NOT check if the xValue range is valid.
@@ -455,7 +444,7 @@ public class Plank extends ShapeModelElement {
             currentTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
         }
         // Add in torque due to plank.
-        currentTorque += ( pivotPoint.getX() - attachmentPointProperty.get().getX() ) * MASS;
+        currentTorque += ( pivotPoint.getX() - bottomCenterPoint.get().getX() ) * MASS;
     }
 
     /**
