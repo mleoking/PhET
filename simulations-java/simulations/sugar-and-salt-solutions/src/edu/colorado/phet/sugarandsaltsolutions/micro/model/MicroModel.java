@@ -11,7 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -125,13 +124,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             return showChargeColor.get() ? NEUTRAL_COLOR : red;
         }
     }, showChargeColor );
-    public final ObservableProperty<Color> nitrateColor = new CompositeProperty<Color>( new Function0<Color>() {
+    private final ObservableProperty<Color> nitrateColor = new CompositeProperty<Color>( new Function0<Color>() {
         public Color apply() {
             return showChargeColor.get() ? blue : blue;
         }
     }, showChargeColor );
-
-    public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
 
     //Constituents of dissolved solutes, such as sodium, nitrate, sucrose, etc.
     public final SoluteConstituent sodium = new SoluteConstituent( this, new IonColor( this, new Sodium() ), Sodium.class );
@@ -139,6 +136,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final SoluteConstituent calcium = new SoluteConstituent( this, new IonColor( this, new Calcium() ), Calcium.class );
     public final SoluteConstituent sucrose = new SoluteConstituent( this, sucroseColor, Sucrose.class );
     public final SoluteConstituent glucose = new SoluteConstituent( this, glucoseColor, Glucose.class );
+    public final SoluteConstituent nitrate = new SoluteConstituent( this, nitrateColor, Nitrate.class );
 
     //Determine saturation points
     final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
@@ -152,12 +150,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ObservableProperty<Boolean> calciumChlorideSaturated = calcium.concentration.greaterThan( calciumChlorideSaturationPoint ).and( chloride.concentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
     public final ObservableProperty<Boolean> sucroseSaturated = sucrose.concentration.greaterThan( sucroseSaturationPoint );
     public final ObservableProperty<Boolean> glucoseSaturated = glucose.concentration.greaterThan( glucoseSaturationPoint );
-    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
-
-    //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
-    //There is one DrainData for each type since they may flow at different rates and have different schedules
-    public final DrainData glucoseDrainData = new DrainData( Glucose.class );
-    public final DrainData nitrateDrainData = new DrainData( Nitrate.class );
+    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrate.concentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     public MicroModel() {
 
@@ -216,10 +209,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             public void apply( Double outputFlowRate ) {
                 checkStartDrain( sodium.drainData );
                 checkStartDrain( chloride.drainData );
-                checkStartDrain( nitrateDrainData );
+                checkStartDrain( nitrate.drainData );
                 checkStartDrain( calcium.drainData );
                 checkStartDrain( sucrose.drainData );
-                checkStartDrain( glucoseDrainData );
+                checkStartDrain( glucose.drainData );
             }
         } );
     }
@@ -255,8 +248,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             updateParticlesFlowingToDrain( sodium.drainData, dt );
             updateParticlesFlowingToDrain( chloride.drainData, dt );
             updateParticlesFlowingToDrain( sucrose.drainData, dt );
-            updateParticlesFlowingToDrain( glucoseDrainData, dt );
-            updateParticlesFlowingToDrain( nitrateDrainData, dt );
+            updateParticlesFlowingToDrain( glucose.drainData, dt );
+            updateParticlesFlowingToDrain( nitrate.drainData, dt );
             updateParticlesFlowingToDrain( calcium.drainData, dt );
         }
 
