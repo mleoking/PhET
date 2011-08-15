@@ -15,6 +15,9 @@ import static java.awt.Color.white;
 /**
  * Cell that watches the atom and highlights itself if the atomic number
  * matches its configuration.
+ *
+ * @author Sam Reid
+ * @author John Blanco
  */
 public class HighlightingElementCell extends BasicElementCell {
     public HighlightingElementCell( final PeriodicTableAtom atom, final int atomicNumber, final Color backgroundColor ) {
