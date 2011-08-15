@@ -25,6 +25,7 @@ public class MoleculeShapesResources {
         public static final String MOLECULE__SHAPES__TITLE = RESOURCES.getLocalizedString( "molecule-shapes.title" );
         public static final String SHAPE__BENT = RESOURCES.getLocalizedString( "shape.bent" );
         public static final String SHAPE__DIATOMIC = RESOURCES.getLocalizedString( "shape.diatomic" );
+        public static final String SHAPE__EMPTY = RESOURCES.getLocalizedString( "shape.empty" );
         public static final String SHAPE__LINEAR = RESOURCES.getLocalizedString( "shape.linear" );
         public static final String SHAPE__OCTAHEDRAL = RESOURCES.getLocalizedString( "shape.octahedral" );
         public static final String SHAPE__SEESAW = RESOURCES.getLocalizedString( "shape.seesaw" );

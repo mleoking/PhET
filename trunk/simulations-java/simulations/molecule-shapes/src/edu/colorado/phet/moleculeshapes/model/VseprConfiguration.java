@@ -36,7 +36,7 @@ public class VseprConfiguration {
 
         // figure out what the name is
         if ( x == 0 ) {
-            name = null;
+            name = Strings.SHAPE__EMPTY;
         }
         else if ( x == 1 ) {
             name = Strings.SHAPE__DIATOMIC;
