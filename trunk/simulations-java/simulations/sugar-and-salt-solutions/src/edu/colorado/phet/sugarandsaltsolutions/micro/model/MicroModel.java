@@ -329,7 +329,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
         //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
         double mainParticleSpeed = 0;
-        double mainParticleDistance = 0;
         for ( int i = 0; i < particles.size(); i++ ) {
             Particle particle = particles.get( i );
 
@@ -340,7 +339,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             //Store the primary speed that the leaving particle is moving at
             if ( i == 0 ) {
                 mainParticleSpeed = speed;
-                mainParticleDistance = distanceToTarget;
             }
             else {
 
@@ -493,7 +491,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //Removes all the sodium nitrate from the model.  This assumes that the nitrate group is unique to the sodium nitrate, i.e. does not appear in any other
-    //molecules in the kit.  Based on this assumption, the same number of sodium as nitrates is removed since some sodiums could have come from other sources like NaCl
+    //molecules in the kit.  Based on this assumption, the same number of sodium as nitrates is removed since some sodium ions could have come from other sources like NaCl
     public void removeAllSodiumNitrate() {
 
         //Remove any crystals
@@ -513,7 +511,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         ArrayList<Particle> sodium = freeParticles.filter( Sodium.class );
         for ( int i = 0; i < nitrates.size() && i < sodium.size(); i++ ) {
             freeParticles.remove( sodium.get( i ) );
-            sphericalParticles.remove( (SphericalParticle) sodium.get( i ) );
+            sphericalParticles.remove( sodium.get( i ) );
         }
     }
 
@@ -555,10 +553,10 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         for ( int i = 0; i < min; i++ ) {
             freeParticles.remove( sodium.get( i ) );
-            sphericalParticles.remove( (SphericalParticle) sodium.get( i ) );
+            sphericalParticles.remove( sodium.get( i ) );
 
             freeParticles.remove( chloride.get( i ) );
-            sphericalParticles.remove( (SphericalParticle) chloride.get( i ) );
+            sphericalParticles.remove( chloride.get( i ) );
         }
     }
 
