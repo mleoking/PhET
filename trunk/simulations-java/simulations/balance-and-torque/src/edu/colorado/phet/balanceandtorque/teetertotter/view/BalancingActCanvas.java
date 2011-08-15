@@ -13,7 +13,6 @@ import java.awt.geom.Point2D;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.BalancingActModel;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.LabeledImageMass;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
-import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.LeverArmVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank.MassForceVector;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.SupportColumn;
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.ImageMass;
@@ -222,26 +221,6 @@ public class BalancingActCanvas extends PhetPCanvas {
                 model.getPlank().forceVectorList.addElementRemovedObserver( new VoidFunction1<MassForceVector>() {
                     public void apply( MassForceVector removedMassForceVector ) {
                         if ( removedMassForceVector == addedMassForceVector ) {
-                            rootNode.removeChild( positionedVectorNode );
-                        }
-                    }
-                } );
-            }
-        } );
-        model.getPlank().leverArmVectorList.addElementAddedObserver( new VoidFunction1<LeverArmVector>() {
-            public void apply( final LeverArmVector addedLeverArmVector ) {
-                // Add a representation for the new vector.
-                final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedLeverArmVector.leverArmVectorProperty,
-                                                                                            1.0,
-                                                                                            distancesVisibleProperty,
-                                                                                            new Color( 255, 190, 0 ),
-                                                                                            mvt );
-                rootNode.addChild( positionedVectorNode );
-                // Listen for removal of this vector and, if and when it is
-                // removed, remove the corresponding representation.
-                model.getPlank().leverArmVectorList.addElementRemovedObserver( new VoidFunction1<LeverArmVector>() {
-                    public void apply( LeverArmVector removedLeverArmVector ) {
-                        if ( removedLeverArmVector == addedLeverArmVector ) {
                             rootNode.removeChild( positionedVectorNode );
                         }
                     }

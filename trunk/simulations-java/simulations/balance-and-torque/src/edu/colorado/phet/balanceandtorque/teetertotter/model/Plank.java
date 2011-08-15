@@ -96,11 +96,6 @@ public class Plank extends ShapeModelElement {
     public final ObservableList<MassForceVector> forceVectorList =
             new ObservableList<MassForceVector>();
 
-    // Observable list of the lever arm vectors from the pivot point to the
-    // masses.
-    public final ObservableList<LeverArmVector> leverArmVectorList =
-            new ObservableList<LeverArmVector>();
-
     //------------------------------------------------------------------------
     // Constructor(s)
     //------------------------------------------------------------------------
@@ -193,7 +188,6 @@ public class Plank extends ShapeModelElement {
                                         ( mass.getPosition().getX() > getPlankSurfaceCenter().getX() ? 1 : -1 );
             mapMassToDistFromCenter.put( mass, distanceFromCenter );
             forceVectorList.add( new MassForceVector( mass ) );
-            leverArmVectorList.add( new LeverArmVector( pivotPoint, mass ) );
             mass.userControlled.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean userControlled ) {
                     if ( userControlled ) {
@@ -220,12 +214,6 @@ public class Plank extends ShapeModelElement {
         for ( MassForceVector massForceVector : new ArrayList<MassForceVector>( forceVectorList ) ) {
             if ( mass == massForceVector.mass ) {
                 forceVectorList.remove( massForceVector );
-            }
-        }
-        // Remove the lever arm vector associated with this mass.
-        for ( LeverArmVector leverArmVector : new ArrayList<LeverArmVector>( leverArmVectorList ) ) {
-            if ( mass == leverArmVector.mass ) {
-                leverArmVectorList.remove( leverArmVector );
             }
         }
         updateTorque();
@@ -371,10 +359,6 @@ public class Plank extends ShapeModelElement {
         for ( MassForceVector massForceVector : forceVectorList ) {
             massForceVector.update();
         }
-        // Update the lever arm vectors.
-        for ( LeverArmVector leverArmVector : leverArmVectorList ) {
-            leverArmVector.update();
-        }
         // Simulate friction by slowing down the rotation a little.
         angularVelocity *= 0.90;
     }
@@ -508,6 +492,11 @@ public class Plank extends ShapeModelElement {
                                          new ImmutableVector2D( 0, mass.getMass() * ACCELERATION_DUE_TO_GRAVITY ) );
         }
     }
+
+    // TODO: In early August 2011 the design team decided that they didn't like
+    // the distance (a.k.a. lever arm) vectors, and they were removed.  Keep
+    // this class around for a bit in case that decision is reversed and, if it
+    // sticks, blow it away at some point.
 
     /**
      * Convenience class that maintains relationship between a mass and a lever
