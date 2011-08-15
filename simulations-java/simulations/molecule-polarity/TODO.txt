@@ -22,11 +22,17 @@ HIGH
 - Jmol: how to align molecular dipole with E-Field?
 
 MEDIUM
+- 3 Atoms: molecular dipole model and view
+- 3 Atoms: partial charge model and view for atom B
+- 3 Atoms: align molecular dipole with E-field
+- 3 Atoms: 2D isosurfaces
+- bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - 3 Atoms: place bond dipoles above, molecule dipole below, molecule dipole tail centered on B
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
+- 2/3 Atoms: canvas layout should be based on molecule location
 
 LOW
 - "View" check box for Periodic Table
