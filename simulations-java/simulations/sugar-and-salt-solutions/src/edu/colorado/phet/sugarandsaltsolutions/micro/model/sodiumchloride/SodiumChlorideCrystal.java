@@ -23,9 +23,14 @@ public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
         return random.nextBoolean() ? new Sodium() : new Chloride();
     }
 
-    //Determine whether Na or Cl should be removed from the crystal to maintain the ionic balance
+    //Determine whether Na or Cl should be removed from the crystal when dissolving to maintain the ionic balance
     @Override protected Class<? extends Particle> getMajorityType() {
         return getMajorityType( Sodium.class, Chloride.class );
+    }
+
+    //Determine whether Na or Cl should be added to the crystal when growing to maintain the ionic balance
+    @Override public Class<? extends Particle> getMinorityType() {
+        return getMinorityType( Sodium.class, Chloride.class );
     }
 
     //Create the bonding partner for growing the crystal
