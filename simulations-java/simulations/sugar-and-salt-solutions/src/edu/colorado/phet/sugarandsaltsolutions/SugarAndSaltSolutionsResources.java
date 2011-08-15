@@ -51,9 +51,12 @@ public class SugarAndSaltSolutionsResources {
         public static final BufferedImage FAUCET_PIPE = RESOURCES.getImage( "faucet_pipe.png" );
         public static final BufferedImage SALT_1 = RESOURCES.getImage( "salt_1.png" );
         public static final BufferedImage SALT_EMPTY = RESOURCES.getImage( "salt_empty.png" );
+        public static final BufferedImage SALT_MICRO = RESOURCES.getImage( "salt_micro.png" );
         public static final BufferedImage SUGAR_CLOSED = RESOURCES.getImage( "sugar_closed.png" );
         public static final BufferedImage SUGAR_EMPTY_CLOSED = RESOURCES.getImage( "sugar_empty_closed.png" );
         public static final BufferedImage SUGAR_EMPTY_OPEN = RESOURCES.getImage( "sugar_empty_open.png" );
+        public static final BufferedImage SUGAR_MICRO_CLOSED = RESOURCES.getImage( "sugar_micro_closed.png" );
+        public static final BufferedImage SUGAR_MICRO_OPEN = RESOURCES.getImage( "sugar_micro_open.png" );
         public static final BufferedImage SUGAR_OPEN = RESOURCES.getImage( "sugar_open.png" );
     }
 }
