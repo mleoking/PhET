@@ -51,8 +51,13 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     public void allowCrystalGrowth( double dt, ObservableProperty<Boolean> saturated ) {
         double timeSinceLast = model.getTime() - lastNewCrystalFormationTime;
 
+        //If there is no water, move particles quickly toward each other to form crystals since there should be no free ions
+        if ( model.waterVolume.get() == 0 ) {
+            towardNewCrystal( dt * 10 );
+        }
+
         //Make sure at least 1 second has passed, then convert to crystals
-        if ( saturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
+        else if ( saturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
 
             //Create a crystal if there weren't any
             debug( "No crystals, starting a new one" );
