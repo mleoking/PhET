@@ -19,39 +19,31 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class PeriodicTableNode extends PNode {
 
-    //Color to use for the background for each cell in the periodic table
-    public final Color backgroundColor;
-
-    //Factory for creating cells to add as Piccolo nodes to show in the periodic table
-    private final CellFactory cellFactory;
-
     //In screen coordinates, the default length = width of a cell square
     public static final double CELL_DIMENSION = 20;
 
     /**
      * Creates a new periodic table node with the specified background color and cell factory
      *
-     * @param backgroundColor color to use for the background for each cell in the periodic table
+     * @param backgroundColor color to use for the background for each cell in the periodic table, may be different if highlighted
      * @param cellFactory     for creating cells to add as Piccolo nodes to show in the periodic table
      */
     public PeriodicTableNode( Color backgroundColor, CellFactory cellFactory ) {
-        this.backgroundColor = backgroundColor;
-        this.cellFactory = cellFactory;
 
         //See http://www.ptable.com/
         final PNode table = new PNode();
         for ( int i = 1; i <= 56; i++ ) {
-            addElement( table, i );
+            addElement( table, i, cellFactory, backgroundColor );
         }
         // Add in a single entry to represent the lanthanide series.
-        addElement( table, 57 );
+        addElement( table, 57, cellFactory, backgroundColor );
         for ( int i = 72; i <= 88; i++ ) {
-            addElement( table, i );
+            addElement( table, i, cellFactory, backgroundColor );
         }
         // Add in a single entry to represent the actinide series.
-        addElement( table, 89 );
+        addElement( table, 89, cellFactory, backgroundColor );
         for ( int i = 104; i <= 112; i++ ) {
-            addElement( table, i );
+            addElement( table, i, cellFactory, backgroundColor );
         }
 
         //Notify the cells that the rest of the table is complete.  This is so they highlighted or larger cells can move in front if necessary, to prevent clipping
@@ -68,7 +60,7 @@ public class PeriodicTableNode extends PNode {
         return CELL_DIMENSION;
     }
 
-    private void addElement( final PNode table, int atomicNumber ) {
+    private void addElement( final PNode table, int atomicNumber, CellFactory cellFactory, Color backgroundColor ) {
         ElementCell elementCell = cellFactory.createCellForElement( atomicNumber, backgroundColor );
         final Point gridPoint = getPeriodicTableGridPoint( atomicNumber );
         double x = ( gridPoint.getY() - 1 ) * CELL_DIMENSION;     //expansion cells render as "..." on top of each other
