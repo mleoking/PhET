@@ -16,6 +16,7 @@ DESIGN
 - what to show for triatomic molecule partial charges
 
 HIGH
+- clean up canvas layout code in all tabs
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
 - refine shape of 2D isosurface
