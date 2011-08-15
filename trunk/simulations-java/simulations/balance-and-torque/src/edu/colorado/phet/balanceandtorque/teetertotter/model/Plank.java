@@ -129,7 +129,7 @@ public class Plank extends ShapeModelElement {
 
         // Listen the our own overall shape and update the tick marks whenever
         // the shape changes.
-        getShapeProperty().addObserver( new VoidFunction1<Shape>() {
+        addShapeObserver( new VoidFunction1<Shape>() {
             public void apply( Shape shape ) {
                 updateTickMarks();
             }
@@ -279,7 +279,7 @@ public class Plank extends ShapeModelElement {
     private void updatePlankPosition() {
         // Rotate the base shape to the appropriate angle using the pivot
         // point as the rotational anchor point.
-        getShapeProperty().set( AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( unrotatedShape ) );
+        setShape( AffineTransform.getRotateInstance( tiltAngle, pivotPoint.getX(), pivotPoint.getY() ).createTransformedShape( unrotatedShape ) );
         // Update the attachment point.
         assert ( pivotPoint.getY() >= unrotatedShape.getBounds2D().getMinY() ); // Doesn't handle pivot point below plank.
         Vector2D pivotPointVector = new Vector2D( pivotPoint );

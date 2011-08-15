@@ -27,7 +27,7 @@ public class AttachmentBar extends ShapeModelElement {
         this.plank = plank;
         plank.bottomCenterPoint.addObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D point2D ) {
-                setShapeProperty( generateShape( plank.getPivotPoint(), plank.bottomCenterPoint.get() ) );
+                setShape( generateShape( plank.getPivotPoint(), plank.bottomCenterPoint.get() ) );
             }
         } );
     }

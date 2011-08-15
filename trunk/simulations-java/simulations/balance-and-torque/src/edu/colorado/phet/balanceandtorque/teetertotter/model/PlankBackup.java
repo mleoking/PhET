@@ -24,9 +24,9 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 /**
  * This is the plank upon which masses can be placed.
  * <p/>
- * TODO: This is a copy of the Plank class before work was started on adding
- * the ability to place the fulcrum above the plank.  Delete this class once
- * the new plank is fully operational and well tested.
+ * TODO: This is a copy of the Plank class before work was started on adding the
+ * ability to place the fulcrum above the plank.  Delete this class once the new
+ * plank is fully operational and well tested.
  *
  * @author John Blanco
  */
@@ -74,9 +74,9 @@ public class PlankBackup extends ShapeModelElement {
     //------------------------------------------------------------------------
 
     /**
-     * Constructor.  Creates the initial shape of the plank.  This assumes
-     * that the plank is initially sitting with a fulcrum under the center and
-     * that it is initially balanced.
+     * Constructor.  Creates the initial shape of the plank.  This assumes that
+     * the plank is initially sitting with a fulcrum under the center and that
+     * it is initially balanced.
      *
      * @param clock
      * @param centerHeight
@@ -110,10 +110,10 @@ public class PlankBackup extends ShapeModelElement {
     }
 
     /**
-     * Add a mass (e.g. a brick) to the surface of the plank.  This will
-     * set the position and orientation of the mass.  The plank will then
-     * continue to control the position and orientation of the mass until the
-     * mass is removed from the surface of the plank.
+     * Add a mass (e.g. a brick) to the surface of the plank.  This will set the
+     * position and orientation of the mass.  The plank will then continue to
+     * control the position and orientation of the mass until the mass is
+     * removed from the surface of the plank.
      *
      * @param mass
      */
@@ -188,8 +188,8 @@ public class PlankBackup extends ShapeModelElement {
     }
 
     /**
-     * Force the plank back to the level position.  This is generally done when some sort of support column has been
-     * put into place.
+     * Force the plank back to the level position.  This is generally done when
+     * some sort of support column has been put into place.
      */
     private void forceToLevel() {
         tiltAngle = 0;
@@ -218,11 +218,11 @@ public class PlankBackup extends ShapeModelElement {
 
     private void updateShape() {
         if ( !supportColumnsActive.get() ) {
-            setShapeProperty( generateShape( positionHandle.getY(), tiltAngle ) );
+            setShape( generateShape( positionHandle.getY(), tiltAngle ) );
         }
         else {
             // The support columns are in place, so the plank must be flat.
-            setShapeProperty( generateShape( positionHandle.getY(), 0 ) );
+            setShape( generateShape( positionHandle.getY(), 0 ) );
         }
     }
 
@@ -240,8 +240,7 @@ public class PlankBackup extends ShapeModelElement {
 
     /**
      * Get the balance point for the plank.  This is the point on which the
-     * plank rests and tilts, so it is the underside of the plank, not the
-     * top.
+     * plank rests and tilts, so it is the underside of the plank, not the top.
      *
      * @return
      */
@@ -290,10 +289,10 @@ public class PlankBackup extends ShapeModelElement {
     }
 
     /**
-     * Get a list of the "snap to" locations on the surface of the plank.
-     * These locations are the only locations where the masses may ba placed,
-     * and locations between these points are not considered valid.  This is
-     * done to make it easier to balance things.
+     * Get a list of the "snap to" locations on the surface of the plank. These
+     * locations are the only locations where the masses may ba placed, and
+     * locations between these points are not considered valid.  This is done to
+     * make it easier to balance things.
      *
      * @return
      */
