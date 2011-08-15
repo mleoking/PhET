@@ -53,7 +53,7 @@ public class BalancingActCanvas extends PhetPCanvas {
     private final ModelViewTransform mvt;
 
     public final BooleanProperty massLabelVisibilityProperty = new BooleanProperty( false );
-    public final BooleanProperty leverArmVectorsVisibleProperty = new BooleanProperty( false );
+    public final BooleanProperty distancesVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty forceVectorsFromObjectsVisibleProperty = new BooleanProperty( false );
     public final BooleanProperty levelIndicatorVisibleProperty = new BooleanProperty( false );
 
@@ -120,14 +120,14 @@ public class BalancingActCanvas extends PhetPCanvas {
         }
 
         // Add the ruler.
-        rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt ) );
+        rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
         // TODO: Test of level indicator.
         DoubleGeneralPath levelIndicatorPath = new DoubleGeneralPath();
-        levelIndicatorPath.moveTo( model.getPlank().getBalancePoint().getX() - Plank.LENGTH / 2,
-                                   model.getPlank().getBalancePoint().getY() + Plank.THICKNESS );
-        levelIndicatorPath.lineTo( model.getPlank().getBalancePoint().getX() + Plank.LENGTH / 2,
-                                   model.getPlank().getBalancePoint().getY() + Plank.THICKNESS );
+        levelIndicatorPath.moveTo( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
+                                   model.getPlank().getCenterSurfacePoint().getY() );
+        levelIndicatorPath.lineTo( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
+                                   model.getPlank().getCenterSurfacePoint().getY() );
         final PPath levelIndicator = new PhetPPath( mvt.modelToView( levelIndicatorPath.getGeneralPath() ),
                                                     new BasicStroke( 1f,
                                                                      BasicStroke.CAP_ROUND,
@@ -144,10 +144,10 @@ public class BalancingActCanvas extends PhetPCanvas {
         } );
 
         // TODO: Alternative level indicator #1
-        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getBalancePoint().getX() - Plank.LENGTH / 2,
-                                                                             model.getPlank().getBalancePoint().getY() + Plank.THICKNESS ) );
-        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getBalancePoint().getX() + Plank.LENGTH / 2,
-                                                                              model.getPlank().getBalancePoint().getY() + Plank.THICKNESS ) );
+        final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
+                                                                             model.getPlank().getCenterSurfacePoint().getY() ) );
+        final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
+                                                                              model.getPlank().getCenterSurfacePoint().getY() ) );
         final ArrowNode leftLevelIndicator = new ArrowNode( new Point2D.Double( leftEdgeOfPlank.getX() - 30, leftEdgeOfPlank.getY() ),
                                                             leftEdgeOfPlank,
                                                             10,
@@ -233,7 +233,7 @@ public class BalancingActCanvas extends PhetPCanvas {
                 // Add a representation for the new vector.
                 final PositionedVectorNode positionedVectorNode = new PositionedVectorNode( addedLeverArmVector.leverArmVectorProperty,
                                                                                             1.0,
-                                                                                            leverArmVectorsVisibleProperty,
+                                                                                            distancesVisibleProperty,
                                                                                             new Color( 255, 190, 0 ),
                                                                                             mvt );
                 rootNode.addChild( positionedVectorNode );
@@ -286,7 +286,7 @@ public class BalancingActCanvas extends PhetPCanvas {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     // Reset properties that control vector visibility.
-                    leverArmVectorsVisibleProperty.reset();
+                    distancesVisibleProperty.reset();
                     forceVectorsFromObjectsVisibleProperty.reset();
                 }
             } );
@@ -300,7 +300,7 @@ public class BalancingActCanvas extends PhetPCanvas {
             }} );
             // TODO: i18n
             addChild( new PropertyCheckBoxNode( "Mass Labels", massLabelVisibilityProperty ) );
-            addChild( new PropertyCheckBoxNode( "Distances", leverArmVectorsVisibleProperty ) );
+            addChild( new PropertyCheckBoxNode( "Distances", distancesVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Forces from Objects", forceVectorsFromObjectsVisibleProperty ) );
             addChild( new PropertyCheckBoxNode( "Level", levelIndicatorVisibleProperty ) );
         }} );

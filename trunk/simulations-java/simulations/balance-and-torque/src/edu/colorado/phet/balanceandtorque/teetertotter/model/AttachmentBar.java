@@ -18,16 +18,16 @@ public class AttachmentBar extends ShapeModelElement {
     /**
      * Constructor.
      *
-     * @param plank The plank to which this bar is attached.  The fulcrum is
-     *              not necessary, since the plank keeps track of both the pivot point and
-     *              the attachment point.
+     * @param plank The plank to which this bar is attached.  The fulcrum is not
+     *              necessary, since the plank keeps track of both the pivot
+     *              point and the attachment point.
      */
     public AttachmentBar( final Plank plank ) {
-        super( generateShape( plank.getPivotPoint(), plank.attachmentPointProperty.get() ) );
+        super( generateShape( plank.getPivotPoint(), plank.bottomCenterPoint.get() ) );
         this.plank = plank;
-        plank.attachmentPointProperty.addObserver( new VoidFunction1<Point2D>() {
+        plank.bottomCenterPoint.addObserver( new VoidFunction1<Point2D>() {
             public void apply( Point2D point2D ) {
-                setShapeProperty( generateShape( plank.getPivotPoint(), plank.attachmentPointProperty.get() ) );
+                setShapeProperty( generateShape( plank.getPivotPoint(), plank.bottomCenterPoint.get() ) );
             }
         } );
     }
@@ -39,9 +39,9 @@ public class AttachmentBar extends ShapeModelElement {
     /**
      * Get the angle of deflection.
      *
-     * @return Zero if the bar is pointing straight down, positive if the
-     *         bottom is to the right of the pivot point, negative if the bottom is
-     *         to the left of the pivot point.
+     * @return Zero if the bar is pointing straight down, positive if the bottom
+     *         is to the right of the pivot point, negative if the bottom is to
+     *         the left of the pivot point.
      */
     public double getDeflectionAngle() {
         return plank.getTiltAngle();
