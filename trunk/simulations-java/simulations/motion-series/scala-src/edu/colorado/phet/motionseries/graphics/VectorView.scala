@@ -6,7 +6,8 @@ import edu.colorado.phet.motionseries.MotionSeriesDefaults
 import edu.colorado.phet.scalacommon.math.Vector2D
 import edu.umd.cs.piccolo.PNode
 
-/**Class VectorView can inspect a MotionSeriesObject and add graphical representations of its vectors onto a specified VectorDisplay
+/**
+ * Class VectorView can inspect a MotionSeriesObject and add graphical representations of its vectors onto a specified VectorDisplay
  */
 class VectorView(motionSeriesObject: MotionSeriesObject,
                  vectorViewModel: VectorViewModel,
