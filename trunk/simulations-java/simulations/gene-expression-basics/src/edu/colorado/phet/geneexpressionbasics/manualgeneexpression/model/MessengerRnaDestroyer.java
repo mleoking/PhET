@@ -16,11 +16,10 @@ import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
 public class MessengerRnaDestroyer extends MobileBiomolecule {
 
     private static final double WIDTH = 250;   // In nanometers.
-    private static final double HEIGHT = 120;  // In nanometers.
+    private static final double HEIGHT = 190;  // In nanometers.
 
     public MessengerRnaDestroyer() {
         this( new Point2D.Double( 0, 0 ) );
-
     }
 
     public MessengerRnaDestroyer( Point2D position ) {
