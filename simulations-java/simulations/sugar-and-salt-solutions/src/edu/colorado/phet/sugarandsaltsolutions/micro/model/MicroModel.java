@@ -66,7 +66,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     private static final double framesPerSecond = 30;
 
-    //List of all spherical particles
+    //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
     public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
 
     //List of all free particles, used to keep track of which particles (includes molecules) to move about randomly
@@ -115,7 +115,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Colors for all the dissolved solutes
     //Choose nitrate to be blue because the Nitrogen atom is blue, even though it is negative and therefore also blue under "show charge color" condition
-    public final ObservableProperty<Color> sodiumColor = new IonColor( this, new Sodium() );
     public final ObservableProperty<Color> chlorideColor = new IonColor( this, new Chloride() );
     public final ObservableProperty<Color> calciumColor = new IonColor( this, new Calcium() );
     public final ObservableProperty<Color> sucroseColor = new CompositeProperty<Color>( new Function0<Color>() {
@@ -135,12 +134,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }, showChargeColor );
 
     //Particle concentrations for all of the dissolved components
-    public final CompositeDoubleProperty sodiumConcentration = new IonConcentration( this, Sodium.class );
     public final CompositeDoubleProperty chlorideConcentration = new IonConcentration( this, Chloride.class );
     public final CompositeDoubleProperty calciumConcentration = new IonConcentration( this, Calcium.class );
     public final CompositeDoubleProperty sucroseConcentration = new IonConcentration( this, Sucrose.class );
     public final CompositeDoubleProperty glucoseConcentration = new IonConcentration( this, Glucose.class );
     public final CompositeDoubleProperty nitrateConcentration = new IonConcentration( this, Nitrate.class );
+
+    //Constituents of dissolved solutes, such as sodium, nitrate, sucrose, etc.
+    public final SoluteConstituent sodium = new SoluteConstituent( this, new IonColor( this, new Sodium() ), Sodium.class );
 
     //Determine saturation points
     final double sodiumChlorideSaturationPoint = molesPerLiterToMolesPerMeterCubed( 6.14 );
@@ -150,11 +151,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     final double glucoseSaturationPoint = molesPerLiterToMolesPerMeterCubed( 5.05 );
 
     //Create observable properties that indicate whether each solution type is saturated
-    public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodiumConcentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
+    public final ObservableProperty<Boolean> sodiumChlorideSaturated = sodium.concentration.greaterThan( sodiumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( sodiumChlorideSaturationPoint ) );
     public final ObservableProperty<Boolean> calciumChlorideSaturated = calciumConcentration.greaterThan( calciumChlorideSaturationPoint ).and( chlorideConcentration.greaterThan( calciumChlorideSaturationPoint * 2 ) );
     public final ObservableProperty<Boolean> sucroseSaturated = sucroseConcentration.greaterThan( sucroseSaturationPoint );
     public final ObservableProperty<Boolean> glucoseSaturated = glucoseConcentration.greaterThan( glucoseSaturationPoint );
-    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodiumConcentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
+    public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrateConcentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
     //There is one DrainData for each type since they may flow at different rates and have different schedules
@@ -506,7 +507,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Determine if there is any table salt to remove
     public ObservableProperty<Boolean> isAnySaltToRemove() {
-        return sodiumConcentration.greaterThan( 0.0 ).and( chlorideConcentration.greaterThan( 0.0 ) );
+        return sodium.concentration.greaterThan( 0.0 ).and( chlorideConcentration.greaterThan( 0.0 ) );
     }
 
     //Determine if there is any sugar that can be removed
