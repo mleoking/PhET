@@ -29,8 +29,8 @@ public class DiatomicMolecule {
     public DiatomicMolecule( ImmutableVector2D location ) {
         this.location = new Property<ImmutableVector2D>( location );
         angle = new Property<Double>( 0d );
-        atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin(), location.minus( BOND_LENGTH / 2, 0 ) );
-        atomB = new Atom( MPStrings.B, 100, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax(), location.plus( BOND_LENGTH / 2, 0 ) );
+        atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
+        atomB = new Atom( MPStrings.B, 100, Color.ORANGE, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
         bond = new Bond( atomA, atomB );
         angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {

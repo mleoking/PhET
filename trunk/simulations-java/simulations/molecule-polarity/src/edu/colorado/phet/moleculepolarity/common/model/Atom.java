@@ -21,6 +21,10 @@ public class Atom implements Resettable {
     private final double diameter;
     private final Color color;
 
+    public Atom( String name, double diameter, Color color, double electronegativity ) {
+        this( name, diameter, color, electronegativity, new ImmutableVector2D() );
+    }
+
     public Atom( String name, double diameter, Color color, double electronegativity, ImmutableVector2D location ) {
         this.name = name;
         this.diameter = diameter;
