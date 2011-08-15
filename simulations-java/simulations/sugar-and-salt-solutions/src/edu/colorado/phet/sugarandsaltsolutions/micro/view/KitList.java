@@ -68,7 +68,7 @@ public class KitList {
         //Put the positive ions to the left of the negative ions
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
                                 new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
-                                new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ) ) );
+                                new BarItem( model.sucrose.concentration, model.sucrose.color, SUCROSE, sucroseIcon ) ) );
 
         kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
                                 new BarItem( model.calcium.concentration, model.calcium.color, CALCIUM, calciumIcon ),
@@ -78,7 +78,7 @@ public class KitList {
                                 new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
                                 new BarItem( model.nitrateConcentration, model.nitrateColor, NITRATE, nitrateIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sucroseConcentration, model.sucroseColor, SUCROSE, sucroseIcon ),
+        kits.add( new MicroKit( new BarItem( model.sucrose.concentration, model.sucrose.color, SUCROSE, sucroseIcon ),
                                 new BarItem( model.glucoseConcentration, model.glucoseColor, GLUCOSE, glucoseIcon ) ) );
     }
 
