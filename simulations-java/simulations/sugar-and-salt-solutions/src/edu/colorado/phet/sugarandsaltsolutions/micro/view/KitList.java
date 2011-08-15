@@ -66,20 +66,20 @@ public class KitList {
 
         //This is the logic for which components are present within each kit.  If kits change, this will need to be updated
         //Put the positive ions to the left of the negative ions
-        kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
-                                new BarItem( model.sucrose.concentration, model.sucrose.color, SUCROSE, sucroseIcon ) ) );
+        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.sucrose, SUCROSE, sucroseIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.calcium.concentration, model.calcium.color, CALCIUM, calciumIcon ),
-                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ) ) );
+        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                new BarItem( model.calcium, CALCIUM, calciumIcon ),
+                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sodium.concentration, model.sodium.color, SODIUM, sodiumIcon ),
-                                new BarItem( model.chloride.concentration, model.chloride.color, CHLORIDE, chlorideIcon ),
-                                new BarItem( model.nitrate.concentration, model.nitrate.color, NITRATE, nitrateIcon ) ) );
+        kits.add( new MicroKit( new BarItem( model.sodium, SODIUM, sodiumIcon ),
+                                new BarItem( model.chloride, CHLORIDE, chlorideIcon ),
+                                new BarItem( model.nitrate, NITRATE, nitrateIcon ) ) );
 
-        kits.add( new MicroKit( new BarItem( model.sucrose.concentration, model.sucrose.color, SUCROSE, sucroseIcon ),
-                                new BarItem( model.glucose.concentration, model.glucose.color, GLUCOSE, glucoseIcon ) ) );
+        kits.add( new MicroKit( new BarItem( model.sucrose, SUCROSE, sucroseIcon ),
+                                new BarItem( model.glucose, GLUCOSE, glucoseIcon ) ) );
     }
 
     public MicroKit getKit( int kit ) {
