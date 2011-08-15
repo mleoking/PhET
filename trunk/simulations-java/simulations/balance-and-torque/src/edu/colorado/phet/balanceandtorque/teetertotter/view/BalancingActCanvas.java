@@ -258,25 +258,24 @@ public class BalancingActCanvas extends PhetPCanvas {
                     model.supportColumnsActive.set( !model.supportColumnsActive.get() );
                 }
             } );
+            // Change the button back and forth from one that removes the
+            // supports to one that restores the supports.
+            final Point2D columnControlButtonLocation = new Point2D.Double( mvt.modelToViewX( 2.55 ), mvt.modelToViewY( -0.3 ) );
+            model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean supportColumnsActive ) {
+                    if ( supportColumnsActive ) {
+                        // TODO: i18n
+                        setText( "Remove Supports" );
+                    }
+                    else {
+                        // TODO: i18n
+                        setText( "Add Supports" );
+                    }
+                    centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
+                }
+            } );
         }};
         rootNode.addChild( columnControlButton );
-
-        // Change the button back and forth from one that removes the supports
-        // to one that restores the supports.
-        final Point2D columnControlButtonLocation = new Point2D.Double( mvt.modelToViewX( 2.55 ), mvt.modelToViewY( -0.3 ) );
-        model.supportColumnsActive.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean supportColumnsActive ) {
-                if ( supportColumnsActive ) {
-                    // TODO: i18n
-                    columnControlButton.setText( "Remove Supports" );
-                }
-                else {
-                    // TODO: i18n
-                    columnControlButton.setText( "Add Supports" );
-                }
-                columnControlButton.centerFullBoundsOnPoint( columnControlButtonLocation.getX(), columnControlButtonLocation.getY() );
-            }
-        } );
 
         // Add the Reset All button.
         rootNode.addChild( new ResetAllButtonNode( model, this, 14, Color.BLACK, new Color( 255, 153, 0 ) ) {{
