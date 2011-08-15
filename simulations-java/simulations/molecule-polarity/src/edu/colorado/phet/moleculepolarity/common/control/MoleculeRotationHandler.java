@@ -2,7 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.control;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.moleculepolarity.common.model.IRotatableMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -16,11 +16,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class MoleculeRotationHandler extends PBasicInputEventHandler {
 
-    private final IRotatableMolecule molecule;
+    private final IMolecule molecule;
     private final PNode dragNode;
     double previousAngle;
 
-    public MoleculeRotationHandler( IRotatableMolecule molecule, PNode dragNode ) {
+    public MoleculeRotationHandler( IMolecule molecule, PNode dragNode ) {
         this.molecule = molecule;
         this.dragNode = dragNode;
     }

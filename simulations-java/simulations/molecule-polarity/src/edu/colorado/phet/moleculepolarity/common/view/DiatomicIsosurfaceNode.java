@@ -9,12 +9,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface for a diatomic molecule.
+ * 2D isosurface for a molecule.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -22,10 +22,10 @@ public class DiatomicIsosurfaceNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
 
-    private final DiatomicMolecule molecule;
+    private final IMolecule molecule;
     private final PPath pathNode;
 
-    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule ) {
+    public DiatomicIsosurfaceNode( final IMolecule molecule ) {
 
         this.molecule = molecule;
 
@@ -40,20 +40,20 @@ public class DiatomicIsosurfaceNode extends PComposite {
                 updateNode();
             }
         };
-        molecule.atomA.location.addObserver( observer );
-        molecule.atomB.location.addObserver( observer );
+        for ( Atom atom : molecule.getAtoms() ) {
+            atom.location.addObserver( observer );
+        }
 
         addInputEventListener( new CursorHandler() ); //TODO change cursor to indicate rotation
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 
     private void updateNode() {
-        //TODO using 2 circles doesn't really cut it, need to smooth out the places where the circles overlap.
-        Ellipse2D circleA = getCircle( molecule.atomA );
-        Ellipse2D circleB = getCircle( molecule.atomB );
+        //TODO using circles doesn't really cut it, need to smooth out the places where the circles overlap.
         Area area = new Area();
-        area.add( new Area( circleA ) );
-        area.add( new Area( circleB ) );
+        for ( Atom atom : molecule.getAtoms() ) {
+            area.add( new Area( getCircle( atom ) ) );
+        }
         pathNode.setPathTo( area );
     }
 

@@ -15,7 +15,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class DiatomicMolecule implements IRotatableMolecule {
+public class DiatomicMolecule implements IMolecule {
 
     private static final double BOND_LENGTH = 150;
 
@@ -45,6 +45,10 @@ public class DiatomicMolecule implements IRotatableMolecule {
         angle.reset();
         atomA.reset();
         atomB.reset();
+    }
+
+    public Atom[] getAtoms() {
+        return new Atom[] { atomA, atomB };
     }
 
     public ImmutableVector2D getLocation() {
