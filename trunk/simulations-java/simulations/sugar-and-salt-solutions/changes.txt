@@ -1,3 +1,4 @@
+# 0.00.90 (55254) Aug 15, 2011
 Micro tab: Increased radius within which particles can jump on to existing crystals, which fixes many problems in crystallization, including large or unbalanced concentrations
 Micro tab: Made it so that a solute is saturated if either constituent is saturated rather than both
 Micro tab: Changed crystal sizes and limit amounts to give the user 2 crystals and 1.99 mol/L max concentration by formula ratio by default
