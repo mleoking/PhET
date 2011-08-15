@@ -13,8 +13,7 @@ import static java.awt.Color.BLACK;
 import static java.awt.Color.white;
 
 /**
- * Cell that watches the atom and highlights itself if the atomic number
- * matches its configuration.
+ * Cell that watches the atom and highlights itself if the atomic number matches its configuration.
  *
  * @author Sam Reid
  * @author John Blanco

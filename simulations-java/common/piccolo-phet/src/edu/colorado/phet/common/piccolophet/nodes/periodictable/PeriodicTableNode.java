@@ -55,10 +55,6 @@ public class PeriodicTableNode extends PNode {
         addChild( table );
     }
 
-    public static double getCellDimension() {
-        return CELL_DIMENSION;
-    }
-
     private void addElement( final PNode table, int atomicNumber, CellFactory cellFactory, Color backgroundColor ) {
         ElementCell elementCell = cellFactory.createCellForElement( atomicNumber, backgroundColor );
         final Point gridPoint = getPeriodicTableGridPoint( atomicNumber );
