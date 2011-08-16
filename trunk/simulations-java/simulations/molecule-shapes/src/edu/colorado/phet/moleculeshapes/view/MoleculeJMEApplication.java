@@ -435,7 +435,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         if ( dragging && dragMode == DragMode.MOLECULE_ROTATE ) {
             // rotating the molecule. for now, trying out the "move" cursor
-            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
+            canvas.setCursor( Cursor.getPredefinedCursor( MoleculeShapesApplication.useRotationCursor.get() ? Cursor.MOVE_CURSOR : Cursor.DEFAULT_CURSOR ) );
         }
         else if ( pair != null || dragging ) {
             // over a pair group, OR dragging one
@@ -500,7 +500,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         boolean returnCloseHit = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).mult( currentLocalPosition ).z >= 0;
 
         // override for dev option
-        if ( MoleculeShapesApplication.dragExistingInFront.get() ) {
+        if ( !MoleculeShapesApplication.allowDraggingBehind.get() ) {
             returnCloseHit = true;
         }
 
