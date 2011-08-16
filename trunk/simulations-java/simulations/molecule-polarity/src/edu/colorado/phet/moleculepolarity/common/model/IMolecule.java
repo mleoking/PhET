@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculepolarity.common.model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Interface implemented by all molecules.
@@ -9,6 +10,10 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public interface IMolecule {
+
+    public ImmutableVector2D getMolecularDipole();
+
+    public void addMolecularDipoleObserver( SimpleObserver observer );
 
     // gets an array of the molecule's atoms
     public Atom[] getAtoms();

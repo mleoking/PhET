@@ -53,4 +53,5 @@ MIGRATE TO COMMON
 - HorizontalSliderDragHandler
 - VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
 - MoleculeRotationHandler
+- PolarImmutableVector2D
 
