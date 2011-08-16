@@ -97,7 +97,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         }
         else {
             // create a temporary directory to hold native libs
-            final File tempDir = new File( System.getProperty( "system.io.tmpdir" ), "phet-" + System.currentTimeMillis() );
+            final File tempDir = new File( System.getProperty( "java.io.tmpdir" ), "phet-jme3-libs" );
             tempDir.mkdirs();
             final String path = tempDir.getAbsolutePath();
             System.out.println( "Extracting native JME3 libraries to: " + path );
