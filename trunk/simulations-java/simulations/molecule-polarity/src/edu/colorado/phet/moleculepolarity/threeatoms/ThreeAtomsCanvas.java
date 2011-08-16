@@ -47,7 +47,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         addChild( bondDipoleBCNode );
 
         final MolecularDipoleNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
-        addChild( molecularDipoleNode );
+//        addChild( molecularDipoleNode );
 
         final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bondAB, model.molecule.atomA, false );
         addChild( partialChargeNodeA );

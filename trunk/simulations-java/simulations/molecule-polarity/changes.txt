@@ -1,3 +1,4 @@
+8/16/11 temporarily disable molecular dipole because it's currently incorrect
 8/15/11 checked in a version of "real molecules" control that uses PComboBox instead of ComboBoxNode, #2982
 8/15/11 tweak molecular dipole interface and fields
 8/15/11 make molecule location a simple field, doesn't need to be a Property
