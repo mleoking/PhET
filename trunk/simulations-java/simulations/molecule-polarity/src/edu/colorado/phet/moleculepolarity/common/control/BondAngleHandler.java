@@ -35,12 +35,12 @@ public class BondAngleHandler extends PBasicInputEventHandler {
         molecule.setDragging( false );
     }
 
-    // Find the angle about the center of the bond.
+    // Find the angle about the molecule's location.
     private double getAngle( PInputEvent event ) {
         return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
     }
 
-    // Drag the molecule to rotate it.
+    // Drag to rotate the molecule.
     @Override public void mouseDragged( PInputEvent event ) {
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
