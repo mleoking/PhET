@@ -1,3 +1,4 @@
+8/16/11 restore molecular dipole
 # 0.00.09 (55303) Aug 16, 2011
 8/16/11 dev version for discussion at Chem meeting
 8/16/11 temporarily disable molecular dipole because it's currently incorrect
