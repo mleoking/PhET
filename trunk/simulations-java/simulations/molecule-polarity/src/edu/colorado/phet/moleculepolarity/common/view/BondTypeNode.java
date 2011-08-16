@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ArrowNode;
@@ -70,9 +71,9 @@ public class BondTypeNode extends PComposite {
                                 trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
 
         // when difference in electronegativity changes, move the thumb
-        molecule.bond.deltaElectronegativity.addObserver( new VoidFunction1<Double>() {
-            public void apply( Double deltaElectronegativity ) {
-                thumbNode.setOffset( X_OFFSET_FUNCTION.evaluate( Math.abs( deltaElectronegativity ) ), thumbNode.getYOffset() );
+        molecule.bond.dipole.addObserver( new VoidFunction1<ImmutableVector2D>() {
+            public void apply( ImmutableVector2D dipole ) {
+                thumbNode.setOffset( X_OFFSET_FUNCTION.evaluate( dipole.getMagnitude() ), thumbNode.getYOffset() );
             }
         } );
     }
