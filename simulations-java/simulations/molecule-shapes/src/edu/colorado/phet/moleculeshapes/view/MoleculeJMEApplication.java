@@ -50,7 +50,6 @@ import com.jme3.system.JmeCanvasContext;
 /**
  * Use jme3 to show a rotating molecule
  * TODO: double-check naming with double/triple bonds
- * TODO: consider allowing more electron pairs, since we can't show the double/triple bond differences much!
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  */
