@@ -24,8 +24,7 @@ class Vector(val color: Color,
 
   def getPaint = painter(vector2DModel(), color)
 
-//  def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
-  def html = name//Dallas
+  def html = "force.abbreviation.html.pattern.abbrev".messageformat(abbreviation)
 }
 
 //Observable object in MVC pattern
