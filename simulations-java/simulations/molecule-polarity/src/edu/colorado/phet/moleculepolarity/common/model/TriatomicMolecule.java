@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.PolarImmutableVector2D;
 
 /**
  * Model of a make-believe triatomic (3 atoms) molecule.
@@ -36,8 +35,8 @@ public class TriatomicMolecule implements IMolecule {
 
         this.location = location;
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
-        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
-        atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
+        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
+        atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
         bondAB = new Bond( atomA, atomB );
         bondBC = new Bond( atomB, atomC );
         angle = new Property<Double>( 0d );
@@ -59,7 +58,7 @@ public class TriatomicMolecule implements IMolecule {
                 updateMolecularDipole();
             }
         };
-        molecularDipoleUpdater.observe( angle, bondAB.deltaElectronegativity, bondBC.deltaElectronegativity, bondAngleA, bondAngleC );
+        molecularDipoleUpdater.observe( bondAB.dipole, bondBC.dipole );
     }
 
     public void reset() {
@@ -122,8 +121,6 @@ public class TriatomicMolecule implements IMolecule {
 
     // molecular dipole is the sum of the bond dipoles
     private void updateMolecularDipole() {
-        ImmutableVector2D dipoleAB = new PolarImmutableVector2D( bondAB.deltaElectronegativity.get(), angle.get() + bondAngleA.get() );
-        ImmutableVector2D dipoleBC = new PolarImmutableVector2D( bondBC.deltaElectronegativity.get(), angle.get() + bondAngleC.get() );
-        dipole.set( dipoleAB.plus( dipoleBC ) );
+        dipole.set( bondAB.dipole.get().plus( bondBC.dipole.get() ) );
     }
 }

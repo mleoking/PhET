@@ -6,7 +6,6 @@ import java.awt.Color;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPConstants;
@@ -47,13 +46,12 @@ public class DiatomicMolecule implements IMolecule {
             }
         } );
 
-        // when angle or delta EN changes, update the molecular dipole
-        RichSimpleObserver molecularDipoleUpdater = new RichSimpleObserver() {
+        // when bond dipole changes, update the molecular dipole
+        bond.dipole.addObserver( new SimpleObserver() {
             public void update() {
                 updateMolecularDipole();
             }
-        };
-        molecularDipoleUpdater.observe( angle, bond.deltaElectronegativity );
+        } );
     }
 
     public void reset() {
@@ -109,6 +107,6 @@ public class DiatomicMolecule implements IMolecule {
 
     // molecular dipole is identical to the bond dipole
     private void updateMolecularDipole() {
-        dipole.set( new PolarImmutableVector2D( bond.deltaElectronegativity.get(), angle.get() ) );
+        dipole.set( bond.dipole.get() );
     }
 }
