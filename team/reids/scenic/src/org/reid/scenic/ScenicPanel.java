@@ -26,6 +26,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.util.ImmutableList;
  */
 public class ScenicPanel<T> extends JPanel {
 
+    protected static int MAX_Y;
     private T model;
     private VoidFunction2<T, Graphics2D> painter;
 
@@ -121,14 +122,14 @@ public class ScenicPanel<T> extends JPanel {
                         public void run() {
                             recurse( scenicPanel, new Function1<Model, Model>() {
                                 public Model apply( final Model model ) {
-                                    final double dt = 0.1;
+                                    final double dt = 0.05;
                                     final ImmutableVector2D force = new ImmutableVector2D( 0, 9.8 );
 
                                     return new Model( model.atoms.map( new Function1<Atom, Atom>() {
                                         public Atom apply( Atom atom ) {
                                             //v = v0 + at, a = f/m, v = v0+ft/m
-                                            ImmutableVector2D newVelocity = atom.velocity.plus( force.times( dt / atom.mass ) );
-                                            return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < 400 ? newVelocity : new ImmutableVector2D( newVelocity.getX(), -Math.abs( newVelocity.getY() ) ) );
+                                            ImmutableVector2D velocity = atom.velocity.plus( force.times( dt / atom.mass ) );
+                                            return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < MAX_Y ? velocity : new ImmutableVector2D( velocity.getX(), -Math.abs( velocity.getY() ) ) );
                                         }
                                     } ) );
                                 }
@@ -144,7 +145,8 @@ public class ScenicPanel<T> extends JPanel {
         Random random = new Random();
         Atom[] a = new Atom[500];
         for ( int i = 0; i < a.length; i++ ) {
-            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * 600 ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ) );
+            MAX_Y = 400;
+            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * MAX_Y ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ) );
         }
         return a;
     }
