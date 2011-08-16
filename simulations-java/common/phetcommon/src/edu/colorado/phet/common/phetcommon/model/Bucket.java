@@ -58,6 +58,13 @@ public class Bucket {
     // ------------------------------------------------------------------------
 
     /**
+     * Convenience constructor that accepts x and y position values as double
+     */
+    public Bucket( double x, double y, Dimension2D size, Color baseColor, String caption ) {
+        this( new Point2D.Double( x, y ), size, baseColor, caption );
+    }
+
+    /**
      * Constructor.  The dimensions used are just numbers, i.e. they are not
      * meant to be any specific size (such as meters).  This enabled
      * reusability in any 2D model.

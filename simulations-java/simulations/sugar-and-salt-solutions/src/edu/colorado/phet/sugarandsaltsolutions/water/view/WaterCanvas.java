@@ -4,7 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.model.Bucket;
@@ -27,6 +26,8 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResou
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
+import static java.awt.Color.blue;
+import static java.awt.Color.green;
 
 /**
  * Canvas for the Water tab
@@ -75,15 +76,17 @@ public class WaterCanvas extends PhetPCanvas {
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
         double inset = 40;
+        final double canvasWidth = canvasSize.getWidth();
+        final double canvasHeight = canvasSize.getHeight();
         transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, 0, model.beakerWidth, model.beakerHeight ),
-                                                     new Rectangle2D.Double( -inset, -inset, canvasSize.getWidth() + inset * 2, canvasSize.getHeight() + inset * 2 ) );
+                                                     new Rectangle2D.Double( -inset, -inset, canvasWidth + inset * 2, canvasHeight + inset * 2 ) );
 
         // Root of our scene graph
         addWorldChild( rootNode );
 
         //Add the region with the particles
         particleWindowNode = new ParticleWindowNode( model, transform ) {{
-            setOffset( canvasSize.getWidth() - getFullBounds().getWidth() - 50, 0 );
+            setOffset( canvasWidth - getFullBounds().getWidth() - 50, 0 );
         }};
         rootNode.addChild( particleWindowNode );
 
@@ -98,13 +101,13 @@ public class WaterCanvas extends PhetPCanvas {
         //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
         addChild( new ZoomIndicatorNode( new CompositeProperty<Color>( new Function0<Color>() {
             public Color apply() {
-                return state.colorScheme.whiteBackground.get() ? Color.blue : Color.yellow;
+                return state.colorScheme.whiteBackground.get() ? blue : Color.yellow;
             }
         }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
 
         //Control panel
         controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
-            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
+            setOffset( INSET, canvasHeight - getFullBounds().getHeight() - INSET );
         }};
         addChild( controlPanel );
 
@@ -113,17 +116,15 @@ public class WaterCanvas extends PhetPCanvas {
 //        waterModel.pow.trace( "pow" );
 //        waterModel.randomness.trace( "randomness" );
 
-        //Add a bucket with salt that can be dragged into the play area
+        //Create the salt and sugar buckets so salt and sugar can be dragged into the play area
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
+        ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
+        Dimension2DDouble bucketSize = new Dimension2DDouble( 200, 130 );
+        sugarBucket = new BucketView( new Bucket( canvasWidth / 2 + 210, -canvasHeight + 115, bucketSize, green, SUGAR ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( canvasWidth / 2, -canvasHeight + 115, bucketSize, blue, SALT ), bucketTransform );
 
-        //Create the salt and sugar buckets
-        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ),
-                                                  new Dimension2DDouble( 200, 130 ), Color.green, SUGAR ), createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-        saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ),
-                                                 new Dimension2DDouble( 200, 130 ), Color.blue, SALT ), createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-
-        //Add them to the view
+        //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
         addChild( saltBucket.getHoleNode() );
 
