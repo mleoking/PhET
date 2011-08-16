@@ -1,3 +1,4 @@
+Changed ExpandableProtractorNode to use Not instead of SettableNot, see #3045
 Switched to use common code version of buffering, see #2786
 # 1.00.01 (52896) Jun 9, 2011
 5/14/11 Moved toolbox-related classes to toolbox package from Bending Light for reuse in Sugar and Salt Solutions
