@@ -8,8 +8,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
@@ -19,7 +19,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class SodiumNitrateCrystalGrowth extends IncrementalGrowth<Particle, SodiumNitrateCrystal> {
+public class SodiumNitrateCrystalGrowth extends CrystalGrowth<Particle, SodiumNitrateCrystal> {
     public SodiumNitrateCrystalGrowth( MicroModel model, ItemList<SodiumNitrateCrystal> crystals ) {
         super( model, crystals );
     }

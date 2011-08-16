@@ -25,7 +25,7 @@ import static java.util.Collections.sort;
  *
  * @author Sam Reid
  */
-public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>> {
+public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
 
     //Keep track of the last time a crystal was formed so that they can be created gradually instead of all at once
     private double lastNewCrystalFormationTime;
@@ -42,7 +42,7 @@ public abstract class IncrementalGrowth<T extends Particle, U extends Crystal<T>
     //Flag to show debug information to the console about crystal formation
     private boolean debug = false;
 
-    public IncrementalGrowth( MicroModel model, ItemList<U> crystals ) {
+    public CrystalGrowth( MicroModel model, ItemList<U> crystals ) {
         this.model = model;
         this.crystals = crystals;
     }

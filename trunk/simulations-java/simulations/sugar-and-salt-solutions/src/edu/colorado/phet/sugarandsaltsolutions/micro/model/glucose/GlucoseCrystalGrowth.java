@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
@@ -17,7 +17,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class GlucoseCrystalGrowth extends IncrementalGrowth<Glucose, GlucoseCrystal> {
+public class GlucoseCrystalGrowth extends CrystalGrowth<Glucose, GlucoseCrystal> {
     public GlucoseCrystalGrowth( MicroModel model, ItemList<GlucoseCrystal> crystals ) {
         super( model, crystals );
     }

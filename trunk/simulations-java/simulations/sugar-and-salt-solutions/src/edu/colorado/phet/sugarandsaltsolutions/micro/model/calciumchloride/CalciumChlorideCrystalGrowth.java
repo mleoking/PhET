@@ -9,8 +9,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IncrementalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
@@ -20,7 +20,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.ran
  *
  * @author Sam Reid
  */
-public class CalciumChlorideCrystalGrowth extends IncrementalGrowth<SphericalParticle, CalciumChlorideCrystal> {
+public class CalciumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticle, CalciumChlorideCrystal> {
     public CalciumChlorideCrystalGrowth( MicroModel model, ItemList<CalciumChlorideCrystal> crystals ) {
         super( model, crystals );
     }

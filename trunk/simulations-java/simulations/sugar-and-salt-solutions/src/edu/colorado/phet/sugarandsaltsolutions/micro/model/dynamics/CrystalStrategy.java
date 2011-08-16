@@ -17,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  */
 public class CrystalStrategy extends UpdateStrategy {
     //Strategy rule to use for dissolving the crystals
-    public final IncrementalDissolve incrementalDissolve;
+    public final CrystalDissolve crystalDissolve;
     private ItemList<? extends Crystal> crystals;
     private ObservableProperty<Boolean> saturated;
 
@@ -25,7 +25,7 @@ public class CrystalStrategy extends UpdateStrategy {
         super( model );
         this.crystals = crystals;
         this.saturated = saturated;
-        incrementalDissolve = new IncrementalDissolve( model );
+        crystalDissolve = new CrystalDissolve( model );
     }
 
     @Override public void stepInTime( Particle particle, double dt ) {
@@ -87,7 +87,7 @@ public class CrystalStrategy extends UpdateStrategy {
         //for "no dissolving while evaporating" workaround, only apply the workaround if concentration is above the saturation point.  This will allow newly dropped crystals to dissolve instead of staying crystallized.
         boolean evaporationAndConcentrationAllowsDissolve = model.evaporationRate.get() > 0 && saturated.get();
         if ( dissolve || evaporationAndConcentrationAllowsDissolve ) {
-            incrementalDissolve.dissolve( crystals, crystal, saturated );
+            crystalDissolve.dissolve( crystals, crystal, saturated );
         }
     }
 }
