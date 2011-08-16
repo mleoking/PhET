@@ -1,3 +1,4 @@
+Water tab: Reduced the size of the sucrose bucket icon, Rewrote sugar crystal graphic to use micro tab nodes
 Water tab: Made buckets smaller
 # 0.00.91 (55292) Aug 16, 2011
 Water tab: Require some time to pass since each crystallization event so it isn't too jumpy

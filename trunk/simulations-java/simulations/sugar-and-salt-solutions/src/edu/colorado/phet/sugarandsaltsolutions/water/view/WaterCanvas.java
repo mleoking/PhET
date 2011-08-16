@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 
@@ -174,7 +176,12 @@ public class WaterCanvas extends PhetPCanvas {
     //Puts a single sugar crystal in the sugar bucket
     public void addSugarToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
-        sugarBucketParticleLayer.addChild( new DraggableSugarCrystalNode( waterModel, transform, particleWindowNode, waterModel.showSugarAtoms ) {{
+
+        //Create a model element for the sucrose crystal
+        SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{grow( 2 );}};
+
+        //Add a draggable node to the bucket
+        sugarBucketParticleLayer.addChild( new SucroseCrystalNode( transform, crystal, waterModel.showSugarAtoms ) {{
             centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
         }} );
     }
