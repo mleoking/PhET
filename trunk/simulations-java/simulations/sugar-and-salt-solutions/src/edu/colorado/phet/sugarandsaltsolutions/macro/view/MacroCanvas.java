@@ -36,13 +36,13 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
 
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
         super( model, globalState, createMacroTransform( model ), new Function1<Double, String>() {
-            //Read out more precisely than the fine-grained tick marks on the side
-            DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+                   //Read out more precisely than the fine-grained tick marks on the side
+                   DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
 
-            public String apply( Double volumeInMetersCubed ) {
-                return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );
-            }
-        }, false );
+                   public String apply( Double volumeInMetersCubed ) {
+                       return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );
+                   }
+               }, false );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );
