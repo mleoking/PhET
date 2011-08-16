@@ -17,7 +17,6 @@ DESIGN
 - add EN table in "Real Molecules" tab
 
 HIGH
-- 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - clean up canvas layout code in all tabs
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer

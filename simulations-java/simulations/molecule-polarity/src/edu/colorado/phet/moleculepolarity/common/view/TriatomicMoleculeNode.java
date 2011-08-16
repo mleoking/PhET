@@ -3,8 +3,10 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
+import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a triatomic molecule.
@@ -19,16 +21,34 @@ public class TriatomicMoleculeNode extends PhetPNode {
 
         this.molecule = molecule;
 
-        addChild( new BondNode( molecule.bondAB ) );
-        addChild( new BondNode( molecule.bondBC ) );
-        addChild( new AtomNode( molecule.atomA ) );
-        addChild( new AtomNode( molecule.atomB ) );
-        addChild( new AtomNode( molecule.atomC ) );
+        // nodes
+        PNode bondABNode = new BondNode( molecule.bondAB );
+        BondNode bondBCNode = new BondNode( molecule.bondBC );
+        AtomNode atomANode = new AtomNode( molecule.atomA );
+        AtomNode atomBNode = new AtomNode( molecule.atomB );
+        AtomNode atomCNode = new AtomNode( molecule.atomC );
 
-        addInputEventListener( new CursorHandler() ); //TODO change cursor to indicate rotation
+        // rendering order, bonds behind atoms
+        addChild( bondABNode );
+        addChild( bondBCNode );
+        addChild( atomANode );
+        addChild( atomBNode );
+        addChild( atomCNode );
 
-        //TODO add molecule rotation handler, grab bonds or atomB
-        //TODO add bond angle handler, grab atomA or atomC
-        addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        // rotate molecule by dragging bonds or atom B
+        //TODO change cursor to indicate molecule rotation
+        bondABNode.addInputEventListener( new CursorHandler() );
+        bondBCNode.addInputEventListener( new CursorHandler() );
+        atomBNode.addInputEventListener( new CursorHandler() );
+        bondABNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        bondBCNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+        atomBNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
+
+        // change bond angles by dragging atom A or C
+        //TODO change cursor to indicate bond angle manipulation
+        atomANode.addInputEventListener( new CursorHandler() );
+        atomCNode.addInputEventListener( new CursorHandler() );
+        atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, this ) );
+        atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, this ) );
     }
 }
