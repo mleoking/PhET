@@ -1,3 +1,4 @@
+# 0.00.91 (55292) Aug 16, 2011
 Water tab: Require some time to pass since each crystallization event so it isn't too jumpy
 Water tab: Require crystallization and prevent dissolving when water volume <=  0.03E-23L
 Water tab: Switched to unicode figure dash for partial charge minus sign, looks longer and further away from delta symbol
