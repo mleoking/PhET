@@ -41,5 +41,13 @@ public class PlacementHintNode extends PNode {
                 }
             } );
         }} );
+
+        // Listen to the property that indicates whether the hint is active and
+        // only be visible when it is.
+        placementHint.active.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean hintActive ) {
+                setVisible( hintActive );
+            }
+        } );
     }
 }

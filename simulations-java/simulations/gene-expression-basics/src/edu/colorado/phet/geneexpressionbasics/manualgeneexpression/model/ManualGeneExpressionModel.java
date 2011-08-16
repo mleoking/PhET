@@ -9,6 +9,7 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
 
 import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
@@ -19,8 +20,8 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * Dimensions in this model (and all sub-elements of the model) are in nano-
  * meters, i.e. 10E-9 meters.
  * <p/>
- * The point (0,0) in model space is at the leftmost edge of the DNA strand,
- * and at the vertical center of the strand.
+ * The point (0,0) in model space is at the leftmost edge of the DNA strand, and
+ * at the vertical center of the strand.
  *
  * @author John Blanco
  */
@@ -92,8 +93,18 @@ public class ManualGeneExpressionModel implements Resettable {
         return mobileBiomoleculeList;
     }
 
-    public void addMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
+    public void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule ) {
         mobileBiomoleculeList.add( mobileBiomolecule );
+        mobileBiomolecule.userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean userControlled ) {
+                if ( userControlled ) {
+                    dnaStrand.activateHints( mobileBiomolecule );
+                }
+                else {
+                    dnaStrand.deactivateAllHints();
+                }
+            }
+        } );
     }
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {
