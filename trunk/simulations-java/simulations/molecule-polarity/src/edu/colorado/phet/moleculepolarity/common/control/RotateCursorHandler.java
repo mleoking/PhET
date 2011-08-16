@@ -15,7 +15,8 @@ import edu.colorado.phet.moleculepolarity.MPImages;
  */
 public class RotateCursorHandler extends CursorHandler {
 
-    public static final Cursor CURSOR = Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, new Point(), "rotate" );
+    //TODO hot spot should be based on image dimensions
+    public static final Cursor CURSOR = Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, new Point( 10, 10 ), "rotate" );
 
     public RotateCursorHandler() {
         super( CURSOR );
