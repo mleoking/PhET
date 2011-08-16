@@ -28,7 +28,14 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.
  */
 public class WaterMoleculeNode extends PNode {
 
+    //Text symbol to show for the partial charge delta
     public static final char DELTA = '\u03B4';
+
+    //The default "-" sign on Windows is too short, the team requested to use a longer symbol, so I switched to the unicode figure dash
+    //As described on this page: http://www.fileformat.info/info/unicode/char/2012/index.htm
+    //The unicode figure dash also has the benefit that it looks further away from the delta symbol
+    public static final String MINUS = "\u2012";
+    public static final String PLUS = "+";
 
     //Preload the images statically to save processor time during startup.  Use high resolution images here, and scale them down so they'll have good quality
     private static final BufferedImage OXYGEN_IMAGE = toBufferedImage( new AtomNode( 1000, O.getColor() ).toImage() );
@@ -58,10 +65,10 @@ public class WaterMoleculeNode extends PNode {
             }
         }
 
-        //Create images for O, H, H
-        final AtomImage oxygen = new AtomImageWithText( OXYGEN_IMAGE, oxygenDiameter, waterMolecule.getOxygen(), DELTA + "-" );
-        final AtomImage h1 = new AtomImageWithText( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen1(), DELTA + "+" );
-        final AtomImage h2 = new AtomImageWithText( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen2(), DELTA + "+" );
+        //Create images for O, H, H.
+        final AtomImage oxygen = new AtomImageWithText( OXYGEN_IMAGE, oxygenDiameter, waterMolecule.getOxygen(), DELTA + MINUS );
+        final AtomImage h1 = new AtomImageWithText( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen1(), DELTA + PLUS );
+        final AtomImage h2 = new AtomImageWithText( HYDROGEN_IMAGE, hydrogenDiameter, waterMolecule.getHydrogen2(), DELTA + PLUS );
 
         //Add the children in staggered layers so it looks 3d
         //Z-Flip about half of them so they don't all look like 2d rotated versions of each other
