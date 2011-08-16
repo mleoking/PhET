@@ -1,11 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Canvas;
+import java.awt.Frame;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
-import javax.swing.*;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -33,7 +35,7 @@ public class MoleculeShapesModule extends Module {
 
         JmeCanvasContext context = (JmeCanvasContext) app.getContext();
         final Canvas canvas = context.getCanvas();
-        canvas.setSize( settings.getWidth(), settings.getHeight() );
+
         addListener( new Listener() {
             public void activated() {
                 app.startCanvas();
@@ -53,21 +55,9 @@ public class MoleculeShapesModule extends Module {
         setControlPanel( null );
         setLogoPanelVisible( false );
 
-        parentFrame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
             setBackground( MoleculeShapesConstants.BACKGROUND_COLOR );
-
             add( canvas, BorderLayout.CENTER );
-
-            // padding to hopefully maintain the default cursor
-            add( Box.createHorizontalStrut( 5 ), BorderLayout.WEST );
-            add( Box.createHorizontalStrut( 5 ), BorderLayout.EAST );
-            add( Box.createVerticalStrut( 5 ), BorderLayout.NORTH );
-            add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
-
-            setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         }} );
-
     }
 }
