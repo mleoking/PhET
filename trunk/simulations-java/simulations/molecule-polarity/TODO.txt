@@ -14,6 +14,7 @@ DESIGN
 - labels for isosurface controls
 - on/off control for E-field (radio buttons vs switch graphic)
 - decide on final set of real molecules
+- add EN table in "Real Molecules" tab
 
 HIGH
 - clean up canvas layout code in all tabs
