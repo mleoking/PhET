@@ -15,15 +15,13 @@ class VectorView(motionSeriesObject: MotionSeriesObject,
                  fbdWidth: Int) {
   def addAllVectorsAllComponents(motionSeriesObject: MotionSeriesObject, vectorDisplay: VectorDisplay) {
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.appliedForceVector, vectorDisplay)
-
-    //For Dallas, gravity and normal forces were commented out
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.gravityForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.normalForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.frictionForceVector, vectorDisplay)
     addVectorAllComponents(motionSeriesObject, motionSeriesObject.wallForceVector, vectorDisplay)
     addAllVectorsAllComponents(motionSeriesObject, motionSeriesObject.totalForceVector,
-                               new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
-                               () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
+      new Vector2DModel(new Vector2D(0, fbdWidth / 4)), 2, //Needs a separate offset since it should be shown above other force arrows
+      () => vectorViewModel.sumOfForcesVector, vectorDisplay) //no need to add a separate listener, since it is already contained in vectorviewmodel
   }
 
   def addVectorAllComponents(motionSeriesObject: MotionSeriesObject,

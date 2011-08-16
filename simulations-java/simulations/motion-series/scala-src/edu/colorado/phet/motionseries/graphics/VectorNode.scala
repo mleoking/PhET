@@ -90,9 +90,7 @@ class VectorNode(val transform: ModelViewTransform2D,
         val deltaArrow = new Vector2D(-vector.angle - vector.labelAngle) * labelScale //move orthogonal to the vector itself
         deltaArrow + viewPt
       }
-      //For Dallas
-      val offset = if (vector.vector2DModel().x > 0) 30 else if (vector.vector2DModel().x<0) -30 else 0
-      labelNode.setOffset(textLocation.x - labelBounds.width / 2 + offset, textLocation.y - labelBounds.height / 2 +
+      labelNode.setOffset(textLocation.x - labelBounds.width / 2, textLocation.y - labelBounds.height / 2 +
               (if (vector.labelAngle == 0) -labelBounds.height / 2 else 0)) //Net force vector label should always be above, see MotionSeriesObject
       labelNode.setVisible(viewTail.distance(viewTip) > 1)
       lastUpdateState = updateState

@@ -155,12 +155,8 @@ object MotionSeriesDefaults {
   val velval = black
   val positionval = black
 
-  //Dallas used larger vectors
   val VECTOR_ARROW_TAIL_WIDTH = 4
   val VECTOR_ARROW_HEAD_WIDTH = 10
-
-//  val VECTOR_ARROW_TAIL_WIDTH = 4*3.5
-//  val VECTOR_ARROW_HEAD_WIDTH = 10*3.5
 }
 
 trait StageContainerArea {
