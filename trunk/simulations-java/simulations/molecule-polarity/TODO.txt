@@ -17,6 +17,7 @@ DESIGN
 - add EN table in "Real Molecules" tab
 
 HIGH
+- 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - clean up canvas layout code in all tabs
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
@@ -29,7 +30,6 @@ MEDIUM
 - 3 Atoms: partial charge model and view for atom B
 - 3 Atoms: align molecular dipole with E-field
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
-- 3 Atoms: with A-B-C, change bond angle by dragging A or C, rotate molecule by dragging B or bonds
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
