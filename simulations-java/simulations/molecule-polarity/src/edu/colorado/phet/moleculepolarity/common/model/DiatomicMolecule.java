@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
-import edu.colorado.phet.moleculepolarity.PolarImmutableVector2D;
 
 /**
  * Model of a make-believe diatomic (2 atoms) molecule.
@@ -61,7 +60,7 @@ public class DiatomicMolecule implements IMolecule {
     }
 
     public ImmutableVector2D getDipole() {
-        return new PolarImmutableVector2D( bond.deltaElectronegativity.get(), angle.get() );
+        return dipole.get();
     }
 
     public void addDipoleObserver( SimpleObserver observer ) {
