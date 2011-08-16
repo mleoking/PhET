@@ -1,3 +1,4 @@
+Water tab: Require crystallization and prevent dissolving when water volume <=  0.03E-23L
 Water tab: Switched to unicode figure dash for partial charge minus sign, looks longer and further away from delta symbol
 Parse command line args for a directive like "-module 2" which will set that as the startup module (0-based indices)
 # 0.00.90 (55254) Aug 15, 2011
