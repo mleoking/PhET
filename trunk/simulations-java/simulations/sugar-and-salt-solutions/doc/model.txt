@@ -15,7 +15,22 @@ conductivity tester is shorted out by having the battery or bulb touch water.
 
 Micro Tab:
 
-TODO: This section needs to be written after we finish writing that model
+Salt:
+Definition of saturation:
+When either Na+ or Cl- is above the saturation point 6.14 mol/L the solution is considered saturated.
+When the water level drops below the threshold 0.03E-23 L, the solution is also considered saturated since this corresponds to just 10 molecules of H2O
+
+When saturated:
+When saturated, an Na+ and Cl- ion will move toward each other at high speed and form a two particle crystal.
+While the solution remains saturated, more particles will connect to the existing crystal, and there is some small probability of forming a new crystal.
+Particles that match the minority type on the crystal will connect first, in order to maintain ionic balance in the crystal
+Once there are two crystals, the probability of forming new crystals diminishes significantly.
+Crystallization events can only happen every 0.1 seconds to prevent jumpy behavior (unless below water threshold, then events can happen instantly to avoid "lining up" behavior)
+
+When unsaturated:
+While the solution is unsaturated, the crystal will dissolve, by dropping the majority particle type in the crystal to maintain ionic balance.
+
+Other crystals follow the same behavior according to the formula ratios.
 
 Water Tab:
 
