@@ -24,17 +24,17 @@ public class TriatomicMolecule implements IMolecule {
     public final Atom atomA, atomB, atomC; // the atoms labeled A, B, C
     public final Bond bondAB; // the bond connecting atoms A and B
     public final Bond bondBC; // the bond connecting atoms B and C
-    private final Property<ImmutableVector2D> location; // location is at the center of atom B
+    private final ImmutableVector2D location; // location is at the center of atom B
     private final Property<Double> angle; // angle of rotation of the entire molecule about the location
     public final Property<Double> bondAngleA; // the bond angle of atom A relative to atom B, before applying molecule rotation
     public final Property<Double> bondAngleC; // the bond angle of atom C relative to atom B, before applying molecule rotation
-    public final Property<ImmutableVector2D> molecularDipole;
+    public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
     private boolean dragging; // true when the user is dragging the molecule
 
     public TriatomicMolecule( ImmutableVector2D location ) {
 
-        this.location = new Property<ImmutableVector2D>( location );
+        this.location = location;
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
         atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
@@ -43,7 +43,7 @@ public class TriatomicMolecule implements IMolecule {
         angle = new Property<Double>( 0d );
         bondAngleA = new Property<Double>( Math.PI );
         bondAngleC = new Property<Double>( 0d );
-        molecularDipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // update atom locations
         RichSimpleObserver atomLocationUpdater = new RichSimpleObserver() {
@@ -63,7 +63,6 @@ public class TriatomicMolecule implements IMolecule {
     }
 
     public void reset() {
-        location.reset();
         atomA.reset();
         atomB.reset();
         atomC.reset();
@@ -72,12 +71,12 @@ public class TriatomicMolecule implements IMolecule {
         bondAngleC.reset();
     }
 
-    public ImmutableVector2D getMolecularDipole() {
-        return molecularDipole.get();
+    public ImmutableVector2D getDipole() {
+        return dipole.get();
     }
 
-    public void addMolecularDipoleObserver( SimpleObserver observer ) {
-        molecularDipole.addObserver( observer );
+    public void addDipoleObserver( SimpleObserver observer ) {
+        dipole.addObserver( observer );
     }
 
     public Atom[] getAtoms() {
@@ -85,7 +84,7 @@ public class TriatomicMolecule implements IMolecule {
     }
 
     public ImmutableVector2D getLocation() {
-        return location.get();
+        return location;
     }
 
     public void setAngle( double angle ) {
@@ -108,16 +107,16 @@ public class TriatomicMolecule implements IMolecule {
     private void updateAtomLocations() {
         final double radius = BOND_LENGTH;
         // atom B remains at the molecule's location
-        atomB.location.set( location.get() );
+        atomB.location.set( location );
         // atom A
         double thetaA = angle.get() + bondAngleA.get();
-        double xA = PolarCartesianConverter.getX( radius, thetaA ) + location.get().getX();
-        double yA = PolarCartesianConverter.getY( radius, thetaA ) + location.get().getY();
+        double xA = PolarCartesianConverter.getX( radius, thetaA ) + location.getX();
+        double yA = PolarCartesianConverter.getY( radius, thetaA ) + location.getY();
         atomA.location.set( new ImmutableVector2D( xA, yA ) );
         // atom C
         double thetaC = angle.get() + bondAngleC.get();
-        double xC = PolarCartesianConverter.getX( radius, thetaC ) + location.get().getX();
-        double yC = PolarCartesianConverter.getY( radius, thetaC ) + location.get().getY();
+        double xC = PolarCartesianConverter.getX( radius, thetaC ) + location.getX();
+        double yC = PolarCartesianConverter.getY( radius, thetaC ) + location.getY();
         atomC.location.set( new ImmutableVector2D( xC, yC ) );
     }
 
@@ -125,6 +124,6 @@ public class TriatomicMolecule implements IMolecule {
     private void updateMolecularDipole() {
         ImmutableVector2D dipoleAB = new PolarImmutableVector2D( bondAB.deltaElectronegativity.get(), angle.get() + bondAngleA.get() );
         ImmutableVector2D dipoleBC = new PolarImmutableVector2D( bondBC.deltaElectronegativity.get(), angle.get() + bondAngleC.get() );
-        molecularDipole.set( dipoleAB.plus( dipoleBC ) );
+        dipole.set( dipoleAB.plus( dipoleBC ) );
     }
 }

@@ -24,21 +24,21 @@ public class DiatomicMolecule implements IMolecule {
 
     public final Atom atomA, atomB; // the atoms labeled A and B
     public final Bond bond; // the bond connecting atoms A and B
-    public final Property<ImmutableVector2D> molecularDipole;
+    public final Property<ImmutableVector2D> dipole; // the molecular dipole
 
-    private final Property<ImmutableVector2D> location; // location is at the center of the bond
+    private final ImmutableVector2D location; // location is at the center of the bond
     private final Property<Double> angle; // angle of rotation about the location (zero is bond horizontal, atom A left, atom B right)
 
     private boolean dragging; // true when the user is dragging the molecule
 
     public DiatomicMolecule( ImmutableVector2D location ) {
 
-        this.location = new Property<ImmutableVector2D>( location );
+        this.location = location;
         angle = new Property<Double>( 0d );
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
         bond = new Bond( atomA, atomB );
-        molecularDipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
+        dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // when the angle changes, move the atoms
         angle.addObserver( new VoidFunction1<Double>() {
@@ -57,18 +57,17 @@ public class DiatomicMolecule implements IMolecule {
     }
 
     public void reset() {
-        location.reset();
         angle.reset();
         atomA.reset();
         atomB.reset();
     }
 
-    public ImmutableVector2D getMolecularDipole() {
+    public ImmutableVector2D getDipole() {
         return new PolarImmutableVector2D( bond.deltaElectronegativity.get(), angle.get() );
     }
 
-    public void addMolecularDipoleObserver( SimpleObserver observer ) {
-        molecularDipole.addObserver( observer );
+    public void addDipoleObserver( SimpleObserver observer ) {
+        dipole.addObserver( observer );
     }
 
     public Atom[] getAtoms() {
@@ -76,7 +75,7 @@ public class DiatomicMolecule implements IMolecule {
     }
 
     public ImmutableVector2D getLocation() {
-        return location.get();
+        return location;
     }
 
     public void setAngle( double angle ) {
@@ -99,17 +98,17 @@ public class DiatomicMolecule implements IMolecule {
     private void updateAtomLocations( double angle ) {
         final double radius = BOND_LENGTH / 2;
         // atom A
-        double xA = PolarCartesianConverter.getX( radius, angle + Math.PI ) + location.get().getX();
-        double yA = PolarCartesianConverter.getY( radius, angle + Math.PI ) + location.get().getY();
+        double xA = PolarCartesianConverter.getX( radius, angle + Math.PI ) + location.getX();
+        double yA = PolarCartesianConverter.getY( radius, angle + Math.PI ) + location.getY();
         atomA.location.set( new ImmutableVector2D( xA, yA ) );
         // atom B
-        double xB = PolarCartesianConverter.getX( radius, angle ) + location.get().getX();
-        double yB = PolarCartesianConverter.getY( radius, angle ) + location.get().getY();
+        double xB = PolarCartesianConverter.getX( radius, angle ) + location.getX();
+        double yB = PolarCartesianConverter.getY( radius, angle ) + location.getY();
         atomB.location.set( new ImmutableVector2D( xB, yB ) );
     }
 
     // molecular dipole is identical to the bond dipole
     private void updateMolecularDipole() {
-        molecularDipole.set( new PolarImmutableVector2D( bond.deltaElectronegativity.get(), angle.get() ) );
+        dipole.set( new PolarImmutableVector2D( bond.deltaElectronegativity.get(), angle.get() ) );
     }
 }
