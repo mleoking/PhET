@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D.Double;
 
@@ -49,7 +50,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, 10 );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled ) {
+                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 1 );
                         }
                     }
@@ -64,7 +65,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled ) {
+                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 2 );
                         }
                     }
@@ -80,7 +81,7 @@ public class MoleculeShapesControlPanel extends PNode {
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled ) {
+                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 3 );
                         }
                     }
@@ -106,9 +107,10 @@ public class MoleculeShapesControlPanel extends PNode {
                         addChild( new PhetPPath( new Ellipse2D.Double( centerX + spacing / 2, 0, 2 * radius, 2 * radius ), Color.BLACK ) );
                     }}, 0, "Lone Pair" ) {{
                 setOffset( 0, 10 );
+                // TODO: refactor the input listener into something more common (code duplication)
                 addInputEventListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
-                        if ( enabled ) {
+                        if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 0 );
                         }
                     }
