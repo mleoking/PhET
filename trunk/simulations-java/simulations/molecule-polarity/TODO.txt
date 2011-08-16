@@ -1,19 +1,19 @@
 TODO list for molecule-polarity
 
 DESIGN
+- requirements for "electron density" isosurface (color scheme, shape, homogeneous diatomic molecules,...)
+- color scheme for "electrostatic potential" isosurface
+- what is the purpose of the period table, why do we have it?
+- how should the dipoles scale?
+- what to show for triatomic molecule partial charges
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
 - location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front, or allow occlusion?)
-- color scheme for "electrostatic potential" isosurface
-- requirements for "electron density" isosurface (color scheme, shape, homogeneous diatomic molecules,...)
+- should the pointer move across the full range of the Bond Type indicator?
 - units for partial charge values in "Real Molecules" tab
 - labels for isosurface controls
 - on/off control for E-field (radio buttons vs switch graphic)
 - decide on final set of real molecules
-- should the pointer move across the full range of the Bond Type indicator?
-- what is the purpose of the period table, why do we have it?
-- how should the dipoles scale?
-- what to show for triatomic molecule partial charges
 
 HIGH
 - add bond dipole to the model
