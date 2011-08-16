@@ -18,14 +18,14 @@ import static java.lang.Math.random;
  *
  * @author Sam Reid
  */
-public class IncrementalDissolve<T extends Particle> {
+public class CrystalDissolve<T extends Particle> {
 
     //Debugging tool to visualize the dissolving process
     private long lastDissolve = System.currentTimeMillis();
 
     private final MicroModel model;
 
-    public IncrementalDissolve( MicroModel model ) {
+    public CrystalDissolve( MicroModel model ) {
         this.model = model;
     }
 
