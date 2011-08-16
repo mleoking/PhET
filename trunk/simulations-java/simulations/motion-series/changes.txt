@@ -1,3 +1,4 @@
+> Reverted to smaller vector arrow dimensions
 # 2.01.01 (55260) Aug 15, 2011
 > Restored gravity and normal force vectors
 > Fixed crate image, crashes were happening when it was too far from the wall
