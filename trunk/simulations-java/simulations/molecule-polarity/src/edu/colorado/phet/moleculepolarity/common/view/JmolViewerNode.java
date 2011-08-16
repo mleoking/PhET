@@ -280,7 +280,7 @@ public class JmolViewerNode extends PhetPNode {
     // Interrogates Jmol to determine element numbers of the atoms in the current molecule.
     public Integer[] getElementNumbers() {
         Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS );
-        LOGGER.info( "getElementNumbers status=[" + status.toString() + "]" );
+//        LOGGER.info( "getElementNumbers status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
         }

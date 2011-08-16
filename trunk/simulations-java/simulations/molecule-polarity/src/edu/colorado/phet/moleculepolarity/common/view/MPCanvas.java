@@ -44,11 +44,10 @@ public class MPCanvas extends PhetPCanvas {
     @Override protected void updateLayout() {
         super.updateLayout();
 
-        Dimension2D worldSize = getWorldSize();
         if ( getWidth() > 0 && getHeight() > 0 ) {
             topCenterRootNode();
         }
-        LOGGER.info( "size=" + getSize() + " worldSize=" + worldSize );
+//        LOGGER.info( "size=" + getSize() + " worldSize=" + getWorldSize() );
     }
 
     protected void topCenterRootNode() {
