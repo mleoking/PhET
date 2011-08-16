@@ -52,65 +52,63 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         double timeSinceLast = model.getTime() - lastNewCrystalFormationTime;
 
         //If there is no water, move particles quickly toward each other to form crystals since there should be no free ions
-        //TODO: this seems unnecessary after reducing the jump radius for joining existing crystals
 //        if ( model.waterVolume.get() < Units.litersToMetersCubed( 0.05E-23 ) ) {
 //            towardNewCrystal( dt * 10 );
 //        }
 
-        //Make sure at least 1 second has passed, then convert to crystals
-//        else
-        if ( saturated.get() && timeSinceLast > 1 && crystals.size() == 0 ) {
-
-            //Create a crystal if there weren't any
-            debug( "No crystals, starting a new one, num crystals = " + crystals.size() );
-            towardNewCrystal( dt );
-        }
-
-        //If the solution is saturated, try adding on to an existing crystal
-        else if ( saturated.get() ) {
-
-            //Randomly choose an existing crystal to possibly bond to
-            Crystal<T> crystal = crystals.get( random.nextInt( crystals.size() ) );
-
-            //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
-            ArrayList<CrystallizationMatch<T>> matches = getAllCrystallizationMatchesSorted( crystal );
-            if ( matches.size() > 0 ) {
-
-                //Find a matching particle nearby one of the sites and join it together
-                CrystallizationMatch<T> match = matches.get( 0 );
-
-                //With some probability, form a new crystal anyways (if there aren't too many crystals)
-                if ( random.nextDouble() > 0.8 && crystals.size() <= 2 ) {
-                    debug( "Random choice to form new crystal instead of joining another" );
-                    towardNewCrystal( dt );
-                }
-
-                //If close enough, join the lattice.  Having a large factor here makes it possible for particles to jump on to crystals quickly
-                //And fixes many problems in crystallization, including large or unbalanced concentrations
-                else if ( match.distance <= FREE_PARTICLE_SPEED * dt * 100 ) {
-
-                    //Remove the particle from the list of free particles
-                    model.freeParticles.remove( match.particle );
-
-                    //Add it as a constituent of the crystal
-                    crystal.addConstituent( new Constituent<T>( match.particle, match.site.relativePosition ) );
-                }
-
-                //Otherwise, move closest particle toward the lattice
-                else if ( match.distance <= model.beaker.getWidth() / 2 ) {
-                    match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
-                }
-
-                else {
-                    debug( "Best match was too far away (" + match.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
-                    towardNewCrystal( dt );
-                }
+        if ( saturated.get() || model.isWaterBelowCrystalThreshold() && timeSinceLast > 0.5 ) {
+            if ( crystals.size() == 0 ) {
+                //Create a crystal if there weren't any
+                debug( "No crystals, starting a new one, num crystals = " + crystals.size() );
+                towardNewCrystal( dt );
             }
 
-            //No matches, so start a new crystal
+            //If the solution is saturated, try adding on to an existing crystal
             else {
-                debug( "No matches, starting a new crystal" );
-                towardNewCrystal( dt );
+
+                //Randomly choose an existing crystal to possibly bond to
+                Crystal<T> crystal = crystals.get( random.nextInt( crystals.size() ) );
+
+                //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
+                ArrayList<CrystallizationMatch<T>> matches = getAllCrystallizationMatchesSorted( crystal );
+                if ( matches.size() > 0 ) {
+
+                    //Find a matching particle nearby one of the sites and join it together
+                    CrystallizationMatch<T> match = matches.get( 0 );
+
+                    //With some probability, form a new crystal anyways (if there aren't too many crystals)
+                    if ( random.nextDouble() > 0.8 && crystals.size() <= 2 ) {
+                        debug( "Random choice to form new crystal instead of joining another" );
+                        towardNewCrystal( dt );
+                    }
+
+                    //If close enough, join the lattice.  Having a large factor here makes it possible for particles to jump on to crystals quickly
+                    //And fixes many problems in crystallization, including large or unbalanced concentrations
+                    else if ( match.distance <= FREE_PARTICLE_SPEED * dt * 100 ) {
+
+                        //Remove the particle from the list of free particles
+                        model.freeParticles.remove( match.particle );
+
+                        //Add it as a constituent of the crystal
+                        crystal.addConstituent( new Constituent<T>( match.particle, match.site.relativePosition ) );
+                    }
+
+                    //Otherwise, move closest particle toward the lattice
+                    else if ( match.distance <= model.beaker.getWidth() / 2 ) {
+                        match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
+                    }
+
+                    else {
+                        debug( "Best match was too far away (" + match.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
+                        towardNewCrystal( dt );
+                    }
+                }
+
+                //No matches, so start a new crystal
+                else {
+                    debug( "No matches, starting a new crystal" );
+                    towardNewCrystal( dt );
+                }
             }
         }
     }

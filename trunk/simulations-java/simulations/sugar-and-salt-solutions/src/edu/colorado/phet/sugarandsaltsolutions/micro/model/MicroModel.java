@@ -19,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.util.Units;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Oxygen;
@@ -580,5 +581,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getAllCrystallizationMatchesSorted( crystal ) );
         }
         return s;
+    }
+
+    //Require crystallization and prevent dissolving when water volume is below this threshold.
+    //This is because there is so little water it would be impossible to dissolve anything and everything should crystallize
+    public boolean isWaterBelowCrystalThreshold() {
+        return waterVolume.get() <= Units.litersToMetersCubed( 0.03E-23 );
     }
 }
