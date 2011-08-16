@@ -8,13 +8,14 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.geneexpressionbasics.common.common.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.common.ShapeChangingModelElement;
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
  * the two strands of the DNA and the base pairs, defines where the various
- * genes reside, and retains other information about the DNA molecule.  This
- * is an important and central object in the model for this simulation.
+ * genes reside, and retains other information about the DNA molecule.  This is
+ * an important and central object in the model for this simulation.
  *
  * @author John Blanco
  */
@@ -31,8 +32,9 @@ public class DnaMolecule {
 
     private DnaStrand strand1;
     private DnaStrand strand2;
-    private ArrayList<Gene> genes = new ArrayList<Gene>();
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
+    private ArrayList<Gene> genes = new ArrayList<Gene>();
+    private ArrayList<PlacementHint> placementHints = new ArrayList<PlacementHint>();
 
     /**
      * Constructor.
@@ -60,9 +62,9 @@ public class DnaMolecule {
         // model space to having to scroll the gene at startup.
         double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
         genes.add( new Gene( this,
-                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new DoubleRange( geneStartX, geneStartX + 1000 ),
                              new Color( 30, 144, 255 ),
-                             new DoubleRange( geneStartX + 2000, geneStartX + 4000 ),
+                             new DoubleRange( geneStartX + 1000, geneStartX + 4000 ),
                              new Color( 255, 165, 79, 150 ) ) );
         geneStartX += DISTANCE_BETWEEN_GENES;
         genes.add( new Gene( this,
@@ -76,6 +78,15 @@ public class DnaMolecule {
                              new Color( 30, 144, 255 ),
                              new DoubleRange( geneStartX + 2000, geneStartX + 8000 ),
                              new Color( 205, 255, 112, 150 ) ) );
+
+        // Add the placement hints.  TODO: Decide if these should be set up to be associated with particular genes.
+        Point2D origin = new Point2D.Double( strand1.get( 0 ).getShape().getBounds2D().getMinX(), strand1.get( 0 ).getShape().getBounds2D().getCenterY() );
+        placementHints.add( new PlacementHint( new RnaPolymerase( new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
+        // Temp for testing.
+        placementHints.get( 0 ).active.set( true );
+        placementHints.add( new PlacementHint( TranscriptionFactor.generateTranscriptionFactor( 0, true, new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
+        // Temp for testing.
+        placementHints.get( 1 ).active.set( true );
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.
@@ -118,12 +129,22 @@ public class DnaMolecule {
         return genes;
     }
 
+    public ArrayList<PlacementHint> getPlacementHints() {
+        return placementHints;
+    }
+
     public Gene getLastGene() {
         return genes.get( genes.size() - 1 );
     }
 
     public ArrayList<BasePair> getBasePairs() {
         return basePairs;
+    }
+
+    public void deactivateAllHints() {
+        for ( PlacementHint placementHint : placementHints ) {
+            placementHint.active.set( false );
+        }
     }
 
     /**
@@ -142,11 +163,11 @@ public class DnaMolecule {
     }
 
     /**
-     * This class defines a segment of the DNA strand.  It is needed because
-     * the DNA molecule needs to look like it is 3D, but we are only modeling
-     * it as 2D, so in order to create the appearance of a twist between the
-     * two strands, we need to track which segments are in front and which are
-     * in back.
+     * This class defines a segment of the DNA strand.  It is needed because the
+     * DNA molecule needs to look like it is 3D, but we are only modeling it as
+     * 2D, so in order to create the appearance of a twist between the two
+     * strands, we need to track which segments are in front and which are in
+     * back.
      */
     public class DnaStrandSegment extends ShapeChangingModelElement {
         public final boolean inFront;
