@@ -1,11 +1,18 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.simsharing;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -15,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 
-import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
+import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
 /**
  * @author Sam Reid
