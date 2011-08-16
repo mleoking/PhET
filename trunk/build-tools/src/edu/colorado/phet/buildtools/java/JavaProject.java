@@ -3,6 +3,7 @@ package edu.colorado.phet.buildtools.java;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,6 +15,7 @@ import org.apache.tools.ant.taskdefs.Java;
 import org.apache.tools.ant.types.FileSet;
 import org.apache.tools.ant.types.Path;
 
+import edu.colorado.phet.buildtools.BuildLocalProperties;
 import edu.colorado.phet.buildtools.BuildToolsConstants;
 import edu.colorado.phet.buildtools.BuildToolsPaths;
 import edu.colorado.phet.buildtools.MyAntTaskRunner;
@@ -23,6 +25,7 @@ import edu.colorado.phet.buildtools.java.projects.JavaSimulationProject;
 import edu.colorado.phet.buildtools.preprocessor.ResourceGenerator;
 import edu.colorado.phet.buildtools.util.BuildPropertiesFile;
 import edu.colorado.phet.buildtools.util.PhetBuildUtils;
+import edu.colorado.phet.buildtools.util.PhetJarSigner;
 import edu.colorado.phet.common.phetcommon.PhetCommonConstants;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.util.FileUtils;
@@ -262,6 +265,56 @@ public abstract class JavaProject extends PhetProject {
         }
         else {
             return new File[0];
+        }
+    }
+
+    /**
+     * @return Whether the project depends on JMonkeyEngine 3
+     */
+    public boolean containsJME3Dependency() {
+        for ( File file : getAllJarFiles() ) {
+            if ( file.getAbsolutePath().contains( "jme3" ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getAdditionalJnlpResources() {
+        if ( containsJME3Dependency() ) {
+            System.out.println( "Contains JME3, adding in addition JNLP resources" );
+            try {
+                return FileUtils.loadFileAsString( new File( getTrunk(), BuildToolsPaths.JME3_JNLP_RESOURCES ) );
+            }
+            catch ( IOException e ) {
+                throw new RuntimeException( "Problem with JME3 JNLP resource file", e );
+            }
+        }
+        else {
+            return "";
+        }
+    }
+
+    @Override public void copyAssets() throws IOException {
+        super.copyAssets();
+
+        // copy over JME3 native libraries to our deploy directory, so that they can be accessed online through their JNLP dependencies
+        if ( containsJME3Dependency() ) {
+            File jme3NativesDir = new File( getTrunk(), BuildToolsPaths.JME3_NATIVES );
+
+            PhetJarSigner jarSigner = new PhetJarSigner( BuildLocalProperties.getInstance() );
+
+            System.out.println( "Copying JME3 native JARs into the deploy directory" );
+            for ( File file : jme3NativesDir.listFiles( new FilenameFilter() {
+                public boolean accept( File dir, String name ) {
+                    return !name.startsWith( "." ) && name.endsWith( ".jar" );
+                }
+            } ) ) {
+                File destinationFile = new File( getDeployDir(), file.getName() );
+                FileUtils.copyTo( file, destinationFile );
+
+                jarSigner.signJar( destinationFile );
+            }
         }
     }
 }

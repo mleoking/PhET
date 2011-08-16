@@ -931,6 +931,23 @@ public abstract class PhetProject {
         FileUtils.copyToDir( getChangesFile(), getDeployDir() );
     }
 
+    public void copyAssets() throws IOException {
+        copyChangesFileToDeployDir();
+
+        /*---------------------------------------------------------------------------*
+        * copy versioning file
+        *----------------------------------------------------------------------------*/
+        File versionFile = getVersionFile();
+        File dest = new File( getDeployDir(), versionFile.getName() );
+        FileUtils.copyTo( versionFile, dest );
+        System.out.println( "Copied version file to " + dest.getAbsolutePath() );
+
+        /*---------------------------------------------------------------------------*
+        * copy screenshots
+        *----------------------------------------------------------------------------*/
+        new ScreenshotProcessor().copyScreenshotsToDeployDir( this );
+    }
+
     public boolean requestAllPermissions() {
         return getBuildPropertiesFileObject().requestAllPermissions();
     }

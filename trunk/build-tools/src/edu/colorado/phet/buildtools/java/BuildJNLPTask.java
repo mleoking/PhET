@@ -49,6 +49,7 @@ public class BuildJNLPTask {
         map.put( "PROJECT.ARGS", toJNLPArgs( getArgs( simulation, dev ) ) );
         map.put( "PROJECT.PROPERTIES", getJNLPProperties( locale ) );
         map.put( "PROJECT.DEPLOY.PATH", codebase );
+        map.put( "ADDITIONAL.RESOURCES", project.getAdditionalJnlpResources() );
         map.put( "SECURITY", getSecurity( project ) );
         return map;
     }

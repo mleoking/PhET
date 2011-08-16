@@ -17,6 +17,7 @@ public class BuildToolsPaths {
 
     public static final String WEBSTART_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/webstart-template.jnlp";
     public static final String PROGUARD_TEMPLATE = BUILD_TOOLS_TEMPLATES + "/proguard-template.pro";
+    public static final String JME3_JNLP_RESOURCES = BUILD_TOOLS_TEMPLATES + "/jme3-jnlp-resources.xml";
 
     public static final String FLASH_HTML_TEMPLATE = BUILD_TOOLS_DIR + "/data/flash/flash-template.html";
     public static final String FLASH_BUILD_TEMPLATE = BUILD_TOOLS_DIR + "/data/flash/build-template.jsfl";
@@ -41,6 +42,8 @@ public class BuildToolsPaths {
     public static final String PHETCOMMON_LOCALIZATION = PHETCOMMON_DATA + "/phetcommon/localization";
 
     public static final String JNLP_JAR = JAVA_CONTRIB + "/javaws/jnlp.jar";
+
+    public static final String JME3_NATIVES = JAVA_CONTRIB + "/jme3/native";
 
 
     //----------------------------------------------------------------------------

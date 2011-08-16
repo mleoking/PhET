@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 import edu.colorado.phet.buildtools.RevisionStrategy.DynamicRevisionStrategy;
 import edu.colorado.phet.buildtools.flash.FlashSimulationProject;
@@ -297,27 +297,14 @@ public class BuildScript {
         createHeader( dev );
 
         try {
-            project.copyChangesFileToDeployDir();
+            project.copyAssets();
         }
         catch ( IOException e ) {
-            e.printStackTrace();
-            // TODO: why are we not failing on this? is there a project where this is unimportant?
+            throw new RuntimeException( "Problem copying files to the deployment directory", e );
         }
-        System.out.println( "Copying version files to deploy dir." );
-        copyVersionFilesToDeployDir();
-        copyImageFilesToDeployDir();
 
         // TODO: need better checking before this point to make sure everything has succeeded
         return true;
-    }
-
-    private void copyImageFilesToDeployDir() {
-        try {
-            new ScreenshotProcessor().copyScreenshotsToDeployDir( project );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
     }
 
     private void notifyError( PhetProject project, String error ) {
@@ -352,18 +339,6 @@ public class BuildScript {
 
     private void prependChange( String message ) {
         project.prependChangesText( message );
-    }
-
-    private void copyVersionFilesToDeployDir() {
-        File versionFile = project.getVersionFile();
-        try {
-            File dest = new File( project.getDeployDir(), versionFile.getName() );
-            FileUtils.copyTo( versionFile, dest );
-            System.out.println( "Copied version file to " + dest.getAbsolutePath() );
-        }
-        catch ( IOException e ) {
-            e.printStackTrace();
-        }
     }
 
     private boolean sendSSH( OldPhetServer server, AuthenticationInfo authenticationInfo ) {
