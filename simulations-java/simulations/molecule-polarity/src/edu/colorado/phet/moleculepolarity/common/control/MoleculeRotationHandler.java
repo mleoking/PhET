@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Drag handler for rotating a molecule.
- * Copied from PrismNode in bending-light.
+ * Adapted from PrismNode in bending-light.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
