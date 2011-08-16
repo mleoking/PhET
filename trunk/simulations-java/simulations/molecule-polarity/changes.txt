@@ -1,3 +1,4 @@
+8/16/11 change rendering order of scenegraph so that molecule is on top
 8/16/11 general alignment of molecular dipole with E-field so that it's handled in the base class model
 8/16/11 align triatomic molecular dipole with E-field
 8/16/11 add bond angle manipulation

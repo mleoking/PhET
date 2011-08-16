@@ -58,8 +58,20 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
         // rendering order
         {
+            // plates
             addChild( negativePlateNode );
             addChild( positivePlateNode );
+
+            // controls
+            addChild( enControlA );
+            addChild( enControlB );
+            addChild( enControlC );
+            addChild( viewControlsNode );
+            addChild( isosurfaceControlsNode );
+            addChild( eFieldControlsNode );
+            addChild( resetAllButtonNode );
+
+            // molecule
             addChild( moleculeNode );
             addChild( partialChargeNodeA );
             addChild( partialChargeNodeC );
@@ -68,13 +80,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( molecularDipoleNode );
             addChild( electrostaticPotentialNode );
             addChild( electronDensityNode );
-            addChild( enControlA );
-            addChild( enControlB );
-            addChild( enControlC );
-            addChild( viewControlsNode );
-            addChild( isosurfaceControlsNode );
-            addChild( eFieldControlsNode );
-            addChild( resetAllButtonNode );
+
         }
 
         // layout

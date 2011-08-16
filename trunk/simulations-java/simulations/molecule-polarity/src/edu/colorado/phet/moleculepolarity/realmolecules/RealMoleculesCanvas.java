@@ -52,9 +52,11 @@ public class RealMoleculesCanvas extends MPCanvas {
 
         // rendering order
         {
+            // plates
             addChild( negativePlateNode );
             addChild( positivePlateNode );
-            addChild( viewerNode );
+
+            // controls
             addChild( viewControlsNode );
             addChild( isosurfaceControlsNode );
             addChild( eFieldControlsNode );
@@ -63,6 +65,11 @@ public class RealMoleculesCanvas extends MPCanvas {
                 addChild( scriptNode );
             }
             addChild( periodicTableNode );
+
+            // molecule
+            addChild( viewerNode );
+
+            // combo box on top because it has a popup
             addChild( moleculeComboBox );
         }
 
