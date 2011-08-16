@@ -5,7 +5,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
-import edu.colorado.phet.moleculepolarity.PolarImmutableVector2D;
 
 /**
  * Model of a bond between 2 atoms.
@@ -39,7 +38,7 @@ public class Bond {
                 if ( deltaEN < 0 ) {
                     angle += Math.PI;
                 }
-                dipole.set( new PolarImmutableVector2D( magnitude, angle ) );
+                dipole.set( ImmutableVector2D.parseAngleAndMagnitude( magnitude, angle ) );
 
                 // adjust partial charges
                 //TODO this works, but partial charge is not equivalent to deltaEN. Do we need a more accurate model?
