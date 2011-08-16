@@ -27,7 +27,7 @@ public class BalancingActModel implements Resettable {
     // Class Data
     //------------------------------------------------------------------------
 
-    private static final double FULCRUM_HEIGHT = 1.2; // In meters.
+    private static final double FULCRUM_HEIGHT = 0.85; // In meters.
     private static final double PLANK_HEIGHT = 0.75; // In meters.
 
     //------------------------------------------------------------------------
