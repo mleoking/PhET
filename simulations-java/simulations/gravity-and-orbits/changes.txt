@@ -1,3 +1,4 @@
+> Fixed: After selecting "Reset All" sim starts with "Pause" rather than "Play" button, resolves #3032
 # 2.03.00 (53422) Jun 23, 2011
 # 2.02.01 (53349) Jun 22, 2011
 > Fixed: "moon" text label is invisible when the background is switched to white, see #2948
@@ -224,7 +225,7 @@ Fixed: made the moon magenta when not exactly at moon mass
 Fixed: the planet is drawn with an earth image when its mass is equal to earth mass, otherwise drawn as a sphere with a gradient paint
 Fixed scales so velocities are visible in all modes and for real/cartoon scale
 Added body-specific cartoon scale factors for forces so that all forces are visible in cartoon mode
-Fixed: Gravity forces don’t appear until you press start.
+Fixed: Gravity forces donï¿½t appear until you press start.
 Fixed: play/pause controls should be global instead of independently settable per each mode
 Changed "Cartoon" to "Cartoon (not to scale)"
 Fixed: reset all resets the scale mode

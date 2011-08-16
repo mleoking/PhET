@@ -4,7 +4,7 @@ package edu.colorado.phet.gravityandorbits.module;
 
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -35,7 +35,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public final Property<Boolean> showGridProperty = new Property<Boolean>( false );
     public final BooleanProperty showVelocityProperty = new BooleanProperty( false );
     public final Property<Boolean> showMassProperty = new Property<Boolean>( false );
-    public final Property<Boolean> clockPausedProperty = new Property<Boolean>( true );
+    public final Property<Boolean> playButtonPressed = new Property<Boolean>( false );
     public final Property<Double> timeSpeedScaleProperty = new Property<Double>( ( 0.1 + 2 ) / 4 );//one quarter of the way up between 1/10 and 2 scale factors
     public final Property<Boolean> measuringTapeVisibleProperty = new Property<Boolean>( false );
     public final Property<Boolean> gravityEnabledProperty = new Property<Boolean>( true );
@@ -51,7 +51,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
     public GravityAndOrbitsModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty, final String name, boolean showMeasuringTape, Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>> createModes, int initialModeIndex, boolean showMassCheckBox ) {
         super( name, new ConstantDtClock( 30, 1 ) );//TODO: I don't think this clock is used since each mode has its own clock; perhaps this just runs the active tab?
         this.showMassCheckBox = showMassCheckBox;
-        modes = createModes.apply( new ModeListParameterList( clockPausedProperty, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
+        modes = createModes.apply( new ModeListParameterList( playButtonPressed, gravityEnabledProperty, stepping, rewinding, timeSpeedScaleProperty ) );
         modeProperty = new Property<GravityAndOrbitsMode>( modes.get( initialModeIndex ) );
         this.whiteBackgroundProperty = whiteBackgroundProperty;
         this.showMeasuringTape = showMeasuringTape;
@@ -105,7 +105,7 @@ public class GravityAndOrbitsModule extends PiccoloModule {
         showGridProperty.reset();
         showVelocityProperty.reset();
         showMassProperty.reset();
-        clockPausedProperty.reset();
+        playButtonPressed.reset();
         timeSpeedScaleProperty.reset();
         measuringTapeVisibleProperty.reset();
         gravityEnabledProperty.reset();

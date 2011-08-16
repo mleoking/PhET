@@ -11,7 +11,11 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
-import edu.colorado.phet.gravityandorbits.module.*;
+import edu.colorado.phet.gravityandorbits.module.CartoonModeList;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsMode;
+import edu.colorado.phet.gravityandorbits.module.GravityAndOrbitsModule;
+import edu.colorado.phet.gravityandorbits.module.ModeListParameterList;
+import edu.colorado.phet.gravityandorbits.module.RealModeList;
 
 import static edu.colorado.phet.gravityandorbits.GAOStrings.CARTOON;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.TO_SCALE;
@@ -45,20 +49,20 @@ public class GravityAndOrbitsApplication extends PiccoloPhetApplication {
     public static class IntroModule extends GravityAndOrbitsModule {
         public IntroModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
             super( phetFrame, whiteBackgroundProperty, CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
-                       public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
-                           return new CartoonModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
-                       }
-                   }, 0, false );
+                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
+                    return new CartoonModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
+                }
+            }, 0, false );
         }
     }
 
     public static class CartoonModule extends GravityAndOrbitsModule {
         public CartoonModule( final PhetFrame phetFrame, Property<Boolean> whiteBackgroundProperty ) {
             super( phetFrame, whiteBackgroundProperty, TO_SCALE, true, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
-                       public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
-                           return new RealModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
-                       }
-                   }, 3,//Start Real tab in earth/satellite mode because it is more playful
+                public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
+                    return new RealModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
+                }
+            }, 3,//Start Real tab in earth/satellite mode because it is more playful
                    true );
         }
     }

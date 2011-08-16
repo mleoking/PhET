@@ -2,14 +2,17 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
+import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
@@ -108,9 +111,9 @@ public abstract class GravityAndOrbitsMode {
 
         new RichSimpleObserver() {
             public void update() {
-                model.getClock().setRunning( !p.clockPaused.get() && GravityAndOrbitsMode.this.active.get() );
+                model.getClock().setRunning( p.playButtonPressed.get() && GravityAndOrbitsMode.this.active.get() );
             }
-        }.observe( p.clockPaused, this.active );
+        }.observe( p.playButtonPressed, this.active );
         measuringTapeStartPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP1() ) );
         measuringTapeEndPoint = new Property<ImmutableVector2D>( new ImmutableVector2D( initialMeasuringTapeLocation.getP2() ) );
     }

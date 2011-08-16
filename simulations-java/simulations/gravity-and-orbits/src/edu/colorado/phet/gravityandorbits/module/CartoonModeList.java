@@ -11,8 +11,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  * @author Sam Reid
  */
 public class CartoonModeList extends ModeList {
-    public CartoonModeList( Property<Boolean> clockPaused, Property<Boolean> gravityEnabled, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScale ) {
-        super( new ModeListParameterList( clockPaused, gravityEnabled, stepping, rewinding, timeSpeedScale ),
+    public CartoonModeList( Property<Boolean> playButtonPressed, Property<Boolean> gravityEnabled, Property<Boolean> stepping, Property<Boolean> rewinding, Property<Double> timeSpeedScale ) {
+        super( new ModeListParameterList( playButtonPressed, gravityEnabled, stepping, rewinding, timeSpeedScale ),
                getSunEarth(), getSunEarthMoon(), getEarthMoon(), getEarthSpaceStation() );
     }
 

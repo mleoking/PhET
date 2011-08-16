@@ -2,12 +2,21 @@
 
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -19,7 +28,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.*;
+import edu.colorado.phet.common.piccolophet.nodes.ButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
+import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.SimSpeedControlPNode;
+import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.DefaultIconButton;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.RewindButton;
@@ -34,7 +48,6 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 import static edu.colorado.phet.gravityandorbits.GAOStrings.*;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.BACKGROUND;
 import static edu.colorado.phet.gravityandorbits.controlpanel.GravityAndOrbitsControlPanel.CONTROL_FONT;
@@ -179,7 +192,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             p.add( body.anyPropertyDifferent() );
         }
         //Add the clock control within the play area
-        addChild( new FloatingClockControlNode( not( module.clockPausedProperty ), mode.getTimeFormatter(), model.getClock(), CLEAR, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
+        addChild( new FloatingClockControlNode( module.playButtonPressed, mode.getTimeFormatter(), model.getClock(), CLEAR, new IfElse<Color>( module.whiteBackgroundProperty, Color.black, Color.white ) ) {{
             setOffset( GravityAndOrbitsCanvas.STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, GravityAndOrbitsCanvas.STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
 
             // Add the rewind button and hook it up as needed.
@@ -227,7 +240,7 @@ public class GravityAndOrbitsCanvas extends PhetPCanvas {
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     model.returnBodies();
-                    module.clockPausedProperty.set( true );//At 3/21/2011 meeting we decided that "return object" button should also always pause the clock.
+                    module.playButtonPressed.set( false );//At 3/21/2011 meeting we decided that "return object" button should also always pause the clock.
                 }
             } );
             anythingReturnable.addObserver( new SimpleObserver() {
