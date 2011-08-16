@@ -1,3 +1,5 @@
+# 3.03.01 (55294) Aug 16, 2011
+8/16/11 > Fixed an issue where the slider knobs could be quite narrow on Win 7 & Vista.
 # 3.03.00 (52645) Jun 5, 2011
 6/5/11 > added new translation credits features
 # 3.02.01 (52601) Jun 2, 2011
