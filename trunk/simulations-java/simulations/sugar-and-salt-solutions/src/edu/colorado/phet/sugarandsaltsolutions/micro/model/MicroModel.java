@@ -152,6 +152,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         } );
     }};
+    protected final SodiumChlorideCrystalGrowth sodiumChlorideCrystalGrowth = new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals );
+    protected final SodiumNitrateCrystalGrowth sodiumNitrateCrystalGrowth = new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals );
+    protected final CalciumChlorideCrystalGrowth calciumChlorideCrystalGrowth = new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals );
+    protected final SucroseCrystalGrowth sucroseCrystalGrowth = new SucroseCrystalGrowth( this, sucroseCrystals );
+    protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
 
     public MicroModel() {
 
@@ -260,11 +265,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
 
         //Allow the crystals to grow--not part of the strategies because it has to look at all particles within a group to decide which to crystallize
-        new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).allowCrystalGrowth( dt, sodiumChlorideSaturated );
-        new SucroseCrystalGrowth( this, sucroseCrystals ).allowCrystalGrowth( dt, sucroseSaturated );
-        new GlucoseCrystalGrowth( this, glucoseCrystals ).allowCrystalGrowth( dt, glucoseSaturated );
-        new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).allowCrystalGrowth( dt, calciumChlorideSaturated );
-        new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals ).allowCrystalGrowth( dt, sodiumNitrateSaturated );
+        sodiumChlorideCrystalGrowth.allowCrystalGrowth( dt, sodiumChlorideSaturated );
+        sucroseCrystalGrowth.allowCrystalGrowth( dt, sucroseSaturated );
+        glucoseCrystalGrowth.allowCrystalGrowth( dt, glucoseSaturated );
+        calciumChlorideCrystalGrowth.allowCrystalGrowth( dt, calciumChlorideSaturated );
+        sodiumNitrateCrystalGrowth.allowCrystalGrowth( dt, sodiumNitrateSaturated );
 
         //Update the number of solute types for purposes of changing the text on the "remove solute(s)" button
         //Note that sodium is not counted since it appears in several solute types, we just count its binding partner
