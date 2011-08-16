@@ -4,7 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 import java.awt.Color;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
@@ -14,7 +14,8 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Visual representation of partial charge, a delta followed by either + or -.
+ * Visual representation of partial charge, a delta symbol followed by either + or -.
+ * The symbol is positioned outside the atom, along the bond axis.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -37,7 +38,7 @@ public class PartialChargeNode extends PComposite {
         }};
         addChild( textNode );
 
-        SimpleObserver updater = new SimpleObserver() {
+        RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
 
                 final double partialCharge = atom.partialCharge.get();
@@ -71,7 +72,6 @@ public class PartialChargeNode extends PComposite {
                 }
             }
         };
-        bond.deltaElectronegativity.addObserver( updater );
-        atom.location.addObserver( updater );
+        observer.observe( atom.partialCharge, atom.location );
     }
 }
