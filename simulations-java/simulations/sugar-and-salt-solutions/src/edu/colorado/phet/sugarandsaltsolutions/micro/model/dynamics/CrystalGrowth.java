@@ -51,12 +51,12 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     public void allowCrystalGrowth( double dt, ObservableProperty<Boolean> saturated ) {
         double timeSinceLast = model.getTime() - lastNewCrystalFormationTime;
 
-        //If there is no water, move particles quickly toward each other to form crystals since there should be no free ions
-//        if ( model.waterVolume.get() < Units.litersToMetersCubed( 0.05E-23 ) ) {
-//            towardNewCrystal( dt * 10 );
-//        }
+        //Require some time to pass since each crystallization event so it isn't too jumpy (but if water below threshold, then proceed quickly or it will look unphysical as each ion jumps to the crystal one after the other
+        boolean elapsedTimeLongEnough = timeSinceLast > 0.1 || model.isWaterBelowCrystalThreshold();
 
-        if ( saturated.get() || model.isWaterBelowCrystalThreshold() && timeSinceLast > 0.5 ) {
+        //Form new crystals or add on to existing crystals
+        if ( ( saturated.get() || model.isWaterBelowCrystalThreshold() ) && elapsedTimeLongEnough ) {
+            lastNewCrystalFormationTime = model.getTime();
             if ( crystals.size() == 0 ) {
                 //Create a crystal if there weren't any
                 debug( "No crystals, starting a new one, num crystals = " + crystals.size() );
