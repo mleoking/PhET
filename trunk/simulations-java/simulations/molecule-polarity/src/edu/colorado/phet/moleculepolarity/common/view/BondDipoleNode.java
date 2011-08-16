@@ -23,7 +23,7 @@ public class BondDipoleNode extends DipoleNode {
         SimpleObserver update = new SimpleObserver() {
             public void update() {
 
-                setComponents( bond.deltaElectronegativity.get(), 0 );
+                setComponentX( bond.deltaElectronegativity.get() ); // for a dipole with angle=0
 
                 // compute location of dipole, with offset
                 final double angle = bond.getAngle() - Math.PI / 2; // above the bond

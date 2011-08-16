@@ -2,9 +2,10 @@
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.Color;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 
@@ -15,7 +16,7 @@ import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
  */
 public class MolecularDipoleNode extends DipoleNode {
 
-    private static final double OFFSET = 200; // offset in the direction that the dipole points
+    private static final double OFFSET = 55; // offset in the direction that the dipole points
 
     public MolecularDipoleNode( final IMolecule molecule ) {
         super( Color.ORANGE );
@@ -26,15 +27,19 @@ public class MolecularDipoleNode extends DipoleNode {
 
                 ImmutableVector2D dipole = molecule.getDipole();
 
-                setComponents( dipole.getX(), dipole.getY() );
+                setComponentX( dipole.getMagnitude() ); // for a dipole with angle=0
 
-                // compute offset, in direction that dipole points
-                final double angle = dipole.getAngle();
-                double offsetX = PolarCartesianConverter.getX( OFFSET, angle );
-                double offsetY = PolarCartesianConverter.getY( OFFSET, angle );
+                // clear the transform
+                setOffset( 0, 0 );
+                setRotation( 0 );
 
-                // translate relative to molecule's location
-                translate( molecule.getLocation().getX() + offsetX, molecule.getLocation().getY() + offsetY );
+                // determine the location
+                Point2D p = new Point2D.Double( OFFSET, 0 );  // for a dipole with angle=0
+                Point2D offset = AffineTransform.getRotateInstance( dipole.getAngle() ).transform( p, null );
+                translate( molecule.getLocation().getX() + offset.getX(), molecule.getLocation().getY() + offset.getY() );
+
+                // rotate to match the dipole
+                rotate( dipole.getAngle() );
             }
         };
         molecule.addDipoleObserver( update );
