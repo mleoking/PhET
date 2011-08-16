@@ -1,3 +1,4 @@
+# 0.00.15 (55357) Aug 16, 2011
 If the mouse is in front of a grabbable object, show a hand cursor
 Fixed: Cursor remains as East-West cursor when in the play area
 # 0.00.14 (55300) Aug 16, 2011
