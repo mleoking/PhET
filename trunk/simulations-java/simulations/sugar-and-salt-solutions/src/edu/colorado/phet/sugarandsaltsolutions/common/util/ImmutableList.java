@@ -80,4 +80,12 @@ public class ImmutableList<T> implements Iterable<T> {
     public boolean contains( T item ) {
         return elements.contains( item );
     }
+
+    public ImmutableList<T> map( final Function1<T, T> map ) {
+        ImmutableList<T> immutableList = new ImmutableList<T>();
+        for ( T t : this ) {
+            immutableList.elements.add( map.apply( t ) );
+        }
+        return immutableList;
+    }
 }

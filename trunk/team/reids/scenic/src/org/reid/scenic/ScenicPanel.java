@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.geom.Ellipse2D;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,8 +17,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
-
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import edu.colorado.phet.sugarandsaltsolutions.common.util.ImmutableList;
 
 /**
  * This project is an attempt at a functional library for Java2D programming, see readme
@@ -52,14 +52,10 @@ public class ScenicPanel<T> extends JPanel {
     }
 
     static class Model {
-        public final Atom atom;
+        public final ImmutableList<Atom> atoms;
 
-        Model() {
-            this( new Atom( ZERO, new ImmutableVector2D( 10, 0 ) ) );
-        }
-
-        Model( Atom atom ) {
-            this.atom = atom;
+        Model( ImmutableList<Atom> atoms ) {
+            this.atoms = atoms;
         }
     }
 
@@ -71,7 +67,9 @@ public class ScenicPanel<T> extends JPanel {
         }
 
         public void paint( Graphics2D graphics2D ) {
-            new AtomView( model.atom ).paint( graphics2D );
+            for ( Atom atom : model.atoms ) {
+                new AtomView( atom ).paint( graphics2D );
+            }
         }
     }
 
@@ -122,18 +120,32 @@ public class ScenicPanel<T> extends JPanel {
                     new Thread( new Runnable() {
                         public void run() {
                             recurse( scenicPanel, new Function1<Model, Model>() {
-                                public Model apply( Model model ) {
-                                    double dt = 0.001;
-                                    ImmutableVector2D force = new ImmutableVector2D( 0, 9.8 );
-//                                    v = v0 + at, a = f/m, v = v0+ft/m
-                                    Atom atom = new Atom( model.atom.position.plus( model.atom.velocity.times( dt ) ), model.atom.velocity.plus( force.times( dt / model.atom.mass ) ) );
-                                    return new Model( atom );
+                                public Model apply( final Model model ) {
+                                    final double dt = 0.1;
+                                    final ImmutableVector2D force = new ImmutableVector2D( 0, 9.8 );
+
+                                    return new Model( model.atoms.map( new Function1<Atom, Atom>() {
+                                        public Atom apply( Atom atom ) {
+                                            //v = v0 + at, a = f/m, v = v0+ft/m
+                                            ImmutableVector2D newVelocity = atom.velocity.plus( force.times( dt / atom.mass ) );
+                                            return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < 400 ? newVelocity : new ImmutableVector2D( newVelocity.getX(), -Math.abs( newVelocity.getY() ) ) );
+                                        }
+                                    } ) );
                                 }
-                            }, new Model() );
+                            }, new Model( new ImmutableList<Atom>( createAtoms() ) ) );
                         }
                     } ).start();
                 }}.setVisible( true );
             }
         } );
+    }
+
+    private static Atom[] createAtoms() {
+        Random random = new Random();
+        Atom[] a = new Atom[500];
+        for ( int i = 0; i < a.length; i++ ) {
+            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * 600 ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ) );
+        }
+        return a;
     }
 }
