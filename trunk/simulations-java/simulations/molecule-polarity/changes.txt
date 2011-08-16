@@ -1,3 +1,4 @@
+8/16/11 align triatomic molecular dipole with E-field
 8/16/11 add bond angle manipulation
 8/16/11 fixed transforms in molecular dipole view
 8/16/11 fix rendering order of scenegraphs
