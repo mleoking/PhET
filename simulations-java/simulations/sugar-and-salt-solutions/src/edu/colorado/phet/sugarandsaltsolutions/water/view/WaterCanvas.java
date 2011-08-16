@@ -19,11 +19,12 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas.NO_READOUT;
 
@@ -117,8 +118,10 @@ public class WaterCanvas extends PhetPCanvas {
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
 
         //Create the salt and sugar buckets
-        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.green, SugarAndSaltSolutionsResources.Strings.SUGAR ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
-        saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ), new Dimension2DDouble( 200, 130 ), Color.blue, SugarAndSaltSolutionsResources.Strings.SALT ), ModelViewTransform.createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+        sugarBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115 ),
+                                                  new Dimension2DDouble( 200, 130 ), Color.green, SUGAR ), createRectangleInvertedYMapping( referenceRect, referenceRect ) );
+        saltBucket = new BucketView( new Bucket( new Point2D.Double( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115 ),
+                                                 new Dimension2DDouble( 200, 130 ), Color.blue, SALT ), createRectangleInvertedYMapping( referenceRect, referenceRect ) );
 
         //Add them to the view
         addChild( sugarBucket.getHoleNode() );
