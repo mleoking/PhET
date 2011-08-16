@@ -18,6 +18,7 @@ import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicIsosurfaceNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
+import edu.colorado.phet.moleculepolarity.common.view.MolecularDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
@@ -44,6 +45,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
 
         final BondDipoleNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC );
         addChild( bondDipoleBCNode );
+
+        final MolecularDipoleNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
+        addChild( molecularDipoleNode );
 
         final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bondAB, model.molecule.atomA, false );
         addChild( partialChargeNodeA );
@@ -108,6 +112,12 @@ public class ThreeAtomsCanvas extends MPCanvas {
                 public void apply( Boolean visible ) {
                     bondDipoleABNode.setVisible( visible );
                     bondDipoleBCNode.setVisible( visible );
+                }
+            } );
+
+            viewProperties.molecularDipoleVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    molecularDipoleNode.setVisible( visible );
                 }
             } );
 
