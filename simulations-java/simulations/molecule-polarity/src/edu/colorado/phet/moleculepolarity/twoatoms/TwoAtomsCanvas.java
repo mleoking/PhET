@@ -43,10 +43,10 @@ public class TwoAtomsCanvas extends MPCanvas {
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         addChild( bondDipoleNode );
 
-        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bond, model.molecule.atomA, false );
+        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bond );
         addChild( partialChargeNodeA );
 
-        final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.bond, model.molecule.atomB, true );
+        final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.atomB, model.molecule.bond );
         addChild( partialChargeNodeB );
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

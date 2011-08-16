@@ -23,7 +23,13 @@ public class PartialChargeNode extends PComposite {
     private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
     private static final double REF_SCALE = 1;
 
-    public PartialChargeNode( final Bond bond, final Atom atom, final boolean positive ) {
+    /**
+     * Constructor
+     *
+     * @param atom atom contains the partial charge info
+     * @param bond bond is needed for layout
+     */
+    public PartialChargeNode( final Atom atom, final Bond bond ) {
 
         final PText textNode = new PText() {{
             setFont( new PhetFont( 32 ) );
@@ -34,14 +40,14 @@ public class PartialChargeNode extends PComposite {
         SimpleObserver updater = new SimpleObserver() {
             public void update() {
 
-                final double deltaElectronegativity = bond.deltaElectronegativity.get();
+                final double partialCharge = atom.partialCharge.get();
 
-                textNode.setVisible( deltaElectronegativity != 0 ); // invisible if dipole is zero
+                textNode.setVisible( partialCharge != 0 ); // invisible if dipole is zero
 
-                if ( deltaElectronegativity != 0 ) {
+                if ( partialCharge != 0 ) {
 
                     // d+ or d-
-                    if ( ( positive && deltaElectronegativity > 0 ) || ( !positive && deltaElectronegativity < 0 ) ) {
+                    if ( partialCharge > 0 ) {
                         textNode.setText( MPStrings.DELTA + "-" );
                     }
                     else {
@@ -49,16 +55,16 @@ public class PartialChargeNode extends PComposite {
                     }
 
                     // size proportional to bond dipole magnitude
-                    final double scale = Math.abs( REF_SCALE * deltaElectronegativity / REF_MAGNITUDE );
+                    final double scale = Math.abs( REF_SCALE * partialCharge / REF_MAGNITUDE );
                     if ( scale != 0 ) {
                         textNode.setScale( scale );
                         textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() / 2 ); // origin at center
                     }
 
-                    //A vector that points in the direction we will need to move the charge node; away from the associated atom
+                    // A vector that points in the direction we will need to move the charge node (away from the associated atom)
                     ImmutableVector2D unitVectorFromBond = new ImmutableVector2D( bond.getCenter(), atom.location.get() ).getNormalizedInstance();
 
-                    //Compute the amount to move the partial charge node
+                    // Compute the amount to move the partial charge node
                     double multiplier = ( atom.getDiameter() / 2 ) + ( Math.max( getFullBoundsReference().getWidth(), getFullBoundsReference().getHeight() ) / 2 ) + 3;
                     ImmutableVector2D relativeOffset = unitVectorFromBond.times( multiplier );
                     setOffset( atom.location.get().plus( relativeOffset ).toPoint2D() );
