@@ -3,7 +3,7 @@ package edu.colorado.phet.moleculepolarity.common.view;
 
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
-import edu.colorado.phet.moleculepolarity.common.control.RotationCursorHandler;
+import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 
 /**
@@ -23,7 +23,7 @@ public class DiatomicMoleculeNode extends PhetPNode {
         addChild( new AtomNode( molecule.atomA ) );
         addChild( new AtomNode( molecule.atomB ) );
 
-        addInputEventListener( new RotationCursorHandler() );
+        addInputEventListener( new RotateCursorHandler() );
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 }

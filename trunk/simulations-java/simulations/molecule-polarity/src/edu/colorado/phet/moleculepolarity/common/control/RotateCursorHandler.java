@@ -12,8 +12,8 @@ import edu.colorado.phet.moleculepolarity.MPImages;
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
-public class RotationCursorHandler extends CursorHandler {
-    public RotationCursorHandler() {
-        super( Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATION_CURSOR, new Point(), "rotate" ) );
+public class RotateCursorHandler extends CursorHandler {
+    public RotateCursorHandler() {
+        super( Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, new Point(), "rotate" ) );
     }
 }
