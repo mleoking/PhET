@@ -27,7 +27,8 @@ import com.jme3.system.Natives;
  */
 public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
-    public static final Property<Boolean> dragExistingInFront = new Property<Boolean>( false );
+    public static final Property<Boolean> allowDraggingBehind = new Property<Boolean>( true );
+    public static final Property<Boolean> useRotationCursor = new Property<Boolean>( true );
     public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
 
@@ -76,7 +77,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         JMenu developerMenu = frame.getDeveloperMenu();
         // add items to the Developer menu here...
 
-        developerMenu.add( new PropertyCheckBoxMenuItem( "Drag existing in front", dragExistingInFront ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
     }
 
     //----------------------------------------------------------------------------
