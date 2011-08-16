@@ -4,13 +4,14 @@ package edu.colorado.phet.simsharing;
 import akka.actor.ActorRef;
 import akka.actor.Actors;
 
-import java.awt.*;
+import java.awt.AWTException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -117,7 +118,7 @@ public class Student {
                 } );
             }
         } ).start();
-        application.getIntro().clockPausedProperty.set( false );
+        application.getIntro().playButtonPressed.set( true );
     }
 
     static class MyMapper extends ObjectMapper {

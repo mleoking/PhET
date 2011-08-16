@@ -3,7 +3,7 @@ package edu.colorado.phet.gravityandorbits.test;
 
 import java.util.ArrayList;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -35,10 +35,10 @@ public class InitialConditionSampler {
         JFrame frame = new JFrame() {{
             final GravityAndOrbitsModule intro = new GravityAndOrbitsModule( null, new Property<Boolean>( false ), CARTOON, false, new Function1<ModeListParameterList, ArrayList<GravityAndOrbitsMode>>() {
                 public ArrayList<GravityAndOrbitsMode> apply( ModeListParameterList p ) {
-                    return new CartoonModeList( p.clockPaused, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
+                    return new CartoonModeList( p.playButtonPressed, p.gravityEnabled, p.stepping, p.rewinding, p.timeSpeedScale );
                 }
             }, 1, true );
-            intro.getModes().get( 1 ).p.clockPaused.set( false );
+            intro.getModes().get( 1 ).p.playButtonPressed.set( true );
             intro.showPathProperty.set( true );
             intro.getModes().get( 1 ).p.timeSpeedScale.set( 2.0 );
             intro.getModes().get( 1 ).getModel().getClock().addClockListener( new ClockAdapter() {
@@ -50,7 +50,7 @@ public class InitialConditionSampler {
                     for ( Body body : bodies ) {
                         if ( body.isCollided() || getBody( bodies, "Planet" ).getPosition().getDistance( getBody( bodies, "Moon" ).getPosition() ) > getBody( bodies, "Star" ).getRadius() * 2 ) {
                             System.out.println( alpha + "\t" + clockEvent.getSimulationTime() );
-                            intro.getModes().get( 1 ).p.clockPaused.set( true );
+                            intro.getModes().get( 1 ).p.playButtonPressed.set( false );
                             new Thread( new Runnable() {
                                 public void run() {
                                     runSim( alpha + delta, delta );

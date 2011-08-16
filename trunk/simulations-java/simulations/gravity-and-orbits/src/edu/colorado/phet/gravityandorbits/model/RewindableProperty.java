@@ -14,19 +14,19 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
  * @author Sam Reid
  */
 public class RewindableProperty<T> extends Property<T> {
-    private final Property<Boolean> clockPaused;
+    private final Property<Boolean> playButtonPressed;
     private final Property<Boolean> stepping;//if the clock is paused and the user pressed 'step', do not store a rewind point
     private final Property<Boolean> rewinding;//if the clock is paused and the user pressed 'rewind', do not store a rewind point
     private T rewindValue;//the "initial condition" tha the property can be rewound to
     private Property<Boolean> different; // true when the rewind point value is different than the property's value
     private ArrayList<VoidFunction0> rewindValueChangedListeners = new ArrayList<VoidFunction0>();
 
-    public RewindableProperty( Property<Boolean> clockPaused,
+    public RewindableProperty( Property<Boolean> playButtonPressed,
                                Property<Boolean> isStepping,
                                Property<Boolean> isRewinding,
                                T value ) {
         super( value );
-        this.clockPaused = clockPaused;
+        this.playButtonPressed = playButtonPressed;
         stepping = isStepping;
         rewinding = isRewinding;
         this.rewindValue = value;
@@ -38,7 +38,7 @@ public class RewindableProperty<T> extends Property<T> {
     public void set( T value ) {
         super.set( value );
         //If the user changed the initial conditions (as opposed to the state changing through model stepping), then store the new initial conditions, which can be rewound to
-        if ( clockPaused.get() && !stepping.get() && !rewinding.get() ) {
+        if ( !playButtonPressed.get() && !stepping.get() && !rewinding.get() ) {
             storeRewindValueNoNotify();
             for ( VoidFunction0 rewindValueChangedListener : rewindValueChangedListeners ) {
                 rewindValueChangedListener.apply();

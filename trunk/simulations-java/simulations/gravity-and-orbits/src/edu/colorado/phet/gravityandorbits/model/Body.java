@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.model;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ public class Body implements IBodyColors {
                  Function2<Body, Double, BodyRenderer> renderer,// way to associate the graphical representation directly instead of later with conditional logic or map
                  double labelAngle, boolean massSettable,
                  int maxPathLength,
-                 boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> clockPaused, Property<Boolean> stepping, Property<Boolean> rewinding,
+                 boolean massReadoutBelow, double tickValue, String tickLabel, Property<Boolean> playButtonPressed, Property<Boolean> stepping, Property<Boolean> rewinding,
                  boolean fixed ) {//sun is immobile in cartoon mode
         this.massSettable = massSettable;
         this.maxPathLength = maxPathLength;
@@ -71,13 +72,13 @@ public class Body implements IBodyColors {
         this.highlight = highlight;
         this.renderer = renderer;
         this.labelAngle = labelAngle;
-        positionProperty = new RewindableProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( x, y ) );
-        velocityProperty = new RewindableProperty<ImmutableVector2D>( clockPaused, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
+        positionProperty = new RewindableProperty<ImmutableVector2D>( playButtonPressed, stepping, rewinding, new ImmutableVector2D( x, y ) );
+        velocityProperty = new RewindableProperty<ImmutableVector2D>( playButtonPressed, stepping, rewinding, new ImmutableVector2D( vx, vy ) );
         accelerationProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
         forceProperty = new Property<ImmutableVector2D>( new ImmutableVector2D( 0, 0 ) );
-        massProperty = new RewindableProperty<Double>( clockPaused, stepping, rewinding, mass );
+        massProperty = new RewindableProperty<Double>( playButtonPressed, stepping, rewinding, mass );
         diameterProperty = new Property<Double>( diameter );
-        collidedProperty = new RewindableProperty<Boolean>( clockPaused, stepping, rewinding, false );
+        collidedProperty = new RewindableProperty<Boolean>( playButtonPressed, stepping, rewinding, false );
         density = mass / getVolume();
 
         //Synchronize the scaled position, which accounts for the scale

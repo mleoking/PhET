@@ -2,7 +2,8 @@
 
 package edu.colorado.phet.gravityandorbits.module;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Image;
 import java.awt.geom.Line2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -15,16 +16,20 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.gravityandorbits.GAOStrings;
+import edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication;
 import edu.colorado.phet.gravityandorbits.model.Body;
 import edu.colorado.phet.gravityandorbits.model.BodyState;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsClock;
 import edu.colorado.phet.gravityandorbits.model.GravityAndOrbitsModel;
-import edu.colorado.phet.gravityandorbits.view.*;
+import edu.colorado.phet.gravityandorbits.view.BodyNode;
+import edu.colorado.phet.gravityandorbits.view.BodyRenderer;
+import edu.colorado.phet.gravityandorbits.view.EarthMassReadoutNode;
+import edu.colorado.phet.gravityandorbits.view.SpaceStationMassReadoutNode;
+import edu.colorado.phet.gravityandorbits.view.VectorNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
 import static edu.colorado.phet.common.phetcommon.view.util.BufferedImageUtils.multiScaleToWidth;
-import static edu.colorado.phet.gravityandorbits.GravityAndOrbitsApplication.RESOURCES;
 import static edu.colorado.phet.gravityandorbits.view.MeasuringTape.milesToMeters;
 
 /**
@@ -237,7 +242,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                    earthSpaceStation.spaceStation.radius * 2000,
                    earthSpaceStation.spaceStation.vx, earthSpaceStation.spaceStation.vy, earthSpaceStation.spaceStation.mass, Color.gray, Color.white,
                    getImageRenderer( "space-station.png" ), -Math.PI / 4, true, maxPathLength, true,
-                   earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.clockPaused, p.stepping, p.rewinding, earthSpaceStation.spaceStation.fixed );
+                   earthSpaceStation.spaceStation.mass, GAOStrings.SPACE_STATION, p.playButtonPressed, p.stepping, p.rewinding, earthSpaceStation.spaceStation.fixed );
         }
     }
 
@@ -248,9 +253,9 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
                 int inset = 5;//distance between icons
                 addChild( new PhetPPath( new Rectangle2D.Double( 20, 0, 1, 1 ), new Color( 0, 0, 0, 0 ) ) );
                 addIcon( inset, new PImage( new BodyRenderer.SphereRenderer( Color.yellow, Color.white, 30 ).toImage() ), sun );
-                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "earth_satellite.gif" ), 30 ) ), earth );
-                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "moon.png" ), 30 ) ), moon );
-                addIcon( inset, new PImage( multiScaleToWidth( RESOURCES.getImage( "space-station.png" ), 30 ) ), spaceStation );
+                addIcon( inset, new PImage( multiScaleToWidth( GravityAndOrbitsApplication.RESOURCES.getImage( "earth_satellite.gif" ), 30 ) ), earth );
+                addIcon( inset, new PImage( multiScaleToWidth( GravityAndOrbitsApplication.RESOURCES.getImage( "moon.png" ), 30 ) ), moon );
+                addIcon( inset, new PImage( multiScaleToWidth( GravityAndOrbitsApplication.RESOURCES.getImage( "space-station.png" ), 30 ) ), spaceStation );
             }
 
             private void addIcon( int inset, PNode icon, boolean visible ) {
@@ -266,7 +271,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
             super( GAOStrings.MOON, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.magenta, Color.white,
                    //putting this number too large makes a kink or curly-q in the moon trajectory, which should be avoided
                    getRenderer( "moon.png", body.mass ), -3 * Math.PI / 4, massSettable, maxPathLength,
-                   massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+                   massReadoutBelow, body.mass, GAOStrings.OUR_MOON, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
         }
 
         @Override protected void doReturnBody( GravityAndOrbitsModel model ) {
@@ -291,7 +296,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
         public Earth( int maxPathLength, BodyConfiguration body ) {
             super( GAOStrings.PLANET, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.gray, Color.lightGray,
                    getRenderer( "earth_satellite.gif", body.mass ), -Math.PI / 4, true,
-                   maxPathLength, true, body.mass, GAOStrings.EARTH, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+                   maxPathLength, true, body.mass, GAOStrings.EARTH, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
         }
     }
 
@@ -300,7 +305,7 @@ public class ModeList extends ArrayList<GravityAndOrbitsMode> {
 
         public Sun( int maxPathLength, final BodyConfiguration body ) {
             super( GAOStrings.STAR, body.x, body.y, body.radius * 2, body.vx, body.vy, body.mass, Color.yellow, Color.white,
-                   SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.clockPaused, p.stepping, p.rewinding, body.fixed );
+                   SUN_RENDERER, -Math.PI / 4, true, maxPathLength, true, body.mass, GAOStrings.OUR_SUN, p.playButtonPressed, p.stepping, p.rewinding, body.fixed );
             this.body = body;
         }
 
