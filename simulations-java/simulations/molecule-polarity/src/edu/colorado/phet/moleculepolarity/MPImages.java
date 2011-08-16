@@ -17,5 +17,5 @@ public class MPImages {
 
     private static final PhetResources RESOURCES = new PhetResources( MPConstants.PROJECT_NAME );
 
-    public static final Image ROTATION_CURSOR = RESOURCES.getImage( "rotationCursor.png" );
+    public static final Image ROTATE_CURSOR = RESOURCES.getImage( "rotateCursor.png" );
 }
