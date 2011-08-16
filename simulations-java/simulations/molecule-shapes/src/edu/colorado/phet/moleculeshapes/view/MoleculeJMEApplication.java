@@ -497,10 +497,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public PairGroup getElectronPairUnderPointer() {
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates(
-                new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = cam.getWorldCoordinates(
-                new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
         Ray ray = new Ray( click3d, dir );
         rootNode.collideWith( ray, results );
         for ( CollisionResult result : results ) {
