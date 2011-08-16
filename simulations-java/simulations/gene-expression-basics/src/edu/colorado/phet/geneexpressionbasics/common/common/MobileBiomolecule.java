@@ -3,11 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.common.common;
 
 import java.awt.Color;
 import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
-import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 
 /**
@@ -34,25 +30,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
         super( initialShape );
         this.baseColor = baseColor;
-    }
-
-    public void translate( ImmutableVector2D translationVector ) {
-        AffineTransform translationTransform = AffineTransform.getTranslateInstance( translationVector.getX(), translationVector.getY() );
-        shapeProperty.set( translationTransform.createTransformedShape( shapeProperty.get() ) );
-    }
-
-    public void setPosition( Point2D newPos ) {
-        // This default implementation assumes that the position indicator is
-        // defined by the center of the shape's bounds.  Override if some
-        // other behavior is required.
-        translate( new Vector2D( newPos.getX() - shapeProperty.get().getBounds2D().getCenterX(),
-                                 newPos.getY() - shapeProperty.get().getBounds2D().getCenterY() ) );
-    }
-
-    public Point2D getPosition() {
-        // Assumes that the center of the shape is the position.  Override if
-        // other behavior is needed.
-        return new Point2D.Double( shapeProperty.get().getBounds2D().getCenterX(), shapeProperty.get().getBounds2D().getCenterY() );
     }
 
     public Color getBaseColor() {
