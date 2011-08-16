@@ -15,7 +15,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class Atom implements Resettable {
 
     public final Property<Double> electronegativity;
-    public final Property<ImmutableVector2D> location; // absolute location
+    public final Property<ImmutableVector2D> location; // global location
 
     private final String name;
     private final double diameter;
