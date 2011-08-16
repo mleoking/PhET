@@ -35,6 +35,7 @@ MEDIUM
 - add minor and major ticks to EN control
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 - 2/3 Atoms: canvas layout should be based on molecule location
+- in Bond, we are setting partial charges of atoms to the delta EN. This works but isn't accurate, do we need a better model?
 
 LOW
 - "View" check box for Periodic Table
