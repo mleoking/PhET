@@ -93,9 +93,8 @@ public class WaterCanvas extends PhetPCanvas {
         //Set the transform from stage coordinates to screen coordinates
         setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
 
-        final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{
-            translate( 0, 300 );
-        }};
+        //Create and add a small icon of the beaker to show that this tab is a zoomed in version of it
+        final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{translate( 0, 300 ); }};
         addChild( miniBeakerNode );
 
         //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
@@ -120,7 +119,7 @@ public class WaterCanvas extends PhetPCanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
-        Dimension2DDouble bucketSize = new Dimension2DDouble( 200, 130 );
+        Dimension2DDouble bucketSize = new Dimension2DDouble( 130, 60 );
         sugarBucket = new BucketView( new Bucket( canvasWidth / 2 + 210, -canvasHeight + 115, bucketSize, green, SUGAR ), bucketTransform );
         saltBucket = new BucketView( new Bucket( canvasWidth / 2, -canvasHeight + 115, bucketSize, blue, SALT ), bucketTransform );
 
