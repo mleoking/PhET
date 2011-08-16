@@ -1,6 +1,8 @@
 package edu.colorado.phet.moleculeshapes.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,14 +44,13 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
+import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
  * TODO: double-check naming with double/triple bonds
- * TODO: fix firefox failure (where to put libs?
  * TODO: consider allowing more electron pairs, since we can't show the double/triple bond differences much!
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
- * TODO: cursor stuff!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
@@ -175,6 +176,12 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         inputManager.addListener(
                 new AnalogListener() {
                     public void onAnalog( String name, float value, float tpf ) {
+
+                        //Whenever there is a mouse move event, make sure the cursor is in the right state.
+                        //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
+                        //And wouldn't change back.  By always updating the cursor at every mouse move, we can be sure it is always correct.
+                        JmeCanvasContext context = (JmeCanvasContext) getContext();
+                        context.getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
                         if ( dragging ) {
                             synchronized ( MoleculeJMEApplication.this ) {
                                 switch( dragMode ) {
