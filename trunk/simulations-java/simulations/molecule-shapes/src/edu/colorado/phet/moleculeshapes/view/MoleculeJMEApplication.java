@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.JComponent;
+
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
@@ -41,6 +43,7 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.Spatial.CullHint;
@@ -186,6 +189,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
                         //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
                         PairGroup pair = getElectronPairUnderPointer();
+
+                        JComponent c = getComponentUnderPointer();
+
                         int cursor = pair == null ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR;
                         context.getCanvas().setCursor( Cursor.getPredefinedCursor( cursor ) );
 
@@ -509,6 +515,28 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
         return null;
     }
+
+    public JComponent getComponentUnderPointer() {
+        CollisionResults results = new CollisionResults();
+        Vector2f click2d = inputManager.getCursorPosition();
+        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
+        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
+        Ray ray = new Ray( click3d, dir );
+        preGuiNode.collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
+        System.out.println( "MoleculeJMEApplication.getComponentUnderPointer" );
+        for ( CollisionResult result : results ) {
+
+            Geometry x = result.getGeometry();
+            System.out.println( "x = " + x.getClass() );
+            if ( x instanceof HUDNode ) {
+                HUDNode node = (HUDNode) x;
+                System.out.println( "MoleculeJMEApplication.getComponentUnderPointer" );
+//                return node.
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Given a spatial target, return any associated electron pair, or null if there is none
