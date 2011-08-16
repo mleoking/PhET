@@ -30,7 +30,7 @@ public abstract class DipoleNode extends PPath {
     private static final double TAIL_WIDTH = 4; // similar to Jmol
     private static final double FRACTIONAL_HEAD_HEIGHT = 0.5; // when the head size is less than fractionalHeadHeight * arrow length, the head will be scaled.
 
-    private double x, y;
+    private double x;
 
     public DipoleNode( Color color ) {
         super();
@@ -38,16 +38,16 @@ public abstract class DipoleNode extends PPath {
         update();
     }
 
-    protected void setComponents( double x, double y ) {
-        if ( x != this.x || y != this.y ) {
+    protected void setComponentX( double x ) {
+        if ( x != this.x ) {
             this.x = x;
-            this.y = y;
             update();
         }
     }
 
     // Updates the arrow to match the node's state.
     private void update() {
+        final double y = 0;
         final double magnitude = PolarCartesianConverter.getRadius( x, y );
         if ( magnitude == 0 ) {
             setPathTo( new Rectangle2D.Double() ); // because Arrow doesn't handle zero-length arrows
