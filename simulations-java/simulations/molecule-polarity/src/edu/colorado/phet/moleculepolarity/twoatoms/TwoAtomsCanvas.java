@@ -56,14 +56,11 @@ public class TwoAtomsCanvas extends MPCanvas {
 
         // rendering order
         {
+            // plates
             addChild( negativePlateNode );
             addChild( positivePlateNode );
-            addChild( moleculeNode );
-            addChild( partialChargeNodeA );
-            addChild( partialChargeNodeB );
-            addChild( bondDipoleNode );
-            addChild( electrostaticPotentialNode );
-            addChild( electronDensityNode );
+
+            // controls
             addChild( enControlA );
             addChild( enControlB );
             addChild( viewControlsNode );
@@ -71,6 +68,14 @@ public class TwoAtomsCanvas extends MPCanvas {
             addChild( eFieldControlsNode );
             addChild( resetAllButtonNode );
             addChild( bondTypeNode );
+
+            // molecule
+            addChild( moleculeNode );
+            addChild( partialChargeNodeA );
+            addChild( partialChargeNodeB );
+            addChild( bondDipoleNode );
+            addChild( electrostaticPotentialNode );
+            addChild( electronDensityNode );
         }
 
         // layout
