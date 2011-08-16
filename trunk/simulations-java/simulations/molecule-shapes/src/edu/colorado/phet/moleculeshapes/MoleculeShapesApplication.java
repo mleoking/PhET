@@ -18,6 +18,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuIte
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 
+import com.jme3.system.JmeSystem;
 import com.jme3.system.Natives;
 
 /**
@@ -89,13 +90,20 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         Logger.getLogger( "de.lessvoid" ).setLevel( Level.SEVERE );
         Logger.getLogger( "com.jme3" ).setLevel( Level.SEVERE );
 
-        // create a temporary directory to hold native libs
-        final File tempDir = new File( System.getProperty( "system.io.tmpdir" ), "phet-" + System.currentTimeMillis() );
-        tempDir.mkdirs();
-        final String path = tempDir.getAbsolutePath();
-        System.out.println( "Extracting native JME3 libraries to: " + path );
-        Natives.setExtractionDir( path );
-        tempDir.deleteOnExit();
+        // since we are including the JME3 native lib dependencies in the JNLP, don't load if we are running online
+        if ( System.getProperty( "javawebstart.version" ) != null ) {
+            // see http://jmonkeyengine.org/wiki/doku.php/jme3:webstart
+            JmeSystem.setLowPermissions( true );
+        }
+        else {
+            // create a temporary directory to hold native libs
+            final File tempDir = new File( System.getProperty( "system.io.tmpdir" ), "phet-" + System.currentTimeMillis() );
+            tempDir.mkdirs();
+            final String path = tempDir.getAbsolutePath();
+            System.out.println( "Extracting native JME3 libraries to: " + path );
+            Natives.setExtractionDir( path );
+            tempDir.deleteOnExit();
+        }
 
         /*
         * If you want to customize your application (look-&-feel, window size, etc)
