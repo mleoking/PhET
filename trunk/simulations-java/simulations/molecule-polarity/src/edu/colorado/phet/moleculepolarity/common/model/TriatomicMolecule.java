@@ -35,13 +35,13 @@ public class TriatomicMolecule implements IMolecule {
 
         this.location = location;
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
-        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
-        atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
+        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
+        atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         bondAB = new Bond( atomA, atomB );
         bondBC = new Bond( atomB, atomC );
         angle = new Property<Double>( 0d );
-        bondAngleA = new Property<Double>( Math.PI );
-        bondAngleC = new Property<Double>( 0d );
+        bondAngleA = new Property<Double>( 0.75 * Math.PI );
+        bondAngleC = new Property<Double>( 0.25 * Math.PI );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
         // update atom locations
