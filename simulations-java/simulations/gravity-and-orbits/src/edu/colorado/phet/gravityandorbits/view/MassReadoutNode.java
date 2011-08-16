@@ -1,13 +1,12 @@
 // Copyright 2002-2011, University of Colorado
-
 package edu.colorado.phet.gravityandorbits.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.SettableNot;
+import edu.colorado.phet.common.phetcommon.model.property.Not;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -56,7 +55,7 @@ public abstract class MassReadoutNode extends PNode {
                 updateLocation.propertyChange( null );
             }
         } );
-        new And( visible, new SettableNot( bodyNode.getBody().getCollidedProperty() ) ) {{
+        new And( visible, new Not( bodyNode.getBody().getCollidedProperty() ) ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
                     setVisible( get() );
