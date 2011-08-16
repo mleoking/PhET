@@ -177,11 +177,18 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 new AnalogListener() {
                     public void onAnalog( String name, float value, float tpf ) {
 
+                        //By always updating the cursor at every mouse move, we can be sure it is always correct.
                         //Whenever there is a mouse move event, make sure the cursor is in the right state.
+
                         //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
-                        //And wouldn't change back.  By always updating the cursor at every mouse move, we can be sure it is always correct.
+                        //And wouldn't change back.
                         JmeCanvasContext context = (JmeCanvasContext) getContext();
-                        context.getCanvas().setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+
+                        //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
+                        PairGroup pair = getElectronPairUnderPointer();
+                        int cursor = pair == null ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR;
+                        context.getCanvas().setCursor( Cursor.getPredefinedCursor( cursor ) );
+
                         if ( dragging ) {
                             synchronized ( MoleculeJMEApplication.this ) {
                                 switch( dragMode ) {
