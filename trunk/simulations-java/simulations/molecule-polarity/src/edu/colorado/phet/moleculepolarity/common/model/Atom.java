@@ -16,6 +16,7 @@ public class Atom implements Resettable {
 
     public final Property<Double> electronegativity;
     public final Property<ImmutableVector2D> location; // global location
+    public final Property<Double> partialCharge;
 
     private final String name;
     private final double diameter;
@@ -31,6 +32,7 @@ public class Atom implements Resettable {
         this.color = color;
         this.electronegativity = new Property<Double>( electronegativity );
         this.location = new Property<ImmutableVector2D>( location );
+        this.partialCharge = new Property<Double>( 0d ); // partial charge is zero until this atom participates in a bond
     }
 
     public void reset() {

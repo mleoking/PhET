@@ -49,12 +49,12 @@ public class ThreeAtomsCanvas extends MPCanvas {
         final MolecularDipoleNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
         addChild( molecularDipoleNode );
 
-        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.bondAB, model.molecule.atomA, false );
+        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
         addChild( partialChargeNodeA );
 
         //TODO what to do about partial charge for atom B?
 
-        final PartialChargeNode partialChargeNodeC = new PartialChargeNode( model.molecule.bondBC, model.molecule.atomC, true );
+        final PartialChargeNode partialChargeNodeC = new PartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
         addChild( partialChargeNodeC );
 
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );

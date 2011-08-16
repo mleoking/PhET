@@ -34,10 +34,13 @@ public class Bond {
             }
         } );
 
-        // update dipole magnitude when electronegativity of either atom changes
+        // when EN changes, update dipole and partial charges
         VoidFunction1<Double> electronegativityObserver = new VoidFunction1<Double>() {
             public void apply( Double aDouble ) {
-                deltaElectronegativity.set( atom2.electronegativity.get() - atom1.electronegativity.get() );
+                final double deltaEN = atom2.electronegativity.get() - atom1.electronegativity.get();
+                deltaElectronegativity.set( deltaEN );
+                atom1.partialCharge.set( -deltaEN ); //TODO this works, but partial charge is not equivalent to deltaEN. Do we need a more accurate model?
+                atom2.partialCharge.set( deltaEN );
             }
         };
         atom1.electronegativity.addObserver( electronegativityObserver );
