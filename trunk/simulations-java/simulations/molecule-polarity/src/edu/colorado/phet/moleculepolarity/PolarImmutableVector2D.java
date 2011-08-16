@@ -14,6 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 public class PolarImmutableVector2D extends ImmutableVector2D {
 
     public PolarImmutableVector2D( double magnitude, double angle ) {
-        super( PolarCartesianConverter.getX( magnitude, angle ), PolarCartesianConverter.getX( magnitude, angle ) );
+        super( PolarCartesianConverter.getX( magnitude, angle ), PolarCartesianConverter.getY( magnitude, angle ) );
     }
 }
