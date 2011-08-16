@@ -1,0 +1,65 @@
+PhET Weekly Progress Report
+John Blanco
+August 9th, 2011
+
+Time period covered: August 3rd through August 9th.
+
+Balance and Torque - 17.0 hrs
+
+•	Added more friction and some thresholding so that balance will stabilize more quickly.
+•	Simplified model for torque on plank based on review by Mike D.
+•	Implemented the distance vectors.
+•	Moved supports to avoid overlap of red x and force vectors.
+•	Made it easier to place objects on the plank by having the decision point be their centers rather than the bottom.
+•	Improved overall layout of control panels.
+•	Published a version for review.
+•	Responded to Emily M's email with feedback from one of the teachers with whom she is working.
+•	Integrated scrolling tool box for the masses (in collaboration with Sam R).
+•	Implemented placement algorithm that prevents masses from being placed at the same location on the plank.
+•	Fixed issues with center for mass for asymmetrical masses (which are basically the people).
+•	Fixed issues with layout of masses box.
+•	Made the objects grabbed off of the plank be better positioned under the user's mouse.
+•	Met with design team and separately with Ariel P.
+•	Wrote up and circulated notes from design team meeting.
+
+Gene Expression Basics - 12.5 hrs
+
+•	Created a utility function for producing smoothed shapes from a set of points.
+•	Improved layout of tool box.
+•	Modified genes to have explicitly specified regulatory and transcribed regions.
+•	Moved first gene to (0,0) so that initial scrolling doesn't occur.
+•	Made DNA longer so that ends are not seen under the vast majority of circumstances.
+•	Improved the shape of the ribosome.
+•	Added gradients to biomolecules for a better look.
+•	Added Reset All functionality.
+
+States of Matter Basics - 1.0 hrs
+
+•	Reviewed design doc, sent questions to Emily M.
+
+Common Code - 3.0 hrs
+
+•	Verified #3031 - Implementation of retainall for ObservableList.
+•	Changed Vector2DNode to use ImmutableVector where appropriate.
+•	Worked with Sam R to make the scrollable kits into common code.
+
+Environment - 2.0 hrs
+
+•	Still not getting a response from JR about putting 10.7 on the PhEt Test Mac.  I'll stop by his office this week.
+•	Got IntelliJ working on the PhET Test Mac (in collaboration with Sam R).
+
+Meetings, Email, and Other Administrative Overhead - 4.5 hrs
+
+•	Weekly status report.
+•	July vacation and sick leave form.
+•	Dealt with some weird problem with Google Docs and my CU account.
+•	Reviewed, prioritized, and updated Unfuddle issues.
+•	Normal email and administrative overhead.
+
+Vacation, Holiday, and Sick Leave - 0 hrs
+
+What’s Next
+
+•	Continue developing Gene Expression simulation.
+•	Continue developing Balance & Torque simulation.
+•	Continue developing States of Matter: Basics.
