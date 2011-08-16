@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D.Double;
 
+import javax.swing.*;
+
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
@@ -173,6 +175,20 @@ public class MoleculeShapesControlPanel extends PNode {
 
         private BondTypeNode( final PNode graphic, int bondOrder, String type ) {
             this.bondOrder = bondOrder;
+
+            // custom cursor handler for only showing hand when it is enabled
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseEntered( PInputEvent event ) {
+                    if ( enabled ) {
+                        ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+                    }
+                }
+
+                @Override public void mouseExited( PInputEvent event ) {
+                    ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+                }
+            } );
+
             addChild( graphic );
             addChild( new PText( type ) {{
                 setFont( new PhetFont( 12 ) );
