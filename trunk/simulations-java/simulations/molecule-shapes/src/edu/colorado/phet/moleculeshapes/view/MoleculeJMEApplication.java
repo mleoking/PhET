@@ -1,15 +1,13 @@
 package edu.colorado.phet.moleculeshapes.view;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import javax.swing.JComponent;
+import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
@@ -128,38 +126,53 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         initializeResources();
 
+        // add an offset to the left, since we have a control panel on the right
         rootNode.setLocalTranslation( new Vector3f( -4.5f, 0, 0 ) );
 
+        // hook up mouse-move handlers
         inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
         inputManager.addMapping( MoleculeJMEApplication.MAP_RIGHT, new MouseAxisTrigger( MouseInput.AXIS_X, false ) );
         inputManager.addMapping( MoleculeJMEApplication.MAP_UP, new MouseAxisTrigger( MouseInput.AXIS_Y, false ) );
         inputManager.addMapping( MoleculeJMEApplication.MAP_DOWN, new MouseAxisTrigger( MouseInput.AXIS_Y, true ) );
 
+        // hook up mouse-button handlers
         inputManager.addMapping( MAP_LMB, new MouseButtonTrigger( MouseInput.BUTTON_LEFT ) );
         inputManager.addMapping( MAP_MMB, new MouseButtonTrigger( MouseInput.BUTTON_MIDDLE ) );
 
+        /*---------------------------------------------------------------------------*
+        * mouse-button presses
+        *----------------------------------------------------------------------------*/
         inputManager.addListener(
                 new ActionListener() {
-                    public void onAction( String name, boolean value, float tpf ) {
+                    public void onAction( String name, boolean isMouseDown, float tpf ) {
                         // record whether the mouse button is down
                         synchronized ( MoleculeJMEApplication.this ) {
-                            if ( name.equals( MAP_LMB ) ) {
-                                dragging = value;
 
-                                if ( dragging ) {
-                                    PairGroup pair = getElectronPairUnderPointer();
-                                    if ( pair != null ) {
-                                        dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
-                                        draggedParticle = pair;
-                                        pair.userControlled.set( true );
-                                    }
-                                    else {
-                                        // set up default drag mode
-                                        dragMode = DragMode.MOLECULE_ROTATE;
+                            // on left mouse button change
+                            if ( name.equals( MAP_LMB ) ) {
+
+                                if ( isMouseDown ) {
+                                    // for dragging, ignore mouse presses over the HUD
+                                    boolean mouseOverInterface = getComponentUnderPointer( Mouse.getX(), Mouse.getY() ) != null;
+                                    if ( !mouseOverInterface ) {
+                                        dragging = true;
+
+                                        PairGroup pair = getElectronPairUnderPointer();
+                                        if ( pair != null ) {
+                                            // we are over a pair group, so start the drag on it
+                                            dragMode = DragMode.PAIR_EXISTING_SPHERICAL;
+                                            draggedParticle = pair;
+                                            pair.userControlled.set( true );
+                                        }
+                                        else {
+                                            // set up default drag mode
+                                            dragMode = DragMode.MOLECULE_ROTATE;
+                                        }
                                     }
                                 }
                                 else {
                                     // not dragging.
+                                    dragging = false;
 
                                     // release an electron pair if we were dragging it
                                     if ( dragMode == DragMode.PAIR_FRESH_PLANAR || dragMode == DragMode.PAIR_EXISTING_SPHERICAL ) {
@@ -167,7 +180,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                     }
                                 }
                             }
-                            if ( name.equals( MAP_MMB ) ) {
+
+                            // kill any pair groups under the middle mouse button press
+                            if ( isMouseDown && name.equals( MAP_MMB ) ) {
                                 PairGroup pair = getElectronPairUnderPointer();
                                 if ( pair != null ) {
                                     molecule.removePair( pair );
@@ -176,24 +191,17 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                         }
                     }
                 }, MAP_LMB, MAP_MMB );
+
+        /*---------------------------------------------------------------------------*
+        * mouse motion
+        *----------------------------------------------------------------------------*/
         inputManager.addListener(
                 new AnalogListener() {
                     public void onAnalog( String name, float value, float tpf ) {
 
                         //By always updating the cursor at every mouse move, we can be sure it is always correct.
                         //Whenever there is a mouse move event, make sure the cursor is in the right state.
-
-                        //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
-                        //And wouldn't change back.
-                        JmeCanvasContext context = (JmeCanvasContext) getContext();
-
-                        //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
-                        PairGroup pair = getElectronPairUnderPointer();
-
-                        JComponent c = getComponentUnderPointer();
-
-                        int cursor = pair == null ? Cursor.DEFAULT_CURSOR : Cursor.HAND_CURSOR;
-                        context.getCanvas().setCursor( Cursor.getPredefinedCursor( cursor ) );
+                        updateCursor();
 
                         if ( dragging ) {
                             synchronized ( MoleculeJMEApplication.this ) {
@@ -414,6 +422,35 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         preGuiNode.attachChild( controlPanel );
     }
 
+    private void updateCursor() {
+        //This solves a problem that we saw that: when there was no padding or other component on the side of the canvas, the mouse would become East-West resize cursor
+        //And wouldn't change back.
+        JmeCanvasContext context = (JmeCanvasContext) getContext();
+        Canvas canvas = context.getCanvas();
+
+        //If the mouse is in front of a grabbable object, show a hand, otherwise show the default cursor
+        PairGroup pair = getElectronPairUnderPointer();
+
+        Component component = getComponentUnderPointer( Mouse.getX(), Mouse.getY() );
+
+        if ( dragging && dragMode == DragMode.MOLECULE_ROTATE ) {
+            // rotating the molecule. for now, trying out the "move" cursor
+            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.MOVE_CURSOR ) );
+        }
+        else if ( pair != null || dragging ) {
+            // over a pair group, OR dragging one
+            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+        }
+        else if ( component != null ) {
+            // over a HUD node, so set the cursor to what the component would want
+            canvas.setCursor( component.getCursor() );
+        }
+        else {
+            // default to the default cursor
+            canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+        }
+    }
+
     private void onGeometryChange() {
         if ( showGeometryButtonNode != null ) {
             showGeometryButtonNode.setCullHint( molecule.getLonePairs().isEmpty() ? CullHint.Always : CullHint.Inherit );
@@ -516,22 +553,18 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         return null;
     }
 
-    public JComponent getComponentUnderPointer() {
+    public Component getComponentUnderPointer( int x, int y ) {
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-        Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
-        Ray ray = new Ray( click3d, dir );
         preGuiNode.collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
-        System.out.println( "MoleculeJMEApplication.getComponentUnderPointer" );
         for ( CollisionResult result : results ) {
 
-            Geometry x = result.getGeometry();
-            System.out.println( "x = " + x.getClass() );
-            if ( x instanceof HUDNode ) {
-                HUDNode node = (HUDNode) x;
-                System.out.println( "MoleculeJMEApplication.getComponentUnderPointer" );
-//                return node.
+            Geometry geometry = result.getGeometry();
+            if ( geometry instanceof HUDNode ) {
+                HUDNode node = (HUDNode) geometry;
+                Vector3f hitPoint = node.transformEventCoordinates( click2d.x, click2d.y );
+                Component component = node.componentAt( (int) hitPoint.x, (int) hitPoint.y );
+                return component;
             }
         }
         return null;

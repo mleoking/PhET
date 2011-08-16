@@ -161,7 +161,7 @@ public class HUDNode extends Geometry {
      * @param y Screen Y (JME)
      * @return Transformed position, with x and y in the vector. Z is basically useless (we assume an orthographic display)
      */
-    private Vector3f transformEventCoordinates( int x, int y ) {
+    public Vector3f transformEventCoordinates( float x, float y ) {
         // do the coordinate transform
         Vector3f transformed = getWorldTransform().transformInverseVector( new Vector3f( x, y, 0 ), new Vector3f() );
 
