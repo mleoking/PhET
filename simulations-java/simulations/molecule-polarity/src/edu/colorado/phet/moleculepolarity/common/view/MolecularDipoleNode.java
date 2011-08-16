@@ -24,8 +24,7 @@ public class MolecularDipoleNode extends DipoleNode {
         SimpleObserver update = new SimpleObserver() {
             public void update() {
 
-                ImmutableVector2D dipole = molecule.getMolecularDipole();
-                System.out.println( "MolecularDipoleNode.update magnitude=" + dipole.getMagnitude() + " angle=" + Math.toDegrees( dipole.getAngle() ) );
+                ImmutableVector2D dipole = molecule.getDipole();
 
                 setComponents( dipole.getX(), dipole.getY() );
 
@@ -38,6 +37,6 @@ public class MolecularDipoleNode extends DipoleNode {
                 translate( molecule.getLocation().getX() + offsetX, molecule.getLocation().getY() + offsetY );
             }
         };
-        molecule.addMolecularDipoleObserver( update );
+        molecule.addDipoleObserver( update );
     }
 }

@@ -1,3 +1,5 @@
+8/15/11 tweak molecular dipole interface and fields
+8/15/11 make molecule location a simple field, doesn't need to be a Property
 8/15/11 intermediate implementation of molecular dipole model and view, not functional yet
 8/15/11 generalize 2D isosurface placeholder, add to triatomic molecule
 8/15/11 generalize "rotatable molecule" interface, add rotation handler to triatomic molecule

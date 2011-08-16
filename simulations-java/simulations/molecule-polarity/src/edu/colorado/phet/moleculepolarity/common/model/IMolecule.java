@@ -11,10 +11,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public interface IMolecule {
 
-    public ImmutableVector2D getMolecularDipole();
-
-    public void addMolecularDipoleObserver( SimpleObserver observer );
-
     // gets an array of the molecule's atoms
     public Atom[] getAtoms();
 
@@ -26,6 +22,12 @@ public interface IMolecule {
 
     // gets the rotation angle, in radians
     public double getAngle();
+
+    // gets the molecular dipole
+    public ImmutableVector2D getDipole();
+
+    // adds an observer of molecular dipole changes
+    public void addDipoleObserver( SimpleObserver observer );
 
     // tells the atom whether it's being dragged
     public void setDragging( boolean dragging );
