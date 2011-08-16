@@ -1,3 +1,5 @@
+8/16/11 fix rendering order of scenegraphs
+8/16/11 add bond dipole to model
 8/16/11 add partial charge to atom model
 8/16/11 restore molecular dipole
 # 0.00.09 (55303) Aug 16, 2011

@@ -38,37 +38,32 @@ public class RealMoleculesCanvas extends MPCanvas {
     public RealMoleculesCanvas( RealMoleculesModel model, final ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
-        final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
-        addChild( viewerNode );
-
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, MPStrings.BOND_DIPOLES ) );
-        addChild( viewControlsNode );
-
-        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
-        addChild( isosurfaceControlsNode );
-
-        PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
-        addChild( eFieldControlsNode );
-
-        Resettable[] resettables = new Resettable[] { model, viewProperties };
-        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
-        addChild( resetAllButtonNode );
-
+        // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
-        addChild( negativePlateNode );
-
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        addChild( positivePlateNode );
-
-        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode( model.currentMolecule, viewerNode );
-        addChild( periodicTableNode );
-
-        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
-        addChild( moleculeComboBox );
-
+        final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, MPStrings.BOND_DIPOLES ) );
+        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
+        PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame, 16, Color.BLACK, Color.YELLOW );
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
-        if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
-            addChild( scriptNode );
+        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode( model.currentMolecule, viewerNode );
+        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
+
+        // rendering order
+        {
+            addChild( negativePlateNode );
+            addChild( positivePlateNode );
+            addChild( viewerNode );
+            addChild( viewControlsNode );
+            addChild( isosurfaceControlsNode );
+            addChild( eFieldControlsNode );
+            addChild( resetAllButtonNode );
+            if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
+                addChild( scriptNode );
+            }
+            addChild( periodicTableNode );
+            addChild( moleculeComboBox );
         }
 
         // layout

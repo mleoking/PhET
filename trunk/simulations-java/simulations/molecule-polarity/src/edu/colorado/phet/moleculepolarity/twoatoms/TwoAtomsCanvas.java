@@ -37,50 +37,41 @@ public class TwoAtomsCanvas extends MPCanvas {
     public TwoAtomsCanvas( TwoAtomsModel model, ViewProperties viewProperties, Frame parentFrame ) {
         super();
 
+        // nodes
+        PNode negativePlateNode = new NegativePlateNode( model.eField );
+        PNode positivePlateNode = new PositivePlateNode( model.eField );
         DiatomicMoleculeNode moleculeNode = new DiatomicMoleculeNode( model.molecule );
-        addChild( moleculeNode );
-
-        final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
-        addChild( bondDipoleNode );
-
         final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bond );
-        addChild( partialChargeNodeA );
-
         final PartialChargeNode partialChargeNodeB = new PartialChargeNode( model.molecule.atomB, model.molecule.bond );
-        addChild( partialChargeNodeB );
-
+        final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
+        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
+        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
         ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        addChild( enControlA );
-        addChild( enControlB );
-
-        final PNode bondTypeNode = new BondTypeNode( model.molecule );
-        addChild( bondTypeNode );
-
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false, MPStrings.BOND_DIPOLE ) );
-        addChild( viewControlsNode );
-
         PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
-        addChild( isosurfaceControlsNode );
-
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
-        addChild( eFieldControlsNode );
+        PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame, 16, Color.BLACK, Color.YELLOW );
+        final PNode bondTypeNode = new BondTypeNode( model.molecule );
 
-        Resettable[] resettables = new Resettable[] { model, viewProperties };
-        PNode resetAllButtonNode = new ResetAllButtonNode( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
-        addChild( resetAllButtonNode );
-
-        PNode negativePlateNode = new NegativePlateNode( model.eField );
-        addChild( negativePlateNode );
-
-        PNode positivePlateNode = new PositivePlateNode( model.eField );
-        addChild( positivePlateNode );
-
-        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
-        addChild( electrostaticPotentialNode );
-
-        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
-        addChild( electronDensityNode );
+        // rendering order
+        {
+            addChild( negativePlateNode );
+            addChild( positivePlateNode );
+            addChild( moleculeNode );
+            addChild( partialChargeNodeA );
+            addChild( partialChargeNodeB );
+            addChild( bondDipoleNode );
+            addChild( electrostaticPotentialNode );
+            addChild( electronDensityNode );
+            addChild( enControlA );
+            addChild( enControlB );
+            addChild( viewControlsNode );
+            addChild( isosurfaceControlsNode );
+            addChild( eFieldControlsNode );
+            addChild( resetAllButtonNode );
+            addChild( bondTypeNode );
+        }
 
         // layout
         {
