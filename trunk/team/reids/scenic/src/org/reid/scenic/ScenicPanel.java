@@ -41,14 +41,15 @@ public class ScenicPanel<T> extends JPanel {
         painter.apply( model, g2 );
     }
 
-    static class Atom {
-        final ImmutableVector2D position;
-        final ImmutableVector2D velocity;
-        public double mass = 1;
+    public static class Atom {
+        public final ImmutableVector2D position;
+        public final ImmutableVector2D velocity;
+        public final double mass;
 
-        Atom( ImmutableVector2D position, ImmutableVector2D velocity ) {
+        Atom( ImmutableVector2D position, ImmutableVector2D velocity, double mass ) {
             this.position = position;
             this.velocity = velocity;
+            this.mass = mass;
         }
     }
 
@@ -84,9 +85,7 @@ public class ScenicPanel<T> extends JPanel {
         public void paint( Graphics2D graphics2D ) {
             graphics2D.setPaint( Color.blue );
             int w = 10;
-            graphics2D.translate( 100, 100 );
             graphics2D.fill( new Ellipse2D.Double( atom.position.getX() - w / 2, atom.position.getY() - w / 2, w, w ) );
-            graphics2D.translate( -100, -100 );
         }
     }
 
@@ -129,7 +128,7 @@ public class ScenicPanel<T> extends JPanel {
                                         public Atom apply( Atom atom ) {
                                             //v = v0 + at, a = f/m, v = v0+ft/m
                                             ImmutableVector2D velocity = atom.velocity.plus( force.times( dt / atom.mass ) );
-                                            return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < MAX_Y ? velocity : new ImmutableVector2D( velocity.getX(), -Math.abs( velocity.getY() ) ) );
+                                            return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < MAX_Y ? velocity : new ImmutableVector2D( velocity.getX(), -Math.abs( velocity.getY() ) ), atom.mass );
                                         }
                                     } ) );
                                 }
@@ -146,7 +145,7 @@ public class ScenicPanel<T> extends JPanel {
         Atom[] a = new Atom[500];
         for ( int i = 0; i < a.length; i++ ) {
             MAX_Y = 400;
-            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * MAX_Y ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ) );
+            a[i] = new Atom( new ImmutableVector2D( random.nextDouble() * 800, random.nextDouble() * MAX_Y ), new ImmutableVector2D( random.nextDouble() * 10 - 5, random.nextDouble() * 10 - 5 ), random.nextDouble() + 1 );
         }
         return a;
     }
