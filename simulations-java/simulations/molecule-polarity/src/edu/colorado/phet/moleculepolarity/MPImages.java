@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
@@ -17,5 +17,5 @@ public class MPImages {
 
     private static final PhetResources RESOURCES = new PhetResources( MPConstants.PROJECT_NAME );
 
-    public static final Image ROTATE_CURSOR = RESOURCES.getImage( "rotateCursor.png" );
+    public static final BufferedImage ROTATE_CURSOR = RESOURCES.getImage( "rotateCursor.png" );
 }
