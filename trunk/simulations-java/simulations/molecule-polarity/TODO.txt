@@ -23,6 +23,7 @@ HIGH
 - Jmol: how to align molecular dipole with E-Field?
 
 MEDIUM
+- ask NP to create an image for rotation cursor, add to license.txt
 - shapes and color schemes for 2D isosurfaces
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
