@@ -2,25 +2,20 @@
 package edu.colorado.phet.moleculeshapes;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.util.concurrent.Callable;
 
 import javax.swing.*;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.view.ResetAllButton;
-import edu.colorado.phet.moleculeshapes.view.BaseJMEApplication;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 import com.jme3.system.AppSettings;
 import com.jme3.system.JmeCanvasContext;
 
 public class MoleculeShapesModule extends Module {
-    public MoleculeShapesModule( String name ) {
+    public MoleculeShapesModule( Frame parentFrame, String name ) {
         super( name, new ConstantDtClock( 30.0 ) );
         AppSettings settings = new AppSettings( true );
 
@@ -31,15 +26,6 @@ public class MoleculeShapesModule extends Module {
         settings.setFrameRate( 60 );
 
         final MoleculeJMEApplication app = new MoleculeJMEApplication();
-
-        //Improve default camera angle and mouse behavior
-        app.enqueue( new Callable<Void>() {
-            public Void call() {
-                BaseJMEApplication simpleApp = (BaseJMEApplication) app;
-                //simpleApp.getFlyByCamera().setDragToRotate( true );
-                return null;
-            }
-        } );
 
         app.setPauseOnLostFocus( false );
         app.setSettings( settings );
@@ -58,18 +44,29 @@ public class MoleculeShapesModule extends Module {
         } );
         canvas.addComponentListener( new ComponentAdapter() {
             @Override public void componentResized( ComponentEvent e ) {
-                app.onResize(canvas.getSize());
+                app.onResize( canvas.getSize() );
             }
         } );
 
+        // hide most of the default things
         setClockControlPanel( null );
-
         setControlPanel( null );
         setLogoPanelVisible( false );
 
+        parentFrame.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
+
         setSimulationPanel( new JPanel( new BorderLayout() ) {{
+            setBackground( MoleculeShapesConstants.BACKGROUND_COLOR );
+
             add( canvas, BorderLayout.CENTER );
-            setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
+
+            // padding to hopefully maintain the default cursor
+            add( Box.createHorizontalStrut( 5 ), BorderLayout.WEST );
+            add( Box.createHorizontalStrut( 5 ), BorderLayout.EAST );
+            add( Box.createVerticalStrut( 5 ), BorderLayout.NORTH );
+            add( Box.createVerticalStrut( 5 ), BorderLayout.SOUTH );
+
+            setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
         }} );
 
     }

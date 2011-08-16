@@ -17,6 +17,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 
 import com.jme3.system.JmeSystem;
 import com.jme3.system.Natives;
@@ -52,10 +53,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        //final ConstantDtClock clock = new ConstantDtClock( 30 );
-
-        addModule( new MoleculeShapesModule( "Module 1" ) );
-        //addModule( new PiccoloModule( "Name", clock ) {{}} );
+        addModule( new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE ) );
     }
 
     /*
