@@ -1,3 +1,4 @@
+8/16/11 add rotation cursor, for discussion
 8/16/11 use bond dipole instead of deltaEN in diatomic molecule and bond type indicator
 8/16/11 adjust canvas layouts
 8/16/11 change rendering order of scenegraph so that molecule is on top

@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.RotationCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
 
@@ -36,10 +37,9 @@ public class TriatomicMoleculeNode extends PhetPNode {
         addChild( atomCNode );
 
         // rotate molecule by dragging bonds or atom B
-        //TODO change cursor to indicate molecule rotation
-        bondABNode.addInputEventListener( new CursorHandler() );
-        bondBCNode.addInputEventListener( new CursorHandler() );
-        atomBNode.addInputEventListener( new CursorHandler() );
+        bondABNode.addInputEventListener( new RotationCursorHandler() );
+        bondBCNode.addInputEventListener( new RotationCursorHandler() );
+        atomBNode.addInputEventListener( new RotationCursorHandler() );
         bondABNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
         bondBCNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
         atomBNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
