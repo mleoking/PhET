@@ -93,15 +93,4 @@ public class TwoAtomsModel extends MPModel {
         }
         molecule.setAngle( newAngle );
     }
-
-    // converts an angle to range [0,2*PI) radians
-    private static double normalizeAngle( double angle ) {
-        double normalizedAngle = angle % ( 2 * Math.PI );
-        if ( normalizedAngle < 0 ) {
-            normalizedAngle = ( 2 * Math.PI ) + angle;
-        }
-        assert ( normalizedAngle >= 0 && normalizedAngle <= 2 * Math.PI );
-        return normalizedAngle;
-    }
-
 }

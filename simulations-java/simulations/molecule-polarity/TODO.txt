@@ -27,7 +27,6 @@ MEDIUM
 - delete Bond.deltaElectronegativity
 - rewrite dipole nodes
 - 3 Atoms: partial charge model and view for atom B
-- 3 Atoms: align molecular dipole with E-field
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - find out why scenegraph doesn't take up full width in MPCanvas
 - add minor and major ticks to EN control
