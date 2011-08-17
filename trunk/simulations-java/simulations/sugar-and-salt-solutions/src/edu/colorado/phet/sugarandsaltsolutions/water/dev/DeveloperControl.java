@@ -39,7 +39,7 @@ public class DeveloperControl extends JPanel {
                     } );
                 }} );
                 add( new JLabel( "num waters:" ) );
-                add( new DoubleLabel( waterModel.waterList.count ) );
+                add( new DoubleLabel( waterModel.waterList.size ) );
             }} );
             add( new JLabel( "coulomb strength (k)" ) );
             add( new JPanel() {{
