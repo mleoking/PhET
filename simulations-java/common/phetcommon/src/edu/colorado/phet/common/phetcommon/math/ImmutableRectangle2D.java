@@ -37,8 +37,24 @@ public class ImmutableRectangle2D {
         return new ImmutableVector2D( x + width / 2, y + height / 2 );
     }
 
+    /**
+     * Determine whether this rectangle contains the specified position represented as a Point2D
+     *
+     * @param point2D the position to check
+     * @return true if this rectangle contains the specified position
+     */
     public boolean contains( Point2D point2D ) {
         return new Rectangle2D.Double( x, y, width, height ).contains( point2D );
+    }
+
+    /**
+     * Determine whether this rectangle contains the specified position represented as an ImmutableVector2D
+     *
+     * @param position the position to check
+     * @return true if this rectangle contains the specified position
+     */
+    public boolean contains( ImmutableVector2D position ) {
+        return contains( position.toPoint2D() );
     }
 
     @Override public String toString() {
