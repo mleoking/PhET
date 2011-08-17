@@ -1,3 +1,4 @@
+# 0.00.10 (55361) Aug 16, 2011
 8/16/11 replace PolarImmutableVector2D with ImmutableVector.parseMagnitudeAndAngle
 8/16/11 add rotate cursor, for discussion
 8/16/11 use bond dipole instead of deltaEN in diatomic molecule and bond type indicator
