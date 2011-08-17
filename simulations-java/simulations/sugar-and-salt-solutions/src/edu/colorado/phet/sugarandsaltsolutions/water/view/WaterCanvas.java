@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -182,7 +183,7 @@ public class WaterCanvas extends PhetPCanvas {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal
-        SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{
+        final SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{
             grow( 1 );
 
             //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
@@ -199,27 +200,29 @@ public class WaterCanvas extends PhetPCanvas {
                 protected Sucrose sucrose;
 
                 @Override public void mouseDragged( PInputEvent event ) {
-                    if ( multiSucroseNode == null ) {
-                        sucrose = waterModel.createSucrose( 0, 0 );
-                        multiSucroseNode = new MultiSucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
-                            public void apply( VoidFunction0 voidFunction0 ) {
-                                waterModel.addFrameListener( voidFunction0 );
-                                voidFunction0.apply();
-                            }
-                        }, waterModel.showSugarAtoms ) {{
-                            addInputEventListener( new PBasicInputEventHandler() {
-                                @Override public void mouseDragged( PInputEvent event ) {
-                                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
-                                }
-                            } );
-                        }};
-                        rootNode.addChild( multiSucroseNode );
-                        multiSucroseNode.centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
-
-                        //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
-//                        waterModel.unhook( sucrose );
-                    }
-                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+//                    if ( multiSucroseNode == null ) {
+//                        sucrose = waterModel.createSucrose( 0, 0 );
+//                        multiSucroseNode = new MultiSucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
+//                            public void apply( VoidFunction0 voidFunction0 ) {
+//                                waterModel.addFrameListener( voidFunction0 );
+//                                voidFunction0.apply();
+//                            }
+//                        }, waterModel.showSugarAtoms ) {{
+//                            addInputEventListener( new PBasicInputEventHandler() {
+//                                @Override public void mouseDragged( PInputEvent event ) {
+//                                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+//                                }
+//                            } );
+//                        }};
+//                        rootNode.addChild( multiSucroseNode );
+//                        multiSucroseNode.centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
+//
+//                        //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
+////                        waterModel.unhook( sucrose );
+//                    }
+//                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                    final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                    crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
                 }
             } );
         }} );

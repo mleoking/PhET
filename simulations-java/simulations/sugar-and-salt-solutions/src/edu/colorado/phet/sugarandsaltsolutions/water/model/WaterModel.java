@@ -14,7 +14,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
-import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
@@ -22,6 +21,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.CHLORINE_RADIUS;
 import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.SODIUM_RADIUS;
@@ -34,10 +34,10 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.SODIUM_
 public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Lists of all model objects
-    public final ParticleList<WaterMolecule> waterList = new ParticleList<WaterMolecule>();
-    public final ParticleList<DefaultParticle> sodiumList = new ParticleList<DefaultParticle>();
-    public final ParticleList<DefaultParticle> chlorineList = new ParticleList<DefaultParticle>();
-    public final ParticleList<Sucrose> sugarMoleculeList = new ParticleList<Sucrose>();
+    public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
+    public final ItemList<DefaultParticle> sodiumList = new ItemList<DefaultParticle>();
+    public final ItemList<DefaultParticle> chlorineList = new ItemList<DefaultParticle>();
+    public final ItemList<Sucrose> sugarMoleculeList = new ItemList<Sucrose>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -139,14 +139,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         world.destroyBody( sucrose.body );
     }
 
-    public ObservableProperty<Boolean> isAnySaltToRemove() {
-        return sodiumList.count.plus( chlorineList.count ).greaterThan( 0 );
-    }
-
-    public ObservableProperty<Boolean> isAnySugarToRemove() {
-        return sugarMoleculeList.count.greaterThan( 0 );
-    }
-
     //Code that creates a single salt crystal, used when dragged from the bucket or created in the beaker
     public class SaltCrystal {
         private final double horizontalSeparation = CHLORINE_RADIUS + SODIUM_RADIUS;
@@ -172,7 +164,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         SaltCrystal saltCrystal = newSaltCrystal( location );
 
         //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
-        for ( WaterMolecule water : waterList.list ) {
+        for ( WaterMolecule water : waterList ) {
             if ( water.intersects( saltCrystal.sodium ) || water.intersects( saltCrystal.chloride ) || water.intersects( saltCrystal.sodium2 ) || water.intersects( saltCrystal.chloride2 ) ) {
                 water.setModelPosition( water.getModelPosition().plus( new ImmutableVector2D( 4 + Math.random(), 4 + Math.random() ) ) );
             }
@@ -235,7 +227,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
-        waterList.itemAddedListeners.add( waterAddedListener );
+        waterList.addElementAddedObserver( waterAddedListener );
     }
 
     protected void updateModel( double dt ) {
@@ -243,7 +235,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        super.updateModel( dt );
 
         //Apply a random force so the system doesn't settle down, setting random velocity looks funny
-        for ( WaterMolecule waterMolecule : waterList.list ) {
+        for ( WaterMolecule waterMolecule : waterList ) {
             float rand1 = ( random.nextFloat() - 0.5f ) * 2;
             float rand2 = ( random.nextFloat() - 0.5f ) * 2;
             waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
@@ -251,7 +243,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         long t = System.currentTimeMillis();
         //Apply coulomb forces between all pairs of particles
-        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList.list ) {
+        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList ) {
             for ( Atom atom : molecule.atoms ) {
                 //Only apply the force in some interactions, to improve performance and increase randomness
                 if ( Math.random() < probabilityOfInteraction.get() ) {
@@ -262,8 +254,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         //Na+ and Cl- should repel each other so they disassociate quickly
         for ( Molecule molecule : new ArrayList<Molecule>() {{
-            addAll( sodiumList.list );
-            addAll( chlorineList.list );
+            addAll( sodiumList );
+            addAll( chlorineList );
         }} ) {
             for ( Atom atom : molecule.atoms ) {
                 molecule.body.applyForce( getCoulombForce( atom.particle, true ), atom.particle.getBox2DPosition() );
@@ -317,10 +309,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     private ArrayList<Molecule> getAllMolecules() {
         return new ArrayList<Molecule>() {{
-            addAll( waterList.list );
-            addAll( sugarMoleculeList.list );
-            addAll( sodiumList.list );
-            addAll( chlorineList.list );
+            addAll( waterList );
+            addAll( sugarMoleculeList );
+            addAll( sodiumList );
+            addAll( chlorineList );
         }};
     }
 
@@ -398,7 +390,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Get all bodies in the model
     public ArrayList<WaterMolecule> getWaterList() {
-        return waterList.list;
+        return waterList.toList();
     }
 
     //Register for a callback when the model steps
@@ -413,9 +405,17 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         showWaterCharges.reset();
     }
 
+    public void clear( ItemList<? extends Molecule> list, World world ) {
+        for ( Molecule t : list ) {
+            world.destroyBody( t.body );
+            t.notifyRemoved();
+        }
+        list.clear();
+    }
+
     //Set up the initial model state, used on init and after reset
     protected void initModel() {
-        waterList.clear( world );
+        clear( waterList, world );
         clearSalt();
         clearSugar();
 
@@ -424,24 +424,24 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     public void clearSalt() {
-        sodiumList.clear( world );
-        chlorineList.clear( world );
+        clear( sodiumList, world );
+        clear( chlorineList, world );
     }
 
     public ArrayList<DefaultParticle> getSodiumIonList() {
-        return sodiumList.list;
+        return sodiumList.toList();
     }
 
     public void addSodiumIonAddedListener( VoidFunction1<DefaultParticle> listener ) {
-        sodiumList.itemAddedListeners.add( listener );
+        sodiumList.addElementAddedObserver( listener );
     }
 
     public ArrayList<DefaultParticle> getChlorineIonList() {
-        return chlorineList.list;
+        return chlorineList.toList();
     }
 
     public void addChlorineIonAddedListener( VoidFunction1<DefaultParticle> createNode ) {
-        chlorineList.itemAddedListeners.add( createNode );
+        chlorineList.addElementAddedObserver( createNode );
     }
 
     //Gets a random number within the horizontal range of the beaker
@@ -455,11 +455,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     public void addSugarAddedListener( VoidFunction1<Sucrose> createNode ) {
-        sugarMoleculeList.itemAddedListeners.add( createNode );
-    }
-
-    public void removeSalt() {
-        clearSalt();
+        sugarMoleculeList.addElementAddedObserver( createNode );
     }
 
     //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
@@ -468,6 +464,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     private void clearSugar() {
-        sugarMoleculeList.clear( world );
+        clear( sugarMoleculeList, world );
     }
 }
