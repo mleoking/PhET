@@ -80,7 +80,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
-        developerMenu.add( new PropertyCheckBoxMenuItem( "(beta) Show Bond Angles", showBondAngles ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "(beta, slow) Show Bond Angles", showBondAngles ) );
     }
 
     //----------------------------------------------------------------------------
