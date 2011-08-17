@@ -1,3 +1,4 @@
+Water tab: Refactored to use Box2DAdapter
 Water tab: Zoomed in on new model coordinates
 Water tab: Rewrote particle window and started converting graphics and model to reuse code from micro tab
 Water tab: Reduced the size of the sucrose bucket icon, Rewrote sugar crystal graphic to use micro tab nodes

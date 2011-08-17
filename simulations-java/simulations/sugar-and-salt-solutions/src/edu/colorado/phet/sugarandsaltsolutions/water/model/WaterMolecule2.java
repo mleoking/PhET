@@ -7,7 +7,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
- * Water molecule: H2O for use in the water model
+ * Water molecule: H2O for use in the water model.  Units of this compound are in meters, and the values can get updated by Box2D update steps by Box2DAdapter
  * TODO: rename to WaterMolecule
  *
  * @author Sam Reid

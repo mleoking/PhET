@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
@@ -107,6 +108,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Turn down forces after salt disassociates
     private double timeSinceSaltAdded = 0;
     private static final boolean debugTime = false;
+
+    //List of adapters that manage both the box2D and actual model data
+    private ArrayList<Box2DAdapter> box2DAdapters = new ArrayList<Box2DAdapter>();
 
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
@@ -231,6 +235,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         final WaterMolecule2 molecule = new WaterMolecule2( new ImmutableVector2D( x, y ), angle );
         waterList2.add( molecule );
         addConstituents( molecule );
+
+        //Add the adapter for box2D
+        Box2DAdapter box2DAdapter = new Box2DAdapter( world, molecule, modelToBox2D );
+        box2DAdapters.add( box2DAdapter );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
@@ -243,36 +251,40 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        }
 
         //Apply a random force so the system doesn't settle down, setting random velocity looks funny
-        for ( WaterMolecule waterMolecule : waterList ) {
-            float rand1 = ( random.nextFloat() - 0.5f ) * 2;
-            float rand2 = ( random.nextFloat() - 0.5f ) * 2;
-            waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
-        }
+//        for ( WaterMolecule waterMolecule : waterList ) {
+//            float rand1 = ( random.nextFloat() - 0.5f ) * 2;
+//            float rand2 = ( random.nextFloat() - 0.5f ) * 2;
+//            waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
+//        }
+//
+//        long t = System.currentTimeMillis();
+//        //Apply coulomb forces between all pairs of particles
+//        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList ) {
+//            for ( Atom atom : molecule.atoms ) {
+//                //Only apply the force in some interactions, to improve performance and increase randomness
+//                if ( Math.random() < probabilityOfInteraction.get() ) {
+//                    molecule.body.applyForce( getCoulombForce( atom.particle, false ), atom.particle.getBox2DPosition() );
+//                }
+//            }
+//        }
+//
+//        //Na+ and Cl- should repel each other so they disassociate quickly
+//        for ( Molecule molecule : new ArrayList<Molecule>() {{
+//            addAll( sodiumList );
+//            addAll( chlorineList );
+//        }} ) {
+//            for ( Atom atom : molecule.atoms ) {
+//                molecule.body.applyForce( getCoulombForce( atom.particle, true ), atom.particle.getBox2DPosition() );
+//            }
+//        }
+//
+//        long t2 = System.currentTimeMillis();
+//        if ( debugTime ) {
+//            System.out.println( "delta = " + ( t2 - t ) );
+//        }
 
-        long t = System.currentTimeMillis();
-        //Apply coulomb forces between all pairs of particles
-        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList ) {
-            for ( Atom atom : molecule.atoms ) {
-                //Only apply the force in some interactions, to improve performance and increase randomness
-                if ( Math.random() < probabilityOfInteraction.get() ) {
-                    molecule.body.applyForce( getCoulombForce( atom.particle, false ), atom.particle.getBox2DPosition() );
-                }
-            }
-        }
-
-        //Na+ and Cl- should repel each other so they disassociate quickly
-        for ( Molecule molecule : new ArrayList<Molecule>() {{
-            addAll( sodiumList );
-            addAll( chlorineList );
-        }} ) {
-            for ( Atom atom : molecule.atoms ) {
-                molecule.body.applyForce( getCoulombForce( atom.particle, true ), atom.particle.getBox2DPosition() );
-            }
-        }
-
-        long t2 = System.currentTimeMillis();
-        if ( debugTime ) {
-            System.out.println( "delta = " + ( t2 - t ) );
+        for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
+            box2DAdapter.applyForce( 10, -30 );
         }
 
         //Box2D will exception unless values are within its sweet spot range.
@@ -281,16 +293,20 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         world.step( (float) ( dt * timeScale.get() ), iterations.get() );
 
         //Apply periodic boundary conditions
-        applyPeriodicBoundaryConditions( getAllMolecules() );
+        applyPeriodicBoundaryConditions( box2DAdapters );
 
         //Factor out center of mass motion so no large scale drifts can occur
-        Vec2 initTotalVelocity = getTotalMomentum();
-        for ( Molecule molecule : getAllMolecules() ) {
+        Vec2 totalMomentum = getBox2DMomentum();
+        for ( Box2DAdapter molecule : box2DAdapters ) {
             Vec2 v = molecule.body.getLinearVelocity();
-            final Vec2 delta = initTotalVelocity.mul( (float) ( -1 / getTotalMass() ) );
+            final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
             molecule.body.setLinearVelocity( v.add( delta ) );
         }
-//        System.out.println( "init tot mom = " + initTotalVelocity + ", after = " + getTotalMomentum() );
+//        System.out.println( "init tot mom = " + totalMomentum + ", after = " + getTotalMomentum() );
+
+        for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
+            box2DAdapter.worldStepped();
+        }
 
         //Notify listeners that the model changed
         for ( VoidFunction0 frameListener : frameListeners ) {
@@ -299,19 +315,19 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         timeSinceSaltAdded += dt;
     }
 
-    private Vec2 getTotalMomentum() {
+    private Vec2 getBox2DMomentum() {
         Vec2 totalMomentum = new Vec2();
-        for ( Molecule molecule : getAllMolecules() ) {
-            Vec2 v = molecule.body.getLinearVelocity();
-            totalMomentum.x += v.x * molecule.body.getMass();
-            totalMomentum.y += v.y * molecule.body.getMass();
+        for ( Box2DAdapter adapter : box2DAdapters ) {
+            Vec2 v = adapter.body.getLinearVelocity();
+            totalMomentum.x += v.x * adapter.body.getMass();
+            totalMomentum.y += v.y * adapter.body.getMass();
         }
         return totalMomentum;
     }
 
-    private double getTotalMass() {
+    private double getBox2DMass() {
         double m = 0.0;
-        for ( Molecule molecule : getAllMolecules() ) {
+        for ( Box2DAdapter molecule : box2DAdapters ) {
             m += molecule.body.getMass();
         }
         return m;
@@ -327,19 +343,26 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Move particles from one side of the screen to the other if they went out of bounds
-    private void applyPeriodicBoundaryConditions( ArrayList<? extends Particle> list ) {
-        for ( Particle particle : list ) {
-            if ( particle.getModelPosition().getX() > rightWallShape.x ) {
-                particle.setModelPosition( new ImmutableVector2D( leftWallShape.getMaxX(), particle.getModelPosition().getY() ) );
+    //TODO: extend this boundary beyond the visible range
+    private void applyPeriodicBoundaryConditions( ArrayList<Box2DAdapter> list ) {
+        for ( Box2DAdapter adapter : list ) {
+            Compound<SphericalParticle> particle = adapter.compound;
+            double x = particle.getPosition().getX();
+            double y = particle.getPosition().getY();
+            if ( particle.getPosition().getX() > particleWindow.getMaxX() ) {
+                x = particleWindow.x;
             }
-            if ( particle.getModelPosition().getX() < leftWallShape.getMaxX() ) {
-                particle.setModelPosition( new ImmutableVector2D( rightWallShape.x, particle.getModelPosition().getY() ) );
+            if ( particle.getPosition().getX() < particleWindow.x ) {
+                x = particleWindow.getMaxX();
             }
-            if ( particle.getModelPosition().getY() < bottomWallShape.getMaxY() ) {
-                particle.setModelPosition( new ImmutableVector2D( particle.getModelPosition().getX(), topWallShape.y ) );
+            if ( particle.getPosition().getY() > particleWindow.getMaxY() ) {
+                y = particleWindow.y;
             }
-            if ( particle.getModelPosition().getY() > topWallShape.y ) {
-                particle.setModelPosition( new ImmutableVector2D( particle.getModelPosition().getX(), bottomWallShape.getMaxY() ) );
+            if ( particle.getPosition().getY() < particleWindow.y ) {
+                y = particleWindow.getMaxY();
+            }
+            if ( !new ImmutableVector2D( x, y ).equals( adapter.getModelPosition() ) ) {
+                adapter.setModelPosition( new ImmutableVector2D( x, y ) );
             }
         }
     }
