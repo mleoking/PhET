@@ -32,18 +32,22 @@ public class BiomoleculeCreatorNode extends PComposite {
      * Constructor.
      *
      * @param appearanceNode       - Node that represents the appearance of this
-     *                             creator node, generally looks like the thing being created.
-     * @param canvas               - Canvas upon which this node ultimately resides.  This
-     *                             is needed for figuring out where in model space this node exists.
+     *                             creator node, generally looks like the thing
+     *                             being created.
+     * @param canvas               - Canvas upon which this node ultimately
+     *                             resides.  This is needed for figuring out
+     *                             where in model space this node exists.
      * @param mvt                  - Model view transform.
-     * @param moleculeCreator      - Function object that knows how to create the
-     *                             model element and add it to the model.
+     * @param moleculeCreator      - Function object that knows how to create
+     *                             the model element and add it to the model.
      * @param enclosingToolBoxNode - Tool box in which this creator node is
-     *                             contained.  This is needed in order to determine when the created
-     *                             model element is returned to the tool box.
-     * @param goInvisibleOnAdd     - Flag that indicates whether this node should
-     *                             disappear when clicked on, which creates a look like the object was
-     *                             dragged out of the tool box.
+     *                             contained.  This is needed in order to
+     *                             determine when the created model element is
+     *                             returned to the tool box.
+     * @param goInvisibleOnAdd     - Flag that indicates whether this node
+     *                             should disappear when clicked on, which
+     *                             creates a look like the object was dragged
+     *                             out of the tool box.
      */
     public BiomoleculeCreatorNode( PNode appearanceNode,
                                    ManualGeneExpressionCanvas canvas,
@@ -95,7 +99,6 @@ public class BiomoleculeCreatorNode extends PComposite {
             public void mouseReleased( PInputEvent event ) {
                 // The user has released this node.
                 biomolecule.release();
-                biomolecule.userControlled.removeObserver( observer );
                 biomolecule = null;
             }
         } );

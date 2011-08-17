@@ -165,7 +165,6 @@ public class BiomoleculeToolBoxNode extends PNode {
                    new Function1<Point2D, MobileBiomolecule>() {   // Molecule creator function.
                        public MobileBiomolecule apply( Point2D pos ) {
                            final RnaPolymerase rnaPolymerase = new RnaPolymerase( pos );
-                           System.out.println( "Created biomolecule: " + rnaPolymerase );
                            biomoleculeBoxNode.model.addMobileBiomolecule( rnaPolymerase );
                            return rnaPolymerase;
                        }
