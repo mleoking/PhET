@@ -131,7 +131,7 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Add the Reset All button.
         controlsRootNode.addChild( new ResetAllButtonNode( new Resettable[] { this, model }, this, 18, Color.BLACK, new Color( 255, 153, 0 ) ) {{
             setConfirmationEnabled( false );
-            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 20 );
+            centerFullBoundsOnPoint( nextGeneButton.getFullBoundsReference().getCenterX(), nextGeneButton.getFullBoundsReference().getMaxY() + 40 );
         }} );
 
         // Monitor the active gene and move the view port to be centered on it
