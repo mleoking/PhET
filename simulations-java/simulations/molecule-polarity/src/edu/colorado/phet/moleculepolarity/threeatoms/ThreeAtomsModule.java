@@ -19,7 +19,6 @@ public class ThreeAtomsModule extends PiccoloModule {
         super( MPStrings.THREE_ATOMS, new MPClock() );
         ThreeAtomsModel model = new ThreeAtomsModel( getClock() );
         ViewProperties viewProperties = new ViewProperties() {{
-            bondDipolesVisible.set( true );
             molecularDipoleVisible.set( true );
         }};
         setSimulationPanel( new ThreeAtomsCanvas( model, viewProperties, parentFrame ) );
