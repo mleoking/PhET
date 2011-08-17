@@ -49,6 +49,7 @@ import com.jme3.system.JmeCanvasContext;
 
 /**
  * Use jme3 to show a rotating molecule
+ * TODO: on JME3 loading failure, show the user some debugging information!
  * TODO: when dragging existing atoms/lone pairs and the mouse moves out of range (no sphere-hits), set its location to the CAMERA-TANGENT location
  * TODO: double-check naming with double/triple bonds
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
