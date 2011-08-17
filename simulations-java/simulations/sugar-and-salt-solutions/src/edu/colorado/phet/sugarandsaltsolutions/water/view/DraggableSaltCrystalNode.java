@@ -21,10 +21,12 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class DraggableSaltCrystalNode extends PNode {
     public DraggableSaltCrystalNode( final WaterModel waterModel, final ModelViewTransform transform,
+
                                      //Region where dropping the crystal is allowed, in the particle box
                                      final PNode target ) {
+
         //Ask the model to create a salt crystal so it will have the correct dimensions and will work with our graphics classes
-        SaltCrystal saltCrystal = waterModel.newSaltCrystal( new Point( 0, 0 ) );
+        SaltCrystal saltCrystal = new SaltCrystal( waterModel, new Point( 0, 0 ) );
 
         //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
         waterModel.unhook( saltCrystal );
