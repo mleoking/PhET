@@ -16,9 +16,9 @@ import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
+import edu.colorado.phet.moleculepolarity.common.view.ElectronegativityTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
-import edu.colorado.phet.moleculepolarity.common.view.MPPeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
@@ -47,7 +47,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame, 16, Color.BLACK, Color.YELLOW );
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
-        final MPPeriodicTableNode periodicTableNode = new MPPeriodicTableNode( model.currentMolecule, viewerNode );
+        final ElectronegativityTableNode electronegativityTableNode = new ElectronegativityTableNode( model.currentMolecule, viewerNode );
         MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
 
         // rendering order
@@ -64,7 +64,7 @@ public class RealMoleculesCanvas extends MPCanvas {
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 addChild( scriptNode );
             }
-            addChild( periodicTableNode );
+            addChild( electronegativityTableNode );
 
             // molecule
             addChild( viewerNode );
@@ -80,8 +80,8 @@ public class RealMoleculesCanvas extends MPCanvas {
             negativePlateNode.setOffset( 30, 30 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
             viewerNode.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
             positivePlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            periodicTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( periodicTableNode.getFullBoundsReference().getWidth() / 2 ),
-                                         viewerNode.getFullBoundsReference().getMaxY() + 20 );
+            electronegativityTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electronegativityTableNode.getFullBoundsReference().getWidth() / 2 ),
+                                                  viewerNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
