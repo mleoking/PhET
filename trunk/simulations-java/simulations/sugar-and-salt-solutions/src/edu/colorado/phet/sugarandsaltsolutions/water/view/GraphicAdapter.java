@@ -14,7 +14,7 @@ import edu.umd.cs.piccolo.PNode;
  *
  * @author Sam Reid
  */
-class GraphicAdapter<T extends Removable> {
+public class GraphicAdapter<T extends Removable> {
     GraphicAdapter( final PNode rootNode, final Function1<T, PNode> newNode, ArrayList<T> preExisting, VoidFunction1<VoidFunction1<T>> newModelElementAdded ) {
         //Function which creates water nodes on initialization and when they are added to the model
         VoidFunction1<T> createNode = new VoidFunction1<T>() {
