@@ -34,7 +34,7 @@ public class DeveloperControl extends JPanel {
                 add( new JButton( "Add Water" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            waterModel.addWater( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
+                            waterModel.addWaterMolecule( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
                         }
                     } );
                 }} );

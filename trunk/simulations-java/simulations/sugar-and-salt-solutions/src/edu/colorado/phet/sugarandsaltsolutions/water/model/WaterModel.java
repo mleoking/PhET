@@ -40,6 +40,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Lists of all model objects
     public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
+    public final ItemList<WaterMolecule2> waterList2 = new ItemList<WaterMolecule2>();
     public final ItemList<DefaultParticle> sodiumList = new ItemList<DefaultParticle>();
     public final ItemList<DefaultParticle> chlorineList = new ItemList<DefaultParticle>();
     public final ItemList<Sucrose> sugarMoleculeList = new ItemList<Sucrose>();
@@ -53,9 +54,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private Random random = new Random();
 
     //Dimensions of the particle window in meters
-    private final double windowWidth = 40E-10;
-    private final double windowHeight = windowWidth * 0.6;
-    public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -windowWidth / 2, -windowHeight / 2, windowWidth, windowHeight );
+    private final double particleWindowWidth = 10E-10;
+    private final double particleWindowHeight = particleWindowWidth * 0.6;
+    public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
 
     //Width of the box2D model
     private final double box2DWidth = 20;
@@ -63,7 +64,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //units for water molecules are in SI
     //Beaker floor should be about 40 angstroms, to accommodate about 20 water molecules side-to-side
     //But keep box2d within -10..10 (i.e. 20 boxes wide)
-    double scaleFactor = box2DWidth / windowWidth;
+    double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     //Shapes for boundaries, used in periodic boundary conditions
@@ -118,10 +119,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         //Create the frame for the window, make it very thick no so particles can penetrate or jump over it
         double frameThickness = 1E-10;
-        bottomWallShape = new ImmutableRectangle2D( -windowWidth / 2, 0, windowWidth, frameThickness );
-        topWallShape = new ImmutableRectangle2D( -windowWidth / 2, windowHeight, windowWidth, frameThickness + windowHeight );
-        rightWallShape = new ImmutableRectangle2D( windowWidth / 2, 0, frameThickness, windowHeight );
-        leftWallShape = new ImmutableRectangle2D( -windowWidth / 2, 0, frameThickness, windowHeight );
+        bottomWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, particleWindow.width, frameThickness );
+        topWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, particleWindow.height, particleWindow.width, frameThickness + particleWindow.height );
+        rightWallShape = new ImmutableRectangle2D( particleWindow.width / 2, 0, frameThickness, particleWindow.height );
+        leftWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, frameThickness, particleWindow.height );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -137,7 +138,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 for ( int i = 0; i < 100; i++ ) {
-                    addConstituents( new WaterMolecule2( new ImmutableVector2D( randomBetweenZeroAndOne() * windowWidth / 2, randomBetweenZeroAndOne() * windowHeight / 2 ), random.nextDouble() * Math.PI * 2 ) );
+                    addWaterMolecule2( randomBetweenZeroAndOne() * particleWindow.width / 2, randomBetweenZeroAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
                 }
             }
         } );
@@ -193,7 +194,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public ArrayList<Sucrose> createSugarCrystal( Point2D location ) {
         final double x = location.getX();
         final double y = location.getY();
-        final double delta = windowHeight / 4 * 0.87;
+        final double delta = particleWindow.height / 4 * 0.87;
         return new ArrayList<Sucrose>() {{
             add( createSucrose( x, y - delta / 2 ) );
             add( createSucrose( x, y + delta / 2 ) );
@@ -213,10 +214,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         Random random = new Random( seed );
         float float1 = (float) randomBetweenZeroAndOne();
         for ( int i = 0; i < numParticles; i++ ) {
-            final double x = float1 * windowWidth / 2;
-            final double y = random.nextFloat() * windowHeight;
+            final double x = float1 * particleWindow.width / 2;
+            final double y = random.nextFloat() * particleWindow.height;
             final float angle = (float) ( random.nextFloat() * Math.PI * 2 );
-            addWater( x, y, angle );
+            addWaterMolecule( x, y, angle );
         }
     }
 
@@ -225,8 +226,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Adds a single water molecule
-    public void addWater( double x, double y, float angle ) {
+    public void addWaterMolecule( double x, double y, float angle ) {
         waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, addFrameListener, oxygenCharge, hydrogenCharge ) );
+    }
+
+    //Adds a single water molecule
+    public void addWaterMolecule2( double x, double y, double angle ) {
+        final WaterMolecule2 molecule = new WaterMolecule2( new ImmutableVector2D( x, y ), angle );
+        waterList2.add( molecule );
+        addConstituents( molecule );
     }
 
     public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
@@ -234,6 +242,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     protected void updateModel( double dt ) {
+        for ( WaterMolecule2 waterMolecule2 : waterList2 ) {
+            waterMolecule2.translate( particleWindow.width / 1000, particleWindow.width / 1000 );
+        }
 
         //Apply a random force so the system doesn't settle down, setting random velocity looks funny
         for ( WaterMolecule waterMolecule : waterList ) {
@@ -449,12 +460,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Gets a random number within the horizontal range of the beaker
     public double getRandomX() {
-        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * windowWidth - windowWidth / 2 );
+        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.width - particleWindow.width / 2 );
     }
 
     //Gets a random number within the vertical range of the beaker
     public double getRandomY() {
-        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * windowHeight );
+        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
     }
 
     public void addSugarAddedListener( VoidFunction1<Sucrose> createNode ) {
