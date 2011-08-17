@@ -134,7 +134,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
                 for ( int i = 0; i < 100; i++ ) {
-                    addWaterMolecule2( randomBetweenZeroAndOne() * particleWindow.width / 2, randomBetweenZeroAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
+                    addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
                 }
             }
         } );
@@ -208,7 +208,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Adds default water particles
     private void addWaterParticles( long seed, int numParticles ) {
         Random random = new Random( seed );
-        float float1 = (float) randomBetweenZeroAndOne();
+        float float1 = (float) randomBetweenMinusOneAndOne();
         for ( int i = 0; i < numParticles; i++ ) {
             final double x = float1 * particleWindow.width / 2;
             final double y = random.nextFloat() * particleWindow.height;
@@ -217,7 +217,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
     }
 
-    private double randomBetweenZeroAndOne() {
+    private double randomBetweenMinusOneAndOne() {
         return ( random.nextFloat() - 0.5 ) * 2;
     }
 
