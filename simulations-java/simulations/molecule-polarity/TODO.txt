@@ -1,8 +1,6 @@
 TODO list for molecule-polarity
 
 DESIGN
-- requirements for "electron density" isosurface (color scheme, shape, homogeneous diatomic molecules,...)
-- color scheme for "electrostatic potential" isosurface
 - what is the purpose of the period table, why do we have it?
 - how should the dipoles scale?
 - what to show for triatomic molecule partial charges
@@ -10,14 +8,13 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front, or allow occlusion?)
 - should the pointer move across the full range of the Bond Type indicator?
-- units for partial charge values in "Real Molecules" tab
 - labels for isosurface controls
-- on/off control for E-field (radio buttons vs switch graphic)
 - decide on final set of real molecules
-- add EN table in "Real Molecules" tab
-- pick a max bond dipole length based on desired max molecular dipole length for triatomic molecule
 
 HIGH
+- add color-coded continuum as a legend for surfaces
+- change "Isosurface" label to "Surface"
+- replace periodic table with EN table
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
 - Jmol: how to align molecular dipole with E-Field?
@@ -25,6 +22,7 @@ HIGH
 - add minor and major ticks to EN control
 
 MEDIUM
+- for triatomic molecule, make molecular dipole on by default, bond dipole off by default
 - ask NP or JB to create an image for rotation cursor, add to license.txt
 - shapes and color schemes for 2D isosurfaces
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
