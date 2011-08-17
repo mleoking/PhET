@@ -17,7 +17,6 @@ HIGH
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
-- Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
 - Jmol: how to align molecular dipole with E-Field?
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
