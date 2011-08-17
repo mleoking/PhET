@@ -39,8 +39,8 @@ public class TranscriptionFactor extends MobileBiomolecule {
         add( new TranscriptionFactorConfig( 0, ShapeCreationUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
         add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
         add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
-        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 5000 ), true, Color.cyan ) );
-        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 6000 ), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) ) );
+        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 40 ), false, Color.magenta ) );
         // Default config used if no match found.
         add( new TranscriptionFactorConfig( Integer.MAX_VALUE, ShapeCreationUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
     }};
