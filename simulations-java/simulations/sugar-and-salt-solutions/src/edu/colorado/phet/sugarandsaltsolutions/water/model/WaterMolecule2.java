@@ -8,6 +8,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
  * Water molecule: H2O for use in the water model
+ * TODO: rename to WaterMolecule
  *
  * @author Sam Reid
  */
