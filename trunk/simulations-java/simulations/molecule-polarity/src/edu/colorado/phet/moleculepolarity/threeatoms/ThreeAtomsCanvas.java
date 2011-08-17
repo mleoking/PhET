@@ -72,15 +72,14 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( resetAllButtonNode );
 
             // molecule
+            addChild( electrostaticPotentialNode );
+            addChild( electronDensityNode );
             addChild( moleculeNode );
             addChild( partialChargeNodeA );
             addChild( partialChargeNodeC );
             addChild( bondDipoleABNode );
             addChild( bondDipoleBCNode );
             addChild( molecularDipoleNode );
-            addChild( electrostaticPotentialNode );
-            addChild( electronDensityNode );
-
         }
 
         // layout
