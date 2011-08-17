@@ -39,7 +39,6 @@ public class MPStrings {
     public static final String HYDROGEN = RESOURCES.getLocalizedString( "hydrogen" );
     public static final String HYDROGEN_CYANIDE = RESOURCES.getLocalizedString( "hydrogenCyanide" );
     public static final String HYDROGEN_FLUORIDE = RESOURCES.getLocalizedString( "hydrogenFluoride" );
-    public static final String ISOSURFACE = RESOURCES.getLocalizedString( "isosurface" );
     public static final String LESS = RESOURCES.getLocalizedString( "less" );
     public static final String METHANE = RESOURCES.getLocalizedString( "methane" );
     public static final String MOLECULE = RESOURCES.getLocalizedString( "molecule" );
@@ -57,6 +56,7 @@ public class MPStrings {
     public static final String PATTERN_0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
     public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
     public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
+    public static final String SURFACE = RESOURCES.getLocalizedString( "surface" );
     public static final String TETRAFLUOROMETHANE = RESOURCES.getLocalizedString( "tetrafluoromethane" );
     public static final String TRIFLUOROMETHANE = RESOURCES.getLocalizedString( "trifluoromethane" );
     public static final String THREE_ATOMS = RESOURCES.getLocalizedString( "threeAtoms" );

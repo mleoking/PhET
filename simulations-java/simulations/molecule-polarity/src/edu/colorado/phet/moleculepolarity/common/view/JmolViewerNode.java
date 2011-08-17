@@ -27,7 +27,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
-import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -77,7 +77,7 @@ public class JmolViewerNode extends PhetPNode {
 
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
-    private IsosurfaceType isosurface;
+    private SurfaceType isosurface;
 
     public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
@@ -242,9 +242,9 @@ public class JmolViewerNode extends PhetPNode {
         updateAtomLabels();
     }
 
-    public void setIsosurfaceType( IsosurfaceType isosurfaceType ) {
+    public void setIsosurfaceType( SurfaceType isosurfaceType ) {
         this.isosurface = isosurfaceType;
-        if ( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL ) {
+        if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
             if ( isHomogeneousDiatomic() ) {
                 doScript( "isosurface VDW color white translucent" );
             }
@@ -252,7 +252,7 @@ public class JmolViewerNode extends PhetPNode {
                 doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
             }
         }
-        else if ( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY ) {
+        else if ( isosurfaceType == SurfaceType.ELECTRON_DENSITY ) {
             if ( isHomogeneousDiatomic() ) {
                 doScript( "isosurface VDW color white translucent" );
             }

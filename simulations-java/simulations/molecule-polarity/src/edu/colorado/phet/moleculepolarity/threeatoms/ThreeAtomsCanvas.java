@@ -13,7 +13,7 @@ import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
-import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
+import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicIsosurfaceNode;
@@ -24,7 +24,7 @@ import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.TriatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
-import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -52,7 +52,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         ElectronegativityControlNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, false, MPStrings.BOND_DIPOLES ) );
-        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
+        PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame, 16, Color.BLACK, Color.YELLOW );
 
@@ -121,10 +121,10 @@ public class ThreeAtomsCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
-                public void apply( IsosurfaceType isosurfaceType ) {
-                    electrostaticPotentialNode.setVisible( isosurfaceType == IsosurfaceType.ELECTROSTATIC_POTENTIAL );
-                    electronDensityNode.setVisible( isosurfaceType == IsosurfaceType.ELECTRON_DENSITY );
+            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
+                public void apply( SurfaceType isosurfaceType ) {
+                    electrostaticPotentialNode.setVisible( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
+                    electronDensityNode.setVisible( isosurfaceType == SurfaceType.ELECTRON_DENSITY );
                 }
             } );
         }

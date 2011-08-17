@@ -1,3 +1,4 @@
+8/17/11 change "Isosurface" label to "Surface", also change internally
 8/17/11 change request: pause animation of E-field alignment when an EN slider is being dragged
 8/17/11 change request: when changing bond angle, move the atom that's being dragged to the front
 # 0.00.10 (55361) Aug 16, 2011
