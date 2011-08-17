@@ -1,3 +1,4 @@
+8/17/11 for triatomic molecule, make molecular dipole on by default, bond dipole off by default
 8/17/11 put 2D isosurfaces behind molecule, so that it's possible to change bond angle and rotate isosurface
 8/17/11 delete periodic table, replace with placeholder for electronegativity table
 8/17/11 change "Isosurface" label to "Surface", also change internally
