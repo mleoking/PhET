@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.common.ShapeUtils;
+import edu.colorado.phet.geneexpressionbasics.common.common.ShapeCreationUtils;
 
 /**
  * Class that represents RNA polymerase in the model.
@@ -40,6 +40,6 @@ public class RnaPolymerase extends MobileBiomolecule {
         points.add( new Point2D.Double( 0, -HEIGHT / 2 ) ); // Middle bottom.
         points.add( new Point2D.Double( -WIDTH * 0.30, -HEIGHT * 0.25 ) );
         points.add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
-        return ShapeUtils.createRoundedShapeFromPoints( points );
+        return ShapeCreationUtils.createRoundedShapeFromPoints( points );
     }
 }
