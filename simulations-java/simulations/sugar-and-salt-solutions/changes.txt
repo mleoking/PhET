@@ -1,8 +1,9 @@
+Water tab: Rewrote particle window and started converting graphics and model to reuse code from micro tab
 Water tab: Reduced the size of the sucrose bucket icon, Rewrote sugar crystal graphic to use micro tab nodes
 Water tab: Made buckets smaller
 # 0.00.91 (55292) Aug 16, 2011
-Water tab: Require some time to pass since each crystallization event so it isn't too jumpy
-Water tab: Require crystallization and prevent dissolving when water volume <=  0.03E-23L
+Micro tab: Require some time to pass since each crystallization event so it isn't too jumpy
+Micro tab: Require crystallization and prevent dissolving when water volume <=  0.03E-23L
 Water tab: Switched to unicode figure dash for partial charge minus sign, looks longer and further away from delta symbol
 Parse command line args for a directive like "-module 2" which will set that as the startup module (0-based indices)
 # 0.00.90 (55254) Aug 15, 2011

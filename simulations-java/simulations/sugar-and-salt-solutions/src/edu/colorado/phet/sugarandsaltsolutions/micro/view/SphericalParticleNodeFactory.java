@@ -16,10 +16,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 public class SphericalParticleNodeFactory implements VoidFunction1<SphericalParticle> {
     private final ItemList<SphericalParticle> list;
     private final ModelViewTransform transform;
-    private final MicroCanvas canvas;
+    private final ICanvas canvas;
     private final ObservableProperty<Boolean> showChargeColor;
 
-    public SphericalParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, MicroCanvas canvas, ObservableProperty<Boolean> showChargeColor ) {
+    public SphericalParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, ICanvas canvas, ObservableProperty<Boolean> showChargeColor ) {
         this.list = list;
         this.transform = transform;
         this.canvas = canvas;

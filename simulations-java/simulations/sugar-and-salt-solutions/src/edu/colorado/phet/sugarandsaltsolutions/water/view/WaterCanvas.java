@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
@@ -22,6 +23,8 @@ import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNodeFactory;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
@@ -41,7 +44,7 @@ import static java.awt.Color.green;
  *
  * @author Sam Reid
  */
-public class WaterCanvas extends PhetPCanvas {
+public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     //Default size of the canvas.  Sampled at runtime on a large res screen from a sim with multiple tabs
     public static final Dimension canvasSize = new Dimension( 1008, 676 );
@@ -83,18 +86,19 @@ public class WaterCanvas extends PhetPCanvas {
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
         double inset = 40;
-        final double canvasWidth = canvasSize.getWidth();
-        final double canvasHeight = canvasSize.getHeight();
-        transform = createRectangleInvertedYMapping( new Rectangle2D.Double( -model.beakerWidth / 2, 0, model.beakerWidth, model.beakerHeight ),
-                                                     new Rectangle2D.Double( -inset, -inset, canvasWidth + inset * 2, canvasHeight + inset * 2 ) );
+        ImmutableRectangle2D particleWindow = model.particleWindow;
+        final double particleWindowWidth = canvasSize.getWidth() * 0.7;
+        final double particleWindowHeight = model.particleWindow.height * particleWindowWidth / model.particleWindow.width;
+        final double particleWindowX = canvasSize.getWidth() - inset - particleWindowWidth;
+        final double particleWindowY = inset;
+        transform = createRectangleInvertedYMapping( particleWindow.toRectangle2D(),
+                                                     new Rectangle2D.Double( particleWindowX, particleWindowY, particleWindowWidth, particleWindowHeight ) );
 
         // Root of our scene graph
         addWorldChild( rootNode );
 
         //Add the region with the particles
-        particleWindowNode = new ParticleWindowNode( model, transform ) {{
-            setOffset( canvasWidth - getFullBounds().getWidth() - 50, 0 );
-        }};
+        particleWindowNode = new ParticleWindowNode( model, transform );
         rootNode.addChild( particleWindowNode );
 
         //Set the transform from stage coordinates to screen coordinates
@@ -113,7 +117,7 @@ public class WaterCanvas extends PhetPCanvas {
 
         //Control panel
         controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
-            setOffset( INSET, canvasHeight - getFullBounds().getHeight() - INSET );
+            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
         }};
         addChild( controlPanel );
 
@@ -127,8 +131,8 @@ public class WaterCanvas extends PhetPCanvas {
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 130, 60 );
-        sugarBucket = new BucketView( new Bucket( canvasWidth / 2 + 210, -canvasHeight + 115, bucketSize, green, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( canvasWidth / 2, -canvasHeight + 115, bucketSize, blue, SALT ), bucketTransform );
+        sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115, bucketSize, green, SUGAR ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115, bucketSize, blue, SALT ), bucketTransform );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
@@ -158,6 +162,9 @@ public class WaterCanvas extends PhetPCanvas {
         addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
+
+        //When any spherical particle is added in the model, add graphics for them in the view
+        model.sphericalParticles.addElementAddedObserver( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
     }
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
@@ -228,8 +235,12 @@ public class WaterCanvas extends PhetPCanvas {
         }} );
     }
 
-    private void addChild( PNode node ) {
+    public void addChild( PNode node ) {
         rootNode.addChild( node );
+    }
+
+    public void removeChild( PNode node ) {
+        rootNode.removeChild( node );
     }
 
     public ModelViewTransform getModelViewTransform() {

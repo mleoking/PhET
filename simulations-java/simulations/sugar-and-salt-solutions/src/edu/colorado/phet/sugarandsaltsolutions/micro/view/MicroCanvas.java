@@ -33,7 +33,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNodeWith
  *
  * @author Sam Reid
  */
-public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener {
+public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.Listener, ICanvas {
     private PeriodicTableDialog periodicTableDialog;
     private boolean dialogVisibleOnActivate;
 
