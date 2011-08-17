@@ -1,3 +1,4 @@
+Fixed momenta diagram with advanced 1d/2d modes
 # 1.00.11 (54951) Aug 8, 2011
 > Fixed momenta diagram arrows so that zooming will keep the arrows fixed to the grid
 Remove most horizontal gridlines on the 1-D momenta diagram

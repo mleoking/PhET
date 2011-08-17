@@ -136,7 +136,7 @@ public class MomentumView extends Sprite {
             //draw horizontal grid lines and vertical grid lines
             var maxN: int = Math.floor( H / (2 * gridSpacing) );  //n = number of lines above x-axis
             for ( var i: int = 1; i <= maxN; i++ ) {
-                if ( !myModel.isIntro ) {
+                if ( !myModel.oneDMode ) {
                     // horizontal lines
                     moveTo( del, H / 2 - i * gridSpacing );
                     lineTo( W - del, H / 2 - i * gridSpacing );
@@ -274,7 +274,7 @@ public class MomentumView extends Sprite {
 
             // funky math to rescale the arrows, since they aren't otherwise connected. also, the center origin scaling does this
             arrow.x = (arrow.x - borderWidth / 2) * zoomScale / oldScale + borderWidth / 2;
-            if( !myModel.isIntro ) {
+            if( !myModel.oneDMode ) {
                 arrow.y = (arrow.y - borderHeight / 2) * zoomScale / oldScale + borderHeight / 2;
             }
         }
