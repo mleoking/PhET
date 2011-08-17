@@ -70,12 +70,12 @@ public class TwoAtomsCanvas extends MPCanvas {
             addChild( bondTypeNode );
 
             // molecule
+            addChild( electrostaticPotentialNode );
+            addChild( electronDensityNode );
             addChild( moleculeNode );
             addChild( partialChargeNodeA );
             addChild( partialChargeNodeB );
             addChild( bondDipoleNode );
-            addChild( electrostaticPotentialNode );
-            addChild( electronDensityNode );
         }
 
         // layout
