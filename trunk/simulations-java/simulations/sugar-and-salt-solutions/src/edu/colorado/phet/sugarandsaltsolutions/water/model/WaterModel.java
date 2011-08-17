@@ -204,16 +204,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         final double y = location.getY();
         final double delta = beakerHeight / 4 * 0.87;
         return new ArrayList<Sucrose>() {{
-            add( newSugar( x, y - delta / 2 ) );
-            add( newSugar( x, y + delta / 2 ) );
+            add( createSucrose( x, y - delta / 2 ) );
+            add( createSucrose( x, y + delta / 2 ) );
         }};
     }
 
     private void addSugar( double x, double y ) {
-        sugarMoleculeList.add( newSugar( x, y ) );
+        sugarMoleculeList.add( createSucrose( x, y ) );
     }
 
-    public Sucrose newSugar( double x, double y ) {
+    public Sucrose createSucrose( double x, double y ) {
         return new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener, oxygenCharge, hydrogenCharge );
     }
 

@@ -12,11 +12,13 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.umd.cs.piccolo.PNode;
 
 /**
+ * Node for sucrose that can show either individual atom colors or neutral for all atoms
+ *
  * @author Sam Reid
  */
 public class MultiSucroseNode extends PNode {
-    public MultiSucroseNode( ModelViewTransform transform, Sucrose sodiumIon, VoidFunction1<VoidFunction0> addFrameListener, final ObservableProperty<Boolean> showSugarAtoms ) {
-        addChild( new SucroseNode( transform, sodiumIon, addFrameListener, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
+    public MultiSucroseNode( ModelViewTransform transform, Sucrose sucrose, VoidFunction1<VoidFunction0> addFrameListener, final ObservableProperty<Boolean> showSugarAtoms ) {
+        addChild( new SucroseNode( transform, sucrose, addFrameListener, Element.O.getColor(), Element.H.getColor(), Color.gray ) {{
             showSugarAtoms.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean showSugarAtoms ) {
                     setVisible( showSugarAtoms );
@@ -24,7 +26,7 @@ public class MultiSucroseNode extends PNode {
             } );
         }} );
 
-        addChild( new SucroseNode( transform, sodiumIon, addFrameListener, Color.yellow, Color.yellow, Color.yellow ) {{
+        addChild( new SucroseNode( transform, sucrose, addFrameListener, Color.yellow, Color.yellow, Color.yellow ) {{
             showSugarAtoms.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean showSugarAtoms ) {
                     setVisible( !showSugarAtoms );
