@@ -139,7 +139,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
     public void addSalt( Point2D location ) {
-        SaltCrystal saltCrystal = newSaltCrystal( location );
+        SaltCrystal saltCrystal = new SaltCrystal( this, location );
 
         //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
         for ( WaterMolecule water : waterList ) {
@@ -155,10 +155,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         chlorineList.add( saltCrystal.chloride2 );
 
         timeSinceSaltAdded = 0;
-    }
-
-    public SaltCrystal newSaltCrystal( Point2D location ) {
-        return new SaltCrystal( this, location );
     }
 
     //Adds a sugar crystal near the center of the screen
