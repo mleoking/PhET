@@ -67,6 +67,12 @@ public class Box2DAdapter {
         compound.setPosition( transform.viewToModel( new ImmutableVector2D( body.getPosition().x, body.getPosition().y ) ) );
     }
 
+    //Apply a force in Newtons by converting it to box2d coordinates and applying it to the body
+    public void applyModelForce( ImmutableVector2D force ) {
+        ImmutableVector2D box2DForce = transform.modelToViewDelta( force );
+        applyForce( box2DForce.getX(), box2DForce.getY() );
+    }
+
     //Apply a force to the body at its center
     //Note that this will be insufficient for polyatomic compounds
     //TODO: add a variant for polyatomic compounds

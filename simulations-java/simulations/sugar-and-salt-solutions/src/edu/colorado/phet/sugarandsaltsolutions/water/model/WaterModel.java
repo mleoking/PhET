@@ -68,14 +68,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
-
-    //Shapes for boundaries, used in periodic boundary conditions
-    double frameThickness = 1E-10;
-    private ImmutableRectangle2D bottomWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, particleWindow.width, frameThickness );
-    private ImmutableRectangle2D rightWallShape = new ImmutableRectangle2D( particleWindow.width / 2, 0, frameThickness, particleWindow.height );
-    private ImmutableRectangle2D leftWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, frameThickness, particleWindow.height );
-    private ImmutableRectangle2D topWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, particleWindow.height, particleWindow.width, frameThickness + particleWindow.height );
-
     private static final int DEFAULT_NUM_WATERS = 180;
 
     //So we don't have to reallocate zeros all the time
@@ -88,8 +80,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
-    public final Property<Double> timeScale = new Property<Double>( 0.4 );
-    public final Property<Integer> iterations = new Property<Integer>( 50 );
+    public final Property<Double> timeScale = new Property<Double>( 0.01 );
+    public final Property<Integer> iterations = new Property<Integer>( 10 );
     public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
             addFrameListener( waterMolecule );
@@ -284,7 +276,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        }
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
-            box2DAdapter.applyForce( 10, -30 );
+            for ( Constituent<SphericalParticle> constituent : box2DAdapter.compound ) {
+                for ( SphericalParticle particle : sphericalParticles ) {
+                    if ( !box2DAdapter.compound.containsParticle( particle ) ) {
+                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, 1, -1 );
+//                        System.out.println( "coulombForce = " + coulombForce );
+                        box2DAdapter.applyModelForce( coulombForce );
+                    }
+                }
+            }
         }
 
         //Box2D will exception unless values are within its sweet spot range.
@@ -296,13 +296,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         applyPeriodicBoundaryConditions( box2DAdapters );
 
         //Factor out center of mass motion so no large scale drifts can occur
-        Vec2 totalMomentum = getBox2DMomentum();
-        for ( Box2DAdapter molecule : box2DAdapters ) {
-            Vec2 v = molecule.body.getLinearVelocity();
-            final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
-            molecule.body.setLinearVelocity( v.add( delta ) );
-        }
-//        System.out.println( "init tot mom = " + totalMomentum + ", after = " + getTotalMomentum() );
+        subtractOutCenterOfMomentum();
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             box2DAdapter.worldStepped();
@@ -313,6 +307,28 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             frameListener.apply();
         }
         timeSinceSaltAdded += dt;
+    }
+
+    //Get the coulomb force between two particles
+    //The particles should be from different compounds since compounds shouldn't have intra-molecular forces
+    private ImmutableVector2D getCoulombForce( SphericalParticle source, SphericalParticle target, double q1, double q2 ) {
+        if ( source.getPosition().equals( target.getPosition() ) ) {
+            return ImmutableVector2D.ZERO;
+        }
+        double distance = source.getPosition().getDistance( target.getPosition() );
+        double k = 8.987E9 / 1E34;
+        return new ImmutableVector2D( source.getPosition(), target.getPosition() ).getInstanceOfMagnitude( k * q1 * q2 / distance / distance ).times( -1 );
+    }
+
+    //Factor out center of mass motion so no large scale drifts can occur
+    private void subtractOutCenterOfMomentum() {
+        Vec2 totalMomentum = getBox2DMomentum();
+        for ( Box2DAdapter molecule : box2DAdapters ) {
+            Vec2 v = molecule.body.getLinearVelocity();
+            final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
+            molecule.body.setLinearVelocity( v.add( delta ) );
+        }
+        //        System.out.println( "init tot mom = " + totalMomentum + ", after = " + getTotalMomentum() );
     }
 
     private Vec2 getBox2DMomentum() {

@@ -130,4 +130,14 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         }
         return count;
     }
+
+    //Determine whether the compound contains the specified particle, to ignore intra-molecular forces in WaterModel
+    public boolean containsParticle( T particle ) {
+        for ( Constituent<T> constituent : constituents ) {
+            if ( constituent.particle == particle ) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
