@@ -20,5 +20,6 @@ public class View {
         for ( Atom atom : model.atoms ) {
             new AtomView( atom ).paint( graphics2D );
         }
+        new ButtonView( model.buttonModel ).paint( graphics2D );
     }
 }

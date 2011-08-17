@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.reid.scenic.model.Atom;
+import org.reid.scenic.model.ButtonModel;
 import org.reid.scenic.model.Model;
 import org.reid.scenic.view.View;
 
@@ -51,7 +52,7 @@ public class TestScenicPanel {
                     pack();
                     new Thread( new Runnable() {
                         public void run() {
-                            recurse( scenicPanel, new ModelUpdater(), new Model( new ImmutableList<Atom>( createAtoms() ) ) );
+                            recurse( scenicPanel, new ModelUpdater(), new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel() ) );
                         }
                     } ).start();
                 }}.setVisible( true );

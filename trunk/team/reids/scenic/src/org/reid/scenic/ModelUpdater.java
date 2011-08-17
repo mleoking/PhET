@@ -2,6 +2,7 @@
 package org.reid.scenic;
 
 import org.reid.scenic.model.Atom;
+import org.reid.scenic.model.ButtonModel;
 import org.reid.scenic.model.Model;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -21,6 +22,6 @@ public class ModelUpdater implements Function1<Model, Model> {
                 ImmutableVector2D velocity = atom.velocity.plus( force.times( dt / atom.mass ) );
                 return new Atom( atom.position.plus( atom.velocity.times( dt ) ), atom.position.getY() < TestScenicPanel.MAX_Y ? velocity : new ImmutableVector2D( velocity.getX(), -Math.abs( velocity.getY() ) ), atom.mass );
             }
-        } ) );
+        } ), new ButtonModel() );
     }
 }
