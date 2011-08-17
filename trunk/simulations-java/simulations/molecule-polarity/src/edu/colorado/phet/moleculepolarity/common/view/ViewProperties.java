@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
  */
 public class ViewProperties implements Resettable {
 
-    public static enum IsosurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
+    public static enum SurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
 
-    public final Property<IsosurfaceType> isosurfaceType = new Property<IsosurfaceType>( IsosurfaceType.NONE );
+    public final Property<SurfaceType> isosurfaceType = new Property<SurfaceType>( SurfaceType.NONE );
     public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
     public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
     public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );

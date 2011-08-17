@@ -13,8 +13,8 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
-import edu.colorado.phet.moleculepolarity.common.control.IsosurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeControlNode;
+import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
@@ -22,7 +22,7 @@ import edu.colorado.phet.moleculepolarity.common.view.MPPeriodicTableNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
-import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.IsosurfaceType;
+import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
 import edu.umd.cs.piccolo.PNode;
 
@@ -43,7 +43,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, MPStrings.BOND_DIPOLES ) );
-        PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
+        PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new ResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame, 16, Color.BLACK, Color.YELLOW );
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
@@ -106,8 +106,8 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.isosurfaceType.addObserver( new VoidFunction1<IsosurfaceType>() {
-                public void apply( IsosurfaceType isosurfaceType ) {
+            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
+                public void apply( SurfaceType isosurfaceType ) {
                     viewerNode.setIsosurfaceType( isosurfaceType );
                 }
             } );

@@ -13,7 +13,6 @@ DESIGN
 
 HIGH
 - add color-coded continuum as a legend for surfaces
-- change "Isosurface" label to "Surface"
 - replace periodic table with EN table
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
