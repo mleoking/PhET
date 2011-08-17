@@ -3,12 +3,14 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.common.ShapeCreationUtils;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * Class that represents a transcription factor in the model.  There are
@@ -26,102 +28,21 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     private static final double WIDTH = 350;   // In nanometers.
     private static final double HEIGHT = 240;  // In nanometers.
+    private static final Dimension2D SIZE = new PDimension( WIDTH, HEIGHT );
 
     /**
      * This data structure contains the configuration information for all of the
      * transcription factors used in this sim.
      */
     private static final List<TranscriptionFactorConfig> positiveTranscriptionFactorInfo = new ArrayList<TranscriptionFactorConfig>() {{
-        add( new TranscriptionFactorConfig( 0,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), true, Color.yellow ) );
-        add( new TranscriptionFactorConfig( 0,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.25, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.25, HEIGHT * 0.25 );  // 3
-                                                lineTo( WIDTH * 0.5, HEIGHT * 0 );  // 4
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.25 );  // 5
-                                                lineTo( 0, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.5, 0 ); // back to 1
-                                                closePath();
-                                            }}.getGeneralPath(), false, Color.red ) );
-        add( new TranscriptionFactorConfig( 1,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), true, Color.green ) );
-        add( new TranscriptionFactorConfig( 1,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), false, Color.pink ) );
-        add( new TranscriptionFactorConfig( 2,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), true, Color.cyan ) );
-        add( new TranscriptionFactorConfig( 2,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( 0, ShapeCreationUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
+        add( new TranscriptionFactorConfig( 0, ShapeCreationUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
+        add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
+        add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
+        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 5000 ), true, Color.cyan ) );
+        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 6000 ), false, Color.magenta ) );
         // Default config used if no match found.
-        add( new TranscriptionFactorConfig( Integer.MAX_VALUE,
-                                            new DoubleGeneralPath() {{
-                                                moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
-                                                closePath();
-                                            }}.getGeneralPath(), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( Integer.MAX_VALUE, ShapeCreationUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
     }};
 
     //-------------------------------------------------------------------------
