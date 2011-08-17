@@ -18,6 +18,7 @@ DESIGN
 - pick a max bond dipole length based on desired max molecular dipole length for triatomic molecule
 
 HIGH
+- change request: pause animation of E-field alignment when an EN slider is being dragged
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
 - Jmol: write script to get atom xyz global coordinates after rotating in Jmol viewer
 - Jmol: how to align molecular dipole with E-Field?
@@ -25,7 +26,7 @@ HIGH
 - add minor and major ticks to EN control
 
 MEDIUM
-- ask NP to create an image for rotation cursor, add to license.txt
+- ask NP or JB to create an image for rotation cursor, add to license.txt
 - shapes and color schemes for 2D isosurfaces
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
