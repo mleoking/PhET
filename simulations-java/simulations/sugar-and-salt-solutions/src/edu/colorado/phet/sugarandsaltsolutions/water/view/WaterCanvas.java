@@ -16,12 +16,16 @@ import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.Dimension2DDouble;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
@@ -178,11 +182,46 @@ public class WaterCanvas extends PhetPCanvas {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal
-        SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{grow( 2 );}};
+        SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{
+            grow( 1 );
+
+            //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
+            addConstituent( getOpenSites().get( 2 ).toConstituent() );
+        }};
 
         //Add a draggable node to the bucket
         sugarBucketParticleLayer.addChild( new SucroseCrystalNode( transform, crystal, waterModel.showSugarAtoms ) {{
             centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+
+                protected MultiSucroseNode multiSucroseNode;
+                protected Sucrose sucrose;
+
+                @Override public void mouseDragged( PInputEvent event ) {
+                    if ( multiSucroseNode == null ) {
+                        sucrose = waterModel.createSucrose( 0, 0 );
+                        multiSucroseNode = new MultiSucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
+                            public void apply( VoidFunction0 voidFunction0 ) {
+                                waterModel.addFrameListener( voidFunction0 );
+                                voidFunction0.apply();
+                            }
+                        }, waterModel.showSugarAtoms ) {{
+                            addInputEventListener( new PBasicInputEventHandler() {
+                                @Override public void mouseDragged( PInputEvent event ) {
+                                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                                }
+                            } );
+                        }};
+                        rootNode.addChild( multiSucroseNode );
+                        multiSucroseNode.centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
+
+                        //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
+//                        waterModel.unhook( sucrose );
+                    }
+                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
+                }
+            } );
         }} );
     }
 

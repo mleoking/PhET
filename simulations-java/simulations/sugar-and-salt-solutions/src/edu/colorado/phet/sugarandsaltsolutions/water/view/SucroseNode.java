@@ -27,7 +27,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.
 import static edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule.oxygenRadius;
 
 /**
- * Draws a single water molecule, including a circle for each of the O, H, H
+ * Draws a single sucrose molecule, including a circle for each of the O, H, H
  *
  * @author Sam Reid
  */
