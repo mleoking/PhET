@@ -26,7 +26,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     public RnaPolymerase( Point2D position ) {
-        super( createShape(), new Color( 34, 240, 34 ) );
+        super( createShape(), new Color( 0, 153, 210 ) );
         setPosition( position );
     }
 
