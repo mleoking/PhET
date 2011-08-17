@@ -232,8 +232,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     protected void updateModel( double dt ) {
-        //Ignore super update for now
-//        super.updateModel( dt );
 
         //Apply a random force so the system doesn't settle down, setting random velocity looks funny
         for ( WaterMolecule waterMolecule : waterList ) {
