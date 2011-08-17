@@ -38,7 +38,7 @@ public class BiomoleculeToolBoxNode extends PNode {
     protected final ModelViewTransform mvt;
     private final List<BiomoleculeCreatorNode> biomoleculeCreatorNodeList = new ArrayList<BiomoleculeCreatorNode>();
 
-    public BiomoleculeToolBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt ) {
+    public BiomoleculeToolBoxNode( ManualGeneExpressionModel model, ManualGeneExpressionCanvas canvas, ModelViewTransform mvt, final int geneID ) {
         this.model = model;
         this.canvas = canvas;
         this.mvt = mvt;
@@ -78,7 +78,7 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, 0, true ) ) ), constraints );
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, true ) ) ), constraints );
 
             constraints.gridx = 0;
             constraints.gridy++;
@@ -88,7 +88,7 @@ public class BiomoleculeToolBoxNode extends PNode {
 
             constraints.gridx++;
             constraints.insets.left = 20;
-            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, 0, false ) ) ), constraints );
+            addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, false ) ) ), constraints );
             constraints.gridx = 0;
 
             constraints.gridy++;
