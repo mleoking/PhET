@@ -17,11 +17,7 @@ import edu.umd.cs.piccolo.PNode;
  */
 public class TriatomicMoleculeNode extends PhetPNode {
 
-    private final TriatomicMolecule molecule;
-
     public TriatomicMoleculeNode( final TriatomicMolecule molecule ) {
-
-        this.molecule = molecule;
 
         // nodes
         PNode bondABNode = new BondNode( molecule.bondAB );
