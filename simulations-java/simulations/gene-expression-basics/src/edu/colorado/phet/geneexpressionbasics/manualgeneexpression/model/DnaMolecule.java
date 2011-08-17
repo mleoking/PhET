@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
-import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.common.PlacementHint;
-import edu.colorado.phet.geneexpressionbasics.common.common.ShapeChangingModelElement;
+import edu.colorado.phet.geneexpressionbasics.common.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.PlacementHint;
+import edu.colorado.phet.geneexpressionbasics.common.ShapeChangingModelElement;
 
 /**
  * This class models a molecule of DNA in the model.  It includes the shape of
