@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.common.ShapeCreationUtils;
+import edu.colorado.phet.geneexpressionbasics.common.ShapeCreationUtils;
 
 /**
  * Class that represents RNA polymerase in the model.
