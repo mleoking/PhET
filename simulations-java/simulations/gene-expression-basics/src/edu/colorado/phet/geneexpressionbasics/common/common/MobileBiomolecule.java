@@ -39,4 +39,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public void release() {
         userControlled.set( false );
     }
+
+    public void stepInTime( double dt ) {
+        if ( !userControlled.get() ) {
+            setPosition( getPosition().getX() + 10, getPosition().getY() + 10 );
+        }
+    }
 }

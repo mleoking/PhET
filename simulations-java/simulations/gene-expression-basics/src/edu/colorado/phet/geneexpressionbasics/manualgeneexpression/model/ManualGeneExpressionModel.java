@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
+import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -57,6 +59,14 @@ public class ManualGeneExpressionModel implements Resettable {
     //------------------------------------------------------------------------
     // Constructor
     //------------------------------------------------------------------------
+
+    public ManualGeneExpressionModel() {
+        clock.addClockListener( new ClockAdapter() {
+            @Override public void clockTicked( ClockEvent clockEvent ) {
+                stepInTime( clockEvent.getSimulationTimeChange() );
+            }
+        } );
+    }
 
     //------------------------------------------------------------------------
     // Methods
@@ -116,5 +126,11 @@ public class ManualGeneExpressionModel implements Resettable {
             removeMobileBiomolecule( mobileBiomolecule );
         }
         activateGene( 0 );
+    }
+
+    private void stepInTime( double dt ) {
+        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+            mobileBiomolecule.stepInTime( dt );
+        }
     }
 }
