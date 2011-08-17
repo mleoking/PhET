@@ -31,6 +31,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> useRotationCursor = new Property<Boolean>( true );
     public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
+    public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
 
     /**
      * Sole constructor.
@@ -79,6 +80,7 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "(beta) Show Bond Angles", showBondAngles ) );
     }
 
     //----------------------------------------------------------------------------

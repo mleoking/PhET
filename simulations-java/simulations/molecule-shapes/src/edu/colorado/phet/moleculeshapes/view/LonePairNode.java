@@ -3,8 +3,8 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
@@ -115,13 +115,15 @@ public class LonePairNode extends Node {
      * <p/>
      * A function for creating a rotation matrix that rotates a vector called
      * "start" into another vector called "end".
+     * TODO: move to somewhere more common
      *
-     * @param a normalized non-zero starting vector
-     * @param b normalized non-zero ending vector
+     * @param matrix The matrix to modify
+     * @param a      normalized non-zero starting vector
+     * @param b      normalized non-zero ending vector
      * @see "Tomas M�ller, John Hughes \"Efficiently Building a Matrix to Rotate \
      *      One Vector to Another\" Journal of Graphics Tools, 4(4):1-4, 1999"
      */
-    private static void fromStartEndVectors( Matrix3f matrix, ImmutableVector3D a, ImmutableVector3D b ) {
+    public static void fromStartEndVectors( Matrix3f matrix, ImmutableVector3D a, ImmutableVector3D b ) {
         Vector3f start = MoleculeJMEApplication.vectorConversion( a );
         Vector3f end = MoleculeJMEApplication.vectorConversion( b );
 

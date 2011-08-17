@@ -14,7 +14,7 @@ public class PairGroup {
     public static final double LONE_PAIR_DISTANCE = 7.0;
 
     public static final double ELECTRON_PAIR_REPULSION_SCALE = 30000;
-    public static final double JITTER_SCALE = 0.01;
+    public static final double JITTER_SCALE = 0.001;
     public static final double DAMPING_FACTOR = 0.1;
     public static final double ATTRACTION_SCALE = 1.0;
 
@@ -117,7 +117,9 @@ public class PairGroup {
         position.set( position.get().plus( velocity.get().times( timeElapsed ) ) );
 
         // add in damping so we don't get the kind of oscillation that we are seeing
-        velocity.set( velocity.get().times( 1 - DAMPING_FACTOR ) );
+        double damping = 1 - DAMPING_FACTOR;
+        damping = Math.pow( damping, timeElapsed / 0.017 );
+        velocity.set( velocity.get().times( damping ) );
 
         // add in a small randomization into position, so we jitter away from unstable positions
         position.set( position.get().plus( new ImmutableVector3D( JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ), JITTER_SCALE * ( Math.random() - 0.5 ) ) ) );

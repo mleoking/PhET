@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -35,12 +36,15 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
+import com.jme3.material.Material;
+import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -54,6 +58,8 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: double-check naming with double/triple bonds
  * TODO: audit for any other synchronization issues. we have the AWT and JME threads running rampant!
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
+ * TODO: collision-lab-like button unpress failures?
+ * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
@@ -78,6 +84,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
     private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
+    private List<Spatial> angleNodes = new ArrayList<Spatial>();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
 
@@ -250,6 +257,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     atomNodes.add( atomNode );
                     moleculeNode.attachChild( atomNode );
                     rebuildBonds();
+                    rebuildAngles();
                 }
 
                 onGeometryChange();
@@ -296,6 +304,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
 
         rebuildBonds();
+        rebuildAngles();
 
         /*---------------------------------------------------------------------------*
         * lights
@@ -613,6 +622,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     @Override public synchronized void simpleUpdate( final float tpf ) {
         molecule.update( tpf );
         rebuildBonds();
+        rebuildAngles();
         moleculeNode.setLocalRotation( rotation );
 
         if ( resizeDirty ) {
@@ -656,6 +666,60 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
+    private DecimalFormat angleFormat = new DecimalFormat( "##0.0" );
+
+    private void rebuildAngles() {
+        // TODO: docs and cleanup
+        Vector3f dir = cam.getLocation();
+        final Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
+
+        for ( Spatial node : angleNodes ) {
+            node.getParent().detachChild( node );
+        }
+        angleNodes.clear();
+
+        if ( MoleculeShapesApplication.showBondAngles.get() ) {
+            // iterate over all combinations of two pair groups
+            for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
+                PairGroup a = molecule.getGroups().get( i );
+                final ImmutableVector3D aDir = a.position.get().normalized();
+
+                for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
+                    final PairGroup b = molecule.getGroups().get( j );
+                    final ImmutableVector3D bDir = b.position.get().normalized();
+
+                    final float brightness = calculateBrightness( aDir, bDir, transformedDirection );
+                    if ( brightness == 0 ) {
+                        continue;
+                    }
+
+                    final BondAngleNode bondAngleNode = new BondAngleNode( aDir, bDir, transformedDirection );
+                    moleculeNode.attachChild( bondAngleNode );
+                    angleNodes.add( bondAngleNode );
+
+                    Vector3f globalCenter = moleculeNode.getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
+                    Vector3f globalMidpoint = moleculeNode.getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
+
+                    final Vector3f screenCenter = cam.getScreenCoordinates( globalCenter );
+                    final Vector3f screenMidpoint = cam.getScreenCoordinates( globalMidpoint );
+
+                    float extensionFactor = 1.3f;
+                    final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
+
+                    String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
+                    PiccoloJMENode label = new PiccoloJMENode( new PText( labelText ) {{
+                        setFont( new PhetFont( 16 ) );
+                        setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
+                    }}, assetManager, inputManager ) {{
+                        setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
+                    }};
+                    guiNode.attachChild( label );
+                    angleNodes.add( label );
+                }
+            }
+        }
+    }
+
     public static Vector3f vectorConversion( ImmutableVector3D vec ) {
         // TODO: move to utilities
         return new Vector3f( (float) vec.getX(), (float) vec.getY(), (float) vec.getZ() );
@@ -688,5 +752,58 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     public MoleculeModel getMolecule() {
         return molecule;
+    }
+
+    private class BondAngleNode extends Node {
+        private Vector3f center;
+        private Vector3f midpoint;
+
+        // TODO: docs and cleanup, and move out if kept
+        public BondAngleNode( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
+            float radius = 5;
+            final float alpha = calculateBrightness( aDir, bDir, transformedDirection );
+
+            Vector3f a = vectorConversion( aDir );
+            Vector3f b = vectorConversion( bDir );
+
+            Arc arc = new Arc( a, b, radius, 20 ) {{
+                setLineWidth( 2 );
+            }};
+
+            center = new Vector3f();
+            midpoint = Arc.slerp( a, b, 0.5f ).mult( radius );
+
+            attachChild( new Geometry( "ArcTest", arc ) {{
+                setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
+                    setColor( "Color", new ColorRGBA( 1, 0, 0, alpha ) );
+
+                    getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
+                    setTransparent( true );
+                }} );
+            }} );
+
+            setQueueBucket( Bucket.Transparent ); // allow it to be transparent
+        }
+
+        public Vector3f getCenter() {
+            return center;
+        }
+
+        public Vector3f getMidpoint() {
+            return midpoint;
+        }
+    }
+
+    private static float calculateBrightness( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
+        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( vectorConversion( transformedDirection ) ) );
+
+        brightness = brightness * 5 - 2.5f;
+        if ( brightness < 0 ) {
+            brightness = 0;
+        }
+        if ( brightness > 1 ) {
+            brightness = 1;
+        }
+        return brightness;
     }
 }
