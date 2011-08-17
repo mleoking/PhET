@@ -46,8 +46,8 @@ public class TwoAtomsCanvas extends MPCanvas {
         final BondDipoleNode bondDipoleNode = new BondDipoleNode( model.molecule.bond );
         final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
         final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
-        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false, MPStrings.BOND_DIPOLE ) );
         PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );

@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -28,7 +29,10 @@ import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighligh
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -68,12 +72,13 @@ public class ElectronegativityControlNode extends PhetPNode {
      * Constructor
      *
      * @param atom         the atom whose electronegativity we're controlling
+     * @param molecule     molecule that the atom belongs to, for pausing animation while this control is used
      * @param range        range of electronegativity
      * @param snapInterval knob will snap to this increment when released
      */
-    public ElectronegativityControlNode( final Atom atom, DoubleRange range, double snapInterval ) {
+    public ElectronegativityControlNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
 
-        final PanelNode panelNode = new PanelNode( atom, range, snapInterval );
+        final PanelNode panelNode = new PanelNode( atom, molecule, range, snapInterval );
         String title = MessageFormat.format( MPStrings.PATTERN_0ATOM_NAME, atom.getName() );
         TitledBackgroundNode backgroundNode = new TitledBackgroundNode( title, atom.getColor(), panelNode, BACKGROUND_X_MARGIN, BACKGROUND_Y_MARGIN );
         addChild( backgroundNode );
@@ -144,13 +149,13 @@ public class ElectronegativityControlNode extends PhetPNode {
         private final KnobNode knobNode;
         private final DoubleRange range;
 
-        public PanelNode( final Atom atom, DoubleRange range, double snapInterval ) {
+        public PanelNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
 
             this.atom = atom;
             this.range = range;
 
             trackNode = new TrackNode();
-            knobNode = new KnobNode( this, trackNode, range, snapInterval, atom );
+            knobNode = new KnobNode( molecule, this, trackNode, range, snapInterval, atom );
             PText labelNode = new PText( MPStrings.ELECTRONEGATIVITY ) {{
                 setFont( new PhetFont( 14 ) );
             }};
@@ -225,7 +230,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      */
     private static class KnobNode extends PPath {
 
-        public KnobNode( PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
+        public KnobNode( IMolecule molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
 
             float w = (float) KNOB_SIZE.getWidth();
             float h = (float) KNOB_SIZE.getHeight();
@@ -244,7 +249,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
             addInputEventListener( new CursorHandler() );
             addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
-            addInputEventListener( new KnobDragHandler( relativeNode, trackNode, this, range, snapInterval,
+            addInputEventListener( new KnobDragHandler( molecule, relativeNode, trackNode, this, range, snapInterval,
                                                         new VoidFunction1<Double>() {
                                                             public void apply( Double value ) {
                                                                 atom.electronegativity.set( value );
@@ -256,17 +261,29 @@ public class ElectronegativityControlNode extends PhetPNode {
     // Drag handler for the knob, snaps to closet value.
     private static class KnobDragHandler extends HorizontalSliderDragHandler {
 
+        private final IMolecule molecule;
         private final double snapInterval; // slider snaps to closet model value in this interval
 
         // see superclass for constructor params
-        public KnobDragHandler( PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
+        public KnobDragHandler( IMolecule molecule, PNode relativeNode, PNode trackNode, PNode knobNode, DoubleRange range, double snapInterval, VoidFunction1<Double> updateFunction ) {
             super( relativeNode, trackNode, knobNode, range, updateFunction );
+            this.molecule = molecule;
             this.snapInterval = snapInterval;
         }
 
         // snaps to the closest value
         @Override protected double adjustValue( double value ) {
             return Math.floor( ( value / snapInterval ) + 0.5d ) * snapInterval;
+        }
+
+        @Override protected void startDrag( PInputEvent event ) {
+            super.startDrag( event );
+            molecule.setDragging( true );
+        }
+
+        @Override protected void endDrag( PInputEvent event ) {
+            super.endDrag( event );
+            molecule.setDragging( false );
         }
     }
 
@@ -310,7 +327,8 @@ public class ElectronegativityControlNode extends PhetPNode {
         DoubleRange range = new DoubleRange( 0.7, 4 );
         double snapInterval = 0.1;
 
-        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( atom, range, snapInterval );
+        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D() );
+        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( molecule.atomA, molecule, range, snapInterval );
         controlNode.setOffset( 100, 100 );
 
         PhetPCanvas canvas = new PhetPCanvas();
