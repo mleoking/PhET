@@ -216,8 +216,9 @@ public class Body implements IBodyColors {
 
     //This method is called after all bodies have been updated by the physics engine (must be done as a batch), so that the path can be updated
     public void allBodiesUpdated() {
-        //Only add to the path if the object hasn't collided and if the user isn't dragging it
-        if ( !collidedProperty.get() && !isUserControlled() ) {
+        //Only add to the path if the user isn't dragging it
+        //But do add to the path even if the object is collided at the same location so the path will still grow in size and fade at the right time
+        if ( !isUserControlled() ) {
             addPathPoint();
         }
     }

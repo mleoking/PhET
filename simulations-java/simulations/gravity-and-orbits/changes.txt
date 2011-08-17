@@ -1,3 +1,4 @@
+> Fixed: After crashing, an object's path doesn't disappear
 Changed MassReadoutNode to use Not instead of SettableNot, see #3045
 # 2.03.01 (55272) Aug 15, 2011
 > Fixed: After selecting "Reset All" sim starts with "Pause" rather than "Play" button, resolves #3032
