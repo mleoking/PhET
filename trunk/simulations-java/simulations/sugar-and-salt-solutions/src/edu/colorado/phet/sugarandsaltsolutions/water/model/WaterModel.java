@@ -67,11 +67,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
+
     //Shapes for boundaries, used in periodic boundary conditions
-    private ImmutableRectangle2D bottomWallShape;
-    private ImmutableRectangle2D rightWallShape;
-    private ImmutableRectangle2D leftWallShape;
-    private ImmutableRectangle2D topWallShape;
+    double frameThickness = 1E-10;
+    private ImmutableRectangle2D bottomWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, particleWindow.width, frameThickness );
+    private ImmutableRectangle2D rightWallShape = new ImmutableRectangle2D( particleWindow.width / 2, 0, frameThickness, particleWindow.height );
+    private ImmutableRectangle2D leftWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, frameThickness, particleWindow.height );
+    private ImmutableRectangle2D topWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, particleWindow.height, particleWindow.width, frameThickness + particleWindow.height );
 
     private static final int DEFAULT_NUM_WATERS = 180;
 
@@ -110,19 +112,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         super( new ConstantDtClock( 30 ) );
 
         //Set the bounds of the physics engine, with the origin at the center.  The docs say things should be mostly between 0.1 and 10 units
-        AABB worldAABB = new AABB();
-        worldAABB.lowerBound = new Vec2( -200, -200 );
-        worldAABB.upperBound = new Vec2( 200, 200 );
+        AABB worldAABB = new AABB() {{
+            lowerBound = new Vec2( -200, -200 );
+            upperBound = new Vec2( 200, 200 );
+        }};
 
         //Create the Box2D world with no gravity
         world = new World( worldAABB, new Vec2( 0, 0 ), true );
-
-        //Create the frame for the window, make it very thick no so particles can penetrate or jump over it
-        double frameThickness = 1E-10;
-        bottomWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, particleWindow.width, frameThickness );
-        topWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, particleWindow.height, particleWindow.width, frameThickness + particleWindow.height );
-        rightWallShape = new ImmutableRectangle2D( particleWindow.width / 2, 0, frameThickness, particleWindow.height );
-        leftWallShape = new ImmutableRectangle2D( -particleWindow.width / 2, 0, frameThickness, particleWindow.height );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -242,9 +238,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     protected void updateModel( double dt ) {
-        for ( WaterMolecule2 waterMolecule2 : waterList2 ) {
-            waterMolecule2.translate( particleWindow.width / 1000, particleWindow.width / 1000 );
-        }
+//        for ( WaterMolecule2 waterMolecule2 : waterList2 ) {
+//            waterMolecule2.translate( particleWindow.width / 1000, particleWindow.width / 1000 );
+//        }
 
         //Apply a random force so the system doesn't settle down, setting random velocity looks funny
         for ( WaterMolecule waterMolecule : waterList ) {
