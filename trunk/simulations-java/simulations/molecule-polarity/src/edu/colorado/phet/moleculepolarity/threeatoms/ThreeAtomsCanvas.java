@@ -48,9 +48,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
         final MolecularDipoleNode molecularDipoleNode = new MolecularDipoleNode( model.molecule );
         final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule );
         final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule );
-        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        ElectronegativityControlNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, false, MPStrings.BOND_DIPOLES ) );
         PNode isosurfaceControlsNode = new ControlPanelNode( new IsosurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
