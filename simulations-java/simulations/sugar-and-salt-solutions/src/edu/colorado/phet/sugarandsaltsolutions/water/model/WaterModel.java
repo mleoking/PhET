@@ -64,7 +64,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private ImmutableRectangle2D leftWallShape;
     private ImmutableRectangle2D topWallShape;
 
-    private int DEFAULT_NUM_WATERS = 180;
+    private static final int DEFAULT_NUM_WATERS = 180;
 
     //So we don't have to reallocate zeros all the time
     private final Vec2 zero = new Vec2();
@@ -94,6 +94,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Turn down forces after salt disassociates
     private double timeSinceSaltAdded = 0;
+    private static final boolean debugTime = false;
 
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
@@ -263,7 +264,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
 
         long t2 = System.currentTimeMillis();
-//        System.out.println( "delta = " + ( t2 - t ) );
+        if ( debugTime ) {
+            System.out.println( "delta = " + ( t2 - t ) );
+        }
 
         //Box2D will exception unless values are within its sweet spot range.
         //if DT gets too low, it is hard to recover from assertion errors in box2D

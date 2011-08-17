@@ -4,8 +4,11 @@
       <w>droppable</w>
       <w>exponentials</w>
       <w>generified</w>
+      <w>millis</w>
       <w>overriden</w>
       <w>phet</w>
+      <w>precompute</w>
+      <w>println</w>
       <w>proguard</w>
     </words>
   </dictionary>
