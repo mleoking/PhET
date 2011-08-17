@@ -19,7 +19,7 @@ import edu.umd.cs.piccolo.PCanvas;
 /**
  * @author John Blanco
  */
-public class ShapeUtils {
+public class ShapeCreationUtils {
 
     public static Shape createShapeFromPoints( List<Point2D> points ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
@@ -92,9 +92,9 @@ public class ShapeUtils {
 //            add( new Point2D.Double( 20, -20 ) );
 //            add( new Point2D.Double( 0, -20 ) );
         }};
-        Shape angularShape = ShapeUtils.createShapeFromPoints( point2DList );
+        Shape angularShape = ShapeCreationUtils.createShapeFromPoints( point2DList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( angularShape ), Color.PINK ) );
-        Shape roundedShape = ShapeUtils.createRoundedShapeFromPoints( point2DList );
+        Shape roundedShape = ShapeCreationUtils.createRoundedShapeFromPoints( point2DList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 100 ).createTransformedShape( roundedShape ), Color.GREEN ) );
 
         JFrame frame = new JFrame( "Shape Util Testing" );
