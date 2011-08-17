@@ -26,7 +26,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
 
-    //Put the vectors at the same random angle so all crystals don't come out at right angles
+    //Put the vectors at the same random angle so all compounds don't come out at the same angle
     protected final double angle;
 
     public Compound( ImmutableVector2D position, double angle ) {
