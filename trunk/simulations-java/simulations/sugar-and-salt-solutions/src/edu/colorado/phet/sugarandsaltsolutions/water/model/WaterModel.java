@@ -23,9 +23,6 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 
-import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.CHLORINE_RADIUS;
-import static edu.colorado.phet.sugarandsaltsolutions.water.view.Element.SODIUM_RADIUS;
-
 /**
  * Model for "water" tab for sugar and salt solutions.
  *
@@ -43,7 +40,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
 
     //Box2d world which updates the physics
-    private World world;
+    public final World world;
 
     private Random random = new Random();
 
@@ -54,9 +51,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //units for water molecules are in SI
 
     //Beaker floor should be about 40 angstroms, to accommodate about 20 water molecules side-to-side
-    //But keep box2d within -10..10 (i.e. 20 boxes wide), so scale factor is about
+    //But keep box2d within -10..10 (i.e. 20 boxes wide)
     double scaleFactor = box2DWidth / beakerWidth;
-    private final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
+    public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     //Shapes for boundaries, used in periodic boundary conditions
     private ImmutableRectangle2D bottomWallShape;
@@ -78,7 +75,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
     public final Property<Double> timeScale = new Property<Double>( 0.4 );
     public final Property<Integer> iterations = new Property<Integer>( 50 );
-    private final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
+    public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
             addFrameListener( waterMolecule );
         }
@@ -140,26 +137,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         world.destroyBody( sucrose.body );
     }
 
-    //Code that creates a single salt crystal, used when dragged from the bucket or created in the beaker
-    public class SaltCrystal {
-        private final double horizontalSeparation = CHLORINE_RADIUS + SODIUM_RADIUS;
-        private final double verticalSeparation = horizontalSeparation * 0.85;
-
-        public final DefaultParticle sodium;
-        public final DefaultParticle chloride;
-
-        public final DefaultParticle sodium2;
-        public final DefaultParticle chloride2;
-
-        public SaltCrystal( Point2D location ) {
-            sodium = new DefaultParticle( world, modelToBox2D, location.getX(), location.getY(), 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-            chloride = new DefaultParticle( world, modelToBox2D, location.getX() + horizontalSeparation, location.getY(), 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
-
-            sodium2 = new DefaultParticle( world, modelToBox2D, location.getX() + horizontalSeparation, location.getY() + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge, SODIUM_RADIUS );
-            chloride2 = new DefaultParticle( world, modelToBox2D, location.getX(), location.getY() + verticalSeparation, 0, 0, 0, addFrameListener, ionCharge.times( -1 ), CHLORINE_RADIUS );
-        }
-    }
-
     //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
     public void addSalt( Point2D location ) {
         SaltCrystal saltCrystal = newSaltCrystal( location );
@@ -181,7 +158,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     public SaltCrystal newSaltCrystal( Point2D location ) {
-        return new SaltCrystal( location );
+        return new SaltCrystal( this, location );
     }
 
     //Adds a sugar crystal near the center of the screen
