@@ -4,7 +4,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -30,12 +29,12 @@ public class ParticleWindowNode extends PNode {
     //Color to show around the particle window as its border.  Also used for the zoom in box in ZoomIndicatorNode
     public static final Color FRAME_COLOR = Color.orange;
 
-    public ParticleWindowNode( final WaterModel waterModel, final ModelViewTransform transform ) {
+    public ParticleWindowNode( final WaterModel model, final ModelViewTransform transform ) {
 
         //Adapter method for wiring up components to listen to when the model updates
         final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
             public void apply( VoidFunction0 listener ) {
-                waterModel.addFrameListener( listener );
+                model.addFrameListener( listener );
                 listener.apply();
             }
         };
@@ -43,11 +42,11 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for WaterMolecules
         new GraphicAdapter<WaterMolecule>( particleLayer, new Function1<WaterMolecule, PNode>() {
             public PNode apply( WaterMolecule waterMolecule ) {
-                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener, waterModel.showWaterCharges );
+                return new WaterMoleculeNode( transform, waterMolecule, addFrameListener, model.showWaterCharges );
             }
-        }, waterModel.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
+        }, model.getWaterList(), new VoidFunction1<VoidFunction1<WaterMolecule>>() {
             public void apply( VoidFunction1<WaterMolecule> createNode ) {
-                waterModel.addWaterAddedListener( createNode );
+                model.addWaterAddedListener( createNode );
             }
         }
         );
@@ -57,9 +56,9 @@ public class ParticleWindowNode extends PNode {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.NA_ION );
             }
-        }, waterModel.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+        }, model.getSodiumIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
-                waterModel.addSodiumIonAddedListener( createNode );
+                model.addSodiumIonAddedListener( createNode );
             }
         }
         );
@@ -69,9 +68,9 @@ public class ParticleWindowNode extends PNode {
             public PNode apply( DefaultParticle sodiumIon ) {
                 return new DefaultParticleNode( transform, sodiumIon, addFrameListener, Element.CL_ION );
             }
-        }, waterModel.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
+        }, model.getChlorineIonList(), new VoidFunction1<VoidFunction1<DefaultParticle>>() {
             public void apply( VoidFunction1<DefaultParticle> createNode ) {
-                waterModel.addChlorineIonAddedListener( createNode );
+                model.addChlorineIonAddedListener( createNode );
             }
         }
         );
@@ -79,29 +78,26 @@ public class ParticleWindowNode extends PNode {
         //Provide graphics for Sugar molecules
         new GraphicAdapter<Sucrose>( particleLayer, new Function1<Sucrose, PNode>() {
             public PNode apply( Sucrose sodiumIon ) {
-                return new MultiSucroseNode( transform, sodiumIon, addFrameListener, waterModel.showSugarAtoms );
+                return new MultiSucroseNode( transform, sodiumIon, addFrameListener, model.showSugarAtoms );
             }
         },
                                      //TODO: use the pre-existing list when it is made
                                      new ArrayList<Sucrose>(),
                                      new VoidFunction1<VoidFunction1<Sucrose>>() {
                                          public void apply( VoidFunction1<Sucrose> createNode ) {
-                                             waterModel.addSugarAddedListener( createNode );
+                                             model.addSugarAddedListener( createNode );
                                          }
                                      }
         );
 
         PClip clip = new PClip() {{
 
-            //Show a frame around the particles so they
-            double inset = 40;
-            setPathTo( new Rectangle2D.Double( inset, inset, WaterCanvas.canvasSize.getWidth() - inset * 2, WaterCanvas.canvasSize.getHeight() - inset * 2 ) );
+            //Show a frame around the particles so they are clipped when they move out of the window
+            setPathTo( transform.modelToView( model.particleWindow.toRectangle2D() ) );
             setStroke( new BasicStroke( 2 ) );
             setStrokePaint( FRAME_COLOR );
             addChild( particleLayer );
         }};
         addChild( clip );
-
-        scale( 0.75 );
     }
 }

@@ -51,9 +51,9 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         }
     }
 
-    //Update the constituent with its correct absolute location based on the crystal location and its relative location within the crystal
+    //Update the constituent with its correct absolute location based on the crystal location and its relative location within the crystal, and the crystal's angle
     private void updateConstituentLocation( Constituent constituent ) {
-        constituent.particle.setPosition( getPosition().plus( constituent.relativePosition ) );
+        constituent.particle.setPosition( getPosition().plus( constituent.relativePosition.getRotatedInstance( angle ) ) );
     }
 
     //The shape of a lattice is the combined area of its constituents, using bounding rectangles to improve performance
