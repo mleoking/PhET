@@ -60,6 +60,7 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: massive hidden bug if you middle-click-drag out a molecule!!!
  * TODO: collision-lab-like button unpress failures?
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
+ * TODO: potential listener leak with bond angles
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
