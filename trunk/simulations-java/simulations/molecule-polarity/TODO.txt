@@ -33,6 +33,7 @@ MEDIUM
 - in Bond, we are setting partial charges of atoms to the delta EN. This works but isn't accurate, do we need a better model?
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
+- bug: bond angles can't be changed when 2D isosurface is visible
 
 LOW
 - "View" check box for Periodic Table
