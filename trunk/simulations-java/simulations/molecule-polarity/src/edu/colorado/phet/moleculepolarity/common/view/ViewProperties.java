@@ -13,12 +13,22 @@ public class ViewProperties implements Resettable {
 
     public static enum SurfaceType {NONE, ELECTROSTATIC_POTENTIAL, ELECTRON_DENSITY}
 
-    public final Property<SurfaceType> isosurfaceType = new Property<SurfaceType>( SurfaceType.NONE );
-    public final Property<Boolean> bondDipolesVisible = new Property<Boolean>( false );
-    public final Property<Boolean> molecularDipoleVisible = new Property<Boolean>( false );
-    public final Property<Boolean> partialChargesVisible = new Property<Boolean>( false );
-    public final Property<Boolean> bondTypeVisible = new Property<Boolean>( false );
-    public final Property<Boolean> atomLabelsVisible = new Property<Boolean>( true );
+    public final Property<SurfaceType> isosurfaceType;
+    public final Property<Boolean> bondDipolesVisible;
+    public final Property<Boolean> molecularDipoleVisible;
+    public final Property<Boolean> partialChargesVisible;
+    public final Property<Boolean> bondTypeVisible;
+    public final Property<Boolean> atomLabelsVisible;
+
+    public ViewProperties( SurfaceType isosurfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
+                           boolean partialChargesVisible, boolean bondTypeVisible, boolean atomLabelsVisible ) {
+        this.isosurfaceType = new Property<SurfaceType>( isosurfaceType );
+        this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
+        this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
+        this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
+        this.bondTypeVisible = new Property<Boolean>( bondTypeVisible );
+        this.atomLabelsVisible = new Property<Boolean>( atomLabelsVisible );
+    }
 
     public void reset() {
         isosurfaceType.reset();
