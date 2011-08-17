@@ -149,17 +149,17 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
         // Add the tool boxes from which various biomolecules can be moved into
         // the active area of the sim.
         // TODO: There is some code duplication here.  Could be cleaned up by making genes provide their transcription factors.
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode1 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode1 = new BiomoleculeToolBoxNode( model, this, mvt, 0 ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 0 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }};
         biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode1 );
         modelRootNode.addChild( biomoleculeToolBoxNode1 );
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode2 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode2 = new BiomoleculeToolBoxNode( model, this, mvt, 1 ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 1 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }};
         biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode2 );
         modelRootNode.addChild( biomoleculeToolBoxNode2 );
-        BiomoleculeToolBoxNode biomoleculeToolBoxNode3 = new BiomoleculeToolBoxNode( model, this, mvt ) {{
+        BiomoleculeToolBoxNode biomoleculeToolBoxNode3 = new BiomoleculeToolBoxNode( model, this, mvt, 2 ) {{
             setOffset( mvt.modelToViewX( model.getDnaMolecule().getGenes().get( 2 ).getCenterX() ) - STAGE_SIZE.getWidth() / 2 + 15, 15 );
         }};
         biomoleculeToolBoxNodeList.add( biomoleculeToolBoxNode3 );
