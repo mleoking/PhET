@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.common;
+package edu.colorado.phet.geneexpressionbasics.common;
 
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;

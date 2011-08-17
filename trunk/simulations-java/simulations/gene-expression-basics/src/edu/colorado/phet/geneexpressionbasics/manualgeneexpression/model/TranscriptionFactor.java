@@ -8,7 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.common.ShapeCreationUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 

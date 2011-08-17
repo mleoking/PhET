@@ -6,7 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.geneexpressionbasics.common.common.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.MobileBiomolecule;
 
 /**
  * Class that represents the small ribosomal subunit in the model.
