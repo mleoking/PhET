@@ -110,6 +110,9 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.myTrajectories.erasePaths();
 
         this.myMainView.myTableView.reDrawBorder();
+
+        this.myMainView.momentumView.update();
+        this.myMainView.momentumView.drawGrid();
     }
 
     public function switchToTwoDimensions(): void {
@@ -117,6 +120,9 @@ public class ControlPanel extends Sprite {
         this.myMainView.myTableView.myTrajectories.setBorderHeight();
         this.myMainView.myTableView.reDrawBorder();
         this.myMainView.myTableView.myTrajectories.erasePaths();
+
+        this.myMainView.momentumView.update();
+        this.myMainView.momentumView.drawGrid();
     }
 
     public function momentaDiagramOnOrOff( evt: MouseEvent ): void {
