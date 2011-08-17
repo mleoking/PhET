@@ -1,3 +1,4 @@
+8/17/11 change request: when changing bond angle, move the atom that's being dragged to the front
 # 0.00.10 (55361) Aug 16, 2011
 8/16/11 replace PolarImmutableVector2D with ImmutableVector.parseMagnitudeAndAngle
 8/16/11 add rotate cursor, for discussion

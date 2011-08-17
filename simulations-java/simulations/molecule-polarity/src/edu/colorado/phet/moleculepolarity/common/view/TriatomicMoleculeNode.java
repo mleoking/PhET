@@ -5,6 +5,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.BondAngleHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
+import edu.colorado.phet.moleculepolarity.common.control.MoveToFrontHandler;
 import edu.colorado.phet.moleculepolarity.common.control.RotateCursorHandler;
 import edu.colorado.phet.moleculepolarity.common.model.TriatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -50,5 +51,7 @@ public class TriatomicMoleculeNode extends PhetPNode {
         atomCNode.addInputEventListener( new CursorHandler() );
         atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, this ) );
         atomCNode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleC, this ) );
+        atomANode.addInputEventListener( new MoveToFrontHandler( atomANode ) );
+        atomCNode.addInputEventListener( new MoveToFrontHandler( atomCNode ) );
     }
 }
