@@ -37,6 +37,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/efield/efield.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/electric-hockey/electric-hockey.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/energy-skate-park/energy-skate-park.iml" />
+      <module fileurl="file://$PROJECT_DIR$/team/jblanco/experiments/experiments.iml" filepath="$PROJECT_DIR$/team/jblanco/experiments/experiments.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/faraday/faraday.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" filepath="$PROJECT_DIR$/simulations-flash/flash-launcher/flash-launcher.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-flex/common/flexcommon.iml" filepath="$PROJECT_DIR$/simulations-flex/common/flexcommon.iml" />

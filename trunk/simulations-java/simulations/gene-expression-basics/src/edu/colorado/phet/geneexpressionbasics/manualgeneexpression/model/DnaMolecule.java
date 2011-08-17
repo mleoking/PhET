@@ -140,7 +140,7 @@ public class DnaMolecule {
 
     public void activateHints( MobileBiomolecule biomolecule ) {
         for ( PlacementHint placementHint : placementHints ) {
-            if ( placementHint.matchClass( biomolecule ) ) {
+            if ( placementHint.isMatchingBiomolecule( biomolecule ) ) {
                 placementHint.active.set( true );
             }
         }

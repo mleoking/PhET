@@ -48,14 +48,12 @@ public class TranscriptionFactor extends MobileBiomolecule {
         add( new TranscriptionFactorConfig( 0,
                                             new DoubleGeneralPath() {{
                                                 moveTo( -WIDTH * 0.5, 0 );
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.5 );
-                                                lineTo( WIDTH * 0.2, HEIGHT * 0.2 );  // 3
-                                                lineTo( WIDTH * 0.4, HEIGHT * 0.5 );  // 4
-                                                lineTo( WIDTH * 0.5, -HEIGHT * 0.3 );  // 5
-                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.5 );  // 6
-                                                lineTo( -WIDTH * 0.2, HEIGHT * 0.0 );  // 7
-                                                lineTo( -WIDTH * 0.4, -HEIGHT * 0.2 );  // 8
-                                                lineTo( -WIDTH * 0.5, 0 );  // 9
+                                                lineTo( -WIDTH * 0.25, HEIGHT * 0.5 );
+                                                lineTo( WIDTH * 0.25, HEIGHT * 0.25 );  // 3
+                                                lineTo( WIDTH * 0.5, HEIGHT * 0 );  // 4
+                                                lineTo( WIDTH * 0.25, -HEIGHT * 0.25 );  // 5
+                                                lineTo( 0, -HEIGHT * 0.5 );  // 6
+                                                lineTo( -WIDTH * 0.5, 0 ); // back to 1
                                                 closePath();
                                             }}.getGeneralPath(), false, Color.red ) );
         add( new TranscriptionFactorConfig( 1,
