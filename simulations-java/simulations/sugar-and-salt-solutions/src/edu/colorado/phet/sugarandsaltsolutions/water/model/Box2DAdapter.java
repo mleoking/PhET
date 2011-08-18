@@ -51,27 +51,19 @@ public class Box2DAdapter {
         }};
         body = world.createBody( bodyDef );
 
-
+        //Add shapes for all of the constituents
         for ( final Constituent<SphericalParticle> component : compound ) {
             body.createFixture( new FixtureDef() {{
                 shape = new CircleShape() {{
                     m_radius = (float) transform.modelToViewDeltaX( component.particle.radius );
                     restitution = 0.4f;
+
+                    //Set the position within the molecule
+                    ImmutableVector2D boxOffset = transform.modelToViewDelta( component.relativePosition );
+                    m_p.set( (float) boxOffset.getX(), (float) boxOffset.getY() );
                 }};
             }} );
-            //Make it a bouncy circle
-//            CircleDef circleDef = new CircleDef() {{
-//                restitution = 0.4f;
-//                density = 1;
-//                ImmutableVector2D boxOffset = transform.modelToViewDelta( component.relativePosition );
-//                localPosition = new Vec2( (float) boxOffset.getX(), (float) boxOffset.getY() );
-//                radius = (float) transform.modelToViewDeltaX( component.particle.radius );
-//            }};
-//            body.createShape( circleDef );
         }
-
-        //Update the Box2D body model so it will be ready for propagation.  This call is not necessary in later versions of C++ box2d: http://code.google.com/p/box2d/source/detail?r=13
-//        body.resetMassData();
     }
 
     //After the physics has been applied, update the true model position based on the box2D position
