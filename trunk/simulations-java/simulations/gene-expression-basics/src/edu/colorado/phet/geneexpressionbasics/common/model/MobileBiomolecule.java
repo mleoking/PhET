@@ -59,4 +59,8 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
             setPosition( motionStrategy.getNextLocation( dt, getPosition() ) );
         }
     }
+
+    public boolean availableToAttach() {
+        return attachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE;
+    }
 }
