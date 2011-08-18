@@ -19,7 +19,7 @@ public class RealMoleculesModule extends PiccoloModule {
     public RealMoleculesModule( Frame parentFrame ) {
         super( MPStrings.REAL_MOLECULES, new MPClock() );
         RealMoleculesModel model = new RealMoleculesModel();
-        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, false, false, false, false );
+        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, false, false, false, true );
         setSimulationPanel( new RealMoleculesCanvas( model, viewProperties, parentFrame ) );
         setClockControlPanel( null );
     }
