@@ -1,3 +1,4 @@
+Water tab: Added charges for particles
 Water tab: Set the jbox2d position of the atoms within the molecule
 Water tab: Updated to jbox2d-2.1.2 and added debug draw
 Water tab: Refactored to use Box2DAdapter

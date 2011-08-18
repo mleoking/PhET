@@ -25,8 +25,8 @@ public class SphericalParticle extends Particle {
 
     //Color to use for neutrally charged objects
     public static final Color NEUTRAL_COLOR = Color.yellow;
-    private static final Color POSITIVE_COLOR = Color.red;
-    private static final Color NEGATIVE_COLOR = Color.blue;
+    public static final Color POSITIVE_COLOR = Color.red;
+    public static final Color NEGATIVE_COLOR = Color.blue;
 
     //This constructor matches the table given in the design doc and to-do doc,
     public SphericalParticle( double radiusInPM, Color chargeColor, Color atomColor ) {
@@ -46,8 +46,10 @@ public class SphericalParticle extends Particle {
 
     //These classes contains state information for particulars particles and ions and permit matching in MicroModel for particle counting.
     public static class Hydrogen extends SphericalParticle {
+        public static final double RADIUS_PICOMETERS = 37;
+
         public Hydrogen() {
-            super( 37, SphericalParticle.NEUTRAL_COLOR, white );
+            super( RADIUS_PICOMETERS, SphericalParticle.NEUTRAL_COLOR, white );
         }
     }
 
@@ -65,8 +67,10 @@ public class SphericalParticle extends Particle {
 
     //Abstract since oxygen ions and oxygen in sucrose/glucose must have different colors
     public abstract static class Oxygen extends SphericalParticle {
+        public static final double RADIUS_PICOMETERS = 73;
+
         public Oxygen( Color chargeColor ) {
-            super( 73, chargeColor, red );
+            super( RADIUS_PICOMETERS, chargeColor, red );
         }
     }
 

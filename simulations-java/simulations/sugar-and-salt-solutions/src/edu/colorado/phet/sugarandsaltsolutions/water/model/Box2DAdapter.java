@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
  * The Box2DAdapter creates a connection between the Compound model object and its box2D representation, and can use values from one to update the other.
@@ -27,7 +26,7 @@ public class Box2DAdapter {
     public final World world;
 
     //The compound to represent
-    public final Compound<SphericalParticle> compound;
+    public final Compound<ChargedSphericalParticle> compound;
 
     //The transform from true model coordinates (meters) to box2D coordinates, see WaterModel for a description of these coordinates
     public final ModelViewTransform transform;
@@ -35,7 +34,7 @@ public class Box2DAdapter {
     //The Box2D body instance
     public final Body body;
 
-    public Box2DAdapter( World world, final Compound<SphericalParticle> compound, final ModelViewTransform transform ) {
+    public Box2DAdapter( World world, final Compound<ChargedSphericalParticle> compound, final ModelViewTransform transform ) {
         this.world = world;
         this.compound = compound;
         this.transform = transform;
@@ -51,8 +50,8 @@ public class Box2DAdapter {
         }};
         body = world.createBody( bodyDef );
 
-        //Add shapes for all of the constituents
-        for ( final Constituent<SphericalParticle> component : compound ) {
+        //Add shapes for all of the constituents as rigid fixtures to the box2d shape
+        for ( final Constituent<ChargedSphericalParticle> component : compound ) {
             body.createFixture( new FixtureDef() {{
                 shape = new CircleShape() {{
                     m_radius = (float) transform.modelToViewDeltaX( component.particle.radius );
@@ -74,13 +73,13 @@ public class Box2DAdapter {
     //Apply a force in Newtons by converting it to box2d coordinates and applying it to the body
     public void applyModelForce( ImmutableVector2D force ) {
         ImmutableVector2D box2DForce = transform.modelToViewDelta( force );
-        applyForce( box2DForce.getX(), box2DForce.getY() );
+        applyBox2DForce( box2DForce.getX(), box2DForce.getY() );
     }
 
     //Apply a force to the body at its center
     //Note that this will be insufficient for polyatomic compounds
     //TODO: add a variant for polyatomic compounds
-    public void applyForce( double fx, double fy ) {
+    public void applyBox2DForce( double fx, double fy ) {
         body.applyForce( new Vec2( (float) fx, (float) fy ), body.getPosition() );
     }
 

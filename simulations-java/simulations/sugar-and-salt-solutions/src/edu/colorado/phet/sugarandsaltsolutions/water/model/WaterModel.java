@@ -42,7 +42,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
-    public final ItemList<SphericalParticle> sphericalParticles = new ItemList<SphericalParticle>();
+    public final ItemList<ChargedSphericalParticle> sphericalParticles = new ItemList<ChargedSphericalParticle>();
 
     //Lists of all model objects
     public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
@@ -85,7 +85,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
-    public final Property<Double> timeScale = new Property<Double>( 0.0001 );
+    public final Property<Double> timeScale = new Property<Double>( 0.005 );
     public final Property<Integer> iterations = new Property<Integer>( 10 );
     public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
@@ -131,7 +131,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                for ( int i = 0; i < 100; i++ ) {
+                for ( int i = 0; i < 10; i++ ) {
                     addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
                 }
             }
@@ -176,8 +176,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         } );
     }
 
+    //Add all constituents to the list of spherical particles so they will be drawn on the screen and can be iterated for coulomb repulsion
     private void addConstituents( WaterMolecule2 waterMolecule2 ) {
-        for ( Constituent<SphericalParticle> constituent : waterMolecule2 ) {
+        for ( Constituent<ChargedSphericalParticle> constituent : waterMolecule2 ) {
             sphericalParticles.add( constituent.particle );
         }
     }
@@ -316,10 +317,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        }
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
-            for ( Constituent<SphericalParticle> constituent : box2DAdapter.compound ) {
-                for ( SphericalParticle particle : sphericalParticles ) {
+            for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
+                for ( ChargedSphericalParticle particle : sphericalParticles ) {
                     if ( !box2DAdapter.compound.containsParticle( particle ) ) {
-                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, 1, -1 );
+                        double q1 = constituent.particle.getCharge();
+                        double q2 = particle.getCharge();
+                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 );
 //                        System.out.println( "coulombForce = " + coulombForce );
                         box2DAdapter.applyModelForce( coulombForce );
                     }
@@ -410,7 +413,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //TODO: extend this boundary beyond the visible range
     private void applyPeriodicBoundaryConditions( ArrayList<Box2DAdapter> list ) {
         for ( Box2DAdapter adapter : list ) {
-            Compound<SphericalParticle> particle = adapter.compound;
+            Compound<ChargedSphericalParticle> particle = adapter.compound;
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
             if ( particle.getPosition().getX() > particleWindow.getMaxX() ) {
