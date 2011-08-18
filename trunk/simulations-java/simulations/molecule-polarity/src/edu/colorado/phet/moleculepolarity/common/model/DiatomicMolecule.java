@@ -34,7 +34,7 @@ public class DiatomicMolecule implements IMolecule {
         this.location = location;
         angle = new Property<Double>( 0d );
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
-        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
+        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         bond = new Bond( atomA, atomB );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
