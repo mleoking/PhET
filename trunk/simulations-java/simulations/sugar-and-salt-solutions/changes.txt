@@ -1,3 +1,4 @@
+Water tab: Updated to jbox2d-2.1.2 and added debug draw
 Water tab: Refactored to use Box2DAdapter
 Water tab: Zoomed in on new model coordinates
 Water tab: Rewrote particle window and started converting graphics and model to reuse code from micro tab

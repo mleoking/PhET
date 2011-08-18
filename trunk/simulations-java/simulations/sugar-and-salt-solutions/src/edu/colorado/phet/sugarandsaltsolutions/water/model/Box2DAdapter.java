@@ -1,10 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
-import org.jbox2d.collision.CircleDef;
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -43,23 +45,31 @@ public class Box2DAdapter {
             ImmutableVector2D box2DPosition = transform.modelToView( compound.getPosition() );
             position = new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() );
             angle = (float) compound.getAngle();
+            type = BodyType.DYNAMIC;
         }};
         body = world.createBody( bodyDef );
 
+
         for ( final Constituent<SphericalParticle> component : compound ) {
+            body.createFixture( new FixtureDef() {{
+                shape = new CircleShape() {{
+                    m_radius = (float) transform.modelToViewDeltaX( component.particle.radius );
+                    restitution = 0.4f;
+                }};
+            }} );
             //Make it a bouncy circle
-            CircleDef circleDef = new CircleDef() {{
-                restitution = 0.4f;
-                density = 1;
-                ImmutableVector2D boxOffset = transform.modelToViewDelta( component.relativePosition );
-                localPosition = new Vec2( (float) boxOffset.getX(), (float) boxOffset.getY() );
-                radius = (float) transform.modelToViewDeltaX( component.particle.radius );
-            }};
-            body.createShape( circleDef );
+//            CircleDef circleDef = new CircleDef() {{
+//                restitution = 0.4f;
+//                density = 1;
+//                ImmutableVector2D boxOffset = transform.modelToViewDelta( component.relativePosition );
+//                localPosition = new Vec2( (float) boxOffset.getX(), (float) boxOffset.getY() );
+//                radius = (float) transform.modelToViewDeltaX( component.particle.radius );
+//            }};
+//            body.createShape( circleDef );
         }
 
         //Update the Box2D body model so it will be ready for propagation.  This call is not necessary in later versions of C++ box2d: http://code.google.com/p/box2d/source/detail?r=13
-        body.setMassFromShapes();
+//        body.resetMassData();
     }
 
     //After the physics has been applied, update the true model position based on the box2D position
@@ -84,7 +94,7 @@ public class Box2DAdapter {
     public void setModelPosition( ImmutableVector2D immutableVector2D ) {
         compound.setPosition( immutableVector2D );
         final ImmutableVector2D box2D = transform.modelToView( immutableVector2D );
-        body.setXForm( new Vec2( (float) box2D.getX(), (float) box2D.getY() ), (float) compound.getAngle() );
+        body.setTransform( new Vec2( (float) box2D.getX(), (float) box2D.getY() ), (float) compound.getAngle() );
     }
 
     //Get the true model position (meters) of the compound

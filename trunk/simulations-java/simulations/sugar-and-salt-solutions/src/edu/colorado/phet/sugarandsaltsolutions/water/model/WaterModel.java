@@ -1,16 +1,21 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import org.jbox2d.collision.AABB;
+import org.jbox2d.common.Color3f;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
+import org.jbox2d.testbed.framework.DebugDrawJ2D;
+import org.jbox2d.testbed.framework.TestPanel;
+import org.jbox2d.testbed.framework.TestbedSettings;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -80,7 +85,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
-    public final Property<Double> timeScale = new Property<Double>( 0.01 );
+    public final Property<Double> timeScale = new Property<Double>( 0.0001 );
     public final Property<Integer> iterations = new Property<Integer>( 10 );
     public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {
@@ -103,18 +108,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //List of adapters that manage both the box2D and actual model data
     private ArrayList<Box2DAdapter> box2DAdapters = new ArrayList<Box2DAdapter>();
+    protected TestPanel testPanel;
 
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
 
-        //Set the bounds of the physics engine, with the origin at the center.  The docs say things should be mostly between 0.1 and 10 units
-        AABB worldAABB = new AABB() {{
-            lowerBound = new Vec2( -200, -200 );
-            upperBound = new Vec2( 200, 200 );
-        }};
-
         //Create the Box2D world with no gravity
-        world = new World( worldAABB, new Vec2( 0, 0 ), true );
+        world = new World( new Vec2( 0, 0 ), true );
 
         //Move to a stable state on startup
         //Commented out because it takes too long
@@ -132,6 +132,34 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 for ( int i = 0; i < 100; i++ ) {
                     addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
                 }
+            }
+        } );
+
+        testPanel = new TestPanel( new TestbedSettings() ) {
+            @Override protected void paintComponent( Graphics g ) {
+                super.paintComponent( g );    //To change body of overridden methods use File | Settings | File Templates.
+                g.drawImage( dbImage, 0, 0, null );
+            }
+        };
+
+        JFrame frame = new JFrame();
+        frame.setContentPane( testPanel );
+        frame.pack();
+        frame.setVisible( true );
+
+        world.setDebugDraw( new DebugDrawJ2D( testPanel ) {
+            {
+                //Show the shapes in the debugger
+                setFlags( e_shapeBit );
+
+                //Move the camera over so that the shapes will show up at a good size and location
+                setCamera( -10, 10, 20 );
+            }
+
+
+            //Circles are drawn as segments, this override is here to facilitate debugging
+            @Override public void drawSegment( Vec2 vec2, Vec2 vec21, Color3f color ) {
+                super.drawSegment( vec2, vec21, color );
             }
         } );
     }
@@ -290,7 +318,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Box2D will exception unless values are within its sweet spot range.
         //if DT gets too low, it is hard to recover from assertion errors in box2D
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
-        world.step( (float) ( dt * timeScale.get() ), iterations.get() );
+        world.step( (float) ( dt * timeScale.get() ), iterations.get(), iterations.get() );
+        testPanel.stop();
+        testPanel.render();
+        world.drawDebugData();
+        testPanel.paintImmediately( 0, 0, testPanel.getWidth(), testPanel.getHeight() );
+//        testPanel.paintScreen();
+//        testPanel.repaint();
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( box2DAdapters );

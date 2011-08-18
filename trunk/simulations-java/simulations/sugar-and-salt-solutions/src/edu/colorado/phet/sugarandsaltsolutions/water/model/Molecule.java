@@ -6,7 +6,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.jbox2d.collision.MassData;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -55,22 +54,24 @@ public class Molecule implements Removable, Particle {
         final Point2D box2DLocation = transform.modelToView( atoms.get( 0 ).position.get().getX(), atoms.get( 0 ).position.get().getY() );
 
         //Translate, but keep the same angle
-        body.setXForm( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), body.getAngle() );
+        body.setTransform( new Vec2( (float) box2DLocation.getX(), (float) box2DLocation.getY() ), body.getAngle() );
         body.setLinearVelocity( new Vec2() );
     }
 
     //Turn off physics updates when grabbed by the user by turning the mass to zero
     public void setGrabbed( boolean b ) {
         grabbed = b;
-        if ( grabbed ) { body.setMass( new MassData() ); }
-        else { body.setMassFromShapes(); }
+        //TODO: changed after update to jbox2d-2.1.2.0
+//        if ( grabbed ) { body.setMass( new MassData() ); }
+//        else { body.setMassFromShapes(); }
     }
 
     protected void initAtoms( Atom... atom ) {
         atoms.addAll( Arrays.asList( atom ) );
 
         //Construct other hydrogen
-        body.setMassFromShapes();
+        //TODO: changed after update to jbox2d-2.1.2.0
+//        body.setMassFromShapes();
 
         //Set the velocity
         body.setLinearVelocity( new Vec2( (float) box2DVelocity.getX(), (float) box2DVelocity.getY() ) );
