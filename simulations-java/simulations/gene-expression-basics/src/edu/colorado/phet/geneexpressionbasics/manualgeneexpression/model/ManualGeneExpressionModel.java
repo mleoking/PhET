@@ -115,7 +115,6 @@ public class ManualGeneExpressionModel implements Resettable {
                 }
             }
         } );
-        mobileBiomolecule.initiateRandomWalk();
     }
 
     public void removeMobileBiomolecule( MobileBiomolecule mobileBiomolecule ) {

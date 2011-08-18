@@ -22,9 +22,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // attachment to others.
     private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
 
-    // Motion strategy that controls how the molecule moves when it is not
-    // under the control of the user.
-    private IMotionStrategy motionStrategy = new StillnessMotionStrategy();
+    // Behavioral state that controls how the molecule moves when it is not
+    // under the control of the user and how and when it attaches to other
+    // biomolecules.
+    private BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState();
 
     // The current attachment site, which is a location on another biomolecule
     // (e.g. DNA) where this molecule is attached or is headed.
@@ -54,17 +55,9 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         userControlled.set( false );
     }
 
-    public void initiateRandomWalk() {
-        this.motionStrategy = new RandomWalkMotionStrategy();
-    }
-
-    private void attachTo( AttachmentSite attachmentSite ) {
-        this.motionStrategy = new AttachToSiteMotionStrategy( attachmentSite );
-    }
-
     public void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
-            setPosition( motionStrategy.getNextLocation( dt, getPosition() ) );
+            behaviorState = behaviorState.stepInTime( dt, this );
         }
     }
 
@@ -73,10 +66,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     }
 
     public void proposeAttachmentSite( AttachmentSite attachmentSite ) {
-        if ( availableToAttach() ) {
-            attachmentSite = attachmentSite;
-            attachTo( attachmentSite );
-            attachmentSite.inUseBy.set( this );
-        }
+        behaviorState = behaviorState.considerAttachment( attachmentSite, this );
     }
 }
