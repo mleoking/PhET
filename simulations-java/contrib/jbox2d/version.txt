@@ -2,3 +2,5 @@
 
 sources were checked out with svn checkout http://jbox2d.googlecode.com/svn/tags/jbox2d-2.1.2.0 jbox2d-2.1.2.0
 jars were downloaded from http://code.google.com/p/jbox2d/downloads/list
+
+Use the module definition to use sources, otherwise just point to the jars
