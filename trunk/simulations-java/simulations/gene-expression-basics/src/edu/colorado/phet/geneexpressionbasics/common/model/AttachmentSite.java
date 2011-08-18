@@ -39,4 +39,8 @@ public class AttachmentSite {
         this.locationProperty.set( new Point2D.Double( initialLocation.getX(), initialLocation.getY() ) );
         this.affinity = affinity;
     }
+
+    public double getAffinity() {
+        return affinity;
+    }
 }
