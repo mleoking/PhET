@@ -21,6 +21,6 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
         // Since this state is unattached, we immediately accept the change by
         // transitioning to the attached state.
         attachmentSite.inUseBy.set( biomolecule );
-        return new MovingTowardsAttachmentState();
+        return new MovingTowardsAttachmentState( attachmentSite );
     }
 }
