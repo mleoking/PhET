@@ -44,6 +44,11 @@ public abstract class Particle {
         position.set( location );
     }
 
+    //Convenience method to translate a particle by the specified model delta (in meters)
+    public void translate( ImmutableVector2D delta ) {
+        translate( delta.getX(), delta.getY() );
+    }
+
     public void translate( double dx, double dy ) {
         setPosition( position.get().plus( dx, dy ) );
     }

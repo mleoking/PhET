@@ -22,15 +22,19 @@ import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNodeFactory;
-import edu.colorado.phet.sugarandsaltsolutions.water.model.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
@@ -71,6 +75,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     //Model view transform from model to stage coordinates
     protected final ModelViewTransform transform;
+    protected SphericalParticleNodeFactory particleNodeFactory;
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         sucrose3DDialog = new Sucrose3DDialog( state.frame );
@@ -147,24 +152,26 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         addChild( sugarBucketParticleLayer );
         addChild( sugarBucket.getFrontNode() );
 
-        //Start out the buckets with salt and sugar
-        addSaltToBucket( model, transform );
-        addSugarToBucket( model, transform );
-
-        model.addResetListener( new VoidFunction0() {
-            public void apply() {
-                addSaltToBucket( model, transform );
-                addSugarToBucket( model, transform );
-            }
-        } );
-
         //Add clock controls for pause/play/step
         addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
         //When any spherical particle is added in the model, add graphics for them in the view
-        model.sphericalParticles.addElementAddedObserver( new SphericalParticleNodeFactory( model.sphericalParticles, transform, this, model.showChargeColor ) );
+        particleNodeFactory = new SphericalParticleNodeFactory( model.particles, transform, this, model.showChargeColor );
+        model.particles.addElementAddedObserver( particleNodeFactory );
+
+        //Start out the buckets with salt and sugar
+        addSaltToBucket( model, transform );
+        addSugarToBucket( model, transform );
+
+        //When the sim resets, put the sugar and salt back in the buckets
+        model.addResetListener( new VoidFunction0() {
+            public void apply() {
+                addSaltToBucket( model, transform );
+                addSugarToBucket( model, transform );
+            }
+        } );
     }
 
     //Called when the user switches to the water tab from another tab.  Remembers if the JMolDialog was showing and restores it if so
@@ -190,49 +197,39 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal
-        final SucroseCrystal crystal = new SucroseCrystal( ImmutableVector2D.ZERO, 0 ) {{
+        final SucroseCrystal crystal = new SucroseCrystal( ZERO, 0 ) {{
             grow( 1 );
 
             //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
             addConstituent( getOpenSites().get( 2 ).toConstituent() );
         }};
+        //TODO: why is this call necessary?
+        crystal.updateConstituentLocations();
 
-        //Add a draggable node to the bucket
-        sugarBucketParticleLayer.addChild( new SucroseCrystalNode( transform, crystal, waterModel.showSugarAtoms ) {{
-            centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
+        PNode crystalNode = new PNode();
+        for ( Constituent<Sucrose> constituent : crystal ) {
+            for ( Constituent<SphericalParticle> particleConstituent : constituent.particle ) {
 
-                protected MultiSucroseNode multiSucroseNode;
-                protected Sucrose sucrose;
+                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, waterModel.showChargeColor );
+                node.addInputEventListener( new CursorHandler() );
+                node.addInputEventListener( new PBasicInputEventHandler() {
 
-                @Override public void mouseDragged( PInputEvent event ) {
-//                    if ( multiSucroseNode == null ) {
-//                        sucrose = waterModel.createSucrose( 0, 0 );
-//                        multiSucroseNode = new MultiSucroseNode( transform, sucrose, new VoidFunction1<VoidFunction0>() {
-//                            public void apply( VoidFunction0 voidFunction0 ) {
-//                                waterModel.addFrameListener( voidFunction0 );
-//                                voidFunction0.apply();
-//                            }
-//                        }, waterModel.showSugarAtoms ) {{
-//                            addInputEventListener( new PBasicInputEventHandler() {
-//                                @Override public void mouseDragged( PInputEvent event ) {
-//                                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
-//                                }
-//                            } );
-//                        }};
-//                        rootNode.addChild( multiSucroseNode );
-//                        multiSucroseNode.centerFullBoundsOnPoint( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() );
-//
-//                        //Disable collisions between salt crystal and waters while user is dragging it.  Couldn't get collision filtering to work, so this is our workaround
-////                        waterModel.unhook( sucrose );
-//                    }
-//                    sucrose.translate( transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) ) );
-                    final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                    crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
-                }
-            } );
-        }} );
+                    protected MultiSucroseNode multiSucroseNode;
+                    protected Sucrose sucrose;
+
+                    @Override public void mouseDragged( PInputEvent event ) {
+                        final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
+                        crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+                    }
+                } );
+                crystalNode.addChild( node );
+            }
+        }
+        addChild( crystalNode );
+
+        ImmutableVector2D modelCenter = new ImmutableRectangle2D( crystal.getShape().getBounds2D() ).getCenter();
+        ImmutableVector2D targetCenter = new ImmutableVector2D( transform.viewToModel( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() ) );
+        crystal.translate( targetCenter.minus( modelCenter ) );
     }
 
     public void addChild( PNode node ) {

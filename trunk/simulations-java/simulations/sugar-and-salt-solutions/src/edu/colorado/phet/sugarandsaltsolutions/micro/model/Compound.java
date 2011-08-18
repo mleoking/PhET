@@ -45,7 +45,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Update all constituents with their correct absolute location based on the crystal location and their relative location within the crystal
-    protected void updateConstituentLocations() {
+    public void updateConstituentLocations() {
         for ( Constituent constituent : constituents ) {
             updateConstituentLocation( constituent );
         }

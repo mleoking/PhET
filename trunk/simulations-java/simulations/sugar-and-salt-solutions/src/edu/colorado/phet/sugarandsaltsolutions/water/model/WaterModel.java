@@ -43,7 +43,7 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
-    public final ItemList<ChargedSphericalParticle> sphericalParticles = new ItemList<ChargedSphericalParticle>();
+    public final ItemList<ChargedSphericalParticle> particles = new ItemList<ChargedSphericalParticle>();
 
     //Lists of all model objects
     public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
@@ -184,7 +184,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Add all constituents to the list of spherical particles so they will be drawn on the screen and can be iterated for coulomb repulsion
     private void addConstituents( WaterMolecule2 waterMolecule2 ) {
         for ( Constituent<ChargedSphericalParticle> constituent : waterMolecule2 ) {
-            sphericalParticles.add( constituent.particle );
+            particles.add( constituent.particle );
         }
     }
 
@@ -306,7 +306,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             if ( random.nextDouble() > 0.5 ) {
                 for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
-                    for ( ChargedSphericalParticle particle : sphericalParticles ) {
+                    for ( ChargedSphericalParticle particle : particles ) {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
                             double q1 = constituent.particle.getCharge();
                             double q2 = particle.getCharge();
