@@ -35,7 +35,7 @@ public class TriatomicMolecule implements IMolecule {
 
         this.location = location;
         atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
-        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMax() );
+        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         atomC = new Atom( MPStrings.C, 100, Color.PINK, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
         bondAB = new Bond( atomA, atomB );
         bondBC = new Bond( atomB, atomC );
