@@ -1,3 +1,4 @@
+8/18/11 add stubs for Options "rainbow mep" menu item
 8/18/11 add empty Options menu to menubar
 8/18/11 add View property and check box for "Electronegativity Table"
 8/18/11 improved rotate cursor image
