@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
-import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 
 /**
  * A collection of constants that configure global properties.
@@ -34,7 +33,7 @@ public class MPConstants {
     public static final double PLATE_HEIGHT = 450;
     public static final double PLATE_THICKNESS = 5;
     public static final double PLATE_PERSPECTIVE_Y_OFFSET = 35; // y difference between foreground and background edges of the plate
-    public static final Color PLATE_NEGATIVE_COLOR = Color.BLUE;
-    public static final Color PLATE_POSITIVE_COLOR = PhetColorScheme.RED_COLORBLIND;
-    public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
+    public static final Color PLATE_NEGATIVE_COLOR = new Color( 210, 210, 210 );
+    public static final Color PLATE_POSITIVE_COLOR = PLATE_NEGATIVE_COLOR;
+    public static final Color PLATE_DISABLED_COLOR = new Color( 120, 120, 120 );
 }

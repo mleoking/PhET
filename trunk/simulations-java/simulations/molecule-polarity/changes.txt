@@ -1,3 +1,4 @@
+8/18/11 make the E-field plates brighter gray to indicate "on", to avoid chem/physics inconsistency with red/blue
 8/18/11 encapsulate L&F of "Reset All" button, disable confirmation
 8/17/11 initialize view properties in constructor, so that Reset All works properly
 8/17/11 for triatomic molecule, make molecular dipole on by default, bond dipole off by default
