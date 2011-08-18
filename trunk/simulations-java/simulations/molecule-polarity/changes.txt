@@ -1,3 +1,4 @@
+8/18/11 delete CO from real molecules, since "it could be confusing"
 8/18/11 use HF as the default real molecule
 8/18/11 initialize EN slider for atom B to middle value in all tabs
 8/18/11 make the E-field plates brighter gray to indicate "on", to avoid chem/physics inconsistency with red/blue
