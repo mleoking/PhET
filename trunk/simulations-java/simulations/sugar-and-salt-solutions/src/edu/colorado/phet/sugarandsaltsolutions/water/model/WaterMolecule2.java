@@ -12,12 +12,12 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
  *
  * @author Sam Reid
  */
-public class WaterMolecule2 extends Compound<SphericalParticle> {
+public class WaterMolecule2 extends Compound<ChargedSphericalParticle> {
     public WaterMolecule2( ImmutableVector2D position, double angle ) {
         super( position, angle );
         final double spacing = ( new SphericalParticle.FreeOxygen().radius + new SphericalParticle.Hydrogen().radius ) * 0.5;
-        addConstituent( new Constituent<SphericalParticle>( new SphericalParticle.Hydrogen(), new ImmutableVector2D( spacing, 0 ) ) );
-        addConstituent( new Constituent<SphericalParticle>( new SphericalParticle.FreeOxygen(), ImmutableVector2D.ZERO ) );
-        addConstituent( new Constituent<SphericalParticle>( new SphericalParticle.Hydrogen(), new ImmutableVector2D( 0, spacing ) ) );
+        addConstituent( new Constituent<ChargedSphericalParticle>( new ChargedSphericalParticle.Hydrogen(), new ImmutableVector2D( spacing, 0 ) ) );
+        addConstituent( new Constituent<ChargedSphericalParticle>( new ChargedSphericalParticle.Oxygen(), ImmutableVector2D.ZERO ) );
+        addConstituent( new Constituent<ChargedSphericalParticle>( new ChargedSphericalParticle.Hydrogen(), new ImmutableVector2D( 0, spacing ) ) );
     }
 }
