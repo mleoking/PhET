@@ -180,9 +180,9 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     //Puts a single salt crystal in the salt bucket
     public void addSaltToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
         saltBucketParticleLayer.removeAllChildren();
-        saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
-            centerFullBoundsOnPoint( saltBucket.getHoleNode().getFullBounds().getCenterX(), saltBucket.getHoleNode().getFullBounds().getCenterY() );
-        }} );
+//        saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
+//            centerFullBoundsOnPoint( saltBucket.getHoleNode().getFullBounds().getCenterX(), saltBucket.getHoleNode().getFullBounds().getCenterY() );
+//        }} );
     }
 
     //Puts a single sugar crystal in the sugar bucket

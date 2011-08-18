@@ -17,17 +17,9 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="piccolo-phet" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/../../contrib/jbox2d/jbox2d-2.0.1-library-only.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="jmol-phet" />
+    <orderEntry type="module" module-name="jbox2d" />
   </component>
 </module>
 
