@@ -1,4 +1,5 @@
-8/18/11 change request: initialize EN slider for atom B to middle value in all tabs
+8/18/11 use HF as the default real molecule
+8/18/11 initialize EN slider for atom B to middle value in all tabs
 8/18/11 make the E-field plates brighter gray to indicate "on", to avoid chem/physics inconsistency with red/blue
 8/18/11 encapsulate L&F of "Reset All" button, disable confirmation
 8/17/11 initialize view properties in constructor, so that Reset All works properly

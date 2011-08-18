@@ -54,7 +54,7 @@ public class RealMoleculesModel extends MPModel {
             }
         }};
 
-        currentMolecule = new Property<Molecule3D>( molecules.get( 0 ) );
+        currentMolecule = new Property<Molecule3D>( molecules.get( 4 ) );
     }
 
     public void reset() {
