@@ -27,7 +27,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     private Option<Double> underwaterTime = new None<Double>();
 
     //Put the vectors at the same random angle so all compounds don't come out at the same angle
-    protected final double angle;
+    private double angle;
 
     public Compound( ImmutableVector2D position, double angle ) {
         super( position );
@@ -139,5 +139,12 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
             }
         }
         return false;
+    }
+
+    //Sets the position and angle of the compound, and updates the location of all constituents
+    public void setPositionAndAngle( ImmutableVector2D modelPosition, float angle ) {
+        super.setPosition( modelPosition );
+        this.angle = angle;
+        updateConstituentLocations();
     }
 }

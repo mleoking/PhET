@@ -131,7 +131,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         SwingUtilities.invokeLater( new Runnable() {
             public void run() {
-                for ( int i = 0; i < 10; i++ ) {
+                for ( int i = 0; i < 100; i++ ) {
                     addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
                 }
             }
@@ -322,9 +322,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                     if ( !box2DAdapter.compound.containsParticle( particle ) ) {
                         double q1 = constituent.particle.getCharge();
                         double q2 = particle.getCharge();
-                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 );
-//                        System.out.println( "coulombForce = " + coulombForce );
-                        box2DAdapter.applyModelForce( coulombForce );
+                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 ).times( 0.1 );
+                        box2DAdapter.applyModelForce( coulombForce, constituent.particle.getPosition() );
                     }
                 }
             }
