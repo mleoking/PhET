@@ -19,15 +19,18 @@ public class ViewProperties implements Resettable {
     public final Property<Boolean> partialChargesVisible;
     public final Property<Boolean> bondTypeVisible;
     public final Property<Boolean> atomLabelsVisible;
+    public final Property<Boolean> electronegativityTableVisible;
 
     public ViewProperties( SurfaceType isosurfaceType, boolean bondDipolesVisible, boolean molecularDipoleVisible,
-                           boolean partialChargesVisible, boolean bondTypeVisible, boolean atomLabelsVisible ) {
+                           boolean partialChargesVisible, boolean bondTypeVisible, boolean atomLabelsVisible,
+                           boolean electronegativityTableVisible ) {
         this.isosurfaceType = new Property<SurfaceType>( isosurfaceType );
         this.bondDipolesVisible = new Property<Boolean>( bondDipolesVisible );
         this.molecularDipoleVisible = new Property<Boolean>( molecularDipoleVisible );
         this.partialChargesVisible = new Property<Boolean>( partialChargesVisible );
         this.bondTypeVisible = new Property<Boolean>( bondTypeVisible );
         this.atomLabelsVisible = new Property<Boolean>( atomLabelsVisible );
+        this.electronegativityTableVisible = new Property<Boolean>( electronegativityTableVisible );
     }
 
     public void reset() {
@@ -37,5 +40,6 @@ public class ViewProperties implements Resettable {
         partialChargesVisible.reset();
         bondTypeVisible.reset();
         atomLabelsVisible.reset();
+        electronegativityTableVisible.reset();
     }
 }

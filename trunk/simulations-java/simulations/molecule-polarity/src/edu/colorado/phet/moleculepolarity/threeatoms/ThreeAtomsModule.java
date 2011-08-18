@@ -19,7 +19,7 @@ public class ThreeAtomsModule extends PiccoloModule {
     public ThreeAtomsModule( Frame parentFrame ) {
         super( MPStrings.THREE_ATOMS, new MPClock() );
         ThreeAtomsModel model = new ThreeAtomsModel( getClock() );
-        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, true, false, false, false );
+        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, false, true, false, false, false, false );
         setSimulationPanel( new ThreeAtomsCanvas( model, viewProperties, parentFrame ) );
         setClockControlPanel( null );
     }

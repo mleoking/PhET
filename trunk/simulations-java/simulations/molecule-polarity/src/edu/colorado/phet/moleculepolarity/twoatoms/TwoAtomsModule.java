@@ -19,7 +19,7 @@ public class TwoAtomsModule extends PiccoloModule {
     public TwoAtomsModule( Frame parentFrame ) {
         super( MPStrings.TWO_ATOMS, new MPClock() );
         TwoAtomsModel model = new TwoAtomsModel( getClock() );
-        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, true, false, false, false, false );
+        ViewProperties viewProperties = new ViewProperties( SurfaceType.NONE, true, false, false, false, false, false );
         setSimulationPanel( new TwoAtomsCanvas( model, viewProperties, parentFrame ) );
         setClockControlPanel( null );
     }
