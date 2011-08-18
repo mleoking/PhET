@@ -12,6 +12,7 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
+- make E-field plates "glow" instead of coloring them red and blue
 - add color-coded continuum as a legend for surfaces
 - electronegativity table
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
@@ -21,6 +22,7 @@ HIGH
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
 MEDIUM
+- add Option menu item to switch MEP color scheme to "rainbow" for "Real Molecules" tab
 - ask NP or JB to create an image for rotation cursor, add to license.txt
 - shapes and color schemes for 2D isosurfaces
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
@@ -42,6 +44,7 @@ LOW
 - rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - Jmol: how to set a transparent background for the viewer?
+- delete TestMepCalculation
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
