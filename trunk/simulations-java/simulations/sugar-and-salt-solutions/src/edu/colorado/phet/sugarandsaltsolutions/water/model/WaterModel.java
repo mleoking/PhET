@@ -108,6 +108,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //List of adapters that manage both the box2D and actual model data
     private ArrayList<Box2DAdapter> box2DAdapters = new ArrayList<Box2DAdapter>();
+
+    //Panel that allows us to see jbox2d model and computations
     protected TestPanel testPanel;
 
     public WaterModel() {
@@ -135,6 +137,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             }
         } );
 
+        //Set up jbox2D debug draw so we can see the model and computations
+        initDebugDraw();
+    }
+
+    //Set up jbox2D debug draw so we can see the model and computations
+    private void initDebugDraw() {
+
+        //We had to change code in TestPanel to make dbImage public, using jbox2D animation thread was glitchy and flickering
+        //So instead we control the rendering ourselves
         testPanel = new TestPanel( new TestbedSettings() ) {
             @Override protected void paintComponent( Graphics g ) {
                 super.paintComponent( g );    //To change body of overridden methods use File | Settings | File Templates.
@@ -142,6 +153,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             }
         };
 
+        //Create a frame to show the debug draw in
         JFrame frame = new JFrame();
         frame.setContentPane( testPanel );
         frame.pack();
@@ -319,12 +331,14 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //if DT gets too low, it is hard to recover from assertion errors in box2D
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
         world.step( (float) ( dt * timeScale.get() ), iterations.get(), iterations.get() );
+
+        //Turn off the animation thread in the test panel, we are doing the animation ourselves
         testPanel.stop();
+
+        //Make sure the debug draw paints on the screen
         testPanel.render();
         world.drawDebugData();
         testPanel.paintImmediately( 0, 0, testPanel.getWidth(), testPanel.getHeight() );
-//        testPanel.paintScreen();
-//        testPanel.repaint();
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( box2DAdapters );
