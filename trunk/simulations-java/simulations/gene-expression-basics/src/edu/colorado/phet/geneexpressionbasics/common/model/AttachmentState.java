@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common;
+package edu.colorado.phet.geneexpressionbasics.common.model;
 
 /**
  * This enum defines the possible states of an attachment that exists between
