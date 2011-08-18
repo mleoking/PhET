@@ -1,3 +1,5 @@
+Water tab: Made bucket contents smaller, but crystals grow to full size when grabbed out of the bucket
+Water tab: Coulomb’s law should be in model coordinates not box2d coordinates
 Water tab: Sucrose grows and moves in front of the bucket when grabbed
 Water tab: Fixed location of sugar within bucket
 Water tab: Added rotation and torque
