@@ -14,7 +14,13 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
  */
 public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
+    // Property that tracks whether this biomolecule is user controlled.  If
+    // it is, it shouldn't try to move or interact with anything.
     public final BooleanProperty userControlled = new BooleanProperty( false );
+
+    // Motion strategy that controls how the molecule moves when it is not
+    // under the control of the user.
+    private IMotionStrategy motionStrategy = new StillnessMotionStrategy();
 
     // Color to use when displaying this biomolecule to the user.  This is
     // a bit out of place here, and has nothing to do with the fact that the
@@ -40,9 +46,13 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         userControlled.set( false );
     }
 
+    public void initiateRandomWalk() {
+        this.motionStrategy = new RandomWalkMotionStrategy();
+    }
+
     public void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
-            setPosition( getPosition().getX() + 10, getPosition().getY() + 10 );
+            setPosition( motionStrategy.getNextLocation( dt, getPosition() ) );
         }
     }
 }
