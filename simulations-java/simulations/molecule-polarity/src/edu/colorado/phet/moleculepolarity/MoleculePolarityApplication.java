@@ -1,6 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JCheckBoxMenuItem;
+
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
@@ -34,7 +39,13 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
 
         // Options menu
         parentFrame.addMenu( new OptionsMenu() {{
-            //TODO add "mep rainbow" option
+            add( new JCheckBoxMenuItem( "rainbow mep" ) {{ //TODO i18n
+                addActionListener( new ActionListener() {
+                    public void actionPerformed( ActionEvent e ) {
+                        //TODO set a static property in JmolViewerNode
+                    }
+                } );
+            }} );
         }} );
     }
 
