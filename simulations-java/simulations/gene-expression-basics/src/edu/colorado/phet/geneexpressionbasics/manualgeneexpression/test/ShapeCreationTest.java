@@ -8,7 +8,7 @@ import java.awt.geom.AffineTransform;
 import javax.swing.JFrame;
 
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.common.ShapeCreationUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolo.util.PDimension;

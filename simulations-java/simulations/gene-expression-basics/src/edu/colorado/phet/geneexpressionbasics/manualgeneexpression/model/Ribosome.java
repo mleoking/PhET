@@ -9,8 +9,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.geneexpressionbasics.common.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.ShapeCreationUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 
 /**
  * Class that represents the a ribosome in the model.
