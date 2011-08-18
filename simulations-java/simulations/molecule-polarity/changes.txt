@@ -1,3 +1,4 @@
+# 0.00.11 (55434) Aug 18, 2011
 8/18/11 add new rotate cursor, created by NP
 8/18/11 delete CO from real molecules, since "it could be confusing"
 8/18/11 use HF as the default real molecule
