@@ -15,6 +15,7 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * 2D isosurface for a molecule.
+ * Jmol's method of computing isosurface is documented at http://people.reed.edu/~alan/ACS97/elpot.html
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

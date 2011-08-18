@@ -12,6 +12,7 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a triatomic molecule.
+ * Jmol's method of computing isosurface is documented at http://people.reed.edu/~alan/ACS97/elpot.html
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
