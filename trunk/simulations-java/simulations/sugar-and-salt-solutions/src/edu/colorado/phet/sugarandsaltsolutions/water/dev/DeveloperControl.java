@@ -41,11 +41,11 @@ public class DeveloperControl extends JPanel {
                 add( new JLabel( "num waters:" ) );
                 add( new DoubleLabel( waterModel.waterList.size ) );
             }} );
-            add( new JLabel( "coulomb strength (k)" ) );
-            add( new JPanel() {{
-                add( new PropertySlider( 0, 1000, waterModel.k ) );
-                add( new IntLabel( waterModel.k ) );
-            }} );
+//            add( new JLabel( "coulomb strength (k)" ) );
+//            add( new JPanel() {{
+//                add( new PropertySlider( 0, 1000, waterModel.k ) );
+//                add( new IntLabel( waterModel.k ) );
+//            }} );
             add( new JLabel( "coulomb power" ) );
             add( new JPanel() {{
                 add( new PropertySlider( 0, 4, waterModel.pow ) );

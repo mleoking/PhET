@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 
 import org.jbox2d.common.Color3f;
 import org.jbox2d.common.Vec2;
@@ -33,6 +32,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 
 /**
  * Model for "water" tab for sugar and salt solutions.
@@ -79,7 +80,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private final Vec2 zero = new Vec2();
 
     //Properties for developer controls
-    public final Property<Integer> k = new Property<Integer>( 100 );
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
@@ -92,6 +92,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             addFrameListener( waterMolecule );
         }
     };
+
+    //Coulomb's constant in SI, see http://en.wikipedia.org/wiki/Coulomb's_law
+    private static final double k = 8.987E9;
 
     //User settings
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
@@ -126,19 +129,21 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        }
 //        System.out.println( "stable start time: " + ( System.currentTimeMillis() - startTime ) );
 
-        //Set up initial state, same as reset() method would do
+        //Set up initial state, same as reset() method would do, such as adding water particles to the model
         initModel();
-
-        SwingUtilities.invokeLater( new Runnable() {
-            public void run() {
-                for ( int i = 0; i < 100; i++ ) {
-                    addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
-                }
-            }
-        } );
 
         //Set up jbox2D debug draw so we can see the model and computations
         initDebugDraw();
+    }
+
+    private void addWaterParticles() {
+        for ( int i = 0; i < DEFAULT_NUM_WATERS; i++ ) {
+            addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
+        }
+    }
+
+    private double randomBetweenMinusOneAndOne() {
+        return ( random.nextFloat() - 0.5 ) * 2;
     }
 
     //Set up jbox2D debug draw so we can see the model and computations
@@ -242,22 +247,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener, oxygenCharge, hydrogenCharge );
     }
 
-    //Adds default water particles
-    private void addWaterParticles( long seed, int numParticles ) {
-        Random random = new Random( seed );
-        float float1 = (float) randomBetweenMinusOneAndOne();
-        for ( int i = 0; i < numParticles; i++ ) {
-            final double x = float1 * particleWindow.width / 2;
-            final double y = random.nextFloat() * particleWindow.height;
-            final float angle = (float) ( random.nextFloat() * Math.PI * 2 );
-            addWaterMolecule( x, y, angle );
-        }
-    }
-
-    private double randomBetweenMinusOneAndOne() {
-        return ( random.nextFloat() - 0.5 ) * 2;
-    }
-
     //Adds a single water molecule
     public void addWaterMolecule( double x, double y, float angle ) {
         waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, addFrameListener, oxygenCharge, hydrogenCharge ) );
@@ -279,18 +268,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     protected void updateModel( double dt ) {
-//        for ( WaterMolecule2 waterMolecule2 : waterList2 ) {
-//            waterMolecule2.translate( particleWindow.width / 1000, particleWindow.width / 1000 );
-//        }
 
-        //Apply a random force so the system doesn't settle down, setting random velocity looks funny
+        long t = System.currentTimeMillis();
+
+//        //Apply a random force so the system doesn't settle down, setting random velocity looks funny
 //        for ( WaterMolecule waterMolecule : waterList ) {
 //            float rand1 = ( random.nextFloat() - 0.5f ) * 2;
 //            float rand2 = ( random.nextFloat() - 0.5f ) * 2;
 //            waterMolecule.body.applyForce( new Vec2( rand1 * randomness.get(), rand2 * randomness.get() ), waterMolecule.body.getPosition() );
 //        }
-//
-//        long t = System.currentTimeMillis();
+
 //        //Apply coulomb forces between all pairs of particles
 //        for ( Molecule molecule : coulombForceOnAllMolecules.get() ? getAllMolecules() : waterList ) {
 //            for ( Atom atom : molecule.atoms ) {
@@ -311,19 +298,21 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //            }
 //        }
 //
-//        long t2 = System.currentTimeMillis();
-//        if ( debugTime ) {
-//            System.out.println( "delta = " + ( t2 - t ) );
-//        }
+        long t2 = System.currentTimeMillis();
+        if ( debugTime ) {
+            System.out.println( "delta = " + ( t2 - t ) );
+        }
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
-            for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
-                for ( ChargedSphericalParticle particle : sphericalParticles ) {
-                    if ( !box2DAdapter.compound.containsParticle( particle ) ) {
-                        double q1 = constituent.particle.getCharge();
-                        double q2 = particle.getCharge();
-                        final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 ).times( 0.1 );
-                        box2DAdapter.applyModelForce( coulombForce, constituent.particle.getPosition() );
+            if ( random.nextDouble() > 0.5 ) {
+                for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
+                    for ( ChargedSphericalParticle particle : sphericalParticles ) {
+                        if ( !box2DAdapter.compound.containsParticle( particle ) ) {
+                            double q1 = constituent.particle.getCharge();
+                            double q2 = particle.getCharge();
+                            final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 ).times( 1E-35 );
+                            box2DAdapter.applyModelForce( coulombForce, constituent.particle.getPosition() );
+                        }
                     }
                 }
             }
@@ -362,12 +351,14 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Get the coulomb force between two particles
     //The particles should be from different compounds since compounds shouldn't have intra-molecular forces
     private ImmutableVector2D getCoulombForce( SphericalParticle source, SphericalParticle target, double q1, double q2 ) {
-        if ( source.getPosition().equals( target.getPosition() ) ) {
-            return ImmutableVector2D.ZERO;
+        final ImmutableVector2D sourcePosition = source.getPosition();
+        final ImmutableVector2D targetPosition = target.getPosition();
+        if ( sourcePosition.equals( targetPosition ) ) {
+            return ZERO;
         }
-        double distance = source.getPosition().getDistance( target.getPosition() );
-        double k = 8.987E9 / 1E34;
-        return new ImmutableVector2D( source.getPosition(), target.getPosition() ).getInstanceOfMagnitude( k * q1 * q2 / distance / distance ).times( -1 );
+        double distance = sourcePosition.getDistance( targetPosition );
+        double scale = -1 * k * q1 * q2 / distance / distance / distance;
+        return new ImmutableVector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
     }
 
     //Factor out center of mass motion so no large scale drifts can occur
@@ -474,7 +465,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         double q2 = target.getCharge();
 
         double distanceFunction = 1 / Math.pow( distance, pow.get() );
-        double magnitude = -k.get() * q1 * q2 * distanceFunction;
+        double magnitude = -k * q1 * q2 * distanceFunction;
         r.normalize();
         if ( repel ) {
             magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
@@ -519,7 +510,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         clearSugar();
 
         //Add water particles
-//        addWaterParticles( System.currentTimeMillis(), DEFAULT_NUM_WATERS );
+        addWaterParticles();
     }
 
     public void clearSalt() {
