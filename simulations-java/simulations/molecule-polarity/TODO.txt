@@ -11,13 +11,12 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
-- make E-field plates "glow" instead of coloring them red and blue
-- add color-coded continuum as a legend for surfaces
+- add color-coded continuum as a legend for surface (for color schemes = BWR, BW, rainbow)
 - electronegativity table
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
-- Jmol: how to align molecular dipole with E-Field?
+- Jmol: how to align molecular dipole with E-field?
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
 MEDIUM
@@ -30,7 +29,6 @@ MEDIUM
 - canvas centering strategy
 
 LOW
-- "View" check box for Periodic Table
 - custom cursor for molecule rotation
 - custom cursor for bond angle manipulation
 - add icons to control panels (dipoles, partial charge, mep,...)
