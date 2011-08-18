@@ -9,16 +9,16 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel.sizeScale;
 
 /**
- * A single sugar molecule (such as glucose or sucrose), which is used in lattice creation
+ * A single sugar molecule (such as glucose or sucrose), which is used to build up sugar crystals
  *
  * @author Sam Reid
  */
-public class MicroSugar extends Compound<SphericalParticle> {
+public class SugarMolecule extends Compound<SphericalParticle> {
 
-    public MicroSugar( ImmutableVector2D relativePosition, double angle,
+    public SugarMolecule( ImmutableVector2D relativePosition, double angle,
 
-                       //Positions for the atoms within the molecule
-                       ProjectedPositions positions ) {
+                          //Positions for the atoms within the molecule
+                          ProjectedPositions positions ) {
         super( relativePosition, angle );
 
         //Add the glucose molecule atoms in the right locations, and in the right z-ordering

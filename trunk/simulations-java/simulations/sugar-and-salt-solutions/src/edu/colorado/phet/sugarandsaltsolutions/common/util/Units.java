@@ -39,4 +39,8 @@ public class Units {
     public static double molesPerLiterToMolesPerMeterCubed( double molesPerLiter ) {
         return molesPerLiter / litersToMetersCubed( 1.0 );
     }
+
+    public static double metersToPicometers( double spacing ) {
+        return spacing / 1E-12;
+    }
 }
