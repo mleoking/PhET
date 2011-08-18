@@ -32,6 +32,7 @@ public class MPStrings {
     public static final String ELECTRIC_FIELD = RESOURCES.getLocalizedString( "electricField" );
     public static final String ELECTRON_DENSITY = RESOURCES.getLocalizedString( "electronDensity" );
     public static final String ELECTRONEGATIVITY = RESOURCES.getLocalizedString( "electronegativity" );
+    public static final String ELECTRONEGATIVITY_TABLE = RESOURCES.getLocalizedString( "electronegativityTable" );
     public static final String ELECTROSTATIC_POTENTIAL = RESOURCES.getLocalizedString( "electrostaticPotential" );
     public static final String FLUORINE = RESOURCES.getLocalizedString( "fluorine" );
     public static final String FLUOROMETHANE = RESOURCES.getLocalizedString( "fluoromethane" );

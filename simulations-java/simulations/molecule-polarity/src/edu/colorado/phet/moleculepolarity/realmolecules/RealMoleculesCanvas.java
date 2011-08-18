@@ -41,7 +41,7 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         final JmolViewerNode viewerNode = new JmolViewerNode( model.currentMolecule, getBackground(), JMOL_VIEWER_SIZE );
-        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, MPStrings.BOND_DIPOLES ) );
+        PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, true, true, MPStrings.BOND_DIPOLES ) );
         PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
@@ -87,7 +87,7 @@ public class RealMoleculesCanvas extends MPCanvas {
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + 50 );
+            scriptNode.setOffset( resetAllButtonNode.getXOffset(), resetAllButtonNode.getFullBoundsReference().getMaxY() + ySpacing );
 
         }
 
@@ -105,12 +105,6 @@ public class RealMoleculesCanvas extends MPCanvas {
                 }
             } );
 
-            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
-                public void apply( SurfaceType isosurfaceType ) {
-                    viewerNode.setIsosurfaceType( isosurfaceType );
-                }
-            } );
-
             viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     viewerNode.setPartialChargeVisible( visible );
@@ -120,6 +114,18 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewProperties.atomLabelsVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     viewerNode.setAtomLabelsVisible( visible );
+                }
+            } );
+
+            viewProperties.electronegativityTableVisible.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean visible ) {
+                    electronegativityTableNode.setVisible( visible );
+                }
+            } );
+
+            viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
+                public void apply( SurfaceType isosurfaceType ) {
+                    viewerNode.setIsosurfaceType( isosurfaceType );
                 }
             } );
         }
