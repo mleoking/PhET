@@ -18,7 +18,7 @@ public class MPStrings {
     public static final String A = RESOURCES.getLocalizedString( "A" );
     public static final String AMMONIA = RESOURCES.getLocalizedString( "ammonia" );
     public static final String ATOM_LABELS = RESOURCES.getLocalizedString( "atomLabels" );
-    public static final String ATOM_NEGATIVITIES = RESOURCES.getLocalizedString( "atomNegativities" );
+    public static final String ATOM_ELECTRONEGATIVITIES = RESOURCES.getLocalizedString( "atomElectronegativities" );
     public static final String B = RESOURCES.getLocalizedString( "B" );
     public static final String BOND_DIPOLE = RESOURCES.getLocalizedString( "bondDipole" );
     public static final String BOND_DIPOLES = RESOURCES.getLocalizedString( "bondDipoles" );
