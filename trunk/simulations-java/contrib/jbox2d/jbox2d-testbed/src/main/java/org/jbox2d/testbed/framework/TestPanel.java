@@ -77,7 +77,7 @@ public class TestPanel extends JPanel implements Runnable{
 	private float frameRate = 0;
 	private boolean animating = false;
 	private Graphics2D dbg = null;
-	private Image dbImage = null;
+	protected Image dbImage = null;
 	private Thread animator;
 	
 	private int panelWidth;
@@ -331,7 +331,7 @@ public class TestPanel extends JPanel implements Runnable{
 		dbg.setColor(Color.black);
 		dbg.fillRect(0, 0, panelWidth, panelHeight);
 	}
-	
+
 	public void paintScreen(){
 		Graphics g;
 		try{
