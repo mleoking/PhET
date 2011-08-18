@@ -18,6 +18,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // it is, it shouldn't try to move or interact with anything.
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
+    // State variable that tracks whether this molecules is available for
+    // attachment to others.
+    private AttachmentState attachmentState = AttachmentState.UNATTACHED_AND_AVAILABLE;
+
     // Motion strategy that controls how the molecule moves when it is not
     // under the control of the user.
     private IMotionStrategy motionStrategy = new StillnessMotionStrategy();
