@@ -31,7 +31,7 @@ public class ViewControlPanel extends MPControlPanel {
                 add( new PropertyCheckBox( MPStrings.ATOM_LABELS, properties.atomLabelsVisible ) );
             }
             if ( hasElectronegativityTable ) {
-                add( new PropertyCheckBox( MPStrings.ATOM_NEGATIVITIES, properties.electronegativityTableVisible ) );
+                add( new PropertyCheckBox( MPStrings.ATOM_ELECTRONEGATIVITIES, properties.electronegativityTableVisible ) );
             }
         }} );
     }
