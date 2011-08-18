@@ -57,6 +57,7 @@
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jade/jade.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jade/jade.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" filepath="$PROJECT_DIR$/simulations-java/simulations/java-common-strings/java-common-strings.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/java-version-checker/java-version-checker.iml" filepath="$PROJECT_DIR$/simulations-java/common/java-version-checker/java-version-checker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jbox2d/jbox2d.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jbox2d/jbox2d.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jfreechart/jfreechart.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" filepath="$PROJECT_DIR$/simulations-java/common/jfreechart-phet/jfreechart-phet.iml" />
       <module fileurl="file://$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" filepath="$PROJECT_DIR$/simulations-java/contrib/jme3/jme3.iml" />
