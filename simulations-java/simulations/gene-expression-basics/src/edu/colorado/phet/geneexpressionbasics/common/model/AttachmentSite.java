@@ -25,7 +25,8 @@ public class AttachmentSite {
 
     // A property that tracks the biomolecule which is "using" this attachment
     // site, meaning that it is either attached at this location or it is
-    // moving towards it with the intention of attaching.
+    // moving towards it with the intention of attaching.  Biomolecules that
+    // decide to use this site should set this, and clear it when done.
     public Property<MobileBiomolecule> inUseBy = new Property<MobileBiomolecule>( null );
 
     /**

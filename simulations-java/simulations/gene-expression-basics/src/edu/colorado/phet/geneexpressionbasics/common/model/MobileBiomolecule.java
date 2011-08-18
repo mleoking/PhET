@@ -26,6 +26,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // under the control of the user.
     private IMotionStrategy motionStrategy = new StillnessMotionStrategy();
 
+    // The current attachment site, which is a location on another biomolecule
+    // (e.g. DNA) where this molecule is attached or is headed.
+    AttachmentSite currentAttachmentSite;
+
     // Color to use when displaying this biomolecule to the user.  This is
     // a bit out of place here, and has nothing to do with the fact that the
     // molecule moves.  This was just a convenient place to put it (so far).
@@ -54,6 +58,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         this.motionStrategy = new RandomWalkMotionStrategy();
     }
 
+    private void attachTo( AttachmentSite attachmentSite ) {
+        this.motionStrategy = new AttachToSiteMotionStrategy( attachmentSite );
+    }
+
     public void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
             setPosition( motionStrategy.getNextLocation( dt, getPosition() ) );
@@ -62,5 +70,13 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     public boolean availableToAttach() {
         return attachmentState == AttachmentState.UNATTACHED_AND_AVAILABLE;
+    }
+
+    public void proposeAttachmentSite( AttachmentSite attachmentSite ) {
+        if ( availableToAttach() ) {
+            attachmentSite = attachmentSite;
+            attachTo( attachmentSite );
+            attachmentSite.inUseBy.set( this );
+        }
     }
 }
