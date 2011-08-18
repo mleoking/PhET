@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.geneexpressionbasics.common.model.IAttachmentSiteOwner;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
@@ -20,7 +21,7 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  *
  * @author John Blanco
  */
-public class DnaMolecule {
+public class DnaMolecule implements IAttachmentSiteOwner {
 
     private static final double STRAND_WIDTH = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
@@ -165,6 +166,12 @@ public class DnaMolecule {
 
     public double getWidth() {
         return STRAND_WIDTH;
+    }
+
+    public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
+        if ( mobileBiomolecule.availableToAttach() ) {
+            Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
+        }
     }
 
     /**
