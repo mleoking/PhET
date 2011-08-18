@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
@@ -23,6 +24,7 @@ import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
@@ -35,6 +37,7 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
@@ -206,18 +209,35 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //TODO: why is this call necessary?
         crystal.updateConstituentLocations();
 
-        PNode crystalNode = new PNode();
+        //Create the node for sugar that will be shown in the bucket that the user can grab
+        final PNode crystalNode = new PNode();
+
+        //Flag to determine whether the user dragged the crystal out of the bucket; if so, it:
+        //1. moves into the top layer (instead of between the buckets), so it doesn't look like it is sandwiched between the front and back of the bucket layers
+        //2. grows larger
+        final Property<Boolean> startedDragging = new Property<Boolean>( false );
+
+        //Transform the particles from the crystal's molecule's particles into nodes
         for ( Constituent<Sucrose> constituent : crystal ) {
             for ( Constituent<SphericalParticle> particleConstituent : constituent.particle ) {
-
-                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, waterModel.showChargeColor );
+                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, not( waterModel.showSugarAtoms ) );
                 node.addInputEventListener( new CursorHandler() );
+
                 node.addInputEventListener( new PBasicInputEventHandler() {
-
-                    protected MultiSucroseNode multiSucroseNode;
-                    protected Sucrose sucrose;
-
                     @Override public void mouseDragged( PInputEvent event ) {
+
+                        //When the user drags the node initially, grow it to full size and move it to the top layer
+                        if ( !startedDragging.get() ) {
+                            startedDragging.set( true );
+                            crystalNode.setScale( 1.0 );
+                            sugarBucketParticleLayer.removeChild( crystalNode );
+                            addChild( crystalNode );
+
+                            //Re-center the node since it will have a different location at its full scale
+                            center( transform, crystal, crystalNode );
+                        }
+
+                        //Translate the node during the drag
                         final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
                         crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
                     }
@@ -225,11 +245,21 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 crystalNode.addChild( node );
             }
         }
-        addChild( crystalNode );
 
-        ImmutableVector2D modelCenter = new ImmutableRectangle2D( crystal.getShape().getBounds2D() ).getCenter();
-        ImmutableVector2D targetCenter = new ImmutableVector2D( transform.viewToModel( sugarBucket.getHoleNode().getFullBounds().getCenterX(), sugarBucket.getHoleNode().getFullBounds().getCenterY() ) );
-        crystal.translate( targetCenter.minus( modelCenter ) );
+        //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
+        sugarBucketParticleLayer.addChild( crystalNode );
+
+        //Shrink it to be a small icon version so it will fit in the bucket
+        crystalNode.scale( 0.4 );
+
+        //Center it on the bucket hole
+        center( transform, crystal, crystalNode );
+    }
+
+    private void center( ModelViewTransform transform, Particle crystal, PNode crystalNode ) {
+        Point2D crystalCenter = crystalNode.getGlobalFullBounds().getCenter2D();
+        Point2D bucketCenter = sugarBucket.getHoleNode().getGlobalFullBounds().getCenter2D();
+        crystal.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
     }
 
     public void addChild( PNode node ) {

@@ -1,3 +1,4 @@
+Water tab: Sucrose grows and moves in front of the bucket when grabbed
 Water tab: Fixed location of sugar within bucket
 Water tab: Added rotation and torque
 Water tab: Added charges for particles
