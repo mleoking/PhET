@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.IAttachmentSiteOwner;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
@@ -171,6 +172,8 @@ public class DnaMolecule implements IAttachmentSiteOwner {
     public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
         if ( mobileBiomolecule.availableToAttach() ) {
             Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
+            AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.2 );
+            mobileBiomolecule.proposeAttachmentSite( attachmentSite );
         }
     }
 
