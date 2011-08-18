@@ -45,6 +45,8 @@ public class Box2DAdapter {
             ImmutableVector2D box2DPosition = transform.modelToView( compound.getPosition() );
             position = new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() );
             angle = (float) compound.getAngle();
+
+            //Have to specify the type as dynamic or it won't move
             type = BodyType.DYNAMIC;
         }};
         body = world.createBody( bodyDef );
