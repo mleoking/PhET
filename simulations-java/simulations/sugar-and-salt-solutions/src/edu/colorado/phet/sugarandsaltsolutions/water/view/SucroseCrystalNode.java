@@ -34,6 +34,7 @@ public class SucroseCrystalNode extends PNode {
     private ModelViewTransform transform;
     private BucketView sugarBucket;
     private SucroseCrystal crystal;
+    private boolean inBucket = true;
 
     public SucroseCrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final SucroseCrystal crystal ) {
         this.transform = transform;
@@ -49,58 +50,60 @@ public class SucroseCrystalNode extends PNode {
 
         //Transform the particles from the crystal's molecule's particles into nodes
         for ( Constituent<Sucrose> constituent : crystal ) {
-            for ( Constituent<SphericalParticle> particleConstituent : constituent.particle ) {
-                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, not( model.showSugarAtoms ) );
-                node.addInputEventListener( new CursorHandler() );
-
-                node.addInputEventListener( new PBasicInputEventHandler() {
-                    @Override public void mouseDragged( PInputEvent event ) {
-
-                        //When the user drags the node initially, grow it to full size and move it to the top layer
-                        if ( !startedDragging.get() ) {
-                            startedDragging.set( true );
-                            setIcon( false );
-                            sugarBucketParticleLayer.removeChild( SucroseCrystalNode.this );
-                            canvas.addChild( SucroseCrystalNode.this );
-
-                            //Re-center the node since it will have a different location at its full scale
-                            centerInBucket();
-                        }
-
-                        //Translate the node during the drag
-                        final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
-                        crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
-                    }
-
-                    //If contained within the particle window, drop it there and create it in the model, otherwise return to the sugar bucket
-                    @Override public void mouseReleased( PInputEvent event ) {
-                        Rectangle2D modelBounds = transform.viewToModel( crystalNode.getFullBounds() ).getBounds2D();
-                        if ( model.particleWindow.contains( modelBounds ) ) {
-
-                            //Add each sucrose molecule to the model
-                            for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
-                                model.addSucroseMolecule( sucroseMolecule.particle );
-                            }
-
-                            //Remove the node the user was dragging
-                            canvas.removeChild( SucroseCrystalNode.this );
-                        }
-                        else {
-
-                            //Shrink the node and send it back to the bucket
-                            setIcon( true );
-                            centerInBucket();
-                            canvas.removeChild( SucroseCrystalNode.this );
-                            sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
-
-                            //Initialize for dragging out of the bucket on next mouse press
-                            startedDragging.set( false );
-                        }
-                    }
-                } );
-                crystalNode.addChild( node );
+            for ( Constituent<SphericalParticle> atom : constituent.particle ) {
+                crystalNode.addChild( new SphericalParticleNode( transform, atom.particle, not( model.showSugarAtoms ) ) );
             }
         }
+
+        addInputEventListener( new CursorHandler() );
+        addInputEventListener( new PBasicInputEventHandler() {
+            @Override public void mouseDragged( PInputEvent event ) {
+
+                //When the user drags the node initially, grow it to full size and move it to the top layer
+                if ( !startedDragging.get() ) {
+                    startedDragging.set( true );
+                    setIcon( false );
+                    sugarBucketParticleLayer.removeChild( SucroseCrystalNode.this );
+                    canvas.addChild( SucroseCrystalNode.this );
+
+                    //Re-center the node since it will have a different location at its full scale
+                    if ( inBucket ) {
+                        centerInBucket();
+                        inBucket = false;
+                    }
+                }
+
+                //Translate the node during the drag
+                final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
+                crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+            }
+
+            //If contained within the particle window, drop it there and create it in the model, otherwise return to the sugar bucket
+            @Override public void mouseReleased( PInputEvent event ) {
+                Rectangle2D modelBounds = transform.viewToModel( crystalNode.getFullBounds() ).getBounds2D();
+                if ( model.particleWindow.contains( modelBounds ) ) {
+
+                    //Add each sucrose molecule to the model
+                    for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
+                        model.addSucroseMolecule( sucroseMolecule.particle );
+                    }
+
+                    //Remove the node the user was dragging
+                    canvas.removeChild( SucroseCrystalNode.this );
+                }
+                else {
+
+                    //Shrink the node and send it back to the bucket
+                    setIcon( true );
+                    centerInBucket();
+                    canvas.removeChild( SucroseCrystalNode.this );
+                    sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
+
+                    //Initialize for dragging out of the bucket on next mouse press
+                    startedDragging.set( false );
+                }
+            }
+        } );
 
         addChild( crystalNode );
 
@@ -120,5 +123,9 @@ public class SucroseCrystalNode extends PNode {
         Point2D crystalCenter = crystalNode.getGlobalFullBounds().getCenter2D();
         Point2D bucketCenter = sugarBucket.getHoleNode().getGlobalFullBounds().getCenter2D();
         crystal.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
+    }
+
+    public void setInBucket( boolean inBucket ) {
+        this.inBucket = inBucket;
     }
 }
