@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import java.util.List;
+
 /**
  * State where the biomolecule is not attached but is also available to attach
  * to anything.  This exists to create some hysteresis between attachments.
@@ -27,7 +29,7 @@ public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
         }
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
         // Unavailable, so reject request by leaving the attachment site
         // unchanged and returning the current state.
         return this;

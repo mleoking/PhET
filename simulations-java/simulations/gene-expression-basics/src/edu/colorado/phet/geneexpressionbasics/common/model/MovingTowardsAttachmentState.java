@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import java.util.List;
+
 /**
  * @author John Blanco
  */
@@ -28,7 +30,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
         }
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
         // In this state, the biomolecule is already moving towards an
         // attachment site, so it doesn't consider another.
         return this;
