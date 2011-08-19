@@ -60,7 +60,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private Random random = new Random();
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
-    private final double particleWindowWidth = 2.3E-9;
+    private final double particleWindowWidth = 2.3E-9 * 0.9;
     private final double particleWindowHeight = particleWindowWidth * 0.65;
     public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
 
@@ -73,15 +73,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
-    private static final int DEFAULT_NUM_WATERS = 150;
+    private static final int DEFAULT_NUM_WATERS = 120;
 
     //Properties for developer controls
     public final Property<Integer> pow = new Property<Integer>( 2 );
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
-    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.1 );
-    public final Property<Double> timeScale = new Property<Double>( 0.01 );
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
+    public final Property<Double> timeScale = new Property<Double>( 0.1 );
     public final Property<Integer> iterations = new Property<Integer>( 20 );
 
     //Coulomb's constant in SI, see http://en.wikipedia.org/wiki/Coulomb's_law
@@ -139,6 +139,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Create the Box2D world with no gravity
         world = new World( new Vec2( 0, 0 ), true );
 
+        //Attempted using collision boundaries, but they make the system come to rest too quickly, we will probably use periodic boundary conditions instead
+//        Body body = world.createBody( new BodyDef() {{
+//            type = BodyType.STATIC;
+//        }} );
+//        final ImmutableRectangle2D particleWindowBox2D = modelToBox2D.modelToView( particleWindow );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( particleWindowBox2D.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( -particleWindowBox2D.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( -particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
+
         //Move to a stable state on startup
         //Commented out because it takes too long
 //        long startTime = System.currentTimeMillis();
@@ -185,6 +195,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         frame.setVisible( true );
 
         world.setDebugDraw( new DebugDrawJ2D( testPanel ) {{
+
             //Show the shapes in the debugger
             setFlags( e_shapeBit );
 
@@ -246,7 +257,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
                             double q1 = compoundParticle.getCharge();
                             double q2 = particle.getCharge();
-                            final ImmutableVector2D coulombForce = getCoulombForce( compoundParticle, particle, q1, q2 ).times( 1E-35 );
+                            final ImmutableVector2D coulombForce = getCoulombForce( compoundParticle, particle, q1, q2 ).times( 5E-36 / 10 * 2 );
                             box2DAdapter.applyModelForce( coulombForce, compoundParticle.getPosition() );
                         }
                     }
@@ -298,6 +309,11 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             for ( Sucrose sucrose : sucroseList ) {
                 for ( SphericalParticle sucroseAtom : sucrose ) {
                     add( sucroseAtom );
+                }
+            }
+            for ( SaltIon saltIon : saltIonList ) {
+                for ( SphericalParticle saltAtom : saltIon ) {
+                    add( saltAtom );
                 }
             }
         }};
