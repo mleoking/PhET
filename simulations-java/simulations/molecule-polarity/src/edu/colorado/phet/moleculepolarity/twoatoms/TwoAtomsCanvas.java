@@ -96,7 +96,8 @@ public class TwoAtomsCanvas extends MPCanvas {
             electrostaticPotentialColorKeyNode.setOffset( model.molecule.getLocation().getX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ),
                                                           negativePlateNode.getFullBoundsReference().getMaxY() );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
-            bondTypeNode.setOffset( 150, electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + ySpacing );
+            bondTypeNode.setOffset( model.molecule.getLocation().getX() - ( bondTypeNode.getFullBoundsReference().getWidth() / 2 ),
+                                    enControlA.getFullBoundsReference().getMaxY() + ySpacing - PNodeLayoutUtils.getOriginYOffset( bondTypeNode ) );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
