@@ -638,7 +638,7 @@ public abstract class PhetProject {
 
     public LicenseInfo[] getAllLicenseInfo() {
         PhetProject[] p = getAllDependencies();
-        ArrayList infos = new ArrayList();
+        ArrayList<LicenseInfo> infos = new ArrayList<LicenseInfo>();
         for ( int i = 0; i < p.length; i++ ) {
             infos.addAll( Arrays.asList( p[i].getLicenseInfo() ) );
         }
@@ -648,12 +648,19 @@ public abstract class PhetProject {
         for ( int i = 0; i < j.length; i++ ) {
             File file = j[i];
             File licenseFile = new File( file.getParentFile(), "license-info.txt" );
+
+            //Add the license info to the list, but only if it exists and hasn't been added already
             if ( licenseFile.exists() ) {
-                infos.addAll( Arrays.asList( LicenseInfo.getAll( licenseFile ) ) );
+                final List<LicenseInfo> licenseInfos = Arrays.asList( LicenseInfo.getAll( licenseFile ) );
+                for ( LicenseInfo licenseInfo : licenseInfos ) {
+                    if ( !infos.contains( licenseInfo ) ) {
+                        infos.add( licenseInfo );
+                    }
+                }
             }
         }
 
-        return (LicenseInfo[]) infos.toArray( new LicenseInfo[infos.size()] );
+        return infos.toArray( new LicenseInfo[infos.size()] );
     }
 
     /**

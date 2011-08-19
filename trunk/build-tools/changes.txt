@@ -1,3 +1,4 @@
+Prevent duplicate license entries from appearing in the credits dialog
 removed unused equals and hashcode from ProguardConfig
 Added sim-specific proguard configuration support, see #3016
 Removed reference to unused jar tools.jar, see #2997
