@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.water.model;
 import java.awt.Graphics;
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -175,6 +176,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private void addConstituents( Compound<SphericalParticle> compound ) {
         for ( Constituent<SphericalParticle> constituent : compound ) {
             particles.add( constituent.particle );
+        }
+    }
+
+    //Remove the constituents from the list of spherical particles
+    private void removeConstituents( Compound<SphericalParticle> compound ) {
+        for ( Constituent<SphericalParticle> constituent : compound ) {
+            particles.remove( constituent.particle );
         }
     }
 
@@ -420,11 +428,63 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
     }
 
-    //TODO: remove any water particles that were in the way
+    //Add the specified sucrose crystal to the model
     public void addSucroseCrystal( SucroseCrystal crystal ) {
+
+        //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
+        removeOverlappingWater( crystal );
+
+        //Add the sucrose crystal
         for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
             addConstituents( sucroseMolecule.particle );
             box2DAdapters.add( new Box2DAdapter( world, sucroseMolecule.particle, modelToBox2D ) );
         }
+    }
+
+    //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
+    private void removeOverlappingWater( SucroseCrystal crystal ) {
+        HashSet<WaterMolecule> toRemove = getOverlappingWaterMolecules( crystal );
+        for ( WaterMolecule waterMolecule : toRemove ) {
+            removeConstituents( waterMolecule );
+        }
+        waterList.removeAll( toRemove );
+        ArrayList<Box2DAdapter> box2DAdaptersToRemove = getBox2DAdapters( toRemove );
+        for ( Box2DAdapter box2DAdapter : box2DAdaptersToRemove ) {
+            world.destroyBody( box2DAdapter.body );
+            box2DAdapters.remove( box2DAdapter );
+        }
+    }
+
+    //Find the Box2DAdapters for the specified water molecules, used for removing intersecting water when crystals are added by the user
+    private ArrayList<Box2DAdapter> getBox2DAdapters( HashSet<WaterMolecule> set ) {
+        ArrayList<Box2DAdapter> box2DAdaptersToRemove = new ArrayList<Box2DAdapter>();
+        for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
+            if ( set.contains( box2DAdapter.compound ) ) {
+                box2DAdaptersToRemove.add( box2DAdapter );
+            }
+        }
+        return box2DAdaptersToRemove;
+    }
+
+    //Find which water molecules overlap with the specified crystal so they can be removed before the crystal is added, to prevent box2d body overlaps
+    private HashSet<WaterMolecule> getOverlappingWaterMolecules( SucroseCrystal crystal ) {
+        HashSet<WaterMolecule> toRemove = new HashSet<WaterMolecule>();
+
+        for ( WaterMolecule waterMolecule : waterList ) {
+            for ( Constituent<SphericalParticle> waterAtom : waterMolecule ) {
+
+                for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
+                    for ( Constituent<SphericalParticle> sucroseAtom : sucroseMolecule.particle ) {
+
+                        final SphericalParticle water = waterAtom.particle;
+                        final SphericalParticle sucrose = sucroseAtom.particle;
+                        if ( water.getPosition().getDistance( sucrose.getPosition() ) < water.radius + sucrose.radius ) {
+                            toRemove.add( waterMolecule );
+                        }
+                    }
+                }
+            }
+        }
+        return toRemove;
     }
 }
