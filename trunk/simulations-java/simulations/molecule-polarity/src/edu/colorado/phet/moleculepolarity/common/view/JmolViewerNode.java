@@ -19,6 +19,7 @@ import org.jmol.api.JmolViewer;
 import org.jmol.util.Logger;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.util.logging.LoggingUtils;
 import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
@@ -39,6 +40,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 public class JmolViewerNode extends PhetPNode {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( JmolViewerNode.class.getCanonicalName() );
+
+    // option for using "rainbow" colorscheme for molecular electrostatic potential (mep).
+    public static final Property<Boolean> RAINBOW_MEP = new Property<Boolean>( false );
 
     // Results returned by Jmol scripts. These are returned as a status Object, which must be parsed.
     private static final String RESULT_TRUE = "true";
@@ -77,7 +81,7 @@ public class JmolViewerNode extends PhetPNode {
 
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
-    private SurfaceType isosurface;
+    private SurfaceType isosurfaceType;
 
     public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
@@ -86,6 +90,11 @@ public class JmolViewerNode extends PhetPNode {
         currentMolecule.addObserver( new VoidFunction1<Molecule3D>() {
             public void apply( Molecule3D molecule ) {
                 setMolecule( molecule );
+            }
+        } );
+        RAINBOW_MEP.addObserver( new SimpleObserver() {
+            public void update() {
+                setIsosurfaceType( isosurfaceType );
             }
         } );
     }
@@ -169,7 +178,7 @@ public class JmolViewerNode extends PhetPNode {
         setAtomLabelsVisible( atomLabelsVisible );
         setBondDipolesVisible( bondDipolesVisible );
         setMolecularDipoleVisible( molecularDipoleVisible );
-        setIsosurfaceType( isosurface );
+        setIsosurfaceType( isosurfaceType );
         doScript( "hover off" ); // don't display labels when hovering over atoms
         updateAtomLabels();
         updateTranslucency();
@@ -243,13 +252,23 @@ public class JmolViewerNode extends PhetPNode {
     }
 
     public void setIsosurfaceType( SurfaceType isosurfaceType ) {
-        this.isosurface = isosurfaceType;
+        this.isosurfaceType = isosurfaceType;
         if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
             if ( isHomogeneousDiatomic() ) {
-                doScript( "isosurface VDW color white translucent" );
+                if ( RAINBOW_MEP.get() ) {
+                    doScript( "isosurface VDW color [0,255,0] translucent" );
+                }
+                else {
+                    doScript( "isosurface VDW color white translucent" );
+                }
             }
             else {
-                doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
+                if ( RAINBOW_MEP.get() ) {
+                    doScript( "isosurface VDW map MEP translucent" );
+                }
+                else {
+                    doScript( "isosurface VDW map MEP colorscheme \"RWB\" translucent" );
+                }
             }
         }
         else if ( isosurfaceType == SurfaceType.ELECTRON_DENSITY ) {
