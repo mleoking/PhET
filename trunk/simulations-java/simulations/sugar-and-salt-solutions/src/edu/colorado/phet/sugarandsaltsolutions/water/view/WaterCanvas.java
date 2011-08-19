@@ -175,6 +175,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 }};
                 final SucroseCrystalNode sucroseCrystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal );
                 sucroseCrystalNode.setIcon( false );
+                sucroseCrystalNode.setInBucket( false );
                 addChild( sucroseCrystalNode );
 
                 model.sucroseList.addElementRemovedObserver( sucrose, new VoidFunction0() {
