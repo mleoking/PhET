@@ -36,9 +36,9 @@ public class RnaPolymerase extends MobileBiomolecule {
         List<Point2D> points = new ArrayList<Point2D>();
         points.add( new Point2D.Double( 0, HEIGHT / 2 ) ); // Middle top.
         points.add( new Point2D.Double( WIDTH / 2, HEIGHT * 0.25 ) );
-        points.add( new Point2D.Double( WIDTH * 0.30, -HEIGHT * 0.25 ) );
+        points.add( new Point2D.Double( WIDTH * 0.35, -HEIGHT * 0.25 ) );
         points.add( new Point2D.Double( 0, -HEIGHT / 2 ) ); // Middle bottom.
-        points.add( new Point2D.Double( -WIDTH * 0.30, -HEIGHT * 0.25 ) );
+        points.add( new Point2D.Double( -WIDTH * 0.35, -HEIGHT * 0.25 ) );
         points.add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
         return ShapeCreationUtils.createRoundedShapeFromPoints( points );
     }
