@@ -76,7 +76,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
-    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.9 );
     public final Property<Double> timeScale = new Property<Double>( 0.01 );
     public final Property<Integer> iterations = new Property<Integer>( 20 );
 
@@ -230,7 +230,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
-            if ( random.nextDouble() > 0.5 ) {
+
+            if ( random.nextDouble() < probabilityOfInteraction.get() ) {
                 for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
                     for ( ChargedSphericalParticle particle : particles ) {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
