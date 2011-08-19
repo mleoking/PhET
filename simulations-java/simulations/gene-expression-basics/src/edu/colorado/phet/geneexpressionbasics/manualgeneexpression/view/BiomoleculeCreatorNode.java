@@ -98,7 +98,7 @@ public class BiomoleculeCreatorNode extends PComposite {
             @Override
             public void mouseReleased( PInputEvent event ) {
                 // The user has released this node.
-                biomolecule.release();
+                biomolecule.userControlled.set( false );
                 biomolecule = null;
             }
         } );

@@ -33,4 +33,9 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
         // attachment site, so it doesn't consider another.
         return this;
     }
+
+    @Override public BiomoleculeBehaviorState movedByUser() {
+        attachmentSite.inUse.set( false );
+        return new UnattachedAndAvailableState();
+    }
 }

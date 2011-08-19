@@ -32,4 +32,10 @@ public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
         // unchanged and returning the current state.
         return this;
     }
+
+    @Override public BiomoleculeBehaviorState movedByUser() {
+        // Become immediately available for attaching again.
+        unavailableCountdownTime = 0;
+        return new UnattachedAndAvailableState();
+    }
 }

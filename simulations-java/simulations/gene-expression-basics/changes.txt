@@ -1,3 +1,4 @@
+Fixed an issue where biomolecules removed from the DNA would jump back to it.
 # 0.00.05 (55514) Aug 19, 2011
 8/19/11 Depolying to dev for review by design team.
 Added attachment sites and the ability for polymerase and transcription factors to attach to DNA.

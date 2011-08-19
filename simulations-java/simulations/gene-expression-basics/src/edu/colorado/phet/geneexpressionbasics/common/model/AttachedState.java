@@ -60,4 +60,9 @@ public class AttachedState extends BiomoleculeBehaviorState {
         // unchanged and returning the current state.
         return this;
     }
+
+    @Override public BiomoleculeBehaviorState movedByUser() {
+        attachmentSite.inUse.set( false );
+        return new UnattachedAndAvailableState();
+    }
 }
