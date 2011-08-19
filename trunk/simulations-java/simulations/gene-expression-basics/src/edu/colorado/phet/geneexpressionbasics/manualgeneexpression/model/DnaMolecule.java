@@ -66,19 +66,19 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
         genes.add( new Gene( this,
                              new DoubleRange( geneStartX, geneStartX + 1000 ),
-                             new Color( 30, 144, 255 ),
+                             new Color( 216, 191, 216 ),
                              new DoubleRange( geneStartX + 1000, geneStartX + 4000 ),
                              new Color( 255, 165, 79, 150 ) ) );
         geneStartX += DISTANCE_BETWEEN_GENES;
         genes.add( new Gene( this,
                              new DoubleRange( geneStartX, geneStartX + 2000 ),
-                             new Color( 30, 144, 255 ),
+                             new Color( 216, 191, 216 ),
                              new DoubleRange( geneStartX + 2000, geneStartX + 6000 ),
                              new Color( 240, 246, 143, 150 ) ) );
         geneStartX += DISTANCE_BETWEEN_GENES;
         genes.add( new Gene( this,
                              new DoubleRange( geneStartX, geneStartX + 2000 ),
-                             new Color( 30, 144, 255 ),
+                             new Color( 216, 191, 216 ),
                              new DoubleRange( geneStartX + 2000, geneStartX + 8000 ),
                              new Color( 205, 255, 112, 150 ) ) );
 
