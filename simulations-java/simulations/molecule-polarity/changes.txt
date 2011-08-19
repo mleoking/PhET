@@ -1,3 +1,4 @@
+8/19/11 first pass at electronegativity table
 8/19/11 reverse order of colors for rainbow mep, so that red is negative
 8/19/11 implement Option menu item to switch MEP color scheme to "rainbow" for "Real Molecules" tab
 8/19/11 move bond type indicator closer to EN sliders, since they are closely related

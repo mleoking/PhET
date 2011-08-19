@@ -69,15 +69,26 @@ public class JmolViewerNode extends PhetPNode {
             "}\n" +
             "print homogeneousDiatomic";
 
-    /**
-     * Jmol script to get the element numbers of atoms in the current molecule.
-     * Each element number appears on a separate line.
+    /*
+     * Jmol script to determine the element number and color of each atom in the current molecule.
      */
-    private static final String SCRIPT_GET_ELEMENT_NUMBERS =
+    private static final String SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS =
             "n = {*}.length\n" +
             "for ( i = 0; i < n; i++ ) {\n" +
             "    print {*}[i].elemno\n" +
+            "    print {*}[i].color\n" +
             "}";
+
+    public static class ElementColor {
+
+        public final int elementNumber;
+        public final Color color;
+
+        public ElementColor( int elementNumber, Color color ) {
+            this.elementNumber = elementNumber;
+            this.color = color;
+        }
+    }
 
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
@@ -287,7 +298,7 @@ public class JmolViewerNode extends PhetPNode {
     // Interrogates Jmol to determine whether the current molecule is homogeneous diatomic.
     private boolean isHomogeneousDiatomic() {
         Object status = doScriptStatus( SCRIPT_IS_HOMOGENEOUS_DIATOMIC );
-        LOGGER.info( "isHomogeneousDiatomic status=[" + status.toString() + "]" );
+//        LOGGER.info( "isHomogeneousDiatomic status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
         }
@@ -296,15 +307,23 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
-    // Interrogates Jmol to determine element numbers of the atoms in the current molecule.
-    public Integer[] getElementNumbers() {
-        Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS );
-//        LOGGER.info( "getElementNumbers status=[" + status.toString() + "]" );
+    // Gets the element numbers and colors for the atoms in the current molecule.
+    public ArrayList<ElementColor> getElementNumbersAndColors() {
+        Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS );
+        LOGGER.info( "getElementNumbersAndColors status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
         }
         else {
-            return parseIntegers( status );
+            // each set of 4 numbers is: elementNumber red green blue
+            ArrayList<Integer> values = parseIntegers( status, " \n{}" );
+            ArrayList<ElementColor> elementColors = new ArrayList<ElementColor>();
+            for ( int i = 0; i < values.size(); i += 4 ) {
+                int elementNumber = values.get( i ).intValue();
+                Color color = new Color( values.get( i + 1 ), values.get( i + 2 ), values.get( i + 3 ) );
+                elementColors.add( new ElementColor( elementNumber, color ) );
+            }
+            return elementColors;
         }
     }
 
@@ -313,30 +332,17 @@ public class JmolViewerNode extends PhetPNode {
         return status.toString().trim().equals( RESULT_TRUE );
     }
 
-    /*
-     * Parses a string that contains integers separated by space or newlines.
-     * The array returned may contain duplicates, since we don't know what the
-     * caller wants to do with the results.
-     */
-    private static Integer[] parseIntegers( Object status ) {
-
+    // Parses a string that contains integers.
+    private static ArrayList<Integer> parseIntegers( Object status, String delimiters ) {
         String statusString = status.toString().trim();
-
-        // parse
-        ArrayList<Integer> elementNumbers = new ArrayList<Integer>();
-        StringTokenizer tokenizer = new StringTokenizer( statusString, " \n" );
+        ArrayList<Integer> values = new ArrayList<Integer>();
+        StringTokenizer tokenizer = new StringTokenizer( statusString, delimiters );
         while ( tokenizer.hasMoreTokens() ) {
             String token = tokenizer.nextToken();
-            int elementNumber = Integer.parseInt( token );
-            elementNumbers.add( elementNumber );
+            int value = (int) Double.parseDouble( token ); // Jmol format some ints as doubles
+            values.add( value );
         }
-
-        // convert to int[]
-        Integer[] array = new Integer[elementNumbers.size()];
-        for ( int i = 0; i < array.length; i++ ) {
-            array[i] = elementNumbers.get( i );
-        }
-        return array;
+        return values;
     }
 
     // test
