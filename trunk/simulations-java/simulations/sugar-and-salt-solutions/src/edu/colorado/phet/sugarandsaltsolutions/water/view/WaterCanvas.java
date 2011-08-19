@@ -130,8 +130,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 130, 60 );
-        sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + 115, bucketSize, green, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + 115, bucketSize, blue, SALT ), bucketTransform );
+        sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
