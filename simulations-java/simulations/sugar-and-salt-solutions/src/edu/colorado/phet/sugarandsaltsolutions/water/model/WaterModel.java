@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
@@ -106,6 +107,18 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
     private boolean useDebugDraw = true;
+
+    //Convenience adapters for reuse with CrystalNode for adding/removing crystals or molecules
+    public final VoidFunction1<Sucrose> addSucrose = new VoidFunction1<Sucrose>() {
+        public void apply( Sucrose sucrose ) {
+            addSucroseMolecule( sucrose );
+        }
+    };
+    public final VoidFunction1<Sucrose> removeSucrose = new VoidFunction1<Sucrose>() {
+        public void apply( Sucrose sucrose ) {
+            removeSucrose( sucrose );
+        }
+    };
 
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
