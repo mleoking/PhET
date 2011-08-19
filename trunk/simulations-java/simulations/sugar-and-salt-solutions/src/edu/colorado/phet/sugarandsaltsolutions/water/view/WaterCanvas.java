@@ -66,7 +66,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     //Model view transform from model to stage coordinates
     protected final ModelViewTransform transform;
-    protected SphericalParticleNodeFactory particleNodeFactory;
 
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
         sucrose3DDialog = new Sucrose3DDialog( state.frame );
@@ -149,8 +148,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         }} );
 
         //When any spherical particle is added in the model, add graphics for them in the view
-        particleNodeFactory = new SphericalParticleNodeFactory( model.particles, transform, this, model.showChargeColor );
-        model.particles.addElementAddedObserver( particleNodeFactory );
+        model.particles.addElementAddedObserver( new SphericalParticleNodeFactory( model.particles, transform, this, model.showChargeColor ) );
 
         //Start out the buckets with salt and sugar
         addSaltToBucket( model, transform );
