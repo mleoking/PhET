@@ -26,7 +26,7 @@ public class MPConstants {
 
     // Canvas
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
-    public static final Color CANVAS_COLOR = Color.WHITE;
+    public static final Color CANVAS_COLOR = Color.WHITE;//new Color( 234, 246, 255 );
 
     // E-field plates, all values are related to 2D projection of the plates
     public static final double PLATE_WIDTH = 50;
