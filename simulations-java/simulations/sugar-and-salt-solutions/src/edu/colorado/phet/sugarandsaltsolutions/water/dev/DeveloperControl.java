@@ -34,12 +34,12 @@ public class DeveloperControl extends JPanel {
                 add( new JButton( "Add Water" ) {{
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
-                            waterModel.addWaterMolecule2( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
+                            waterModel.addWaterMolecule( waterModel.getRandomX(), waterModel.getRandomY(), 0 );
                         }
                     } );
                 }} );
                 add( new JLabel( "num waters:" ) );
-                add( new DoubleLabel( waterModel.waterList2.size ) );
+                add( new DoubleLabel( waterModel.waterList.size ) );
             }} );
 //            add( new JLabel( "coulomb strength (k)" ) );
 //            add( new JPanel() {{

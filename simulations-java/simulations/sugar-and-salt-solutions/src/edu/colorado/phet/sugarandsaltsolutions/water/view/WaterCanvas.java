@@ -196,7 +196,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     }
 
     //Puts a single sugar crystal in the sugar bucket
-    public void addSugarToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
+    public void addSugarToBucket( final WaterModel model, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal
@@ -220,7 +220,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //Transform the particles from the crystal's molecule's particles into nodes
         for ( Constituent<Sucrose> constituent : crystal ) {
             for ( Constituent<SphericalParticle> particleConstituent : constituent.particle ) {
-                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, not( waterModel.showSugarAtoms ) );
+                final PNode node = new SphericalParticleNode( transform, particleConstituent.particle, not( model.showSugarAtoms ) );
                 node.addInputEventListener( new CursorHandler() );
 
                 node.addInputEventListener( new PBasicInputEventHandler() {
@@ -240,6 +240,17 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                         //Translate the node during the drag
                         final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( node.getParent() ) );
                         crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+                    }
+
+                    //If contained within the particle window, drop it there and create it in the model, otherwise return to the sugar bucket
+                    @Override public void mouseReleased( PInputEvent event ) {
+                        Rectangle2D modelBounds = transform.viewToModel( crystalNode.getFullBounds() ).getBounds2D();
+                        if ( model.particleWindow.contains( modelBounds ) ) {
+                            model.addSucroseCrystal( crystal );
+
+                            //Remove the node the user was dragging
+                            removeChild( crystalNode );
+                        }
                     }
                 } );
                 crystalNode.addChild( node );

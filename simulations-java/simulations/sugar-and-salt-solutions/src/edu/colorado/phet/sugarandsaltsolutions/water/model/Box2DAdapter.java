@@ -12,6 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 
 /**
  * The Box2DAdapter creates a connection between the Compound model object and its box2D representation, and can use values from one to update the other.
@@ -25,7 +26,7 @@ public class Box2DAdapter {
     public final World world;
 
     //The compound to represent
-    public final Compound<ChargedSphericalParticle> compound;
+    public final Compound<SphericalParticle> compound;
 
     //The transform from true model coordinates (meters) to box2D coordinates, see WaterModel for a description of these coordinates
     public final ModelViewTransform transform;
@@ -33,7 +34,7 @@ public class Box2DAdapter {
     //The Box2D body instance
     public final Body body;
 
-    public Box2DAdapter( World world, final Compound<ChargedSphericalParticle> compound, final ModelViewTransform transform ) {
+    public Box2DAdapter( World world, final Compound<SphericalParticle> compound, final ModelViewTransform transform ) {
         this.world = world;
         this.compound = compound;
         this.transform = transform;
@@ -50,7 +51,7 @@ public class Box2DAdapter {
         body = world.createBody( bodyDef );
 
         //Add shapes for all of the constituents as rigid fixtures to the box2d shape
-        for ( final Constituent<ChargedSphericalParticle> component : compound ) {
+        for ( final Constituent<SphericalParticle> component : compound ) {
 
             //Create the shape to add to the body
             final CircleShape shape = new CircleShape() {{

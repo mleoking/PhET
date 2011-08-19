@@ -57,6 +57,16 @@ public class ImmutableRectangle2D {
         return contains( position.toPoint2D() );
     }
 
+    /**
+     * Determine whether this rectangle completely contains the specified rectangle
+     *
+     * @param rectangle the rectangle to check
+     * @return true if this rectangle completely contains the specified rectangle
+     */
+    public boolean contains( Rectangle2D rectangle ) {
+        return toRectangle2D().contains( rectangle );
+    }
+
     @Override public String toString() {
         return "x=" + x + ", y=" + y + ", width = " + width + ", height = " + height;
     }

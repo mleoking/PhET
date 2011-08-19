@@ -30,6 +30,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 
@@ -41,10 +43,10 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
-    public final ItemList<ChargedSphericalParticle> particles = new ItemList<ChargedSphericalParticle>();
+    public final ItemList<SphericalParticle> particles = new ItemList<SphericalParticle>();
 
     //Lists of all model objects
-    public final ItemList<WaterMolecule2> waterList2 = new ItemList<WaterMolecule2>();
+    public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -69,7 +71,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     private static final int DEFAULT_NUM_WATERS = 180;
-//    private static final int DEFAULT_NUM_WATERS = 10;
 
     //Properties for developer controls
     public final Property<Integer> pow = new Property<Integer>( 2 );
@@ -127,7 +128,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     private void addWaterParticles() {
         for ( int i = 0; i < DEFAULT_NUM_WATERS; i++ ) {
-            addWaterMolecule2( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
+            addWaterMolecule( randomBetweenMinusOneAndOne() * particleWindow.width / 2, randomBetweenMinusOneAndOne() * particleWindow.height / 2, random.nextDouble() * Math.PI * 2 );
         }
     }
 
@@ -171,8 +172,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Add all constituents to the list of spherical particles so they will be drawn on the screen and can be iterated for coulomb repulsion
-    private void addConstituents( WaterMolecule2 waterMolecule2 ) {
-        for ( Constituent<ChargedSphericalParticle> constituent : waterMolecule2 ) {
+    private void addConstituents( Compound<SphericalParticle> compound ) {
+        for ( Constituent<SphericalParticle> constituent : compound ) {
             particles.add( constituent.particle );
         }
     }
@@ -183,14 +184,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //    }
 
     //Adds a single water molecule
-    public void addWaterMolecule2( double x, double y, double angle ) {
-        final WaterMolecule2 molecule = new WaterMolecule2( new ImmutableVector2D( x, y ), angle );
-        waterList2.add( molecule );
+    public void addWaterMolecule( double x, double y, double angle ) {
+        final WaterMolecule molecule = new WaterMolecule( new ImmutableVector2D( x, y ), angle );
+        waterList.add( molecule );
         addConstituents( molecule );
 
         //Add the adapter for box2D
-        Box2DAdapter box2DAdapter = new Box2DAdapter( world, molecule, modelToBox2D );
-        box2DAdapters.add( box2DAdapter );
+        box2DAdapters.add( new Box2DAdapter( world, molecule, modelToBox2D ) );
     }
 
     protected void updateModel( double dt ) {
@@ -232,8 +232,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
 
             if ( random.nextDouble() < probabilityOfInteraction.get() ) {
-                for ( Constituent<ChargedSphericalParticle> constituent : box2DAdapter.compound ) {
-                    for ( ChargedSphericalParticle particle : particles ) {
+                for ( Constituent<SphericalParticle> constituent : box2DAdapter.compound ) {
+                    for ( SphericalParticle particle : particles ) {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
                             double q1 = constituent.particle.getCharge();
                             double q2 = particle.getCharge();
@@ -321,7 +321,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //TODO: extend this boundary beyond the visible range
     private void applyPeriodicBoundaryConditions( ArrayList<Box2DAdapter> list ) {
         for ( Box2DAdapter adapter : list ) {
-            Compound<ChargedSphericalParticle> particle = adapter.compound;
+            Compound<SphericalParticle> particle = adapter.compound;
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
             if ( particle.getPosition().getX() > particleWindow.getMaxX() ) {
@@ -385,11 +385,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        return r.mul( (float) magnitude );
 //    }
 
-    //Register for a callback when the model steps
-    public void addFrameListener( VoidFunction0 listener ) {
-        frameListeners.add( listener );
-    }
-
     //Resets the model, clearing water molecules and starting over
     public void reset() {
         initModel();
@@ -423,5 +418,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Gets a random number within the vertical range of the beaker
     public double getRandomY() {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
+    }
+
+    //TODO: remove any water particles that were in the way
+    public void addSucroseCrystal( SucroseCrystal crystal ) {
+        for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
+            addConstituents( sucroseMolecule.particle );
+            box2DAdapters.add( new Box2DAdapter( world, sucroseMolecule.particle, modelToBox2D ) );
+        }
     }
 }
