@@ -796,7 +796,7 @@ public abstract class PhetProject {
 
             //add top-level file
             BufferedWriter bufferedWriter = new BufferedWriter( new FileWriter( file ) );
-            bufferedWriter.write( "#This file identifies licenses of contibuted libraries\n" );
+            bufferedWriter.write( "#This file identifies licenses of contributed libraries\n" );
             for ( int i = 0; i < licenseInfo.length; i++ ) {
                 bufferedWriter.write( licenseInfo[i].toString() + "\n" );
             }
