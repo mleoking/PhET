@@ -77,7 +77,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Integer> randomness = new Property<Integer>( 5 );
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
-    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.9 );
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.1 );
     public final Property<Double> timeScale = new Property<Double>( 0.01 );
     public final Property<Integer> iterations = new Property<Integer>( 20 );
 
