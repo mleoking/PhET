@@ -430,7 +430,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         box2DAdapters.clear();
         waterList.clear();
         sucroseList.clear();
-//        clearSalt();
+        saltIonList.clear();
 
         //Add water particles
         addWaterParticles();
