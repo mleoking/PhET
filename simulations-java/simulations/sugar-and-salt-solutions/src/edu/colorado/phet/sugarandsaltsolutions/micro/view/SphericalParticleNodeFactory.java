@@ -13,13 +13,13 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
  *
  * @author Sam Reid
  */
-public class SphericalParticleNodeFactory<T extends SphericalParticle> implements VoidFunction1<T> {
-    private final ItemList<T> list;
+public class SphericalParticleNodeFactory implements VoidFunction1<SphericalParticle> {
+    private final ItemList<SphericalParticle> list;
     private final ModelViewTransform transform;
     private final ICanvas canvas;
     private final ObservableProperty<Boolean> showChargeColor;
 
-    public SphericalParticleNodeFactory( ItemList<T> list, ModelViewTransform transform, ICanvas canvas, ObservableProperty<Boolean> showChargeColor ) {
+    public SphericalParticleNodeFactory( ItemList<SphericalParticle> list, ModelViewTransform transform, ICanvas canvas, ObservableProperty<Boolean> showChargeColor ) {
         this.list = list;
         this.transform = transform;
         this.canvas = canvas;
@@ -27,7 +27,7 @@ public class SphericalParticleNodeFactory<T extends SphericalParticle> implement
     }
 
     //Create the PNode for the particle, and wire it up to be removed when the particle leaves the model
-    public void apply( final T particle ) {
+    public void apply( final SphericalParticle particle ) {
         final SphericalParticleNode node = new SphericalParticleNode( transform, particle, showChargeColor );
         canvas.addChild( node );
         list.addElementRemovedObserver( particle, new VoidFunction0() {
