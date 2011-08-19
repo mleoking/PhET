@@ -6,6 +6,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -64,7 +65,10 @@ public class Box2DAdapter {
             }};
 
             //Add the shape to the body
-            body.createFixture( shape, 1 );
+            Fixture f = body.createFixture( shape, 1 );
+
+            //Add a little bit of bouncieness to keep things moving randomly
+            f.setRestitution( 0.1f );
         }
     }
 
