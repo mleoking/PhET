@@ -33,8 +33,6 @@ public class WanderInGeneralDirectionMotionStrategy implements IMotionStrategy {
             double newVelocity = MIN_VELOCITY + rand.nextDouble() * ( MAX_VELOCITY - MIN_VELOCITY );
             double varianceAngle = ( rand.nextDouble() - 0.5 ) * Math.PI / 3;
             currentMotionVector = generalDirection.getInstanceOfMagnitude( newVelocity ).getRotatedInstance( varianceAngle );
-            System.out.println( "varianceAngle = " + varianceAngle );
-            System.out.println( "currentMotionVector = " + currentMotionVector );
             // Reset the countdown timer.
             directionChangeCountdown = MIN_TIME_IN_ONE_DIRECTION + rand.nextDouble() * ( MAX_TIME_IN_ONE_DIRECTION - MIN_TIME_IN_ONE_DIRECTION );
         }
