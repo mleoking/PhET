@@ -1,3 +1,4 @@
+Water tab: Fixed: Sucrose crystal should have a good structure in the bucket on initialization
 Water tab: Added salt
 Water tab: Generalized SucroseCrystalNode to CrystalNode
 Rewrote Compound to iterate over particles, not constituents
