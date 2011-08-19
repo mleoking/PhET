@@ -59,7 +59,7 @@ public class SucroseCrystalNode extends PNode {
                         //When the user drags the node initially, grow it to full size and move it to the top layer
                         if ( !startedDragging.get() ) {
                             startedDragging.set( true );
-                            crystalNode.setScale( 1.0 );
+                            setIcon( false );
                             sugarBucketParticleLayer.removeChild( SucroseCrystalNode.this );
                             canvas.addChild( SucroseCrystalNode.this );
 
@@ -76,7 +76,11 @@ public class SucroseCrystalNode extends PNode {
                     @Override public void mouseReleased( PInputEvent event ) {
                         Rectangle2D modelBounds = transform.viewToModel( crystalNode.getFullBounds() ).getBounds2D();
                         if ( model.particleWindow.contains( modelBounds ) ) {
-                            model.addSucroseCrystal( crystal );
+
+                            //Add each sucrose molecule to the model
+                            for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
+                                model.addSucroseMolecule( sucroseMolecule.particle );
+                            }
 
                             //Remove the node the user was dragging
                             canvas.removeChild( SucroseCrystalNode.this );
@@ -84,7 +88,7 @@ public class SucroseCrystalNode extends PNode {
                         else {
 
                             //Shrink the node and send it back to the bucket
-                            crystalNode.setScale( 0.4 );
+                            setIcon( true );
                             centerInBucket();
                             canvas.removeChild( SucroseCrystalNode.this );
                             sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
@@ -100,8 +104,15 @@ public class SucroseCrystalNode extends PNode {
 
         addChild( crystalNode );
 
+        //By default, this node is used for the bucket, so it should start in small icon mode
+        setIcon( true );
+    }
+
+
+    //Sets whether this node should be shown as a small icon (for use in the bucket) or shown as a large crystal while the user is dragging or while in the model/play area
+    public void setIcon( boolean icon ) {
         //Shrink it to be a small icon version so it will fit in the bucket
-        crystalNode.setScale( 0.4 );
+        crystalNode.setScale( icon ? 0.4 : 1 );
     }
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.

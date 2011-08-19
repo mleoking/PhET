@@ -32,7 +32,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 
@@ -43,11 +42,11 @@ import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
  */
 public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
-    //List of all spherical particles, the constituents in larger molecules or crystals, used for rendering on the screen
-    public final ItemList<SphericalParticle> particles = new ItemList<SphericalParticle>();
-
-    //Lists of all model objects
+    //Lists of all water molecules
     public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
+
+    //List of all sucrose crystals
+    public final ItemList<Sucrose> sucroseList = new ItemList<Sucrose>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -107,7 +106,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     protected TestPanel testPanel;
 
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
-    private boolean useDebugDraw = false;
+    private boolean useDebugDraw = true;
 
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
@@ -177,20 +176,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         } );
     }
 
-    //Add all constituents to the list of spherical particles so they will be drawn on the screen and can be iterated for coulomb repulsion
-    private void addConstituents( Compound<SphericalParticle> compound ) {
-        for ( Constituent<SphericalParticle> constituent : compound ) {
-            particles.add( constituent.particle );
-        }
-    }
-
-    //Remove the constituents from the list of spherical particles
-    private void removeConstituents( Compound<SphericalParticle> compound ) {
-        for ( Constituent<SphericalParticle> constituent : compound ) {
-            particles.remove( constituent.particle );
-        }
-    }
-
     //Remove the SaltCrystal bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
 //    public void unhook( SaltCrystal saltCrystal ) {
 //        world.destroyBody( saltCrystal.sodium.body );
@@ -200,7 +185,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public void addWaterMolecule( double x, double y, double angle ) {
         final WaterMolecule molecule = new WaterMolecule( new ImmutableVector2D( x, y ), angle );
         waterList.add( molecule );
-        addConstituents( molecule );
 
         //Add the adapter for box2D
         box2DAdapters.add( new Box2DAdapter( world, molecule, modelToBox2D ) );
@@ -242,11 +226,11 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             System.out.println( "delta = " + ( t2 - t ) );
         }
 
+        //Iterate over all pairs of particles and apply the coulomb force, but only consider particles from different molecules (no intramolecular forces)
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
-
             if ( random.nextDouble() < probabilityOfInteraction.get() ) {
                 for ( Constituent<SphericalParticle> constituent : box2DAdapter.compound ) {
-                    for ( SphericalParticle particle : particles ) {
+                    for ( SphericalParticle particle : getAllParticles() ) {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
                             double q1 = constituent.particle.getCharge();
                             double q2 = particle.getCharge();
@@ -289,6 +273,22 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             frameListener.apply();
         }
         timeSinceSaltAdded += dt;
+    }
+
+    //Get all interacting particles from the lists of water, sucrose, etc.
+    private Iterable<? extends SphericalParticle> getAllParticles() {
+        return new ArrayList<SphericalParticle>() {{
+            for ( WaterMolecule waterMolecule : waterList ) {
+                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
+                    add( waterConstituent.particle );
+                }
+            }
+            for ( Sucrose sucrose : sucroseList ) {
+                for ( Constituent<SphericalParticle> sucroseAtom : sucrose ) {
+                    add( sucroseAtom.particle );
+                }
+            }
+        }};
     }
 
     //Get the coulomb force between two particles
@@ -408,19 +408,17 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         showWaterCharges.reset();
     }
 
-//    public void clear( ItemList<? extends Molecule> list, World world ) {
-//        for ( Molecule t : list ) {
-//            world.destroyBody( t.body );
-//            t.notifyRemoved();
-//        }
-//        list.clear();
-//    }
-
     //Set up the initial model state, used on init and after reset
     protected void initModel() {
-//        clear( waterList, world );
+
+        //Clear out the box2D world
+        for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
+            world.destroyBody( box2DAdapter.body );
+        }
+        box2DAdapters.clear();
+        waterList.clear();
+        sucroseList.clear();
 //        clearSalt();
-//        clearSugar();
 
         //Add water particles
         addWaterParticles();
@@ -437,24 +435,19 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Add the specified sucrose crystal to the model
-    public void addSucroseCrystal( SucroseCrystal crystal ) {
+    public void addSucroseMolecule( Sucrose sucrose ) {
 
         //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
-        removeOverlappingWater( crystal );
+        removeOverlappingWater( sucrose );
 
-        //Add the sucrose crystal
-        for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
-            addConstituents( sucroseMolecule.particle );
-            box2DAdapters.add( new Box2DAdapter( world, sucroseMolecule.particle, modelToBox2D ) );
-        }
+        //Add the sucrose crystal and box2d adapters for all its molecules so they will propagate with box2d physics
+        sucroseList.add( sucrose );
+        box2DAdapters.add( new Box2DAdapter( world, sucrose, modelToBox2D ) );
     }
 
     //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
-    private void removeOverlappingWater( SucroseCrystal crystal ) {
-        HashSet<WaterMolecule> toRemove = getOverlappingWaterMolecules( crystal );
-        for ( WaterMolecule waterMolecule : toRemove ) {
-            removeConstituents( waterMolecule );
-        }
+    private void removeOverlappingWater( Sucrose sucrose ) {
+        HashSet<WaterMolecule> toRemove = getOverlappingWaterMolecules( sucrose );
         waterList.removeAll( toRemove );
         ArrayList<Box2DAdapter> box2DAdaptersToRemove = getBox2DAdapters( toRemove );
         for ( Box2DAdapter box2DAdapter : box2DAdaptersToRemove ) {
@@ -475,24 +468,25 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Find which water molecules overlap with the specified crystal so they can be removed before the crystal is added, to prevent box2d body overlaps
-    private HashSet<WaterMolecule> getOverlappingWaterMolecules( SucroseCrystal crystal ) {
-        HashSet<WaterMolecule> toRemove = new HashSet<WaterMolecule>();
+    private HashSet<WaterMolecule> getOverlappingWaterMolecules( final Sucrose sucroseMolecule ) {
+        return new HashSet<WaterMolecule>() {{
 
-        for ( WaterMolecule waterMolecule : waterList ) {
-            for ( Constituent<SphericalParticle> waterAtom : waterMolecule ) {
+            //Iterate over all water atoms
+            for ( WaterMolecule waterMolecule : waterList ) {
+                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
+                    final SphericalParticle waterAtom = waterConstituent.particle;
 
-                for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
-                    for ( Constituent<SphericalParticle> sucroseAtom : sucroseMolecule.particle ) {
+                    //Iterate over all sucrose atoms
+                    for ( Constituent<SphericalParticle> sucroseConstituent : sucroseMolecule ) {
+                        final SphericalParticle sucroseAtom = sucroseConstituent.particle;
 
-                        final SphericalParticle water = waterAtom.particle;
-                        final SphericalParticle sucrose = sucroseAtom.particle;
-                        if ( water.getPosition().getDistance( sucrose.getPosition() ) < water.radius + sucrose.radius ) {
-                            toRemove.add( waterMolecule );
+                        //add if they are overlapping
+                        if ( waterAtom.getPosition().getDistance( sucroseAtom.getPosition() ) < waterAtom.radius + sucroseAtom.radius ) {
+                            add( waterMolecule );
                         }
                     }
                 }
             }
-        }
-        return toRemove;
+        }};
     }
 }
