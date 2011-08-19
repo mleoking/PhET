@@ -37,16 +37,16 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 public class CrystalNode<CompoundType extends Compound<SphericalParticle>, CrystalType extends Crystal<CompoundType>> extends PNode {
     protected PNode crystalNode;
     private ModelViewTransform transform;
-    private BucketView sugarBucket;
+    private BucketView bucketNode;
     private CrystalType crystal;
     private boolean inBucket = true;
 
-    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
+    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
 
                         //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
                         final VoidFunction1<CompoundType> addToModel, final VoidFunction1<CompoundType> removeFromModel ) {
         this.transform = transform;
-        this.sugarBucket = sugarBucket;
+        this.bucketNode = bucketNode;
         this.crystal = crystal;
 
         crystalNode = new PNode();
@@ -135,7 +135,7 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
     //Center the node in the bucket, must be called after scaling and attaching to the parent.
     public void centerInBucket() {
         Point2D crystalCenter = crystalNode.getGlobalFullBounds().getCenter2D();
-        Point2D bucketCenter = sugarBucket.getHoleNode().getGlobalFullBounds().getCenter2D();
+        Point2D bucketCenter = bucketNode.getHoleNode().getGlobalFullBounds().getCenter2D();
         crystal.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
     }
 

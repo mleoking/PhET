@@ -195,7 +195,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 SodiumChlorideCrystal newCrystal = new SodiumChlorideCrystal( ion.getPosition(), 0 ) {{
                     addConstituent( new Constituent<SaltIon>( ion, ZERO ) );
                 }};
-                final CrystalNode crystalNode = new CrystalNode<SaltIon, SodiumChlorideCrystal>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSaltIon, model.removeSaltIon );
+                final CrystalNode crystalNode = new CrystalNode<SaltIon, SodiumChlorideCrystal>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSaltIon, model.removeSaltIon );
                 crystalNode.setIcon( false );
                 crystalNode.setInBucket( false );
                 addChild( crystalNode );
