@@ -167,11 +167,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }} );
     }
 
-    //Remove the SaltCrystal bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
-//    public void unhook( SaltCrystal saltCrystal ) {
-//        world.destroyBody( saltCrystal.sodium.body );
-//    }
-
     //Adds a single water molecule
     public void addWaterMolecule( double x, double y, double angle ) {
         final WaterMolecule molecule = new WaterMolecule( new ImmutableVector2D( x, y ), angle );
