@@ -14,10 +14,10 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 public class MeanderToDestinationMotionStrategy implements IMotionStrategy {
 
     private static final double DIRECTED_PROPORTION = 0.90; // Proportion of motion updates that move towards
-    protected static final double MIN_DIRECTED_VELOCITY = 50;  // In picometers per second
-    protected static final double MAX_DIRECTED_VELOCITY = 150;  // In picometers per second
-    protected static final double MIN_WANDERING_VELOCITY = 30;  // In picometers per second
-    protected static final double MAX_WANDERING_VELOCITY = 80;  // In picometers per second
+    protected static final double MIN_DIRECTED_VELOCITY = 100;  // In picometers per second
+    protected static final double MAX_DIRECTED_VELOCITY = 500;  // In picometers per second
+    protected static final double MIN_WANDERING_VELOCITY = 100;  // In picometers per second
+    protected static final double MAX_WANDERING_VELOCITY = 500;  // In picometers per second
 
     private static final double MIN_TIME_IN_ONE_DIRECTION = 0.25; // In seconds.
     private static final double MAX_TIME_IN_ONE_DIRECTION = 1.25; // In seconds.
