@@ -19,10 +19,14 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNodeFactory;
+import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
@@ -147,8 +151,40 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
-        //When any spherical particle is added in the model, add graphics for them in the view
-        model.particles.addElementAddedObserver( new SphericalParticleNodeFactory( model.particles, transform, this, model.showChargeColor ) );
+        //When a water molecule is added in the model, add graphics for each atom in the view
+        model.waterList.addElementAddedObserver( new VoidFunction1<WaterMolecule>() {
+            public void apply( final WaterMolecule waterMolecule ) {
+                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
+                    final SphericalParticleNode node = new SphericalParticleNode( transform, waterConstituent.particle, model.showChargeColor );
+                    addChild( node );
+                    model.waterList.addElementRemovedObserver( waterMolecule, new VoidFunction0() {
+                        public void apply() {
+                            model.waterList.removeElementRemovedObserver( waterMolecule, this );
+                            removeChild( node );
+                        }
+                    } );
+                }
+            }
+        } );
+
+        //When a sucrose molecule is added in the model, add graphics for each atom in the view
+        model.sucroseList.addElementAddedObserver( new VoidFunction1<Sucrose>() {
+            public void apply( final Sucrose sucrose ) {
+                final SucroseCrystal newCrystal = new SucroseCrystal( sucrose.getPosition(), 0 ) {{
+                    addConstituent( new Constituent<Sucrose>( sucrose, ZERO ) );
+                }};
+                final SucroseCrystalNode sucroseCrystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal );
+                sucroseCrystalNode.setIcon( false );
+                addChild( sucroseCrystalNode );
+
+                model.sucroseList.addElementRemovedObserver( sucrose, new VoidFunction0() {
+                    public void apply() {
+                        model.sucroseList.removeElementRemovedObserver( sucrose, this );
+                        removeChild( sucroseCrystalNode );
+                    }
+                } );
+            }
+        } );
 
         //Start out the buckets with salt and sugar
         addSaltToBucket( model, transform );
