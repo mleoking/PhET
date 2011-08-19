@@ -20,6 +20,9 @@ import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
+import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectronDensityColorKeyNode;
+import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectrostaticPotentialColorKeyNode;
+import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.RainbowElectrostaticPotentialColorKeyNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.colorado.phet.moleculepolarity.developer.JmolScriptNode;
@@ -48,6 +51,9 @@ public class RealMoleculesCanvas extends MPCanvas {
         JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
         final ElectronegativityTableNode electronegativityTableNode = new ElectronegativityTableNode( model.currentMolecule, viewerNode );
         MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
+        final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
+        final PNode rainbowColorKeyNode = new RainbowElectrostaticPotentialColorKeyNode();
+        final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
 
         // rendering order
         {
@@ -65,6 +71,11 @@ public class RealMoleculesCanvas extends MPCanvas {
             }
             addChild( electronegativityTableNode );
 
+            // indicators
+            addChild( electrostaticPotentialColorKeyNode );
+            addChild( rainbowColorKeyNode );
+            addChild( electronDensityColorKeyNode );
+
             // molecule
             addChild( viewerNode );
 
@@ -79,8 +90,11 @@ public class RealMoleculesCanvas extends MPCanvas {
             negativePlateNode.setOffset( 30, 30 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
             viewerNode.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
             positivePlateNode.setOffset( viewerNode.getFullBoundsReference().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
+            electrostaticPotentialColorKeyNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electrostaticPotentialColorKeyNode.getFullBoundsReference().getWidth() / 2 ), negativePlateNode.getFullBoundsReference().getMaxY() - 50 );
+            rainbowColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
+            electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             electronegativityTableNode.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( electronegativityTableNode.getFullBoundsReference().getWidth() / 2 ),
-                                                  viewerNode.getFullBoundsReference().getMaxY() + 20 );
+                                                  electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + 20 );
             moleculeComboBox.setOffset( viewerNode.getFullBoundsReference().getCenterX() - ( moleculeComboBox.getFullBoundsReference().getWidth() / 2 ),
                                         viewerNode.getFullBoundsReference().getMinY() - moleculeComboBox.getFullBoundsReference().getHeight() - 30 );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
@@ -126,6 +140,9 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
                 public void apply( SurfaceType isosurfaceType ) {
                     viewerNode.setIsosurfaceType( isosurfaceType );
+                    electrostaticPotentialColorKeyNode.setVisible( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
+                    rainbowColorKeyNode.setVisible( false ); //TODO enable this based on Options menu item
+                    electronDensityColorKeyNode.setVisible( isosurfaceType == SurfaceType.ELECTRON_DENSITY );
                 }
             } );
         }

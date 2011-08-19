@@ -27,7 +27,6 @@ public class MPStrings {
     public static final String BORON_TRIFLUORIDE = RESOURCES.getLocalizedString( "boronTrifluoride" );
     public static final String C = RESOURCES.getLocalizedString( "C" );
     public static final String CARBON_DIOXIDE = RESOURCES.getLocalizedString( "carbonDioxide" );
-    public static final String CARBON_MONOXIDE = RESOURCES.getLocalizedString( "carbonMonoxide" );
     public static final String CHLOROFORM = RESOURCES.getLocalizedString( "chloroform" );
     public static final String DIFLUOROMETHANE = RESOURCES.getLocalizedString( "difluoromethane" );
     public static final String ELECTRIC_FIELD = RESOURCES.getLocalizedString( "electricField" );
@@ -47,6 +46,7 @@ public class MPStrings {
     public static final String MORE = RESOURCES.getLocalizedString( "more" );
     public static final String MORE_COVALENT = RESOURCES.getLocalizedString( "moreCovalent" );
     public static final String MORE_IONIC = RESOURCES.getLocalizedString( "moreIonic" );
+    public static final String NEGATIVE = RESOURCES.getLocalizedString( "negative" );
     public static final String NITROGEN = RESOURCES.getLocalizedString( "nitrogen" );
     public static final String NONE = RESOURCES.getLocalizedString( "none" );
     public static final String OFF = RESOURCES.getLocalizedString( "off" );
@@ -56,6 +56,7 @@ public class MPStrings {
     public static final String PARTIAL_CHARGES = RESOURCES.getLocalizedString( "partialCharges" );
     public static final String PATTERN_0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
     public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
+    public static final String POSITIVE = RESOURCES.getLocalizedString( "positive" );
     public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
     public static final String SURFACE = RESOURCES.getLocalizedString( "surface" );
     public static final String TETRAFLUOROMETHANE = RESOURCES.getLocalizedString( "tetrafluoromethane" );

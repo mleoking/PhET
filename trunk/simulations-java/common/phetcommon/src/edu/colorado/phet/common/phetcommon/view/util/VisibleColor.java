@@ -44,6 +44,8 @@ public class VisibleColor extends Color {
     public static final VisibleColor WHITE = new VisibleColor( WHITE_WAVELENGTH );
     public static final VisibleColor INVISIBLE = new VisibleColor( 0, 0, 0, 0 );
     public static final Color COLOR_INVISIBLE = new Color( 0, 0, 0, 0 );
+    public static final Color VIOLET = new Color( 127, 0, 255 );
+    public static final Color INDIGO = new Color( 75, 0, 130 );
 
     // Two colors match if their RGB components each differ by less than this amount.
     private static final int COLOR_MATCH_DELTA = 2;
