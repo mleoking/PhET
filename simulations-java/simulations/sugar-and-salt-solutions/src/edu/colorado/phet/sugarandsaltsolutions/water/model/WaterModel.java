@@ -9,7 +9,6 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 
-import org.jbox2d.common.Color3f;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.testbed.framework.DebugDrawJ2D;
@@ -159,21 +158,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         frame.pack();
         frame.setVisible( true );
 
-        world.setDebugDraw( new DebugDrawJ2D( testPanel ) {
-            {
-                //Show the shapes in the debugger
-                setFlags( e_shapeBit );
+        world.setDebugDraw( new DebugDrawJ2D( testPanel ) {{
+            //Show the shapes in the debugger
+            setFlags( e_shapeBit );
 
-                //Move the camera over so that the shapes will show up at a good size and location
-                setCamera( -10, 10, 20 );
-            }
-
-
-            //Circles are drawn as segments, this override is here to facilitate debugging
-            @Override public void drawSegment( Vec2 vec2, Vec2 vec21, Color3f color ) {
-                super.drawSegment( vec2, vec21, color );
-            }
-        } );
+            //Move the camera over so that the shapes will show up at a good size and location
+            setCamera( -10, 10, 20 );
+        }} );
     }
 
     //Remove the SaltCrystal bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
