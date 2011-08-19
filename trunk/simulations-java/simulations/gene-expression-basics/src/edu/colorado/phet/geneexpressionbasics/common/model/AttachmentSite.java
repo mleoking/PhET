@@ -21,7 +21,7 @@ public class AttachmentSite {
     public Property<Point2D> locationProperty = new Property<Point2D>( new Point2D.Double( 0, 0 ) );
 
     // A value between 0 and 1 that represents the strength of the affinity
-    // for this bond.
+    // for this attachment.
     private final double affinity;
 
     // A property that tracks whether any biomolecule is "using" this

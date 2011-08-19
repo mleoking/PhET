@@ -57,10 +57,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         }
     }
 
-    public boolean availableToAttach() {
-        return behaviorState instanceof UnattachedAndAvailableState;
-    }
-
     public void proposeAttachmentSite( AttachmentSite attachmentSite ) {
         behaviorState = behaviorState.considerAttachment( attachmentSite, this );
     }
