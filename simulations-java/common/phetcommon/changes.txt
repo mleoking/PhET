@@ -1,4 +1,4 @@
-8/18/11 added VIOLET and INDIGO to VisibleColors
+8/18/11 added VIOLET and INDIGO to VisibleColor
 8/16/11 Fixed implementation of SettableNot and added improved tests, see #3045
 8/12/11 added Arrow.getHeadScale, see #3039
 8/3/11 Removed NotImplementedException and implemented ObservableList.retainAll, see #3033
