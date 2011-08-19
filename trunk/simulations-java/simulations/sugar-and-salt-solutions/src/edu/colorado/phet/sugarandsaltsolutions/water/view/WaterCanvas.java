@@ -24,7 +24,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
-import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SaltIon;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -158,7 +157,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         model.waterList.addElementAddedObserver( new VoidFunction1<WaterMolecule>() {
             public void apply( final WaterMolecule waterMolecule ) {
                 for ( SphericalParticle waterAtom : waterMolecule ) {
-                    final SphericalParticleNode node = new SphericalParticleNode( transform, waterAtom, model.showChargeColor );
+                    final SphericalParticleNodeWithText node = new SphericalParticleNodeWithText( transform, waterAtom, model.showChargeColor, model.showWaterCharges );
                     particleWindowNode.particleLayer.addChild( node );
                     model.waterList.addElementRemovedObserver( waterMolecule, new VoidFunction0() {
                         public void apply() {
@@ -305,34 +304,5 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 //                }
 //            } );
 //        }}
-
-
-    //TODO: add water charge symbols
-//    //Text symbol to show for the partial charge delta
-//    public static final char DELTA = '\u03B4';
-//
-//    //The default "-" sign on Windows is too short, the team requested to use a longer symbol, so I switched to the unicode figure dash
-//    //As described on this page: http://www.fileformat.info/info/unicode/char/2012/index.htm
-//    //The unicode figure dash also has the benefit that it looks further away from the delta symbol
-//    public static final String MINUS = "\u2012";
-//    public static final String PLUS = "+";
-//
-//        //Show the atom image as well as the partial charge, if the user has chosen to show it
-//        class AtomImageWithText extends AtomImage {
-//            AtomImageWithText( BufferedImage image, double diameter, Atom atom, String text ) {
-//                super( image, diameter, atom, addListener, transform );
-//                final PNode parent = this;
-//                addChild( new PText( text ) {{
-//                    showWaterCharge.addObserver( new VoidFunction1<Boolean>() {
-//                        public void apply( Boolean showPartialCharge ) {
-//                            setVisible( showPartialCharge );
-//                        }
-//                    } );
-//                    setFont( new PhetFont( 16 ) );
-//                    setOffset( parent.getFullBounds().getWidth() / 2 - getFullBounds().getWidth() / 2,
-//                               parent.getFullBounds().getHeight() / 2 - getFullBounds().getHeight() / 2 );
-//                }} );
-//            }
-//        }
 
 }
