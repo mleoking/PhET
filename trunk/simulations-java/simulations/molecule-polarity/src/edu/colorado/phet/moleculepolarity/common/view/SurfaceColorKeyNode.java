@@ -48,7 +48,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     // Color key for secondary "electrostatic potential" surface representation.
     public static class RainbowElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public RainbowElectrostaticPotentialColorKeyNode() {
-            super( new Color[] { Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, VisibleColor.INDIGO, VisibleColor.VIOLET },
+            super( new Color[] { VisibleColor.VIOLET, VisibleColor.INDIGO, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED },
                    MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
