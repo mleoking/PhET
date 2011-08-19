@@ -68,7 +68,7 @@ public class SphericalParticleNode extends PNode {
     //Test application that draws a particle
     public static void main( String[] args ) {
         new PFrame( SphericalParticleNode.class.getName(), false, new PCanvas() {{
-            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), Color.red );
+            SphericalParticle p = new SphericalParticle( 100.0, new ImmutableVector2D( 0, 0 ), Color.red, +1 );
             getLayer().addChild( new SphericalParticleNode( ModelViewTransform.createIdentity(), p, new BooleanProperty( false ) ) {{
                 setOffset( 100, 100 );
             }} );
