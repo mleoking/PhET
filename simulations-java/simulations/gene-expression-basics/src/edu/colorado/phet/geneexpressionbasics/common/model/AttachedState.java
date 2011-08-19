@@ -3,6 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+
 /**
  * @author John Blanco
  */
@@ -38,7 +40,14 @@ public class AttachedState extends BiomoleculeBehaviorState {
         if ( attachmentCountdownTime <= 0 ) {
             // Time to fall off of this attachment site.
             attachmentSite.inUse.set( false );
-            return new UnattachedButUnavailableState();
+            if ( attachmentSite.locationProperty.get().getY() < 100 ) {
+                // Must be on the DNA, so drift upwards.
+                return new DetachingState( new ImmutableVector2D( 0, 1 ) );
+            }
+            else {
+                // Not on the DNA - drift randomly.
+                return new DetachingState();
+            }
         }
         else {
             // No state change.
