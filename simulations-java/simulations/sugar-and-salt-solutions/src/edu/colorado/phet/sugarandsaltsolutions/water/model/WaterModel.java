@@ -23,6 +23,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
@@ -100,7 +101,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private static final boolean debugTime = false;
 
     //List of adapters that manage both the box2D and actual model data
-    private ArrayList<Box2DAdapter> box2DAdapters = new ArrayList<Box2DAdapter>();
+    private ItemList<Box2DAdapter> box2DAdapters = new ItemList<Box2DAdapter>();
 
     //Panel that allows us to see jbox2d model and computations
     protected TestPanel testPanel;
@@ -259,7 +260,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
 
         //Apply periodic boundary conditions
-        applyPeriodicBoundaryConditions( box2DAdapters );
+        applyPeriodicBoundaryConditions();
 
         //Factor out center of mass motion so no large scale drifts can occur
         subtractOutCenterOfMomentum();
@@ -335,8 +336,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Move particles from one side of the screen to the other if they went out of bounds
     //TODO: extend this boundary beyond the visible range
-    private void applyPeriodicBoundaryConditions( ArrayList<Box2DAdapter> list ) {
-        for ( Box2DAdapter adapter : list ) {
+    private void applyPeriodicBoundaryConditions() {
+        for ( Box2DAdapter adapter : box2DAdapters ) {
             Compound<SphericalParticle> particle = adapter.compound;
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
@@ -488,5 +489,27 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 }
             }
         }};
+    }
+
+    //Remove a sucrose from the model.  This can be called when the user grabs a sucrose molecule in the play area, and is called so that box2D won't continue to move the sucrose while the user is moving it
+    public void removeSucrose( final Sucrose sucrose ) {
+        if ( sucroseList.contains( sucrose ) ) {
+
+            //Find the box2D adapters to remove, hopefully there is only one!
+            ArrayList<Box2DAdapter> toRemove = box2DAdapters.filter( new Function1<Box2DAdapter, Boolean>() {
+                public Boolean apply( Box2DAdapter box2DAdapter ) {
+                    return box2DAdapter.compound == sucrose;
+                }
+            } );
+
+            //Remove the box2D components
+            for ( Box2DAdapter box2DAdapter : toRemove ) {
+                world.destroyBody( box2DAdapter.body );
+                box2DAdapters.remove( box2DAdapter );
+            }
+
+            //Remove the sucrose itself
+            sucroseList.remove( sucrose );
+        }
     }
 }
