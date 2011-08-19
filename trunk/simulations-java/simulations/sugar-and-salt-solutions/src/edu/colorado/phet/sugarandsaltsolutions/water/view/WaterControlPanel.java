@@ -34,13 +34,9 @@ public class WaterControlPanel extends ControlPanelNode {
         super( new VBox(
 
                 //Allow the user to show individual atoms within the sugar molecule, but only if a sugar molecule is in the scene
+                //Works for both the sugar in the bucket and any in the model
                 new PSwing( new PropertyCheckBox( SHOW_SUGAR_ATOMS, waterModel.showSugarAtoms ) {{
                     setFont( new PhetFont( 16 ) );
-//                    waterModel.sugarMoleculeList.count.greaterThanOrEqualTo( 1 ).addObserver( new VoidFunction1<Boolean>() {
-//                        public void apply( Boolean enabled ) {
-//                            setEnabled( enabled );
-//                        }
-//                    } );
                 }} ),
 
                 //Checkbox to show/hide water charges (showing partial charges)
