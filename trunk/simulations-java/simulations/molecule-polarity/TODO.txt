@@ -39,6 +39,7 @@ LOW
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - Jmol: how to set a transparent background for the viewer?
 - delete TestMepCalculation
+- delete unneeded keep statement from molecule-polarity.pro
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
