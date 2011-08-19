@@ -61,19 +61,6 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.insets.top = 10;
             constraints.insets.left = 0;
             // TODO: i18n
-            addChild( new RowLabel( "RNA Polymerase" ), constraints );
-
-            constraints.gridx++;
-            constraints.insets.left = 20;
-            addChild( new HBox( addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
-                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
-                      constraints );
-
-            constraints.gridx = 0;
-            constraints.gridy++;
-            constraints.insets.left = 0;
-            // TODO: i18n
             addChild( new RowLabel( "Positive Transcription Factor" ), constraints );
 
             constraints.gridx++;
@@ -91,6 +78,19 @@ public class BiomoleculeToolBoxNode extends PNode {
             addChild( new HBox( addCreatorNode( new TranscriptionFactorCreatorNode( BiomoleculeToolBoxNode.this, geneID, false ) ) ), constraints );
             constraints.gridx = 0;
 
+            constraints.gridy++;
+            constraints.insets.left = 0;
+            // TODO: i18n
+            addChild( new RowLabel( "RNA Polymerase" ), constraints );
+
+            constraints.gridx++;
+            constraints.insets.left = 20;
+            addChild( new HBox( addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ),
+                                addCreatorNode( new RnaPolymeraseCreatorNode( BiomoleculeToolBoxNode.this ) ) ),
+                      constraints );
+
+            constraints.gridx = 0;
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
