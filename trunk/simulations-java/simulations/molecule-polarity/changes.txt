@@ -1,3 +1,4 @@
+8/19/11 move bond type indicator closer to EN sliders, since they are closely related
 8/19/11 fix seams in rainbow surface color key
 8/19/11 add titles to surface color keys, fix black outline
 8/18/11 first pass at isosurface color keys
