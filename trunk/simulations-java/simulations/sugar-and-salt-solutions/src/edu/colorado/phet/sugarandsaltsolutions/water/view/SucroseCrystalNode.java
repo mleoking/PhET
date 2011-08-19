@@ -91,6 +91,17 @@ public class SucroseCrystalNode extends PNode {
                             //Remove the node the user was dragging
                             canvas.removeChild( SucroseCrystalNode.this );
                         }
+                        else {
+
+                            //Shrink the node and send it back to the bucket
+                            crystalNode.setScale( 0.4 );
+                            centerInBucket();
+                            canvas.removeChild( SucroseCrystalNode.this );
+                            sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
+
+                            //Initialize for dragging out of the bucket on next mouse press
+                            startedDragging.set( false );
+                        }
                     }
                 } );
                 crystalNode.addChild( node );
@@ -100,7 +111,7 @@ public class SucroseCrystalNode extends PNode {
         addChild( crystalNode );
 
         //Shrink it to be a small icon version so it will fit in the bucket
-        crystalNode.scale( 0.4 );
+        crystalNode.setScale( 0.4 );
     }
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.

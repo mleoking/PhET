@@ -1,3 +1,4 @@
+Water tab: When the user drags sugar from the bucket, if it isn't dropped in the particle window, it should move back to the bucket
 Water tab: Made it so crystals don't change size when dropped in the play area
 Water tab: Disabled box2d DebugDraw by default
 Water tab: Factored out SucroseCrystalNode
