@@ -6,6 +6,7 @@ import java.awt.Frame;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplication;
 import edu.colorado.phet.common.phetcommon.model.Resettable;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
@@ -141,11 +142,17 @@ public class RealMoleculesCanvas extends MPCanvas {
             viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
                 public void apply( SurfaceType isosurfaceType ) {
                     viewerNode.setIsosurfaceType( isosurfaceType );
-                    electrostaticPotentialColorKeyNode.setVisible( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
-                    rainbowColorKeyNode.setVisible( false ); //TODO enable this based on Options menu item
-                    electronDensityColorKeyNode.setVisible( isosurfaceType == SurfaceType.ELECTRON_DENSITY );
                 }
             } );
+
+            RichSimpleObserver colorKeyUpdater = new RichSimpleObserver() {
+                public void update() {
+                    electrostaticPotentialColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && !JmolViewerNode.RAINBOW_MEP.get() );
+                    rainbowColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTROSTATIC_POTENTIAL && JmolViewerNode.RAINBOW_MEP.get() );
+                    electronDensityColorKeyNode.setVisible( viewProperties.isosurfaceType.get() == SurfaceType.ELECTRON_DENSITY );
+                }
+            };
+            colorKeyUpdater.observe( viewProperties.isosurfaceType, JmolViewerNode.RAINBOW_MEP );
         }
     }
 }

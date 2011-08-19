@@ -46,7 +46,6 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     }
 
     // Color key for secondary "electrostatic potential" surface representation.
-    //TODO white seams are visible between the segments in this color key
     public static class RainbowElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public RainbowElectrostaticPotentialColorKeyNode() {
             super( new Color[] { Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.BLUE, VisibleColor.INDIGO, VisibleColor.VIOLET },

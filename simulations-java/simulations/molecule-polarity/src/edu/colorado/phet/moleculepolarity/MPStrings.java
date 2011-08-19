@@ -57,6 +57,7 @@ public class MPStrings {
     public static final String PATTERN_0ATOM_NAME = RESOURCES.getLocalizedString( "pattern.0atomName" );
     public static final String PATTERN_0LABEL = RESOURCES.getLocalizedString( "pattern.0label" );
     public static final String POSITIVE = RESOURCES.getLocalizedString( "positive" );
+    public static final String RAINBOW_OPTION = RESOURCES.getLocalizedString( "rainbowOption" );
     public static final String REAL_MOLECULES = RESOURCES.getLocalizedString( "realMolecules" );
     public static final String SURFACE = RESOURCES.getLocalizedString( "surface" );
     public static final String TETRAFLUOROMETHANE = RESOURCES.getLocalizedString( "tetrafluoromethane" );

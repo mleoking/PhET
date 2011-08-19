@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
+import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode;
 import edu.colorado.phet.moleculepolarity.realmolecules.RealMoleculesModule;
 import edu.colorado.phet.moleculepolarity.threeatoms.ThreeAtomsModule;
 import edu.colorado.phet.moleculepolarity.twoatoms.TwoAtomsModule;
@@ -39,10 +40,10 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
 
         // Options menu
         parentFrame.addMenu( new OptionsMenu() {{
-            add( new JCheckBoxMenuItem( "rainbow mep" ) {{ //TODO i18n
+            add( new JCheckBoxMenuItem( MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
                 addActionListener( new ActionListener() {
                     public void actionPerformed( ActionEvent e ) {
-                        //TODO set a static property in JmolViewerNode
+                        JmolViewerNode.RAINBOW_MEP.set( ( (JCheckBoxMenuItem) e.getSource() ).isSelected() );
                     }
                 } );
             }} );
