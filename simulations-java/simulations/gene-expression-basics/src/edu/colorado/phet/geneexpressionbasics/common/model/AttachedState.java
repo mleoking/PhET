@@ -10,7 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class AttachedState extends BiomoleculeBehaviorState {
 
-    private static final double MIN_ATTACHMENT_TIME = 1;
+    private static final double MIN_ATTACHMENT_TIME = 0.5;
     private static final Random RAND = new Random();
 
     private final AttachmentSite attachmentSite;
