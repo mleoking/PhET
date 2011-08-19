@@ -1,8 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
-import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
-
 /**
  * Provides physical locations (positions) of the atoms within a sucrose molecule.
  * Positions sampled from a 2d rasterized view of sucrose from JMol with ProjectorUtil
@@ -12,7 +10,8 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
  * @author Sam Reid
  */
 public class SucrosePositions extends ProjectedPositions {
-    public static final double scale = WaterMolecule.oxygenRadius * 10 / 800 * 0.7;
+    public static final double oxygenRadius = 1E-10;
+    public static final double scale = oxygenRadius * 10 / 800 * 0.7;
 
     public SucrosePositions() {
         super( "H 695, 300\n" +
