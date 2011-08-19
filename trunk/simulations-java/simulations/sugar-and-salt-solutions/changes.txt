@@ -1,3 +1,4 @@
+Water tab: Made it so crystals don't change size when dropped in the play area
 Water tab: Disabled box2d DebugDraw by default
 Water tab: Factored out SucroseCrystalNode
 Water tab: Remove overlapping water molecules when sucrose crystal is added to the model
