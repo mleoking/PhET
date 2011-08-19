@@ -1,0 +1,1 @@
+jme3 license=New BSD License licensefile=license-jme3.txt name=JMonkeyEngine 3.0 description=A 3D game engine written in and for Java copyright=jMonkeyEngine website=http://jmonkeyengine.org
