@@ -29,7 +29,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
@@ -230,13 +229,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Iterate over all pairs of particles and apply the coulomb force, but only consider particles from different molecules (no intramolecular forces)
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             if ( random.nextDouble() < probabilityOfInteraction.get() ) {
-                for ( Constituent<SphericalParticle> constituent : box2DAdapter.compound ) {
+                for ( SphericalParticle compoundParticle : box2DAdapter.compound ) {
                     for ( SphericalParticle particle : getAllParticles() ) {
                         if ( !box2DAdapter.compound.containsParticle( particle ) ) {
-                            double q1 = constituent.particle.getCharge();
+                            double q1 = compoundParticle.getCharge();
                             double q2 = particle.getCharge();
-                            final ImmutableVector2D coulombForce = getCoulombForce( constituent.particle, particle, q1, q2 ).times( 1E-35 );
-                            box2DAdapter.applyModelForce( coulombForce, constituent.particle.getPosition() );
+                            final ImmutableVector2D coulombForce = getCoulombForce( compoundParticle, particle, q1, q2 ).times( 1E-35 );
+                            box2DAdapter.applyModelForce( coulombForce, compoundParticle.getPosition() );
                         }
                     }
                 }
@@ -280,13 +279,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private Iterable<? extends SphericalParticle> getAllParticles() {
         return new ArrayList<SphericalParticle>() {{
             for ( WaterMolecule waterMolecule : waterList ) {
-                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
-                    add( waterConstituent.particle );
+                for ( SphericalParticle waterAtom : waterMolecule ) {
+                    add( waterAtom );
                 }
             }
             for ( Sucrose sucrose : sucroseList ) {
-                for ( Constituent<SphericalParticle> sucroseAtom : sucrose ) {
-                    add( sucroseAtom.particle );
+                for ( SphericalParticle sucroseAtom : sucrose ) {
+                    add( sucroseAtom );
                 }
             }
         }};
@@ -474,12 +473,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
             //Iterate over all water atoms
             for ( WaterMolecule waterMolecule : waterList ) {
-                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
-                    final SphericalParticle waterAtom = waterConstituent.particle;
+                for ( SphericalParticle waterAtom : waterMolecule ) {
 
                     //Iterate over all sucrose atoms
-                    for ( Constituent<SphericalParticle> sucroseConstituent : sucroseMolecule ) {
-                        final SphericalParticle sucroseAtom = sucroseConstituent.particle;
+                    for ( SphericalParticle sucroseAtom : sucroseMolecule ) {
 
                         //add if they are overlapping
                         if ( waterAtom.getPosition().getDistance( sucroseAtom.getPosition() ) < waterAtom.radius + sucroseAtom.radius ) {

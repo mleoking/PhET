@@ -8,6 +8,7 @@ import javax.swing.SwingUtilities;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
@@ -24,14 +25,17 @@ import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.Model
  * @author Sam Reid
  */
 public class CompositeParticleNode<T extends Particle> extends PNode {
-    public CompositeParticleNode( ModelViewTransform transform, Iterable<Constituent<T>> molecule, ObservableProperty<Boolean> showChargeColor ) {
-        for ( Constituent constituent : molecule ) {
+    public CompositeParticleNode( ModelViewTransform transform, Compound<T> compound, ObservableProperty<Boolean> showChargeColor ) {
+
+        for ( int i = 0; i < compound.numberConstituents(); i++ ) {
+            Constituent<T> constituent = compound.getConstituent( i );
 
             //Put particles at the correct relative locations and add as children
             //TODO: is this still necessary after Compound was improved?
-            SphericalParticle particle = (SphericalParticle) constituent.particle;
-            particle.setPosition( constituent.relativePosition );
-            addChild( new SphericalParticleNode( transform, particle, showChargeColor ) );
+            constituent.particle.setPosition( constituent.relativePosition );
+
+            //TODO: why isn't this a class cast exception for Nitrate as used from KitList?
+            addChild( new SphericalParticleNode( transform, (SphericalParticle) constituent.particle, showChargeColor ) );
         }
     }
 

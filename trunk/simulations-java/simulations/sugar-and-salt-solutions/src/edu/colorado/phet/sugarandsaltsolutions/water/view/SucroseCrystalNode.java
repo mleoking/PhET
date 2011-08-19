@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
@@ -49,9 +48,9 @@ public class SucroseCrystalNode extends PNode {
         final Property<Boolean> startedDragging = new Property<Boolean>( false );
 
         //Transform the particles from the crystal's molecule's particles into nodes
-        for ( Constituent<Sucrose> constituent : crystal ) {
-            for ( Constituent<SphericalParticle> atom : constituent.particle ) {
-                crystalNode.addChild( new SphericalParticleNode( transform, atom.particle, not( model.showSugarAtoms ) ) );
+        for ( Sucrose sucrose : crystal ) {
+            for ( SphericalParticle atom : sucrose ) {
+                crystalNode.addChild( new SphericalParticleNode( transform, atom, not( model.showSugarAtoms ) ) );
             }
         }
 
@@ -60,8 +59,8 @@ public class SucroseCrystalNode extends PNode {
             @Override public void mouseDragged( PInputEvent event ) {
 
                 //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
-                for ( Constituent<Sucrose> constituent : crystal ) {
-                    model.removeSucrose( constituent.particle );
+                for ( Sucrose sucrose : crystal ) {
+                    model.removeSucrose( sucrose );
                 }
 
                 //When the user drags the node initially, grow it to full size and move it to the top layer
@@ -89,8 +88,8 @@ public class SucroseCrystalNode extends PNode {
                 if ( model.particleWindow.contains( modelBounds ) ) {
 
                     //Add each sucrose molecule to the model
-                    for ( Constituent<Sucrose> sucroseMolecule : crystal ) {
-                        model.addSucroseMolecule( sucroseMolecule.particle );
+                    for ( Sucrose sucrose : crystal ) {
+                        model.addSucroseMolecule( sucrose );
                     }
 
                     //Remove the node the user was dragging
