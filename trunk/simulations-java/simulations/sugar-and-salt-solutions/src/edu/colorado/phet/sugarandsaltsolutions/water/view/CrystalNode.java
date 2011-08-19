@@ -7,12 +7,13 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
@@ -22,20 +23,24 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
 /**
- * The node for sugar crystals that will be shown in the bucket that the user can grab
- * TODO: can this class be reused for rendering sucroses in the model?
+ * The node for sugar crystals that will be shown in the bucket that the user can grab.
+ * This class requires a crystal type so that it can work crystals or molecules (modeled as crystals with 1 molecule)
+ * or with particles (modeled as molecules with one atom in crystals with one molecule).
  *
  * @author Sam Reid
  */
-public class SucroseCrystalNode extends PNode {
+public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, CrystalType extends Crystal<MoleculeType>> extends PNode {
 
     protected PNode crystalNode;
     private ModelViewTransform transform;
     private BucketView sugarBucket;
-    private SucroseCrystal crystal;
+    private CrystalType crystal;
     private boolean inBucket = true;
 
-    public SucroseCrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final SucroseCrystal crystal ) {
+    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
+
+                        //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
+                        final VoidFunction1<MoleculeType> addToModel, final VoidFunction1<MoleculeType> removeFromModel ) {
         this.transform = transform;
         this.sugarBucket = sugarBucket;
         this.crystal = crystal;
@@ -48,8 +53,8 @@ public class SucroseCrystalNode extends PNode {
         final Property<Boolean> startedDragging = new Property<Boolean>( false );
 
         //Transform the particles from the crystal's molecule's particles into nodes
-        for ( Sucrose sucrose : crystal ) {
-            for ( SphericalParticle atom : sucrose ) {
+        for ( MoleculeType molecule : crystal ) {
+            for ( SphericalParticle atom : molecule ) {
                 crystalNode.addChild( new SphericalParticleNode( transform, atom, not( model.showSugarAtoms ) ) );
             }
         }
@@ -59,16 +64,16 @@ public class SucroseCrystalNode extends PNode {
             @Override public void mouseDragged( PInputEvent event ) {
 
                 //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
-                for ( Sucrose sucrose : crystal ) {
-                    model.removeSucrose( sucrose );
+                for ( MoleculeType sucrose : crystal ) {
+                    removeFromModel.apply( sucrose );
                 }
 
                 //When the user drags the node initially, grow it to full size and move it to the top layer
                 if ( !startedDragging.get() ) {
                     startedDragging.set( true );
                     setIcon( false );
-                    sugarBucketParticleLayer.removeChild( SucroseCrystalNode.this );
-                    canvas.addChild( SucroseCrystalNode.this );
+                    sugarBucketParticleLayer.removeChild( CrystalNode.this );
+                    canvas.addChild( CrystalNode.this );
 
                     //Re-center the node since it will have a different location at its full scale
                     if ( inBucket ) {
@@ -88,12 +93,12 @@ public class SucroseCrystalNode extends PNode {
                 if ( model.particleWindow.contains( modelBounds ) ) {
 
                     //Add each sucrose molecule to the model
-                    for ( Sucrose sucrose : crystal ) {
-                        model.addSucroseMolecule( sucrose );
+                    for ( MoleculeType sucrose : crystal ) {
+                        addToModel.apply( sucrose );
                     }
 
                     //Remove the node the user was dragging
-                    canvas.removeChild( SucroseCrystalNode.this );
+                    canvas.removeChild( CrystalNode.this );
                 }
                 else {
 
@@ -101,8 +106,8 @@ public class SucroseCrystalNode extends PNode {
                     setIcon( true );
                     centerInBucket();
                     inBucket = true;
-                    canvas.removeChild( SucroseCrystalNode.this );
-                    sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
+                    canvas.removeChild( CrystalNode.this );
+                    sugarBucketParticleLayer.addChild( CrystalNode.this );
 
                     //Initialize for dragging out of the bucket on next mouse press
                     startedDragging.set( false );

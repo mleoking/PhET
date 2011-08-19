@@ -173,15 +173,15 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 final SucroseCrystal newCrystal = new SucroseCrystal( sucrose.getPosition(), 0 ) {{
                     addConstituent( new Constituent<Sucrose>( sucrose, ZERO ) );
                 }};
-                final SucroseCrystalNode sucroseCrystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal );
-                sucroseCrystalNode.setIcon( false );
-                sucroseCrystalNode.setInBucket( false );
-                addChild( sucroseCrystalNode );
+                final CrystalNode crystalNode = new CrystalNode<Sucrose, SucroseCrystal>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSucrose, model.removeSucrose );
+                crystalNode.setIcon( false );
+                crystalNode.setInBucket( false );
+                addChild( crystalNode );
 
                 model.sucroseList.addElementRemovedObserver( sucrose, new VoidFunction0() {
                     public void apply() {
                         model.sucroseList.removeElementRemovedObserver( sucrose, this );
-                        removeChild( sucroseCrystalNode );
+                        removeChild( crystalNode );
                     }
                 } );
             }
@@ -233,7 +233,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        SucroseCrystalNode crystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, this, crystal );
+        CrystalNode<Sucrose, SucroseCrystal> crystalNode = new CrystalNode<Sucrose, SucroseCrystal>( transform, model, sugarBucket, sugarBucketParticleLayer, this, crystal, model.addSucrose, model.removeSucrose );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         sugarBucketParticleLayer.addChild( crystalNode );
