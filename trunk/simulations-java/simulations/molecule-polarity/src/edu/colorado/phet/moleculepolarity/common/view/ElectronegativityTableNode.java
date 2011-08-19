@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode.ElementColor;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -23,6 +24,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class ElectronegativityTableNode extends PComposite {
+
+    private static final double MARGIN = 3;
 
     private final ArrayList<Cell> cells;
 
@@ -40,8 +43,8 @@ public class ElectronegativityTableNode extends PComposite {
 
         // layout cells, first and last cells are horizontally separated from others
         final double xGap = 12;
-        double x = 0;
-        final double y = 0;
+        double x = MARGIN;
+        final double y = MARGIN;
         Cell firstCell = cells.get( 0 );
         addChild( firstCell );
         firstCell.setOffset( x, y );
@@ -57,6 +60,23 @@ public class ElectronegativityTableNode extends PComposite {
         addChild( lastCell );
         lastCell.setOffset( x, y );
 
+        // compute background shape
+        double width = lastCell.getFullBoundsReference().getMaxX() + MARGIN;
+        double height = lastCell.getFullBoundsReference().getMaxY() + MARGIN;
+        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, width, height ) ) {{
+            setPaint( Color.BLACK );
+        }};
+        addChild( backgroundNode );
+        backgroundNode.moveToBack();
+
+        // title
+        PText titleNode = new PText( MPStrings.ATOM_ELECTRONEGATIVITIES ) {{
+            setFont( new PhetFont( Font.BOLD, 14 ) );
+        }};
+        addChild( titleNode );
+        titleNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                             backgroundNode.getFullBoundsReference().getMaxY() + 3 );
+
         // when the current molecule changes, ask Jmol for the molecule's elements and colors
         viewerNode.molecule.addObserver( new SimpleObserver() {
             public void update() {
@@ -71,7 +91,7 @@ public class ElectronegativityTableNode extends PComposite {
 
     private void reset() {
         for ( Cell cell : cells ) {
-            cell.resetColor();
+            cell.reset();
         }
     }
 
@@ -79,7 +99,7 @@ public class ElectronegativityTableNode extends PComposite {
     private void setColor( int elementNumber, Color color ) {
         for ( Cell cell : cells ) {
             if ( cell.getElementNumber() == elementNumber ) {
-                cell.setColor( color );
+                cell.highlight( color );
                 break;
             }
         }
@@ -89,10 +109,13 @@ public class ElectronegativityTableNode extends PComposite {
     private static class Cell extends PComposite {
 
         private static final Dimension SIZE = new Dimension( 50, 70 );
-        private static final Color COLOR = new Color( 210, 210, 210 );
+        private static final Color BACKGROUND_COLOR = new Color( 210, 210, 210 );
+        private static final Color NORMAL_TEXT_COLOR = BACKGROUND_COLOR.darker();
+        private static final Color HIGHLIGHTED_TEXT_COLOR = Color.BLACK;
 
         private final int elementNumber;
         private final PPath backgroundNode;
+        private final PText elementNameNode, electronegativityNode;
 
         public Cell( String elementName, int elementNumber, double electronegativity ) {
 
@@ -100,13 +123,15 @@ public class ElectronegativityTableNode extends PComposite {
 
             // nodes
             backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, SIZE.width, SIZE.height ) ) {{
-                setPaint( COLOR );
+                setPaint( BACKGROUND_COLOR );
             }};
-            PText elementNameNode = new PText( elementName ) {{
+            elementNameNode = new PText( elementName ) {{
                 setFont( new PhetFont( Font.BOLD, 24 ) );
+                setTextPaint( NORMAL_TEXT_COLOR );
             }};
-            PText electronegativityNode = new PText( new DecimalFormat( "0.0" ).format( electronegativity ) ) {{
+            electronegativityNode = new PText( new DecimalFormat( "0.0" ).format( electronegativity ) ) {{
                 setFont( new PhetFont( 18 ) );
+                setTextPaint( NORMAL_TEXT_COLOR );
             }};
 
             // rendering order
@@ -124,12 +149,16 @@ public class ElectronegativityTableNode extends PComposite {
             return elementNumber;
         }
 
-        public void setColor( Color color ) {
+        public void highlight( Color color ) {
             backgroundNode.setPaint( color );
+            elementNameNode.setTextPaint( HIGHLIGHTED_TEXT_COLOR );
+            electronegativityNode.setTextPaint( HIGHLIGHTED_TEXT_COLOR );
         }
 
-        public void resetColor() {
-            backgroundNode.setPaint( COLOR );
+        public void reset() {
+            backgroundNode.setPaint( BACKGROUND_COLOR );
+            elementNameNode.setTextPaint( NORMAL_TEXT_COLOR );
+            electronegativityNode.setTextPaint( NORMAL_TEXT_COLOR );
         }
     }
 }
