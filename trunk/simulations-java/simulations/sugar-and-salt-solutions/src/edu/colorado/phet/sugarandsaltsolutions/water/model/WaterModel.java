@@ -57,8 +57,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     private Random random = new Random();
 
-    //Dimensions of the particle window in meters
-    private final double particleWindowWidth = 10E-10 / 0.35;
+    //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
+    private final double particleWindowWidth = 2.3E-9;
     private final double particleWindowHeight = particleWindowWidth * 0.6;
     public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
 
@@ -71,7 +71,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
-    private static final int DEFAULT_NUM_WATERS = 180;
+    private static final int DEFAULT_NUM_WATERS = 150;
 
     //Properties for developer controls
     public final Property<Integer> pow = new Property<Integer>( 2 );
