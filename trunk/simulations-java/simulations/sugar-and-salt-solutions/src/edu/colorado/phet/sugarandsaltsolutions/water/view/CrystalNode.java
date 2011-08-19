@@ -26,11 +26,15 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  * The node for sugar crystals that will be shown in the bucket that the user can grab.
  * This class requires a crystal type so that it can work crystals or molecules (modeled as crystals with 1 molecule)
  * or with particles (modeled as molecules with one atom in crystals with one molecule).
+ * <p/>
+ * This class is built on:
+ * SucroseCrystal made of Sucrose made of many SphericalParticles
+ * or
+ * SodiumChlorideCrystal made of SaltIon made of one SphericalParticle
  *
  * @author Sam Reid
  */
-public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, CrystalType extends Crystal<MoleculeType>> extends PNode {
-
+public class CrystalNode<CompoundType extends Compound<SphericalParticle>, CrystalType extends Crystal<CompoundType>> extends PNode {
     protected PNode crystalNode;
     private ModelViewTransform transform;
     private BucketView sugarBucket;
@@ -40,7 +44,7 @@ public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, Cryst
     public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
 
                         //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
-                        final VoidFunction1<MoleculeType> addToModel, final VoidFunction1<MoleculeType> removeFromModel ) {
+                        final VoidFunction1<CompoundType> addToModel, final VoidFunction1<CompoundType> removeFromModel ) {
         this.transform = transform;
         this.sugarBucket = sugarBucket;
         this.crystal = crystal;
@@ -53,8 +57,8 @@ public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, Cryst
         final Property<Boolean> startedDragging = new Property<Boolean>( false );
 
         //Transform the particles from the crystal's molecule's particles into nodes
-        for ( MoleculeType molecule : crystal ) {
-            for ( SphericalParticle atom : molecule ) {
+        for ( CompoundType compound : crystal ) {
+            for ( SphericalParticle atom : compound ) {
                 crystalNode.addChild( new SphericalParticleNode( transform, atom, not( model.showSugarAtoms ) ) );
             }
         }
@@ -64,7 +68,7 @@ public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, Cryst
             @Override public void mouseDragged( PInputEvent event ) {
 
                 //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
-                for ( MoleculeType sucrose : crystal ) {
+                for ( CompoundType sucrose : crystal ) {
                     removeFromModel.apply( sucrose );
                 }
 
@@ -93,7 +97,7 @@ public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, Cryst
                 if ( model.particleWindow.contains( modelBounds ) ) {
 
                     //Add each sucrose molecule to the model
-                    for ( MoleculeType sucrose : crystal ) {
+                    for ( CompoundType sucrose : crystal ) {
                         addToModel.apply( sucrose );
                     }
 
@@ -125,7 +129,7 @@ public class CrystalNode<MoleculeType extends Compound<SphericalParticle>, Cryst
     //Sets whether this node should be shown as a small icon (for use in the bucket) or shown as a large crystal while the user is dragging or while in the model/play area
     public void setIcon( boolean icon ) {
         //Shrink it to be a small icon version so it will fit in the bucket
-        crystalNode.setScale( icon ? 0.4 : 1 );
+        crystalNode.setScale( icon ? 0.36 : 1 );
     }
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.

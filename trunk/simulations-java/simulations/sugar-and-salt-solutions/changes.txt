@@ -1,3 +1,4 @@
+Water tab: Added salt
 Water tab: Generalized SucroseCrystalNode to CrystalNode
 Rewrote Compound to iterate over particles, not constituents
 Water tab: Added clipping for water molecules
