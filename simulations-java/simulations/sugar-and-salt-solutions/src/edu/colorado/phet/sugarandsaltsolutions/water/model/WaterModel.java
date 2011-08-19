@@ -59,7 +59,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
     private final double particleWindowWidth = 2.3E-9;
-    private final double particleWindowHeight = particleWindowWidth * 0.6;
+    private final double particleWindowHeight = particleWindowWidth * 0.65;
     public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
 
     //Width of the box2D model
