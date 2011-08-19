@@ -154,8 +154,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //When a water molecule is added in the model, add graphics for each atom in the view
         model.waterList.addElementAddedObserver( new VoidFunction1<WaterMolecule>() {
             public void apply( final WaterMolecule waterMolecule ) {
-                for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
-                    final SphericalParticleNode node = new SphericalParticleNode( transform, waterConstituent.particle, model.showChargeColor );
+                for ( SphericalParticle waterAtom : waterMolecule ) {
+                    final SphericalParticleNode node = new SphericalParticleNode( transform, waterAtom, model.showChargeColor );
                     particleWindowNode.particleLayer.addChild( node );
                     model.waterList.addElementRemovedObserver( waterMolecule, new VoidFunction0() {
                         public void apply() {

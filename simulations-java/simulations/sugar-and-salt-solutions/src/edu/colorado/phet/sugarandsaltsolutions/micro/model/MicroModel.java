@@ -371,10 +371,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Add a single salt crystal to the model
     public void addSodiumChlorideCrystal( SodiumChlorideCrystal sodiumChlorideCrystal ) {
+
         //Add the components of the lattice to the model so the graphics will be created
-        for ( Constituent constituent : sodiumChlorideCrystal ) {
+        for ( SphericalParticle atom : sodiumChlorideCrystal ) {
             //TODO: separate list for NaCl crystals so no cast required here?
-            sphericalParticles.add( (SphericalParticle) constituent.particle );
+            sphericalParticles.add( atom );
         }
         sodiumChlorideCrystals.add( sodiumChlorideCrystal );
         sodiumChlorideCrystal.setUpdateStrategy( new CrystalStrategy( this, sodiumChlorideCrystals, sodiumChlorideSaturated ) );

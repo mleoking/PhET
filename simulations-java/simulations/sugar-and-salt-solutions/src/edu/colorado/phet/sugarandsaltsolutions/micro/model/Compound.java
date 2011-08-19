@@ -18,7 +18,7 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
  *
  * @author Sam Reid
  */
-public class Compound<T extends Particle> extends Particle implements Iterable<Constituent<T>> {
+public class Compound<T extends Particle> extends Particle implements Iterable<T> {
 
     //Members in the compound
     protected final ArrayList<Constituent<T>> constituents = new ArrayList<Constituent<T>>();
@@ -66,8 +66,14 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         return rect;
     }
 
-    public Iterator<Constituent<T>> iterator() {
-        return constituents.iterator();
+    //Iterate over the particles rather than constituents to make client code read easier, since it is more common to iterate over particles than constituents (which also keep track of relative location)
+    //To iterate over constituents, you can use getConstituent(int)
+    public Iterator<T> iterator() {
+        return new ArrayList<T>() {{
+            for ( Constituent<T> constituent : constituents ) {
+                add( constituent.particle );
+            }
+        }}.iterator();
     }
 
     public boolean isUnderwaterTimeRecorded() {
@@ -88,7 +94,7 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
     }
 
     //Gets the constituent at the specified index
-    public Constituent getConstituent( int i ) {
+    public Constituent<T> getConstituent( int i ) {
         return constituents.get( i );
     }
 
@@ -146,5 +152,9 @@ public class Compound<T extends Particle> extends Particle implements Iterable<C
         super.setPosition( modelPosition );
         this.angle = angle;
         updateConstituentLocations();
+    }
+
+    public Iterator<Constituent<T>> getConstituents() {
+        return constituents.iterator();
     }
 }

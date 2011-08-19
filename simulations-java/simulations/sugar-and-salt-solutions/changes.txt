@@ -1,3 +1,4 @@
+Rewrote Compound to iterate over particles, not constituents
 Water tab: Added clipping for water molecules
 Water tab: Increased the height of the particle window
 Water tab: Moved buckets closer to the bottom of the canvas

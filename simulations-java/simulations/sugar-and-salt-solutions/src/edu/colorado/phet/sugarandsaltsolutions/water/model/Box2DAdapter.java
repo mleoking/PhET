@@ -51,14 +51,15 @@ public class Box2DAdapter {
         body = world.createBody( bodyDef );
 
         //Add shapes for all of the constituents as rigid fixtures to the box2d shape
-        for ( final Constituent<SphericalParticle> component : compound ) {
+        for ( int i = 0; i < compound.numberConstituents(); i++ ) {
 
+            final Constituent<SphericalParticle> constituent = compound.getConstituent( i );
             //Create the shape to add to the body
             final CircleShape shape = new CircleShape() {{
-                m_radius = (float) transform.modelToViewDeltaX( component.particle.radius );
+                m_radius = (float) transform.modelToViewDeltaX( constituent.particle.radius );
 
                 //Set the position within the molecule
-                ImmutableVector2D boxOffset = transform.modelToViewDelta( component.relativePosition );
+                ImmutableVector2D boxOffset = transform.modelToViewDelta( constituent.relativePosition );
                 m_p.set( (float) boxOffset.getX(), (float) boxOffset.getY() );
             }};
 
