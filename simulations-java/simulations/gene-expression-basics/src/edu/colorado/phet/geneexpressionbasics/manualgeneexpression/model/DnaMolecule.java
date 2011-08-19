@@ -6,6 +6,7 @@ import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
@@ -86,6 +87,33 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         Point2D origin = new Point2D.Double( strand1.get( 0 ).getShape().getBounds2D().getMinX(), strand1.get( 0 ).getShape().getBounds2D().getCenterY() );
         placementHints.add( new PlacementHint( new RnaPolymerase( new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
         placementHints.add( new PlacementHint( TranscriptionFactor.generateTranscriptionFactor( 0, true, new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
+    }
+
+    /**
+     * Get the X position of the specified base pair.  The first base pair at
+     * the left side of the DNA molecule is base pair 0, and it goes up from
+     * there.
+     */
+    private double getBasePairXOffsetByIndex( int basePairNumber ) {
+        return LEFT_EDGE_X_POS + INTER_STRAND_OFFSET + (double) basePairNumber * DISTANCE_BETWEEN_BASE_PAIRS;
+    }
+
+    /**
+     * Get the index of the nearest base pair given an X position in model
+     * space.
+     */
+    private int getBasePairIndexFromXOffset( double xOffset ) {
+        assert xOffset >= LEFT_EDGE_X_POS && xOffset < LEFT_EDGE_X_POS + LENGTH_PER_TWIST * NUMBER_OF_TWISTS;
+        xOffset = MathUtil.clamp( LEFT_EDGE_X_POS, xOffset, LEFT_EDGE_X_POS + LENGTH_PER_TWIST * NUMBER_OF_TWISTS );
+        return (int) Math.round( ( xOffset - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / DISTANCE_BETWEEN_BASE_PAIRS );
+    }
+
+    /**
+     * Get the X location of the nearest base pair given an arbitrary x
+     * location.
+     */
+    private double getNearestBasePairXOffset( double xPos ) {
+        return getBasePairXOffsetByIndex( getBasePairIndexFromXOffset( xPos ) );
     }
 
     // Generate a single DNA strand, i.e. one side of the double helix.
@@ -181,7 +209,8 @@ public class DnaMolecule implements IAttachmentSiteOwner {
                mobileBiomolecule instanceof TranscriptionFactor ) &&
              mobileBiomolecule.getPosition().getY() - getLeftEdgePos().getY() < 500 ) {
             // Propose an attachment to this biomolecule.
-            Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
+            double basePairXPos = getNearestBasePairXOffset( mobileBiomolecule.getPosition().getX() );
+            Point2D closestLocation = new Point2D.Double( basePairXPos, getLeftEdgePos().getY() );
             AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.05 );
             mobileBiomolecule.proposeAttachmentSite( attachmentSite );
             // TODO: Need to check if the attachment site is in use and, if so,
