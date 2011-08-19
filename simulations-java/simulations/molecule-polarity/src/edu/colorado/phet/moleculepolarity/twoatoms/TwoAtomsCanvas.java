@@ -22,6 +22,8 @@ import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
+import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectronDensityColorKeyNode;
+import edu.colorado.phet.moleculepolarity.common.view.SurfaceColorKeyNode.ElectrostaticPotentialColorKeyNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
 import edu.umd.cs.piccolo.PNode;
@@ -52,6 +54,8 @@ public class TwoAtomsCanvas extends MPCanvas {
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
         final PNode bondTypeNode = new BondTypeNode( model.molecule );
+        final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
+        final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
 
         // rendering order
         {
@@ -66,7 +70,11 @@ public class TwoAtomsCanvas extends MPCanvas {
             addChild( isosurfaceControlsNode );
             addChild( eFieldControlsNode );
             addChild( resetAllButtonNode );
+
+            // indicators
             addChild( bondTypeNode );
+            addChild( electrostaticPotentialColorKeyNode );
+            addChild( electronDensityColorKeyNode );
 
             // molecule
             addChild( electrostaticPotentialNode );
@@ -85,7 +93,9 @@ public class TwoAtomsCanvas extends MPCanvas {
             enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 50 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + xSpacing, enControlA.getYOffset() );
             positivePlateNode.setOffset( enControlB.getFullBounds().getMaxX() + xSpacing, negativePlateNode.getYOffset() );
-            bondTypeNode.setOffset( 150, negativePlateNode.getFullBoundsReference().getMaxY() );
+            electrostaticPotentialColorKeyNode.setOffset( 150, negativePlateNode.getFullBoundsReference().getMaxY() - 50 );
+            electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
+            bondTypeNode.setOffset( 150, electrostaticPotentialColorKeyNode.getFullBoundsReference().getMaxY() + ySpacing );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
             isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
             eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
@@ -116,7 +126,9 @@ public class TwoAtomsCanvas extends MPCanvas {
             viewProperties.isosurfaceType.addObserver( new VoidFunction1<SurfaceType>() {
                 public void apply( SurfaceType isosurfaceType ) {
                     electrostaticPotentialNode.setVisible( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL );
+                    electrostaticPotentialColorKeyNode.setVisible( electrostaticPotentialNode.getVisible() );
                     electronDensityNode.setVisible( isosurfaceType == SurfaceType.ELECTRON_DENSITY );
+                    electronDensityColorKeyNode.setVisible( electronDensityNode.getVisible() );
                 }
             } );
         }
