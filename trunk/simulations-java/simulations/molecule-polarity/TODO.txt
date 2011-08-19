@@ -12,7 +12,7 @@ DESIGN
 - change "More Covalent" to "More Covalent Bond", ditto for ionic?
 
 HIGH
-- electronegativity table
+- change notification mechanism for electronegativity table, it's out of sync because currentMolecule changes before Jmol viewer
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -27,6 +27,7 @@ MEDIUM
 - in Bond, we are setting partial charges of atoms to the delta EN. This works but isn't accurate, do we need a better model?
 
 LOW
+- don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - custom cursor for molecule rotation
 - custom cursor for bond angle manipulation
 - add icons to control panels (dipoles, partial charge, mep,...)
