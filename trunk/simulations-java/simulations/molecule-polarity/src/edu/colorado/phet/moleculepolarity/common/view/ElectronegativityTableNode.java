@@ -25,11 +25,14 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ElectronegativityTableNode extends PComposite {
 
-    private static final double MARGIN = 3;
-
     private final ArrayList<Cell> cells;
 
     public ElectronegativityTableNode( final JmolViewerNode viewerNode ) {
+
+        PText titleNode = new PText( MPStrings.ATOM_ELECTRONEGATIVITIES ) {{
+            setFont( new PhetFont( Font.BOLD, 14 ) );
+        }};
+        addChild( titleNode );
 
         cells = new ArrayList<Cell>() {{
             add( new Cell( "H", 1, 2.1 ) );
@@ -43,8 +46,8 @@ public class ElectronegativityTableNode extends PComposite {
 
         // layout cells, first and last cells are horizontally separated from others
         final double xGap = 12;
-        double x = MARGIN;
-        final double y = MARGIN;
+        double x = 0;
+        final double y = titleNode.getFullBoundsReference().getHeight() + 3;
         Cell firstCell = cells.get( 0 );
         addChild( firstCell );
         firstCell.setOffset( x, y );
@@ -60,22 +63,8 @@ public class ElectronegativityTableNode extends PComposite {
         addChild( lastCell );
         lastCell.setOffset( x, y );
 
-        // compute background shape
-        double width = lastCell.getFullBoundsReference().getMaxX() + MARGIN;
-        double height = lastCell.getFullBoundsReference().getMaxY() + MARGIN;
-        PPath backgroundNode = new PPath( new Rectangle2D.Double( 0, 0, width, height ) ) {{
-            setPaint( Color.BLACK );
-        }};
-        addChild( backgroundNode );
-        backgroundNode.moveToBack();
-
-        // title
-        PText titleNode = new PText( MPStrings.ATOM_ELECTRONEGATIVITIES ) {{
-            setFont( new PhetFont( Font.BOLD, 14 ) );
-        }};
-        addChild( titleNode );
-        titleNode.setOffset( backgroundNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
-                             backgroundNode.getFullBoundsReference().getMaxY() + 3 );
+        // center title above cells
+        titleNode.setOffset( ( lastCell.getFullBoundsReference().getMaxX() - firstCell.getFullBoundsReference().getMinX() ) / 2 - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
 
         // when the current molecule changes, ask Jmol for the molecule's elements and colors
         viewerNode.molecule.addObserver( new SimpleObserver() {
@@ -91,7 +80,7 @@ public class ElectronegativityTableNode extends PComposite {
 
     private void reset() {
         for ( Cell cell : cells ) {
-            cell.reset();
+            cell.disable();
         }
     }
 
@@ -99,7 +88,7 @@ public class ElectronegativityTableNode extends PComposite {
     private void setColor( int elementNumber, Color color ) {
         for ( Cell cell : cells ) {
             if ( cell.getElementNumber() == elementNumber ) {
-                cell.highlight( color );
+                cell.enable( color );
                 break;
             }
         }
@@ -108,7 +97,7 @@ public class ElectronegativityTableNode extends PComposite {
     // A cell in the table, displays element name and number, color can be set
     private static class Cell extends PComposite {
 
-        private static final Dimension SIZE = new Dimension( 50, 70 );
+        private static final Dimension SIZE = new Dimension( 50, 65 );
         private static final Color BACKGROUND_COLOR = new Color( 210, 210, 210 );
         private static final Color NORMAL_TEXT_COLOR = BACKGROUND_COLOR.darker();
         private static final Color HIGHLIGHTED_TEXT_COLOR = Color.BLACK;
@@ -149,13 +138,15 @@ public class ElectronegativityTableNode extends PComposite {
             return elementNumber;
         }
 
-        public void highlight( Color color ) {
+        // makes the cell appear enabled
+        public void enable( Color color ) {
             backgroundNode.setPaint( color );
             elementNameNode.setTextPaint( HIGHLIGHTED_TEXT_COLOR );
             electronegativityNode.setTextPaint( HIGHLIGHTED_TEXT_COLOR );
         }
 
-        public void reset() {
+        // make the cell appear disabled
+        public void disable() {
             backgroundNode.setPaint( BACKGROUND_COLOR );
             elementNameNode.setTextPaint( NORMAL_TEXT_COLOR );
             electronegativityNode.setTextPaint( NORMAL_TEXT_COLOR );
