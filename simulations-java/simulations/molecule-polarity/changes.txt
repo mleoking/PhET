@@ -1,3 +1,4 @@
+# 0.00.12 (55542) Aug 19, 2011
 8/19/11 fix change notification mechanism for electronegativity table
 8/19/11 first pass at electronegativity table
 8/19/11 reverse order of colors for rainbow mep, so that red is negative
