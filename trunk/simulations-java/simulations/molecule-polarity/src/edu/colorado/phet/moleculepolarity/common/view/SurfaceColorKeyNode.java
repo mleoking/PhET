@@ -63,22 +63,20 @@ public abstract class SurfaceColorKeyNode extends PComposite {
      */
     public SurfaceColorKeyNode( Color[] colors, String title, String leftLabel, String rightLabel ) {
 
+        // spectrum, composed of multiple segments, because Java 1.5 doesn't include LinearGradientPaint
         final double segmentWidth = SIZE.width / (double) ( colors.length - 1 );
-
-        // spectrum, composed of multiple PPath's because Java 1.5 doesn't include LinearGradientPaint
         final Shape spectrumShape = new Rectangle2D.Double( 0, 0, SIZE.width, SIZE.height );
         PPath spectrumNode = new PPath( spectrumShape ) {{
             setStroke( null );
         }};
+        double x = 0;
         for ( int i = 0; i < colors.length - 1; i++ ) {
-            Color leftColor = colors[i];
-            Color rightColor = colors[i + 1];
-            double x = i * segmentWidth;
-            final Paint gradient = new GradientPaint( (float) x, 0f, leftColor, (float) ( x + segmentWidth ), 0f, rightColor );
-            spectrumNode.addChild( new PPath( new Rectangle2D.Double( x, 0, segmentWidth, SIZE.height ) ) {{
+            final Paint gradient = new GradientPaint( (float) x, 0f, colors[i], (float) ( x + segmentWidth ), 0f, colors[i + 1] );
+            spectrumNode.addChild( new PPath( new Rectangle2D.Double( x, 0, segmentWidth + 1, SIZE.height ) ) {{ // +1 to workaround visible seams between PPaths
                 setPaint( gradient );
                 setStroke( null );
             }} );
+            x += segmentWidth;
         }
 
         // put an outline on top, because outlining spectrumNode looks incorrect

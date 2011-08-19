@@ -21,7 +21,6 @@ HIGH
 MEDIUM
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
-- fix seams in rainbow surface color key
 - add Option menu item to switch MEP color scheme to "rainbow" for "Real Molecules" tab
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
