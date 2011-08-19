@@ -17,7 +17,9 @@ import edu.umd.cs.piccolox.nodes.PClip;
  * @author Sam Reid
  */
 public class ParticleWindowNode extends PNode {
-    private final PNode particleLayer = new PNode();
+
+    //Layer for particles that should be clipped (like they are inside the window)
+    public final PNode particleLayer = new PNode();
 
     //Color to show around the particle window as its border.  Also used for the zoom in box in ZoomIndicatorNode
     public static final Color FRAME_COLOR = Color.orange;
