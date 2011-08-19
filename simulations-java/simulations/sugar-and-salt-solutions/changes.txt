@@ -1,3 +1,4 @@
+Water tab: Add clipping for particle window graphic for sucrose and salt ions
 Water tab: Added interactions with salt ions
 Water tab: Fixed: Show sugar atom shouldn't change the color of salt ions
 Water tab: Fixed: Salt ions go to the wrong bucket when removed from the model

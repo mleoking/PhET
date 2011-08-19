@@ -179,12 +179,12 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 final CrystalNode crystalNode = new CrystalNode<Sucrose, SucroseCrystal>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ) );
                 crystalNode.setIcon( false );
                 crystalNode.setInBucket( false );
-                addChild( crystalNode );
+                particleWindowNode.particleLayer.addChild( crystalNode );
 
                 model.sucroseList.addElementRemovedObserver( sucrose, new VoidFunction0() {
                     public void apply() {
                         model.sucroseList.removeElementRemovedObserver( sucrose, this );
-                        removeChild( crystalNode );
+                        particleWindowNode.particleLayer.removeChild( crystalNode );
                     }
                 } );
             }
@@ -199,12 +199,12 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
                 final CrystalNode crystalNode = new CrystalNode<SaltIon, SodiumChlorideCrystal>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSaltIon, model.removeSaltIon, model.showChargeColor );
                 crystalNode.setIcon( false );
                 crystalNode.setInBucket( false );
-                addChild( crystalNode );
+                particleWindowNode.particleLayer.addChild( crystalNode );
 
                 model.saltIonList.addElementRemovedObserver( ion, new VoidFunction0() {
                     public void apply() {
                         model.saltIonList.removeElementRemovedObserver( ion, this );
-                        removeChild( crystalNode );
+                        particleWindowNode.particleLayer.removeChild( crystalNode );
                     }
                 } );
             }
