@@ -61,7 +61,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.insets.top = 10;
             constraints.insets.left = 0;
             // TODO: i18n
-            addChild( new RowLabel( "Positive Transcription Factor" ), constraints );
+            addChild( new RowLabel( "+ Transcription Factor" ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
@@ -71,7 +71,7 @@ public class BiomoleculeToolBoxNode extends PNode {
             constraints.gridy++;
             constraints.insets.left = 0;
             // TODO: i18n
-            addChild( new RowLabel( "Negative Transcription Factor" ), constraints );
+            addChild( new RowLabel( "- Transcription Factor" ), constraints );
 
             constraints.gridx++;
             constraints.insets.left = 20;
@@ -140,7 +140,7 @@ public class BiomoleculeToolBoxNode extends PNode {
     private static class RowLabel extends PText {
         private RowLabel( String text ) {
             super( text );
-            setFont( new PhetFont( 14 ) );
+            setFont( new PhetFont( 16 ) );
         }
     }
 
