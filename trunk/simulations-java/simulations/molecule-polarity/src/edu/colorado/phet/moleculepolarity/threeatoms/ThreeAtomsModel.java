@@ -19,7 +19,7 @@ public class ThreeAtomsModel extends MPModel {
 
     public ThreeAtomsModel( IClock clock ) {
 
-        molecule = new TriatomicMolecule( new ImmutableVector2D( 425, 390 ) ); //TODO revisit this and make sure it's accounted for in canvas layout
+        molecule = new TriatomicMolecule( new ImmutableVector2D( 425, 375 ) ); //TODO revisit this and make sure it's accounted for in canvas layout
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {

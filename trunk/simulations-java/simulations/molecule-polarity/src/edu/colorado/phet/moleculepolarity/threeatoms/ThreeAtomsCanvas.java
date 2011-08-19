@@ -93,7 +93,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         {
             final double xSpacing = 50;
             final double ySpacing = 10;
-            negativePlateNode.setOffset( 30, 125 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
+            negativePlateNode.setOffset( 30, 100 - PNodeLayoutUtils.getOriginYOffset( negativePlateNode ) );
             enControlA.setOffset( negativePlateNode.getFullBoundsReference().getMaxX() + xSpacing, 50 );
             enControlB.setOffset( enControlA.getFullBounds().getMaxX() + 10, enControlA.getYOffset() );
             enControlC.setOffset( enControlB.getFullBounds().getMaxX() + 10, enControlB.getYOffset() );
