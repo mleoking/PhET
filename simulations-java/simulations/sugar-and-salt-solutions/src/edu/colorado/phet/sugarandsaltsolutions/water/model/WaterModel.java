@@ -3,7 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -46,11 +45,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ItemList<ChargedSphericalParticle> particles = new ItemList<ChargedSphericalParticle>();
 
     //Lists of all model objects
-    public final ItemList<WaterMolecule> waterList = new ItemList<WaterMolecule>();
     public final ItemList<WaterMolecule2> waterList2 = new ItemList<WaterMolecule2>();
-    public final ItemList<DefaultParticle> sodiumList = new ItemList<DefaultParticle>();
-    public final ItemList<DefaultParticle> chlorineList = new ItemList<DefaultParticle>();
-    public final ItemList<Sucrose> sugarMoleculeList = new ItemList<Sucrose>();
 
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
@@ -189,68 +184,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Remove the SaltCrystal bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
-    public void unhook( SaltCrystal saltCrystal ) {
-        world.destroyBody( saltCrystal.sodium.body );
-        world.destroyBody( saltCrystal.sodium2.body );
-        world.destroyBody( saltCrystal.chloride.body );
-        world.destroyBody( saltCrystal.chloride2.body );
-    }
-
-    //Remove the sugar molecules bodies from the box2d model so they won't collide.  This facilitates dragging from the bucket without causing interactions.
-    public void unhook( Sucrose sucrose ) {
-        world.destroyBody( sucrose.body );
-    }
-
-    //Adds some NaCl molecules by adding nearby sodium and chlorine pairs, electrostatic forces are responsible for keeping them together until they are pulled apart by water
-    public void addSalt( Point2D location ) {
-        SaltCrystal saltCrystal = new SaltCrystal( this, location );
-
-        //Move any waters away that these particles would overlap.  Otherwise the water can cause the Na to bump away from the Cl immediately instead of having them
-        for ( WaterMolecule water : waterList ) {
-            if ( water.intersects( saltCrystal.sodium ) || water.intersects( saltCrystal.chloride ) || water.intersects( saltCrystal.sodium2 ) || water.intersects( saltCrystal.chloride2 ) ) {
-                water.setModelPosition( water.getModelPosition().plus( new ImmutableVector2D( 4 + Math.random(), 4 + Math.random() ) ) );
-            }
-        }
-
-        sodiumList.add( saltCrystal.sodium );
-        chlorineList.add( saltCrystal.chloride );
-
-        sodiumList.add( saltCrystal.sodium2 );
-        chlorineList.add( saltCrystal.chloride2 );
-
-        timeSinceSaltAdded = 0;
-    }
-
-    //Adds a sugar crystal near the center of the screen
-    public void addSugar( Point2D location ) {
-        ArrayList<Sucrose> sugarCrystal = createSugarCrystal( location );
-        for ( Sucrose sucrose : sugarCrystal ) {
-            sugarMoleculeList.add( sucrose );
-        }
-    }
-
-    public ArrayList<Sucrose> createSugarCrystal( Point2D location ) {
-        final double x = location.getX();
-        final double y = location.getY();
-        final double delta = particleWindow.height / 4 * 0.87;
-        return new ArrayList<Sucrose>() {{
-            add( createSucrose( x, y - delta / 2 ) );
-            add( createSucrose( x, y + delta / 2 ) );
-        }};
-    }
-
-    private void addSugar( double x, double y ) {
-        sugarMoleculeList.add( createSucrose( x, y ) );
-    }
-
-    public Sucrose createSucrose( double x, double y ) {
-        return new Sucrose( world, modelToBox2D, x, y, 0, 0, 0, addFrameListener, oxygenCharge, hydrogenCharge );
-    }
-
-    //Adds a single water molecule
-    public void addWaterMolecule( double x, double y, float angle ) {
-        waterList.add( new WaterMolecule( world, modelToBox2D, x, y, 0, 0, angle, addFrameListener, oxygenCharge, hydrogenCharge ) );
-    }
+//    public void unhook( SaltCrystal saltCrystal ) {
+//        world.destroyBody( saltCrystal.sodium.body );
+//    }
 
     //Adds a single water molecule
     public void addWaterMolecule2( double x, double y, double angle ) {
@@ -261,10 +197,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Add the adapter for box2D
         Box2DAdapter box2DAdapter = new Box2DAdapter( world, molecule, modelToBox2D );
         box2DAdapters.add( box2DAdapter );
-    }
-
-    public void addWaterAddedListener( VoidFunction1<WaterMolecule> waterAddedListener ) {
-        waterList.addElementAddedObserver( waterAddedListener );
     }
 
     protected void updateModel( double dt ) {
@@ -390,15 +322,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return m;
     }
 
-    private ArrayList<Molecule> getAllMolecules() {
-        return new ArrayList<Molecule>() {{
-            addAll( waterList );
-            addAll( sugarMoleculeList );
-            addAll( sodiumList );
-            addAll( chlorineList );
-        }};
-    }
-
     //Move particles from one side of the screen to the other if they went out of bounds
     //TODO: extend this boundary beyond the visible range
     private void applyPeriodicBoundaryConditions( ArrayList<Box2DAdapter> list ) {
@@ -424,64 +347,48 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
     }
 
-    //Gets the force on a single particle
-    private Vec2 getCoulombForce( Particle target, boolean repel ) {
-        Vec2 sumForces = new Vec2();
-        for ( Molecule m : getAllMolecules() ) {
-            for ( Atom atom : m.atoms ) {
-                sumForces = sumForces.add( getCoulombForce( atom.particle, target, repel ) );
-            }
-        }
-        return sumForces;
-    }
-
-    //Get the contribution to the total coulomb force from a single source
-    private Vec2 getCoulombForce( Particle source, Particle target, boolean repel ) {
-        //Precompute for performance reasons
-        final Vec2 sourceBox2DPosition = source.getBox2DPosition();
-        final Vec2 targetBox2DPosition = target.getBox2DPosition();
-
-        if ( source == target ||
-             ( sourceBox2DPosition.x == targetBox2DPosition.x && sourceBox2DPosition.y == targetBox2DPosition.y ) ) {
-            return zero;
-        }
-        Vec2 r = sourceBox2DPosition.sub( targetBox2DPosition );
-        double distance = r.length();
-//        System.out.println( distance );
-
-        //Limit the max force or objects will get accelerated too much
-        //After particles get far enough apart, just ignore the force.  Otherwise Na+ and Cl- will seek each other out from far away.
-        //Units are box2d units
-        final double MIN = minInteractionDistance.get();
-        final double MAX = maxInteractionDistance.get();
-        if ( distance < MIN ) {
-            distance = MIN;
-        }
-        else if ( distance > MAX ) {
-            return zero;
-        }
-
-        double q1 = source.getCharge();
-        double q2 = target.getCharge();
-
-        double distanceFunction = 1 / Math.pow( distance, pow.get() );
-        double magnitude = -k * q1 * q2 * distanceFunction;
-        r.normalize();
-        if ( repel ) {
-            magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
-
-            //If the salt was just added, use full repulsive power, otherwise half the power
-            if ( timeSinceSaltAdded > 0.75 ) {
-                magnitude = magnitude / 2;
-            }
-        }
-        return r.mul( (float) magnitude );
-    }
-
-    //Get all bodies in the model
-    public ArrayList<WaterMolecule> getWaterList() {
-        return waterList.toList();
-    }
+//    //Get the contribution to the total coulomb force from a single source
+//    private Vec2 getCoulombForce( Particle source, Particle target, boolean repel ) {
+//        //Precompute for performance reasons
+//        final Vec2 sourceBox2DPosition = source.getBox2DPosition();
+//        final Vec2 targetBox2DPosition = target.getBox2DPosition();
+//
+//        if ( source == target ||
+//             ( sourceBox2DPosition.x == targetBox2DPosition.x && sourceBox2DPosition.y == targetBox2DPosition.y ) ) {
+//            return zero;
+//        }
+//        Vec2 r = sourceBox2DPosition.sub( targetBox2DPosition );
+//        double distance = r.length();
+////        System.out.println( distance );
+//
+//        //Limit the max force or objects will get accelerated too much
+//        //After particles get far enough apart, just ignore the force.  Otherwise Na+ and Cl- will seek each other out from far away.
+//        //Units are box2d units
+//        final double MIN = minInteractionDistance.get();
+//        final double MAX = maxInteractionDistance.get();
+//        if ( distance < MIN ) {
+//            distance = MIN;
+//        }
+//        else if ( distance > MAX ) {
+//            return zero;
+//        }
+//
+//        double q1 = source.getCharge();
+//        double q2 = target.getCharge();
+//
+//        double distanceFunction = 1 / Math.pow( distance, pow.get() );
+//        double magnitude = -k * q1 * q2 * distanceFunction;
+//        r.normalize();
+//        if ( repel ) {
+//            magnitude = Math.abs( magnitude ) * 2.5;//Overcome the true attractive force, and then some
+//
+//            //If the salt was just added, use full repulsive power, otherwise half the power
+//            if ( timeSinceSaltAdded > 0.75 ) {
+//                magnitude = magnitude / 2;
+//            }
+//        }
+//        return r.mul( (float) magnitude );
+//    }
 
     //Register for a callback when the model steps
     public void addFrameListener( VoidFunction0 listener ) {
@@ -495,43 +402,22 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         showWaterCharges.reset();
     }
 
-    public void clear( ItemList<? extends Molecule> list, World world ) {
-        for ( Molecule t : list ) {
-            world.destroyBody( t.body );
-            t.notifyRemoved();
-        }
-        list.clear();
-    }
+//    public void clear( ItemList<? extends Molecule> list, World world ) {
+//        for ( Molecule t : list ) {
+//            world.destroyBody( t.body );
+//            t.notifyRemoved();
+//        }
+//        list.clear();
+//    }
 
     //Set up the initial model state, used on init and after reset
     protected void initModel() {
-        clear( waterList, world );
-        clearSalt();
-        clearSugar();
+//        clear( waterList, world );
+//        clearSalt();
+//        clearSugar();
 
         //Add water particles
         addWaterParticles();
-    }
-
-    public void clearSalt() {
-        clear( sodiumList, world );
-        clear( chlorineList, world );
-    }
-
-    public ArrayList<DefaultParticle> getSodiumIonList() {
-        return sodiumList.toList();
-    }
-
-    public void addSodiumIonAddedListener( VoidFunction1<DefaultParticle> listener ) {
-        sodiumList.addElementAddedObserver( listener );
-    }
-
-    public ArrayList<DefaultParticle> getChlorineIonList() {
-        return chlorineList.toList();
-    }
-
-    public void addChlorineIonAddedListener( VoidFunction1<DefaultParticle> createNode ) {
-        chlorineList.addElementAddedObserver( createNode );
     }
 
     //Gets a random number within the horizontal range of the beaker
@@ -542,18 +428,5 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Gets a random number within the vertical range of the beaker
     public double getRandomY() {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
-    }
-
-    public void addSugarAddedListener( VoidFunction1<Sucrose> createNode ) {
-        sugarMoleculeList.addElementAddedObserver( createNode );
-    }
-
-    //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
-    public void removeSugar() {
-        clearSugar();
-    }
-
-    private void clearSugar() {
-        clear( sugarMoleculeList, world );
     }
 }
