@@ -37,7 +37,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         attachmentCountdownTime -= dt;
         if ( attachmentCountdownTime <= 0 ) {
             // Time to fall off of this attachment site.
-            attachmentSite.inUseBy.set( null );
+            attachmentSite.inUse.set( false );
             return new UnattachedButUnavailableState();
         }
         else {

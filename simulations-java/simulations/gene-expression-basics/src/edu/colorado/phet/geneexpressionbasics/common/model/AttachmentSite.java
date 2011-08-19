@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
+import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
@@ -23,11 +24,11 @@ public class AttachmentSite {
     // for this bond.
     private final double affinity;
 
-    // A property that tracks the biomolecule which is "using" this attachment
-    // site, meaning that it is either attached at this location or it is
-    // moving towards it with the intention of attaching.  Biomolecules that
-    // decide to use this site should set this, and clear it when done.
-    public Property<MobileBiomolecule> inUseBy = new Property<MobileBiomolecule>( null );
+    // A property that tracks whether any biomolecule is "using" this
+    // attachment site, meaning that it is either attached at this location or
+    // it is moving towards it with the intention of attaching.  Biomolecules
+    // that decide to use this site should set this, and clear it when done.
+    public BooleanProperty inUse = new BooleanProperty( false );
 
     /**
      * Constructor.

@@ -169,11 +169,24 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         return STRAND_WIDTH;
     }
 
+    /**
+     * This method commands the DNA strand to see if it has any potential
+     * attachment sites for the specified biomolecule and, if so, propose them
+     * to the biomolecule.  The biomolecule can accept or decline the proposal.
+     *
+     * @param mobileBiomolecule
+     */
     public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
-        if ( mobileBiomolecule.availableToAttach() ) {
+        if ( ( mobileBiomolecule instanceof RnaPolymerase ||
+               mobileBiomolecule instanceof TranscriptionFactor ) &&
+             mobileBiomolecule.getPosition().getY() - getLeftEdgePos().getY() < 500 &&
+             mobileBiomolecule.availableToAttach() ) {
+            // Propose an attachment to this biomolecule.
             Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
             AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.2 );
             mobileBiomolecule.proposeAttachmentSite( attachmentSite );
+            // TODO: May want to check if the attachment site is now in use and,
+            // if so, retain a reference to it.
         }
     }
 
