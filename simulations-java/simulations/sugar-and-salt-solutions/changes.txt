@@ -1,3 +1,4 @@
+Water tab: Factored out SucroseCrystalNode
 Water tab: Remove overlapping water molecules when sucrose crystal is added to the model
 Water tab: Add sucrose to the model when dropped
 Water tab: Improved performance by decreasing probability of interaction
