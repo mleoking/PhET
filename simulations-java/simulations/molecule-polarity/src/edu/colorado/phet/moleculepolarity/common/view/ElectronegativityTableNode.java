@@ -21,7 +21,7 @@ public class ElectronegativityTableNode extends PComposite {
 
     public ElectronegativityTableNode( final Property<Molecule3D> currentMolecule, final JmolViewerNode viewerNode ) {
         //TODO
-        addChild( new PText( "<Electronegativity Table goes here>" ) {{
+        addChild( new PText( "<Atom electronegativities displayed here>" ) {{
             setFont( new PhetFont( 20 ) );
         }} );
     }

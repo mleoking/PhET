@@ -16,7 +16,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Explains the color scheme used for a surface.
+ * Key for a surface's color scheme.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -52,6 +52,13 @@ public abstract class SurfaceColorKeyNode extends PComposite {
         }
     }
 
+    /**
+     * Constructor
+     *
+     * @param colors     colors used for the gradient, in left-to-right order
+     * @param leftLabel
+     * @param rightLabel
+     */
     public SurfaceColorKeyNode( Color[] colors, String leftLabel, String rightLabel ) {
 
         final double segmentWidth = SIZE.width / (double) ( colors.length - 1 );
