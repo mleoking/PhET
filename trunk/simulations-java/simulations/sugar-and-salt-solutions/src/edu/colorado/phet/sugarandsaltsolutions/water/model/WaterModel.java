@@ -106,6 +106,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Panel that allows us to see jbox2d model and computations
     protected TestPanel testPanel;
 
+    //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
+    private boolean useDebugDraw = false;
+
     public WaterModel() {
         super( new ConstantDtClock( 30 ) );
 
@@ -124,7 +127,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         initModel();
 
         //Set up jbox2D debug draw so we can see the model and computations
-        initDebugDraw();
+        if ( useDebugDraw ) {
+            initDebugDraw();
+        }
     }
 
     private void addWaterParticles() {
@@ -258,13 +263,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
         world.step( (float) ( dt * timeScale.get() ), iterations.get(), iterations.get() );
 
-        //Turn off the animation thread in the test panel, we are doing the animation ourselves
-        testPanel.stop();
+        if ( useDebugDraw ) {
 
-        //Make sure the debug draw paints on the screen
-        testPanel.render();
-        world.drawDebugData();
-        testPanel.paintImmediately( 0, 0, testPanel.getWidth(), testPanel.getHeight() );
+            //Turn off the animation thread in the test panel, we are doing the animation ourselves
+            testPanel.stop();
+
+            //Make sure the debug draw paints on the screen
+            testPanel.render();
+            world.drawDebugData();
+            testPanel.paintImmediately( 0, 0, testPanel.getWidth(), testPanel.getHeight() );
+        }
 
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions( box2DAdapters );
