@@ -8,7 +8,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
  * @author John Blanco
  */
 public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
-    private static final double UNAVAILABLE_TIME = 5; // In seconds.
+    private static final double UNAVAILABLE_TIME = 3; // In seconds.
 
     private final IMotionStrategy motionStrategy = new RandomWalkMotionStrategy();
 
