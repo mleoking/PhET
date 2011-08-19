@@ -12,7 +12,6 @@ DESIGN
 - change "More Covalent" to "More Covalent Bond", ditto for ionic?
 
 HIGH
-- change notification mechanism for electronegativity table, it's out of sync because currentMolecule changes before Jmol viewer
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3

@@ -90,19 +90,25 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
+    public final Property<Molecule3D> molecule; // the molecule displayed by the viewer
     private final ViewerPanel viewerPanel;
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
     private SurfaceType isosurfaceType;
 
     public JmolViewerNode( Property<Molecule3D> currentMolecule, Color background, Dimension size ) {
+
         viewerPanel = new ViewerPanel( currentMolecule.get(), background, size );
         addChild( new PSwing( viewerPanel ) );
+
+        this.molecule = new Property<Molecule3D>( currentMolecule.get() );
+
         addInputEventListener( new CursorHandler() );
         currentMolecule.addObserver( new VoidFunction1<Molecule3D>() {
             public void apply( Molecule3D molecule ) {
                 setMolecule( molecule );
             }
         } );
+
         RAINBOW_MEP.addObserver( new SimpleObserver() {
             public void update() {
                 setIsosurfaceType( isosurfaceType );
@@ -183,6 +189,7 @@ public class JmolViewerNode extends PhetPNode {
 
     private void setMolecule( Molecule3D molecule ) {
         viewerPanel.setMolecule( molecule );
+        this.molecule.set( molecule );
         // these things need to be reset when the viewer loads a new molecule
         adjustAtomColors();
         setBallAndStick();
