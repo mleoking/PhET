@@ -20,7 +20,6 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
 /**
@@ -31,24 +30,15 @@ import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
  */
 public class SucroseCrystalNode extends PNode {
 
-    public final SucroseCrystal crystal;
     protected PNode crystalNode;
     private ModelViewTransform transform;
     private BucketView sugarBucket;
+    private SucroseCrystal crystal;
 
-    public SucroseCrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas ) {
+    public SucroseCrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView sugarBucket, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final SucroseCrystal crystal ) {
         this.transform = transform;
         this.sugarBucket = sugarBucket;
-
-        //Create a model element for the sucrose crystal
-        crystal = new SucroseCrystal( ZERO, 0 ) {{
-            grow( 1 );
-
-            //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
-            addConstituent( getOpenSites().get( 2 ).toConstituent() );
-        }};
-        //TODO: why is this call necessary?
-        crystal.updateConstituentLocations();
+        this.crystal = crystal;
 
         crystalNode = new PNode();
 
