@@ -1,3 +1,5 @@
+Added attachment sites and the ability for polymerase and transcription factors to attach to DNA.
+Added negative transcription factor.
 Added support for hints and added initial set to first gene.
 Added gradients to biomolecules.
 Made strand longer so that ends are not seen when overall aspect ratio is reasonable.
