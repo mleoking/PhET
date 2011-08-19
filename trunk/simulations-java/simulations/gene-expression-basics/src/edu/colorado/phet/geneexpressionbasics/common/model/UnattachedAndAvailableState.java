@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import java.util.List;
+
 /**
  * @author John Blanco
  */
@@ -17,12 +19,18 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
         return this;
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
         // Since this state is unattached, we immediately accept the proposal by
         // transitioning to the attached state and marking the attachment site
         // as being in use by this molecule.
-        attachmentSite.inUse.set( true );
-        return new MovingTowardsAttachmentState( attachmentSite );
+        if ( proposedAttachmentSites.size() > 0 ) {
+            // TODO: For now always grabs the first one on the list.
+            proposedAttachmentSites.get( 0 ).inUse.set( true );
+            return new MovingTowardsAttachmentState( proposedAttachmentSites.get( 0 ) );
+        }
+        else {
+            return this;
+        }
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {

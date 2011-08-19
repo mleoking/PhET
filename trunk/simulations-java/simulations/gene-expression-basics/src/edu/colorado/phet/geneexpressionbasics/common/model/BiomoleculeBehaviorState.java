@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import java.util.List;
+
 /**
  * The behavior states control the motion and the attachment behavior of the
  * biomolecules.
@@ -15,10 +17,9 @@ public abstract class BiomoleculeBehaviorState {
      * for this API includes the idea that if the biomolecule chooses to attach,
      * it must update the AttachmentSite accordingly.
      *
-     * @param attachmentSite
-     * @return
+     * @param proposedAttachmentSites@return
      */
-    public abstract BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule );
+    public abstract BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule );
 
     /**
      * The user moved this biomolecule.  If any attachments existed or were

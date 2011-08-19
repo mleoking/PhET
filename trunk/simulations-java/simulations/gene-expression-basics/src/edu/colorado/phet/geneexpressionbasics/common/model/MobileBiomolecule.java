@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -65,7 +66,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         }
     }
 
-    public void proposeAttachmentSite( AttachmentSite attachmentSite ) {
-        behaviorState = behaviorState.considerAttachment( attachmentSite, this );
+    public void proposeAttachmentSites( List<AttachmentSite> proposedAttachmentSites ) {
+        behaviorState = behaviorState.considerAttachment( proposedAttachmentSites, this );
     }
 }

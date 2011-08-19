@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
@@ -31,8 +32,10 @@ public class DnaMolecule implements IAttachmentSiteOwner {
     private static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
     private static final int NUMBER_OF_TWISTS = 150;
+    private static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
     private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
+    private static final double Y_POS = 0;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
@@ -118,28 +121,28 @@ public class DnaMolecule implements IAttachmentSiteOwner {
 
     // Generate a single DNA strand, i.e. one side of the double helix.
     private DnaStrand generateDnaStrand( double initialOffset, double length, boolean initialInFront ) {
-        double offset = initialOffset;
+        double xOffset = initialOffset;
         boolean inFront = initialInFront;
         boolean curveUp = true;
         DnaStrand dnaStrand = new DnaStrand();
-        while ( offset + LENGTH_PER_TWIST < length ) {
+        while ( xOffset + LENGTH_PER_TWIST < length ) {
             // Create the next segment.
             DoubleGeneralPath segmentPath = new DoubleGeneralPath();
-            segmentPath.moveTo( offset, 0 );
+            segmentPath.moveTo( xOffset, Y_POS );
             if ( curveUp ) {
-                segmentPath.quadTo( offset + LENGTH_PER_TWIST / 4, STRAND_WIDTH / 2 * 2.0,
-                                    offset + LENGTH_PER_TWIST / 2, 0 );
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_WIDTH / 2 * 2.0,
+                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
             else {
-                segmentPath.quadTo( offset + LENGTH_PER_TWIST / 4, -STRAND_WIDTH / 2 * 2.0,
-                                    offset + LENGTH_PER_TWIST / 2, 0 );
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_WIDTH / 2 * 2.0,
+                                    xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
 
             // Add the strand segment to the end of the strand.
             dnaStrand.add( new DnaStrandSegment( segmentPath.getGeneralPath(), inFront ) );
             curveUp = !curveUp;
             inFront = !inFront;
-            offset += LENGTH_PER_TWIST / 2;
+            xOffset += LENGTH_PER_TWIST / 2;
         }
         return dnaStrand;
     }
@@ -187,10 +190,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
      * The Y position is in the vertical center of the strand.
      */
     public Point2D getLeftEdgePos() {
-        // Note: Y position of zero is a built-in assumption.  This will need
-        // to change if the DNA strand needs to be somewhere else in the Y
-        // direction.
-        return new Point2D.Double( LEFT_EDGE_X_POS, 0 );
+        return new Point2D.Double( LEFT_EDGE_X_POS, Y_POS );
     }
 
     public double getWidth() {
@@ -205,17 +205,24 @@ public class DnaMolecule implements IAttachmentSiteOwner {
      * @param mobileBiomolecule
      */
     public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
+        double maxDistanceForProposal = 500; // In picometers, empirically determined.
         if ( ( mobileBiomolecule instanceof RnaPolymerase ||
                mobileBiomolecule instanceof TranscriptionFactor ) &&
-             mobileBiomolecule.getPosition().getY() - getLeftEdgePos().getY() < 500 ) {
-            // Propose an attachment to this biomolecule.
-            double basePairXPos = getNearestBasePairXOffset( mobileBiomolecule.getPosition().getX() );
-            Point2D closestLocation = new Point2D.Double( basePairXPos, getLeftEdgePos().getY() );
-            AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.05 );
-            mobileBiomolecule.proposeAttachmentSite( attachmentSite );
-            // TODO: Need to check if the attachment site is in use and, if so,
-            // maintain a ref to it so that we don't propose the same one to
-            // another biomolecule.
+             mobileBiomolecule.getPosition().getY() - Y_POS < maxDistanceForProposal ) {
+            // Propose a set of attachments to this biomolecule.
+            double proposalSpan = DISTANCE_BETWEEN_BASE_PAIRS * 5; // Span is pretty arbitrary.
+            double startingSearchX = Math.max( mobileBiomolecule.getPosition().getX() - proposalSpan / 2, LEFT_EDGE_X_POS );
+            double endingSearchX = Math.min( startingSearchX + proposalSpan, LEFT_EDGE_X_POS + MOLECULE_LENGTH );
+            List<AttachmentSite> proposedAttachmentSites = new ArrayList<AttachmentSite>();
+            for ( double xOffset = startingSearchX; xOffset < endingSearchX; xOffset += DISTANCE_BETWEEN_BASE_PAIRS ) {
+                // Create an attachment site.
+                // TODO: Will need at some point to check against existing sites
+                // also the check if the genes have any in this range.
+                proposedAttachmentSites.add( new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 ) );
+            }
+            mobileBiomolecule.proposeAttachmentSites( proposedAttachmentSites );
+            // TODO: Need to check the list of attachment sites and add any that
+            // have been marked as being in use to a local list.
         }
     }
 
