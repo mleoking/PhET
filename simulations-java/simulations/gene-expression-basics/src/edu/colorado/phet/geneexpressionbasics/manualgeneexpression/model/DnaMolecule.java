@@ -179,8 +179,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
     public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
         if ( ( mobileBiomolecule instanceof RnaPolymerase ||
                mobileBiomolecule instanceof TranscriptionFactor ) &&
-             mobileBiomolecule.getPosition().getY() - getLeftEdgePos().getY() < 500 &&
-             mobileBiomolecule.availableToAttach() ) {
+             mobileBiomolecule.getPosition().getY() - getLeftEdgePos().getY() < 500 ) {
             // Propose an attachment to this biomolecule.
             Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
             AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.05 );
