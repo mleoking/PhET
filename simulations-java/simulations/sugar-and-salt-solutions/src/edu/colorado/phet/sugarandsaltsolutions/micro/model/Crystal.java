@@ -136,7 +136,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         //This is done by removing a constituent that is in the majority according to the formula ratio
         final Class<? extends Particle> majorityType = getMajorityType();
         if ( majorityType != null ) {
-            c = c.filterList( new Function1<Constituent<T>, Boolean>() {
+            c = c.filter( new Function1<Constituent<T>, Boolean>() {
                 public Boolean apply( Constituent<T> constituent ) {
                     return majorityType.isInstance( constituent.particle );
                 }
@@ -154,7 +154,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             } ) );
 
             //Only consider particles with the smallest number of bonds
-            c = c.filterList( new Function1<Constituent<T>, Boolean>() {
+            c = c.filter( new Function1<Constituent<T>, Boolean>() {
                 public Boolean apply( Constituent<T> constituent ) {
                     return getNumBonds( constituent ) == minBonds;
                 }

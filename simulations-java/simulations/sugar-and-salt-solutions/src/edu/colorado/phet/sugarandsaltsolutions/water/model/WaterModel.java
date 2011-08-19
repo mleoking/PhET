@@ -496,7 +496,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         if ( sucroseList.contains( sucrose ) ) {
 
             //Find the box2D adapters to remove, hopefully there is only one!
-            ArrayList<Box2DAdapter> toRemove = box2DAdapters.filter( new Function1<Box2DAdapter, Boolean>() {
+            ArrayList<Box2DAdapter> toRemove = box2DAdapters.filterToArrayList( new Function1<Box2DAdapter, Boolean>() {
                 public Boolean apply( Box2DAdapter box2DAdapter ) {
                     return box2DAdapter.compound == sucrose;
                 }

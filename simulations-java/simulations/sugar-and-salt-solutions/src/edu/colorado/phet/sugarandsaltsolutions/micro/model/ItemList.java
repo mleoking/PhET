@@ -1,14 +1,10 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
-import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -33,7 +29,6 @@ public class ItemList<T> extends ObservableList<T> {
         addElementAddedObserver( listener );
         addElementRemovedObserver( listener );
     }};
-    private final Random random = new Random();
 
     //Count the items in the list that match the predicate
     public int count( Function1<T, Boolean> predicate ) {
@@ -59,8 +54,7 @@ public class ItemList<T> extends ObservableList<T> {
     }
 
     //Collect all items from the list that match the predicate
-    //TODO: rename to filterToArrayList
-    public ArrayList<T> filter( final Function1<T, Boolean> predicate ) {
+    public ArrayList<T> filterToArrayList( final Function1<T, Boolean> predicate ) {
         return new ArrayList<T>() {{
             for ( T item : ItemList.this ) {
                 if ( predicate.apply( item ) ) {
@@ -71,8 +65,7 @@ public class ItemList<T> extends ObservableList<T> {
     }
 
     //Collect all items from the list that match the predicate and return a new ItemList
-    //TODO: rename to filter
-    public ItemList<T> filterList( final Function1<T, Boolean> predicate ) {
+    public ItemList<T> filter( final Function1<T, Boolean> predicate ) {
         return new ItemList<T>() {{
             for ( T item : ItemList.this ) {
                 if ( predicate.apply( item ) ) {
@@ -82,20 +75,9 @@ public class ItemList<T> extends ObservableList<T> {
         }};
     }
 
-    //Choose an item at random from the matching items in the list, if there is a match
-    public Option<T> selectRandom( final Class<? extends T>... clazz ) {
-        ArrayList<T> selected = filter( clazz );
-        if ( selected.size() == 0 ) {
-            return new None<T>();
-        }
-        else {
-            return new Some<T>( selected.get( random.nextInt( selected.size() ) ) );
-        }
-    }
-
     //Determine which items are instances of the specified classes
     public ArrayList<T> filter( final Class<? extends T>... clazz ) {
-        return filter( new Function1<T, Boolean>() {
+        return filterToArrayList( new Function1<T, Boolean>() {
             public Boolean apply( T t ) {
                 for ( Class<? extends T> aClass : clazz ) {
                     if ( aClass.isInstance( t ) ) {
