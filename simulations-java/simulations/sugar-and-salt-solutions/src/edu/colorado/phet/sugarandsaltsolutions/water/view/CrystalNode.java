@@ -6,6 +6,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -19,8 +20,6 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
-
-import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
 
 /**
  * The node for sugar crystals that will be shown in the bucket that the user can grab.
@@ -44,7 +43,10 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
     public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
 
                         //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
-                        final VoidFunction1<CompoundType> addToModel, final VoidFunction1<CompoundType> removeFromModel ) {
+                        final VoidFunction1<CompoundType> addToModel, final VoidFunction1<CompoundType> removeFromModel,
+
+                        //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
+                        ObservableProperty<Boolean> showChargeColor ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
         this.crystal = crystal;
@@ -59,7 +61,7 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
         //Transform the particles from the crystal's molecule's particles into nodes
         for ( CompoundType compound : crystal ) {
             for ( SphericalParticle atom : compound ) {
-                crystalNode.addChild( new SphericalParticleNode( transform, atom, not( model.showSugarAtoms ) ) );
+                crystalNode.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
             }
         }
 

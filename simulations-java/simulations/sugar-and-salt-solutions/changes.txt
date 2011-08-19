@@ -1,3 +1,4 @@
+Water tab: Fixed: Show sugar atom shouldn't change the color of salt ions
 Water tab: Fixed: Salt ions go to the wrong bucket when removed from the model
 Water tab: Fixed: Salt isn't removed from the model on reset all
 Water tab: Fixed: Sucrose crystal should have a good structure in the bucket on initialization
