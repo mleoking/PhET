@@ -23,7 +23,6 @@ import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
@@ -70,9 +69,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
     private static final int DEFAULT_NUM_WATERS = 180;
-
-    //So we don't have to reallocate zeros all the time
-    private final Vec2 zero = new Vec2();
+//    private static final int DEFAULT_NUM_WATERS = 10;
 
     //Properties for developer controls
     public final Property<Integer> pow = new Property<Integer>( 2 );
@@ -81,12 +78,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
     public final Property<Double> timeScale = new Property<Double>( 0.01 );
-    public final Property<Integer> iterations = new Property<Integer>( 10 );
-    public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
-        public void apply( VoidFunction0 waterMolecule ) {
-            addFrameListener( waterMolecule );
-        }
-    };
+    public final Property<Integer> iterations = new Property<Integer>( 20 );
 
     //Coulomb's constant in SI, see http://en.wikipedia.org/wiki/Coulomb's_law
     private static final double k = 8.987E9;
@@ -101,7 +93,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
 
     //Turn down forces after salt disassociates
+    //TODO: account for time since salt added
     private double timeSinceSaltAdded = 0;
+
     private static final boolean debugTime = false;
 
     //List of adapters that manage both the box2D and actual model data
