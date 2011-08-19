@@ -19,11 +19,13 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNodeFactory;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SUGAR;
@@ -185,8 +187,18 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     public void addSugarToBucket( final WaterModel model, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
 
+        //Create a model element for the sucrose crystal that the user will drag
+        SucroseCrystal crystal = new SucroseCrystal( ZERO, 0 ) {{
+            grow( 1 );
+
+            //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
+            addConstituent( getOpenSites().get( 2 ).toConstituent() );
+        }};
+        //TODO: why is this call necessary?
+        crystal.updateConstituentLocations();
+
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        SucroseCrystalNode crystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, this );
+        SucroseCrystalNode crystalNode = new SucroseCrystalNode( transform, model, sugarBucket, sugarBucketParticleLayer, this, crystal );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         sugarBucketParticleLayer.addChild( crystalNode );
