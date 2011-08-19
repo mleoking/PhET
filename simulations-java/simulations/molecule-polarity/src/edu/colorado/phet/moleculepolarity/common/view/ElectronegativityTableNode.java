@@ -8,10 +8,8 @@ import java.awt.geom.Rectangle2D;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode.ElementColor;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -26,11 +24,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ElectronegativityTableNode extends PComposite {
 
-    private static final Color BACKGROUND = Color.LIGHT_GRAY;
-
     private final ArrayList<Cell> cells;
 
-    public ElectronegativityTableNode( final Property<Molecule3D> currentMolecule, final JmolViewerNode viewerNode ) {
+    public ElectronegativityTableNode( final JmolViewerNode viewerNode ) {
 
         cells = new ArrayList<Cell>() {{
             add( new Cell( "H", 1, 2.1 ) );
@@ -62,7 +58,7 @@ public class ElectronegativityTableNode extends PComposite {
         lastCell.setOffset( x, y );
 
         // when the current molecule changes, ask Jmol for the molecule's elements and colors
-        currentMolecule.addObserver( new SimpleObserver() {
+        viewerNode.molecule.addObserver( new SimpleObserver() {
             public void update() {
                 reset();
                 ArrayList<ElementColor> elementColors = viewerNode.getElementNumbersAndColors();
@@ -93,7 +89,7 @@ public class ElectronegativityTableNode extends PComposite {
     private static class Cell extends PComposite {
 
         private static final Dimension SIZE = new Dimension( 50, 70 );
-        private static final Color COLOR = Color.LIGHT_GRAY;
+        private static final Color COLOR = new Color( 210, 210, 210 );
 
         private final int elementNumber;
         private final PPath backgroundNode;
