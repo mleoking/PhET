@@ -48,6 +48,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //List of all sucrose crystals
     public final ItemList<Sucrose> sucroseList = new ItemList<Sucrose>();
 
+    //List of all salt ions
+    public final ItemList<SaltIon> saltIonList = new ItemList<SaltIon>();
+
     //Listeners who are called back when the physics updates
     private ArrayList<VoidFunction0> frameListeners = new ArrayList<VoidFunction0>();
 
@@ -117,6 +120,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final VoidFunction1<Sucrose> removeSucrose = new VoidFunction1<Sucrose>() {
         public void apply( Sucrose sucrose ) {
             removeSucrose( sucrose );
+        }
+    };
+    public final VoidFunction1<SaltIon> addSaltIon = new VoidFunction1<SaltIon>() {
+        public void apply( SaltIon ion ) {
+            addSaltIon( ion );
+        }
+    };
+    public final VoidFunction1<SaltIon> removeSaltIon = new VoidFunction1<SaltIon>() {
+        public void apply( SaltIon ion ) {
+            removeSaltIon( ion );
         }
     };
 
@@ -433,20 +446,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
     }
 
-    //Add the specified sucrose crystal to the model
-    public void addSucroseMolecule( Sucrose sucrose ) {
-
-        //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
-        removeOverlappingWater( sucrose );
-
-        //Add the sucrose crystal and box2d adapters for all its molecules so they will propagate with box2d physics
-        sucroseList.add( sucrose );
-        box2DAdapters.add( new Box2DAdapter( world, sucrose, modelToBox2D ) );
-    }
-
     //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
-    private void removeOverlappingWater( Sucrose sucrose ) {
-        HashSet<WaterMolecule> toRemove = getOverlappingWaterMolecules( sucrose );
+    private void removeOverlappingWater( Compound<SphericalParticle> compound ) {
+        HashSet<WaterMolecule> toRemove = getOverlappingWaterMolecules( compound );
         waterList.removeAll( toRemove );
         ArrayList<Box2DAdapter> box2DAdaptersToRemove = getBox2DAdapters( toRemove );
         for ( Box2DAdapter box2DAdapter : box2DAdaptersToRemove ) {
@@ -467,7 +469,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Find which water molecules overlap with the specified crystal so they can be removed before the crystal is added, to prevent box2d body overlaps
-    private HashSet<WaterMolecule> getOverlappingWaterMolecules( final Sucrose sucroseMolecule ) {
+    private HashSet<WaterMolecule> getOverlappingWaterMolecules( final Compound<SphericalParticle> compound ) {
         return new HashSet<WaterMolecule>() {{
 
             //Iterate over all water atoms
@@ -475,16 +477,27 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 for ( SphericalParticle waterAtom : waterMolecule ) {
 
                     //Iterate over all sucrose atoms
-                    for ( SphericalParticle sucroseAtom : sucroseMolecule ) {
+                    for ( SphericalParticle atom : compound ) {
 
                         //add if they are overlapping
-                        if ( waterAtom.getPosition().getDistance( sucroseAtom.getPosition() ) < waterAtom.radius + sucroseAtom.radius ) {
+                        if ( waterAtom.getPosition().getDistance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
                             add( waterMolecule );
                         }
                     }
                 }
             }
         }};
+    }
+
+    //Add the specified sucrose crystal to the model
+    public void addSucroseMolecule( Sucrose sucrose ) {
+
+        //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
+        removeOverlappingWater( sucrose );
+
+        //Add the sucrose crystal and box2d adapters for all its molecules so they will propagate with box2d physics
+        sucroseList.add( sucrose );
+        box2DAdapters.add( new Box2DAdapter( world, sucrose, modelToBox2D ) );
     }
 
     //Remove a sucrose from the model.  This can be called when the user grabs a sucrose molecule in the play area, and is called so that box2D won't continue to move the sucrose while the user is moving it
@@ -506,6 +519,41 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
             //Remove the sucrose itself
             sucroseList.remove( sucrose );
+            sucroseList.remove( sucrose );
+        }
+    }
+
+    //Add the specified ion crystal to the model
+    public void addSaltIon( SaltIon ion ) {
+
+        //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
+        //TODO: should remove overlapping water?
+//        removeOverlappingWater( ion );
+
+        //Add the ion crystal and box2d adapters for all its molecules so they will propagate with box2d physics
+        saltIonList.add( ion );
+        box2DAdapters.add( new Box2DAdapter( world, ion, modelToBox2D ) );
+    }
+
+    //Remove a sucrose from the model.  This can be called when the user grabs a sucrose molecule in the play area, and is called so that box2D won't continue to move the sucrose while the user is moving it
+    public void removeSaltIon( final SaltIon ion ) {
+        if ( saltIonList.contains( ion ) ) {
+
+            //Find the box2D adapters to remove, hopefully there is only one!
+            ArrayList<Box2DAdapter> toRemove = box2DAdapters.filterToArrayList( new Function1<Box2DAdapter, Boolean>() {
+                public Boolean apply( Box2DAdapter box2DAdapter ) {
+                    return box2DAdapter.compound == ion;
+                }
+            } );
+
+            //Remove the box2D components
+            for ( Box2DAdapter box2DAdapter : toRemove ) {
+                world.destroyBody( box2DAdapter.body );
+                box2DAdapters.remove( box2DAdapter );
+            }
+
+            //Remove the sucrose itself
+            saltIonList.remove( ion );
         }
     }
 }

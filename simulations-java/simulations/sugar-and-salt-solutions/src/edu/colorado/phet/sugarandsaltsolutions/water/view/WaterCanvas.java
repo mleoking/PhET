@@ -25,6 +25,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.ICanvas;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.SaltIon;
+import edu.colorado.phet.sugarandsaltsolutions.water.model.SodiumChlorideCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterMolecule;
 import edu.umd.cs.piccolo.PNode;
@@ -129,7 +131,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
-        Dimension2DDouble bucketSize = new Dimension2DDouble( 130, 60 );
+        Dimension2DDouble bucketSize = new Dimension2DDouble( 140, 70 );
         sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
         saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
 
@@ -187,6 +189,26 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             }
         } );
 
+        //When a salt ion is added in the model, add graphics for each atom in the view
+        model.saltIonList.addElementAddedObserver( new VoidFunction1<SaltIon>() {
+            public void apply( final SaltIon ion ) {
+                SodiumChlorideCrystal newCrystal = new SodiumChlorideCrystal( ion.getPosition(), 0 ) {{
+                    addConstituent( new Constituent<SaltIon>( ion, ZERO ) );
+                }};
+                final CrystalNode crystalNode = new CrystalNode<SaltIon, SodiumChlorideCrystal>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, newCrystal, model.addSaltIon, model.removeSaltIon );
+                crystalNode.setIcon( false );
+                crystalNode.setInBucket( false );
+                addChild( crystalNode );
+
+                model.saltIonList.addElementRemovedObserver( ion, new VoidFunction0() {
+                    public void apply() {
+                        model.saltIonList.removeElementRemovedObserver( ion, this );
+                        removeChild( crystalNode );
+                    }
+                } );
+            }
+        } );
+
         //Start out the buckets with salt and sugar
         addSaltToBucket( model, transform );
         addSugarToBucket( model, transform );
@@ -210,24 +232,42 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         sucrose3DDialog.moduleDeactivated();
     }
 
-    //Puts a single salt crystal in the salt bucket
-    public void addSaltToBucket( final WaterModel waterModel, final ModelViewTransform transform ) {
+    //Puts a single salt crystal in the sugar bucket for the user to drag out
+    public void addSaltToBucket( final WaterModel model, final ModelViewTransform transform ) {
         saltBucketParticleLayer.removeAllChildren();
-//        saltBucketParticleLayer.addChild( new DraggableSaltCrystalNode( waterModel, transform, particleWindowNode ) {{
-//            centerFullBoundsOnPoint( saltBucket.getHoleNode().getFullBounds().getCenterX(), saltBucket.getHoleNode().getFullBounds().getCenterY() );
-//        }} );
+
+        //Create a model element for the sucrose crystal that the user will drag
+        SodiumChlorideCrystal crystal = new SodiumChlorideCrystal( ZERO, 0 ) {{
+            addConstituent( new Constituent<SaltIon>( new SaltIon.ChlorideIon(), ZERO ) );
+
+            //Add in the experimentally determined order so it will form a small square crystal
+            addConstituent( getOpenSites().get( 1 ).toConstituent() );
+            addConstituent( getOpenSites().get( 2 ).toConstituent() );
+            addConstituent( getOpenSites().get( 4 ).toConstituent() );
+        }};
+        //TODO: why is this call necessary?
+        crystal.updateConstituentLocations();
+
+        //Create the node for sugar that will be shown in the bucket that the user can grab
+        CrystalNode<SaltIon, SodiumChlorideCrystal> crystalNode = new CrystalNode<SaltIon, SodiumChlorideCrystal>( transform, model, saltBucket, saltBucketParticleLayer, this, crystal, model.addSaltIon, model.removeSaltIon );
+
+        //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
+        saltBucketParticleLayer.addChild( crystalNode );
+
+        //Center it on the bucket hole after it has been added to the layer
+        crystalNode.centerInBucket();
     }
 
-    //Puts a single sugar crystal in the sugar bucket
+    //Puts a single sugar crystal in the salt bucket for the user to grab
     public void addSugarToBucket( final WaterModel model, final ModelViewTransform transform ) {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal that the user will drag
         SucroseCrystal crystal = new SucroseCrystal( ZERO, 0 ) {{
-            grow( 1 );
+            addConstituent( new Constituent<Sucrose>( new Sucrose( ZERO, Math.PI / 2 ), ZERO ) );
 
-            //Add at the 2nd site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
-            addConstituent( getOpenSites().get( 2 ).toConstituent() );
+            //Add at the 2nd open site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
+            addConstituent( new Constituent<Sucrose>( new Sucrose( ZERO, Math.PI / 2 ), getOpenSites().get( 2 ).relativePosition ) );
         }};
         //TODO: why is this call necessary?
         crystal.updateConstituentLocations();
