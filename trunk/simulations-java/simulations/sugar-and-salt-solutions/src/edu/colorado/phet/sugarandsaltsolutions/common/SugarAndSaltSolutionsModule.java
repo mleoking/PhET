@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common;
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.Clock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 
 /**
  * Base class for sugar and salt solutions modules.
@@ -12,8 +13,12 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
  */
 public abstract class SugarAndSaltSolutionsModule extends Module {
 
-    public SugarAndSaltSolutionsModule( String name, Clock clock, BooleanProperty moduleActive ) {
+    private final double sizeScale;
+
+    public SugarAndSaltSolutionsModule( String name, Clock clock, BooleanProperty moduleActive, double sizeScale ) {
         super( name, clock );
+        SugarAndSaltSolutionsApplication.sizeScale.set( sizeScale );
+        this.sizeScale = sizeScale;
 
         //Clock control panel will be shown floating in the simulation panel, so don't show the top level swing component for the clock control panel
         setClockControlPanel( null );
@@ -31,6 +36,7 @@ public abstract class SugarAndSaltSolutionsModule extends Module {
         addListener( new Listener() {
             public void activated() {
                 moduleActive.set( true );
+                SugarAndSaltSolutionsApplication.sizeScale.set( sizeScale );
             }
 
             public void deactivated() {

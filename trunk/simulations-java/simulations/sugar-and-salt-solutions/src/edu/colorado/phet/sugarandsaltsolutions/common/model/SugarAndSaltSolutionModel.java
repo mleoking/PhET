@@ -25,6 +25,7 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.canvasSize;
 
@@ -113,8 +114,8 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final ObservableProperty<Boolean> beakerFull;
 
     //Model location (in meters) of where water will flow out the drain (both toward and away from drain faucet), set by the view since view locations are chosen first for consistency across tabs
-    private FaucetMetrics drainFaucetMetrics = new FaucetMetrics( this, ImmutableVector2D.ZERO, ImmutableVector2D.ZERO, 0 );
-    private FaucetMetrics inputFaucetMetrics = new FaucetMetrics( this, ImmutableVector2D.ZERO, ImmutableVector2D.ZERO, 0 );
+    private FaucetMetrics drainFaucetMetrics = new FaucetMetrics( this, ZERO, ZERO, 0 );
+    private FaucetMetrics inputFaucetMetrics = new FaucetMetrics( this, ZERO, ZERO, 0 );
 
     //The shape of the input and output water.  The Shape of the water draining out the output faucet is also needed for purposes of determining whether there is an electrical connection for the conductivity tester
     public final Property<Shape> inputWater = new Property<Shape>( new Area() );

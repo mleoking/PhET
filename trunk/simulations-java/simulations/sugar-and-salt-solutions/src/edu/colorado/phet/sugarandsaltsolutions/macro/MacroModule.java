@@ -20,7 +20,7 @@ public class MacroModule extends SugarAndSaltSolutionsModule {
     }
 
     private MacroModule( final MacroModel model, GlobalState globalState ) {
-        super( SugarAndSaltSolutionsResources.Strings.MACRO, model.clock, model.moduleActive );
+        super( SugarAndSaltSolutionsResources.Strings.MACRO, model.clock, model.moduleActive, 1 );
         this.model = model;
         setSimulationPanel( new MacroCanvas( this.model, globalState ) );
 

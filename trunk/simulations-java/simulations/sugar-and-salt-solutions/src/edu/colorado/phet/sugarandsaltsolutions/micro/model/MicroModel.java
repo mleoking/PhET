@@ -75,9 +75,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //List of all drained particles, used to keep track of which particles (includes molecules) should flow out of the output drain
     public final ItemList<Particle> drainedParticles = new ItemList<Particle>();
 
-    //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
-    public static final double sizeScale = 0.35;
-
     //User setting for whether color should be based on charge or identity
     public final BooleanProperty showChargeColor = new BooleanProperty( false );
 
