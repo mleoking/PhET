@@ -59,6 +59,11 @@ public class SucroseCrystalNode extends PNode {
         addInputEventListener( new PBasicInputEventHandler() {
             @Override public void mouseDragged( PInputEvent event ) {
 
+                //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
+                for ( Constituent<Sucrose> constituent : crystal ) {
+                    model.removeSucrose( constituent.particle );
+                }
+
                 //When the user drags the node initially, grow it to full size and move it to the top layer
                 if ( !startedDragging.get() ) {
                     startedDragging.set( true );

@@ -59,6 +59,7 @@ public class ItemList<T> extends ObservableList<T> {
     }
 
     //Collect all items from the list that match the predicate
+    //TODO: rename to filterToArrayList
     public ArrayList<T> filter( final Function1<T, Boolean> predicate ) {
         return new ArrayList<T>() {{
             for ( T item : ItemList.this ) {
@@ -70,6 +71,7 @@ public class ItemList<T> extends ObservableList<T> {
     }
 
     //Collect all items from the list that match the predicate and return a new ItemList
+    //TODO: rename to filter
     public ItemList<T> filterList( final Function1<T, Boolean> predicate ) {
         return new ItemList<T>() {{
             for ( T item : ItemList.this ) {
