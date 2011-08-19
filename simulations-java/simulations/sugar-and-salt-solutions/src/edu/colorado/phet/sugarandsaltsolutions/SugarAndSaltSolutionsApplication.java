@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.ColorDialogMenuItem;
@@ -22,6 +23,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
     public static final Color WATER_COLOR = new Color( 179, 239, 243 );
     public static Random random = new Random();
+    public static Property<Double> sizeScale = new Property<Double>( 1.0 );
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
         super( config );
@@ -31,7 +33,15 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
 
         //Create the modules
         addModule( new MacroModule( globalState ) );
+
+        //Before creating the micro module, set the size scale for atoms, molecules and crystals to be 0.35, since they are supposed to look and act smaller in this tab
+        //I investigated adding sizeScale arguments to usages, but it was making client code harder to read and maintain, since there are many atom types, molecule types and crystal types
+        //Which all have to use the same sizeScale argument.  Instead, we are using this more "global" approach, and relying on module switching and these setters to make sure the scale is correct
+        sizeScale.set( MicroModule.SIZE_SCALE );
         addModule( new MicroModule( globalState ) );
+
+        //Restore the size scale to be 1.0 for the water module since no custom override is done there.
+        sizeScale.set( 1.0 );
         addModule( new WaterModule( globalState ) );
 
         //Parse command line args for a directive like "-module 2" which will set that as the startup module (0-based indices)

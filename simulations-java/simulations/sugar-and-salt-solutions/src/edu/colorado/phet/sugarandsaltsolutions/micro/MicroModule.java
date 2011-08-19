@@ -19,13 +19,17 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.view.MicroCanvas;
 public class MicroModule extends SugarAndSaltSolutionsModule {
 
     private final MicroModel model;
+    public static final double SIZE_SCALE = 0.35;
 
     public MicroModule( GlobalState globalState ) {
         this( globalState, new MicroModel() );
     }
 
     public MicroModule( GlobalState globalState, MicroModel model ) {
-        super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock, model.moduleActive );
+        super( SugarAndSaltSolutionsResources.Strings.MICRO, model.clock, model.moduleActive,
+
+               //The factor by which to scale particle sizes, so they look a bit smaller in the graphics
+               SIZE_SCALE );
 
         this.model = model;
 

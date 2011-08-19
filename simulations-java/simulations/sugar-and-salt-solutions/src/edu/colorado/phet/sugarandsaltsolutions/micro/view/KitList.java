@@ -3,7 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
 import java.util.ArrayList;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
@@ -20,6 +19,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate.Nitrate
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
@@ -60,7 +60,7 @@ public class KitList {
         };
         Function0<Option<PNode>> nitrateIcon = new Function0<Option<PNode>>() {
             public Option<PNode> apply() {
-                return new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ImmutableVector2D.ZERO ), model.showChargeColor ) );
+                return new Some<PNode>( new CompositeParticleNode<Particle>( transform, new Nitrate( 0, ZERO ), model.showChargeColor ) );
             }
         };
 

@@ -61,7 +61,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     private Random random = new Random();
 
     //Dimensions of the particle window in meters
-    private final double particleWindowWidth = 10E-10;
+    private final double particleWindowWidth = 10E-10 / 0.35;
     private final double particleWindowHeight = particleWindowWidth * 0.6;
     public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
 
@@ -85,7 +85,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.5 );
-    public final Property<Double> timeScale = new Property<Double>( 0.005 );
+    public final Property<Double> timeScale = new Property<Double>( 0.01 );
     public final Property<Integer> iterations = new Property<Integer>( 10 );
     public final VoidFunction1<VoidFunction0> addFrameListener = new VoidFunction1<VoidFunction0>() {
         public void apply( VoidFunction0 waterMolecule ) {

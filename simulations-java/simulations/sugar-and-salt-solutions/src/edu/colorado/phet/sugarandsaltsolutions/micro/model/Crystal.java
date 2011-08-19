@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static java.util.Collections.min;
 
 /**
@@ -61,7 +62,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Grow the crystal randomly at one of the open sites
     public void grow() {
         if ( constituents.size() == 0 ) {
-            addConstituent( new Constituent<T>( createSeed(), ImmutableVector2D.ZERO ) );
+            addConstituent( new Constituent<T>( createSeed(), ZERO ) );
         }
         else {
             //find any particle that has open bonds

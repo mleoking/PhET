@@ -2,9 +2,11 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrystal;
+
+import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
 
 /**
  * This crystal for sugar updates the positions of the molecules to ensure they move together
@@ -16,7 +18,12 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     public GlucoseCrystal( ImmutableVector2D position, double angle ) {
 
         //Glucose is about half as big as sucrose and hence should be half as far away on the lattice
-        super( position, SucroseCrystal.SPACING / 2, angle );
+        super( position,
+
+               //Spacing between adjacent sucrose molecules, in meters
+               nanometersToMeters( 0.5 ) * SugarAndSaltSolutionsApplication.sizeScale.get() / 2,
+
+               angle );
     }
 
     //Create a new Glucose to be added to the crystal
