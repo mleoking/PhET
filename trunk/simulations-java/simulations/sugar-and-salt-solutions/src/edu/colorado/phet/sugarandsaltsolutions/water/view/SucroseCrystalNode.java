@@ -101,6 +101,7 @@ public class SucroseCrystalNode extends PNode {
                     //Shrink the node and send it back to the bucket
                     setIcon( true );
                     centerInBucket();
+                    inBucket = true;
                     canvas.removeChild( SucroseCrystalNode.this );
                     sugarBucketParticleLayer.addChild( SucroseCrystalNode.this );
 

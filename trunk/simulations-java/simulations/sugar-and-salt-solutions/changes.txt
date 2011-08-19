@@ -1,3 +1,5 @@
+Water tab: Made it so the user can drag the sugar molecule out of the model back to the bucket
+Water tab: Made it so the user can drag the sugar molecule in the model
 Water tab: Fixed: After creating the sugar molecule in the model, colors should respect the "show sugar atoms" flag
 Water tab: When the user drags sugar from the bucket, if it isn't dropped in the particle window, it should move back to the bucket
 Water tab: Made it so crystals don't change size when dropped in the play area
