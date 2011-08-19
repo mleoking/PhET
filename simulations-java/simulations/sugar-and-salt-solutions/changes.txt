@@ -1,3 +1,4 @@
+Water tab: Added clipping for water molecules
 Water tab: Increased the height of the particle window
 Water tab: Moved buckets closer to the bottom of the canvas
 Water tab: Made it so the user can drag the sugar molecule out of the model back to the bucket

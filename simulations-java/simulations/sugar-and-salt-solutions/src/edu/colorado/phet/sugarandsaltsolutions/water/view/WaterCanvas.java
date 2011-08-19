@@ -156,11 +156,11 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             public void apply( final WaterMolecule waterMolecule ) {
                 for ( Constituent<SphericalParticle> waterConstituent : waterMolecule ) {
                     final SphericalParticleNode node = new SphericalParticleNode( transform, waterConstituent.particle, model.showChargeColor );
-                    addChild( node );
+                    particleWindowNode.particleLayer.addChild( node );
                     model.waterList.addElementRemovedObserver( waterMolecule, new VoidFunction0() {
                         public void apply() {
                             model.waterList.removeElementRemovedObserver( waterMolecule, this );
-                            removeChild( node );
+                            particleWindowNode.particleLayer.removeChild( node );
                         }
                     } );
                 }
