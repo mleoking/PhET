@@ -185,8 +185,9 @@ public class DnaMolecule implements IAttachmentSiteOwner {
             Point2D closestLocation = new Point2D.Double( mobileBiomolecule.getPosition().getX(), getLeftEdgePos().getY() );
             AttachmentSite attachmentSite = new AttachmentSite( closestLocation, 0.2 );
             mobileBiomolecule.proposeAttachmentSite( attachmentSite );
-            // TODO: May want to check if the attachment site is now in use and,
-            // if so, retain a reference to it.
+            // TODO: Need to check if the attachment site is in use and, if so,
+            // maintain a ref to it so that we don't propose the same one to
+            // another biomolecule.
         }
     }
 
