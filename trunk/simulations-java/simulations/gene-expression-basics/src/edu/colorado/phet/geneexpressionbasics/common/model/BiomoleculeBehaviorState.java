@@ -20,4 +20,12 @@ public abstract class BiomoleculeBehaviorState {
      */
     public abstract BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule );
 
+    /**
+     * The user moved this biomolecule.  If any attachments existed or were
+     * developing, they must be cleaned up, and the molecule becomes
+     * unattached.
+     *
+     * @return
+     */
+    public abstract BiomoleculeBehaviorState movedByUser();
 }

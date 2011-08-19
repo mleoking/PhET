@@ -53,4 +53,10 @@ public class DetachingState extends BiomoleculeBehaviorState {
         // While detaching requests for new attachments are ignored.
         return this;
     }
+
+    @Override public BiomoleculeBehaviorState movedByUser() {
+        // Go directly to the unattached and available state.
+        detachTime = 0;
+        return new UnattachedAndAvailableState();
+    }
 }

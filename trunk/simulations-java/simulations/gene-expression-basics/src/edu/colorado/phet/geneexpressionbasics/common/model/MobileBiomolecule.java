@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * Base class for all biomolecules (i.e. rna polymerase, transcription factors,
@@ -41,14 +42,21 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
         super( initialShape );
         this.baseColor = baseColor;
+        // Handle changes is user control.
+        userControlled.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean aBoolean ) {
+                if ( !aBoolean ) {
+                    // The user has released this node after moving it.  This
+                    // should cause any existing or pending attachments to be
+                    // severed.
+                    behaviorState = behaviorState.movedByUser();
+                }
+            }
+        } );
     }
 
     public Color getBaseColor() {
         return baseColor;
-    }
-
-    public void release() {
-        userControlled.set( false );
     }
 
     public void stepInTime( double dt ) {

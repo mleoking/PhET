@@ -24,4 +24,10 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
         attachmentSite.inUse.set( true );
         return new MovingTowardsAttachmentState( attachmentSite );
     }
+
+    @Override public BiomoleculeBehaviorState movedByUser() {
+        // Since this molecule was already unattached and available, no
+        // change is needed.
+        return this;
+    }
 }
