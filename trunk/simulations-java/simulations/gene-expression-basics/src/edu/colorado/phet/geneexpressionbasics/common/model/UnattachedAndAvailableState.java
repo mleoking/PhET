@@ -18,9 +18,10 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState considerAttachment( AttachmentSite attachmentSite, MobileBiomolecule biomolecule ) {
-        // Since this state is unattached, we immediately accept the change by
-        // transitioning to the attached state.
-        attachmentSite.inUseBy.set( biomolecule );
+        // Since this state is unattached, we immediately accept the proposal by
+        // transitioning to the attached state and marking the attachment site
+        // as being in use by this molecule.
+        attachmentSite.inUse.set( true );
         return new MovingTowardsAttachmentState( attachmentSite );
     }
 }
