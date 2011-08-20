@@ -14,11 +14,16 @@ import static java.awt.Color.white;
 
 /**
  * Water molecule: H2O for use in the water model.  Units of this compound are in meters, and the values can get updated by Box2D update steps by Box2DAdapter
- * TODO: rename to WaterMolecule
  *
  * @author Sam Reid
  */
 public class WaterMolecule extends Compound<SphericalParticle> {
+
+    //Auxiliary constructor that creates a water molecule with the oxygen at the origin and an angle of 0 radians
+    public WaterMolecule() {
+        this( ZERO, 0 );
+    }
+
     public WaterMolecule( ImmutableVector2D position, double angle ) {
         super( position, angle );
 
