@@ -1,3 +1,4 @@
+Water tab: Use different z-orderings to give make the water look as if it is at different 3d orientations
 Water tab: Fixed: When the sugar molecule is near the edge of the container the image flickers on and off
 Water tab: Use an extended boundary to prevent flickering when a water molecule wraps from one side to the other
 Water tab: Wired up "show water charges" checkbox
