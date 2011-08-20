@@ -82,7 +82,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
     public final Property<Double> timeScale = new Property<Double>( 0.1 );
-    public final Property<Integer> iterations = new Property<Integer>( 20 );
+    public final Property<Integer> iterations = new Property<Integer>( 10 );
 
     //Coulomb's constant in SI, see http://en.wikipedia.org/wiki/Coulomb's_law
     private static final double k = 8.987E9;
