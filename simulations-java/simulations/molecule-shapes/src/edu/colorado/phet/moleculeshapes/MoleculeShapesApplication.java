@@ -11,21 +11,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
-import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.jme.ColorRGBAPropertyControl;
 
-import com.jme3.math.ColorRGBA;
 import com.jme3.system.JmeSystem;
 import com.jme3.system.Natives;
 
@@ -98,27 +96,27 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
                         setTitle( "Background Color" );
                         setResizable( false );
 
-                        ColorRGBA startColor = module.getApp().backgroundColor.get();
-
-                        final ColorControl control = new ColorControl( frame, "background color:", new Color( startColor.r, startColor.g, startColor.b ) );
-                        control.addChangeListener( new ChangeListener() {
-                            public void stateChanged( ChangeEvent e ) {
-                                module.getApp().backgroundColor.set( new ColorRGBA( scale( control.getColor().getRed() ), scale( control.getColor().getGreen() ), scale( control.getColor().getBlue() ), 1f ) );
-                            }
-
-                            private float scale( int x ) {
-                                return ( (float) x ) / 255f;
-                            }
-                        } );
-
-                        setContentPane( control );
+                        setContentPane( new ColorRGBAPropertyControl( frame, "background color:", module.getApp().backgroundColor ) );
                         pack();
                         SwingUtils.centerInParent( this );
                     }}.setVisible( true );
                 }
             } );
-
         }} );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show FPS", new Property<Boolean>( false ) {{
+            addObserver( new SimpleObserver() {
+                             public void update() {
+                                 module.getApp().setDisplayFps( get() );
+                             }
+                         }, false );
+        }} ) );
+        developerMenu.add( new PropertyCheckBoxMenuItem( "Show Statistics", new Property<Boolean>( false ) {{
+            addObserver( new SimpleObserver() {
+                             public void update() {
+                                 module.getApp().setDisplayStatView( get() );
+                             }
+                         }, false );
+        }} ) );
     }
 
     //----------------------------------------------------------------------------

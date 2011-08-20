@@ -20,7 +20,12 @@ import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
-import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.jme.Arc;
+import edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication;
+import edu.colorado.phet.moleculeshapes.jme.HUDNode;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
@@ -236,10 +241,10 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                                         break;
                                     case PAIR_FRESH_PLANAR:
                                         // put the particle on the z=0 plane
-                                        draggedParticle.dragToPosition( vectorConversion( getPlanarMoleculeCursorPosition() ) );
+                                        draggedParticle.dragToPosition( JmeUtils.convertVector( getPlanarMoleculeCursorPosition() ) );
                                         break;
                                     case PAIR_EXISTING_SPHERICAL:
-                                        draggedParticle.dragToPosition( vectorConversion( getSphericalMoleculeCursorPosition( vectorConversion( draggedParticle.position.get() ) ) ) );
+                                        draggedParticle.dragToPosition( JmeUtils.convertVector( getSphericalMoleculeCursorPosition( JmeUtils.convertVector( draggedParticle.position.get() ) ) ) );
                                         break;
                                 }
                             }
@@ -302,8 +307,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         moleculeNode.attachChild( center );
 
         // start with two single bonds
-        molecule.addPair( new PairGroup( new ImmutableVector3D(10,0,3).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-        molecule.addPair( new PairGroup( new ImmutableVector3D(2,10,-5).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
         rebuildBonds();
         rebuildAngles();
@@ -485,7 +490,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
         Vector3f localPosition = getPlanarMoleculeCursorPosition();
 
-        PairGroup pair = new PairGroup( vectorConversion( localPosition ), bondOrder, true );
+        PairGroup pair = new PairGroup( JmeUtils.convertVector( localPosition ), bondOrder, true );
         molecule.addPair( pair );
 
         // set up dragging information
@@ -722,16 +727,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
-    public static Vector3f vectorConversion( ImmutableVector3D vec ) {
-        // TODO: move to utilities
-        return new Vector3f( (float) vec.getX(), (float) vec.getY(), (float) vec.getZ() );
-    }
-
-    public static ImmutableVector3D vectorConversion( Vector3f vec ) {
-        // TODO: move to utilities
-        return new ImmutableVector3D( vec.getX(), vec.getY(), vec.getZ() );
-    }
-
     public void removeAllAtoms() {
         while ( !molecule.getGroups().isEmpty() ) {
             testRemoveAtom();
@@ -761,8 +756,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             float radius = 5;
             final float alpha = calculateBrightness( aDir, bDir, transformedDirection );
 
-            Vector3f a = vectorConversion( aDir );
-            Vector3f b = vectorConversion( bDir );
+            Vector3f a = JmeUtils.convertVector( aDir );
+            Vector3f b = JmeUtils.convertVector( bDir );
 
             Arc arc = new Arc( a, b, radius, 20 ) {{
                 setLineWidth( 2 );
@@ -793,7 +788,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     }
 
     private static float calculateBrightness( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
-        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( vectorConversion( transformedDirection ) ) );
+        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( JmeUtils.convertVector( transformedDirection ) ) );
 
         brightness = brightness * 5 - 2.5f;
         if ( brightness < 0 ) {

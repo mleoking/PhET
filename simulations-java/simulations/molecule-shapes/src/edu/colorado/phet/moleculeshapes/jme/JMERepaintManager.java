@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.view;
+package edu.colorado.phet.moleculeshapes.jme;
 
 import java.awt.*;
 

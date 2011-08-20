@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes;
+package edu.colorado.phet.moleculeshapes.jme;
 
 /*
  * Copyright (c) 2009-2010 jMonkeyEngine
@@ -117,7 +117,10 @@ public class JmeNatives {
         return null;
     }
 
-    protected static void extractNativeLibs( Platform platform, AppSettings settings ) throws IOException {
+    /**
+     * Public, so we can extract the native libs before JME3 initialization
+     */
+    public static void extractNativeLibs( Platform platform, AppSettings settings ) throws IOException {
         String renderer = settings.getRenderer();
         String audioRenderer = settings.getAudioRenderer();
         boolean needLWJGL = false;

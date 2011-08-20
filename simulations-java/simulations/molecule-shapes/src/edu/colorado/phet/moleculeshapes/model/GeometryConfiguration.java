@@ -7,16 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
+/**
+ * Contains the "optimal" molecule structures (pair group directions stored as unit vectors),
+ * in an order such that higher-repulsion pair groups (triple bonds, double bonds, lone pairs)
+ * will tend to occupy the 1st slots, and single bonds will occupy the later slots.
+ */
 public class GeometryConfiguration {
-    /*---------------------------------------------------------------------------*
-    * static data and methods
-    *----------------------------------------------------------------------------*/
-    private static final double HALF_ANGLE_4 = Math.atan( Math.sqrt( 2 ) ); // in radius, TODO doc
 
     private static final double TETRA_CONST = Math.PI * -19.471220333 / 180;
 
-    // TODO: doc (lone pair spots first)
+    /**
+     * Map from steric number => optical geometry
+     */
     private static final Map<Integer, GeometryConfiguration> GEOMETRY_MAP = new HashMap<Integer, GeometryConfiguration>() {{
         put( 0, new GeometryConfiguration(
                 Strings.GEOMETRY__EMPTY )

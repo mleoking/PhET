@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.moleculeshapes.view;
+package edu.colorado.phet.moleculeshapes.jme;
 
 import com.jme3.math.Matrix3f;
 import com.jme3.math.Quaternion;
@@ -53,7 +53,7 @@ public class Arc extends Mesh {
 
     public static Quaternion getRotationQuaternion( Vector3f startDir, Vector3f endDir ) {
         Matrix3f rotationMatrix = new Matrix3f();
-        LonePairNode.fromStartEndVectors( rotationMatrix, MoleculeJMEApplication.vectorConversion( startDir ), MoleculeJMEApplication.vectorConversion( endDir ) );
+        JmeUtils.fromStartEndVectors( rotationMatrix, JmeUtils.convertVector( startDir ), JmeUtils.convertVector( endDir ) );
         return new Quaternion().fromRotationMatrix( rotationMatrix );
     }
 

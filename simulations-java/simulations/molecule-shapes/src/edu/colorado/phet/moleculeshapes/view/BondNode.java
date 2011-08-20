@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
-import edu.colorado.phet.moleculeshapes.model.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
@@ -25,7 +26,7 @@ public class BondNode extends Node {
         super( "Bond" );
 
         Vector3f start = new Vector3f( 0, 0, 0 );
-        final Vector3f end = MoleculeJMEApplication.vectorConversion( b );
+        final Vector3f end = JmeUtils.convertVector( b );
 
         Vector3f towardsEnd = end.subtract( start ).normalize();
 
