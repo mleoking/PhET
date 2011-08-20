@@ -36,7 +36,7 @@ public class MoleculeShapesModule extends Module {
         // limit the framerate
         settings.setFrameRate( 60 );
 
-        final MoleculeJMEApplication app = new MoleculeJMEApplication();
+        final MoleculeJMEApplication app = new MoleculeJMEApplication(parentFrame);
 
         app.setPauseOnLostFocus( false );
         app.setSettings( settings );
