@@ -13,7 +13,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SphericalParticleNode;
 import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
@@ -23,33 +22,43 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * The node for sugar crystals that will be shown in the bucket that the user can grab.
- * This class requires a crystal type so that it can work crystals or molecules (modeled as crystals with 1 molecule)
- * or with particles (modeled as molecules with one atom in crystals with one molecule).
+ * This class uses a list of compounds such as sucrose molecules or salt ions so that it works uniformly for crystals or lone compounds.
+ * It translates all particles together so they retain their crystal structure (if any)
  * <p/>
  * This class is built on:
- * SucroseCrystal made of Sucrose made of many SphericalParticles
+ * Sucrose made of many SphericalParticles
  * or
- * SodiumChlorideCrystal made of SaltIon made of one SphericalParticle
+ * SaltIon made of one SphericalParticle
  *
  * @author Sam Reid
  */
-public class CrystalNode<CompoundType extends Compound<SphericalParticle>, CrystalType extends Crystal<CompoundType>> extends PNode {
+public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
+
+    //Wrapped node that contains all the components
     protected PNode crystalNode;
+
+    //Transform from model (meters) to view (stage) coordinates
     private ModelViewTransform transform;
+
+    //The bucket, so the node can be moved back to the bucket hole
     private BucketView bucketNode;
-    private CrystalType crystal;
+
+    //The list of compounds such as sucrose molecules or salt ions
+    private T[] compounds;
+
+    //Flag to keep track of whether the node was dragged from the bucket; if so, model elements will be created when dropped into the particle window
     private boolean inBucket = true;
 
-    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas, final CrystalType crystal,
+    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas,
 
                         //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
-                        final VoidFunction1<CompoundType> addToModel, final VoidFunction1<CompoundType> removeFromModel,
+                        final VoidFunction1<T> addToModel, final VoidFunction1<T> removeFromModel,
 
                         //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
-                        ObservableProperty<Boolean> showChargeColor ) {
+                        ObservableProperty<Boolean> showChargeColor, final T... compounds ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
-        this.crystal = crystal;
+        this.compounds = compounds;
 
         crystalNode = new PNode();
 
@@ -59,7 +68,7 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
         final Property<Boolean> startedDragging = new Property<Boolean>( false );
 
         //Transform the particles from the crystal's molecule's particles into nodes
-        for ( CompoundType compound : crystal ) {
+        for ( T compound : compounds ) {
             for ( SphericalParticle atom : compound ) {
                 crystalNode.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
             }
@@ -70,7 +79,7 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
             @Override public void mouseDragged( PInputEvent event ) {
 
                 //When dragging, remove from the model (if it was in the model) so box2d won't continue to propagate it
-                for ( CompoundType sucrose : crystal ) {
+                for ( T sucrose : compounds ) {
                     removeFromModel.apply( sucrose );
                 }
 
@@ -90,7 +99,9 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
 
                 //Translate the node during the drag
                 final Dimension2D modelDelta = transform.viewToModelDelta( event.getDeltaRelativeTo( getParent() ) );
-                crystal.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+                for ( T compound : compounds ) {
+                    compound.translate( modelDelta.getWidth(), modelDelta.getHeight() );
+                }
             }
 
             //If contained within the particle window, drop it there and create it in the model, otherwise return to the sugar bucket
@@ -99,7 +110,7 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
                 if ( model.particleWindow.contains( modelBounds ) ) {
 
                     //Add each sucrose molecule to the model
-                    for ( CompoundType sucrose : crystal ) {
+                    for ( T sucrose : compounds ) {
                         addToModel.apply( sucrose );
                     }
 
@@ -138,7 +149,9 @@ public class CrystalNode<CompoundType extends Compound<SphericalParticle>, Cryst
     public void centerInBucket() {
         Point2D crystalCenter = crystalNode.getGlobalFullBounds().getCenter2D();
         Point2D bucketCenter = bucketNode.getHoleNode().getGlobalFullBounds().getCenter2D();
-        crystal.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
+        for ( T compound : compounds ) {
+            compound.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
+        }
     }
 
     public void setInBucket( boolean inBucket ) {
