@@ -154,7 +154,12 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
         updateConstituentLocations();
     }
 
-    public Iterator<Constituent<T>> getConstituents() {
-        return constituents.iterator();
+    //Returns an array list of the constituent particle instances, for use with varargs calls in WaterCanvas
+    public ArrayList<T> getConstituentParticleList() {
+        return new ArrayList<T>() {{
+            for ( T t : Compound.this ) {
+                add( t );
+            }
+        }};
     }
 }
