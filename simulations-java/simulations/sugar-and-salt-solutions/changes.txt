@@ -1,3 +1,4 @@
+Water tab: Fixed: When grabbing a salt ion, it jumps to a different location right on first drag event
 Water tab: Rewrote CrystalNode to require a list of particles, not a crystal
 Water tab: Use different z-orderings to give make the water look as if it is at different 3d orientations
 Water tab: Fixed: When the sugar molecule is near the edge of the container the image flickers on and off
