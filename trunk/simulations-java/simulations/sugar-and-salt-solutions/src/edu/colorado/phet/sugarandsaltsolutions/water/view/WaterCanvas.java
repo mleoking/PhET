@@ -299,4 +299,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 //            } );
 //        }}
 
+    //Get the root node used for stage coordinates, necessary when transforming through the global coordinate frame to stage
+    public PNode getRootNode() {
+        return rootNode;
+    }
 }
