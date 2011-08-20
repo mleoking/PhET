@@ -3,6 +3,8 @@ package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
@@ -62,7 +64,25 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
     private final double particleWindowWidth = 2.3E-9 * 0.9;
     private final double particleWindowHeight = particleWindowWidth * 0.65;
+
+    //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
     public final ImmutableRectangle2D particleWindow = new ImmutableRectangle2D( -particleWindowWidth / 2, -particleWindowHeight / 2, particleWindowWidth, particleWindowHeight );
+
+    //Boundary for water's periodic boundary conditions, so that particles don't disappear when they wrap from one side to the other
+    //Different boundaries are used for different molecule types so we can keep the number of particles low; the largest molecule is sucrose
+    //But if we used the expanded sucrose boundary for water, then we would need lots of extra water out of the visible region
+    public final ImmutableRectangle2D waterBoundary = expand( particleWindow, getHalfDiagonal( new WaterMolecule().getShape().getBounds2D() ) );
+
+    //Expand a rectangle by the specified size in all 4 directions
+    private static ImmutableRectangle2D expand( ImmutableRectangle2D r, double size ) {
+        return new ImmutableRectangle2D( r.x - size, r.y - size, r.width + size * 2, r.height + size * 2 );
+    }
+
+    //Determine the length from one corner to the center of the rectangle, this is used to determine how far to move the periodic boundary condition from the visible model rectangle
+    //So that particles don't disappear when they wrap from one side to the other
+    private static double getHalfDiagonal( Rectangle2D bounds2D ) {
+        return new ImmutableVector2D( new Point2D.Double( bounds2D.getX(), bounds2D.getY() ), new Point2D.Double( bounds2D.getCenterX(), bounds2D.getCenterY() ) ).getMagnitude();
+    }
 
     //Width of the box2D model
     private final double box2DWidth = 20;
@@ -362,23 +382,24 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Move particles from one side of the screen to the other if they went out of bounds
-    //TODO: extend this boundary beyond the visible range
+    //Use the extended boundary to prevent flickering when a particle wraps from one side to the other
     private void applyPeriodicBoundaryConditions() {
         for ( Box2DAdapter adapter : box2DAdapters ) {
             Compound<SphericalParticle> particle = adapter.compound;
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
-            if ( particle.getPosition().getX() > particleWindow.getMaxX() ) {
-                x = particleWindow.x;
+            final ImmutableRectangle2D boundary = waterBoundary;
+            if ( particle.getPosition().getX() > boundary.getMaxX() ) {
+                x = boundary.x;
             }
-            if ( particle.getPosition().getX() < particleWindow.x ) {
-                x = particleWindow.getMaxX();
+            if ( particle.getPosition().getX() < boundary.x ) {
+                x = boundary.getMaxX();
             }
-            if ( particle.getPosition().getY() > particleWindow.getMaxY() ) {
-                y = particleWindow.y;
+            if ( particle.getPosition().getY() > boundary.getMaxY() ) {
+                y = boundary.y;
             }
-            if ( particle.getPosition().getY() < particleWindow.y ) {
-                y = particleWindow.getMaxY();
+            if ( particle.getPosition().getY() < boundary.y ) {
+                y = boundary.getMaxY();
             }
             if ( !new ImmutableVector2D( x, y ).equals( adapter.getModelPosition() ) ) {
                 adapter.setModelPosition( new ImmutableVector2D( x, y ) );
