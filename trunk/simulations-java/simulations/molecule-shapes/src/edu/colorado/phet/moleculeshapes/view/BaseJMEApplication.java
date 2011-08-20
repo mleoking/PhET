@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+
 import com.jme3.app.Application;
 import com.jme3.app.StatsView;
 import com.jme3.font.BitmapFont;
@@ -8,6 +11,7 @@ import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.ColorRGBA;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -30,6 +34,8 @@ public abstract class BaseJMEApplication extends Application {
     public static final String INPUT_MAPPING_EXIT = "SIMPLEAPP_Exit";
     public static final String INPUT_MAPPING_CAMERA_POS = "SIMPLEAPP_CameraPos";
     public static final String INPUT_MAPPING_MEMORY = "SIMPLEAPP_Memory";
+
+    public final Property<ColorRGBA> backgroundColor = new Property<ColorRGBA>( ColorRGBA.Black );
 
     protected Node rootNode = new Node( "Root Node" );
     protected Node guiNode = new Node( "Gui Node" );
@@ -96,9 +102,14 @@ public abstract class BaseJMEApplication extends Application {
         preGuiNode.setQueueBucket( Bucket.Gui );
         preGuiNode.setCullHint( CullHint.Never );
         Camera preGuiCam = new Camera( settings.getWidth(), settings.getHeight() );
-        ViewPort preGuiViewPort = renderManager.createPreView( "Gui Background", preGuiCam );
+        final ViewPort preGuiViewPort = renderManager.createPreView( "Gui Background", preGuiCam );
         preGuiViewPort.setClearFlags( true, true, true );
         preGuiViewPort.attachScene( preGuiNode );
+        backgroundColor.addObserver( new SimpleObserver() {
+            public void update() {
+                preGuiViewPort.setBackgroundColor( backgroundColor.get() );
+            }
+        } );
         viewPort.setClearFlags( false, true, true );
 
         guiNode.setQueueBucket( Bucket.Gui );
