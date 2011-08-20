@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  *
  * @author Sam Reid
  */
-public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
+public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNode {
 
     //Wrapped node that contains all the components
     protected PNode crystalNode;
@@ -49,13 +49,13 @@ public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
     //Flag to keep track of whether the node was dragged from the bucket; if so, model elements will be created when dropped into the particle window
     private boolean inBucket = true;
 
-    public CrystalNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas,
+    public CompoundListNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketNode, final PNode sugarBucketParticleLayer, final WaterCanvas canvas,
 
-                        //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
-                        final VoidFunction1<T> addToModel, final VoidFunction1<T> removeFromModel,
+                             //Methods for adding or removing the molecule to/from the model, called when the user drops or grabs the pnode
+                             final VoidFunction1<T> addToModel, final VoidFunction1<T> removeFromModel,
 
-                        //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
-                        ObservableProperty<Boolean> showChargeColor, final T... compounds ) {
+                             //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
+                             ObservableProperty<Boolean> showChargeColor, final T... compounds ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
         this.compounds = compounds;
@@ -87,8 +87,8 @@ public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
                 if ( !startedDragging.get() ) {
                     startedDragging.set( true );
                     setIcon( false );
-                    sugarBucketParticleLayer.removeChild( CrystalNode.this );
-                    canvas.addChild( CrystalNode.this );
+                    sugarBucketParticleLayer.removeChild( CompoundListNode.this );
+                    canvas.addChild( CompoundListNode.this );
 
                     //Re-center the node since it will have a different location at its full scale
                     if ( inBucket ) {
@@ -115,7 +115,7 @@ public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
                     }
 
                     //Remove the node the user was dragging
-                    canvas.removeChild( CrystalNode.this );
+                    canvas.removeChild( CompoundListNode.this );
                 }
                 else {
 
@@ -123,8 +123,8 @@ public class CrystalNode<T extends Compound<SphericalParticle>> extends PNode {
                     setIcon( true );
                     centerInBucket();
                     inBucket = true;
-                    canvas.removeChild( CrystalNode.this );
-                    sugarBucketParticleLayer.addChild( CrystalNode.this );
+                    canvas.removeChild( CompoundListNode.this );
+                    sugarBucketParticleLayer.addChild( CompoundListNode.this );
 
                     //Initialize for dragging out of the bucket on next mouse press
                     startedDragging.set( false );
