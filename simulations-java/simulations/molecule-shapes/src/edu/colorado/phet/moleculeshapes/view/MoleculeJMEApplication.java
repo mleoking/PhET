@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
+import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
@@ -88,6 +89,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private List<Spatial> angleNodes = new ArrayList<Spatial>();
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
+    private final Frame parentFrame;
+
+    public MoleculeJMEApplication( Frame parentFrame ) {
+        this.parentFrame = parentFrame;
+    }
 
     /*---------------------------------------------------------------------------*
     * dragging
@@ -731,10 +737,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         return new ImmutableVector3D( vec.getX(), vec.getY(), vec.getZ() );
     }
 
-    public static void main( String[] args ) throws IOException {
-        new MoleculeJMEApplication().start();
-    }
-
     public void removeAllAtoms() {
         while ( !molecule.getGroups().isEmpty() ) {
             testRemoveAtom();
@@ -806,5 +808,13 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
             brightness = 1;
         }
         return brightness;
+    }
+
+    @Override public void handleError( String errMsg, Throwable t ) {
+        super.handleError( errMsg, t );
+        if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
+            // TODO: improve the message
+            PhetOptionPane.showMessageDialog( parentFrame, "Please upgrade your video card's drivers" );
+        }
     }
 }
