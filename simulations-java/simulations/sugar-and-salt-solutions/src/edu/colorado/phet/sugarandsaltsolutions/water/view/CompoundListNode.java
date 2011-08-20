@@ -34,8 +34,8 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNode {
 
-    //Wrapped node that contains all the components
-    protected PNode crystalNode;
+    //Wrapped node that contains all the atoms
+    protected PNode atomLayer;
 
     //Transform from model (meters) to view (stage) coordinates
     private ModelViewTransform transform;
@@ -60,7 +60,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
         this.bucketNode = bucketNode;
         this.compounds = compounds;
 
-        crystalNode = new PNode();
+        atomLayer = new PNode();
 
         //Flag to determine whether the user dragged the crystal out of the bucket; if so, it:
         //1. moves into the top layer (instead of between the buckets), so it doesn't look like it is sandwiched between the front and back of the bucket layers
@@ -70,7 +70,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
         //Transform the particles from the crystal's molecule's particles into nodes
         for ( T compound : compounds ) {
             for ( SphericalParticle atom : compound ) {
-                crystalNode.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
+                atomLayer.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
             }
         }
 
@@ -106,7 +106,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
             //If contained within the particle window, drop it there and create it in the model, otherwise return to the sugar bucket
             @Override public void mouseReleased( PInputEvent event ) {
-                Rectangle2D modelBounds = transform.viewToModel( crystalNode.getFullBounds() ).getBounds2D();
+                Rectangle2D modelBounds = transform.viewToModel( atomLayer.getFullBounds() ).getBounds2D();
                 if ( model.particleWindow.contains( modelBounds ) ) {
 
                     //Add each sucrose molecule to the model
@@ -132,7 +132,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
             }
         } );
 
-        addChild( crystalNode );
+        addChild( atomLayer );
 
         //By default, this node is used for the bucket, so it should start in small icon mode
         setIcon( true );
@@ -142,15 +142,15 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     //Sets whether this node should be shown as a small icon (for use in the bucket) or shown as a large crystal while the user is dragging or while in the model/play area
     public void setIcon( boolean icon ) {
         //Shrink it to be a small icon version so it will fit in the bucket
-        crystalNode.setScale( icon ? 0.36 : 1 );
+        atomLayer.setScale( icon ? 0.36 : 1 );
     }
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.
     public void centerInBucket() {
-        Point2D crystalCenter = crystalNode.getGlobalFullBounds().getCenter2D();
+        Point2D crystalCenter = atomLayer.getGlobalFullBounds().getCenter2D();
         Point2D bucketCenter = bucketNode.getHoleNode().getGlobalFullBounds().getCenter2D();
         for ( T compound : compounds ) {
-            compound.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / crystalNode.getScale() ) ) );
+            compound.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / atomLayer.getScale() ) ) );
         }
     }
 
