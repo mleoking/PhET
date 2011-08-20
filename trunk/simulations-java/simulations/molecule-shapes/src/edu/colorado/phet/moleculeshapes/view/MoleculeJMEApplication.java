@@ -301,13 +301,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         AtomNode center = new AtomNode( new None<PairGroup>(), assetManager );
         moleculeNode.attachChild( center );
 
-        //Create the atoms that circle about the central atom
-        double angle = Math.PI * 2 / 5;
-        for ( double theta = 0; theta < Math.PI * 2; theta += angle ) {
-            double x = 10 * Math.cos( theta );
-            double y = 10 * Math.sin( theta );
-            molecule.addPair( new PairGroup( new ImmutableVector3D( x, y, 0 ), 1, false ) );
-        }
+        // start with two single bonds
+        molecule.addPair( new PairGroup( new ImmutableVector3D(10,0,3).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
+        molecule.addPair( new PairGroup( new ImmutableVector3D(2,10,-5).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
         rebuildBonds();
         rebuildAngles();
