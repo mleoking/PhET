@@ -71,7 +71,11 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Boundary for water's periodic boundary conditions, so that particles don't disappear when they wrap from one side to the other
     //Different boundaries are used for different molecule types so we can keep the number of particles low; the largest molecule is sucrose
     //But if we used the expanded sucrose boundary for water, then we would need lots of extra water out of the visible region
+    //This also has the effect of keeping salt ions or sucrose molecules away from the play area once they exit,
+    //but that seems preferable to (less confusing than) re-entering the screen from a different direction
     public final ImmutableRectangle2D waterBoundary = expand( particleWindow, getHalfDiagonal( new WaterMolecule().getShape().getBounds2D() ) );
+    public final ImmutableRectangle2D sucroseBoundary = expand( particleWindow, getHalfDiagonal( new Sucrose().getShape().getBounds2D() ) );
+    public final ImmutableRectangle2D chlorideBoundary = expand( particleWindow, getHalfDiagonal( new SaltIon.ChlorideIon().getShape().getBounds2D() ) );
 
     //Expand a rectangle by the specified size in all 4 directions
     private static ImmutableRectangle2D expand( ImmutableRectangle2D r, double size ) {
@@ -388,7 +392,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             Compound<SphericalParticle> particle = adapter.compound;
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
-            final ImmutableRectangle2D boundary = waterBoundary;
+            final ImmutableRectangle2D boundary = getBoundary( adapter.compound );
             if ( particle.getPosition().getX() > boundary.getMaxX() ) {
                 x = boundary.x;
             }
@@ -405,6 +409,15 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 adapter.setModelPosition( new ImmutableVector2D( x, y ) );
             }
         }
+    }
+
+    //Lookup the boundary to use for the specified type, see docs at the declaration of the boundary instances for explanation
+    private ImmutableRectangle2D getBoundary( Compound<SphericalParticle> compound ) {
+        if ( compound instanceof Sucrose ) { return sucroseBoundary; }
+        else if ( compound instanceof SaltIon.ChlorideIon ) { return chlorideBoundary; }
+        else if ( compound instanceof SaltIon.SodiumIon ) { return chlorideBoundary; }
+        else if ( compound instanceof WaterMolecule ) { return waterBoundary; }
+        else { throw new IllegalArgumentException( "unknown type: " + compound.getClass() ); }
     }
 
 //    //Get the contribution to the total coulomb force from a single source
