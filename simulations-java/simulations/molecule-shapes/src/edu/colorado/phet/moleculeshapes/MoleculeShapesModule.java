@@ -24,6 +24,9 @@ import com.jme3.system.JmeCanvasContext;
 import com.jme3.system.JmeSystem;
 
 public class MoleculeShapesModule extends Module {
+
+    private MoleculeJMEApplication app;
+
     public MoleculeShapesModule( Frame parentFrame, String name ) {
         super( name, new ConstantDtClock( 30.0 ) );
         AppSettings settings = new AppSettings( true );
@@ -36,7 +39,7 @@ public class MoleculeShapesModule extends Module {
         // limit the framerate
         settings.setFrameRate( 60 );
 
-        final MoleculeJMEApplication app = new MoleculeJMEApplication( parentFrame );
+        app = new MoleculeJMEApplication( parentFrame );
 
         app.setPauseOnLostFocus( false );
         app.setSettings( settings );
@@ -103,4 +106,7 @@ public class MoleculeShapesModule extends Module {
         return result;
     }
 
+    public MoleculeJMEApplication getApp() {
+        return app;
+    }
 }

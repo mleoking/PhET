@@ -4,21 +4,28 @@ package edu.colorado.phet.moleculeshapes;
 
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+import edu.colorado.phet.common.phetcommon.view.controls.ColorControl;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBoxMenuItem;
 import edu.colorado.phet.common.phetcommon.view.menu.OptionsMenu;
+import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
 
+import com.jme3.math.ColorRGBA;
 import com.jme3.system.JmeSystem;
 import com.jme3.system.Natives;
 
@@ -32,6 +39,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
     public static final Property<Boolean> showMolecularShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showElectronShapeName = new Property<Boolean>( false );
     public static final Property<Boolean> showBondAngles = new Property<Boolean>( false );
+
+    private MoleculeShapesModule module;
 
     /**
      * Sole constructor.
@@ -55,7 +64,8 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
 
         Frame parentFrame = getPhetFrame();
 
-        addModule( new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE ) );
+        module = new MoleculeShapesModule( parentFrame, Strings.MOLECULE__SHAPES__TITLE );
+        addModule( module );
     }
 
     /*
@@ -81,6 +91,34 @@ public class MoleculeShapesApplication extends PiccoloPhetApplication {
         developerMenu.add( new PropertyCheckBoxMenuItem( "Allow drag movement behind the molecule center", allowDraggingBehind ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "\"Move\" mouse cursor on rotation", useRotationCursor ) );
         developerMenu.add( new PropertyCheckBoxMenuItem( "(beta, slow) Show Bond Angles", showBondAngles ) );
+        developerMenu.add( new JMenuItem( "Change background color" ) {{
+            addActionListener( new ActionListener() {
+                public void actionPerformed( ActionEvent e ) {
+                    new JDialog( frame ) {{
+                        setTitle( "Background Color" );
+                        setResizable( false );
+
+                        ColorRGBA startColor = module.getApp().backgroundColor.get();
+
+                        final ColorControl control = new ColorControl( frame, "background color:", new Color( startColor.r, startColor.g, startColor.b ) );
+                        control.addChangeListener( new ChangeListener() {
+                            public void stateChanged( ChangeEvent e ) {
+                                module.getApp().backgroundColor.set( new ColorRGBA( scale( control.getColor().getRed() ), scale( control.getColor().getGreen() ), scale( control.getColor().getBlue() ), 1f ) );
+                            }
+
+                            private float scale( int x ) {
+                                return ( (float) x ) / 255f;
+                            }
+                        } );
+
+                        setContentPane( control );
+                        pack();
+                        SwingUtils.centerInParent( this );
+                    }}.setVisible( true );
+                }
+            } );
+
+        }} );
     }
 
     //----------------------------------------------------------------------------
