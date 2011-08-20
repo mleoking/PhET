@@ -17,6 +17,7 @@ import org.lwjgl.opengl.PixelFormat;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
+import edu.colorado.phet.moleculeshapes.jme.JmeNatives;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 
 import com.jme3.system.AppSettings;

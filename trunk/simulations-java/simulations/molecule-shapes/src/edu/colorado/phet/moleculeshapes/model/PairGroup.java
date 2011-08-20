@@ -2,6 +2,7 @@
 package edu.colorado.phet.moleculeshapes.model;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 import com.jme3.math.ColorRGBA;
 

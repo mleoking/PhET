@@ -9,13 +9,12 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 /**
  * Contains the logic for applying an "attractor" force to a molecule that first:
  * (1) finds the closest VSEPR configuration (with rotation) to our current positions, and
  * (2) pushes the electron pairs towards those positions.
- * <p/>
- * TODO: improve docs
  */
 public class AttractorModel {
     public static void applyAttractorForces( final MoleculeModel molecule, final float timeElapsed ) {
@@ -51,6 +50,11 @@ public class AttractorModel {
      * (Least-Squares Rigid Motion Using SVD). Basically, we ignore the centroid and translation computations,
      * since we want everything to be rotated around the origin. We also don't weight the individual electron
      * pairs.
+     * <p/>
+     * Of note, the lower-index slots in the VseprConfiguration (GeometryConfiguration) are for higher-repulsion
+     * pair groups (the order is triple > double > lone pair > single). We need to iterate through all permutations,
+     * but with the repulsion-ordering constraint (no single bond will be assigned a lower-index slot than a lone pair)
+     * so we end up splitting the potential slots into bins for each repulsion type and iterating over all of the permutations.
      *
      * @param molecule Molecule
      * @return Result mapping (see docs there)

@@ -1,5 +1,10 @@
-package edu.colorado.phet.moleculeshapes.model;
+package edu.colorado.phet.moleculeshapes.math;
 
+/**
+ * 3D version of ImmutableVector2D.
+ * <p/>
+ * TODO: consider moving to phetcommon after documentation
+ */
 public class ImmutableVector3D {
     private double x;
     private double y;

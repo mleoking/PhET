@@ -6,6 +6,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Model of a single-atom-centered molecule which has a certain number of pair groups
+ * surrounding it.
+ */
 public class MoleculeModel {
 
     public static final int MAX_PAIRS = 6;
