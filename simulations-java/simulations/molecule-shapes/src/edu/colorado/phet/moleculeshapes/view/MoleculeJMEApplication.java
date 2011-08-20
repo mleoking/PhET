@@ -2,7 +2,6 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;

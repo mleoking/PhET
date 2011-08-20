@@ -39,7 +39,7 @@ public class SwingJMENode extends Node {
     }
 
     public void refresh() {
-        if( hudNode != null ) {
+        if ( hudNode != null ) {
             hudNode.refresh();
         }
     }
