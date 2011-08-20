@@ -19,6 +19,7 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * The node for sugar crystals that will be shown in the bucket that the user can grab.
@@ -43,6 +44,9 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     //The bucket, so the node can be moved back to the bucket hole
     private BucketView bucketNode;
 
+    //The canvas this node will be displayed on, for purposes of converting global coordinates to stage for centering on the bucket
+    private WaterCanvas canvas;
+
     //The list of compounds such as sucrose molecules or salt ions
     private T[] compounds;
 
@@ -58,6 +62,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                              ObservableProperty<Boolean> showChargeColor, final T... compounds ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
+        this.canvas = canvas;
         this.compounds = compounds;
 
         atomLayer = new PNode();
@@ -147,10 +152,19 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.
     public void centerInBucket() {
+
+        //Find out how far to translate the compounds to center on the bucket hole
         Point2D crystalCenter = atomLayer.getGlobalFullBounds().getCenter2D();
         Point2D bucketCenter = bucketNode.getHoleNode().getGlobalFullBounds().getCenter2D();
+        ImmutableVector2D globalDelta = new ImmutableVector2D( crystalCenter, bucketCenter );
+
+        //Convert to canvas coordinate frame (stage) to account for different frame sizes
+        Dimension2D canvasDelta = canvas.getRootNode().globalToLocal( new PDimension( globalDelta.getX(), globalDelta.getY() ) );
+
+        //Convert to model and update the compound model positions
+        final ImmutableVector2D modelDelta = transform.viewToModelDelta( new ImmutableVector2D( canvasDelta.getWidth(), canvasDelta.getHeight() ).times( 1.0 / atomLayer.getScale() ) );
         for ( T compound : compounds ) {
-            compound.translate( transform.viewToModelDelta( new ImmutableVector2D( crystalCenter, bucketCenter ).times( 1.0 / atomLayer.getScale() ) ) );
+            compound.translate( modelDelta );
         }
     }
 
