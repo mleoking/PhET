@@ -138,9 +138,9 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
         setIcon( true );
     }
 
-
     //Sets whether this node should be shown as a small icon (for use in the bucket) or shown as a large crystal while the user is dragging or while in the model/play area
     public void setIcon( boolean icon ) {
+
         //Shrink it to be a small icon version so it will fit in the bucket
         atomLayer.setScale( icon ? 0.36 : 1 );
     }
