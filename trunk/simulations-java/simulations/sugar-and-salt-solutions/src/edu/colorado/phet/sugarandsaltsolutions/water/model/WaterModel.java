@@ -135,7 +135,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
     private boolean useDebugDraw = true;
 
-    //Convenience adapters for reuse with CrystalNode for adding/removing crystals or molecules
+    //Convenience adapters for reuse with CompoundListNode for adding/removing crystals or molecules
     public final VoidFunction1<Sucrose> addSucrose = new VoidFunction1<Sucrose>() {
         public void apply( Sucrose sucrose ) {
             addSucroseMolecule( sucrose );

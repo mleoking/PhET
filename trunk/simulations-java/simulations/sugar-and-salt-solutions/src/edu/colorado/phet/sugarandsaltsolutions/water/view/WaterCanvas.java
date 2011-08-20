@@ -172,15 +172,15 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //When a sucrose molecule is added in the model, add graphics for each atom in the view
         model.sucroseList.addElementAddedObserver( new VoidFunction1<Sucrose>() {
             public void apply( final Sucrose sucrose ) {
-                final CrystalNode crystalNode = new CrystalNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), sucrose );
-                crystalNode.setIcon( false );
-                crystalNode.setInBucket( false );
-                particleWindowNode.particleLayer.addChild( crystalNode );
+                final CompoundListNode compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), sucrose );
+                compoundListNode.setIcon( false );
+                compoundListNode.setInBucket( false );
+                particleWindowNode.particleLayer.addChild( compoundListNode );
 
                 model.sucroseList.addElementRemovedObserver( sucrose, new VoidFunction0() {
                     public void apply() {
                         model.sucroseList.removeElementRemovedObserver( sucrose, this );
-                        particleWindowNode.particleLayer.removeChild( crystalNode );
+                        particleWindowNode.particleLayer.removeChild( compoundListNode );
                     }
                 } );
             }
@@ -189,15 +189,15 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //When a salt ion is added in the model, add graphics for each atom in the view
         model.saltIonList.addElementAddedObserver( new VoidFunction1<SaltIon>() {
             public void apply( final SaltIon ion ) {
-                final CrystalNode crystalNode = new CrystalNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, ion );
-                crystalNode.setIcon( false );
-                crystalNode.setInBucket( false );
-                particleWindowNode.particleLayer.addChild( crystalNode );
+                final CompoundListNode compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, ion );
+                compoundListNode.setIcon( false );
+                compoundListNode.setInBucket( false );
+                particleWindowNode.particleLayer.addChild( compoundListNode );
 
                 model.saltIonList.addElementRemovedObserver( ion, new VoidFunction0() {
                     public void apply() {
                         model.saltIonList.removeElementRemovedObserver( ion, this );
-                        particleWindowNode.particleLayer.removeChild( crystalNode );
+                        particleWindowNode.particleLayer.removeChild( compoundListNode );
                     }
                 } );
             }
@@ -243,13 +243,13 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        CrystalNode<SaltIon> crystalNode = new CrystalNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
+        CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
-        saltBucketParticleLayer.addChild( crystalNode );
+        saltBucketParticleLayer.addChild( compoundListNode );
 
         //Center it on the bucket hole after it has been added to the layer
-        crystalNode.centerInBucket();
+        compoundListNode.centerInBucket();
     }
 
     //Puts a single sugar crystal in the salt bucket for the user to grab
@@ -267,13 +267,13 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        CrystalNode<Sucrose> crystalNode = new CrystalNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
+        CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
-        sugarBucketParticleLayer.addChild( crystalNode );
+        sugarBucketParticleLayer.addChild( compoundListNode );
 
         //Center it on the bucket hole after it has been added to the layer
-        crystalNode.centerInBucket();
+        compoundListNode.centerInBucket();
     }
 
     public void addChild( PNode node ) {
