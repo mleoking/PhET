@@ -4,10 +4,14 @@ package edu.colorado.phet.sugarandsaltsolutions.water.view;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -59,7 +63,8 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                              final VoidFunction1<T> addToModel, final VoidFunction1<T> removeFromModel,
 
                              //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
-                             ObservableProperty<Boolean> showChargeColor, final T... compounds ) {
+                             ObservableProperty<Boolean> showChargeColor,
+                             final Option<Function0<PNode>> label, final T... compounds ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
         this.canvas = canvas;
@@ -74,9 +79,37 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
         //Transform the particles from the crystal's molecule's particles into nodes
         for ( T compound : compounds ) {
+            final PNode compoundNode = new PNode();
             for ( SphericalParticle atom : compound ) {
-                atomLayer.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
+                compoundNode.addChild( new SphericalParticleNode( transform, atom, showChargeColor ) );
             }
+
+            //If a label was specified, create and add it centered on the compound
+            if ( label.isSome() ) {
+                final PNode labelNode = label.get().apply();
+                compoundNode.addChild( labelNode );
+
+                final PropertyChangeListener listener = new PropertyChangeListener() {
+                    public void propertyChange( PropertyChangeEvent evt ) {
+                        //Remove the label before determining the bounds on which it should be centered, so it isn't accounted for in the bounds
+                        compoundNode.removeChild( labelNode );
+
+                        //Determine where to center the label
+                        final Point2D compoundCenter = compoundNode.getFullBounds().getCenter2D();
+
+                        //Add back the label
+                        compoundNode.addChild( labelNode );
+
+                        //Center it on the compound
+                        labelNode.centerFullBoundsOnPoint( compoundCenter.getX(), compoundCenter.getY() );
+                    }
+                };
+                compoundNode.addPropertyChangeListener( PROPERTY_FULL_BOUNDS, listener );
+
+                //Get the initial location correct
+                listener.propertyChange( null );
+            }
+            atomLayer.addChild( compoundNode );
         }
 
         addInputEventListener( new CursorHandler() );
