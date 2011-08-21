@@ -1,3 +1,5 @@
+Water tab: Added more water molecules
+Water tab: Performance improvements
 Water tab: Added a sucrose label to appear on top of each sucrose molecule
 Water tab: Fixed: dragging is broken when the sim window is resized
 Water tab: Fixed: When grabbing a salt ion, it jumps to a different location right on first drag event

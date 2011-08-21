@@ -97,7 +97,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     double scaleFactor = box2DWidth / particleWindow.width;
     public final ModelViewTransform modelToBox2D = ModelViewTransform.createSinglePointScaleMapping( new Point(), new Point(), scaleFactor );
 
-    private static final int DEFAULT_NUM_WATERS = 120;
+    private static final int DEFAULT_NUM_WATERS = 140;
 
     //Properties for developer controls
     public final Property<Integer> pow = new Property<Integer>( 2 );
@@ -133,7 +133,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     protected TestPanel testPanel;
 
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
-    private boolean useDebugDraw = true;
+    private boolean useDebugDraw = false;
 
     //Convenience adapters for reuse with CompoundListNode for adding/removing crystals or molecules
     public final VoidFunction1<Sucrose> addSucrose = new VoidFunction1<Sucrose>() {
