@@ -185,8 +185,17 @@ public class ImmutableVector2D implements Serializable {
         return parseAngleAndMagnitude( getMagnitude(), getAngle() + angle );
     }
 
-    public double getDistance( ImmutableVector2D immutableVector2D ) {
-        return getSubtractedInstance( immutableVector2D ).getMagnitude();
+    /**
+     * Gets the distance between the tip of this vector and the specified vector.
+     * Performance is important here since this is in the inner loop in a many-particle calculation in sugar and salt solutions: WaterModel
+     *
+     * @param v the vector to get the distance to
+     * @return the cartesian distance between the vectors
+     */
+    public double getDistance( ImmutableVector2D v ) {
+        double dx = this.x - v.x;
+        double dy = this.y - v.y;
+        return Math.sqrt( dx * dx + dy * dy );
     }
 
     public double getDistance( Point2D point ) {
@@ -228,6 +237,9 @@ public class ImmutableVector2D implements Serializable {
         System.out.println( new Vector2D( 1, 2 ) {{
             setX( 3 );
         }} );
+        System.out.println( "0= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
+        System.out.println( "1= " + new ImmutableVector2D( 1, 0 ).getDistance( new ImmutableVector2D( 0, 0 ) ) );
+        System.out.println( "2root2= " + new ImmutableVector2D( 0, 0 ).getDistance( new ImmutableVector2D( 1, 1 ) ) );
     }
 
     public ImmutableVector2D negate() {
