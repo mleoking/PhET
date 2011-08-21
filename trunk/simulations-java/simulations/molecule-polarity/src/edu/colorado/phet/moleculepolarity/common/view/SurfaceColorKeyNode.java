@@ -23,7 +23,6 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public abstract class SurfaceColorKeyNode extends PComposite {
 
     private static final Dimension SIZE = new Dimension( 400, 20 );
-    private static final Font TITLE_FONT = new PhetFont( Font.BOLD, 14 );
     private static final Font RANGE_FONT = new PhetFont( 12 );
     private static final double Y_SPACING = 3;
     private static final double X_INSET = 5;
@@ -32,7 +31,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     public static class ElectronDensityColorKeyNode extends SurfaceColorKeyNode {
         public ElectronDensityColorKeyNode() {
             super( new Color[] { Color.WHITE, Color.BLACK },
-                   MPStrings.ELECTRON_DENSITY, MPStrings.LESS, MPStrings.MORE );
+                   MPStrings.LESS, MPStrings.MORE );
         }
     }
 
@@ -40,7 +39,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     public static class ElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public ElectrostaticPotentialColorKeyNode() {
             super( new Color[] { Color.BLUE, Color.WHITE, Color.RED },
-                   MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
+                   MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
 
@@ -48,7 +47,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     public static class RainbowElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public RainbowElectrostaticPotentialColorKeyNode() {
             super( new Color[] { Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED },
-                   MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
+                   MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
 
@@ -59,7 +58,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
      * @param leftLabel
      * @param rightLabel
      */
-    public SurfaceColorKeyNode( Color[] colors, String title, String leftLabel, String rightLabel ) {
+    public SurfaceColorKeyNode( Color[] colors, String leftLabel, String rightLabel ) {
 
         // spectrum, composed of multiple segments, because Java 1.5 doesn't include LinearGradientPaint
         final double segmentWidth = SIZE.width / (double) ( colors.length - 1 );
@@ -81,9 +80,6 @@ public abstract class SurfaceColorKeyNode extends PComposite {
         spectrumNode.addChild( new PPath( spectrumShape ) );
 
         // labels
-        PText titleNode = new PText( title ) {{
-            setFont( TITLE_FONT );
-        }};
         PText leftLabelNode = new PText( leftLabel ) {{
             setFont( RANGE_FONT );
         }};
@@ -93,13 +89,10 @@ public abstract class SurfaceColorKeyNode extends PComposite {
 
         // rendering order
         addChild( spectrumNode );
-        addChild( titleNode );
         addChild( leftLabelNode );
         addChild( rightLabelNode );
 
         // layout
-        spectrumNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        titleNode.setOffset( spectrumNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
         leftLabelNode.setOffset( spectrumNode.getFullBoundsReference().getMinX() + X_INSET,
                                  spectrumNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         rightLabelNode.setOffset( spectrumNode.getFullBoundsReference().getMaxX() - rightLabelNode.getFullBoundsReference().getWidth() - X_INSET,
