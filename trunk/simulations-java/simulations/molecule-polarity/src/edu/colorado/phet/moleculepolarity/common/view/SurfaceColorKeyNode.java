@@ -10,7 +10,6 @@ import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.phetcommon.view.util.VisibleColor;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -48,7 +47,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     // Color key for secondary "electrostatic potential" surface representation.
     public static class RainbowElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public RainbowElectrostaticPotentialColorKeyNode() {
-            super( new Color[] { VisibleColor.VIOLET, VisibleColor.INDIGO, Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED },
+            super( new Color[] { Color.BLUE, Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED },
                    MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
