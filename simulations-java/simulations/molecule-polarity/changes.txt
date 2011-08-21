@@ -1,3 +1,4 @@
+8/21/11 change request: remove titles from electronegativity table and color keys
 8/21/11 change request: end rainbow electrostatic potential with blue, not violet
 8/21/11 change request: use pale yellow for E-field plates "on"
 8/21/11 change request: move "atom electronegativity" check box up 1 row, off by default

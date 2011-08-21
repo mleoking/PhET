@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.view.JmolViewerNode.ElementColor;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -29,11 +28,6 @@ public class ElectronegativityTableNode extends PComposite {
 
     public ElectronegativityTableNode( final JmolViewerNode viewerNode ) {
 
-        PText titleNode = new PText( MPStrings.ATOM_ELECTRONEGATIVITIES ) {{
-            setFont( new PhetFont( Font.BOLD, 14 ) );
-        }};
-        addChild( titleNode );
-
         cells = new ArrayList<Cell>() {{
             add( new Cell( "H", 1, 2.1 ) );
             add( new Cell( "B", 5, 2.0 ) );
@@ -47,7 +41,7 @@ public class ElectronegativityTableNode extends PComposite {
         // layout cells, first and last cells are horizontally separated from others
         final double xGap = 12;
         double x = 0;
-        final double y = titleNode.getFullBoundsReference().getHeight() + 3;
+        final double y = 0;
         Cell firstCell = cells.get( 0 );
         addChild( firstCell );
         firstCell.setOffset( x, y );
@@ -62,9 +56,6 @@ public class ElectronegativityTableNode extends PComposite {
         Cell lastCell = cells.get( cells.size() - 1 );
         addChild( lastCell );
         lastCell.setOffset( x, y );
-
-        // center title above cells
-        titleNode.setOffset( ( lastCell.getFullBoundsReference().getMaxX() - firstCell.getFullBoundsReference().getMinX() ) / 2 - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
 
         // when the current molecule changes, ask Jmol for the molecule's elements and colors
         viewerNode.molecule.addObserver( new SimpleObserver() {
