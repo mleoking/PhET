@@ -5,7 +5,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -16,9 +15,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
-import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
+import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
@@ -34,12 +33,10 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 public class BondTypeNode extends PComposite {
 
     private static final Dimension TRACK_SIZE = new Dimension( 350, 5 );
-    private static final Dimension THUMB_SIZE = new Dimension( 10, 10 );
     private static final Font TITLE_FONT = new PhetFont( 12 );
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Color TRACK_COLOR = Color.WHITE;
-    private static final Color POINTER_LINE_COLOR = Color.GRAY;
     private static final double X_INSET = 3;
     private static final double Y_INSET = 3;
 
@@ -64,7 +61,7 @@ public class BondTypeNode extends PComposite {
             setTextPaint( TEXT_COLOR );
         }};
 
-        // size the track height to fit the title and labels
+        // compute a track height that fits the title and labels
         double trackHeight = Math.max( TRACK_SIZE.height, PNodeLayoutUtils.getMaxFullHeight( new ArrayList<PNode>() {{
             add( titleNode );
             add( maxLabelNode );
@@ -76,7 +73,7 @@ public class BondTypeNode extends PComposite {
         }};
 
         // pointer that moves along the track, not interactive
-        final PointerNode pointerNode = new PointerNode( trackHeight );
+        final PointerNode pointerNode = new PointerNode( trackHeight, molecule.atomA, molecule.atomB );
 
         // rendering order
         addChild( trackNode );
@@ -103,29 +100,29 @@ public class BondTypeNode extends PComposite {
         } );
     }
 
-    // A pair of triangles, positioned above and below the track, connected with a faint line.
+    // Pointer looks like a vertical bond, connecting 2 atoms.
     private static class PointerNode extends PComposite {
-        public PointerNode( final double trackHeight ) {
 
-            Shape topShape = new Ellipse2D.Double( -THUMB_SIZE.width / 2, -THUMB_SIZE.width - 3, THUMB_SIZE.width, THUMB_SIZE.width );
-            PPath topNode = new PPath( topShape ) {{
-                setPaint( MPColors.ATOM_A );
+        private static final double ATOM_DIAMETER = 10;
+
+        public PointerNode( final double trackHeight, final Atom atom1, final Atom atom2 ) {
+
+            PPath atom1Node = new PPath( new Ellipse2D.Double( -ATOM_DIAMETER / 2, -ATOM_DIAMETER - 3, ATOM_DIAMETER, ATOM_DIAMETER ) ) {{
+                setPaint( atom1.getColor() );
             }};
 
-            Shape bottomShape = new Ellipse2D.Double( -THUMB_SIZE.width / 2, trackHeight + 3, THUMB_SIZE.width, THUMB_SIZE.width );
-            PPath bottomNode = new PPath( bottomShape ) {{
-                setPaint( MPColors.ATOM_B );
+            PPath atom2Node = new PPath( new Ellipse2D.Double( -ATOM_DIAMETER / 2, trackHeight + 3, ATOM_DIAMETER, ATOM_DIAMETER ) ) {{
+                setPaint( atom2.getColor() );
             }};
 
-            Line2D lineShape = new Line2D.Double( 0, -THUMB_SIZE.width, 0, trackHeight + THUMB_SIZE.width );
-            PPath lineNode = new PPath( lineShape ) {{
+            PPath bondNode = new PPath( new Line2D.Double( 0, -ATOM_DIAMETER, 0, trackHeight + ATOM_DIAMETER ) ) {{
                 setStroke( new BasicStroke( 2f ) );
-                setStrokePaint( POINTER_LINE_COLOR );
+                setStrokePaint( Color.GRAY );
             }};
 
-            addChild( lineNode );
-            addChild( topNode );
-            addChild( bottomNode );
+            addChild( bondNode );
+            addChild( atom1Node );
+            addChild( atom2Node );
         }
     }
 }
