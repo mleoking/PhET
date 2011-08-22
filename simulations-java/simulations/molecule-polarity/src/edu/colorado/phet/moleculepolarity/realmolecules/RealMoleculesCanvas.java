@@ -49,9 +49,9 @@ public class RealMoleculesCanvas extends MPCanvas {
         PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
-        JmolScriptNode scriptNode = new JmolScriptNode( viewerNode );
+        PNode scriptNode = new JmolScriptNode( viewerNode );
         final ElectronegativityTableNode electronegativityTableNode = new ElectronegativityTableNode( viewerNode );
-        MoleculeControlNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
+        PNode moleculeComboBox = new MoleculeControlNode( model.getMolecules(), model.currentMolecule );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
         final PNode rainbowColorKeyNode = new RainbowElectrostaticPotentialColorKeyNode();
         final PNode electronDensityColorKeyNode = new ElectronDensityColorKeyNode();
