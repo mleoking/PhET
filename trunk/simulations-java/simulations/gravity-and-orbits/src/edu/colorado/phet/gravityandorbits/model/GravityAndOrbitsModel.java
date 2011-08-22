@@ -39,12 +39,9 @@ public class GravityAndOrbitsModel {
             public void apply( Double dt ) {
 
                 //Break up the update into discrete steps to make the orbits look smoother, see #3050
-                long start = System.currentTimeMillis();
                 for ( int i = 0; i < SMOOTHING_STEPS; i++ ) {
                     performSubStep( dt / SMOOTHING_STEPS );
                 }
-                long end = System.currentTimeMillis();
-//                System.out.println( "elapsed = " + (end-start));
             }
 
             //Perform one of several steps and update body paths in each iteration to smooth out the orbits
