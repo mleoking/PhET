@@ -4,6 +4,7 @@ package edu.colorado.phet.moleculepolarity.common.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.moleculepolarity.MPColors;
@@ -38,19 +39,30 @@ public class DiatomicMolecule implements IMolecule {
         bond = new Bond( atomA, atomB );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 
-        // when the angle changes, move the atoms
+        // update atom locations
         angle.addObserver( new VoidFunction1<Double>() {
             public void apply( Double angle ) {
                 updateAtomLocations( angle );
             }
         } );
 
-        // when bond dipole changes, update the molecular dipole
+        // update molecular dipole
         bond.dipole.addObserver( new SimpleObserver() {
             public void update() {
                 updateMolecularDipole();
             }
         } );
+
+        // update partial charges
+        RichSimpleObserver enObserver = new RichSimpleObserver() {
+            @Override public void update() {
+                final double deltaEN = atomA.electronegativity.get() - atomB.electronegativity.get();
+                // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
+                atomA.partialCharge.set( -deltaEN );
+                atomB.partialCharge.set( deltaEN );
+            }
+        };
+        enObserver.observe( atomA.electronegativity, atomB.electronegativity );
     }
 
     public void reset() {
