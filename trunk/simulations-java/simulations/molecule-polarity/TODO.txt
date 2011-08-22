@@ -6,10 +6,8 @@ DESIGN
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
 - location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front, or allow occlusion?)
-- should the pointer move across the full range of the Bond Type indicator?
-- labels for isosurface controls
+- better label for "Electron Density"
 - decide on final set of real molecules
-- change "More Covalent" to "More Covalent Bond", ditto for ionic?
 - improve Bond Type indicator
 
 HIGH
@@ -21,7 +19,6 @@ HIGH
 
 MEDIUM
 - add a developer control for setting play area color (piccolo-phet? see PiccoloPhetApplication)
-- better label for "Electron Density"
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
