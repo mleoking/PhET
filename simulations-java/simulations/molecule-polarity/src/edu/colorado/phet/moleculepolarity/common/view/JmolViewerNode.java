@@ -317,7 +317,7 @@ public class JmolViewerNode extends PhetPNode {
     // Gets the element numbers and colors for the atoms in the current molecule.
     public ArrayList<ElementColor> getElementNumbersAndColors() {
         Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS );
-        LOGGER.info( "getElementNumbersAndColors status=[" + status.toString() + "]" );
+//        LOGGER.info( "getElementNumbersAndColors status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
         }
