@@ -69,4 +69,6 @@ public class MPStrings {
 
     // Symbols, i18n not required
     public static final char DELTA = '\u03B4';
+    public static final char LEFT_ARROW = '\u2190';
+    public static final char RIGHT_ARROW = '\u2192';
 }

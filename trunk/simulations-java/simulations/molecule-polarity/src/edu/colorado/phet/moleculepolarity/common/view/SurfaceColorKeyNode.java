@@ -81,7 +81,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
         spectrumNode.addChild( new PPath( spectrumShape ) );
 
         // labels
-        PText titleNode = new PText( "\u2190 " + title + " \u2192" ) {{
+        PText titleNode = new PText( MPStrings.LEFT_ARROW + " " + MPStrings.BOND_TYPE + " " + MPStrings.RIGHT_ARROW ) {{
             setFont( TITLE_FONT );
         }};
         PText leftLabelNode = new PText( leftLabel ) {{
