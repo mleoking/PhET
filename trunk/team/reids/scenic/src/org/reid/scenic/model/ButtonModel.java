@@ -3,17 +3,21 @@ package org.reid.scenic.model;
 
 import java.awt.Font;
 
-import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-
 /**
  * @author Sam Reid
  */
 public class ButtonModel {
-    public Font getFont() {
-        return new PhetFont( 16 );
-    }
+    public final Font font;
+    public final String text;
+    public final double x;
+    public final double y;
+    public final boolean pressed;
 
-    public String getText() {
-        return "hello";
+    public ButtonModel( Font font, String text, double x, double y, boolean pressed ) {
+        this.font = font;
+        this.text = text;
+        this.x = x;
+        this.y = y;
+        this.pressed = pressed;
     }
 }

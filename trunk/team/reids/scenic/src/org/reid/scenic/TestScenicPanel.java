@@ -3,6 +3,7 @@ package org.reid.scenic;
 
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Random;
 
@@ -16,7 +17,9 @@ import org.reid.scenic.view.View;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction2;
+import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.sugarandsaltsolutions.common.util.ImmutableList;
 
 /**
@@ -44,7 +47,12 @@ public class TestScenicPanel {
                         public void apply( Model model, Graphics2D graphics2D ) {
                             new View( model ).paint( graphics2D );
                         }
-                    } ) {{
+                    }, new Function2<Model, MouseEvent, Model>() {
+                        public Model apply( Model model, MouseEvent mouseEvent ) {
+                            return null;
+                        }
+                    }
+                    ) {{
                         setPreferredSize( new Dimension( 800, 600 ) );
                     }};
                     setContentPane( scenicPanel );
@@ -52,7 +60,7 @@ public class TestScenicPanel {
                     pack();
                     new Thread( new Runnable() {
                         public void run() {
-                            recurse( scenicPanel, new ModelUpdater(), new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel() ) );
+                            recurse( scenicPanel, new ModelUpdater(), new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false ) ) );
                         }
                     } ).start();
                 }}.setVisible( true );
