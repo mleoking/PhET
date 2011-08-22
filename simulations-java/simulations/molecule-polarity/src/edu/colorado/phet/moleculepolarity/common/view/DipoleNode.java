@@ -23,7 +23,7 @@ public abstract class DipoleNode extends PPath {
 
     // Note: heights are parallel to dipole axis, widths are perpendicular.
     private static final double REFERENCE_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength(); // model value
-    private static final double REFERENCE_LENGTH = 135; // view size
+    private static final double REFERENCE_LENGTH = 135; // view size TODO: should be a function of Di/TriatomicMolecule.BOND_LENGTH
     private static final Dimension HEAD_SIZE = new Dimension( 12, 25 ); // similar to Jmol
     private static final Dimension CROSS_SIZE = new Dimension( 10, 10 ); // similar to Jmol
     private static final double REFERENCE_CROSS_OFFSET = 20; // offset from the tail of the arrow when arrow length is REFERENCE_LENGTH
