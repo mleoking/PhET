@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -38,8 +39,7 @@ public class BondTypeNode extends PComposite {
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Color TRACK_COLOR = Color.WHITE;
-    private static final Color POINTER_COLOR = Color.WHITE;
-    private static final Color POINTER_LINE_COLOR = new Color( 200, 200, 200, 100 ); // translucent gray
+    private static final Color POINTER_LINE_COLOR = Color.GRAY;
     private static final double X_INSET = 3;
     private static final double Y_INSET = 3;
 
@@ -80,10 +80,10 @@ public class BondTypeNode extends PComposite {
 
         // rendering order
         addChild( trackNode );
+        addChild( pointerNode );
         addChild( titleNode );
         addChild( maxLabelNode );
         addChild( minLabelNode );
-        addChild( pointerNode );
 
         // layout
         trackNode.setOffset( 0, 0 );
@@ -107,34 +107,25 @@ public class BondTypeNode extends PComposite {
     private static class PointerNode extends PComposite {
         public PointerNode( final double trackHeight ) {
 
-            Shape topShape = new DoubleGeneralPath() {{
-                moveTo( 0, 0 );
-                lineTo( -THUMB_SIZE.width / 2, -THUMB_SIZE.height );
-                lineTo( THUMB_SIZE.width / 2, -THUMB_SIZE.height );
-                closePath();
-            }}.getGeneralPath();
+            Shape topShape = new Ellipse2D.Double( -THUMB_SIZE.width / 2, -THUMB_SIZE.width - 3, THUMB_SIZE.width, THUMB_SIZE.width );
             PPath topNode = new PPath( topShape ) {{
-                setPaint( POINTER_COLOR );
+                setPaint( MPColors.ATOM_A );
             }};
-            addChild( topNode );
 
-            Shape bottomShape = new DoubleGeneralPath() {{
-                moveTo( 0, trackHeight );
-                lineTo( -THUMB_SIZE.width / 2, THUMB_SIZE.height + trackHeight );
-                lineTo( THUMB_SIZE.width / 2, THUMB_SIZE.height + trackHeight );
-                closePath();
-            }}.getGeneralPath();
+            Shape bottomShape = new Ellipse2D.Double( -THUMB_SIZE.width / 2, trackHeight + 3, THUMB_SIZE.width, THUMB_SIZE.width );
             PPath bottomNode = new PPath( bottomShape ) {{
-                setPaint( POINTER_COLOR );
+                setPaint( MPColors.ATOM_B );
             }};
-            addChild( bottomNode );
 
-            Line2D lineShape = new Line2D.Double( 0, 0, 0, trackHeight );
+            Line2D lineShape = new Line2D.Double( 0, -THUMB_SIZE.width, 0, trackHeight + THUMB_SIZE.width );
             PPath lineNode = new PPath( lineShape ) {{
                 setStroke( new BasicStroke( 2f ) );
                 setStrokePaint( POINTER_LINE_COLOR );
             }};
+
             addChild( lineNode );
+            addChild( topNode );
+            addChild( bottomNode );
         }
     }
 }
