@@ -1,3 +1,4 @@
+8/22/11 remove surface features from "Three Atoms" tab, since we're creating molecules that are impossible to create surfaces for
 8/22/11 use neutral green as documented for Jmol roygb gradient at http://jmol.sourceforge.net/jscolors/#gradnt
 8/22/11 remove arrows from continuum titles
 8/22/11 Jmol: make atom labels be hidden by things in front of them
