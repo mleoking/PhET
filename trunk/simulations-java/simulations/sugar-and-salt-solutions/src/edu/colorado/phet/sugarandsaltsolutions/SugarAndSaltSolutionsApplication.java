@@ -15,6 +15,8 @@ import edu.colorado.phet.sugarandsaltsolutions.macro.MacroModule;
 import edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule;
 import edu.colorado.phet.sugarandsaltsolutions.water.WaterModule;
 
+import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCALE;
+
 /**
  * Main application for PhET's "Sugar and Salt Solutions" simulation
  *
@@ -37,7 +39,7 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         //Before creating the micro module, set the size scale for atoms, molecules and crystals to be 0.35, since they are supposed to look and act smaller in this tab
         //I investigated adding sizeScale arguments to usages, but it was making client code harder to read and maintain, since there are many atom types, molecule types and crystal types
         //Which all have to use the same sizeScale argument.  Instead, we are using this more "global" approach, and relying on module switching and these setters to make sure the scale is correct
-        sizeScale.set( MicroModule.SIZE_SCALE );
+        sizeScale.set( SIZE_SCALE );
         addModule( new MicroModule( globalState ) );
 
         //Restore the size scale to be 1.0 for the water module since no custom override is done there.
