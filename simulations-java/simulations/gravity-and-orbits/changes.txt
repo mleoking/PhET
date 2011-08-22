@@ -1,3 +1,4 @@
+> Improve the smoothness of orbits, see #3050
 # 2.03.02 (55365) Aug 16, 2011
 > Fixed: After crashing, an object's path doesn't disappear
 Changed MassReadoutNode to use Not instead of SettableNot, see #3045
