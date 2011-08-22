@@ -1,3 +1,4 @@
+8/22/11 reverse order of colors in gradient specifications, to match Jmol naming conventions (negative-to-positive)
 8/22/11 move gradient color specifications to MPColors, for reuse in 2D surfaces
 # 0.00.16 (55638) Aug 22, 2011
 8/22/11 dev version for discussion with KL
