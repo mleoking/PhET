@@ -538,7 +538,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
             //Remove the sucrose itself
             sucroseList.remove( sucrose );
-            sucroseList.remove( sucrose );
 
             //Add back as many waters as were deleted when the sucrose was added to the model to conserve water molecule count
             addWaterWhereSucroseWas( sucrose );
