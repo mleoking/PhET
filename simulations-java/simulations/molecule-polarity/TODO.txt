@@ -9,7 +9,6 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
-- rewrite Bond Type indicator, title and labels inside, dual pointers above and below
 - partial charge model and view for atom B in triatomic molecule (A-B-C), sum 2 partial charges at B, locate 180 degrees from molecular dipole
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -18,9 +17,8 @@ HIGH
 
 MEDIUM
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
-- move duplicate in IMolecule subclasses into a base class
-- clean up canvas layout code in all tabs, base layout on molecule location
-- canvas centering strategy
+- move duplicate code in IMolecule subclasses into a base class
+- clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
