@@ -301,6 +301,15 @@ public class Plank extends ShapeModelElement {
         }
         // Sort through the locations and eliminate those that are already
         // occupied or too far away.
+        for ( Point2D candidateOpenLocation : new ArrayList<Point2D>( candidateOpenLocations ) ) {
+            for ( Mass mass : massesOnSurface ) {
+                if ( mass.getPosition().distance( candidateOpenLocation ) < INTER_SNAP_TO_MARKER_DISTANCE / 10 ) {
+                    // This position is already occupied.
+                    candidateOpenLocations.remove( candidateOpenLocation );
+                }
+            }
+        }
+        // Find the closest of the open locations.
         for ( Point2D candidateOpenLocation : candidateOpenLocations ) {
             // Must be a reasonable distance away in the horizontal direction
             // so that objects don't appear to fall sideways.
