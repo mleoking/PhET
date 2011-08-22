@@ -51,12 +51,12 @@ public class BondTypeNode extends PComposite {
         }};
 
         // label at the max end
-        PNode maxLabelNode = new PText( MPStrings.MORE_IONIC ) {{
+        PNode maxLabelNode = new PText( MPStrings.IONIC ) {{
             setFont( LABEL_FONT );
         }};
 
         // label at the min end
-        PNode minLabelNode = new PText( MPStrings.MORE_COVALENT ) {{
+        PNode minLabelNode = new PText( MPStrings.COVALENT ) {{
             setFont( LABEL_FONT );
         }};
 

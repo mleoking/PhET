@@ -28,6 +28,7 @@ public class MPStrings {
     public static final String C = RESOURCES.getLocalizedString( "C" );
     public static final String CARBON_DIOXIDE = RESOURCES.getLocalizedString( "carbonDioxide" );
     public static final String CHLOROFORM = RESOURCES.getLocalizedString( "chloroform" );
+    public static final String COVALENT = RESOURCES.getLocalizedString( "covalent" );
     public static final String DIFLUOROMETHANE = RESOURCES.getLocalizedString( "difluoromethane" );
     public static final String ELECTRIC_FIELD = RESOURCES.getLocalizedString( "electricField" );
     public static final String ELECTRON_DENSITY = RESOURCES.getLocalizedString( "electronDensity" );
@@ -39,13 +40,12 @@ public class MPStrings {
     public static final String HYDROGEN = RESOURCES.getLocalizedString( "hydrogen" );
     public static final String HYDROGEN_CYANIDE = RESOURCES.getLocalizedString( "hydrogenCyanide" );
     public static final String HYDROGEN_FLUORIDE = RESOURCES.getLocalizedString( "hydrogenFluoride" );
+    public static final String IONIC = RESOURCES.getLocalizedString( "ionic" );
     public static final String LESS = RESOURCES.getLocalizedString( "less" );
     public static final String METHANE = RESOURCES.getLocalizedString( "methane" );
     public static final String MOLECULE = RESOURCES.getLocalizedString( "molecule" );
     public static final String MOLECULAR_DIPOLE = RESOURCES.getLocalizedString( "molecularDipole" );
     public static final String MORE = RESOURCES.getLocalizedString( "more" );
-    public static final String MORE_COVALENT = RESOURCES.getLocalizedString( "moreCovalent" );
-    public static final String MORE_IONIC = RESOURCES.getLocalizedString( "moreIonic" );
     public static final String NEGATIVE = RESOURCES.getLocalizedString( "negative" );
     public static final String NITROGEN = RESOURCES.getLocalizedString( "nitrogen" );
     public static final String NONE = RESOURCES.getLocalizedString( "none" );
