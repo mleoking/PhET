@@ -66,8 +66,9 @@ public abstract class SurfaceColorKeyNode extends PComposite {
             setStroke( null );
         }};
         double x = 0;
-        for ( int i = 0; i < colors.length - 1; i++ ) {
-            final Paint gradient = new GradientPaint( (float) x, 0f, colors[i], (float) ( x + segmentWidth ), 0f, colors[i + 1] );
+        // color are ordered negative to positive, so visit in reverse order
+        for ( int i = colors.length - 2; i >= 0; i-- ) {
+            final Paint gradient = new GradientPaint( (float) x, 0f, colors[i + 1], (float) ( x + segmentWidth ), 0f, colors[i] );
             spectrumNode.addChild( new PPath( new Rectangle2D.Double( x, 0, segmentWidth + 1, SIZE.height ) ) {{ // +1 to workaround visible seams between PPaths
                 setPaint( gradient );
                 setStroke( null );

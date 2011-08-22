@@ -22,10 +22,10 @@ public class MPColors {
     public static final Color NEUTRAL_GREEN = new Color( 31, 247, 0 );
 
     // Gradient used for electron density.
-    public static final Color[] BW_GRADIENT = new Color[] { Color.WHITE, Color.BLACK };
+    public static final Color[] BW_GRADIENT = new Color[] { Color.BLACK, Color.WHITE };
 
     // Primary gradient for molecular electrostatic polarity (mep).
-    public static final Color[] RWB_GRADIENT = new Color[] { Color.BLUE, Color.WHITE, Color.RED };
+    public static final Color[] RWB_GRADIENT = new Color[] { Color.RED, Color.WHITE, Color.BLUE };
 
     /*
      * Secondary gradient for mep.
@@ -34,35 +34,35 @@ public class MPColors {
      * The colors below were acquired from the roygb gradient shown in this image.
      */
     public static final Color[] ROYGB_GRADIENT = new Color[] {
-            Color.BLUE,
-            new Color( 0, 30, 242 ),
-            new Color( 0, 60, 239 ),
-            new Color( 0, 89, 236 ),
-            new Color( 0, 121, 242 ),
-            new Color( 0, 153, 244 ),
-            new Color( 0, 184, 244 ),
-            new Color( 0, 247, 247 ),
-            new Color( 0, 243, 217 ),
-            new Color( 0, 250, 188 ),
-            new Color( 0, 247, 155 ),
-            new Color( 0, 247, 124 ),
-            new Color( 0, 247, 93 ),
-            new Color( 0, 244, 31 ),
-            new Color( 0, 244, 0 ),
-            MPColors.NEUTRAL_GREEN,
-            new Color( 61, 242, 0 ),
-            new Color( 93, 247, 0 ),
-            new Color( 121, 247, 0 ),
-            new Color( 180, 242, 0 ),
-            new Color( 217, 247, 0 ),
-            new Color( 227, 227, 0 ),
-            new Color( 242, 242, 0 ),
-            new Color( 244, 230, 0 ),
-            new Color( 244, 214, 0 ),
-            new Color( 247, 155, 0 ),
-            new Color( 247, 124, 0 ),
-            new Color( 247, 93, 0 ),
-            new Color( 247, 62, 0 ),
+            Color.RED,
             new Color( 242, 30, 0 ),
-            Color.RED };
+            new Color( 247, 62, 0 ),
+            new Color( 247, 93, 0 ),
+            new Color( 247, 124, 0 ),
+            new Color( 247, 155, 0 ),
+            new Color( 244, 214, 0 ),
+            new Color( 244, 230, 0 ),
+            new Color( 242, 242, 0 ),
+            new Color( 227, 227, 0 ),
+            new Color( 217, 247, 0 ),
+            new Color( 180, 242, 0 ),
+            new Color( 121, 247, 0 ),
+            new Color( 93, 247, 0 ),
+            new Color( 61, 242, 0 ),
+            MPColors.NEUTRAL_GREEN,
+            new Color( 0, 244, 0 ),
+            new Color( 0, 244, 31 ),
+            new Color( 0, 247, 93 ),
+            new Color( 0, 247, 124 ),
+            new Color( 0, 247, 155 ),
+            new Color( 0, 250, 188 ),
+            new Color( 0, 243, 217 ),
+            new Color( 0, 247, 247 ),
+            new Color( 0, 184, 244 ),
+            new Color( 0, 153, 244 ),
+            new Color( 0, 121, 242 ),
+            new Color( 0, 89, 236 ),
+            new Color( 0, 60, 239 ),
+            new Color( 0, 30, 242 ),
+            Color.BLUE };
 }
