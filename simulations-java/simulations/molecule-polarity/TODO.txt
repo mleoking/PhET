@@ -10,6 +10,7 @@ DESIGN
 - labels for isosurface controls
 - decide on final set of real molecules
 - change "More Covalent" to "More Covalent Bond", ditto for ionic?
+- improve Bond Type indicator
 
 HIGH
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
