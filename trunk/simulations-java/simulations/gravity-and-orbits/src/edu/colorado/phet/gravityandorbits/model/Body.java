@@ -225,7 +225,7 @@ public class Body implements IBodyColors {
 
     private void addPathPoint() {
         while ( path.size() + 1//account for the point that will be added
-                > maxPathLength ) {//start removing data after 2 orbits of the default system
+                > maxPathLength * GravityAndOrbitsModel.SMOOTHING_STEPS ) {//start removing data after 2 orbits of the default system
             path.remove( 0 );
             for ( PathListener listener : pathListeners ) {
                 listener.pointRemoved();
@@ -317,7 +317,7 @@ public class Body implements IBodyColors {
     }
 
     public int getMaxPathLength() {
-        return maxPathLength;
+        return maxPathLength * GravityAndOrbitsModel.SMOOTHING_STEPS;
     }
 
     public boolean isMassReadoutBelow() {

@@ -27,6 +27,9 @@ public class GravityAndOrbitsModel {
     public boolean teacherMode;//Flag for simsharing debugging
     private final VoidFunction1<Double> stepModel;
 
+    //Subdivide DT intervals by this factor to improve smoothing, otherwise some orbits look too non-smooth (you can see their corners), see #3050
+    public static final int SMOOTHING_STEPS = 5;
+
     public GravityAndOrbitsModel( final GravityAndOrbitsClock clock, final Property<Boolean> gravityEnabledProperty ) {
         super();
         this.clock = clock;
@@ -34,13 +37,26 @@ public class GravityAndOrbitsModel {
         //Function for stepping the physics of the model
         stepModel = new VoidFunction1<Double>() {
             public void apply( Double dt ) {
+
+                //Break up the update into discrete steps to make the orbits look smoother, see #3050
+                long start = System.currentTimeMillis();
+                for ( int i = 0; i < SMOOTHING_STEPS; i++ ) {
+                    performSubStep( dt / SMOOTHING_STEPS );
+                }
+                long end = System.currentTimeMillis();
+//                System.out.println( "elapsed = " + (end-start));
+            }
+
+            //Perform one of several steps and update body paths in each iteration to smooth out the orbits
+            private void performSubStep( Double dt ) {
+
                 //Compute the next state for each body based on the current state of all bodies in the system.
                 ModelState newState = new ModelState( new ArrayList<BodyState>() {{
                     for ( Body body : bodies ) {
                         add( body.toBodyState() );
                     }
                 }} ).getNextState( dt,
-                                   400, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay.
+                                   400 / SMOOTHING_STEPS, // 1000 looks great, 50 starts to look awkward for sun+earth+moon, but 100 seems okay.
                                    //Update: 100 is poor for sun/earth/moon system in "to scale" because the orbit is gradually expanding.  Tests suggest 400 is a good performance/precision tradeoff
                                    gravityEnabledProperty );
                 //Set each body to its computed next state.
@@ -59,13 +75,14 @@ public class GravityAndOrbitsModel {
                         }
                     }
                 }
+
+                //For debugging error in the integrator
+//                System.out.println( clock.getSimulationTime() + "\t" + getSunEarthDistance() );
+
                 //Signify that the model completed an entire step so that any batch operations may be invoked
                 for ( int i = 0; i < bodies.size(); i++ ) {
                     bodies.get( i ).allBodiesUpdated();
                 }
-
-                //For debugging error in the integrator
-//                System.out.println( clock.getSimulationTime() + "\t" + getSunEarthDistance() );
             }
 
             private Body getSmaller( Body other, Body body ) {
