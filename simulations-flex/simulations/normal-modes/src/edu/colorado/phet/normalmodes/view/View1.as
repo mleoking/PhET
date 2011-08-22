@@ -2,6 +2,7 @@ package edu.colorado.phet.normalmodes.view {
 import edu.colorado.phet.normalmodes.model.Model1;
 
 import flash.display.*;
+import flash.events.MouseEvent;
 
 //view for Model1, a 1-dimensional array of masses and springs
 public class View1 extends Sprite {
@@ -172,6 +173,7 @@ public class View1 extends Sprite {
         this._massGrabbedByUser = true;
         for(var i:int = 0; i < this.myModel1.nMax; i++ ){
             this.mass_arr[i].drawBorderZone( 0, 0 );
+            //this.mass_arr[i].removeEventListener(  MouseEvent.MOUSE_OVER, showArrows  );
         }
     }
 
