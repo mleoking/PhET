@@ -38,15 +38,15 @@ public class ThreeAtomsCanvas extends MPCanvas {
         // nodes
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
-        TriatomicMoleculeNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
-        final PartialChargeNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
-        final PartialChargeNode partialChargeNodeC = new PartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
-        final BondDipoleNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB, DIPOLE_SCALE );
-        final BondDipoleNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC, DIPOLE_SCALE );
-        final MolecularDipoleNode molecularDipoleNode = new MolecularDipoleNode( model.molecule, DIPOLE_SCALE );
-        ElectronegativityControlNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
-        ElectronegativityControlNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
+        final PNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
+        final PNode partialChargeNodeC = new PartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
+        final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB, DIPOLE_SCALE );
+        final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC, DIPOLE_SCALE );
+        final PNode molecularDipoleNode = new MolecularDipoleNode( model.molecule, DIPOLE_SCALE );
+        PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
+        PNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, false, false, MPStrings.BOND_DIPOLES ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
