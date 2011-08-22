@@ -172,7 +172,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //When a sucrose molecule is added in the model, add graphics for each atom in the view
         model.sucroseList.addElementAddedObserver( new VoidFunction1<Sucrose>() {
             public void apply( final Sucrose sucrose ) {
-                final CompoundListNode compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), sucrose );
+                final CompoundListNode compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose,
+                                                                                         model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), sucrose );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
