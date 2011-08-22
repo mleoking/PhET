@@ -1,3 +1,4 @@
+8/21/11 Jmol uses weights blue for 20% of the rainbow gradient, so add more blue to the color key
 8/21/11 add dipole scaling factor to view, currently set to 1.0
 8/21/11 delete JComboBox-based molecule control, stick with Piccolo version
 8/21/11 create color constants in MPColors for things that are in flux
