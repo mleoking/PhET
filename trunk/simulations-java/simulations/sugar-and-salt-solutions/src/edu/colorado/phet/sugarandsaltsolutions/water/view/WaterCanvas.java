@@ -92,11 +92,11 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //Set the stage size according to the same aspect ratio as used in the model
         //Gets the ModelViewTransform used to go between model coordinates (SI) and stage coordinates (roughly pixels)
         //Create the transform from model (SI) to view (stage) coordinates
-        double inset = 40;
+        final double inset = 40;
         ImmutableRectangle2D particleWindow = model.particleWindow;
         final double particleWindowWidth = canvasSize.getWidth() * 0.7;
         final double particleWindowHeight = model.particleWindow.height * particleWindowWidth / model.particleWindow.width;
-        final double particleWindowX = canvasSize.getWidth() - inset - particleWindowWidth;
+        final double particleWindowX = inset;
         final double particleWindowY = inset;
         transform = createRectangleInvertedYMapping( particleWindow.toRectangle2D(),
                                                      new Rectangle2D.Double( particleWindowX, particleWindowY, particleWindowWidth, particleWindowHeight ) );
@@ -112,7 +112,9 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         setWorldTransformStrategy( new CenteredStage( this, canvasSize ) );
 
         //Create and add a small icon of the beaker to show that this tab is a zoomed in version of it
-        final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{translate( 0, 300 ); }};
+        final MiniBeakerNode miniBeakerNode = new MiniBeakerNode() {{
+            translate( ( canvasSize.getWidth() - getFullBounds().getWidth() - inset ) / getScale(), 300 );
+        }};
         addChild( miniBeakerNode );
 
         //Show a graphic that shows the particle frame to be a zoomed in part of the mini beaker
@@ -124,7 +126,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
         //Control panel
         controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
-            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
+            setOffset( canvasSize.getWidth() - INSET - getFullBounds().getWidth(), canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
         }};
         addChild( controlPanel );
 
@@ -133,8 +135,9 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
         Dimension2DDouble bucketSize = new Dimension2DDouble( 180, 70 );
-        sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
-        saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
+        final int bucketSeparation = 210;
+        sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
+        saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
 
         //Add the buckets to the view
         addChild( sugarBucket.getHoleNode() );
@@ -161,7 +164,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
         //Add clock controls for pause/play/step
         addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
-            setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+            setOffset( INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
         }} );
 
         //When a water molecule is added in the model, add graphics for each atom in the view

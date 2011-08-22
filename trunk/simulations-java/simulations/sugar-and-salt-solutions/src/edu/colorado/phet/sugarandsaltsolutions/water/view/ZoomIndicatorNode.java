@@ -31,22 +31,19 @@ public class ZoomIndicatorNode extends PNode {
 
         //Draw lines from the zoomed in box to the particle box
         Stroke zoomLineStroke = new BasicStroke( 1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 1, new float[] { 20, 10 }, 0 );
-        addChild( new PhetPPath( new Line2D.Double( zoomRect.getCenterX(), zoomRect.getY(), particleWindowBounds.getX(), particleWindowBounds.getY() ), zoomLineStroke, lineColor.get() ) {{
+        addChild( new PhetPPath( new Line2D.Double( zoomRect.getCenterX(), zoomRect.getY(), particleWindowBounds.getMaxX(), particleWindowBounds.getY() ), zoomLineStroke, lineColor.get() ) {{
             lineColor.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setStrokePaint( color );
                 }
             } );
         }} );
-        addChild( new PhetPPath( new Line2D.Double( zoomRect.getCenterX(), zoomRect.getMaxY(), particleWindowBounds.getX(), particleWindowBounds.getMaxY() ), zoomLineStroke, lineColor.get() ) {{
+        addChild( new PhetPPath( new Line2D.Double( zoomRect.getCenterX(), zoomRect.getMaxY(), particleWindowBounds.getMaxX(), particleWindowBounds.getMaxY() ), zoomLineStroke, lineColor.get() ) {{
             lineColor.addObserver( new VoidFunction1<Color>() {
                 public void apply( Color color ) {
                     setStrokePaint( color );
                 }
             } );
         }} );
-
-//        addChild( new PhetPPath( new Line2D.Double( zoomRect.getMaxX(), zoomRect.getY(), particleWindowBounds.getMaxX(), particleWindowBounds.getY() ), zoomLineStroke, zoomLineColor ) );
-//        addChild( new PhetPPath( new Line2D.Double( zoomRect.getMaxX(), zoomRect.getMaxY(), particleWindowBounds.getMaxX(), particleWindowBounds.getMaxY() ), zoomLineStroke, zoomLineColor ) );
     }
 }
