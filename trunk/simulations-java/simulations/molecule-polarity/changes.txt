@@ -1,3 +1,4 @@
+8/21/11 delete JComboBox-based molecule control, stick with Piccolo version
 8/21/11 create color constants in MPColors for things that are in flux
 8/21/11 tone down color of Reset All button, bright yellow was a little to eye-grabbing
 8/21/11 change format (<- title ->) and location (bottom) of titles to reclaim some vertical space [55595]
