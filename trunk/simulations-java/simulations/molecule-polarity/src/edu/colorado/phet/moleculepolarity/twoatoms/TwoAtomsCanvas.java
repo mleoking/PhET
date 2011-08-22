@@ -48,8 +48,8 @@ public class TwoAtomsCanvas extends MPCanvas {
         final PNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bond );
         final PNode partialChargeNodeB = new PartialChargeNode( model.molecule.atomB, model.molecule.bond );
         final PNode bondDipoleNode = new BondDipoleNode( model.molecule.bond, DIPOLE_SCALE );
-        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule, MPColors.RWB_GRADIENT );
-        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule, MPColors.BW_GRADIENT );
+        final PNode electrostaticPotentialNode = new DiatomicIsosurfaceNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.RWB_GRADIENT );
+        final PNode electronDensityNode = new DiatomicIsosurfaceNode( model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPColors.BW_GRADIENT );
         PNode enControlA = new ElectronegativityControlNode( model.molecule.atomA, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, false, true, false, false, MPStrings.BOND_DIPOLE ) );
