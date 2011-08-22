@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
 import edu.colorado.phet.common.phetcommon.model.property.CompositeProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -190,7 +189,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //When a salt ion is added in the model, add graphics for each atom in the view
         model.saltIonList.addElementAddedObserver( new VoidFunction1<SaltIon>() {
             public void apply( final SaltIon ion ) {
-                final CompoundListNode compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, new Option.None<Function0<PNode>>(), ion );
+                final CompoundListNode compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon,
+                                                                                         model.removeSaltIon, model.showChargeColor, new SaltIonLabel(), ion );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
@@ -244,7 +244,8 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor, new Option.None<Function0<PNode>>(), crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
+        CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor,
+                                                                                    new SaltIonLabel(), crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         saltBucketParticleLayer.addChild( compoundListNode );
@@ -288,17 +289,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     public ModelViewTransform getModelViewTransform() {
         return transform;
     }
-
-    //TODO: add label on front of sugar
-//    new PImage( new HTMLNode( "C<sub>12</sub>H<sub>22</sub>O<sub>11</sub>" ) {{
-//            setFont( new PhetFont( 20, true ) );
-//        }}.toImage() ) {{
-//            childLayer.addPropertyChangeListener( PNode.PROPERTY_FULL_BOUNDS, new PropertyChangeListener() {
-//                public void propertyChange( PropertyChangeEvent evt ) {
-//                    setOffset( childLayer.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2, childLayer.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );
-//                }
-//            } );
-//        }}
 
     //Get the root node used for stage coordinates, necessary when transforming through the global coordinate frame to stage
     public PNode getRootNode() {

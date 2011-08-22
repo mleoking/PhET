@@ -11,7 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
@@ -64,7 +64,11 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
                              //Flag to indicate whether color is shown for charge or identity of the atom.  This is also used for the "show sugar atoms" feature
                              ObservableProperty<Boolean> showChargeColor,
-                             final Option<Function0<PNode>> label, final T... compounds ) {
+
+                             //Optional label to show for each compound
+                             final Option<Function1<T, PNode>> label,
+
+                             final T... compounds ) {
         this.transform = transform;
         this.bucketNode = bucketNode;
         this.canvas = canvas;
@@ -86,7 +90,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
             //If a label was specified, create and add it centered on the compound
             if ( label.isSome() ) {
-                final PNode labelNode = label.get().apply();
+                final PNode labelNode = label.get().apply( compound );
                 compoundNode.addChild( labelNode );
 
                 final PropertyChangeListener listener = new PropertyChangeListener() {

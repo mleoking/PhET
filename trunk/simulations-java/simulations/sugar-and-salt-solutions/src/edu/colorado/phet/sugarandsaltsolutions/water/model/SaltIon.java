@@ -1,10 +1,13 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.water.model;
 
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
+
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM;
 
 /**
  * In order to treat sucrose and sodium chloride uniformly in the water tab, we use two levels of hierarchy for each:
@@ -17,20 +20,28 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
  */
 public class SaltIon extends Compound<SphericalParticle> {
 
-    public SaltIon( SphericalParticle particle ) {
-        super( ImmutableVector2D.ZERO, 0 );
-        addConstituent( new Constituent<SphericalParticle>( particle, ImmutableVector2D.ZERO ) );
+    private String name;
+
+    public SaltIon( SphericalParticle particle, String name ) {
+        super( ZERO, 0 );
+        this.name = name;
+        addConstituent( new Constituent<SphericalParticle>( particle, ZERO ) );
+    }
+
+    //Return the name of the ion such as "Na+" to be shown on the graphic as a label
+    public String getName() {
+        return name;
     }
 
     public static class SodiumIon extends SaltIon {
         public SodiumIon() {
-            super( new SphericalParticle.Sodium() );
+            super( new SphericalParticle.Sodium(), SODIUM );
         }
     }
 
     public static class ChlorideIon extends SaltIon {
         public ChlorideIon() {
-            super( new SphericalParticle.Chloride() );
+            super( new SphericalParticle.Chloride(), CHLORIDE );
         }
     }
 }
