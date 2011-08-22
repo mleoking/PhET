@@ -16,14 +16,14 @@ public class BondDipoleNode extends DipoleNode {
 
     private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
 
-    public BondDipoleNode( final Bond bond ) {
+    public BondDipoleNode( final Bond bond, final double scale ) {
         super( Color.BLACK );
 
         // align the dipole to be parallel with the bond, with some perpendicular offset
         SimpleObserver update = new SimpleObserver() {
             public void update() {
 
-                setComponentX( bond.deltaElectronegativity.get() ); // for a dipole with angle=0
+                setComponentX( scale * bond.deltaElectronegativity.get() ); // for a dipole with angle=0
 
                 // compute location of dipole, with offset
                 final double angle = bond.getAngle() - Math.PI / 2; // above the bond

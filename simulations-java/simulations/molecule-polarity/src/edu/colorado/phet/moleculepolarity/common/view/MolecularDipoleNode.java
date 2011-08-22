@@ -18,7 +18,7 @@ public class MolecularDipoleNode extends DipoleNode {
 
     private static final double OFFSET = 55; // offset in the direction that the dipole points
 
-    public MolecularDipoleNode( final IMolecule molecule ) {
+    public MolecularDipoleNode( final IMolecule molecule, final double scale ) {
         super( Color.ORANGE );
 
         // align the dipole to be parallel with the bond, with some perpendicular offset
@@ -27,7 +27,7 @@ public class MolecularDipoleNode extends DipoleNode {
 
                 ImmutableVector2D dipole = molecule.getDipole();
 
-                setComponentX( dipole.getMagnitude() ); // for a dipole with angle=0
+                setComponentX( scale * dipole.getMagnitude() ); // for a dipole with angle=0
 
                 // clear the transform
                 setOffset( 0, 0 );
