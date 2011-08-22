@@ -1,13 +1,12 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.model;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 
@@ -18,6 +17,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
  */
 public class DiatomicMolecule implements IMolecule {
 
+    private static final double ATOM_DIAMETER = 100;
     private static final double BOND_LENGTH = 150;
 
     public final Atom atomA, atomB; // the atoms labeled A and B
@@ -33,8 +33,8 @@ public class DiatomicMolecule implements IMolecule {
 
         this.location = location;
         angle = new Property<Double>( 0d );
-        atomA = new Atom( MPStrings.A, 100, Color.YELLOW, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
-        atomB = new Atom( MPStrings.B, 100, Color.GREEN, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
+        atomA = new Atom( MPStrings.A, ATOM_DIAMETER, MPColors.ATOM_A, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() );
+        atomB = new Atom( MPStrings.B, ATOM_DIAMETER, MPColors.ATOM_B, MPConstants.ELECTRONEGATIVITY_RANGE.getMin() + ( MPConstants.ELECTRONEGATIVITY_RANGE.getLength() / 2 ) );
         bond = new Bond( atomA, atomB );
         dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() );
 

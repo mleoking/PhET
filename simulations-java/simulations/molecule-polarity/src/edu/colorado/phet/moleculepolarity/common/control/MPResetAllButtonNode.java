@@ -15,7 +15,7 @@ import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 public class MPResetAllButtonNode extends ResetAllButtonNode {
 
     public MPResetAllButtonNode( Resettable[] resettables, Frame parentFrame ) {
-        super( resettables, parentFrame, 16, Color.BLACK, Color.YELLOW );
+        super( resettables, parentFrame, 16, Color.BLACK, Color.WHITE );
         setConfirmationEnabled( false );
     }
 }
