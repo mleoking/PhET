@@ -1,3 +1,4 @@
+8/21/11 create color constants in MPColors for things that are in flux
 8/21/11 change format (<- title ->) and location (bottom) of titles to reclaim some vertical space [55595]
 8/21/11 add title to Bond Type indicator, flip arrow to point up for now, use lowercase for range labels to be consistent
 8/21/11 add cyan to rainbow mep color key, trying to match Jmol's color scheme

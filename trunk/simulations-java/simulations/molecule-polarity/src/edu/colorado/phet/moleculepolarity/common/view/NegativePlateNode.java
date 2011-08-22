@@ -5,6 +5,7 @@ import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.common.model.EField;
 import edu.umd.cs.piccolo.PNode;
@@ -29,7 +30,7 @@ public class NegativePlateNode extends PComposite {
 
         // side edge to show thickness
         PPath sideEdgeNode = new PPath( new Rectangle2D.Double( 0, 0, MPConstants.PLATE_THICKNESS, MPConstants.PLATE_HEIGHT ) ) {{
-            setPaint( MPConstants.PLATE_DISABLED_COLOR );
+            setPaint( MPColors.PLATE_DISABLED_COLOR );
         }};
 
         // the primary face of the plate
@@ -41,7 +42,7 @@ public class NegativePlateNode extends PComposite {
             closePath();
         }};
         final PPath faceNode = new PPath( facePath.getGeneralPath() ) {{
-            setPaint( MPConstants.PLATE_DISABLED_COLOR );
+            setPaint( MPColors.PLATE_DISABLED_COLOR );
         }};
 
         // rendering order
@@ -52,7 +53,7 @@ public class NegativePlateNode extends PComposite {
         // when the field is enabled/disabled...
         eField.enabled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean enabled ) {
-                faceNode.setPaint( enabled ? MPConstants.PLATE_NEGATIVE_COLOR : MPConstants.PLATE_DISABLED_COLOR );
+                faceNode.setPaint( enabled ? MPColors.PLATE_NEGATIVE_COLOR : MPColors.PLATE_DISABLED_COLOR );
                 indicatorNode.setVisible( enabled );
             }
         } );
