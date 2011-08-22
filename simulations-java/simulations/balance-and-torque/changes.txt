@@ -1,3 +1,4 @@
+Enlarged and finalized the level indicators.
 # 0.00.06 (55247) Aug 15, 2011
 8/15/11 Publishing to dev for review by design team.
 Moved x's on bottoms of support columns so that the won't be overlapped by the ruler.
