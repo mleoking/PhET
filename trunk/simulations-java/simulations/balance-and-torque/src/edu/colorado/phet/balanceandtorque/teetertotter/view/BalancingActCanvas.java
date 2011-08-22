@@ -5,8 +5,10 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Point2D;
 
@@ -120,87 +122,45 @@ public class BalancingActCanvas extends PhetPCanvas {
         // Add the ruler.
         rootNode.addChild( new RotatingRulerNode( model.getPlank(), mvt, distancesVisibleProperty ) );
 
-        // TODO: Prototype of level indicator.
-//        DoubleGeneralPath levelIndicatorPath = new DoubleGeneralPath();
-//        levelIndicatorPath.moveTo( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
-//                                   model.getPlank().getCenterSurfacePoint().getY() );
-//        levelIndicatorPath.lineTo( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
-//                                   model.getPlank().getCenterSurfacePoint().getY() );
-//        final PPath levelIndicator = new PhetPPath( mvt.modelToView( levelIndicatorPath.getGeneralPath() ),
-//                                                    new BasicStroke( 1f,
-//                                                                     BasicStroke.CAP_ROUND,
-//                                                                     BasicStroke.JOIN_ROUND,
-//                                                                     1f,
-//                                                                     new float[] { 8f },
-//                                                                     0f ),
-//                                                    Color.RED );
-//        rootNode.addChild( levelIndicator );
-//        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
-//            public void apply( Boolean showLevelIndicator ) {
-//                levelIndicator.setVisible( showLevelIndicator );
-//            }
-//        } );
-
-        // TODO: Alternative level indicator #1
+        // Add the level indicator.
         final Point2D leftEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() - Plank.LENGTH / 2,
                                                                              model.getPlank().getCenterSurfacePoint().getY() ) );
         final Point2D rightEdgeOfPlank = mvt.modelToView( new Point2D.Double( model.getPlank().getCenterSurfacePoint().getX() + Plank.LENGTH / 2,
                                                                               model.getPlank().getCenterSurfacePoint().getY() ) );
-//        final ArrowNode leftLevelIndicator = new ArrowNode( new Point2D.Double( leftEdgeOfPlank.getX() - 30, leftEdgeOfPlank.getY() ),
-//                                                            leftEdgeOfPlank,
-//                                                            10,
-//                                                            10,
-//                                                            4 );
-//        rootNode.addChild( leftLevelIndicator );
-//        final ArrowNode rightLevelIndicator = new ArrowNode( new Point2D.Double( rightEdgeOfPlank.getX() + 30, rightEdgeOfPlank.getY() ),
-//                                                             rightEdgeOfPlank,
-//                                                             10,
-//                                                             10,
-//                                                             4 );
-//        rootNode.addChild( rightLevelIndicator );
-//        levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
-//            public void apply( Boolean showLevelIndicator ) {
-//                leftLevelIndicator.setVisible( showLevelIndicator );
-//                rightLevelIndicator.setVisible( showLevelIndicator );
-//            }
-//        } );
 
-        // TODO: Alternative level indicator #2
-        DoubleGeneralPath leftIndicatorPath = new DoubleGeneralPath() {{
+        Shape leftIndicatorShape = new DoubleGeneralPath() {{
             // Draw a sort of arrow head shape.
-            moveTo( leftEdgeOfPlank.getX() - 2, leftEdgeOfPlank.getY() );
-            lineTo( leftEdgeOfPlank.getX() - 20, leftEdgeOfPlank.getY() - 7 );
-            lineTo( leftEdgeOfPlank.getX() - 15, leftEdgeOfPlank.getY() );
-            lineTo( leftEdgeOfPlank.getX() - 20, leftEdgeOfPlank.getY() + 7 );
+            moveTo( 0, 0 );
+            lineTo( -40, -15 );
+            lineTo( -30, 0 );
+            lineTo( -40, 15 );
             closePath();
-        }};
-        final PPath leftLevelIndicator2 = new PhetPPath( leftIndicatorPath.getGeneralPath(), new BasicStroke( 1f ), Color.BLACK );
-        rootNode.addChild( leftLevelIndicator2 );
-        DoubleGeneralPath rightIndicatorPath = new DoubleGeneralPath() {{
-            // Draw a sort of arrow head shape.
-            moveTo( rightEdgeOfPlank.getX() + 2, rightEdgeOfPlank.getY() );
-            lineTo( rightEdgeOfPlank.getX() + 20, rightEdgeOfPlank.getY() + 7 );
-            lineTo( rightEdgeOfPlank.getX() + 15, rightEdgeOfPlank.getY() );
-            lineTo( rightEdgeOfPlank.getX() + 20, rightEdgeOfPlank.getY() - 7 );
-            closePath();
-        }};
-        final PPath rightLevelIndicator2 = new PhetPPath( rightIndicatorPath.getGeneralPath(), new BasicStroke( 1f ), Color.BLACK );
-        rootNode.addChild( rightLevelIndicator2 );
+        }}.getGeneralPath();
+        final PPath leftLevelIndicatorNode = new PhetPPath( leftIndicatorShape, new BasicStroke( 1f ), Color.BLACK );
+        leftLevelIndicatorNode.setOffset( leftEdgeOfPlank.getX() - 5, leftEdgeOfPlank.getY() );
+        rootNode.addChild( leftLevelIndicatorNode );
+
+        Shape rightIndicatorShape = AffineTransform.getScaleInstance( -1, 1 ).createTransformedShape( leftIndicatorShape );
+        final PPath rightLevelIndicatorNode = new PhetPPath( rightIndicatorShape, new BasicStroke( 1f ), Color.BLACK );
+        rightLevelIndicatorNode.setOffset( rightEdgeOfPlank.getX() + 5, rightEdgeOfPlank.getY() );
+        rootNode.addChild( rightLevelIndicatorNode );
+
         levelIndicatorVisibleProperty.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean showLevelIndicator ) {
-                leftLevelIndicator2.setVisible( showLevelIndicator );
-                rightLevelIndicator2.setVisible( showLevelIndicator );
+                leftLevelIndicatorNode.setVisible( showLevelIndicator );
+                rightLevelIndicatorNode.setVisible( showLevelIndicator );
             }
         } );
+
         model.getPlank().addShapeObserver( new SimpleObserver() {
             public void update() {
                 if ( Math.abs( model.getPlank().getTiltAngle() ) < Math.PI / 1000 ) {
-                    leftLevelIndicator2.setPaint( new Color( 173, 255, 47 ) );
-                    rightLevelIndicator2.setPaint( new Color( 173, 255, 47 ) );
+                    leftLevelIndicatorNode.setPaint( new Color( 173, 255, 47 ) );
+                    rightLevelIndicatorNode.setPaint( new Color( 173, 255, 47 ) );
                 }
                 else {
-                    leftLevelIndicator2.setPaint( Color.LIGHT_GRAY );
-                    rightLevelIndicator2.setPaint( Color.LIGHT_GRAY );
+                    leftLevelIndicatorNode.setPaint( Color.LIGHT_GRAY );
+                    rightLevelIndicatorNode.setPaint( Color.LIGHT_GRAY );
                 }
             }
         } );
