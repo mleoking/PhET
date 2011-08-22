@@ -16,5 +16,5 @@ public class MPColors {
 
     public static final Color PLATE_NEGATIVE_COLOR = new Color( 255, 255, 153 ); // pale yellow
     public static final Color PLATE_POSITIVE_COLOR = PLATE_NEGATIVE_COLOR;
-    public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;//new Color( 120, 120, 120 );
+    public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
 }
