@@ -21,7 +21,7 @@ public class MPConstants {
     public static final String PROJECT_NAME = "molecule-polarity";
 
     // Model
-    public static final DoubleRange ELECTRONEGATIVITY_RANGE = new DoubleRange( 0.7, 4, 2 );
+    public static final DoubleRange ELECTRONEGATIVITY_RANGE = new DoubleRange( 2, 4, 2 );
     public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.1;
 
     // Canvas
