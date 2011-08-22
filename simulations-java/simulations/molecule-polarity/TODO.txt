@@ -24,6 +24,7 @@ MEDIUM
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 - in Bond, we are setting partial charges of atoms to the delta EN. This works but isn't accurate, do we need a better model?
+- add title to Bond Type indicator
 
 LOW
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
