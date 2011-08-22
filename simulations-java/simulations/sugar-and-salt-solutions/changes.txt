@@ -1,3 +1,4 @@
+# 0.00.94 (55642) Aug 22, 2011
 Water tab: When the user drags back 2 sugar molecules to the bucket, recrystallize them
 Water tab: Add back as many waters as were deleted when the sucrose was added to the model to conserve water molecule count
 # 0.00.93 (55605) Aug 22, 2011
