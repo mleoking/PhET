@@ -272,8 +272,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                     double scale = 3;
                     ImmutableVector2D coulombForce = getCoulombForce( center, modelPosition, scale, -scale ).times( COULOMB_FORCE_SCALE_FACTOR );
 //                    System.out.println( "coulombForce = \t" + coulombForce.getMagnitude() );
-                    if ( coulombForce.getMagnitude() > 1E-5 ) {
-                        coulombForce = coulombForce.getInstanceOfMagnitude( 1E-5 );
+                    final double MAX_FORCE = 1E-5;
+                    if ( coulombForce.getMagnitude() > MAX_FORCE ) {
+                        coulombForce = coulombForce.getInstanceOfMagnitude( MAX_FORCE );
                     }
                     box2DAdapter.applyModelForce( coulombForce, modelPosition );
                 }
