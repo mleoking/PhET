@@ -7,9 +7,10 @@ DESIGN
 - location of molecular dipoles relative to molecules
 - better label for "Electron Density"
 - decide on final set of real molecules
-- improve Bond Type indicator
 
 HIGH
+- rewrite Bond Type indicator, title and labels inside, dual pointers above and below
+- partial charge model and view for atom B in triatomic molecule (A-B-C), sum 2 partial charges at B, locate 180 degrees from molecular dipole
 - bond dipole max length should be based on bond length, and should be slightly shorter to prevent overlap
 - add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
@@ -20,7 +21,6 @@ MEDIUM
 - add a developer control for setting play area color (piccolo-phet? see PiccoloPhetApplication)
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
-- partial charge model and view for atom B in triatomic molecule (A-B-C)
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 - in Bond, we are setting partial charges of atoms to the delta EN. This works but isn't accurate, do we need a better model?
 
