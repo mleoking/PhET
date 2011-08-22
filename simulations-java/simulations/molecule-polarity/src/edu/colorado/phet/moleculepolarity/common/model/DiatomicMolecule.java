@@ -18,7 +18,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 public class DiatomicMolecule implements IMolecule {
 
     private static final double ATOM_DIAMETER = 100;
-    private static final double BOND_LENGTH = 150;
+    private static final double BOND_LENGTH = 1.5 * ATOM_DIAMETER;
 
     public final Atom atomA, atomB; // the atoms labeled A and B
     public final Bond bond; // the bond connecting atoms A and B
