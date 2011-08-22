@@ -1,3 +1,5 @@
+# 0.00.16 (55638) Aug 22, 2011
+8/22/11 dev version for discussion with KL
 8/22/11 try another design for the Bond Type pointer, looks like a little bond [55631]
 8/22/11 change request: redesign Bond Type indicator, move labels inside track, dual pointers above/below track [55629]
 8/22/11 shorten max length of bond dipoles, so that vector tails don't run together for linear triatomic molecule
