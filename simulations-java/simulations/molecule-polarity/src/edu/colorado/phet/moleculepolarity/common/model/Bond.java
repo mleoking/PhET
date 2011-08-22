@@ -33,15 +33,14 @@ public class Bond {
 
                 // adjust dipole
                 final double deltaEN = atom2.electronegativity.get() - atom1.electronegativity.get();
-                double magnitude = Math.abs( deltaEN );
+                double magnitude = Math.abs( deltaEN ); // this is a simplification. in reality, magnitude is a function of deltaEN and many other things.
                 double angle = getAngle();
                 if ( deltaEN < 0 ) {
                     angle += Math.PI;
                 }
                 dipole.set( ImmutableVector2D.parseAngleAndMagnitude( magnitude, angle ) );
 
-                // adjust partial charges
-                //TODO this works, but partial charge is not equivalent to deltaEN. Do we need a more accurate model?
+                // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
                 atom1.partialCharge.set( -deltaEN );
                 atom2.partialCharge.set( deltaEN );
 
