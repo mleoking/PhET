@@ -30,7 +30,8 @@ public class BrickStackCreatorNode extends ModelElementCreatorNode {
         super( model, mvt, canvas );
         this.numBricks = numBricks;
         setSelectionNode( new BrickStackNode( new BrickStack( numBricks, new Point2D.Double( 0, 0 ) ), SCALING_MVT, canvas, new BooleanProperty( false ) ) );
-        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
+//        setPositioningOffset( 0, getSelectionNode().getFullBoundsReference().height / 2 );
+        setPositioningOffset( 0, -mvt.modelToViewDeltaY( BrickStack.BRICK_HEIGHT * numBricks / 2 ) );
         // TODO: i18n (units too)
         setCaption( BrickStack.BRICK_MASS * numBricks + " kg" );
     }

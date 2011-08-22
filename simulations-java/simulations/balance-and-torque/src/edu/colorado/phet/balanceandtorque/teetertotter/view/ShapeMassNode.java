@@ -16,9 +16,9 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * A node that represents a mass that is described by a particular shape (as
@@ -41,8 +41,8 @@ public class ShapeMassNode extends PNode {
 
     private final PhetPPath shapeNode;
 
-    private final PText massLabel = new PText( "uninitialized" ) {{
-        setFont( new PhetFont( 18 ) );
+    private final HTMLNode massLabel = new HTMLNode( "uninitialized" ) {{
+        setFont( new PhetFont( 14 ) );
     }};
 
     //-------------------------------------------------------------------------
@@ -56,7 +56,7 @@ public class ShapeMassNode extends PNode {
         // Create and add the mass label.
         DecimalFormat formatter = new DecimalFormat( "##" );
         // TODO: i18n, including order and units!
-        massLabel.setText( formatter.format( mass.getMass() ) + " kg" );
+        massLabel.setHTML( formatter.format( mass.getMass() ) + "<br>kg" );
         addChild( massLabel );
 
         // Control visibility of the mass label.
@@ -76,8 +76,8 @@ public class ShapeMassNode extends PNode {
             public void apply( Shape shape ) {
                 Shape zeroOffsetShape = AffineTransform.getTranslateInstance( -mvt.modelToViewX( 0 ), -mvt.modelToViewY( 0 ) ).createTransformedShape( mvt.modelToView( shape ) );
                 shapeNode.setPathTo( zeroOffsetShape );
-                massLabel.setScale( 1 );
-                massLabel.setScale( shapeNode.getFullBoundsReference().width * 0.9 / massLabel.getFullBoundsReference().width );
+//                massLabel.setScale( 1 );
+//                massLabel.setScale( Math.min( shapeNode.getFullBoundsReference().width * 0.9 / massLabel.getFullBoundsReference().width, 1 ) );
                 massLabel.setOffset( shapeNode.getFullBoundsReference().getCenterX() - massLabel.getFullBoundsReference().width / 2,
                                      shapeNode.getFullBoundsReference().getY() - massLabel.getFullBoundsReference().height );
                 updatePositionAndAngle();
