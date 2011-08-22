@@ -1,3 +1,4 @@
+8/22/11 move gradient color specifications to MPColors, for reuse in 2D surfaces
 # 0.00.16 (55638) Aug 22, 2011
 8/22/11 dev version for discussion with KL
 8/22/11 try another design for the Bond Type pointer, looks like a little bond [55631]

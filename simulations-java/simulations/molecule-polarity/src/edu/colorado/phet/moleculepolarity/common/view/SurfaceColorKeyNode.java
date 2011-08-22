@@ -32,60 +32,21 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     // Color key for "electron density" surface representation.
     public static class ElectronDensityColorKeyNode extends SurfaceColorKeyNode {
         public ElectronDensityColorKeyNode() {
-            super( new Color[] { Color.WHITE, Color.BLACK },
-                   MPStrings.ELECTRON_DENSITY, MPStrings.LESS, MPStrings.MORE );
+            super( MPColors.BW_GRADIENT, MPStrings.ELECTRON_DENSITY, MPStrings.LESS, MPStrings.MORE );
         }
     }
 
     // Color key for primary "electrostatic potential" surface representation.
     public static class ElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public ElectrostaticPotentialColorKeyNode() {
-            super( new Color[] { Color.BLUE, Color.WHITE, Color.RED },
-                   MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
+            super( MPColors.RWB_GRADIENT, MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
 
-    /*
-     * Color key for secondary "electrostatic potential" surface representation.
-     * We're using the Jmol roygb gradient, documented at http://jmol.sourceforge.net/jscolors/#gradnt.
-     * A copy of the Jmol gradients image shown at this link is also checked into this sim's doc directory.
-     * The colors below were acquired from the roygb gradient shown in this image.
-     */
+    // Color key for secondary "electrostatic potential" surface representation.
     public static class RainbowElectrostaticPotentialColorKeyNode extends SurfaceColorKeyNode {
         public RainbowElectrostaticPotentialColorKeyNode() {
-            super( new Color[] {
-                    Color.BLUE,
-                    new Color( 0, 30, 242 ),
-                    new Color( 0, 60, 239 ),
-                    new Color( 0, 89, 236 ),
-                    new Color( 0, 121, 242 ),
-                    new Color( 0, 153, 244 ),
-                    new Color( 0, 184, 244 ),
-                    new Color( 0, 247, 247 ),
-                    new Color( 0, 243, 217 ),
-                    new Color( 0, 250, 188 ),
-                    new Color( 0, 247, 155 ),
-                    new Color( 0, 247, 124 ),
-                    new Color( 0, 247, 93 ),
-                    new Color( 0, 244, 31 ),
-                    new Color( 0, 244, 0 ),
-                    MPColors.NEUTRAL_GREEN,
-                    new Color( 61, 242, 0 ),
-                    new Color( 93, 247, 0 ),
-                    new Color( 121, 247, 0 ),
-                    new Color( 180, 242, 0 ),
-                    new Color( 217, 247, 0 ),
-                    new Color( 227, 227, 0 ),
-                    new Color( 242, 242, 0 ),
-                    new Color( 244, 230, 0 ),
-                    new Color( 244, 214, 0 ),
-                    new Color( 247, 155, 0 ),
-                    new Color( 247, 124, 0 ),
-                    new Color( 247, 93, 0 ),
-                    new Color( 247, 62, 0 ),
-                    new Color( 242, 30, 0 ),
-                    Color.RED },
-                   MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
+            super( MPColors.ROYGB_GRADIENT, MPStrings.ELECTROSTATIC_POTENTIAL, MPStrings.POSITIVE, MPStrings.NEGATIVE );
         }
     }
 
