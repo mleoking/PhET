@@ -21,7 +21,7 @@ public class MPColors {
     // Color used for potential=0 by Jmol in roygb gradient, see http://jmol.sourceforge.net/jscolors/#gradnt
     public static final Color NEUTRAL_GREEN = new Color( 31, 247, 0 );
 
-    // Gradient used for electron density, less to more.
+    // Gradient used for electron density, more to less.
     public static final Color[] BW_GRADIENT = new Color[] { Color.BLACK, Color.WHITE };
 
     // Primary gradient for molecular electrostatic polarity (mep), negative to positive.
