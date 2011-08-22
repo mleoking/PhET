@@ -28,6 +28,6 @@ public class MiniBeakerNode extends PNode {
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 255 ) ) );
 
         //Make it smaller so it will fit on the screen
-        scale( 0.34 * 0.5 );
+        scale( 0.17 );
     }
 }
