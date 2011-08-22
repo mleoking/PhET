@@ -134,7 +134,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
                     //Re-center the node since it will have a different location at its full scale
                     if ( inBucket.get() ) {
-                        centerInBucket();
+                        moveToBucket();
                         inBucket.set( false );
                     }
                 }
@@ -163,7 +163,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
                     //Shrink the node and send it back to the bucket
                     setIcon( true );
-                    centerInBucket();
+                    moveToBucket();
                     inBucket.set( true );
                     canvas.removeChild( CompoundListNode.this );
                     sugarBucketParticleLayer.addChild( CompoundListNode.this );
@@ -184,16 +184,16 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     public void setIcon( boolean icon ) {
 
         //Shrink it to be a small icon version so it will fit in the bucket
-        atomLayer.setScale( icon ? 0.36 : 1 );
+        atomLayer.setScale( icon ? 0.45 : 1 );
     }
 
     //Center the node in the bucket, must be called after scaling and attaching to the parent.
-    public void centerInBucket() {
+    public void moveToBucket() {
 
-        //Find out how far to translate the compounds to center on the bucket hole
+        //Find out how far to translate the compounds to center on the top middle of the bucket hole
         Point2D crystalCenter = atomLayer.getGlobalFullBounds().getCenter2D();
-        Point2D bucketCenter = bucketView.getHoleNode().getGlobalFullBounds().getCenter2D();
-        ImmutableVector2D globalDelta = new ImmutableVector2D( crystalCenter, bucketCenter );
+        Point2D topCenterOfBucketHole = new Point2D.Double( bucketView.getHoleNode().getGlobalFullBounds().getCenterX(), bucketView.getHoleNode().getGlobalFullBounds().getMinY() );
+        ImmutableVector2D globalDelta = new ImmutableVector2D( crystalCenter, topCenterOfBucketHole );
 
         //Convert to canvas coordinate frame (stage) to account for different frame sizes
         Dimension2D canvasDelta = canvas.getRootNode().globalToLocal( new PDimension( globalDelta.getX(), globalDelta.getY() ) );
