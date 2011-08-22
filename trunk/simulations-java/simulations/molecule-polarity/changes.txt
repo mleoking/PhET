@@ -1,3 +1,4 @@
+8/22/11 document our simplified relationship between deltaEN, bond dipole and partial charge
 8/22/11 remove "more" from range labels on Bond Type indicator
 8/22/11 use 31 colors for rainbow gradient, as shown for "Jmol roygb" at http://jmol.sourceforge.net/jscolors/#gradnt
 8/22/11 remove surface features from "Three Atoms" tab, since we're creating molecules that are impossible to create surfaces for
