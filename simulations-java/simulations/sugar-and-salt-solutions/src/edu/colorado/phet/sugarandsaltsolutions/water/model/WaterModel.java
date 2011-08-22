@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -138,6 +139,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Flag to enable/disable the jbox2D DebugDraw mode, which shows the box2d model and computations
     private boolean useDebugDraw = false;
+
+    //Keep track of how many waters get deleted when sucrose molecule is dropped so they can be added back when the user grabs the sucrose molecule
+    private final HashMap<Compound<SphericalParticle>, Integer> deletedWaterCount = new HashMap<Compound<SphericalParticle>, Integer>();
 
     //Convenience adapters for reuse with CompoundListNode for adding/removing crystals or molecules
     public final VoidFunction1<Sucrose> addSucrose = new VoidFunction1<Sucrose>() {
@@ -467,6 +471,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             world.destroyBody( box2DAdapter.body );
             box2DAdapters.remove( box2DAdapter );
         }
+
+        //Store the number of deleted waters so they can be added back if/when the user grabs the sucrose molecule
+        deletedWaterCount.put( compound, toRemove.size() );
     }
 
     //Find the Box2DAdapters for the specified water molecules, used for removing intersecting water when crystals are added by the user
@@ -532,6 +539,28 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             //Remove the sucrose itself
             sucroseList.remove( sucrose );
             sucroseList.remove( sucrose );
+
+            //Add back as many waters as were deleted when the sucrose was added to the model to conserve water molecule count
+            addWaterWhereSucroseWas( sucrose );
+        }
+    }
+
+    //Add back as many waters as were deleted when the sucrose was added to the model to conserve water molecule count
+    private void addWaterWhereSucroseWas( Sucrose sucrose ) {
+
+        //First make sure we only add back missing molecules once for each time they were removed to conserve water molecule count
+        if ( deletedWaterCount.containsKey( sucrose ) ) {
+            int numWatersToAdd = deletedWaterCount.get( sucrose );
+
+            //Randomly distribute the new water molecules in the region of the sucrose that was removed
+            final Rectangle2D bounds = sucrose.getShape().getBounds2D();
+            for ( int i = 0; i < numWatersToAdd; i++ ) {
+                addWaterMolecule( randomBetweenMinusOneAndOne() * bounds.getWidth() + bounds.getCenterX(),
+                                  randomBetweenMinusOneAndOne() * bounds.getHeight() + bounds.getCenterY(), random.nextDouble() * 2 * Math.PI );
+            }
+
+            //Remove from the map to indicate we have accounted for the removed water particles
+            deletedWaterCount.remove( sucrose );
         }
     }
 

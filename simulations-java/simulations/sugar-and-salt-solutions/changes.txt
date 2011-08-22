@@ -1,3 +1,4 @@
+Water tab: Add back as many waters as were deleted when the sucrose was added to the model to conserve water molecule count
 # 0.00.93 (55605) Aug 22, 2011
 Water tab: Added a force to help dissolve salt
 Water tab: Added Cl- and Na+ labels on salt ions
