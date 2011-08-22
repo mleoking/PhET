@@ -227,7 +227,6 @@ public class JmolViewerNode extends PhetPNode {
             }
             doScript( "label " + args );
             doScript( "set labelalignment center; set labeloffset 0 0" );  // center labels on atoms
-            doScript( "set labelfront" ); // make labels float in front of atoms
             doScript( "color labels black" ); // color for all labels
             doScript( "font labels 18 sanserif" ); // font for all labels
         }

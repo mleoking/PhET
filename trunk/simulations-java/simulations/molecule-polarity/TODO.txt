@@ -5,7 +5,6 @@ DESIGN
 - how should the dipoles scale?
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
-- location of atom labels and partial charges in "Real Molecules" tab (offset or centered? always in front, or allow occlusion?)
 - better label for "Electron Density"
 - decide on final set of real molecules
 - improve Bond Type indicator
@@ -28,7 +27,6 @@ MEDIUM
 LOW
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - add icons to control panels (dipoles, partial charge, mep,...)
-- Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
 - Jmol: how to show partial charges independently of atom labels?
 - PartialChargeNode's offset looks a little weird as molecule is rotated
