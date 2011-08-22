@@ -1,3 +1,4 @@
+8/22/11 change request: redesign Bond Type indicator, move labels inside track, dual pointers above/below track
 8/22/11 shorten max length of bond dipoles, so that vector tails don't run together for linear triatomic molecule
 8/22/11 document our simplified relationship between deltaEN, bond dipole and partial charge
 8/22/11 remove "more" from range labels on Bond Type indicator
