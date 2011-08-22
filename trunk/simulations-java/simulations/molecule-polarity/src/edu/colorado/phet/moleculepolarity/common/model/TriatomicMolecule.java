@@ -18,7 +18,7 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 public class TriatomicMolecule implements IMolecule {
 
     private static final double ATOM_DIAMETER = 100;
-    private static final double BOND_LENGTH = 150;
+    private static final double BOND_LENGTH = 1.5 * ATOM_DIAMETER;
 
     public final Atom atomA, atomB, atomC; // the atoms labeled A, B, C
     public final Bond bondAB; // the bond connecting atoms A and B
