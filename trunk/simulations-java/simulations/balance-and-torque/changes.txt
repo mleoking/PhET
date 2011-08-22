@@ -1,3 +1,4 @@
+Made the ruler transparent.
 Made the attachment bar very short - essentially looks like plank is just below the pivot.
 Enlarged and finalized the level indicators.
 # 0.00.06 (55247) Aug 15, 2011

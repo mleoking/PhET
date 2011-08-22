@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.balanceandtorque.teetertotter.view;
 
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
@@ -25,6 +26,7 @@ public class RotatingRulerNode extends PNode {
                                                    "m",
                                                    0,
                                                    12 );
+        rulerNode.setBackgroundPaint( new Color( 236, 225, 113, 150 ) );
         addChild( rulerNode );
         // Observe visibility property.
         visibleProperty.addObserver( new VoidFunction1<Boolean>() {
