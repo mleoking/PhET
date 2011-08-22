@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.geom.Rectangle2D;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.model.Bucket;
@@ -73,7 +75,11 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     //Model view transform from model to stage coordinates
     protected final ModelViewTransform transform;
 
+    //The water model
+    private final WaterModel model;
+
     public WaterCanvas( final WaterModel model, final GlobalState state ) {
+        this.model = model;
         sucrose3DDialog = new Sucrose3DDialog( state.frame );
 
         //Use the background color specified in the backgroundColor, since it is changeable in the developer menu
@@ -148,6 +154,16 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         addChild( sugarBucketParticleLayer );
         addChild( sugarBucket.getFrontNode() );
 
+        //When the sugar bucket gets two children, then clear it out and add back the original sugar crystal
+        //So the sucrose molecules will act as a single large 2-molecule crystal
+        sugarBucketParticleLayer.addPropertyChangeListener( PNode.PROPERTY_CHILDREN, new PropertyChangeListener() {
+            public void propertyChange( PropertyChangeEvent evt ) {
+                if ( sugarBucketParticleLayer.getChildrenCount() == 2 ) {
+                    addSugarToBucket();
+                }
+            }
+        } );
+
         //Add clock controls for pause/play/step
         addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
             setOffset( controlPanel.getFullBounds().getMaxX() + INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
@@ -206,14 +222,14 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         } );
 
         //Start out the buckets with salt and sugar
-        addSaltToBucket( model, transform );
-        addSugarToBucket( model, transform );
+        addSaltToBucket();
+        addSugarToBucket();
 
         //When the sim resets, put the sugar and salt back in the buckets
         model.addResetListener( new VoidFunction0() {
             public void apply() {
-                addSaltToBucket( model, transform );
-                addSugarToBucket( model, transform );
+                addSaltToBucket();
+                addSugarToBucket();
             }
         } );
     }
@@ -229,7 +245,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     }
 
     //Puts a single salt crystal in the sugar bucket for the user to drag out
-    public void addSaltToBucket( final WaterModel model, final ModelViewTransform transform ) {
+    public void addSaltToBucket() {
         saltBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal that the user will drag
@@ -256,7 +272,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     }
 
     //Puts a single sugar crystal in the salt bucket for the user to grab
-    public void addSugarToBucket( final WaterModel model, final ModelViewTransform transform ) {
+    public void addSugarToBucket() {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal that the user will drag
