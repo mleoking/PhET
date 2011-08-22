@@ -1,4 +1,4 @@
-8/21/11 add title to Bond Type indicator, flip arrow to point up for now
+8/21/11 add title to Bond Type indicator, flip arrow to point up for now, use lowercase for range labels to be consistent
 8/21/11 add cyan to rainbow mep color key, trying to match Jmol's color scheme
 8/21/11 restore titles with smaller non-bold font
 # 0.00.14 (55578) Aug 21, 2011
