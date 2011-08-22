@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.common.phetcommon.util.DoubleRange;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
@@ -24,6 +25,8 @@ public class DiatomicIsosurfaceNode extends PComposite {
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
 
     private final DiatomicMolecule molecule;
+    private final DoubleRange electronegativityRange;
+    private final Color[] colors;
     private final PPath pathNode;
 
     /**
@@ -32,9 +35,11 @@ public class DiatomicIsosurfaceNode extends PComposite {
      * @param molecule
      * @param colors   color scheme for the surface, ordered from negative to positive
      */
-    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule, Color[] colors ) {
+    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule, DoubleRange electronegativityRange, Color[] colors ) {
 
         this.molecule = molecule;
+        this.electronegativityRange = electronegativityRange;
+        this.colors = colors;
 
         this.pathNode = new PPath() {{
             setStroke( null );

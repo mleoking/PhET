@@ -1,3 +1,4 @@
+8/22/11 prepare 2D isosurface by adding constructor args that will be needed for coloring
 8/22/11 remove nodes related to surfaces from "Three Atoms" canvas
 8/22/11 reverse order of colors in gradient specifications, to match Jmol naming conventions (negative-to-positive)
 8/22/11 move gradient color specifications to MPColors, for reuse in 2D surfaces
