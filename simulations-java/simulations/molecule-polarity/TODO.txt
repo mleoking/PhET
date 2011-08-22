@@ -28,19 +28,16 @@ MEDIUM
 
 LOW
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
-- custom cursor for molecule rotation
-- custom cursor for bond angle manipulation
 - add icons to control panels (dipoles, partial charge, mep,...)
 - Jmol: add a "+" sign to positive partial change values (eg, "d=+0.42")
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
 - Jmol: how to show partial charges independently of atom labels?
 - PartialChargeNode's offset looks a little weird as molecule is rotated
 - add a unity mvt, for insurance?
-- rewrite BondDipoleNode, it's overly complicated because it doesn't use dipole angle
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - Jmol: how to set a transparent background for the viewer?
 - delete TestMepCalculation
-- delete unneeded keep statement from molecule-polarity.pro
+- delete unneeded keep statements from molecule-polarity.pro
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
