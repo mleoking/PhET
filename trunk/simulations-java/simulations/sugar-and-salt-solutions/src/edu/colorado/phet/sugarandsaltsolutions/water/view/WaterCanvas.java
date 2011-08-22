@@ -128,16 +128,11 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         }};
         addChild( controlPanel );
 
-        //DEBUGGING
-//        waterModel.k.trace( "k" );
-//        waterModel.pow.trace( "pow" );
-//        waterModel.randomness.trace( "randomness" );
-
         //Create the salt and sugar buckets so salt and sugar can be dragged into the play area
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
-        Dimension2DDouble bucketSize = new Dimension2DDouble( 140, 70 );
+        Dimension2DDouble bucketSize = new Dimension2DDouble( 180, 70 );
         sugarBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2 + 210, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
         saltBucket = new BucketView( new Bucket( canvasSize.getWidth() / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
 
@@ -268,7 +263,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         saltBucketParticleLayer.addChild( compoundListNode );
 
         //Center it on the bucket hole after it has been added to the layer
-        compoundListNode.centerInBucket();
+        compoundListNode.moveToBucket();
     }
 
     //Puts a single sugar crystal in the salt bucket for the user to grab
@@ -292,7 +287,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         sugarBucketParticleLayer.addChild( compoundListNode );
 
         //Center it on the bucket hole after it has been added to the layer
-        compoundListNode.centerInBucket();
+        compoundListNode.moveToBucket();
     }
 
     public void addChild( PNode node ) {
