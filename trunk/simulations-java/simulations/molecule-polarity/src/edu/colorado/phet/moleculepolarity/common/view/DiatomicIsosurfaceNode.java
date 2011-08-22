@@ -9,12 +9,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.moleculepolarity.common.control.MoleculeRotationHandler;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
-import edu.colorado.phet.moleculepolarity.common.model.IMolecule;
+import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * 2D isosurface for a molecule.
+ * 2D isosurface for a diatomic molecule.
  * Jmol's method of computing isosurface is documented at http://people.reed.edu/~alan/ACS97/elpot.html
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
@@ -23,10 +23,16 @@ public class DiatomicIsosurfaceNode extends PComposite {
 
     private static final double DIAMETER_SCALE = 2; // multiply atom diameters by this scale when computing surface size
 
-    private final IMolecule molecule;
+    private final DiatomicMolecule molecule;
     private final PPath pathNode;
 
-    public DiatomicIsosurfaceNode( final IMolecule molecule ) {
+    /**
+     * Constructor
+     *
+     * @param molecule
+     * @param colors   color scheme for the surface, ordered from negative to positive
+     */
+    public DiatomicIsosurfaceNode( final DiatomicMolecule molecule, Color[] colors ) {
 
         this.molecule = molecule;
 
@@ -45,7 +51,7 @@ public class DiatomicIsosurfaceNode extends PComposite {
             atom.location.addObserver( observer );
         }
 
-        addInputEventListener( new CursorHandler() ); //TODO change cursor to indicate rotation
+        addInputEventListener( new CursorHandler() );
         addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
     }
 
