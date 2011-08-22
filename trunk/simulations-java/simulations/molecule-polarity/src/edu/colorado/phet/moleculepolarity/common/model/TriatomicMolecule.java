@@ -59,6 +59,20 @@ public class TriatomicMolecule implements IMolecule {
             }
         };
         molecularDipoleUpdater.observe( bondAB.dipole, bondBC.dipole );
+
+        // update partial charges
+        RichSimpleObserver enObserver = new RichSimpleObserver() {
+            @Override public void update() {
+                final double deltaAB = atomA.electronegativity.get() - atomB.electronegativity.get();
+                final double deltaCB = atomC.electronegativity.get() - atomB.electronegativity.get();
+                // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
+                atomA.partialCharge.set( -deltaAB );
+                atomC.partialCharge.set( -deltaCB );
+                // atom B's participates in 2 bonds, so its partial charge is the sum
+                atomB.partialCharge.set( deltaAB + deltaCB );
+            }
+        };
+        enObserver.observe( atomA.electronegativity, atomB.electronegativity, atomC.electronegativity );
     }
 
     public void reset() {

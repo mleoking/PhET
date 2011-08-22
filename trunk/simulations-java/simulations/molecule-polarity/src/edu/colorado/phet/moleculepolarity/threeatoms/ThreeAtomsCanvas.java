@@ -40,6 +40,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         PNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
         final PNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
+        final PNode partialChargeNodeB = new PartialChargeNode( model.molecule.atomB, model.molecule.bondBC ); //TODO position this charge opposite molecular dipole
         final PNode partialChargeNodeC = new PartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
         final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB, DIPOLE_SCALE );
         final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC, DIPOLE_SCALE );
@@ -68,6 +69,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
             // molecule
             addChild( moleculeNode );
             addChild( partialChargeNodeA );
+            addChild( partialChargeNodeB );
             addChild( partialChargeNodeC );
             addChild( bondDipoleABNode );
             addChild( bondDipoleBCNode );
@@ -106,7 +108,7 @@ public class ThreeAtomsCanvas extends MPCanvas {
             viewProperties.partialChargesVisible.addObserver( new VoidFunction1<Boolean>() {
                 public void apply( Boolean visible ) {
                     partialChargeNodeA.setVisible( visible );
-                    //TODO set visibility of partial changes for atom B
+                    partialChargeNodeB.setVisible( visible );
                     partialChargeNodeC.setVisible( visible );
                 }
             } );

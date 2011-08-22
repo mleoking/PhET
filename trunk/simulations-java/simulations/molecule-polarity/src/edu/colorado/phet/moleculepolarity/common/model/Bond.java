@@ -40,10 +40,6 @@ public class Bond {
                 }
                 dipole.set( ImmutableVector2D.parseAngleAndMagnitude( magnitude, angle ) );
 
-                // in our simplified model, partial charge and deltaEN are equivalent. not so in the real world.
-                atom1.partialCharge.set( -deltaEN );
-                atom2.partialCharge.set( deltaEN );
-
                 deltaElectronegativity.set( deltaEN ); //TODO remove this
             }
         };
