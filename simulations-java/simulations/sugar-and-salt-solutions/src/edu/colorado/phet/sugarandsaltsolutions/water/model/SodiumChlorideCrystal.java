@@ -4,7 +4,11 @@ package edu.colorado.phet.sugarandsaltsolutions.water.model;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
+
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.CHLORIDE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SODIUM;
 
 /**
  * In order to treat sucrose and sodium chloride uniformly in the water tab, we use two levels of hierarchy for each:
@@ -23,7 +27,7 @@ public class SodiumChlorideCrystal extends Crystal<SaltIon> {
 
     //Randomly choose an initial particle for the crystal lattice
     public SaltIon createSeed() {
-        return random.nextBoolean() ? new SaltIon( new edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium() ) : new SaltIon( new Chloride() );
+        return random.nextBoolean() ? new SaltIon( new SphericalParticle.Sodium(), SODIUM ) : new SaltIon( new Chloride(), CHLORIDE );
     }
 
     //Determine whether Na or Cl should be removed from the crystal when dissolving to maintain the ionic balance
