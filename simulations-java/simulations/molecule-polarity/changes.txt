@@ -1,3 +1,4 @@
+8/22/11 shorten max length of bond dipoles, so that vector tails don't run together for linear triatomic molecule
 8/22/11 document our simplified relationship between deltaEN, bond dipole and partial charge
 8/22/11 remove "more" from range labels on Bond Type indicator
 8/22/11 use 31 colors for rainbow gradient, as shown for "Jmol roygb" at http://jmol.sourceforge.net/jscolors/#gradnt
