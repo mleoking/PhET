@@ -20,7 +20,7 @@ public class BrickStack extends ShapeMass {
     //-------------------------------------------------------------------------
 
     private static final double BRICK_WIDTH = 0.2; // In meters.
-    private static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
+    public static final double BRICK_HEIGHT = BRICK_WIDTH / 3;
     public static final double BRICK_MASS = 5; // In kg.
 
     //-------------------------------------------------------------------------
