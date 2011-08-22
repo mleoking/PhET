@@ -19,6 +19,7 @@ HIGH
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
 MEDIUM
+- add a developer control for setting play area color (piccolo-phet? see PiccoloPhetApplication)
 - better label for "Electron Density"
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
