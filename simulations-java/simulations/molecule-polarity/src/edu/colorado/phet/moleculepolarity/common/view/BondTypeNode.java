@@ -34,19 +34,20 @@ public class BondTypeNode extends PComposite {
     private static final Dimension THUMB_SIZE = new Dimension( 15, 30 );
     private static final Font TITLE_FONT = new PhetFont( 12 );
     private static final Font LABEL_FONT = new PhetFont( 12 );
-    private static final double Y_SPACING = 3;
+    private static final double X_INSET = 0;
+    private static final double Y_SPACING = 2;
 
     private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_SIZE.width );
 
     public BondTypeNode( DiatomicMolecule molecule ) {
 
-        PText titleNode = new PText( MPStrings.BOND_TYPE ) {{
-            setFont( TITLE_FONT );
-        }};
-
         // the track that represents the continuum
         PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
             setPaint( Color.BLACK );
+        }};
+
+        PText titleNode = new PText( "\u2190 " + MPStrings.BOND_TYPE + " \u2192" ) {{
+            setFont( TITLE_FONT );
         }};
 
         // label at the max end
@@ -60,7 +61,7 @@ public class BondTypeNode extends PComposite {
         }};
 
         // thumb that moves along the track, not interactive
-        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
+        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
         thumbNode.setPaint( Color.LIGHT_GRAY );
 
         // rendering order
@@ -71,12 +72,13 @@ public class BondTypeNode extends PComposite {
         addChild( thumbNode );
 
         // layout
-        titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
-        trackNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + Y_SPACING );
+        trackNode.setOffset( 0, 0 );
+        titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                             trackNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         thumbNode.setOffset( trackNode.getOffset() );
-        minLabelNode.setOffset( trackNode.getFullBoundsReference().getMinX(),
+        minLabelNode.setOffset( trackNode.getFullBoundsReference().getMinX() + X_INSET,
                                 trackNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth(),
+        maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth() - X_INSET,
                                 trackNode.getFullBoundsReference().getMaxY() + Y_SPACING );
 
         // when difference in electronegativity changes, move the thumb
