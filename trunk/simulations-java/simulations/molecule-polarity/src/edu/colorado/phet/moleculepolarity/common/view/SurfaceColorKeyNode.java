@@ -25,8 +25,8 @@ public abstract class SurfaceColorKeyNode extends PComposite {
     private static final Dimension SIZE = new Dimension( 400, 20 );
     private static final Font TITLE_FONT = new PhetFont( 12 );
     private static final Font RANGE_FONT = new PhetFont( 12 );
-    private static final double Y_SPACING = 3;
-    private static final double X_INSET = 5;
+    private static final double X_INSET = 0;
+    private static final double Y_SPACING = 2;
 
     // Color key for "electron density" surface representation.
     public static class ElectronDensityColorKeyNode extends SurfaceColorKeyNode {
@@ -81,7 +81,7 @@ public abstract class SurfaceColorKeyNode extends PComposite {
         spectrumNode.addChild( new PPath( spectrumShape ) );
 
         // labels
-        PText titleNode = new PText( title ) {{
+        PText titleNode = new PText( "\u2190 " + title + " \u2192" ) {{
             setFont( TITLE_FONT );
         }};
         PText leftLabelNode = new PText( leftLabel ) {{
@@ -98,8 +98,9 @@ public abstract class SurfaceColorKeyNode extends PComposite {
         addChild( rightLabelNode );
 
         // layout
-        spectrumNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + Y_SPACING );
-        titleNode.setOffset( spectrumNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        spectrumNode.setOffset( 0, 0 );
+        titleNode.setOffset( spectrumNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                             spectrumNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         leftLabelNode.setOffset( spectrumNode.getFullBoundsReference().getMinX() + X_INSET,
                                  spectrumNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         rightLabelNode.setOffset( spectrumNode.getFullBoundsReference().getMaxX() - rightLabelNode.getFullBoundsReference().getWidth() - X_INSET,

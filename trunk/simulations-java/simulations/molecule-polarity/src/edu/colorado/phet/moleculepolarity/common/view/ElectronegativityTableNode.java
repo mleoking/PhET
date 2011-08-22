@@ -25,6 +25,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public class ElectronegativityTableNode extends PComposite {
 
+    private static final double Y_SPACING = 2;
+
     private final ArrayList<Cell> cells;
 
     public ElectronegativityTableNode( final JmolViewerNode viewerNode ) {
@@ -47,7 +49,7 @@ public class ElectronegativityTableNode extends PComposite {
         // layout cells, first and last cells are horizontally separated from others
         final double xGap = 12;
         double x = 0;
-        final double y = titleNode.getFullBoundsReference().getHeight() + 3;
+        final double y = 0;
         Cell firstCell = cells.get( 0 );
         addChild( firstCell );
         firstCell.setOffset( x, y );
@@ -64,7 +66,8 @@ public class ElectronegativityTableNode extends PComposite {
         lastCell.setOffset( x, y );
 
         // center title above cells
-        titleNode.setOffset( ( lastCell.getFullBoundsReference().getMaxX() - firstCell.getFullBoundsReference().getMinX() ) / 2 - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        titleNode.setOffset( ( lastCell.getFullBoundsReference().getMaxX() - firstCell.getFullBoundsReference().getMinX() ) / 2 - ( titleNode.getFullBoundsReference().getWidth() / 2 ),
+                             lastCell.getFullBoundsReference().getMaxY() + Y_SPACING );
 
         // when the current molecule changes, ask Jmol for the molecule's elements and colors
         viewerNode.molecule.addObserver( new SimpleObserver() {
