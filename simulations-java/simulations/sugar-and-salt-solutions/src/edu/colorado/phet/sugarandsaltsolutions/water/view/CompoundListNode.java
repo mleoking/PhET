@@ -55,7 +55,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     private T[] compounds;
 
     //Flag to keep track of whether the node was dragged from the bucket; if so, model elements will be created when dropped into the particle window
-    private boolean inBucket = true;
+    public final Property<Boolean> inBucket = new Property<Boolean>( true );
 
     public CompoundListNode( final ModelViewTransform transform, final WaterModel model, BucketView bucketView, final PNode sugarBucketParticleLayer, final WaterCanvas canvas,
 
@@ -133,9 +133,9 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                     canvas.addChild( CompoundListNode.this );
 
                     //Re-center the node since it will have a different location at its full scale
-                    if ( inBucket ) {
+                    if ( inBucket.get() ) {
                         centerInBucket();
-                        inBucket = false;
+                        inBucket.set( false );
                     }
                 }
 
@@ -164,7 +164,7 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                     //Shrink the node and send it back to the bucket
                     setIcon( true );
                     centerInBucket();
-                    inBucket = true;
+                    inBucket.set( true );
                     canvas.removeChild( CompoundListNode.this );
                     sugarBucketParticleLayer.addChild( CompoundListNode.this );
 
@@ -206,6 +206,6 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     }
 
     public void setInBucket( boolean inBucket ) {
-        this.inBucket = inBucket;
+        this.inBucket.set( inBucket );
     }
 }
