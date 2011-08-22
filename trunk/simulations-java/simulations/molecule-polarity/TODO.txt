@@ -19,6 +19,7 @@ HIGH
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
 MEDIUM
+- better label for "Electron Density"
 - clean up canvas layout code in all tabs, base layout on molecule location
 - canvas centering strategy
 - partial charge model and view for atom B in triatomic molecule (A-B-C)
