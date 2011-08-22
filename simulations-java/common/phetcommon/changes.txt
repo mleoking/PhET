@@ -1,5 +1,4 @@
 8/20/11 Rewrote ImmutableVector2D.getDistance to run faster, this single change reduces application time from 15% to 1% in sugar-and-salt-solutions WaterModel as determined by jprofiler
-8/18/11 added VIOLET and INDIGO to VisibleColor
 8/16/11 Fixed implementation of SettableNot and added improved tests, see #3045
 8/12/11 added Arrow.getHeadScale, see #3039
 8/3/11 Removed NotImplementedException and implemented ObservableList.retainAll, see #3033
