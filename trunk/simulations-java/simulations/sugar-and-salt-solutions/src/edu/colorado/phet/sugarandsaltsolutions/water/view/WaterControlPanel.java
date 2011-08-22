@@ -75,8 +75,8 @@ public class WaterControlPanel extends ControlPanelNode {
                             waterModel.reset();
 
                             //When the module is reset, but the salt and sugar back in the buckets
-                            waterCanvas.addSaltToBucket( waterModel, waterCanvas.getModelViewTransform() );
-                            waterCanvas.addSugarToBucket( waterModel, waterCanvas.getModelViewTransform() );
+                            waterCanvas.addSaltToBucket();
+                            waterCanvas.addSugarToBucket();
 
                             sucrose3DDialog.reset();
                         }
