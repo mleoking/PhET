@@ -39,6 +39,10 @@ public class BondTypeNode extends PComposite {
 
     public BondTypeNode( DiatomicMolecule molecule ) {
 
+        PText titleNode = new PText( MPStrings.BOND_TYPE ) {{
+            setFont( new PhetFont( 12 ) );
+        }};
+
         // the track that represents the continuum
         PNode trackNode = new PPath( new Rectangle2D.Double( 0, 0, TRACK_SIZE.width, TRACK_SIZE.height ) ) {{
             setPaint( Color.BLACK );
@@ -55,16 +59,20 @@ public class BondTypeNode extends PComposite {
         }};
 
         // thumb that moves along the track, not interactive
-        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, -THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
+        final ArrowNode thumbNode = new ArrowNode( new Point2D.Double( 0, THUMB_SIZE.height ), new Point2D.Double( 0, 0 ), THUMB_SIZE.width, THUMB_SIZE.width, THUMB_SIZE.width / 3 );
         thumbNode.setPaint( Color.LIGHT_GRAY );
 
         // rendering order
+        addChild( titleNode );
         addChild( maxLabelNode );
         addChild( minLabelNode );
         addChild( trackNode );
         addChild( thumbNode );
 
         // layout
+        titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
+        trackNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + 3 );
+        thumbNode.setOffset( trackNode.getOffset() );
         minLabelNode.setOffset( trackNode.getFullBoundsReference().getMinX(),
                                 trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
         maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth(),
