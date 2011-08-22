@@ -135,14 +135,12 @@ public class Plank extends ShapeModelElement {
             }
         } );
 
-        // TODO: This will need to work differently once the pivot point is made movable.
-        // Determine the max rotational angle. Formula for this determined with lots of help from Mathematica.
-        double d = initialPivotPoint.distance( initialLocation );
-        double py = initialPivotPoint.getY();
-        double h = LENGTH / 2;
-//        maxTiltAngle = Math.PI - Math.acos( ( d * py - Math.sqrt( d * d * h * h + Math.pow( h, 4 ) - h * h * py * py ) ) / ( d * d + h * h ) );
-        maxTiltAngle = Math.asin( initialLocation.getY() / h );
-        System.out.println( "maxTiltAngle = " + maxTiltAngle );
+        // Calculate the max angle at which the plank can tilt before hitting
+        // the ground.  NOTE: This assumes a small distance between the pivot
+        // point and the bottom of the plank.  If this assumption changes, or
+        // if the fulcrum becomes movable, the way this is done will need to
+        // change.
+        maxTiltAngle = Math.asin( initialLocation.getY() / ( LENGTH / 2 ) );
 
         // Initialize the attachment point (where the attachment bar meets the
         // plank) which is the same as the initial location.
