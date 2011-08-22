@@ -26,6 +26,7 @@ import edu.colorado.phet.common.phetcommon.view.PhetColorScheme;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Molecule3D;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties.SurfaceType;
@@ -273,7 +274,7 @@ public class JmolViewerNode extends PhetPNode {
         if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
             if ( isHomogeneousDiatomic() ) {
                 if ( RAINBOW_MEP.get() ) {
-                    doScript( "isosurface VDW color [0,255,0] translucent" );
+                    doScript( "isosurface VDW color " + colorToScript( MPColors.NEUTRAL_GREEN ) + " translucent" );
                 }
                 else {
                     doScript( "isosurface VDW color white translucent" );
@@ -349,6 +350,11 @@ public class JmolViewerNode extends PhetPNode {
             values.add( value );
         }
         return values;
+    }
+
+    // Converts a color to format usable in a Jmol script
+    private static String colorToScript( Color color ) {
+        return MessageFormat.format( "[{0},{1},{2}]", color.getRed(), color.getGreen(), color.getBlue() );
     }
 
     // test
