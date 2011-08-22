@@ -125,10 +125,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
 
-    //Turn down forces after salt disassociates
-    //TODO: account for time since salt added
-    private double timeSinceSaltAdded = 0;
-
+    //Print debugging information to the console about how long the model computation takes
     private static final boolean debugTime = false;
 
     //List of adapters that manage both the box2D and actual model data
@@ -313,7 +310,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
         }
-        timeSinceSaltAdded += dt;
     }
 
     //Get all pairs of salt ions, including Na+/Cl- and Na+/Na+ combinations so that the water can make sure they dissolve and move far enough away
@@ -563,12 +559,8 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         }
     }
 
-    //Add the specified ion crystal to the model
+    //Add the specified ion crystal to the model, no need to remove overlapping water molecules in this case since the salt ions are small enough
     public void addSaltIon( SaltIon ion ) {
-
-        //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time
-        //TODO: should remove overlapping water?
-//        removeOverlappingWater( ion );
 
         //Add the ion crystal and box2d adapters for all its molecules so they will propagate with box2d physics
         saltIonList.add( ion );
@@ -693,5 +685,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        }
 //        return r.mul( (float) magnitude );
 //    }
+    //Turn down forces after salt disassociates
+//    private double timeSinceSaltAdded = 0;
 
 }
