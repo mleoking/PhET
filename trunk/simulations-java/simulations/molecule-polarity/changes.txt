@@ -1,3 +1,5 @@
+# 0.00.15 (55611) Aug 22, 2011
+8/22/11 dev version for discussion with KL
 8/21/11 change request: try no color change on the E-field plates when turned on
 8/21/11 Jmol weights blue for 20% of the rainbow gradient, so add more blue to the color key
 8/21/11 add dipole scaling factor to view, currently set to 1.0
