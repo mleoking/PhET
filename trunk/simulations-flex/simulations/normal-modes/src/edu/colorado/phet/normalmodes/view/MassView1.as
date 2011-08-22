@@ -8,18 +8,23 @@
 package edu.colorado.phet.normalmodes.view {
 import edu.colorado.phet.normalmodes.*;
 import edu.colorado.phet.normalmodes.model.Model1;
+import edu.colorado.phet.normalmodes.util.TwoHeadedArrow;
 
 import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.events.MouseEvent;
 import flash.geom.Point;
+import flash.sampler.Sample;
 
 public class MassView1 extends Sprite{
     private var _index:int;   //integer labeling the mass
     private var myModel1:Model1;
     private var container:View1;
     private var mass:Sprite;
-    private var borderZone:Sprite;
+    private var borderZone:Sprite;    //when user mouses over borderZone, arrows appear around mass
+    private var arrows:Sprite;        //arrows cue user that mass is grabbable
+
+
 
     public function MassView1( index:int, myModel1:Model1, container:View1 ) {
         this._index = index;
@@ -27,10 +32,13 @@ public class MassView1 extends Sprite{
         this.container = container;
         this.mass = new Sprite();
         this.borderZone = new Sprite();
+        this.arrows = new Sprite();
         this.addChild( borderZone );
+        this.addChild( arrows );
         this.addChild( mass );
-        this.drawMass( "dim" );
         this.drawBorderZone( 150, 200 );
+        this.drawArrows();
+        this.drawMass( "dim" );
         this.makeMassGrabbable();
     } //end constructor
 
@@ -46,25 +54,32 @@ public class MassView1 extends Sprite{
         g.endFill();
     }
 
+    public function drawArrows():void{
+        var arrows1:TwoHeadedArrow = new TwoHeadedArrow();
+        var arrows2:TwoHeadedArrow = new TwoHeadedArrow();
+        arrows1.setRegistrationPointAtCenter( true );
+        arrows2.setRegistrationPointAtCenter( true );
+        arrows1.scaleX = 2;
+        arrows2.scaleX = 2;
+        arrows1.rotation = 45;
+        arrows2.rotation = -45;
+        this.arrows.addChild( arrows1 );
+        this.arrows.addChild( arrows2 );
+        this.arrows.visible = false;
+    } //end drawArrows()
+
     private function drawMass( dimOrBright:String ):void{
         var g:Graphics = this.mass.graphics;
         g.clear();
 
         var d:Number = 20;   //edge length of square mass in pixels
-        if( dimOrBright == "dim") {
-            g.lineStyle(3, 0x0000ff, 1);
-            g.beginFill(0x6666ff, 1);
-            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
-            g.endFill();
-        } else{
-            g.lineStyle(3, 0x0000ff, 1);
-            g.beginFill(0xffff00, 1);
-            g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
-            g.endFill();
-        }
-
-        //this.mass_arr[i].y = this.leftEdgeY;
+        g.lineStyle(3, 0x0000ff, 1);
+        g.beginFill(0x6666ff, 1);
+        g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
+        g.endFill();
         this.mass.visible = true;      //start with mass invisible
+        //this.mass_arr[i].y = this.leftEdgeY;
+
     }//end drawMass()
 
     public function get index():int{
@@ -80,27 +95,30 @@ public class MassView1 extends Sprite{
         var thisObject:Object = this;
         this.mass.buttonMode = true;
         this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        this.borderZone.addEventListener( MouseEvent.MOUSE_OVER, brightenMass );
+        this.borderZone.addEventListener( MouseEvent.ROLL_OVER, showArrows );
+        this.borderZone.addEventListener( MouseEvent.ROLL_OUT, removeArrows );
+        //this.mass.addEventListener( MouseEvent.MOUSE_OVER, showArrows );
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
+            thisObject.arrows.visible = false;
             thisObject.myModel1.grabbedMass = thisObject._index;
             clickOffset = new Point( evt.localX, evt.localY );
-             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
-             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
+            stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
+            thisObject.mass.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
             //trace("evt.target.y: "+evt.target.y);
         }
 
-        function brightenMass( evt: MouseEvent ):void {
-            thisObject.drawMass( "bright" );
-            stage.addEventListener ( MouseEvent.MOUSE_OUT, dimMass );
-
+        function showArrows( evt: MouseEvent ):void {
+            thisObject.arrows.visible = true;
+            //stage.addEventListener ( MouseEvent.MOUSE_OUT, removeArrows );
         }
 
-        function dimMass( evt: MouseEvent ):void{
-            thisObject.drawMass( "dim" );
-            stage.removeEventListener( MouseEvent.MOUSE_OVER, brightenMass );
-            stage.removeEventListener( MouseEvent.MOUSE_OUT, dimMass );
+        function removeArrows( evt: MouseEvent ):void{
+            thisObject.arrows.visible = false;
+            //stage.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
+            //stage.removeEventListener( MouseEvent.MOUSE_OUT, removeArrows );
         }
 
         function stopTargetDrag( evt: MouseEvent ): void {
