@@ -32,15 +32,16 @@ public class BondTypeNode extends PComposite {
 
     private static final Dimension TRACK_SIZE = new Dimension( 350, 5 );
     private static final Dimension THUMB_SIZE = new Dimension( 15, 30 );
+    private static final Font TITLE_FONT = new PhetFont( 12 );
     private static final Font LABEL_FONT = new PhetFont( 12 );
-    private static final double LABEL_Y_SPACING = 4;
+    private static final double Y_SPACING = 3;
 
     private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_SIZE.width );
 
     public BondTypeNode( DiatomicMolecule molecule ) {
 
         PText titleNode = new PText( MPStrings.BOND_TYPE ) {{
-            setFont( new PhetFont( 12 ) );
+            setFont( TITLE_FONT );
         }};
 
         // the track that represents the continuum
@@ -71,12 +72,12 @@ public class BondTypeNode extends PComposite {
 
         // layout
         titleNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( titleNode.getFullBoundsReference().getWidth() / 2 ), 0 );
-        trackNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + 3 );
+        trackNode.setOffset( 0, titleNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         thumbNode.setOffset( trackNode.getOffset() );
         minLabelNode.setOffset( trackNode.getFullBoundsReference().getMinX(),
-                                trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
+                                trackNode.getFullBoundsReference().getMaxY() + Y_SPACING );
         maxLabelNode.setOffset( trackNode.getFullBoundsReference().getMaxX() - maxLabelNode.getFullBoundsReference().getWidth(),
-                                trackNode.getFullBoundsReference().getMaxY() + LABEL_Y_SPACING );
+                                trackNode.getFullBoundsReference().getMaxY() + Y_SPACING );
 
         // when difference in electronegativity changes, move the thumb
         molecule.bond.dipole.addObserver( new VoidFunction1<ImmutableVector2D>() {
