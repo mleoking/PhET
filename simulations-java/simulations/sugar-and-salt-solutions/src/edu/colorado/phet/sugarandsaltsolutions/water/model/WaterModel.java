@@ -24,6 +24,7 @@ import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
+import edu.colorado.phet.common.phetcommon.util.Pair;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
@@ -76,6 +77,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ImmutableRectangle2D waterBoundary = expand( particleWindow, getHalfDiagonal( new WaterMolecule().getShape().getBounds2D() ) );
     public final ImmutableRectangle2D sucroseBoundary = expand( particleWindow, getHalfDiagonal( new Sucrose().getShape().getBounds2D() ) );
     public final ImmutableRectangle2D chlorideBoundary = expand( particleWindow, getHalfDiagonal( new SaltIon.ChlorideIon().getShape().getBounds2D() ) );
+
+    private static final double DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
+    public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2;
 
     //Expand a rectangle by the specified size in all 4 directions
     private static ImmutableRectangle2D expand( ImmutableRectangle2D r, double size ) {
@@ -231,15 +235,46 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Iterate over all pairs of particles and apply the coulomb force, but only consider particles from different molecules (no intramolecular forces)
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             if ( random.nextDouble() < probabilityOfInteraction.get() ) {
-                for ( SphericalParticle compoundParticle : box2DAdapter.compound ) {
-                    for ( SphericalParticle particle : getAllParticles() ) {
-                        if ( !box2DAdapter.compound.containsParticle( particle ) ) {
-                            double q1 = compoundParticle.getCharge();
-                            double q2 = particle.getCharge();
-                            final ImmutableVector2D coulombForce = getCoulombForce( compoundParticle, particle, q1, q2 ).times( 5E-36 / 10 * 2 );
-                            box2DAdapter.applyModelForce( coulombForce, compoundParticle.getPosition() );
+                for ( SphericalParticle target : box2DAdapter.compound ) {
+                    for ( SphericalParticle source : getAllParticles() ) {
+                        if ( !box2DAdapter.compound.containsParticle( source ) ) {
+                            final ImmutableVector2D coulombForce = getCoulombForce( source, target ).times( COULOMB_FORCE_SCALE_FACTOR );
+                            box2DAdapter.applyModelForce( coulombForce, target.getPosition() );
                         }
                     }
+                }
+            }
+        }
+
+        //Apply a force to keep the Na+ and Cl- from staying too close together
+        //First find the ions that are too close together
+        ItemList<Pair<SaltIon, SaltIon>> tooClose = getSaltIonPairs().filter( new Function1<Pair<SaltIon, SaltIon>, Boolean>() {
+            public Boolean apply( Pair<SaltIon, SaltIon> saltIonSaltIonPair ) {
+                double distance = saltIonSaltIonPair._1.getPosition().getDistance( saltIonSaltIonPair._2.getPosition() );
+                return distance < DISTANCE_THRESHOLD;
+            }
+        } );
+
+        //Apply an attractive coulomb force to guide water molecules to the center of mass of Na+ Cl- pairs that were too close, to split them up
+        //Coulomb force is useful here so that it affects close-by particles more that particles that are distant
+        for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
+            if ( box2DAdapter.compound instanceof WaterMolecule ) {
+                for ( Pair<SaltIon, SaltIon> saltIonSaltIonPair : tooClose ) {
+
+                    //Find the centroid
+                    ImmutableVector2D p1 = saltIonSaltIonPair._1.getPosition();
+                    ImmutableVector2D p2 = saltIonSaltIonPair._2.getPosition();
+                    ImmutableVector2D center = p1.plus( p2 ).times( 0.5 );
+
+                    //Compute and apply an attractive coulomb force from the water molecules to the centroids
+                    final ImmutableVector2D modelPosition = box2DAdapter.getModelPosition();
+                    double scale = 3;
+                    ImmutableVector2D coulombForce = getCoulombForce( center, modelPosition, scale, -scale ).times( COULOMB_FORCE_SCALE_FACTOR );
+//                    System.out.println( "coulombForce = \t" + coulombForce.getMagnitude() );
+                    if ( coulombForce.getMagnitude() > 1E-5 ) {
+                        coulombForce = coulombForce.getInstanceOfMagnitude( 1E-5 );
+                    }
+                    box2DAdapter.applyModelForce( coulombForce, modelPosition );
                 }
             }
         }
@@ -277,6 +312,19 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         timeSinceSaltAdded += dt;
     }
 
+    //Get all pairs of salt ions, including Na+/Cl- and Na+/Na+ combinations so that the water can make sure they dissolve and move far enough away
+    private ItemList<Pair<SaltIon, SaltIon>> getSaltIonPairs() {
+        return new ItemList<Pair<SaltIon, SaltIon>>() {{
+            for ( SaltIon a : saltIonList ) {
+                for ( SaltIon b : saltIonList ) {
+                    if ( a != b ) {
+                        add( new Pair<SaltIon, SaltIon>( a, b ) );
+                    }
+                }
+            }
+        }};
+    }
+
     //Get all interacting particles from the lists of water, sucrose, etc.
     private Iterable<? extends SphericalParticle> getAllParticles() {
         return new ArrayList<SphericalParticle>() {{
@@ -300,14 +348,17 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Get the coulomb force between two particles
     //The particles should be from different compounds since compounds shouldn't have intra-molecular forces
-    private ImmutableVector2D getCoulombForce( SphericalParticle source, SphericalParticle target, double q1, double q2 ) {
-        final ImmutableVector2D sourcePosition = source.getPosition();
-        final ImmutableVector2D targetPosition = target.getPosition();
+    private ImmutableVector2D getCoulombForce( SphericalParticle source, SphericalParticle target ) {
+        return getCoulombForce( source.getPosition(), target.getPosition(), source.getCharge(), target.getCharge() );
+    }
+
+    //Get the coulomb force between two points with the specified charges
+    private ImmutableVector2D getCoulombForce( ImmutableVector2D sourcePosition, ImmutableVector2D targetPosition, double q1, double q2 ) {
         if ( sourcePosition.equals( targetPosition ) ) {
             return ZERO;
         }
         double distance = sourcePosition.getDistance( targetPosition );
-        double scale = -1 * k * q1 * q2 / distance / distance / distance;
+        double scale = k * q1 * q2 / distance / distance / distance;
         return new ImmutableVector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
     }
 
@@ -319,7 +370,6 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
             molecule.body.setLinearVelocity( v.add( delta ) );
         }
-        //        System.out.println( "init tot mom = " + totalMomentum + ", after = " + getTotalMomentum() );
     }
 
     private Vec2 getBox2DMomentum() {
@@ -517,6 +567,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             //Remove the sucrose itself
             saltIonList.remove( ion );
         }
+    }
+
+    public static void main( String[] args ) {
+        final WaterModel model = new WaterModel();
+        ImmutableVector2D force = model.getCoulombForce( ZERO, new ImmutableVector2D( 1, 0 ), 1, 1 );
+        System.out.println( "force = " + force );
     }
 
     //Code taken from constructor

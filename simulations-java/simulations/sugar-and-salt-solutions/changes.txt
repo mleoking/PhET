@@ -1,3 +1,4 @@
+Water tab: Added a force to help dissolve salt
 Water tab: Added Cl- and Na+ labels on salt ions
 # 0.00.92 (55591) Aug 22, 2011
 Water tab: Added more water molecules
