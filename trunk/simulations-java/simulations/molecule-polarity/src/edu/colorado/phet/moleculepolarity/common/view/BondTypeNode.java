@@ -46,7 +46,7 @@ public class BondTypeNode extends PComposite {
             setPaint( Color.BLACK );
         }};
 
-        PText titleNode = new PText( MPStrings.LEFT_ARROW + " " + MPStrings.BOND_TYPE + " " + MPStrings.RIGHT_ARROW ) {{
+        PText titleNode = new PText( MPStrings.BOND_TYPE ) {{
             setFont( TITLE_FONT );
         }};
 
