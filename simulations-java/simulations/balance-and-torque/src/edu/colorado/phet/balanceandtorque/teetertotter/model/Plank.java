@@ -139,8 +139,10 @@ public class Plank extends ShapeModelElement {
         // Determine the max rotational angle. Formula for this determined with lots of help from Mathematica.
         double d = initialPivotPoint.distance( initialLocation );
         double py = initialPivotPoint.getY();
-        double h = LENGTH;
-        maxTiltAngle = Math.PI - Math.acos( ( d * py - Math.sqrt( d * d * h * h + Math.pow( h, 4 ) - h * h * py * py ) ) / ( d * d + h * h ) );
+        double h = LENGTH / 2;
+//        maxTiltAngle = Math.PI - Math.acos( ( d * py - Math.sqrt( d * d * h * h + Math.pow( h, 4 ) - h * h * py * py ) ) / ( d * d + h * h ) );
+        maxTiltAngle = Math.asin( initialLocation.getY() / h );
+        System.out.println( "maxTiltAngle = " + maxTiltAngle );
 
         // Initialize the attachment point (where the attachment bar meets the
         // plank) which is the same as the initial location.

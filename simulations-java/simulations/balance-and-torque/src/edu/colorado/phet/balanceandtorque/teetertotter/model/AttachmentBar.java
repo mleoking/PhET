@@ -14,6 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 public class AttachmentBar extends ShapeModelElement {
     public static final double WIDTH = 0.05; // In meters.
     private final Plank plank;
+    private final double length;
 
     /**
      * Constructor.
@@ -30,6 +31,7 @@ public class AttachmentBar extends ShapeModelElement {
                 setShape( generateShape( plank.getPivotPoint(), plank.bottomCenterPoint.get() ) );
             }
         } );
+        length = plank.getPivotPoint().distance( plank.bottomCenterPoint.get() );
     }
 
     public Point2D getPivotPoint() {
