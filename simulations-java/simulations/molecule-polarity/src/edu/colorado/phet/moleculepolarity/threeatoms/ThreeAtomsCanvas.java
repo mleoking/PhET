@@ -12,7 +12,6 @@ import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.control.EFieldControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ElectronegativityControlNode;
 import edu.colorado.phet.moleculepolarity.common.control.MPResetAllButtonNode;
-import edu.colorado.phet.moleculepolarity.common.control.SurfaceControlPanel;
 import edu.colorado.phet.moleculepolarity.common.control.ViewControlPanel;
 import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.DiatomicIsosurfaceNode;
@@ -55,7 +54,6 @@ public class ThreeAtomsCanvas extends MPCanvas {
         ElectronegativityControlNode enControlB = new ElectronegativityControlNode( model.molecule.atomB, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         ElectronegativityControlNode enControlC = new ElectronegativityControlNode( model.molecule.atomC, model.molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         PNode viewControlsNode = new ControlPanelNode( new ViewControlPanel( viewProperties, true, false, false, false, MPStrings.BOND_DIPOLES ) );
-        PNode isosurfaceControlsNode = new ControlPanelNode( new SurfaceControlPanel( viewProperties.isosurfaceType ) );
         PNode eFieldControlsNode = new ControlPanelNode( new EFieldControlPanel( model.eField.enabled ) );
         PNode resetAllButtonNode = new MPResetAllButtonNode( new Resettable[] { model, viewProperties }, parentFrame );
         final PNode electrostaticPotentialColorKeyNode = new ElectrostaticPotentialColorKeyNode();
@@ -72,7 +70,6 @@ public class ThreeAtomsCanvas extends MPCanvas {
             addChild( enControlB );
             addChild( enControlC );
             addChild( viewControlsNode );
-            addChild( isosurfaceControlsNode );
             addChild( eFieldControlsNode );
             addChild( resetAllButtonNode );
 
@@ -104,9 +101,8 @@ public class ThreeAtomsCanvas extends MPCanvas {
                                                           negativePlateNode.getFullBoundsReference().getMaxY() );
             electronDensityColorKeyNode.setOffset( electrostaticPotentialColorKeyNode.getOffset() );
             viewControlsNode.setOffset( positivePlateNode.getFullBoundsReference().getMaxX() + xSpacing, positivePlateNode.getYOffset() );
-            isosurfaceControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            eFieldControlsNode.setOffset( isosurfaceControlsNode.getXOffset(), isosurfaceControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
-            resetAllButtonNode.setOffset( isosurfaceControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            eFieldControlsNode.setOffset( viewControlsNode.getXOffset(), viewControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
+            resetAllButtonNode.setOffset( viewControlsNode.getXOffset(), eFieldControlsNode.getFullBoundsReference().getMaxY() + ySpacing );
         }
 
         // synchronize with view properties
