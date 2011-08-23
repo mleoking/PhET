@@ -1,3 +1,4 @@
+> Changed "total force" to "sum of forces", see #3041
 # 2.01.02 (55314) Aug 16, 2011
 > Reverted all customizations
 Reverted all customizations for Dallas
