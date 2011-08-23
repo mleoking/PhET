@@ -16,7 +16,6 @@ MEDIUM
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
 - clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
-- tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
 - look for Property<T> fields that shouldn't be public
