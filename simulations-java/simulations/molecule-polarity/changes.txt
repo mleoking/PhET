@@ -1,3 +1,4 @@
+8/23/11 remove duplicate "do script" functionality from JmolViewerNode
 8/23/11 add code (currently disabled) for "centered stage" transform strategy
 8/23/11 pad rotate cursor with whitespace, so that it's 32x32, required by Windows
 8/23/11 add major and minor tick marks to EN sliders
