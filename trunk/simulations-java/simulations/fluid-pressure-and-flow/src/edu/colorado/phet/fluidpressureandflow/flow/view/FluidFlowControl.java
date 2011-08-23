@@ -8,7 +8,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.TickLabel;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.umd.cs.piccolo.PNode;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.FLOW;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.FLOW;
 
 /**
  * Allows the user to view and modify the flow rate within the pipe.

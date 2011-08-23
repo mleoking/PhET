@@ -26,12 +26,13 @@ import edu.colorado.phet.common.piccolophet.nodes.VelocitySensor;
 import edu.colorado.phet.common.piccolophet.nodes.VelocitySensorNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.RESET;
 
 /**
  * @author Sam Reid
@@ -85,7 +86,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         return new HBox( 10,
                          //Set the time speed slider to go between 1/2 and 2x the default dt
                          new SimSpeedControlPNode( dt.get() / 2, dt, dt.get() * 2, 0.0, new Property<Color>( Color.black ) ),
-                         new FloatingClockControlNode( clockRunning, null, module.getClock(), FPAFStrings.RESET, new Property<Color>( Color.white ) ) ) {{
+                         new FloatingClockControlNode( clockRunning, null, module.getClock(), RESET, new Property<Color>( Color.white ) ) ) {{
             setOffset( STAGE_SIZE.getWidth() / 2 - getFullBounds().getWidth() / 2, STAGE_SIZE.getHeight() - getFullBounds().getHeight() );
         }};
     }

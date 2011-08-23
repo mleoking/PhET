@@ -15,7 +15,7 @@ import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPa
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 
 /**
  * Control panel for the Water Tower module, has ruler, measuring tape, units and 'hose'

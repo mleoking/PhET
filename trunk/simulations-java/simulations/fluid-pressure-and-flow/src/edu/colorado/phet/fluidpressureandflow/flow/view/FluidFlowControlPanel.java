@@ -5,7 +5,6 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -13,15 +12,14 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.ENGLISH;
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.METRIC;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 
 /**
  * @author Sam Reid
  */
 public class FluidFlowControlPanel<T extends FluidPressureAndFlowModel> extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<T> module ) {
-        addControlFullWidth( new CheckBox( FPAFStrings.RULER, module.rulerVisible ) );
+        addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
         SettableProperty<UnitSet> units = module.getFluidPressureAndFlowModel().units;
 
         //Units control panel that allows choice between english and metric

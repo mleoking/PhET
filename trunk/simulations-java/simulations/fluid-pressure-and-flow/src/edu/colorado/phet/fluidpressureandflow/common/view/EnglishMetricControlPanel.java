@@ -9,7 +9,7 @@ import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.UNITS;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.UNITS;
 import static javax.swing.BoxLayout.Y_AXIS;
 
 /**

@@ -7,7 +7,6 @@ import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.FluidPressureAndFlowModule;
 import edu.colorado.phet.fluidpressureandflow.common.RadioButton;
 import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowModel;
@@ -15,7 +14,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.CheckBox;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishMetricControlPanel;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.*;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 
 /**
  * @author Sam Reid
@@ -26,7 +25,7 @@ public class FluidPressureControlPanel<T extends FluidPressureAndFlowModel> exte
 
     public FluidPressureControlPanel( final FluidPressureAndFlowModule<T> module ) {
         super();
-        addControlFullWidth( new CheckBox( FPAFStrings.RULER, module.rulerVisible ) );
+        addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between atmospheres, english and metric
         final Property<UnitSet> units = module.getFluidPressureAndFlowModel().units;

@@ -3,8 +3,8 @@ package edu.colorado.phet.fluidpressureandflow.common.model.units;
 
 import java.text.DecimalFormat;
 
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.KG_PER_M_3;
-import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.LB_PER_FT_3;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.KG_PER_M_3;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.LB_PER_FT_3;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.Units.*;
 
 /**

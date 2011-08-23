@@ -17,13 +17,14 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FaucetFlowRate;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MANUAL;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MATCH_LEAKAGE;
 
 /**
  * @author Sam Reid
@@ -69,8 +70,8 @@ public class FaucetNode extends PNode {
             addChild( sliderNode );
             addChild( new PSwing( new VerticalLayoutPanel() {{
                 setInsets( new Insets( -6, 0, 0, 0 ) );//Bring the radio buttons a bit closer together
-                add( new FaucetRadioButton( FPAFStrings.MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
-                add( new FaucetRadioButton( FPAFStrings.MANUAL, not( faucetFlowLevel.automatic ) ) );
+                add( new FaucetRadioButton( MATCH_LEAKAGE, faucetFlowLevel.automatic ) );
+                add( new FaucetRadioButton( MANUAL, not( faucetFlowLevel.automatic ) ) );
                 setBackground( TRANSPARENT );
             }} ) {{
                 setOffset( sliderNode.getFullBounds().getMaxX() - getFullBounds().getWidth(),//Right align with slider
