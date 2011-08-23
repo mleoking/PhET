@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
+package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.Color;
 import java.awt.TexturePaint;
@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Pipe;
+import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 

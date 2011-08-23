@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
+package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -21,13 +21,13 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCo
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.ParticleNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FluidFlowModel;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.model.FoodColoring;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.model.Particle;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.Pool;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
+import edu.colorado.phet.fluidpressureandflow.flow.model.FluidFlowModel;
+import edu.colorado.phet.fluidpressureandflow.flow.model.FoodColoring;
+import edu.colorado.phet.fluidpressureandflow.flow.model.Particle;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

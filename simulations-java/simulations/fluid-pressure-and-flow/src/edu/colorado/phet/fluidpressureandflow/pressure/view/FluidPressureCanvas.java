@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidpressure.view;
+package edu.colorado.phet.fluidpressureandflow.pressure.view;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -15,9 +15,9 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCo
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureModule;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.FluidPressureModel;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.Pool;
+import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
+import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 
 /**
  * @author Sam Reid

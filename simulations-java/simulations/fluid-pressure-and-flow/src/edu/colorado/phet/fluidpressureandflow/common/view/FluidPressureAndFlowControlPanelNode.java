@@ -7,7 +7,7 @@ import java.awt.Color;
 import javax.swing.JComponent;
 
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 

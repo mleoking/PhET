@@ -19,8 +19,8 @@ import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCa
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
 import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.umd.cs.piccolo.PNode;
