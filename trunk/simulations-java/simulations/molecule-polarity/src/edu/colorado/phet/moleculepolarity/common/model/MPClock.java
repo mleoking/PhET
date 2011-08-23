@@ -11,6 +11,6 @@ import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 public class MPClock extends ConstantDtClock {
 
     public MPClock() {
-        super( 25 );
+        super( 25 /* framesPerSecond */ );
     }
 }

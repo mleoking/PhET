@@ -23,6 +23,13 @@ public class Molecule3D {
 
     private final String symbol, name, resourceFilename;
 
+    /**
+     * Constructor
+     *
+     * @param symbol
+     * @param name
+     * @param resourceFilename the data file that will be provided to Jmol
+     */
     public Molecule3D( String symbol, String name, String resourceFilename ) {
         this.symbol = toSubscript( symbol );
         this.name = name;
@@ -37,6 +44,7 @@ public class Molecule3D {
         return name;
     }
 
+    // Reads the data file and returns a String
     public String getData() {
         String s = "";
         PhetResources resources = new PhetResources( MPConstants.PROJECT_NAME );
