@@ -8,6 +8,7 @@ import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
 
 /**
  * Control panel for various view parameters.
+ * Constructor is parameterized with various boolean so that this panel can be shared between modules.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
