@@ -112,7 +112,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
 
     //Developer settings
-    public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 1.0 );
+    public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 100.0 );
     public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
     public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
@@ -120,11 +120,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
     public final Property<Double> pow = new Property<Double>( 2.0 );
     public final Property<Integer> randomness = new Property<Integer>( 5 );
-    public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
-    public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
-    public final Property<Double> timeScale = new Property<Double>( 0.1 );
+    public final Property<Double> timeScale = new Property<Double>( 0.04 );
     public final Property<Integer> iterations = new Property<Integer>( 100 );
+
+    //if the particles are too close, the coulomb force gets too big--a good way to limit the coulomb force is to limit the inter-particle distance used in the coulomb calculation
+    public final double MIN_COULOMB_DISTANCE = new WaterMolecule.Hydrogen().radius * 2;
 
     //Print debugging information to the console about how long the model computation takes
     private static final boolean debugTime = false;
@@ -169,6 +170,13 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Create the Box2D world with no gravity
         world = new World( new Vec2( 0, 0 ), true );
 
+        //Code to make bodies ignore each other
+//        world.setContactFilter( new ContactFilter() {
+//            @Override public boolean shouldCollide( Fixture fixtureA, Fixture fixtureB ) {
+//                return true;
+//            }
+//        } );
+
         //Set up initial state, same as reset() method would do, such as adding water particles to the model
         initModel();
 
@@ -176,11 +184,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 //        Body body = world.createBody( new BodyDef() {{
 //            type = BodyType.STATIC;
 //        }} );
-//        final ImmutableRectangle2D particleWindowBox2D = modelToBox2D.modelToView( particleWindow );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( particleWindowBox2D.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( -particleWindowBox2D.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( -particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
+//        final ImmutableRectangle2D boundary = modelToBox2D.modelToView( waterBoundary );
+////        final ImmutableRectangle2D boundary = getBoundary(  )
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( 0, (float) ( boundary.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( 0, (float) ( -boundary.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( (float) ( boundary.width ), 0 ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) boundary.width / 2, (float) ( boundary.height / 2 ), new Vec2( (float) ( -boundary.width ), 0 ), 0 ); }}, 1 );
 
         //Set up jbox2D debug draw so we can see the model and computations
         if ( useDebugDraw ) {
@@ -279,14 +288,10 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                     ImmutableVector2D center = p1.plus( p2 ).times( 0.5 );
 
                     //Compute and apply an attractive coulomb force from the water molecules to the centroids
+                    //The scale has to be strong enough to overcome other forces and dissolve the salt, but if it is too high then the water system will be too volatile
                     final ImmutableVector2D modelPosition = box2DAdapter.getModelPosition();
-                    double scale = 3;
+                    double scale = 1;
                     ImmutableVector2D coulombForce = getCoulombForce( center, modelPosition, scale, -scale ).times( COULOMB_FORCE_SCALE_FACTOR );
-//                    System.out.println( "coulombForce = \t" + coulombForce.getMagnitude() );
-                    final double MAX_FORCE = 1E-5;
-                    if ( coulombForce.getMagnitude() > MAX_FORCE ) {
-                        coulombForce = coulombForce.getInstanceOfMagnitude( MAX_FORCE );
-                    }
                     box2DAdapter.applyModelForce( coulombForce, modelPosition );
                 }
             }
@@ -374,6 +379,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             return ZERO;
         }
         double distance = sourcePosition.getDistance( targetPosition );
+        if ( distance < MIN_COULOMB_DISTANCE ) {
+            distance = MIN_COULOMB_DISTANCE;
+        }
         double scale = k * q1 * q2 / Math.pow( distance, pow.get() ) / distance * coulombStrengthMultiplier.get();
         return new ImmutableVector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
     }
@@ -436,20 +444,20 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             double x = particle.getPosition().getX();
             double y = particle.getPosition().getY();
             final ImmutableRectangle2D boundary = getBoundary( adapter.compound );
+
+            //Move the particle away from the edge a little bit to prevent exact collisions, may not help that much but left here
+            final double delta = boundary.width / 100;
             if ( particle.getPosition().getX() > boundary.getMaxX() ) {
-                x = boundary.x;
+                adapter.setModelPosition( boundary.x + delta, y );
             }
-            if ( particle.getPosition().getX() < boundary.x ) {
-                x = boundary.getMaxX();
+            else if ( particle.getPosition().getX() < boundary.x ) {
+                adapter.setModelPosition( boundary.getMaxX() - delta, y );
             }
-            if ( particle.getPosition().getY() > boundary.getMaxY() ) {
-                y = boundary.y;
+            else if ( particle.getPosition().getY() > boundary.getMaxY() ) {
+                adapter.setModelPosition( x, boundary.y + delta );
             }
-            if ( particle.getPosition().getY() < boundary.y ) {
-                y = boundary.getMaxY();
-            }
-            if ( !new ImmutableVector2D( x, y ).equals( adapter.getModelPosition() ) ) {
-                adapter.setModelPosition( new ImmutableVector2D( x, y ) );
+            else if ( particle.getPosition().getY() < boundary.y ) {
+                adapter.setModelPosition( x, boundary.getMaxY() - delta );
             }
         }
     }
@@ -527,14 +535,20 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
             //Iterate over all water atoms
             for ( WaterMolecule waterMolecule : waterList ) {
-                for ( SphericalParticle waterAtom : waterMolecule ) {
 
-                    //Iterate over all sucrose atoms
-                    for ( SphericalParticle atom : compound ) {
+                //Make sure we aren't checking for the collisions with a water molecule itself
+                if ( waterMolecule != compound ) {
 
-                        //add if they are overlapping
-                        if ( waterAtom.getPosition().getDistance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
-                            add( waterMolecule );
+                    //Check the hydrogens and oxygens in the water
+                    for ( SphericalParticle waterAtom : waterMolecule ) {
+
+                        //Iterate over all sucrose atoms
+                        for ( SphericalParticle atom : compound ) {
+
+                            //add if they are overlapping
+                            if ( waterAtom.getPosition().getDistance( atom.getPosition() ) < waterAtom.radius + atom.radius ) {
+                                add( waterMolecule );
+                            }
                         }
                     }
                 }
