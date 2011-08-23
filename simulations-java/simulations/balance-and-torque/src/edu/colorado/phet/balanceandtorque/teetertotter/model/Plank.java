@@ -244,9 +244,10 @@ public class Plank extends ShapeModelElement {
 
     public void setTiltAngle( double tiltAngle ) {
         assert userControlled.get();  // Should be user controlled when this occurs.
+        // Clamp the tilt angle.
+        tiltAngle = MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle );
         if ( !supportColumnsActive.get() &&
-             Math.abs( tiltAngle ) <= maxTiltAngle &&
-             this.tiltAngle != MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle ) ) {
+             Math.abs( tiltAngle ) <= maxTiltAngle ) {
             this.tiltAngle = tiltAngle;
             updatePlankPosition();
             updateMassPositions();
