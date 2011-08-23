@@ -1,3 +1,4 @@
+8/23/11 add code (currently disabled) for "centered stage" transform strategy
 8/23/11 pad rotate cursor with whitespace, so that it's 32x32, required by Windows
 8/23/11 add major and minor tick marks to EN sliders
 8/22/11 fix test program for EN sliders, change snap interval to 0.2
