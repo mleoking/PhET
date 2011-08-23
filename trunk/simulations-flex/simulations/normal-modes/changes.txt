@@ -1,3 +1,5 @@
+# 0.00.42 (55698) Aug 23, 2011
+8/23/11 adding cue-arrows to masses
 # 0.00.41 (55266) Aug 15, 2011
 8/15/11 Minor bug fixe in View2.clearBorderZones()
 # 0.00.40 (55264) Aug 15, 2011
