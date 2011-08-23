@@ -22,7 +22,7 @@ public class Bond {
         this.deltaElectronegativity = new Property<Double>( 0d );
         this.endpoint1 = new Property<ImmutableVector2D>( atom1.location.get() );
         this.endpoint2 = new Property<ImmutableVector2D>( atom2.location.get() );
-        this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() ); // proper initialization occurs below
+        this.dipole = new Property<ImmutableVector2D>( new ImmutableVector2D() ); // proper initialization occurs when observer registers below
 
         RichSimpleObserver observer = new RichSimpleObserver() {
             public void update() {
