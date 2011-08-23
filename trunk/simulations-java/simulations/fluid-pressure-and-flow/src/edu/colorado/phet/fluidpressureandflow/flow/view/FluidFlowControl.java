@@ -1,11 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
+package edu.colorado.phet.fluidpressureandflow.flow.view;
 
 import java.util.HashMap;
 
 import edu.colorado.phet.fluidpressureandflow.common.view.SliderControl;
 import edu.colorado.phet.fluidpressureandflow.common.view.TickLabel;
-import edu.colorado.phet.fluidpressureandflow.fluidflow.FluidFlowModule;
+import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.fluidpressureandflow.common.FPAFStrings.FLOW;

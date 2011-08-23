@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.fluidpressureandflow.fluidflow.model;
+package edu.colorado.phet.fluidpressureandflow.flow.model;
 
 import java.util.ArrayList;
 import java.util.Random;

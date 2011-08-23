@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.view.controls.valuecontrol.LinearValu
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.HBox;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.pswing.PSwing;

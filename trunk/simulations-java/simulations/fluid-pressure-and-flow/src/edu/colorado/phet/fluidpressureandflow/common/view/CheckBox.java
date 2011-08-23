@@ -8,8 +8,8 @@ import javax.swing.JCheckBox;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureCanvas;
-import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
+import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 
 /**
  * @author Sam Reid
