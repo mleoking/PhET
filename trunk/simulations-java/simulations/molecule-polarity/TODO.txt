@@ -1,8 +1,6 @@
 TODO list for molecule-polarity
 
 DESIGN
-- what to show for triatomic molecule partial charges
-- how should the dipoles scale?
 - location of bond dipoles relative to bonds
 - location of molecular dipoles relative to molecules
 - better label for "Electron Density"
