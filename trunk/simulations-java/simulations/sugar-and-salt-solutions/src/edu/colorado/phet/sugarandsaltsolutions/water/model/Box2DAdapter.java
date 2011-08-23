@@ -50,8 +50,10 @@ public class Box2DAdapter {
             type = BodyType.DYNAMIC;
         }};
         body = world.createBody( bodyDef );
-//        body.setLinearDamping( 10 );
-//        body.setAngularDamping( 1 );
+
+        //Add a little bit of linear and rotational friction so the system doesn't accelerate out of control
+        body.setLinearDamping( 1 );
+        body.setAngularDamping( 1 );
 
         //Add shapes for all of the constituents as rigid fixtures to the box2d shape
         for ( int i = 0; i < compound.numberConstituents(); i++ ) {
@@ -92,6 +94,11 @@ public class Box2DAdapter {
     //TODO: add a variant for polyatomic compounds
     public void applyBox2DForce( double fx, double fy, ImmutableVector2D box2DPosition ) {
         body.applyForce( new Vec2( (float) fx, (float) fy ), new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() ) );
+    }
+
+    //Convenience method to set the model position from double,double
+    public void setModelPosition( double x, double y ) {
+        setModelPosition( new ImmutableVector2D( x, y ) );
     }
 
     //Set the model position (in meters) of this compound, and update the box2D body to reflect the new coordinates so that it will be at the right place at the beginning of the next physics step
