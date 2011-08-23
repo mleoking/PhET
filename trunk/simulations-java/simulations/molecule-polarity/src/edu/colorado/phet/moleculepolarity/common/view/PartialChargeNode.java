@@ -22,8 +22,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
  */
 public abstract class PartialChargeNode extends PComposite {
 
-    private static final double REF_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
-    private static final double REF_SCALE = 1;
+    private static final double REFERENCE_MAGNITUDE = MPConstants.ELECTRONEGATIVITY_RANGE.getLength();
+    private static final double REFERENCE_SCALE = 1;
 
     protected final RichSimpleObserver observer;
 
@@ -59,7 +59,7 @@ public abstract class PartialChargeNode extends PComposite {
                     }
 
                     // size proportional to bond dipole magnitude
-                    final double scale = Math.abs( REF_SCALE * partialCharge / REF_MAGNITUDE );
+                    final double scale = Math.abs( REFERENCE_SCALE * partialCharge / REFERENCE_MAGNITUDE );
                     if ( scale != 0 ) {
                         textNode.setScale( scale );
                         textNode.setOffset( -textNode.getFullBoundsReference().getWidth() / 2, -textNode.getFullBoundsReference().getHeight() / 2 ); // origin at center

@@ -12,13 +12,12 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Visual representation of a triatomic molecule.
- * Jmol's method of computing isosurface is documented at http://people.reed.edu/~alan/ACS97/elpot.html
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
 public class TriatomicMoleculeNode extends PhetPNode {
 
-    public TriatomicMoleculeNode( final TriatomicMolecule molecule ) {
+    public TriatomicMoleculeNode( TriatomicMolecule molecule ) {
 
         // nodes
         PNode bondABNode = new BondNode( molecule.bondAB );
@@ -43,7 +42,6 @@ public class TriatomicMoleculeNode extends PhetPNode {
         atomBNode.addInputEventListener( new MoleculeRotationHandler( molecule, this ) );
 
         // change bond angles by dragging atom A or C
-        //TODO change cursor to indicate bond angle manipulation
         atomANode.addInputEventListener( new CursorHandler() );
         atomCNode.addInputEventListener( new CursorHandler() );
         atomANode.addInputEventListener( new BondAngleHandler( molecule, molecule.bondAngleA, this ) );

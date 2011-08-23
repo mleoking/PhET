@@ -48,6 +48,7 @@ public class RealMoleculesModel extends MPModel {
             add( new Molecule3D( "CF4", MPStrings.TETRAFLUOROMETHANE, "mol2/cf4.mol2" ) );
             add( new Molecule3D( "CHCl3", MPStrings.CHLOROFORM, "mol2/chcl3.mol2" ) );
 
+            // in developer mode, this provides a file chooser for selecting and loading a data file
             if ( PhetApplication.getInstance().isDeveloperControlsEnabled() ) {
                 add( new ImportMolecule() );
             }

@@ -13,11 +13,7 @@ import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
  */
 public class DiatomicMoleculeNode extends PhetPNode {
 
-    private final DiatomicMolecule molecule;
-
-    public DiatomicMoleculeNode( final DiatomicMolecule molecule ) {
-
-        this.molecule = molecule;
+    public DiatomicMoleculeNode( DiatomicMolecule molecule ) {
 
         addChild( new BondNode( molecule.bond ) );
         addChild( new AtomNode( molecule.atomA ) );

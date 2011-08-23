@@ -23,8 +23,8 @@ public class ThreeAtomsModel extends MPModel {
 
         clock.addClockListener( new ClockAdapter() {
             public void clockTicked( ClockEvent clockEvent ) {
+                // if the E-field is on and the user isn't controlling the molecule's orientation...
                 if ( eField.enabled.get() && !molecule.isDragging() ) {
-                    // if the E-field is on and the user isn't controlling the molecule's orientation...
                     updateMoleculeOrientation( molecule );
                 }
             }
