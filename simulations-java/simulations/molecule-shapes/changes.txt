@@ -1,3 +1,4 @@
+# 0.00.17 (55682) Aug 23, 2011
 Start with two single bonds, positioned to show a nice animation at the start
 Added background color modification dialog in developer menu
 Added dialog on startup failure
