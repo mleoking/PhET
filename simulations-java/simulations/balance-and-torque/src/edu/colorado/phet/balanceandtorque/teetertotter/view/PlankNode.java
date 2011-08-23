@@ -67,7 +67,7 @@ public class PlankNode extends ModelObjectNode {
         addChild( handleLayer );
         // Use a fully transparent color to make the handles invisible.  This
         // can be made opaque for debugging if needed.
-        Color handleColor = new Color( 255, 255, 255, 100 );
+        Color handleColor = new Color( 255, 255, 255, 0 );
         // Only put the handles on the ends of the plank, otherwise things get
         // weird.  Note that the handles are invisible.
         Rectangle2D plankBounds = plank.getShape().getBounds2D();
@@ -151,7 +151,6 @@ public class PlankNode extends ModelObjectNode {
                 // angle from the left side of the rotation point.
                 vectorToMouseLocation.rotate( Math.PI );
             }
-
             return vectorToMouseLocation.getAngle();
         }
     }
