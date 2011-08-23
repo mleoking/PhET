@@ -4,7 +4,8 @@ package edu.colorado.phet.moleculepolarity;
 import java.awt.Color;
 
 /**
- * Colors that changed frequently during development of this sim.
+ * Colors that changed frequently during development of this sim,
+ * located here so you don't have to search for them.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
