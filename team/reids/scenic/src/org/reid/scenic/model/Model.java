@@ -8,10 +8,10 @@ import edu.colorado.phet.sugarandsaltsolutions.common.util.ImmutableList;
  */
 public class Model {
     public final ImmutableList<Atom> atoms;
-    public final ButtonModel button1;
-    public final ButtonModel button2;
+    public final ButtonModel<Model> button1;
+    public final ButtonModel<Model> button2;
 
-    public Model( ImmutableList<Atom> atoms, ButtonModel button1, ButtonModel button2 ) {
+    public Model( ImmutableList<Atom> atoms, ButtonModel<Model> button1, ButtonModel<Model> button2 ) {
         this.atoms = atoms;
         this.button1 = button1;
         this.button2 = button2;
