@@ -10,23 +10,30 @@ DESIGN
 
 HIGH
 - add minor and major ticks to EN control
-- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3
+- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - Jmol: how to align molecular dipole with E-field?
-- delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 
 MEDIUM
+- delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
 - clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 - tick marks are a little off horizontally in EN controls, changes when canvas is resized
 
 LOW
+- look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
 - add a unity mvt, for insurance?
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - delete TestMepCalculation
 - delete unneeded keep statements from molecule-polarity.pro
+
+BEFORE PUBLISHING
+- screenshot
+- model.txt
+- IntelliJ code analysis
+- design doc snapshot
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
