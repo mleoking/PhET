@@ -1,3 +1,4 @@
+Water tab: Reduced number of water molecules and zoomed in a bit
 Water tab: Improved developer controls
 # 0.00.95 (55646) Aug 22, 2011
 Water tab: Swapped the location of the water with the controls
