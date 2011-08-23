@@ -27,6 +27,7 @@ import edu.colorado.phet.common.piccolophet.PhetPNode;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.event.HighlightHandler.PaintHighlightHandler;
 import edu.colorado.phet.common.piccolophet.util.PNodeLayoutUtils;
+import edu.colorado.phet.moleculepolarity.MPConstants;
 import edu.colorado.phet.moleculepolarity.MPStrings;
 import edu.colorado.phet.moleculepolarity.common.model.Atom;
 import edu.colorado.phet.moleculepolarity.common.model.DiatomicMolecule;
@@ -317,18 +318,15 @@ public class ElectronegativityControlNode extends PhetPNode {
     // test
     public static void main( String[] args ) {
 
-        Color paleYellow = new Color( 253, 255, 213 );
-        final Atom atom = new Atom( "Y", 30, paleYellow, 3 );
+        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D() );
+        Atom atom = molecule.atomA;
         atom.electronegativity.addObserver( new VoidFunction1<Double>() {
             public void apply( Double value ) {
                 System.out.println( "electronegativity=" + value );
             }
         } );
-        DoubleRange range = new DoubleRange( 0.7, 4 );
-        double snapInterval = 0.1;
 
-        DiatomicMolecule molecule = new DiatomicMolecule( new ImmutableVector2D() );
-        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( molecule.atomA, molecule, range, snapInterval );
+        ElectronegativityControlNode controlNode = new ElectronegativityControlNode( atom, molecule, MPConstants.ELECTRONEGATIVITY_RANGE, MPConstants.ELECTRONEGATIVITY_SNAP_INTERVAL );
         controlNode.setOffset( 100, 100 );
 
         PhetPCanvas canvas = new PhetPCanvas();

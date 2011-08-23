@@ -22,7 +22,7 @@ public class MPConstants {
 
     // Model
     public static final DoubleRange ELECTRONEGATIVITY_RANGE = new DoubleRange( 2, 4, 2 );
-    public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.1;
+    public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.2;
 
     // Canvas
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
