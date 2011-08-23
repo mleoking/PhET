@@ -17,7 +17,8 @@ import edu.colorado.phet.moleculepolarity.common.view.BondDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.MPCanvas;
 import edu.colorado.phet.moleculepolarity.common.view.MolecularDipoleNode;
 import edu.colorado.phet.moleculepolarity.common.view.NegativePlateNode;
-import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode;
+import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.CompositePartialChargeNode;
+import edu.colorado.phet.moleculepolarity.common.view.PartialChargeNode.OppositePartialChargeNode;
 import edu.colorado.phet.moleculepolarity.common.view.PositivePlateNode;
 import edu.colorado.phet.moleculepolarity.common.view.TriatomicMoleculeNode;
 import edu.colorado.phet.moleculepolarity.common.view.ViewProperties;
@@ -39,9 +40,9 @@ public class ThreeAtomsCanvas extends MPCanvas {
         PNode negativePlateNode = new NegativePlateNode( model.eField );
         PNode positivePlateNode = new PositivePlateNode( model.eField );
         PNode moleculeNode = new TriatomicMoleculeNode( model.molecule );
-        final PNode partialChargeNodeA = new PartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
-        final PNode partialChargeNodeB = new PartialChargeNode( model.molecule.atomB, model.molecule.bondBC ); //TODO position this charge opposite molecular dipole
-        final PNode partialChargeNodeC = new PartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
+        final PNode partialChargeNodeA = new OppositePartialChargeNode( model.molecule.atomA, model.molecule.bondAB );
+        final PNode partialChargeNodeB = new CompositePartialChargeNode( model.molecule.atomB, model.molecule );
+        final PNode partialChargeNodeC = new OppositePartialChargeNode( model.molecule.atomC, model.molecule.bondBC );
         final PNode bondDipoleABNode = new BondDipoleNode( model.molecule.bondAB, DIPOLE_SCALE );
         final PNode bondDipoleBCNode = new BondDipoleNode( model.molecule.bondBC, DIPOLE_SCALE );
         final PNode molecularDipoleNode = new MolecularDipoleNode( model.molecule, DIPOLE_SCALE );

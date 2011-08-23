@@ -1,3 +1,4 @@
+8/22/11 position partial charge opposite molecular dipole for atom B in triatomic molecule
 8/22/11 add view of partial charge for atom B in triatomic molecule (location is incorrect)
 8/22/11 move computation of partial charges from bond to molecule, to handle atoms that participate in multiple bonds, lie atom B in triatomic molecule
 8/22/11 prepare 2D isosurface by adding constructor args that will be needed for coloring
