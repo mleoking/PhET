@@ -53,15 +53,18 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
 
     // knob
-    private static final PDimension KNOB_SIZE = new PDimension( 15, 20 );
-    private static final Stroke KNOB_STROKE = new BasicStroke( 1f );
-    private static final Color KNOB_HIGHLIGHT_COLOR = Color.GREEN;
-    private static final Color KNOB_NORMAL_COLOR = KNOB_HIGHLIGHT_COLOR.darker();
-    private static final Color KNOB_STROKE_COLOR = Color.BLACK;
+    private static final PDimension THUMB_SIZE = new PDimension( 15, 20 );
+    private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
+    private static final Color THUMB_STROKE_COLOR = Color.BLACK;
+    private static final Color THUMB_HIGHLIGHT_COLOR = Color.GREEN;
+    private static final Color THUMB_NORMAL_COLOR = THUMB_HIGHLIGHT_COLOR.darker();
 
     // ticks
-    private static final double MAJOR_TICK_LENGTH = 10;
-    private static final double MINOR_TICK_LENGTH = 5;
+    private static final double MAJOR_TICK_LENGTH = 12;
+    private static final double MINOR_TICK_LENGTH = 7;
+    private static final Stroke MAJOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final Stroke MINOR_TICK_STROKE = new BasicStroke( 1f );
+    private static final double MAJOR_TICK_INTERVAL = 1.0;
 
     // background
     private static final double BACKGROUND_X_MARGIN = 10;
@@ -147,7 +150,7 @@ public class ElectronegativityControlNode extends PhetPNode {
 
         private final Atom atom;
         private final TrackNode trackNode;
-        private final KnobNode knobNode;
+        private final ThumbNode thumbNode;
         private final DoubleRange range;
 
         public PanelNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
@@ -155,44 +158,48 @@ public class ElectronegativityControlNode extends PhetPNode {
             this.atom = atom;
             this.range = range;
 
+            // origin is at the track's upper-left corner
             trackNode = new TrackNode();
-            knobNode = new KnobNode( molecule, this, trackNode, range, snapInterval, atom );
+            addChild( trackNode );
+            trackNode.setOffset( 0, 0 );
+
+            // label, placed above the track
             PText labelNode = new PText( MPStrings.ELECTRONEGATIVITY ) {{
                 setFont( new PhetFont( 14 ) );
             }};
-            TickMarkNode minTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.LESS );
-            TickMarkNode maxTickNode = new TickMarkNode( MAJOR_TICK_LENGTH, MPStrings.MORE );
-
-            // rendering order
-            addChild( trackNode );
-            addChild( minTickNode );
-            addChild( maxTickNode );
-            addChild( knobNode );
             addChild( labelNode );
+            labelNode.setOffset( trackNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 ),
+                                 trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 15 );
 
-            // layout
-            {
-                // track at origin
-                double x = 0;
-                double y = 0;
-                trackNode.setOffset( x, y );
-                // min tick at left end of track
-                x = trackNode.getFullBoundsReference().getMinX();
-                y = trackNode.getFullBoundsReference().getMaxY();
-                minTickNode.setOffset( x, y );
-                // max tick at right end of track
-                x = trackNode.getFullBoundsReference().getMaxX() - 1;
-                y = trackNode.getFullBoundsReference().getMaxY();
-                maxTickNode.setOffset( x, y );
-                // knob centered in track
-                x = trackNode.getFullBoundsReference().getCenterX();
-                y = trackNode.getFullBoundsReference().getCenterY() + ( knobNode.getFullBoundsReference().getHeight() / 2 );
-                knobNode.setOffset( x, y );
-                // label centered above the track
-                x = trackNode.getFullBoundsReference().getCenterX() - ( labelNode.getFullBoundsReference().getWidth() / 2 );
-                y = trackNode.getFullBoundsReference().getMinY() - labelNode.getFullBoundsReference().getHeight() - 15;
-                labelNode.setOffset( x, y );
+            // tick marks below the track, left to right
+            int numberOfTicks = (int) ( range.getLength() / snapInterval ) + 1;
+            double xSpacing = TRACK_SIZE.getWidth() / ( numberOfTicks - 1 );
+            for ( int i = 0; i < numberOfTicks; i++ ) {
+                TickMarkNode tickMarkNode;
+                if ( i == 0 ) {
+                    tickMarkNode = new MajorTickMarkNode( MPStrings.LESS );
+                }
+                else if ( i == numberOfTicks - 1 ) {
+                    tickMarkNode = new MajorTickMarkNode( MPStrings.MORE );
+                }
+                else {
+                    if ( ( i * snapInterval ) % MAJOR_TICK_INTERVAL == 0 ) {
+                        tickMarkNode = new MajorTickMarkNode();
+                    }
+                    else {
+                        tickMarkNode = new MinorTickMarkNode();
+                    }
+                }
+                addChild( tickMarkNode );
+                tickMarkNode.setOffset( trackNode.getXOffset() + ( i * xSpacing ),
+                                        trackNode.getFullBoundsReference().getMaxY() );
             }
+
+            // start with the thumb centered in the track
+            thumbNode = new ThumbNode( molecule, this, trackNode, range, snapInterval, atom );
+            addChild( thumbNode );
+            thumbNode.setOffset( trackNode.getFullBoundsReference().getCenterX(),
+                                 trackNode.getFullBoundsReference().getCenterY() + ( thumbNode.getFullBoundsReference().getHeight() / 3 ) );
 
             atom.electronegativity.addObserver( new SimpleObserver() {
                 public void update() {
@@ -206,8 +213,8 @@ public class ElectronegativityControlNode extends PhetPNode {
             // knob location
             LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getFullBoundsReference().getMaxX() - 1 );
             double x = f.evaluate( atom.electronegativity.get() );
-            double y = knobNode.getYOffset();
-            knobNode.setOffset( x, y );
+            double y = thumbNode.getYOffset();
+            thumbNode.setOffset( x, y );
         }
     }
 
@@ -226,15 +233,15 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     /*
-     * The slider knob, points down.
-     * Origin is at the knob's tip.
+     * The slider thumb (aka knob), points down.
+     * Origin is at the thumb's tip.
      */
-    private static class KnobNode extends PPath {
+    private static class ThumbNode extends PPath {
 
-        public KnobNode( IMolecule molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
+        public ThumbNode( IMolecule molecule, PNode relativeNode, PNode trackNode, DoubleRange range, double snapInterval, final Atom atom ) {
 
-            float w = (float) KNOB_SIZE.getWidth();
-            float h = (float) KNOB_SIZE.getHeight();
+            float w = (float) THUMB_SIZE.getWidth();
+            float h = (float) THUMB_SIZE.getHeight();
             GeneralPath path = new GeneralPath();
             path.moveTo( 0f, 0f );
             path.lineTo( w / 2f, 0.35f * -h );
@@ -244,12 +251,12 @@ public class ElectronegativityControlNode extends PhetPNode {
             path.closePath();
 
             setPathTo( path );
-            setPaint( KNOB_NORMAL_COLOR );
-            setStroke( KNOB_STROKE );
-            setStrokePaint( KNOB_STROKE_COLOR );
+            setPaint( THUMB_NORMAL_COLOR );
+            setStroke( THUMB_STROKE );
+            setStrokePaint( THUMB_STROKE_COLOR );
 
             addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PaintHighlightHandler( this, KNOB_NORMAL_COLOR, KNOB_HIGHLIGHT_COLOR ) );
+            addInputEventListener( new PaintHighlightHandler( this, THUMB_NORMAL_COLOR, THUMB_HIGHLIGHT_COLOR ) );
             addInputEventListener( new KnobDragHandler( molecule, relativeNode, trackNode, this, range, snapInterval,
                                                         new VoidFunction1<Double>() {
                                                             public void apply( Double value ) {
@@ -294,13 +301,11 @@ public class ElectronegativityControlNode extends PhetPNode {
      */
     private static class TickMarkNode extends PComposite {
 
-        public TickMarkNode( double length ) {
-            this( length, null );
-        }
+        public TickMarkNode( double length, final Stroke stroke, String label ) {
 
-        public TickMarkNode( double length, String label ) {
-
-            PPath tickNode = new PPath( new Line2D.Double( 0, 0, 0, length ) );
+            PPath tickNode = new PPath( new Line2D.Double( 0, 0, 0, length ) ) {{
+                setStroke( stroke );
+            }};
             addChild( tickNode );
 
             if ( label != null && label.trim().length() != 0 ) {
@@ -312,6 +317,23 @@ public class ElectronegativityControlNode extends PhetPNode {
                 double y = tickNode.getFullBoundsReference().getMaxY() + 2;
                 labelNode.setOffset( x, y );
             }
+        }
+    }
+
+    private static class MinorTickMarkNode extends TickMarkNode {
+        public MinorTickMarkNode() {
+            super( MINOR_TICK_LENGTH, MINOR_TICK_STROKE, null );
+        }
+    }
+
+    private static class MajorTickMarkNode extends TickMarkNode {
+
+        public MajorTickMarkNode() {
+            this( null );
+        }
+
+        public MajorTickMarkNode( String label ) {
+            super( MAJOR_TICK_LENGTH, MAJOR_TICK_STROKE, label );
         }
     }
 
