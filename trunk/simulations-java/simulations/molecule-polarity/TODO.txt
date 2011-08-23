@@ -11,6 +11,7 @@ HIGH
 - clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
 - Jmol: how to align molecular dipole with E-field?
+- UnsupportedOperationException (Cannot normalize a zero-magnitude vector): "Two Atoms" tab; Atom A EN = more; Atom B EN = less; E-field = on; Reset All
 
 MEDIUM
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
@@ -20,6 +21,7 @@ MEDIUM
 - locations of dipoles should be consistent between 2D and Jmol
 
 LOW
+- move duplicate ClockListener in 2D models to a base class
 - look at duplicated code between BondAngleHandler and MoleculeRotationHandler
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
