@@ -55,22 +55,27 @@ public class TestScenicPanel {
                     };
                     final Function2<Model, MouseEvent, Model> mousePressHandler = new Function2<Model, MouseEvent, Model>() {
                         public Model apply( Model model, MouseEvent mouseEvent ) {
-                            return new Model( model.atoms, model.buttonModel.hover ? model.buttonModel.pressed( true ) : model.buttonModel );
+                            return model.
+                                    button1( model.button1.hover ? model.button1.pressed( true ) : model.button1 ).
+                                    button2( model.button2.hover ? model.button2.pressed( true ) : model.button2 );
                         }
                     };
                     final Function2<Model, MouseEvent, Model> mouseReleasedHandler = new Function2<Model, MouseEvent, Model>() {
                         public Model apply( Model model, MouseEvent mouseEvent ) {
-                            return new Model( model.atoms, model.buttonModel.pressed( false ) );
+                            return model.
+                                    button1( model.button1.pressed( false ) ).
+                                    button2( model.button2.pressed( false ) );
                         }
                     };
                     Function2<Model, MouseEvent, Model> mouseMovedHandler = new Function2<Model, MouseEvent, Model>() {
                         public Model apply( Model model, MouseEvent mouseEvent ) {
-                            boolean hover = new View( model ).buttonContains( mouseEvent.getX(), mouseEvent.getY() );
-                            return new Model( model.atoms, model.buttonModel.hover( hover ) );
+                            return model.
+                                    button1( model.button1.hover( new View( model ).button1Contains( mouseEvent.getX(), mouseEvent.getY() ) ) ).
+                                    button2( model.button2.hover( new View( model ).button2Contains( mouseEvent.getX(), mouseEvent.getY() ) ) );
                         }
                     };
                     final ScenicPanel<Model> scenicPanel = new ScenicPanel<Model>(
-                            new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false, false ) ),
+                            new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false, false ), new ButtonModel( new PhetFont( 16, true ), "Button 2", 300, 300, false, false ) ),
                             painter, mousePressHandler, mouseReleasedHandler, mouseMovedHandler
                     ) {{
                         setPreferredSize( new Dimension( 800, 600 ) );
@@ -78,13 +83,15 @@ public class TestScenicPanel {
                     setContentPane( scenicPanel );
                     setDefaultCloseOperation( EXIT_ON_CLOSE );
                     pack();
+
+                    final Function1<Model, Cursor> cursorHandler = new Function1<Model, Cursor>() {
+                        public Cursor apply( Model model ) {
+                            return model.button1.hover || model.button2.hover ? Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) : Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+                        }
+                    };
                     new Thread( new Runnable() {
                         public void run() {
-                            recurse( scenicPanel, new ModelUpdater(), new Function1<Model, Cursor>() {
-                                public Cursor apply( Model model ) {
-                                    return model.buttonModel.hover ? Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) : Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
-                                }
-                            } );
+                            recurse( scenicPanel, new ModelUpdater(), cursorHandler );
                         }
                     } ).start();
                 }}.setVisible( true );

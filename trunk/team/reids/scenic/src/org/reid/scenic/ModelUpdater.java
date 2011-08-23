@@ -15,7 +15,7 @@ public class ModelUpdater implements Function1<Model, Model> {
         final double dt = 0.05;
         final ImmutableVector2D force = new ImmutableVector2D( 0, 9.8 );
 
-        return new Model( model.atoms.map( new Function1<Atom, Atom>() {
+        return model.atoms( model.atoms.map( new Function1<Atom, Atom>() {
             public Atom apply( Atom atom ) {
                 //v = v0 + at, a = f/m, v = v0+ft/m
                 final ImmutableVector2D velocity = atom.velocity.plus( force.times( dt / atom.mass ) );
@@ -23,6 +23,6 @@ public class ModelUpdater implements Function1<Model, Model> {
                 final ImmutableVector2D newVelocity = atom.position.getY() < TestScenicPanel.MAX_Y ? velocity : new ImmutableVector2D( velocity.getX(), -Math.abs( velocity.getY() ) );
                 return new Atom( position, newVelocity, atom.mass );
             }
-        } ), model.buttonModel );
+        } ) );
     }
 }
