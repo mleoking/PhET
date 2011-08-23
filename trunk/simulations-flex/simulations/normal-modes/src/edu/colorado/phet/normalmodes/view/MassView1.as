@@ -95,8 +95,10 @@ public class MassView1 extends Sprite{
         var thisObject:Object = this;
         this.mass.buttonMode = true;
         this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        this.borderZone.addEventListener( MouseEvent.ROLL_OVER, showArrows );
-        this.borderZone.addEventListener( MouseEvent.ROLL_OUT, removeArrows );
+        //this.borderZone.addEventListener( MouseEvent.ROLL_OVER, showArrows );
+        //this.borderZone.addEventListener( MouseEvent.ROLL_OUT, removeArrows );
+        this.addEventListener( MouseEvent.ROLL_OVER, thisObject.showArrows );
+        this.addEventListener( MouseEvent.ROLL_OUT, thisObject.removeArrows );
         //this.mass.addEventListener( MouseEvent.MOUSE_OVER, showArrows );
         var clickOffset: Point;
 
@@ -106,20 +108,13 @@ public class MassView1 extends Sprite{
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            thisObject.mass.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
+            thisObject.killArrowListeners();
+            //thisObject.removeEventListener( MouseEvent.ROLL_OVER, thisObject.showArrows );
+            //thisObject.removeEventListener( MouseEvent.ROLL_OUT, thisObject.removeArrows );
+            //thisObject.mass.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
             //trace("evt.target.y: "+evt.target.y);
         }
 
-        function showArrows( evt: MouseEvent ):void {
-            thisObject.arrows.visible = true;
-            //stage.addEventListener ( MouseEvent.MOUSE_OUT, removeArrows );
-        }
-
-        function removeArrows( evt: MouseEvent ):void{
-            thisObject.arrows.visible = false;
-            //stage.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
-            //stage.removeEventListener( MouseEvent.MOUSE_OUT, removeArrows );
-        }
 
         function stopTargetDrag( evt: MouseEvent ): void {
             thisObject.myModel1.grabbedMass = 0;
@@ -160,6 +155,22 @@ public class MassView1 extends Sprite{
             evt.updateAfterEvent();
         }//end of dragTarget()
 
+    } //end makeMassGrabble
+
+    private function showArrows( evt: MouseEvent ):void {
+        this.arrows.visible = true;
+        //stage.addEventListener ( MouseEvent.MOUSE_OUT, removeArrows );
+    }
+
+    private function removeArrows( evt: MouseEvent ):void{
+        this.arrows.visible = false;
+        //stage.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
+        //stage.removeEventListener( MouseEvent.MOUSE_OUT, removeArrows );
+    }
+
+    public function killArrowListeners():void{
+        this.removeEventListener( MouseEvent.ROLL_OVER, this.showArrows );
+        this.removeEventListener( MouseEvent.ROLL_OUT, this.removeArrows );
     }
 } //end class
 } //end package
