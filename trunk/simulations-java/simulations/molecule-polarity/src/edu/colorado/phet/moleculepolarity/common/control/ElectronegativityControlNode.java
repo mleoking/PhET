@@ -201,7 +201,7 @@ public class ElectronegativityControlNode extends PhetPNode {
             } );
         }
 
-        // Updates the control to match the capacitor model.
+        // Updates the control to match the model.
         public void updateControl() {
             // knob location
             LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getFullBoundsReference().getMaxX() - 1 );
