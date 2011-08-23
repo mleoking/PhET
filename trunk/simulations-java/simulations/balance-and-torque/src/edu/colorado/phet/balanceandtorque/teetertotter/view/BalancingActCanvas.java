@@ -114,7 +114,7 @@ public class BalancingActCanvas extends PhetPCanvas {
         // Add graphics for the plank, the fulcrum, the attachment bar, and the columns.
         rootNode.addChild( new FulcrumAbovePlankNode( mvt, model.getFulcrum() ) );
         rootNode.addChild( new AttachmentBarNode( mvt, model.getAttachmentBar() ) );
-        rootNode.addChild( new PlankNode( mvt, model.getPlank() ) );
+        rootNode.addChild( new PlankNode( mvt, model.getPlank(), this ) );
         for ( SupportColumn supportColumn : model.getSupportColumns() ) {
             rootNode.addChild( new SupportColumnNode( mvt, supportColumn, model.supportColumnsActive ) );
         }
