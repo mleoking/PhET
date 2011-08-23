@@ -2,11 +2,11 @@
 package edu.colorado.phet.moleculepolarity.common.view;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.geom.Line2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 import edu.umd.cs.piccolo.nodes.PPath;
 
@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class BondNode extends PPath {
 
     public BondNode( final Bond bond ) {
-        setStrokePaint( Color.DARK_GRAY );
+        setStrokePaint( MPColors.BOND );
         setStroke( new BasicStroke( 12f ) );
         VoidFunction1<ImmutableVector2D> updater = new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D immutableVector2D ) {
