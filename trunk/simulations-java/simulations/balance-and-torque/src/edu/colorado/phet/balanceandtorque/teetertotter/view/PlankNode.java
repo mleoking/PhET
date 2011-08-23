@@ -10,6 +10,7 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.Plank;
+import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -66,7 +67,7 @@ public class PlankNode extends ModelObjectNode {
         addChild( handleLayer );
         // Only put the handles on the ends of the plank, otherwise things get
         // weird.  Note that the handles are invisible.
-        Color handleColor = Color.pink;
+        Color handleColor = new Color( 255, 255, 255, 100 );
         Rectangle2D plankBounds = plank.getShape().getBounds2D();
         final PNode rightHandle = new PhetPPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( plankBounds.getWidth() / 4 ),
                                                                          -mvt.modelToViewDeltaY( plankBounds.getHeight() ),
@@ -95,6 +96,7 @@ public class PlankNode extends ModelObjectNode {
         } );
 
         rightHandle.addInputEventListener( new GrabHandleDragHandler( plank, canvas, mvt ) );
+        leftHandle.addInputEventListener( new GrabHandleDragHandler( plank, canvas, mvt ) );
     }
 
     private static class GrabHandleDragHandler extends PDragEventHandler {
@@ -111,22 +113,20 @@ public class PlankNode extends ModelObjectNode {
 
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
+            System.out.println( "---------- Start Drag ----------------" );
             // The user wants to move this.
             plank.userControlled.set( true );
-            Point2D modelStartDragPosition = getModelPosition( event.getCanvasPosition() );
-            dragAngleDelta = plank.getTiltAngle() - Math.atan2( modelStartDragPosition.getY() - plank.getCenterSurfacePoint().getY(),
-                                                                modelStartDragPosition.getX() - plank.getCenterSurfacePoint().getX() );
+            dragAngleDelta = plank.getTiltAngle() - getMouseToPlankCenterAngle( event.getCanvasPosition() );
         }
 
         @Override
         public void mouseDragged( PInputEvent event ) {
-            Point2D modelDragPosition = getModelPosition( event.getCanvasPosition() );
-            double dragAngle = Math.atan2( modelDragPosition.getY() - plank.getCenterSurfacePoint().getY(),
-                                           modelDragPosition.getX() - plank.getCenterSurfacePoint().getX() );
-            plank.setTiltAngle( dragAngle + dragAngleDelta );
+            System.out.println( "---------- Drag ----------------" );
+            plank.setTiltAngle( getMouseToPlankCenterAngle( event.getCanvasPosition() ) + dragAngleDelta );
         }
 
         @Override protected void endDrag( PInputEvent event ) {
+            System.out.println( "---------- End Drag ----------------" );
             super.endDrag( event );
             // The user is no longer controlling this.
             plank.userControlled.set( false );
@@ -141,6 +141,21 @@ public class PlankNode extends ModelObjectNode {
             canvas.getPhetRootNode().screenToWorld( worldPos );
             Point2D modelPos = mvt.viewToModel( worldPos );
             return modelPos;
+        }
+
+        double getMouseToPlankCenterAngle( Point2D mouseCanvasPosition ) {
+            Point2D modelStartDragPosition = getModelPosition( mouseCanvasPosition );
+            Vector2D vectorToMouseLocation = new Vector2D( modelStartDragPosition.getX() - plank.getCenterSurfacePoint().getX(),
+                                                           modelStartDragPosition.getY() - plank.getCenterSurfacePoint().getY() );
+            System.out.println( "vectorToMouseLocation.getAngle() = " + vectorToMouseLocation.getAngle() );
+            if ( Math.abs( vectorToMouseLocation.getAngle() ) > Math.PI / 2 ) {
+                System.out.println( "Flipping vector." );
+                // Do a 180 on the vector to avoid problems with getting the
+                // angle from the left side of the rotation point.
+                vectorToMouseLocation.rotate( Math.PI );
+            }
+
+            return vectorToMouseLocation.getAngle();
         }
     }
 }
