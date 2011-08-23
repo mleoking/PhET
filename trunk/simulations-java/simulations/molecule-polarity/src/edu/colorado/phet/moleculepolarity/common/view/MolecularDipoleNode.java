@@ -21,7 +21,7 @@ public class MolecularDipoleNode extends DipoleNode {
     public MolecularDipoleNode( final IMolecule molecule, final double scale ) {
         super( MPColors.MOLECULAR_DIPOLE );
 
-        // align the dipole to be parallel with the bond, with some perpendicular offset
+        // align the dipole to be parallel with the bond, with some offset along the dipole's axis
         SimpleObserver update = new SimpleObserver() {
             public void update() {
 

@@ -15,6 +15,9 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 /**
  * Positive plate for E-field creation device.
  * Origin at the upper-left corner of the plate, excluding the polarity indicator.
+ * <p/>
+ * Note that this is similar to NegativePlateNode, but just different enough that
+ * some duplicate code is better than an awkward base class.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
