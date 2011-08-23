@@ -25,7 +25,8 @@ import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication.RESOURCES;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.HANDLE;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PANEL;
 
 /**
  * @author Sam Reid
@@ -44,7 +45,7 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //Handle
-        addChild( new PImage( RESOURCES.getImage( "handle.png" ) ) {{
+        addChild( new PImage( HANDLE ) {{
             addInputEventListener( new RelativeDragHandler( this, transform, waterTower.tankBottomCenter, new Function1<Point2D, Point2D>() {
                 public Point2D apply( Point2D modelLocation ) {
                     return new Point2D.Double( waterTower.tankBottomCenter.get().getX(), MathUtil.clamp( 0, modelLocation.getY(), WaterTower.MAX_Y ) );
@@ -120,7 +121,7 @@ public class WaterTowerNode extends PNode {
         }} );
 
         //Slider panel covering the hole
-        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( RESOURCES.getImage( "panel.png" ), 50 ) ) {{
+        addChild( new PImage( BufferedImageUtils.multiScaleToHeight( PANEL, 50 ) ) {{
             final SimpleObserver updatePanelLocation = new SimpleObserver() {
                 public void update() {
                     ImmutableVector2D viewPoint = transform.modelToView( waterTower.panelOffset.get().getAddedInstance( waterTower.tankBottomCenter.get() ) );

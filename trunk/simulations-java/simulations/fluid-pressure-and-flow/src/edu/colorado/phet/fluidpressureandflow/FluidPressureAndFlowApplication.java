@@ -3,7 +3,6 @@ package edu.colorado.phet.fluidpressureandflow;
 
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
-import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 import edu.colorado.phet.common.piccolophet.PiccoloPhetApplication;
 import edu.colorado.phet.fluidpressureandflow.flow.FluidFlowModule;
 import edu.colorado.phet.fluidpressureandflow.pressure.FluidPressureModule;
@@ -15,8 +14,6 @@ import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
  * @author Sam Reid
  */
 public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
-    private static final String NAME = "fluid-pressure-and-flow";
-    public static final PhetResources RESOURCES = new PhetResources( NAME );
 
     public FluidPressureAndFlowApplication( PhetApplicationConfig config ) {
         super( config );
@@ -26,6 +23,6 @@ public class FluidPressureAndFlowApplication extends PiccoloPhetApplication {
     }
 
     public static void main( String[] args ) {
-        new PhetApplicationLauncher().launchSim( args, NAME, FluidPressureAndFlowApplication.class );
+        new PhetApplicationLauncher().launchSim( args, "fluid-pressure-and-flow", FluidPressureAndFlowApplication.class );
     }
 }

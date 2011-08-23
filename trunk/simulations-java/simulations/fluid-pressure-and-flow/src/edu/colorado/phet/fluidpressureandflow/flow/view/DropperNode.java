@@ -11,13 +11,14 @@ import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.util.PDimension;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
 /**
  * Node that represents the thing with which the user interacts in order to
@@ -64,13 +65,13 @@ public class DropperNode extends PNode {
 
         // Load the graphic images for this device.  These are offset in order
         // to make the center of rotation be the center of the bulb.
-        BufferedImage injectorBodyImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "squeezer_background.png" );
+        BufferedImage injectorBodyImage = SQUEEZER_BACKGROUND;
         PNode injectorBodyImageNode = new PImage( injectorBodyImage );
         Rectangle2D originalBodyBounds = injectorBodyImageNode.getFullBounds();
         injectorBodyImageNode.setOffset( -originalBodyBounds.getWidth() / 2, -originalBodyBounds.getHeight() / 2 );
         injectorNode.addChild( injectorBodyImageNode );
-        pressedButtonImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "button_pressed.png" );
-        unpressedButtonImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "button_unpressed.png" );
+        pressedButtonImage = BUTTON_PRESSED;
+        unpressedButtonImage = BUTTON_UNPRESSED;
         buttonImageNode = new PImage( unpressedButtonImage );
         buttonImageNode.setOffset( BUTTON_OFFSET );
         injectorNode.addChild( buttonImageNode );

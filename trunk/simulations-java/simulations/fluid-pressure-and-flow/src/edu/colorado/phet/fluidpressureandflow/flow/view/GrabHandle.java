@@ -12,7 +12,7 @@ import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication.RESOURCES;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.HANDLE;
 
 /**
  * Grab handle that lets the user translate the top or bottom of the pipe to deform the pipe.
@@ -22,7 +22,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplica
 public class GrabHandle extends PNode {
     public GrabHandle( final ModelViewTransform transform, final PipeControlPoint controlPoint, final Function1<Point2D, Point2D> constraint ) {
         //Feasibility test for showing a handle image
-        addChild( new PImage( BufferedImageUtils.multiScaleToWidth( RESOURCES.getImage( "handle.png" ), 40 ) ) {{
+        addChild( new PImage( BufferedImageUtils.multiScaleToWidth( HANDLE, 40 ) ) {{
             controlPoint.point.addObserver( new SimpleObserver() {
                 public void update() {
                     setOffset( transform.modelToView( controlPoint.point.get() ).plus( -getFullBounds().getWidth() / 2, -getFullBounds().getHeight() - PipeFrontNode.EDGE_STROKE.getLineWidth() ).toPoint2D() );
