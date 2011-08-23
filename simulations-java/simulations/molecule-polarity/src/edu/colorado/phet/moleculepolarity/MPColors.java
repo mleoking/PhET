@@ -10,19 +10,22 @@ import java.awt.Color;
  */
 public class MPColors {
 
+    // Molecule components
     public static final Color ATOM_A = Color.YELLOW;
     public static final Color ATOM_B = Color.GREEN;
     public static final Color ATOM_C = Color.PINK;
     public static final Color BOND = Color.DARK_GRAY;
 
+    // Dipoles
     public static final Color BOND_DIPOLE = Color.BLACK;
     public static final Color MOLECULAR_DIPOLE = Color.ORANGE;
 
+    // E-field plates
     public static final Color PLATE_DISABLED_COLOR = Color.LIGHT_GRAY;
     public static final Color PLATE_NEGATIVE_COLOR = PLATE_DISABLED_COLOR;
     public static final Color PLATE_POSITIVE_COLOR = PLATE_NEGATIVE_COLOR;
 
-    // Color used for potential=0 by Jmol in roygb gradient, see http://jmol.sourceforge.net/jscolors/#gradnt
+    // Color used for "neutral" (potential=0) by Jmol in roygb gradient, see http://jmol.sourceforge.net/jscolors/#gradnt
     public static final Color NEUTRAL_GREEN = new Color( 31, 247, 0 );
 
     // Gradient used for electron density, more to less.
