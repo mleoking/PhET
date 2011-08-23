@@ -113,7 +113,6 @@ public class PlankNode extends ModelObjectNode {
 
         @Override protected void startDrag( PInputEvent event ) {
             super.startDrag( event );
-            System.out.println( "---------- Start Drag ----------------" );
             // The user wants to move this.
             plank.userControlled.set( true );
             dragAngleDelta = plank.getTiltAngle() - getMouseToPlankCenterAngle( event.getCanvasPosition() );
@@ -121,12 +120,10 @@ public class PlankNode extends ModelObjectNode {
 
         @Override
         public void mouseDragged( PInputEvent event ) {
-            System.out.println( "---------- Drag ----------------" );
             plank.setTiltAngle( getMouseToPlankCenterAngle( event.getCanvasPosition() ) + dragAngleDelta );
         }
 
         @Override protected void endDrag( PInputEvent event ) {
-            System.out.println( "---------- End Drag ----------------" );
             super.endDrag( event );
             // The user is no longer controlling this.
             plank.userControlled.set( false );
@@ -147,9 +144,7 @@ public class PlankNode extends ModelObjectNode {
             Point2D modelStartDragPosition = getModelPosition( mouseCanvasPosition );
             Vector2D vectorToMouseLocation = new Vector2D( modelStartDragPosition.getX() - plank.getCenterSurfacePoint().getX(),
                                                            modelStartDragPosition.getY() - plank.getCenterSurfacePoint().getY() );
-            System.out.println( "vectorToMouseLocation.getAngle() = " + vectorToMouseLocation.getAngle() );
             if ( Math.abs( vectorToMouseLocation.getAngle() ) > Math.PI / 2 ) {
-                System.out.println( "Flipping vector." );
                 // Do a 180 on the vector to avoid problems with getting the
                 // angle from the left side of the rotation point.
                 vectorToMouseLocation.rotate( Math.PI );
