@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package org.reid.scenic;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -30,12 +31,16 @@ public class TestScenicPanel {
     protected static int MAX_Y;
 
     //Todo: rewrite in scala to get tail recursion
-    public static <T> void recurse( ScenicPanel<T> panel, Function1<T, T> update, T model ) {
+    public static <T> void recurse( final ScenicPanel<T> panel, final Function1<T, T> update, final Function1<T, Cursor> cursor ) {
         while ( true ) {
-            model = update.apply( model );
-            panel.setModel( model );
+            SwingUtilities.invokeLater( new Runnable() {
+                public void run() {
+                    final T model = update.apply( panel.getModel() );
+                    panel.setModel( model );
+                    panel.setCursor( cursor.apply( model ) );
+                }
+            } );
             panel.paintImmediately( 0, 0, panel.getWidth(), panel.getHeight() );
-            Thread.yield();
         }
     }
 
@@ -43,15 +48,30 @@ public class TestScenicPanel {
         SwingUtilities.invokeAndWait( new Runnable() {
             public void run() {
                 new JFrame() {{
-                    final ScenicPanel<Model> scenicPanel = new ScenicPanel<Model>( new VoidFunction2<Model, Graphics2D>() {
+                    final VoidFunction2<Model, Graphics2D> painter = new VoidFunction2<Model, Graphics2D>() {
                         public void apply( Model model, Graphics2D graphics2D ) {
                             new View( model ).paint( graphics2D );
                         }
-                    }, new Function2<Model, MouseEvent, Model>() {
+                    };
+                    final Function2<Model, MouseEvent, Model> mousePressHandler = new Function2<Model, MouseEvent, Model>() {
                         public Model apply( Model model, MouseEvent mouseEvent ) {
-                            return null;
+                            return new Model( model.atoms, model.buttonModel.hover ? model.buttonModel.pressed( true ) : model.buttonModel );
                         }
-                    }
+                    };
+                    final Function2<Model, MouseEvent, Model> mouseReleasedHandler = new Function2<Model, MouseEvent, Model>() {
+                        public Model apply( Model model, MouseEvent mouseEvent ) {
+                            return new Model( model.atoms, model.buttonModel.pressed( false ) );
+                        }
+                    };
+                    Function2<Model, MouseEvent, Model> mouseMovedHandler = new Function2<Model, MouseEvent, Model>() {
+                        public Model apply( Model model, MouseEvent mouseEvent ) {
+                            boolean hover = new View( model ).buttonContains( mouseEvent.getX(), mouseEvent.getY() );
+                            return new Model( model.atoms, model.buttonModel.hover( hover ) );
+                        }
+                    };
+                    final ScenicPanel<Model> scenicPanel = new ScenicPanel<Model>(
+                            new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false, false ) ),
+                            painter, mousePressHandler, mouseReleasedHandler, mouseMovedHandler
                     ) {{
                         setPreferredSize( new Dimension( 800, 600 ) );
                     }};
@@ -60,7 +80,11 @@ public class TestScenicPanel {
                     pack();
                     new Thread( new Runnable() {
                         public void run() {
-                            recurse( scenicPanel, new ModelUpdater(), new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false ) ) );
+                            recurse( scenicPanel, new ModelUpdater(), new Function1<Model, Cursor>() {
+                                public Cursor apply( Model model ) {
+                                    return model.buttonModel.hover ? Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) : Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+                                }
+                            } );
                         }
                     } ).start();
                 }}.setVisible( true );

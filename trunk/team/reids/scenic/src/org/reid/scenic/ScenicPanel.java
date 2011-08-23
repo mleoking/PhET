@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.JPanel;
 
@@ -22,15 +23,40 @@ public class ScenicPanel<T> extends JPanel {
     private T model;
     private VoidFunction2<T, Graphics2D> painter;
     private Function2<T, MouseEvent, T> mousePressHandler;
+    private Function2<T, MouseEvent, T> mouseReleasedHandler;
+    private Function2<T, MouseEvent, T> mouseMovedHandler;
 
-    public ScenicPanel( VoidFunction2<T, Graphics2D> painter, Function2<T, MouseEvent, T> mousePressHandler ) {
+    public ScenicPanel( T model,
+                        VoidFunction2<T, Graphics2D> painter,
+                        Function2<T, MouseEvent, T> mousePressHandler,
+                        Function2<T, MouseEvent, T> mouseReleasedHandler,
+                        Function2<T, MouseEvent, T> mouseMovedHandler ) {
+        this.model = model;
         this.painter = painter;
         this.mousePressHandler = mousePressHandler;
+        this.mouseReleasedHandler = mouseReleasedHandler;
+        this.mouseMovedHandler = mouseMovedHandler;
         addMouseListener( new MouseAdapter() {
             @Override public void mousePressed( MouseEvent e ) {
-                model = ScenicPanel.this.mousePressHandler.apply( model, e );
+                ScenicPanel.this.model = ScenicPanel.this.mousePressHandler.apply( ScenicPanel.this.model, e );
+            }
+
+            @Override public void mouseReleased( MouseEvent e ) {
+                ScenicPanel.this.model = ScenicPanel.this.mouseReleasedHandler.apply( ScenicPanel.this.model, e );
             }
         } );
+        addMouseMotionListener( new MouseMotionListener() {
+            public void mouseDragged( MouseEvent e ) {
+            }
+
+            public void mouseMoved( MouseEvent e ) {
+                ScenicPanel.this.model = ScenicPanel.this.mouseMovedHandler.apply( ScenicPanel.this.model, e );
+            }
+        } );
+    }
+
+    public T getModel() {
+        return model;
     }
 
     @Override protected void paintComponent( Graphics g ) {
