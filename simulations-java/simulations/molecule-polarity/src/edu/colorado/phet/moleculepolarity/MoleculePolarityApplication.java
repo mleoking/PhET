@@ -33,11 +33,6 @@ public class MoleculePolarityApplication extends PiccoloPhetApplication {
         addModule( new ThreeAtomsModule( parentFrame ) );
         addModule( new RealMoleculesModule( parentFrame ) );
 
-        // start with a specific module for development
-//        if ( config.isDev() ) {
-//            setStartModule( getModule( 2 ) );
-//        }
-
         // Options menu
         parentFrame.addMenu( new OptionsMenu() {{
             add( new JCheckBoxMenuItem( MPStrings.RAINBOW_OPTION, JmolViewerNode.RAINBOW_MEP.get() ) {{
