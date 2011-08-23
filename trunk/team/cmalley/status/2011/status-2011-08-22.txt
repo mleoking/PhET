@@ -1,0 +1,37 @@
+--
+Chris Malley (PixelZoom, Inc.) - Status Report
+
+PERIOD: August 18-22, 2011
+
+Molecule Polarity
+- design meeting with team
+- design discussions and iterations with Kelly L.
+- implemented many change requests (see changelog)
+- implemented 90% of all features (see changelog)
+- published versions 0.00.11 through 0.00.16
+
+Administrative
+- weekly status meeting
+- weekly reports
+- misc developer discussions via email
+
+Build Process
+- #3047, reported missing license files for some third-party libraries
+
+WHAT'S NEXT:
+
+- Molecule Polarity: continue implementation
+- Capacitor Lab: #3012, change dipole excess charge view
+- KSU: #2783, republish all sims
+
+ISSUES:
+
+- none
+
+DATES UNAVAILABLE:
+
+- August 25 - September 1
+- September 14-16
+- October 19-29
+
+--
