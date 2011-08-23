@@ -104,26 +104,27 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     private static final int DEFAULT_NUM_WATERS = 140;
 
-    //Properties for developer controls
-    public final Property<Integer> pow = new Property<Integer>( 2 );
-    public final Property<Integer> randomness = new Property<Integer>( 5 );
-    public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
-    public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
-    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
-    public final Property<Double> timeScale = new Property<Double>( 0.1 );
-    public final Property<Integer> iterations = new Property<Integer>( 10 );
-
     //Coulomb's constant in SI, see http://en.wikipedia.org/wiki/Coulomb's_law
     private static final double k = 8.987E9;
 
     //User settings
     public final Property<Boolean> showSugarAtoms = new Property<Boolean>( false );
     public final Property<Boolean> showWaterCharges = new Property<Boolean>( false );
+
+    //Developer settings
+    public final Property<Double> coulombStrengthMultiplier = new Property<Double>( 1.0 );
     public final DoubleProperty oxygenCharge = new DoubleProperty( -0.8 );
     public final DoubleProperty hydrogenCharge = new DoubleProperty( 0.4 );
     public final DoubleProperty ionCharge = new DoubleProperty( 1.0 );
     public final BooleanProperty coulombForceOnAllMolecules = new BooleanProperty( true );
     public final ObservableProperty<Boolean> showChargeColor = new Property<Boolean>( false );
+    public final Property<Double> pow = new Property<Double>( 2.0 );
+    public final Property<Integer> randomness = new Property<Integer>( 5 );
+    public final Property<Double> minInteractionDistance = new Property<Double>( 0.05 );
+    public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
+    public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
+    public final Property<Double> timeScale = new Property<Double>( 0.1 );
+    public final Property<Integer> iterations = new Property<Integer>( 10 );
 
     //Print debugging information to the console about how long the model computation takes
     private static final boolean debugTime = false;
@@ -359,7 +360,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             return ZERO;
         }
         double distance = sourcePosition.getDistance( targetPosition );
-        double scale = k * q1 * q2 / distance / distance / distance;
+        double scale = k * q1 * q2 / Math.pow( distance, pow.get() ) / distance * coulombStrengthMultiplier.get();
         return new ImmutableVector2D( ( targetPosition.getX() - sourcePosition.getX() ) * scale, ( targetPosition.getY() - sourcePosition.getY() ) * scale );
     }
 
