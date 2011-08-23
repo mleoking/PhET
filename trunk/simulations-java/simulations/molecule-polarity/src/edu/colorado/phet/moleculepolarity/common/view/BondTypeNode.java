@@ -37,7 +37,7 @@ public class BondTypeNode extends PComposite {
     private static final Font LABEL_FONT = new PhetFont( 12 );
     private static final Color TEXT_COLOR = Color.BLACK;
     private static final Color TRACK_COLOR = Color.WHITE;
-    private static final double X_INSET = 3;
+    private static final double X_INSET = 4;
     private static final double Y_INSET = 3;
 
     private static final LinearFunction X_OFFSET_FUNCTION = new LinearFunction( 0, MPConstants.ELECTRONEGATIVITY_RANGE.getLength(), 0, TRACK_SIZE.width );
