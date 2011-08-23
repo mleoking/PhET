@@ -22,10 +22,10 @@ public class MysteryObjectFactory {
         // Note that the height value needs to be somewhat coordinated with
         // the image for things to look good.
         // TODO: i18n of all labels (not sure how this will work with single character labels).
-        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.2, "A" ) );
-        add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.23, "B" ) );
-        add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.3, "C" ) );
-        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.35, "D" ) );
+        add( new MysteryObjectConfig( 2.0, Images.MYSTERY_OBJECT_01, 0.25, "A" ) );
+        add( new MysteryObjectConfig( 8.0, Images.MYSTERY_OBJECT_02, 0.30, "B" ) );
+        add( new MysteryObjectConfig( 30.0, Images.MYSTERY_OBJECT_03, 0.35, "C" ) );
+        add( new MysteryObjectConfig( 10.0, Images.MYSTERY_OBJECT_04, 0.40, "D" ) );
     }};
 
     /**
