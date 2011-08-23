@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
-import java.awt.*;
+import java.awt.Dimension;
 
-import javax.swing.*;
+import javax.swing.Box;
+import javax.swing.JSeparator;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;

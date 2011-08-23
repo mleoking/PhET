@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.view.FluidPressureControlPanel;

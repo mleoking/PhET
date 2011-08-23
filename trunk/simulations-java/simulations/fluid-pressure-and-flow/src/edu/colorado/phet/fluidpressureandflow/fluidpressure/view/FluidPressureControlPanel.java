@@ -1,9 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.fluidpressure.view;
 
-import java.awt.*;
+import java.awt.Color;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
