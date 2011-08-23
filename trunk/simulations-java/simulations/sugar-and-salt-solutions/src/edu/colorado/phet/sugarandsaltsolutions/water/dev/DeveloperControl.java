@@ -41,29 +41,17 @@ public class DeveloperControl extends JPanel {
                 add( new JLabel( "num waters:" ) );
                 add( new DoubleLabel( waterModel.waterList.size ) );
             }} );
-//            add( new JLabel( "coulomb strength (k)" ) );
-//            add( new JPanel() {{
-//                add( new PropertySlider( 0, 1000, waterModel.k ) );
-//                add( new IntLabel( waterModel.k ) );
-//            }} );
-            add( new JLabel( "coulomb power" ) );
             add( new JPanel() {{
-                add( new PropertySlider( 0, 4, waterModel.pow ) );
-                add( new IntLabel( waterModel.pow ) );
+                add( new DoublePropertySlider( "coulomb strength  multiplier", 0, 200, waterModel.coulombStrengthMultiplier ) );
+            }} );
+            add( new JPanel() {{
+                add( new DoublePropertySlider( "coulomb power", 0, 4, waterModel.pow ) );
             }} );
 
             add( new JLabel( "model randomness" ) );
             add( new JPanel() {{
                 add( new PropertySlider( 0, 100, waterModel.randomness ) );
                 add( new IntLabel( waterModel.randomness ) );
-            }} );
-
-            add( new JPanel() {{
-                add( new DoublePropertySlider( "min interaction dist", 0, 8, waterModel.minInteractionDistance ) );
-            }} );
-
-            add( new JPanel() {{
-                add( new DoublePropertySlider( "max interaction dist", 0, 8, waterModel.maxInteractionDistance ) );
             }} );
 
             add( new JPanel() {{
