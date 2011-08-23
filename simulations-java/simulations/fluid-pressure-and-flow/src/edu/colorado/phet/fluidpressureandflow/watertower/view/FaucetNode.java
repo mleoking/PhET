@@ -16,13 +16,13 @@ import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyRadioButton;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.FaucetFlowRate;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.FAUCET;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MANUAL;
 import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MATCH_LEAKAGE;
 
@@ -41,7 +41,7 @@ public class FaucetNode extends PNode {
     }
 
     public FaucetNode( ModelViewTransform transform, final FaucetFlowRate faucetFlowLevel ) {
-        addChild( new PImage( FluidPressureAndFlowApplication.RESOURCES.getImage( "faucet.png" ) ) {{
+        addChild( new PImage( FAUCET ) {{
             setScale( 0.75 );
             setOffset( -27, 0 );
             final PSwing sliderNode = new PSwing( new JSlider( 0, 100 ) {{

@@ -12,13 +12,14 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.event.RelativeDragHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ThreeImageNode;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.*;
 
 /**
  * @author Sam Reid
@@ -40,7 +41,7 @@ public class PressureSensorNode extends SensorNode<Double> {
         addChild( new PNode() {{
             translate( 0, -getFullBounds().getHeight() / 2 );//make its hot spot be its opening which is on its center left
 
-            final ThreeImageNode imageNode = new ThreeImageNode( FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_left.png" ), FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_center.png" ), FluidPressureAndFlowApplication.RESOURCES.getImage( "pressure_meter_right.png" ) );
+            final ThreeImageNode imageNode = new ThreeImageNode( PRESSURE_METER_LEFT, PRESSURE_METER_CENTER, PRESSURE_METER_RIGHT );
             addChild( imageNode );
 
             final PText textNode = new PText( text.get() ) {{

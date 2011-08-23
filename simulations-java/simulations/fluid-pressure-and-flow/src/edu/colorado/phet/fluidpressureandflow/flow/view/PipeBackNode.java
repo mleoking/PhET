@@ -12,11 +12,13 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowApplication;
 import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
 import edu.colorado.phet.fluidpressureandflow.flow.model.Pipe;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PImage;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_LEFT_BACK;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Images.PIPE_MIDDLE;
 
 /**
  * The back part (in z-ordering) of the pipe graphics
@@ -39,11 +41,11 @@ public class PipeBackNode extends PNode {
         this.transform = transform;
         //Hide the leftmost and rightmost parts as if water is coming from a gray pipe and leaving through a gray pipe
 
-        final BufferedImage pipeImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "pipe-middle.png" );
+        final BufferedImage pipeImage = PIPE_MIDDLE;
         final PhetPPath leftExtension = new PhetPPath( Color.blue );
         final PhetPPath rightExtension = new PhetPPath( Color.blue );
 
-        final BufferedImage pipeLeftBackImage = FluidPressureAndFlowApplication.RESOURCES.getImage( "pipe-left-back.png" );
+        final BufferedImage pipeLeftBackImage = PIPE_LEFT_BACK;
 
         addChild( new PImage( pipeLeftBackImage ) {{
             pipe.addShapeChangeListener( new SimpleObserver() {
