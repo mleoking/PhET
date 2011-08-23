@@ -8,10 +8,12 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
-import edu.colorado.phet.fluidpressureandflow.common.FPAFStrings;
 import edu.colorado.phet.fluidpressureandflow.common.model.Sensor;
 import edu.colorado.phet.fluidpressureandflow.common.model.units.Unit;
 import edu.umd.cs.piccolo.PNode;
+
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.QUESTION_MARK;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.SENSOR_PATTERN;
 
 /**
  * @author Sam Reid
@@ -23,8 +25,8 @@ public abstract class SensorNode<T> extends PNode {
     public SensorNode( final ModelViewTransform transform, final Sensor<T> sensor, final Property<Unit> units ) {
         final Function0<String> getString = new Function0<String>() {
             public String apply() {
-                String pattern = FPAFStrings.SENSOR_PATTERN; //TODO i18n
-                String value = FPAFStrings.QUESTION_MARK; //TODO i18n
+                String pattern = SENSOR_PATTERN; //TODO i18n
+                String value = QUESTION_MARK; //TODO i18n
                 if ( !Double.isNaN( sensor.getScalarValue() ) ) {
                     value = units.get().getDecimalFormat().format( units.get().siToUnit( sensor.getScalarValue() ) );
                 }
