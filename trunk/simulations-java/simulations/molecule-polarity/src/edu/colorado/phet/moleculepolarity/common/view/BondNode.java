@@ -20,7 +20,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 public class BondNode extends PPath {
 
     public BondNode( final Bond bond ) {
-        setStrokePaint( Color.BLACK );
+        setStrokePaint( Color.DARK_GRAY );
         setStroke( new BasicStroke( 12f ) );
         VoidFunction1<ImmutableVector2D> updater = new VoidFunction1<ImmutableVector2D>() {
             public void apply( ImmutableVector2D immutableVector2D ) {
