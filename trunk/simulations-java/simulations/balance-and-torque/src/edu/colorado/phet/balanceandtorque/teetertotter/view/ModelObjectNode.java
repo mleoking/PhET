@@ -14,7 +14,8 @@ import edu.umd.cs.piccolo.PNode;
 
 /**
  * Base class for displaying and interacting with model objects.  Uses the shape
- * of the object, which will change as the object moves.
+ * of the object, which will change as the object moves, rotates, or changes its
+ * basic shape.
  *
  * @author John Blanco
  * @author Sam Reid
