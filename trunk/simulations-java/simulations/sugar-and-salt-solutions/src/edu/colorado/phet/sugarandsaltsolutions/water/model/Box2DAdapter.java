@@ -50,6 +50,8 @@ public class Box2DAdapter {
             type = BodyType.DYNAMIC;
         }};
         body = world.createBody( bodyDef );
+//        body.setLinearDamping( 10 );
+//        body.setAngularDamping( 1 );
 
         //Add shapes for all of the constituents as rigid fixtures to the box2d shape
         for ( int i = 0; i < compound.numberConstituents(); i++ ) {
@@ -69,6 +71,7 @@ public class Box2DAdapter {
 
             //Add a little bit of bouncieness to keep things moving randomly
             f.setRestitution( 0.1f );
+            //            f.setRestitution( 0.02f );
         }
     }
 
