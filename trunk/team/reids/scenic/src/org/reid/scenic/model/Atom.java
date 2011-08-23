@@ -16,4 +16,8 @@ public class Atom {
         this.velocity = velocity;
         this.mass = mass;
     }
+
+    public Atom velocity( ImmutableVector2D velocity ) {
+        return new Atom( position, velocity, mass );
+    }
 }

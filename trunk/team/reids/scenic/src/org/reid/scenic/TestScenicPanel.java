@@ -62,9 +62,15 @@ public class TestScenicPanel {
                     };
                     final Function2<Model, MouseEvent, Model> mouseReleasedHandler = new Function2<Model, MouseEvent, Model>() {
                         public Model apply( Model model, MouseEvent mouseEvent ) {
-                            return model.
-                                    button1( model.button1.pressed( false ) ).
-                                    button2( model.button2.pressed( false ) );
+                            if ( model.button1.pressed ) {
+                                return model.button1.apply( model ).button1( model.button1.pressed( false ) );
+                            }
+                            else if ( model.button2.pressed ) {
+                                return model.button2.apply( model ).button2( model.button2.pressed( false ) );
+                            }
+                            else {
+                                return model;
+                            }
                         }
                     };
                     Function2<Model, MouseEvent, Model> mouseMovedHandler = new Function2<Model, MouseEvent, Model>() {
@@ -75,7 +81,23 @@ public class TestScenicPanel {
                         }
                     };
                     final ScenicPanel<Model> scenicPanel = new ScenicPanel<Model>(
-                            new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel( new PhetFont( 16, true ), "Button", 100, 100, false, false ), new ButtonModel( new PhetFont( 16, true ), "Button 2", 300, 300, false, false ) ),
+                            new Model( new ImmutableList<Atom>( createAtoms() ), new ButtonModel<Model>( new PhetFont( 16, true ), "Fly right", 100, 100, false, false, new Function1<Model, Model>() {
+                                public Model apply( Model model ) {
+                                    return model.atoms( model.atoms.map( new Function1<Atom, Atom>() {
+                                        public Atom apply( Atom atom ) {
+                                            return atom.velocity( atom.velocity.plus( 2, 0 ) );
+                                        }
+                                    } ) );
+                                }
+                            } ), new ButtonModel<Model>( new PhetFont( 16, true ), "Chop", 300, 300, false, false, new Function1<Model, Model>() {
+                                public Model apply( Model model ) {
+                                    return model.atoms( model.atoms.map( new Function1<Atom, Atom>() {
+                                        public Atom apply( Atom atom ) {
+                                            return atom.velocity( atom.velocity.times( 0.5 ) );
+                                        }
+                                    } ) );
+                                }
+                            } ) ),
                             painter, mousePressHandler, mouseReleasedHandler, mouseMovedHandler
                     ) {{
                         setPreferredSize( new Dimension( 800, 600 ) );
