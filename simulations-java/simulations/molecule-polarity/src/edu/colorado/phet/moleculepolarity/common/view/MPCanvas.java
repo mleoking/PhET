@@ -23,7 +23,9 @@ public class MPCanvas extends PhetPCanvas {
     private final PNode rootNode;
 
     protected MPCanvas() {
-        super( MPConstants.CANVAS_RENDERING_SIZE );
+        //TODO delete one of these transform strategies
+        super( MPConstants.CANVAS_RENDERING_SIZE ); //XXX delete this
+//        setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, MPConstants.STAGE_SIZE ) );
         setBackground( MPConstants.CANVAS_COLOR );
         rootNode = new PNode();
         addWorldChild( rootNode );

@@ -3,8 +3,10 @@ package edu.colorado.phet.moleculepolarity;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.geom.Dimension2D;
 
 import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.umd.cs.piccolo.util.PDimension;
 
 /**
  * A collection of constants that configure global properties.
@@ -25,7 +27,9 @@ public class MPConstants {
     public static final double ELECTRONEGATIVITY_SNAP_INTERVAL = 0.2;
 
     // Canvas
+    //TODO delete one of these sizes, depending on transform strategy chosen
     public static final Dimension CANVAS_RENDERING_SIZE = new Dimension( 1024, 600 );
+    public static Dimension2D STAGE_SIZE = new PDimension( 1008, 679 );
     public static final Color CANVAS_COLOR = new Color( 180, 205, 255 ); // light blue
 
     // E-field plates, all values are related to 2D projection of the plates
