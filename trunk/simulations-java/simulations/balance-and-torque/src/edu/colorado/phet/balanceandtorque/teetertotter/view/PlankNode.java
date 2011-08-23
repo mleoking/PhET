@@ -65,13 +65,15 @@ public class PlankNode extends ModelObjectNode {
         assert plank.getTiltAngle() == 0; // Tilt angle be zero for this to work.
         final PNode handleLayer = new PNode();
         addChild( handleLayer );
+        // Use a fully transparent color to make the handles invisible.  This
+        // can be made opaque for debugging if needed.
+        Color handleColor = new Color( 255, 255, 255, 100 );
         // Only put the handles on the ends of the plank, otherwise things get
         // weird.  Note that the handles are invisible.
-        Color handleColor = new Color( 255, 255, 255, 100 );
         Rectangle2D plankBounds = plank.getShape().getBounds2D();
-        final PNode rightHandle = new PhetPPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( plankBounds.getWidth() / 4 ),
+        final PNode rightHandle = new PhetPPath( new Rectangle2D.Double( mvt.modelToViewDeltaX( plankBounds.getWidth() / 6 ),
                                                                          -mvt.modelToViewDeltaY( plankBounds.getHeight() ),
-                                                                         mvt.modelToViewDeltaX( plankBounds.getWidth() / 4 ),
+                                                                         mvt.modelToViewDeltaX( plankBounds.getWidth() / 3 ),
                                                                          -mvt.modelToViewDeltaY( plankBounds.getHeight() ) ),
                                                  handleColor );
         rightHandle.setOffset( mvt.modelToView( plank.getPivotPoint() ) );
@@ -80,7 +82,7 @@ public class PlankNode extends ModelObjectNode {
 
         final PNode leftHandle = new PhetPPath( new Rectangle2D.Double( -mvt.modelToViewDeltaX( plankBounds.getWidth() / 2 ),
                                                                         -mvt.modelToViewDeltaY( plankBounds.getHeight() ),
-                                                                        mvt.modelToViewDeltaX( plankBounds.getWidth() / 4 ),
+                                                                        mvt.modelToViewDeltaX( plankBounds.getWidth() / 3 ),
                                                                         -mvt.modelToViewDeltaY( plankBounds.getHeight() ) ),
                                                 handleColor );
         leftHandle.setOffset( mvt.modelToView( plank.getPivotPoint() ) );
