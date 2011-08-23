@@ -137,7 +137,7 @@ public class JmolViewerNode extends PhetPNode {
             doScript( "unbind \"_popupMenu\"" ); // disable popup menu
             doScript( "unbind \"SHIFT-LEFT\"" ); // disable zooming
             doScript( "frank off" ); // hide the "Jmol" watermark in the lower-right corner
-            doScript( "background " + JmolViewerNode.toJmolColor( background ) ); //TODO how to make background transparent?
+            doScript( "background " + toJmolColor( background ) );
 
             setMolecule( molecule );
         }
@@ -206,7 +206,7 @@ public class JmolViewerNode extends PhetPNode {
     private void setBallAndStick() {
         doScript( "wireframe 0.1 " ); // draw bonds as lines
         doScript( "spacefill 25%" ); // render atoms as a percentage of the van der Waals radius
-        doScript( "color bonds black" ); // color for all bonds
+        doScript( "color bonds " + toJmolColor( MPColors.BOND ) ); // color for all bonds
     }
 
     public void setAtomLabelsVisible( boolean visible ) {
@@ -274,7 +274,7 @@ public class JmolViewerNode extends PhetPNode {
         if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
             if ( isHomogeneousDiatomic() ) {
                 if ( RAINBOW_MEP.get() ) {
-                    doScript( "isosurface VDW color " + colorToScript( MPColors.NEUTRAL_GREEN ) + " translucent" );
+                    doScript( "isosurface VDW color " + toJmolColor( MPColors.NEUTRAL_GREEN ) + " translucent" );
                 }
                 else {
                     doScript( "isosurface VDW color white translucent" );
@@ -350,11 +350,6 @@ public class JmolViewerNode extends PhetPNode {
             values.add( value );
         }
         return values;
-    }
-
-    // Converts a color to format usable in a Jmol script
-    private static String colorToScript( Color color ) {
-        return MessageFormat.format( "[{0},{1},{2}]", color.getRed(), color.getGreen(), color.getBlue() );
     }
 
     // test

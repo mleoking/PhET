@@ -1,10 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculepolarity.common.view;
 
-import java.awt.Color;
-
 import edu.colorado.phet.common.phetcommon.math.PolarCartesianConverter;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.moleculepolarity.MPColors;
 import edu.colorado.phet.moleculepolarity.common.model.Bond;
 
 /**
@@ -17,7 +16,7 @@ public class BondDipoleNode extends DipoleNode {
     private static final double PERPENDICULAR_OFFSET = 75; // offset perpendicular to the axis of the endpoints
 
     public BondDipoleNode( final Bond bond, final double scale ) {
-        super( Color.BLACK );
+        super( MPColors.BOND_DIPOLE );
 
         // align the dipole to be parallel with the bond, with some perpendicular offset
         SimpleObserver update = new SimpleObserver() {
