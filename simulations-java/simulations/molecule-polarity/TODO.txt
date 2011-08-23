@@ -7,15 +7,15 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
+- clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
-- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - Jmol: how to align molecular dipole with E-field?
 
 MEDIUM
+- Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - delete Bond.deltaElectronegativity and rewrite BondDipoleNode
 - DipoleNode.REFERENCE_LENGTH should be a function of Di/TriatomicMolecule.BOND_LENGTH
 - move duplicate code in IMolecule subclasses into a base class
-- clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 
 LOW
 - look for Property<T> fields that shouldn't be public
