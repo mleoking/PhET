@@ -20,6 +20,7 @@ MEDIUM
 - locations of dipoles should be consistent between 2D and Jmol
 
 LOW
+- look at duplicated code between BondAngleHandler and MoleculeRotationHandler
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
