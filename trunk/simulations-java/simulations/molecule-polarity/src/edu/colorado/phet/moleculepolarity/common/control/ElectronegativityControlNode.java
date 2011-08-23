@@ -211,7 +211,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         // Updates the control to match the model.
         public void updateControl() {
             // knob location
-            LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getFullBoundsReference().getMaxX() - 1 );
+            LinearFunction f = new LinearFunction( range.getMin(), range.getMax(), trackNode.getXOffset(), trackNode.getXOffset() + TRACK_SIZE.getWidth() );
             double x = f.evaluate( atom.electronegativity.get() );
             double y = thumbNode.getYOffset();
             thumbNode.setOffset( x, y );
