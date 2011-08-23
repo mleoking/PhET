@@ -6,6 +6,8 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 
 /**
  * Properties that control things in the view.
+ * This is a union of all such properties in all modules.
+ * Properties that are irrelevant for a module are simply ignored by that module.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */

@@ -9,7 +9,7 @@ import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
- * Indicator of polarity (positive or negative).
+ * Indicator of polarity (positive or negative) used on E-field plates.
  * Origin at upper-left corner of bounding rectangle.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)

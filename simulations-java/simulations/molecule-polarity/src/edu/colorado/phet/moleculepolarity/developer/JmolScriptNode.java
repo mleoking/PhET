@@ -18,6 +18,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * Developer user interface for sending commands to a Jmol viewer.
  * Command are in the Jmol scripting language, described at http://chemapps.stolaf.edu/jmol/docs
+ * Status is printed to the console by this class.
  * Errors are printed to the console by the Jmol viewer.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
