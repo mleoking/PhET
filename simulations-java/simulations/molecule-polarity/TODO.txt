@@ -40,4 +40,4 @@ MIGRATE TO COMMON
 - VerticalSliderDragHandler (from capacitor-lab, needs generalization?)
 - PolarImmutableVector2D
 - RotateCursorHandler and associated image
-
+- Molecule3D.toSubscript
