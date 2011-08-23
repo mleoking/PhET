@@ -12,6 +12,7 @@ import java.util.Map;
 
 import edu.colorado.phet.balanceandtorque.teetertotter.model.masses.Mass;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.math.MathUtil;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockAdapter;
 import edu.colorado.phet.common.phetcommon.model.clock.ClockEvent;
@@ -95,6 +96,10 @@ public class Plank extends ShapeModelElement {
     // Observable list of the force vectors due to the masses on the surface.
     public final ObservableList<MassForceVector> forceVectorList =
             new ObservableList<MassForceVector>();
+
+    // Property that indicates whether the plank is being manually moved by
+    // the user.
+    public final BooleanProperty userControlled = new BooleanProperty( false );
 
     //------------------------------------------------------------------------
     // Constructor(s)
@@ -237,6 +242,17 @@ public class Plank extends ShapeModelElement {
         return tiltAngle;
     }
 
+    public void setTiltAngle( double tiltAngle ) {
+        assert userControlled.get();  // Should be user controlled when this occurs.
+        if ( !supportColumnsActive.get() &&
+             Math.abs( tiltAngle ) <= maxTiltAngle &&
+             this.tiltAngle != MathUtil.clamp( -maxTiltAngle, tiltAngle, maxTiltAngle ) ) {
+            this.tiltAngle = tiltAngle;
+            updatePlankPosition();
+            updateMassPositions();
+        }
+    }
+
     public List<Shape> getTickMarks() {
         return tickMarks;
     }
@@ -335,41 +351,43 @@ public class Plank extends ShapeModelElement {
     }
 
     private void stepInTime( double dt ) {
-        double angularAcceleration = 0;
-        if ( supportColumnsActive.get() ) {
-            tiltAngle = 0;
-            angularVelocity = 0;
-        }
-        else {
-            updateTorque();
-            // Update the angular acceleration and velocity.  There is some
-            // thresholding here to prevent the plank from oscillating forever
-            // with small values, since this can cause odd-looking movements
-            // of the planks and masses.  The thresholds were empirically
-            // determined.
-            angularAcceleration = currentTorque / MOMENT_OF_INERTIA;
-            angularAcceleration = Math.abs( angularAcceleration ) > 0.00001 ? angularAcceleration : 0;
-            angularVelocity += angularAcceleration;
-            angularVelocity = Math.abs( angularVelocity ) > 0.00001 ? angularVelocity : 0;
-        }
-        // Update the angle of the plank's tilt based on the angular velocity.
-        if ( angularVelocity != 0 ) {
-            tiltAngle += angularVelocity * dt;
-            if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
-                // Limit the angle when once end of the plank is touching the ground.
-                tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
+        if ( !userControlled.get() ) {
+            double angularAcceleration = 0;
+            if ( supportColumnsActive.get() ) {
+                tiltAngle = 0;
                 angularVelocity = 0;
             }
-            updatePlankPosition();
-            updateMassPositions();
+            else {
+                updateTorque();
+                // Update the angular acceleration and velocity.  There is some
+                // thresholding here to prevent the plank from oscillating forever
+                // with small values, since this can cause odd-looking movements
+                // of the planks and masses.  The thresholds were empirically
+                // determined.
+                angularAcceleration = currentTorque / MOMENT_OF_INERTIA;
+                angularAcceleration = Math.abs( angularAcceleration ) > 0.00001 ? angularAcceleration : 0;
+                angularVelocity += angularAcceleration;
+                angularVelocity = Math.abs( angularVelocity ) > 0.00001 ? angularVelocity : 0;
+            }
+            // Update the angle of the plank's tilt based on the angular velocity.
+            if ( angularVelocity != 0 ) {
+                tiltAngle += angularVelocity * dt;
+                if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
+                    // Limit the angle when once end of the plank is touching the ground.
+                    tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
+                    angularVelocity = 0;
+                }
+                updatePlankPosition();
+                updateMassPositions();
+            }
+            // Update the force vectors from the masses.  This mostly just moves
+            // them to the correct locations.
+            for ( MassForceVector massForceVector : forceVectorList ) {
+                massForceVector.update();
+            }
+            // Simulate friction by slowing down the rotation a little.
+            angularVelocity *= 0.90;
         }
-        // Update the force vectors from the masses.  This mostly just moves
-        // them to the correct locations.
-        for ( MassForceVector massForceVector : forceVectorList ) {
-            massForceVector.update();
-        }
-        // Simulate friction by slowing down the rotation a little.
-        angularVelocity *= 0.90;
     }
 
     private void updateMassPositions() {
