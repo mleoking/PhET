@@ -7,6 +7,7 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
+- fix rotate cursor on Windows, it looks awful
 - clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage strategy
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
 - Jmol: how to align molecular dipole with E-field?
