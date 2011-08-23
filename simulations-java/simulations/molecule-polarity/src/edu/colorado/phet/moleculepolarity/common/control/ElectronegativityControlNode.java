@@ -41,6 +41,8 @@ import edu.umd.cs.piccolox.nodes.PComposite;
 
 /**
  * Slider control for electronegativity.
+ * Dragging the slider continuously updates an atom's electronegativity.
+ * When the slider is released, it snaps to the closest tick mark.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -52,7 +54,7 @@ public class ElectronegativityControlNode extends PhetPNode {
     private static final Color TRACK_STROKE_COLOR = Color.BLACK;
     private static final Stroke TRACK_STROKE = new BasicStroke( 1f );
 
-    // knob
+    // thumb
     private static final PDimension THUMB_SIZE = new PDimension( 15, 20 );
     private static final Stroke THUMB_STROKE = new BasicStroke( 1f );
     private static final Color THUMB_STROKE_COLOR = Color.BLACK;
@@ -78,7 +80,7 @@ public class ElectronegativityControlNode extends PhetPNode {
      * @param atom         the atom whose electronegativity we're controlling
      * @param molecule     molecule that the atom belongs to, for pausing animation while this control is used
      * @param range        range of electronegativity
-     * @param snapInterval knob will snap to this increment when released
+     * @param snapInterval thumb will snap to this increment when released, also determines the tick mark spacing
      */
     public ElectronegativityControlNode( final Atom atom, IMolecule molecule, DoubleRange range, double snapInterval ) {
 
@@ -266,7 +268,7 @@ public class ElectronegativityControlNode extends PhetPNode {
         }
     }
 
-    // Drag handler for the knob, snaps to closet value.
+    // Drag handler for the knob, snaps to closest tick mark.
     private static class KnobDragHandler extends HorizontalSliderDragHandler {
 
         private final IMolecule molecule;
@@ -296,8 +298,9 @@ public class ElectronegativityControlNode extends PhetPNode {
     }
 
     /*
-     * Tick mark, a vertical line (tick) with optional label below it.
-     * Origin at top center of tick.
+     * Base class for tick marks.
+     * A tick mark is a vertical line with optional label below it.
+     * Origin is at the top center of line.
      */
     private static class TickMarkNode extends PComposite {
 
@@ -320,12 +323,14 @@ public class ElectronegativityControlNode extends PhetPNode {
         }
     }
 
+    // Minor tick marks have no label.
     private static class MinorTickMarkNode extends TickMarkNode {
         public MinorTickMarkNode() {
             super( MINOR_TICK_LENGTH, MINOR_TICK_STROKE, null );
         }
     }
 
+    // Major tick marks have an optional label.
     private static class MajorTickMarkNode extends TickMarkNode {
 
         public MajorTickMarkNode() {
