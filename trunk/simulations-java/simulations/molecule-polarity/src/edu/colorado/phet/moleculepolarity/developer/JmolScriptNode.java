@@ -47,7 +47,7 @@ public class JmolScriptNode extends PhetPNode {
         // pressing the button executes the script in the text area, and prints the Jmol status to System.out
         executeButtonNode.addActionListener( new ActionListener() {
             public void actionPerformed( ActionEvent e ) {
-                Object status = viewerNode.doScriptStatus( textArea.getText() );
+                Object status = viewerNode.doScript( textArea.getText() );
                 if ( status != null ) {
                     System.out.println( "Jmol:\n" + status.toString() );
                 }

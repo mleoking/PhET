@@ -42,7 +42,7 @@ public class JmolViewerNode extends PhetPNode {
 
     private static final java.util.logging.Logger LOGGER = LoggingUtils.getLogger( JmolViewerNode.class.getCanonicalName() );
 
-    // option for using "rainbow" colorscheme for molecular electrostatic potential (mep).
+    // option for using "rainbow" (roygb) color scheme for molecular electrostatic potential (mep).
     public static final Property<Boolean> RAINBOW_MEP = new Property<Boolean>( false );
 
     // Results returned by Jmol scripts. These are returned as a status Object, which must be parsed.
@@ -92,7 +92,8 @@ public class JmolViewerNode extends PhetPNode {
     }
 
     public final Property<Molecule3D> molecule; // the molecule displayed by the viewer
-    private final ViewerPanel viewerPanel;
+    private final ViewerPanel viewerPanel; // container for the Jmol viewer
+
     private boolean bondDipolesVisible, molecularDipoleVisible, partialChargeVisible, atomLabelsVisible;
     private SurfaceType isosurfaceType;
 
@@ -104,6 +105,7 @@ public class JmolViewerNode extends PhetPNode {
         this.molecule = new Property<Molecule3D>( currentMolecule.get() );
 
         addInputEventListener( new CursorHandler() );
+
         currentMolecule.addObserver( new VoidFunction1<Molecule3D>() {
             public void apply( Molecule3D molecule ) {
                 setMolecule( molecule );
@@ -152,11 +154,8 @@ public class JmolViewerNode extends PhetPNode {
             viewer.renderScreenImage( g, currentSize, clipBounds );
         }
 
-        public void doScript( String script ) {
-            viewer.scriptWait( script );
-        }
-
-        public Object doScriptStatus( String script ) {
+        // Runs a Jmol script synchronously and returns status.
+        public Object doScript( String script ) {
             return viewer.scriptWaitStatus( script, null );
         }
 
@@ -180,12 +179,9 @@ public class JmolViewerNode extends PhetPNode {
         return MessageFormat.format( "[{0},{1},{2}]", color.getRed(), color.getGreen(), color.getBlue() );
     }
 
-    public void doScript( String script ) {
-        viewerPanel.doScript( script );
-    }
-
-    public Object doScriptStatus( String script ) {
-        return viewerPanel.doScriptStatus( script );
+    // Runs a Jmol script synchronously and returns status.
+    public Object doScript( String script ) {
+        return viewerPanel.doScript( script );
     }
 
     private void setMolecule( Molecule3D molecule ) {
@@ -203,17 +199,20 @@ public class JmolViewerNode extends PhetPNode {
         updateTranslucency();
     }
 
+    // sets the Jmol viewer to ball-and-stick view
     private void setBallAndStick() {
         doScript( "wireframe 0.1 " ); // draw bonds as lines
         doScript( "spacefill 25%" ); // render atoms as a percentage of the van der Waals radius
         doScript( "color bonds " + toJmolColor( MPColors.BOND ) ); // color for all bonds
     }
 
+    // makes atom labels visible
     public void setAtomLabelsVisible( boolean visible ) {
         atomLabelsVisible = visible;
         updateAtomLabels();
     }
 
+    // Atom labels display multiple pieces of information. This updates the labels to show whatever is currently enabled.
     private void updateAtomLabels() {
         String args = "";
         if ( atomLabelsVisible || partialChargeVisible ) {
@@ -236,12 +235,14 @@ public class JmolViewerNode extends PhetPNode {
         }
     }
 
+    // Makes atoms and bonds translucent when dipoles are visible.
     private void updateTranslucency() {
         String arg = ( bondDipolesVisible || molecularDipoleVisible ) ? "0.25" : "0.0"; // 0.0=opaque, 1.0=transparent
         doScript( "color atoms translucent " + arg );
         doScript( "color bonds translucent " + arg );
     }
 
+    // Sets visibility of bond dipoles.
     public void setBondDipolesVisible( boolean visible ) {
         bondDipolesVisible = visible;
         if ( visible ) {
@@ -253,6 +254,7 @@ public class JmolViewerNode extends PhetPNode {
         updateTranslucency();
     }
 
+    // Sets visibility of molecular dipole.
     public void setMolecularDipoleVisible( boolean visible ) {
         molecularDipoleVisible = visible;
         if ( visible ) {
@@ -264,11 +266,13 @@ public class JmolViewerNode extends PhetPNode {
         updateTranslucency();
     }
 
+    // Sets visibility of partial charges.
     public void setPartialChargeVisible( boolean visible ) {
         partialChargeVisible = visible;
         updateAtomLabels();
     }
 
+    // Sets the type of isosurface.
     public void setIsosurfaceType( SurfaceType isosurfaceType ) {
         this.isosurfaceType = isosurfaceType;
         if ( isosurfaceType == SurfaceType.ELECTROSTATIC_POTENTIAL ) {
@@ -304,7 +308,7 @@ public class JmolViewerNode extends PhetPNode {
 
     // Interrogates Jmol to determine whether the current molecule is homogeneous diatomic.
     private boolean isHomogeneousDiatomic() {
-        Object status = doScriptStatus( SCRIPT_IS_HOMOGENEOUS_DIATOMIC );
+        Object status = doScript( SCRIPT_IS_HOMOGENEOUS_DIATOMIC );
 //        LOGGER.info( "isHomogeneousDiatomic status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
@@ -316,7 +320,7 @@ public class JmolViewerNode extends PhetPNode {
 
     // Gets the element numbers and colors for the atoms in the current molecule.
     public ArrayList<ElementColor> getElementNumbersAndColors() {
-        Object status = doScriptStatus( SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS );
+        Object status = doScript( SCRIPT_GET_ELEMENT_NUMBERS_AND_COLORS );
 //        LOGGER.info( "getElementNumbersAndColors status=[" + status.toString() + "]" );
         if ( status == null ) {
             throw new RuntimeException( "Jmol script returned null status" );
