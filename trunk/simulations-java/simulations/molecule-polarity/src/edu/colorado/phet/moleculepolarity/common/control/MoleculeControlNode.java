@@ -18,6 +18,7 @@ import edu.umd.cs.piccolo.nodes.PText;
 
 /**
  * Control for selecting a real molecule.
+ * This is a labeled combo box.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -55,6 +56,7 @@ public class MoleculeControlNode extends PhetPNode {
         } );
     }
 
+    // Combo box, with custom creation of items (nodes)
     private static class MoleculeComboBoxNode extends ComboBoxNode<Molecule3D> {
         public MoleculeComboBoxNode( ArrayList<Molecule3D> molecules, Molecule3D selectedMolecule ) {
             super( molecules, selectedMolecule, new Function1<Molecule3D, PNode>() {
