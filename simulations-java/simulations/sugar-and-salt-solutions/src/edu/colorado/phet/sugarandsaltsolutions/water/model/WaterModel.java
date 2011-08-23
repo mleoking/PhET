@@ -124,7 +124,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final Property<Double> maxInteractionDistance = new Property<Double>( 2.0 );
     public final Property<Double> probabilityOfInteraction = new Property<Double>( 0.6 );
     public final Property<Double> timeScale = new Property<Double>( 0.1 );
-    public final Property<Integer> iterations = new Property<Integer>( 10 );
+    public final Property<Integer> iterations = new Property<Integer>( 100 );
 
     //Print debugging information to the console about how long the model computation takes
     private static final boolean debugTime = false;
@@ -171,6 +171,16 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
         //Set up initial state, same as reset() method would do, such as adding water particles to the model
         initModel();
+
+        //Attempted using collision boundaries, but they make the system come to rest too quickly, we will probably use periodic boundary conditions instead
+//        Body body = world.createBody( new BodyDef() {{
+//            type = BodyType.STATIC;
+//        }} );
+//        final ImmutableRectangle2D particleWindowBox2D = modelToBox2D.modelToView( particleWindow );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( particleWindowBox2D.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( -particleWindowBox2D.height ) ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
+//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( -particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
 
         //Set up jbox2D debug draw so we can see the model and computations
         if ( useDebugDraw ) {
@@ -282,6 +292,11 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             }
         }
 
+        //Factor out center of mass motion so no large scale drifts can occur
+        subtractOutCenterOfMomentum();
+
+//        limitVelocities();
+
         //Box2D will exception unless values are within its sweet spot range.
         //if DT gets too low, it is hard to recover from assertion errors in box2D
         //It is supposed to run at 60Hz, with velocities not getting too large (300m/s is too large): http://www.box2d.org/forum/viewtopic.php?f=4&t=1205
@@ -301,8 +316,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         //Apply periodic boundary conditions
         applyPeriodicBoundaryConditions();
 
-        //Factor out center of mass motion so no large scale drifts can occur
-        subtractOutCenterOfMomentum();
+//        limitVelocities();
 
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             box2DAdapter.worldStepped();
@@ -372,6 +386,28 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
             molecule.body.setLinearVelocity( v.add( delta ) );
         }
+//        System.out.println( "totalMomentum = " + totalMomentum + ", after = " + getBox2DMomentum() );
+    }
+
+    //Factor out center of mass motion so no large scale drifts can occur
+    private void limitVelocities() {
+//        Vec2 totalMomentum = getBox2DMomentum();
+        for ( Box2DAdapter molecule : box2DAdapters ) {
+            Vec2 v = molecule.body.getLinearVelocity();
+//            molecule.body.setLinearDamping( 50 );
+////            System.out.println( "molecule.body.getLinearVelocity().length() \t" + molecule.body.getLinearVelocity().length() );
+////            final Vec2 delta = totalMomentum.mul( (float) ( -1 / getBox2DMass() ) );
+////            molecule.body.setLinearVelocity( v.add( delta ) );
+//
+//
+            final float maxVelocity = 0.5f;
+            if ( v.length() > maxVelocity ) {
+                Vec2 b = new Vec2( v.x, v.y );
+                b.normalize();
+                molecule.body.setLinearVelocity( b.mul( maxVelocity ) );
+            }
+        }
+//        System.out.println( "totalMomentum = " + totalMomentum + ", after = " + getBox2DMomentum() );
     }
 
     private Vec2 getBox2DMomentum() {
@@ -598,15 +634,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     }
 
     //Code taken from constructor
-    //Attempted using collision boundaries, but they make the system come to rest too quickly, we will probably use periodic boundary conditions instead
-//        Body body = world.createBody( new BodyDef() {{
-//            type = BodyType.STATIC;
-//        }} );
-//        final ImmutableRectangle2D particleWindowBox2D = modelToBox2D.modelToView( particleWindow );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( particleWindowBox2D.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( 0, (float) ( -particleWindowBox2D.height ) ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
-//        body.createFixture( new PolygonShape() {{ setAsBox( (float) particleWindowBox2D.width / 2, (float) ( particleWindowBox2D.height / 2 ), new Vec2( (float) ( -particleWindowBox2D.width ), 0 ), 0 ); }}, 1 );
+
 
     //Move to a stable state on startup
     //Commented out because it takes too long
