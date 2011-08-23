@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.fluidpressure.view;
 
-import java.awt.*;
+import java.awt.Color;
 import java.awt.geom.Point2D;
 
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -9,7 +9,12 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.common.view.*;
+import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
+import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
+import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
+import edu.colorado.phet.fluidpressureandflow.common.view.MeterStick;
+import edu.colorado.phet.fluidpressureandflow.common.view.PoolNode;
+import edu.colorado.phet.fluidpressureandflow.common.view.PressureSensorNode;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.FluidPressureModule;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.fluidpressure.model.Pool;

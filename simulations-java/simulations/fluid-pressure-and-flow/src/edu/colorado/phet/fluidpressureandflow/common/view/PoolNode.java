@@ -1,12 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.*;
+import javax.swing.JColorChooser;
+import javax.swing.JFrame;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 

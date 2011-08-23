@@ -1,7 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;

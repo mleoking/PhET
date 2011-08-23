@@ -1,9 +1,14 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.common.view;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Paint;
+import java.awt.Stroke;
 
-import javax.swing.*;
+import javax.swing.JLabel;
 
 /**
  * @author Sam Reid

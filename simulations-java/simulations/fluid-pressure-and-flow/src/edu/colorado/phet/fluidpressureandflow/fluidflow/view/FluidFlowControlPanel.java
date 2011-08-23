@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.fluidflow.view;
 
-import javax.swing.*;
+import javax.swing.JComponent;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;

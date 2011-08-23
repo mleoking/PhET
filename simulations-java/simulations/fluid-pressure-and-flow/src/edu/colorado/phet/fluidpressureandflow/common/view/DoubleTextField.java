@@ -8,7 +8,7 @@ import java.awt.event.FocusListener;
 import java.text.Format;
 import java.text.ParseException;
 
-import javax.swing.*;
+import javax.swing.JFormattedTextField;
 
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
