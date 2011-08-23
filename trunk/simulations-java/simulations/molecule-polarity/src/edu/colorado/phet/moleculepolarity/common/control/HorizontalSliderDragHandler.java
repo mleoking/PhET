@@ -40,8 +40,7 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
         this.updateFunction = updateFunction;
     }
 
-    @Override
-    protected void startDrag( PInputEvent event ) {
+    @Override protected void startDrag( PInputEvent event ) {
         super.startDrag( event );
         // note the offset between the mouse click and the knob's origin
         Point2D pMouseLocal = event.getPositionRelativeTo( relativeNode );
@@ -50,14 +49,12 @@ public class HorizontalSliderDragHandler extends PDragSequenceEventHandler {
         globalClickXOffset = pMouseGlobal.getX() - pKnobGlobal.getX() + trackNode.getXOffset();
     }
 
-    @Override
-    protected void drag( PInputEvent event ) {
+    @Override protected void drag( PInputEvent event ) {
         super.drag( event );
         updateValue( event, true /* isDragging */ );
     }
 
-    @Override
-    protected void endDrag( PInputEvent event ) {
+    @Override protected void endDrag( PInputEvent event ) {
         updateValue( event, false /* isDragging */ );
         super.endDrag( event );
     }
