@@ -8,7 +8,6 @@ DESIGN
 
 HIGH
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
-- add minor and major ticks to EN control
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
 - Jmol: how to align molecular dipole with E-field?
 
