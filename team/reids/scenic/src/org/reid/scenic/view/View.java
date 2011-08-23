@@ -20,12 +20,15 @@ public class View {
         for ( Atom atom : model.atoms ) {
             new AtomView( atom ).paint( graphics2D );
         }
-        final ButtonView buttonView = new ButtonView( model.buttonModel );
-        buttonView.paint( graphics2D );
+        new ButtonView( model.button1 ).paint( graphics2D );
+        new ButtonView( model.button2 ).paint( graphics2D );
     }
 
-    public boolean buttonContains( int x, int y ) {
-        final ButtonView buttonView = new ButtonView( model.buttonModel );
-        return buttonView.contains( x, y );
+    public boolean button1Contains( int x, int y ) {
+        return new ButtonView( model.button1 ).contains( x, y );
+    }
+
+    public boolean button2Contains( int x, int y ) {
+        return new ButtonView( model.button2 ).contains( x, y );
     }
 }
