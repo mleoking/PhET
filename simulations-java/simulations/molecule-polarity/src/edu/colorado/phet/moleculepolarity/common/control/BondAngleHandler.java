@@ -20,6 +20,13 @@ public class BondAngleHandler extends PBasicInputEventHandler {
     private final PNode dragNode;
     double previousAngle;
 
+    /**
+     * Constructor.
+     *
+     * @param molecule  angle is relative to this molecule's location, and we pause any animation of this molecule while dragging
+     * @param bondAngle property that this handler modifies
+     * @param dragNode  node the is being dragged
+     */
     public BondAngleHandler( IMolecule molecule, Property<Double> bondAngle, PNode dragNode ) {
         this.molecule = molecule;
         this.bondAngle = bondAngle;
@@ -35,15 +42,15 @@ public class BondAngleHandler extends PBasicInputEventHandler {
         molecule.setDragging( false );
     }
 
-    // Find the angle about the molecule's location.
-    private double getAngle( PInputEvent event ) {
-        return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
-    }
-
     // Drag to rotate the molecule.
     @Override public void mouseDragged( PInputEvent event ) {
         double angle = getAngle( event );
         bondAngle.set( bondAngle.get() + angle - previousAngle );
         previousAngle = angle;
+    }
+
+    // Find the angle about the molecule's location.
+    private double getAngle( PInputEvent event ) {
+        return new ImmutableVector2D( molecule.getLocation().toPoint2D(), event.getPositionRelativeTo( dragNode.getParent() ) ).getAngle();
     }
 }
