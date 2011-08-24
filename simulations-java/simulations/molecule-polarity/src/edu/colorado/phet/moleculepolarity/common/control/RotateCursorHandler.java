@@ -22,6 +22,6 @@ public class RotateCursorHandler extends CursorHandler {
     public static final Cursor CURSOR = Toolkit.getDefaultToolkit().createCustomCursor( MPImages.ROTATE_CURSOR, HOT_SPOT, "rotate" );
 
     public RotateCursorHandler() {
-//        super( CURSOR );
+        super( CURSOR );
     }
 }

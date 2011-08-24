@@ -1,3 +1,4 @@
+8/23/11 restore rotate cursor
 # 0.00.17 (55737) Aug 23, 2011
 8/23/11 temporarily disable rotate cursor
 8/23/11 change canvas transform strategy from RenderingSizeStrategy to CenteredStage
