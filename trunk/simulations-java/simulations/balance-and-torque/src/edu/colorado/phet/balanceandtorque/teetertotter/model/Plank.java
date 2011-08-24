@@ -69,7 +69,7 @@ public class Plank extends ShapeModelElement {
 
     // Various variables that need to be retained between time steps in order
     // to calculate the position at the next time step.
-    private double currentTorque = 0;
+    private double currentNetTorque = 0;
     private double angularVelocity = 0;    // In radians/sec
     private double maxTiltAngle;
 
@@ -204,7 +204,7 @@ public class Plank extends ShapeModelElement {
                 }
             } );
             updateMassPositions();
-            updateTorque();
+            updateNetTorque();
             massAdded = true;
         }
 
@@ -221,7 +221,7 @@ public class Plank extends ShapeModelElement {
                 forceVectorList.remove( massForceVector );
             }
         }
-        updateTorque();
+        updateNetTorque();
     }
 
     public void removeAllMasses() {
@@ -354,33 +354,39 @@ public class Plank extends ShapeModelElement {
     private void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
             double angularAcceleration = 0;
-            if ( supportColumnsActive.get() ) {
-                tiltAngle = 0;
+            updateNetTorque();
+
+            // Update the angular acceleration and velocity.  There is some
+            // thresholding here to prevent the plank from oscillating forever
+            // with small values, since this can cause odd-looking movements
+            // of the planks and masses.  The thresholds were empirically
+            // determined.
+            angularAcceleration = currentNetTorque / MOMENT_OF_INERTIA;
+            angularAcceleration = Math.abs( angularAcceleration ) > 0.00001 ? angularAcceleration : 0;
+            angularVelocity += angularAcceleration;
+            angularVelocity = Math.abs( angularVelocity ) > 0.00001 ? angularVelocity : 0;
+
+            // Update the angle of the plank's tilt based on the angular velocity.
+            double previousTiltAngle = tiltAngle;
+            tiltAngle += angularVelocity * dt;
+            if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
+                // Limit the angle when one end is touching the ground.
+                tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
                 angularVelocity = 0;
             }
-            else {
-                updateTorque();
-                // Update the angular acceleration and velocity.  There is some
-                // thresholding here to prevent the plank from oscillating forever
-                // with small values, since this can cause odd-looking movements
-                // of the planks and masses.  The thresholds were empirically
-                // determined.
-                angularAcceleration = currentTorque / MOMENT_OF_INERTIA;
-                angularAcceleration = Math.abs( angularAcceleration ) > 0.00001 ? angularAcceleration : 0;
-                angularVelocity += angularAcceleration;
-                angularVelocity = Math.abs( angularVelocity ) > 0.00001 ? angularVelocity : 0;
+            else if ( Math.abs( tiltAngle ) < 0.001 ) {
+                // Below a certain threshold just force the tilt angle to be
+                // zero so that it appears perfectly level.
+                tiltAngle = 0;
             }
-            // Update the angle of the plank's tilt based on the angular velocity.
-            if ( angularVelocity != 0 ) {
-                tiltAngle += angularVelocity * dt;
-                if ( Math.abs( tiltAngle ) > maxTiltAngle ) {
-                    // Limit the angle when once end of the plank is touching the ground.
-                    tiltAngle = maxTiltAngle * ( tiltAngle < 0 ? -1 : 1 );
-                    angularVelocity = 0;
-                }
+
+            // Update the shape of the plank and the positions of the masses on
+            // the surface, but only if the tilt angle has changed.
+            if ( tiltAngle != previousTiltAngle ) {
                 updatePlankPosition();
                 updateMassPositions();
             }
+
             // Update the force vectors from the masses.  This mostly just moves
             // them to the correct locations.
             for ( MassForceVector massForceVector : forceVectorList ) {
@@ -449,14 +455,16 @@ public class Plank extends ShapeModelElement {
         }
     }
 
-    private void updateTorque() {
-        currentTorque = 0;
-        // Calculate torque due to masses.
-        for ( Mass mass : massesOnSurface ) {
-            currentTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
+    private void updateNetTorque() {
+        currentNetTorque = 0;
+        if ( !supportColumnsActive.get() ) {
+            // Calculate torque due to masses.
+            for ( Mass mass : massesOnSurface ) {
+                currentNetTorque += pivotPoint.getX() - mass.getPosition().getX() * mass.getMass();
+            }
+            // Add in torque due to plank.
+            currentNetTorque += ( pivotPoint.getX() - bottomCenterPoint.get().getX() ) * MASS;
         }
-        // Add in torque due to plank.
-        currentTorque += ( pivotPoint.getX() - bottomCenterPoint.get().getX() ) * MASS;
     }
 
     /**

@@ -97,17 +97,21 @@ public class PlankNode extends ModelObjectNode {
             }
         } );
 
-        rightHandle.addInputEventListener( new GrabHandleDragHandler( plank, canvas, mvt ) );
-        leftHandle.addInputEventListener( new GrabHandleDragHandler( plank, canvas, mvt ) );
+        rightHandle.addInputEventListener( new TiltHandleDragHandler( plank, canvas, mvt ) );
+        leftHandle.addInputEventListener( new TiltHandleDragHandler( plank, canvas, mvt ) );
     }
 
-    private static class GrabHandleDragHandler extends PDragEventHandler {
+    /**
+     * Class that defines the handler for the drag handles on the ends of the
+     * plank.
+     */
+    private static class TiltHandleDragHandler extends PDragEventHandler {
         private final Plank plank;
         private final ModelViewTransform mvt;
         private final PhetPCanvas canvas;
         private double dragAngleDelta;
 
-        public GrabHandleDragHandler( Plank plank, PhetPCanvas canvas, ModelViewTransform mvt ) {
+        public TiltHandleDragHandler( Plank plank, PhetPCanvas canvas, ModelViewTransform mvt ) {
             this.plank = plank;
             this.canvas = canvas;
             this.mvt = mvt;
