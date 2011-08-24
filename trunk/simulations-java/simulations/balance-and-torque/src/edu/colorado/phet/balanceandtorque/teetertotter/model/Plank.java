@@ -387,11 +387,6 @@ public class Plank extends ShapeModelElement {
                 updateMassPositions();
             }
 
-            // Update the force vectors from the masses.  This mostly just moves
-            // them to the correct locations.
-            for ( MassForceVector massForceVector : forceVectorList ) {
-                massForceVector.update();
-            }
             // Simulate friction by slowing down the rotation a little.
             angularVelocity *= 0.90;
         }
@@ -410,6 +405,12 @@ public class Plank extends ShapeModelElement {
             // Set the position and rotation of the mass.
             mass.setPosition( massPosition.toPoint2D() );
             mass.setRotationAngle( tiltAngle );
+        }
+
+        // Update the force vectors from the masses.  This mostly just moves
+        // them to the correct locations.
+        for ( MassForceVector massForceVector : forceVectorList ) {
+            massForceVector.update();
         }
     }
 
