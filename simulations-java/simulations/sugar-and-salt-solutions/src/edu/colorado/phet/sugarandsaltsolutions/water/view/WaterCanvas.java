@@ -146,7 +146,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         //The transform must have inverted Y so the bucket is upside-up.
         final Rectangle referenceRect = new Rectangle( 0, 0, 1, 1 );
         ModelViewTransform bucketTransform = createRectangleInvertedYMapping( referenceRect, referenceRect );
-        Dimension2DDouble bucketSize = new Dimension2DDouble( 180, 70 );
+        Dimension2DDouble bucketSize = new Dimension2DDouble( 205, 80 );
         final int bucketSeparation = 210;
         sugarBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 + bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, green, SUGAR ), bucketTransform );
         saltBucket = new BucketView( new Bucket( particleWindowX + particleWindowWidth / 2 - bucketSeparation / 2, -canvasSize.getHeight() + bucketSize.getHeight(), bucketSize, blue, SALT ), bucketTransform );
