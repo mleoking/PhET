@@ -17,6 +17,7 @@ public class BalancingActModule extends Module {
     public BalancingActModule() {
         this( new BalancingActModel() );
         setClockControlPanel( null );
+        getModulePanel().setLogoPanel( null );
     }
 
     private BalancingActModule( BalancingActModel model ) {
