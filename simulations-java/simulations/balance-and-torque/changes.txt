@@ -1,3 +1,4 @@
+Fixed a bug where some of the control checkboxes where not cleared upon a Reset All.
 # 0.00.07 (55747) Aug 24, 2011
 8/24/11 Deploying for review by design team and possibly externally
 Removed, at least for now, the 2nd tab.
