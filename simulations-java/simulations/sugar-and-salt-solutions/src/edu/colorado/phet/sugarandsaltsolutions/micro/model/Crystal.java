@@ -56,34 +56,45 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Create an instance that could bond with the specified original particle for purposes of growing crystals from scratch
     public abstract T createPartner( T original );
 
-    //Grow the crystal for the specified number of steps
-    public void grow( int numSteps ) {
-        for ( int i = 0; i < numSteps; i++ ) {
-            grow();
+    //Grow the crystal for the specified number of formula ratios
+    public void grow( int numberFormulaRatios ) {
+        for ( int i = 0; i < numberFormulaRatios; i++ ) {
+            growByOneFormulaUnit();
         }
     }
 
-    //Grow the crystal randomly at one of the open sites
-    public void grow() {
-        if ( constituents.size() == 0 ) {
-            addConstituent( new Constituent<T>( createSeed(), ZERO ) );
-        }
-        else {
-            //find any particle that has open bonds
-            ArrayList<OpenSite<T>> openSites = getOpenSites();
+    //Grow the crystal randomly at one of the open sites by adding a full formula (such as 1 Ca and 2Cl for CaCl2)
+    public void growByOneFormulaUnit() {
+        for ( final Class<? extends Particle> type : formula.getTypes() ) {
+            for ( int i = 0; i < formula.getFactor( type ); i++ ) {
 
-            if ( openSites.size() > 0 ) {
-                addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
-            }
-            else {
-                System.out.println( "Nowhere to bond!" );
+                if ( constituents.size() == 0 ) {
+                    addConstituent( new Constituent<T>( createConstituentParticle( type ), ZERO ) );
+                }
+
+                else {
+
+                    //find any particle that has open bonds
+                    ItemList<OpenSite<T>> openSites = getOpenSites().filter( new Function1<OpenSite<T>, Boolean>() {
+                        public Boolean apply( OpenSite<T> site ) {
+                            return site.matches( type );
+                        }
+                    } );
+
+                    if ( openSites.size() > 0 ) {
+                        addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
+                    }
+                    else {
+                        System.out.println( "Nowhere to bond!" );
+                    }
+                }
             }
         }
     }
 
     //Determine all of the available locations where an existing particle could be added
-    public ArrayList<OpenSite<T>> getOpenSites() {
-        ArrayList<OpenSite<T>> bondingSites = new ArrayList<OpenSite<T>>();
+    public ItemList<OpenSite<T>> getOpenSites() {
+        ItemList<OpenSite<T>> bondingSites = new ItemList<OpenSite<T>>();
         for ( final Constituent<T> constituent : new ArrayList<Constituent<T>>( constituents ) ) {
             for ( ImmutableVector2D direction : getPossibleDirections( constituent ) ) {
                 ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
@@ -121,7 +132,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     }
 
     //Create the first constituent particle in a crystal
-    protected abstract T createSeed();
+    protected abstract T createConstituentParticle( Class<? extends Particle> type );
 
     //Choose a set of particles to dissolve from the crystal according to the formula ratio (e.g. NaCl = 1 Na + 1 Cl or CaCl2 = 1 Ca + 2 Cl) so the crystal and solution will remain balanced
     public Option<ArrayList<Constituent<T>>> getConstituentsToDissolve( final Rectangle2D waterBounds ) {

@@ -27,8 +27,8 @@ public class SodiumChlorideCrystal extends Crystal<SaltIon> {
     }
 
     //Randomly choose an initial particle for the crystal lattice
-    public SaltIon createSeed() {
-        return random.nextBoolean() ? new SaltIon( new SphericalParticle.Sodium(), SODIUM ) : new SaltIon( new Chloride(), CHLORIDE );
+    public SaltIon createConstituentParticle( Class<? extends Particle> type ) {
+        return type == SaltIon.SodiumIon.class ? new SaltIon( new SphericalParticle.Sodium(), SODIUM ) : new SaltIon( new Chloride(), CHLORIDE );
     }
 
     //Determine whether Na or Cl should be added to the crystal when growing to maintain the ionic balance

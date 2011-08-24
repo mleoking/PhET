@@ -30,8 +30,8 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     }
 
     //Randomly choose an initial particle for the crystal lattice
-    @Override protected Particle createSeed() {
-        return random.nextBoolean() ? new Sodium() : new Nitrate();
+    @Override protected Particle createConstituentParticle( Class<? extends Particle> type ) {
+        return type == Sodium.class ? new Sodium() : new Nitrate();
     }
 
     //Determine whether Na or NO3 should be added to a crystal when growing to maintain the ionic balance
