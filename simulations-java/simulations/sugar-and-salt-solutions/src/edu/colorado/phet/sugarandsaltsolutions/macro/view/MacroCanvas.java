@@ -11,6 +11,7 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.St
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.VolumeIndicatorNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.DispenserRadioButtonSet;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.Item;
@@ -35,14 +36,20 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     private final PNode soluteControlPanelNode;
 
     public MacroCanvas( final MacroModel model, GlobalState globalState ) {
-        super( model, globalState, createMacroTransform( model ), new Function1<Double, String>() {
-                   //Read out more precisely than the fine-grained tick marks on the side
-                   DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+        super( model, globalState, createMacroTransform( model ), false );
 
-                   public String apply( Double volumeInMetersCubed ) {
-                       return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );
-                   }
-               }, false );
+        //Readout function for the exact volume readout on the solution when the user selects "show values.
+        //Read out more precisely than the fine-grained tick marks on the side
+        Function1<Double, String> beakerVolumeReadoutFormat = new Function1<Double, String>() {
+            DecimalFormat decimalFormat = new DecimalFormat( "0.00" );
+
+            public String apply( Double volumeInMetersCubed ) {
+                return decimalFormat.format( metersCubedToLiters( volumeInMetersCubed ) );
+            }
+        };
+
+        //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
+        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.getAnySolutes(), beakerVolumeReadoutFormat ) );
 
         //This tab uses the conductivity tester
         submergedInWaterNode.addChild( conductivityToolboxLayer );
