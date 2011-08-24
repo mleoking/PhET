@@ -225,6 +225,8 @@ public class BalancingActCanvas extends PhetPCanvas {
                     // Reset properties that control vector visibility.
                     distancesVisibleProperty.reset();
                     forceVectorsFromObjectsVisibleProperty.reset();
+                    massLabelVisibilityProperty.reset();
+                    levelIndicatorVisibleProperty.reset();
                 }
             } );
         }} );
