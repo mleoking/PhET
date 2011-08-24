@@ -1,3 +1,5 @@
+Removed, at least for now, the 2nd tab.
+Made the plank so that the user can grab and tip it manually.
 Made the mass labels on shapes into two lines for better readability.
 Removed tick marks from bottom of ruler and added units label instead.
 Made the ruler transparent.
