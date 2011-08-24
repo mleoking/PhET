@@ -187,7 +187,7 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         crystal.addConstituent( new Constituent<T>( a, ZERO ) );
 
         //Choose a site that matches the first particle
-        ArrayList<OpenSite<T>> sites = crystal.getOpenSites();
+        ItemList<OpenSite<T>> sites = crystal.getOpenSites();
         Collections.shuffle( sites );
         OpenSite<T> selectedSite = null;
         for ( OpenSite<T> site : sites ) {

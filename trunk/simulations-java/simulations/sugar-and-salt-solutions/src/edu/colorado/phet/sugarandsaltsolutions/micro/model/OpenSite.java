@@ -38,4 +38,8 @@ public class OpenSite<T extends Particle> {
     public boolean matches( Particle other ) {
         return newInstance.apply().getClass().equals( other.getClass() );
     }
+
+    public boolean matches( Class<? extends Particle> type ) {
+        return newInstance.apply().getClass().equals( type );
+    }
 }

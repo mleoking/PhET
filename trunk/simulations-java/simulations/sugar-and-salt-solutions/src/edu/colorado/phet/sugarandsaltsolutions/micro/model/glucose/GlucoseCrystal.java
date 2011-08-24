@@ -33,7 +33,7 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     }
 
     //Create a single Glucose molecule to begin the crystal
-    @Override protected Glucose createSeed() {
+    @Override protected Glucose createConstituentParticle( Class<? extends Particle> type ) {
         return new Glucose();
     }
 

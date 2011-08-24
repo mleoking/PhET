@@ -7,8 +7,6 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroShaker;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -29,11 +27,6 @@ public class SodiumChlorideShaker extends MicroShaker {
         //Attempt 100 times to randomly create a crystal with a correct balance of components
         //If no success after 100 random tries, just take the last attempt
         //This tends to work in much less than 100 tries, such as 3-4 tries
-        SodiumChlorideCrystal crystal = null;
-        int count = 0;
-        while ( crystal == null || crystal.count( Sodium.class ) != crystal.count( Chloride.class ) && count++ < 100 ) {
-            crystal = new SodiumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 12 ); }};
-        }
-        model.addSodiumChlorideCrystal( crystal );
+        model.addSodiumChlorideCrystal( new SodiumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
 }

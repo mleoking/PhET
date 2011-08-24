@@ -26,8 +26,8 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     }
 
     //Randomly choose an initial particle for the crystal lattice
-    @Override protected SphericalParticle createSeed() {
-        return random.nextBoolean() ? new Calcium() : new Chloride();
+    @Override protected SphericalParticle createConstituentParticle( Class<? extends Particle> type ) {
+        return type == Calcium.class ? new Calcium() : new Chloride();
     }
 
     @Override public ImmutableVector2D[] getPossibleDirections( Constituent<SphericalParticle> constituent ) {

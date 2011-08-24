@@ -34,7 +34,7 @@ public class SucroseCrystal extends Crystal<Sucrose> {
     }
 
     //Create a single sucrose molecule to begin the crystal
-    @Override protected Sucrose createSeed() {
+    @Override protected Sucrose createConstituentParticle( Class<? extends Particle> type ) {
         return new Sucrose();
     }
 
