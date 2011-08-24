@@ -9,7 +9,6 @@ DESIGN
 HIGH
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
 - Jmol: how to align molecular dipole with E-field?
-- convert rotate cursor to 32x32 gif, to work around Windows/Java bug #4842475
 - clean up canvas layout code in all tabs, base layout on molecule location
 - ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
