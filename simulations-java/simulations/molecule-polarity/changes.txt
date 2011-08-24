@@ -1,3 +1,4 @@
+8/23/11 change canvas transform strategy from RenderingSizeStrategy to CenteredStage
 8/23/11 fix unusual case where pressing Reset All results in "UnsupportedOperationException: Cannot normalize a zero-magnitude vector"
 8/23/11 remove duplicate "do script" functionality from JmolViewerNode
 8/23/11 add code (currently disabled) for "centered stage" transform strategy
