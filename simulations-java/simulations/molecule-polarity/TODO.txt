@@ -26,7 +26,6 @@ LOW
 - look for Property<T> fields that shouldn't be public
 - don't like using static JmolViewerNode.RAINBOW_MEP for enabling rainbow color scheme, redesign
 - Jmol: if you change dipole properties (offset, width,...) then the viewer may clip the dipole
-- add a unity mvt, for insurance?
 - simplify implementation of TwoAtomsModel.updateMoleculeOrientation
 - delete TestMepCalculation
 - delete unneeded keep statements from molecule-polarity.pro
@@ -36,6 +35,7 @@ BEFORE PUBLISHING
 - model.txt
 - IntelliJ code analysis
 - design doc snapshot
+- implementation-notes.txt
 
 MIGRATE TO COMMON
 - HorizontalSliderDragHandler
