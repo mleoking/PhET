@@ -44,7 +44,6 @@ public class AttachedState extends BiomoleculeBehaviorState {
         if ( timeOfAttachment > MIN_NON_DETACH_TIME ) {
             probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, dt / ATTACHMENT_HALF_LIFE );
         }
-        System.out.println( "probabilityOfAttachmentDecay = " + probabilityOfAttachmentDecay );
         if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Go ahead and detach.
             attachmentSite.inUse.set( false );
