@@ -158,6 +158,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     protected final SucroseCrystalGrowth sucroseCrystalGrowth = new SucroseCrystalGrowth( this, sucroseCrystals );
     protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
 
+    //Flag to help debug the crystal ratios
+    public static final boolean debugCrystalRatio = true;
+
     public MicroModel() {
 
         //SolubleSalts clock runs much faster than wall time
@@ -262,6 +265,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Iterate over all particles and let them update in time
         for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals, drainedParticles ) ) {
             freeParticle.stepInTime( dt );
+        }
+
+        if ( debugCrystalRatio ) {
+            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
+                boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
+                System.out.println( "matches = " + matches );
+            }
         }
 
         //Allow the crystals to grow--not part of the strategies because it has to look at all particles within a group to decide which to crystallize
