@@ -1,3 +1,4 @@
+Water tab: Moved the reset all button below the control panel and colored like other tabs
 Micro tab: Removed the exact volume readout from the solution
 Micro tab: Changed from "or" to "and" in saturation rules to handle mixed kits that share a solute constituent
 # 0.00.96 (55726) Aug 23, 2011

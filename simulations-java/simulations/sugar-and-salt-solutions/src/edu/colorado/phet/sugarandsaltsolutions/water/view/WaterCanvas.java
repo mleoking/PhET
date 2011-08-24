@@ -21,6 +21,7 @@ import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.BucketView;
 import edu.colorado.phet.common.piccolophet.nodes.mediabuttons.FloatingClockControlNode;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.ResetAllButtonNode;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
@@ -65,9 +66,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     //Layers for salt and sugar buckets
     private PNode saltBucketParticleLayer;
     private PNode sugarBucketParticleLayer;
-
-    //Control panel with user options
-    protected WaterControlPanel controlPanel;
 
     //Dialog in which to show the 3d JMol view of sucrose
     private Sucrose3DDialog sucrose3DDialog;
@@ -124,9 +122,23 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             }
         }, state.colorScheme.whiteBackground ), miniBeakerNode, particleWindowNode ) );
 
-        //Control panel
-        controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
-            setOffset( canvasSize.getWidth() - INSET - getFullBounds().getWidth(), canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
+        //Add the reset all button
+        final ResetAllButtonNode resetAllButtonNode = new ResetAllButtonNode( canvasSize.width, canvasSize.height, new VoidFunction0() {
+            public void apply() {
+                model.reset();
+
+                //When the module is reset, put the salt and sugar back in the buckets
+                addSaltToBucket();
+                addSugarToBucket();
+
+                sucrose3DDialog.reset();
+            }
+        } );
+        addChild( resetAllButtonNode );
+
+        //Control panel with user options
+        WaterControlPanel controlPanel = new WaterControlPanel( model, state, this, sucrose3DDialog ) {{
+            setOffset( canvasSize.getWidth() - INSET - getFullBounds().getWidth(), resetAllButtonNode.getFullBounds().getY() - getFullBounds().getHeight() - INSET * 2 );
         }};
         addChild( controlPanel );
 
@@ -164,7 +176,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
         //Add clock controls for pause/play/step
         addChild( new FloatingClockControlNode( model.playButtonPressed, NO_READOUT, model.clock, "", new Property<Color>( Color.white ) ) {{
-            setOffset( INSET, controlPanel.getFullBounds().getMaxY() - getFullBounds().getHeight() );
+            setOffset( INSET, canvasSize.getHeight() - getFullBounds().getHeight() - INSET );
         }} );
 
         //When a water molecule is added in the model, add graphics for each atom in the view
@@ -243,7 +255,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     }
 
     //Puts a single salt crystal in the sugar bucket for the user to drag out
-    public void addSaltToBucket() {
+    private void addSaltToBucket() {
         saltBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal that the user will drag
@@ -270,7 +282,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
     }
 
     //Puts a single sugar crystal in the salt bucket for the user to grab
-    public void addSugarToBucket() {
+    private void addSugarToBucket() {
         sugarBucketParticleLayer.removeAllChildren();
 
         //Create a model element for the sucrose crystal that the user will drag
