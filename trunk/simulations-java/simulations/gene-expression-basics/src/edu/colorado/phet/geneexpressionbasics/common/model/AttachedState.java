@@ -7,14 +7,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+
 /**
  * @author John Blanco
  */
 public class AttachedState extends BiomoleculeBehaviorState {
 
     private static final Random RAND = new Random();
-    private static final double MIN_ATTACHMENT_TIME = 10; // Seconds.
-    private static final double ATTACHMENT_HALF_LIFE = 0.05; // Seconds.
+    private static final double ATTACHMENT_HALF_LIFE = 1.0; // Seconds.
+    private static final double MIGRATION_HALF_LIFE = 0.05; // Seconds.
+    private static final double MIN_NON_DETACH_TIME = 0.25;
 
     private final AttachmentSite attachmentSite;
 
@@ -37,26 +40,30 @@ public class AttachedState extends BiomoleculeBehaviorState {
 
         // Decide whether to detach.  This uses the formula for the half life
         // to determine whether it is a reasonable time.
-//        double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / ATTACHMENT_HALF_LIFE );
-//        if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ){
-//            // Go ahead and detach.
-//            attachmentSite.inUse.set( false );
-//            if ( attachmentSite.locationProperty.get().getY() < 100 ) {
-//                // Must be on the DNA, so drift upwards.
-//                return new DetachingState( new ImmutableVector2D( 0, 1 ) );
-//            }
-//            else {
-//                // Not on the DNA - drift randomly.
-//                return new DetachingState();
-//            }
-//        }
+        double probabilityOfAttachmentDecay = 0;
+        if ( timeOfAttachment > MIN_NON_DETACH_TIME ) {
+            probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, dt / ATTACHMENT_HALF_LIFE );
+        }
+        System.out.println( "probabilityOfAttachmentDecay = " + probabilityOfAttachmentDecay );
+        if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ) {
+            // Go ahead and detach.
+            attachmentSite.inUse.set( false );
+            if ( attachmentSite.locationProperty.get().getY() < 100 ) {
+                // Must be on the DNA, so drift upwards.
+                return new DetachingState( new ImmutableVector2D( 0, 1 ) );
+            }
+            else {
+                // Not on the DNA - drift randomly.
+                return new DetachingState();
+            }
+        }
 
         // If we made it to here, there is no state change.
         return this;
     }
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
-        double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / ATTACHMENT_HALF_LIFE );
+        double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / MIGRATION_HALF_LIFE );
         if ( probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Okay to actually consider these proposals.
             List<AttachmentSite> copyOfProposedAttachmentSites = new ArrayList<AttachmentSite>( proposedAttachmentSites );
