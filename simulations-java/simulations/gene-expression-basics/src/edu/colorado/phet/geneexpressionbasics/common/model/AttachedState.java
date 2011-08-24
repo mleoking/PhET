@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -11,8 +14,8 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class AttachedState extends BiomoleculeBehaviorState {
 
-    private static final double MIN_ATTACHMENT_TIME = 0.5;
     private static final Random RAND = new Random();
+    private static final Double MIN_ATTACHMENT_TIME = 0.5; // Seconds.
 
     private final AttachmentSite attachmentSite;
 
@@ -56,9 +59,34 @@ public class AttachedState extends BiomoleculeBehaviorState {
         }
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
-        // Already attached, so reject request by leaving the attachment site
-        // unchanged and returning the current state.
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
+        List<AttachmentSite> copyOfProposedAttachmentSites = new ArrayList<AttachmentSite>( proposedAttachmentSites );
+        for ( AttachmentSite attachmentSite : proposedAttachmentSites ) {
+            if ( attachmentSite.equals( this.attachmentSite ) ) {
+                // Remove the one to which we are currently attached from the
+                // list of sites to consider.
+                copyOfProposedAttachmentSites.remove( attachmentSite );
+            }
+        }
+        if ( copyOfProposedAttachmentSites.size() > 0 ) {
+            if ( RAND.nextDouble() > 0.9 ) {
+                // Sort the proposals.
+                Collections.sort( copyOfProposedAttachmentSites, new Comparator<AttachmentSite>() {
+                    public int compare( AttachmentSite as1, AttachmentSite as2 ) {
+                        return Double.compare( Math.pow( biomolecule.getPosition().distance( as1.locationProperty.get() ), 2 ) * as1.getAffinity(),
+                                               Math.pow( biomolecule.getPosition().distance( as2.locationProperty.get() ), 2 ) * as2.getAffinity() );
+                    }
+                } );
+                int newAttachmentSiteIndex = 0;
+                if ( copyOfProposedAttachmentSites.size() >= 2 ) {
+                    // Choose randomly between the first two on the list.
+                    newAttachmentSiteIndex = RAND.nextInt( 2 );
+                }
+                // Accept the first one on the list.
+                return new MovingTowardsAttachmentState( copyOfProposedAttachmentSites.get( newAttachmentSiteIndex ) );
+            }
+        }
+        // If we make it to here, just stay in the current state.
         return this;
     }
 
