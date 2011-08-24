@@ -44,4 +44,17 @@ public class AttachmentSite {
     public double getAffinity() {
         return affinity;
     }
+
+    @Override public boolean equals( Object obj ) {
+        if ( this == obj ) { return true; }
+
+        if ( !( obj instanceof AttachmentSite ) ) { return false; }
+
+        AttachmentSite otherAttachmentSite = (AttachmentSite) obj;
+
+        return this.affinity == otherAttachmentSite.affinity &&
+               this.locationProperty.get().getX() == otherAttachmentSite.locationProperty.get().getX() &&
+               this.locationProperty.get().getY() == otherAttachmentSite.locationProperty.get().getY();
+
+    }
 }
