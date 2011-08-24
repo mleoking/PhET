@@ -9,7 +9,7 @@ DESIGN
 HIGH
 - fix rotate cursor on Windows, it looks awful
 - clean up canvas layout code in all tabs, base layout on molecule location, use CenteredStage transform strategy
-- using CenteredStage transform strategy results in clipped label on "Electrostatic potential" check box
+- ControlPanelNode clips check box labels on Mac
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
 - Jmol: how to align molecular dipole with E-field?
 
