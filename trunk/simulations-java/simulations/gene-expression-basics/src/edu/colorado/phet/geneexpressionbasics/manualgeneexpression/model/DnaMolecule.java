@@ -65,7 +65,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
 
-        // Add the genes.  The first gene is set up to be centered at (0,0)in
+        // Add the genes.  The first gene is set up to be centered at (0,0) in
         // model space to having to scroll the gene at startup.
         double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
         genes.add( new Gene( this,
@@ -200,27 +200,32 @@ public class DnaMolecule implements IAttachmentSiteOwner {
     /**
      * This method commands the DNA strand to see if it has any potential
      * attachment sites for the specified biomolecule and, if so, propose them
-     * to the biomolecule.  The biomolecule can accept or decline the proposal.
+     * to the biomolecule.  The biomolecule can accept or decline one of the
+     * proposals.
      *
      * @param mobileBiomolecule
      */
     public void proposeAttachmentSitesTo( MobileBiomolecule mobileBiomolecule ) {
-        double maxDistanceForProposal = 500; // In picometers, empirically determined.
+        double maxVerticalDistanceForProposal = 500; // In picometers, empirically determined.
         if ( ( mobileBiomolecule instanceof RnaPolymerase ||
                mobileBiomolecule instanceof TranscriptionFactor ) &&
-             mobileBiomolecule.getPosition().getY() - Y_POS < maxDistanceForProposal ) {
-            // Propose a set of attachments to this biomolecule.
-            double proposalSpan = DISTANCE_BETWEEN_BASE_PAIRS * 5; // Span is pretty arbitrary.
+             mobileBiomolecule.getPosition().getY() - Y_POS < maxVerticalDistanceForProposal ) {
+
+            // Create a set of proposals for this biomolecule.
+            double proposalSpan = DISTANCE_BETWEEN_BASE_PAIRS * 5; // Span is pretty arbitrary, empirically determined.
             double startingSearchX = Math.max( mobileBiomolecule.getPosition().getX() - proposalSpan / 2, LEFT_EDGE_X_POS );
             double endingSearchX = Math.min( startingSearchX + proposalSpan, LEFT_EDGE_X_POS + MOLECULE_LENGTH );
             List<AttachmentSite> proposedAttachmentSites = new ArrayList<AttachmentSite>();
             for ( double xOffset = startingSearchX; xOffset < endingSearchX; xOffset += DISTANCE_BETWEEN_BASE_PAIRS ) {
                 // Create an attachment site.
-                // TODO: Will need at some point to check against existing sites
-                // also the check if the genes have any in this range.
+                // TODO: Will need at some point to check against occupied sites and not propose them.  Will also need
+                // to check for genes in the vicinity.
                 proposedAttachmentSites.add( new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 ) );
             }
+
+            // Propose the list of attachment sites to the biomolecule.
             mobileBiomolecule.proposeAttachmentSites( proposedAttachmentSites );
+
             // TODO: Need to check the list of attachment sites and add any that
             // have been marked as being in use to a local list.
         }
