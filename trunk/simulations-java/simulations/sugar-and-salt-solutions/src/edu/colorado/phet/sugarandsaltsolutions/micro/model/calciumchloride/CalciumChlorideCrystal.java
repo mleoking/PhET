@@ -17,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  */
 public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, double angle ) {
-        super( new Formula( Calcium.class, Chloride.class, Chloride.class ), position, new Calcium().radius + new Chloride().radius, angle );
+        super( new Formula( Calcium.class, Chloride.class, 2 ), position, new Calcium().radius + new Chloride().radius, angle );
     }
 
     //Create the bonding partner for Calcium Chloride

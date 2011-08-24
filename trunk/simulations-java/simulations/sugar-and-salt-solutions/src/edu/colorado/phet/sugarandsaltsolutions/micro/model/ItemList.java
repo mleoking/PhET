@@ -110,4 +110,12 @@ public class ItemList<T> extends ObservableList<T> {
     public ArrayList<T> toList() {
         return new ArrayList<T>( this );
     }
+
+    public <U> ItemList<U> map( final Function1<T, U> map ) {
+        return new ItemList<U>() {{
+            for ( T t : ItemList.this ) {
+                add( map.apply( t ) );
+            }
+        }};
+    }
 }

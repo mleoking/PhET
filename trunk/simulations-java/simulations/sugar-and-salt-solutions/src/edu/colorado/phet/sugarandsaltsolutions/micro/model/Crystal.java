@@ -4,6 +4,7 @@ import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -125,15 +126,18 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Choose a set of particles to dissolve from the crystal according to the formula ratio (e.g. NaCl = 1 Na + 1 Cl or CaCl2 = 1 Ca + 2 Cl) so the crystal and solution will remain balanced
     public Option<ArrayList<Constituent<T>>> getConstituentsToDissolve( final Rectangle2D waterBounds ) {
 
+        //For each type, get as many components as are specified in the formula
         ArrayList<Constituent<T>> toDissolve = new ArrayList<Constituent<T>>();
-        for ( Class<? extends Particle> type : formula ) {
-            final Constituent<T> constituentToDissolve = getConstituentToDissolve( type, waterBounds, toDissolve );
-            if ( constituentToDissolve == null ) {
-                //If couldn't dissolve all elements of formula, then don't dissolve any
-                return new Option.None<ArrayList<Constituent<T>>>();
-            }
-            else {
-                toDissolve.add( constituentToDissolve );
+        for ( Class<? extends Particle> type : formula.getTypes() ) {
+            for ( int i = 0; i < formula.getFactor( type ); i++ ) {
+                final Constituent<T> constituentToDissolve = getConstituentToDissolve( type, waterBounds, toDissolve );
+                if ( constituentToDissolve == null ) {
+                    //If couldn't dissolve all elements of formula, then don't dissolve any
+                    return new Option.None<ArrayList<Constituent<T>>>();
+                }
+                else {
+                    toDissolve.add( constituentToDissolve );
+                }
             }
         }
         return new Option.Some<ArrayList<Constituent<T>>>( toDissolve );
@@ -214,22 +218,6 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return numBonds;
     }
 
-    //Determine the majority type for a 1:1 formula ratio such as NaCl
-    //Return null if no clear majority (i.e. a tie)
-    public Class<? extends Particle> getMajorityType( Class<? extends Particle> a, Class<? extends Particle> b ) {
-        int numA = count( a );
-        int numB = count( b );
-        if ( numA > numB ) {
-            return a;
-        }
-        else if ( numB > numA ) {
-            return b;
-        }
-        else {
-            return null;
-        }
-    }
-
     //Determine the minority type for a 1:1 formula ratio such as NaCl
     //Return null if no clear minority (i.e. a tie)
     public Class<? extends Particle> getMinorityType( Class<? extends Particle> a, Class<? extends Particle> b ) {
@@ -248,4 +236,26 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Returns the type of particle that is in the majority (according to the formula ratio), so that it can be added during crystallization
     public abstract Class<? extends Particle> getMinorityType();
+
+    //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the divison results for each, making sure they are the same, and making sure there is no remainder
+    public boolean matchesFormulaRatio() {
+        if ( MicroModel.debugCrystalRatio ) {
+            System.out.println( "Crystal.matchesFormulaRatio" );
+        }
+        HashSet<DivisionResult> result = new HashSet<DivisionResult>();
+        for ( Class type : formula.getTypes() ) {
+            int count = constituents.map( new Function1<Constituent<T>, T>() {
+                public T apply( Constituent<T> constituent ) {
+                    return constituent.particle;
+                }
+            } ).filter( type ).size();
+            int factor = formula.getFactor( type );
+            final DivisionResult e = new DivisionResult( count, factor );
+            result.add( e );
+            if ( MicroModel.debugCrystalRatio ) {
+                System.out.println( e );
+            }
+        }
+        return result.size() == 1 && result.iterator().next().remainder == 0;
+    }
 }
