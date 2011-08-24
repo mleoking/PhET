@@ -10,7 +10,6 @@ import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.SwingUtils;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.layout.VBox;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
@@ -19,8 +18,6 @@ import edu.colorado.phet.sugarandsaltsolutions.water.model.WaterModel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 
 /**
@@ -64,21 +61,6 @@ public class WaterControlPanel extends ControlPanelNode {
                     addActionListener( new ActionListener() {
                         public void actionPerformed( ActionEvent e ) {
                             sucrose3DDialog.showDialog();
-                        }
-                    } );
-                }},
-
-                //Add a reset all button that resets this tab
-                new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ) ) {{
-                    addActionListener( new ActionListener() {
-                        public void actionPerformed( ActionEvent e ) {
-                            waterModel.reset();
-
-                            //When the module is reset, but the salt and sugar back in the buckets
-                            waterCanvas.addSaltToBucket();
-                            waterCanvas.addSugarToBucket();
-
-                            sucrose3DDialog.reset();
                         }
                     } );
                 }}

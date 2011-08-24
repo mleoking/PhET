@@ -5,17 +5,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
-import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.toolbox.ToolboxCanvas;
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
@@ -31,8 +29,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.STRING_RESET_ALL;
-import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getInstance;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
 /**
@@ -101,17 +97,11 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         setWorldTransformStrategy( new CenteredStage( this, stageSize ) );
 
         //Add the reset all button
-        addChild( new HTMLImageButtonNode( getInstance().getLocalizedString( STRING_RESET_ALL ), BUTTON_COLOR ) {{
-            setFont( CONTROL_FONT );
-
-            //Have to set the offset after changing the font since it changes the size of the node
-            setOffset( stageSize.width - getFullBounds().getWidth() - INSET, stageSize.height - getFullBounds().getHeight() - INSET );
-            addActionListener( new ActionListener() {
-                public void actionPerformed( ActionEvent e ) {
-                    model.reset();
-                }
-            } );
-        }} );
+        addChild( new ResetAllButtonNode( stageSize.getWidth(), stageSize.getHeight(), new VoidFunction0() {
+            public void apply() {
+                model.reset();
+            }
+        } ) );
 
         //Show the water flowing out of the top and bottom faucets
         addChild( new WaterNode( transform, model.inputWater ) );
