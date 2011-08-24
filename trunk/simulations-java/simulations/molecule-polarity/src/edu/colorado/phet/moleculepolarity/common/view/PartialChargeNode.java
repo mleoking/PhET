@@ -88,7 +88,16 @@ public abstract class PartialChargeNode extends PComposite {
             super( atom, new Function0<ImmutableVector2D>() {
                 public ImmutableVector2D apply() {
                     // along the bond axis, in the direction of the atom
-                    return new ImmutableVector2D( bond.getCenter(), atom.location.get() ).getNormalizedInstance();
+                    ImmutableVector2D v = new ImmutableVector2D( bond.getCenter(), atom.location.get() );
+                    /*
+                     * Avoid the case where pressing Reset All causes the atoms to swap locations, temporarily
+                     * resulting in a zero-magnitude vector when the first atom has moved but the second atom
+                     * hasn't moved yet. This sorts itself out when both atoms have moved.
+                     */
+                    if ( v.getMagnitude() > 0 ) {
+                        v = v.getNormalizedInstance();
+                    }
+                    return v;
                 }
             } );
         }
