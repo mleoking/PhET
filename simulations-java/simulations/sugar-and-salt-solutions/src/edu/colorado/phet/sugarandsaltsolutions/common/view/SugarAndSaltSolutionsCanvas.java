@@ -115,14 +115,16 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         model.setInputFaucetMetrics( new FaucetMetrics( transform, model, rootNode, inputFaucetNode ) );
 
         //Add a faucet that drains the beaker; there is no input pipe for this since it attaches directly to the beaker
-        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.lowerFaucetCanDrain, 0 ) {{
+        //Move it far enough from the beaker that the slider isn't touching it, but not so far that the flowing water would overlap the reset all button
+        final double distanceFromBeaker = 12;
+        drainFaucetNode = new FaucetNode( model.outputFlowRate, model.lowerFaucetCanDrain, distanceFromBeaker ) {{
 
             //Move it up by the height of the faucet image, otherwise it sticks out underneath the beaker
             //x-value hand tuned so it doesn't overlap the reset button in English
             //y-value hand tuned so the bottom of the faucet input pipe lines up with the bottom of the water when at the minimum fluid level
             Point2D beakerBottomRight = model.beaker.getOutputFaucetAttachmentPoint();
             Point2D beakerBottomRightView = transform.modelToView( beakerBottomRight );
-            setOffset( beakerBottomRightView.getX() + 7, beakerBottomRightView.getY() - getFullBounds().getHeight() * 0.8 );
+            setOffset( beakerBottomRightView.getX() + 7 + distanceFromBeaker, beakerBottomRightView.getY() - getFullBounds().getHeight() * 0.8 );
         }};
         addChild( drainFaucetNode );
 

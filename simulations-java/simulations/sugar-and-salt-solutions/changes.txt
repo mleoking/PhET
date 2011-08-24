@@ -1,3 +1,4 @@
+Micro tab: Moved the faucet further from the beaker
 Water tab: Increased bucket size to accommodate new compound sizes
 Water tab: Moved the reset all button below the control panel and colored like other tabs
 Micro tab: Removed the exact volume readout from the solution
