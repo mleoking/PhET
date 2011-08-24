@@ -1,3 +1,4 @@
+Micro tab: Ensure crystals dissolve according to the formula ratio
 Water tab: Fixed: when dropping a Na+ or Cl- crystal outside the play area it should go back to the play area
 Micro tab: Moved the faucet further from the beaker
 Water tab: Increased bucket size to accommodate new compound sizes

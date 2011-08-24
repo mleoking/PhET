@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sodiumnitrate;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.FreeOxygen;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Nitrogen;
@@ -20,7 +21,7 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     public static final double NITROGEN_OXYGEN_SPACING = ( new Nitrogen().radius + new FreeOxygen().radius ) * 0.85;
 
     public SodiumNitrateCrystal( ImmutableVector2D position, double angle ) {
-        super( position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
+        super( new Formula( Sodium.class, Nitrate.class ), position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
     }
 
     //Create the bonding partner for growing the crystal
@@ -31,11 +32,6 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     //Randomly choose an initial particle for the crystal lattice
     @Override protected Particle createSeed() {
         return random.nextBoolean() ? new Sodium() : new Nitrate();
-    }
-
-    //Determine whether Na or NO3 should be removed from the crystal to maintain the ionic balance
-    @Override protected Class<? extends Particle> getMajorityType() {
-        return getMajorityType( Sodium.class, Nitrate.class );
     }
 
     //Determine whether Na or NO3 should be added to a crystal when growing to maintain the ionic balance

@@ -1,8 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
@@ -37,9 +40,11 @@ public class CrystalDissolve<T extends Particle> {
                 //Without this limit, crystals do not dissolve when they should
                 && System.currentTimeMillis() - lastDissolve > 2 && !model.isWaterBelowCrystalThreshold() ) {
             lastDissolve = System.currentTimeMillis();
-            Constituent<T> constituent = crystal.getConstituentToDissolve( model.solution.shape.get().getBounds2D() );
-            if ( constituent != null ) {
-                removeConstituent( crystal, constituent );
+            Option<ArrayList<Constituent<T>>> toDissolve = crystal.getConstituentsToDissolve( model.solution.shape.get().getBounds2D() );
+            if ( toDissolve.isSome() ) {
+                for ( Constituent<T> constituent : toDissolve.get() ) {
+                    removeConstituent( crystal, constituent );
+                }
             }
         }
 
