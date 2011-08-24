@@ -1,1 +1,1 @@
-rotate_cursor.png source=PhET notes=created by Noah P. using Adobe Illustrator
+rotate_cursor.gif source=PhET notes=created by Noah P. using Adobe Illustrator, Windows requires 32x32 GIF
