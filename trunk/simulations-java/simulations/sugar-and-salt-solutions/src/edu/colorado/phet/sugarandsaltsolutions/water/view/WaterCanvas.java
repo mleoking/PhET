@@ -199,7 +199,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         model.sucroseList.addElementAddedObserver( new VoidFunction1<Sucrose>() {
             public void apply( final Sucrose sucrose ) {
                 final CompoundListNode compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, WaterCanvas.this, model.addSucrose,
-                                                                                         model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), sucrose );
+                                                                                         model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, sucrose );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
@@ -217,7 +217,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         model.saltIonList.addElementAddedObserver( new VoidFunction1<SaltIon>() {
             public void apply( final SaltIon ion ) {
                 final CompoundListNode compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, WaterCanvas.this, model.addSaltIon,
-                                                                                         model.removeSaltIon, model.showChargeColor, new SaltIonLabel(), ion );
+                                                                                         model.removeSaltIon, model.showChargeColor, new SaltIonLabel(), false, ion );
                 compoundListNode.setIcon( false );
                 compoundListNode.setInBucket( false );
                 particleWindowNode.particleLayer.addChild( compoundListNode );
@@ -272,7 +272,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
         CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor,
-                                                                                    new SaltIonLabel(), crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
+                                                                                    new SaltIonLabel(), true, crystal.getConstituentParticleList().toArray( new SaltIon[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         saltBucketParticleLayer.addChild( compoundListNode );
@@ -296,7 +296,7 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
         crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
-        CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
+        CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
 
         //Initially put the crystal node in between the front and back of the bucket layers, it changes layers when grabbed so it will be in front of the bucket
         sugarBucketParticleLayer.addChild( compoundListNode );

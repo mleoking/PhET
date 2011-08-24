@@ -68,6 +68,11 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
                              //Optional label to show for each compound
                              final Option<Function1<T, PNode>> label,
 
+                             //Flag to indicate whether the user can drag the compound from the particle frame back to the bucket
+                             //Sucrose molecules can be dragged to the bucket but salt ions can't since you shouldn't have a lone ion.
+                             //Likewise, fully formed NaCl crystals can be dragged from the bucket to the bucket, since that wouldn't leave any lone ions.
+                             final boolean canReturnToBucket,
+
                              final T... compounds ) {
         this.transform = transform;
         this.bucketView = bucketView;
@@ -150,26 +155,30 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
             @Override public void mouseReleased( PInputEvent event ) {
                 Rectangle2D modelBounds = transform.viewToModel( atomLayer.getFullBounds() ).getBounds2D();
                 if ( model.particleWindow.contains( modelBounds ) ) {
-
-                    //Add each sucrose molecule to the model
-                    for ( T sucrose : compounds ) {
-                        addToModel.apply( sucrose );
-                    }
-
-                    //Remove the node the user was dragging
-                    canvas.removeChild( CompoundListNode.this );
+                    moveToModel( addToModel );
                 }
                 else {
 
                     //Shrink the node and send it back to the bucket
-                    setIcon( true );
-                    moveToBucket();
-                    inBucket.set( true );
-                    canvas.removeChild( CompoundListNode.this );
-                    sugarBucketParticleLayer.addChild( CompoundListNode.this );
+                    if ( canReturnToBucket ) {
+                        setIcon( true );
+                        moveToBucket();
+                        inBucket.set( true );
+                        canvas.removeChild( CompoundListNode.this );
+                        sugarBucketParticleLayer.addChild( CompoundListNode.this );
 
-                    //Initialize for dragging out of the bucket on next mouse press
-                    startedDragging.set( false );
+                        //Initialize for dragging out of the bucket on next mouse press
+                        startedDragging.set( false );
+
+                    }
+
+                    //For salt ions, send back to the play area
+                    else {
+                        for ( T compound : compounds ) {
+                            compound.setPosition( model.particleWindow.getCenter() );
+                        }
+                        moveToModel( addToModel );
+                    }
                 }
             }
         } );
@@ -178,6 +187,16 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
 
         //By default, this node is used for the bucket, so it should start in small icon mode
         setIcon( true );
+    }
+
+    private void moveToModel( VoidFunction1<T> addToModel ) {
+        //Add each sucrose molecule to the model
+        for ( T sucrose : compounds ) {
+            addToModel.apply( sucrose );
+        }
+
+        //Remove the node the user was dragging
+        canvas.removeChild( this );
     }
 
     //Sets whether this node should be shown as a small icon (for use in the bucket) or shown as a large crystal while the user is dragging or while in the model/play area
