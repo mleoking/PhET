@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!--resonance-strings_da.xml created Thu Jul 21 19:33:33 CEST 2011 using: resonance 1.00.00 (54323), translation-utility 2.10.00 (48775) feb 9, 2011-->
+<!--resonance-strings_da.xml created Mon Aug 15 12:06:24 CEST 2011 using: resonance 1.01.00 (54775), translation-utility 2.11.00 (55119) aug 13, 2011-->
 <SimStrings>
 <string key="simSpeed" value="simuleringshastighed"/>
 <string key="sameFrequency" value="samme frekvens"/>
@@ -15,7 +15,7 @@
 <string key="cm" value="cm"/>
 <string key="driver" value="Vibrator"/>
 <string key="ruler" value="Lineal"/>
-<string key="resonance.simTitle" value="Rosonans"/>
+<string key="resonance.simTitle" value="Resonans"/>
 <string key="NperMperS" value="N/(m/s)"/>
 <string key="springConstant" value="fjederkonstant"/>
 <string key="frequency" value="frekvens"/>
