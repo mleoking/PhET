@@ -26,7 +26,6 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
-import static edu.colorado.phet.sugarandsaltsolutions.common.view.BeakerNodeWithTicks.volumeToHTMLString;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
@@ -48,11 +47,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     };
 
     public MicroCanvas( final MicroModel model, final GlobalState globalState ) {
-        super( model, globalState, createMicroTransform( model ), new Function1<Double, String>() {
-                   public String apply( Double volumeInMetersCubed ) {
-                       return volumeToHTMLString( volumeInMetersCubed, "0.00" );
-                   }
-               }, true );
+        super( model, globalState, createMicroTransform( model ), true );
 
         //List of the kits the user can choose from, for showing the appropriate bar charts + controls
         final KitList kitList = new KitList( model, transform );

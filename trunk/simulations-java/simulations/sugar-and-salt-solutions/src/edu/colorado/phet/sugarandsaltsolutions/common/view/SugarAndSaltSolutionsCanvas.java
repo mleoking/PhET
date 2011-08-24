@@ -75,7 +75,7 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Store a reference to the EvaporationSlider for layout purposes
     protected final EvaporationSlider evaporationSlider;
 
-    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform, Function1<Double, String> beakerVolumeReadoutFormat,
+    public SugarAndSaltSolutionsCanvas( final SugarAndSaltSolutionModel model, final GlobalState globalState, final ModelViewTransform transform,
 
                                         //This flag indicates whether it is the micro or macro tab since different images are used depending on the tab
                                         boolean micro ) {
@@ -195,9 +195,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         //Overlay node that renders as partially transparent in front of submerged objects, such as the conductivity tester.
         //When changing the transparency here make sure it looks good for precipitate as well as submerged probes
         addChild( new SolutionNode( transform, model.solution, new Color( WATER_COLOR.getRed(), WATER_COLOR.getGreen(), WATER_COLOR.getBlue(), 128 ) ) );
-
-        //Readout the volume of the water in Liters, only visible if the user opted to show values (in the concentration bar chart)
-        addChild( new VolumeIndicatorNode( transform, model.solution, model.showConcentrationValues, model.getAnySolutes(), beakerVolumeReadoutFormat ) );
 
         //Add an evaporation rate slider below the beaker
         evaporationSlider = new EvaporationSlider( model.evaporationRate ) {{
