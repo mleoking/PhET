@@ -1,3 +1,4 @@
+# 0.00.17 (55737) Aug 23, 2011
 8/23/11 temporarily disable rotate cursor
 8/23/11 change canvas transform strategy from RenderingSizeStrategy to CenteredStage
 8/23/11 fix unusual case where pressing Reset All results in "UnsupportedOperationException: Cannot normalize a zero-magnitude vector"
