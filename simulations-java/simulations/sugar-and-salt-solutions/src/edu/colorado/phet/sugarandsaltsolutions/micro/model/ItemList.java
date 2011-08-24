@@ -30,6 +30,17 @@ public class ItemList<T> extends ObservableList<T> {
         addElementRemovedObserver( listener );
     }};
 
+    //Create an empty list
+    public ItemList() {
+    }
+
+    //Convenience constructor to construct an ItemList from an array
+    public ItemList( T[] elements ) {
+        for ( T element : elements ) {
+            add( element );
+        }
+    }
+
     //Count the items in the list that match the predicate
     public int count( Function1<T, Boolean> predicate ) {
         int count = 0;
