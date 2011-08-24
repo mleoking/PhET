@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
@@ -18,7 +19,7 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     public GlucoseCrystal( ImmutableVector2D position, double angle ) {
 
         //Glucose is about half as big as sucrose and hence should be half as far away on the lattice
-        super( position,
+        super( new Formula( Glucose.class ), position,
 
                //Spacing between adjacent sucrose molecules, in meters
                nanometersToMeters( 0.5 ) * SugarAndSaltSolutionsApplication.sizeScale.get() / 2,
@@ -34,11 +35,6 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     //Create a single Glucose molecule to begin the crystal
     @Override protected Glucose createSeed() {
         return new Glucose();
-    }
-
-    //Glucose is always in the majority since it is the only component type; thus it can always be removed
-    @Override protected Class<? extends Particle> getMajorityType() {
-        return Glucose.class;
     }
 
     @Override public Class<? extends Particle> getMinorityType() {

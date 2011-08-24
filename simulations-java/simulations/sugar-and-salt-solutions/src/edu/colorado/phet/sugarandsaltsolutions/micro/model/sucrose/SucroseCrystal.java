@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.nanometersToMeters;
@@ -19,7 +20,7 @@ public class SucroseCrystal extends Crystal<Sucrose> {
 
         //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
         //Also, scale everything by the model sizeScale, including distances between atoms
-        super( position,
+        super( new Formula( Sucrose.class ), position,
 
                //Spacing between adjacent sucrose molecules, in meters
                nanometersToMeters( 0.5 ) * SugarAndSaltSolutionsApplication.sizeScale.get(),
@@ -35,11 +36,6 @@ public class SucroseCrystal extends Crystal<Sucrose> {
     //Create a single sucrose molecule to begin the crystal
     @Override protected Sucrose createSeed() {
         return new Sucrose();
-    }
-
-    //Sucrose is always in the majority since it is the only component type; thus it can always be removed
-    @Override protected Class<? extends Particle> getMajorityType() {
-        return Sucrose.class;
     }
 
     @Override public Class<? extends Particle> getMinorityType() {

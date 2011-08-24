@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
@@ -16,7 +17,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  */
 public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, double angle ) {
-        super( position, new Calcium().radius + new Chloride().radius, angle );
+        super( new Formula( Calcium.class, Chloride.class, Chloride.class ), position, new Calcium().radius + new Chloride().radius, angle );
     }
 
     //Create the bonding partner for Calcium Chloride
@@ -42,22 +43,6 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
             //If no neighbor site is occupied, then this is the first particle in the lattice, so fall through and allow to go any direction
         }
         return super.getPossibleDirections( constituent );
-    }
-
-    //Determine whether Ca2+ or Cl- should be removed from the crystal to maintain the ionic balance
-    //The formula ratio is 2:1, so account for that in checking for the balance
-    @Override protected Class<? extends Particle> getMajorityType() {
-        int numCalcium = count( Calcium.class );
-        int numChloride = count( Chloride.class );
-        if ( numCalcium * 2 == numChloride ) {
-            return null;
-        }
-        if ( numCalcium * 2 > numChloride ) {
-            return Calcium.class;
-        }
-        else {
-            return Chloride.class;
-        }
     }
 
     //Determine whether Ca2+ or Cl- should be removed from the crystal to maintain the ionic balance

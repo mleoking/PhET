@@ -10,6 +10,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
 /**
  * A compound represents 0 or more (usually 1 or more) constituents which can be put into solution.  It may be constructed from a lattice.
@@ -21,7 +22,7 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
 public class Compound<T extends Particle> extends Particle implements Iterable<T> {
 
     //Members in the compound
-    protected final ArrayList<Constituent<T>> constituents = new ArrayList<Constituent<T>>();
+    protected final ItemList<Constituent<T>> constituents = new ItemList<Constituent<T>>();
 
     //The time the lattice entered the water, if any
     private Option<Double> underwaterTime = new None<Double>();
@@ -126,25 +127,18 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
         return sphericalParticles;
     }
 
-    //TODO: should constituents use ItemList?
-    public int count( Class<?> type ) {
-        int count = 0;
-        for ( Constituent<T> constituent : constituents ) {
-            if ( constituent.particle.getClass().equals( type ) ) {
-                count++;
-            }
-        }
-        return count;
+    //Count the number of constituents matching the specified type
+    public int count( Class type ) {
+        return constituents.count( type );
     }
 
     //Determine whether the compound contains the specified particle, to ignore intra-molecular forces in WaterModel
-    public boolean containsParticle( T particle ) {
-        for ( Constituent<T> constituent : constituents ) {
-            if ( constituent.particle == particle ) {
-                return true;
+    public boolean containsParticle( final T particle ) {
+        return constituents.contains( new Function1<Constituent<T>, Boolean>() {
+            public Boolean apply( Constituent<T> constituent ) {
+                return constituent.particle == particle;
             }
-        }
-        return false;
+        } );
     }
 
     //Sets the position and angle of the compound, and updates the location of all constituents

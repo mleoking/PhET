@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 
@@ -20,6 +21,7 @@ import static java.util.Collections.min;
  */
 public abstract class Crystal<T extends Particle> extends Compound<T> {
 
+    private Formula formula;
     //The spacing between components on the lattice
     public final double spacing;
 
@@ -36,8 +38,9 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     private boolean debugCrystalDissolve = false;
 
     //Construct the compound from the specified lattice
-    public Crystal( ImmutableVector2D position, double spacing, double angle ) {
+    public Crystal( Formula formula, ImmutableVector2D position, double spacing, double angle ) {
         super( position, angle );
+        this.formula = formula;
         this.spacing = spacing;
 
         //Update positions so the lattice position overwrites constituent particle positions
@@ -108,42 +111,57 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     }
 
     //Determine whether the specified location is available for bonding or already occupied by another particle
-    public boolean isOccupied( ImmutableVector2D location ) {
-        for ( Constituent<T> constituent : constituents ) {
-            if ( constituent.relativePosition.minus( location ).getMagnitude() < 1E-12 ) {
-                return true;
+    public boolean isOccupied( final ImmutableVector2D location ) {
+        return constituents.contains( new Function1<Constituent<T>, Boolean>() {
+            public Boolean apply( Constituent<T> constituent ) {
+                return constituent.relativePosition.minus( location ).getMagnitude() < 1E-12;
             }
-        }
-        return false;
+        } );
     }
 
     //Create the first constituent particle in a crystal
     protected abstract T createSeed();
 
-    //From the compound's constituents, choose one near the edge that would be good to release as part of a dissolving process
-    public Constituent<T> getConstituentToDissolve( final Rectangle2D waterBounds ) {
+    //Choose a set of particles to dissolve from the crystal according to the formula ratio (e.g. NaCl = 1 Na + 1 Cl or CaCl2 = 1 Ca + 2 Cl) so the crystal and solution will remain balanced
+    public Option<ArrayList<Constituent<T>>> getConstituentsToDissolve( final Rectangle2D waterBounds ) {
+
+        ArrayList<Constituent<T>> toDissolve = new ArrayList<Constituent<T>>();
+        for ( Class<? extends Particle> type : formula ) {
+            final Constituent<T> constituentToDissolve = getConstituentToDissolve( type, waterBounds, toDissolve );
+            if ( constituentToDissolve == null ) {
+                //If couldn't dissolve all elements of formula, then don't dissolve any
+                return new Option.None<ArrayList<Constituent<T>>>();
+            }
+            else {
+                toDissolve.add( constituentToDissolve );
+            }
+        }
+        return new Option.Some<ArrayList<Constituent<T>>>( toDissolve );
+    }
+
+    //Choose a particle of the specified type, to be dissolved off the crystal used by getConstituentsToDissolve to ensure it dissolves according to the formula ratio
+    public Constituent<T> getConstituentToDissolve( final Class<? extends Particle> type, final Rectangle2D waterBounds, final ArrayList<Constituent<T>> ignore ) {
 
         //Only consider particles that are completely submerged because it would be incorrect for particles outside of the fluid to suddenly disassociate from the crystal
-        ItemList<Constituent<T>> c = new ItemList<Constituent<T>>() {{
-            for ( Constituent<T> constituent : constituents ) {
-                if ( waterBounds.contains( constituent.particle.getShape().getBounds2D() ) ) {
-                    add( constituent );
-                }
-            }
-        }};
+        //Also make sure it is the requested type (to match formula ratio), and make sure it hasn't already been flagged for removal
+        ItemList<Constituent<T>> c = constituents.
+                filter( new Function1<Constituent<T>, Boolean>() {
+                    public Boolean apply( Constituent<T> constituent ) {
+                        return waterBounds.contains( constituent.particle.getShape().getBounds2D() );
+                    }
+                } ).
+                filter( new Function1<Constituent<T>, Boolean>() {
+                    public Boolean apply( Constituent<T> constituent ) {
+                        return type.isInstance( constituent.particle );
+                    }
+                } ).
+                filter( new Function1<Constituent<T>, Boolean>() {
+                    public Boolean apply( Constituent<T> constituent ) {
+                        return !ignore.contains( constituent );
+                    }
+                } );
 
-        //Try to select a particle that maintains the ion balance within the crystal.
-        //This is done by removing a constituent that is in the majority according to the formula ratio
-        final Class<? extends Particle> majorityType = getMajorityType();
-        if ( majorityType != null ) {
-            c = c.filter( new Function1<Constituent<T>, Boolean>() {
-                public Boolean apply( Constituent<T> constituent ) {
-                    return majorityType.isInstance( constituent.particle );
-                }
-            } );
-        }
-
-        //Make sure list not empty after filtering based on majority type
+        //Make sure list not empty after filtering based on desired type
         if ( c.size() > 0 ) {
 
             //Find the smallest number of bonds of any of the particles
@@ -153,7 +171,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
                 }
             } ) );
 
-            //Only consider particles with the smallest number of bonds
+            //Only consider particles with the smallest number of bonds since they are closest to the edge
             c = c.filter( new Function1<Constituent<T>, Boolean>() {
                 public Boolean apply( Constituent<T> constituent ) {
                     return getNumBonds( constituent ) == minBonds;
@@ -195,9 +213,6 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         }
         return numBonds;
     }
-
-    //Returns the type of particle that is in the minority (according to the formula ratio), so that it can be removed during dissolving
-    protected abstract Class<? extends Particle> getMajorityType();
 
     //Determine the majority type for a 1:1 formula ratio such as NaCl
     //Return null if no clear majority (i.e. a tie)

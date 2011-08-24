@@ -41,6 +41,16 @@ public class ItemList<T> extends ObservableList<T> {
         return count;
     }
 
+    //Determine whether the list contains an item matching the specified predicate
+    public boolean contains( Function1<T, Boolean> predicate ) {
+        for ( T item : this ) {
+            if ( predicate.apply( item ) ) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     //Count the items in the list that are an instance of the specified class
     public int count( final Class<? extends T>... clazz ) {
         return filter( clazz ).size();
