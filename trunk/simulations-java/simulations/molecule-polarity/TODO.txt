@@ -7,11 +7,11 @@ DESIGN
 - decide on final set of real molecules
 
 HIGH
-- fix rotate cursor on Windows, it looks awful
-- clean up canvas layout code in all tabs, base layout on molecule location
-- ControlPanelNode clips check box labels on Mac
 - implement 2D isosurface for diatomic molecule, with mep and electron density color schemes
 - Jmol: how to align molecular dipole with E-field?
+- convert rotate cursor to 32x32 gif, to work around Windows/Java bug #4842475
+- clean up canvas layout code in all tabs, base layout on molecule location
+- ControlPanelNode uses PSwing, which clips check box labels on Mac, see #2447
 
 MEDIUM
 - Jmol: adjust initial orientation of NH3, CH3F, CHF3, CH2F2, CHCl3 (wait to see whether these are cut)
