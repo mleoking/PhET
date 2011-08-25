@@ -26,8 +26,8 @@ public class CalciumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticl
 
     @Override protected ArrayList<IFormulaUnit> getAllSeeds() {
 
-        ArrayList<Particle> aList = model.freeParticles.filter( SphericalParticle.Calcium.class );
-        ArrayList<Particle> bList = model.freeParticles.filter( SphericalParticle.Chloride.class );
+        ItemList<Particle> aList = model.freeParticles.filter( SphericalParticle.Calcium.class );
+        ItemList<Particle> bList = model.freeParticles.filter( SphericalParticle.Chloride.class );
         ArrayList<IFormulaUnit> formulaUnits = new ArrayList<IFormulaUnit>();
         for ( Particle a : aList ) {
             for ( Particle b : bList ) {

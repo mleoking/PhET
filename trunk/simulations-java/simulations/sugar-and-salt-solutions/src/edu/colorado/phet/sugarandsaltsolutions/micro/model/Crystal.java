@@ -22,7 +22,9 @@ import static java.util.Collections.min;
  */
 public abstract class Crystal<T extends Particle> extends Compound<T> {
 
-    private Formula formula;
+    //The chemical formula such as NaCl or CaCl2 for purposes of maintaining the formula ratio so the crystal can't become unbalanced
+    public final Formula formula;
+
     //The spacing between components on the lattice
     public final double spacing;
 

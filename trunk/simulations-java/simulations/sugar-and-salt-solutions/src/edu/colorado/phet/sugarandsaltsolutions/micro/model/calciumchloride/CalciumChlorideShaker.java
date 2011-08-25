@@ -23,4 +23,12 @@ public class CalciumChlorideShaker extends MicroShaker {
     @Override protected void addCrystal( MicroModel model, ImmutableVector2D outputPoint, double volumePerSolidMole, ImmutableVector2D crystalVelocity ) {
         model.addCalciumChlorideCrystal( new CalciumChlorideCrystal( outputPoint, randomAngle() ) {{ grow( 6 ); }} );
     }
+
+    //Test for creating calcium chloride crystals, which are susceptible to dead ends
+    public static void main( String[] args ) {
+        for ( int i = 0; i < 10000; i++ ) {
+            System.out.println( "creating " + i );
+            new CalciumChlorideCrystal( ImmutableVector2D.ZERO, randomAngle() ) {{ grow( 6 ); }};
+        }
+    }
 }

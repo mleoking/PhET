@@ -1,8 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 
 /**
  * Represents a formula ratio for constructive units for crystals.  NaCl is 1Na + 1Cl, NaNO3 is 1Na + 1 NO3.  Sucrose crystals just have a repeating unit of 1 sucrose molecule.
@@ -39,8 +39,8 @@ public class Formula {
     }
 
     //List the different types used in the formula
-    public Set<Class<? extends Particle>> getTypes() {
-        return map.keySet();
+    public ArrayList<Class<? extends Particle>> getTypes() {
+        return new ArrayList<Class<? extends Particle>>( map.keySet() );
     }
 
     //Determine the count for the building block of the specified type

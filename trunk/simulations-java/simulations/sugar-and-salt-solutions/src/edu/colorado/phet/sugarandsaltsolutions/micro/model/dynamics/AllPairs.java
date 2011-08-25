@@ -13,8 +13,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
  */
 public class AllPairs extends ArrayList<IFormulaUnit> {
     public AllPairs( ItemList<Particle> freeParticles, Class<? extends Particle> typeA, Class<? extends Particle> typeB ) {
-        ArrayList<Particle> aList = freeParticles.filter( typeA );
-        ArrayList<Particle> bList = freeParticles.filter( typeB );
+        ItemList<Particle> aList = freeParticles.filter( typeA );
+        ItemList<Particle> bList = freeParticles.filter( typeB );
         for ( Particle a : bList ) {
             for ( Particle b : aList ) {
 

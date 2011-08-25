@@ -327,7 +327,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
     private void updateParticlesFlowingToDrain( DrainData drainData, double dt ) {
 
-        ArrayList<Particle> particles = freeParticles.filter( drainData.type );
+        ItemList<Particle> particles = freeParticles.filter( drainData.type );
 
         //Pre-compute the drain faucet input point since it is used throughout this method, and many times in the sort method
         final ImmutableVector2D drain = getDrainFaucetMetrics().getInputPoint();
