@@ -20,7 +20,7 @@ public class DensityMysteryObjectsMode extends Mode {
 
     function DensityMysteryObjectsMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
-        mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
+        mysteryObjectsControlPanel = new MysteryObjectsControlPanel( true );
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
 
         // grab the panel above this panel
