@@ -27,7 +27,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  *
  * @author John Blanco
  */
-public class ManualGeneExpressionModel implements Resettable {
+public class ManualGeneExpressionModel extends GeneExpressionModel implements Resettable {
 
     //------------------------------------------------------------------------
     // Class Data

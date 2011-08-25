@@ -150,7 +150,9 @@ public class BiomoleculeToolBoxNode extends PNode {
         // significantly different from the size of the corresponding element
         // in the model.
         private static final double SCALING_FACTOR = 0.07;
-        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
+        private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ),
+                                                                                                                         new Point2D.Double( 0, 0 ),
+                                                                                                                         SCALING_FACTOR );
 
         /**
          * Constructor.
