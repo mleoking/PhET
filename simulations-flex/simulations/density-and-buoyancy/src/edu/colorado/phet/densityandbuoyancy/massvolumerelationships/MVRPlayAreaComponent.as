@@ -43,8 +43,6 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
             var box2DDebug: Box2DDebug = new Box2DDebug( model.getWorld() );
             //        _densityCanvas.addChild(box2DDebug.getSprite());
         } );
-
-        setMassReadoutsVisible( false );
     }
 
     override public function resetAll(): void {
@@ -52,7 +50,6 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
         customObjectMode.reset();
         sameSubstanceMode.reset();
         switchToSameSubstance();
-        setMassReadoutsVisible( false );
     }
 
     private function setMode( mode: Mode ): void {
@@ -63,6 +60,9 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
             this.mode = mode;
             this.mode.init();
         }
+
+        const showMassReadouts = mode != sameSubstanceMode;
+        setMassReadoutsVisible( showMassReadouts );
     }
 
     public function switchToSameMass(): void {
