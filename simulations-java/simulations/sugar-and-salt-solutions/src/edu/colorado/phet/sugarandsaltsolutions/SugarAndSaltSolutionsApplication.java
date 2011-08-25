@@ -53,7 +53,6 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
             if ( index >= 0 && index + 1 < config.getCommandLineArgs().length ) {
                 String nextArg = config.getCommandLineArgs()[index + 1];
                 int module = Integer.parseInt( nextArg );
-                System.out.println( getClass().getName() + ": dev mode launching with tab: " + module );
                 setStartModule( moduleAt( module ) );
             }
         }
