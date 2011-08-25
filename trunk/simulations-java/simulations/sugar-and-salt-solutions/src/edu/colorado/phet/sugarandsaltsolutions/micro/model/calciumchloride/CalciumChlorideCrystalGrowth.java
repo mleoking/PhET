@@ -6,12 +6,11 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Particle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Calcium;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IFormulaUnit;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -25,8 +24,23 @@ public class CalciumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticl
         super( model, crystals );
     }
 
-    @Override protected ArrayList<ParticlePair> getAllPairs() {
-        return generateAllPairs( Calcium.class, Chloride.class );
+    @Override protected ArrayList<IFormulaUnit> getAllSeeds() {
+
+        ArrayList<Particle> aList = model.freeParticles.filter( SphericalParticle.Calcium.class );
+        ArrayList<Particle> bList = model.freeParticles.filter( SphericalParticle.Chloride.class );
+        ArrayList<IFormulaUnit> formulaUnits = new ArrayList<IFormulaUnit>();
+        for ( Particle a : aList ) {
+            for ( Particle b : bList ) {
+                for ( Particle c : bList ) {
+                    //Check for equality in case typeA==typeB, as in the case of Sucrose
+                    if ( b != c ) {
+                        formulaUnits.add( new ThreeParticleFormulaUnit<Particle>( a, b, c ) );
+                    }
+                }
+            }
+        }
+        return formulaUnits;
+
     }
 
     @Override protected CalciumChlorideCrystal newCrystal( ImmutableVector2D position ) {

@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.AllPairs;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IFormulaUnit;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -22,8 +23,8 @@ public class GlucoseCrystalGrowth extends CrystalGrowth<Glucose, GlucoseCrystal>
         super( model, crystals );
     }
 
-    @Override protected ArrayList<ParticlePair> getAllPairs() {
-        return generateAllPairs( Glucose.class, Glucose.class );
+    @Override protected ArrayList<IFormulaUnit> getAllSeeds() {
+        return new AllPairs( model.freeParticles, Glucose.class, Glucose.class );
     }
 
     @Override protected GlucoseCrystal newCrystal( ImmutableVector2D position ) {
