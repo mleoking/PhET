@@ -14,7 +14,7 @@ public class CustomObjectPropertiesPanelWrapper {
 
     public function CustomObjectPropertiesPanelWrapper( block: DensityAndBuoyancyObject, canvas: AbstractDensityAndBuoyancyPlayAreaComponent, x: Number, y: Number ) {
         this.canvas = canvas;
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units, 200 );
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( block, canvas.units, true, 200 );
         customObjectPropertiesPanel.x = x;
         customObjectPropertiesPanel.y = y;
     }

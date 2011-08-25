@@ -29,7 +29,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
     private var comboBox: ComboBox;
     public const myBlockSelected: BooleanProperty = new BooleanProperty( false );
 
-    public function CustomObjectPropertiesPanel( densityObject: DensityAndBuoyancyObject, units: Units, sliderWidth: Number = 280 ) {
+    public function CustomObjectPropertiesPanel( densityObject: DensityAndBuoyancyObject, units: Units, showDensitySlider: Boolean, sliderWidth: Number = 280 ) {
         super();
         this.densityObject = densityObject;
 
@@ -42,8 +42,11 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         //Add the PropertyEditors for Mass, Volume and Density
         grid.addChild( new PropertyEditor( densityObject.getMassProperty(), DensityAndBuoyancyConstants.MIN_MASS, DensityAndBuoyancyConstants.MAX_MASS, units.massUnit, massBounds.clamp, new MassBounds( densityObject ), sliderWidth ) );
         grid.addChild( new PropertyEditor( densityObject.getVolumeProperty(), DensityAndBuoyancyConstants.MIN_VOLUME, DensityAndBuoyancyConstants.MAX_VOLUME, units.volumeUnit, noClamp, new Unbounded(), sliderWidth ) );
-        grid.addChild( createSpacerRow( 2 ) );
-        grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
+
+        if ( showDensitySlider ) {
+            grid.addChild( createSpacerRow( 2 ) );
+            grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
+        }
 
         //Configure and add the ComboBox
         comboBox = new MaterialComboBox( densityObject );

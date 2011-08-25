@@ -29,7 +29,7 @@ public class DensityCustomObjectMode extends Mode {
         const volume: Number = DensityAndBuoyancyConstants.DEFAULT_BLOCK_MASS / material.getDensity();
         const height: Number = Math.pow( volume, 1.0 / 3 );
         customizableObject = Block.newBlockDensityMass( material.getDensity(), DensityAndBuoyancyConstants.DEFAULT_BLOCK_MASS, -DensityAndBuoyancyConstants.POOL_WIDTH_X / 3, height, new ColorTransform( 0.5, 0.5, 0 ), canvas.model, material );
-        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, canvas.units );
+        customObjectPropertiesPanel = new CustomObjectPropertiesPanel( customizableObject, canvas.units, true );
         customObjectPropertiesPanel.x = DensityAndBuoyancyConstants.CONTROL_INSET;
         customObjectPropertiesPanel.y = DensityAndBuoyancyConstants.CONTROL_INSET;
     }
