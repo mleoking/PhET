@@ -20,13 +20,15 @@ public class RnaPolymerase extends MobileBiomolecule {
     private static final double WIDTH = 340;
     private static final double HEIGHT = 480;
 
-    public RnaPolymerase() {
-        this( new Point2D.Double( 0, 0 ) );
+    private final GeneExpressionModel model;
 
+    public RnaPolymerase() {
+        this( new StubGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
     }
 
-    public RnaPolymerase( Point2D position ) {
+    public RnaPolymerase( GeneExpressionModel model, Point2D position ) {
         super( createShape(), new Color( 0, 153, 210 ) );
+        this.model = model;
         setPosition( position );
     }
 
