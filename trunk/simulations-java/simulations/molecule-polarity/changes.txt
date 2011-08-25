@@ -1,3 +1,5 @@
+8/24/11 remove bad code from MPCanvas.updateLayout that was interfering with CenteredStage transform strategy
+8/24/11 add stage bounds node, for layout debugging
 8/24/11 convert rotate cursor to 32x32 gif, to work around Windows/Java bug #4842475
 8/23/11 restore rotate cursor
 # 0.00.17 (55737) Aug 23, 2011
