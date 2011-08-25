@@ -1,4 +1,4 @@
-8/24/11 added CenteredStage.addStageBoundsNode, debugging method to show the bounds of the stage for PhetPCanvas transform strategy
+8/24/11 added PhetPCanvas.addBoundsNode(Dimension2D) for debugging transform strategies, especially useful with CenteredStage
 8/20/11 Rewrote ImmutableVector2D.getDistance to run faster, this single change reduces application time from 15% to 1% in sugar-and-salt-solutions WaterModel as determined by jprofiler
 8/16/11 Fixed implementation of SettableNot and added improved tests, see #3045
 8/12/11 added Arrow.getHeadScale, see #3039

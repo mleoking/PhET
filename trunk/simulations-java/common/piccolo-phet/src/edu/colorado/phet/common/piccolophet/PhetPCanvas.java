@@ -2,6 +2,7 @@
 
 package edu.colorado.phet.common.piccolophet;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -260,6 +261,21 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
             // It doesn't expose world children so we can't
             // safely check for their presence
         }
+    }
+
+    /**
+     * Adds a world child that represents a rectangular boundary.
+     * This is intended primarily for debugging, to check how the transform strategy is affecting scenegraph rendering.
+     * For example, if you're using CenteredStrategy, call this method with the stage size and you'll see how the stage looks after transformation.
+     *
+     * @param size
+     */
+    public void addBoundsNode( Dimension2D size ) {
+        addWorldChild( new PPath( new Rectangle2D.Double( 0, 0, size.getWidth(), size.getHeight() ) ) {{
+            setStroke( new BasicStroke( 3f ) );
+            setStrokePaint( Color.RED );
+            setPickable( false );
+        }} );
     }
 
     //----------------------------------------------------------------------------
@@ -683,14 +699,6 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         public CenteredStage( PhetPCanvas canvas, Dimension2D stageSize ) {
             this.canvas = canvas;
             this.stageSize = stageSize;
-        }
-
-        // Adds a red rectangle to the scenegraph that denotes the bounds of the "stage", useful for debugging.
-        public void addStageBoundsNode() {
-            canvas.addWorldChild( new PPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ) ) {{
-                setStrokePaint( Color.RED );
-                setPickable( false );
-            }} );
         }
 
         public AffineTransform getTransform() {
