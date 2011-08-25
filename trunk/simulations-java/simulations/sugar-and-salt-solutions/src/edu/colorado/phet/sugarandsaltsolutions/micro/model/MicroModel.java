@@ -159,7 +159,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
 
     //Flag to help debug the crystal ratios
-    public static final boolean debugCrystalRatio = false;
+    public static final boolean debugCrystalRatio = true;
 
     public MicroModel() {
 
@@ -268,15 +268,23 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         }
 
         if ( debugCrystalRatio ) {
-            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
-                boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
-                System.out.println( "matches = " + matches );
-            }
+//            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
+//                boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
+//                System.out.println( "matches = " + matches );
+//            }
+//
+//            int count = 0;
+//            for ( CalciumChlorideCrystal calciumChlorideCrystal : calciumChlorideCrystals ) {
+//                System.out.println( "calciumChlorideCrystal[" + count + ", match = " + calciumChlorideCrystal.matchesFormulaRatio() );
+//                count++;
+//            }
 
-            int count = 0;
-            for ( CalciumChlorideCrystal calciumChlorideCrystal : calciumChlorideCrystals ) {
-                System.out.println( "calciumChlorideCrystal[" + count + ", match = " + calciumChlorideCrystal.matchesFormulaRatio() );
-                count++;
+            for ( Particle crystal : joinLists( sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals ) ) {
+                Crystal c = (Crystal) crystal;
+                boolean matches = c.matchesFormulaRatio();
+                if ( !matches ) {
+                    System.out.println( "Crystal didn't match formula ratio: " + c );
+                }
             }
         }
 

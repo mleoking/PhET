@@ -37,6 +37,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Flag for debugging the crystals
     private boolean debugCrystalDissolve = false;
+    private boolean debugCrystalRatio = false;
 
     //Construct the compound from the specified lattice
     public Crystal( Formula formula, ImmutableVector2D position, double spacing, double angle ) {
@@ -277,7 +278,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the divison results for each, making sure they are the same, and making sure there is no remainder
     public boolean matchesFormulaRatio() {
-        if ( MicroModel.debugCrystalRatio ) {
+        if ( debugCrystalRatio ) {
             System.out.println( "Crystal.matchesFormulaRatio" );
         }
         HashSet<DivisionResult> result = new HashSet<DivisionResult>();
@@ -290,7 +291,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             int factor = formula.getFactor( type );
             final DivisionResult e = new DivisionResult( count, factor );
             result.add( e );
-            if ( MicroModel.debugCrystalRatio ) {
+            if ( debugCrystalRatio ) {
                 System.out.println( e );
             }
         }
