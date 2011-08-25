@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride;
 
+import java.util.ArrayList;
+
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
@@ -17,7 +19,16 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chl
  */
 public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
     public CalciumChlorideCrystal( ImmutableVector2D position, double angle ) {
-        super( new Formula( Calcium.class, Chloride.class, 2 ), position, new Calcium().radius + new Chloride().radius, angle );
+
+        //The formula for calcium chloride must return Calcium first, otherwise the crystal growing procedure can run into too many dead ends
+        super( new Formula( Calcium.class, Chloride.class, 2 ) {
+            @Override public ArrayList<Class<? extends Particle>> getTypes() {
+                return new ArrayList<Class<? extends Particle>>() {{
+                    add( Calcium.class );
+                    add( Chloride.class );
+                }};
+            }
+        }, position, new Calcium().radius + new Chloride().radius, angle );
     }
 
     //Create the bonding partner for Calcium Chloride

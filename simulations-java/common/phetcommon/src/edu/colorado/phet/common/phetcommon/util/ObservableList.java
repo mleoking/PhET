@@ -233,4 +233,13 @@ public class ObservableList<T> implements List<T> {
     public List<T> subList( int fromIndex, int toIndex ) {
         return list.subList( fromIndex, toIndex );
     }
+
+    /**
+     * Returns a string representation of the elements of the list, does not indicate listeners.
+     *
+     * @return the string representation of the elements of the list.
+     */
+    @Override public String toString() {
+        return list.toString();
+    }
 }

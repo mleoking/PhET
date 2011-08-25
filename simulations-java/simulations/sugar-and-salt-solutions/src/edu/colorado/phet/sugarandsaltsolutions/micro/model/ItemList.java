@@ -1,12 +1,14 @@
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.ObservableList;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
+import edu.colorado.phet.common.phetcommon.util.function.Function2;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -36,6 +38,13 @@ public class ItemList<T> extends ObservableList<T> {
 
     //Convenience constructor to construct an ItemList from an array
     public ItemList( T[] elements ) {
+        for ( T element : elements ) {
+            add( element );
+        }
+    }
+
+    //Create an ItemList from a Collection
+    public ItemList( Collection<T> elements ) {
         for ( T element : elements ) {
             add( element );
         }
@@ -97,8 +106,8 @@ public class ItemList<T> extends ObservableList<T> {
     }
 
     //Determine which items are instances of the specified classes
-    public ArrayList<T> filter( final Class<? extends T>... clazz ) {
-        return filterToArrayList( new Function1<T, Boolean>() {
+    public ItemList<T> filter( final Class<? extends T>... clazz ) {
+        return filter( new Function1<T, Boolean>() {
             public Boolean apply( T t ) {
                 for ( Class<? extends T> aClass : clazz ) {
                     if ( aClass.isInstance( t ) ) {
@@ -128,5 +137,23 @@ public class ItemList<T> extends ObservableList<T> {
                 add( map.apply( t ) );
             }
         }};
+    }
+
+    //Combine the specified initial value with all elements from the list using the specified combination function
+    public <U> U foldLeft( final U initialValue, Function2<T, U, U> combiner ) {
+        U runningTotal = initialValue;
+        for ( T t : this ) {
+            runningTotal = combiner.apply( t, runningTotal );
+        }
+        return runningTotal;
+    }
+
+    public static void main( String[] args ) {
+        ItemList<Double> list = new ItemList<Double>( new Double[] { 1.0, 2.0, 3.0, 5.0 } );
+        System.out.println( "sum " + list.foldLeft( 0.0, new Function2<Double, Double, Double>() {
+            public Double apply( Double a, Double b ) {
+                return a + b;
+            }
+        } ) );
     }
 }

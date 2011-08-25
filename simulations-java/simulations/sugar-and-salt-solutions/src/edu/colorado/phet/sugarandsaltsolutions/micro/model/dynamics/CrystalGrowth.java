@@ -8,6 +8,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Constituent;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Crystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
@@ -69,12 +70,9 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                 //Randomly choose an existing crystal to possibly bond to
                 Crystal<T> crystal = crystals.get( random.nextInt( crystals.size() ) );
 
-                //Enumerate all particles and distances from crystal sites, but only look for sites that are underwater, otherwise particles would try to fly out of the solution (and get stuck at the boundary)
-                ArrayList<CrystallizationMatch<T>> matches = getAllCrystallizationMatchesSorted( crystal );
-                if ( matches.size() > 0 ) {
-
-                    //Find a matching particle nearby one of the sites and join it together
-                    CrystallizationMatch<T> match = matches.get( 0 );
+                //Find a good configuration to have the particles move toward, should be the closest one so that it can easily be found again in subsequent steps
+                TargetConfiguration<T> targetConfiguration = getTargetConfiguration( crystal );
+                if ( targetConfiguration != null ) {
 
                     //With some probability, form a new crystal anyways (if there aren't too many crystals)
                     if ( random.nextDouble() > 0.8 && crystals.size() <= 2 ) {
@@ -82,24 +80,30 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                         towardNewCrystal( dt );
                     }
 
-                    //If close enough, join the lattice.  Having a large factor here makes it possible for particles to jump on to crystals quickly
+                    //If close enough have all particles from the formula unit join the lattice at the same time.
+                    //Having a large factor here makes it possible for particles to jump on to crystals quickly
                     //And fixes many problems in crystallization, including large or unbalanced concentrations
-                    else if ( match.distance <= FREE_PARTICLE_SPEED * dt * 100 ) {
+                    else if ( targetConfiguration.distance <= FREE_PARTICLE_SPEED * dt * 1000 ) {
 
-                        //Remove the particle from the list of free particles
-                        model.freeParticles.remove( match.particle );
+                        for ( CrystallizationMatch<T> match : targetConfiguration.getMatches() ) {
 
-                        //Add it as a constituent of the crystal
-                        crystal.addConstituent( new Constituent<T>( match.particle, match.site.relativePosition ) );
+                            //Remove the particle from the list of free particles
+                            model.freeParticles.remove( match.particle );
+
+                            //Add it as a constituent of the crystal
+                            crystal.addConstituent( new Constituent<T>( match.particle, match.site.relativePosition ) );
+                        }
                     }
 
-                    //Otherwise, move closest particle toward the lattice
-                    else if ( match.distance <= model.beaker.getWidth() / 2 ) {
-                        match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
+                    //Otherwise, move matching particles closer to the target location
+                    else if ( targetConfiguration.distance <= model.beaker.getWidth() / 2 ) {
+                        for ( CrystallizationMatch<T> match : targetConfiguration.getMatches() ) {
+                            match.particle.velocity.set( match.site.absolutePosition.minus( match.particle.getPosition() ).getInstanceOfMagnitude( FREE_PARTICLE_SPEED ) );
+                        }
                     }
 
                     else {
-                        debug( "Best match was too far away (" + match.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
+                        debug( "Best match was too far away (" + targetConfiguration.distance / model.beaker.getWidth() + " beaker widths, so trying to form new crystal from lone ions" );
                         towardNewCrystal( dt );
                     }
                 }
@@ -117,6 +121,75 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     private void debug( String s ) {
         if ( debug ) {
             System.out.println( s );
+        }
+    }
+
+    //Look for a place for each member of an entire formula unit to bind to the pre-existing crystal
+    public TargetConfiguration<T> getTargetConfiguration( Crystal<T> crystal ) {
+        ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
+
+        //Keep track of which particles have already been selected so one isn't given two goals
+        ArrayList<Particle> used = new ArrayList<Particle>();
+
+        //Iterate over all members of the formula
+        for ( Class<? extends Particle> type : crystal.formula.getTypes() ) {
+            for ( int i = 0; i < crystal.formula.getFactor( type ); i++ ) {
+
+                //Find the best match for this member of the formula ratio, but ignoring the previously used particles
+                CrystallizationMatch<T> match = findBestMatch( crystal, type, used );
+
+                //If there was no suitable particle, then exit the routine and signify that crystal growth cannot occur
+                if ( match == null ) {
+                    return null;
+                }
+
+                //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region
+                matches.add( match );
+                used.add( match.particle );
+            }
+        }
+
+        return new TargetConfiguration<T>( new ItemList<CrystallizationMatch<T>>( matches ) );
+    }
+
+    //Find the best match for this member of the formula ratio, but ignoring the previously used particles
+    private CrystallizationMatch<T> findBestMatch( Crystal<T> crystal, final Class<? extends Particle> type, final ArrayList<Particle> used ) {
+        ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
+
+        //find a particle that will move to this site, make sure the particle matches the desired type and the particle hasn't already been used
+        Iterable<? extends Particle> particlesToConsider = model.freeParticles.filter( type ).filter( new Function1<Particle, Boolean>() {
+            public Boolean apply( Particle particle ) {
+                return !used.contains( particle );
+            }
+        } );
+
+        //Only look for sites that match the type for the component in the formula
+        ItemList<OpenSite<T>> matchingSites = crystal.getOpenSites().filter( new Function1<OpenSite<T>, Boolean>() {
+            public Boolean apply( OpenSite<T> site ) {
+                return site.matches( type );
+            }
+        } );
+
+        //                        model.solution.shape.get().contains( openSite.shape.getBounds2D() ) &&
+        for ( Particle freeParticle : particlesToConsider ) {
+            for ( OpenSite<T> openSite : matchingSites ) {
+                matches.add( new CrystallizationMatch<T>( (T) freeParticle, openSite ) );
+            }
+        }
+
+        //Find the closest match
+        sort( matches, new Comparator<CrystallizationMatch>() {
+            public int compare( CrystallizationMatch o1, CrystallizationMatch o2 ) {
+                return Double.compare( o1.distance, o2.distance );
+            }
+        } );
+
+        //Return the match if any
+        if ( matches.size() == 0 ) {
+            return null;
+        }
+        else {
+            return matches.get( 0 );
         }
     }
 
