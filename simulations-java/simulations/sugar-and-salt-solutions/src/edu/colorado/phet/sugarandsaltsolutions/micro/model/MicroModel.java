@@ -47,6 +47,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.GlucoseDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
+import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -141,6 +142,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final ObservableProperty<Boolean> glucoseSaturated = glucose.concentration.greaterThan( glucoseSaturationPoint );
     public final ObservableProperty<Boolean> sodiumNitrateSaturated = sodium.concentration.greaterThan( sodiumNitrateSaturationPoint ).and( nitrate.concentration.greaterThan( sodiumNitrateSaturationPoint ) );
 
+    //Keep track of which kit the user has selected so that particle draining can happen in formula units so there isn't an unbalanced number of solutes for crystallization
+    private MicroModelKit kit;
+
     //The index of the kit selected by the user
     public final Property<Integer> selectedKit = new Property<Integer>( 0 ) {{
 
@@ -149,6 +153,27 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             public void update() {
                 clearSolutes();
                 resetWater();
+
+                //TODO: is there a better way or another place to code the kit definitions?  This is duplicated elsewhere, probably
+                if ( get() == 0 ) {
+                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
+                                             new SucroseCrystal( ZERO, 0 ).formula );
+                }
+                else if ( get() == 1 ) {
+                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
+                                             new CalciumChlorideCrystal( ZERO, 0 ).formula );
+                }
+                else if ( get() == 2 ) {
+                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
+                                             new SodiumNitrateCrystal( ZERO, 0 ).formula );
+                }
+                else if ( get() == 3 ) {
+                    kit = new MicroModelKit( new SucroseCrystal( ZERO, 0 ).formula,
+                                             new GlucoseCrystal( ZERO, 0 ).formula );
+                }
+                else {
+                    throw new RuntimeException( "Unknown kit" );
+                }
             }
         } );
     }};
@@ -254,12 +279,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            updateParticlesFlowingToDrain( sodium.drainData, dt );
-            updateParticlesFlowingToDrain( chloride.drainData, dt );
-            updateParticlesFlowingToDrain( sucrose.drainData, dt );
-            updateParticlesFlowingToDrain( glucose.drainData, dt );
-            updateParticlesFlowingToDrain( nitrate.drainData, dt );
-            updateParticlesFlowingToDrain( calcium.drainData, dt );
+//            updateParticlesFlowingToDrain( sodium.drainData, dt );
+//            updateParticlesFlowingToDrain( chloride.drainData, dt );
+//            updateParticlesFlowingToDrain( sucrose.drainData, dt );
+//            updateParticlesFlowingToDrain( glucose.drainData, dt );
+//            updateParticlesFlowingToDrain( nitrate.drainData, dt );
+//            updateParticlesFlowingToDrain( calcium.drainData, dt );
+            updateFormulaUnitsFlowingToDrain( dt );
         }
 
         //Iterate over all particles and let them update in time
@@ -320,6 +346,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         }
         return p;
+    }
+
+    //TODO: implement me
+    private void updateFormulaUnitsFlowingToDrain( double dt ) {
+        for ( Formula formula : kit.getFormulae() ) {
+
+        }
     }
 
     //Move the particles toward the drain and try to keep a constant concentration
@@ -387,7 +420,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 speed = mainParticleSpeed / ( i + 1 );
             }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
-            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity, i != 0 ) );
+            final boolean randomWalk = i != 0;
+            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity, randomWalk ) );
 
             if ( debugDraining ) {
                 System.out.println( "i = " + 0 + ", target time = " + time + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
