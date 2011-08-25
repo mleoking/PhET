@@ -58,13 +58,40 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Grow the crystal for the specified number of formula ratios
     public void grow( int numberFormulaRatios ) {
-        for ( int i = 0; i < numberFormulaRatios; i++ ) {
-            growByOneFormulaUnit();
+
+        //There is a random aspect to crystal growth and in some cases (particularly for the more constrained case of CaCl2's lattice topology)
+        //The growth can run into a dead end where it is impossible to add a full formula unit.
+        //To handle this problem, try many times to generate a crystal and keep the first one that doesn't run into a dead end
+        int numTries = 10000;
+        for ( int tryIndex = 0; tryIndex < numTries; tryIndex++ ) {
+            try {
+
+                //Grow the full crystal
+                growRandomly( numberFormulaRatios );
+                return;
+            }
+
+            //If there was a dead end, clear this crystal and try again
+            catch ( BondingFailure bondingFailure ) {
+                System.out.println( "crystal growth failed: tryIndex = " + tryIndex );
+                while ( numberConstituents() > 0 ) {
+                    removeConstituent( getConstituent( 0 ) );
+                }
+            }
         }
     }
 
+    //Grow the entire crystal for the specified number of formula ratios, fails if it runs into a dead end.  In that case it should be re-run
+    private void growRandomly( int numberFormulaRatios ) throws BondingFailure {
+        for ( int i = 0; i < numberFormulaRatios; i++ ) {
+            growByOneFormulaUnit();
+        }
+//            System.out.println("Grew by one formula unit, i = "+i+", match="+matchesFormulaRatio());
+    }
+
     //Grow the crystal randomly at one of the open sites by adding a full formula (such as 1 Ca and 2Cl for CaCl2)
-    public void growByOneFormulaUnit() {
+    //If it is impossible to continue growing the crystal then exit by throwing a BondingFailure
+    public void growByOneFormulaUnit() throws BondingFailure {
         for ( final Class<? extends Particle> type : formula.getTypes() ) {
             for ( int i = 0; i < formula.getFactor( type ); i++ ) {
 
@@ -85,7 +112,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
                         addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
                     }
                     else {
-                        System.out.println( "Nowhere to bond!" );
+                        throw new BondingFailure();
                     }
                 }
             }

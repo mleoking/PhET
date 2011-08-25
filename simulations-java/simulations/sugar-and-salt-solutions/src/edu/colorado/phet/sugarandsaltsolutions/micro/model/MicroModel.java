@@ -159,7 +159,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
 
     //Flag to help debug the crystal ratios
-    public static final boolean debugCrystalRatio = true;
+    public static final boolean debugCrystalRatio = false;
 
     public MicroModel() {
 
@@ -271,6 +271,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {
                 boolean matches = sodiumChlorideCrystal.matchesFormulaRatio();
                 System.out.println( "matches = " + matches );
+            }
+
+            int count = 0;
+            for ( CalciumChlorideCrystal calciumChlorideCrystal : calciumChlorideCrystals ) {
+                System.out.println( "calciumChlorideCrystal[" + count + ", match = " + calciumChlorideCrystal.matchesFormulaRatio() );
+                count++;
             }
         }
 
