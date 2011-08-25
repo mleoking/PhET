@@ -88,7 +88,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
 
         // Add the placement hints.  TODO: Decide if these should be set up to be associated with particular genes.
         Point2D origin = new Point2D.Double( strand1.get( 0 ).getShape().getBounds2D().getMinX(), strand1.get( 0 ).getShape().getBounds2D().getCenterY() );
-        placementHints.add( new PlacementHint( new RnaPolymerase( new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
+        placementHints.add( new PlacementHint( new RnaPolymerase( new StubGeneExpressionModel(), new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
         placementHints.add( new PlacementHint( TranscriptionFactor.generateTranscriptionFactor( 0, true, new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
     }
 
