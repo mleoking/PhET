@@ -9,9 +9,10 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Chloride;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sodium;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.AllPairs;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.ParticlePair;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.IFormulaUnit;
 
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.RandomUtil.randomAngle;
 
@@ -25,8 +26,8 @@ public class SodiumChlorideCrystalGrowth extends CrystalGrowth<SphericalParticle
         super( model, crystals );
     }
 
-    @Override protected ArrayList<ParticlePair> getAllPairs() {
-        return generateAllPairs( Sodium.class, Chloride.class );
+    @Override protected ArrayList<IFormulaUnit> getAllSeeds() {
+        return new AllPairs( model.freeParticles, Sodium.class, Chloride.class );
     }
 
     @Override protected SodiumChlorideCrystal newCrystal( ImmutableVector2D position ) {

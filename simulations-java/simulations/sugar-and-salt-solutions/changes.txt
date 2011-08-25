@@ -1,3 +1,4 @@
+Micro tab: Require one formula unit when creating a new crystal, particularly for CaCl2
 Micro tab: Ensure crystals are initialized according to the formula ratio
 Micro tab: Added tests for conformance to formula ratio
 Micro tab: Ensure crystals dissolve according to the formula ratio

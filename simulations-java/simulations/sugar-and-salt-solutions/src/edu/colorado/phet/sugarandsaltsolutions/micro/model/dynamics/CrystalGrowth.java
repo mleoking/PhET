@@ -155,20 +155,20 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
     private void towardNewCrystal( double dt ) {
 
         //Find the pair of particles closest to each other, and move them even closer to each other.  When they are close enough, form the crystal
-        ArrayList<ParticlePair> pairs = getAllPairs();
-        sort( pairs, new Comparator<ParticlePair>() {
-            public int compare( ParticlePair o1, ParticlePair o2 ) {
+        ArrayList<IFormulaUnit> seeds = getAllSeeds();
+        sort( seeds, new Comparator<IFormulaUnit>() {
+            public int compare( IFormulaUnit o1, IFormulaUnit o2 ) {
                 return Double.compare( o1.getDistance(), o2.getDistance() );
             }
         } );
 
         //If there was a match, move the closest particles even closer together
         //If they are close enough, convert them into a crystal
-        if ( pairs.size() > 0 ) {
-            ParticlePair closestPair = pairs.get( 0 );
-            closestPair.moveTogether( dt );
-            if ( closestPair.getDistance() <= dt * UpdateStrategy.FREE_PARTICLE_SPEED ) {
-                convertToCrystal( (T) closestPair._1, (T) closestPair._2 );
+        if ( seeds.size() > 0 ) {
+            IFormulaUnit closestSet = seeds.get( 0 );
+            closestSet.moveTogether( dt );
+            if ( closestSet.getDistance() <= dt * UpdateStrategy.FREE_PARTICLE_SPEED ) {
+                convertToCrystal( closestSet );
 
                 //Record the crystal formation time so new crystals don't form too often
                 lastNewCrystalFormationTime = model.getTime();
@@ -176,16 +176,40 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         }
     }
 
-    //Crystal-specific code to generate a list of all matching pairs of particles, these are particles that could form a new crystal together, if they are close enough together
-    protected abstract ArrayList<ParticlePair> getAllPairs();
+    //Crystal-specific code to generate a list of all matching sets of particles according to the chemical formula,
+    //these are particles that could form a new crystal, if they are close enough together
+    protected abstract ArrayList<IFormulaUnit> getAllSeeds();
 
     //Convert the specified particles to a crystal and add the crystal to the model
-    private void convertToCrystal( T a, T b ) {
+    private void convertToCrystal( IFormulaUnit<T> seed ) {
+
+        T a = seed.getParticles().get( 0 );
 
         //Create a crystal based on the 'a' particle, then add the 'b' particle as the second constituent
         U crystal = newCrystal( a.getPosition() );
-        crystal.addConstituent( new Constituent<T>( a, ZERO ) );
 
+        for ( T particle : seed.getParticles() ) {
+
+            if ( crystal.numberConstituents() == 0 ) {
+                crystal.addConstituent( new Constituent<T>( particle, ZERO ) );
+            }
+            else {
+
+                OpenSite<T> selectedSite = getBindingSite( crystal, particle );
+                //Add the second particle as the second constituent of the crystal
+                if ( selectedSite == null ) {
+                    debug( "No available sites to bind to, this probably shouldn't have happened." );
+                }
+                else {
+                    crystal.addConstituent( new Constituent<T>( particle, selectedSite.relativePosition ) );
+                }
+            }
+            model.freeParticles.remove( particle );
+        }
+        crystals.add( crystal );
+    }
+
+    private OpenSite<T> getBindingSite( U crystal, T b ) {
         //Choose a site that matches the first particle
         ItemList<OpenSite<T>> sites = crystal.getOpenSites();
         Collections.shuffle( sites );
@@ -196,36 +220,9 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
                 break;
             }
         }
-
-        //Add the second particle as the second constituent of the crystal
-        if ( selectedSite == null ) {
-            debug( "No available sites to bind to, this probably shouldn't have happened." );
-        }
-        else {
-            crystal.addConstituent( new Constituent<T>( b, selectedSite.relativePosition ) );
-
-            model.freeParticles.remove( a );
-            model.freeParticles.remove( b );
-            crystals.add( crystal );
-        }
+        return selectedSite;
     }
 
     //Create the right subtype of crystal at the specified location.  It will be populated by the convertToCrystal method
     protected abstract U newCrystal( ImmutableVector2D position );
-
-    public ArrayList<ParticlePair> generateAllPairs( Class<? extends Particle> typeA, Class<? extends Particle> typeB ) {
-        ArrayList<Particle> aList = model.freeParticles.filter( typeA );
-        ArrayList<Particle> bList = model.freeParticles.filter( typeB );
-        ArrayList<ParticlePair> pairs = new ArrayList<ParticlePair>();
-        for ( Particle a : bList ) {
-            for ( Particle b : aList ) {
-
-                //Check for equality in case typeA==typeB, as in the case of Sucrose
-                if ( a != b ) {
-                    pairs.add( new ParticlePair( a, b ) );
-                }
-            }
-        }
-        return pairs;
-    }
 }
