@@ -1,3 +1,4 @@
+Added 1D random walk when attached to DNA for molecules with general DNA affinity.
 # 0.00.06 (55793) Aug 25, 2011
 8/25/11 Taking a snapshot before making some major changes.
 Fixed an issue where biomolecules removed from the DNA would jump back to it.
