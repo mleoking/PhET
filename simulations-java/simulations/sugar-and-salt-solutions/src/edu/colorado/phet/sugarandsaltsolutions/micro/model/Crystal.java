@@ -259,26 +259,7 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return numBonds;
     }
 
-    //Determine the minority type for a 1:1 formula ratio such as NaCl
-    //Return null if no clear minority (i.e. a tie)
-    public Class<? extends Particle> getMinorityType( Class<? extends Particle> a, Class<? extends Particle> b ) {
-        int numA = count( a );
-        int numB = count( b );
-        if ( numA < numB ) {
-            return a;
-        }
-        else if ( numB < numA ) {
-            return b;
-        }
-        else {
-            return null;
-        }
-    }
-
-    //Returns the type of particle that is in the majority (according to the formula ratio), so that it can be added during crystallization
-    public abstract Class<? extends Particle> getMinorityType();
-
-    //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the divison results for each, making sure they are the same, and making sure there is no remainder
+    //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the division results for each, making sure they are the same, and making sure there is no remainder
     public boolean matchesFormulaRatio() {
         if ( debugCrystalRatio ) {
             System.out.println( "Crystal.matchesFormulaRatio" );

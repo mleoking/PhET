@@ -55,20 +55,4 @@ public class CalciumChlorideCrystal extends Crystal<SphericalParticle> {
         }
         return super.getPossibleDirections( constituent );
     }
-
-    //Determine whether Ca2+ or Cl- should be removed from the crystal to maintain the ionic balance
-    //The formula ratio is 2:1, so account for that in checking for the balance
-    @Override public Class<? extends Particle> getMinorityType() {
-        int numCalcium = count( Calcium.class );
-        int numChloride = count( Chloride.class );
-        if ( numCalcium * 2 == numChloride ) {
-            return null;
-        }
-        if ( numCalcium * 2 < numChloride ) {
-            return Calcium.class;
-        }
-        else {
-            return Chloride.class;
-        }
-    }
 }

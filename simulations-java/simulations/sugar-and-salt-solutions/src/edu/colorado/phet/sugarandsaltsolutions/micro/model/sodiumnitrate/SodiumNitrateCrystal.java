@@ -33,9 +33,4 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     @Override protected Particle createConstituentParticle( Class<? extends Particle> type ) {
         return type == Sodium.class ? new Sodium() : new Nitrate();
     }
-
-    //Determine whether Na or NO3 should be added to a crystal when growing to maintain the ionic balance
-    @Override public Class<? extends Particle> getMinorityType() {
-        return getMinorityType( Sodium.class, Nitrate.class );
-    }
 }

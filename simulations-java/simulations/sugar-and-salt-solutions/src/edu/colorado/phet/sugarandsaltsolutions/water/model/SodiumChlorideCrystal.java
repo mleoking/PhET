@@ -31,11 +31,6 @@ public class SodiumChlorideCrystal extends Crystal<SaltIon> {
         return type == SaltIon.SodiumIon.class ? new SaltIon( new SphericalParticle.Sodium(), SODIUM ) : new SaltIon( new Chloride(), CHLORIDE );
     }
 
-    //Determine whether Na or Cl should be added to the crystal when growing to maintain the ionic balance
-    @Override public Class<? extends Particle> getMinorityType() {
-        return getMinorityType( SaltIon.SodiumIon.class, SaltIon.ChlorideIon.class );
-    }
-
     //Create the bonding partner for growing the crystal
     @Override public SaltIon createPartner( SaltIon original ) {
         return original instanceof SaltIon.SodiumIon ? new SaltIon.ChlorideIon() : new SaltIon.SodiumIon();

@@ -36,8 +36,4 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     @Override protected Glucose createConstituentParticle( Class<? extends Particle> type ) {
         return new Glucose();
     }
-
-    @Override public Class<? extends Particle> getMinorityType() {
-        return Glucose.class;
-    }
 }
