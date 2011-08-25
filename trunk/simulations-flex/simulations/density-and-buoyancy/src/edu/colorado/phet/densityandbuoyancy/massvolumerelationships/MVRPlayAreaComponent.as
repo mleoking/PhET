@@ -50,6 +50,7 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
     override public function resetAll(): void {
         super.resetAll();
         customObjectMode.reset();
+        sameSubstanceMode.reset();
         switchToSameSubstance();
     }
 
