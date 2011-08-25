@@ -20,6 +20,7 @@ import edu.colorado.phet.common.phetcommon.patterns.Updatable;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform2D;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.activities.PActivity;
+import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.util.PDebug;
 import edu.umd.cs.piccolo.util.PDimension;
 import edu.umd.cs.piccolo.util.PPaintContext;
@@ -682,6 +683,14 @@ public class PhetPCanvas extends PSwingCanvas implements Updatable {
         public CenteredStage( PhetPCanvas canvas, Dimension2D stageSize ) {
             this.canvas = canvas;
             this.stageSize = stageSize;
+        }
+
+        // Adds a red rectangle to the scenegraph that denotes the bounds of the "stage", useful for debugging.
+        public void addStageBoundsNode() {
+            canvas.addWorldChild( new PPath( new Rectangle2D.Double( 0, 0, stageSize.getWidth(), stageSize.getHeight() ) ) {{
+                setStrokePaint( Color.RED );
+                setPickable( false );
+            }} );
         }
 
         public AffineTransform getTransform() {
