@@ -28,8 +28,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystallizationMatch;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FlowToDrainStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.TargetConfiguration;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystal;
@@ -601,14 +601,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         updateParticlesDueToWaterLevelDropped( evaporatedWater );
     }
 
-    //Get one list of bonding sites for each crystal for debugging purposes
-    public ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> getAllBondingSites() {
-        ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> s = new ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>>();
+    //Get the target configurations for some crystals for debugging purposes
+    public ArrayList<TargetConfiguration<SphericalParticle>> getAllBondingSites() {
+        ArrayList<TargetConfiguration<SphericalParticle>> s = new ArrayList<TargetConfiguration<SphericalParticle>>();
         for ( SodiumChlorideCrystal crystal : sodiumChlorideCrystals ) {
-            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getAllCrystallizationMatchesSorted( crystal ) );
+            s.add( new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals ).getTargetConfiguration( crystal ) );
         }
         for ( CalciumChlorideCrystal crystal : calciumChlorideCrystals ) {
-            s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getAllCrystallizationMatchesSorted( crystal ) );
+            s.add( new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals ).getTargetConfiguration( crystal ) );
         }
         return s;
     }

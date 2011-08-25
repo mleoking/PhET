@@ -193,37 +193,6 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         }
     }
 
-    //Look for all open site on its lattice and sort by distance to available participants
-    //TODO: prefer particles that match the minority type on the crystal (according to the formula ratio) to keep ion levels balanced
-    public ArrayList<CrystallizationMatch<T>> getAllCrystallizationMatchesSorted( Crystal<T> crystal ) {
-        ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
-        final Class<? extends Particle> minorityType = crystal.getMinorityType();
-
-        //TODO: If minority type is null, then try to bring out of solution whichever type had more concentration in the model (according to the formula ratio), this will balance ion ratios across crystals and help to maintain a good balance
-        //But maybe this would cause a bigger oscillating problem if multiple crystals are vying for the same type
-
-        //If the crystal was balanced, allow adding either type.  If the crystal was unbalanced, add the minority type to restore balance
-        Iterable<? extends Particle> particlesToConsider = minorityType == null ? model.freeParticles : model.freeParticles.filter( minorityType );
-
-        for ( Particle freeParticle : particlesToConsider ) {
-            for ( OpenSite<T> openSite : crystal.getOpenSites() ) {
-                if (
-//                        model.solution.shape.get().contains( openSite.shape.getBounds2D() ) &&
-                        openSite.matches( freeParticle ) ) {
-                    matches.add( new CrystallizationMatch<T>( (T) freeParticle, openSite ) );
-                }
-            }
-        }
-
-        //Find the best site
-        sort( matches, new Comparator<CrystallizationMatch>() {
-            public int compare( CrystallizationMatch o1, CrystallizationMatch o2 ) {
-                return Double.compare( o1.distance, o2.distance );
-            }
-        } );
-        return matches;
-    }
-
     //Move nearby matching particles closer together, or, if close enough, form a 2-particle crystal with them
     private void towardNewCrystal( double dt ) {
 

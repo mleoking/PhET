@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.util.ArrayList;
 
@@ -10,6 +11,7 @@ import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.MicroModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystallizationMatch;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.TargetConfiguration;
 import edu.umd.cs.piccolo.PNode;
 
 /**
@@ -25,15 +27,18 @@ public class BindingSiteDebugger extends PNode {
                 //Clear all children and repopulate
                 removeAllChildren();
 
-                //Get one list of matches per crystal in the model
-                ArrayList<ArrayList<CrystallizationMatch<SphericalParticle>>> matches = model.getAllBondingSites();
-                for ( ArrayList<CrystallizationMatch<SphericalParticle>> matchesForCrystal : matches ) {
+                //Get the list of targets for each crystal
+                ArrayList<TargetConfiguration<SphericalParticle>> matches = model.getAllBondingSites();
+                for ( TargetConfiguration<SphericalParticle> matchesForCrystal : matches ) {
 
-                    //For each of the crystals match lists, show the bonding sites
-                    for ( int i = matchesForCrystal.size() - 1; i >= 0; i-- ) {
-                        CrystallizationMatch match = matchesForCrystal.get( i );
-                        Color baseColor = i == 0 ? Color.black : Color.yellow;
-                        addChild( new PhetPPath( transform.modelToView( match.getTargetShape() ), new Color( baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), 50 ) ) );
+                    //If there was a match, display it
+                    if ( matchesForCrystal != null ) {
+                        for ( CrystallizationMatch<SphericalParticle> match : matchesForCrystal.getMatches() ) {
+
+                            //For each of the crystals match lists, show the bonding sites
+                            Color baseColor = Color.green;
+                            addChild( new PhetPPath( transform.modelToView( match.getTargetShape() ), new BasicStroke( 2 ), new Color( baseColor.getRed(), baseColor.getGreen(), baseColor.getBlue(), 200 ) ) );
+                        }
                     }
                 }
 
