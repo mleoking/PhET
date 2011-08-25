@@ -16,18 +16,18 @@ import mx.controls.Label;
  * Requested modifications for Abraham, Gelder and Greenbowe, made by copying and modifying the version from the density sim.
  * Main canvas for the density sim. Contains all of the sim-related UI.  Top level class because there's only 1 tab in the sim (and therefore no tabs).
  */
-public class MassVolumeRelationshipsCanvas extends AbstractDensityAndBuoyancyCanvas {
+public class MVRCanvas extends AbstractDensityAndBuoyancyCanvas {
 
-    private var densityCanvas: MassVolumeRelationshipsPlayAreaComponent;
+    private var densityCanvas: MVRPlayAreaComponent;
     public var modeControlPanel: DensityVBox;
     private var _sameSubstanceButton: ModeRadioButton;
 
-    public function MassVolumeRelationshipsCanvas() {
+    public function MVRCanvas() {
         super();
 
         addBackground();
 
-        densityCanvas = new MassVolumeRelationshipsPlayAreaComponent( this );
+        densityCanvas = new MVRPlayAreaComponent( this );
         addChild( densityCanvas );
 
         //TODO: modeControlPanel should be a subclass of DensityVBox, eg ModeControlPanel that takes densityCanvas as constructor arg

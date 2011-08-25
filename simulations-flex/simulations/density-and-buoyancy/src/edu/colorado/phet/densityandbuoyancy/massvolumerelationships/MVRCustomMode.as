@@ -17,13 +17,13 @@ import mx.events.FlexEvent;
  * Requested modifications for Abraham, Gelder and Greenbowe, made by copying and modifying the version from the density sim.
  * Represents a 'custom object' mode in the density sim, in which the user sees and manipulates a single customizable block.
  */
-public class MVRDensityCustomObjectMode extends Mode {
+public class MVRCustomMode extends Mode {
     private var customizableObject: DensityAndBuoyancyObject;
 
     private var DEFAULT_MATERIAL: Material = Material.WOOD;
     private var comboBox: MaterialComboBox;
 
-    public function MVRDensityCustomObjectMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
+    public function MVRCustomMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
         //Showing the blocks as partially floating allows easier visualization of densities
         const material: Material = DEFAULT_MATERIAL;
@@ -35,7 +35,7 @@ public class MVRDensityCustomObjectMode extends Mode {
         comboBox.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
 
         // grab the panel above this panel
-        var modeControlPanel: UIComponent = (canvas.container as MassVolumeRelationshipsCanvas).modeControlPanel;
+        var modeControlPanel: UIComponent = (canvas.container as MVRCanvas).modeControlPanel;
 
         // set its initial value
         comboBox.setStyle( "top", modeControlPanel.height + 2 * DensityAndBuoyancyConstants.CONTROL_INSET );

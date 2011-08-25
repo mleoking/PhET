@@ -15,16 +15,16 @@ import mx.events.FlexEvent;
 /**
  * Density simulation mode which shows mystery blocks for which the users can try to determine the identities of various materials.
  */
-public class MVRDensityMysteryObjectsMode extends Mode {
+public class MVRMysteryMode extends Mode {
     private var mysteryObjectsControlPanel: MysteryObjectsControlPanel;
 
-    function MVRDensityMysteryObjectsMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
+    function MVRMysteryMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
         mysteryObjectsControlPanel = new MysteryObjectsControlPanel( false );
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
 
         // grab the panel above this panel
-        var modeControlPanel: UIComponent = (canvas.container as MassVolumeRelationshipsCanvas).modeControlPanel;
+        var modeControlPanel: UIComponent = (canvas.container as MVRCanvas).modeControlPanel;
 
         // set its initial value
         mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityAndBuoyancyConstants.CONTROL_INSET );
