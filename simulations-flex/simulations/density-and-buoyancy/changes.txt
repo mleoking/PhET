@@ -1,3 +1,4 @@
+Mass Volume Relationships: Added material combo box for "same substance" mode
 Mass Volume Relationships: Added back the mass and volume sliders and "my block" controls for "custom" mode
 Mass Volume Relationships: Fixed: Show the mass values for "same mass" and "same volume" modes
 Mass Volume Relationships: Fixed: Show the block labels in mystery mode
