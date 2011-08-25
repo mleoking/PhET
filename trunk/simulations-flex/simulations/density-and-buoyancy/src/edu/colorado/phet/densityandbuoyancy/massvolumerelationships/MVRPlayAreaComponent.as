@@ -14,28 +14,28 @@ import edu.colorado.phet.flashcommon.ApplicationLifecycle;
  * Requested modifications for Abraham, Gelder and Greenbowe, made by copying and modifying the version from the density sim.
  * Contains the sim play area for Density (not including control panels)
  */
-public class MassVolumeRelationshipsPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
+public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComponent {
 
     private var _container: AbstractDensityAndBuoyancyCanvas;
 
-    private var customObjectMode: MVRDensityCustomObjectMode;
+    private var customObjectMode: MVRCustomMode;
     private var sameMassMode: DensitySameMassMode;
     private var sameVolumeMode: DensitySameVolumeMode;
     private var sameSubstanceMode: SameSubstanceMode;
-    private var mysteryObjectsMode: MVRDensityMysteryObjectsMode;
+    private var mysteryObjectsMode: MVRMysteryMode;
     private var mode: Mode;
 
-    public function MassVolumeRelationshipsPlayAreaComponent( densityContainer: AbstractDensityAndBuoyancyCanvas ) {
+    public function MVRPlayAreaComponent( densityContainer: AbstractDensityAndBuoyancyCanvas ) {
         super( false );
         this._container = densityContainer;
-        const thisReference: MassVolumeRelationshipsPlayAreaComponent = this;
+        const thisReference: MVRPlayAreaComponent = this;
         // modes rely on the Stage being accessible for initialization, so we wait until the application has completed loading
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            customObjectMode = new MVRDensityCustomObjectMode( thisReference );
+            customObjectMode = new MVRCustomMode( thisReference );
             sameMassMode = new DensitySameMassMode( thisReference );
             sameVolumeMode = new DensitySameVolumeMode( thisReference );
             sameSubstanceMode = new SameSubstanceMode( thisReference );
-            mysteryObjectsMode = new MVRDensityMysteryObjectsMode( thisReference );
+            mysteryObjectsMode = new MVRMysteryMode( thisReference );
             //If other modes are added, you may need to specify a call to the Mode.reset() in resetAll()
             setMode( sameSubstanceMode );
 
