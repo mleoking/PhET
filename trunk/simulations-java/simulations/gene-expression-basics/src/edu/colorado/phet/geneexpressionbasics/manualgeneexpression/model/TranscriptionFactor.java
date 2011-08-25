@@ -50,13 +50,15 @@ public class TranscriptionFactor extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     private final boolean isPositive;
+    private final GeneExpressionModel model;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
-    private TranscriptionFactor( Shape shape, Point2D initialPosition, Color baseColor, boolean isPositive ) {
+    private TranscriptionFactor( GeneExpressionModel model, Shape shape, Point2D initialPosition, Color baseColor, boolean isPositive ) {
         super( shape, baseColor );
+        this.model = model;
         this.isPositive = isPositive;
         setPosition( initialPosition );
     }
@@ -86,7 +88,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * @param initialPosition
      * @return
      */
-    public static TranscriptionFactor generateTranscriptionFactor( int geneNumber, boolean positive, Point2D initialPosition ) {
+    public static TranscriptionFactor generateTranscriptionFactor( GeneExpressionModel model, int geneNumber, boolean positive, Point2D initialPosition ) {
         TranscriptionFactorConfig config = null;
         for ( TranscriptionFactorConfig tfc : positiveTranscriptionFactorInfo ) {
             if ( tfc.geneID == geneNumber && tfc.isPositive == positive ) {
@@ -102,7 +104,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
             config = positiveTranscriptionFactorInfo.get( positiveTranscriptionFactorInfo.size() - 1 );
         }
         // Create the transcription factor instance.
-        return new TranscriptionFactor( config.shape, initialPosition, config.baseColor, positive );
+        return new TranscriptionFactor( model, config.shape, initialPosition, config.baseColor, positive );
     }
 
     //-------------------------------------------------------------------------

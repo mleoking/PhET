@@ -19,6 +19,7 @@ import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.ManualG
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRnaDestroyer;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Ribosome;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.RnaPolymerase;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.TranscriptionFactor;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -221,12 +222,12 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private TranscriptionFactorCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode, final int geneID, final boolean positive ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, TranscriptionFactor.generateTranscriptionFactor( geneID, positive, new Point2D.Double( 0, 0 ) ) ),
+            super( new MobileBiomoleculeNode( SCALING_MVT, TranscriptionFactor.generateTranscriptionFactor( new StubGeneExpressionModel(), geneID, positive, new Point2D.Double( 0, 0 ) ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           TranscriptionFactor transcriptionFactor = TranscriptionFactor.generateTranscriptionFactor( geneID, positive, pos );
+                           TranscriptionFactor transcriptionFactor = TranscriptionFactor.generateTranscriptionFactor( biomoleculeBoxNode.model, geneID, positive, pos );
                            biomoleculeBoxNode.model.addMobileBiomolecule( transcriptionFactor );
                            return transcriptionFactor;
                        }
