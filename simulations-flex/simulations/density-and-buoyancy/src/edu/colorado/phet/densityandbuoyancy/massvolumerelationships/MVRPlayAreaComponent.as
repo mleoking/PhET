@@ -52,6 +52,7 @@ public class MVRPlayAreaComponent extends AbstractDensityAndBuoyancyPlayAreaComp
         customObjectMode.reset();
         sameSubstanceMode.reset();
         switchToSameSubstance();
+        setMassReadoutsVisible( false );
     }
 
     private function setMode( mode: Mode ): void {
