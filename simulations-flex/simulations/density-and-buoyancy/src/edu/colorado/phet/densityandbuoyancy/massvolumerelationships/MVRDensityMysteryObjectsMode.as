@@ -6,11 +6,13 @@ import edu.colorado.phet.densityandbuoyancy.model.Material;
 import edu.colorado.phet.densityandbuoyancy.model.MysteryBlock;
 import edu.colorado.phet.densityandbuoyancy.model.Scale;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
-import edu.colorado.phet.densityandbuoyancy.view.modes.*;
+import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
 import edu.colorado.phet.flexcommon.FlexSimStrings;
 
+import mx.core.UIComponent;
+import mx.events.FlexEvent;
+
 /**
- * Requested modifications for Abraham, Gelder and Greenbowe, made by copying and modifying the version from the density sim.
  * Density simulation mode which shows mystery blocks for which the users can try to determine the identities of various materials.
  */
 public class MVRDensityMysteryObjectsMode extends Mode {
@@ -18,8 +20,30 @@ public class MVRDensityMysteryObjectsMode extends Mode {
 
     function MVRDensityMysteryObjectsMode( canvas: AbstractDensityAndBuoyancyPlayAreaComponent ) {
         super( canvas );
-        mysteryObjectsControlPanel = new MysteryObjectsControlPanel();
+        mysteryObjectsControlPanel = new MysteryObjectsControlPanel( false );
         mysteryObjectsControlPanel.setStyle( "right", DensityAndBuoyancyConstants.CONTROL_INSET );
+
+        // grab the panel above this panel
+        var modeControlPanel: UIComponent = (canvas.container as MassVolumeRelationshipsCanvas).modeControlPanel;
+
+        // set its initial value
+        mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityAndBuoyancyConstants.CONTROL_INSET );
+
+        // if the mode control panel is uninitialized, hide this panel (we have a bad height if that is the case)
+        mysteryObjectsControlPanel.visible = modeControlPanel.initialized;
+
+        modeControlPanel.addEventListener( FlexEvent.INITIALIZE, function(): void {
+            mysteryObjectsControlPanel.setStyle( "top", modeControlPanel.height + 2 * DensityAndBuoyancyConstants.CONTROL_INSET );
+            mysteryObjectsControlPanel.visible = true;
+        } );
+    }
+
+    override public function teardown(): void {
+        super.teardown();
+        if ( isControlPanelShowing() ) {
+            canvas.container.removeChild( mysteryObjectsControlPanel );
+            mysteryObjectsControlPanel.teardown();
+        }
     }
 
     override public function init(): void {
@@ -35,7 +59,14 @@ public class MVRDensityMysteryObjectsMode extends Mode {
         const block5: MysteryBlock = new MysteryBlock( Material.DIAMOND.getDensity(), 0.1, -DensityAndBuoyancyConstants.POOL_WIDTH_X / 2, block4.getHeight() + block4.getY(), DensityAndBuoyancyConstants.PURPLE, canvas.model, FlexSimStrings.get( "mode.mysteryObjects.E", "E" ) );
         canvas.model.addDensityObject( block5 );
 
+        if ( !isControlPanelShowing() ) {
+            canvas.container.addChild( mysteryObjectsControlPanel );
+        }
         canvas.model.addDensityObject( new Scale( Scale.GROUND_SCALE_X_LEFT, Scale.GROUND_SCALE_Y, canvas.model ) );
+    }
+
+    private function isControlPanelShowing(): Boolean {
+        return canvas.container.contains( mysteryObjectsControlPanel );
     }
 }
 }

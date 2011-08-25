@@ -30,23 +30,30 @@ public class MysteryObjectsControlPanel extends DensityVBox {
     private const tableButton: Button = new Button();
     private var titleWindowVisible: BooleanProperty = new BooleanProperty( false );
 
-    public function MysteryObjectsControlPanel() {
+    //ShowDensities flag added for Abraham, Gelder and Greenbowe version
+    public function MysteryObjectsControlPanel( showDensities: Boolean ) {
         super();
 
         //Create the grid that shows the table of known substances and their densities
         const grid: Grid = new Grid();
         grid.addChild( toGridRow( FlexSimStrings.get( "mysteryObject.material", "Material" ),
                                   FlexSimStrings.get( "mysteryObject.densityColumnHeader", "Density ({0})", [FlexSimStrings.get( "mysteryObject.densityUnitsKgL", "kg/L" )] ),
-                                  DensityAndBuoyancyConstants.FLEX_UNDERLINE ) );
+                                  DensityAndBuoyancyConstants.FLEX_UNDERLINE, showDensities ) );
         for each ( var material: Material in Material.ALL ) {
             const unit: Unit = new LinearUnit( FlexSimStrings.get( "mysteryObject.densityUnitsKgL", "kg/L" ), 0.001 );
             var density: Number = unit.fromSI( material.getDensity() );
-            grid.addChild( toGridRow( material.name, DensityAndBuoyancyConstants.formatWithPrecision( density, density >= 10 ? 1 : 2 ), DensityAndBuoyancyConstants.FLEX_NONE ) );
+            grid.addChild( toGridRow( material.name, DensityAndBuoyancyConstants.formatWithPrecision( density, density >= 10 ? 1 : 2 ), DensityAndBuoyancyConstants.FLEX_NONE, showDensities ) );
         }
 
         //Create the window that shows the table of known substances and their densities
         titleWindow = new TitleWindow();
         titleWindow.title = FlexSimStrings.get( "mysteryObject.table.title", "Densities of Various Materials" );
+
+        //Override the window title for Mass Volume Relationships
+        if ( !showDensities ) {
+            titleWindow.title = "Various Materials";
+        }
+
         titleWindow.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, 18 );
         titleWindow.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_WEIGHT, DensityAndBuoyancyConstants.FLEX_FONT_BOLD );
         titleWindow.showCloseButton = true;
@@ -98,7 +105,7 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         titleWindowVisible.value = false;
     }
 
-    private function toGridRow( _name: String, density: String, textDecoration: String ): GridRow {
+    private function toGridRow( _name: String, density: String, textDecoration: String, showDensity: Boolean ): GridRow {
         const gridRow: GridRow = new GridRow();
         const fontSize: Number = 18;
         const name: Label = new Label();
@@ -112,11 +119,16 @@ public class MysteryObjectsControlPanel extends DensityVBox {
         }
 
         gridRow.addChild( toGridItem( name ) );
-        const value: Label = new Label();
-        value.text = density;
-        value.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, fontSize );
-        value.setStyle( DensityAndBuoyancyConstants.FLEX_TEXT_DECORATION, textDecoration );
-        gridRow.addChild( toGridItem( value ) );
+
+        if ( showDensity ) {
+
+            const value: Label = new Label();
+            value.text = density;
+            value.setStyle( DensityAndBuoyancyConstants.FLEX_FONT_SIZE, fontSize );
+            value.setStyle( DensityAndBuoyancyConstants.FLEX_TEXT_DECORATION, textDecoration );
+            gridRow.addChild( toGridItem( value ) );
+
+        }
         return gridRow;
     }
 
