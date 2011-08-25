@@ -5,7 +5,6 @@ import edu.colorado.phet.densityandbuoyancy.model.DensityAndBuoyancyModel;
 import edu.colorado.phet.densityandbuoyancy.test.Box2DDebug;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyCanvas;
 import edu.colorado.phet.densityandbuoyancy.view.AbstractDensityAndBuoyancyPlayAreaComponent;
-import edu.colorado.phet.densityandbuoyancy.view.modes.DensityCustomObjectMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameMassMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.DensitySameVolumeMode;
 import edu.colorado.phet.densityandbuoyancy.view.modes.Mode;
@@ -19,7 +18,7 @@ public class MassVolumeRelationshipsPlayAreaComponent extends AbstractDensityAnd
 
     private var _container: AbstractDensityAndBuoyancyCanvas;
 
-    private var customObjectMode: DensityCustomObjectMode;
+    private var customObjectMode: MVRDensityCustomObjectMode;
     private var sameMassMode: DensitySameMassMode;
     private var sameVolumeMode: DensitySameVolumeMode;
     private var sameSubstanceMode: SameSubstanceMode;
@@ -32,7 +31,7 @@ public class MassVolumeRelationshipsPlayAreaComponent extends AbstractDensityAnd
         const thisReference: MassVolumeRelationshipsPlayAreaComponent = this;
         // modes rely on the Stage being accessible for initialization, so we wait until the application has completed loading
         ApplicationLifecycle.addApplicationCompleteListener( function(): void {
-            customObjectMode = new DensityCustomObjectMode( thisReference );
+            customObjectMode = new MVRDensityCustomObjectMode( thisReference );
             sameMassMode = new DensitySameMassMode( thisReference );
             sameVolumeMode = new DensitySameVolumeMode( thisReference );
             sameSubstanceMode = new SameSubstanceMode( thisReference );
