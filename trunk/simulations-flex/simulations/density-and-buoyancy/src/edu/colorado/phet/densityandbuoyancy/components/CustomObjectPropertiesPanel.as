@@ -17,7 +17,6 @@ import mx.containers.HBox;
 import mx.controls.ComboBox;
 import mx.controls.Spacer;
 import mx.core.UIComponent;
-import mx.events.ListEvent;
 
 /**
  * The CustomObjectPropertiesPanel shows controls for mass, volume, density and material of an object, and appears in:
@@ -47,26 +46,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
         grid.addChild( new DensityEditor( densityObject.getDensityProperty(), DensityAndBuoyancyConstants.MIN_DENSITY, DensityAndBuoyancyConstants.MAX_DENSITY, units.densityUnit, noClamp, new Unbounded(), sliderWidth ) );
 
         //Configure and add the ComboBox
-        comboBox = new ComboBox();
-        const items: Array = Material.SELECTABLE_MATERIALS;
-        comboBox.dataProvider = items;
-        comboBox.rowCount = items.length;//Ensures there are no scroll bars in the combo box, see http://www.actionscript.org/forums/showthread.php3?t=218435
-        comboBox.labelField = "name";//uses the "name" get property on Material to identify the name
-        function updateBlockBasedOnComboBoxSelection(): void {
-            trace( "comboBox.selectedItem=" + comboBox.selectedItem );
-            densityObject.material = Material( comboBox.selectedItem );
-        }
-
-        comboBox.selectedItem = densityObject.material;
-        comboBox.addEventListener( ListEvent.CHANGE, updateBlockBasedOnComboBoxSelection );
-        densityObject.addMaterialListener( function f(): void {
-            if ( densityObject.material.isCustom() ) {
-                //Only update the combo box if material is non custom, because combo box should remember the last non-custom selection.
-            }
-            else {
-                comboBox.selectedItem = densityObject.material;
-            }
-        } );
+        comboBox = new MaterialComboBox( densityObject );
 
         //Set up the radio buttons for selecting different materials, e.g. "my block", "wood", etc.
         const radioButtonPanel: HBox = new HBox();
@@ -81,7 +61,7 @@ public class CustomObjectPropertiesPanel extends DensityVBox {
                 }
             }
             else {
-                updateBlockBasedOnComboBoxSelection();
+                densityObject.material = Material( comboBox.selectedItem );
             }
         } );
         addChild( radioButtonPanel );
