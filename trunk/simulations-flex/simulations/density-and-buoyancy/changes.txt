@@ -1,3 +1,4 @@
+Mass Volume Relationships: Fixed: Mass values appear when "reset all" is pressed
 Mass Volume Relationships: Fixed: In "Same Substance" mode, blocks do not go back to the right location when "reset all" is pressed
 # 1.05.03 (55782) Aug 25, 2011
 8/25/11 Mass Volume Relationships: Added material table
