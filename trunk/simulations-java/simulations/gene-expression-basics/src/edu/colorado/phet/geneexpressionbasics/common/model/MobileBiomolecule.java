@@ -25,10 +25,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // biomolecules.
     private BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState();
 
-    // The current attachment site, which is a location on another biomolecule
-    // (e.g. DNA) where this molecule is attached or is headed.
-    AttachmentSite currentAttachmentSite;
-
     // Color to use when displaying this biomolecule to the user.  This is
     // a bit out of place here, and has nothing to do with the fact that the
     // molecule moves.  This was just a convenient place to put it (so far).
@@ -43,10 +39,10 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
         super( initialShape );
         this.baseColor = baseColor;
-        // Handle changes is user control.
+        // Handle changes in user control.us
         userControlled.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean aBoolean ) {
-                if ( !aBoolean ) {
+            public void apply( Boolean userControlled ) {
+                if ( !userControlled ) {
                     // The user has released this node after moving it.  This
                     // should cause any existing or pending attachments to be
                     // severed.
