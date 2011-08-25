@@ -1,3 +1,5 @@
+Mass Volume Relationships: Fixed: Show the mass values for "same mass" and "same volume" modes
+Mass Volume Relationships: Fixed: Show the block labels in mystery mode
 Mass Volume Relationships: Fixed: Mass values appear when "reset all" is pressed
 Mass Volume Relationships: Fixed: In "Same Substance" mode, blocks do not go back to the right location when "reset all" is pressed
 # 1.05.03 (55782) Aug 25, 2011
