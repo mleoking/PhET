@@ -41,9 +41,8 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     private final double aspectRatio = canvasSize.getWidth() / canvasSize.getHeight();
 
     //Model for input and output flows
-    //TODO: these docs are wrong, see faucetFlowRate
-    public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker in m^3/s
-    public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker in m^3/s
+    public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker, between 0 and 1
+    public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker, between 0 and 1
 
     //Sugar and its listeners
     public final ArrayList<MacroSugar> sugarList = new ArrayList<MacroSugar>();//The sugar crystals that haven't been dissolved
