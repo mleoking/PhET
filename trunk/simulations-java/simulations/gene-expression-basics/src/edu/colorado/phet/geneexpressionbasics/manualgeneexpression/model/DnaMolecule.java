@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.MathUtil;
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.IAttachmentSiteOwner;
@@ -26,12 +26,12 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  */
 public class DnaMolecule implements IAttachmentSiteOwner {
 
-    private static final double STRAND_WIDTH = 200; // In picometers.
+    private static final double STRAND_DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
     private static final double BASE_PAIRS_PER_TWIST = 10; // In picometers.
-    private static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
+    public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
-    private static final int NUMBER_OF_TWISTS = 150;
+    private static final int NUMBER_OF_TWISTS = 200;
     private static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
     private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
@@ -58,9 +58,9 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         double basePairXPos = LEFT_EDGE_X_POS + INTER_STRAND_OFFSET;
         while ( basePairXPos < strand2.get( strand2.size() - 1 ).getShape().getBounds2D().getMaxX() ) {
             double height = Math.abs( ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) -
-                                        Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_WIDTH / 2;
+                                        Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) ) * STRAND_DIAMETER / 2;
             double basePairYPos = ( Math.sin( ( basePairXPos - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / LENGTH_PER_TWIST * 2 * Math.PI ) +
-                                    Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_WIDTH / 2;
+                                    Math.sin( ( basePairXPos - LEFT_EDGE_X_POS ) / LENGTH_PER_TWIST * 2 * Math.PI ) ) / 2 * STRAND_DIAMETER / 2;
             basePairs.add( new BasePair( new Point2D.Double( basePairXPos, basePairYPos ), height ) );
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
@@ -69,21 +69,21 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         // model space to having to scroll the gene at startup.
         double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
         genes.add( new Gene( this,
-                             new DoubleRange( geneStartX, geneStartX + 1000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 1000 ) ),
                              new Color( 216, 191, 216 ),
-                             new DoubleRange( geneStartX + 1000, geneStartX + 4000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 1000 ), getBasePairIndexFromXOffset( geneStartX + 4000 ) ),
                              new Color( 255, 165, 79, 150 ) ) );
         geneStartX += DISTANCE_BETWEEN_GENES;
         genes.add( new Gene( this,
-                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 2000 ) ),
                              new Color( 216, 191, 216 ),
-                             new DoubleRange( geneStartX + 2000, geneStartX + 6000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 2000 ), getBasePairIndexFromXOffset( geneStartX + 6000 ) ),
                              new Color( 240, 246, 143, 150 ) ) );
         geneStartX += DISTANCE_BETWEEN_GENES;
         genes.add( new Gene( this,
-                             new DoubleRange( geneStartX, geneStartX + 2000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 2000 ) ),
                              new Color( 216, 191, 216 ),
-                             new DoubleRange( geneStartX + 2000, geneStartX + 8000 ),
+                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 2000 ), getBasePairIndexFromXOffset( geneStartX + 8000 ) ),
                              new Color( 205, 255, 112, 150 ) ) );
 
         // Add the placement hints.  TODO: Decide if these should be set up to be associated with particular genes.
@@ -97,7 +97,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
      * the left side of the DNA molecule is base pair 0, and it goes up from
      * there.
      */
-    private double getBasePairXOffsetByIndex( int basePairNumber ) {
+    public double getBasePairXOffsetByIndex( int basePairNumber ) {
         return LEFT_EDGE_X_POS + INTER_STRAND_OFFSET + (double) basePairNumber * DISTANCE_BETWEEN_BASE_PAIRS;
     }
 
@@ -106,7 +106,7 @@ public class DnaMolecule implements IAttachmentSiteOwner {
      * space.
      */
     private int getBasePairIndexFromXOffset( double xOffset ) {
-        assert xOffset >= LEFT_EDGE_X_POS && xOffset < LEFT_EDGE_X_POS + LENGTH_PER_TWIST * NUMBER_OF_TWISTS;
+        assert xOffset >= LEFT_EDGE_X_POS && xOffset < LEFT_EDGE_X_POS + MOLECULE_LENGTH;
         xOffset = MathUtil.clamp( LEFT_EDGE_X_POS, xOffset, LEFT_EDGE_X_POS + LENGTH_PER_TWIST * NUMBER_OF_TWISTS );
         return (int) Math.round( ( xOffset - LEFT_EDGE_X_POS - INTER_STRAND_OFFSET ) / DISTANCE_BETWEEN_BASE_PAIRS );
     }
@@ -130,11 +130,11 @@ public class DnaMolecule implements IAttachmentSiteOwner {
             DoubleGeneralPath segmentPath = new DoubleGeneralPath();
             segmentPath.moveTo( xOffset, Y_POS );
             if ( curveUp ) {
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_WIDTH / 2 * 2.0,
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, STRAND_DIAMETER / 2 * 2.0,
                                     xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
             else {
-                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_WIDTH / 2 * 2.0,
+                segmentPath.quadTo( xOffset + LENGTH_PER_TWIST / 4, -STRAND_DIAMETER / 2 * 2.0,
                                     xOffset + LENGTH_PER_TWIST / 2, 0 );
             }
 
@@ -193,8 +193,8 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         return new Point2D.Double( LEFT_EDGE_X_POS, Y_POS );
     }
 
-    public double getWidth() {
-        return STRAND_WIDTH;
+    public double getDiameter() {
+        return STRAND_DIAMETER;
     }
 
     /**
@@ -266,7 +266,6 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         }
         return nearbyPolymeraseAttachmentSites;
     }
-
 
     /**
      * This class defines a segment of the DNA strand.  It is needed because the

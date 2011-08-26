@@ -2,16 +2,14 @@
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.RoundRectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.DoubleRange;
+import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 
 /**
  * This class is the model representation of a gene on a DNA molecule.  Each
- * gene consists of a regulatory region and a transcribed region.  In real
- * life, a gene is just a collection of base pairs on the DNA strand.  This
- * class essentially says where on the strand the gene exists.
+ * gene consists of a regulatory region and a transcribed region.  In real life,
+ * a gene is just a collection of base pairs on the DNA strand.  This class
+ * essentially says where on the strand the gene exists.
  *
  * @author John Blanco
  * @author Sam Reid
@@ -23,56 +21,28 @@ public class Gene {
     private final DnaMolecule dnaMolecule;
     private final Color regulatoryRegionColor;
     private final Color transcribedRegionColor;
-    private final DoubleRange regulatoryRegion;
-    private final DoubleRange transcribedRegion;
-    private final Shape transcribedRegionShape;
-    private final Shape regulatoryRegionShape;
+    private final IntegerRange regulatoryRegion;
+    private final IntegerRange transcribedRegion;
 
     /**
      * Constructor.
      *
-     * @param dnaMolecule            The DNA molecule within which this gene exists.
-     * @param regulatoryRegion       The range, with respect to the left edge of
-     *                               the DNA molecule, where the regulatory region exists.
+     * @param dnaMolecule            The DNA molecule within which this gene
+     *                               exists.
+     * @param regulatoryRegion       The range, in terms of base pairs on the
+     *                               DNA strand, where this region exists.
      * @param regulatoryRegionColor
-     * @param transcribedRegion      The range, with respect to the left edge of
-     *                               the DNA molecule, where the transcribed region exists.
+     * @param transcribedRegion      The range, in terms of base pairs on the
+     *                               DNA strand, where this region exists.
      * @param transcribedRegionColor
      */
-    public Gene( DnaMolecule dnaMolecule, DoubleRange regulatoryRegion, Color regulatoryRegionColor,
-                 DoubleRange transcribedRegion, Color transcribedRegionColor ) {
+    public Gene( DnaMolecule dnaMolecule, IntegerRange regulatoryRegion, Color regulatoryRegionColor,
+                 IntegerRange transcribedRegion, Color transcribedRegionColor ) {
         this.dnaMolecule = dnaMolecule;
         this.regulatoryRegion = regulatoryRegion;
         this.regulatoryRegionColor = regulatoryRegionColor;
         this.transcribedRegion = transcribedRegion;
         this.transcribedRegionColor = transcribedRegionColor;
-        transcribedRegionShape = createRegionShape( dnaMolecule, transcribedRegion );
-        regulatoryRegionShape = createRegionShape( dnaMolecule, regulatoryRegion );
-    }
-
-    /**
-     * Get a shape that is suitable for enclosing the transcribed region of
-     * the gene.  This is used primarily by the view.
-     */
-    public Shape getTranscribedRegionShape() {
-        return transcribedRegionShape;
-    }
-
-    /**
-     * Get a shape that is suitable for enclosing the regulatory region of the
-     * gene.  This is used primarily by the view.
-     */
-    public Shape getRegulatoryRegionShape() {
-        return regulatoryRegionShape;
-    }
-
-    private Shape createRegionShape( DnaMolecule dnaMolecule, DoubleRange range ) {
-        double rectHeight = dnaMolecule.getWidth() * 1.75;
-        double rectWidth = range.getLength();
-        double xPos = dnaMolecule.getLeftEdgePos().getX() + range.getMin();
-        double yPos = dnaMolecule.getLeftEdgePos().getY() - rectHeight / 2;
-        double rounding = rectHeight * 0.75; // Empirically chosen based on what looked good.
-        return new RoundRectangle2D.Double( xPos, yPos, rectWidth, rectHeight, rounding, rounding );
     }
 
     public Color getRegulatoryRegionColor() {
@@ -84,7 +54,16 @@ public class Gene {
     }
 
     public double getCenterX() {
-        return ( Math.min( regulatoryRegion.getMin(), transcribedRegion.getMin() ) +
-                 Math.max( regulatoryRegion.getMax(), transcribedRegion.getMax() ) ) / 2 + dnaMolecule.getLeftEdgePos().getX();
+        double startX = dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() );
+        double endX = dnaMolecule.getBasePairXOffsetByIndex( transcribedRegion.getMax() );
+        return startX + ( endX - startX ) / 2;
+    }
+
+    public IntegerRange getRegulatoryRegion() {
+        return regulatoryRegion;
+    }
+
+    public IntegerRange getTranscribedRegion() {
+        return transcribedRegion;
     }
 }
