@@ -9,10 +9,10 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 public class DrainData {
 
     //initial number of solutes at time user started manipulating drain faucet, used to choose a target concentration in MicroModel
-    int initialNumberSolutes;
+    public int initialNumberSolutes;
 
     //initial volume at time user started manipulating drain faucet, in m^3, used to choose a target concentration in MicroModel
-    double initialVolume;
+    public double initialVolume;
 
     //the previous flow rate of the drain faucet, for purposes of recording the target concentration when user starts draining fluid.
     double previousDrainFlowRate;

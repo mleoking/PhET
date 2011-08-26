@@ -3,7 +3,6 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -28,9 +27,8 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.FlowToDrainStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Draining;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.TargetConfiguration;
-import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.UpdateStrategy;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystal;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.GlucoseCrystalGrowth;
@@ -56,7 +54,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountT
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.awt.Color.red;
-import static java.util.Collections.sort;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -87,7 +84,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     public final DoubleProperty numberSoluteTypes = new DoubleProperty( 0.0 );
 
     //Debugging flag for draining particles through the faucet
-    private boolean debugDraining = false;
+    public static final boolean debugDraining = false;
 
     //Listeners that are notified when the simulation time step has completed
     public final ArrayList<VoidFunction0> stepFinishedListeners = new ArrayList<VoidFunction0>();
@@ -182,6 +179,8 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     protected final CalciumChlorideCrystalGrowth calciumChlorideCrystalGrowth = new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals );
     protected final SucroseCrystalGrowth sucroseCrystalGrowth = new SucroseCrystalGrowth( this, sucroseCrystals );
     protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
+
+    public final Draining draining = new Draining( this );
 
     //Flag to help debug the crystal ratios
     public static final boolean debugCrystalRatio = true;
@@ -279,13 +278,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-//            updateParticlesFlowingToDrain( sodium.drainData, dt );
-//            updateParticlesFlowingToDrain( chloride.drainData, dt );
-//            updateParticlesFlowingToDrain( sucrose.drainData, dt );
-//            updateParticlesFlowingToDrain( glucose.drainData, dt );
-//            updateParticlesFlowingToDrain( nitrate.drainData, dt );
-//            updateParticlesFlowingToDrain( calcium.drainData, dt );
-            updateFormulaUnitsFlowingToDrain( dt );
+            draining.updateParticlesFlowingToDrain( sodium.drainData, dt );
+            draining.updateParticlesFlowingToDrain( chloride.drainData, dt );
+            draining.updateParticlesFlowingToDrain( sucrose.drainData, dt );
+            draining.updateParticlesFlowingToDrain( glucose.drainData, dt );
+            draining.updateParticlesFlowingToDrain( nitrate.drainData, dt );
+            draining.updateParticlesFlowingToDrain( calcium.drainData, dt );
+            draining.updateFormulaUnitsFlowingToDrain( dt );
         }
 
         //Iterate over all particles and let them update in time
@@ -346,88 +345,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         }
         return p;
-    }
-
-    //TODO: implement me
-    private void updateFormulaUnitsFlowingToDrain( double dt ) {
-        for ( Formula formula : kit.getFormulae() ) {
-
-        }
-    }
-
-    //Move the particles toward the drain and try to keep a constant concentration
-    //all particles should exit when fluid is gone, move nearby particles
-    //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
-    private void updateParticlesFlowingToDrain( DrainData drainData, double dt ) {
-
-        ItemList<Particle> particles = freeParticles.filter( drainData.type );
-
-        //Pre-compute the drain faucet input point since it is used throughout this method, and many times in the sort method
-        final ImmutableVector2D drain = getDrainFaucetMetrics().getInputPoint();
-
-        //Sort particles by distance and set their speeds so that they will leave at the proper rate
-        sort( particles, new Comparator<Particle>() {
-            public int compare( Particle o1, Particle o2 ) {
-                return Double.compare( o1.getPosition().getDistance( drain ), o2.getPosition().getDistance( drain ) );
-            }
-        } );
-
-        //flow rate in volume / time
-        double currentDrainFlowRate_VolumePerSecond = outputFlowRate.get() * faucetFlowRate;
-
-        //Determine the current concentration in particles per meter cubed
-        double currentConcentration = freeParticles.count( drainData.type ) / solution.volume.get();
-
-        //Determine the concentration at which we would consider it to be too erroneous, at half a particle over the target concentration
-        //Half a particle is used so the solution will center on the target concentration (rather than upper or lower bounded)
-        double errorConcentration = ( drainData.initialNumberSolutes + 0.5 ) / drainData.initialVolume;
-
-        //Determine the concentration in the next time step, and subsequently how much it is changing over time and how long until the next error occurs
-        double nextConcentration = freeParticles.count( drainData.type ) / ( solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
-        double deltaConcentration = ( nextConcentration - currentConcentration );
-        double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
-
-        //Sanity check on the number of deltas to reach a problem, if this is negative it could indicate some unexpected change in initial concentration
-        //In any case, shouldn't propagate toward the drain with a negative delta, because that causes a negative speed and motion away from the drain
-        if ( numberDeltasToError < 0 ) {
-            System.out.println( getClass().getName() + ": numberDeltasToError = " + numberDeltasToError + ", recomputing initial concentration and postponing drain" );
-            checkStartDrain( drainData );
-            return;
-        }
-
-        //Assuming a constant rate of drain flow, compute how long until we would be in the previously determined error scenario
-        //We will speed up the nearest particle so that it flows out in this time
-        double timeToError = numberDeltasToError * dt;
-
-        //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
-        //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
-        double mainParticleSpeed = 0;
-        for ( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = particles.get( i );
-
-            //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
-            double distanceToTarget = particle.getPosition().getDistance( drain );
-            double speed = distanceToTarget / timeToError;
-
-            //Store the primary speed that the leaving particle is moving at
-            if ( i == 0 ) {
-                mainParticleSpeed = speed;
-            }
-            else {
-
-                //For secondary particles, move with a speed close to that of the closest particle, but slower if further away
-                //This rule seems to work well, I also experimented with rules like v=alpha / d but it exhibited undesirable quirky behavior
-                speed = mainParticleSpeed / ( i + 1 );
-            }
-            ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
-            final boolean randomWalk = i != 0;
-            particle.setUpdateStrategy( new FlowToDrainStrategy( this, velocity, randomWalk ) );
-
-            if ( debugDraining ) {
-                System.out.println( "i = " + 0 + ", target time = " + time + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
-//                System.out.println( "flowing to drain = " + drain.getX() + ", velocity = " + velocity.getX() + ", speed = " + speed );
-            }
-        }
     }
 
     //Add a single salt crystal to the model
@@ -651,5 +568,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //This is because there is so little water it would be impossible to dissolve anything and everything should crystallize
     public boolean isWaterBelowCrystalThreshold() {
         return waterVolume.get() <= Units.litersToMetersCubed( 0.03E-23 );
+    }
+
+    public MicroModelKit getKit() {
+        return kit;
     }
 }
