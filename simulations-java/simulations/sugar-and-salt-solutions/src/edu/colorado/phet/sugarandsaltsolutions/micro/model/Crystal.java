@@ -96,28 +96,24 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
     //Grow the crystal randomly at one of the open sites by adding a full formula (such as 1 Ca and 2Cl for CaCl2)
     //If it is impossible to continue growing the crystal then exit by throwing a BondingFailure
     public void growByOneFormulaUnit() throws BondingFailure {
-        for ( final Class<? extends Particle> type : formula.getTypes() ) {
-            for ( int i = 0; i < formula.getFactor( type ); i++ ) {
+        for ( final Class<? extends Particle> type : formula.getFormulaUnit() ) {
+            if ( constituents.size() == 0 ) {
+                addConstituent( new Constituent<T>( createConstituentParticle( type ), ZERO ) );
+            }
+            else {
 
-                if ( constituents.size() == 0 ) {
-                    addConstituent( new Constituent<T>( createConstituentParticle( type ), ZERO ) );
+                //find any particle that has open bonds
+                ItemList<OpenSite<T>> openSites = getOpenSites().filter( new Function1<OpenSite<T>, Boolean>() {
+                    public Boolean apply( OpenSite<T> site ) {
+                        return site.matches( type );
+                    }
+                } );
+
+                if ( openSites.size() > 0 ) {
+                    addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
                 }
-
                 else {
-
-                    //find any particle that has open bonds
-                    ItemList<OpenSite<T>> openSites = getOpenSites().filter( new Function1<OpenSite<T>, Boolean>() {
-                        public Boolean apply( OpenSite<T> site ) {
-                            return site.matches( type );
-                        }
-                    } );
-
-                    if ( openSites.size() > 0 ) {
-                        addConstituent( openSites.get( random.nextInt( openSites.size() ) ).toConstituent() );
-                    }
-                    else {
-                        throw new BondingFailure();
-                    }
+                    throw new BondingFailure();
                 }
             }
         }
@@ -174,16 +170,14 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
         //For each type, get as many components as are specified in the formula
         ArrayList<Constituent<T>> toDissolve = new ArrayList<Constituent<T>>();
-        for ( Class<? extends Particle> type : formula.getTypes() ) {
-            for ( int i = 0; i < formula.getFactor( type ); i++ ) {
-                final Constituent<T> constituentToDissolve = getConstituentToDissolve( type, waterBounds, toDissolve );
-                if ( constituentToDissolve == null ) {
-                    //If couldn't dissolve all elements of formula, then don't dissolve any
-                    return new Option.None<ArrayList<Constituent<T>>>();
-                }
-                else {
-                    toDissolve.add( constituentToDissolve );
-                }
+        for ( Class<? extends Particle> type : formula.getFormulaUnit() ) {
+            final Constituent<T> constituentToDissolve = getConstituentToDissolve( type, waterBounds, toDissolve );
+            if ( constituentToDissolve == null ) {
+                //If couldn't dissolve all elements of formula, then don't dissolve any
+                return new Option.None<ArrayList<Constituent<T>>>();
+            }
+            else {
+                toDissolve.add( constituentToDissolve );
             }
         }
         return new Option.Some<ArrayList<Constituent<T>>>( toDissolve );
