@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -56,6 +57,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.model.ParticleCountT
 import static edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.NEUTRAL_COLOR;
 import static java.awt.Color.blue;
 import static java.awt.Color.red;
+import static java.util.Arrays.asList;
 
 /**
  * Model for the micro tab, which uses code from soluble salts sim.
@@ -170,12 +172,15 @@ public class MicroModel extends SugarAndSaltSolutionModel {
             }
         } );
     }};
+
+    //Rules for growing each crystal incrementally from existing dissolved constituents
     protected final SodiumChlorideCrystalGrowth sodiumChlorideCrystalGrowth = new SodiumChlorideCrystalGrowth( this, sodiumChlorideCrystals );
     protected final SodiumNitrateCrystalGrowth sodiumNitrateCrystalGrowth = new SodiumNitrateCrystalGrowth( this, sodiumNitrateCrystals );
     protected final CalciumChlorideCrystalGrowth calciumChlorideCrystalGrowth = new CalciumChlorideCrystalGrowth( this, calciumChlorideCrystals );
     protected final SucroseCrystalGrowth sucroseCrystalGrowth = new SucroseCrystalGrowth( this, sucroseCrystals );
     protected final GlucoseCrystalGrowth glucoseCrystalGrowth = new GlucoseCrystalGrowth( this, glucoseCrystals );
 
+    //Updates the particles when the user drains solution
     public final Draining draining = new Draining( this );
 
     //Flag to help debug the crystal ratios
@@ -233,7 +238,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         dispensers.add( new CalciumChlorideShaker( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreCalciumChlorideAllowed, CALCIUM_CHLORIDE_NEW_LINE, distanceScale, dispenserType, DispenserType.CALCIUM_CHLORIDE, this ) );
         dispensers.add( new GlucoseDispenser( beaker.getCenterX(), beaker.getTopY() + beaker.getHeight() * 0.5, beaker, moreGlucoseAllowed, GLUCOSE, distanceScale, dispenserType, DispenserType.GLUCOSE, this ) );
 
-        //When the output flow rate changes, recompute the desired flow rate for each solute type to help ensure a constant concentration over time for each solute type
+        //When the output flow rate changes, recompute the desired flow rate for each formula type to help ensure a constant concentration over time for each formula constituents
         outputFlowRate.addObserver( new VoidFunction1<Double>() {
             public void apply( Double outputFlowRate ) {
                 checkStartDrain( sodiumChlorideDrainData );
@@ -318,20 +323,17 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            java.util.List<DrainData> drainDatas = new ArrayList<DrainData>();
-            drainDatas.add( sodiumChlorideDrainData );
-            drainDatas.add( sucroseDrainData );
-            drainDatas.add( calciumChlorideDrainData );
-            drainDatas.add( sodiumNitrateDrainData );
-            drainDatas.add( glucoseDrainData );
 
-            Collections.sort( drainDatas, new Comparator<DrainData>() {
+            //Prioritize the closest formula unit, otherwise if a further away formula unit is given priority it will cause a "racing condition" in which
+            //it catches up, then gets de-prioritized, which makes particles switch between formula groups and creates incorrect velocities
+            List<DrainData> drainDataList = asList( sodiumChlorideDrainData, sucroseDrainData, calciumChlorideDrainData, sodiumNitrateDrainData, glucoseDrainData );
+            Collections.sort( drainDataList, new Comparator<DrainData>() {
                 public int compare( DrainData a, DrainData b ) {
                     return Double.compare( draining.getTimeToError( a, dt ), draining.getTimeToError( b, dt ) );
                 }
             } );
 
-            for ( DrainData drainData : drainDatas ) {
+            for ( DrainData drainData : drainDataList ) {
                 draining.updateParticlesFlowingToDrain( drainData, dt );
             }
         }
@@ -623,9 +625,5 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //This is because there is so little water it would be impossible to dissolve anything and everything should crystallize
     public boolean isWaterBelowCrystalThreshold() {
         return waterVolume.get() <= Units.litersToMetersCubed( 0.03E-23 );
-    }
-
-    public MicroModelKit getKit() {
-        return kit;
     }
 }
