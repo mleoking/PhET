@@ -231,6 +231,43 @@ public class DnaMolecule implements IAttachmentSiteOwner {
         }
     }
 
+    public List<AttachmentSite> getNearbyPolymeraseAttachmentSites( Point2D position ) {
+        return getNearbyNominalAttachmentSites( position );
+    }
+
+    public List<AttachmentSite> getNearbyTranscriptionFactorAttachmentSites( Point2D position ) {
+        return getNearbyNominalAttachmentSites( position );
+    }
+
+    /**
+     * Get a list of "normal" or "nominal" affinity attachment sites. Apparently
+     * all biomolecules that attach to DNA have some affinity for it at every
+     * location, it's just at the locations where they attache for a long time
+     * have much higher affinities.  So this method generates a list of
+     * attachment sites with low affinity that can be considered to be the
+     * default for DNA-attaching biomolecules.
+     *
+     * @param position
+     * @return
+     */
+    private List<AttachmentSite> getNearbyNominalAttachmentSites( Point2D position ) {
+        List<AttachmentSite> nearbyPolymeraseAttachmentSites = new ArrayList<AttachmentSite>();
+        double maxVerticalDistance = 500; // In picometers, empirically determined.
+        if ( position.getY() - Y_POS < maxVerticalDistance ) {
+            double proposalSpan = DISTANCE_BETWEEN_BASE_PAIRS * 5; // Span is pretty arbitrary, empirically determined.
+            double startingSearchX = Math.max( position.getX() - proposalSpan / 2, LEFT_EDGE_X_POS );
+            double endingSearchX = Math.min( startingSearchX + proposalSpan, LEFT_EDGE_X_POS + MOLECULE_LENGTH );
+            for ( double xOffset = startingSearchX; xOffset < endingSearchX; xOffset += DISTANCE_BETWEEN_BASE_PAIRS ) {
+                // Create an attachment site.
+                // TODO: Will need at some point to check against occupied sites and not propose them.  Will also need
+                // to check for genes in the vicinity.
+                nearbyPolymeraseAttachmentSites.add( new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 ) );
+            }
+        }
+        return nearbyPolymeraseAttachmentSites;
+    }
+
+
     /**
      * This class defines a segment of the DNA strand.  It is needed because the
      * DNA molecule needs to look like it is 3D, but we are only modeling it as
