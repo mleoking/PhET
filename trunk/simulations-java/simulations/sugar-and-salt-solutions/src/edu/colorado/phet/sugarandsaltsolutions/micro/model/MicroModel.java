@@ -16,6 +16,7 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function0;
+import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
@@ -381,8 +382,13 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         sodiumNitrateCrystalGrowth.allowCrystalGrowth( dt, sodiumNitrateSaturated );
 
         //Update the number of solute types for purposes of changing the text on the "remove solute(s)" button
-        //Note that sodium is not counted since it appears in several solute types, we just count its binding partner
-        numberSoluteTypes.set( countType( Sucrose.class ) + countType( Glucose.class ) + countType( Nitrate.class ) + countType( Chloride.class ) + countType( Calcium.class ) + 0.0 );
+        //Count the number of different formulae present in solution, that is the number of solutes
+        final int count = kit.getFormulae().filter( new Function1<Formula, Boolean>() {
+            public Boolean apply( Formula formula ) {
+                return countFreeFormulaUnits( formula ) > 0;
+            }
+        } ).size();
+        numberSoluteTypes.set( count + 0.0 );
 
         //Notify listeners that the update step completed
         for ( VoidFunction0 listener : stepFinishedListeners ) {
