@@ -145,6 +145,7 @@ public class ItemList<T> extends ObservableList<T> {
         return new ArrayList<T>( this );
     }
 
+    //Map each element to a new element
     public <U> ItemList<U> map( final Function1<T, U> map ) {
         return new ItemList<U>() {{
             for ( T t : ItemList.this ) {
