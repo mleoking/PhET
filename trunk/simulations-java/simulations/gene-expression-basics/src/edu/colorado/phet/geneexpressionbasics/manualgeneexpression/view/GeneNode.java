@@ -49,7 +49,7 @@ public class GeneNode extends PNode {
 
         // Add the highlight for the transcribed region.
         double transcribedRegionHighlightStartX = mvt.modelToViewX( dnaMolecule.getBasePairXOffsetByIndex( gene.getTranscribedRegion().getMin() ) );
-        double transcribedRegionWidth = mvt.modelToViewX( dnaMolecule.getBasePairXOffsetByIndex( gene.getTranscribedRegion().getMax() ) ) - regRegionHighlightStartX;
+        double transcribedRegionWidth = mvt.modelToViewX( dnaMolecule.getBasePairXOffsetByIndex( gene.getTranscribedRegion().getMax() ) ) - transcribedRegionHighlightStartX;
         Shape transcribedRegionShape = new RoundRectangle2D.Double( transcribedRegionHighlightStartX, highlightStartY, transcribedRegionWidth, highlightHeight, RECT_ROUNDING, RECT_ROUNDING );
         final PhetPPath transcribedRegionNode = new PhetPPath( transcribedRegionShape, gene.getTranscribedRegionColor() );
         addChild( transcribedRegionNode );
