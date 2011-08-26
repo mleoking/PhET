@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
@@ -154,7 +155,11 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
 
     //Determine whether the specified location is available for bonding or already occupied by another particle
     public boolean isOccupied( final ImmutableVector2D location ) {
-        return constituents.contains( new Function1<Constituent<T>, Boolean>() {
+        return getConstituentAtLocation( location ).isSome();
+    }
+
+    public Option<Constituent<T>> getConstituentAtLocation( final ImmutableVector2D location ) {
+        return constituents.find( new Function1<Constituent<T>, Boolean>() {
             public Boolean apply( Constituent<T> constituent ) {
                 return constituent.relativePosition.minus( location ).getMagnitude() < 1E-12;
             }
@@ -246,17 +251,46 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return null;
     }
 
-    //Count the number of bonds by which the constituent is attached, so that particles near the edges (instead of near the centers) will be selected for dissolving
-    private int getNumBonds( Constituent constituent ) {
-        int numBonds = 0;
+    public boolean isConnected() {
+        if ( constituents.isEmpty() ) {
+            return true;
+        }
+        List<Constituent<T>> dirty = new ArrayList<Constituent<T>>();
+        List<Constituent<T>> visited = new ArrayList<Constituent<T>>();
+
+        dirty.add( constituents.get( 0 ) );
+
+        while ( !dirty.isEmpty() ) {
+            Constituent<T> c = dirty.get( 0 );
+            dirty.remove( c );
+            visited.add( c );
+
+            for ( Constituent<T> neighbor : getNeighbors( c ) ) {
+                if ( !dirty.contains( neighbor ) && !visited.contains( neighbor ) ) {
+                    dirty.add( neighbor );
+                }
+            }
+        }
+
+        return visited.size() == constituents.size();
+    }
+
+    private ItemList<Constituent<T>> getNeighbors( Constituent<T> constituent ) {
+        ItemList<Constituent<T>> result = new ItemList<Constituent<T>>();
         ImmutableVector2D[] directions = new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST };
         for ( ImmutableVector2D direction : directions ) {
             ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
-            if ( isOccupied( relativePosition ) ) {
-                numBonds++;
+            Option<Constituent<T>> option = getConstituentAtLocation( relativePosition );
+            if ( option.isSome() ) {
+                result.add( option.get() );
             }
         }
-        return numBonds;
+        return result;
+    }
+
+    //Count the number of bonds by which the constituent is attached, so that particles near the edges (instead of near the centers) will be selected for dissolving
+    private int getNumBonds( Constituent<T> constituent ) {
+        return getNeighbors( constituent ).size();
     }
 
     //Check to see if the crystal matches the formula ratio by dividing each constituent count by getting the division results for each, making sure they are the same, and making sure there is no remainder

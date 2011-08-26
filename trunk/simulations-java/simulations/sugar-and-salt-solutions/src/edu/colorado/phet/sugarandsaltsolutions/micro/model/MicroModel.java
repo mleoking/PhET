@@ -353,6 +353,12 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Iterate over all particles and let them update in time
         for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals, drainedParticles ) ) {
             freeParticle.stepInTime( dt );
+            if ( freeParticle instanceof Crystal ) {
+                Crystal crystal = (Crystal) freeParticle;
+                if ( !crystal.isConnected() ) {
+                    System.out.println( "..." );
+                }
+            }
         }
 
         if ( debugCrystalRatio ) {
