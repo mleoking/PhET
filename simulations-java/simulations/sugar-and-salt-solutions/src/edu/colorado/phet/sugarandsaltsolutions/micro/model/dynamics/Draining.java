@@ -75,14 +75,13 @@ public class Draining {
         //Sanity check on the number of deltas to reach a problem, if this is negative it could indicate some unexpected change in initial concentration
         //In any case, shouldn't propagate toward the drain with a negative delta, because that causes a negative speed and motion away from the drain
         if ( timeToError < 0 ) {
-            System.out.println( getClass().getName() + ": timeToError = " + timeToError + ", recomputing initial concentration and postponing drain" );
+            debug( getClass().getName() + ": timeToError = " + timeToError + ", recomputing initial concentration and postponing drain" );
             model.checkStartDrain( drainData );
             return;
         }
 
-        //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
-        //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
-        System.out.println( drainData.formula );
+        //The closest group is the most important, since its exit will be the next action that causes concentration to drop
+        //Time it so the group gets there exactly at the right time to make the concentration value exact again.
 
         //Pre-compute the drain faucet input point since it is used throughout this method, and many times in the sort method
         final ImmutableVector2D drain = model.getDrainFaucetMetrics().getInputPoint();
@@ -90,7 +89,7 @@ public class Draining {
         //Find the closest particles and move them toward the drain at a rate so they will reach at the same time
         ItemList<Particle> closestFormulaUnit = getParticlesToDrain( drainData.formula );
         for ( Particle particle : closestFormulaUnit ) {
-            System.out.println( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
+            debug( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
             double distanceToTarget = particle.getPosition().getDistance( drain );
@@ -102,9 +101,7 @@ public class Draining {
             //Set the update strategy of the particle, it will be updated when the strategies are invoked in MicroModel
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, velocity, false ) );
 
-            if ( MicroModel.debugDraining ) {
-                System.out.println( "i = " + 0 + ", target time = " + model.getTime() + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
-            }
+            debug( "i = " + 0 + ", target time = " + model.getTime() + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
         }
 
         if ( !closestFormulaUnit.isEmpty() ) {
@@ -129,6 +126,12 @@ public class Draining {
                     unitParticle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
                 }
             }
+        }
+    }
+
+    private void debug( String s ) {
+        if ( MicroModel.debugDraining ) {
+            System.out.println( s );
         }
     }
 
