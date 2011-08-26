@@ -1,3 +1,4 @@
+# 0.00.97 (55827) Aug 26, 2011
 Micro tab: Added a workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
 Micro tab: Fixed: Calcium Chloride says "remove solutes" instead of "remove solute"
 Micro tab: Move all particles toward the drain with a random walk, with nearer particles moving faster
