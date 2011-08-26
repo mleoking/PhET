@@ -7,8 +7,11 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.TranscribingDnaState;
 
 /**
  * Class that represents RNA polymerase in the model.
@@ -43,5 +46,9 @@ public class RnaPolymerase extends MobileBiomolecule {
         points.add( new Point2D.Double( -WIDTH * 0.35, -HEIGHT * 0.25 ) );
         points.add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
         return ShapeCreationUtils.createRoundedShapeFromPoints( points );
+    }
+
+    @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
+        return new TranscribingDnaState( attachmentSite );
     }
 }
