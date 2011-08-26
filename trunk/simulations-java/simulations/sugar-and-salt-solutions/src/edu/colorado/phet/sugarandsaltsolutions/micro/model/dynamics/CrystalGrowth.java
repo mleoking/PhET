@@ -129,42 +129,47 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
 
         //Keep track of which particles have already been selected so one isn't given two goals
-        ArrayList<Particle> used = new ArrayList<Particle>();
+        ArrayList<Particle> usedParticles = new ArrayList<Particle>();
+
+        //Keep track of which locations have already been used, in CaCl2 this prevents two Cls from taking the same spot
+        ArrayList<ImmutableVector2D> usedLocations = new ArrayList<ImmutableVector2D>();
 
         //Iterate over all members of the formula
         for ( Class<? extends Particle> type : crystal.formula.getFormulaUnit() ) {
 
             //Find the best match for this member of the formula ratio, but ignoring the previously used particles
-            CrystallizationMatch<T> match = findBestMatch( crystal, type, used );
+            CrystallizationMatch<T> match = findBestMatch( crystal, type, usedParticles, usedLocations );
 
             //If there was no suitable particle, then exit the routine and signify that crystal growth cannot occur
             if ( match == null ) {
                 return null;
             }
 
-            //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region
+            //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region, and that no other particle can take the same loction
             matches.add( match );
-            used.add( match.particle );
+            usedParticles.add( match.particle );
+            usedLocations.add( match.site.relativePosition );
         }
 
         return new TargetConfiguration<T>( new ItemList<CrystallizationMatch<T>>( matches ) );
     }
 
     //Find the best match for this member of the formula ratio, but ignoring the previously used particles
-    private CrystallizationMatch<T> findBestMatch( Crystal<T> crystal, final Class<? extends Particle> type, final ArrayList<Particle> used ) {
+    private CrystallizationMatch<T> findBestMatch( Crystal<T> crystal, final Class<? extends Particle> type,
+                                                   final ArrayList<Particle> usedParticles, final ArrayList<ImmutableVector2D> usedLocations ) {
         ArrayList<CrystallizationMatch<T>> matches = new ArrayList<CrystallizationMatch<T>>();
 
         //find a particle that will move to this site, make sure the particle matches the desired type and the particle hasn't already been used
         Iterable<? extends Particle> particlesToConsider = model.freeParticles.filter( type ).filter( new Function1<Particle, Boolean>() {
             public Boolean apply( Particle particle ) {
-                return !used.contains( particle );
+                return !usedParticles.contains( particle );
             }
         } );
 
         //Only look for sites that match the type for the component in the formula
         ItemList<OpenSite<T>> matchingSites = crystal.getOpenSites().filter( new Function1<OpenSite<T>, Boolean>() {
             public Boolean apply( OpenSite<T> site ) {
-                return site.matches( type );
+                return site.matches( type ) && !usedLocations.contains( site.relativePosition );
             }
         } );
 
