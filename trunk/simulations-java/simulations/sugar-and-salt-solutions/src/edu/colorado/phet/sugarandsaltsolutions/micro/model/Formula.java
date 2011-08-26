@@ -20,12 +20,14 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.Sucrose;
 public class Formula {
     public final HashMap<Class<? extends Particle>, Integer> map;
 
+    //Formulae used in Sugar and Salt Solutions
     public static final Formula SODIUM_CHLORIDE = new Formula( Sodium.class, Chloride.class );
     public static final Formula SUCROSE = new Formula( Sucrose.class );
     public static final Formula GLUCOSE = new Formula( Glucose.class );
     public static final Formula SODIUM_NITRATE = new Formula( Sodium.class, Nitrate.class );
+
+    //The formula for calcium chloride must return Calcium first, otherwise the crystal growing procedure can run into too many dead ends
     public static final Formula CALCIUM_CHLORIDE = new Formula( Calcium.class, Chloride.class, 2 ) {
-        //The formula for calcium chloride must return Calcium first, otherwise the crystal growing procedure can run into too many dead ends
         @Override public ArrayList<Class<? extends Particle>> getTypes() {
             return new ArrayList<Class<? extends Particle>>() {{
                 add( Calcium.class );
@@ -89,8 +91,8 @@ public class Formula {
         return map.toString();
     }
 
-    @Override
-    public boolean equals( Object o ) {
+    //Auto-generated equality test
+    @Override public boolean equals( Object o ) {
         if ( this == o ) { return true; }
         if ( o == null || getClass() != o.getClass() ) { return false; }
 
@@ -101,8 +103,8 @@ public class Formula {
         return true;
     }
 
-    @Override
-    public int hashCode() {
+    //Auto-generated hashCode
+    @Override public int hashCode() {
         return map.hashCode();
     }
 }
