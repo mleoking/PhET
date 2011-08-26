@@ -19,7 +19,7 @@ public class GlucoseCrystal extends Crystal<Glucose> {
     public GlucoseCrystal( ImmutableVector2D position, double angle ) {
 
         //Glucose is about half as big as sucrose and hence should be half as far away on the lattice
-        super( new Formula( Glucose.class ), position,
+        super( Formula.GLUCOSE, position,
 
                //Spacing between adjacent sucrose molecules, in meters
                nanometersToMeters( 0.5 ) * SugarAndSaltSolutionsApplication.sizeScale.get() / 2,

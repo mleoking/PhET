@@ -34,10 +34,36 @@ public class Draining {
         usedParticles.clear();
     }
 
+    public double getTimeToError( DrainData drainData, double dt ) {
+        //flow rate in volume / time
+        double currentDrainFlowRate_VolumePerSecond = model.outputFlowRate.get() * model.faucetFlowRate;
+
+        // number of free formula units
+        int freeFormulaUnitCount = model.countFreeFormulaUnits( drainData.formula );
+
+        //Determine the current concentration in particles per meter cubed
+        double currentConcentration = freeFormulaUnitCount / model.solution.volume.get();
+
+        //Determine the concentration at which we would consider it to be too erroneous, at half a particle over the target concentration
+        //Half a particle is used so the solution will center on the target concentration (rather than upper or lower bounded)
+        double errorConcentration = ( drainData.initialNumberFormulaUnits + 0.5 ) / drainData.initialVolume;
+
+        //Determine the concentration in the next time step, and subsequently how much it is changing over time and how long until the next error occurs
+        double nextConcentration = freeFormulaUnitCount / ( model.solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
+        double deltaConcentration = ( nextConcentration - currentConcentration );
+        double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
+
+        //Assuming a constant rate of drain flow, compute how long until we would be in the previously determined error scenario
+        //We will speed up the nearest particle so that it flows out in this time
+        return numberDeltasToError * dt;
+    }
+
     //Move the particles toward the drain and try to keep a constant concentration
     //all particles should exit when fluid is gone, move nearby particles
     //For simplicity and regularity (to minimize deviation from the target concentration level), plan to have particles exit at regular intervals
     public void updateParticlesFlowingToDrain( DrainData drainData, double dt ) {
+
+        // TODO: have fun refactoring
 
         ItemList<Particle> closestFormulaUnit = getParticlesToDrain( drainData.formula );
 
@@ -47,15 +73,21 @@ public class Draining {
         //flow rate in volume / time
         double currentDrainFlowRate_VolumePerSecond = model.outputFlowRate.get() * model.faucetFlowRate;
 
+        // number of free formula units
+        int freeFormulaUnitCount = model.countFreeFormulaUnits( drainData.formula );
+        if ( freeFormulaUnitCount == 0 ) {
+            return;
+        }
+
         //Determine the current concentration in particles per meter cubed
-        double currentConcentration = model.countFreeFormulaUnits( drainData.formula ) / model.solution.volume.get();
+        double currentConcentration = freeFormulaUnitCount / model.solution.volume.get();
 
         //Determine the concentration at which we would consider it to be too erroneous, at half a particle over the target concentration
         //Half a particle is used so the solution will center on the target concentration (rather than upper or lower bounded)
         double errorConcentration = ( drainData.initialNumberFormulaUnits + 0.5 ) / drainData.initialVolume;
 
         //Determine the concentration in the next time step, and subsequently how much it is changing over time and how long until the next error occurs
-        double nextConcentration = model.countFreeFormulaUnits( drainData.formula ) / ( model.solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
+        double nextConcentration = freeFormulaUnitCount / ( model.solution.volume.get() - currentDrainFlowRate_VolumePerSecond * dt );
         double deltaConcentration = ( nextConcentration - currentConcentration );
         double numberDeltasToError = ( errorConcentration - currentConcentration ) / deltaConcentration;
 
@@ -69,13 +101,16 @@ public class Draining {
 
         //Assuming a constant rate of drain flow, compute how long until we would be in the previously determined error scenario
         //We will speed up the nearest particle so that it flows out in this time
-        double timeToError = numberDeltasToError * dt;
+        double timeToError = getTimeToError( drainData, dt );
+        System.out.println( "time to error: " + timeToError );
 
         //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
         //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
         double mainParticleSpeed = 0;
+        System.out.println( drainData.formula );
         for ( int i = 0; i < closestFormulaUnit.size(); i++ ) {
             Particle particle = closestFormulaUnit.get( i );
+            System.out.println( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
             double distanceToTarget = particle.getPosition().getDistance( drain );
@@ -90,6 +125,27 @@ public class Draining {
             if ( MicroModel.debugDraining ) {
                 System.out.println( "i = " + 0 + ", target time = " + model.getTime() + ", velocity = " + speed + " nominal velocity = " + UpdateStrategy.FREE_PARTICLE_SPEED );
 //                System.out.println( "flowing to drain = " + drain.getX() + ", velocity = " + velocity.getX() + ", speed = " + speed );
+            }
+        }
+
+        if ( !closestFormulaUnit.isEmpty() ) {
+            Particle particle = closestFormulaUnit.get( 0 );
+            //If the particle reached the drain, change its update strategy and move it into the list of model drained particles
+            double dist = particle.getPosition().getDistance( model.getDrainFaucetMetrics().getInputPoint() );
+            if ( dist <= particle.velocity.get().getMagnitude() * dt || dist <= 1E-11 ) {
+
+                // drain out all of the particles within the formula unit
+                for ( Particle unitParticle : closestFormulaUnit ) {
+                    unitParticle.setUpdateStrategy( new FlowOutOfDrainStrategy( model ) );
+
+                    //Move it from the list of free particles to the list of drained particles so it won't be counted for drain scheduling or for concentration
+                    model.freeParticles.remove( unitParticle );
+                    model.drainedParticles.add( unitParticle );
+
+                    //Okay to reschedule now since one particle just left, so there will be no phase problem
+                    unitParticle.setPosition( model.getDrainFaucetMetrics().outputPoint );
+                    unitParticle.velocity.set( new ImmutableVector2D( 0, -UpdateStrategy.FREE_PARTICLE_SPEED / 2 ) );
+                }
             }
         }
     }

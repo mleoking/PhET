@@ -53,21 +53,7 @@ public class FlowToDrainStrategy extends UpdateStrategy {
             }
 
             if ( !model.solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() ) ) {
-                model.preventFromLeavingBeaker( particle );
-            }
-
-            //If the particle reached the drain, change its update strategy and move it into the list of model drained particles
-            double dist = particle.getPosition().getDistance( model.getDrainFaucetMetrics().getInputPoint() );
-            if ( dist <= velocity.getMagnitude() * dt || dist <= 1E-11 ) {
-                particle.setUpdateStrategy( new FlowOutOfDrainStrategy( model ) );
-
-                //Move it from the list of free particles to the list of drained particles so it won't be counted for drain scheduling or for concentration
-                model.freeParticles.remove( particle );
-                model.drainedParticles.add( particle );
-
-                //Okay to reschedule now since one particle just left, so there will be no phase problem
-                particle.setPosition( model.getDrainFaucetMetrics().outputPoint );
-                particle.velocity.set( new ImmutableVector2D( 0, -FREE_PARTICLE_SPEED / 2 ) );
+//                model.preventFromLeavingBeaker( particle );
             }
         }
     }
