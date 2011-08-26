@@ -65,9 +65,9 @@ public class DnaMolecule implements IAttachmentSiteOwner {
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
 
-        // Add the genes.  The first gene is set up to be centered at (0,0) in
-        // model space to having to scroll the gene at startup.
-        double geneStartX = DISTANCE_BETWEEN_GENES - 2000;
+        // Add the genes.  The first gene is set up to be centered at or near
+        // (0,0) in model space to avoid having to scroll the DNA at startup.
+        double geneStartX = -2500;
         genes.add( new Gene( this,
                              new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 1000 ) ),
                              new Color( 216, 191, 216 ),
