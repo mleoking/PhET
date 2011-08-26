@@ -156,4 +156,9 @@ public class Compound<T extends Particle> extends Particle implements Iterable<T
             }
         }};
     }
+
+    //Get all constituents in the compound, defensive copy
+    public ItemList<Constituent<T>> getConstituents() {
+        return new ItemList<Constituent<T>>( constituents );
+    }
 }

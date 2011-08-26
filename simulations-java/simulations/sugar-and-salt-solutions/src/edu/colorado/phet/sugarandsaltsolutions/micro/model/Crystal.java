@@ -154,12 +154,25 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return getConstituentAtLocation( location ).isSome();
     }
 
+    //Find the constituent at the specified location, if any
     public Option<Constituent<T>> getConstituentAtLocation( final ImmutableVector2D location ) {
-        return constituents.find( new Function1<Constituent<T>, Boolean>() {
+
+        final ItemList<Constituent<T>> atLocation = constituents.filter( new Function1<Constituent<T>, Boolean>() {
             public Boolean apply( Constituent<T> constituent ) {
-                return constituent.relativePosition.minus( location ).getMagnitude() < 1E-12;
+                return constituent.relativePosition.minus( location ).getMagnitude() < spacing / 100;
             }
         } );
+
+        //Check to make sure there weren't too many at the specified location.  If so, this was an error during crystal growth.
+        if ( atLocation.size() > 1 ) {
+            throw new RuntimeException( "Too many particles at the same location" );
+        }
+        else if ( atLocation.size() == 0 ) {
+            return new Option.None<Constituent<T>>();
+        }
+        else {
+            return new Option.Some<Constituent<T>>( atLocation.get( 0 ) );
+        }
     }
 
     //Create the first constituent particle in a crystal
@@ -264,6 +277,8 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
             Constituent<T> c = toVisit.get( 0 );
             toVisit.remove( c );
             visited.add( c );
+
+            int numNeighbors = getNeighbors( c ).size();
 
             //Signify that we should visit each unvisited neighbor
             for ( Constituent<T> neighbor : getNeighbors( c ) ) {

@@ -31,6 +31,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.DissolveDisconnectedCrystals;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.DrainData;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Draining;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.RandomMotionWhileDraining;
@@ -184,6 +185,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //Updates the particles when the user drains solution
     public final Draining draining = new Draining( this );
+
+    //Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
+    public DissolveDisconnectedCrystals dissolveDisconnectedCrystals = new DissolveDisconnectedCrystals( this );
 
     //Flag to help debug the crystal ratios
     public static final boolean debugCrystalRatio = true;
@@ -346,13 +350,14 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Iterate over all particles and let them update in time
         for ( Particle freeParticle : joinLists( freeParticles, sodiumChlorideCrystals, sodiumNitrateCrystals, calciumChlorideCrystals, sucroseCrystals, glucoseCrystals, drainedParticles ) ) {
             freeParticle.stepInTime( dt );
-            if ( freeParticle instanceof Crystal ) {
-                Crystal crystal = (Crystal) freeParticle;
-                if ( !crystal.isConnected() ) {
-                    System.out.println( "..." );
-                }
-            }
         }
+
+        //Workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
+        dissolveDisconnectedCrystals.apply( sodiumChlorideCrystals );
+        dissolveDisconnectedCrystals.apply( sodiumNitrateCrystals );
+        dissolveDisconnectedCrystals.apply( calciumChlorideCrystals );
+        dissolveDisconnectedCrystals.apply( sucroseCrystals );
+        dissolveDisconnectedCrystals.apply( glucoseCrystals );
 
         if ( debugCrystalRatio ) {
 //            for ( SodiumChlorideCrystal sodiumChlorideCrystal : sodiumChlorideCrystals ) {

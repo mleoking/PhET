@@ -42,9 +42,7 @@ public class CrystalDissolve<T extends Particle> {
             lastDissolve = System.currentTimeMillis();
             Option<ArrayList<Constituent<T>>> toDissolve = crystal.getConstituentsToDissolve( model.solution.shape.get().getBounds2D() );
             if ( toDissolve.isSome() ) {
-                for ( Constituent<T> constituent : toDissolve.get() ) {
-                    removeConstituent( crystal, constituent );
-                }
+                dissolve( crystal, toDissolve.get() );
             }
         }
 
@@ -59,6 +57,13 @@ public class CrystalDissolve<T extends Particle> {
         //Remove the crystal from the list so it will no longer keep its constituents together
         if ( crystal.numberConstituents() == 0 ) {
             crystals.remove( crystal );
+        }
+    }
+
+    //Dissolve all specified elements from the crystal, used in incremental dissolving and the complete workaround dissolving by DissolveDisconnectedCrystals
+    public void dissolve( Crystal<T> crystal, ArrayList<Constituent<T>> elementsToDissolve ) {
+        for ( Constituent<T> constituent : elementsToDissolve ) {
+            removeConstituent( crystal, constituent );
         }
     }
 
