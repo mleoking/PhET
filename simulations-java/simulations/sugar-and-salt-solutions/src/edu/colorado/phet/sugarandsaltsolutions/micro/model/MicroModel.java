@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -47,7 +47,6 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.sucrose.SucroseCrysta
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.GlucoseDispenser;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.SucroseDispenser;
 
-import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.*;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SUGAR;
@@ -119,11 +118,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
     //There is one DrainData for each formula since they may flow at different rates and have different schedules
-    public final DrainData sodiumChlorideDrainData = new DrainData( new SodiumChlorideCrystal( ZERO, 0 ).formula );
-    public final DrainData sucroseDrainData = new DrainData( new SucroseCrystal( ZERO, 0 ).formula );
-    public final DrainData calciumChlorideDrainData = new DrainData( new CalciumChlorideCrystal( ZERO, 0 ).formula );
-    public final DrainData sodiumNitrateDrainData = new DrainData( new SodiumNitrateCrystal( ZERO, 0 ).formula );
-    public final DrainData glucoseDrainData = new DrainData( new GlucoseCrystal( ZERO, 0 ).formula );
+    public final DrainData sodiumChlorideDrainData = new DrainData( Formula.SODIUM_CHLORIDE );
+    public final DrainData sucroseDrainData = new DrainData( Formula.SUCROSE );
+    public final DrainData calciumChlorideDrainData = new DrainData( Formula.CALCIUM_CHLORIDE );
+    public final DrainData sodiumNitrateDrainData = new DrainData( Formula.SODIUM_NITRATE );
+    public final DrainData glucoseDrainData = new DrainData( Formula.GLUCOSE );
 
     //Lists of compounds
     public final ItemList<SodiumChlorideCrystal> sodiumChlorideCrystals = new ItemList<SodiumChlorideCrystal>();
@@ -162,25 +161,11 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                 resetWater();
 
                 //TODO: is there a better way or another place to code the kit definitions?  This is duplicated elsewhere, probably
-                if ( get() == 0 ) {
-                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
-                                             new SucroseCrystal( ZERO, 0 ).formula );
-                }
-                else if ( get() == 1 ) {
-                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
-                                             new CalciumChlorideCrystal( ZERO, 0 ).formula );
-                }
-                else if ( get() == 2 ) {
-                    kit = new MicroModelKit( new SodiumChlorideCrystal( ZERO, 0 ).formula,
-                                             new SodiumNitrateCrystal( ZERO, 0 ).formula );
-                }
-                else if ( get() == 3 ) {
-                    kit = new MicroModelKit( new SucroseCrystal( ZERO, 0 ).formula,
-                                             new GlucoseCrystal( ZERO, 0 ).formula );
-                }
-                else {
-                    throw new RuntimeException( "Unknown kit" );
-                }
+                if ( get() == 0 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.SUCROSE ); }
+                else if ( get() == 1 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.CALCIUM_CHLORIDE ); }
+                else if ( get() == 2 ) { kit = new MicroModelKit( Formula.SODIUM_CHLORIDE, Formula.SODIUM_NITRATE ); }
+                else if ( get() == 3 ) { kit = new MicroModelKit( Formula.SUCROSE, Formula.GLUCOSE ); }
+                else { throw new RuntimeException( "Unknown kit" ); }
             }
         } );
     }};
