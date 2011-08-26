@@ -1,3 +1,4 @@
+Micro tab: Fixed: Calcium Chloride says "remove solutes" instead of "remove solute"
 Micro tab: Move all particles toward the drain with a random walk, with nearer particles moving faster
 Micro tab: Incremental progress toward draining according to formula ratios
 Micro tab: During crystal growth, ensure crystals grow by complete formula units instead of by particle
