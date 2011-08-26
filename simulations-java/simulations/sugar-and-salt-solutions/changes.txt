@@ -1,3 +1,4 @@
+Micro tab: Incremental progress toward draining according to formula ratios
 Micro tab: During crystal growth, ensure crystals grow by complete formula units instead of by particle
 Micro tab: Improvements for initial crystal creation, with emphasis on making sure it matches the formula ratio
 Micro tab: Require one formula unit when creating a new crystal, particularly for CaCl2

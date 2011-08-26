@@ -47,4 +47,20 @@ public class Formula {
     public int getFactor( Class type ) {
         return map.get( type );
     }
+
+    //Deterine if this formula contains the specified type of particle
+    public boolean contains( Class<? extends Particle> type ) {
+        return getTypes().contains( type );
+    }
+
+    //Duplicates classes according to the formula counts, to facilitate iteration
+    public ArrayList<Class<? extends Particle>> getFormulaUnit() {
+        ArrayList<Class<? extends Particle>> list = new ArrayList<Class<? extends Particle>>();
+        for ( Class<? extends Particle> type : getTypes() ) {
+            for ( int i = 0; i < getFactor( type ); i++ ) {
+                list.add( type );
+            }
+        }
+        return list;
+    }
 }
