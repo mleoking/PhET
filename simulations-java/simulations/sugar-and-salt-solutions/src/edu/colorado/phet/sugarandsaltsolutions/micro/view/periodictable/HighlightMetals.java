@@ -60,16 +60,16 @@ public class HighlightMetals implements CellFactory {
                 //Allow the developer to choose a different highlighter color
                 if ( selected && debug ) {
                     ColorChooserFactory.showDialog( "", null, strokeColor, new Listener() {
-                                                        public void colorChanged( Color color ) {
-                                                            getBox().setStrokePaint( color );
-                                                        }
+                        public void colorChanged( Color color ) {
+                            getBox().setStrokePaint( color );
+                        }
 
-                                                        public void ok( Color color ) {
-                                                        }
+                        public void ok( Color color ) {
+                        }
 
-                                                        public void cancelled( Color originalColor ) {
-                                                        }
-                                                    }, true );
+                        public void cancelled( Color originalColor ) {
+                        }
+                    }, true );
                 }
 
                 getBox().setStroke( stroke );

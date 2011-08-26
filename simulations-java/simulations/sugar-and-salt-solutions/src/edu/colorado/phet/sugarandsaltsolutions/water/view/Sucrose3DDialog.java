@@ -38,17 +38,17 @@ public class Sucrose3DDialog {
     public void showDialog() {
         if ( jmolDialog == null ) {
             jmolDialog = JmolDialog.displayMolecule3D( parent, new Molecule() {
-                                                           public String getDisplayName() {
-                                                               return SugarAndSaltSolutionsResources.Strings.SUGAR;
-                                                           }
+                public String getDisplayName() {
+                    return SugarAndSaltSolutionsResources.Strings.SUGAR;
+                }
 
-                                                           public String getData() {
-                                                               return loadSucroseStructure();
-                                                           }
+                public String getData() {
+                    return loadSucroseStructure();
+                }
 
-                                                           public void fixJmolColors( JmolViewer viewer ) {
-                                                           }
-                                                       }, "Space fill", "Ball and stick", "Loading..." );
+                public void fixJmolColors( JmolViewer viewer ) {
+                }
+            }, "Space fill", "Ball and stick", "Loading..." );
         }
         else {
             jmolDialog.setVisible( true );
