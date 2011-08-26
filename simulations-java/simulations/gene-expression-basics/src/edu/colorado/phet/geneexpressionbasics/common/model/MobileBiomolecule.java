@@ -62,6 +62,21 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         }
     }
 
+    /**
+     * Get the state that this biomolecule should transition into when it
+     * becomes attached to some location.  This exists to allow biomolecules to
+     * return different states (through overriding this method), thus exhibiting
+     * unique behavior when attached.  If this is not overridden, the default
+     * attachment state is returned.
+     *
+     * @return
+     */
+    public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
+        // Return the default attachment state.  For details on what this does,
+        // see the class definition.
+        return new AttachedState( attachmentSite );
+    }
+
     public void proposeAttachmentSites( List<AttachmentSite> proposedAttachmentSites ) {
         behaviorState = behaviorState.considerAttachment( proposedAttachmentSites, this );
     }
