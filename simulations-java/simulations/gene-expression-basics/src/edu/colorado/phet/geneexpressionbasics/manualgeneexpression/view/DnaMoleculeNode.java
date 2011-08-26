@@ -35,7 +35,7 @@ public class DnaMoleculeNode extends PNode {
     public DnaMoleculeNode( DnaMolecule dnaMolecule, ModelViewTransform mvt ) {
         // Put the genes behind everything.
         for ( int i = 0; i < dnaMolecule.getGenes().size(); i++ ) {
-            addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), i + 1 ) );
+            addChild( new GeneNode( mvt, dnaMolecule.getGenes().get( i ), dnaMolecule, i + 1 ) );
         }
 
         // Add the layers onto which the DNA backbone and base pairs will be placed.
