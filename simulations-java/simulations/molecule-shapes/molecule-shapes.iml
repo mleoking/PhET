@@ -20,6 +20,7 @@
     <orderEntry type="module" module-name="chemistry" />
     <orderEntry type="module" module-name="jme3" />
     <orderEntry type="module" module-name="Jama" />
+    <orderEntry type="module" module-name="jmol-phet" />
   </component>
 </module>
 
