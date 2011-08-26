@@ -324,6 +324,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
 
+            //Set up all particles to have a random walk toward the drain, nearest particles in each formula unit will get exact speed in a later step and their strategy will be replaced
+            new RandomMotionWhileDraining( this ).apply();
+
             //Prioritize the closest formula unit, otherwise if a further away formula unit is given priority it will cause a "racing condition" in which
             //it catches up, then gets de-prioritized, which makes particles switch between formula groups and creates incorrect velocities
             List<DrainData> drainDataList = asList( sodiumChlorideDrainData, sucroseDrainData, calciumChlorideDrainData, sodiumNitrateDrainData, glucoseDrainData );
