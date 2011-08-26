@@ -29,6 +29,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.Calci
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideCrystalGrowth;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.calciumchloride.CalciumChlorideShaker;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.CrystalStrategy;
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.DrainData;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.Draining;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics.TargetConfiguration;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.glucose.Glucose;

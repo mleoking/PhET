@@ -1,5 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.sugarandsaltsolutions.micro.model;
+package edu.colorado.phet.sugarandsaltsolutions.micro.model.dynamics;
+
+import edu.colorado.phet.sugarandsaltsolutions.micro.model.Formula;
 
 /**
  * DrainData helps to maintain a constant concentration as particles flow out the drain by tracking flow rate and timing
@@ -15,7 +17,7 @@ public class DrainData {
     public double initialVolume;
 
     //the previous flow rate of the drain faucet, for purposes of recording the target concentration when user starts draining fluid.
-    double previousDrainFlowRate;
+    public double previousDrainFlowRate;
 
     //The formula to match for the formula unit, necessary since concentration is different for each solute type
     public final Formula formula;
