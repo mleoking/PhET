@@ -15,10 +15,10 @@ import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
-import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
+import edu.colorado.phet.moleculeshapes.control.GeometryNameControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.jme.Arc;
 import edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication;
@@ -128,6 +128,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
 
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
+    private PiccoloJMENode namePanel;
     private PiccoloJMENode showGeometryButtonNode;
 
     private PiccoloJMENode moleculeShapeReadout;
@@ -435,8 +436,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
-        controlPanel = new PiccoloJMENode( new ControlPanelNode( new MoleculeShapesControlPanel( this ) ), assetManager, inputManager );
+        controlPanel = new PiccoloJMENode( new MoleculeShapesControlPanel( this ), assetManager, inputManager );
         preGuiNode.attachChild( controlPanel );
+
+        namePanel = new PiccoloJMENode( new GeometryNameControlPanel(), assetManager, inputManager );
+        preGuiNode.attachChild( namePanel );
     }
 
     private void updateCursor() {
@@ -639,6 +643,9 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 controlPanel.setLocalTranslation( lastCanvasSize.width - controlPanel.getWidth() - padding,
                                                   lastCanvasSize.height - controlPanel.getHeight() - padding,
                                                   0 );
+
+                namePanel.setLocalTranslation( padding, padding, 0 );
+
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
 
                 showGeometryButtonNode.setLocalTranslation( ( lastCanvasSize.width - showGeometryButtonNode.getWidth() ) / 2, padding, 0 );

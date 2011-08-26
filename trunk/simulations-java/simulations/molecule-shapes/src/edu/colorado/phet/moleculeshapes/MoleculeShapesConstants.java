@@ -18,5 +18,8 @@ public class MoleculeShapesConstants {
 
     public static final ColorRGBA COLOR_ATOM_CENTER = new ColorRGBA( 1f, 0f, 0f, 1f );
     public static final ColorRGBA COLOR_ATOM = new ColorRGBA( 1f, 1f, 1f, 1f );
-    public static final ColorRGBA COLOR_LONE_PAIR = new ColorRGBA( 1f, 0.5f, 0f, 1f );
+
+    public static final double CONTROL_PANEL_INNER_WIDTH = 150; // width of the inner parts of the control panel
+    public static final Color CONTROL_PANEL_BORDER_COLOR = new Color( 230, 230, 230 );
+    public static final float CONTROL_PANEL_BORDER_WIDTH = 2;
 }
