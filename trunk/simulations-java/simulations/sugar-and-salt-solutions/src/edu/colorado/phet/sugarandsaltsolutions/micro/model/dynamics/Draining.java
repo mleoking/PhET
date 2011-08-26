@@ -29,6 +29,7 @@ public class Draining {
         this.model = model;
     }
 
+    //Reset assignments to each group so they can be reassigned in each clock tick based on distance from the drain
     public void clearParticleGroupings() {
         usedParticles.clear();
     }
@@ -105,10 +106,8 @@ public class Draining {
 
         //The closest particle is the most important, since its exit will be the next action that causes concentration to drop
         //Time it so the particle gets there exactly at the right time to make the concentration value exact again.
-        double mainParticleSpeed = 0;
         System.out.println( drainData.formula );
-        for ( int i = 0; i < closestFormulaUnit.size(); i++ ) {
-            Particle particle = closestFormulaUnit.get( i );
+        for ( Particle particle : closestFormulaUnit ) {
             System.out.println( particle.getClass() + " #" + particle.hashCode() + " x: " + particle.getPosition().getX() );
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
