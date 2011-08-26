@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes;
 
+import java.awt.image.BufferedImage;
+
 import edu.colorado.phet.common.phetcommon.resources.PhetResources;
 
 /**
@@ -38,6 +40,9 @@ public class MoleculeShapesResources {
 
     //Images
     public static class Images {
-
+        public static final BufferedImage DOUBLE_BOND_SMALL = RESOURCES.getImage( "double-bond-small.png" );
+        public static final BufferedImage LONE_PAIR_SMALL = RESOURCES.getImage( "lone-pair-small.png" );
+        public static final BufferedImage SINGLE_BOND_SMALL = RESOURCES.getImage( "single-bond-small.png" );
+        public static final BufferedImage TRIPLE_BOND_SMALL = RESOURCES.getImage( "triple-bond-small.png" );
     }
 }
