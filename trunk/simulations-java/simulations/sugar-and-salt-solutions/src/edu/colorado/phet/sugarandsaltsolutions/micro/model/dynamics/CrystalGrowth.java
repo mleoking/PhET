@@ -132,21 +132,19 @@ public abstract class CrystalGrowth<T extends Particle, U extends Crystal<T>> {
         ArrayList<Particle> used = new ArrayList<Particle>();
 
         //Iterate over all members of the formula
-        for ( Class<? extends Particle> type : crystal.formula.getTypes() ) {
-            for ( int i = 0; i < crystal.formula.getFactor( type ); i++ ) {
+        for ( Class<? extends Particle> type : crystal.formula.getFormulaUnit() ) {
 
-                //Find the best match for this member of the formula ratio, but ignoring the previously used particles
-                CrystallizationMatch<T> match = findBestMatch( crystal, type, used );
+            //Find the best match for this member of the formula ratio, but ignoring the previously used particles
+            CrystallizationMatch<T> match = findBestMatch( crystal, type, used );
 
-                //If there was no suitable particle, then exit the routine and signify that crystal growth cannot occur
-                if ( match == null ) {
-                    return null;
-                }
-
-                //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region
-                matches.add( match );
-                used.add( match.particle );
+            //If there was no suitable particle, then exit the routine and signify that crystal growth cannot occur
+            if ( match == null ) {
+                return null;
             }
+
+            //Otherwise keep the match for its part of the formula unit and signify that the particle should not target another region
+            matches.add( match );
+            used.add( match.particle );
         }
 
         return new TargetConfiguration<T>( new ItemList<CrystallizationMatch<T>>( matches ) );
