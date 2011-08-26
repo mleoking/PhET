@@ -16,7 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.micro.model.SphericalParticle.Sod
 public class SodiumChlorideCrystal extends Crystal<SphericalParticle> {
 
     public SodiumChlorideCrystal( ImmutableVector2D position, double angle ) {
-        super( new Formula( Sodium.class, Chloride.class ), position, new Chloride().radius + new Sodium().radius, angle );
+        super( Formula.SODIUM_CHLORIDE, position, new Chloride().radius + new Sodium().radius, angle );
     }
 
     //Randomly choose an initial particle for the crystal lattice

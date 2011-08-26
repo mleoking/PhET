@@ -1,8 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions.micro.model;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
@@ -293,34 +295,34 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
     //See docs for countFreeFormulaUnits; solutes are independent so it is easy
     private int countFreeFormulaUnitsKit0( Formula formula ) {
-        if ( formula.contains( Sodium.class ) ) { return freeParticles.count( Sodium.class ); }
-        else if ( formula.contains( Sucrose.class ) ) { return freeParticles.count( Sucrose.class ); }
+        if ( formula.equals( Formula.SODIUM_CHLORIDE ) ) { return freeParticles.count( Sodium.class ); }
+        else if ( formula.equals( Formula.SUCROSE ) ) { return freeParticles.count( Sucrose.class ); }
         else { return 0; }
     }
 
     //See docs for countFreeFormulaUnits; chloride is shared so it cannot be used to count
     private int countFreeFormulaUnitsKit1( Formula formula ) {
-        if ( formula.contains( Sodium.class ) ) { return freeParticles.count( Sodium.class ); }
-        else if ( formula.contains( Calcium.class ) ) { return freeParticles.count( Calcium.class ); }
+        if ( formula.equals( Formula.SODIUM_CHLORIDE ) ) { return freeParticles.count( Sodium.class ); }
+        else if ( formula.equals( Formula.CALCIUM_CHLORIDE ) ) { return freeParticles.count( Calcium.class ); }
         else { return 0; }
     }
 
     //See docs for countFreeFormulaUnits; sodium is shared so it cannot be used to count
     private int countFreeFormulaUnitsKit2( Formula formula ) {
-        if ( formula.contains( Chloride.class ) ) { return freeParticles.count( Chloride.class ); }
-        else if ( formula.contains( Nitrate.class ) ) { return freeParticles.count( Nitrate.class ); }
+        if ( formula.equals( Formula.SODIUM_CHLORIDE ) ) { return freeParticles.count( Chloride.class ); }
+        else if ( formula.equals( Formula.SODIUM_NITRATE ) ) { return freeParticles.count( Nitrate.class ); }
         else { return 0; }
     }
 
     //See docs for countFreeFormulaUnits; solutes are independent so it is easy
     private int countFreeFormulaUnitsKit3( Formula formula ) {
-        if ( formula.contains( Sucrose.class ) ) { return freeParticles.count( Sucrose.class ); }
-        else if ( formula.contains( Glucose.class ) ) { return freeParticles.count( Glucose.class ); }
+        if ( formula.equals( Formula.SUCROSE ) ) { return freeParticles.count( Sucrose.class ); }
+        else if ( formula.equals( Formula.GLUCOSE ) ) { return freeParticles.count( Glucose.class ); }
         else { return 0; }
     }
 
     //When the simulation clock ticks, move the particles
-    @Override protected void updateModel( double dt ) {
+    @Override protected void updateModel( final double dt ) {
         super.updateModel( dt );
 
         //The Draining algorithm keeps track of which formula unit each particle is assigned to so that a particle is not double counted
@@ -330,11 +332,22 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         //If water is draining, call this first to set the update strategies to be FlowToDrain instead of FreeParticle
         //Do this before updating the free particles since this could change their strategy
         if ( outputFlowRate.get() > 0 ) {
-            draining.updateParticlesFlowingToDrain( sodiumChlorideDrainData, dt );
-            draining.updateParticlesFlowingToDrain( sucroseDrainData, dt );
-            draining.updateParticlesFlowingToDrain( calciumChlorideDrainData, dt );
-            draining.updateParticlesFlowingToDrain( sodiumNitrateDrainData, dt );
-            draining.updateParticlesFlowingToDrain( glucoseDrainData, dt );
+            java.util.List<DrainData> drainDatas = new ArrayList<DrainData>();
+            drainDatas.add( sodiumChlorideDrainData );
+            drainDatas.add( sucroseDrainData );
+            drainDatas.add( calciumChlorideDrainData );
+            drainDatas.add( sodiumNitrateDrainData );
+            drainDatas.add( glucoseDrainData );
+
+            Collections.sort( drainDatas, new Comparator<DrainData>() {
+                public int compare( DrainData a, DrainData b ) {
+                    return Double.compare( draining.getTimeToError( a, dt ), draining.getTimeToError( b, dt ) );
+                }
+            } );
+
+            for ( DrainData drainData : drainDatas ) {
+                draining.updateParticlesFlowingToDrain( drainData, dt );
+            }
         }
 
         //Iterate over all particles and let them update in time

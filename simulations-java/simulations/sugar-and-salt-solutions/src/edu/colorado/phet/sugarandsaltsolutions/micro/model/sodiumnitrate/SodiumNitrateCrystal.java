@@ -21,7 +21,7 @@ public class SodiumNitrateCrystal extends Crystal<Particle> {
     public static final double NITROGEN_OXYGEN_SPACING = ( new Nitrogen().radius + new FreeOxygen().radius ) * 0.85;
 
     public SodiumNitrateCrystal( ImmutableVector2D position, double angle ) {
-        super( new Formula( Sodium.class, Nitrate.class ), position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
+        super( Formula.SODIUM_NITRATE, position, new Sodium().radius * 2 + NITROGEN_OXYGEN_SPACING, angle );
     }
 
     //Create the bonding partner for growing the crystal

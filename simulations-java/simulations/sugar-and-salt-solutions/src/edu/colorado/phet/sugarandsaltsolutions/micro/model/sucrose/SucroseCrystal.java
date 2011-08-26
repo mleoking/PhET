@@ -20,7 +20,7 @@ public class SucroseCrystal extends Crystal<Sucrose> {
 
         //Sugar size is actually about 1 nm, but we need to make them closer together or the sucrose lattices look disjoint
         //Also, scale everything by the model sizeScale, including distances between atoms
-        super( new Formula( Sucrose.class ), position,
+        super( Formula.SUCROSE, position,
 
                //Spacing between adjacent sucrose molecules, in meters
                nanometersToMeters( 0.5 ) * SugarAndSaltSolutionsApplication.sizeScale.get(),
