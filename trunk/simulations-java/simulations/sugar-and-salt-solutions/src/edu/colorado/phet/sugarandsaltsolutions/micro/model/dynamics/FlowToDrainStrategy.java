@@ -52,8 +52,9 @@ public class FlowToDrainStrategy extends UpdateStrategy {
                 particle.stepInTime( ZERO, dt );
             }
 
+            //Make sure the particles move down with the water level so they don't hang in the air where the water was
             if ( !model.solution.shape.get().getBounds2D().contains( particle.getShape().getBounds2D() ) ) {
-//                model.preventFromLeavingBeaker( particle );
+                model.preventFromLeavingBeaker( particle );
             }
         }
     }
