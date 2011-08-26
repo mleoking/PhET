@@ -131,7 +131,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     private void stepInTime( double dt ) {
         for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
             mobileBiomolecule.stepInTime( dt );
-            dnaStrand.proposeAttachmentSitesTo( mobileBiomolecule );
         }
     }
 }

@@ -8,5 +8,12 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
  * @author John Blanco
  */
 public abstract class GeneExpressionModel {
-    // TODO: Move common functionality here as time goes on.
+
+    /**
+     * Get the DNA molecule that contains the genes.
+     *
+     * @return - DNA molecule, null if none exists.
+     */
+    public abstract DnaMolecule getDnaMolecule();
 }
+

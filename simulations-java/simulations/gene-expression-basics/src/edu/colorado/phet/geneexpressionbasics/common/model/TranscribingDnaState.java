@@ -12,7 +12,7 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
  */
 public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
-    private static final double VELOCITY = 10; // In picometers per second.
+    private static final double VELOCITY = 500; // In picometers per second.
 
     private final AttachmentSite attachmentSite;
 

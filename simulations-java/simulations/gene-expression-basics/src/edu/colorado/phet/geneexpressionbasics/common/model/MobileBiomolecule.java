@@ -23,7 +23,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // Behavioral state that controls how the molecule moves when it is not
     // under the control of the user and how and when it attaches to other
     // biomolecules.
-    private BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState();
+    protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState();
 
     // Color to use when displaying this biomolecule to the user.  This is
     // a bit out of place here, and has nothing to do with the fact that the

@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 import edu.umd.cs.piccolo.util.PDimension;
@@ -69,7 +70,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     /**
      * Get an indication of whether this transcription factor is positive
-     * (enhances transcription) or negative (prevents or decreases
+     * (enhances transcription) or negative (prevents or decreases likelihood of
      * transcription).
      *
      * @return
@@ -78,10 +79,18 @@ public class TranscriptionFactor extends MobileBiomolecule {
         return isPositive;
     }
 
+    @Override public void stepInTime( double dt ) {
+        super.stepInTime( dt );
+        // Get a list of potential attachment sites from the DNA and consider
+        // whether to attach to any of them.
+        List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyTranscriptionFactorAttachmentSites( getPosition() );
+        behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList, this );
+    }
+
     /**
-     * Static factor method that generates an instance of a transcription factor
-     * for the specified gene and of the specified polarity (i.e. positive or
-     * negative).
+     * Static factory method that generates an instance of a transcription
+     * factor for the specified gene and of the specified polarity (i.e.
+     * positive or negative).
      *
      * @param geneNumber
      * @param positive

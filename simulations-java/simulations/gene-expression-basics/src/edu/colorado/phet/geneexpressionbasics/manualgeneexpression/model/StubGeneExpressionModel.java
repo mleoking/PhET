@@ -9,4 +9,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
  * @author John Blanco
  */
 public class StubGeneExpressionModel extends GeneExpressionModel {
+    @Override public DnaMolecule getDnaMolecule() {
+        return null;
+    }
 }
