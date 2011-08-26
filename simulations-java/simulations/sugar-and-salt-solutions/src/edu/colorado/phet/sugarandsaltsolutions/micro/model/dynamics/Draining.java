@@ -79,20 +79,11 @@ public class Draining {
 
             //Compute the target time, distance, speed and velocity, and apply to the particle so they will reach the drain at evenly spaced temporal intervals
             double distanceToTarget = particle.getPosition().getDistance( drain );
+
+            // compute the speed to make this particle arrive at the drain at the same time as the other particles in the formula unit
             double speed = distanceToTarget / timeToError;
 
-            //Store the primary speed that the leaving particle is moving at
-            if ( i == 0 ) {
-                mainParticleSpeed = speed;
-            }
-            else {
-
-                //For secondary particles, move with a speed close to that of the closest particle, but slower if further away
-                //This rule seems to work well, I also experimented with rules like v=alpha / d but it exhibited undesirable quirky behavior
-                speed = mainParticleSpeed;// / ( i + 1 );
-            }
             ImmutableVector2D velocity = new ImmutableVector2D( particle.getPosition(), drain ).getInstanceOfMagnitude( speed );
-//            final boolean randomWalk = i != 0;
 
             particle.setUpdateStrategy( new FlowToDrainStrategy( model, velocity, false ) );
 
