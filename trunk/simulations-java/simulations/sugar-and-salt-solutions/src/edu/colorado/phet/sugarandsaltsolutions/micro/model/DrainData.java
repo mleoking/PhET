@@ -8,8 +8,8 @@ package edu.colorado.phet.sugarandsaltsolutions.micro.model;
  */
 public class DrainData {
 
-    //initial number of solutes at time user started manipulating drain faucet, used to choose a target concentration in MicroModel
-    public int initialNumberSolutes;
+    //initial number of formula units (such as Ca + Cl + Cl for CaCl) at time user started manipulating drain faucet, used to choose a target concentration in MicroModel
+    public int initialNumberFormulaUnits;
 
     //initial volume at time user started manipulating drain faucet, in m^3, used to choose a target concentration in MicroModel
     public double initialVolume;
@@ -17,10 +17,10 @@ public class DrainData {
     //the previous flow rate of the drain faucet, for purposes of recording the target concentration when user starts draining fluid.
     double previousDrainFlowRate;
 
-    //The type of the particle to match, necessary since concentration is different for each solute
-    public final Class<? extends Particle> type;
+    //The formula to match for the formula unit, necessary since concentration is different for each solute type
+    public final Formula formula;
 
-    public DrainData( Class<? extends Particle> type ) {
-        this.type = type;
+    public DrainData( Formula formula ) {
+        this.formula = formula;
     }
 }
