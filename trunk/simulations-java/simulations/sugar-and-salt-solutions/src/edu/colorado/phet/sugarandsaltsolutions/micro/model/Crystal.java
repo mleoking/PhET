@@ -245,41 +245,48 @@ public abstract class Crystal<T extends Particle> extends Compound<T> {
         return null;
     }
 
+    //Determine whether all constituents in the crystal can be reached from all others.  If not, there is a hole in the lattice and the crystal should be dissolved.
     public boolean isConnected() {
+
+        //Empty crystals are not a problem
         if ( constituents.isEmpty() ) {
             return true;
         }
-        List<Constituent<T>> dirty = new ArrayList<Constituent<T>>();
+
+        //Start with an arbitrary node and try to visit all others
+        List<Constituent<T>> toVisit = new ArrayList<Constituent<T>>() {{ add( constituents.get( 0 ) ); }};
         List<Constituent<T>> visited = new ArrayList<Constituent<T>>();
 
-        dirty.add( constituents.get( 0 ) );
+        //Traverse any seen nodes and try to visit the entire graph
+        while ( !toVisit.isEmpty() ) {
 
-        while ( !dirty.isEmpty() ) {
-            Constituent<T> c = dirty.get( 0 );
-            dirty.remove( c );
+            //Choose an arbitrary node to visit next
+            Constituent<T> c = toVisit.get( 0 );
+            toVisit.remove( c );
             visited.add( c );
 
+            //Signify that we should visit each unvisited neighbor
             for ( Constituent<T> neighbor : getNeighbors( c ) ) {
-                if ( !dirty.contains( neighbor ) && !visited.contains( neighbor ) ) {
-                    dirty.add( neighbor );
+                if ( !toVisit.contains( neighbor ) && !visited.contains( neighbor ) ) {
+                    toVisit.add( neighbor );
                 }
             }
         }
 
+        //If we visited the entire graph, the graph is connected
         return visited.size() == constituents.size();
     }
 
+    //Find the neighbors for the specified constituent
     private ItemList<Constituent<T>> getNeighbors( Constituent<T> constituent ) {
-        ItemList<Constituent<T>> result = new ItemList<Constituent<T>>();
-        ImmutableVector2D[] directions = new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST };
-        for ( ImmutableVector2D direction : directions ) {
-            ImmutableVector2D relativePosition = constituent.relativePosition.plus( direction );
-            Option<Constituent<T>> option = getConstituentAtLocation( relativePosition );
+        ItemList<Constituent<T>> neighbors = new ItemList<Constituent<T>>();
+        for ( ImmutableVector2D direction : new ImmutableVector2D[] { NORTH, SOUTH, EAST, WEST } ) {
+            Option<Constituent<T>> option = getConstituentAtLocation( constituent.relativePosition.plus( direction ) );
             if ( option.isSome() ) {
-                result.add( option.get() );
+                neighbors.add( option.get() );
             }
         }
-        return result;
+        return neighbors;
     }
 
     //Count the number of bonds by which the constituent is attached, so that particles near the edges (instead of near the centers) will be selected for dissolving
