@@ -66,6 +66,18 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: collision-lab-like button unpress failures?
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
  * TODO: potential listener leak with bond angles
+ *
+ * Problem spatial name: null
+	at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
+	at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:775)
+	at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:793)
+	at com.jme3.renderer.RenderManager.renderViewPort(RenderManager.java:1116)
+	at com.jme3.renderer.RenderManager.render(RenderManager.java:1159)
+	at edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication.update(BaseJMEApplication.java:194)
+	at com.jme3.system.lwjgl.LwjglAbstractDisplay.runLoop(LwjglAbstractDisplay.java:144)
+	at com.jme3.system.lwjgl.LwjglCanvas.runLoop(LwjglCanvas.java:199)
+	at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
+	at java.lang.Thread.run(Thread.java:662)
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
@@ -129,7 +141,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
-    private PiccoloJMENode showGeometryButtonNode;
 
     private PiccoloJMENode moleculeShapeReadout;
     private PiccoloJMENode electronShapeReadout;
@@ -271,8 +282,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     rebuildBonds();
                     rebuildAngles();
                 }
-
-                onGeometryChange();
             }
 
             @Override public void onGroupRemoved( PairGroup group ) {
@@ -294,8 +303,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                         }
                     }
                 }
-
-                onGeometryChange();
             }
         } );
 
@@ -338,19 +345,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         /*---------------------------------------------------------------------------*
         * control panel
         *----------------------------------------------------------------------------*/
-
-        showGeometryButtonNode = new PiccoloJMENode( new TextButtonNode( "Show Molecular Geometry", new PhetFont( 20 ), Color.ORANGE ) {
-            {
-                addActionListener( new java.awt.event.ActionListener() {
-                    public void actionPerformed( ActionEvent e ) {
-                        showLonePairs.set( !showLonePairs.get() );
-                        setText( showLonePairs.get() ? "Show Molecular Geometry" : "Show Electron Geometry" );
-                    }
-                } );
-            }
-        }, assetManager, inputManager );
-        preGuiNode.attachChild( showGeometryButtonNode );
-        onGeometryChange();
 
         resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
             addActionListener( new java.awt.event.ActionListener() {
@@ -469,12 +463,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         else {
             // default to the default cursor
             canvas.setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-        }
-    }
-
-    private void onGeometryChange() {
-        if ( showGeometryButtonNode != null ) {
-            showGeometryButtonNode.setCullHint( molecule.getLonePairs().isEmpty() ? CullHint.Always : CullHint.Inherit );
         }
     }
 
@@ -652,8 +640,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 namePanel.setLocalTranslation( padding, padding, 0 );
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
-
-                showGeometryButtonNode.setLocalTranslation( ( lastCanvasSize.width - showGeometryButtonNode.getWidth() ) / 2, padding, 0 );
 
                 moleculeShapeReadout.setLocalTranslation( padding, lastCanvasSize.height - moleculeShapeReadout.getHeight() - padding, 0 );
 

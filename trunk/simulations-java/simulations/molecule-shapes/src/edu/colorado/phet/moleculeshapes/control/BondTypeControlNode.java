@@ -116,8 +116,12 @@ class BondTypeControlNode extends PNode {
         return null;
     }
 
-    private void updateState() {
-        enabled = app.getMolecule().wouldAllowBondOrder( bondOrder );
+    protected boolean isEnabled() {
+        return app.getMolecule().wouldAllowBondOrder( bondOrder );
+    }
+
+    protected void updateState() {
+        enabled = isEnabled();
         showingRemoveButton = hasMatchingGroup();
 
         graphic.setTransparency( enabled ? 1 : 0.7f );
