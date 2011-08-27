@@ -79,7 +79,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     public final ImmutableRectangle2D sucroseBoundary = expand( particleWindow, getHalfDiagonal( new Sucrose().getShape().getBounds2D() ) );
     public final ImmutableRectangle2D chlorideBoundary = expand( particleWindow, getHalfDiagonal( new SaltIon.ChlorideIon().getShape().getBounds2D() ) );
 
-    private static final double DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
+    //Thresholds and settings for artificial force on waters to split up salt or sucrose components that are too close to each other
+    private static final double SALT_ION_DISTANCE_THRESHOLD = new SaltIon.ChlorideIon().getShape().getBounds2D().getWidth() * 1.3;
+    private static final double SUCROSE_DISTANCE_THRESHOLD = new Sucrose().getShape().getBounds2D().getWidth();
     public final double COULOMB_FORCE_SCALE_FACTOR = 5E-36 / 10 * 2;
 
     //Expand a rectangle by the specified size in all 4 directions
@@ -267,24 +269,33 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
             }
         }
 
-        //Apply a force to keep the Na+ and Cl- from staying too close together
+        //Apply a force to keep the Na+ and Cl- from staying too close together, and likewise with Sucrose/Sucrose
         //First find the ions that are too close together
-        ItemList<Pair<SaltIon, SaltIon>> tooClose = getSaltIonPairs().filter( new Function1<Pair<SaltIon, SaltIon>, Boolean>() {
-            public Boolean apply( Pair<SaltIon, SaltIon> saltIonSaltIonPair ) {
-                double distance = saltIonSaltIonPair._1.getPosition().getDistance( saltIonSaltIonPair._2.getPosition() );
-                return distance < DISTANCE_THRESHOLD;
+        final ItemList<Pair<SaltIon, SaltIon>> saltTooClose = getSaltIonPairs().filter( new Function1<Pair<SaltIon, SaltIon>, Boolean>() {
+            public Boolean apply( Pair<SaltIon, SaltIon> pair ) {
+                return pair._1.getDistance( pair._2 ) < SALT_ION_DISTANCE_THRESHOLD;
             }
         } );
+        final ItemList<Pair<Sucrose, Sucrose>> sucroseTooClose = getSucrosePairs().filter( new Function1<Pair<Sucrose, Sucrose>, Boolean>() {
+            public Boolean apply( Pair<Sucrose, Sucrose> pair ) {
+                return pair._1.getDistance( pair._2 ) < SUCROSE_DISTANCE_THRESHOLD;
+            }
+        } );
+
+        ArrayList<Pair<? extends Compound<SphericalParticle>, ? extends Compound<SphericalParticle>>> all = new ArrayList<Pair<? extends Compound<SphericalParticle>, ? extends Compound<SphericalParticle>>>() {{
+            addAll( saltTooClose );
+            addAll( sucroseTooClose );
+        }};
 
         //Apply an attractive coulomb force to guide water molecules to the center of mass of Na+ Cl- pairs that were too close, to split them up
         //Coulomb force is useful here so that it affects close-by particles more that particles that are distant
         for ( Box2DAdapter box2DAdapter : box2DAdapters ) {
             if ( box2DAdapter.compound instanceof WaterMolecule ) {
-                for ( Pair<SaltIon, SaltIon> saltIonSaltIonPair : tooClose ) {
+                for ( Pair<? extends Compound<SphericalParticle>, ? extends Compound<SphericalParticle>> pair : all ) {
 
                     //Find the centroid
-                    ImmutableVector2D p1 = saltIonSaltIonPair._1.getPosition();
-                    ImmutableVector2D p2 = saltIonSaltIonPair._2.getPosition();
+                    ImmutableVector2D p1 = pair._1.getPosition();
+                    ImmutableVector2D p2 = pair._2.getPosition();
                     ImmutableVector2D center = p1.plus( p2 ).times( 0.5 );
 
                     //Compute and apply an attractive coulomb force from the water molecules to the centroids
@@ -340,6 +351,19 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
                 for ( SaltIon b : saltIonList ) {
                     if ( a != b ) {
                         add( new Pair<SaltIon, SaltIon>( a, b ) );
+                    }
+                }
+            }
+        }};
+    }
+
+    //Get all pairs of sucrose molecules so that the water can make sure they dissolve and move far enough away
+    private ItemList<Pair<Sucrose, Sucrose>> getSucrosePairs() {
+        return new ItemList<Pair<Sucrose, Sucrose>>() {{
+            for ( Sucrose a : sucroseList ) {
+                for ( Sucrose b : sucroseList ) {
+                    if ( a != b ) {
+                        add( new Pair<Sucrose, Sucrose>( a, b ) );
                     }
                 }
             }

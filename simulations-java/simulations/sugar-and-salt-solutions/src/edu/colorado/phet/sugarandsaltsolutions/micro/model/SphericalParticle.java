@@ -80,7 +80,7 @@ public class SphericalParticle extends Particle {
         public static final double RADIUS_PICOMETERS = 73;
 
         public Oxygen( Color chargeColor ) {
-            super( RADIUS_PICOMETERS, chargeColor, red, -1 );
+            super( RADIUS_PICOMETERS, chargeColor, red, -2 );
         }
     }
 
