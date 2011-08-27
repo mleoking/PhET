@@ -42,6 +42,7 @@ public class MoleculeShapesResources {
     public static class Images {
         public static final BufferedImage DOUBLE_BOND_SMALL = RESOURCES.getImage( "double-bond-small.png" );
         public static final BufferedImage LONE_PAIR_SMALL = RESOURCES.getImage( "lone-pair-small.png" );
+        public static final BufferedImage REMOVE = RESOURCES.getImage( "remove.png" );
         public static final BufferedImage SINGLE_BOND_SMALL = RESOURCES.getImage( "single-bond-small.png" );
         public static final BufferedImage TRIPLE_BOND_SMALL = RESOURCES.getImage( "triple-bond-small.png" );
     }

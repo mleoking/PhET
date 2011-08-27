@@ -15,8 +15,6 @@ import edu.colorado.phet.common.jmolphet.Molecule;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
-import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
@@ -41,10 +39,11 @@ public class MoleculeShapesControlPanel extends PNode {
 
             final double spaceBetweenTypes = 15;
 
-            final PNode singleNode = new BondTypeNode(
+            final PNode singleNode = new BondTypeControlNode(
+                    app,
                     new PImage( Images.SINGLE_BOND_SMALL ), 1 ) {{
                 setOffset( 0, 10 );
-                addInputEventListener( new PBasicInputEventHandler() {
+                addDragListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 1 );
@@ -53,10 +52,11 @@ public class MoleculeShapesControlPanel extends PNode {
                 } );
             }};
             addChild( singleNode );
-            final PNode doubleNode = new BondTypeNode(
+            final PNode doubleNode = new BondTypeControlNode(
+                    app,
                     new PImage( Images.DOUBLE_BOND_SMALL ), 2 ) {{
                 setOffset( 0, singleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
-                addInputEventListener( new PBasicInputEventHandler() {
+                addDragListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 2 );
@@ -65,10 +65,11 @@ public class MoleculeShapesControlPanel extends PNode {
                 } );
             }};
             addChild( doubleNode );
-            final PNode tripleNode = new BondTypeNode(
+            final PNode tripleNode = new BondTypeControlNode(
+                    app,
                     new PImage( Images.TRIPLE_BOND_SMALL ), 3 ) {{
                 setOffset( 0, doubleNode.getFullBounds().getMaxY() + spaceBetweenTypes );
-                addInputEventListener( new PBasicInputEventHandler() {
+                addDragListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 3 );
@@ -90,11 +91,12 @@ public class MoleculeShapesControlPanel extends PNode {
             // padding, and make sure we have the width
             addChild( new PhetPPath( new Double( 0, 0, MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH, 10 ), new Color( 0, 0, 0, 0 ) ) );
 
-            addChild( new BondTypeNode(
+            addChild( new BondTypeControlNode(
+                    app,
                     new PImage( Images.LONE_PAIR_SMALL ), 0 ) {{
                 setOffset( 0, 10 );
                 // TODO: refactor the input listener into something more common (code duplication)
-                addInputEventListener( new PBasicInputEventHandler() {
+                addDragListener( new PBasicInputEventHandler() {
                     @Override public void mousePressed( PInputEvent event ) {
                         if ( enabled && event.getButton() == MouseEvent.BUTTON1 ) {
                             app.startNewInstanceDrag( 0 );
@@ -181,55 +183,6 @@ public class MoleculeShapesControlPanel extends PNode {
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
         addChild( jmolPanel );
-    }
-
-    private class BondTypeNode extends PNode {
-        private final int bondOrder;
-        protected boolean enabled = true;
-
-        private BondTypeNode( final PNode graphic, int bondOrder ) {
-            this.bondOrder = bondOrder;
-
-            // custom cursor handler for only showing hand when it is enabled
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mouseEntered( PInputEvent event ) {
-                    if ( enabled ) {
-                        ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.HAND_CURSOR ) );
-                    }
-                }
-
-                @Override public void mouseExited( PInputEvent event ) {
-                    ( (JComponent) event.getComponent() ).setCursor( Cursor.getPredefinedCursor( Cursor.DEFAULT_CURSOR ) );
-                }
-            } );
-
-            addChild( graphic );
-
-            // add a blank background that will allow the user to click on this
-            addChild( 0, new PhetPPath( getFullBounds(), new Color( 0, 0, 0, 0 ) ) );
-
-            app.getMolecule().addListener( new Adapter() {
-                @Override public void onGroupAdded( PairGroup group ) {
-                    updateEnabled();
-                }
-
-                @Override public void onGroupRemoved( PairGroup group ) {
-                    updateEnabled();
-                }
-            } );
-            updateEnabled();
-        }
-
-        private void updateEnabled() {
-            enabled = app.getMolecule().wouldAllowBondOrder( bondOrder );
-            if ( enabled ) {
-                setTransparency( 1 );
-            }
-            else {
-                setTransparency( 0.3f );
-            }
-            repaint();
-        }
     }
 
 }

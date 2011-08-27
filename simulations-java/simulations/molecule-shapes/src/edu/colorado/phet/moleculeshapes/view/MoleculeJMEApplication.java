@@ -624,6 +624,11 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }
     }
 
+    public synchronized void removePairGroup( PairGroup group ) {
+        // synchronized removal, so we don't run over the display thread
+        molecule.removePair( group );
+    }
+
     public synchronized void testRemoveAtom() {
         if ( !molecule.getGroups().isEmpty() ) {
             molecule.removePair( molecule.getGroups().get( random.nextInt( molecule.getGroups().size() ) ) );
