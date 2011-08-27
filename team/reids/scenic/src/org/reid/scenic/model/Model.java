@@ -17,6 +17,7 @@ public class Model {
     public final ImmutableList<Atom> atoms;
     public final ButtonModel<Model> button1;
     public final ButtonModel<Model> button2;
+    public final Person person;
 
     public Model() {
         this( new ImmutableList<Atom>( createAtoms() ),
@@ -37,25 +38,26 @@ public class Model {
                           }
                       } ) );
                   }
-              } ) );
+              } ), new Person( "Larry" ) );
     }
 
-    public Model( ImmutableList<Atom> atoms, ButtonModel<Model> button1, ButtonModel<Model> button2 ) {
+    public Model( ImmutableList<Atom> atoms, ButtonModel<Model> button1, ButtonModel<Model> button2, Person person ) {
         this.atoms = atoms;
         this.button1 = button1;
         this.button2 = button2;
+        this.person = person;
     }
 
     public Model atoms( ImmutableList<Atom> atoms ) {
-        return new Model( atoms, button1, button2 );
+        return new Model( atoms, button1, button2, person );
     }
 
     public Model button1( ButtonModel<Model> button1 ) {
-        return new Model( atoms, button1, button2 );
+        return new Model( atoms, button1, button2, person );
     }
 
     public Model button2( ButtonModel<Model> button2 ) {
-        return new Model( atoms, button1, button2 );
+        return new Model( atoms, button1, button2, person );
     }
 
     private static Atom[] createAtoms() {
