@@ -158,7 +158,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         initializeResources();
 
         // add an offset to the left, since we have a control panel on the right
-        rootNode.setLocalTranslation( new Vector3f( -4.5f, 0, 0 ) );
+        rootNode.setLocalTranslation( new Vector3f( -4.5f, 1.5f, 0 ) );
 
         // hook up mouse-move handlers
         inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
