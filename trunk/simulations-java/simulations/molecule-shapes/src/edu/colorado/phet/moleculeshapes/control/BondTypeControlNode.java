@@ -10,7 +10,7 @@ import javax.swing.*;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Images;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
+import edu.colorado.phet.moleculeshapes.model.MoleculeModel.AnyChangeAdapter;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.view.MoleculeJMEApplication;
 import edu.umd.cs.piccolo.PNode;
@@ -57,12 +57,8 @@ class BondTypeControlNode extends PNode {
             }
         } );
 
-        app.getMolecule().addListener( new Adapter() {
-            @Override public void onGroupAdded( PairGroup group ) {
-                updateState();
-            }
-
-            @Override public void onGroupRemoved( PairGroup group ) {
+        app.getMolecule().addListener( new AnyChangeAdapter() {
+            @Override public void onGroupChange( PairGroup group ) {
                 updateState();
             }
         } );

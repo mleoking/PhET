@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import javax.swing.*;
 
-import edu.colorado.phet.common.jmolphet.JmolDialog;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;

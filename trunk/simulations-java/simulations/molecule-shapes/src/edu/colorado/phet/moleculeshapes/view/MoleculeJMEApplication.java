@@ -12,14 +12,13 @@ import org.lwjgl.input.Mouse;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
-import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
-import edu.colorado.phet.moleculeshapes.MoleculeShapesResources.Strings;
-import edu.colorado.phet.moleculeshapes.control.GeometryNameControlPanel;
+import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
+import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.jme.Arc;
 import edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
@@ -27,7 +26,6 @@ import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Adapter;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
@@ -66,18 +64,23 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: collision-lab-like button unpress failures?
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
  * TODO: potential listener leak with bond angles
- *
+ * <p/>
+ * NOTES:
+ * TODO: it's weird to drag out an invisible lone pair
+ * TODO: consider color-coding the molecular / electron readouts?
+ * TODO: Reset: how many bonds (0 or 2) should it reset to?
+ * <p/>
  * Problem spatial name: null
-	at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
-	at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:775)
-	at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:793)
-	at com.jme3.renderer.RenderManager.renderViewPort(RenderManager.java:1116)
-	at com.jme3.renderer.RenderManager.render(RenderManager.java:1159)
-	at edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication.update(BaseJMEApplication.java:194)
-	at com.jme3.system.lwjgl.LwjglAbstractDisplay.runLoop(LwjglAbstractDisplay.java:144)
-	at com.jme3.system.lwjgl.LwjglCanvas.runLoop(LwjglCanvas.java:199)
-	at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
-	at java.lang.Thread.run(Thread.java:662)
+ * at com.jme3.scene.Spatial.checkCulling(Spatial.java:217)
+ * at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:775)
+ * at com.jme3.renderer.RenderManager.renderScene(RenderManager.java:793)
+ * at com.jme3.renderer.RenderManager.renderViewPort(RenderManager.java:1116)
+ * at com.jme3.renderer.RenderManager.render(RenderManager.java:1159)
+ * at edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication.update(BaseJMEApplication.java:194)
+ * at com.jme3.system.lwjgl.LwjglAbstractDisplay.runLoop(LwjglAbstractDisplay.java:144)
+ * at com.jme3.system.lwjgl.LwjglCanvas.runLoop(LwjglCanvas.java:199)
+ * at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
+ * at java.lang.Thread.run(Thread.java:662)
  */
 public class MoleculeJMEApplication extends BaseJMEApplication {
 
@@ -141,9 +144,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     private PiccoloJMENode controlPanel;
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
-
-    private PiccoloJMENode moleculeShapeReadout;
-    private PiccoloJMENode electronShapeReadout;
 
     private Node moleculeNode; // The molecule to display and rotate
 
@@ -268,8 +268,8 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         rootNode.attachChild( moleculeNode );
 
         // update the UI when the molecule changes electron pairs
-        molecule.addListener( new Adapter() {
-            @Override public void onGroupAdded( PairGroup group ) {
+        molecule.addListener( new Listener() {
+            public void onGroupAdded( PairGroup group ) {
                 if ( group.isLonePair ) {
                     LonePairNode lonePairNode = new LonePairNode( group, assetManager );
                     lonePairNodes.add( lonePairNode );
@@ -284,7 +284,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 }
             }
 
-            @Override public void onGroupRemoved( PairGroup group ) {
+            public void onGroupRemoved( PairGroup group ) {
                 if ( group.isLonePair ) {
                     for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
                         // TODO: associate these more closely! (comparing positions for equality is bad)
@@ -355,85 +355,16 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         }}, assetManager, inputManager );
         preGuiNode.attachChild( resetAllNode );
 
-        moleculeShapeReadout = new PiccoloJMENode( new PText( "Molecular Geometry: " ) {{
-            setFont( new PhetFont( 16 ) );
-            setTextPaint( Color.WHITE );
-            molecule.addListener( new Listener() {
-                {
-                    updateText();
-                }
-
-                public void updateText() {
-                    String name = molecule.getConfiguration().name;
-                    setText( "Molecular Geometry: " + ( name == null ? Strings.SHAPE__EMPTY : name ) );
-
-                    // TODO: fix this. shouldn't be necessary
-                    if ( moleculeShapeReadout != null ) {
-                        moleculeShapeReadout.refresh();
-                    }
-                }
-
-                public void onGroupAdded( PairGroup group ) {
-                    updateText();
-                }
-
-                public void onGroupRemoved( PairGroup group ) {
-                    updateText();
-                }
-            } );
-        }}, assetManager, inputManager ) {{
-            MoleculeShapesApplication.showMolecularShapeName.addObserver( new SimpleObserver() {
-                public void update() {
-                    // TODO: refactor visibility
-                    setCullHint( MoleculeShapesApplication.showMolecularShapeName.get() ? CullHint.Inherit : CullHint.Always );
-                }
-            } );
-        }};
-        preGuiNode.attachChild( moleculeShapeReadout );
-
-        electronShapeReadout = new PiccoloJMENode( new PText( "Electron Geometry: " ) {{
-            setFont( new PhetFont( 16 ) );
-            setTextPaint( Color.WHITE );
-            molecule.addListener( new Listener() {
-                {
-                    updateText();
-                }
-
-                public void updateText() {
-                    String name = molecule.getConfiguration().geometry.name;
-                    setText( "Electron Geometry: " + ( name == null ? Strings.GEOMETRY__EMPTY : name ) );
-
-                    // TODO: fix this. shouldn't be necessary
-                    if ( electronShapeReadout != null ) {
-                        electronShapeReadout.refresh();
-                    }
-                }
-
-                public void onGroupAdded( PairGroup group ) {
-                    updateText();
-                }
-
-                public void onGroupRemoved( PairGroup group ) {
-                    updateText();
-                }
-            } );
-        }}, assetManager, inputManager ) {{
-            MoleculeShapesApplication.showElectronShapeName.addObserver( new SimpleObserver() {
-                public void update() {
-                    // TODO: refactor visibility
-                    setCullHint( MoleculeShapesApplication.showElectronShapeName.get() ? CullHint.Inherit : CullHint.Always );
-                }
-            } );
-        }};
-        preGuiNode.attachChild( electronShapeReadout );
-
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
         controlPanel = new PiccoloJMENode( new MoleculeShapesControlPanel( this ), assetManager, inputManager );
         preGuiNode.attachChild( controlPanel );
 
-        namePanel = new PiccoloJMENode( new GeometryNameControlPanel(), assetManager, inputManager );
+        namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
+            // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
+            setOffset( 0, 10 );
+        }}, assetManager, inputManager );
         preGuiNode.attachChild( namePanel );
     }
 
@@ -640,10 +571,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 namePanel.setLocalTranslation( padding, padding, 0 );
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
-
-                moleculeShapeReadout.setLocalTranslation( padding, lastCanvasSize.height - moleculeShapeReadout.getHeight() - padding, 0 );
-
-                electronShapeReadout.setLocalTranslation( moleculeShapeReadout.getLocalTranslation().add( new Vector3f( 0, -30, 0 ) ) );
             }
         }
     }

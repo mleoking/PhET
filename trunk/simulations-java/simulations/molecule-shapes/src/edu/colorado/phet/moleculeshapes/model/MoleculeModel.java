@@ -130,11 +130,15 @@ public class MoleculeModel {
         public void onGroupRemoved( PairGroup group );
     }
 
-    public static class Adapter implements Listener {
+    public static abstract class AnyChangeAdapter implements Listener {
+        public abstract void onGroupChange( PairGroup group );
+
         public void onGroupAdded( PairGroup group ) {
+            onGroupChange( group );
         }
 
         public void onGroupRemoved( PairGroup group ) {
+            onGroupChange( group );
         }
     }
 }
