@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Line2D;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.math.Function.LinearFunction;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -15,6 +16,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.model.Beaker;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__BEAKER_TICK_LABEL;
 import static edu.colorado.phet.sugarandsaltsolutions.common.util.Units.metersCubedToLiters;
 import static java.awt.Color.white;
 
@@ -82,13 +84,14 @@ public class BeakerNodeWithTicks extends BeakerNode {
             //Converts the SI unit to liters and formats it according to the specified format (such as 0.5L, 1L,...)
             String formatLiters = liters < 1E-6 && liters > 0 ? "" : new DecimalFormat( "0" ).format( liters );
 
-            return new PText( formatLiters + "L" ) {{
+            return new PText( MessageFormat.format( PATTERN__BEAKER_TICK_LABEL, formatLiters ) ) {{
                 setTextPaint( textPaint );
                 setFont( font );
             }};
         }
         else {
-            return new HTMLNode( volumeToHTMLString( volume, "0" ) + "L" ) {{
+            final String value = volumeToHTMLString( volume, "0" );
+            return new HTMLNode( MessageFormat.format( PATTERN__BEAKER_TICK_LABEL, value ) ) {{
                 setFont( font );
                 setHTMLColor( textPaint );
             }};

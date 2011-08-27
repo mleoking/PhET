@@ -19,6 +19,8 @@ public class SaltIonLabel extends Option.Some<Function1<SaltIon, PNode>> {
     public SaltIonLabel() {
         super( new Function1<SaltIon, PNode>() {
             public PNode apply( SaltIon ion ) {
+
+                //Convert to image for improved performance
                 return new PImage( new HTMLNode( ion.getName() ) {{ setFont( FONT ); }}.toImage() );
             }
         } );

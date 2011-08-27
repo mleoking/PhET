@@ -10,6 +10,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.piccolophet.nodes.periodictable.PeriodicTableNode.CELL_DIMENSION;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.METAL;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.NON_METAL;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static java.awt.Color.*;
 
@@ -27,14 +29,14 @@ public class PeriodicTableLegend extends PNode {
         Rectangle2D.Double box = new Rectangle2D.Double( 0, 0, CELL_DIMENSION * scale, CELL_DIMENSION * scale );
 
         //Create a box in the bottom left for gray metals
-        final HBox metalBox = new HBox( new PhetPPath( box, lightGray, new BasicStroke( 1 ), black ), new PText( "Metal" ) {{
+        final HBox metalBox = new HBox( new PhetPPath( box, lightGray, new BasicStroke( 1 ), black ), new PText( METAL ) {{
             setFont( CONTROL_FONT );
             setTextPaint( white );
         }} );
         addChild( metalBox );
 
         //Create a box in the bottom right for pink non-metals
-        addChild( new HBox( new PhetPPath( box, pink, new BasicStroke( 1 ), black ), new PText( "Non-metal" ) {{
+        addChild( new HBox( new PhetPPath( box, pink, new BasicStroke( 1 ), black ), new PText( NON_METAL ) {{
             setFont( CONTROL_FONT );
             setTextPaint( white );
         }} ) {{

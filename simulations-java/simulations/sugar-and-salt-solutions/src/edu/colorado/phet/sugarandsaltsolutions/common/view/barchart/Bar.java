@@ -4,6 +4,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view.barchart;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.Option;
@@ -15,6 +16,8 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PPath;
 import edu.umd.cs.piccolo.nodes.PText;
 
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__MOLES_PER_LITER_MULTILINE;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static java.lang.Float.isInfinite;
 import static java.lang.Float.isNaN;
@@ -86,7 +89,8 @@ public class Bar extends PNode {
 
                     //Update the text
                     //Use multiline in tabs with 3+ bars, otherwise readouts will overlap each other
-                    setHTML( new DecimalFormat( "0.00" ).format( molesPerLiter ) + ( multiLineReadout ? "<br>mol/L" : " mol/L" ) );
+                    final String value = new DecimalFormat( "0.00" ).format( molesPerLiter );
+                    setHTML( MessageFormat.format( multiLineReadout ? PATTERN__MOLES_PER_LITER_MULTILINE : PATTERN__MOLES_PER_LITER, value ) );
 
                     //Show the label centered above the bar, even if bar is zero height
                     setOffset( bar.getFullBounds().getCenterX() - getFullBounds().getWidth() / 2,
