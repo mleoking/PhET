@@ -1,3 +1,4 @@
+Water tab: Fixed: Sucrose repels each other because C12H22O11 has net charge of +11
 Updated internationalization
 # 0.00.97 (55827) Aug 26, 2011
 Micro tab: Added a workaround for completely dissolving any crystals that have become disconnected as a result of partial dissolving
