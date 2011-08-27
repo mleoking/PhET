@@ -10,6 +10,7 @@ import javax.swing.*;
 import edu.umd.cs.piccolo.PCanvas;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.util.PBounds;
+import edu.umd.cs.piccolo.util.PPaintContext;
 import edu.umd.cs.piccolox.pswing.PSwingCanvas;
 
 import com.jme3.asset.AssetManager;
@@ -24,6 +25,9 @@ public class PiccoloJMENode extends SwingJMENode {
                            setOpaque( false );
                            removeInputEventListener( getZoomEventHandler() );
                            removeInputEventListener( getPanEventHandler() );
+
+                           setAnimatingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
+                           setInteractingRenderQuality( PPaintContext.HIGH_QUALITY_RENDERING );
 
                            getLayer().addChild( node );
 
