@@ -26,6 +26,8 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createRectangleInvertedYMapping;
 import static edu.colorado.phet.common.phetcommon.view.util.SwingUtils.centerInParent;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_CHARGE;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.SHOW_IN_PERIODIC_TABLE;
 
 /**
  * Canvas for the "micro" tab of the sugar and salt solutions sim.  This shares lots of functionality with the first tab, so much of that code is reused.
@@ -87,7 +89,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         behindShakerNode.addChild( microKitControlNode );
 
         //Add a button that shows the periodic table when pressed
-        final TextButtonNode periodicTableButton = new TextButtonNode( "Show in Periodic Table" ) {{
+        final TextButtonNode periodicTableButton = new TextButtonNode( SHOW_IN_PERIODIC_TABLE ) {{
             addActionListener( new ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
                     //Only create the periodic table dialog once
@@ -117,7 +119,7 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
         } );
 
         //Checkbox to toggle whether the color shown is based on charge or atom identity
-        addChild( new PSwing( new PropertyCheckBox( "Show Charge", model.showChargeColor ) {{
+        addChild( new PSwing( new PropertyCheckBox( SHOW_CHARGE, model.showChargeColor ) {{
             setBackground( new Color( 0, 0, 0, 0 ) );
             setFont( CONTROL_FONT );
             setForeground( Color.white );

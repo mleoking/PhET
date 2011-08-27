@@ -3,6 +3,7 @@ package edu.colorado.phet.sugarandsaltsolutions.common.view;
 
 import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
+import java.text.MessageFormat;
 
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
@@ -13,6 +14,8 @@ import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Solution;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__LITERS_SOLUTION;
+import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings.PATTERN__LITERS_WATER;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.CONTROL_FONT;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.INSET;
 
@@ -36,7 +39,7 @@ public class VolumeIndicatorNode extends PNode {
                     String formatted = formatter.apply( solution.volume.get() );
 
                     //if there is no sugar or salt in the beaker, say 1.00L "water" instead of "solution"
-                    setHTML( formatted + "L " + ( anySolutes.get() ? "solution" : "water" ) );
+                    setHTML( MessageFormat.format( anySolutes.get() ? PATTERN__LITERS_SOLUTION : PATTERN__LITERS_WATER, formatted ) );
                 }
             }.observe( solution.volume, anySolutes );
 
