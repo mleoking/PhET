@@ -104,6 +104,8 @@ public class JmolPanel extends JPanel {
 
                             // force this container to realize we changed its child, and thus paint properly from now on
                             validate();
+
+                            repaint();
                         }
                     } );
                 }
