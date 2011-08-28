@@ -17,6 +17,7 @@ public class Model {
     public final ImmutableList<Atom> atoms;
     public final ButtonModel<Model> button1;
     public final ButtonModel<Model> button2;
+    public final ButtonModel<Person> button3;
     public final Person person;
 
     public Model() {
@@ -38,26 +39,42 @@ public class Model {
                           }
                       } ) );
                   }
-              } ), new Person( "Larry" ) );
+              } ),
+              new ButtonModel<Person>( new PhetFont( 16, true ), "Rename", 300, 400, false, false, new Function1<Person, Person>() {
+                  public Person apply( Person person ) {
+                      return person.name( "Jeff" );
+                  }
+              } ),
+
+              new Person( 29, "Larry" ) );
     }
 
-    public Model( ImmutableList<Atom> atoms, ButtonModel<Model> button1, ButtonModel<Model> button2, Person person ) {
+    public Model( ImmutableList<Atom> atoms, ButtonModel<Model> button1, ButtonModel<Model> button2, ButtonModel<Person> button3, Person person ) {
         this.atoms = atoms;
         this.button1 = button1;
         this.button2 = button2;
+        this.button3 = button3;
         this.person = person;
     }
 
     public Model atoms( ImmutableList<Atom> atoms ) {
-        return new Model( atoms, button1, button2, person );
+        return new Model( atoms, button1, button2, button3, person );
     }
 
     public Model button1( ButtonModel<Model> button1 ) {
-        return new Model( atoms, button1, button2, person );
+        return new Model( atoms, button1, button2, button3, person );
     }
 
     public Model button2( ButtonModel<Model> button2 ) {
-        return new Model( atoms, button1, button2, person );
+        return new Model( atoms, button1, button2, button3, person );
+    }
+
+    public Model button3( ButtonModel<Person> button3 ) {
+        return new Model( atoms, button1, button2, button3, person );
+    }
+
+    public Model person( Person person ) {
+        return new Model( atoms, button1, button2, button3, person );
     }
 
     private static Atom[] createAtoms() {

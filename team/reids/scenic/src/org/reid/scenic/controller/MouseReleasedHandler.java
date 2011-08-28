@@ -18,6 +18,9 @@ public class MouseReleasedHandler implements Function2<Model, MouseEvent, Model>
         else if ( model.button2.pressed ) {
             return model.button2.apply( model ).button2( model.button2.pressed( false ) );
         }
+        else if ( model.button3.pressed ) {
+            return model.person( model.button3.apply( model.person ) ).button3( model.button3.pressed( false ) );
+        }
         else {
             return model;
         }

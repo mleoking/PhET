@@ -22,6 +22,7 @@ public class View {
         }
         new ButtonView( model.button1 ).paint( graphics2D );
         new ButtonView( model.button2 ).paint( graphics2D );
+        new ButtonView( model.button3 ).paint( graphics2D );
     }
 
     public boolean button1Contains( int x, int y ) {
@@ -30,5 +31,9 @@ public class View {
 
     public boolean button2Contains( int x, int y ) {
         return new ButtonView( model.button2 ).contains( x, y );
+    }
+
+    public boolean button3Contains( int x, int y ) {
+        return new ButtonView( model.button3 ).contains( x, y );
     }
 }

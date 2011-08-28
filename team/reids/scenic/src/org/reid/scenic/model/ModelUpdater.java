@@ -1,8 +1,7 @@
 // Copyright 2002-2011, University of Colorado
-package org.reid.scenic;
+package org.reid.scenic.model;
 
-import org.reid.scenic.model.Atom;
-import org.reid.scenic.model.Model;
+import org.reid.scenic.TestScenicPanel;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
