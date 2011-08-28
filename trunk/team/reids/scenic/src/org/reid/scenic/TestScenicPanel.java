@@ -13,6 +13,7 @@ import org.reid.scenic.controller.MouseMovedHandler;
 import org.reid.scenic.controller.MousePressHandler;
 import org.reid.scenic.controller.MouseReleasedHandler;
 import org.reid.scenic.model.Model;
+import org.reid.scenic.model.ModelUpdater;
 import org.reid.scenic.view.View;
 
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
@@ -59,7 +60,7 @@ public class TestScenicPanel {
 
                     final Function1<Model, Cursor> cursorHandler = new Function1<Model, Cursor>() {
                         public Cursor apply( Model model ) {
-                            return model.button1.hover || model.button2.hover ? getPredefinedCursor( Cursor.HAND_CURSOR ) : getPredefinedCursor( Cursor.DEFAULT_CURSOR );
+                            return model.button1.hover || model.button2.hover || model.button3.hover ? getPredefinedCursor( Cursor.HAND_CURSOR ) : getPredefinedCursor( Cursor.DEFAULT_CURSOR );
                         }
                     };
                     new Thread( new Runnable() {

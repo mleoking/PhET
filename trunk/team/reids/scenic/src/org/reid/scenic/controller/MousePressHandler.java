@@ -14,6 +14,7 @@ public class MousePressHandler implements Function2<Model, MouseEvent, Model> {
     public Model apply( Model model, MouseEvent mouseEvent ) {
         return model.
                 button1( model.button1.hover ? model.button1.pressed( true ) : model.button1 ).
-                button2( model.button2.hover ? model.button2.pressed( true ) : model.button2 );
+                button2( model.button2.hover ? model.button2.pressed( true ) : model.button2 ).
+                button3( model.button2.hover ? model.button3.pressed( true ) : model.button3 );
     }
 }

@@ -15,6 +15,7 @@ public class MouseMovedHandler implements Function2<Model, MouseEvent, Model> {
     public Model apply( Model model, MouseEvent mouseEvent ) {
         return model.
                 button1( model.button1.hover( new View( model ).button1Contains( mouseEvent.getX(), mouseEvent.getY() ) ) ).
-                button2( model.button2.hover( new View( model ).button2Contains( mouseEvent.getX(), mouseEvent.getY() ) ) );
+                button2( model.button2.hover( new View( model ).button2Contains( mouseEvent.getX(), mouseEvent.getY() ) ) ).
+                button3( model.button3.hover( new View( model ).button3Contains( mouseEvent.getX(), mouseEvent.getY() ) ) );
     }
 }
