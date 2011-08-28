@@ -123,12 +123,9 @@ public class View1 extends Sprite {
         //since these are automatically positioned by update();
         for(var i:int = 0; i < N; i++){
             this.mass_arr[i].visible = true;
+            this.mass_arr[i].drawBorderZone( this.L0Spring, 300 );
         }
-        if( _massGrabbedByUser ){
-            //nothing
-        } else{
-           this.mass_arr[i].drawBorderZone( this.L0Spring, 300 );
-        }
+
         for(i = N; i < nMax; i++){
             this.mass_arr[i].visible = false;
         }
