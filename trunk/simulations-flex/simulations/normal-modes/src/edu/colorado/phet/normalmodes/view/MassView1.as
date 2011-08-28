@@ -22,7 +22,8 @@ public class MassView1 extends Sprite{
     private var container:View1;
     private var mass:Sprite;
     private var borderZone:Sprite;    //when user mouses over borderZone, arrows appear around mass
-    private var arrows:Sprite;        //arrows cue user that mass is grabbable
+    private var arrowH:Sprite;
+    private var arrowV:Sprite;
 
 
 
@@ -32,13 +33,16 @@ public class MassView1 extends Sprite{
         this.container = container;
         this.mass = new Sprite();
         this.borderZone = new Sprite();
-        this.arrows = new Sprite();
+        this.arrowH = new Sprite();
+        this.arrowV = new Sprite();
         this.addChild( borderZone );
-        this.addChild( arrows );
+        this.addChild( arrowH );
+        this.addChild( arrowV );
         this.addChild( mass );
         this.drawBorderZone( 150, 200 );
-        this.drawArrows();
-        this.drawMass( "dim" );
+        this.drawHorizontalArrow();
+        this.drawVerticalArrow();
+        this.drawMass();
         this.makeMassGrabbable();
     } //end constructor
 
@@ -54,21 +58,25 @@ public class MassView1 extends Sprite{
         g.endFill();
     }
 
-    public function drawArrows():void{
-        var arrows1:TwoHeadedArrow = new TwoHeadedArrow();
-        var arrows2:TwoHeadedArrow = new TwoHeadedArrow();
-        arrows1.setRegistrationPointAtCenter( true );
-        arrows2.setRegistrationPointAtCenter( true );
-        arrows1.scaleX = 2;
-        arrows2.scaleX = 2;
-        arrows1.rotation = 45;
-        arrows2.rotation = -45;
-        this.arrows.addChild( arrows1 );
-        this.arrows.addChild( arrows2 );
-        this.arrows.visible = false;
-    } //end drawArrows()
 
-    private function drawMass( dimOrBright:String ):void{
+    public function drawVerticalArrow():void{
+        var arrow2HV:TwoHeadedArrow = new TwoHeadedArrow();
+        arrow2HV.setRegistrationPointAtCenter( true );
+        arrow2HV.scaleX = 2;
+        arrow2HV.rotation = 90;
+        this.arrowV.addChild( arrow2HV );
+        this.arrowV.visible = false;
+    }
+
+    public function drawHorizontalArrow():void{
+        var arrow2HH:TwoHeadedArrow = new TwoHeadedArrow();
+        arrow2HH.setRegistrationPointAtCenter( true );
+        arrow2HH.scaleX = 2;
+        this.arrowH.addChild( arrow2HH );
+        this.arrowH.visible = false;
+    }
+
+    private function drawMass():void{
         var g:Graphics = this.mass.graphics;
         g.clear();
 
@@ -77,7 +85,7 @@ public class MassView1 extends Sprite{
         g.beginFill(0x6666ff, 1);
         g.drawRoundRect(-d/2, -d/2, d,  d,  d/4 );
         g.endFill();
-        this.mass.visible = true;      //start with mass invisible
+        this.mass.visible = true;      //mass always visible
         //this.mass_arr[i].y = this.leftEdgeY;
 
     }//end drawMass()
@@ -95,20 +103,20 @@ public class MassView1 extends Sprite{
         var thisObject:Object = this;
         this.mass.buttonMode = true;
         this.mass.addEventListener( MouseEvent.MOUSE_DOWN, startTargetDrag );
-        //this.borderZone.addEventListener( MouseEvent.ROLL_OVER, showArrows );
-        //this.borderZone.addEventListener( MouseEvent.ROLL_OUT, removeArrows );
         this.addEventListener( MouseEvent.ROLL_OVER, thisObject.showArrows );
         this.addEventListener( MouseEvent.ROLL_OUT, thisObject.removeArrows );
-        //this.mass.addEventListener( MouseEvent.MOUSE_OVER, showArrows );
         var clickOffset: Point;
 
         function startTargetDrag( evt: MouseEvent ): void {
-            thisObject.arrows.visible = false;
+            //thisObject.removeArrows( MouseEvent.MOUSE_DOWN );
+            thisObject.arrowH.visible = false;
+            thisObject.arrowV.visible = false;
             thisObject.myModel1.grabbedMass = thisObject._index;
             clickOffset = new Point( evt.localX, evt.localY );
             stage.addEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.addEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
-            thisObject.killArrowListeners();
+            thisObject.container.clearBorderZones();
+            //thisObject.killArrowListeners();
             //thisObject.removeEventListener( MouseEvent.ROLL_OVER, thisObject.showArrows );
             //thisObject.removeEventListener( MouseEvent.ROLL_OUT, thisObject.removeArrows );
             //thisObject.mass.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
@@ -123,7 +131,7 @@ public class MassView1 extends Sprite{
             thisObject.myModel1.computeModeAmplitudesAndPhases();
             //thisObject.myModel1.nbrStepsSinceRelease = 0;
             clickOffset = null;
-            thisObject.container.clearBorderZones();
+            //thisObject.container.clearBorderZones();
             stage.removeEventListener( MouseEvent.MOUSE_UP, stopTargetDrag );
             stage.removeEventListener( MouseEvent.MOUSE_MOVE, dragTarget );
         }
@@ -158,12 +166,20 @@ public class MassView1 extends Sprite{
     } //end makeMassGrabble
 
     private function showArrows( evt: MouseEvent ):void {
-        this.arrows.visible = true;
+        if( this.myModel1.xModes ){
+            this.arrowH.visible = true;
+            this.arrowV.visible = false;
+        } else {
+            this.arrowV.visible = true;
+            this.arrowH.visible = false;
+        }
         //stage.addEventListener ( MouseEvent.MOUSE_OUT, removeArrows );
     }
 
     private function removeArrows( evt: MouseEvent ):void{
-        this.arrows.visible = false;
+
+        this.arrowH.visible = false;
+        this.arrowV.visible = false;
         //stage.removeEventListener( MouseEvent.MOUSE_OVER, showArrows );
         //stage.removeEventListener( MouseEvent.MOUSE_OUT, removeArrows );
     }

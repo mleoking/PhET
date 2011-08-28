@@ -169,16 +169,12 @@ public class View1 extends Sprite {
         return this._leftEdgeY;
     }
 
+    //called from startTargetDrag() inside MassView1
     public function clearBorderZones():void{
         this._massGrabbedByUser = true;
         for(var i:int = 0; i < this.myModel1.nMax; i++ ){
             //this.mass_arr[i].removeEventListener( MouseEvent.ROLL_OVER, showArrows );
             this.mass_arr[i].killArrowListeners();
-            //from MassView1:
-            //thisObject.removeEventListener( MouseEvent.ROLL_OVER, showArrows );
-            //thisObject.removeEventListener( MouseEvent.ROLL_OUT, removeArrows );
-            //this.mass_arr[i].drawBorderZone( 0, 0 );
-            //this.mass_arr[i].removeEventListener(  MouseEvent.MOUSE_OVER, showArrows  );
         }
     }
 
