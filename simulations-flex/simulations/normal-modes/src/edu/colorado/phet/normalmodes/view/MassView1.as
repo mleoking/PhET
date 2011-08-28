@@ -39,7 +39,7 @@ public class MassView1 extends Sprite{
         this.addChild( arrowH );
         this.addChild( arrowV );
         this.addChild( mass );
-        this.drawBorderZone( 150, 200 );
+        this.drawBorderZone( 150, 300 );
         this.drawHorizontalArrow();
         this.drawVerticalArrow();
         this.drawMass();
