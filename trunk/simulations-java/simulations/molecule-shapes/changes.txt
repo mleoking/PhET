@@ -1,4 +1,3 @@
-# 0.00.21 (55846) Aug 27, 2011
 Many UI updates
 Removed vecmath from build file since it is already contained in a jme3 jar
 # 0.00.20 (55844) Aug 27, 2011
