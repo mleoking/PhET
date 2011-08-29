@@ -5,7 +5,6 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
  * This class exists so the dimensions can be passed together as a parameter when constructing model instances, and so it can encode default assumptions
  * like the beaker is centered around x=0 and has a certain aspect ratio.
  * <p/>
- * TODO: see if we can get rid of this class and just use Beaker instead
  *
  * @author Sam Reid
  */
