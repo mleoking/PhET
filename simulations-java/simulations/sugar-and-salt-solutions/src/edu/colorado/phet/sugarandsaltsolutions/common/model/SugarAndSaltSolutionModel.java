@@ -52,7 +52,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final ArrayList<MacroSalt> saltList = new ArrayList<MacroSalt>();//The salt crystals that haven't been dissolved
     public final Notifier<MacroSalt> saltAdded = new Notifier<MacroSalt>();//Listeners for when salt crystals are added
 
-    //Force due to gravity near the surface of the earth
+    //Force due to gravity near the surface of the earth in m/s^2
     private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
 
     //Flow controls vary between 0 and 1, this scales it down to a good model value
