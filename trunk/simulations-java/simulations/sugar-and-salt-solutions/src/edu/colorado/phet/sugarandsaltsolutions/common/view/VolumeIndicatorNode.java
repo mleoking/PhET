@@ -50,7 +50,7 @@ public class VolumeIndicatorNode extends PNode {
         //Update the location so it remains in the top left of the fluid
         solution.shape.addObserver( new VoidFunction1<Shape>() {
             public void apply( Shape shape ) {
-                Rectangle2D waterViewBounds = transform.modelToView( shape ).getBounds2D();//TODO: rewrite to observe the shape itself instead of its dependencies
+                Rectangle2D waterViewBounds = transform.modelToView( shape ).getBounds2D();
                 setOffset( waterViewBounds.getX() + INSET, waterViewBounds.getY() + INSET );
             }
         } );

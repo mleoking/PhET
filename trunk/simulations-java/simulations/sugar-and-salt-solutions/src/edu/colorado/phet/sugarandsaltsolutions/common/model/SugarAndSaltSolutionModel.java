@@ -22,7 +22,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSo
 
 /**
  * Base class model for Sugar and Salt Solutions, which keeps track of the physical model as well as the MVC model for view components (such as whether certain components are enabled).
- * TODO: can more parts of this class be moved to MacroModel?
  *
  * @author Sam Reid
  */
@@ -41,7 +40,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final double drainPipeBottomY;
     public final double drainPipeTopY;
 
-    //TODO: document
+    //The amount to scale model translations so that micro tab emits solute at the appropriate time.  Without this factor, the tiny (1E-9 meters) drag motion in the Micro tab wouldn't be enough to emit solute
     public final double distanceScale;
 
     //Which dispenser the user has selected
@@ -254,7 +253,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         //Turn off the input flow if the beaker would overflow
         if ( newVolume >= maxWater ) {
             inputFlowRate.set( 0.0 );
-            //TODO: make the cursor drop the slider?
         }
 
         //Turn off the output flow if no water is adjacent to it
@@ -265,7 +263,6 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         //Turn off evaporation if beaker is empty of water
         if ( newVolume <= 0 ) {
             evaporationRate.set( 0 );
-            //TODO: make the cursor drop the slider?
         }
 
         //Update the water volume

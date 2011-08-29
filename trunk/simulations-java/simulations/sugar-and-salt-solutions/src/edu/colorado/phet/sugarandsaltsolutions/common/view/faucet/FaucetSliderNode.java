@@ -67,8 +67,6 @@ public class FaucetSliderNode extends PNode {
 
             //Mac sliders render lower than windows slider, so have to compensate
             translate( 0, -2 + ( PhetUtilities.isMacintosh() ? -8 : 0 ) );
-
-            //TODO: Faucet slider should be invisible when in "auto" mode
         }};
 
         addChild( sliderNode );

@@ -83,7 +83,6 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
         submergedInWaterNode.addChild( conductivityToolboxLayer );
 
         //Show the concentration bar chart behind the shaker so the user can drag the shaker in front
-        //TODO: why is the scale factor 1 here?
         concentrationBarChart = new ExpandableConcentrationBarChartNode( model.showConcentrationBarChart, model.saltConcentration, model.sugarConcentration, model.showConcentrationValues, 1 ) {{
             setOffset( stageSize.getWidth() - getFullBoundsReference().width - INSET, INSET );
         }};

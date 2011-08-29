@@ -321,7 +321,6 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         //Turn off the input flow if the beaker would overflow
         if ( newVolume >= maxWater ) {
             inputFlowRate.set( 0.0 );
-            //TODO: make the cursor drop the slider?
         }
 
         //Turn off the output flow if no water is adjacent to it
@@ -332,7 +331,6 @@ public class MacroModel extends SugarAndSaltSolutionModel {
         //Turn off evaporation if beaker is empty of water
         if ( newVolume <= 0 ) {
             evaporationRate.set( 0 );
-            //TODO: make the cursor drop the slider?
         }
 
         //Update the water volume
