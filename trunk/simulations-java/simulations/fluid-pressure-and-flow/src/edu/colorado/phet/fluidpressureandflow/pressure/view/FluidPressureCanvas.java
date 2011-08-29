@@ -27,11 +27,11 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
 
     public FluidPressureCanvas( final FluidPressureModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ), module.getFluidPressureAndFlowModel().visibleModelBounds );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width / 2, STAGE_SIZE.height / 2 ), STAGE_SIZE.height / modelHeight ), module.model.visibleModelBounds );
 
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
-        addChild( new PhetPPath( transform.modelToView( module.getFluidPressureAndFlowModel().getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
-        addChild( new SidePoolHeightReadoutNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().units ) );
+        addChild( new PhetPPath( transform.modelToView( module.model.getPool().getShape() ), Color.white ) );//so earth doesn't bleed through transparent pool
+        addChild( new SidePoolHeightReadoutNode( transform, module.model.getPool(), module.model.units ) );
 
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new FluidPressureControlPanel<FluidPressureModel>( module ) ) {{
@@ -43,19 +43,19 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units, module.getFluidPressureAndFlowModel().getPool() ) );
+        for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool() ) );
         }
 
         //Some nodes go behind the pool so that it looks like they submerge
-        final Point2D.Double rulerModelOrigin = new Point2D.Double( module.getFluidPressureAndFlowModel().getPool().getMinX(), module.getFluidPressureAndFlowModel().getPool().getMinY() );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, module.getFluidPressureAndFlowModel() );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, module.getFluidPressureAndFlowModel() );
+        final Point2D.Double rulerModelOrigin = new Point2D.Double( module.model.getPool().getMinX(), module.model.getPool().getMinY() );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, module.model );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, module.model );
         synchronizeRulerLocations( meterStick, englishRuler );
         addChild( meterStick );
         addChild( englishRuler );
 
-        final PoolNode poolNode = new PoolNode( transform, module.getFluidPressureAndFlowModel().getPool(), module.getFluidPressureAndFlowModel().liquidDensity );
+        final PoolNode poolNode = new PoolNode( transform, module.model.getPool(), module.model.liquidDensity );
         addChild( poolNode );
 
         //Create and show the fluid density controls

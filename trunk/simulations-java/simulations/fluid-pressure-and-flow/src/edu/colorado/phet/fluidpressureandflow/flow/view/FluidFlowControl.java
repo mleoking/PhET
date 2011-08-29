@@ -21,7 +21,7 @@ public class FluidFlowControl extends PNode {
 
         final SliderControl fluidDensityControl =
                 new SliderControl( FLOW, "L/sec/ft^2", 1E-6, 10,
-                                   module.getFluidPressureAndFlowModel().getPipe().k,
+                                   module.model.getPipe().k,
 //                                   new ScaledDoubleProperty( module.getFluidPressureAndFlowModel().getPipe().k, module.getFluidFlowModel().units.getValue().flow.siToUnit( 1.0 ) ),
                                    new HashMap<Double, TickLabel>() );
         //Add children

@@ -37,7 +37,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
 
     public FluidDensityControl( final FluidPressureAndFlowModule<T> module ) {
         //This Property indicates whether units are in metric or not.
-        final ValueEquals<UnitSet> metricUnits = new ValueEquals<UnitSet>( module.getFluidPressureAndFlowModel().units, METRIC );
+        final ValueEquals<UnitSet> metricUnits = new ValueEquals<UnitSet>( module.model.units, METRIC );
 
         //Create and add the metric control, but only show it if the units are in metric
         metricControl = new UnitFluidDensityControl<T>( module, METRIC.density ) {{
@@ -76,7 +76,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
 
             //Create the slider
             final SliderControl fluidDensityControl = new SliderControl( FLUID_DENSITY, density.getAbbreviation(), gasDensity, honeyDensity,
-                                                                         new ScaledDoubleProperty( module.getFluidPressureAndFlowModel().liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() {{
+                                                                         new ScaledDoubleProperty( module.model.liquidDensity, density.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() {{
                 put( gasDensity, new TickLabel( GASOLINE ) );
                 put( waterDensity, new TickLabel( WATER ) );
                 put( honeyDensity, new TickLabel( HONEY ) );

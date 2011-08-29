@@ -29,7 +29,7 @@ public class WaterTowerControlPanel extends VerticalLayoutPanel {
         add( new CheckBox( MEASURING_TAPE, module.measuringTapeVisible ) );
 
         //Units control panel that allows choice between english and metric
-        SettableProperty<UnitSet> units = module.getFluidPressureAndFlowModel().units;
+        SettableProperty<UnitSet> units = module.model.units;
         add( new EnglishMetricControlPanel<WaterTowerModel>(
                 new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),
                 new RadioButton<UnitSet>( METRIC, units, UnitSet.METRIC ) )

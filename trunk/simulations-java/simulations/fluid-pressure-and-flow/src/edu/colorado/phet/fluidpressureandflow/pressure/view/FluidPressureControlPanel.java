@@ -28,7 +28,7 @@ public class FluidPressureControlPanel<T extends FluidPressureAndFlowModel> exte
         addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
 
         //Units control panel that allows choice between atmospheres, english and metric
-        final Property<UnitSet> units = module.getFluidPressureAndFlowModel().units;
+        final Property<UnitSet> units = module.model.units;
         addControlFullWidth( new EnglishMetricControlPanel<T>(
                 new RadioButton<UnitSet>( ATMOSPHERES, units, UnitSet.ATMOSPHERES ),
                 new RadioButton<UnitSet>( ENGLISH, units, UnitSet.ENGLISH ),

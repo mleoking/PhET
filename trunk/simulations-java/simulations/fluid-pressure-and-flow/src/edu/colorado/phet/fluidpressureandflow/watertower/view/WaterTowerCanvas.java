@@ -35,17 +35,17 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
     private final FPAFMeasuringTape measuringTape;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.getFluidPressureAndFlowModel().visibleModelBounds );
+        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.model.visibleModelBounds );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
-        addChild( new WaterTowerNode( transform, module.getFluidPressureAndFlowModel().getWaterTower(), module.getFluidPressureAndFlowModel().liquidDensity ) );
+        addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
         addChild( waterDropLayer );
         addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5 ) );
-        addChild( new FaucetNode( transform, module.getFluidPressureAndFlowModel().getFaucetFlowLevel() ) );
+        addChild( new FaucetNode( transform, module.model.getFaucetFlowLevel() ) );
 
-        module.getFluidPressureAndFlowModel().addDropAddedListener( new VoidFunction1<WaterDrop>() {
+        module.model.addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
-                waterDropLayer.addChild( new WaterDropNode( transform, waterDrop, module.getFluidPressureAndFlowModel().liquidDensity ) {{
+                waterDropLayer.addChild( new WaterDropNode( transform, waterDrop, module.model.liquidDensity ) {{
                     final WaterDropNode waterDropNode = this;
                     waterDrop.addRemovalListener( new SimpleObserver() {
                         public void update() {
@@ -71,14 +71,14 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         //Some nodes go behind the pool so that it looks like they submerge
         final Point2D.Double rulerModelOrigin = new Point2D.Double( 0, 0 );
-        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, true, module.getFluidPressureAndFlowModel() );
-        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, true, module.getFluidPressureAndFlowModel() );
+        final MeterStick meterStick = new MeterStick( transform, module.meterStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model );
+        final EnglishRuler englishRuler = new EnglishRuler( transform, module.yardStickVisible, module.rulerVisible, rulerModelOrigin, true, module.model );
         synchronizeRulerLocations( meterStick, englishRuler );
 
         addChild( meterStick );
         addChild( englishRuler );
 
-        measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.getFluidPressureAndFlowModel().units );
+        measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.model.units );
         addChild( measuringTape );
 
         Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
@@ -98,7 +98,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         new And( clockRunning, moduleActive ) {{
             addObserver( new SimpleObserver() {
                 public void update() {
-                    module.getFluidPressureAndFlowModel().getClock().setRunning( get() );
+                    module.model.getClock().setRunning( get() );
                 }
             } );
         }};
@@ -107,11 +107,11 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
         addChild( createClockControls( module, new Property<Boolean>( true ) ) );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units ) );
+        for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units ) );
         }
 
-        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
+        addVelocitySensorNodes( module.model );
     }
 
     //Additionally reset the measuring tape since not reset elsewhere
