@@ -285,6 +285,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //So we have to assume that:
     //1. all other actions conserve formula unit counts to make these calculations
     //2. Kits are simple enough that that formula units could be computed independently.  For instance if one kit had NaCl and another copy of NaCl, then it wouldn't be able to distinguish them
+    //TODO: move to kit model object such as MicroModelKit
     public int countFreeFormulaUnits( Formula formula ) {
         if ( selectedKit.get() == 0 ) { return countFreeFormulaUnitsKit0( formula ); }
         else if ( selectedKit.get() == 1 ) { return countFreeFormulaUnitsKit1( formula ); }
