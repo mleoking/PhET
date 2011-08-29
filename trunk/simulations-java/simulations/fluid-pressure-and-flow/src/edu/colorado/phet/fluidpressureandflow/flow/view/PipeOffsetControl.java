@@ -39,11 +39,13 @@ public class PipeOffsetControl extends PNode {
         };
         pipePosition.top.addObserver( updateCenter );
         pipePosition.bottom.addObserver( updateCenter );
-        addChild( new GrabHandle( transform, new PipeControlPoint(
-                point ), new Function1<Point2D, Point2D>() {
-            public Point2D apply( Point2D proposedDragPoint ) {
-                return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y, proposedDragPoint.getY(), MAX_DRAG_Y ) );
-            }
-        } ) );
+
+        //Add the handle that the user can use to drag the pipe up and down
+        addChild( new GrabHandle( transform, new PipeControlPoint( point ),
+                                  new Function1<Point2D, Point2D>() {
+                                      public Point2D apply( Point2D proposedDragPoint ) {
+                                          return new Point2D.Double( x, MathUtil.clamp( MIN_DRAG_Y, proposedDragPoint.getY(), MAX_DRAG_Y ) );
+                                      }
+                                  }, true ) );
     }
 }
