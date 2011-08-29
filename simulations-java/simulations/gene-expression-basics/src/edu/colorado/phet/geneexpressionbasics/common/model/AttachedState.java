@@ -15,16 +15,23 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 public class AttachedState extends BiomoleculeBehaviorState {
 
     private static final Random RAND = new Random();
-    private static final double ATTACHMENT_HALF_LIFE = 1.0; // Seconds.
-    private static final double MIGRATION_HALF_LIFE = 0.05; // Seconds.
+    private static final double DEFAULT_ATTACHMENT_HALF_LIFE = 1.0; // Seconds.
+    private static final double DEFAULT_MIGRATION_HALF_LIFE = 0.05; // Seconds.
     private static final double MIN_NON_DETACH_TIME = 0.25;
 
     private final AttachmentSite attachmentSite;
 
     private double timeOfAttachment = 0;
+    private double migrationHalfLife = DEFAULT_MIGRATION_HALF_LIFE;
+    private double attachmentHalfLife = DEFAULT_ATTACHMENT_HALF_LIFE;
 
     public AttachedState( AttachmentSite attachmentSite ) {
         this.attachmentSite = attachmentSite;
+        if ( attachmentSite.getAffinity() == 1 ) {
+            System.out.println( "Attached to max affinity site." );
+            migrationHalfLife = Double.POSITIVE_INFINITY;
+            attachmentHalfLife = Double.POSITIVE_INFINITY;
+        }
         // TODO: The half life is currently fixed, but we may want to change it based on the affinity of the attachment.
         // If so, it would be calculated here.
     }
@@ -42,7 +49,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         // to determine whether it is a reasonable time.
         double probabilityOfAttachmentDecay = 0;
         if ( timeOfAttachment > MIN_NON_DETACH_TIME ) {
-            probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, dt / ATTACHMENT_HALF_LIFE );
+            probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, dt / attachmentHalfLife );
         }
         if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Go ahead and detach.
@@ -62,7 +69,12 @@ public class AttachedState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
-        double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / MIGRATION_HALF_LIFE );
+        double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / migrationHalfLife );
+        for ( AttachmentSite proposedAttachmentSite : proposedAttachmentSites ) {
+            if ( proposedAttachmentSite.getAffinity() == 1 ) {
+                System.out.println( "Found a 1!" );
+            }
+        }
         if ( probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Okay to actually consider these proposals.
             List<AttachmentSite> copyOfProposedAttachmentSites = new ArrayList<AttachmentSite>( proposedAttachmentSites );
@@ -75,11 +87,12 @@ public class AttachedState extends BiomoleculeBehaviorState {
             }
             if ( copyOfProposedAttachmentSites.size() > 0 ) {
                 if ( RAND.nextDouble() > 0.9 ) {
-                    // Sort the proposals.
+                    // Sort the proposals using a combination of affinity and
+                    // distance.
                     Collections.sort( copyOfProposedAttachmentSites, new Comparator<AttachmentSite>() {
                         public int compare( AttachmentSite as1, AttachmentSite as2 ) {
-                            return Double.compare( Math.pow( biomolecule.getPosition().distance( as1.locationProperty.get() ), 2 ) * as1.getAffinity(),
-                                                   Math.pow( biomolecule.getPosition().distance( as2.locationProperty.get() ), 2 ) * as2.getAffinity() );
+                            return Double.compare( ( 1 / Math.pow( biomolecule.getPosition().distance( as2.locationProperty.get() ), 2 ) ) * as2.getAffinity(),
+                                                   ( 1 / Math.pow( biomolecule.getPosition().distance( as1.locationProperty.get() ), 2 ) ) * as1.getAffinity() );
                         }
                     } );
                     int newAttachmentSiteIndex = 0;
