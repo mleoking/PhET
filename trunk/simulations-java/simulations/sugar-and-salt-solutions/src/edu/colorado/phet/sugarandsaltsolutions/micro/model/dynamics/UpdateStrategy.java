@@ -24,7 +24,6 @@ public abstract class UpdateStrategy implements IUpdateStrategy {
     public final DoubleProperty waterVolume;
 
     //Speed at which freely moving particles should random walk
-    //TODO: move this to update strategy
     public static final double FREE_PARTICLE_SPEED = 6E-10;
 
     //Particle mass, used in stepping forward in time according to newton's 2nd law.

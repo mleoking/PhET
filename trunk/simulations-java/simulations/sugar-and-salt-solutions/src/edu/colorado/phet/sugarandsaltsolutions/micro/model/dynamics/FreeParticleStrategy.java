@@ -104,8 +104,7 @@ public class FreeParticleStrategy extends UpdateStrategy {
             particle.velocity.set( parseAngleAndMagnitude( initialVelocity.getMagnitude(), randomAngle() ) );
         }
 
-        //Stop the particle completely if there is no water to move within
-        //TODO: maybe removing this line will help ensure that free particles always join up with partners to form crystals, as long as there is always a match
+        //Stop the particle completely if there is no water to move within, though it should probably find another particle to crystallize with (if partner is required)
         if ( waterVolume.get() <= 0 ) {
             particle.velocity.set( new ImmutableVector2D( 0, 0 ) );
         }

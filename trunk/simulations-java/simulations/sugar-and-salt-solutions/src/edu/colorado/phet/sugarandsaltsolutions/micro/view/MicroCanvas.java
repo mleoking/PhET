@@ -84,7 +84,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
             } );
         }} );
 
-        //TODO: Why is the -10 needed in the next line?
         microKitControlNode.setOffset( concentrationBarChart.getFullBounds().getX() - microKitControlNode.getFullBounds().getWidth() - INSET - 10, concentrationBarChart.getFullBounds().getY() );
         behindShakerNode.addChild( microKitControlNode );
 
@@ -157,7 +156,6 @@ public class MicroCanvas extends SugarAndSaltSolutionsCanvas implements Module.L
     }
 
     //See docs in MacroCanvas.createMacroTransform, this variant is used to create the transform for the micro tab
-    //TODO: see if code can be consolidated with the macro version
     public static ModelViewTransform createMicroTransform( SugarAndSaltSolutionModel model ) {
         double modelScale = 0.75;
         return createRectangleInvertedYMapping( model.visibleRegion.toRectangle2D(),
