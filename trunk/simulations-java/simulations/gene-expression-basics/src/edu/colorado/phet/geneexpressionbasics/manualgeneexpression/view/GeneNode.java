@@ -59,7 +59,7 @@ public class GeneNode extends PNode {
             setOffset( transcribedRegionNode.getFullBoundsReference().getCenterX() - getFullBoundsReference().width / 2,
                        transcribedRegionNode.getFullBoundsReference().getMaxY() );
         }};
-        addChild( regulatoryRegionCaption );
+        addChild( transcribedRegionCaption );
 
         // Add the bracket.  This is a portion (the non-textual part) of the
         // label for the gene.
