@@ -227,8 +227,4 @@ public class CompoundListNode<T extends Compound<SphericalParticle>> extends PNo
     public void setInBucket( boolean inBucket ) {
         this.inBucket.set( inBucket );
     }
-
-    public T[] getCompounds() {
-        return compounds;
-    }
 }

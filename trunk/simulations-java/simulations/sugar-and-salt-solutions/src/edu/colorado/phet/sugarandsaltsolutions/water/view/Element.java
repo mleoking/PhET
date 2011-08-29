@@ -10,10 +10,6 @@ import java.awt.Color;
  */
 public class Element {
 
-    //Sizes from the design doc
-    public static final double CHLORINE_RADIUS = 181E-12;
-    public static final double SODIUM_RADIUS = 102E-12;
-
     public final String name;
     public final double radius;
     public final Color color;
@@ -22,19 +18,5 @@ public class Element {
         this.name = name;
         this.radius = radius;
         this.color = color;
-    }
-
-    //Use colors from edu.colorado.phet.chemistry.model.Element and size from design doc
-    public static final Element CL_ION = new Element( "Cl-", 181, new Color( 153, 242, 57 ) );
-
-    //Used color from https://secure.wikimedia.org/wikipedia/en/wiki/CPK_coloring and size from design doc
-    public static final Element NA_ION = new Element( "Na+", 102, new Color( 171, 92, 242 ) );
-
-    public double getRadius() {
-        return radius;
-    }
-
-    public Color getColor() {
-        return color;
     }
 }
