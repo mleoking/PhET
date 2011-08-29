@@ -8,7 +8,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 
 /**
- * State the controls a biomolecule's behavior when it is transcribing DNA.
+ * State that controls a biomolecule's behavior when it is transcribing DNA.
  *
  * @author John Blanco
  */
