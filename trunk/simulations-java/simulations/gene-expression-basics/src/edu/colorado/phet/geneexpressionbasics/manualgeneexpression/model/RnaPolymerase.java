@@ -53,6 +53,9 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     private final GeneExpressionModel model;
 
+    // TODO: Temp for working out conformed shape of polymerase, remove before publication.
+    public int seed = 0;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -65,6 +68,7 @@ public class RnaPolymerase extends MobileBiomolecule {
         super( createShape(), new Color( 0, 153, 210 ) );
         this.model = model;
         setPosition( position );
+        seed = 259;
     }
 
     //-------------------------------------------------------------------------
@@ -94,7 +98,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     @Override public void distortShape( double distortionFactor ) {
-        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, distortionFactor, 1 );
+        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, distortionFactor, seed );
         Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
         shapeProperty.set( newTranslatedShape );
     }
