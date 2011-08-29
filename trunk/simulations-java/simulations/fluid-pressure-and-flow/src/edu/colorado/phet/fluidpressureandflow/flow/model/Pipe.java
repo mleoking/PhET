@@ -25,10 +25,9 @@ public class Pipe {
     private ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
     private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
+    public final Property<Double> k = new Property<Double>( 5.0 ); // v2 / a1 from continuity equation a1 v1 = a2 v2
 
-    /**
-     * Creates a pipe with a default shape.
-     */
+    //Creates a pipe with a default shape.
     public Pipe() {
         controlCrossSections.add( new CrossSection( -6, -3, -1 ) );
         controlCrossSections.add( new CrossSection( -4, -3, -1 ) );
@@ -68,9 +67,7 @@ public class Pipe {
         return splineCrossSections;
     }
 
-    /*
-     * Creates the set of interpolated cross section samples from the control cross sections.
-     */
+    //Creates the set of interpolated cross section samples from the control cross sections.
     private ArrayList<CrossSection> createSpline() {
         ArrayList<CrossSection> pipePositions = new ArrayList<CrossSection>();
         double dx = 0.2;//extend water flow so it looks like it enters the pipe cutaway
@@ -80,9 +77,7 @@ public class Pipe {
         return spline( pipePositions );
     }
 
-    /*
-     * Interpolates the specified control points to obtain a smooth set of cross sections
-     */
+    //Interpolates the specified control points to obtain a smooth set of cross sections
     private ArrayList<CrossSection> spline( ArrayList<CrossSection> controlPoints ) {
         ArrayList<CrossSection> spline = new ArrayList<CrossSection>();
         SerializablePoint2D[] top = new SerializablePoint2D[controlPoints.size()];
@@ -113,9 +108,7 @@ public class Pipe {
         return spline;
     }
 
-    /*
-     * Converts a list of CrossSections to a Shape, this is used with the interpolated cross sections.
-     */
+    //Converts a list of CrossSections to a Shape, this is used with the interpolated cross sections.
     public Shape getShape( ArrayList<CrossSection> controlSections ) {
         DoubleGeneralPath path = new DoubleGeneralPath( controlSections.get( 0 ).getTop() );
         for ( CrossSection pipePosition : controlSections.subList( 1, controlSections.size() ) ) {
@@ -225,8 +218,6 @@ public class Pipe {
         return list.get( 0 );
     }
 
-    public Property<Double> k = new Property<Double>( 5.0 ); // v2 / a1 from continuity equation a1 v1 = a2 v2
-
     public double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
@@ -308,5 +299,4 @@ public class Pipe {
     public ImmutableVector2D getTweakedVelocity( double x, double y ) {
         return new ImmutableVector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
     }
-
 }
