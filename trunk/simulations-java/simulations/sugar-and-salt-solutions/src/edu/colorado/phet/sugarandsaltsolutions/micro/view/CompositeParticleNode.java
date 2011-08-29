@@ -30,11 +30,9 @@ public class CompositeParticleNode<T extends Particle> extends PNode {
         for ( int i = 0; i < compound.numberConstituents(); i++ ) {
             Constituent<T> constituent = compound.getConstituent( i );
 
-            //Put particles at the correct relative locations and add as children
-            //TODO: is this still necessary after Compound was improved?
+            //Put particles at the correct relative locations and add as children, necessary for icons like NO3 in the bar chart
             constituent.particle.setPosition( constituent.relativePosition );
 
-            //TODO: why isn't this a class cast exception for Nitrate as used from KitList?
             addChild( new SphericalParticleNode( transform, (SphericalParticle) constituent.particle, showChargeColor ) );
         }
     }
