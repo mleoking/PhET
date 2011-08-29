@@ -182,8 +182,7 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
             ImmutableVector2D initialLocation = crystal.position.get();
 
-            //slow the motion down a little bit or it moves too fast
-            //TODO: Why can't this run at full speed?
+            //slow the motion down a little bit or it moves too fast since the camera is zoomed in so much
             crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor(),
                                 new Line2D.Double( beaker.getFloor().getX1(), 0, beaker.getFloor().getX2(), 0 ) );
 

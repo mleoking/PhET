@@ -192,6 +192,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     //Flag to help debug the crystal ratios
     public static final boolean debugCrystalRatio = true;
 
+    //Amount to move back particles (in meters) to prevent them from going past the edge of the beaker
+    public double modelInset = 1E-12;
+
     public MicroModel() {
 
         //SolubleSalts clock runs much faster than wall time
@@ -212,7 +215,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
                                               //convert L to meters cubed
                                               * 0.001, 1 / 3.0 ) ),
 
-               //Flow rate must be slowed since the beaker is so small.  TODO: compute this factor analytically so that it will match the first tab perfectly?  Factor out numbers?
+               //Flow rate must be slowed since the beaker is so small.
                0.0005 * 2E-23 / 2,
 
                //Values sampled at runtime using a debugger using this line in SugarAndSaltSolutionModel.update: System.out.println( "solution.shape.get().getBounds2D().getMaxY() = " + solution.shape.get().getBounds2D().getMaxY() );
@@ -427,7 +430,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
 
         //Add the components of the lattice to the model so the graphics will be created
         for ( SphericalParticle atom : sodiumChlorideCrystal ) {
-            //TODO: separate list for NaCl crystals so no cast required here?
             sphericalParticles.add( atom );
         }
         sodiumChlorideCrystals.add( sodiumChlorideCrystal );
@@ -493,8 +495,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         double particleTopY = particle.getShape().getBounds2D().getMaxY();
 
         if ( particleTopY > waterTopY ) {
-            //TODO: Factor out 1E-12
-            particle.translate( 0, waterTopY - particleTopY - 1E-12 );
+            particle.translate( 0, waterTopY - particleTopY - modelInset );
         }
     }
 
@@ -601,7 +602,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     private void preventFromFallingThroughBeakerBase( Particle particle ) {
         double bottomY = particle.getShape().getBounds2D().getMinY();
         if ( bottomY < 0 ) {
-            particle.translate( 0, -bottomY + 1E-12 );
+            particle.translate( 0, -bottomY + modelInset );
         }
     }
 

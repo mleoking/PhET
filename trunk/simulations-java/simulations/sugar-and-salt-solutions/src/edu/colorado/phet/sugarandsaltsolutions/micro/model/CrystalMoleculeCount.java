@@ -6,7 +6,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 /**
  * Property that identifies the number of molecules in crystal form, for making sure the user doesn't exceed the allowed maximum
- * TODO: Should be rewritten with Property<Integer> but there is currently no good compositional support for it (using plus(), greaterThan(), etc)
+ * Should be rewritten with Property<Integer> but there is currently no good compositional support for it (using plus(), greaterThan(), etc)
  *
  * @author Sam Reid
  */
@@ -15,7 +15,7 @@ public class CrystalMoleculeCount<T extends Crystal<?>> extends Property<Double>
         super( 0.0 );
 
         //When the number of crystals changes, update the number of constituents in the crystals
-        //TODO: this watches the number of crystals but not the number of constituents in each crystal.  Is this a problem?
+        //This watches the number of crystals but not the number of constituents in each crystal, but this hasn't caused any known problems so far
         crystals.size.addObserver( new SimpleObserver() {
             public void update() {
                 int count = 0;
