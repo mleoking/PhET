@@ -74,11 +74,6 @@ public abstract class Particle {
         hasSubmerged = true;
     }
 
-    //Gets the strategy this particle uses to move in time
-    public IUpdateStrategy getUpdateStrategy() {
-        return updateStrategy;
-    }
-
     //Sets the strategy this particle uses to move in time
     public void setUpdateStrategy( IUpdateStrategy updateStrategy ) {
         this.updateStrategy = updateStrategy;

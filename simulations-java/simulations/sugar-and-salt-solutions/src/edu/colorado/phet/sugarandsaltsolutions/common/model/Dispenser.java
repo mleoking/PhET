@@ -72,11 +72,6 @@ public abstract class Dispenser<T extends SugarAndSaltSolutionModel> {
         center.set( new ImmutableVector2D( proposedPoint.getX(), y ) );
     }
 
-    //Rotate the dispenser by the specified angle in radians
-    public void rotate( double angle ) {
-        this.angle.add( angle );
-    }
-
     //Reset the dispenser's position and orientation
     public void reset() {
         //Only need to set the primary properties, others (e.g., open/enabled) are derived and will auto-reset

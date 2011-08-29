@@ -71,7 +71,7 @@ public class Formula {
         return map.get( type );
     }
 
-    //Deterine if this formula contains the specified type of particle
+    //Determine if this formula contains the specified type of particle
     public boolean contains( Class<? extends Particle> type ) {
         return getTypes().contains( type );
     }

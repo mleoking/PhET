@@ -408,11 +408,6 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         return 0;
     }
 
-    //Counts the number of solute types for purposes of changing the text on the "remove solute(s)" button
-    private int countType( Class<? extends Particle> particle ) {
-        return freeParticles.count( particle ) > 0 ? 1 : 0;
-    }
-
     //Combine elements from several lists so they can be iterated over together
     private ArrayList<Particle> joinLists( ItemList<?>... freeParticles ) {
         ArrayList<Particle> p = new ArrayList<Particle>();
