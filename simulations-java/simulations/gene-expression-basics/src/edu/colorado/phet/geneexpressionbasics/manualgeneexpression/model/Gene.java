@@ -143,30 +143,6 @@ public class Gene {
         }
     }
 
-    /**
-     * Get the attachment site for a base pair that is contained within this
-     * gene.  In many cases, the affinity of the attachment site will be the
-     * same as the default for any DNA, but in some cases it may be especially
-     * strong.
-     *
-     * @param basePairIndex - Index of the base pair on the DNA strand, NOT the
-     *                      index within this gene.
-     * @return
-     */
-    public AttachmentSite getTranscriptionFactorAttachmentSiteForBasePair( int basePairIndex ) {
-        if ( basePairIndex == regulatoryRegion.getMax() ) {
-            // This is the last base pair within the regulatory region.  This
-            // is where the polymerase would start transcribing if the
-            // appropriate transcription factor is in place.
-            return new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ), dnaMolecule.Y_POS ), 1 );
-        }
-        else {
-            // Not a special location as far as this biomolecule is concerned,
-            // so return the default affinity.
-            return dnaMolecule.createDefaultAffinityAttachmentSite( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ) );
-        }
-    }
-
     public boolean containsBasePair( int basePairIndex ) {
         return regulatoryRegion.contains( basePairIndex ) || transcribedRegion.contains( basePairIndex );
     }
