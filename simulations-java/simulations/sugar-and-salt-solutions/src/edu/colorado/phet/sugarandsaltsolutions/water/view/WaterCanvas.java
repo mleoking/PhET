@@ -267,8 +267,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             addConstituent( getOpenSites().get( 2 ).toConstituent() );
             addConstituent( getOpenSites().get( 4 ).toConstituent() );
         }};
-        //TODO: why is this call necessary?
-        crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
         CompoundListNode<SaltIon> compoundListNode = new CompoundListNode<SaltIon>( transform, model, saltBucket, saltBucketParticleLayer, this, model.addSaltIon, model.removeSaltIon, model.showChargeColor,
@@ -292,8 +290,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
             //Add at the 2nd open site instead of relying on random so that it will be horizontally latticed, so it will fit in the bucket
             addConstituent( new Constituent<Sucrose>( new Sucrose( ZERO, Math.PI / 2 ), getOpenSites().get( 2 ).relativePosition ) );
         }};
-        //TODO: why is this call necessary?
-        crystal.updateConstituentLocations();
 
         //Create the node for sugar that will be shown in the bucket that the user can grab
         CompoundListNode<Sucrose> compoundListNode = new CompoundListNode<Sucrose>( transform, model, sugarBucket, sugarBucketParticleLayer, this, model.addSucrose, model.removeSucrose, not( model.showSugarAtoms ), new SucroseLabel(), true, crystal.getConstituentParticleList().toArray( new Sucrose[crystal.getConstituentParticleList().size()] ) );
@@ -311,10 +307,6 @@ public class WaterCanvas extends PhetPCanvas implements ICanvas {
 
     public void removeChild( PNode node ) {
         rootNode.removeChild( node );
-    }
-
-    public ModelViewTransform getModelViewTransform() {
-        return transform;
     }
 
     //Get the root node used for stage coordinates, necessary when transforming through the global coordinate frame to stage
