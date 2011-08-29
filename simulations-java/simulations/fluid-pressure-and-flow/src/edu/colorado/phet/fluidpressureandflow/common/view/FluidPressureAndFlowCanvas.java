@@ -82,7 +82,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
 
     //Create clock controls (play/pause), including a time speed slider (no time readout)
     protected HBox createClockControls( final FluidPressureAndFlowModule<T> module, final Property<Boolean> clockRunning ) {
-        final Property<Double> dt = module.getFluidPressureAndFlowModel().simulationTimeStep;
+        final Property<Double> dt = module.model.simulationTimeStep;
         return new HBox( 10,
                          //Set the time speed slider to go between 1/2 and 2x the default dt
                          new SimSpeedControlPNode( dt.get() / 2, dt, dt.get() * 2, 0.0, new Property<Color>( Color.black ) ),

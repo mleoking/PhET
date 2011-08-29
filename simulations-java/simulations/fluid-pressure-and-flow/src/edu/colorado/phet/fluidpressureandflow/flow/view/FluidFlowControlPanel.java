@@ -20,7 +20,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
 public class FluidFlowControlPanel<T extends FluidPressureAndFlowModel> extends VerticalLayoutPanel {
     public FluidFlowControlPanel( final FluidPressureAndFlowModule<T> module ) {
         addControlFullWidth( new CheckBox( RULER, module.rulerVisible ) );
-        SettableProperty<UnitSet> units = module.getFluidPressureAndFlowModel().units;
+        SettableProperty<UnitSet> units = module.model.units;
 
         //Units control panel that allows choice between english and metric
         addControlFullWidth( new EnglishMetricControlPanel<T>(

@@ -31,8 +31,6 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControl
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
-//import edu.colorado.phet.fluidpressureandflow.model.VelocitySensor;
-
 /**
  * @author Sam Reid
  */
@@ -45,23 +43,23 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
     private static final double modelWidth = modelHeight / STAGE_SIZE.getHeight() * STAGE_SIZE.getWidth();
 
     public FluidFlowCanvas( final FluidFlowModule module ) {
-        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ), module.getFluidPressureAndFlowModel().visibleModelBounds );
+        super( ModelViewTransform.createRectangleInvertedYMapping( new Rectangle2D.Double( -modelWidth / 2, -modelHeight / 2 + pipeCenterY + 0.75, modelWidth, modelHeight ), new Rectangle2D.Double( 0, 0, STAGE_SIZE.width, STAGE_SIZE.height ) ), module.model.visibleModelBounds );
 
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
 
-        addChild( new PipeBackNode( transform, module.getFluidFlowModel().getPipe(), module.getFluidFlowModel().liquidDensity ) );
+        addChild( new PipeBackNode( transform, module.model.getPipe(), module.model.liquidDensity ) );
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
         addChild( particleLayer );
 
-        final FluidFlowModel model = module.getFluidFlowModel();
+        final FluidFlowModel model = module.model;
 
-        addChild( new PipeFrontNode( transform, module.getFluidFlowModel().getPipe() ) );
-        for ( final Particle p : module.getFluidFlowModel().getParticles() ) {
+        addChild( new PipeFrontNode( transform, module.model.getPipe() ) );
+        for ( final Particle p : module.model.getParticles() ) {
             addParticleNode( p );
         }
-        module.getFluidFlowModel().addParticleAddedObserver( new VoidFunction1<Particle>() {
+        module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {
             public void apply( Particle particle ) {
                 addParticleNode( particle );
             }
@@ -140,11 +138,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         }} );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
-        for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().units ) );
+        for ( PressureSensor sensor : module.model.getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, sensor, module.model.units ) );
         }
 
-        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
+        addVelocitySensorNodes( module.model );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
