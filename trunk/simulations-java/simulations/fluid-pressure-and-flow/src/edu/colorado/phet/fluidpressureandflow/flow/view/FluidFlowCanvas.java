@@ -47,7 +47,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         addChild( new OutsideBackgroundNode( transform, 3, 1 ) );
 
-        addChild( new PipeBackNode( transform, module.model.getPipe(), module.model.liquidDensity ) );
+        addChild( new PipeBackNode( transform, module.model.pipe, module.model.liquidDensity ) );
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
         addChild( foodColoringLayer );
@@ -55,7 +55,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
 
         final FluidFlowModel model = module.model;
 
-        addChild( new PipeFrontNode( transform, module.model.getPipe() ) );
+        addChild( new PipeFrontNode( transform, module.model.pipe ) );
         for ( final Particle p : module.model.getParticles() ) {
             addParticleNode( p );
         }
@@ -65,7 +65,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
 
-        final DropperNode dropperNode = new DropperNode( transform, 3 * Math.PI / 2, model.getPipe(), new SimpleObserver() {
+        final DropperNode dropperNode = new DropperNode( transform, 3 * Math.PI / 2, model.pipe, new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
             }

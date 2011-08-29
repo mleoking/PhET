@@ -20,7 +20,7 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySenso
  * @author Sam Reid
  */
 public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
-    private Pipe pipe = new Pipe();
+    public final Pipe pipe = new Pipe();
     private ArrayList<Particle> particles = new ArrayList<Particle>();
     private Random random = new Random();
     private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
@@ -135,10 +135,6 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         }
     }
 
-    public Pipe getPipe() {
-        return pipe;
-    }
-
     public Particle[] getParticles() {
         return particles.toArray( new Particle[particles.size()] );
     }
@@ -161,7 +157,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     }
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {
-        getPipe().addShapeChangeListener( observer );
+        pipe.addShapeChangeListener( observer );
     }
 
     public void addFluidChangeObserver( SimpleObserver updatePressure ) {
