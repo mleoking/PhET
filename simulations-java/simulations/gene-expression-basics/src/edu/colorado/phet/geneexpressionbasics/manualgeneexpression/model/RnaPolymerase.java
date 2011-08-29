@@ -34,6 +34,18 @@ public class RnaPolymerase extends MobileBiomolecule {
     // factors are present.  For now at least, this works.
     private static final double START_TRANSCRIPTION_THRESHOLD = 0.9;
 
+    // Set of points that outline the basic, non-distorted shape of this
+    // molecule.  The shape is meant to look like illustrations in "The
+    // Machinery of Life" by David Goodsell.
+    private static final List<Point2D> shapePoints = new ArrayList<Point2D>() {{
+        add( new Point2D.Double( 0, HEIGHT / 2 ) ); // Middle top.
+        add( new Point2D.Double( WIDTH / 2, HEIGHT * 0.25 ) );
+        add( new Point2D.Double( WIDTH * 0.35, -HEIGHT * 0.25 ) );
+        add( new Point2D.Double( 0, -HEIGHT / 2 ) ); // Middle bottom.
+        add( new Point2D.Double( -WIDTH * 0.35, -HEIGHT * 0.25 ) );
+        add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
+    }};
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -83,13 +95,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     private static Shape createShape() {
         // Shape is meant to look like illustrations in "The Machinery of
         // Life" by David Goodsell.
-        List<Point2D> points = new ArrayList<Point2D>();
-        points.add( new Point2D.Double( 0, HEIGHT / 2 ) ); // Middle top.
-        points.add( new Point2D.Double( WIDTH / 2, HEIGHT * 0.25 ) );
-        points.add( new Point2D.Double( WIDTH * 0.35, -HEIGHT * 0.25 ) );
-        points.add( new Point2D.Double( 0, -HEIGHT / 2 ) ); // Middle bottom.
-        points.add( new Point2D.Double( -WIDTH * 0.35, -HEIGHT * 0.25 ) );
-        points.add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
-        return ShapeCreationUtils.createRoundedShapeFromPoints( points );
+        return ShapeCreationUtils.createRoundedShapeFromPoints( shapePoints );
     }
 }
