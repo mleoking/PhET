@@ -24,7 +24,7 @@ public class ItemList<T> extends ObservableList<T> {
     //Property that can be used to monitor the number of items in the list.
     //It is typed as Double since that package provides support for composition (through >, +, etc)
     //When support is added for IntegerProperty, this should be switched to use IntegerProperty instead of DoubleProperty
-    //TODO: this shouldn't provide a settable interface
+    //This shouldn't provide a settable interface
     public final DoubleProperty size = new DoubleProperty( 0.0 ) {{
         VoidFunction1<T> listener = new VoidFunction1<T>() {
             public void apply( T t ) {
