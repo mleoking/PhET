@@ -25,7 +25,6 @@ public class FlowOutOfDrainStrategy extends UpdateStrategy {
         if ( particle.getPosition().getY() < -3 * model.beaker.getHeight() ) {
 
             //Remove the graphics from the model
-            //TODO: one method that handles both leaves and non-leaves?
             if ( particle instanceof Compound<?> ) {
                 model.removeComponents( (Compound<?>) particle );
             }

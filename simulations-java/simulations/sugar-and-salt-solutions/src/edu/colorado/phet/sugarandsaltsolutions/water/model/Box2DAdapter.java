@@ -90,8 +90,6 @@ public class Box2DAdapter {
     }
 
     //Apply a force to the body at the specified location
-    //Note that this will be insufficient for polyatomic compounds
-    //TODO: add a variant for polyatomic compounds
     public void applyBox2DForce( double fx, double fy, ImmutableVector2D box2DPosition ) {
         body.applyForce( new Vec2( (float) fx, (float) fy ), new Vec2( (float) box2DPosition.getX(), (float) box2DPosition.getY() ) );
     }
