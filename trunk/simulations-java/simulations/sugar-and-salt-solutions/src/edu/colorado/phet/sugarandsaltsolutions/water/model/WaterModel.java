@@ -246,7 +246,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         box2DAdapters.add( new Box2DAdapter( world, molecule, modelToBox2D ) );
     }
 
-    protected void updateModel( double dt ) {
+    protected double updateModel( double dt ) {
 
         long t = System.currentTimeMillis();
 
@@ -342,6 +342,9 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
         for ( VoidFunction0 frameListener : frameListeners ) {
             frameListener.apply();
         }
+
+        //No water can be drained from the water module
+        return 0;
     }
 
     //Get all pairs of salt ions, including Na+/Cl- and Na+/Na+ combinations so that the water can make sure they dissolve and move far enough away

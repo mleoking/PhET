@@ -19,7 +19,6 @@ import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.St
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AirborneCrystalMoles;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.BeakerDimension;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.ConductivityTester;
-import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.macro.view.MacroSugarDispenser;
 
@@ -279,62 +278,13 @@ public class MacroModel extends SugarAndSaltSolutionModel {
     }
 
     //Update the model when the clock ticks
-    //TODO: duplicated with SugarAndSaltSolutionsModel
-    protected void updateModel( double dt ) {
-        //Do not call super, values would be overriden
-        time += dt;
+    protected double updateModel( double dt ) {
 
         //Have to record the concentrations before the model updates since the concentrations change if water is added or removed.
         double initialSaltConcentration = saltConcentration.get();
         double initialSugarConcentration = sugarConcentration.get();
 
-        //Add any new crystals from the salt & sugar dispensers
-        for ( Dispenser dispenser : dispensers ) {
-            dispenser.updateModel();
-        }
-
-        //Change the water volume based on input and output flow
-        double inputWater = dt * inputFlowRate.get() * faucetFlowRate;
-        double drainedWater = dt * outputFlowRate.get() * faucetFlowRate;
-        double evaporatedWater = dt * evaporationRate.get() * evaporationRateScale;
-
-        //Compute the new water volume, but making sure it doesn't overflow or underflow.
-        //If we rewrite the model to account for solute volume displacement, this computation should account for the solution volume, not the water volume
-        double newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
-        if ( newVolume > maxWater ) {
-            inputWater = maxWater + drainedWater + evaporatedWater - waterVolume.get();
-        }
-        //Only allow drain to use up all the water if user is draining the liquid
-        else if ( newVolume < 0 && outputFlowRate.get() > 0 ) {
-            drainedWater = inputWater + waterVolume.get();
-        }
-        //Conversely, only allow evaporated water to use up all remaining water if the user is evaporating anything
-        else if ( newVolume < 0 && evaporationRate.get() > 0 ) {
-            evaporatedWater = inputWater + waterVolume.get();
-        }
-        //Note that the user can't be both evaporating and draining fluid at the same time, since the controls are one-at-a-time controls.
-        //This simplifies the logic here.
-
-        //Set the true value of the new volume based on clamped inputs and outputs
-        newVolume = waterVolume.get() + inputWater - drainedWater - evaporatedWater;
-
-        //Turn off the input flow if the beaker would overflow
-        if ( newVolume >= maxWater ) {
-            inputFlowRate.set( 0.0 );
-        }
-
-        //Turn off the output flow if no water is adjacent to it
-        if ( !lowerFaucetCanDrain.get() ) {
-            outputFlowRate.set( 0.0 );
-        }
-
-        //Turn off evaporation if beaker is empty of water
-        if ( newVolume <= 0 ) {
-            evaporationRate.set( 0 );
-        }
-
-        //Update the water volume
-        waterVolume.set( newVolume );
+        double drainedWater = super.updateModel( dt );
 
         //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
         //Only call when draining, would have the wrong behavior for evaporation
@@ -342,14 +292,11 @@ public class MacroModel extends SugarAndSaltSolutionModel {
             waterDrained( drainedWater, initialSaltConcentration, initialSugarConcentration );
         }
 
-        //Notify subclasses that water evaporated in case they need to update anything
-        if ( evaporatedWater > 0 ) {
-            waterEvaporated( evaporatedWater );
-        }
-
         //Move about the sugar and salt crystals, and maybe absorb them
         updateCrystals( dt, saltList );
         updateCrystals( dt, sugarList );
+
+        return drainedWater;
     }
 
     //Remove the specified crystals.  Note that the toRemove

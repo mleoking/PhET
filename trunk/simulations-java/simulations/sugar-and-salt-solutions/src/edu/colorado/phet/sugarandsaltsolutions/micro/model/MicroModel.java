@@ -319,7 +319,7 @@ public class MicroModel extends SugarAndSaltSolutionModel {
     }
 
     //When the simulation clock ticks, move the particles
-    @Override protected void updateModel( final double dt ) {
+    @Override protected double updateModel( final double dt ) {
         super.updateModel( dt );
 
         //The Draining algorithm keeps track of which formula unit each particle is assigned to so that a particle is not double counted
@@ -400,6 +400,9 @@ public class MicroModel extends SugarAndSaltSolutionModel {
         for ( VoidFunction0 listener : stepFinishedListeners ) {
             listener.apply();
         }
+
+        //Water can be drained but this value is never used so no need to compute it exactly
+        return 0;
     }
 
     //Counts the number of solute types for purposes of changing the text on the "remove solute(s)" button

@@ -56,7 +56,7 @@ public abstract class AbstractSugarAndSaltSolutionsModel implements ResetModel {
         } );
     }
 
-    protected abstract void updateModel( double simulationTimeChange );
+    protected abstract double updateModel( double dt );
 
     //Adds a listener that will be notified when the model is reset
     public void addResetListener( VoidFunction0 listener ) {

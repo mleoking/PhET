@@ -215,9 +215,8 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         this.inputFaucetMetrics = faucetMetrics;
     }
 
-    //Update the model when the clock ticks
-    //TODO: duplicated with MacroModel code
-    protected void updateModel( double dt ) {
+    //Update the model when the clock ticks, and return the amount of drained water (in meters cubed) so that subclasses like MacroModel can decrease the amount of dissolved solutes
+    protected double updateModel( double dt ) {
         time += dt;
 
         //Add any new crystals from the salt & sugar dispensers
@@ -272,5 +271,7 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         if ( evaporatedWater > 0 ) {
             waterEvaporated( evaporatedWater );
         }
+
+        return drainedWater;
     }
 }
