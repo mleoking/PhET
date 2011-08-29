@@ -1,3 +1,4 @@
+# 2.02.00 (55864) Aug 29, 2011
 # 2.01.03 (55719) Aug 23, 2011
 > Changed "total force" to "sum of forces", see #3041
 # 2.01.02 (55314) Aug 16, 2011
