@@ -23,7 +23,7 @@ public class PlacementHint extends ShapeChangingModelElement {
     }
 
     public Color getBaseColor() {
-        return biomolecule.getBaseColor();
+        return biomolecule.colorProperty.get();
     }
 
     /**
@@ -42,7 +42,7 @@ public class PlacementHint extends ShapeChangingModelElement {
                 // TODO: This test is kind of hokey.  As the class and behavior
                 // of transcription factors evolve some better way many come
                 // along.
-                if ( this.biomolecule.getBaseColor() == testBiomolecule.getBaseColor() ) {
+                if ( this.biomolecule.colorProperty.get() == testBiomolecule.colorProperty.get() ) {
                     match = true;
                 }
             }

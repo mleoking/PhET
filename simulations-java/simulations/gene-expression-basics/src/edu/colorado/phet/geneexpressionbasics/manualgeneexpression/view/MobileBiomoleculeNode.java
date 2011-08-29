@@ -39,6 +39,12 @@ public class MobileBiomoleculeNode extends PNode {
                     setPaint( createGradientPaint( mvt, mobileBiomolecule ) );
                 }
             } );
+            // Update the color whenever it changes.
+            mobileBiomolecule.colorProperty.addObserver( new VoidFunction1<Color>() {
+                public void apply( Color color ) {
+                    setPaint( createGradientPaint( mvt, mobileBiomolecule ) );
+                }
+            } );
             // Cursor handling.
             addInputEventListener( new CursorHandler() );
             // Drag handling.
@@ -49,9 +55,9 @@ public class MobileBiomoleculeNode extends PNode {
     Paint createGradientPaint( ModelViewTransform mvt, MobileBiomolecule mobileBiomolecule ) {
         return new GradientPaint( mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMinX(),
                                                                        mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                  ColorUtils.brighterColor( mobileBiomolecule.getBaseColor(), 0.8 ),
+                                  ColorUtils.brighterColor( mobileBiomolecule.colorProperty.get(), 0.8 ),
                                   mvt.modelToView( new Point2D.Double( mobileBiomolecule.getShape().getBounds2D().getMaxX(),
                                                                        mobileBiomolecule.getShape().getBounds2D().getCenterY() ) ),
-                                  ColorUtils.darkerColor( mobileBiomolecule.getBaseColor(), 0.3 ) );
+                                  ColorUtils.darkerColor( mobileBiomolecule.colorProperty.get(), 0.3 ) );
     }
 }

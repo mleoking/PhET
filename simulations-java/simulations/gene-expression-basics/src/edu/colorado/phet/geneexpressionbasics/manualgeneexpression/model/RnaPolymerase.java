@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeBehaviorState;
@@ -47,6 +48,10 @@ public class RnaPolymerase extends MobileBiomolecule {
         add( new Point2D.Double( -WIDTH / 2, HEIGHT * 0.25 ) );
     }};
 
+    // Colors used by this molecule.
+    private static final Color NOMINAL_COLOR = new Color( 0, 153, 210 );
+    private static final Color CONFORMED_COLOR = Color.CYAN;
+
     //-------------------------------------------------------------------------
     // Instance Data
     //-------------------------------------------------------------------------
@@ -65,7 +70,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     public RnaPolymerase( GeneExpressionModel model, Point2D position ) {
-        super( createShape(), new Color( 0, 153, 210 ) );
+        super( createShape(), NOMINAL_COLOR );
         this.model = model;
         setPosition( position );
         seed = 259;
@@ -97,10 +102,11 @@ public class RnaPolymerase extends MobileBiomolecule {
         }
     }
 
-    @Override public void distortShape( double distortionFactor ) {
-        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, distortionFactor, seed );
+    @Override public void changeConformation( double changeFactor ) {
+        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, changeFactor, seed );
         Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
         shapeProperty.set( newTranslatedShape );
+        colorProperty.set( ColorUtils.interpolateRBGA( NOMINAL_COLOR, CONFORMED_COLOR, changeFactor ) );
     }
 
     private static Shape createShape() {
