@@ -2,6 +2,7 @@
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * The behavior states control the motion and the attachment behavior of the
@@ -10,6 +11,8 @@ import java.util.List;
  * @author John Blanco
  */
 public abstract class BiomoleculeBehaviorState {
+    protected static final Random RAND = new Random();
+
     public abstract BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule );
 
     /**
@@ -30,4 +33,17 @@ public abstract class BiomoleculeBehaviorState {
      * @return
      */
     public abstract BiomoleculeBehaviorState movedByUser();
+
+    /**
+     * Calculate the intensity of the attraction between the biomolecule and the
+     * attachment site.  This value is based on a combination of the distance
+     * from the site and the site's affinity value.
+     *
+     * @param biomolecule
+     * @param attachmentSite
+     * @return
+     */
+    protected double getAttraction( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
+        return ( 1 / Math.pow( biomolecule.getPosition().distance( attachmentSite.locationProperty.get() ), 2 ) ) * attachmentSite.getAffinity();
+    }
 }

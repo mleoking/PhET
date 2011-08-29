@@ -2,19 +2,16 @@
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * @author John Blanco
  */
 public class AttachedState extends BiomoleculeBehaviorState {
 
-    private static final Random RAND = new Random();
     private static final double DEFAULT_ATTACHMENT_HALF_LIFE = 1.0; // Seconds.
     private static final double DEFAULT_MIGRATION_HALF_LIFE = 0.05; // Seconds.
     private static final double MIN_NON_DETACH_TIME = 0.25;
@@ -53,7 +50,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         }
         if ( probabilityOfAttachmentDecay > 0.999 || probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Go ahead and detach.
-            attachmentSite.inUse.set( false );
+            attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
             if ( attachmentSite.locationProperty.get().getY() < 100 ) {
                 // Must be on the DNA, so drift upwards.
                 return new DetachingState( new ImmutableVector2D( 0, 1 ) );
@@ -70,39 +67,38 @@ public class AttachedState extends BiomoleculeBehaviorState {
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
         double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / migrationHalfLife );
-        for ( AttachmentSite proposedAttachmentSite : proposedAttachmentSites ) {
-            if ( proposedAttachmentSite.getAffinity() == 1 ) {
-                System.out.println( "Found a 1!" );
-            }
-        }
         if ( probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Okay to actually consider these proposals.
             List<AttachmentSite> copyOfProposedAttachmentSites = new ArrayList<AttachmentSite>( proposedAttachmentSites );
             for ( AttachmentSite attachmentSite : proposedAttachmentSites ) {
                 if ( attachmentSite.equals( this.attachmentSite ) ) {
-                    // Remove the one to which we are currently attached from the
-                    // list of sites to consider.
+                    // Remove the one to which we are currently attached from
+                    // the list of sites to consider.
                     copyOfProposedAttachmentSites.remove( attachmentSite );
                 }
             }
             if ( copyOfProposedAttachmentSites.size() > 0 ) {
                 if ( RAND.nextDouble() > 0.9 ) {
-                    // Sort the proposals using a combination of affinity and
-                    // distance.
-                    Collections.sort( copyOfProposedAttachmentSites, new Comparator<AttachmentSite>() {
-                        public int compare( AttachmentSite as1, AttachmentSite as2 ) {
-                            return Double.compare( ( 1 / Math.pow( biomolecule.getPosition().distance( as2.locationProperty.get() ), 2 ) ) * as2.getAffinity(),
-                                                   ( 1 / Math.pow( biomolecule.getPosition().distance( as1.locationProperty.get() ), 2 ) ) * as1.getAffinity() );
-                        }
-                    } );
-                    int newAttachmentSiteIndex = 0;
-                    if ( copyOfProposedAttachmentSites.size() >= 2 ) {
-                        // Choose randomly between the first two on the list.
-                        newAttachmentSiteIndex = RAND.nextInt( 2 );
+                    double maxAttraction = 0;
+                    for ( AttachmentSite proposedAttachmentSite : copyOfProposedAttachmentSites ) {
+                        maxAttraction = Math.max( getAttraction( biomolecule, proposedAttachmentSite ), maxAttraction );
                     }
-                    // Accept the first one on the list.
-                    this.attachmentSite.inUse.set( false );
-                    return new MovingTowardsAttachmentState( copyOfProposedAttachmentSites.get( newAttachmentSiteIndex ) );
+                    for ( AttachmentSite proposedAttachmentSite : proposedAttachmentSites ) {
+                        if ( getAttraction( biomolecule, proposedAttachmentSite ) < maxAttraction ) {
+                            // This attachment site has less of an attraction
+                            // than at least one of the others, so remove it
+                            // from consideration.
+                            copyOfProposedAttachmentSites.remove( proposedAttachmentSite );
+                        }
+                    }
+                    // Choose randomly between all the equivalent attachment
+                    // sites.
+                    AttachmentSite newAttachmentSite = copyOfProposedAttachmentSites.get( RAND.nextInt( copyOfProposedAttachmentSites.size() ) );
+                    // Release the previous attachment site.
+                    attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+                    // Accept the new attachment site.
+                    newAttachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+                    return new MovingTowardsAttachmentState( newAttachmentSite );
                 }
             }
         }
@@ -112,7 +108,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        attachmentSite.inUse.set( false );
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState();
     }
 }
