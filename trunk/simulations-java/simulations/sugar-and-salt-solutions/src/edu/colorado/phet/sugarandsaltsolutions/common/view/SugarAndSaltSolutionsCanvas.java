@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -20,9 +19,6 @@ import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.Dispenser;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.faucet.FaucetNode;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.macro.view.PrecipitateNode;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
@@ -46,7 +42,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
     //Fonts
     public static Font CONTROL_FONT = new PhetFont( 16, true );
     public static Font TITLE_FONT = new PhetFont( 18, true );
-    private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
 
     protected final PDimension stageSize;
     protected final ModelViewTransform transform;
@@ -133,20 +128,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
         Rectangle2D.Double fullShape = model.beaker.getWaterShape( 0, model.beaker.getMaxFluidVolume() );
         model.setDrainFaucetMetrics( new FaucetMetrics( transform, model, rootNode, drainFaucetNode ).clampInputWithinFluid( fullShape.getMaxX() - fullShape.getWidth() * 0.02 ) );
 
-        //Add salt crystals graphics when salt crystals are added to the model
-        model.saltAdded.addListener( new CrystalMaker<MacroSalt>( crystalLayer, new Function1<MacroSalt, PNode>() {
-            public PNode apply( MacroSalt salt ) {
-                return new SaltNode( transform, salt, globalState.colorScheme.saltColor.color );
-            }
-        } ) );
-
-        //Add sugar crystals graphics when sugar crystals are added to the model
-        model.sugarAdded.addListener( new CrystalMaker<MacroSugar>( crystalLayer, new Function1<MacroSugar, PNode>() {
-            public PNode apply( MacroSugar sugar ) {
-                return new SugarNode( transform, sugar, globalState.colorScheme.saltColor.color );
-            }
-        } ) );
-
         //Add a node for children that should be behind the shakers
         behindShakerNode = new PNode();
         addChild( behindShakerNode );
@@ -156,15 +137,9 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             submergedInWaterNode.addChild( dispenser.createNode( transform, model.beaker.getHeight(), micro ) );
         }
 
-        //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
-        submergedInWaterNode.addChild( crystalLayer );
-
         //Add beaker node that shows border of the beaker and tick marks
         final BeakerNode node = new BeakerNodeWithTicks( transform, model.beaker );
         addChild( node );
-
-//        System.out.println( "model.beaker.getWallShape().getBounds2D() = " + model.beaker.getWallShape().getBounds2D() );
-//        System.out.println( "node.getFullBounds() = " + node.getGlobalFullBounds() );
 
         //Debug for showing stage
         if ( debug ) {
@@ -194,9 +169,6 @@ public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements
             setOffset( point.getX() - getFullBounds().getWidth() / 2, point.getY() + INSET );
         }};
         addChild( evaporationSlider );
-
-        //Show the precipitate as the sum of salt and sugar
-        submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
 
         //Add a graphic to show where particles will flow out the drain
         addChild( new DrainFaucetNodeLocationDebugger( transform, model ) );

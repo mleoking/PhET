@@ -1,3 +1,4 @@
+Internal changes to separate code from first two tabs
 Water tab: Fixed: Sucrose repels each other because C12H22O11 has net charge of +11
 Updated internationalization
 # 0.00.97 (55827) Aug 26, 2011

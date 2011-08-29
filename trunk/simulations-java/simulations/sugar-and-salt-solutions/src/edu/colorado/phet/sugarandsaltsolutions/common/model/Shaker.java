@@ -13,6 +13,7 @@ import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltShakerNode;
 import edu.umd.cs.piccolo.PNode;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.parseAngleAndMagnitude;
+import static edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel.VOLUME_PER_SOLID_MOLE_SALT;
 
 /**
  * Model element for the salt shaker, which includes its position and rotation and adds salt to the model when shaken.
@@ -95,7 +96,7 @@ public abstract class Shaker<T extends SugarAndSaltSolutionModel> extends Dispen
                 final ImmutableVector2D outputPoint = center.get().plus( parseAngleAndMagnitude( dispenserHeight / 2 * 0.8, angle.get() - Math.PI / 2 + randUniform * Math.PI / 32 * 1.2 ) );
 
                 //Add the salt to the model
-                addSalt( model, outputPoint, model.salt.volumePerSolidMole, getCrystalVelocity( outputPoint ) );
+                addSalt( model, outputPoint, VOLUME_PER_SOLID_MOLE_SALT, getCrystalVelocity( outputPoint ) );
                 shakeAmount = 0.0;
                 //don't clear the position array here since the user may still be shaking the shaker
             }
