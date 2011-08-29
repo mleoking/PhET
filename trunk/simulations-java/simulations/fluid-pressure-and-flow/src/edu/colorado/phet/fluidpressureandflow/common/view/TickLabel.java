@@ -11,6 +11,8 @@ import java.awt.Stroke;
 import javax.swing.JLabel;
 
 /**
+ * JSlider ticks have to be uniformly spaced AFAIK, so I wrote my own tick label class
+ *
  * @author Sam Reid
  */
 public class TickLabel extends JLabel {
