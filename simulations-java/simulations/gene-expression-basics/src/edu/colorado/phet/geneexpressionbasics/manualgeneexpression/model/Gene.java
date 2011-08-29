@@ -20,7 +20,7 @@ public class Gene {
 
     // Offset from the first base pair in the regulatory region of the gene
     // where the high-affinity site for the transcription factor lives.
-    private static final int TRANSCRIPTION_FACTOR_LOCATION_OFFSET = 3;
+    private static final int TRANSCRIPTION_FACTOR_LOCATION_OFFSET = 6;
 
     private final DnaMolecule dnaMolecule;
     private final Color regulatoryRegionColor;
