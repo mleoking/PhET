@@ -21,9 +21,7 @@ public class Solution {
     public final ObservableProperty<Shape> shape;
 
     public Solution( final DoubleProperty waterVolume,
-                     final Beaker beaker,
-                     //The y-location of the base of the solution (0 if sitting on the base of the beaker, or >0 if sitting on a solid precipitate).
-                     final ObservableProperty<Double> y ) {
+                     final Beaker beaker ) {
 
         //This line would add to the volume based on how many solutes are dissolved
 //        this.volume = waterVolume.plus( dissolvedSaltVolume, dissolvedSugarVolume );
@@ -33,8 +31,8 @@ public class Solution {
         shape = new CompositeProperty<Shape>( new Function0<Shape>() {
             public Shape apply() {
                 //Assumes the beaker is rectangular
-                return beaker.getWaterShape( y.get(), waterVolume.get() );
+                return beaker.getWaterShape( 0, waterVolume.get() );
             }
-        }, volume, y );
+        }, volume );
     }
 }

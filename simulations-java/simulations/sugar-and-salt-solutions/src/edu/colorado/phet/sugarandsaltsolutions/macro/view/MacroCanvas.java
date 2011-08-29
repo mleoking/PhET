@@ -9,10 +9,15 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.sugarandsaltsolutions.GlobalState;
 import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsResources.Strings;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.SugarAndSaltSolutionModel;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.CrystalMaker;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SaltNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SoluteControlPanelNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas;
+import edu.colorado.phet.sugarandsaltsolutions.common.view.SugarNode;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VolumeIndicatorNode;
 import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroModel;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
+import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.DispenserRadioButtonSet;
 import edu.colorado.phet.sugarandsaltsolutions.micro.view.Item;
 import edu.umd.cs.piccolo.PNode;
@@ -35,8 +40,31 @@ public class MacroCanvas extends SugarAndSaltSolutionsCanvas {
     public final ExpandableConcentrationBarChartNode concentrationBarChart;
     private final PNode soluteControlPanelNode;
 
-    public MacroCanvas( final MacroModel model, GlobalState globalState ) {
+    private final PNode crystalLayer = new PNode();//Layer that holds the sugar and salt crystals
+
+    public MacroCanvas( final MacroModel model, final GlobalState globalState ) {
         super( model, globalState, createMacroTransform( model ), false );
+
+        //Show the crystal layer behind the water and beaker so the crystals look like they go into the water instead of in front of it.
+        submergedInWaterNode.addChild( crystalLayer );
+
+        //Add salt crystals graphics when salt crystals are added to the model
+        model.saltAdded.addListener( new CrystalMaker<MacroSalt>( crystalLayer, new Function1<MacroSalt, PNode>() {
+            public PNode apply( MacroSalt salt ) {
+                return new SaltNode( transform, salt, globalState.colorScheme.saltColor.color );
+            }
+        } ) );
+
+        //Add sugar crystals graphics when sugar crystals are added to the model
+        model.sugarAdded.addListener( new CrystalMaker<MacroSugar>( crystalLayer, new Function1<MacroSugar, PNode>() {
+            public PNode apply( MacroSugar sugar ) {
+                return new SugarNode( transform, sugar, globalState.colorScheme.saltColor.color );
+            }
+        } ) );
+
+//Show the precipitate as the sum of salt and sugar
+        submergedInWaterNode.addChild( new PrecipitateNode( transform, model.salt.solidVolume.plus( model.sugar.solidVolume ), model.beaker ) );
+
 
         //Readout function for the exact volume readout on the solution when the user selects "show values.
         //Read out more precisely than the fine-grained tick marks on the side

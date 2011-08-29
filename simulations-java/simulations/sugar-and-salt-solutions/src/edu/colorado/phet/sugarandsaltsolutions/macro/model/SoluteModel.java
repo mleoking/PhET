@@ -38,6 +38,8 @@ public class SoluteModel {
     //Volume in meters cubed per solid mole
     public final double volumePerSolidMole;
 
+    public static final double VOLUME_PER_SOLID_MOLE_SALT = 0.02699 / 1000.0;
+
     public SoluteModel( DoubleProperty waterVolume, double saturationPoint, double volumePerSolidMole, double gramsPerMole ) {
         this.volumePerSolidMole = volumePerSolidMole;
         this.gramsPerMole = gramsPerMole;

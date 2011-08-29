@@ -3,27 +3,18 @@ package edu.colorado.phet.sugarandsaltsolutions.common.model;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
-import edu.colorado.phet.common.phetcommon.model.event.Notifier;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.model.property.SettableProperty;
-import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.CompositeDoubleProperty;
 import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
-import edu.colorado.phet.common.phetcommon.util.function.Function0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.FaucetMetrics;
 import edu.colorado.phet.sugarandsaltsolutions.common.view.VerticalRangeContains;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroCrystal;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSalt;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.MacroSugar;
-import edu.colorado.phet.sugarandsaltsolutions.macro.model.SoluteModel;
 
 import static edu.colorado.phet.common.phetcommon.math.ImmutableVector2D.ZERO;
 import static edu.colorado.phet.sugarandsaltsolutions.common.model.DispenserType.SALT;
@@ -44,19 +35,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final Property<Double> inputFlowRate = new Property<Double>( 0.0 );//rate that water flows into the beaker, between 0 and 1
     public final Property<Double> outputFlowRate = new Property<Double>( 0.0 );//rate that water flows out of the beaker, between 0 and 1
 
-    //Sugar and its listeners
-    public final ArrayList<MacroSugar> sugarList = new ArrayList<MacroSugar>();//The sugar crystals that haven't been dissolved
-    public final Notifier<MacroSugar> sugarAdded = new Notifier<MacroSugar>();//Listeners for when sugar crystals are added
-
-    //Salt and its listeners
-    public final ArrayList<MacroSalt> saltList = new ArrayList<MacroSalt>();//The salt crystals that haven't been dissolved
-    public final Notifier<MacroSalt> saltAdded = new Notifier<MacroSalt>();//Listeners for when salt crystals are added
-
-    //Force due to gravity near the surface of the earth in m/s^2
-    private final ImmutableVector2D gravity = new ImmutableVector2D( 0, -9.8 );
-
     //Flow controls vary between 0 and 1, this scales it down to a good model value
     public final double faucetFlowRate;
+
+    public final double drainPipeBottomY;
+    public final double drainPipeTopY;
+
+    //TODO: document
     public final double distanceScale;
 
     //Which dispenser the user has selected
@@ -65,43 +50,17 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     //True if the values should be shown in the user interface
     public final Property<Boolean> showConcentrationValues = new Property<Boolean>( false );
 
-    //Saturation points for salt and sugar assume 25 degrees C
-    private static final double saltSaturationPoint = 6.14 * 1000;//6.14 moles per liter, converted to SI
-    private static final double sugarSaturationPoint = 5.85 * 1000;//5.85 moles per liter, converted to SI
-
     //volume in SI (m^3).  Start at 1 L (halfway up the 2L beaker).  Note that 0.001 cubic meters = 1L
     public final DoubleProperty waterVolume;
-
-    //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-    public final SoluteModel salt;
-    public final SoluteModel sugar;
-
-    //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
-    public final CompositeDoubleProperty solidVolume;
-
-    //The y value where the solution will sit, it moves up and down with any solid that has precipitated
-    public final CompositeDoubleProperty solutionY;
 
     //Beaker model
     public final Beaker beaker;
 
-    //Solution model, the fluid + any dissolved solutes
-    public final Solution solution;
-
-    //The concentration in the liquid in moles / m^3
-    public final CompositeDoubleProperty saltConcentration;
-    public final CompositeDoubleProperty sugarConcentration;
-
     //Max amount of water before the beaker overflows
-    private double maxWater;
+    public final double maxWater;
 
     //Flag to indicate whether there is enough solution to flow through the lower drain.
     public final VerticalRangeContains lowerFaucetCanDrain;
-
-    //Amounts of sugar and salt in crystal form falling from the dispenser
-    //TODO: move to macromodel
-    protected CompositeDoubleProperty airborneSaltGrams;
-    protected CompositeDoubleProperty airborneSugarGrams;
 
     //User setting: whether the concentration bar chart should be shown
     public final Property<Boolean> showConcentrationBarChart;
@@ -130,10 +89,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
     public final SettableProperty<Integer> evaporationRate = new Property<Integer>( 0 );//Between 0 and 100
 
     //Rate at which liquid evaporates
-    private final double evaporationRateScale;
+    public final double evaporationRateScale;
 
     //The elapsed running time of the model
     protected double time;
+
+    //Solution model, the fluid + any dissolved solutes
+    public final Solution solution;
 
     public SugarAndSaltSolutionModel( final ConstantDtClock clock,
 
@@ -147,19 +109,13 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
                                       double distanceScale ) {
         super( clock );
         this.faucetFlowRate = faucetFlowRate;
+        this.drainPipeBottomY = drainPipeBottomY;
+        this.drainPipeTopY = drainPipeTopY;
         this.distanceScale = distanceScale;
         this.evaporationRateScale = faucetFlowRate / 300.0;//Scaled down since the evaporation control rate is 100 times bigger than flow scales
 
         //Start the water halfway up the beaker
         waterVolume = new DoubleProperty( beakerDimension.getVolume() / 2 );
-
-        //Model moles, concentration, amount dissolved, amount precipitated, etc. for salt and sugar
-        //TODO: move this to macro model
-        salt = new SoluteModel( waterVolume, saltSaturationPoint, 0.02699 / 1000.0, MacroSalt.molarMass );
-        sugar = new SoluteModel( waterVolume, sugarSaturationPoint, 0.2157 / 1000.0, MacroSugar.molarMass );
-
-        //Total volume of the water plus any solid precipitate submerged under the water (and hence pushing it up)
-        solidVolume = salt.solidVolume.plus( sugar.solidVolume );
 
         //Inset so the beaker doesn't touch the edge of the model bounds
         final double inset = beakerDimension.width * 0.1;
@@ -174,34 +130,8 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         //Set a max amount of water that the user can add to the system so they can't overflow it
         maxWater = beaker.getMaxFluidVolume();
 
-        solutionY = new CompositeDoubleProperty( new Function0<Double>() {
-            public Double apply() {
-                return beaker.getHeightForVolume( solidVolume.get() );
-            }
-        }, solidVolume );
-
-        //Create the solution, which sits atop the solid precipitate (if any)
-        solution = new Solution( waterVolume, beaker, solutionY );
-
-        //Determine the concentration of dissolved solutes
-        //When we were accounting for volume effects of dissolved solutes, the concentrations had to be defined here instead of in SoluteModel because they depend on the total volume of the solution (which in turn depends on the amount of solute dissolved in the solvent).
-        saltConcentration = salt.molesDissolved.dividedBy( solution.volume );
-        sugarConcentration = sugar.molesDissolved.dividedBy( solution.volume );
-
         //User setting: whether the concentration bar chart should be shown
         showConcentrationBarChart = new Property<Boolean>( true );
-
-        //Keep track of how many moles of crystal are in the air, since we need to prevent user from adding more than 10 moles to the system
-        //This shuts off salt/sugar when there is salt/sugar in the air that could get added to the solution
-        airborneSaltGrams = new AirborneCrystalMoles( saltList ).times( salt.gramsPerMole );
-        airborneSugarGrams = new AirborneCrystalMoles( sugarList ).times( sugar.gramsPerMole );
-
-        //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
-        beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );
-
-        //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
-        //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
-        lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, drainPipeBottomY, drainPipeTopY );
 
         //Create the list of dispensers
         dispensers = new ArrayList<Dispenser>();
@@ -223,74 +153,73 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
                 outputWater.set( new Rectangle2D.Double( drainFaucetMetrics.outputPoint.getX() - width / 2, drainFaucetMetrics.outputPoint.getY() - height, width, height ) );
             }
         } );
+
+        //Create the solution, which sits atop the solid precipitate (if any)
+        solution = new Solution( waterVolume, beaker );
+
+        //Convenience composite properties for determining whether the beaker is full or empty so we can shut off the faucets when necessary
+        beakerFull = solution.volume.greaterThanOrEqualTo( maxWater );
+
+        //Determine if the lower faucet is allowed to let fluid flow out.  It can if any part of the fluid overlaps any part of the pipe range.
+        //This logic is used in the model update step to determine if water can flow out, as well as in the user interface to determine if the user can turn on the output faucet
+        lowerFaucetCanDrain = new VerticalRangeContains( solution.shape, drainPipeBottomY, drainPipeTopY );
     }
 
-    //When a crystal is absorbed by the water, increase the number of moles in solution
-    protected void crystalAbsorbed( MacroCrystal crystal ) {
-        if ( crystal instanceof MacroSalt ) {
-            salt.moles.set( salt.moles.get() + crystal.getMoles() );
+    //Callback when water has evaporated from the solution
+    protected void waterEvaporated( double evaporatedWater ) {
+        //Nothing to do in the base class
+    }
+
+    //Reset the model state
+    public void reset() {
+        resetWater();
+        for ( Dispenser dispenser : dispensers ) {
+            dispenser.reset();
         }
-        else if ( crystal instanceof MacroSugar ) {
-            sugar.moles.set( sugar.moles.get() + crystal.getMoles() );
-        }
+        dispenserType.reset();
+        showConcentrationValues.reset();
+        showConcentrationBarChart.reset();
+
+        notifyReset();
     }
 
-    //Called when the user presses a button to clear the solutes, removes all solutes from the sim
-    public void removeSaltAndSugar() {
-        removeSalt();
-        removeSugar();
+    //Reset the water volume to the initial value and stop the flow rate for input and output faucets
+    protected void resetWater() {
+        waterVolume.reset();
+        inputFlowRate.reset();
+        outputFlowRate.reset();
     }
 
-    //Called when the user presses a button to clear the salt, removes all salt (dissolved and crystals) from the sim
-    //TODO: move this method to MacroModel
-    public final void removeSalt() {
-        removeCrystals( saltList, saltList );
-        salt.moles.set( 0.0 );
+    //Determine if any salt can be removed for purposes of displaying a "remove salt" button
+    public abstract ObservableProperty<Boolean> isAnySaltToRemove();
+
+    //Determine if any sugar can be removed for purposes of displaying a "remove sugar" button
+    public abstract ObservableProperty<Boolean> isAnySugarToRemove();
+
+    //Gets the elapsed time of the model in seconds
+    public double getTime() {
+        return time;
     }
 
-    //Called when the user presses a button to clear the sugar, removes all sugar (dissolved and crystals) from the sim
-    //TODO: move this method to MacroModel
-    public final void removeSugar() {
-        removeCrystals( sugarList, sugarList );
-        sugar.moles.set( 0.0 );
+    //Get the location of the drain where particles will flow toward and out, in absolute coordinates, in meters
+    public FaucetMetrics getDrainFaucetMetrics() {
+        return drainFaucetMetrics;
     }
 
-    //Called when water (with dissolved solutes) flows out of the beaker, so that subclasses can update concentrations if necessary.
-    //Have some moles of salt and sugar flow out so that the concentration remains unchanged
-    protected void waterDrained( double outVolume, double initialSaltConcentration, double initialSugarConcentration ) {
-
-        //Make sure to keep the concentration the same when water flowing out.  Use the values recorded before the model stepped to ensure conservation of solute moles
-        updateConcentration( outVolume, initialSaltConcentration, salt.moles );
-        updateConcentration( outVolume, initialSugarConcentration, sugar.moles );
+    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    public void setDrainFaucetMetrics( FaucetMetrics faucetMetrics ) {
+        this.drainFaucetMetrics = faucetMetrics;
     }
 
-    //Make sure to keep the concentration the same when water flowing out
-    private void updateConcentration( double outVolume, double concentration, SettableProperty<Double> moles ) {
-        double molesOfSoluteLeaving = concentration * outVolume;
-        moles.set( moles.get() - molesOfSoluteLeaving );
-    }
-
-    //Adds the specified Sugar crystal to the model
-    public void addMacroSugar( final MacroSugar sugar ) {
-        sugarList.add( sugar );
-        sugarAdded.updateListeners( sugar );
-    }
-
-    //Adds the specified salt crystal to the model
-    public void addMacroSalt( MacroSalt salt ) {
-        this.saltList.add( salt );
-        saltAdded.updateListeners( salt );
+    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
+    public void setInputFaucetMetrics( FaucetMetrics faucetMetrics ) {
+        this.inputFaucetMetrics = faucetMetrics;
     }
 
     //Update the model when the clock ticks
+    //TODO: duplicated with MacroModel code
     protected void updateModel( double dt ) {
         time += dt;
-
-//        System.out.println( "SugarAndSaltSolutionModel.updateModel: beaker volume = "+beaker.getMaxFluidVolume() );
-
-        //Have to record the concentrations before the model updates since the concentrations change if water is added or removed.
-        double initialSaltConcentration = saltConcentration.get();
-        double initialSugarConcentration = sugarConcentration.get();
 
         //Add any new crystals from the salt & sugar dispensers
         for ( Dispenser dispenser : dispensers ) {
@@ -342,120 +271,9 @@ public abstract class SugarAndSaltSolutionModel extends AbstractSugarAndSaltSolu
         //Update the water volume
         waterVolume.set( newVolume );
 
-        //Notify listeners that some water (with solutes) exited the system, so they can decrease the amounts of solute (mols, not molarity) in the system
-        //Only call when draining, would have the wrong behavior for evaporation
-        if ( drainedWater > 0 ) {
-            waterDrained( drainedWater, initialSaltConcentration, initialSugarConcentration );
-        }
-
         //Notify subclasses that water evaporated in case they need to update anything
         if ( evaporatedWater > 0 ) {
             waterEvaporated( evaporatedWater );
         }
-
-        //Move about the sugar and salt crystals, and maybe absorb them
-        updateCrystals( dt, saltList );
-        updateCrystals( dt, sugarList );
-    }
-
-    //Callback when water has evaporated from the solution
-    protected void waterEvaporated( double evaporatedWater ) {
-        //Nothing to do in the base class
-    }
-
-    //Propagate the sugar and salt crystals, and absorb them if they hit the water
-    private void updateCrystals( double dt, final ArrayList<? extends MacroCrystal> crystalList ) {
-        ArrayList<MacroCrystal> hitTheWater = new ArrayList<MacroCrystal>();
-        for ( MacroCrystal crystal : crystalList ) {
-            //Store the initial location so we can use the (final - start) line to check for collision with water, so it can't jump over the water rectangle
-            ImmutableVector2D initialLocation = crystal.position.get();
-
-            //slow the motion down a little bit or it moves too fast
-            //TODO: Why can't this run at full speed?
-            crystal.stepInTime( gravity.times( crystal.mass ), dt / 10, beaker.getLeftWall(), beaker.getRightWall(), beaker.getFloor(),
-                                new Line2D.Double( beaker.getFloor().getX1(), solutionY.get(), beaker.getFloor().getX2(), solutionY.get() ) );
-
-            //If the salt hits the water during any point of its initial -> final trajectory, absorb it.
-            //This is necessary because if the water layer is too thin, the crystal could have jumped over it completely
-            if ( new Line2D.Double( initialLocation.toPoint2D(), crystal.position.get().toPoint2D() ).intersects( solution.shape.get().getBounds2D() ) ) {
-                hitTheWater.add( crystal );
-            }
-            //Any crystals that landed on the beaker base or on top of precipitate should immediately precipitate into solid so that they take up the right volume and are consistent with our other representations
-            else if ( crystal.isLanded() ) {
-                hitTheWater.add( crystal );
-            }
-        }
-        //Remove the salt crystals that hit the water
-        removeCrystals( crystalList, hitTheWater );
-
-        //increase concentration in the water for crystals that hit
-        for ( MacroCrystal crystal : hitTheWater ) {
-            crystalAbsorbed( crystal );
-        }
-
-        //Update the properties representing how many crystals are in the air, to make sure we stop pouring out crystals if we have reached the limit
-        // (even if poured out crystals didn't get dissolved yet)
-        airborneSaltGrams.notifyIfChanged();
-        airborneSugarGrams.notifyIfChanged();
-    }
-
-    //Remove the specified crystals.  Note that the toRemove
-    private void removeCrystals( ArrayList<? extends MacroCrystal> crystalList, ArrayList<? extends MacroCrystal> toRemove ) {
-        for ( MacroCrystal crystal : new ArrayList<MacroCrystal>( toRemove ) ) {
-            crystal.remove();
-            crystalList.remove( crystal );
-        }
-    }
-
-    public void reset() {
-
-        //Reset the model state
-        removeSaltAndSugar();
-        resetWater();
-        for ( Dispenser dispenser : dispensers ) {
-            dispenser.reset();
-        }
-        dispenserType.reset();
-        showConcentrationValues.reset();
-        showConcentrationBarChart.reset();
-
-        notifyReset();
-    }
-
-    //Reset the water volume to the initial value and stop the flow rate for input and output faucets
-    protected void resetWater() {
-        waterVolume.reset();
-        inputFlowRate.reset();
-        outputFlowRate.reset();
-    }
-
-    //Determine if any salt can be removed for purposes of displaying a "remove salt" button
-    public ObservableProperty<Boolean> isAnySaltToRemove() {
-        return salt.moles.greaterThan( 0.0 );
-    }
-
-    //Determine if any sugar can be removed for purposes of displaying a "remove sugar" button
-    public ObservableProperty<Boolean> isAnySugarToRemove() {
-        return sugar.moles.greaterThan( 0.0 );
-    }
-
-    //Gets the elapsed time of the model in seconds
-    public double getTime() {
-        return time;
-    }
-
-    //Get the location of the drain where particles will flow toward and out, in absolute coordinates, in meters
-    public FaucetMetrics getDrainFaucetMetrics() {
-        return drainFaucetMetrics;
-    }
-
-    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
-    public void setDrainFaucetMetrics( FaucetMetrics faucetMetrics ) {
-        this.drainFaucetMetrics = faucetMetrics;
-    }
-
-    //Set the location where particles will flow out the drain, set by the view since view locations are chosen first for consistency across tabs
-    public void setInputFaucetMetrics( FaucetMetrics faucetMetrics ) {
-        this.inputFaucetMetrics = faucetMetrics;
     }
 }
