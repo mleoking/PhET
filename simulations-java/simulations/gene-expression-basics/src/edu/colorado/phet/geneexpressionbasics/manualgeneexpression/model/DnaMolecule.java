@@ -20,6 +20,11 @@ import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelEle
  * the two strands of the DNA and the base pairs, defines where the various
  * genes reside, and retains other information about the DNA molecule.  This is
  * an important and central object in the model for this simulation.
+ * <p/>
+ * A big simplifying assumption that this class makes is that molecules that
+ * attach to the DNA do so to individual base pairs.  In reality, it is sets of
+ * base pairs (called "codons") that dictate where biomolecules attach. This was
+ * unnecessarily complicated for the needs of this sim.
  *
  * @author John Blanco
  */
@@ -27,14 +32,15 @@ public class DnaMolecule {
 
     private static final double STRAND_DIAMETER = 200; // In picometers.
     private static final double LENGTH_PER_TWIST = 340; // In picometers.
-    private static final double BASE_PAIRS_PER_TWIST = 10; // In picometers.
+    private static final int BASE_PAIRS_PER_TWIST = 10; // In picometers.
     public static final double DISTANCE_BETWEEN_BASE_PAIRS = LENGTH_PER_TWIST / BASE_PAIRS_PER_TWIST;
     private static final double INTER_STRAND_OFFSET = LENGTH_PER_TWIST * 0.3;
     private static final int NUMBER_OF_TWISTS = 200;
+    private static final int NUMBER_OF_BASE_PAIRS = BASE_PAIRS_PER_TWIST * NUMBER_OF_TWISTS;
     private static final double MOLECULE_LENGTH = NUMBER_OF_TWISTS * LENGTH_PER_TWIST;
     private static final double DISTANCE_BETWEEN_GENES = 15000; // In picometers.
     private static final double LEFT_EDGE_X_POS = -DISTANCE_BETWEEN_GENES;
-    private static final double Y_POS = 0;
+    static final double Y_POS = 0;
 
     private DnaStrand strand1;
     private DnaStrand strand2;
@@ -197,39 +203,59 @@ public class DnaMolecule {
     }
 
     public List<AttachmentSite> getNearbyPolymeraseAttachmentSites( Point2D position ) {
-        return getNearbyNominalAttachmentSites( position );
+        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
+        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
+        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
+            Gene gene = getGeneContainingBasePair( i );
+            if ( gene != null ) {
+                nearbyAttachmentSites.add( gene.getPolymeraseAttachmentSite( i ) );
+            }
+            else {
+                // Base pair is not contained within a gene, so use the default.
+                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+            }
+        }
+        return nearbyAttachmentSites;
     }
 
     public List<AttachmentSite> getNearbyTranscriptionFactorAttachmentSites( Point2D position ) {
-        return getNearbyNominalAttachmentSites( position );
+        List<AttachmentSite> nearbyAttachmentSites = new ArrayList<AttachmentSite>();
+        IntegerRange basePairsToScan = getBasePairScanningRange( position.getX() );
+        for ( int i = basePairsToScan.getMin(); i <= basePairsToScan.getMax(); i++ ) {
+            Gene gene = getGeneContainingBasePair( i );
+            if ( gene != null ) {
+                nearbyAttachmentSites.add( gene.getTranscriptionFactorAttachmentSite( i ) );
+            }
+            else {
+                // Base pair is not contained within a gene, so use the default.
+                nearbyAttachmentSites.add( createDefaultAffinityAttachmentSite( i ) );
+            }
+        }
+        return nearbyAttachmentSites;
     }
 
     /**
-     * Get a list of "normal" or "nominal" affinity attachment sites. Apparently
-     * all biomolecules that attach to DNA have some affinity for it at every
-     * location, it's just at the locations where they attache for a long time
-     * have much higher affinities.  So this method generates a list of
-     * attachment sites with low affinity that can be considered to be the
-     * default for DNA-attaching biomolecules.
+     * Get a range of base pairs to scan for attachment sites given an X
+     * position in model space.
      *
-     * @param position
+     * @param xOffsetOnStrand
      * @return
      */
-    private List<AttachmentSite> getNearbyNominalAttachmentSites( Point2D position ) {
-        List<AttachmentSite> nearbyPolymeraseAttachmentSites = new ArrayList<AttachmentSite>();
-        double maxVerticalDistance = 500; // In picometers, empirically determined.
-        if ( position.getY() - Y_POS < maxVerticalDistance ) {
-            double proposalSpan = DISTANCE_BETWEEN_BASE_PAIRS * 5; // Span is pretty arbitrary, empirically determined.
-            double startingSearchX = Math.max( position.getX() - proposalSpan / 2, LEFT_EDGE_X_POS );
-            double endingSearchX = Math.min( startingSearchX + proposalSpan, LEFT_EDGE_X_POS + MOLECULE_LENGTH );
-            for ( double xOffset = startingSearchX; xOffset < endingSearchX; xOffset += DISTANCE_BETWEEN_BASE_PAIRS ) {
-                // Create an attachment site.
-                // TODO: Will need at some point to check against occupied sites and not propose them.  Will also need
-                // to check for genes in the vicinity.
-                nearbyPolymeraseAttachmentSites.add( createDefaultAffinityAttachmentSite( position.getX() ) );
+    private IntegerRange getBasePairScanningRange( double xOffsetOnStrand ) {
+        int scanningRange = 2; // Pretty arbitrary, can adjust if needed.
+        int centerBasePairIndex = getBasePairIndexFromXOffset( xOffsetOnStrand );
+        return new IntegerRange( Math.max( 0, centerBasePairIndex - scanningRange ), Math.min( NUMBER_OF_BASE_PAIRS - 1, centerBasePairIndex + scanningRange ) );
+    }
+
+    private Gene getGeneContainingBasePair( int basePairIndex ) {
+        Gene geneContainingBasePair = null;
+        for ( Gene gene : genes ) {
+            if ( gene.containsBasePair( basePairIndex ) ) {
+                geneContainingBasePair = gene;
+                break;
             }
         }
-        return nearbyPolymeraseAttachmentSites;
+        return geneContainingBasePair;
     }
 
     /**
@@ -241,6 +267,10 @@ public class DnaMolecule {
      */
     public AttachmentSite createDefaultAffinityAttachmentSite( double xOffset ) {
         return new AttachmentSite( new Point2D.Double( getNearestBasePairXOffset( xOffset ), Y_POS ), 0.05 );
+    }
+
+    public AttachmentSite createDefaultAffinityAttachmentSite( int basePairIndex ) {
+        return new AttachmentSite( new Point2D.Double( getBasePairXOffsetByIndex( basePairIndex ), Y_POS ), 0.05 );
     }
 
     /**

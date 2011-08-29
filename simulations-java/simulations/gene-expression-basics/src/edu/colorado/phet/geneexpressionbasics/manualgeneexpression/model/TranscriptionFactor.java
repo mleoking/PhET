@@ -81,10 +81,12 @@ public class TranscriptionFactor extends MobileBiomolecule {
 
     @Override public void stepInTime( double dt ) {
         super.stepInTime( dt );
-        // Get a list of potential attachment sites from the DNA and consider
-        // whether to attach to any of them.
-        List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyTranscriptionFactorAttachmentSites( getPosition() );
-        behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList, this );
+        if ( !userControlled.get() ) {
+            // Get a list of potential attachment sites from the DNA and consider
+            // whether to attach to any of them.
+            List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyTranscriptionFactorAttachmentSites( getPosition() );
+            behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList, this );
+        }
     }
 
     /**
