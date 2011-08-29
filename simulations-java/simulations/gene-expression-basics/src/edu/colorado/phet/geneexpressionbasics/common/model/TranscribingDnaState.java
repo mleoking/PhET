@@ -18,7 +18,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double VELOCITY = 500; // In picometers per second.
+    private static final double VELOCITY = 750; // In picometers per second.
 
     // Amount of time required to change from one conformation to another.
     private static final double CONFORMATIONAL_CHANGE_TIME = 0.5; // In seconds.
