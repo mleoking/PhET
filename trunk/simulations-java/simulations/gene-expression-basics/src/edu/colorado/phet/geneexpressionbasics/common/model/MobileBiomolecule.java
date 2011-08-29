@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Shape;
 
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
@@ -19,15 +20,15 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // it is, it shouldn't try to move or interact with anything.
     public final BooleanProperty userControlled = new BooleanProperty( false );
 
+    // Color to use when displaying this biomolecule to the user.  This is
+    // a bit out of place here, and has nothing to do with the fact that the
+    // molecule moves.  This was just a convenient place to put it (so far).
+    public final Property<Color> colorProperty = new Property<Color>( Color.BLACK );
+
     // Behavioral state that controls how the molecule moves when it is not
     // under the control of the user and how and when it attaches to other
     // biomolecules.
     protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
-
-    // Color to use when displaying this biomolecule to the user.  This is
-    // a bit out of place here, and has nothing to do with the fact that the
-    // molecule moves.  This was just a convenient place to put it (so far).
-    private final Color baseColor;
 
     /**
      * Constructor.
@@ -37,7 +38,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
      */
     public MobileBiomolecule( Shape initialShape, Color baseColor ) {
         super( initialShape );
-        this.baseColor = baseColor;
+        colorProperty.set( baseColor );
         // Handle changes in user control.us
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
@@ -49,10 +50,6 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
                 }
             }
         } );
-    }
-
-    public Color getBaseColor() {
-        return baseColor;
     }
 
     public void stepInTime( double dt ) {
@@ -77,15 +74,17 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     }
 
     /**
-     * Command the biomolecule to alter its shape by some amount.  This
-     * functionality is needed by some of the biomolecules, mostly when they
-     * attach to something.  The default does nothing, and it is up to the
-     * individual molecules to override in order to implement their specific
+     * Command the biomolecule to changes its conformation, which, for the
+     * purposes of this simulation, means that both the color and the shape can
+     * change.  This functionality is needed by some of the biomolecules, mostly
+     * when they attach to something.  The default does nothing, and it is up to
+     * the individual molecules to override in order to implement their specific
      * conformation change behavior.
      *
-     * @param distortionFactor - A value between 0 and 1.
+     * @param changeFactor - Value, from 0 to 1, representing the degree of
+     *                     change from the nominal configuration.
      */
-    public void distortShape( double distortionFactor ) {
-        System.out.println( getClass().getName() + "Warning: Unimplemented method called." );
+    public void changeConformation( double changeFactor ) {
+        System.out.println( getClass().getName() + "Warning: Unimplemented method called in base class." );
     }
 }
