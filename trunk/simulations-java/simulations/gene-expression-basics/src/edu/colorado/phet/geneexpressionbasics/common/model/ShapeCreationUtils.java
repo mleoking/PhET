@@ -62,6 +62,29 @@ public class ShapeCreationUtils {
     }
 
     /**
+     * Create a distorted shape from a list of points.  This is useful when
+     * trying to animate some sort of deviation from a basic shape.
+     * <p/>
+     * Note that this works best when the points are centered around the point
+     * (0, 0), and may not work at all otherwise (it has never been tested).
+     *
+     * @param points
+     * @param distortionFactor
+     * @param randomNumberSeed
+     * @return
+     */
+    public static Shape createdDistortedRoundedShapeFromPoints( List<Point2D> points, double distortionFactor, long randomNumberSeed ) {
+        Random rand = new Random( randomNumberSeed );
+        List<Point2D> alteredPoints = new ArrayList<Point2D>();
+        for ( Point2D point : points ) {
+            Vector2D pointAsVector = new Vector2D( point );
+            pointAsVector.scale( ( rand.nextDouble() + 0.5 ) * distortionFactor );
+            alteredPoints.add( pointAsVector.toPoint2D() );
+        }
+        return createRoundedShapeFromPoints( alteredPoints );
+    }
+
+    /**
      * Create a shape based on a set of points.  The points must be in an order
      * that, if connected by straight lines, would form a closed shape.  Some of
      * the segments will be straight lines and some will be curved, and which is
