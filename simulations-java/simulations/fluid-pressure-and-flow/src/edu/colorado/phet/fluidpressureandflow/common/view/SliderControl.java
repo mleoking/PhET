@@ -23,6 +23,9 @@ import edu.umd.cs.piccolox.pswing.PSwing;
  * @author Sam Reid
  */
 public class SliderControl extends PNode {
+
+    public final HTMLNode unitsNode;
+
     public SliderControl( String title, String units, double min, double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
         //Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
         //We can use its facilities for settings ticks.
@@ -62,7 +65,7 @@ public class SliderControl extends PNode {
             scale( 1.2 );
         }};
 
-        final HTMLNode htmlNode = new HTMLNode( units ) {{
+        unitsNode = new HTMLNode( units ) {{
             setFont( FluidPressureCanvas.CONTROL_FONT );
         }};
 
@@ -72,7 +75,7 @@ public class SliderControl extends PNode {
                                                 setColumns( 6 );
                                                 setFont( FluidPressureCanvas.CONTROL_FONT );
                                             }} ),
-                                            htmlNode );
+                                            unitsNode );
 
         //Top component goes over the slider
         addChild( new VBox( topComponent,
@@ -82,6 +85,10 @@ public class SliderControl extends PNode {
         //This must be done after constructing the HBox because the HBox factors out its local offset in the layout.
         //Note: if HBox is rewritten to maintain its layout throughout child bound changes this will break
         //A better long term solution might be to make an HBox variant (or setting) that aligns baselines instead of centers (even though that might not work perfectly since HTMLNode bounds are a bit off)
-        htmlNode.translate( 0, -3 );
+        unitsNode.translate( 0, -3 );
+    }
+
+    public void setUnits( String units ) {
+        unitsNode.setHTML( units );
     }
 }
