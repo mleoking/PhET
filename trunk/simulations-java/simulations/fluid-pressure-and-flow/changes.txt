@@ -1,3 +1,4 @@
+Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
 Flow: Added t-shaped drag handles to the pipe
 Used ResourceGenerator to generate string and image declarations
 Changed to use the new common ground/sky background.

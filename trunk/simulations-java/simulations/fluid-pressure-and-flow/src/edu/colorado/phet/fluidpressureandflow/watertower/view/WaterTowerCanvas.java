@@ -56,12 +56,6 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
 
-        for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units ) );
-        }
-
-        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
-
         //TODO: this is duplicated in FluidFlowCanvas
         // Control Panel
         final FluidPressureAndFlowControlPanelNode controlPanelNode = new FluidPressureAndFlowControlPanelNode( new WaterTowerControlPanel( module ) ) {{
@@ -111,6 +105,13 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
 
         //Add clock controls (play/pause), including a time speed slider (no time readout)
         addChild( createClockControls( module, new Property<Boolean>( true ) ) );
+
+        //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
+        for ( PressureSensor pressureSensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, pressureSensor, module.getFluidPressureAndFlowModel().units ) );
+        }
+
+        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
     }
 
     //Additionally reset the measuring tape since not reset elsewhere

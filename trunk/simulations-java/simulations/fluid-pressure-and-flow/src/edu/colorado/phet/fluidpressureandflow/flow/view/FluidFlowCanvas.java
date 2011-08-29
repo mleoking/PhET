@@ -67,12 +67,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
             }
         } );
 
-        for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().units ) );
-        }
-
-        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
-
         final DropperNode dropperNode = new DropperNode( transform, 3 * Math.PI / 2, model.getPipe(), new SimpleObserver() {
             public void update() {
                 model.pourFoodColoring();
@@ -144,6 +138,13 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
         addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowControl( module ) ) {{
             setOffset( 10, 10 );
         }} );
+
+        //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
+        for ( PressureSensor sensor : module.getFluidPressureAndFlowModel().getPressureSensors() ) {
+            addChild( new PressureSensorNode( transform, sensor, module.getFluidPressureAndFlowModel().units ) );
+        }
+
+        addVelocitySensorNodes( module.getFluidPressureAndFlowModel() );
     }
 
     private void addFoodColoringNode( final FoodColoring p ) {
