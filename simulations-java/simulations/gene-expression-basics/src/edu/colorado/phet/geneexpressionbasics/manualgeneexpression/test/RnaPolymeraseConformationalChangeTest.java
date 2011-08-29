@@ -47,7 +47,7 @@ public class RnaPolymeraseConformationalChangeTest {
             for ( int j = -5; j < 5; j++ ) {
                 RnaPolymerase rnaPolymerase = new RnaPolymerase();
                 rnaPolymerase.seed = seed;
-                rnaPolymerase.distortShape( 1 );
+                rnaPolymerase.changeConformation( 1 );
                 rnaPolymerase.setPosition( i * 600, j * 600 );
                 MobileBiomoleculeNode biomoleculeNode = new MobileBiomoleculeNode( mvt, rnaPolymerase );
                 canvas.getLayer().addChild( biomoleculeNode );
@@ -58,11 +58,6 @@ public class RnaPolymeraseConformationalChangeTest {
                 seed++;
             }
         }
-
-//        RnaPolymerase rnaPolymerase = new RnaPolymerase();
-//        rnaPolymerase.setPosition( 0, 0 );
-//        canvas.getLayer().addChild( new MobileBiomoleculeNode( mvt, rnaPolymerase ) );
-
 
         // Boiler plate app stuff.
         JFrame frame = new JFrame( "RNA Polymerase Shape Testing" );
