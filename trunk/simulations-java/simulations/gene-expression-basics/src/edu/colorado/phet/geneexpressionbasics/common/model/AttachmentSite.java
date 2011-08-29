@@ -3,8 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.awt.geom.Point2D;
 
-import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * A site to which one biomolecule may attach to another.  Typically one
@@ -22,13 +22,11 @@ public class AttachmentSite {
 
     // A value between 0 and 1 that represents the strength of the affinity
     // for this attachment.
-    private final double affinity;
+    private double affinity;
 
-    // A property that tracks whether any biomolecule is "using" this
-    // attachment site, meaning that it is either attached at this location or
-    // it is moving towards it with the intention of attaching.  Biomolecules
-    // that decide to use this site should set this, and clear it when done.
-    public BooleanProperty inUse = new BooleanProperty( false );
+    // A property that tracks which if any biomolecule is attached to this
+    // site.
+    public Property<Option<MobileBiomolecule>> attachedMolecule = new Property<Option<MobileBiomolecule>>( new Option.None<MobileBiomolecule>() );
 
     /**
      * Constructor.
@@ -43,6 +41,11 @@ public class AttachmentSite {
 
     public double getAffinity() {
         return affinity;
+    }
+
+    public void setAffinity( double affinity ) {
+        assert affinity >= 0 && affinity <= 1;
+        this.affinity = affinity;
     }
 
     @Override public boolean equals( Object obj ) {

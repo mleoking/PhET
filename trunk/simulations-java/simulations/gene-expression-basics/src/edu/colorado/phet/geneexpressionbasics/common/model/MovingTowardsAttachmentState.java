@@ -3,6 +3,8 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.Option;
+
 /**
  * This state controls the behavior of a biomolecule that is moving towards an
  * attachment.  In general, this means that the molecule wanders towards the
@@ -43,7 +45,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        attachmentSite.inUse.set( false );
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState();
     }
 }

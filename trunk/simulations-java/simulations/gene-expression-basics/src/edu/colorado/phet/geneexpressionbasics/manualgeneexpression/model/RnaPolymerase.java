@@ -7,6 +7,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
@@ -26,6 +27,12 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     private static final double WIDTH = 340;
     private static final double HEIGHT = 480;
+
+    // This the threshold for the affinity which triggers the polymerase to
+    // start transcribing.  Not sure if this is a reasonable thing to do, or
+    // if the attachment site should explicitly say whether the transcription
+    // factors are present.  For now at least, this works.
+    private static final double START_TRANSCRIPTION_THRESHOLD = 0.9;
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -64,7 +71,12 @@ public class RnaPolymerase extends MobileBiomolecule {
 
     // Overridden to provide attachment behavior that is unique to polymerase.
     @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
-        return new TranscribingDnaState( attachmentSite );
+        if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
+            return new TranscribingDnaState( attachmentSite );
+        }
+        else {
+            return new AttachedState( attachmentSite );
+        }
     }
 
     private static Shape createShape() {

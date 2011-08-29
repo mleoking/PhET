@@ -1,9 +1,10 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.common.model;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * @author John Blanco
@@ -23,21 +24,28 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
 
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
         // Since this state is unattached, we choose the most appealing
-        // proposal and immediately accept it by transitioning to the attached
-        // state and marking the attachment site as being in use by this
-        // molecule.
+        // proposal and immediately accept it by transitioning to the "moving
+        // towards attachment" state and marking the attachment site as being
+        // in use by this molecule.
         if ( proposedAttachmentSites.size() > 0 ) {
-            // Sort the list based on a combination of the proximity and
-            // affinity of each site.
-            Collections.sort( proposedAttachmentSites, new Comparator<AttachmentSite>() {
-                public int compare( AttachmentSite o1, AttachmentSite o2 ) {
-                    return Double.compare( Math.pow( biomolecule.getPosition().distance( o1.locationProperty.get() ), 2 ) * o1.getAffinity(),
-                                           Math.pow( biomolecule.getPosition().distance( o2.locationProperty.get() ), 2 ) * o2.getAffinity() );
+            List<AttachmentSite> copyOfProposedAttachmentSites = new ArrayList<AttachmentSite>( proposedAttachmentSites );
+            double maxAttraction = 0;
+            for ( AttachmentSite proposedAttachmentSite : copyOfProposedAttachmentSites ) {
+                maxAttraction = Math.max( getAttraction( biomolecule, proposedAttachmentSite ), maxAttraction );
+            }
+            for ( AttachmentSite proposedAttachmentSite : proposedAttachmentSites ) {
+                if ( getAttraction( biomolecule, proposedAttachmentSite ) < maxAttraction ) {
+                    // This attachment site has less of an attraction
+                    // than at least one of the others, so remove it
+                    // from consideration.
+                    copyOfProposedAttachmentSites.remove( proposedAttachmentSite );
                 }
-            } );
-            // Use the affinity off the top of the list.
-            proposedAttachmentSites.get( 0 ).inUse.set( true );
-            return new MovingTowardsAttachmentState( proposedAttachmentSites.get( 0 ) );
+            }
+            // Choose randomly between all the equivalent attachment sites.
+            AttachmentSite newAttachmentSite = copyOfProposedAttachmentSites.get( RAND.nextInt( copyOfProposedAttachmentSites.size() ) );
+            // Accept the new attachment site.
+            newAttachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
+            return new MovingTowardsAttachmentState( newAttachmentSite );
         }
         else {
             return this;

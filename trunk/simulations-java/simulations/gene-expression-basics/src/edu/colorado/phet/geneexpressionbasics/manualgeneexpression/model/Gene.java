@@ -91,17 +91,27 @@ public class Gene {
      * @return
      */
     public AttachmentSite getPolymeraseAttachmentSite( int basePairIndex ) {
-        if ( basePairIndex == regulatoryRegion.getMax() ) {
-            // This is the last base pair within the regulatory region.  This
-            // is where the polymerase would start transcribing if the
-            // appropriate transcription factor is in place.
-            if ( !polymeraseAttachmentSite.inUse.get() ) {
-                return polymeraseAttachmentSite;
+        if ( basePairIndex == regulatoryRegion.getMax() && transcriptionFactorAttachmentSite.attachedMolecule.get().isSome() ) {
+            // This is the last base pair within the regulatory region, which
+            // is where the polymerase would begin transcription, and the
+            // transcription factor is attached to the appropriate place.
+            if ( polymeraseAttachmentSite.attachedMolecule.get().isSome() ) {
+                // Already in use, return a zero affinity attachment site.
+                return new AttachmentSite( transcriptionFactorAttachmentSite.locationProperty.get(), 0 );
             }
             else {
-                // This attachment site is in use, so we return one with an
-                // affinity of 0 so that more polymerase won't attach to it.
-                return new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( basePairIndex ), dnaMolecule.Y_POS ), 0 );
+                TranscriptionFactor attachedTranscriptionFactor = (TranscriptionFactor) transcriptionFactorAttachmentSite.attachedMolecule.get().get();
+                if ( attachedTranscriptionFactor.isPositive() ) {
+                    // The positive transcription factor is attached, so we
+                    // set the attachment site to the max affinity.
+                    polymeraseAttachmentSite.setAffinity( 1 );
+                }
+                else {
+                    // It must be a negative transcription factor, so the
+                    // affinity should be very low.
+                    polymeraseAttachmentSite.setAffinity( 0 );
+                }
+                return polymeraseAttachmentSite;
             }
         }
         else {
@@ -126,7 +136,8 @@ public class Gene {
      */
     public AttachmentSite getTranscriptionFactorAttachmentSite( int basePairIndex ) {
         if ( basePairIndex == regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ) {
-            if ( !transcriptionFactorAttachmentSite.inUse.get() ) {
+            if ( transcriptionFactorAttachmentSite.attachedMolecule.get().isNone() ) {
+                // The attachment site is open.
                 return transcriptionFactorAttachmentSite;
             }
             else {

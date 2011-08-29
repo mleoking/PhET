@@ -4,6 +4,7 @@ package edu.colorado.phet.geneexpressionbasics.common.model;
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.Option;
 
 /**
  * State the controls a biomolecule's behavior when it is transcribing DNA.
@@ -31,6 +32,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
         // TODO: Needs to find the end of the gene and detach.  For now it just travels an arbitrary distance.
         if ( distanceTraveled > 2000 ) {
+            // Release the attachment site.
+            attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
             // Detach and drift upwards.
             return new DetachingState( new ImmutableVector2D( 0, 1 ) );
         }
@@ -45,7 +48,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        attachmentSite.inUse.set( false );
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState();
     }
 }
