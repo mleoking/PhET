@@ -70,25 +70,32 @@ public class DnaMolecule {
             basePairXPos += DISTANCE_BETWEEN_BASE_PAIRS;
         }
 
-        // Add the genes.  The first gene is set up to be centered at or near
-        // (0,0) in model space to avoid having to scroll the DNA at startup.
-        double geneStartX = -2500;
+        // Add the genes.  The initial parameters can be tweaked in order to
+        // adjust the sizes of the genes on the screen.
+        int regRegionSize = 16;                   // Base pairs in the regulatory region for all genes.
+        int gene1TranscribedRegionSize = 100;     // Base pairs in transcribed region.
+        int gene2TranscribedRegionSize = 150;     // Base pairs in transcribed region.
+        int gene3TranscribedRegionSize = 200;     // Base pairs in transcribed region.
+
+        // The first gene is set up to be centered at or near (0,0) in model
+        // space to avoid having to scroll the DNA at startup.
+        int startIndex = getBasePairIndexFromXOffset( 0 ) - ( regRegionSize + gene1TranscribedRegionSize ) / 2;
         genes.add( new Gene( this,
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 1000 ) ),
+                             new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 1000 ), getBasePairIndexFromXOffset( geneStartX + 4000 ) ),
+                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene1TranscribedRegionSize ),
                              new Color( 255, 165, 79, 150 ) ) );
-        geneStartX += DISTANCE_BETWEEN_GENES;
+        startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
         genes.add( new Gene( this,
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 2000 ) ),
+                             new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 2000 ), getBasePairIndexFromXOffset( geneStartX + 6000 ) ),
+                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene2TranscribedRegionSize ),
                              new Color( 240, 246, 143, 150 ) ) );
-        geneStartX += DISTANCE_BETWEEN_GENES;
+        startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
         genes.add( new Gene( this,
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX ), getBasePairIndexFromXOffset( geneStartX + 2000 ) ),
+                             new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
-                             new IntegerRange( getBasePairIndexFromXOffset( geneStartX + 2000 ), getBasePairIndexFromXOffset( geneStartX + 8000 ) ),
+                             new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
                              new Color( 205, 255, 112, 150 ) ) );
 
         // Add the placement hints.  TODO: Decide if these should be set up to be associated with particular genes.
