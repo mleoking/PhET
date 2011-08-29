@@ -77,6 +77,10 @@ public class Gene {
         return transcribedRegion;
     }
 
+    public double getTranscribedRegionLength() {
+        return transcribedRegion.getLength() * DnaMolecule.DISTANCE_BETWEEN_BASE_PAIRS;
+    }
+
     /**
      * Get the attachment site for a location that is contained within this
      * gene.  In many cases, the affinity of the attachment site will be the

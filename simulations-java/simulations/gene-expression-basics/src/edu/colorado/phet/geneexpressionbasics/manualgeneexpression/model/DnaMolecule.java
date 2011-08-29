@@ -274,6 +274,30 @@ public class DnaMolecule {
     }
 
     /**
+     * Get a reference to the gene that contains the given location.
+     *
+     * @param location
+     * @return Gene at the location, null if no gene exists.
+     */
+    public Gene getGeneAtLocation( Point2D location ) {
+        boolean isLocationOnMolecule = location.getX() >= LEFT_EDGE_X_POS && location.getX() <= LEFT_EDGE_X_POS + MOLECULE_LENGTH &&
+                                       location.getY() >= Y_POS - STRAND_DIAMETER / 2 && location.getY() <= Y_POS + STRAND_DIAMETER / 2;
+        assert isLocationOnMolecule; // At the time of this development, this method should never be called when not on the DNA molecule.
+        Gene geneAtLocation = null;
+        int basePairIndex = getBasePairIndexFromXOffset( location.getX() );
+        if ( isLocationOnMolecule ) {
+            for ( Gene gene : genes ) {
+                if ( gene.containsBasePair( basePairIndex ) ) {
+                    // Found the corresponding gene.
+                    geneAtLocation = gene;
+                    break;
+                }
+            }
+        }
+        return geneAtLocation;
+    }
+
+    /**
      * This class defines a segment of the DNA strand.  It is needed because the
      * DNA molecule needs to look like it is 3D, but we are only modeling it as
      * 2D, so in order to create the appearance of a twist between the two

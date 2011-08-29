@@ -72,7 +72,8 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Overridden to provide attachment behavior that is unique to polymerase.
     @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
         if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
-            return new TranscribingDnaState( attachmentSite );
+            // The attachment site is strong enough to trigger transcription.
+            return new TranscribingDnaState( attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ) );
         }
         else {
             return new AttachedState( attachmentSite );
