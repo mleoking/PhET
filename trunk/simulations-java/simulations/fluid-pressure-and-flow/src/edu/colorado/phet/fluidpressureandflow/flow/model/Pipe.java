@@ -25,7 +25,9 @@ public class Pipe {
     private ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
     private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
-    public final Property<Double> k = new Property<Double>( 5.0 ); // v2 / a1 from continuity equation a1 v1 = a2 v2
+
+    //Rate of fluid flow in (1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
+    public final Property<Double> rate = new Property<Double>( 5.0 );
 
     //Creates a pipe with a default shape.
     public Pipe() {
@@ -221,7 +223,8 @@ public class Pipe {
     public double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
-        return k.get() / getCrossSection( x ).getHeight();
+        //TODO: Add support for friction
+        return rate.get() / getCrossSection( x ).getHeight();
     }
 
     public ImmutableVector2D getVelocity( double x, double y ) {

@@ -18,8 +18,9 @@ public class UnitSet {
     private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( "Fluid Density(english)", LB_PER_FT_3, 16.0184634, new DecimalFormat( "0.00" ) );
 
     //units for flow, see volumetric flux: http://en.wikipedia.org/wiki/Flux
-    private static final Unit FLOW_METRIC = new LinearUnit( "flow", "m^3 m^-2 s^-1", 1, new DecimalFormat( "0.00" ) );//m3 m-2 s-1
-    private static final Unit FLOW_ENGLISH = new LinearUnit( "flow", "ft^3 ft^-2 s^-1", FEET_PER_METER, new DecimalFormat( "0.00" ) );
+    //TODO i18n
+    private static final Unit FLOW_METRIC = new LinearUnit( "flow", "L / (m<sup>2</sup>s)", 1E3, new DecimalFormat( "0.00" ) );//m3 m-2 s-1
+    private static final Unit FLOW_ENGLISH = new LinearUnit( "flow", "ft<sup>3</sup> / (ft<sup>2</sup> s)", FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
     //Common unit sets
     public static final UnitSet ATMOSPHERES = new UnitSet( ATMOSPHERE, FEET_PER_SECOND, FEET, FLUID_DENSITY_ENGLISH, FLOW_ENGLISH );//English units but with atmospheres for pressure instead of psi
