@@ -25,6 +25,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         super( biomolecule );
         this.attachmentSite = attachmentSite;
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
+        biomolecule.distortShape( 1 );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
@@ -35,6 +36,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         if ( distanceTraveled > transcribedRegionLength ) {
             // Release the attachment site.
             attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+            // Return to normal shape.
+            biomolecule.distortShape( 0 );
             // Detach and drift upwards.
             return new DetachingState( biomolecule, new ImmutableVector2D( 0, 1 ) );
         }
@@ -49,6 +52,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
+        biomolecule.distortShape( 0 );
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState( biomolecule );
     }

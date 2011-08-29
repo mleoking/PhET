@@ -78,7 +78,7 @@ public class ShapeCreationUtils {
         List<Point2D> alteredPoints = new ArrayList<Point2D>();
         for ( Point2D point : points ) {
             Vector2D pointAsVector = new Vector2D( point );
-            pointAsVector.scale( ( rand.nextDouble() + 0.5 ) * distortionFactor );
+            pointAsVector.scale( 1 + ( rand.nextDouble() - 0.5 ) * distortionFactor );
             alteredPoints.add( pointAsVector.toPoint2D() );
         }
         return createRoundedShapeFromPoints( alteredPoints );
