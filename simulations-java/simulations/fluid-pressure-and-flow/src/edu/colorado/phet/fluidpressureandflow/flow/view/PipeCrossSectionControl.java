@@ -36,7 +36,8 @@ public class PipeCrossSectionControl extends PNode {
             }
         };
 
-//        addChild( new GrabHandle( transform, bottom, bottomConstraint ) );
-        addChild( new GrabHandle( transform, top, topConstraint ) );
+        //Add handles that allow the user to deform this cross section of the pipe
+        addChild( new GrabHandle( transform, bottom, bottomConstraint, false ) );
+        addChild( new GrabHandle( transform, top, topConstraint, true ) );
     }
 }
