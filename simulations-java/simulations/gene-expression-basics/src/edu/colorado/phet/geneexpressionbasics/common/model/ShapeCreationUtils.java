@@ -74,6 +74,11 @@ public class ShapeCreationUtils {
      * @return
      */
     public static Shape createdDistortedRoundedShapeFromPoints( List<Point2D> points, double distortionFactor, long randomNumberSeed ) {
+        // Determine the center location of the undistorted shape.
+        Shape undistortedShape = createRoundedShapeFromPoints( points );
+        Point2D undistortedShapeCenter = new Point2D.Double( undistortedShape.getBounds2D().getCenterX(), undistortedShape.getBounds2D().getCenterY() );
+        // Alter the positions of the points that define the shape in order to
+        // define a distorted version of the shape.
         Random rand = new Random( randomNumberSeed );
         List<Point2D> alteredPoints = new ArrayList<Point2D>();
         for ( Point2D point : points ) {
@@ -81,7 +86,15 @@ public class ShapeCreationUtils {
             pointAsVector.scale( 1 + ( rand.nextDouble() - 0.5 ) * distortionFactor );
             alteredPoints.add( pointAsVector.toPoint2D() );
         }
-        return createRoundedShapeFromPoints( alteredPoints );
+        // Create the basis for the new shape.
+        Shape distortedShape = createRoundedShapeFromPoints( alteredPoints );
+        // Determine the center of the new shape.
+        Point2D distortedShapeCenter = new Point2D.Double( distortedShape.getBounds2D().getCenterX(), distortedShape.getBounds2D().getCenterY() );
+        // Shift the new shape so that the center is in the same place as the old one.
+        distortedShape = AffineTransform.getTranslateInstance( undistortedShapeCenter.getX() - distortedShapeCenter.getX(),
+                                                               undistortedShapeCenter.getY() - distortedShapeCenter.getY() ).createTransformedShape( distortedShape );
+
+        return distortedShape;
     }
 
     /**
