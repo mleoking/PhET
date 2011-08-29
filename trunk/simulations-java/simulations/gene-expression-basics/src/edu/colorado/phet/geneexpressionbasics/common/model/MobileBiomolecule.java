@@ -22,7 +22,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // Behavioral state that controls how the molecule moves when it is not
     // under the control of the user and how and when it attaches to other
     // biomolecules.
-    protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState();
+    protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
 
     // Color to use when displaying this biomolecule to the user.  This is
     // a bit out of place here, and has nothing to do with the fact that the
@@ -57,7 +57,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
 
     public void stepInTime( double dt ) {
         if ( !userControlled.get() ) {
-            behaviorState = behaviorState.stepInTime( dt, this );
+            behaviorState = behaviorState.stepInTime( dt );
         }
     }
 
@@ -73,6 +73,19 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
         // Return the default attachment state.  For details on what this does,
         // see the class definition.
-        return new AttachedState( attachmentSite );
+        return new AttachedState( this, attachmentSite );
+    }
+
+    /**
+     * Command the biomolecule to alter its shape by some amount.  This
+     * functionality is needed by some of the biomolecules, mostly when they
+     * attach to something.  The default does nothing, and it is up to the
+     * individual molecules to override in order to implement their specific
+     * conformation change behavior.
+     *
+     * @param distortionFactor - A value between 0 and 1.
+     */
+    public void distortShape( double distortionFactor ) {
+        System.out.println( getClass().getName() + "Warning: Unimplemented method called." );
     }
 }

@@ -21,12 +21,13 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
     private double distanceTraveled = 0;
 
-    public TranscribingDnaState( AttachmentSite attachmentSite, Gene geneBeingTranscribed ) {
+    public TranscribingDnaState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite, Gene geneBeingTranscribed ) {
+        super( biomolecule );
         this.attachmentSite = attachmentSite;
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
     }
 
-    @Override public BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
 
         biomolecule.setPosition( biomolecule.getPosition().getX() + dt * VELOCITY, biomolecule.getPosition().getY() );
         distanceTraveled += dt * VELOCITY;
@@ -35,20 +36,20 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
             // Release the attachment site.
             attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
             // Detach and drift upwards.
-            return new DetachingState( new ImmutableVector2D( 0, 1 ) );
+            return new DetachingState( biomolecule, new ImmutableVector2D( 0, 1 ) );
         }
 
         // If we made it to here, there is no state change.
         return this;
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         // Does not consider other attachments while transcribing.
         return this;
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-        return new UnattachedAndAvailableState();
+        return new UnattachedAndAvailableState( biomolecule );
     }
 }

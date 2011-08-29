@@ -85,7 +85,7 @@ public class TranscriptionFactor extends MobileBiomolecule {
             // Get a list of potential attachment sites from the DNA and consider
             // whether to attach to any of them.
             List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyTranscriptionFactorAttachmentSites( getPosition() );
-            behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList, this );
+            behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList );
         }
     }
 

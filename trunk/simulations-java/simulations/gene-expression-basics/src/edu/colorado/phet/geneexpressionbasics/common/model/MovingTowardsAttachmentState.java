@@ -20,12 +20,13 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
     private IMotionStrategy motionStrategy;
     private final AttachmentSite attachmentSite;
 
-    public MovingTowardsAttachmentState( AttachmentSite attachmentSite ) {
+    public MovingTowardsAttachmentState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
+        super( biomolecule );
         this.attachmentSite = attachmentSite;
         motionStrategy = new MeanderToDestinationMotionStrategy( attachmentSite.locationProperty );
     }
 
-    @Override public BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
         biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
         if ( biomolecule.getPosition().distance( attachmentSite.locationProperty.get() ) < CAPTURE_DISTANCE ) {
             // The molecule has reached the attachment site.  Since the
@@ -38,7 +39,7 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
         }
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         // In this state, the biomolecule is already moving towards an
         // attachment site, so it doesn't consider another.
         return this;
@@ -46,6 +47,6 @@ public class MovingTowardsAttachmentState extends BiomoleculeBehaviorState {
 
     @Override public BiomoleculeBehaviorState movedByUser() {
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-        return new UnattachedAndAvailableState();
+        return new UnattachedAndAvailableState( biomolecule );
     }
 }

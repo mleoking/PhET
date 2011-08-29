@@ -3,6 +3,7 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +78,7 @@ public class RnaPolymerase extends MobileBiomolecule {
             // Get a list of potential attachment sites from the DNA and consider
             // whether to attach to any of them.
             List<AttachmentSite> potentialAttachmentSiteList = model.getDnaMolecule().getNearbyPolymeraseAttachmentSites( getPosition() );
-            behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList, this );
+            behaviorState = behaviorState.considerAttachment( potentialAttachmentSiteList );
         }
     }
 
@@ -85,11 +86,17 @@ public class RnaPolymerase extends MobileBiomolecule {
     @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
         if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
             // The attachment site is strong enough to trigger transcription.
-            return new TranscribingDnaState( attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ) );
+            return new TranscribingDnaState( this, attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ) );
         }
         else {
-            return new AttachedState( attachmentSite );
+            return new AttachedState( this, attachmentSite );
         }
+    }
+
+    @Override public void distortShape( double distortionFactor ) {
+        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, distortionFactor, 1 );
+        Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
+        shapeProperty.set( newTranslatedShape );
     }
 
     private static Shape createShape() {

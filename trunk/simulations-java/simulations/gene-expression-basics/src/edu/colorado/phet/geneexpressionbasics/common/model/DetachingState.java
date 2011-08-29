@@ -26,7 +26,8 @@ public class DetachingState extends BiomoleculeBehaviorState {
      *
      * @param detachDirection
      */
-    public DetachingState( ImmutableVector2D detachDirection ) {
+    public DetachingState( MobileBiomolecule biomolecule, ImmutableVector2D detachDirection ) {
+        super( biomolecule );
         motionStrategy = new WanderInGeneralDirectionMotionStrategy( detachDirection );
     }
 
@@ -34,16 +35,17 @@ public class DetachingState extends BiomoleculeBehaviorState {
      * Constructor for state that will cause the molecule to wander randomly
      * after detaching.
      */
-    public DetachingState() {
+    public DetachingState( MobileBiomolecule biomolecule ) {
+        super( biomolecule );
         motionStrategy = new RandomWalkMotionStrategy();
     }
 
-    @Override public BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
         biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
         detachTime -= dt;
         if ( detachTime <= 0 ) {
             // Done detaching - move to next state.
-            return new UnattachedButUnavailableState();
+            return new UnattachedButUnavailableState( biomolecule );
         }
         else {
             // No state change.
@@ -51,7 +53,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
         }
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         // While detaching requests for new attachments are ignored.
         return this;
     }
@@ -59,6 +61,6 @@ public class DetachingState extends BiomoleculeBehaviorState {
     @Override public BiomoleculeBehaviorState movedByUser() {
         // Go directly to the unattached and available state.
         detachTime = 0;
-        return new UnattachedAndAvailableState();
+        return new UnattachedAndAvailableState( biomolecule );
     }
 }
