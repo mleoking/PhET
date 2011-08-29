@@ -22,7 +22,8 @@ public class AttachedState extends BiomoleculeBehaviorState {
     private double migrationHalfLife = DEFAULT_MIGRATION_HALF_LIFE;
     private double attachmentHalfLife = DEFAULT_ATTACHMENT_HALF_LIFE;
 
-    public AttachedState( AttachmentSite attachmentSite ) {
+    public AttachedState( MobileBiomolecule biomolecule, AttachmentSite attachmentSite ) {
+        super( biomolecule );
         this.attachmentSite = attachmentSite;
         if ( attachmentSite.getAffinity() == 1 ) {
             System.out.println( "Attached to max affinity site." );
@@ -33,7 +34,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         // If so, it would be calculated here.
     }
 
-    @Override public BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
 
         timeOfAttachment += dt;
 
@@ -53,11 +54,11 @@ public class AttachedState extends BiomoleculeBehaviorState {
             attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
             if ( attachmentSite.locationProperty.get().getY() < 100 ) {
                 // Must be on the DNA, so drift upwards.
-                return new DetachingState( new ImmutableVector2D( 0, 1 ) );
+                return new DetachingState( biomolecule, new ImmutableVector2D( 0, 1 ) );
             }
             else {
                 // Not on the DNA - drift randomly.
-                return new DetachingState();
+                return new DetachingState( biomolecule );
             }
         }
 
@@ -65,7 +66,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
         return this;
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         double probabilityOfAttachmentDecay = 1 - Math.pow( 0.5, timeOfAttachment / migrationHalfLife );
         if ( probabilityOfAttachmentDecay > RAND.nextDouble() ) {
             // Okay to actually consider these proposals.
@@ -98,7 +99,7 @@ public class AttachedState extends BiomoleculeBehaviorState {
                     attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
                     // Accept the new attachment site.
                     newAttachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
-                    return new MovingTowardsAttachmentState( newAttachmentSite );
+                    return new MovingTowardsAttachmentState( biomolecule, newAttachmentSite );
                 }
             }
         }
@@ -109,6 +110,6 @@ public class AttachedState extends BiomoleculeBehaviorState {
 
     @Override public BiomoleculeBehaviorState movedByUser() {
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-        return new UnattachedAndAvailableState();
+        return new UnattachedAndAvailableState( biomolecule );
     }
 }

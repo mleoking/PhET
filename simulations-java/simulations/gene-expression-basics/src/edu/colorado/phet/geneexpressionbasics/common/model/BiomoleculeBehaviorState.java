@@ -11,9 +11,31 @@ import java.util.Random;
  * @author John Blanco
  */
 public abstract class BiomoleculeBehaviorState {
+
+    //-------------------------------------------------------------------------
+    // Class Data
+    //-------------------------------------------------------------------------
+
     protected static final Random RAND = new Random();
 
-    public abstract BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule );
+    //-------------------------------------------------------------------------
+    // Instance Data
+    //-------------------------------------------------------------------------
+    protected final MobileBiomolecule biomolecule;
+
+    //-------------------------------------------------------------------------
+    // Constructor(s)
+    //-------------------------------------------------------------------------
+
+    protected BiomoleculeBehaviorState( MobileBiomolecule biomolecule ) {
+        this.biomolecule = biomolecule;
+    }
+
+    //-------------------------------------------------------------------------
+    // Methods
+    //-------------------------------------------------------------------------
+
+    public abstract BiomoleculeBehaviorState stepInTime( double dt );
 
     /**
      * Consider whether to attach to any of the proposed attachment sites.  The
@@ -23,7 +45,7 @@ public abstract class BiomoleculeBehaviorState {
      * @param proposedAttachmentSites
      * @return New state if a state change occurs, previous state if not.
      */
-    public abstract BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, MobileBiomolecule biomolecule );
+    public abstract BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites );
 
     /**
      * The user moved this biomolecule.  If any attachments existed or were

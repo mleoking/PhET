@@ -13,7 +13,11 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
 
     private final IMotionStrategy motionStrategy = new RandomWalkMotionStrategy();
 
-    @Override public BiomoleculeBehaviorState stepInTime( double dt, MobileBiomolecule biomolecule ) {
+    protected UnattachedAndAvailableState( MobileBiomolecule biomolecule ) {
+        super( biomolecule );
+    }
+
+    @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
         // Exhibit random walk motion.
         biomolecule.setPosition( motionStrategy.getNextLocation( dt, biomolecule.getPosition() ) );
 
@@ -22,7 +26,7 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
         return this;
     }
 
-    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites, final MobileBiomolecule biomolecule ) {
+    @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         // Since this state is unattached, we choose the most appealing
         // proposal and immediately accept it by transitioning to the "moving
         // towards attachment" state and marking the attachment site as being
@@ -45,7 +49,7 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
             AttachmentSite newAttachmentSite = copyOfProposedAttachmentSites.get( RAND.nextInt( copyOfProposedAttachmentSites.size() ) );
             // Accept the new attachment site.
             newAttachmentSite.attachedMolecule.set( new Option.Some<MobileBiomolecule>( biomolecule ) );
-            return new MovingTowardsAttachmentState( newAttachmentSite );
+            return new MovingTowardsAttachmentState( biomolecule, newAttachmentSite );
         }
         else {
             return this;
