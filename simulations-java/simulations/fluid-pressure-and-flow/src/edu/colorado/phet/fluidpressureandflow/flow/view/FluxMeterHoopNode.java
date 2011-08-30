@@ -26,7 +26,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
 public class FluxMeterHoopNode extends PNode {
 
     //Developer control for showing a color chooser
-    private boolean showColorChooser = false;
+    private final boolean showColorChooser = false;
 
     public FluxMeterHoopNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final boolean frontLayer ) {
 

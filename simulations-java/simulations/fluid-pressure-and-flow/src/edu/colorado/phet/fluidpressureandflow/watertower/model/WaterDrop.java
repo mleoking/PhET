@@ -17,7 +17,7 @@ public class WaterDrop {
     public final Property<Double> radius;
     private final double mass = 1;
     private final double gravity = -9.8;
-    private ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
+    private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
     private final double volume;
 
     public WaterDrop( ImmutableVector2D x, final ImmutableVector2D v, final double volume ) {

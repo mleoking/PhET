@@ -14,7 +14,7 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 public abstract class Sensor<T> {
 
     public final Property<ImmutableVector2D> location;
-    protected Property<T> value;
+    protected final Property<T> value;
 
     public Sensor( double x, double y, T value ) {
         location = new Property<ImmutableVector2D>( new ImmutableVector2D( x, y ) );

@@ -21,14 +21,14 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  * @author Sam Reid
  */
 public class WaterTowerModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
-    private WaterTower waterTower = new WaterTower();
-    private ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();//drops coming out of the water tower
-    private ArrayList<WaterDrop> faucetDrops = new ArrayList<WaterDrop>();//drops coming from the faucet into the water tower
-    private Random random = new Random();//source of randomness for creating drops
-    private FaucetFlowRate faucetFlowLevel = new FaucetFlowRate();
+    private final WaterTower waterTower = new WaterTower();
+    private final ArrayList<WaterDrop> waterTowerDrops = new ArrayList<WaterDrop>();//drops coming out of the water tower
+    private final ArrayList<WaterDrop> faucetDrops = new ArrayList<WaterDrop>();//drops coming from the faucet into the water tower
+    private final Random random = new Random();//source of randomness for creating drops
+    private final FaucetFlowRate faucetFlowLevel = new FaucetFlowRate();
     private double g = 9.8;
-    private ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
-    private ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
+    private final ArrayList<VoidFunction1<WaterDrop>> dropAddedListeners = new ArrayList<VoidFunction1<WaterDrop>>();
+    private final ArrayList<SimpleObserver> velocityUpdateListeners = new ArrayList<SimpleObserver>();
 
     public WaterTowerModel() {
         super( ENGLISH );

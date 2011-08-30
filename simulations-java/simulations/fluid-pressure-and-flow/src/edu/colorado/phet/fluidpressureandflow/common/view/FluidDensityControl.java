@@ -65,7 +65,7 @@ public class FluidDensityControl<T extends FluidPressureAndFlowModel> extends PN
     }
 
     public static class UnitFluidDensityControl<T extends FluidPressureAndFlowModel> extends PNode {
-        private Property<Boolean> fluidDensityControlVisible;
+        private final Property<Boolean> fluidDensityControlVisible;
 
         public UnitFluidDensityControl( final FluidPressureAndFlowModule<T> module, Unit density ) {
             fluidDensityControlVisible = module.fluidDensityControlVisible;

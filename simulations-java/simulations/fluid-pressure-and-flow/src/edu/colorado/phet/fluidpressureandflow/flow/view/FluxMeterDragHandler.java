@@ -17,12 +17,12 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  */
 public class FluxMeterDragHandler extends PBasicInputEventHandler {
 
-    private ModelViewTransform transform;
-    private FluxMeter fluxMeter;
-    private PNode node;
+    private final ModelViewTransform transform;
+    private final FluxMeter fluxMeter;
+    private final PNode node;
 
     //Use composition to also implement cursor handler so it doesn't need to be added as a separate listener
-    private CursorHandler cursorHandler = new CursorHandler();
+    private final CursorHandler cursorHandler = new CursorHandler();
 
     public FluxMeterDragHandler( ModelViewTransform transform, FluxMeter fluxMeter, PNode node ) {
         this.transform = transform;

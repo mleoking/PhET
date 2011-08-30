@@ -9,7 +9,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
  * @author Sam Reid
  */
 public class FluidPressureModel extends FluidPressureAndFlowModel {
-    private Pool pool = new Pool();
+    private final Pool pool = new Pool();
 
     public FluidPressureModel() {
         super( UnitSet.ATMOSPHERES );

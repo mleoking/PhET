@@ -21,17 +21,17 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.FPAFVelocitySenso
  */
 public class FluidFlowModel extends FluidPressureAndFlowModel implements VelocitySensorContext {
     public final Pipe pipe = new Pipe();
-    private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private Random random = new Random();
-    private ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
-    private ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
+    private final ArrayList<Particle> particles = new ArrayList<Particle>();
+    private final Random random = new Random();
+    private final ArrayList<VoidFunction1<Particle>> particleAddedObservers = new ArrayList<VoidFunction1<Particle>>();
+    private final ArrayList<VoidFunction1<FoodColoring>> foodColoringObservers = new ArrayList<VoidFunction1<FoodColoring>>();
 
     //percent probability to drop in each frame
     public final Property<Double> dropperRate = new Property<Double>( 33.0 );
 
     //true if the dropper is dropping in red dots
     public final Property<Boolean> dropperEnabled = new Property<Boolean>( true );
-    private ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
+    private final ArrayList<FoodColoring> foodColorings = new ArrayList<FoodColoring>();
     public final FluxMeter fluxMeter = new FluxMeter( pipe );
 
     public FluidFlowModel() {
