@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.StubGeneExpressionModel;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view.MobileBiomoleculeNode;
 import edu.umd.cs.piccolo.util.PDimension;
 
@@ -39,7 +40,7 @@ public class MessengerRnaTest {
                 new Point( (int) Math.round( STAGE_SIZE.getWidth() * 0.5 ), (int) Math.round( STAGE_SIZE.getHeight() * 0.50 ) ),
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
-        MessengerRna messengerRna = new MessengerRna( new Point2D.Double( 0, 0 ) );
+        MessengerRna messengerRna = new MessengerRna( new StubGeneExpressionModel(), new Point2D.Double( 0, 0 ) );
         messengerRna.growTo( 100, 0 );
         messengerRna.growTo( 100, 100 );
         messengerRna.growTo( 200, 100 );

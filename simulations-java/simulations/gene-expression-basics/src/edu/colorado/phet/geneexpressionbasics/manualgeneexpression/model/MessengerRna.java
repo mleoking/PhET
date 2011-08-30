@@ -47,8 +47,8 @@ public class MessengerRna extends MobileBiomolecule {
      *
      * @param position
      */
-    public MessengerRna( Point2D position ) {
-        super( new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
+    public MessengerRna( GeneExpressionModel model, Point2D position ) {
+        super( model, new DoubleGeneralPath( position ).getGeneralPath(), NOMINAL_COLOR );
         setPosition( position );
     }
 

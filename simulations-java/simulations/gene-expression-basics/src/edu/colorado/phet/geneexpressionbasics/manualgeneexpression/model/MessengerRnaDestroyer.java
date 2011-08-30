@@ -18,12 +18,12 @@ public class MessengerRnaDestroyer extends MobileBiomolecule {
     private static final double WIDTH = 250;   // In nanometers.
     private static final double HEIGHT = 190;  // In nanometers.
 
-    public MessengerRnaDestroyer() {
-        this( new Point2D.Double( 0, 0 ) );
+    public MessengerRnaDestroyer( GeneExpressionModel model ) {
+        this( model, new Point2D.Double( 0, 0 ) );
     }
 
-    public MessengerRnaDestroyer( Point2D position ) {
-        super( createShape(), new Color( 255, 150, 66 ) );
+    public MessengerRnaDestroyer( GeneExpressionModel model, Point2D position ) {
+        super( model, createShape(), new Color( 255, 150, 66 ) );
         setPosition( position );
     }
 

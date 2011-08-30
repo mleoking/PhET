@@ -192,12 +192,12 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private RibosomeCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new Ribosome() ),
+            super( new MobileBiomoleculeNode( SCALING_MVT, new Ribosome( new StubGeneExpressionModel() ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           Ribosome srs = new Ribosome( pos );
+                           Ribosome srs = new Ribosome( biomoleculeBoxNode.model );
                            biomoleculeBoxNode.model.addMobileBiomolecule( srs );
                            return srs;
                        }
@@ -252,12 +252,12 @@ public class BiomoleculeToolBoxNode extends PNode {
         private static final ModelViewTransform SCALING_MVT = ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( 0, 0 ), SCALING_FACTOR );
 
         private MessengerRnaDestroyerCreatorNode( final BiomoleculeToolBoxNode biomoleculeBoxNode ) {
-            super( new MobileBiomoleculeNode( SCALING_MVT, new MessengerRnaDestroyer() ),
+            super( new MobileBiomoleculeNode( SCALING_MVT, new MessengerRnaDestroyer( new StubGeneExpressionModel() ) ),
                    biomoleculeBoxNode.canvas,
                    biomoleculeBoxNode.mvt,
                    new Function1<Point2D, MobileBiomolecule>() {
                        public MobileBiomolecule apply( Point2D pos ) {
-                           MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( pos );
+                           MessengerRnaDestroyer mRnaDestroyer = new MessengerRnaDestroyer( biomoleculeBoxNode.model );
                            biomoleculeBoxNode.model.addMobileBiomolecule( mRnaDestroyer );
                            return mRnaDestroyer;
                        }

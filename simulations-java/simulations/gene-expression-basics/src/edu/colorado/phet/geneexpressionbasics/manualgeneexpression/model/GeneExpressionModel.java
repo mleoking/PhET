@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+
 /**
  * Base class for the models used in this simulation.  All models must extend
  * from a common class so that the sam biomolecules can be used within each.
@@ -10,10 +12,18 @@ package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model;
 public abstract class GeneExpressionModel {
 
     /**
-     * Get the DNA molecule that contains the genes.
+     * Get the DNA molecule.
      *
      * @return - DNA molecule, null if none exists.
      */
     public abstract DnaMolecule getDnaMolecule();
+
+    /**
+     * Add a mobile biomolecule to the model.  The model must send out the
+     * appropriate notifications.
+     *
+     * @param mobileBiomolecule
+     */
+    public abstract void addMobileBiomolecule( final MobileBiomolecule mobileBiomolecule );
 }
 

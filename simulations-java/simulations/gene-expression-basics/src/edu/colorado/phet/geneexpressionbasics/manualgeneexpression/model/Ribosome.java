@@ -25,12 +25,12 @@ public class Ribosome extends MobileBiomolecule {
     private static final double TOP_SUBUNIT_HEIGHT = OVERALL_HEIGHT * TOP_SUBUNIT_HEIGHT_PROPORTION;
     private static final double BOTTOM_SUBUNIT_HEIGHT = OVERALL_HEIGHT * ( 1 - TOP_SUBUNIT_HEIGHT_PROPORTION );
 
-    public Ribosome() {
-        this( new Point2D.Double( 0, 0 ) );
+    public Ribosome( GeneExpressionModel model ) {
+        this( model, new Point2D.Double( 0, 0 ) );
     }
 
-    public Ribosome( Point2D position ) {
-        super( createShape(), new Color( 205, 155, 29 ) );
+    public Ribosome( GeneExpressionModel model, Point2D position ) {
+        super( model, createShape(), new Color( 205, 155, 29 ) );
         setPosition( position );
     }
 

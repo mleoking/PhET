@@ -56,8 +56,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Instance Data
     //-------------------------------------------------------------------------
 
-    private final GeneExpressionModel model;
-
     // TODO: Temp for working out conformed shape of polymerase, remove before publication.
     public int seed = 0;
 
@@ -70,8 +68,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     public RnaPolymerase( GeneExpressionModel model, Point2D position ) {
-        super( createShape(), NOMINAL_COLOR );
-        this.model = model;
+        super( model, createShape(), NOMINAL_COLOR );
         setPosition( position );
         seed = 259;
     }
@@ -79,7 +76,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     //-------------------------------------------------------------------------
     // Methods
     //-------------------------------------------------------------------------
-
 
     @Override public void stepInTime( double dt ) {
         super.stepInTime( dt );
