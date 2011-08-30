@@ -27,8 +27,8 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Class Data
     //-------------------------------------------------------------------------
 
-    private static final double WIDTH = 340;
-    private static final double HEIGHT = 480;
+    private static final double WIDTH = 340;   // picometers
+    private static final double HEIGHT = 480;  // picometers
 
     // This the threshold for the affinity which triggers the polymerase to
     // start transcribing.  Not sure if this is a reasonable thing to do, or

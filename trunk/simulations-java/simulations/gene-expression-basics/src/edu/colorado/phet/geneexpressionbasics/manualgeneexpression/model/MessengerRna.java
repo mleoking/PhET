@@ -5,11 +5,13 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
+import edu.colorado.phet.geneexpressionbasics.common.model.DetachingState;
 import edu.colorado.phet.geneexpressionbasics.common.model.IdleState;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
@@ -32,7 +34,11 @@ public class MessengerRna extends MobileBiomolecule {
     // Minimum distance between points that define the shape.  This is done so
     // that this doesn't end up defined by so many points that the shape is
     // strange looking.
-    private static final double MIN_DISTANCE_BETWEEN_POINTS = 50;
+    private static final double MIN_DISTANCE_BETWEEN_POINTS = 50; // In picometers, empirically determined.
+
+    // Random number generator used for creating "curviness" in the shape of
+    // the RNA.
+    private static final Random RAND = new Random();
 
     //-------------------------------------------------------------------------
     // Instance Data
@@ -47,7 +53,7 @@ public class MessengerRna extends MobileBiomolecule {
     // writing, there is no need to have anything other than one way of
     // drifting while growing, but this could easily be made settable or into
     // a constructor param.
-    private ImmutableVector2D driftWhileGrowingVector = new Vector2D( 0.2, 0.5 );
+    private ImmutableVector2D driftWhileGrowingVector = new Vector2D( 0.15, 0.4 );
 
     //-------------------------------------------------------------------------
     // Constructor(s)
@@ -82,8 +88,11 @@ public class MessengerRna extends MobileBiomolecule {
             double growthAmount = lastPoint.distance( p );
             // Cause all existing points to "drift".
             ImmutableVector2D driftVector = driftWhileGrowingVector.getScaledInstance( growthAmount );
+//            ImmutableVector2D randomizationVector = new ImmutableVector2D( 1, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+            ImmutableVector2D randomizationVector = new ImmutableVector2D( 0, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
             for ( Point2D point : shapeDefiningPoints ) {
-                point.setLocation( point.getX() + driftVector.getX(), point.getY() + driftVector.getY() );
+                point.setLocation( point.getX() + driftVector.getX() + randomizationVector.getX(),
+                                   point.getY() + driftVector.getY() + randomizationVector.getY() );
             }
             if ( shapeDefiningPoints.size() >= 2 ) {
                 // If the current last point is less than the min distance from
@@ -93,6 +102,13 @@ public class MessengerRna extends MobileBiomolecule {
                 Point2D secondToLastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 2 );
                 if ( lastPoint.distance( secondToLastPoint ) < MIN_DISTANCE_BETWEEN_POINTS ) {
                     shapeDefiningPoints.remove( lastPoint );
+                }
+                else {
+                    // Add a random offset to this point in order to make the
+                    // mRNA a bit curvy.
+                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
+                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
                 }
             }
         }
@@ -104,5 +120,11 @@ public class MessengerRna extends MobileBiomolecule {
 
     public void growTo( double x, double y ) {
         growTo( new Point2D.Double( x, y ) );
+    }
+
+    public void release() {
+        // Set the state to just be drifting around in the cytoplasm.
+        behaviorState = new DetachingState( this, new ImmutableVector2D( 0, 1 ) );
+        System.out.println( "shapeDefiningPoints.size() = " + shapeDefiningPoints.size() );
     }
 }
