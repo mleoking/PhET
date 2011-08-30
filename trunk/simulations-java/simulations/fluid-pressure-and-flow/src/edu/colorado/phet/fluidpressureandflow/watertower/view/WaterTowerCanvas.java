@@ -23,12 +23,13 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
+import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 import edu.umd.cs.piccolo.PNode;
 
 /**
  * @author Sam Reid
  */
-public class WaterTowerCanvas extends FluidPressureAndFlowCanvas {
+public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
     private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
     private PNode waterDropLayer = new PNode();

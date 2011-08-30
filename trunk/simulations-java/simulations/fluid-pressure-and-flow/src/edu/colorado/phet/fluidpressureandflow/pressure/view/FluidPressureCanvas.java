@@ -22,7 +22,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 /**
  * @author Sam Reid
  */
-public class FluidPressureCanvas extends FluidPressureAndFlowCanvas {
+public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressureModel> {
 
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 2.2;
 
