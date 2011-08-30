@@ -11,6 +11,7 @@ import edu.colorado.phet.common.phetcommon.math.Function;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.SerializablePoint2D;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.model.property.doubleproperty.DoubleProperty;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
@@ -27,7 +28,7 @@ public class Pipe {
     private boolean dirty = true;//Flag to improve performance
 
     //Rate of fluid flow in (m^3 / m^2 / s, which has the same units as as 1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
-    public final Property<Double> flux = new Property<Double>( 5.0 );
+    public final DoubleProperty flux = new DoubleProperty( 5.0 );
 
     public final Property<Boolean> friction = new Property<Boolean>( false );
 
@@ -327,5 +328,11 @@ public class Pipe {
     //Get the point at the specified location, where x is in meters and fractionToTop is in (0,1)
     public ImmutableVector2D getPoint( double x, double fractionToTop ) {
         return new ImmutableVector2D( x, fractionToLocation( x, fractionToTop ) );
+    }
+
+    //Compute the circular cross sectional area (in meters squared) at the specified location
+    public double getCrossSectionalArea( double x ) {
+        double radius = Math.abs( getPoint( x, 0.5 ).getY() - getPoint( x, 1 ).getY() );
+        return Math.PI * radius * radius;
     }
 }

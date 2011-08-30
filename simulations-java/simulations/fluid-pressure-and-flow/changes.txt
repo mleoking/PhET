@@ -1,3 +1,4 @@
+Flow: Added readouts for flux meter
 Flow: Only show the flux meter if the user has selected it in the control panel
 Flow: Split flux meter into front and back layers so the particle go through it
 Flow: Added interaction to the flux meter
