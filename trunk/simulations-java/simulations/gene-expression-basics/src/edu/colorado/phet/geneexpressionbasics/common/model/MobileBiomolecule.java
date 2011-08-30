@@ -7,6 +7,7 @@ import java.awt.Shape;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 
 /**
  * Base class for all biomolecules (i.e. rna polymerase, transcription factors,
@@ -30,14 +31,17 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
     // biomolecules.
     protected BiomoleculeBehaviorState behaviorState = new UnattachedAndAvailableState( this );
 
+    protected final GeneExpressionModel model;
+
     /**
      * Constructor.
      *
      * @param initialShape
      * @param baseColor
      */
-    public MobileBiomolecule( Shape initialShape, Color baseColor ) {
+    public MobileBiomolecule( GeneExpressionModel model, Shape initialShape, Color baseColor ) {
         super( initialShape );
+        this.model = model;
         colorProperty.set( baseColor );
         // Handle changes in user control.us
         userControlled.addObserver( new VoidFunction1<Boolean>() {

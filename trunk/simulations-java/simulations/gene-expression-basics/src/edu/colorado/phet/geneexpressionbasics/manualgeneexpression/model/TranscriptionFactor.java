@@ -51,15 +51,13 @@ public class TranscriptionFactor extends MobileBiomolecule {
     //-------------------------------------------------------------------------
 
     private final boolean isPositive;
-    private final GeneExpressionModel model;
 
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
 
     private TranscriptionFactor( GeneExpressionModel model, Shape shape, Point2D initialPosition, Color baseColor, boolean isPositive ) {
-        super( shape, baseColor );
-        this.model = model;
+        super( model, shape, baseColor );
         this.isPositive = isPositive;
         setPosition( initialPosition );
     }

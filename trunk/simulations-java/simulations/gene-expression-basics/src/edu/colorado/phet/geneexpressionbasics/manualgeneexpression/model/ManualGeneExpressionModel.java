@@ -37,12 +37,15 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // Instance Data
     //------------------------------------------------------------------------
 
-    // Clock that drives all time-dependent behavior in this model.
-    private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
-
     // DNA strand, which is where the genes reside, where the polymerase does
     // its transcription, and where a lot of the action takes place.
-    private final DnaMolecule dnaStrand = new DnaMolecule();
+    protected final DnaMolecule dnaStrand = new DnaMolecule();
+
+    // List of mobile biomolecules in the model.
+    public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
+
+    // Clock that drives all time-dependent behavior in this model.
+    private final ConstantDtClock clock = new ConstantDtClock( 30.0 );
 
     // The gene that the user is focusing on, other gene activity is
     // suspended.  Start with the 0th gene in the DNA (leftmost).
@@ -52,9 +55,6 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     // currently active, which means that the user is viewing it.
     public final ObservableProperty<Boolean> isFirstGeneActive = activeGene.valueEquals( dnaStrand.getGenes().get( 0 ) );
     public final ObservableProperty<Boolean> isLastGeneActive = activeGene.valueEquals( dnaStrand.getLastGene() );
-
-    // List of RNA polymerase in the model.
-    public final ObservableList<MobileBiomolecule> mobileBiomoleculeList = new ObservableList<MobileBiomolecule>();
 
     //------------------------------------------------------------------------
     // Constructor
