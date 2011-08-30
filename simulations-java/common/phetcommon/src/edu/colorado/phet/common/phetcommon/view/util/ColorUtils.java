@@ -6,8 +6,8 @@ import java.awt.Color;
 
 
 /**
- * ColorUtils is a collection of utilities related to Color.
- * See class PhetColorScheme for PhET's default color assignments.
+ * ColorUtils is a collection of utilities related to Color. See class
+ * PhetColorScheme for PhET's default color assignments.
  *
  * @author Chris Malley (cmalley@pixelzoom.com)
  */
@@ -18,8 +18,8 @@ public class ColorUtils {
     }
 
     /**
-     * Creates a new color by taking an existing color and changing its alpha channel.
-     * Useful when you need to modulate the alpha channel.
+     * Creates a new color by taking an existing color and changing its alpha
+     * channel. Useful when you need to modulate the alpha channel.
      *
      * @param c
      * @param alpha
@@ -30,11 +30,10 @@ public class ColorUtils {
     }
 
     /**
-     * Interpolates between 2 colors in RGBA space.
-     * When distance is 0, color1 is returned.
-     * When distance is 1, color2 is returned.
-     * Other values of distance return a color somewhere between color1 and color2.
-     * Each color component is interpolated separately.
+     * Interpolates between 2 colors in RGBA space. When distance is 0, color1
+     * is returned. When distance is 1, color2 is returned. Other values of
+     * distance return a color somewhere between color1 and color2. Each color
+     * component is interpolated separately.
      *
      * @param color1
      * @param color2
@@ -67,8 +66,8 @@ public class ColorUtils {
 
 
     /**
-     * Brightens a color in RGB space.
-     * Useful when creating gradients from a single base color.
+     * Brightens a color in RGB space. Useful when creating gradients from a
+     * single base color.
      *
      * @param color
      * @param factor 0 (no change) to 1 (white)
@@ -81,12 +80,12 @@ public class ColorUtils {
         int red = Math.min( 255, color.getRed() + (int) ( factor * ( 255 - color.getRed() ) ) );
         int green = Math.min( 255, color.getGreen() + (int) ( factor * ( 255 - color.getGreen() ) ) );
         int blue = Math.min( 255, color.getBlue() + (int) ( factor * ( 255 - color.getBlue() ) ) );
-        return new Color( red, green, blue );
+        return new Color( red, green, blue, color.getAlpha() );
     }
 
     /**
-     * Darken a color in RGB space.
-     * Useful when creating gradients from a single base color.
+     * Darken a color in RGB space. Useful when creating gradients from a single
+     * base color.
      *
      * @param color  the original color
      * @param factor 0 (no change) to 1 (black)
@@ -99,7 +98,7 @@ public class ColorUtils {
         int red = Math.max( 0, color.getRed() - (int) ( factor * color.getRed() ) );
         int green = Math.max( 0, color.getGreen() - (int) ( factor * color.getGreen() ) );
         int blue = Math.max( 0, color.getBlue() - (int) ( factor * color.getBlue() ) );
-        return new Color( red, green, blue );
+        return new Color( red, green, blue, color.getAlpha() );
     }
 
     /**
