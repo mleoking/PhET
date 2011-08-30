@@ -6,9 +6,12 @@ import java.util.List;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
+import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.MessengerRna;
 
 /**
  * State that controls a biomolecule's behavior when it is transcribing DNA.
+ * This state is only used by RNA polymerase, none of the other biomolecules
+ * ever transcribe DNA.
  *
  * @author John Blanco
  */
@@ -34,6 +37,8 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
 
     private double degreeOfConformationalChange = 0;
 
+    private final MessengerRna messengerRna;
+
     //-------------------------------------------------------------------------
     // Constructor(s)
     //-------------------------------------------------------------------------
@@ -42,6 +47,10 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         super( biomolecule );
         this.attachmentSite = attachmentSite;
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
+        // Create the mRNA molecule that will be grown during the transcription
+        // process.
+        messengerRna = new MessengerRna( biomolecule.model, biomolecule.getPosition() );
+        biomolecule.spawnMolecule( messengerRna );
     }
 
     //-------------------------------------------------------------------------
@@ -57,9 +66,10 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
             biomolecule.changeConformation( degreeOfConformationalChange );
         }
         else if ( distanceTraveled < transcribedRegionLength ) {
-            // The molecule is transcribing the gene.
+            // This polymerase molecule is transcribing the gene.
             biomolecule.setPosition( biomolecule.getPosition().getX() + dt * VELOCITY, biomolecule.getPosition().getY() );
             distanceTraveled += dt * VELOCITY;
+            messengerRna.growTo( biomolecule.getPosition() );
         }
         else if ( degreeOfConformationalChange > 0 ) {
             // The molecule is changing back to the non-transcribing conformation.

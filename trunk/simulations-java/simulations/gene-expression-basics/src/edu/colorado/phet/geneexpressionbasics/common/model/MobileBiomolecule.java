@@ -43,7 +43,7 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         super( initialShape );
         this.model = model;
         colorProperty.set( baseColor );
-        // Handle changes in user control.us
+        // Handle changes in user control.
         userControlled.addObserver( new VoidFunction1<Boolean>() {
             public void apply( Boolean userControlled ) {
                 if ( !userControlled ) {
@@ -60,6 +60,15 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         if ( !userControlled.get() ) {
             behaviorState = behaviorState.stepInTime( dt );
         }
+    }
+
+    /**
+     * Add the specified biomolecule to the model.
+     *
+     * @param biomolecule
+     */
+    protected void spawnMolecule( MobileBiomolecule biomolecule ) {
+        model.addMobileBiomolecule( biomolecule );
     }
 
     /**
