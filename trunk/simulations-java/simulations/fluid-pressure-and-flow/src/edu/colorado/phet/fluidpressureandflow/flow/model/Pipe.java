@@ -23,7 +23,7 @@ import edu.colorado.phet.common.spline.CubicSpline2D;
  * @author Sam Reid
  */
 public class Pipe {
-    private ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
+    private final ArrayList<CrossSection> controlCrossSections = new ArrayList<CrossSection>();
     private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
 

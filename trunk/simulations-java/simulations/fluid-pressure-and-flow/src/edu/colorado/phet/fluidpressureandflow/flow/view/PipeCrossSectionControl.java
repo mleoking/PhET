@@ -14,7 +14,7 @@ import static edu.colorado.phet.common.phetcommon.math.MathUtil.clamp;
  * @author Sam Reid
  */
 public class PipeCrossSectionControl extends PNode {
-    private double DISTANCE_THRESHOLD = 0.5;
+    private final double DISTANCE_THRESHOLD = 0.5;
     public static final double MIN_DRAG_Y = -5;//make it so that the control point can't be dragged offscreen in the down direction
     public static final double MAX_DRAG_Y = 3;//make it so that the control point can't be dragged offscreen in the up direction
 

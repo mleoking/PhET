@@ -14,7 +14,7 @@ import edu.colorado.phet.fluidpressureandflow.watertower.view.WaterTowerCanvas;
  */
 public class WaterTowerModule extends FluidPressureAndFlowModule<WaterTowerModel> {
     public final Property<Boolean> measuringTapeVisible = new Property<Boolean>( false );//TODO: move to subclasses that have measuring tape
-    public WaterTowerCanvas canvas;
+    public final WaterTowerCanvas canvas;
 
     public WaterTowerModule() {
         super( FluidPressureAndFlowResources.Strings.WATER_TOWER, new WaterTowerModel() );

@@ -26,11 +26,11 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class PipeBackNode extends PNode {
-    private Color waterColor = new Color( 122, 197, 213 );
-    private Pipe pipe;
-    private ModelViewTransform transform;
-    public static int PIPE_LEFT_OFFSET = 72;
-    static double sx = 0.4;
+    private final Color waterColor = new Color( 122, 197, 213 );
+    private final Pipe pipe;
+    private final ModelViewTransform transform;
+    public static final int PIPE_LEFT_OFFSET = 72;
+    static final double sx = 0.4;
 
     public static final double pipeOpeningPixelYTop = 58;
     private static final double pipeOpeningPixelYBottom = 375;

@@ -32,7 +32,7 @@ import edu.umd.cs.piccolo.PNode;
 public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel> {
     private static final double modelHeight = 50;
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
-    private PNode waterDropLayer = new PNode();
+    private final PNode waterDropLayer = new PNode();
     private final FPAFMeasuringTape measuringTape;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {

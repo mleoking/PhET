@@ -38,8 +38,8 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.
  * @author Sam Reid
  */
 public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> {
-    private PNode particleLayer;
-    private PNode foodColoringLayer;
+    private final PNode particleLayer;
+    private final PNode foodColoringLayer;
 
     private static final double modelHeight = Pool.DEFAULT_HEIGHT * 3.2;
     private static final double pipeCenterY = -2;

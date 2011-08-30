@@ -11,11 +11,11 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
  */
 public class Particle {
     private double x;
-    private double fractionUpPipe;
+    private final double fractionUpPipe;
     private final Pipe container;
-    private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
-    private ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
-    private double radius;
+    private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
+    private final ArrayList<SimpleObserver> removalListeners = new ArrayList<SimpleObserver>();
+    private final double radius;
 
     public Particle( double x, double fractionUpPipe, Pipe container ) {
         this( x, fractionUpPipe, container, 0.1 );

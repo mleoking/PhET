@@ -87,8 +87,8 @@ public class PoolNode extends PNode {
         private List<Piece> pieces = new ArrayList<Piece>();
 
         static class Piece {
-            Function1<Double, Boolean> condition;
-            Function1<Double, Double> function;
+            final Function1<Double, Boolean> condition;
+            final Function1<Double, Double> function;
 
             Piece( Function1<Double, Boolean> condition, Function1<Double, Double> function ) {
                 this.condition = condition;

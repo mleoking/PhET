@@ -13,10 +13,10 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
  * @author Sam Reid
  */
 public class FoodColoring {
-    private ArrayList<Particle> particles = new ArrayList<Particle>();
-    private Pipe pipe;
-    private ArrayList<SimpleObserver> removalObservers = new ArrayList<SimpleObserver>();
-    private ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
+    private final ArrayList<Particle> particles = new ArrayList<Particle>();
+    private final Pipe pipe;
+    private final ArrayList<SimpleObserver> removalObservers = new ArrayList<SimpleObserver>();
+    private final ArrayList<SimpleObserver> observers = new ArrayList<SimpleObserver>();
 
     public FoodColoring( double x0, double width, Pipe pipe ) {
         //Pull back the food coloring by 10 pixels or so.  It shouldn't be moving at the water/pipe interface, so we avoid the problem by not showing any dye there

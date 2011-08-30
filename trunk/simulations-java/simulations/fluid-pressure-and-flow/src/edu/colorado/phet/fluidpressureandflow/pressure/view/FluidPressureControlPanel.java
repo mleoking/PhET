@@ -20,8 +20,8 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class FluidPressureControlPanel<T extends FluidPressureAndFlowModel> extends VerticalLayoutPanel {
-    public static Color BACKGROUND = new Color( 239, 250, 125 );
-    public static Color FOREGROUND = Color.black;
+    public static final Color BACKGROUND = new Color( 239, 250, 125 );
+    public static final Color FOREGROUND = Color.black;
 
     public FluidPressureControlPanel( final FluidPressureAndFlowModule<T> module ) {
         super();

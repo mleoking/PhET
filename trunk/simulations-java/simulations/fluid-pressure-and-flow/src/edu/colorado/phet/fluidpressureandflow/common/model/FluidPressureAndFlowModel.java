@@ -38,7 +38,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     public final Property<UnitSet> units;//Set of units for the sim (distance, velocity, pressure).
 
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
-    private ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
+    private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
 
     //support for bounding drags
