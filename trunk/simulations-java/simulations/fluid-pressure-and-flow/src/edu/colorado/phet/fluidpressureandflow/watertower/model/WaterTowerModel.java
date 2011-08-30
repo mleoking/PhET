@@ -61,11 +61,12 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
     }
 
     private double updateWaterTower() {
-        //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem
-        double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );//Toricelli's theorem, one of the main learning goals of this tab
+        //Compute the velocity of water leaving the water tower at the bottom from Toricelli's theorem, one of the main learning goals of this tab
+        double velocity = Math.sqrt( 2 * g * waterTower.getWaterLevel() );
 
         //Determine how much fluid should leave, and how much will be left
-        double waterVolumeExpelled = velocity / 10;//Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
+        //Since water is incompressible, the volume that can flow out per second is proportional to the expelled velocity
+        double waterVolumeExpelled = velocity / 10;
         double remainingVolume = waterTower.fluidVolume.get();
 
         //the decrease in volume of the water tower should be proportional to the velocity at the output hole
