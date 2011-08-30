@@ -10,7 +10,7 @@ import edu.colorado.phet.fluidpressureandflow.common.model.FluidPressureAndFlowM
 import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 
 /**
- * Base class for the different modules for FluidPressureAndFlow, parameterized on its model type.
+ * Base class for the different modules for FluidPressureAndFlow, parametrized on its model type.
  *
  * @author Sam Reid
  */
@@ -29,7 +29,7 @@ public class FluidPressureAndFlowModule<T extends FluidPressureAndFlowModel> ext
         //Show the meter stick if the units are in meters
         meterStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.METRIC ) );
 
-        //Show the yard stick if the units are in feet (whether in atms or psi pressure unit)
+        //Show the yard stick if the units are in feet (whether in atm or psi pressure unit)
         yardStickVisible = new And( rulerVisible, new ValueEquals<UnitSet>( model.units, UnitSet.ENGLISH ).or( new ValueEquals<UnitSet>( model.units, UnitSet.ATMOSPHERES ) ) );
 
         getModulePanel().setLogoPanel( null );

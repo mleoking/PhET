@@ -24,7 +24,7 @@ import edu.umd.cs.piccolo.util.PDimension;
 public class FluidPressureAndFlowRuler extends PNode {
     public FluidPressureAndFlowRuler( final ModelViewTransform transform,
                                       final ObservableProperty<Boolean> visible,//getter
-                                      final Property<Boolean> setVisible, //setter, separate from getter since has to be 'and'ed with units property in FluidPressureCanvas
+                                      final Property<Boolean> setVisible, //setter, separate from getter since has to be and-ed with units property in FluidPressureCanvas
                                       double length,
                                       String[] majorTicks,
                                       String units,

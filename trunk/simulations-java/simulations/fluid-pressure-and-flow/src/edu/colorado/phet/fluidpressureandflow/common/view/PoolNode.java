@@ -67,8 +67,10 @@ public class PoolNode extends PNode {
     private static final Color gasColor = Color.gray;
     public static final Property<Color> waterColor = new Property<Color>( new Color( 100, 214, 247 ) );
 
-    {
-        if ( false ) {//debug color choice
+    public static final boolean debugColorChoice = false;
+
+    static {
+        if ( debugColorChoice ) {//debug color choice
             new JFrame() {{
                 final JColorChooser contentPane = new JColorChooser() {{
                     getSelectionModel().addChangeListener( new ChangeListener() {
@@ -138,11 +140,10 @@ public class PoolNode extends PNode {
         final Function.LinearFunction rLow = new Function.LinearFunction( GAS_DENSITY, WATER_DENSITY, component.apply( gasColor ), component.apply( waterColor.get() ) );
         final Function.LinearFunction rHigh = new Function.LinearFunction( WATER_DENSITY, HONEY_DENSITY, component.apply( waterColor.get() ), component.apply( honeyColor ) );
 
-        PiecewiseFunction colorComponent = new PiecewiseFunction( new PiecewiseFunction.Piece[] {
+        return new PiecewiseFunction( new PiecewiseFunction.Piece[] {
                 new PiecewiseFunction.Piece( LessThan( WATER_DENSITY ), Linear( rLow ) ),
                 new PiecewiseFunction.Piece( GreaterEqual( WATER_DENSITY ), Linear( rHigh ) )
         } );
-        return colorComponent;
     }
 
     public static Color getTopColor( double density ) {
