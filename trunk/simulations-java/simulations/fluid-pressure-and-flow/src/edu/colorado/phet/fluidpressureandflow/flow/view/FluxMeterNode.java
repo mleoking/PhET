@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -28,7 +29,7 @@ import edu.umd.cs.piccolox.nodes.PClip;
 public class FluxMeterNode extends PNode {
 
     //Developer control for showing a color chooser
-    private boolean showColorChooser = true;
+    private boolean showColorChooser = false;
 
     public FluxMeterNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final boolean frontLayer ) {
 
@@ -89,5 +90,16 @@ public class FluxMeterNode extends PNode {
                 }
             }} );
         }} );
+
+        //Only show the flux meter if the user has selected it in the control panel
+        fluxMeter.visible.addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean visible ) {
+                setVisible( visible );
+
+                //Only allow
+                setPickable( visible );
+                setChildrenPickable( visible );
+            }
+        } );
     }
 }
