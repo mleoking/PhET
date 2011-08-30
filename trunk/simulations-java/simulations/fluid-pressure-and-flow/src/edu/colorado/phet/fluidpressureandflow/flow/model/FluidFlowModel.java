@@ -53,9 +53,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
     //Update the solid red patches (food coloring)
     private void updateFoodColoring( double dt ) {
         ArrayList<FoodColoring> toRemove = new ArrayList<FoodColoring>();
-        for ( int i = 0; i < foodColorings.size(); i++ ) {
+        for ( FoodColoring foodColoring : foodColorings ) {
             boolean canRemove = true;
-            FoodColoring foodColoring = foodColorings.get( i );
             ArrayList<Particle> p = foodColoring.getParticles();
             for ( Particle particle : p ) {
                 boolean remove = updateParticle( dt, particle );
@@ -66,8 +65,8 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
                 toRemove.add( foodColoring );
             }
         }
-        for ( int i = 0; i < toRemove.size(); i++ ) {
-            removeFoodColoring( toRemove.get( i ) );
+        for ( FoodColoring foodColoring : toRemove ) {
+            removeFoodColoring( foodColoring );
         }
     }
 
@@ -78,15 +77,14 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             addDrop();
         }
         ArrayList<Particle> toRemove = new ArrayList<Particle>();
-        for ( int i = 0; i < particles.size(); i++ ) {
-            Particle particle = particles.get( i );
+        for ( Particle particle : particles ) {
             boolean remove = updateParticle( dt, particle );
             if ( remove ) {
                 toRemove.add( particle );
             }
         }
-        for ( int i = 0; i < toRemove.size(); i++ ) {
-            removeParticle( toRemove.get( i ) );
+        for ( Particle particle : toRemove ) {
+            removeParticle( particle );
         }
     }
 
@@ -117,13 +115,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
         }
     }
 
-    /**
-     * Returns true if the particle should be removed because it exited the model.
-     *
-     * @param dt
-     * @param particle
-     * @return
-     */
+    //Returns true if the particle should be removed because it exited the model.
     private boolean updateParticle( double dt, Particle particle ) {
         double x2 = particle.getX() + pipe.getTweakedVx( particle.getX(), particle.getY() ) * dt;
         if ( x2 >= pipe.getMaxX() ) {
