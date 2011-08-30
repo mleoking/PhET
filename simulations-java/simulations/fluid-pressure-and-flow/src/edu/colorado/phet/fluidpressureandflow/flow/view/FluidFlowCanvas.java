@@ -34,7 +34,7 @@ import edu.umd.cs.piccolox.pswing.PSwing;
 /**
  * @author Sam Reid
  */
-public class FluidFlowCanvas extends FluidPressureAndFlowCanvas {
+public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> {
     private PNode particleLayer;
     private PNode foodColoringLayer;
 
