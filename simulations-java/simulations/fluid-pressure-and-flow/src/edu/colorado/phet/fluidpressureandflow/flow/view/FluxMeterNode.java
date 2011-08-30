@@ -7,10 +7,14 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
+import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
+import edu.umd.cs.piccolo.event.PInputEvent;
 
 /**
  * Interactive Piccolo graphic for the flux meter node, which attaches to the pipe and shows the flux as a function of position
@@ -22,17 +26,33 @@ import edu.umd.cs.piccolo.PNode;
 public class FluxMeterNode extends PNode {
 
     public FluxMeterNode( final ModelViewTransform transform, final FluxMeter fluxMeter ) {
-        addChild( new PhetPPath( new BasicStroke( 4 ), Color.yellow ) {{
+        addChild( new PhetPPath( new BasicStroke( 8 ), Color.blue.darker() ) {{
 
-            //Tuned by hand so it matches the perspective of the pipe graphics
-            double ellipseWidth = 0.45;
+            final SimpleObserver updateShape = new SimpleObserver() {
+                public void update() {
+                    //Tuned by hand so it matches the perspective of the pipe graphics
+                    double ellipseWidth = 0.45;
 
-            //Create a hoop to catch the water flux, have to flip the y-values going from model to view
-            final ImmutableVector2D top = fluxMeter.getTop();
-            final ImmutableVector2D bottom = fluxMeter.getBottom();
-            final Ellipse2D.Double modelShape = new Ellipse2D.Double( top.getX() - ellipseWidth / 2, bottom.getY(), ellipseWidth, -1 * ( bottom.getY() - top.getY() ) );
-            final Shape viewShape = transform.modelToView( modelShape );
-            setPathTo( viewShape );
+                    //Create a hoop to catch the water flux, have to flip the y-values going from model to view
+                    final ImmutableVector2D top = fluxMeter.getTop();
+                    final ImmutableVector2D bottom = fluxMeter.getBottom();
+                    final Ellipse2D.Double modelShape = new Ellipse2D.Double( top.getX() - ellipseWidth / 2, bottom.getY(), ellipseWidth, -1 * ( bottom.getY() - top.getY() ) );
+                    final Shape viewShape = transform.modelToView( modelShape );
+                    setPathTo( viewShape );
+                }
+            };
+
+            //Update the shape of the flux meter whenever the user drags it or when the pipe changes shape
+            fluxMeter.x.addObserver( updateShape );
+            fluxMeter.pipe.addShapeChangeListener( updateShape );
+
+            //Make it so the user can drag the flux meter back and forth along the pipe
+            addInputEventListener( new CursorHandler() );
+            addInputEventListener( new PBasicInputEventHandler() {
+                @Override public void mouseDragged( PInputEvent event ) {
+                    fluxMeter.x.set( fluxMeter.x.get() + transform.viewToModelDeltaX( event.getDeltaRelativeTo( getParent() ).getWidth() ) );
+                }
+            } );
         }} );
     }
 }
