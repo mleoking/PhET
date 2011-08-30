@@ -12,12 +12,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolox.nodes.PClip;
 
 /**
@@ -65,12 +62,7 @@ public class FluxMeterHoopNode extends PNode {
                 fluxMeter.pipe.addShapeChangeListener( updateShape );
 
                 //Make it so the user can drag the flux meter back and forth along the pipe
-                addInputEventListener( new CursorHandler() );
-                addInputEventListener( new PBasicInputEventHandler() {
-                    @Override public void mouseDragged( PInputEvent event ) {
-                        fluxMeter.x.set( fluxMeter.x.get() + transform.viewToModelDeltaX( event.getDeltaRelativeTo( getParent() ).getWidth() ) );
-                    }
-                } );
+                addInputEventListener( new FluxMeterDragHandler( transform, fluxMeter, this ) );
 
                 //Developer control for changing the color
                 if ( showColorChooser ) {

@@ -16,7 +16,6 @@ import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
-import edu.colorado.phet.common.piccolophet.event.CursorHandler;
 import edu.colorado.phet.common.piccolophet.nodes.ControlPanelNode;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
@@ -25,8 +24,6 @@ import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.flow.model.FluxMeter;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
-import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
-import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PText;
 import edu.umd.cs.piccolox.swing.SwingLayoutNode;
 
@@ -46,7 +43,9 @@ public class FluxMeterPanelNode extends PNode {
 
         //Show a panel with the readouts, using a grid bag layout to specify alignments
         addChild( new ControlPanelNode( new SwingLayoutNode( new GridBagLayout() ) {{
-            final DecimalFormat formatter = new DecimalFormat( "0.00" );
+
+            //Format for showing all the numbers, reduce the number of decimals so it's not so overwhelming, but keep at least one for when the area is reduced to the minimum of 0.2m^2
+            final DecimalFormat formatter = new DecimalFormat( "0.0" );
 
             //Use a horizontal spacing to separate the columns
             Insets insets = new Insets( 0, 6, 0, 3 );
@@ -91,13 +90,7 @@ public class FluxMeterPanelNode extends PNode {
             fluxMeter.pipe.addShapeChangeListener( updateShape );
 
             //Make it so the user can drag the flux meter back and forth along the pipe
-            //TODO: duplicated with FluxMeterHoopNode
-            addInputEventListener( new CursorHandler() );
-            addInputEventListener( new PBasicInputEventHandler() {
-                @Override public void mouseDragged( PInputEvent event ) {
-                    fluxMeter.x.set( fluxMeter.x.get() + transform.viewToModelDeltaX( event.getDeltaRelativeTo( getParent() ).getWidth() ) );
-                }
-            } );
+            addInputEventListener( new FluxMeterDragHandler( transform, fluxMeter, this ) );
         }} );
 
         //Only show the flux meter if the user has selected it in the control panel
