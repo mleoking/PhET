@@ -78,7 +78,9 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         }
         else {
             // The molecule has completed the entire transcription process.
-            // Release the attachment site.
+            // Release the transcribed molecule.
+            messengerRna.release();
+            // Release from the attachment site.
             attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
             // Make sure it is back to the nominal conformation.
             biomolecule.changeConformation( 0 );

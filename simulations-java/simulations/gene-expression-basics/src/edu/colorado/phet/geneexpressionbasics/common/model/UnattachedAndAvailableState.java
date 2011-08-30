@@ -13,7 +13,7 @@ public class UnattachedAndAvailableState extends BiomoleculeBehaviorState {
 
     private final IMotionStrategy motionStrategy = new RandomWalkMotionStrategy();
 
-    protected UnattachedAndAvailableState( MobileBiomolecule biomolecule ) {
+    public UnattachedAndAvailableState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
     }
 
