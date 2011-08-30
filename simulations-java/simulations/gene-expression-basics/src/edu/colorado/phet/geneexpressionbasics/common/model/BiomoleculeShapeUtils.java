@@ -26,10 +26,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  *
  * @author John Blanco
  */
-public class ShapeCreationUtils {
+public class BiomoleculeShapeUtils {
 
     /* not intended for instantiation */
-    private ShapeCreationUtils() {
+    private BiomoleculeShapeUtils() {
     }
 
     public static Shape createShapeFromPoints( List<Point2D> points ) {
@@ -219,15 +219,15 @@ public class ShapeCreationUtils {
 
         // Add the shapes.  Many are translated somewhat to avoid overlap.
         PCanvas canvas = new PCanvas();
-        Shape shape = ShapeCreationUtils.createShapeFromPoints( vLikePointList );
+        Shape shape = BiomoleculeShapeUtils.createShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 50 ).createTransformedShape( shape ), Color.PINK ) );
-        shape = ShapeCreationUtils.createRoundedShapeFromPoints( vLikePointList );
+        shape = BiomoleculeShapeUtils.createRoundedShapeFromPoints( vLikePointList );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 50 ).createTransformedShape( shape ), Color.GREEN ) );
-        shape = ShapeCreationUtils.createRandomShapeFromPoints( vLikePointList, 101 );
+        shape = BiomoleculeShapeUtils.createRandomShapeFromPoints( vLikePointList, 101 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 100 ).createTransformedShape( shape ), Color.ORANGE ) );
-        shape = ShapeCreationUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
+        shape = BiomoleculeShapeUtils.createRandomShape( new PDimension( 40, 40 ), 100 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 100, 100 ).createTransformedShape( shape ), Color.BLUE ) );
-        shape = ShapeCreationUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
+        shape = BiomoleculeShapeUtils.createRandomShape( new PDimension( 80, 40 ), 123 );
         canvas.getLayer().addChild( new PhetPPath( AffineTransform.getTranslateInstance( 50, 200 ).createTransformedShape( shape ), Color.MAGENTA ) );
 
         // Boiler plate app stuff.

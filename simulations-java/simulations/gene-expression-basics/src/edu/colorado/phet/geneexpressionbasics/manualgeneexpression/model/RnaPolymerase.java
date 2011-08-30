@@ -12,8 +12,8 @@ import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeBehaviorState;
+import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.TranscribingDnaState;
 
 /**
@@ -103,7 +103,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     }
 
     @Override public void changeConformation( double changeFactor ) {
-        Shape newUntranslatedShape = ShapeCreationUtils.createdDistortedRoundedShapeFromPoints( shapePoints, changeFactor, seed );
+        Shape newUntranslatedShape = BiomoleculeShapeUtils.createdDistortedRoundedShapeFromPoints( shapePoints, changeFactor, seed );
         Shape newTranslatedShape = AffineTransform.getTranslateInstance( getPosition().getX(), getPosition().getY() ).createTransformedShape( newUntranslatedShape );
         shapeProperty.set( newTranslatedShape );
         colorProperty.set( ColorUtils.interpolateRBGA( NOMINAL_COLOR, CONFORMED_COLOR, changeFactor ) );
@@ -112,6 +112,6 @@ public class RnaPolymerase extends MobileBiomolecule {
     private static Shape createShape() {
         // Shape is meant to look like illustrations in "The Machinery of
         // Life" by David Goodsell.
-        return ShapeCreationUtils.createRoundedShapeFromPoints( shapePoints );
+        return BiomoleculeShapeUtils.createRoundedShapeFromPoints( shapePoints );
     }
 }

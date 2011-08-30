@@ -7,8 +7,8 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.
@@ -41,6 +41,6 @@ public class MessengerRna extends MobileBiomolecule {
             add( new Point2D.Double( 100, 100 ) );
             add( new Point2D.Double( 100, 200 ) );
         }};
-        return ShapeCreationUtils.createCurvyLineFromPoints( points );
+        return BiomoleculeShapeUtils.createCurvyLineFromPoints( points );
     }
 }
