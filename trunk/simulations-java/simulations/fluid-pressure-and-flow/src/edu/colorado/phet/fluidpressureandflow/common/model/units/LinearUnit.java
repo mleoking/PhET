@@ -10,12 +10,10 @@ import edu.colorado.phet.common.phetcommon.math.Function;
  */
 public class LinearUnit implements Unit {
     private final Function.LinearFunction linearFunction;
-    private final String name;
     private final String abbreviation;
     private final DecimalFormat decimalFormat;
 
-    public LinearUnit( String name, String abbreviation, double siToUnitScale, DecimalFormat decimalFormat ) {
-        this.name = name;
+    public LinearUnit( String abbreviation, double siToUnitScale, DecimalFormat decimalFormat ) {
         this.abbreviation = abbreviation;
         this.decimalFormat = decimalFormat;
         linearFunction = new Function.LinearFunction( 0, 1, 0, siToUnitScale );

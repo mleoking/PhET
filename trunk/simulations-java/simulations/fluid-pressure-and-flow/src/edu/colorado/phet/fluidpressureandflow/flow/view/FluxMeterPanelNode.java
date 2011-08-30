@@ -60,12 +60,12 @@ public class FluxMeterPanelNode extends PNode {
 //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>s</sub>" ), new Constraint( 2, 0, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
             addChild( new Text( "Rate:" ), new Constraint( 0, 0, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.rate, units.rate ), new Constraint( 1, 0, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( "L / s" ), new Constraint( 2, 0, LINE_START, insets, 0, 0 ) );
+            addChild( new HTML( units.rate.getAbbreviation() ), new Constraint( 2, 0, LINE_START, insets, 0, 0 ) );
 
             //Area row
             addChild( new Text( "Area:" ), new Constraint( 0, 1, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.area, units.area ), new Constraint( 1, 1, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( "m<sup>2</sup>" ), new Constraint( 2, 1, LINE_START, htmlInsets, 0, 0 ) );
+            addChild( new HTML( units.area.getAbbreviation() ), new Constraint( 2, 1, LINE_START, htmlInsets, 0, 0 ) );
 
             //Separator row to signify that the value below is a result of a computation of the previous rows
             addChild( new PhetPPath( new Line2D.Double( 0, 0, 150, 0 ) ), new GridBagConstraints( 0, 2, 3, 1, 1, 0.5, CENTER, NONE, insets, 0, 0 ) );
@@ -74,7 +74,7 @@ public class FluxMeterPanelNode extends PNode {
             //            addChild( new HTML( "<sup>L</sup>&frasl;<sub>(m<sup>2</sup>s)</sub>" ), new Constraint( 2, 2, 1, 1, 0.5, 0.5, LINE_START, NONE, insets, 0, 0 ) );
             addChild( new Text( "Flux:" ), new Constraint( 0, 3, LINE_END, insets, 0, 0 ) );
             addChild( new Text( formatter, fluxMeter.pipe.flux, units.flux ), new Constraint( 1, 3, LINE_END, insets, 0, 0 ) );
-            addChild( new HTML( "L / (m<sup>2</sup>s)" ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
+            addChild( new HTML( units.flux.getAbbreviation() ), new Constraint( 2, 3, LINE_START, htmlInsets, 0, 0 ) );
 
         }}, FluidPressureControlPanel.BACKGROUND, new BasicStroke( 2 ), Color.blue ) {{
             final SimpleObserver updateShape = new SimpleObserver() {

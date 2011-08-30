@@ -14,7 +14,7 @@ import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResourc
  * @author Sam Reid
  */
 public class Units {
-    public static Unit ATMOSPHERE = new LinearUnit( ATMOSPHERES, ATM, 9.8692E-6, new DecimalFormat( "0.0000" ) {
+    public static Unit ATMOSPHERE = new LinearUnit( ATM, 9.8692E-6, new DecimalFormat( "0.0000" ) {
         @Override
         public StringBuffer format( double number, StringBuffer result, FieldPosition fieldPosition ) {
             final StringBuffer answer = super.format( number, result, fieldPosition );
@@ -26,15 +26,15 @@ public class Units {
             }
         }
     } );//http://en.wikipedia.org/wiki/Atmosphere_%28unit%29
-    public static Unit PASCAL = new LinearUnit( PASCALS, FluidPressureAndFlowResources.Strings.PA, 1, new DecimalFormat( "0" ) );
-    public static Unit PSI = new LinearUnit( POUNDS_PER_SQUARE_INCH, FluidPressureAndFlowResources.Strings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
+    public static Unit PASCAL = new LinearUnit( FluidPressureAndFlowResources.Strings.PA, 1, new DecimalFormat( "0" ) );
+    public static Unit PSI = new LinearUnit( FluidPressureAndFlowResources.Strings.PSI, 145.04E-6, new DecimalFormat( "0.00" ) );
 
-    public static Unit METERS = new LinearUnit( FluidPressureAndFlowResources.Strings.METERS, FluidPressureAndFlowResources.Strings.M, 1, new DecimalFormat( "0.0" ) );
+    public static Unit METERS = new LinearUnit( FluidPressureAndFlowResources.Strings.M, 1, new DecimalFormat( "0.0" ) );
     public static final double FEET_PER_METER = 3.2808399;
-    public static Unit FEET = new LinearUnit( FluidPressureAndFlowResources.Strings.FEET, FT, FEET_PER_METER, new DecimalFormat( "0.0" ) );
+    public static Unit FEET = new LinearUnit( FT, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
-    public static Unit METERS_PER_SECOND = new LinearUnit( FluidPressureAndFlowResources.Strings.METERS_PER_SECOND, M_PER_S, 1, new DecimalFormat( "0.0" ) );
-    public static Unit FEET_PER_SECOND = new LinearUnit( "feet-per-second", FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
+    public static Unit METERS_PER_SECOND = new LinearUnit( M_PER_S, 1, new DecimalFormat( "0.0" ) );
+    public static Unit FEET_PER_SECOND = new LinearUnit( FT_PER_S, FEET_PER_METER, new DecimalFormat( "0.0" ) );
 
     public double feetToMeters( double feet ) {
         return feet * 0.3048;
