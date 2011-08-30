@@ -50,7 +50,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( new PipeBackNode( transform, module.model.pipe, module.model.liquidDensity ) );
 
         //Add the back layer for the flux meter, so the particles will look like they go through the hoop
-        addChild( new FluxMeterNode( transform, module.model.fluxMeter, false ) );
+        addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, false ) );
 
         particleLayer = new PNode();
         foodColoringLayer = new PNode();
@@ -65,7 +65,7 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         }
 
         //Add the front layer for the flux meter, so the particles will look like they go through the hoop
-        addChild( new FluxMeterNode( transform, module.model.fluxMeter, true ) );
+        addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
 
         //When particle droplets are added, show graphics for them
         module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {

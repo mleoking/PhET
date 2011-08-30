@@ -26,12 +26,12 @@ import edu.umd.cs.piccolox.nodes.PClip;
  *
  * @author Sam Reid
  */
-public class FluxMeterNode extends PNode {
+public class FluxMeterHoopNode extends PNode {
 
     //Developer control for showing a color chooser
     private boolean showColorChooser = false;
 
-    public FluxMeterNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final boolean frontLayer ) {
+    public FluxMeterHoopNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final boolean frontLayer ) {
 
         //Use a clip to split the hoop since the top layer should only show the left half of the hoop, so particles will go in front of it
         addChild( new PClip() {{
