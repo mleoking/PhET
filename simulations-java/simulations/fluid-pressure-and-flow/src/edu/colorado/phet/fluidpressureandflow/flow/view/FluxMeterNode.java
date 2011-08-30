@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 
+import edu.colorado.phet.common.phetcommon.dialogs.ColorChooserFactory;
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -25,8 +26,11 @@ import edu.umd.cs.piccolo.event.PInputEvent;
  */
 public class FluxMeterNode extends PNode {
 
+    //Developer control for showing a color chooser
+    private boolean showColorChooser = false;
+
     public FluxMeterNode( final ModelViewTransform transform, final FluxMeter fluxMeter ) {
-        addChild( new PhetPPath( new BasicStroke( 8 ), Color.blue.darker() ) {{
+        addChild( new PhetPPath( new BasicStroke( 8 ), new Color( 27, 31, 208 ) ) {{
 
             final SimpleObserver updateShape = new SimpleObserver() {
                 public void update() {
@@ -41,6 +45,22 @@ public class FluxMeterNode extends PNode {
                     setPathTo( viewShape );
                 }
             };
+
+            if ( showColorChooser ) {
+                ColorChooserFactory.showDialog( "Color", null, (Color) getStrokePaint(), new ColorChooserFactory.Listener() {
+                    public void colorChanged( Color color ) {
+                        setStrokePaint( color );
+                    }
+
+                    public void ok( Color color ) {
+                        setStrokePaint( color );
+                    }
+
+                    public void cancelled( Color originalColor ) {
+                        setStrokePaint( originalColor );
+                    }
+                }, true );
+            }
 
             //Update the shape of the flux meter whenever the user drags it or when the pipe changes shape
             fluxMeter.x.addObserver( updateShape );
