@@ -162,17 +162,53 @@ public class BiomoleculeShapeUtils {
     public static Shape createCurvyLineFromPoints( List<Point2D> points ) {
         assert points.size() > 0;
 
+        // Control points, used throughout the code below for curving the line.
+        ImmutableVector2D cp1, cp2;
+
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
-        for ( int i = 1; i < points.size(); i++ ) {
-            path.lineTo( points.get( i ) );
+        if ( points.size() == 1 || points.size() == 2 ) {
+            // Can't really create a curve from this, so draw a straight line
+            // to the end point and call it good.
+            path.lineTo( points.get( points.size() - 1 ) );
+            return path.getGeneralPath();
+        }
+        // Create the first curved segment.
+        cp1 = extrapolateControlPoint( new ImmutableVector2D( points.get( 2 ) ),
+                                       new ImmutableVector2D( points.get( 1 ) ),
+                                       new ImmutableVector2D( points.get( 0 ) ) );
+        path.quadTo( cp1.getX(), cp1.getY(), points.get( 1 ).getX(), points.get( 1 ).getY() );
+        // Create the middle segments.
+        for ( int i = 1; i < points.size() - 2; i++ ) {
+            ImmutableVector2D segmentStartPoint = new ImmutableVector2D( points.get( i ) );
+            ImmutableVector2D segmentEndPoint = new ImmutableVector2D( points.get( ( i + 1 ) ) );
+            ImmutableVector2D previousPoint = new ImmutableVector2D( points.get( i - 1 ) );
+            ImmutableVector2D nextPoint = new ImmutableVector2D( points.get( ( i + 2 ) ) );
+            ImmutableVector2D controlPoint1 = extrapolateControlPoint( previousPoint, segmentStartPoint, segmentEndPoint );
+            ImmutableVector2D controlPoint2 = extrapolateControlPoint( nextPoint, segmentEndPoint, segmentStartPoint );
+            path.curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), segmentEndPoint.getX(), segmentEndPoint.getY() );
+        }
+        // Create the final curved segment.
+        cp1 = extrapolateControlPoint( new ImmutableVector2D( points.get( points.size() - 3 ) ),
+                                       new ImmutableVector2D( points.get( points.size() - 2 ) ),
+                                       new ImmutableVector2D( points.get( points.size() - 1 ) ) );
+        path.quadTo( cp1.getX(), cp1.getY(), points.get( points.size() - 1 ).getX(), points.get( points.size() - 1 ).getY() );
+        return path.getGeneralPath();
+    }
+
+    public static Shape createSegmentedLineFromPoints( List<Point2D> points ) {
+        assert points.size() > 0;
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( points.get( 0 ) );
+        for ( Point2D point : points ) {
+            path.lineTo( point );
         }
         return path.getGeneralPath();
     }
 
     // Extrapolate a control point for a curve based on three points.  This
     // is used to "go around the corner" at y, starting from x, and heading
-    // towards z.  If that makes any sense.
+    // towards z.  The control point is for the y-to-z segment.
     private static ImmutableVector2D extrapolateControlPoint( ImmutableVector2D x, ImmutableVector2D y, ImmutableVector2D z ) {
         ImmutableVector2D xy = y.getSubtractedInstance( x );
         ImmutableVector2D yz = z.getSubtractedInstance( y );
