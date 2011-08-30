@@ -1,3 +1,4 @@
+Flow: Split flux meter into front and back layers so the particle go through it
 Flow: Added interaction to the flux meter
 Flow: Started flux meter
 Flow: Added friction and parabolic flow
