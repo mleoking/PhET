@@ -96,7 +96,7 @@ public class FluxMeterHoopNode extends PNode {
             public void apply( Boolean visible ) {
                 setVisible( visible );
 
-                //Only allow
+                //Don't let invisible object intercept mouse events
                 setPickable( visible );
                 setChildrenPickable( visible );
             }

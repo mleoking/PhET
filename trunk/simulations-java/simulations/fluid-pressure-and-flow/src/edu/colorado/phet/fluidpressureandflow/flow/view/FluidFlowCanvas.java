@@ -15,6 +15,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
+import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
@@ -66,6 +67,10 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         //Add the front layer for the flux meter, so the particles will look like they go through the hoop
         addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
+
+        //Show the draggable panel with readouts attached to the flux hoop
+        //TODO: Add support for units changing
+        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, UnitSet.METRIC ) );
 
         //When particle droplets are added, show graphics for them
         module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {
