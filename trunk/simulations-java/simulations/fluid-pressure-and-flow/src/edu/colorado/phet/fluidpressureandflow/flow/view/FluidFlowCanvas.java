@@ -59,6 +59,11 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         for ( final Particle p : module.model.getParticles() ) {
             addParticleNode( p );
         }
+
+        //Add a piccolo graphic for the flux meter
+        addChild( new FluxMeterNode( transform, module.model.fluxMeter ) );
+
+        //When particle droplets are added, show graphics for them
         module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {
             public void apply( Particle particle ) {
                 addParticleNode( particle );

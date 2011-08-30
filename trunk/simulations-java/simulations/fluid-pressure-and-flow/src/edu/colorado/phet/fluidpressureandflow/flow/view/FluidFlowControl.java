@@ -26,7 +26,7 @@ public class FluidFlowControl extends PNode {
         //Create one slider for each set of user-selectable units, and only show one at a time
         class UnitBasedSliderControl extends SliderControl {
             public UnitBasedSliderControl( String title, final UnitSet units ) {
-                super( title, units.flow.getAbbreviation(), units.flow.siToUnit( 1E-6 ), units.flow.siToUnit( 20 ), new ScaledDoubleProperty( module.model.pipe.rate, units.flow.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() );
+                super( title, units.flow.getAbbreviation(), units.flow.siToUnit( 1E-6 ), units.flow.siToUnit( 20 ), new ScaledDoubleProperty( module.model.pipe.flux, units.flow.siToUnit( 1.0 ) ), new HashMap<Double, TickLabel>() );
                 module.model.units.addObserver( new VoidFunction1<UnitSet>() {
                     public void apply( UnitSet unitSet ) {
                         setVisible( unitSet == units );

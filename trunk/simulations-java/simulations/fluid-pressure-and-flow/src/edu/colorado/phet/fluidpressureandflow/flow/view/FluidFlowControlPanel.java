@@ -32,6 +32,9 @@ public class FluidFlowControlPanel extends VerticalLayoutPanel {
 
         //Add a control that lets the user toggle friction on and off
         addControlFullWidth( new CheckBox( "Friction", module.model.pipe.friction ) );
+
+        //Add a control that enables the user to show/hide a flux meter
+        addControlFullWidth( new CheckBox( "Flux Meter", module.model.fluxMeter.visible ) );
     }
 
     private void addControlFullWidth( JComponent component ) {
