@@ -12,6 +12,8 @@ import java.text.DecimalFormat;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.model.property.ObservableProperty;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.RichSimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
@@ -39,7 +41,7 @@ public class FluxMeterPanelNode extends PNode {
     //Font to use for readouts
     public static final PhetFont font = new PhetFont( 15 );
 
-    public FluxMeterPanelNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final UnitSet units ) {
+    public FluxMeterPanelNode( final ModelViewTransform transform, final FluxMeter fluxMeter, final Property<UnitSet> selectedUnits, final UnitSet units ) {
 
         //Show a panel with the readouts, using a grid bag layout to specify alignments
         addChild( new ControlPanelNode( new SwingLayoutNode( new GridBagLayout() ) {{
@@ -93,17 +95,17 @@ public class FluxMeterPanelNode extends PNode {
             addInputEventListener( new FluxMeterDragHandler( transform, fluxMeter, this ) );
         }} );
 
-        //Only show the flux meter if the user has selected it in the control panel
-        //TODO: duplicated with FluxMeterHoopNode
-        fluxMeter.visible.addObserver( new VoidFunction1<Boolean>() {
-            public void apply( Boolean visible ) {
+        //Only show the flux meter if the user has selected it in the control panel, and it has the same units as the set selected by the user
+        new RichSimpleObserver() {
+            @Override public void update() {
+                boolean visible = fluxMeter.visible.get() && selectedUnits.get() == units;
                 setVisible( visible );
 
                 //Don't let invisible object intercept mouse events
                 setPickable( visible );
                 setChildrenPickable( visible );
             }
-        } );
+        }.observe( fluxMeter.visible, selectedUnits );
     }
 
     //utility class for showing text readouts with the right font

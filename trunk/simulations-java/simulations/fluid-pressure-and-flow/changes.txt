@@ -1,3 +1,4 @@
+Flow: Added multiple unit sets for flux meter
 Flow: Prevent the user from dragging the flux meter out of bounds
 Flow: Added readouts for flux meter
 Flow: Only show the flux meter if the user has selected it in the control panel

@@ -15,7 +15,6 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.OutsideBackgroundNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
-import edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowControlPanelNode;
@@ -31,6 +30,9 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureCanvas;
 import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControlPanel;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
+
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 
 /**
  * @author Sam Reid
@@ -69,8 +71,9 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
 
         //Show the draggable panel with readouts attached to the flux hoop
-        //TODO: Add support for units changing
-        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, UnitSet.METRIC ) );
+        //Add one for each unit set, to be shown only when that unit set is selected by the user
+        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
+        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
 
         //When particle droplets are added, show graphics for them
         module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {
