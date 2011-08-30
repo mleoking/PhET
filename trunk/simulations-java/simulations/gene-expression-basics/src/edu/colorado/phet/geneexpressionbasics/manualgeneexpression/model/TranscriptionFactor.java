@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.ShapeCreationUtils;
 import edu.umd.cs.piccolo.util.PDimension;
 
 /**
@@ -36,14 +36,14 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * transcription factors used in this sim.
      */
     private static final List<TranscriptionFactorConfig> positiveTranscriptionFactorInfo = new ArrayList<TranscriptionFactorConfig>() {{
-        add( new TranscriptionFactorConfig( 0, ShapeCreationUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
-        add( new TranscriptionFactorConfig( 0, ShapeCreationUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
-        add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
-        add( new TranscriptionFactorConfig( 1, ShapeCreationUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
-        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) ) );
-        add( new TranscriptionFactorConfig( 2, ShapeCreationUtils.createRandomShape( SIZE, 40 ), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( 0, BiomoleculeShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
+        add( new TranscriptionFactorConfig( 0, BiomoleculeShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
+        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
+        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
+        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) ) );
+        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta ) );
         // Default config used if no match found.
-        add( new TranscriptionFactorConfig( Integer.MAX_VALUE, ShapeCreationUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( Integer.MAX_VALUE, BiomoleculeShapeUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
     }};
 
     //-------------------------------------------------------------------------
