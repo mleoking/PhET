@@ -1,7 +1,5 @@
-bucket.png source=microsoft clip art
 button_pressed.png source=PhET notes=copied from gene-network
 button_unpressed.png source=PhET notes=copied from gene-network
-dropper.png source=microsoft clip art
 pipe-left-back.png source=created by ON
 pipe-left-front.png source=created by ON
 pipe-middle.png source=created by ON

@@ -26,8 +26,8 @@ public class Pipe {
     private ArrayList<CrossSection> splineCrossSections;//Nonlinear interpolation of the control sections
     private boolean dirty = true;//Flag to improve performance
 
-    //Rate of fluid flow in (1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
-    public final Property<Double> rate = new Property<Double>( 5.0 );
+    //Rate of fluid flow in (m^3 / m^2 / s, which has the same units as as 1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
+    public final Property<Double> flux = new Property<Double>( 5.0 );
 
     public final Property<Boolean> friction = new Property<Boolean>( false );
 
@@ -269,7 +269,7 @@ public class Pipe {
     private double getSpeed( double x ) {
         //Continuity equation: a1 v1 = a2 v2
         //TODO: treat pipes as if they are cylindrical cross sections?
-        return rate.get() / getCrossSection( x ).getHeight();
+        return flux.get() / getCrossSection( x ).getHeight();
     }
 
     //I was told that the fluid flow rate falls off quadratically, so use lagrange interpolation so that at the center of the pipe
@@ -322,5 +322,10 @@ public class Pipe {
 
     public ImmutableVector2D getTweakedVelocity( double x, double y ) {
         return new ImmutableVector2D( getTweakedVx( x, y ), getVelocity( x, y ).getY() );
+    }
+
+    //Get the point at the specified location, where x is in meters and fractionToTop is in (0,1)
+    public ImmutableVector2D getPoint( double x, double fractionToTop ) {
+        return new ImmutableVector2D( x, fractionToLocation( x, fractionToTop ) );
     }
 }
