@@ -5,14 +5,18 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.colorado.phet.common.phetcommon.dialogs.PhetAboutDialog;
 import edu.colorado.phet.common.phetcommon.util.CommandLineUtils;
 import edu.colorado.phet.common.phetcommon.util.IProguardKeepClass;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.view.ITabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.JTabbedModulePane;
 import edu.colorado.phet.common.phetcommon.view.PhetExit;
 import edu.colorado.phet.common.phetcommon.view.PhetFrame;
+
+import static java.lang.Integer.parseInt;
 
 /**
  * The base class for PhET applications.
@@ -248,14 +252,20 @@ public class PhetApplication
     }
 
     /**
-     * Gets the module that will be activated on startup.
-     * By default, this is the first module added.
+     * Gets the module that will be activated on startup, by default, this is the first module added.
      * To change the default, call setStartupModule.
+     * This can also be overriden in development mode, by passing the arguments "-dev" and "-module INT" where INT is the module index to start
      *
      * @return Module
      */
     public Module getStartModule() {
-        return moduleManager.getStartModule();
+        Option<Integer> developmentModule = getDevelopmentModule();
+        if ( developmentModule.isSome() ) {
+            return moduleAt( developmentModule.get() );
+        }
+        else {
+            return moduleManager.getStartModule();
+        }
     }
 
     /**
@@ -397,5 +407,33 @@ public class PhetApplication
 
     public void exit() {
         PhetExit.exit();
+    }
+
+    /**
+     * Parse command line args for a directive like "-module 2" which will set that as the startup module (0-based indices)
+     * This is done so that the developer can easily specify a starting tab for the simulation by changing the command line arguments, see #3055
+     *
+     * @return the index of the module that should be active on startup, if any
+     */
+    public Option<Integer> getDevelopmentModule() {
+
+        //Make sure the sim is running in development mode
+        if ( phetApplicationConfig.isDev() ) {
+
+            //Check the command line arguments for presence of "-module" command
+            int index = Arrays.asList( phetApplicationConfig.getCommandLineArgs() ).indexOf( "-module" );
+            if ( index >= 0 && index + 1 < phetApplicationConfig.getCommandLineArgs().length ) {
+
+                //Find the next argument and parse
+                String moduleIndexString = phetApplicationConfig.getCommandLineArgs()[index + 1];
+                int moduleIndex = parseInt( moduleIndexString );
+
+                //Signify the selected module
+                return new Option.Some<Integer>( moduleIndex );
+            }
+        }
+
+        //Developer did not override the default (first) module
+        return new Option.None<Integer>();
     }
 }
