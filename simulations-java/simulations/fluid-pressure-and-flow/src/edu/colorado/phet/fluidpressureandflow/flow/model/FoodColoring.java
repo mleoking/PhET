@@ -52,14 +52,14 @@ public class FoodColoring {
     }
 
     public void notifyRemoved() {
-        for ( int i = 0; i < removalObservers.size(); i++ ) {
-            removalObservers.get( i ).update();
+        for ( SimpleObserver removalObserver : removalObservers ) {
+            removalObserver.update();
         }
     }
 
     public void notifyObservers() {
-        for ( int i = 0; i < observers.size(); i++ ) {
-            observers.get( i ).update();
+        for ( SimpleObserver observer : observers ) {
+            observer.update();
         }
     }
 

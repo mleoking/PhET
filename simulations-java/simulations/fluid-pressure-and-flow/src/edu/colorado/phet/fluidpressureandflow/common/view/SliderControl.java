@@ -29,7 +29,7 @@ public class SliderControl extends PNode {
     public SliderControl( String title, String units, double min, double max, final Property<Double> property, final HashMap<Double, TickLabel> tickLabels ) {
         //Even though we only use the slider component of this linear value control, it is easier to create the whole LinearValueControl so that
         //We can use its facilities for settings ticks.
-        //A better design would have been to move tickmark functionality to LinearSlider so we could just us it directly, see #2837
+        //A better design would have been to move tick mark functionality to LinearSlider so we could just us it directly, see #2837
         final PSwing slider = new PSwing( new LinearValueControl( min, max, property.get(), "", "0.00", "" ) {
             {
                 setTickLabels( new Hashtable<Object, Object>() {{
@@ -69,7 +69,7 @@ public class SliderControl extends PNode {
             setFont( FluidPressureCanvas.CONTROL_FONT );
         }};
 
-        //Create the top component which has: title textfield units
+        //Create the top component which has: title text field units
         final HBox topComponent = new HBox( new PText( title ) {{setFont( FluidPressureCanvas.CONTROL_FONT );}},
                                             new PSwing( new DoubleTextField( new DecimalFormat( "0.00" ), property, min, max ) {{
                                                 setColumns( 6 );

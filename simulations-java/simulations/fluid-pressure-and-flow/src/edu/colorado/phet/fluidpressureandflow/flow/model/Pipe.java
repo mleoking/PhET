@@ -307,7 +307,7 @@ public class Pipe {
         ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
         double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
 
-        //If friction is enabled, then scale down parabolically as you get further from the center of the pipe.
+        //If friction is enabled, then scale down quadratically (like a parabola) as you get further from the center of the pipe.
         //But instead of reaching zero velocity at the edge of the pipe (which could cause particles to pile up indefinitely), extend the region
         //a small epsilon past the (0..1) pipe range
         if ( friction.get() ) {

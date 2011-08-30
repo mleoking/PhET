@@ -49,8 +49,8 @@ public class Particle {
     }
 
     public void notifyRemoved() {
-        for ( int i = 0; i < removalListeners.size(); i++ ) {
-            removalListeners.get( i ).update();
+        for ( SimpleObserver removalListener : removalListeners ) {
+            removalListener.update();
         }
     }
 

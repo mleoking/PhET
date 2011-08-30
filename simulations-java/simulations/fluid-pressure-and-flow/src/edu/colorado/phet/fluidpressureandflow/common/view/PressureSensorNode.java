@@ -29,13 +29,10 @@ public class PressureSensorNode extends SensorNode<Double> {
         this( transform, sensor, units, null );
     }
 
-    /**
-     * @param transform
-     * @param sensor
-     * @param units
-     * @param pool      the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
-     */
-    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units, final Pool pool ) {
+    public PressureSensorNode( final ModelViewTransform transform, final PressureSensor sensor, final Property<UnitSet> units,
+
+                               //the area to constrain the node within or null if no constraints//TODO: redesign so this is not a problem
+                               final Pool pool ) {
         super( transform, sensor, getPressureUnit( units ) );
 
         addChild( new PNode() {{

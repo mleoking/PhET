@@ -1,9 +1,14 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Sam">
     <words>
+      <w>buildtools</w>
       <w>droppable</w>
       <w>exponentials</w>
       <w>generified</w>
+      <w>gridx</w>
+      <w>gridy</w>
+      <w>ipadx</w>
+      <w>ipady</w>
       <w>millis</w>
       <w>overriden</w>
       <w>phet</w>
@@ -11,6 +16,7 @@
       <w>precompute</w>
       <w>println</w>
       <w>proguard</w>
+      <w>toricelli's</w>
     </words>
   </dictionary>
 </component>
