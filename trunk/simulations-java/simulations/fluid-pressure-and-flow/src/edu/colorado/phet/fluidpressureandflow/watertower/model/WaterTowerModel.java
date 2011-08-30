@@ -112,8 +112,8 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                                                                          WaterTower.MAX_Y + WaterTower.TANK_HEIGHT + 2 + random.nextGaussian() * spreadY ),
                                                   new ImmutableVector2D( random.nextGaussian() * velocitySpreadX, random.nextGaussian() * velocitySpreadY ), faucetDropVolume );
             faucetDrops.add( faucetDrop );
-            for ( int i = 0; i < dropAddedListeners.size(); i++ ) {
-                dropAddedListeners.get( i ).apply( faucetDrop );
+            for ( VoidFunction1<WaterDrop> listener : dropAddedListeners ) {
+                listener.apply( faucetDrop );
             }
         }
 
@@ -161,7 +161,7 @@ public class WaterTowerModel extends FluidPressureAndFlowModel implements Veloci
                 return waterTowerDrop.velocity.get();
             }
         }
-        return new ImmutableVector2D();
+        return ImmutableVector2D.ZERO;
     }
 
     public void addVelocityUpdateListener( SimpleObserver observer ) {

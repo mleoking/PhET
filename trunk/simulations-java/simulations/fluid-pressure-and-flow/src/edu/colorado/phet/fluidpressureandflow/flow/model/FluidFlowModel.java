@@ -144,7 +144,7 @@ public class FluidFlowModel extends FluidPressureAndFlowModel implements Velocit
             return pipe.getTweakedVelocity( x, y );//assumes velocity same at all y along a specified x
         }
         else {
-            return new ImmutableVector2D();
+            return ImmutableVector2D.ZERO;
         }
     }
 
