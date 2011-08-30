@@ -18,8 +18,8 @@ import edu.umd.cs.piccolo.nodes.PImage;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import static edu.colorado.phet.common.phetcommon.resources.PhetCommonResources.getMaximizeButtonImage;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.TITLE_FONT;
+import static edu.colorado.phet.sugarandsaltsolutions.common.view.SugarAndSaltSolutionsCanvas.WATER_COLOR;
 
 /**
  * Control bar that shows when the concentration bar chart is minimized and allows the user to maximized the concentration bar chart.
