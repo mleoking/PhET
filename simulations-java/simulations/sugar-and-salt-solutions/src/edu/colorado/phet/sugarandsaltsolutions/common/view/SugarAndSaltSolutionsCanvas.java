@@ -25,7 +25,6 @@ import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.util.PDimension;
 
 import static edu.colorado.phet.common.phetcommon.model.property.Not.not;
-import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication.WATER_COLOR;
 
 /**
  * Canvas for the first tab in the Sugar and Salt Solutions Sim
@@ -33,6 +32,7 @@ import static edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsAppli
  * @author Sam Reid
  */
 public abstract class SugarAndSaltSolutionsCanvas extends PhetPCanvas implements ToolboxCanvas {
+    public static final Color WATER_COLOR = new Color( 179, 239, 243 );
     //Root node that shows the nodes in the stage coordinate frame
     private final PNode rootNode;
 

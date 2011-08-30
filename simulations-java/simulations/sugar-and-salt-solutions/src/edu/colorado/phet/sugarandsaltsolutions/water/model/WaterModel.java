@@ -30,7 +30,6 @@ import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
-import edu.colorado.phet.sugarandsaltsolutions.SugarAndSaltSolutionsApplication;
 import edu.colorado.phet.sugarandsaltsolutions.common.model.AbstractSugarAndSaltSolutionsModel;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.Compound;
 import edu.colorado.phet.sugarandsaltsolutions.micro.model.ItemList;
@@ -61,6 +60,7 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
     //Box2d world which updates the physics
     public final World world;
 
+    //Randomness for laying out and propagating the particles
     private Random random = new Random();
 
     //Dimensions of the particle window in meters, determines the zoom level in the view as well since it fits to the model particle window
@@ -523,12 +523,12 @@ public class WaterModel extends AbstractSugarAndSaltSolutionsModel {
 
     //Gets a random number within the horizontal range of the beaker
     public double getRandomX() {
-        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.width - particleWindow.width / 2 );
+        return (float) ( random.nextFloat() * particleWindow.width - particleWindow.width / 2 );
     }
 
     //Gets a random number within the vertical range of the beaker
     public double getRandomY() {
-        return (float) ( SugarAndSaltSolutionsApplication.random.nextFloat() * particleWindow.height );
+        return (float) ( random.nextFloat() * particleWindow.height );
     }
 
     //Remove the overlapping water so it doesn't overlap and cause box2d problems due to occupying the same space at the same time

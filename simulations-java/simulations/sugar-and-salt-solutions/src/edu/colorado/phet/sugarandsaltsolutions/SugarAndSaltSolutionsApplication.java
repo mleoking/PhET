@@ -1,10 +1,6 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.sugarandsaltsolutions;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.Random;
-
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationConfig;
 import edu.colorado.phet.common.phetcommon.application.PhetApplicationLauncher;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -23,8 +19,6 @@ import static edu.colorado.phet.sugarandsaltsolutions.micro.MicroModule.SIZE_SCA
  * @author Sam Reid
  */
 public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
-    public static final Color WATER_COLOR = new Color( 179, 239, 243 );
-    public static Random random = new Random();
     public static Property<Double> sizeScale = new Property<Double>( 1.0 );
 
     public SugarAndSaltSolutionsApplication( PhetApplicationConfig config ) {
@@ -45,17 +39,6 @@ public class SugarAndSaltSolutionsApplication extends PiccoloPhetApplication {
         //Restore the size scale to be 1.0 for the water module since no custom override is done there.
         sizeScale.set( 1.0 );
         addModule( new WaterModule( globalState ) );
-
-        //Parse command line args for a directive like "-module 2" which will set that as the startup module (0-based indices)
-        //This is done so that the developer can easily specify a starting tab for the simulation by changing the command line arguments
-        if ( config.isDev() ) {
-            int index = Arrays.asList( config.getCommandLineArgs() ).indexOf( "-module" );
-            if ( index >= 0 && index + 1 < config.getCommandLineArgs().length ) {
-                String nextArg = config.getCommandLineArgs()[index + 1];
-                int module = Integer.parseInt( nextArg );
-                setStartModule( moduleAt( module ) );
-            }
-        }
 
         //Add developer menus for changing the color of background and salt
         getPhetFrame().getDeveloperMenu().add( new ColorDialogMenuItem( getPhetFrame(), "Background Color...", globalState.colorScheme.backgroundColorSet.selectedColor ) );
