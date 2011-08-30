@@ -28,6 +28,10 @@ import edu.umd.cs.piccolo.util.PDimension;
  */
 public class ShapeCreationUtils {
 
+    /* not intended for instantiation */
+    private ShapeCreationUtils() {
+    }
+
     public static Shape createShapeFromPoints( List<Point2D> points ) {
         DoubleGeneralPath path = new DoubleGeneralPath();
         path.moveTo( points.get( 0 ) );
@@ -148,8 +152,26 @@ public class ShapeCreationUtils {
         return scaledShape;
     }
 
+    /**
+     * Create a curvy line from a list of points.  The points are assumed to be
+     * in order.
+     *
+     * @param points
+     * @return
+     */
+    public static Shape createCurvyLineFromPoints( List<Point2D> points ) {
+        assert points.size() > 0;
+
+        DoubleGeneralPath path = new DoubleGeneralPath();
+        path.moveTo( points.get( 0 ) );
+        for ( int i = 1; i < points.size(); i++ ) {
+            path.lineTo( points.get( i ) );
+        }
+        return path.getGeneralPath();
+    }
+
     // Extrapolate a control point for a curve based on three points.  This
-    // is used to "go around the corner" at y, staring from x, and heading
+    // is used to "go around the corner" at y, starting from x, and heading
     // towards z.  If that makes any sense.
     private static ImmutableVector2D extrapolateControlPoint( ImmutableVector2D x, ImmutableVector2D y, ImmutableVector2D z ) {
         ImmutableVector2D xy = y.getSubtractedInstance( x );
