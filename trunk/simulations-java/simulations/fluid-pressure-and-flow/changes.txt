@@ -1,3 +1,4 @@
+Flow: Added interaction to the flux meter
 Flow: Started flux meter
 Flow: Added friction and parabolic flow
 Fixed units for flow control
