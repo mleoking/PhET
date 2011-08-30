@@ -29,6 +29,8 @@ public class Pipe {
     //Rate of fluid flow in (1/m/s), the same as v2 / a1 from continuity equation a1 v1 = a2 v2
     public final Property<Double> rate = new Property<Double>( 5.0 );
 
+    public final Property<Boolean> friction = new Property<Boolean>( false );
+
     //Creates a pipe with a default shape.
     public Pipe() {
         controlCrossSections.add( new CrossSection( -6, -3, -1 ) );
@@ -157,9 +159,7 @@ public class Pipe {
         } );
     }
 
-    /*
-     * Given a global y-position, determine the fraction to the top (point at bottom = 0, point halfway up = 0.5, etc.)
-     */
+    //Given a global y-position, determine the fraction to the top (point at bottom = 0, point halfway up = 0.5, etc.)
     public double getFractionToTop( double x, double y ) {
         CrossSection position = getCrossSection( x );
         return new Function.LinearFunction( position.getBottom().getY(), position.getTop().getY(), 0, 1 ).evaluate( y );
@@ -220,29 +220,6 @@ public class Pipe {
         return list.get( 0 );
     }
 
-    public double getSpeed( double x ) {
-        //Continuity equation: a1 v1 = a2 v2
-        //TODO: treat pipes as if they are cylindrical cross sections?
-        //TODO: Add support for friction
-        return rate.get() / getCrossSection( x ).getHeight();
-    }
-
-    public ImmutableVector2D getVelocity( double x, double y ) {
-        double speed = getSpeed( x );
-        double fraction = getFractionToTop( x, y );
-        CrossSection pre = getCrossSection( x - 1E-7 );
-        CrossSection post = getCrossSection( x + 1E-7 );
-
-        double x0 = pre.getX();
-        double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );
-
-        double x1 = post.getX();
-        double y1 = new Function.LinearFunction( 0, 1, post.getBottom().getY(), post.getTop().getY() ).evaluate( fraction );
-
-        ImmutableVector2D vector2D = new ImmutableVector2D( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
-        return vector2D.getInstanceOfMagnitude( speed );
-    }
-
     public double getMaxX() {
         ArrayList<CrossSection> list = getPipePositionsSortedByX();
         return list.get( list.size() - 1 ).getX();
@@ -288,15 +265,59 @@ public class Pipe {
         }
     }
 
-    /*
-     * Gets the x velocity of a particle, incorporating vertical effects.  If this effect is ignored, then when there is a large
-     * slope in the pipe, particles closer to the edge move much faster (which is physically incorrect).
-     */
+    //Get the speed at the specified x-location.  This is before friction and vertical effects are accounted for
+    private double getSpeed( double x ) {
+        //Continuity equation: a1 v1 = a2 v2
+        //TODO: treat pipes as if they are cylindrical cross sections?
+        return rate.get() / getCrossSection( x ).getHeight();
+    }
+
+    //I was told that the fluid flow rate falls off quadratically, so use lagrange interpolation so that at the center of the pipe
+    //The velocity is full speed, and it falls off quadratically toward the sides
+    //See http://stackoverflow.com/questions/2075013/best-way-to-find-quadratic-regression-curve-in-java
+    public double lagrange( double x1, double y1, double x2, double y2, double x3, double y3, double x ) {
+        return ( x - x2 ) * ( x - x3 ) / ( x1 - x2 ) / ( x1 - x3 ) * y1 +
+               ( x - x1 ) * ( x - x3 ) / ( x2 - x1 ) / ( x2 - x3 ) * y2 +
+               ( x - x1 ) * ( x - x2 ) / ( x3 - x1 ) / ( x3 - x2 ) * y3;
+    }
+
+    //Get the velocity at the specified point, does not account for vertical effects or friction.
+    private ImmutableVector2D getVelocity( double x, double y ) {
+        double fraction = getFractionToTop( x, y );
+        double speed = getSpeed( x );
+
+        CrossSection pre = getCrossSection( x - 1E-7 );
+        CrossSection post = getCrossSection( x + 1E-7 );
+
+        double x0 = pre.getX();
+        double y0 = new Function.LinearFunction( 0, 1, pre.getBottom().getY(), pre.getTop().getY() ).evaluate( fraction );
+
+        double x1 = post.getX();
+        double y1 = new Function.LinearFunction( 0, 1, post.getBottom().getY(), post.getTop().getY() ).evaluate( fraction );
+
+        ImmutableVector2D vector2D = new ImmutableVector2D( new Point2D.Double( x0, y0 ), new Point2D.Double( x1, y1 ) );
+        return vector2D.getInstanceOfMagnitude( speed );
+    }
+
+    //Gets the x-velocity of a particle, incorporating vertical effects.
+    //If this effect is ignored, then when there is a large slope in the pipe, particles closer to the edge move much faster (which is physically incorrect).
     public double getTweakedVx( double x, double y ) {
         ImmutableVector2D velocity = getVelocity( x, y );
         ImmutableVector2D xVelocity = new ImmutableVector2D( velocity.getX(), 0 );
-        final double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
-        return vx;
+        double vx = getSpeed( x ) / ( velocity.getMagnitude() / xVelocity.getMagnitude() );
+
+        //If friction is enabled, then scale down parabolically as you get further from the center of the pipe.
+        //But instead of reaching zero velocity at the edge of the pipe (which could cause particles to pile up indefinitely), extend the region
+        //a small epsilon past the (0..1) pipe range
+        if ( friction.get() ) {
+            double epsilon = 0.2;
+            double fractionToTop = getFractionToTop( x, y );
+            double scaleFactor = lagrange( -epsilon, 0, 0.5, 1, 1 + epsilon, 0, fractionToTop );
+            return vx * scaleFactor;
+        }
+        else {
+            return vx;
+        }
     }
 
     public ImmutableVector2D getTweakedVelocity( double x, double y ) {
