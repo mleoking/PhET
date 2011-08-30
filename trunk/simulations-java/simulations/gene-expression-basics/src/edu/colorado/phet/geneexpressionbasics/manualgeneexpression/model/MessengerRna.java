@@ -40,7 +40,11 @@ public class MessengerRna extends MobileBiomolecule {
             add( new Point2D.Double( 0, 0 ) );
             add( new Point2D.Double( 100, 100 ) );
             add( new Point2D.Double( 100, 200 ) );
+            add( new Point2D.Double( 200, 200 ) );
+            add( new Point2D.Double( 200, 300 ) );
+            add( new Point2D.Double( 300, 300 ) );
         }};
         return BiomoleculeShapeUtils.createCurvyLineFromPoints( points );
+//        return BiomoleculeShapeUtils.createSegmentedLineFromPoints( points );
     }
 }

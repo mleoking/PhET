@@ -40,6 +40,7 @@ public class MessengerRnaTest {
                 0.1 ); // "Zoom factor" - smaller zooms out, larger zooms in.
 
         canvas.addWorldChild( new MobileBiomoleculeNode( mvt, new MessengerRna( new Point2D.Double( 0, 0 ) ) ) );
+
         // Boiler plate app stuff.
         JFrame frame = new JFrame( "RNA Polymerase Shape Testing" );
         frame.setContentPane( canvas );
@@ -48,5 +49,4 @@ public class MessengerRnaTest {
         frame.setLocationRelativeTo( null ); // Center.
         frame.setVisible( true );
     }
-
 }
