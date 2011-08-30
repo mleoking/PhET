@@ -129,7 +129,7 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
     }
 
     private void stepInTime( double dt ) {
-        for ( MobileBiomolecule mobileBiomolecule : mobileBiomoleculeList ) {
+        for ( MobileBiomolecule mobileBiomolecule : new ArrayList<MobileBiomolecule>( mobileBiomoleculeList ) ) {
             mobileBiomolecule.stepInTime( dt );
         }
     }
