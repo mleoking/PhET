@@ -133,6 +133,7 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
         //Reset the clock and its associated flags, recall that the module should also be running for the clock to be running
         clock.resetSimulationTime();
         clockRunning.reset();
+        simulationTimeStep.reset();
     }
 
     public void addResetListener( VoidFunction0 resetAction ) {
