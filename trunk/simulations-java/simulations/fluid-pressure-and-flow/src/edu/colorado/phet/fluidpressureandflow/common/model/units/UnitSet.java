@@ -3,9 +3,9 @@ package edu.colorado.phet.fluidpressureandflow.common.model.units;
 
 import java.text.DecimalFormat;
 
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.KG_PER_M_3;
-import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.LB_PER_FT_3;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.*;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.Units.*;
+import static edu.colorado.phet.fluidpressureandflow.common.model.units.Units.PSI;
 
 /**
  * Set of units, such as Metric or English.
@@ -14,19 +14,18 @@ import static edu.colorado.phet.fluidpressureandflow.common.model.units.Units.*;
  */
 public class UnitSet {
     //Common units for density
-    private static final Unit FLUID_DENSITY_METRIC = new LinearUnit( KG_PER_M_3, 1, new DecimalFormat( "0.00" ) );
-    private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( LB_PER_FT_3, 16.0184634, new DecimalFormat( "0.00" ) );
+    private static final Unit FLUID_DENSITY_METRIC = new LinearUnit( DENSITY_UNITS_METRIC, 1, new DecimalFormat( "0.00" ) );
+    private static final Unit FLUID_DENSITY_ENGLISH = new LinearUnit( DENSITY_UNITS_ENGLISH, 16.0184634, new DecimalFormat( "0.00" ) );
 
     //units for flow, see volumetric flux: http://en.wikipedia.org/wiki/Flux
-    //TODO i18n
-    private static final Unit FLUX_METRIC = new LinearUnit( "L / (m<sup>2</sup>s)", 1E3, new DecimalFormat( "0.00" ) );//m3 m-2 s-1
-    private static final Unit FLUX_ENGLISH = new LinearUnit( "ft<sup>3</sup> / (ft<sup>2</sup> s)", FEET_PER_METER, new DecimalFormat( "0.00" ) );
+    private static final Unit FLUX_METRIC = new LinearUnit( FLUX_UNITS_METRIC, 1E3, new DecimalFormat( "0.00" ) );//m3 m-2 s-1
+    private static final Unit FLUX_ENGLISH = new LinearUnit( FLUX_UNITS_ENGLISH, FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
-    private static final Unit AREA_METRIC = new LinearUnit( "m<sup>2</sup>", 1, new DecimalFormat( "0.00" ) );
-    private static final Unit AREA_ENGLISH = new LinearUnit( "ft<sup>2</sup>", FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
+    private static final Unit AREA_METRIC = new LinearUnit( AREA_UNITS_METRIC, 1, new DecimalFormat( "0.00" ) );
+    private static final Unit AREA_ENGLISH = new LinearUnit( AREA_UNITS_ENGLISH, FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
-    private static final Unit RATE_METRIC = new LinearUnit( "L / s", 1E3, new DecimalFormat( "0.00" ) );
-    private static final Unit RATE_ENGLISH = new LinearUnit( "ft<sup>3</sup>/s", FEET_PER_METER * FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
+    private static final Unit RATE_METRIC = new LinearUnit( RATE_UNITS_METRIC, 1E3, new DecimalFormat( "0.00" ) );
+    private static final Unit RATE_ENGLISH = new LinearUnit( RATE_UNITS_ENGLISH, FEET_PER_METER * FEET_PER_METER * FEET_PER_METER, new DecimalFormat( "0.00" ) );
 
     //To convert ft3 / ft2 / s into m3 / m2 / s
     //Same as ft/s -> m/s, same as converting feet to meters
