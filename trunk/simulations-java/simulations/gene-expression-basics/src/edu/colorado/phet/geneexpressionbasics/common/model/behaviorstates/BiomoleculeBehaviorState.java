@@ -1,8 +1,11 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 
 import java.util.List;
 import java.util.Random;
+
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
  * The behavior states control the motion and the attachment behavior of the

@@ -11,9 +11,9 @@ import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
-import edu.colorado.phet.geneexpressionbasics.common.model.DetachingState;
-import edu.colorado.phet.geneexpressionbasics.common.model.IdleState;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.DetachingState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.IdleState;
 
 /**
  * Class that represents messenger ribonucleic acid, or mRNA, in the model.

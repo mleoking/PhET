@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.IMotionStrategy;
 
 /**
  * A motion strategy that causes the user to move towards the attachment site

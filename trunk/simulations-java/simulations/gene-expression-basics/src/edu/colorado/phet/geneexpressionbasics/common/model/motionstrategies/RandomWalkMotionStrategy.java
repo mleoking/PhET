@@ -1,5 +1,5 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -7,6 +7,7 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.geneexpressionbasics.common.model.IMotionStrategy;
 
 /**
  * @author John Blanco

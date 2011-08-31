@@ -7,6 +7,9 @@ import java.awt.Shape;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.UnattachedAndAvailableState;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.GeneExpressionModel;
 
 /**

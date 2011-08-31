@@ -1,7 +1,9 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies;
 
 import java.awt.geom.Point2D;
+
+import edu.colorado.phet.geneexpressionbasics.common.model.IMotionStrategy;
 
 /**
  * Motion strategy that has no motion, i.e. causes the user to be still.
