@@ -55,6 +55,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         setBorder( null );
 
         //Notify model elements about the canvas area so they can't be dragged outside it.
+        //TODO: Delete or use this code
         final VoidFunction0 updateDragBounds = new VoidFunction0() {
             public void apply() {
                 //identify the bounds that objects will be constrained to be dragged within
