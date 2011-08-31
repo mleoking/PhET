@@ -162,7 +162,7 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * real molecules panel
         *----------------------------------------------------------------------------*/
-        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), overlayNode );
+        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule(), app, overlayNode );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
