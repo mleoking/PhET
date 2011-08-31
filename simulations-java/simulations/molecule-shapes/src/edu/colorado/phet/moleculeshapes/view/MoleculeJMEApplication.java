@@ -342,9 +342,9 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     }
 
     public synchronized void startNewInstanceDrag( int bondOrder ) {
+        // sanity check
         if ( !molecule.wouldAllowBondOrder( bondOrder ) ) {
             // don't add to the molecule if it is full
-            // TODO: find better way of not calling this (or not having the user attempt to drag!) grey-out the control panel bonds?
             return;
         }
 
