@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.util.IntegerRange;
 import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.common.model.ShapeChangingModelElement;
 
 /**
@@ -46,7 +45,6 @@ public class DnaMolecule {
     private DnaStrand strand2;
     private ArrayList<BasePair> basePairs = new ArrayList<BasePair>();
     private ArrayList<Gene> genes = new ArrayList<Gene>();
-    private ArrayList<PlacementHint> placementHints = new ArrayList<PlacementHint>();
 
     /**
      * Constructor.
@@ -97,11 +95,6 @@ public class DnaMolecule {
                              new Color( 216, 191, 216 ),
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
                              new Color( 205, 255, 112, 150 ) ) );
-
-        // Add the placement hints.  TODO: Decide if these should be set up to be associated with particular genes.
-//        Point2D origin = new Point2D.Double( strand1.get( 0 ).getShape().getBounds2D().getMinX(), strand1.get( 0 ).getShape().getBounds2D().getCenterY() );
-//        placementHints.add( new PlacementHint( new RnaPolymerase( new StubGeneExpressionModel(), new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
-//        placementHints.add( new PlacementHint( TranscriptionFactor.generateTranscriptionFactor( new StubGeneExpressionModel(), 0, true, new Point2D.Double( origin.getX() + DISTANCE_BETWEEN_GENES - 1500, origin.getY() ) ) ) );
     }
 
     /**
@@ -171,10 +164,6 @@ public class DnaMolecule {
         return genes;
     }
 
-    public ArrayList<PlacementHint> getPlacementHints() {
-        return placementHints;
-    }
-
     public Gene getLastGene() {
         return genes.get( genes.size() - 1 );
     }
@@ -184,16 +173,14 @@ public class DnaMolecule {
     }
 
     public void activateHints( MobileBiomolecule biomolecule ) {
-        for ( PlacementHint placementHint : placementHints ) {
-            if ( placementHint.isMatchingBiomolecule( biomolecule ) ) {
-                placementHint.active.set( true );
-            }
+        for ( Gene gene : genes ) {
+            gene.activateHints( biomolecule );
         }
     }
 
     public void deactivateAllHints() {
-        for ( PlacementHint placementHint : placementHints ) {
-            placementHint.active.set( false );
+        for ( Gene gene : genes ) {
+            gene.deactivateHints();
         }
     }
 
