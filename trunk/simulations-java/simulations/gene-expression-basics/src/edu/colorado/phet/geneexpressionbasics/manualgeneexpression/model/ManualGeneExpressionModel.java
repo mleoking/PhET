@@ -146,9 +146,10 @@ public class ManualGeneExpressionModel extends GeneExpressionModel implements Re
      * Get the motion bounds for any biomolecule that is going to be associated
      * with the currently active gene.
      *
-     * @return
+     * @return TODO: This was made public for some debugging, but can be private
+     *         when bounds are worked out.
      */
-    private MotionBounds getBoundsForActiveGene() {
+    public MotionBounds getBoundsForActiveGene() {
         Rectangle2D boundsRect = new Rectangle2D.Double( activeGene.get().getCenterX() - BIOMOLECULE_STAGE_WIDTH / 2,
                                                          DnaMolecule.Y_POS,
                                                          BIOMOLECULE_STAGE_WIDTH,

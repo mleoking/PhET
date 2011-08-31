@@ -6,6 +6,8 @@ import java.util.Random;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.math.Vector2D;
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 /**
  * @author John Blanco
@@ -21,8 +23,12 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
     private double directionChangeCountdown = 0;
     private ImmutableVector2D currentMotionVector = new Vector2D( 0, 0 );
 
-    public RandomWalkMotionStrategy( MotionBounds motionBounds ) {
-        this.motionBounds = motionBounds;
+    public RandomWalkMotionStrategy( Property<MotionBounds> motionBoundsProperty ) {
+        motionBoundsProperty.addObserver( new VoidFunction1<MotionBounds>() {
+            public void apply( MotionBounds motionBounds ) {
+                RandomWalkMotionStrategy.this.motionBounds = motionBounds;
+            }
+        } );
     }
 
     public Point2D getNextLocation( double dt, Point2D currentLocation ) {
@@ -85,9 +91,15 @@ public class RandomWalkMotionStrategy extends MotionStrategy {
         }
         // If we reach this point, there is a problem.  Reversing the vector
         // in all the possible ways doesn't get us back to a valid location.
-        // Not sure this is possible, so for now, cause an assert and freeze
-        // the motion.
-        assert false;
-        return new ImmutableVector2D( 0, 0 );
+        // This might be because the user dropped the molecule in an invalid
+        // location.  Set the motion to be directly back to the center of the
+        // motion bounds for now.
+        System.out.println( "Debug Warning: Biomolecule is unable to bounce back into motion bounds." );
+        Point2D centerOfMotionBounds = new Point2D.Double( motionBounds.getBounds().getBounds2D().getCenterX(),
+                                                           motionBounds.getBounds().getBounds2D().getCenterY() );
+        Vector2D vectorToMotionBoundsCenter = new Vector2D( centerOfMotionBounds.getX() - currentLocation.getX(),
+                                                            centerOfMotionBounds.getY() - currentLocation.getY() );
+        vectorToMotionBoundsCenter.scale( MAX_VELOCITY / vectorToMotionBoundsCenter.getMagnitude() );
+        return new ImmutableVector2D( vectorToMotionBoundsCenter );
     }
 }
