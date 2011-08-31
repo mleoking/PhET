@@ -19,9 +19,31 @@ public class RealMolecule extends Molecule {
     private final String displayName;
     private final int lonePairCount;
 
+    private Atom3D centralAtom = null;
+
     private RealMolecule( String displayName, int lonePairCount ) {
         this.displayName = displayName;
         this.lonePairCount = lonePairCount;
+    }
+
+    public void addCentralAtom( Atom3D atom ) {
+        addAtom( atom );
+        centralAtom = atom;
+    }
+
+    public void addRadialAtom( Atom3D atom, int bondOrder ) {
+        addAtom( atom );
+        addBond( atom, centralAtom, bondOrder );
+    }
+
+    public void centerOnCentralAtom() {
+        translate( centralAtom.position.get().negated() );
+    }
+
+    private void translate( ImmutableVector3D offset ) {
+        for ( Atom3D atom : getAtoms() ) {
+            atom.position.set( atom.position.get().plus( offset ) );
+        }
     }
 
     public String getDisplayName() {
@@ -39,28 +61,41 @@ public class RealMolecule extends Molecule {
     }
 
     public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
-        Atom3D a = new Atom3D( Element.O, new ImmutableVector3D( 0.528500, 0, 0 ) );
-        Atom3D b = new Atom3D( Element.C, new ImmutableVector3D( -0.528500, 0, 0 ) );
+        addCentralAtom( new Atom3D( Element.C, new ImmutableVector3D( -0.528500, 0, 0 ) ) );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( 0.528500, 0, 0 ) ), 3 );
+    }};
 
-        addAtom( a );
-        addAtom( b );
-        addBond( a, b, 3 );
+    public static final RealMolecule CARBON_DIOXIDE = new RealMolecule( "CO2", 0 ) {{
+        addCentralAtom( new Atom3D( Element.C, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( -1.19700, 0, 0 ) ), 2 );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( 1.19700, 0, 0 ) ), 2 );
+    }};
+
+    public static final RealMolecule BORON_TRIFLUORIDE = new RealMolecule( "BF3", 0 ) {{
+        addCentralAtom( new Atom3D( Element.B, new ImmutableVector3D( 2.866, 0.25, 0 ) ) );
+        addRadialAtom( new Atom3D( Element.F, new ImmutableVector3D( 3.732, 0.75, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.F, new ImmutableVector3D( 2, 0.75, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.F, new ImmutableVector3D( 2.866, -0.75, 0 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
+    public static final RealMolecule NITRATE = new RealMolecule( "NO3-", 0 ) {{
+        addCentralAtom( new Atom3D( Element.N, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( 1.227900, 0.187600, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( -0.451500, -1.157200, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( -0.776400, 0.969600, 0 ) ), 2 );
     }};
 
     public static final RealMolecule WATER = new RealMolecule( "H2O", 2 ) {{
-        Atom3D a = new Atom3D( Element.O, new ImmutableVector3D( 0, 0, 0 ) );
-        Atom3D b = new Atom3D( Element.H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) );
-        Atom3D c = new Atom3D( Element.H, new ImmutableVector3D( 0.606800, -0.238300, -0.716900 ) );
-
-        addAtom( a );
-        addAtom( b );
-        addAtom( c );
-        addBond( a, b, 1 );
-        addBond( a, c, 1 );
+        addCentralAtom( new Atom3D( Element.O, new ImmutableVector3D() ) );
+        addRadialAtom( new Atom3D( Element.H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.H, new ImmutableVector3D( 0.606800, -0.238300, -0.716900 ) ), 1 );
     }};
 
+    // TODO: Beryllium Chloride is maybe the best linear example?
+
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
-            CARBON_MONOXIDE, WATER
+            CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
