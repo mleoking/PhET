@@ -1,6 +1,8 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.fluidpressureandflow.watertower.view;
 
+import java.awt.Color;
+import java.awt.Insets;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -9,9 +11,11 @@ import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
+import edu.colorado.phet.common.phetcommon.view.VerticalLayoutPanel;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
+import edu.colorado.phet.common.piccolophet.nodes.faucet.FaucetNode;
 import edu.colorado.phet.fluidpressureandflow.common.model.PressureSensor;
 import edu.colorado.phet.fluidpressureandflow.common.view.EnglishRuler;
 import edu.colorado.phet.fluidpressureandflow.common.view.FluidPressureAndFlowCanvas;
@@ -24,8 +28,12 @@ import edu.colorado.phet.fluidpressureandflow.watertower.WaterTowerModule;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 import edu.umd.cs.piccolo.PNode;
+import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.common.phetcommon.model.property.SettableNot.not;
 import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MANUAL;
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.MATCH_LEAKAGE;
 
 /**
  * @author Sam Reid
@@ -35,6 +43,7 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     private static final double scale = STAGE_SIZE.getHeight() / modelHeight;
     private final PNode waterDropLayer = new PNode();
     private final FPAFMeasuringTape measuringTape;
+    final static Color TRANSPARENT = new Color( 0, 0, 0, 0 );
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
         super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.model.visibleModelBounds );
@@ -51,7 +60,32 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         HoseNode hoseNode = new HoseNode( transform, module.model.hose );
         addChild( hoseNode );
 
-        addChild( new FaucetNode( transform, module.model.getFaucetFlowRate() ) );
+        //TODO: Refactor to top-level class
+        addChild( new FaucetNode( module.model.getFaucetFlowRate().flow, new Property<Boolean>( true ), 10000 ) {{
+            setScale( 0.7 );
+            translate( 203, 5 );
+
+            //Radio buttons to choose between automatic and manual control
+            faucetImageNode.addChild( new PSwing( new VerticalLayoutPanel() {{
+
+                //Bring the radio buttons a bit closer together
+                setInsets( new Insets( -6, 0, 0, 0 ) );
+                add( new FaucetRadioButton( MANUAL, not( module.model.getFaucetFlowRate().automatic ) ) );
+                add( new FaucetRadioButton( MATCH_LEAKAGE, module.model.getFaucetFlowRate().automatic ) );
+                setBackground( TRANSPARENT );
+            }} ) {{
+
+                //Right align with slider's center
+                setOffset( faucetSliderNode.getFullBounds().getCenterX() - getFullBounds().getWidth(), 30 );
+            }} );
+
+            //Faucet slider should be invisible when in "auto" mode
+            module.model.getFaucetFlowRate().automatic.addObserver( new VoidFunction1<Boolean>() {
+                public void apply( Boolean auto ) {
+                    faucetSliderNode.setVisible( !auto );
+                }
+            } );
+        }} );
 
         module.model.addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
