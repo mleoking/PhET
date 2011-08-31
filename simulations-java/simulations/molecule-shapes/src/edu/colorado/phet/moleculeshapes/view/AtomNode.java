@@ -25,6 +25,7 @@ public class AtomNode extends Geometry {
 
     public final PairGroup pair; // referenced pair (or null)
     public final Property<ImmutableVector3D> position; // position property
+    private final float radius;
 
     /**
      * Construct an AtomNode for use within the VSEPR Model view
@@ -67,6 +68,7 @@ public class AtomNode extends Geometry {
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
         }} );
+        this.radius = radius;
         this.pair = pairOption.isSome() ? pairOption.get() : null;
         this.position = position;
 
@@ -83,5 +85,9 @@ public class AtomNode extends Geometry {
                 setLocalTranslation( (float) position.get().getX(), (float) position.get().getY(), (float) position.get().getZ() );
             }
         } );
+    }
+
+    public float getRadius() {
+        return radius;
     }
 }

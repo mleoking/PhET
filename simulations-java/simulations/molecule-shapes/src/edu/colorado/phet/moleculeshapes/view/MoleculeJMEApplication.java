@@ -59,7 +59,6 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: potential listener leak with bond angles
  * TODO: electron geometry name repaint issue - check threading and repaint()
  * TODO: positioning bug for real molecules label when middle-clicking atoms
- * TODO: autoscaling for the 3D view overlay
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair

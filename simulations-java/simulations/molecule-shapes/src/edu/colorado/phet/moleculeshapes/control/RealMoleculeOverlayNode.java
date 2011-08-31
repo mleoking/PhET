@@ -47,7 +47,7 @@ public class RealMoleculeOverlayNode extends Node {
 
         if ( molecule != null ) {
             moleculeNode = new MoleculeNode( molecule, app, camera ) {{
-                scale( MoleculeShapesConstants.MOLECULE_SCALE );
+                scale( MoleculeShapesConstants.MOLECULE_SCALE / getBoundingRadius() );
             }};
             attachChild( moleculeNode );
         }
