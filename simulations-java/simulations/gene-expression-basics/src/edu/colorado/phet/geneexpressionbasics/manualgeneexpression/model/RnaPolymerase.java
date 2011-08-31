@@ -10,12 +10,12 @@ import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
-import edu.colorado.phet.geneexpressionbasics.common.model.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
-import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeBehaviorState;
 import edu.colorado.phet.geneexpressionbasics.common.model.BiomoleculeShapeUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
-import edu.colorado.phet.geneexpressionbasics.common.model.TranscribingDnaState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.AttachedState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.BiomoleculeBehaviorState;
+import edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates.TranscribingDnaState;
 
 /**
  * Class that represents RNA polymerase in the model.

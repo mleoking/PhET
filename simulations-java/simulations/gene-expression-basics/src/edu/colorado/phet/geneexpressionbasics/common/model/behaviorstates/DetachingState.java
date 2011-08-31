@@ -1,9 +1,14 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 
 import java.util.List;
 
 import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.IMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.RandomWalkMotionStrategy;
+import edu.colorado.phet.geneexpressionbasics.common.model.motionstrategies.WanderInGeneralDirectionMotionStrategy;
 
 /**
  * State where the biomolecule is detaching from an attachment site.  It moves

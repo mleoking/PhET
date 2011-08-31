@@ -1,7 +1,10 @@
 // Copyright 2002-2011, University of Colorado
-package edu.colorado.phet.geneexpressionbasics.common.model;
+package edu.colorado.phet.geneexpressionbasics.common.model.behaviorstates;
 
 import java.util.List;
+
+import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
+import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 
 /**
  * State that does nothing - no motion, no change, no stimuli.  Be cautious with
