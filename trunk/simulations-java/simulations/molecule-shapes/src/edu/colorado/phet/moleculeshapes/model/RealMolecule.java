@@ -4,17 +4,13 @@ package edu.colorado.phet.moleculeshapes.model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jmol.api.JmolViewer;
-
-import edu.colorado.phet.common.jmolphet.Molecule;
-
 /**
  * Represents a "real" molecule with exact positions, as opposed to a molecule model (which is VSEPR-based
  * and doesn't include other information).
  * <p/>
- * We display these real molecules to the user using Jmol
+ * We display these real molecules to the user in 3D
  */
-public class RealMolecule implements Molecule {
+public class RealMolecule {
     private String name;
     private String data;
 
@@ -30,13 +26,6 @@ public class RealMolecule implements Molecule {
 
     public String getDisplayName() {
         return name;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public void fixJmolColors( JmolViewer viewer ) {
     }
 
     public static final RealMolecule WATER = new RealMolecule( "Water", "<?xml version=\"1.0\"?>\n" +
