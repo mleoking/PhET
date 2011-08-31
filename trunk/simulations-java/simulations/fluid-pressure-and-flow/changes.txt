@@ -1,3 +1,4 @@
+Removed confirmation on reset all
 Water tower: Added a user control to change the angle of the hose
 Water tower: Made it so that water can flow out of the hose
 Water tower: Added hose graphic
