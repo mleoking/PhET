@@ -36,7 +36,8 @@ public class FaucetNode extends PNode {
     private final double outputPipeX2 = 109;
     private final double outputPipeY = 133;
 
-    private final PImage faucetImageNode;
+    public final PImage faucetImageNode;
+    public final FaucetSliderNode faucetSliderNode;
 
     public FaucetNode(
 
@@ -49,6 +50,9 @@ public class FaucetNode extends PNode {
             //Length of the faucet input pipe in pixels
             final double faucetLength ) {
 
+        //Create the faucet slider node here so that it can be final, even though it is attached as a child of the faucetImageNode
+        faucetSliderNode = new FaucetSliderNode( allowed, flowRate );
+
         //Create the image and slider node used to display and control the faucet
         faucetImageNode = new PImage( FAUCET_FRONT ) {{
 
@@ -56,7 +60,7 @@ public class FaucetNode extends PNode {
             setScale( 1.2 );
 
             //Add the slider as a child of the image so it will receive the same scaling so it will stay in corresponding with the image area for the slider
-            addChild( new FaucetSliderNode( allowed, flowRate ) );
+            addChild( faucetSliderNode );
 
             //Show the pipe to the left of the faucet with a tiled image
             final Rectangle2D.Double rect = new Rectangle2D.Double( -faucetLength + 1, inputPipeY1 - 0.5, faucetLength, inputPipeY2 - inputPipeY1 + 1.5 );
