@@ -9,7 +9,6 @@ import edu.colorado.phet.common.phetcommon.model.property.And;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
-import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.GroundNode;
 import edu.colorado.phet.common.piccolophet.nodes.background.SkyNode;
@@ -26,6 +25,8 @@ import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterDrop;
 import edu.colorado.phet.fluidpressureandflow.watertower.model.WaterTowerModel;
 import edu.umd.cs.piccolo.PNode;
 
+import static edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform.createSinglePointScaleInvertedYMapping;
+
 /**
  * @author Sam Reid
  */
@@ -36,13 +37,18 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
     private final FPAFMeasuringTape measuringTape;
 
     public WaterTowerCanvas( final WaterTowerModule module ) {
-        super( ModelViewTransform.createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.model.visibleModelBounds );
+        super( createSinglePointScaleInvertedYMapping( new Point2D.Double( 0, 0 ), new Point2D.Double( STAGE_SIZE.width * 0.25, STAGE_SIZE.height * 0.75 ), scale ), module.model.visibleModelBounds );
 
         addChild( new SkyNode( transform, new Rectangle2D.Double( -1000, 0, 2000, 2000 ), 20 ) );
+
+        //Show the hose behind the water tower so the water tower panel will appear in front and look like it can cut off the water flow
+        HoseNode hoseNode = new HoseNode( transform, module.model.hose );
+        addChild( hoseNode );
+
         addChild( new WaterTowerNode( transform, module.model.getWaterTower(), module.model.liquidDensity ) );
         addChild( waterDropLayer );
         addChild( new GroundNode( transform, new Rectangle2D.Double( -1000, -2000, 2000, 2000 ), 5 ) );
-        addChild( new FaucetNode( transform, module.model.getFaucetFlowLevel() ) );
+        addChild( new FaucetNode( transform, module.model.getFaucetFlowRate() ) );
 
         module.model.addDropAddedListener( new VoidFunction1<WaterDrop>() {
             public void apply( final WaterDrop waterDrop ) {
