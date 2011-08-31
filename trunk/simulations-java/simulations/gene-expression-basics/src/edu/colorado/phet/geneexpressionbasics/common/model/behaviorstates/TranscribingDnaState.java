@@ -56,7 +56,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         transcribedRegionLength = geneBeingTranscribed.getTranscribedRegionLength();
         // Create the mRNA molecule that will be grown during the transcription
         // process.
-        messengerRna = new MessengerRna( biomolecule.model, biomolecule.getPosition() );
+        messengerRna = new MessengerRna( biomolecule.getModel(), biomolecule.getPosition() );
         biomolecule.spawnMolecule( messengerRna );
     }
 
@@ -106,6 +106,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
+        messengerRna.release();
         biomolecule.changeConformation( 0 );
         attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
         return new UnattachedAndAvailableState( biomolecule );
