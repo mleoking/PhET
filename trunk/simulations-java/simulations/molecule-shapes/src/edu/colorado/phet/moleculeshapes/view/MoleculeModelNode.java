@@ -28,7 +28,7 @@ import com.jme3.scene.Spatial;
 /**
  * Displays a molecule
  */
-public class MoleculeNode extends Node {
+public class MoleculeModelNode extends Node {
     private MoleculeModel molecule;
     private final MoleculeJMEApplication app;
     private final Camera camera;
@@ -38,7 +38,7 @@ public class MoleculeNode extends Node {
     private List<BondNode> bondNodes = new ArrayList<BondNode>();
     private List<Spatial> angleNodes = new ArrayList<Spatial>();
 
-    public MoleculeNode( final MoleculeModel molecule, final MoleculeJMEApplication app, final Camera camera ) {
+    public MoleculeModelNode( final MoleculeModel molecule, final MoleculeJMEApplication app, final Camera camera ) {
         this.molecule = molecule;
         this.app = app;
         this.camera = camera;

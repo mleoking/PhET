@@ -26,7 +26,7 @@ public class MoleculeShapesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
 
     private final MoleculeShapesPanelNode realMoleculePanel;
-    private RealMoleculeNode realMoleculeNode;
+    private RealMoleculePanelNode realMoleculeNode;
 
     public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
 
@@ -162,7 +162,7 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * real molecules panel
         *----------------------------------------------------------------------------*/
-        realMoleculeNode = new RealMoleculeNode( app.getMolecule() );
+        realMoleculeNode = new RealMoleculePanelNode( app.getMolecule() );
         realMoleculePanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};

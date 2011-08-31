@@ -134,7 +134,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
 
-    private MoleculeNode moleculeNode; // The molecule to display and rotate
+    private MoleculeModelNode moleculeNode; // The molecule to display and rotate
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
@@ -253,7 +253,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     }
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
-        moleculeNode = new MoleculeNode( molecule, this, cam );
+        moleculeNode = new MoleculeModelNode( molecule, this, cam );
         getSceneNode().attachChild( moleculeNode );
 
         /*---------------------------------------------------------------------------*
@@ -305,7 +305,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         overlayViewport.attachScene( overlayNode );
         addLiveNode( overlayNode );
 
-        overlayNode.attachChild( new MoleculeNode( molecule, this, overlayCamera ) {{
+        overlayNode.attachChild( new MoleculeModelNode( molecule, this, overlayCamera ) {{
             scale( 1.2f );
         }} );
 
