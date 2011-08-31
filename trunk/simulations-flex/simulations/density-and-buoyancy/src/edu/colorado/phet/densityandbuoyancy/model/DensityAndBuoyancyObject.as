@@ -53,9 +53,13 @@ public class DensityAndBuoyancyObject {
     private const _nameVisible: BooleanProperty = new BooleanProperty( false );
     private var _name: String = "name";
 
-    private var shouldOverrideVelocity: Boolean = false; //If true, the object was thrown and should maintain the same velocity after letting go as before
+    //If true, the object was thrown and should maintain the same velocity after letting go as before
+    private var shouldOverrideVelocity: Boolean = false;
+    private var __label: String;
 
-    public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material ) {
+    //Optional label for non-mystery blocks is to support the "Mass volume relationship" simulation
+    public function DensityAndBuoyancyObject( x: Number, y: Number, z: Number, model: DensityAndBuoyancyModel, __density: Number, mass: Number, __volume: Number, __material: Material, label: String = null ) {
+        this.__label = label;
         this._material = __material;
         //TODO why aren't you using a Units object to supply units, as in CustomObjectPropertiesPanel?
         //TODO: why aren't units internationalized?, see #2810
@@ -110,9 +114,16 @@ public class DensityAndBuoyancyObject {
         return _forceVectors;
     }
 
-    private function getLabelString(): String {
-        //TODO: why aren't units internationalized?, see #2810
-        return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
+    //Optional label for non-mystery blocks is to support the "Mass volume relationship" simulation
+    protected function getLabelString(): String {
+        if ( __label != null ) {
+            return __label
+        }
+        else {
+
+            //TODO: why aren't units internationalized?, see #2810
+            return FlexSimStrings.get( "properties.massKilogramValue", "{0} kg", [DensityAndBuoyancyConstants.format( getMass() )] );
+        }
     }
 
     protected function getLabelProperty(): StringProperty {

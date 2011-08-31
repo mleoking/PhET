@@ -17,8 +17,9 @@ public class Cuboid extends DensityAndBuoyancyObject {
     private var bodyDef: b2BodyDef = new b2BodyDef();//Rigid body class for Box2D model, in box2d, body contains a shape
     private var shapeChangeListeners: Array = new Array();
 
-    public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityAndBuoyancyModel, __material: Material ) {
-        super( x, y, depth / 2 + DensityAndBuoyancyConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material );
+    //Optional label for non-mystery blocks is to support the "Mass volume relationship" simulation
+    public function Cuboid( density: Number, width: Number, height: Number, depth: Number, x: Number, y: Number, model: DensityAndBuoyancyModel, __material: Material, label: String = null ) {
+        super( x, y, depth / 2 + DensityAndBuoyancyConstants.DEFAULT_BLOCK_WATER_OFFSET, model, density, density * width * height * depth, width * height * depth, __material, label );
         this.width = width;
         this.height = height;
         this.depth = depth;
