@@ -33,7 +33,7 @@ public class SameSubstanceMode extends Mode {
     override public function init(): void {
         super.init();
         const model: DensityAndBuoyancyModel = canvas.model;
-        var density: Number = 800; //Showing the blocks as partially floating allows easier visualization of densities
+        var density: Number = Material.WOOD.getDensity();
 
         //The masses below were selected so that calculations with 2 decimal points come up exactly equal
         //On 8/30/2011 Gelder requested to show labels "A"-"D" on the blocks
