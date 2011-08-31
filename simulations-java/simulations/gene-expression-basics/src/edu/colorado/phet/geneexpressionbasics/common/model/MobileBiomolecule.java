@@ -65,12 +65,16 @@ public abstract class MobileBiomolecule extends ShapeChangingModelElement {
         }
     }
 
+    public GeneExpressionModel getModel() {
+        return model;
+    }
+
     /**
      * Add the specified biomolecule to the model.
      *
      * @param biomolecule
      */
-    protected void spawnMolecule( MobileBiomolecule biomolecule ) {
+    public void spawnMolecule( MobileBiomolecule biomolecule ) {
         model.addMobileBiomolecule( biomolecule );
     }
 
