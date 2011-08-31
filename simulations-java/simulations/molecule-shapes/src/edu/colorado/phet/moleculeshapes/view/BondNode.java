@@ -1,6 +1,11 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.colorado.phet.common.phetcommon.model.property.Property;
+import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
@@ -8,7 +13,9 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.shape.Cylinder;
@@ -18,24 +25,54 @@ import com.jme3.scene.shape.Cylinder;
  */
 public class BondNode extends Node {
 
-    public static final float MAX_LENGTH = (float) PairGroup.BONDED_PAIR_DISTANCE;
-    public static final float BOND_RADIUS = 0.5f;
     public static final float BOND_SEPARATION = 1.2f;
 
-    public BondNode( final ImmutableVector3D b, int bondOrder, AssetManager assetManager, Vector3f cameraPosition ) {
-        super( "Bond" );
+    private final Property<ImmutableVector3D> a;
+    private final Property<ImmutableVector3D> b;
+    private final int bondOrder;
+    private final float bondRadius;
+    private final Option<Float> maxLength;
+    private final MoleculeJMEApplication app;
+    private final Camera camera;
 
-        Vector3f start = new Vector3f( 0, 0, 0 );
-        final Vector3f end = JmeUtils.convertVector( b );
+    private final List<SingleBondNode> children = new ArrayList<SingleBondNode>();
+
+    public BondNode( final Property<ImmutableVector3D> a, final Property<ImmutableVector3D> b, int bondOrder, float bondRadius, Option<Float> maxLength, MoleculeJMEApplication app, Camera camera ) {
+        super( "Bond" );
+        this.a = a;
+        this.b = b;
+        this.bondOrder = bondOrder;
+        this.bondRadius = bondRadius;
+        this.maxLength = maxLength;
+        this.app = app;
+        this.camera = camera;
+
+        updateView();
+    }
+
+    public void updateView() {
+        for ( SingleBondNode child : children ) {
+            detachChild( child );
+        }
+        children.clear();
+
+
+        // transform our position and direction into the local coordinate frame. we will do our computations there
+        Vector3f click3d = camera.getWorldCoordinates( new Vector2f( 0, 0 ), 0f ).clone();
+        Vector3f cameraPosition = getWorldTransform().transformInverseVector( click3d, new Vector3f() );
+
+
+        Vector3f start = JmeUtils.convertVector( a.get() );
+        final Vector3f end = JmeUtils.convertVector( b.get() );
 
         Vector3f towardsEnd = end.subtract( start ).normalize();
 
         float distance = start.distance( end );
         float length;
         float overLength = 0;
-        if ( distance > MAX_LENGTH ) {
-            length = MAX_LENGTH;
-            overLength = distance - MAX_LENGTH;
+        if ( maxLength.isSome() && distance > maxLength.get() ) {
+            length = maxLength.get();
+            overLength = distance - maxLength.get();
         }
         else {
             length = distance;
@@ -63,18 +100,20 @@ public class BondNode extends Node {
 
         // add single bond nodes at each offset position
         for ( final Vector3f offset : offsets ) {
-            attachChild( new SingleBondNode( length, assetManager ) {{
+            SingleBondNode child = new SingleBondNode( length, bondRadius, app.getAssetManager() ) {{
                 setLocalTranslation( bondCenter.add( offset ) );
                 lookAt( end.add( offset ), Vector3f.UNIT_Y );
-            }} );
+            }};
+            attachChild( child );
+            children.add( child );
         }
     }
 
     public static class SingleBondNode extends Geometry {
-        public SingleBondNode( float length, AssetManager assetManager ) {
+        public SingleBondNode( float length, float bondRadius, AssetManager assetManager ) {
             super( "Bond" );
 
-            mesh = new Cylinder( 4, 16, BOND_RADIUS, length );
+            mesh = new Cylinder( 4, 16, bondRadius, length );
             setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) );
         }
     }

@@ -6,11 +6,13 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
+import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
@@ -19,7 +21,6 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.math.Matrix4f;
-import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Node;
@@ -105,30 +106,34 @@ public class MoleculeModelNode extends Node {
                 }
             }
         }
-    }
-
-    public void updateView() {
         rebuildBonds();
         rebuildAngles();
     }
 
+    public void updateView() {
+        for ( BondNode bondNode : bondNodes ) {
+            bondNode.updateView();
+        }
+        rebuildAngles();
+    }
+
     private void rebuildBonds() {
-        // get our molecule-based camera position, so we can use that to compute orientation of double/triple bonds
-        // TODO: refactor some of this duplicated code out!
-        Vector2f click2d = app.getInputManager().getCursorPosition();
-        Vector3f click3d = camera.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-
-        // transform our position and direction into the local coordinate frame. we will do our computations there
-        Vector3f transformedPosition = getWorldTransform().transformInverseVector( click3d, new Vector3f() );
-
         // necessary for now since just updating their geometry shows significant errors
+        // TODO: we fixed this!
         for ( BondNode bondNode : bondNodes ) {
             detachChild( bondNode );
         }
         bondNodes.clear();
         for ( PairGroup pair : molecule.getGroups() ) {
             if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, app.getAssetManager(), transformedPosition );
+                BondNode bondNode = new BondNode(
+                        new Property<ImmutableVector3D>( new ImmutableVector3D() ), // center position
+                        pair.position,
+                        pair.bondOrder,
+                        MoleculeShapesConstants.MODEL_BOND_RADIUS, // bond radius
+                        new Some<Float>( (float) PairGroup.BONDED_PAIR_DISTANCE ), // max length
+                        app,
+                        camera );
                 attachChild( bondNode );
                 bondNodes.add( bondNode );
             }
