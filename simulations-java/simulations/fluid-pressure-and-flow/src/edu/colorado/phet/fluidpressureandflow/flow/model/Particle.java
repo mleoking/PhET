@@ -49,7 +49,9 @@ public class Particle {
     }
 
     public void notifyRemoved() {
-        for ( SimpleObserver removalListener : removalListeners ) {
+
+        //Iterate on copy to avoid ConcurrentModificationException
+        for ( SimpleObserver removalListener : new ArrayList<SimpleObserver>( removalListeners ) ) {
             removalListener.update();
         }
     }
