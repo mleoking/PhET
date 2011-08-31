@@ -82,19 +82,22 @@ public class DnaMolecule {
                              new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene1TranscribedRegionSize ),
-                             new Color( 255, 165, 79, 150 ) ) );
+                             new Color( 255, 165, 79, 150 ),
+                             1 ) );
         startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
         genes.add( new Gene( this,
                              new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene2TranscribedRegionSize ),
-                             new Color( 240, 246, 143, 150 ) ) );
+                             new Color( 240, 246, 143, 150 ),
+                             2 ) );
         startIndex += DISTANCE_BETWEEN_GENES / DISTANCE_BETWEEN_BASE_PAIRS;
         genes.add( new Gene( this,
                              new IntegerRange( startIndex, startIndex + regRegionSize ),
                              new Color( 216, 191, 216 ),
                              new IntegerRange( startIndex + regRegionSize, startIndex + regRegionSize + gene3TranscribedRegionSize ),
-                             new Color( 205, 255, 112, 150 ) ) );
+                             new Color( 205, 255, 112, 150 ),
+                             3 ) );
     }
 
     /**

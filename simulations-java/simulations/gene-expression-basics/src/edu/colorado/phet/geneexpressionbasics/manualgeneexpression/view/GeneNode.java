@@ -12,7 +12,6 @@ import edu.colorado.phet.common.phetcommon.view.util.DoubleGeneralPath;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLNode;
 import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
-import edu.colorado.phet.geneexpressionbasics.common.model.PlacementHint;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.DnaMolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
 import edu.umd.cs.piccolo.PNode;
@@ -30,7 +29,7 @@ public class GeneNode extends PNode {
     private static final double BRACKET_DEPTH = 20;
     private static final double RECT_ROUNDING = 15;
 
-    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule, int geneNumber ) {
+    public GeneNode( final ModelViewTransform mvt, final Gene gene, DnaMolecule dnaMolecule ) {
         double highlightHeight = -mvt.modelToViewDeltaY( dnaMolecule.getDiameter() * 1.5 );
         double highlightStartY = mvt.modelToViewY( dnaMolecule.getLeftEdgePos().getY() ) - highlightHeight / 2;
 
@@ -62,13 +61,6 @@ public class GeneNode extends PNode {
         }};
         addChild( transcribedRegionCaption );
 
-        // Add the placement hints that indicate where other biomolecules can
-        // be placed.
-        for ( PlacementHint placementHint : gene.getPlacementHints() ) {
-            addChild( new PlacementHintNode( mvt, placementHint ) );
-        }
-
-
         // Add the bracket.  This is a portion (the non-textual part) of the
         // label for the gene.
         final DoubleGeneralPath bracketPath = new DoubleGeneralPath();
@@ -82,7 +74,7 @@ public class GeneNode extends PNode {
 
         // And the textual label for the gene.
         // TODO: i18n
-        addChild( new PText( "Gene " + geneNumber ) {{
+        addChild( new PText( "Gene " + gene.identifier ) {{
             setFont( GENE_LABEL_FONT );
             setOffset( bracketPath.getGeneralPath().getBounds2D().getCenterX() - getFullBoundsReference().width / 2,
                        bracketPath.getGeneralPath().getBounds2D().getMaxY() + 5 );

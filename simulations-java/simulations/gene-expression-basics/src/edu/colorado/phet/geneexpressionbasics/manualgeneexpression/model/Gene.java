@@ -34,6 +34,11 @@ public class Gene {
     private final AttachmentSite polymeraseAttachmentSite;
     private final AttachmentSite transcriptionFactorAttachmentSite;
 
+    // Each gene has an ID that is used for labeling it in the view and for
+    // determining which transcription factors are associated with it.
+    public final int identifier;
+
+    // Placement hints associated with this gene.
     private final PlacementHint rnaPolymerasePlacementHint;
     private final PlacementHint positiveTranscriptionFactorPlacementHint;
     private final PlacementHint negativeTranscriptionFactorPlacementHint;
@@ -51,25 +56,28 @@ public class Gene {
      * @param transcribedRegionColor
      */
     public Gene( DnaMolecule dnaMolecule, IntegerRange regulatoryRegion, Color regulatoryRegionColor,
-                 IntegerRange transcribedRegion, Color transcribedRegionColor ) {
+                 IntegerRange transcribedRegion, Color transcribedRegionColor, int identifier ) {
         this.dnaMolecule = dnaMolecule;
         this.regulatoryRegion = regulatoryRegion;
         this.regulatoryRegionColor = regulatoryRegionColor;
         this.transcribedRegion = transcribedRegion;
         this.transcribedRegionColor = transcribedRegionColor;
+        this.identifier = identifier;
 
         // Create the attachment sites for polymerase and transcription factors.
-        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), 1 );
+        polymeraseAttachmentSite = new AttachmentSite( new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex(
+                regulatoryRegion.getMax() ), DnaMolecule.Y_POS ), identifier );
         transcriptionFactorAttachmentSite = new AttachmentSite(
                 new Point2D.Double( dnaMolecule.getBasePairXOffsetByIndex( regulatoryRegion.getMin() + TRANSCRIPTION_FACTOR_LOCATION_OFFSET ),
                                     DnaMolecule.Y_POS ), 1 );
 
+        // Initialize the placement hints.
         rnaPolymerasePlacementHint = new PlacementHint( new RnaPolymerase() );
         rnaPolymerasePlacementHint.setPosition( polymeraseAttachmentSite.locationProperty.get() );
         positiveTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
-                new StubGeneExpressionModel(), 0, true, transcriptionFactorAttachmentSite.locationProperty.get() ) );
+                new StubGeneExpressionModel(), identifier, true, transcriptionFactorAttachmentSite.locationProperty.get() ) );
         negativeTranscriptionFactorPlacementHint = new PlacementHint( TranscriptionFactor.generateTranscriptionFactor(
-                new StubGeneExpressionModel(), 0, false, transcriptionFactorAttachmentSite.locationProperty.get() ) );
+                new StubGeneExpressionModel(), identifier, false, transcriptionFactorAttachmentSite.locationProperty.get() ) );
     }
 
     public Color getRegulatoryRegionColor() {

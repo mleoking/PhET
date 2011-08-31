@@ -36,12 +36,12 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * transcription factors used in this sim.
      */
     private static final List<TranscriptionFactorConfig> positiveTranscriptionFactorInfo = new ArrayList<TranscriptionFactorConfig>() {{
-        add( new TranscriptionFactorConfig( 0, BiomoleculeShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
-        add( new TranscriptionFactorConfig( 0, BiomoleculeShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
-        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
-        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
-        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) ) );
-        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta ) );
+        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 1000 ), true, Color.yellow ) );
+        add( new TranscriptionFactorConfig( 1, BiomoleculeShapeUtils.createRandomShape( SIZE, 2000 ), false, Color.red ) );
+        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 3000 ), true, Color.green ) );
+        add( new TranscriptionFactorConfig( 2, BiomoleculeShapeUtils.createRandomShape( SIZE, 4000 ), false, Color.pink ) );
+        add( new TranscriptionFactorConfig( 3, BiomoleculeShapeUtils.createRandomShape( SIZE, 57 ), true, new Color( 255, 127, 0 ) ) );
+        add( new TranscriptionFactorConfig( 3, BiomoleculeShapeUtils.createRandomShape( SIZE, 40 ), false, Color.magenta ) );
         // Default config used if no match found.
         add( new TranscriptionFactorConfig( Integer.MAX_VALUE, BiomoleculeShapeUtils.createRandomShape( SIZE, 123 ), false, Color.magenta ) );
     }};
@@ -92,15 +92,15 @@ public class TranscriptionFactor extends MobileBiomolecule {
      * factor for the specified gene and of the specified polarity (i.e.
      * positive or negative).
      *
-     * @param geneNumber
+     * @param geneID
      * @param positive
      * @param initialPosition
      * @return
      */
-    public static TranscriptionFactor generateTranscriptionFactor( GeneExpressionModel model, int geneNumber, boolean positive, Point2D initialPosition ) {
+    public static TranscriptionFactor generateTranscriptionFactor( GeneExpressionModel model, int geneID, boolean positive, Point2D initialPosition ) {
         TranscriptionFactorConfig config = null;
         for ( TranscriptionFactorConfig tfc : positiveTranscriptionFactorInfo ) {
-            if ( tfc.geneID == geneNumber && tfc.isPositive == positive ) {
+            if ( tfc.geneID == geneID && tfc.isPositive == positive ) {
                 // Matching configuration found.
                 config = tfc;
                 break;
