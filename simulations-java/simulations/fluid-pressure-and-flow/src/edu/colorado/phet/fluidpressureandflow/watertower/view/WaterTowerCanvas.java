@@ -5,9 +5,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
@@ -95,30 +92,8 @@ public class WaterTowerCanvas extends FluidPressureAndFlowCanvas<WaterTowerModel
         measuringTape = new FPAFMeasuringTape( transform, module.measuringTapeVisible, module.model.units );
         addChild( measuringTape );
 
-        Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
-            module.addListener( new Module.Listener() {
-                public void activated() {
-                    set( true );
-                }
-
-                public void deactivated() {
-                    set( false );
-                }
-            } );
-        }};
-
-        Property<Boolean> clockRunning = new Property<Boolean>( true );
-        //wire up the clock to be running if the module is active and if the clock control button has been pressed
-        new And( clockRunning, moduleActive ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    module.model.getClock().setRunning( get() );
-                }
-            } );
-        }};
-
-        //Add clock controls (play/pause), including a time speed slider (no time readout)
-        addChild( createClockControls( module, new Property<Boolean>( true ) ) );
+        //Add the floating clock controls and sim speed slider at the bottom of the screen
+        addClockControls( module );
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {

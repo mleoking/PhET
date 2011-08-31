@@ -5,9 +5,6 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import edu.colorado.phet.common.phetcommon.application.Module;
-import edu.colorado.phet.common.phetcommon.model.property.And;
-import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.controls.PropertyCheckBox;
@@ -114,30 +111,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( meterStick );
         addChild( englishRuler );
 
-        Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
-            module.addListener( new Module.Listener() {
-                public void activated() {
-                    set( true );
-                }
-
-                public void deactivated() {
-                    set( false );
-                }
-            } );
-        }};
-
-        final Property<Boolean> clockRunning = new Property<Boolean>( true );
-        //wire up the clock to be running if the module is active and if the clock control button has been pressed
-        new And( clockRunning, moduleActive ) {{
-            addObserver( new SimpleObserver() {
-                public void update() {
-                    model.getClock().setRunning( get() );
-                }
-            } );
-        }};
-
-        //Add clock controls (play/pause), including a time speed slider (no time readout)
-        addChild( createClockControls( module, clockRunning ) );
+        //Add the floating clock controls and sim speed slider at the bottom of the screen
+        addClockControls( module );
 
         //Add a control for viewing and changing the fluid flow rate
         addChild( new FluidPressureAndFlowControlPanelNode( new FluidFlowControl( module ) ) {{

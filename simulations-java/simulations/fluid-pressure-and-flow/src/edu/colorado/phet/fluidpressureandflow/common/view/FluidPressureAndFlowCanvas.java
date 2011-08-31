@@ -11,6 +11,7 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JComponent;
 import javax.swing.text.JTextComponent;
 
+import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
 import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
@@ -81,8 +83,35 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         }
     }
 
+    //Add the floating clock controls and sim speed slider at the bottom of the screen
+    protected void addClockControls( final FluidPressureAndFlowModule<?> module ) {
+
+        //Make sure the clock is only running when the associated module is active
+        Property<Boolean> moduleActive = new Property<Boolean>( false ) {{
+            module.addListener( new Module.Listener() {
+                public void activated() {
+                    set( true );
+                }
+
+                public void deactivated() {
+                    set( false );
+                }
+            } );
+        }};
+
+        //wire up the clock to be running if the module is active and if the clock control button has been pressed
+        module.model.clockRunning.and( moduleActive ).addObserver( new VoidFunction1<Boolean>() {
+            public void apply( Boolean run ) {
+                module.model.getClock().setRunning( run );
+            }
+        } );
+
+        //Add clock controls (play/pause), including a time speed slider (no time readout)
+        addChild( createClockControls( module, module.model.clockRunning ) );
+    }
+
     //Create clock controls (play/pause), including a time speed slider (no time readout)
-    protected HBox createClockControls( final FluidPressureAndFlowModule<T> module, final Property<Boolean> clockRunning ) {
+    protected HBox createClockControls( final FluidPressureAndFlowModule<?> module, final Property<Boolean> clockRunning ) {
         final Property<Double> dt = module.model.simulationTimeStep;
         return new HBox( 10,
                          //Set the time speed slider to go between 1/2 and 2x the default dt
