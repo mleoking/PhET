@@ -261,6 +261,8 @@ public class Pipe {
     }
 
     public void reset() {
+        flux.reset();
+        friction.reset();
         for ( CrossSection pipePosition : controlCrossSections ) {
             pipePosition.reset();
         }

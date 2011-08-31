@@ -50,4 +50,9 @@ public class FluxMeter {
     public ImmutableVector2D getBottom() {
         return pipe.getPoint( x.get(), 0 );
     }
+
+    public void reset() {
+        visible.reset();
+        x.reset();
+    }
 }
