@@ -64,19 +64,6 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
 
         final FluidFlowModel model = module.model;
 
-        addChild( new PipeFrontNode( transform, module.model.pipe ) );
-        for ( final Particle p : module.model.getParticles() ) {
-            addParticleNode( p );
-        }
-
-        //Add the front layer for the flux meter, so the particles will look like they go through the hoop
-        addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
-
-        //Show the draggable panel with readouts attached to the flux hoop
-        //Add one for each unit set, to be shown only when that unit set is selected by the user
-        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
-        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
-
         //When particle droplets are added, show graphics for them
         module.model.addParticleAddedObserver( new VoidFunction1<Particle>() {
             public void apply( Particle particle ) {
@@ -161,6 +148,20 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         for ( PressureSensor sensor : module.model.getPressureSensors() ) {
             addChild( new PressureSensorNode( transform, sensor, module.model.units ) );
         }
+
+        //Add pipe front after other controls so the drag handles can't get lost behind clock control panel and other control panels
+        addChild( new PipeFrontNode( transform, module.model.pipe ) );
+        for ( final Particle p : module.model.getParticles() ) {
+            addParticleNode( p );
+        }
+
+        //Add the front layer for the flux meter, so the particles will look like they go through the hoop
+        addChild( new FluxMeterHoopNode( transform, module.model.fluxMeter, true ) );
+
+        //Show the draggable panel with readouts attached to the flux hoop
+        //Add one for each unit set, to be shown only when that unit set is selected by the user
+        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, METRIC ) );
+        addChild( new FluxMeterPanelNode( transform, module.model.fluxMeter, model.units, ENGLISH ) );
 
         addVelocitySensorNodes( module.model );
     }

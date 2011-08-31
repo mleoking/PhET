@@ -1,3 +1,4 @@
+Fixed: Pipe drag handles can get lost behind clock control panel and other control panels
 Factored out a top level class for the faucet
 Switched to use faucet graphics from sugar-and-salt-solutions, see #3058
 Removed confirmation on reset all
