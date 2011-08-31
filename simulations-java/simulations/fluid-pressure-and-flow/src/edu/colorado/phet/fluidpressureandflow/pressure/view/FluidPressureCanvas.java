@@ -20,6 +20,8 @@ import edu.colorado.phet.fluidpressureandflow.pressure.model.FluidPressureModel;
 import edu.colorado.phet.fluidpressureandflow.pressure.model.Pool;
 
 /**
+ * Canvas for the "pressure" tab in FPAF.
+ *
  * @author Sam Reid
  */
 public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressureModel> {
@@ -45,7 +47,7 @@ public class FluidPressureCanvas extends FluidPressureAndFlowCanvas<FluidPressur
 
         //Add the draggable sensors in front of the control panels so they can't get lost behind the control panel
         for ( PressureSensor pressureSensor : module.model.getPressureSensors() ) {
-            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool() ) );
+            addChild( new PressureSensorNode( transform, pressureSensor, module.model.units, module.model.getPool(), visibleModelBounds ) );
         }
 
         //Some nodes go behind the pool so that it looks like they submerge
