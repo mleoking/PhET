@@ -8,6 +8,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.math.ImmutableVector2D;
 import edu.colorado.phet.common.phetcommon.view.util.ColorUtils;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachedState;
 import edu.colorado.phet.geneexpressionbasics.common.model.AttachmentSite;
@@ -27,8 +28,14 @@ public class RnaPolymerase extends MobileBiomolecule {
     // Class Data
     //-------------------------------------------------------------------------
 
+    // Overall size of the polymerase molecule.
     private static final double WIDTH = 340;   // picometers
     private static final double HEIGHT = 480;  // picometers
+
+    // Offset from the center of the molecule to the location where mRNA
+    // should emerge when transcription is occurring.  This is determined
+    // empirically, and may need to change if the shape is changed.
+    private static final ImmutableVector2D MESSENGER_RNA_GENERATION_OFFSET = new ImmutableVector2D( -WIDTH * 0.4, HEIGHT * 0.4 );
 
     // This the threshold for the affinity which triggers the polymerase to
     // start transcribing.  Not sure if this is a reasonable thing to do, or
@@ -91,7 +98,7 @@ public class RnaPolymerase extends MobileBiomolecule {
     @Override public BiomoleculeBehaviorState getAttachmentPointReachedState( AttachmentSite attachmentSite ) {
         if ( attachmentSite.getAffinity() > START_TRANSCRIPTION_THRESHOLD ) {
             // The attachment site is strong enough to trigger transcription.
-            return new TranscribingDnaState( this, attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ) );
+            return new TranscribingDnaState( this, attachmentSite, model.getDnaMolecule().getGeneAtLocation( attachmentSite.locationProperty.get() ), MESSENGER_RNA_GENERATION_OFFSET );
         }
         else {
             return new AttachedState( this, attachmentSite );
