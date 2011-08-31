@@ -1,3 +1,4 @@
+Mass Volume Relationships: Fixed: Wood blocks do not start out with the correct density in "same density" mode
 # 1.05.05 (55936) Aug 30, 2011
 Mass Volume Relationships: Added labels to the blocks in "same substance" mode
 # 1.05.04 (55790) Aug 25, 2011
