@@ -24,8 +24,6 @@ import com.jme3.scene.shape.Cylinder;
  */
 public class BondNode extends Node {
 
-    public static final float BOND_SEPARATION = 1.2f;
-
     private final Property<ImmutableVector3D> a;
     private final Property<ImmutableVector3D> b;
     private final int bondOrder;
@@ -83,15 +81,16 @@ public class BondNode extends Node {
 
         // compute offsets from the "central" bond position, for showing double and triple bonds
         final Vector3f[] offsets;
+        float bondSeparation = bondRadius * ( 12.0f / 5.0f );
         switch( bondOrder ) {
             case 1:
                 offsets = new Vector3f[] { new Vector3f() };
                 break;
             case 2:
-                offsets = new Vector3f[] { perpendicular.mult( BOND_SEPARATION / 2 ), perpendicular.mult( -BOND_SEPARATION / 2 ) };
+                offsets = new Vector3f[] { perpendicular.mult( bondSeparation / 2 ), perpendicular.mult( -bondSeparation / 2 ) };
                 break;
             case 3:
-                offsets = new Vector3f[] { new Vector3f(), perpendicular.mult( BOND_SEPARATION ), perpendicular.mult( -BOND_SEPARATION ) };
+                offsets = new Vector3f[] { new Vector3f(), perpendicular.mult( bondSeparation ), perpendicular.mult( -bondSeparation ) };
                 break;
             default:
                 throw new RuntimeException( "bad bond order: " + bondOrder );

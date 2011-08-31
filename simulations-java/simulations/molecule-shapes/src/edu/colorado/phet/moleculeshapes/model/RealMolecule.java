@@ -38,8 +38,16 @@ public class RealMolecule extends Molecule {
         return result;
     }
 
+    public static final RealMolecule CARBON_MONOXIDE = new RealMolecule( "CO", 1 ) {{
+        Atom3D a = new Atom3D( Element.O, new ImmutableVector3D( 0.528500, 0, 0 ) );
+        Atom3D b = new Atom3D( Element.C, new ImmutableVector3D( -0.528500, 0, 0 ) );
+
+        addAtom( a );
+        addAtom( b );
+        addBond( a, b, 3 );
+    }};
+
     public static final RealMolecule WATER = new RealMolecule( "H2O", 2 ) {{
-        // units in angstroms?
         Atom3D a = new Atom3D( Element.O, new ImmutableVector3D( 0, 0, 0 ) );
         Atom3D b = new Atom3D( Element.H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) );
         Atom3D c = new Atom3D( Element.H, new ImmutableVector3D( 0.606800, -0.238300, -0.716900 ) );
@@ -52,7 +60,7 @@ public class RealMolecule extends Molecule {
     }};
 
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
-            WATER
+            CARBON_MONOXIDE, WATER
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
