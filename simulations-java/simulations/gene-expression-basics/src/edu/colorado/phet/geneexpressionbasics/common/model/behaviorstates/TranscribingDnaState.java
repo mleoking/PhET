@@ -86,12 +86,7 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         }
         else {
             // The molecule has completed the entire transcription process.
-            // Release the transcribed molecule.
-            messengerRna.release();
-            // Release from the attachment site.
-            attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
-            // Make sure it is back to the nominal conformation.
-            biomolecule.changeConformation( 0 );
+            stopTranscription();
             // Detach and drift upwards.
             return new DetachingState( biomolecule, new ImmutableVector2D( 0, 1 ) );
         }
@@ -100,15 +95,22 @@ public class TranscribingDnaState extends BiomoleculeBehaviorState {
         return this;
     }
 
+    private void stopTranscription() {
+        // Release the transcribed molecule.
+        messengerRna.release();
+        // Release from the attachment site.
+        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        // Make sure it is back to the nominal conformation.
+        biomolecule.changeConformation( 0 );
+    }
+
     @Override public BiomoleculeBehaviorState considerAttachment( List<AttachmentSite> proposedAttachmentSites ) {
         // Does not consider other attachments while transcribing.
         return this;
     }
 
     @Override public BiomoleculeBehaviorState movedByUser() {
-        messengerRna.release();
-        biomolecule.changeConformation( 0 );
-        attachmentSite.attachedMolecule.set( new Option.None<MobileBiomolecule>() );
+        stopTranscription();
         return new UnattachedAndAvailableState( biomolecule );
     }
 }
