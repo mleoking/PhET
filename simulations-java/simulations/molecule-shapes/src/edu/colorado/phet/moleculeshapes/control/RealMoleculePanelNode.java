@@ -21,14 +21,14 @@ import edu.umd.cs.piccolo.util.PBounds;
 /**
  * Displays a 3D view for molecules that are "real" versions of the currently visible VSEPR model
  */
-public class RealMoleculeNode extends PNode {
+public class RealMoleculePanelNode extends PNode {
 
     private PNode child = null;
     private final MoleculeModel molecule;
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
     private PhetPPath background;
 
-    public RealMoleculeNode( MoleculeModel molecule ) {
+    public RealMoleculePanelNode( MoleculeModel molecule ) {
         this.molecule = molecule;
         // padding, and make sure we have the width
         background = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, SIZE ), new Color( 0.1f, 0.1f, 0.1f, 1f ) );
