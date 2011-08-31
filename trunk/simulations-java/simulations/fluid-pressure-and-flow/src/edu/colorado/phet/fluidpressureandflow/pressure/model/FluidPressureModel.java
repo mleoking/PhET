@@ -13,8 +13,12 @@ public class FluidPressureModel extends FluidPressureAndFlowModel {
 
     public FluidPressureModel() {
         super( UnitSet.ATMOSPHERES );
-        addPressureSensor( new PressureSensor( this, 1, 0 ) );
-        addPressureSensor( new PressureSensor( this, -4, 2 ) );//Show second pressure sensor at a y location that yields a different pressure value
+
+        //Show pressure partly submerged in the water, but at the top of the water
+        addPressureSensor( new PressureSensor( this, 0, 0 ) );
+
+        //Show second pressure sensor at a y location that yields a different pressure value
+        addPressureSensor( new PressureSensor( this, -4, 2 ) );
     }
 
     @Override
