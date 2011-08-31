@@ -1,6 +1,9 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.jme;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.colorado.phet.common.phetcommon.model.event.AbstractNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
@@ -19,16 +22,13 @@ import com.jme3.system.AppSettings;
 import com.jme3.system.Timer;
 
 /**
- * TODO rework
- * from SimpleApplication
+ * PhET-specific behavior needed instead of the generic SimpleApplication JME3 class.
+ * <p/>
+ * Has a "background" GUI in the back, a scene in the middle, and the main GUI in front.
  */
-public abstract class BaseJMEApplication extends Application {
+public abstract class PhetJMEApplication extends Application {
 
     public final Property<ColorRGBA> backgroundColor = new Property<ColorRGBA>( ColorRGBA.Black );
-
-    protected Node rootNode = new Node( "Root Node" );
-    protected Node guiNode = new Node( "Gui Node" );
-    protected Node preGuiNode = new Node( "Pre Gui Node" );
 
     // event notifier for the update loop
     public AbstractNotifier<VoidFunction0> updateNotifier = new AbstractNotifier<VoidFunction0>();
@@ -36,7 +36,14 @@ public abstract class BaseJMEApplication extends Application {
     // statistics that can be shown on the screen
     public JMEStatistics statistics = new JMEStatistics();
 
-    public BaseJMEApplication() {
+    private Node sceneNode = new Node( "Scene Node" );
+    private Node guiNode = new Node( "Gui Node" );
+    private Node backgroundGuiNode = new Node( "Background Gui Node" );
+
+    // nodes that will get updated every frame
+    private List<Node> liveNodes = new ArrayList<Node>();
+
+    public PhetJMEApplication() {
         super();
     }
 
@@ -57,23 +64,28 @@ public abstract class BaseJMEApplication extends Application {
         super.initialize();
 
         // setup a GUI behind the main scene
-        preGuiNode.setQueueBucket( Bucket.Gui );
-        preGuiNode.setCullHint( CullHint.Never );
-        Camera preGuiCam = new Camera( settings.getWidth(), settings.getHeight() );
-        final ViewPort preGuiViewPort = renderManager.createPreView( "Gui Background", preGuiCam );
-        preGuiViewPort.setClearFlags( true, true, true );
-        preGuiViewPort.attachScene( preGuiNode );
+        backgroundGuiNode.setQueueBucket( Bucket.Gui );
+        backgroundGuiNode.setCullHint( CullHint.Never );
+        Camera backgroundGuiCam = new Camera( settings.getWidth(), settings.getHeight() );
+        final ViewPort backgroundGuiViewPort = renderManager.createPreView( "Background GUI", backgroundGuiCam );
+        backgroundGuiViewPort.setClearFlags( true, true, true );
+        backgroundGuiViewPort.attachScene( backgroundGuiNode );
         backgroundColor.addObserver( new SimpleObserver() {
             public void update() {
-                preGuiViewPort.setBackgroundColor( backgroundColor.get() );
+                backgroundGuiViewPort.setBackgroundColor( backgroundColor.get() );
             }
         } );
+        liveNodes.add( backgroundGuiNode );
+
+        // make the "main" viewport not clear what is behind it
         viewPort.setClearFlags( false, true, true );
+        viewPort.attachScene( sceneNode );
+        liveNodes.add( sceneNode );
 
         guiNode.setQueueBucket( Bucket.Gui );
         guiNode.setCullHint( CullHint.Never );
-        viewPort.attachScene( rootNode );
         guiViewPort.attachScene( guiNode );
+        liveNodes.add( guiNode );
 
         statistics.initialize( this, guiNode );
 
@@ -88,7 +100,7 @@ public abstract class BaseJMEApplication extends Application {
 
     @Override
     public synchronized void update() {
-        super.update(); // makes sure to execute AppTasks
+        super.update(); // make sure to call this
         if ( speed == 0 || paused ) {
             return;
         }
@@ -106,12 +118,14 @@ public abstract class BaseJMEApplication extends Application {
 
         // simple update and root node
         simpleUpdate( tpf );
-        rootNode.updateLogicalState( tpf );
-        guiNode.updateLogicalState( tpf );
-        preGuiNode.updateLogicalState( tpf );
-        rootNode.updateGeometricState();
-        guiNode.updateGeometricState();
-        preGuiNode.updateGeometricState();
+
+        for ( Node node : liveNodes ) {
+            node.updateLogicalState( tpf );
+        }
+
+        for ( Node node : liveNodes ) {
+            node.updateGeometricState();
+        }
 
         // render states
         stateManager.render( renderManager );
@@ -120,6 +134,26 @@ public abstract class BaseJMEApplication extends Application {
         }
         simpleRender( renderManager );
         stateManager.postRender();
+    }
+
+    public Node getSceneNode() {
+        return sceneNode;
+    }
+
+    public Node getGuiNode() {
+        return guiNode;
+    }
+
+    public Node getBackgroundGuiNode() {
+        return backgroundGuiNode;
+    }
+
+    public void addLiveNode( Node node ) {
+        liveNodes.add( node );
+    }
+
+    public void removeLiveNode( Node node ) {
+        liveNodes.remove( node );
     }
 
     public void simpleUpdate( float tpf ) {

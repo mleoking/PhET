@@ -9,6 +9,9 @@ import com.jme3.font.BitmapText;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial.CullHint;
 
+/**
+ * Adds the ability to show statistics to any JME application, on a particular container node
+ */
 public class JMEStatistics {
 
     protected float secondCounter = 0.0f;
@@ -17,9 +20,9 @@ public class JMEStatistics {
     protected StatsView statsView;
     private boolean showFps;
 
-    private BaseJMEApplication application;
+    private PhetJMEApplication application;
 
-    public void initialize( BaseJMEApplication application, Node containerNode ) {
+    public void initialize( PhetJMEApplication application, Node containerNode ) {
         this.application = application;
 
         // load FPS

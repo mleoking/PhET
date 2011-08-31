@@ -20,7 +20,7 @@ import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
 import edu.colorado.phet.moleculeshapes.jme.Arc;
-import edu.colorado.phet.moleculeshapes.jme.BaseJMEApplication;
+import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
@@ -82,7 +82,7 @@ import com.jme3.system.JmeCanvasContext;
  * at com.jme3.system.lwjgl.LwjglAbstractDisplay.run(LwjglAbstractDisplay.java:218)
  * at java.lang.Thread.run(Thread.java:662)
  */
-public class MoleculeJMEApplication extends BaseJMEApplication {
+public class MoleculeJMEApplication extends PhetJMEApplication {
 
     /*---------------------------------------------------------------------------*
     * input mapping constants
@@ -158,7 +158,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         initializeResources();
 
         // add an offset to the left, since we have a control panel on the right
-        rootNode.setLocalTranslation( new Vector3f( -4.5f, 1.5f, 0 ) );
+        getSceneNode().setLocalTranslation( new Vector3f( -4.5f, 1.5f, 0 ) );
 
         // hook up mouse-move handlers
         inputManager.addMapping( MoleculeJMEApplication.MAP_LEFT, new MouseAxisTrigger( MouseInput.AXIS_X, true ) );
@@ -265,7 +265,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
         moleculeNode = new Node();
-        rootNode.attachChild( moleculeNode );
+        getSceneNode().attachChild( moleculeNode );
 
         // update the UI when the molecule changes electron pairs
         molecule.addListener( new Listener() {
@@ -327,12 +327,12 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         DirectionalLight sun = new DirectionalLight();
         sun.setDirection( new Vector3f( 1, -0.5f, -2 ).normalizeLocal() );
         sun.setColor( new ColorRGBA( 0.8f, 0.8f, 0.8f, 1f ) );
-        rootNode.addLight( sun );
+        getSceneNode().addLight( sun );
 
         DirectionalLight moon = new DirectionalLight();
         moon.setDirection( new Vector3f( -2, 1, -1 ).normalizeLocal() );
         moon.setColor( new ColorRGBA( 0.6f, 0.6f, 0.6f, 1f ) );
-        rootNode.addLight( moon );
+        getSceneNode().addLight( moon );
 
         /*---------------------------------------------------------------------------*
         * camera
@@ -350,19 +350,19 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                 }
             } );
         }}, assetManager, inputManager );
-        preGuiNode.attachChild( resetAllNode );
+        getBackgroundGuiNode().attachChild( resetAllNode );
 
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
         controlPanel = new PiccoloJMENode( new MoleculeShapesControlPanel( this ), assetManager, inputManager );
-        preGuiNode.attachChild( controlPanel );
+        getBackgroundGuiNode().attachChild( controlPanel );
 
         namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, assetManager, inputManager );
-        preGuiNode.attachChild( namePanel );
+        getBackgroundGuiNode().attachChild( namePanel );
     }
 
     private void updateCursor() {
@@ -480,7 +480,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
         Vector3f dir = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 1f ).subtractLocal( click3d );
         Ray ray = new Ray( click3d, dir );
-        rootNode.collideWith( ray, results );
+        getSceneNode().collideWith( ray, results );
         for ( CollisionResult result : results ) {
             PairGroup pair = getElectronPairForTarget( result.getGeometry() );
             if ( pair != null ) {
@@ -493,7 +493,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
     public Component getComponentUnderPointer( int x, int y ) {
         CollisionResults results = new CollisionResults();
         Vector2f click2d = inputManager.getCursorPosition();
-        preGuiNode.collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
+        getBackgroundGuiNode().collideWith( new Ray( new Vector3f( click2d.x, click2d.y, 0f ), new Vector3f( 0, 0, 1 ) ), results );
         for ( CollisionResult result : results ) {
 
             Geometry geometry = result.getGeometry();
@@ -642,7 +642,7 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
                     }}, assetManager, inputManager ) {{
                         setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
                     }};
-                    guiNode.attachChild( label );
+                    getGuiNode().attachChild( label );
                     angleNodes.add( label );
                 }
             }
