@@ -4,11 +4,8 @@ package edu.colorado.phet.moleculeshapes.jme;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.colorado.phet.common.phetcommon.model.event.AbstractNotifier;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 
 import com.jme3.app.Application;
 import com.jme3.math.ColorRGBA;
@@ -30,8 +27,7 @@ public abstract class PhetJMEApplication extends Application {
 
     public final Property<ColorRGBA> backgroundColor = new Property<ColorRGBA>( ColorRGBA.Black );
 
-    // event notifier for the update loop
-    public AbstractNotifier<VoidFunction0> updateNotifier = new AbstractNotifier<VoidFunction0>();
+    private List<SimpleObserver> updateObservers = new ArrayList<SimpleObserver>();
 
     // statistics that can be shown on the screen
     public JMEStatistics statistics = new JMEStatistics();
@@ -107,17 +103,15 @@ public abstract class PhetJMEApplication extends Application {
 
         float tpf = timer.getTimePerFrame() * speed;
 
-        updateNotifier.updateListeners( new VoidFunction1<VoidFunction0>() {
-            public void apply( VoidFunction0 fun ) {
-                fun.apply();
-            }
-        } );
-
         // update states
         stateManager.update( tpf );
 
         // simple update and root node
-        simpleUpdate( tpf );
+        updateState( tpf );
+
+        for ( SimpleObserver observer : updateObservers ) {
+            observer.update();
+        }
 
         for ( Node node : liveNodes ) {
             node.updateLogicalState( tpf );
@@ -156,7 +150,15 @@ public abstract class PhetJMEApplication extends Application {
         liveNodes.remove( node );
     }
 
-    public void simpleUpdate( float tpf ) {
+    public void addUpdateObserver( SimpleObserver observer ) {
+        updateObservers.add( observer );
+    }
+
+    public void removeUpdateObserver( SimpleObserver observer ) {
+        updateObservers.remove( observer );
+    }
+
+    public void updateState( float tpf ) {
     }
 
     public void simpleRender( RenderManager rm ) {
