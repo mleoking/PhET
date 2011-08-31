@@ -26,6 +26,7 @@ import edu.colorado.phet.fluidpressureandflow.pressure.view.FluidPressureControl
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
+import static edu.colorado.phet.fluidpressureandflow.FluidPressureAndFlowResources.Strings.DOTS;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.ENGLISH;
 import static edu.colorado.phet.fluidpressureandflow.common.model.units.UnitSet.METRIC;
 
@@ -74,8 +75,8 @@ public class FluidFlowCanvas extends FluidPressureAndFlowCanvas<FluidFlowModel> 
         addChild( dropperNode );
 
         //Show a checkbox that enabled/disables adding dots to the fluid
-        addChild( new PSwing( new PropertyCheckBox( "Dots", model.dropperEnabled ) {{
-            setFont( FluidPressureCanvas.CONTROL_FONT );
+        addChild( new PSwing( new PropertyCheckBox( DOTS, model.dropperEnabled ) {{
+            setFont( CONTROL_FONT );
             setBackground( new Color( 0, 0, 0, 0 ) );
         }} ) {{
             setOffset( dropperNode.getFullBounds().getMaxX(), dropperNode.getFullBounds().getCenterY() - getFullBounds().getHeight() / 2 );

@@ -17,11 +17,14 @@ public class FluidPressureAndFlowResources {
     public static class Strings {
         public static final String ATM = RESOURCES.getLocalizedString( "atm" );
         public static final String ATMOSPHERES = RESOURCES.getLocalizedString( "atmospheres" );
+        public static final String DOTS = RESOURCES.getLocalizedString( "dots" );
         public static final String ENGLISH = RESOURCES.getLocalizedString( "english" );
         public static final String FEET = RESOURCES.getLocalizedString( "feet" );
         public static final String FEET_FT = RESOURCES.getLocalizedString( "feetFt" );
         public static final String FLOW = RESOURCES.getLocalizedString( "flow" );
         public static final String FLUID_DENSITY = RESOURCES.getLocalizedString( "fluidDensity" );
+        public static final String FLUX_METER = RESOURCES.getLocalizedString( "fluxMeter" );
+        public static final String FRICTION = RESOURCES.getLocalizedString( "friction" );
         public static final String FT = RESOURCES.getLocalizedString( "ft" );
         public static final String FT_PER_S = RESOURCES.getLocalizedString( "ftPerS" );
         public static final String GASOLINE = RESOURCES.getLocalizedString( "gasoline" );
@@ -61,7 +64,6 @@ public class FluidPressureAndFlowResources {
     public static class Images {
         public static final BufferedImage BUTTON_PRESSED = RESOURCES.getImage( "button_pressed.png" );
         public static final BufferedImage BUTTON_UNPRESSED = RESOURCES.getImage( "button_unpressed.png" );
-        public static final BufferedImage FAUCET = RESOURCES.getImage( "faucet.png" );
         public static final BufferedImage HANDLE = RESOURCES.getImage( "handle.png" );
         public static final BufferedImage HANDLE_T = RESOURCES.getImage( "handle_T.png" );
         public static final BufferedImage PANEL = RESOURCES.getImage( "panel.png" );
