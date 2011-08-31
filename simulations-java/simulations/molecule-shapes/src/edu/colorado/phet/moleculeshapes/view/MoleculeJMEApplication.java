@@ -533,8 +533,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     @Override public void handleError( String errMsg, Throwable t ) {
         super.handleError( errMsg, t );
         if ( errMsg.equals( "Failed to initialize OpenGL context" ) ) {
-            // TODO: improve the message
-            PhetOptionPane.showMessageDialog( parentFrame, "Please upgrade your video card's drivers" );
+            PhetOptionPane.showMessageDialog( parentFrame, "The simulation was unable to start.\nUpgrading your video card's drivers may fix the problem." );
         }
     }
 }
