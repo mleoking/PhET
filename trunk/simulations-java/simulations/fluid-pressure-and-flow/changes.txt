@@ -1,3 +1,4 @@
+Fixed: Reset all should restore the sim-speed slider value
 Fixed: Play/pause buttons should reset
 Fixed: Sim should be running, not paused after reset
 Flow: Fixed: Flux doesn't reset
