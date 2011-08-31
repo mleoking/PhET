@@ -1,6 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.geneexpressionbasics.manualgeneexpression.view;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTra
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.piccolophet.PhetPCanvas;
 import edu.colorado.phet.common.piccolophet.nodes.HTMLImageButtonNode;
+import edu.colorado.phet.common.piccolophet.nodes.PhetPPath;
 import edu.colorado.phet.common.piccolophet.nodes.ResetAllButtonNode;
 import edu.colorado.phet.geneexpressionbasics.common.model.MobileBiomolecule;
 import edu.colorado.phet.geneexpressionbasics.manualgeneexpression.model.Gene;
@@ -167,6 +169,15 @@ public class ManualGeneExpressionCanvas extends PhetPCanvas implements Resettabl
 
         //Uncomment this line to add zoom on right mouse click drag
         addInputEventListener( getZoomEventHandler() );
+
+        // TODO: Temp - add indication of the motion bounds.
+        final PhetPPath motionBoundsIndicator = new PhetPPath( new BasicStroke( 2 ), Color.RED );
+        modelRootNode.addChild( motionBoundsIndicator );
+        model.activeGene.addObserver( new VoidFunction1<Gene>() {
+            public void apply( Gene gene ) {
+                motionBoundsIndicator.setPathTo( mvt.modelToView( model.getBoundsForActiveGene().getBounds() ) );
+            }
+        } );
     }
 
     public ImmutableVector2D getViewportOffset() {

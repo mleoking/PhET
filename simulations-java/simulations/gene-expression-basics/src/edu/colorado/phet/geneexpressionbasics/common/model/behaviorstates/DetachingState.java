@@ -42,7 +42,7 @@ public class DetachingState extends BiomoleculeBehaviorState {
      */
     public DetachingState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
-        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBounds() );
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBoundsProperty() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {

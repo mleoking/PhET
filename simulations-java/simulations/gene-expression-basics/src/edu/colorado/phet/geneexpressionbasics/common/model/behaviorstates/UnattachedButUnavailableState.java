@@ -24,7 +24,7 @@ public class UnattachedButUnavailableState extends BiomoleculeBehaviorState {
 
     protected UnattachedButUnavailableState( MobileBiomolecule biomolecule ) {
         super( biomolecule );
-        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBounds() );
+        motionStrategy = new RandomWalkMotionStrategy( biomolecule.getMotionBoundsProperty() );
     }
 
     @Override public BiomoleculeBehaviorState stepInTime( double dt ) {
