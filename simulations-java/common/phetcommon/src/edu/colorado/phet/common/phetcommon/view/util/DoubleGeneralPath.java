@@ -74,12 +74,22 @@ public class DoubleGeneralPath {
         moveTo( cur.getX() + dx, cur.getY() + dy );
     }
 
+    //Quad through the control point to the target point, convenience method
+    public void quadTo( ImmutableVector2D controlPoint, ImmutableVector2D target ) {
+        quadTo( controlPoint.getX(), controlPoint.getY(), target.getX(), target.getY() );
+    }
+
     public void quadTo( double x1, double y1, double x2, double y2 ) {
         path.quadTo( (float) x1, (float) y1, (float) x2, (float) y2 );
     }
 
     public void curveTo( double x1, double y1, double x2, double y2, double x3, double y3 ) {
         path.curveTo( (float) x1, (float) y1, (float) x2, (float) y2, (float) x3, (float) y3 );
+    }
+
+    //Bezier curve through the 2 control points to the target point, convenience method
+    public void curveTo( ImmutableVector2D controlPoint1, ImmutableVector2D controlPoint2, ImmutableVector2D targetPoint ) {
+        curveTo( controlPoint1.getX(), controlPoint1.getY(), controlPoint2.getX(), controlPoint2.getY(), targetPoint.getX(), targetPoint.getY() );
     }
 
     public void lineTo( double x, double y ) {
