@@ -1,68 +1,88 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.model;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+
+import edu.colorado.phet.chemistry.model.Element;
+import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 
 /**
  * Represents a "real" molecule with exact positions, as opposed to a molecule model (which is VSEPR-based
  * and doesn't include other information).
  * <p/>
  * We display these real molecules to the user in 3D
+ * TODO: consider making into a generic version for other sims
  */
-public class RealMolecule {
-    private String name;
-    private String data;
+public class RealMolecule extends Molecule {
 
-    public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
-        // TODO: implement
-        return Arrays.asList( WATER, ETHANE );
-    }
+    private final String displayName;
+    private final int lonePairCount;
 
-    private RealMolecule( String name, String data ) {
-        this.name = name;
-        this.data = data;
+    private RealMolecule( String displayName, int lonePairCount ) {
+        this.displayName = displayName;
+        this.lonePairCount = lonePairCount;
     }
 
     public String getDisplayName() {
-        return name;
+        return displayName;
     }
 
-    public static final RealMolecule WATER = new RealMolecule( "Water", "<?xml version=\"1.0\"?>\n" +
-                                                                        "<molecule id=\"id962\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
-                                                                        " <name>962</name>\n" +
-                                                                        " <atomArray>\n" +
-                                                                        "  <atom id=\"a1\" elementType=\"O\" x3=\"0.000000\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-                                                                        "  <atom id=\"a2\" elementType=\"H\" x3=\"0.277400\" y3=\"0.892900\" z3=\"0.254400\"/>\n" +
-                                                                        "  <atom id=\"a3\" elementType=\"H\" x3=\"0.606800\" y3=\"-0.238300\" z3=\"-0.716900\"/>\n" +
-                                                                        " </atomArray>\n" +
-                                                                        " <bondArray>\n" +
-                                                                        "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
-                                                                        "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
-                                                                        " </bondArray>\n" +
-                                                                        "</molecule>" );
+    public int countBondsOfOrder( int order ) {
+        int result = 0;
+        for ( Bond<Atom3D> bond : getBonds() ) {
+            if ( bond.order == order ) {
+                result += 1;
+            }
+        }
+        return result;
+    }
 
-    public static final RealMolecule ETHANE = new RealMolecule( "Ethane", "<?xml version=\"1.0\"?>\n" +
-                                                                          "<molecule id=\"id6324\" xmlns=\"http://www.xml-cml.org/schema\">\n" +
-                                                                          " <name>6324</name>\n" +
-                                                                          " <atomArray>\n" +
-                                                                          "  <atom id=\"a1\" elementType=\"C\" x3=\"-0.756000\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-                                                                          "  <atom id=\"a2\" elementType=\"C\" x3=\"0.756000\" y3=\"0.000000\" z3=\"0.000000\"/>\n" +
-                                                                          "  <atom id=\"a3\" elementType=\"H\" x3=\"-1.140400\" y3=\"0.658600\" z3=\"0.784500\"/>\n" +
-                                                                          "  <atom id=\"a4\" elementType=\"H\" x3=\"-1.140400\" y3=\"0.350100\" z3=\"-0.962600\"/>\n" +
-                                                                          "  <atom id=\"a5\" elementType=\"H\" x3=\"-1.140500\" y3=\"-1.008700\" z3=\"0.178100\"/>\n" +
-                                                                          "  <atom id=\"a6\" elementType=\"H\" x3=\"1.140400\" y3=\"-0.350100\" z3=\"0.962600\"/>\n" +
-                                                                          "  <atom id=\"a7\" elementType=\"H\" x3=\"1.140500\" y3=\"1.008700\" z3=\"-0.178100\"/>\n" +
-                                                                          "  <atom id=\"a8\" elementType=\"H\" x3=\"1.140400\" y3=\"-0.658600\" z3=\"-0.784500\"/>\n" +
-                                                                          " </atomArray>\n" +
-                                                                          " <bondArray>\n" +
-                                                                          "  <bond atomRefs2=\"a1 a2\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a1 a3\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a1 a4\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a1 a5\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a2 a6\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a2 a7\" order=\"1\"/>\n" +
-                                                                          "  <bond atomRefs2=\"a2 a8\" order=\"1\"/>\n" +
-                                                                          " </bondArray>\n" +
-                                                                          "</molecule>" );
+    public static final RealMolecule WATER = new RealMolecule( "Water", 2 ) {{
+        Atom3D a = new Atom3D( Element.O, new ImmutableVector3D( 0, 0, 0 ) );
+        Atom3D b = new Atom3D( Element.H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) );
+        Atom3D c = new Atom3D( Element.H, new ImmutableVector3D( 0.606800, -0.238300, -0.716900 ) );
+
+        addAtom( a );
+        addAtom( b );
+        addAtom( c );
+        addBond( a, b, 1 );
+        addBond( a, c, 1 );
+    }};
+
+    private static final RealMolecule[] MOLECULES = new RealMolecule[] {
+            WATER
+    };
+
+    public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
+        List<RealMolecule> result = new ArrayList<RealMolecule>();
+
+        int lonePairs = model.getLonePairs().size();
+        int singleBonds = 0;
+        int doubleBonds = 0;
+        int tripleBonds = 0;
+        for ( PairGroup group : model.getBondedGroups() ) {
+            switch( group.bondOrder ) {
+                case 1:
+                    singleBonds += 1;
+                    break;
+                case 2:
+                    doubleBonds += 1;
+                    break;
+                case 3:
+                    tripleBonds += 1;
+                    break;
+            }
+        }
+
+        for ( RealMolecule molecule : MOLECULES ) {
+            if ( lonePairs == molecule.lonePairCount
+                 && singleBonds == molecule.countBondsOfOrder( 1 )
+                 && doubleBonds == molecule.countBondsOfOrder( 2 )
+                 && tripleBonds == molecule.countBondsOfOrder( 3 ) ) {
+                result.add( molecule );
+            }
+        }
+        return result;
+    }
 }
