@@ -86,10 +86,12 @@ public class MessengerRna extends MobileBiomolecule {
         if ( shapeDefiningPoints.size() > 0 ) {
             Point2D lastPoint = shapeDefiningPoints.get( shapeDefiningPoints.size() - 1 );
             double growthAmount = lastPoint.distance( p );
-            // Cause all existing points to "drift".
+            // Cause all existing points to "drift" so that this doesn't just
+            // create a straight line.
             ImmutableVector2D driftVector = driftWhileGrowingVector.getScaledInstance( growthAmount );
 //            ImmutableVector2D randomizationVector = new ImmutableVector2D( 1, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-            ImmutableVector2D randomizationVector = new ImmutableVector2D( 0, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+            ImmutableVector2D randomizationVector = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS * 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+//            ImmutableVector2D randomizationVector = new ImmutableVector2D( 0, 0 ).getScaledInstance( growthAmount ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
             for ( Point2D point : shapeDefiningPoints ) {
                 point.setLocation( point.getX() + driftVector.getX() + randomizationVector.getX(),
                                    point.getY() + driftVector.getY() + randomizationVector.getY() );
@@ -104,11 +106,12 @@ public class MessengerRna extends MobileBiomolecule {
                     shapeDefiningPoints.remove( lastPoint );
                 }
                 else {
-                    // Add a random offset to this point in order to make the
-                    // mRNA a bit curvy.
-                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
-                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
-                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
+                    // Add a random offset to the second-to-last point, which
+                    // is far enough away to keep.  This is done in order to
+                    // make the shape of the mRNA a bit curvy.
+//                    ImmutableVector2D randomizationVector2 = new ImmutableVector2D( 1, 0 ).getScaledInstance( MIN_DISTANCE_BETWEEN_POINTS / 2 ).getRotatedInstance( RAND.nextDouble() * Math.PI * 2 );
+//                    secondToLastPoint.setLocation( secondToLastPoint.getX() + driftVector.getX() + randomizationVector2.getX(),
+//                                                   secondToLastPoint.getY() + driftVector.getY() + randomizationVector2.getY() );
                 }
             }
         }
