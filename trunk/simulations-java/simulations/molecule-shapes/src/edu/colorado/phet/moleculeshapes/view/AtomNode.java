@@ -3,13 +3,17 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
+import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.moleculeshapes.MoleculeShapesConstants;
+import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
+import edu.colorado.phet.moleculeshapes.model.Atom3D;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
@@ -23,21 +27,53 @@ public class AtomNode extends Geometry {
     public final Property<ImmutableVector3D> position; // position property
 
     /**
+     * Construct an AtomNode for use within the VSEPR Model view
+     *
      * @param pairOption   An electron pair if applicable. If no pair is given, it is ASSUMED to be the center atom, and is colored differently
      * @param assetManager Asset manager
      */
     public AtomNode( Option<PairGroup> pairOption, AssetManager assetManager ) {
-        super( "Atom", new Sphere( 32, 32, 2f ) {{
+        this(
+                // if position exists, use it. Otherwise, assume the origin
+                pairOption.isSome() ? pairOption.get().position : new Property<ImmutableVector3D>( new ImmutableVector3D() ),
+                pairOption,
+
+                // change color based on whether we have an assocated pair group
+                pairOption.isSome() ? MoleculeShapesConstants.COLOR_ATOM : MoleculeShapesConstants.COLOR_ATOM_CENTER,
+                MoleculeShapesConstants.MODEL_ATOM_RADIUS,
+                assetManager );
+    }
+
+    /**
+     * Construct an AtomNode for use within a general real 3D molecule view
+     *
+     * @param atom         The atom to show
+     * @param fixedRadius  Whether to show a fixed radius, or to have it depend on the atomic radius
+     * @param assetManager Asset manager
+     */
+    public AtomNode( Atom3D atom, boolean fixedRadius, AssetManager assetManager ) {
+        this(
+                atom.position,
+                new None<PairGroup>(),
+                JmeUtils.convertColor( atom.getColor() ),
+
+                // use either a fixed radius, or the atomic radius
+                fixedRadius ? MoleculeShapesConstants.MOLECULE_ATOM_RADIUS : (float) ( atom.getRadius() / 100 ), // 100x is picometer=>angstrom
+                assetManager );
+    }
+
+    public AtomNode( final Property<ImmutableVector3D> position, Option<PairGroup> pairOption, final ColorRGBA color, float radius, AssetManager assetManager ) {
+        super( "Atom", new Sphere( 32, 32, radius ) {{
             setTextureMode( Sphere.TextureMode.Projected ); // better quality on spheres
             TangentBinormalGenerator.generate( this );           // for lighting effect
         }} );
         this.pair = pairOption.isSome() ? pairOption.get() : null;
-        this.position = pairOption.isSome() ? pairOption.get().position : new Property<ImmutableVector3D>( new ImmutableVector3D() );
+        this.position = position;
 
         setMaterial( new Material( assetManager, "Common/MatDefs/Light/Lighting.j3md" ) {{
             setBoolean( "UseMaterialColors", true );
 
-            setColor( "Diffuse", pair != null ? MoleculeShapesConstants.COLOR_ATOM : MoleculeShapesConstants.COLOR_ATOM_CENTER );
+            setColor( "Diffuse", color );
             setFloat( "Shininess", 1f ); // [0,128]
         }} );
 
@@ -47,7 +83,5 @@ public class AtomNode extends Geometry {
                 setLocalTranslation( (float) position.get().getX(), (float) position.get().getY(), (float) position.get().getZ() );
             }
         } );
-
-        //rotate( 1.6f, 0, 0 );
     }
 }

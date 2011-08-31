@@ -40,6 +40,7 @@ public class MoleculeModelNode extends Node {
     private List<Spatial> angleNodes = new ArrayList<Spatial>();
 
     public MoleculeModelNode( final MoleculeModel molecule, final MoleculeJMEApplication app, final Camera camera ) {
+        super( "Molecule Model" );
         this.molecule = molecule;
         this.app = app;
         this.camera = camera;

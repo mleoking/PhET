@@ -8,7 +8,6 @@ import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
-import edu.colorado.phet.moleculeshapes.model.PairGroup;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;

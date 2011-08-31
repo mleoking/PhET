@@ -14,6 +14,7 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
+import edu.colorado.phet.moleculeshapes.control.RealMoleculeOverlayNode;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
@@ -56,6 +57,7 @@ import com.jme3.system.JmeCanvasContext;
  * TODO: collision-lab-like button unpress failures?
  * TODO: with 6 triple bonds, damping can become an issue? can cause one to fly out of range!!!
  * TODO: potential listener leak with bond angles
+ * TODO: electron geometry name repaint issue - check threading and repaint()
  * <p/>
  * NOTES:
  * TODO: it's weird to drag out an invisible lone pair
@@ -268,9 +270,27 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
 
         /*---------------------------------------------------------------------------*
-        * control panel
+        * real molecule overlay
         *----------------------------------------------------------------------------*/
 
+        Node overlayNode = new Node( "Overlay" );
+
+        overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
+
+        final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
+        overlayViewport.attachScene( overlayNode );
+        addLiveNode( overlayNode );
+
+        RealMoleculeOverlayNode realMoleculeOverlayNode = new RealMoleculeOverlayNode( this, overlayCamera );
+        overlayNode.attachChild( realMoleculeOverlayNode );
+
+        addLighting( overlayNode );
+
+        /*---------------------------------------------------------------------------*
+        * reset button
+        *----------------------------------------------------------------------------*/
+
+        // TODO: i18n (and reset behavior)
         resetAllNode = new PiccoloJMENode( new TextButtonNode( "Reset", new PhetFont( 16 ), Color.ORANGE ) {{
             addActionListener( new java.awt.event.ActionListener() {
                 public void actionPerformed( ActionEvent e ) {
@@ -283,33 +303,18 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
-        controlPanelNode = new MoleculeShapesControlPanel( this );
+        controlPanelNode = new MoleculeShapesControlPanel( this, realMoleculeOverlayNode );
         controlPanel = new PiccoloJMENode( controlPanelNode, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( controlPanel );
 
+        /*---------------------------------------------------------------------------*
+        * "geometry name" panel
+        *----------------------------------------------------------------------------*/
         namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
             // TODO fix (temporary offset since PiccoloJMENode isn't checking the "origin")
             setOffset( 0, 10 );
         }}, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( namePanel );
-
-        /*---------------------------------------------------------------------------*
-        * overlay
-        *----------------------------------------------------------------------------*/
-
-        Node overlayNode = new Node( "Overlay" );
-
-        overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
-
-        final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
-        overlayViewport.attachScene( overlayNode );
-        addLiveNode( overlayNode );
-
-        overlayNode.attachChild( new MoleculeModelNode( molecule, this, overlayCamera ) {{
-            scale( 1.2f );
-        }} );
-
-        addLighting( overlayNode );
     }
 
     private static void addLighting( Node node ) {
