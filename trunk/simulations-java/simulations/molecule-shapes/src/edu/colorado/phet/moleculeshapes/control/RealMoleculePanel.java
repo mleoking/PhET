@@ -20,5 +20,7 @@ public class RealMoleculePanel extends JPanel {
              }}, BorderLayout.CENTER );
 
         setBorder( new EmptyBorder( 0, 0, 0, 0 ) );
+
+        setOpaque( false );
     }
 }

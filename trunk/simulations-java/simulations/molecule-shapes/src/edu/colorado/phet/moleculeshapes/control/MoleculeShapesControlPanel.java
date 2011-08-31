@@ -158,7 +158,7 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * experimental Jmol panel
         *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode jmolPanel = new MoleculeShapesPanelNode( new RealMoleculeNode(), "Real Molecules" ) {{
+        final MoleculeShapesPanelNode jmolPanel = new MoleculeShapesPanelNode( new RealMoleculeNode( app.getMolecule() ), "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
         addChild( jmolPanel );
