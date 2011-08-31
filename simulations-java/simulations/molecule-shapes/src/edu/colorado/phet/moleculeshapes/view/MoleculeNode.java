@@ -26,7 +26,8 @@ public class MoleculeNode extends Node {
         super( "Molecule" );
 
         for ( Atom3D atom : molecule.getAtoms() ) {
-            AtomNode atomNode = new AtomNode( atom, true, app.getAssetManager() );
+            // TODO: change spacefill and ball-and-stick here
+            AtomNode atomNode = new AtomNode( atom, false, app.getAssetManager() );
             atomNodes.add( atomNode );
             attachChild( atomNode );
 
