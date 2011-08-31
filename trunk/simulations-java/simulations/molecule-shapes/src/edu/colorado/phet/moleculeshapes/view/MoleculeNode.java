@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -45,47 +46,65 @@ public class MoleculeNode extends Node {
         // update the UI when the molecule changes electron pairs
         molecule.addListener( new Listener() {
             public void onGroupAdded( PairGroup group ) {
-                if ( group.isLonePair ) {
-                    LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
-                    lonePairNodes.add( lonePairNode );
-                    attachChild( lonePairNode );
-                }
-                else {
-                    AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
-                    atomNodes.add( atomNode );
-                    attachChild( atomNode );
-                    rebuildBonds();
-                    rebuildAngles();
-                }
+                addGroup( group );
             }
 
             public void onGroupRemoved( PairGroup group ) {
-                if ( group.isLonePair ) {
-                    for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
-                        // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( lonePairNode.position == group.position ) {
-                            lonePairNodes.remove( lonePairNode );
-                            detachChild( lonePairNode );
-                        }
-                    }
-                }
-                else {
-                    for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-                        // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( atomNode.position == group.position ) {
-                            atomNodes.remove( atomNode );
-                            detachChild( atomNode );
-                        }
-                    }
-                }
+                removeGroup( group );
             }
         } );
 
+        // add any already-existing pair groups
+        for ( PairGroup pairGroup : molecule.getGroups() ) {
+            addGroup( pairGroup );
+        }
+
+        // on each frame, update our view
         app.addUpdateObserver( new SimpleObserver() {
             public void update() {
                 updateView();
             }
         } );
+
+        //Create the central atom
+        AtomNode center = new AtomNode( new None<PairGroup>(), app.getAssetManager() );
+        attachChild( center );
+    }
+
+    private void addGroup( PairGroup group ) {
+        if ( group.isLonePair ) {
+            LonePairNode lonePairNode = new LonePairNode( group, app.getAssetManager() );
+            lonePairNodes.add( lonePairNode );
+            attachChild( lonePairNode );
+        }
+        else {
+            AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), app.getAssetManager() );
+            atomNodes.add( atomNode );
+            attachChild( atomNode );
+            rebuildBonds();
+            rebuildAngles();
+        }
+    }
+
+    private void removeGroup( PairGroup group ) {
+        if ( group.isLonePair ) {
+            for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
+                // TODO: associate these more closely! (comparing positions for equality is bad)
+                if ( lonePairNode.position == group.position ) {
+                    lonePairNodes.remove( lonePairNode );
+                    detachChild( lonePairNode );
+                }
+            }
+        }
+        else {
+            for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
+                // TODO: associate these more closely! (comparing positions for equality is bad)
+                if ( atomNode.position == group.position ) {
+                    atomNodes.remove( atomNode );
+                    detachChild( atomNode );
+                }
+            }
+        }
     }
 
     public void updateView() {

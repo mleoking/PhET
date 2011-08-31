@@ -20,9 +20,13 @@ import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.event.PBasicInputEventHandler;
 import edu.umd.cs.piccolo.event.PInputEvent;
 import edu.umd.cs.piccolo.nodes.PImage;
+import edu.umd.cs.piccolo.util.PBounds;
 
 public class MoleculeShapesControlPanel extends PNode {
     private static final double PANEL_SPACER = 20; // space between text and bond lines
+
+    private final MoleculeShapesPanelNode jmolPanel;
+    private RealMoleculeNode realMoleculeNode;
 
     public MoleculeShapesControlPanel( final MoleculeJMEApplication app ) {
 
@@ -158,10 +162,17 @@ public class MoleculeShapesControlPanel extends PNode {
         /*---------------------------------------------------------------------------*
         * experimental Jmol panel
         *----------------------------------------------------------------------------*/
-        final MoleculeShapesPanelNode jmolPanel = new MoleculeShapesPanelNode( new RealMoleculeNode( app.getMolecule() ), "Real Molecules" ) {{
+        realMoleculeNode = new RealMoleculeNode( app.getMolecule() );
+        jmolPanel = new MoleculeShapesPanelNode( realMoleculeNode, "Real Molecules" ) {{
             setOffset( 0, nonBondingPanel.getFullBounds().getMaxY() + PANEL_SPACER );
         }};
         addChild( jmolPanel );
     }
 
+    /**
+     * @return Where to position the 3D molecule overlay
+     */
+    public PBounds getOverlayBounds() {
+        return realMoleculeNode.getOverlayBounds();
+    }
 }

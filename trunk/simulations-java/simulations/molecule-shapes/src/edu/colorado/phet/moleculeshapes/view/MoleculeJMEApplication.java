@@ -7,7 +7,6 @@ import java.util.Random;
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option.None;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -22,6 +21,7 @@ import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
+import edu.umd.cs.piccolo.util.PBounds;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -38,6 +38,8 @@ import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -94,6 +96,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
     private final Frame parentFrame;
+    private Camera overlayCamera;                                  // TODO: refix positioning of fields
+    private MoleculeShapesControlPanel controlPanelNode;
 
     public MoleculeJMEApplication( Frame parentFrame ) {
         this.parentFrame = parentFrame;
@@ -259,10 +263,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         addLighting( getSceneNode() );
         cam.setLocation( new Vector3f( 0, 0, 40 ) );
 
-        //Create the central atom
-        AtomNode center = new AtomNode( new None<PairGroup>(), assetManager );
-        moleculeNode.attachChild( center );
-
         // start with two single bonds
         molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
@@ -283,7 +283,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         /*---------------------------------------------------------------------------*
         * "new" control panel
         *----------------------------------------------------------------------------*/
-        controlPanel = new PiccoloJMENode( new MoleculeShapesControlPanel( this ), assetManager, inputManager );
+        controlPanelNode = new MoleculeShapesControlPanel( this );
+        controlPanel = new PiccoloJMENode( controlPanelNode, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( controlPanel );
 
         namePanel = new PiccoloJMENode( new MoleculeShapesPanelNode( new GeometryNameNode( molecule ), "Geometry Name" ) {{
@@ -291,6 +292,24 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
             setOffset( 0, 10 );
         }}, assetManager, inputManager );
         getBackgroundGuiNode().attachChild( namePanel );
+
+        /*---------------------------------------------------------------------------*
+        * overlay
+        *----------------------------------------------------------------------------*/
+
+        Node overlayNode = new Node( "Overlay" );
+
+        overlayCamera = new Camera( settings.getWidth(), settings.getHeight() );
+
+        final ViewPort overlayViewport = renderManager.createMainView( "Overlay Viewport", overlayCamera );
+        overlayViewport.attachScene( overlayNode );
+        addLiveNode( overlayNode );
+
+        overlayNode.attachChild( new MoleculeNode( molecule, this, overlayCamera ) {{
+            scale( 1.2f );
+        }} );
+
+        addLighting( overlayNode );
     }
 
     private static void addLighting( Node node ) {
@@ -506,6 +525,62 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 namePanel.setLocalTranslation( padding, padding, 0 );
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
+
+                PBounds localOverlayBounds = controlPanelNode.getOverlayBounds();
+
+                // TODO: cleanup
+
+//                System.out.println( "lastCanvasSize.width = " + lastCanvasSize.width );
+//                System.out.println( "lastCanvasSize.height = " + lastCanvasSize.height );
+//
+//                System.out.println( "controlPanel.getWidth() = " + controlPanel.getWidth() );
+//                System.out.println( "controlPanel.getHeight() = " + controlPanel.getHeight() );
+//
+//                System.out.println( "localbounds x: " + localOverlayBounds.getMinX() + ", " + localOverlayBounds.getMaxX() );
+//                System.out.println( "localbounds y: " + localOverlayBounds.getMinY() + ", " + localOverlayBounds.getMaxY() );
+
+                float offsetX = controlPanel.getLocalTranslation().getX();
+                float offsetY = controlPanel.getLocalTranslation().getY();
+
+//                System.out.println( "offsetX = " + offsetX );
+//                System.out.println( "offsetY = " + offsetY );
+
+                double localLeft = localOverlayBounds.getMinX() + offsetX;
+                double localRight = localOverlayBounds.getMaxX() + offsetX;
+                double localTop = controlPanel.getHeight() - localOverlayBounds.getMinY() + offsetY;
+                double localBottom = controlPanel.getHeight() - localOverlayBounds.getMaxY() + offsetY;
+
+//                System.out.println( "localLeft: " + localLeft );
+//                System.out.println( "localRight = " + localRight );
+//                System.out.println( "localBottom = " + localBottom );
+//                System.out.println( "localTop = " + localTop );
+
+                float finalLeft = (float) ( localLeft / lastCanvasSize.width );
+                float finalRight = (float) ( localRight / lastCanvasSize.width );
+                float finalBottom = (float) ( localBottom / lastCanvasSize.height );
+                float finalTop = (float) ( localTop / lastCanvasSize.height );
+
+//                System.out.println( "finalLeft: " + finalLeft );
+//                System.out.println( "finalRight = " + finalRight );
+//                System.out.println( "finalBottom = " + finalBottom );
+//                System.out.println( "finalTop = " + finalTop );
+
+                overlayCamera.setViewPort(
+                        finalLeft,
+                        finalRight,
+                        finalBottom,
+                        finalTop
+                );
+
+                System.out.println( cam.getProjectionMatrix() );
+
+                // update overlay camera TODO move this?
+
+                overlayCamera.setFrustumPerspective( 45f, 1, 1f, 1000f );
+                overlayCamera.setLocation( new Vector3f( 0, 0, 40 ) );
+                overlayCamera.lookAt( new Vector3f( 0f, 0f, 0f ), Vector3f.UNIT_Y );
+
+                overlayCamera.update();
             }
         }
     }
