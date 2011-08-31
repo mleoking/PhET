@@ -1,7 +1,7 @@
 // Copyright 2002-2011, University of Colorado
 package edu.colorado.phet.moleculeshapes.jme;
 
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
+import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 
 import com.jme3.app.StatsView;
 import com.jme3.font.BitmapFont;
@@ -42,14 +42,14 @@ public class JMEStatistics {
         setDisplayStatView( false );
 
         // update on each frame
-        application.updateNotifier.addListener( new VoidFunction0() {
-            public void apply() {
-                update();
+        application.addUpdateObserver( new SimpleObserver() {
+            public void update() {
+                updateView();
             }
         } );
     }
 
-    public void update() {
+    public void updateView() {
         if ( showFps ) {
             secondCounter += application.getTimer().getTimePerFrame();
             int fps = (int) application.getTimer().getFrameRate();

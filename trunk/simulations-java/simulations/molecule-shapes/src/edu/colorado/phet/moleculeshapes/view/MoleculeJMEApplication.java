@@ -2,16 +2,12 @@ package edu.colorado.phet.moleculeshapes.view;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import org.lwjgl.input.Mouse;
 
 import edu.colorado.phet.common.phetcommon.model.property.Property;
 import edu.colorado.phet.common.phetcommon.util.Option.None;
-import edu.colorado.phet.common.phetcommon.util.Option.Some;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
 import edu.colorado.phet.common.phetcommon.view.util.PhetOptionPane;
 import edu.colorado.phet.common.piccolophet.nodes.TextButtonNode;
@@ -19,16 +15,13 @@ import edu.colorado.phet.moleculeshapes.MoleculeShapesApplication;
 import edu.colorado.phet.moleculeshapes.control.GeometryNameNode;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesControlPanel;
 import edu.colorado.phet.moleculeshapes.control.MoleculeShapesPanelNode;
-import edu.colorado.phet.moleculeshapes.jme.Arc;
 import edu.colorado.phet.moleculeshapes.jme.HUDNode;
 import edu.colorado.phet.moleculeshapes.jme.JmeUtils;
 import edu.colorado.phet.moleculeshapes.jme.PhetJMEApplication;
 import edu.colorado.phet.moleculeshapes.jme.PiccoloJMENode;
 import edu.colorado.phet.moleculeshapes.math.ImmutableVector3D;
 import edu.colorado.phet.moleculeshapes.model.MoleculeModel;
-import edu.colorado.phet.moleculeshapes.model.MoleculeModel.Listener;
 import edu.colorado.phet.moleculeshapes.model.PairGroup;
-import edu.umd.cs.piccolo.nodes.PText;
 
 import com.jme3.bounding.BoundingSphere;
 import com.jme3.collision.CollisionResult;
@@ -39,15 +32,12 @@ import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.MouseAxisTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState.BlendMode;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Matrix4f;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Ray;
 import com.jme3.math.Vector2f;
 import com.jme3.math.Vector3f;
-import com.jme3.renderer.queue.RenderQueue.Bucket;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -102,11 +92,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     private MoleculeModel molecule = new MoleculeModel();
 
-    private List<AtomNode> atomNodes = new ArrayList<AtomNode>();
-    private List<LonePairNode> lonePairNodes = new ArrayList<LonePairNode>();
-    private List<BondNode> bondNodes = new ArrayList<BondNode>();
-    private List<Spatial> angleNodes = new ArrayList<Spatial>();
-
     public static final Property<Boolean> showLonePairs = new Property<Boolean>( true );
     private final Frame parentFrame;
 
@@ -145,7 +130,7 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
     private PiccoloJMENode resetAllNode;
     private PiccoloJMENode namePanel;
 
-    private Node moleculeNode; // The molecule to display and rotate
+    private MoleculeNode moleculeNode; // The molecule to display and rotate
 
     private static final Random random = new Random( System.currentTimeMillis() );
 
@@ -264,47 +249,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                     }
                 }, MAP_LEFT, MAP_RIGHT, MAP_UP, MAP_DOWN, MAP_LMB );
 
-        moleculeNode = new Node();
+        moleculeNode = new MoleculeNode( molecule, this, cam );
         getSceneNode().attachChild( moleculeNode );
-
-        // update the UI when the molecule changes electron pairs
-        molecule.addListener( new Listener() {
-            public void onGroupAdded( PairGroup group ) {
-                if ( group.isLonePair ) {
-                    LonePairNode lonePairNode = new LonePairNode( group, assetManager );
-                    lonePairNodes.add( lonePairNode );
-                    moleculeNode.attachChild( lonePairNode );
-                }
-                else {
-                    AtomNode atomNode = new AtomNode( new Some<PairGroup>( group ), assetManager );
-                    atomNodes.add( atomNode );
-                    moleculeNode.attachChild( atomNode );
-                    rebuildBonds();
-                    rebuildAngles();
-                }
-            }
-
-            public void onGroupRemoved( PairGroup group ) {
-                if ( group.isLonePair ) {
-                    for ( LonePairNode lonePairNode : new ArrayList<LonePairNode>( lonePairNodes ) ) {
-                        // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( lonePairNode.position == group.position ) {
-                            lonePairNodes.remove( lonePairNode );
-                            moleculeNode.detachChild( lonePairNode );
-                        }
-                    }
-                }
-                else {
-                    for ( AtomNode atomNode : new ArrayList<AtomNode>( atomNodes ) ) {
-                        // TODO: associate these more closely! (comparing positions for equality is bad)
-                        if ( atomNode.position == group.position ) {
-                            atomNodes.remove( atomNode );
-                            moleculeNode.detachChild( atomNode );
-                        }
-                    }
-                }
-            }
-        } );
 
         /*---------------------------------------------------------------------------*
         * scene setup
@@ -320,9 +266,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         // start with two single bonds
         molecule.addPair( new PairGroup( new ImmutableVector3D( 10, 0, 3 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
         molecule.addPair( new PairGroup( new ImmutableVector3D( 2, 10, -5 ).normalized().times( PairGroup.BONDED_PAIR_DISTANCE ), 1, false ) );
-
-        rebuildBonds();
-        rebuildAngles();
 
         /*---------------------------------------------------------------------------*
         * control panel
@@ -548,10 +491,8 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
         }
     }
 
-    @Override public synchronized void simpleUpdate( final float tpf ) {
+    @Override public synchronized void updateState( final float tpf ) {
         molecule.update( tpf );
-        rebuildBonds();
-        rebuildAngles();
         moleculeNode.setLocalRotation( rotation );
 
         if ( resizeDirty ) {
@@ -565,83 +506,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
                 namePanel.setLocalTranslation( padding, padding, 0 );
 
                 resetAllNode.setLocalTranslation( controlPanel.getLocalTranslation().subtract( new Vector3f( -( controlPanel.getWidth() - resetAllNode.getWidth() ) / 2, 50, 0 ) ) );
-            }
-        }
-    }
-
-    private void rebuildBonds() {
-        // get our molecule-based camera position, so we can use that to compute orientation of double/triple bonds
-        // TODO: refactor some of this duplicated code out
-        Vector2f click2d = inputManager.getCursorPosition();
-        Vector3f click3d = cam.getWorldCoordinates( new Vector2f( click2d.x, click2d.y ), 0f ).clone();
-
-        // transform our position and direction into the local coordinate frame. we will do our computations there
-        Vector3f transformedPosition = moleculeNode.getWorldTransform().transformInverseVector( click3d, new Vector3f() );
-
-        // necessary for now since just updating their geometry shows significant errors
-        for ( BondNode bondNode : bondNodes ) {
-            moleculeNode.detachChild( bondNode );
-        }
-        bondNodes.clear();
-        for ( PairGroup pair : molecule.getGroups() ) {
-            if ( !pair.isLonePair ) {
-                BondNode bondNode = new BondNode( pair.position.get(), pair.bondOrder, assetManager, transformedPosition );
-                moleculeNode.attachChild( bondNode );
-                bondNodes.add( bondNode );
-            }
-        }
-    }
-
-    private DecimalFormat angleFormat = new DecimalFormat( "##0.0" );
-
-    private void rebuildAngles() {
-        // TODO: docs and cleanup
-        Vector3f dir = cam.getLocation();
-        final Vector3f transformedDirection = moleculeNode.getLocalToWorldMatrix( new Matrix4f() ).transpose().mult( dir ).normalize(); // transpose trick to transform a unit vector
-
-        for ( Spatial node : angleNodes ) {
-            node.getParent().detachChild( node );
-        }
-        angleNodes.clear();
-
-        if ( MoleculeShapesApplication.showBondAngles.get() ) {
-            // iterate over all combinations of two pair groups
-            for ( int i = 0; i < molecule.getGroups().size(); i++ ) {
-                PairGroup a = molecule.getGroups().get( i );
-                final ImmutableVector3D aDir = a.position.get().normalized();
-
-                for ( int j = i + 1; j < molecule.getGroups().size(); j++ ) {
-                    final PairGroup b = molecule.getGroups().get( j );
-                    final ImmutableVector3D bDir = b.position.get().normalized();
-
-                    final float brightness = calculateBrightness( aDir, bDir, transformedDirection );
-                    if ( brightness == 0 ) {
-                        continue;
-                    }
-
-                    final BondAngleNode bondAngleNode = new BondAngleNode( aDir, bDir, transformedDirection );
-                    moleculeNode.attachChild( bondAngleNode );
-                    angleNodes.add( bondAngleNode );
-
-                    Vector3f globalCenter = moleculeNode.getWorldTransform().transformVector( bondAngleNode.getCenter(), new Vector3f() );
-                    Vector3f globalMidpoint = moleculeNode.getWorldTransform().transformVector( bondAngleNode.getMidpoint(), new Vector3f() );
-
-                    final Vector3f screenCenter = cam.getScreenCoordinates( globalCenter );
-                    final Vector3f screenMidpoint = cam.getScreenCoordinates( globalMidpoint );
-
-                    float extensionFactor = 1.3f;
-                    final Vector3f displayPoint = screenMidpoint.subtract( screenCenter ).mult( extensionFactor ).add( screenCenter );
-
-                    String labelText = angleFormat.format( Math.acos( aDir.dot( bDir ) ) * 180 / Math.PI ) + "°";
-                    PiccoloJMENode label = new PiccoloJMENode( new PText( labelText ) {{
-                        setFont( new PhetFont( 16 ) );
-                        setTextPaint( new Color( 1f, 1f, 1f, brightness ) );
-                    }}, assetManager, inputManager ) {{
-                        setLocalTranslation( displayPoint.subtract( getWidth() / 2, getHeight() / 2, 0 ) );
-                    }};
-                    getGuiNode().attachChild( label );
-                    angleNodes.add( label );
-                }
             }
         }
     }
@@ -664,59 +528,6 @@ public class MoleculeJMEApplication extends PhetJMEApplication {
 
     public MoleculeModel getMolecule() {
         return molecule;
-    }
-
-    private class BondAngleNode extends Node {
-        private Vector3f center;
-        private Vector3f midpoint;
-
-        // TODO: docs and cleanup, and move out if kept
-        public BondAngleNode( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
-            float radius = 5;
-            final float alpha = calculateBrightness( aDir, bDir, transformedDirection );
-
-            Vector3f a = JmeUtils.convertVector( aDir );
-            Vector3f b = JmeUtils.convertVector( bDir );
-
-            Arc arc = new Arc( a, b, radius, 20 ) {{
-                setLineWidth( 2 );
-            }};
-
-            center = new Vector3f();
-            midpoint = Arc.slerp( a, b, 0.5f ).mult( radius );
-
-            attachChild( new Geometry( "ArcTest", arc ) {{
-                setMaterial( new Material( assetManager, "Common/MatDefs/Misc/Unshaded.j3md" ) {{
-                    setColor( "Color", new ColorRGBA( 1, 0, 0, alpha ) );
-
-                    getAdditionalRenderState().setBlendMode( BlendMode.Alpha );
-                    setTransparent( true );
-                }} );
-            }} );
-
-            setQueueBucket( Bucket.Transparent ); // allow it to be transparent
-        }
-
-        public Vector3f getCenter() {
-            return center;
-        }
-
-        public Vector3f getMidpoint() {
-            return midpoint;
-        }
-    }
-
-    private static float calculateBrightness( ImmutableVector3D aDir, ImmutableVector3D bDir, Vector3f transformedDirection ) {
-        float brightness = (float) Math.abs( aDir.cross( bDir ).dot( JmeUtils.convertVector( transformedDirection ) ) );
-
-        brightness = brightness * 5 - 2.5f;
-        if ( brightness < 0 ) {
-            brightness = 0;
-        }
-        if ( brightness > 1 ) {
-            brightness = 1;
-        }
-        return brightness;
     }
 
     @Override public void handleError( String errMsg, Throwable t ) {
