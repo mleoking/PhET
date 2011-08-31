@@ -86,6 +86,14 @@ public class RealMolecule extends Molecule {
         addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( -0.776400, 0.969600, 0 ) ), 2 );
     }};
 
+    public static final RealMolecule FORMALDEHYDE = new RealMolecule( "CH2O", 0 ) {{
+        addCentralAtom( new Atom3D( Element.C, new ImmutableVector3D( 2.5369, 0.06, 0 ) ) );
+        addRadialAtom( new Atom3D( Element.O, new ImmutableVector3D( 3.403, 0.56, 0 ) ), 2 );
+        addRadialAtom( new Atom3D( Element.H, new ImmutableVector3D( 2, 0.37, 0 ) ), 1 );
+        addRadialAtom( new Atom3D( Element.H, new ImmutableVector3D( 2.5369, -0.56, 0 ) ), 1 );
+        centerOnCentralAtom();
+    }};
+
     public static final RealMolecule WATER = new RealMolecule( "H2O", 2 ) {{
         addCentralAtom( new Atom3D( Element.O, new ImmutableVector3D() ) );
         addRadialAtom( new Atom3D( Element.H, new ImmutableVector3D( 0.277400, 0.892900, 0.254400 ) ), 1 );
@@ -95,7 +103,7 @@ public class RealMolecule extends Molecule {
     // TODO: Beryllium Chloride is maybe the best linear example?
 
     private static final RealMolecule[] MOLECULES = new RealMolecule[] {
-            CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE
+            CARBON_MONOXIDE, CARBON_DIOXIDE, WATER, BORON_TRIFLUORIDE, NITRATE, FORMALDEHYDE
     };
 
     public static List<RealMolecule> getMatchingMolecules( MoleculeModel model ) {
