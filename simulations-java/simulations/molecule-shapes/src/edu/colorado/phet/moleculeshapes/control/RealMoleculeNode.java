@@ -3,6 +3,7 @@ package edu.colorado.phet.moleculeshapes.control;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Rectangle2D.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import edu.colorado.phet.moleculeshapes.model.PairGroup;
 import edu.colorado.phet.moleculeshapes.model.RealMolecule;
 import edu.umd.cs.piccolo.PNode;
 import edu.umd.cs.piccolo.nodes.PText;
+import edu.umd.cs.piccolo.util.PBounds;
 import edu.umd.cs.piccolox.pswing.PSwing;
 
 /**
@@ -29,11 +31,13 @@ public class RealMoleculeNode extends PNode {
     private PNode child = null;
     private final MoleculeModel molecule;
     private final double SIZE = MoleculeShapesConstants.CONTROL_PANEL_INNER_WIDTH;
+    private PhetPPath background;
 
     public RealMoleculeNode( MoleculeModel molecule ) {
         this.molecule = molecule;
         // padding, and make sure we have the width
-        addChild( new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, 10 ), new Color( 0, 0, 0, 0 ) ) );
+        background = new PhetPPath( new Rectangle2D.Double( 0, 0, SIZE, SIZE ), new Color( 0, 0, 0, 0 ) );
+        addChild( background );
 
         updateChild();
 
@@ -42,6 +46,11 @@ public class RealMoleculeNode extends PNode {
                 updateChild();
             }
         } );
+    }
+
+    public PBounds getOverlayBounds() {
+        // TODO: fix
+        return background.getGlobalFullBounds();
     }
 
     private void updateChild() {
