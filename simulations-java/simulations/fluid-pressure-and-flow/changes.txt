@@ -1,3 +1,4 @@
+Water tower: Added hose graphic
 Water tower: Started adding hose
 Flow: Improved English units for flux meter
 Flow: Added multiple unit sets for flux meter
