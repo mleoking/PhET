@@ -4,6 +4,7 @@ package edu.colorado.phet.fluidpressureandflow.common.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -13,12 +14,9 @@ import javax.swing.text.JTextComponent;
 
 import edu.colorado.phet.common.phetcommon.application.Module;
 import edu.colorado.phet.common.phetcommon.math.ImmutableRectangle2D;
-import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.property.Property;
-import edu.colorado.phet.common.phetcommon.util.Option;
 import edu.colorado.phet.common.phetcommon.util.SimpleObserver;
 import edu.colorado.phet.common.phetcommon.util.function.Function1;
-import edu.colorado.phet.common.phetcommon.util.function.VoidFunction0;
 import edu.colorado.phet.common.phetcommon.util.function.VoidFunction1;
 import edu.colorado.phet.common.phetcommon.view.graphics.transforms.ModelViewTransform;
 import edu.colorado.phet.common.phetcommon.view.util.PhetFont;
@@ -46,7 +44,7 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
     public static final PDimension STAGE_SIZE = new PDimension( 1008, 680 );
     public static final Font CONTROL_FONT = new PhetFont( 15, false );//Font to use for the majority of controls in this sim
 
-    public FluidPressureAndFlowCanvas( final ModelViewTransform transform, final ModelBounds bounds ) {
+    public FluidPressureAndFlowCanvas( final ModelViewTransform transform ) {
         this.transform = transform;
         setWorldTransformStrategy( new PhetPCanvas.CenteredStage( this, STAGE_SIZE ) );
 
@@ -55,20 +53,16 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
         addWorldChild( rootNode );
 
         setBorder( null );
+    }
 
-        //Notify model elements about the canvas area so they can't be dragged outside it.
-        //TODO: Delete or use this code
-        final VoidFunction0 updateDragBounds = new VoidFunction0() {
-            public void apply() {
-                //identify the bounds that objects will be constrained to be dragged within
-                int insetPixels = 10;
-                final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
+    //Compute the bounds in the model (meters) that are visible in this canvas, for purposes of constraining draggable sensors to remain onscreen
+    private ImmutableRectangle2D getVisibleModelBounds() {
+        //identify the bounds that objects will be constrained to be dragged within
+        int insetPixels = 10;
+        final Rectangle2D.Double viewBounds = new Rectangle2D.Double( insetPixels, insetPixels, getWidth() - insetPixels * 2, getHeight() - insetPixels * 2 );
 
-                //Convert to model bounds and store in the model
-                final ImmutableRectangle2D modelBounds = new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
-                bounds.set( new Option.Some<ImmutableRectangle2D>( modelBounds ) );
-            }
-        };
+        //Convert to model bounds and return
+        return new ImmutableRectangle2D( transform.viewToModel( rootNode.globalToLocal( viewBounds ) ) );
     }
 
     public static void makeTransparent( JComponent component ) {
@@ -151,8 +145,14 @@ public class FluidPressureAndFlowCanvas<T extends FluidPressureAndFlowModel> ext
                 }
             } );
         }};
+
+        //Add the velocity sensor node, and constrain to remain on the screen
         for ( VelocitySensor velocitySensor : model.getVelocitySensors() ) {
-            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter ) );
+            addChild( new VelocitySensorNode( transform, velocitySensor, 1, formatter, new Function1<Point2D, Point2D>() {
+                public Point2D apply( Point2D point2D ) {
+                    return getVisibleModelBounds().getClosestPoint( point2D );
+                }
+            } ) );
         }
     }
 

@@ -4,7 +4,6 @@ package edu.colorado.phet.fluidpressureandflow.common.model;
 import java.util.ArrayList;
 
 import edu.colorado.phet.common.phetcommon.math.Function;
-import edu.colorado.phet.common.phetcommon.math.ModelBounds;
 import edu.colorado.phet.common.phetcommon.model.ResetModel;
 import edu.colorado.phet.common.phetcommon.model.clock.ConstantDtClock;
 import edu.colorado.phet.common.phetcommon.model.property.BooleanProperty;
@@ -41,10 +40,6 @@ public class FluidPressureAndFlowModel implements PressureSensor.Context, ResetM
     private final Function.LinearFunction pressureFunction = new Function.LinearFunction( 0, 500, standardAirPressure.get(), EARTH_AIR_PRESSURE_AT_500_FT );//see http://www.engineeringtoolbox.com/air-altitude-pressure-d_462.html
     private final ArrayList<VoidFunction0> resetListeners = new ArrayList<VoidFunction0>();
     public final Property<Double> simulationTimeStep = new Property<Double>( clock.getDt() );//Property<Double> that indicates (and can be used to set) the clock's dt time step (in seconds)
-
-    //support for bounding drags
-    //TODO: Is this used?
-    public final ModelBounds visibleModelBounds = new ModelBounds();//model coordinates of what is visible on the screen, or None if not yet set (has to be set by canvas after canvas is constructed)
 
     //Flag to indicate whether the clock should be running when the associated module is active
     public final BooleanProperty clockRunning = new BooleanProperty( true );
