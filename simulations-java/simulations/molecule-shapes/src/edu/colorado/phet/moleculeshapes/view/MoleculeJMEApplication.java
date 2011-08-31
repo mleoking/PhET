@@ -339,9 +339,6 @@ public class MoleculeJMEApplication extends BaseJMEApplication {
         *----------------------------------------------------------------------------*/
         cam.setLocation( new Vector3f( cam.getLocation().getX(), cam.getLocation().getY(), cam.getLocation().getZ() + 30 ) );
 
-        setDisplayFps( false );
-        setDisplayStatView( false );
-
         /*---------------------------------------------------------------------------*
         * control panel
         *----------------------------------------------------------------------------*/
